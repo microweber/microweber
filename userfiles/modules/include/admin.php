@@ -1,20 +1,34 @@
 <?php only_admin_access(); ?>
 
 <?php
-
-$file =  get_option('file', $params['id']);
-
+$from_live_edit = false;
+if (isset($params["live_edit"]) and $params["live_edit"]) {
+    $from_live_edit = $params["live_edit"];
+}
 ?>
 
-<label class="mw-ui-label"><?php _e('Include file'); ?></label>
-<input type="text" value="<?php print $file; ?>" name="file" class="mw_option_field mw-ui-field w100" id="file" />
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
 
-<script>
-$(window).bind('load', function(){
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-header">
+        <?php $module_info = module_info($params['module']); ?>
+        <h5>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+        </h5>
+    </div>
 
-});
+    <div class="card-body pt-3">
+        <?php $file = get_option('file', $params['id']); ?>
 
-</script>
+        <label class="mw-ui-label"><?php _e('Include file'); ?></label>
+        <input type="text" value="<?php print $file; ?>" name="file" class="mw_option_field mw-ui-field w100" id="file"/>
 
+        <script>
+            $(window).bind('load', function () {
 
-
+            });
+        </script>
+    </div>
+</div>

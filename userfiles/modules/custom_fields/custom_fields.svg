@@ -1,1 +1,20 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 57 57"><title>4</title><g id="_Group_" data-name="&lt;Group&gt;" style="isolation:isolate"><image id="_Image_" data-name="&lt;Image&gt;" width="57" height="57" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAYAAACMGIOFAAAACXBIWXMAAAsSAAALEgHS3X78AAABFUlEQVRoQ+3bMQ7BYBjG8ZeBQWLAYuMUBi6AQRd3cQenYLHpQZzAAQzSGxCp5+1bjcEBPO0j+TVpGsn3z/t1+2p5ntsHfq1Sm1zRUXV9BfrDLvRhCCNSA4uGDrSrSIvAHkxgDmvYQELG17yEGYwtQn2qxcUnOIUt7OEEKaEzHGFnEeoTrSL9ZmEReIEbZITucIUDrCy2ru/S4uLv4Npigh74gBehp0WoT3Rj8Y5WkX6TlA+z8g85IV+3r9+3rvf8jExNkX9PkYokokhFElGkIokoUpFEFKlIIopUJBFFKpKIIhVJRJGKJKJIRRJRpCKJKFKRRBSpSCKKbFRkrc/W1f6UZCPOu9b/5HIjzqA35muCun8X8gaze1NA0j+BrgAAAABJRU5ErkJggg==" style="opacity:0.35000000000000003"/><g id="_Group_2" data-name="&lt;Group&gt;"><g id="_Group_3" data-name="&lt;Group&gt;"><rect id="_Rectangle_" data-name="&lt;Rectangle&gt;" x="2.73" y="1.86" width="50" height="50" rx="1" ry="1" style="fill:#fff"/></g></g></g><g id="_Group_4" data-name="&lt;Group&gt;"><path id="_Compound_Path_" data-name="&lt;Compound Path&gt;" d="M715.56,1278.85H682.71a2.24,2.24,0,0,1-2.24-2.24v-17.92a2.24,2.24,0,0,1,2.24-2.24h32.85a2.24,2.24,0,0,1,2.24,2.24v17.92A2.24,2.24,0,0,1,715.56,1278.85Zm-32.85-20.91a0.75,0.75,0,0,0-.75.75v17.92a0.75,0.75,0,0,0,.75.75h32.85a0.75,0.75,0,0,0,.75-0.75v-17.92a0.75,0.75,0,0,0-.75-0.75H682.71Z" transform="translate(-671 -1240)" style="fill:#464646"/></g><g id="_Group_5" data-name="&lt;Group&gt;"><rect id="_Path_" data-name="&lt;Path&gt;" x="27.39" y="17.19" width="1.49" height="20.91" style="fill:#464646"/></g><g id="_Group_6" data-name="&lt;Group&gt;"><rect id="_Path_2" data-name="&lt;Path&gt;" x="28.13" y="26.9" width="17.92" height="1.49" style="fill:#464646"/></g><g id="_Group_7" data-name="&lt;Group&gt;"><g id="_Group_8" data-name="&lt;Group&gt;"><polygon id="_Path_3" data-name="&lt;Path&gt;" points="37.09 35.42 33.58 31.91 34.63 30.85 37.09 33.31 39.55 30.85 40.61 31.91 37.09 35.42" style="fill:#464646"/></g></g><g id="_Group_9" data-name="&lt;Group&gt;"><g id="_Group_10" data-name="&lt;Group&gt;"><polygon id="_Path_4" data-name="&lt;Path&gt;" points="39.55 24.44 37.09 21.98 34.63 24.44 33.58 23.39 37.09 19.87 40.61 23.39 39.55 24.44" style="fill:#464646"/></g></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#2B2B2B;}
+</style>
+<g>
+	<path class="st0" d="M30,11.2c0.4,0.4,0.7,1,0.7,1.6v11.7c0,0.6-0.2,1.2-0.7,1.6s-1,0.7-1.6,0.7H7.7c-0.6,0-1.2-0.2-1.6-0.7
+		c-0.4-0.4-0.7-1-0.7-1.6V12.8c0-0.6,0.2-1.2,0.7-1.6c0.4-0.4,1-0.7,1.6-0.7h20.7C29,10.5,29.5,10.8,30,11.2z M28.4,12.8H7.7v11.7
+		h20.7V12.8z"/>
+</g>
+<g>
+	<path class="st0" d="M24,23.5l-2.5-3.6h4.9L24,23.5z"/>
+</g>
+<g>
+	<path class="st0" d="M24,13.8l2.5,3.6h-4.9L24,13.8z"/>
+</g>
+<rect x="21.2" y="18.2" class="st0" width="9.4" height="0.7"/>
+</svg>

@@ -6,7 +6,11 @@ if (isset($item['rel_id'])) {
     $article = get_content_by_id($item['rel_id']);
     $comments = get_comments('rel_type=content&rel_id=' . $item['rel_id']);
     $picture = get_picture_by_id($item['rel_id']);
-    $picture = $picture['filename'];
+    if (isset($picture['filename'])) {
+        $picture = $picture['filename'];
+    } else {
+        $picture = '';
+    }
 }
 
 $created_by = false;

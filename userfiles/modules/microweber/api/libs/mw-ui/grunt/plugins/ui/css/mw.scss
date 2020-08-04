@@ -1202,9 +1202,9 @@ header {
 }
 
 .mw-modules-module-holder {
-  &:hover{
+  &:hover {
     .module-uninstall-btn,
-    .module-ctrl-btn{
+    .module-ctrl-btn {
       display: block;
     }
   }
@@ -1215,4 +1215,28 @@ header {
     top: 10px;
     right: 10px;
   }
+}
+
+.module-icon-svg-fill {
+  display: inline-block;
+  height: 24px;
+  fill: red;
+  path {
+    fill: red;
+  }
+}
+
+.card-in-live-edit{
+  border: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.card-in-live-edit .card-header{
+  display: none !important;
+}
+
+.card-in-live-edit .card-body{
+  padding: 0 !important;
+  background: transparent !important;
 }

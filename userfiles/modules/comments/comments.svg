@@ -1,1 +1,16 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.74 42.16"><title>3</title><g id="_Group_" data-name="&lt;Group&gt;"><path id="_Compound_Path_" data-name="&lt;Compound Path&gt;" d="M599.07,494.33H562.34a5.53,5.53,0,0,0-5.51,5.55h0v24a5.53,5.53,0,0,0,5.51,5.55h21.17l7.6,6.59a1.8,1.8,0,0,0,2,.28,1.85,1.85,0,0,0,1.1-1.68v-5.18h4.9a5.53,5.53,0,0,0,5.51-5.55h0v-24a5.53,5.53,0,0,0-5.51-5.55h0Z" transform="translate(-556.83 -494.33)" style="fill:#0a0a9b"/><rect id="_Rectangle_" data-name="&lt;Rectangle&gt;" x="9.47" y="11.84" width="29.07" height="2.47" rx="1.23" ry="1.23" style="fill:#fff"/><rect id="_Rectangle_2" data-name="&lt;Rectangle&gt;" x="9.47" y="20.47" width="17.37" height="2.47" rx="1.23" ry="1.23" style="fill:#fff"/></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#2B2B2B;}
+</style>
+<g>
+	<path class="st0" d="M15.1,28.8c-0.3,0-0.6-0.1-0.8-0.3s-0.3-0.5-0.3-0.8v-3.4H9.4c-0.6,0-1.1-0.2-1.6-0.7s-0.7-1-0.7-1.6V8.5
+		c0-0.6,0.2-1.1,0.7-1.6c0.4-0.4,1-0.7,1.6-0.7h18C28,6.3,28.6,6.5,29,7c0.4,0.4,0.7,1,0.7,1.6V22c0,0.6-0.2,1.2-0.7,1.6
+		s-1,0.7-1.6,0.7h-6.9l-4.2,4.2c-0.2,0.2-0.5,0.3-0.8,0.3H15.1z M22.9,19.8v-1.2c0-0.7-0.6-1.2-1.7-1.7c-0.9-0.4-1.8-0.5-2.8-0.5
+		s-1.9,0.2-2.8,0.5c-1.1,0.5-1.7,1-1.7,1.7v1.2H22.9z M18.4,10.8c-0.6,0-1.2,0.2-1.6,0.7c-0.4,0.4-0.7,1-0.7,1.6
+		c0,0.6,0.2,1.1,0.7,1.6c0.4,0.4,1,0.7,1.6,0.7s1.2-0.2,1.6-0.7c0.4-0.4,0.7-1,0.7-1.6c0-0.6-0.2-1.1-0.7-1.6
+		C19.6,11,19.1,10.8,18.4,10.8z"/>
+</g>
+</svg>

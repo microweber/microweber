@@ -843,4 +843,23 @@ header {
   top: 10px;
   right: 10px; }
 
+.module-icon-svg-fill {
+  display: inline-block;
+  height: 24px;
+  fill: red; }
+  .module-icon-svg-fill path {
+    fill: red; }
+
+.card-in-live-edit {
+  border: 0 !important;
+  padding: 0 !important;
+  background: transparent !important; }
+
+.card-in-live-edit .card-header {
+  display: none !important; }
+
+.card-in-live-edit .card-body {
+  padding: 0 !important;
+  background: transparent !important; }
+
 /*# sourceMappingURL=mw.css.map */

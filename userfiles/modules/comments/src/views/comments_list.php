@@ -75,8 +75,22 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
             e.preventDefault();
             e.stopPropagation();
             var commentID = $(this).data('id');
+
             $(this).hide();
             $('#comment-' + commentID + ' .js-save-comment-btn').show();
+
+            $('#comment-' + commentID + ' .js-comment-name-text').hide();
+            $('#comment-' + commentID + ' .js-comment-name-input').show();
+
+            $('#comment-' + commentID + ' .js-comment-email-text').hide();
+            $('#comment-' + commentID + ' .js-comment-email-input').show();
+
+            $('#comment-' + commentID + ' .js-comment-website-text').hide();
+            $('#comment-' + commentID + ' .js-comment-website-input').show();
+
+            $('#comment-' + commentID + ' .js-comment-body-text').hide();
+            $('#comment-' + commentID + ' .js-comment-body-textarea').show();
+
             //  $('#comment-' + commentID + ' .comment_body .js-comment').hide();
             $('#comment-' + commentID + ' .comment_body textarea').show();
             $('#comment-' + commentID + ' .js-comment-edit-details-toggle').toggle();

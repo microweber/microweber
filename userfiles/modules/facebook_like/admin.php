@@ -1,49 +1,72 @@
 <?php only_admin_access(); ?>
-<?php $layout = get_option('layout', $params['id']); ?>
-<?php $url_to_like = get_option('url', $params['id']); ?>
-<?php $url_to_like = get_option('url', $params['id']); ?>
-<?php $color = get_option('color', $params['id']); ?>
-<?php $show_faces = get_option('show_faces', $params['id']); ?>
 
+<?php
+$from_live_edit = false;
+if (isset($params["live_edit"]) and $params["live_edit"]) {
+    $from_live_edit = $params["live_edit"];
+}
+?>
 
-<div class="module-live-edit-settings module-facebook-like-settings">
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e("URL to like"); ?></label>
-        <input name="url" class="mw-ui-field mw_option_field  mw-full-width" type="text" placeholder="<?php _e("Current URL or type your own"); ?>" value="<?php print $url_to_like; ?>"/>
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
+
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-header">
+        <?php $module_info = module_info($params['module']); ?>
+        <h5>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+        </h5>
     </div>
 
-    <div class="mw-flex-row">
-        <div class="mw-flex-col-xs-4">
+    <div class="card-body pt-3">
+        <?php $layout = get_option('layout', $params['id']); ?>
+        <?php $url_to_like = get_option('url', $params['id']); ?>
+        <?php $url_to_like = get_option('url', $params['id']); ?>
+        <?php $color = get_option('color', $params['id']); ?>
+        <?php $show_faces = get_option('show_faces', $params['id']); ?>
+
+
+        <div class="module-live-edit-settings module-facebook-like-settings">
             <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Layout"); ?></label>
-                <select name="layout" class="mw-ui-field mw_option_field mw-full-width">
-                    <option value="standard" <?php if ($layout == false or $layout == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Standard"); ?></option>
-                    <option value="box_count" <?php if ($layout == 'box_count'): ?> selected="selected" <?php endif ?>><?php _e("Box count"); ?></option>
-                    <option value="button_count" <?php if ($layout == 'button_count'): ?> selected="selected" <?php endif ?>><?php _e("Button count"); ?></option>
-                    <option value="button" <?php if ($layout == 'button'): ?> selected="selected" <?php endif ?>><?php _e("Button"); ?></option>
-                </select>
+                <label class="mw-ui-label"><?php _e("URL to like"); ?></label>
+                <input name="url" class="mw-ui-field mw_option_field  mw-full-width" type="text" placeholder="<?php _e("Current URL or type your own"); ?>" value="<?php print $url_to_like; ?>"/>
+            </div>
+
+            <div class="mw-flex-row">
+                <div class="mw-flex-col-xs-4">
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label"><?php _e("Layout"); ?></label>
+                        <select name="layout" class="mw-ui-field mw_option_field mw-full-width">
+                            <option value="standard" <?php if ($layout == false or $layout == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Standard"); ?></option>
+                            <option value="box_count" <?php if ($layout == 'box_count'): ?> selected="selected" <?php endif ?>><?php _e("Box count"); ?></option>
+                            <option value="button_count" <?php if ($layout == 'button_count'): ?> selected="selected" <?php endif ?>><?php _e("Button count"); ?></option>
+                            <option value="button" <?php if ($layout == 'button'): ?> selected="selected" <?php endif ?>><?php _e("Button"); ?></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mw-flex-col-xs-4">
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label"><?php _e("Color cheme"); ?></label>
+                        <select name="color" class="mw-ui-field mw_option_field mw-full-width">
+                            <option value="light" <?php if ($color == false or $color == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Light"); ?></option>
+                            <option value="dark" <?php if ($color == 'dark'): ?> selected="selected" <?php endif ?>><?php _e("Dark"); ?></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mw-flex-col-xs-4">
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label"><?php _e("Show faces"); ?></label>
+                        <select name="show_faces" class="mw-ui-field mw_option_field  mw-full-width">
+                            <option value="y" <?php if ($show_faces == false or $show_faces == 'y'): ?> selected="selected" <?php endif ?>><?php _e("Yes"); ?></option>
+                            <option value="n" <?php if ($show_faces == 'n'): ?> selected="selected" <?php endif ?>><?php _e("No"); ?></option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="mw-flex-col-xs-4">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Color cheme"); ?></label>
-                <select name="color" class="mw-ui-field mw_option_field mw-full-width">
-                    <option value="light" <?php if ($color == false or $color == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Light"); ?></option>
-                    <option value="dark" <?php if ($color == 'dark'): ?> selected="selected" <?php endif ?>><?php _e("Dark"); ?></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="mw-flex-col-xs-4">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Show faces"); ?></label>
-                <select name="show_faces" class="mw-ui-field mw_option_field  mw-full-width">
-                    <option value="y" <?php if ($show_faces == false or $show_faces == 'y'): ?> selected="selected" <?php endif ?>><?php _e("Yes"); ?></option>
-                    <option value="n" <?php if ($show_faces == 'n'): ?> selected="selected" <?php endif ?>><?php _e("No"); ?></option>
-                </select>
-            </div>
-        </div>
     </div>
-
 </div>

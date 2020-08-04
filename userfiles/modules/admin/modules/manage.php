@@ -80,50 +80,53 @@ if ($load_module == true): ?>
         }
     </style>
     <?php if (isset($mods) and is_array($mods) == true): ?>
+        <div class="row mw-modules">
+            <?php if (is_array($upds) == true): ?>
+                <?php foreach ($upds as $upd_mod): ?>
+                    <div class="col-lg-3 col-md-4 col-2 mb-3">
+                        <?php if (isset($upd_mod['module'])): ?>
+                            <?php $item = module_info($upd_mod['module']); ?>
 
-        <div class="">
-            <div class="mw-modules-box">
-                <ul class="mw-modules-admin">
-                    <?php if (is_array($upds) == true): ?>
-                        <?php foreach ($upds as $upd_mod): ?>
-                            <?php if (isset($upd_mod['module'])): ?>
-                                <?php $item = module_info($upd_mod['module']); ?>
-
-                                <?php if (isset($item['id'])): ?>
-                                    <li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>" id="module-db-id-<?php print $item['id'] ?>">
-                                        <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>"/>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-
-                    <?php foreach ($mods as $k => $item): ?>
-                        <?php if (!isset($item['id'])): ?>
-                            <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<?php print $item['id'] ?>">
-                                <div class=" module module-admin-modules-edit-module ">
-                                    <?php
-                                    if (isset($item[0]) and is_array($item[0])) {
-                                        $item = $item[0];
-                                    }
-
-                                    $data = $item;
-                                    include($config["path"] . 'update_module.php'); ?>
+                            <?php if (isset($item['id'])): ?>
+                                <div class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?> h-100" id="module-db-id-<?php print $item['id'] ?>">
+                                    <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>" class="h-100"/>
                                 </div>
-                            </li>
-                        <?php else : ?>
-                            <li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>" id="module-db-id-<?php print $item['id'] ?>">
-                                <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>"/>
-                            </li>
+                            <?php endif; ?>
                         <?php endif; ?>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+            <?php foreach ($mods as $k => $item): ?>
+                <?php if (!isset($item['id'])): ?>
+                    <div class="col-lg-3 col-md-4 col-2 mb-3">
+                        <div class="mw-admin-module-list-item mw-module-not-installed h-100" id="module-remote-id-<?php print $item['id'] ?>">
+                            <div class=" module module-admin-modules-edit-module h-100">
+                                <?php
+                                if (isset($item[0]) and is_array($item[0])) {
+                                    $item = $item[0];
+                                }
+
+                                $data = $item;
+                                include($config["path"] . 'update_module.php'); ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php else : ?>
+                    <div class="col-lg-3 col-md-4 col-2 mb-3">
+                        <div class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?> h-100" id="module-db-id-<?php print $item['id'] ?>">
+                            <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>" class="h-100"/>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </div>
     <?php else : ?>
-        <div class="mw-ui-box m-t-50">
-            <div class="mw-ui-box-content center p-40">
-                <h4><?php _e("No modules found"); ?></h4>
+        <div class="card style-1 h-100 mw-modules-module-holder">
+            <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column">
+                <div class="icon-title">
+                    <i class="mdi mdi-view-grid-plus"></i> <h5 class="mb-0"><?php _e("No modules found"); ?></h5>
+                </div>
             </div>
         </div>
     <?php endif; ?>
