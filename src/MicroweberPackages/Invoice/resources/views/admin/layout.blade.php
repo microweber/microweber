@@ -1,32 +1,3 @@
-
-
-<link rel="stylesheet" href="//ui.microweber.com/grunt/plugins/ui/css/main.css">
-<!--    <link rel="stylesheet" id="main-css-style" href="//ui.microweber.com/grunt/plugins/ui/css/main.php">-->
-
-<!-- MW UI changes CSS -->
-<!--<link rel="stylesheet" href="//ui.microweber.com/grunt/plugins/ui/css/main.css">-->
-
-<!-- MW UI plugins CSS -->
-<link rel="stylesheet" href="//ui.microweber.com/assets/ui/plugins/css/plugins.min.css"/>
-
-<style>
-    .form-control {
-        height: 3.3rem !important;
-    }
-    .invoices-search-box {
-        margin-top: 15px;
-        background-color: #d6e5fc;
-        border-radius: 4px;
-        padding: 9px;
-        padding-top: 35px;
-        padding-bottom: 35px;
-    }
-    .btn {
-        line-height: 1.3;
-    }
-</style>
-
-
 <div class="container" style="margin-top: 50px">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="margin-bottom: 20px">
@@ -61,9 +32,3 @@
     @yield('content')
 
 </div>
-
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="//ui.microweber.com/assets/ui/plugins/js/jquery-3.4.1.min.js"></script>
-<script src="//ui.microweber.com/assets/ui/plugins/js/plugins.js"></script>

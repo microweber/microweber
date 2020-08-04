@@ -17,7 +17,7 @@
     <form method="get" class="js-invoice-filter-form">
         <input type="hidden" value="true" name="filter">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="form-inline">
                     <div class="form-group mr-1 mb-2">
                         <label for="inputInvoices2" class="sr-only">Invoices</label>
@@ -28,16 +28,16 @@
             </div>
 
             @if(request()->get('filter') == 'true')
-            <div class="col-md-1">
+            <div class="col-md-2">
               <a href="{{route('invoices.index')}}" style="margin-top: 15px" class="btn btn-outline-primary">Filter <i class="fa fa-times"></i></a>
             </div>
             @else
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <!-- No filter -->
                 </div>
             @endif
 
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <button type="submit" style="margin-top: 15px" class="btn btn-outline-primary">Filter <i class="fa fa-filter"></i></button>
             </div>
             <div class="col-md-2 pull-right">
@@ -154,8 +154,8 @@
             <th>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-select-all" id="customCheck{{$payment->id}}">
-                        <label class="custom-control-label" for="customCheck{{$payment->id}}"></label>
+                        <input type="checkbox" class="custom-control-input js-select-all" id="customCheck__">
+                        <label class="custom-control-label" for="customCheck__"></label>
                     </div>
                 </div>
             </th>
