@@ -10,6 +10,23 @@
     <?php return; ?>
 <?php endif; ?>
 
+<style>
+    #mw-admin-manage-users-header{
+        display: flex;
+    }
+    #users-manage-body{
+        position: relative;
+    }
+
+    #users-manage-body .mw-spinner{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50px;
+    }
+</style>
+
 
 <script type="text/javascript"> mw.require('forms.js', true); </script>
 
@@ -87,7 +104,7 @@
         mw.load_module('users/manage', '#users_admin_panel', function () {
             TableLoadded = true;
             var params = mw.url.getHashParams(window.location.hash);
-            if (params['edit-user'] !== undefined) {
+            if (!!params['edit-user']) {
                 _mw_admin_user_edit();
             }
             else {
@@ -117,6 +134,11 @@
         var holder = mw.$('#user_edit_admin_panel');
         if (attrs['edit-user'] !== undefined && attrs['edit-user'] !== '') {
             holder.attr('edit-user', attrs['edit-user']);
+            mw.spinner({
+                element: '#users_admin_panel',
+                size: 32,
+                color: '#4592ff'
+            });
             mw.load_module('users/edit_user', '#user_edit_admin_panel', function () {
                 if (typeof UsersRotator === 'undefined') {
                     UsersRotator = mw.admin.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
@@ -158,24 +180,27 @@
     $("#main-menu-manage-users").parent().addClass('active');
 
     mw.on.hashParam('edit-user', function () {
-        if (this == false && this != 0) {
+
+        if (this == false) {
             _mw_admin_users_manage();
             UsersRotator.go(0);
+            mw.$('#mw-admin-manage-users-header').show()
             mw.$('.modules-index-bar, .manage-items').fadeIn();
         } else {
             _mw_admin_user_edit();
             mw.$('.modules-index-bar, .manage-items').fadeOut();
+            mw.$('#mw-admin-manage-users-header').hide()
         }
 
         var val = this.toString();
         var current_user = '<?php print user_id(); ?>';
 
-        if (val == 'false') {
+        if (val === 'false') {
             mw.$("#user-section-title").html(userSections.manage);
             mw.$("#add-new-user-btn").show();
             $("#main-menu-my-profile").parent().removeClass('active');
             $("#main-menu-manage-users").parent().addClass('active');
-        } else if (val == '0') {
+        } else if (val === '0') {
             mw.$("#user-section-title").html(userSections.create);
             mw.$("#add-new-user-btn").hide();
             $("#main-menu-my-profile").parent().removeClass('active');
@@ -237,8 +262,8 @@ mw()->notifications_manager->mark_as_read('users');
     </div>
 
 
-    <div class="card-body pt-3">
-        <div class="d-flex align-items-center justify-content-between mt-2">
+    <div class="card-body pt-3" id="users-manage-body">
+        <div class="align-items-center justify-content-between mt-2" id="mw-admin-manage-users-header">
             <div>
                 <script>
                     handleUserSearch = function (e) {
@@ -322,6 +347,13 @@ mw()->notifications_manager->mark_as_read('users');
                                             mw.url.windowHashParam('is_active', val);
                                         }
                                     }
+                                    function resetFilters(){
+                                        mw.url.windowDeleteHashParam('is_active')
+                                        mw.url.windowDeleteHashParam('is_admin')
+                                        mw.url.windowDeleteHashParam('sortby')
+                                        $('#show-filter .selectpicker').selectpicker('val', -1);
+                                        mw.$('#sortby1')[0].checked = true
+                                    }
                                 </script>
 
                                 <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByActiveState(event)">
@@ -353,6 +385,7 @@ mw()->notifications_manager->mark_as_read('users');
                             </div>
                         </div>
                     </div>
+                    <button onclick="resetFilters()" class="btn btn-outline-primary" type="button">Reset filters</button>
                 </div>
             </div>
         </div>

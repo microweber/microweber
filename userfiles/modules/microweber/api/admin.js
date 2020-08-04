@@ -250,7 +250,7 @@ mw.admin = {
                 mw.$(all).addClass('mw-simple-rotator-item');
 
                 rotator.go = function (where, callback, method) {
-                    var method = method || 'animate';
+                    method = method || 'animate';
                     mw.$(rotator).dataset('state', where);
                     mw.$(rotator.children).hide().eq(where).show()
                         if (typeof callback === 'function') {
@@ -264,7 +264,7 @@ mw.admin = {
                             rotator.ongoes[i].call(rotator);
                         }
                     }
-                }
+                };
                 rotator.ongoes = [];
                 rotator.ongo = function (c) {
                     if (typeof c === 'function') {
