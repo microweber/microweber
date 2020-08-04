@@ -850,4 +850,16 @@ header {
   .module-icon-svg-fill path {
     fill: red; }
 
+.card-in-live-edit {
+  border: 0 !important;
+  padding: 0 !important;
+  background: transparent !important; }
+
+.card-in-live-edit .card-header {
+  display: none !important; }
+
+.card-in-live-edit .card-body {
+  padding: 0 !important;
+  background: transparent !important; }
+
 /*# sourceMappingURL=mw.css.map */
