@@ -9,7 +9,7 @@ a, input, textarea, select {
 
 html, body {
     height: 100%;
-    background-color: white !important;
+    background-color: transparent !important;
 }
 
 body {

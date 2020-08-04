@@ -35,7 +35,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             .module-social-links-settings [class*='fa-'] {
                 font-size: 20px;
                 display: inline-block;
-                /* float: left; */
                 margin: 0 10px 0 5px;
                 width: 20px;
                 text-align: center;
@@ -46,91 +45,104 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 margin: 0 5px 0 10px;
             }
 
-            .module-social-links-settings tr.active {
-                background: #FFF;
-            }
-
-
         </style>
 
         <script>
             $(document).ready(function () {
-                $()
                 $('.module-social-links-settings input[type="checkbox"]:checked').each(function () {
-                    $(this).parent().parent().parent().addClass('active');
+                    $(this).parent().parent().parent().addClass('bg-primary-opacity-1');
                 });
-
 
                 $('.module-social-links-settings input[type="checkbox"]').on('change', function () {
                     if ($(this).is(':checked')) {
-                        $(this).parent().parent().parent().addClass('active');
+                        $(this).parent().parent().parent().addClass('bg-primary-opacity-1');
                     } else {
-                        $(this).parent().parent().parent().removeClass('active');
+                        $(this).parent().parent().parent().removeClass('bg-primary-opacity-1');
                     }
                 });
             })
         </script>
 
-        <script>mw.lib.require('font_awesome5');</script>
-
         <div class="module-live-edit-settings module-social-links-settings">
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">Select socials networks you want to share</label>
+            <div class="form-group">
+                <label class="control-label">Select socials networks you want to share</label>
             </div>
-            <table class="mw-ui-table mw-full-width mw-ui-table-fixed mw-ui-table-basic">
+
+            <table class="table">
                 <tr>
                     <td>
-                        <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-facebook mw-socials-facebook-color"></i> Facebook</span>
-                        </label>
+                        <div class="form-group m-0">
+                            <div class="custom-control custom-checkbox d-flex align-items-center m-0">
+                                <input type="checkbox" class="mw_option_field custom-control-input" id="facebook_enabled" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="facebook_enabled"><i class="mdi mdi-facebook mdi-22px lh-1_0 mr-2 mw-socials-facebook-color"></i> Facebook</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field" name="twitter_enabled" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-twitter mw-socials-twitter-color"></i> Twitter</span>
-                        </label>
+                        <div class="form-group m-0">
+                            <div class="custom-control custom-checkbox d-flex align-items-center m-0">
+                                <input type="checkbox" class="mw_option_field custom-control-input" id="twitter_enabled" name="twitter_enabled" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="twitter_enabled"><i class="mdi mdi-twitter mdi-22px lh-1_0 mr-2 mw-socials-twitter-color"></i> Twitter</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field" name="googleplus_enabled" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-google-plus-g mw-socials-youtube-color"></i> Google+</span>
-                        </label>
+                        <div class="form-group m-0">
+                            <div class="custom-control custom-checkbox d-flex align-items-center m-0">
+                                <input type="checkbox" class="mw_option_field custom-control-input" id="googleplus_enabled" name="googleplus_enabled" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="googleplus_enabled"><i class="mdi mdi-google-plus mdi-22px lh-1_0 mr-2 mw-socials-youtube-color"></i> Google+</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field" name="pinterest_enabled" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-pinterest mw-socials-pinterest-color"></i> Pinterest</span>
-                        </label>
+                        <div class="form-group m-0">
+                            <div class="custom-control custom-checkbox d-flex align-items-center m-0">
+                                <input type="checkbox" class="mw_option_field custom-control-input" id="pinterest_enabled" name="pinterest_enabled" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="pinterest_enabled"><i class="mdi mdi-pinterest mdi-22px lh-1_0 mr-2 mw-socials-pinterest-color"></i> Pinterest</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field" name="viber_enabled" value="y" <?php if ($viber_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-viber mw-socials-viber-color"></i> Viber</span>
-                        </label>
+                        <div class="form-group m-0">
+                            <div class="custom-control custom-checkbox d-flex align-items-center m-0">
+                                <input type="checkbox" class="mw_option_field custom-control-input" id="viber_enabled" name="viber_enabled" value="y" <?php if ($viber_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="viber_enabled"><i class="fab fa-viber mdi-22px lh-1_0 mr-2 mw-socials-viber-color"></i> Viber</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field" name="whatsapp_enabled" value="y" <?php if ($whatsapp_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-whatsapp mw-socials-whatsapp-color"></i> WhatsApp</span>
-                        </label>
+                        <div class="form-group m-0">
+                            <div class="custom-control custom-checkbox d-flex align-items-center m-0">
+                                <input type="checkbox" class="mw_option_field custom-control-input" id="whatsapp_enabled" name="whatsapp_enabled" value="y" <?php if ($whatsapp_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="whatsapp_enabled"><i class="mdi mdi-whatsapp mdi-22px lh-1_0 mr-2 mw-socials-whatsapp-color"></i> WhatsApp</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        <label class="mw-ui-check">
-                            <input type="checkbox" class="mw_option_field" name="linkedin_enabled" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>><span></span><span><i class="fab fa-linkedin mw-socials-linkedin-color"></i> LinkedIn</span>
-                        </label>
+                        <div class="form-group m-0">
+                            <div class="custom-control custom-checkbox d-flex align-items-center m-0">
+                                <input type="checkbox" class="mw_option_field custom-control-input" id="linkedin_enabled" name="linkedin_enabled" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="linkedin_enabled"><i class="mdi mdi-linkedin mdi-22px lh-1_0 mr-2 mw-socials-linkedin-color"></i> LinkedIn</label>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </table>

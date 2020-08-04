@@ -1230,6 +1230,7 @@ header {
   border: 0 !important;
   padding: 0 !important;
   background: transparent !important;
+  box-shadow: none !important;
 }
 
 .card-in-live-edit .card-header{
@@ -1239,4 +1240,6 @@ header {
 .card-in-live-edit .card-body{
   padding: 0 !important;
   background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
