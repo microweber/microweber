@@ -43,20 +43,28 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <input type="hidden" class="mw_option_field" name="before" id="beforeval" value="<?php print $before; ?>"/>
             <input type="hidden" class="mw_option_field" name="after" id="afterval" value="<?php print $after; ?>"/>
 
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php print _e('Upload Before Image'); ?></label>
-                <img src="<?php print $before; ?>" alt="before" class="js-before-image"/>
-                <br/>
-                <br/>
-                <span class="mw-ui-btn mw-ui-btn-info" id="before"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose Before Image'); ?></span>
-            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="control-label"><?php print _e('Upload Before Image'); ?></label>
+                        <img src="<?php print $before; ?>" alt="before" class="js-before-image"/>
 
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php print _e('Upload After Image'); ?></label>
-                <img src="<?php print $after; ?>" alt="after" class="js-after-image"/>
-                <br/>
-                <br/>
-                <span class="mw-ui-btn mw-ui-btn-info" id="after"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose After Image'); ?></span>
+                        <div class="text-center mt-3">
+                            <span class="btn btn-primary" id="before"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose Before Image'); ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="control-label"><?php print _e('Upload After Image'); ?></label>
+                        <img src="<?php print $after; ?>" alt="after" class="js-after-image"/>
+
+                        <div class="text-center mt-3">
+                            <span class="btn btn-primary" id="after"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose After Image'); ?></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

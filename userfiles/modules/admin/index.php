@@ -15,7 +15,7 @@
     }
     ?>
 
-    <main class="<?php print  $holder_cls ?>">
+    <main class="module-<?php print  $holder_cls ?>">
         <?php if ($v1 != false): ?>
             <?php
             $v_mod = module_name_decode($v1);
