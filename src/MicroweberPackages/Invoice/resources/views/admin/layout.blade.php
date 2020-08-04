@@ -13,26 +13,48 @@
     .form-control {
         height: 3.3rem !important;
     }
+    .invoices-search-box {
+        margin-top: 15px;
+        background-color: #d6e5fc;
+        border-radius: 4px;
+        padding: 9px;
+        padding-top: 35px;
+        padding-bottom: 35px;
+    }
+    .btn {
+        line-height: 1.3;
+    }
 </style>
 
 
 <div class="container" style="margin-top: 50px">
 
-    <h1 style="margin-bottom: 20px"><?php _e('Invoices'); ?> @yield('title')</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="margin-bottom: 20px">
+        <a class="navbar-brand" href="{{ route('invoices.index') }}">Invoices</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-   {{-- <a href="{{ route('invoices.index') }}" class="btn btn-primary"><i class="fa fa-list"></i> Manage Invoice</a>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('invoices.index') }}"><i class="fa fa-list"></i> Invoice</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tax-types.index') }}"><i class="fa fa-globe"></i> Taxes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('customers.index') }}"><i class="fa fa-users"></i> Customers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('payments.index') }}"><i class="fa fa-money"></i> Payments</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-     |
-    <a href="{{ route('tax-types.index') }}" class="btn btn-primary"><i class="fa fa-list"></i> Manage Taxes</a>
-    <a href="{{ route('tax-types.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> New Tax</a>
+    <h2 style="margin-bottom: 20px">@yield('title')</h2>
 
-    |
-    <a href="{{ route('customers.index') }}" class="btn btn-primary"><i class="fa fa-users"></i> Manage customers</a>
-    <a href="{{ route('customers.create') }}" class="btn btn-primary"><i class="fa fa-user"></i> New customer</a>
-    |
-    <a href="{{ route('payments.index') }}" class="btn btn-primary"><i class="fa fa-list"></i> Manage payments</a>
-    <a href="{{ route('payments.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> New Payment</a>
---}}
     <br />
     <br />
 

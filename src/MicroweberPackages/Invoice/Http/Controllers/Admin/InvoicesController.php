@@ -399,17 +399,23 @@ class InvoicesController extends AdminController
 
     public function delete(Request $request)
     {
+        $cantBeDeleted = [];
         foreach ($request->id as $id) {
             $invoice = Invoice::find($id);
 
             if ($invoice && $invoice->payments()->exists() && $invoice->payments()->count() > 0) {
-                return redirect(route('invoices.index'))->with('status', 'Invoice has attached payments.');
+                $cantBeDeleted[] = 'Invoice has attached payments.';
+                continue;
             }
+
+            $invoice->delete();
         }
 
-        $invoice = Invoice::destroy($request->id);
+        if (!empty($cantBeDeleted)) {
+            return ['status'=>'danger', 'message'=> count($cantBeDeleted) . ' invoices has attached with payments and can\'t be deleted.'];
+        }
 
-        return redirect(route('invoices.index'))->with('status', 'Invoice is deleted.');
+        return ['status'=>'success', 'message'=> 'Invoice is deleted.'];
     }
 
 
@@ -436,7 +442,7 @@ class InvoicesController extends AdminController
 
         \Mail::to($email)->send(new InvoicePdf($data));
 
-        if ($invoice->status == Invoice::STATUS_DRAFT) {
+        if ($invoice->status == Invoice::STATUS_PROFORMA) {
             $invoice->status = Invoice::STATUS_SENT;
             $invoice->sent = true;
             $invoice->save();
@@ -526,7 +532,7 @@ class InvoicesController extends AdminController
             'customer_id' => $oldInvoice->customer_id,
             'company_id' => $request->header('company'),
             'invoice_template_id' => 1,
-            'status' => Invoice::STATUS_DRAFT,
+            'status' => Invoice::STATUS_PROFORMA,
             'paid_status' => Invoice::STATUS_UNPAID,
             'sub_total' => $oldInvoice->sub_total,
             'discount' => $oldInvoice->discount,

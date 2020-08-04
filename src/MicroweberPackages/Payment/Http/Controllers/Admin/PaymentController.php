@@ -43,7 +43,7 @@ class PaymentController extends AdminController
             ->latest()
             ->paginate($limit);
 
-        return $this->view('payment::admin.payments.index', ['payments'=>$payments]);
+        return $this->view('payment::admin.payments.index', ['customers'=> Customer::all(), 'paymentMethods'=>PaymentMethod::all(), 'payments'=>$payments]);
     }
 
     /**
@@ -78,7 +78,6 @@ class PaymentController extends AdminController
         }
 
         return $this->view('payment::admin.payments.edit', [
-            'invoice_id'=>key($request->input()),
             'payment'=>false,
             'invoices'=> Invoice::all(),
             'customers' => Customer::
@@ -114,7 +113,7 @@ class PaymentController extends AdminController
         if ($request->has('invoice_id') && $request->invoice_id != null) {
             $invoice = Invoice::find($request->invoice_id);
             if ($invoice && $invoice->due_amount == $request->amount) {
-                $invoice->status = Invoice::STATUS_COMPLETED;
+                $invoice->status = Invoice::STATUS_ORIGINAL;
                 $invoice->paid_status = Invoice::STATUS_PAID;
                 $invoice->due_amount = 0;
             } elseif ($invoice && $invoice->due_amount != $request->amount) {
@@ -224,7 +223,7 @@ class PaymentController extends AdminController
             }
 
             if ($invoice->due_amount == 0) {
-                $invoice->status = Invoice::STATUS_COMPLETED;
+                $invoice->status = Invoice::STATUS_ORIGINAL;
                 $invoice->paid_status = Invoice::STATUS_PAID;
             } else {
                 $invoice->status = $invoice->getPreviousStatus();
@@ -281,6 +280,9 @@ class PaymentController extends AdminController
     {
         foreach ($request->id as $id) {
             $payment = Payment::find($id);
+            if (!$payment) {
+                continue;
+            }
 
             if ($payment->invoice_id != null) {
                 $invoice = Invoice::find($payment->invoice_id);
@@ -299,9 +301,9 @@ class PaymentController extends AdminController
             $payment->delete();
         }
 
-        return response()->json([
-            'success' => true
-        ]);
+        return [
+            'status' => 'success'
+        ];
     }
 
     public function sendPayment(Request $request)

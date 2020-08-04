@@ -1,6 +1,6 @@
 @extends('invoice::admin.layout')
 
-@section('title', ' - View Invoice')
+@section('title', 'View Invoice')
 
 
 @section('content')

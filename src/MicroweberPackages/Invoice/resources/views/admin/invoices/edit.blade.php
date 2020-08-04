@@ -1,9 +1,9 @@
 @extends('invoice::admin.layout')
 
 @if (isset($invoice) && $invoice)
-    @section('title', ' - Edit invoice')
+    @section('title', 'Edit invoice')
 @else
-    @section('title', ' - Add new invoice')
+    @section('title', 'Add new invoice')
 @endif
 
 @section('content')

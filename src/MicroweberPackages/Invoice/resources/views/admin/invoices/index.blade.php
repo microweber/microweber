@@ -14,20 +14,6 @@
         </div>
     @endif
 
-    <style>
-        .invoices-search-box {
-            margin-top: 15px;
-            background-color: #d6e5fc;
-            border-radius: 4px;
-            padding: 9px;
-            padding-top: 35px;
-            padding-bottom: 35px;
-        }
-        .btn {
-            line-height: 1.3;
-        }
-    </style>
-
     <form method="get" class="js-invoice-filter-form">
         <input type="hidden" value="true" name="filter">
         <div class="row">
@@ -132,8 +118,8 @@
             $(".js-select-all").click(function () {
                 $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
             });
-            $('.js-delete-selected-form').submit(function (e) {
-                e.preventDefault();
+
+            $('.js-delete-all').click(function (e) {
 
                 var id = [];
                 $("input[name='id']:checked").each (function() {
@@ -142,10 +128,15 @@
 
                 $.ajax({
                     type: "POST",
-                    url: $(this).attr('action'),
+                    url: '{{ route('invoices.delete') }}',
                     data: {id:id},
                     success: function(data) {
-                       window.location = window.location;
+                        if (data.status == 'success') {
+                            window.location = window.location;
+                        }
+                        if (data.status == 'danger') {
+                            $('.actions-messages').html('<div class="alert alert-danger">'+data.message+'</div>');
+                        }
                     }
                 });
             });
@@ -153,10 +144,8 @@
     </script>
 
     <div class="actions">
-        <form method="POST" class="js-delete-selected-form" action="{{ route('invoices.delete') }}">
-        {{csrf_field()}}
+        <div class="actions-messages"></div>
         <button class="btn btn-danger js-delete-all"><i class="fa fa-times"></i> Delete all</button>
-        </form>
     </div>
 
     <table class="table table-hover">
@@ -165,8 +154,8 @@
             <th>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-select-all" id="customCheck2">
-                        <label class="custom-control-label" for="customCheck2"></label>
+                        <input type="checkbox" class="custom-control-input js-select-all" id="customCheck{{$payment->id}}">
+                        <label class="custom-control-label" for="customCheck{{$payment->id}}"></label>
                     </div>
                 </div>
             </th>
@@ -198,11 +187,13 @@
             </td>
             <td>
                 @if($invoice->status == 'COMPLETED')
-                    <span class="badge badge-success">{{ $invoice->status }}</span>
-                @elseif($invoice->status == '')
-                    <span class="badge badge-warning">{{ $invoice->status }}</span>
-                @elseif($invoice->status == '')
-                    <span class="badge badge-warning">{{ $invoice->status }}</span>
+                    <span class="badge badge-primary">{{ $invoice->status }}</span>
+                @elseif($invoice->status == 'ORIGINAL')
+                    <span class="badge badge-primary">{{ $invoice->status }}</span>
+                @elseif($invoice->status == 'PROFORMA')
+                    <span class="badge badge-secondary">{{ $invoice->status }}</span>
+                @elseif($invoice->status == 'DRAFT')
+                    <span class="badge badge-secondary">{{ $invoice->status }}</span>
                 @else
                     <span class="badge badge-warning">{{ $invoice->status }}</span>
                 @endif
@@ -220,7 +211,7 @@
                 @endif
 
             </td>
-            <td>{{ currency_format($invoice->due_amount / 100) }}</td>
+            <td>{{ currency_format($invoice->due_amount) }}</td>
             <td>
                 <div class="btn-group">
                     <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -231,7 +222,7 @@
                         <a class="dropdown-item" href="{{ route('invoices.show', $invoice->id) }}"><i class="fa fa-eye"></i> &nbsp; View</a>
                         <a class="dropdown-item" href="{{ route('invoices.send', $invoice->id) }}"><i class="fa fa-envelope"></i> &nbsp; Resend Invocie</a>
 
-                        <a href="{{ route('payments.create', $invoice->id) }}" class="dropdown-item"><i class="fa fa-credit-card"></i> &nbsp; Record Payment</a>
+                        <a href="{{ route('payments.create') }}?invoice_id={{$invoice->id}}&amount={{$invoice->due_amount}}" class="dropdown-item"><i class="fa fa-credit-card"></i> &nbsp; Record Payment</a>
 
                         <form method="post" action="{{ route('invoices.clone') }}">
                          <input type="hidden" value="{{ $invoice->id }}" name="id">

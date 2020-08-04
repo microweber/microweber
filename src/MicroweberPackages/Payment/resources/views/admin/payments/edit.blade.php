@@ -1,6 +1,10 @@
 @extends('invoice::admin.layout')
 
-@section('title', 'Manage Payments')
+@if (isset($payment) && $payment)
+    @section('title', 'Edit payment')
+@else
+    @section('title', 'Add new payment')
+@endif
 
 @section('content')
 
@@ -10,6 +14,14 @@
                 {{ $error }} <br/>
             @endforeach
         </div><br/>
+    @endif
+
+    <a href="{{route('payments.index')}}" class="btn btn-outline-primary"><i class="fa fa-list"></i> Back to payments</a>
+    <br />
+    <br />
+
+    @if(count($invoices)==0)
+        <div class="alert alert-success"><i class="fa fa-check"></i> All invoices are payed. Nothing for pay.</div>
     @endif
 
     @if($payment)
@@ -60,18 +72,27 @@
                                 <label>Invoice:</label>
                                 <select class="form-control selectpicker" data-live-search="true" name="invoice_id"
                                         placeholder="Start typing something to search invoices...">
+                                    @if(count($invoices)==0)
+                                        <option>No invoices for paying.</option>
+                                    @else
                                     <option>Select invoice..</option>
+                                    @endif
                                     @foreach($invoices as $invoice)
-                                        <option @if($invoice_id)selected="selected"
-                                                @endif @if($payment && $invoice->id == $payment->invoice_id)selected="selected"
-                                                @endif value="{{$invoice->id}}">{{$invoice->invoice_number}}</option>
+                                        <option
+                                        @if(request()->get('invoice_id') == $invoice->id)selected="selected"@endif
+                                        @if($payment && $invoice->id == $payment->invoice_id)selected="selected"@endif
+                                        value="{{$invoice->id}}">
+                                            {{$invoice->invoice_number}}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <br/>
                                 <br/>
-                                <div class="alert alert-warning"><i class="fa fa-list"></i> Select invoices wich are not
-                                    payed.
-                                </div>
+                                @if(count($invoices)> 0)
+                                    <div class="alert alert-warning"><i class="fa fa-list"></i> Select invoices wich are not payed.</div>
+                               @endif
+
+
                             </div>
                         </div>
 
@@ -85,7 +106,7 @@
                                             <span class="input-group-text text-muted">{{ mw()->shop_manager->currency_symbol() }}</span>
                                         </div>
                                         <input type="text" class="form-control" name="amount"
-                                               value="@if(isset($payment) && $payment){{ number_format($payment->amount, 2) }}@endif"/>
+                                               value="@if(isset($payment) && $payment){{ number_format($payment->amount, 2) }}@elseif(request()->get('amount') !== ''){{request()->get('amount')}}@endif"/>
                                         <div class="input-group-append">
                                             <span class="input-group-text" data-toggle="tooltip"
                                                   title="To put a product on sale, makeCompare at price the original price and enter the lower amount into Price."><i
@@ -98,10 +119,10 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Payment Mode:</label>
+                                <label>Payment Method:</label>
                                 <select class="form-control selectpicker" data-live-search="true" name="payment_method_id"
                                         placeholder="Start typing something to search customers...">
-                                    <option>Select payment..</option>
+                                    <option>Select payment method..</option>
                                     @foreach($paymentMethods as $paymentMethod)
                                         <option @if($payment && $paymentMethod->id == $payment->payment_method_id)selected="selected"
                                                 @endif value="{{$paymentMethod->id}}">{{$paymentMethod->name}}</option>
