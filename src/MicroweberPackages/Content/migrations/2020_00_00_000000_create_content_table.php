@@ -246,6 +246,5 @@ class CreateContentTable extends Migration
     public function down()
     {
         // delete
-        Schema::drop('options');
     }
 }

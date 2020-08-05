@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Install;
 
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 use Illuminate\Database\QueryException;
