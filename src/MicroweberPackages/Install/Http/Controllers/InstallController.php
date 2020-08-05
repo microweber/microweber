@@ -253,7 +253,6 @@ class InstallController extends Controller
                     $installer->run();
                 }
 
-
                 if (!$install_step or $install_step == 2) {
                     $installer = new Install\WebserverInstaller();
                     $installer->run();

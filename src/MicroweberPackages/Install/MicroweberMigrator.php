@@ -30,9 +30,7 @@ class MicroweberMigrator extends Migrator {
 
         try {
             $this->runMigration($migration, 'up');
-
             $this->repository->log($name, $batch);
-
         } catch (\Exception $e) {
             if(strpos($e->getMessage(), 'already exists') !==false) {
                 $this->repository->log($name, $batch);

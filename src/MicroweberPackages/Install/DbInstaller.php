@@ -126,7 +126,7 @@ class DbInstaller
                     $table->increments('id');
                     $table->string('migration');
                     $table->integer('batch');
-                    $table->string('hash');
+                    $table->string('hash')->nullable();
                 });
             } catch (QueryException $e) {
 
