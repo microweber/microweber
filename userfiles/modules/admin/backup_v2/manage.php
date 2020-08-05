@@ -1,6 +1,6 @@
 <?php if(!is_admin()){error("must be admin");}; ?>
  <?php $here = $config['url_to_module']; ?>
- 
+
 <p><?php _e("Microweber supports importing content from"); ?>
     <a href="<?php print $here; ?>samples/sample.csv" class="mw-ui-link">csv</a>,
     <a href="<?php print $here; ?>samples/sample.json" class="mw-ui-link">json</a>,
@@ -33,8 +33,9 @@
       </tr>
     </tfoot>
     <tbody>
-      <?php 
-      $backups = mw('Microweber\Utils\BackupV2')->get();
+      <?php
+      $backupV2 = new BackupV2();
+      $backups = $backupV2->get();
 		  if(isarr($backups )):
 		?>
       <?php
@@ -45,11 +46,11 @@
           <td><span class="mw-date"><?php print $item['date']  ?></span></td>
           <td><span class="mw-date"><?php print $item['time']  ?></span></td>
           <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
-          <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Microweber/Utils/BackupV2/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
+          <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('BackupV2/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
-      
+
         <a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.backup_import.import('<?php print $item['filename']  ?>')"><?php _e("Import"); ?></a>
-        
+
         </td>
         <td><a class="show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.backup_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
       </tr>
