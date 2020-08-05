@@ -21,7 +21,6 @@ phpinfo.php
 dwsync.xml
 /userfiles/backup
 /userfiles/*.log
-/config/app.php
 /config/database.php
 /storage
 /storage/.gitignore
