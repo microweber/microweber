@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 class TaggableFileCacheServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
         \Cache::extend('file', function ($app, $config) {
 
