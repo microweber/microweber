@@ -505,7 +505,7 @@ class CheckoutManager
                 }
 
 
-                $findCustomer = false;
+              /*  $findCustomer = false;
                 $findCustomerByEmail = Customer::where('email', $data['email'])->first();
                 if ($findCustomerByEmail) {
                     $findCustomer =  $findCustomerByEmail;
@@ -584,6 +584,7 @@ class CheckoutManager
                         'quantity'=>$cartItem['qty'],
                     ]);
                 }
+              */
 
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
