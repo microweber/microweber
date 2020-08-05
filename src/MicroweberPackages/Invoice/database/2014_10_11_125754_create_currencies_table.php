@@ -17,11 +17,11 @@ class CreateCurrenciesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('code');
-            $table->string('symbol')->nullable();
+            $table->string('symbol');
             $table->integer('precision');
             $table->string('thousand_separator');
             $table->string('decimal_separator');
-            $table->boolean('swap_currency_symbol')->default(false);
+            $table->boolean('swap_currency_symbol');
             $table->timestamps();
         });
     }
