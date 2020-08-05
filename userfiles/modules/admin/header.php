@@ -331,6 +331,7 @@ $user = get_user_by_id($user_id);
                 </ul>
 
                 <?php event_trigger('mw.admin.header.toolbar'); ?>
+
                 <ul class="nav">
                     <li class="mx-1">
                         <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
@@ -339,7 +340,6 @@ $user = get_user_by_id($user_id);
                     </li>
 
                     <?php event_trigger('mw.admin.header.toolbar.ul'); ?>
-
                 </ul>
             </div>
         </div>
