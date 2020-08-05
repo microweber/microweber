@@ -120,14 +120,17 @@ class DbInstaller
 
             }
         }
+
+        if (DbSchema::hasTable('migrations')) {
+            if (DbSchema::hasColumn('migrations', 'hash')) {
+                DbSchema::table('migrations', function ($table) {
+                    $table->dropColumn('hash');
+                });
+            }
+        }
+
         if (!DbSchema::hasTable('migrations')) {
             try {
-
-                if (DbSchema::hasColumn('migrations', 'hash')) {
-                    DbSchema::table('migrations', function (Blueprint $table) {
-                        $table->dropColumn('hash');
-                    });
-                }
                 DbSchema::create('migrations', function ($table) {
                     $table->increments('id');
                     $table->string('migration');
