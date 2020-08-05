@@ -7,9 +7,9 @@ mw.backup_import = {
 	upload: function(src) {
 		data = {}
 		data.src=src;
-		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/upload', data ,
+		$.post(mw.settings.api_url+'BackupV2/upload', data ,
 			function(msg) {
-				mw.reload_module('admin/backup_v2/manage');
+				mw.reload_module('admin/BackupV2/manage');
 				mw.notification.msg(msg, 5000);
 			});
 	},
@@ -18,7 +18,7 @@ mw.backup_import = {
 		mw.tools.confirm(mw.msg.del, function() {
 			data = {}
 			data.id = $id;
-			$.post(mw.settings.api_url + 'Microweber/Utils/BackupV2/delete', data, function(resp) {
+			$.post(mw.settings.api_url + 'BackupV2/delete', data, function(resp) {
 				mw.notification.msg(resp);
 				if ($selector_to_hide != undefined) {
 					mw.reload_module('admin/backup_v2/manage');
@@ -88,8 +88,8 @@ mw.backup_import = {
 		'<div class="backup-import-modal-log-progress"></div>'+
 
 		'<div class="mw-backup-v2-import-buttons">'+
-		'<a class="btn btn-secondary button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
-		'<button class="btn btn-primary button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
+		'<a class="button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
+		'<button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
 		'</div>'+
 
 		'</div>'
@@ -159,7 +159,7 @@ mw.backup_import = {
 
 		$.ajax({
 		  dataType: "json",
-		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/import',
+		  url: mw.settings.api_url+'BackupV2/import',
 		  data: data,
 		  success: function(json_data) {
 
