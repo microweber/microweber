@@ -566,9 +566,11 @@ class ShopManager
                         $newCurrency->name = $currency[2];
                         $newCurrency->code = $currency[1];
                         $newCurrency->symbol = $currency[3];
+                        // $newCurrency->position = 1;
                         $newCurrency->precision = 2;
                         $newCurrency->thousand_separator = ',';
                         $newCurrency->decimal_separator = '.';
+                        $newCurrency->swap_currency_symbol = 0;
                         $newCurrency->save();
                     }
                 }
