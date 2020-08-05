@@ -2,14 +2,13 @@
 
 namespace MicroweberPackages\Cache;
 
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
 class TaggableFileCacheServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        Cache::extend('file', function ($app, $config) {
+        \Cache::extend('file', function ($app, $config) {
 
             $locale = app()->getLocale();
             if ($locale) {
@@ -20,7 +19,7 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
 
             $configPath = $config['path'] . DIRECTORY_SEPARATOR . $folder;
 
-            return Cache::repository(new TaggableFileStore($this->app['files'], $configPath, $config));
+            return \Cache::repository(new TaggableFileStore($this->app['files'], $configPath, $config));
         });
 
     }
