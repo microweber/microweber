@@ -79,7 +79,7 @@ event_bind('mw.user.login', function ($data) {
     if (is_array($data) and isset($data['old_sid'])) {
         $cur_sid = mw()->user_manager->session_id();
 
-        Cart::where('session_id', $data['old_sid'])->update(array('session_id' => $cur_sid));
+        \MicroweberPackages\Cart\Cart::where('session_id', $data['old_sid'])->update(array('session_id' => $cur_sid));
         mw()->cache_manager->delete('cart');
     }
 });
