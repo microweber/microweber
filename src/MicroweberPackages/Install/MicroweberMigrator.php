@@ -34,9 +34,6 @@ class MicroweberMigrator extends Migrator {
             $this->repository->log($name, $batch);
 
         } catch (\Exception $e) {
-
-            var_dump($e->getMessage());
-            die();
             if(strpos($e->getMessage(), 'already exists') !==false) {
                 $this->repository->log($name, $batch);
             }
