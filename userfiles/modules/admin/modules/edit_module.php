@@ -86,8 +86,8 @@ if ($id != false) {
                         <img src="<?php print $data['icon'] ?>" style="height:54px;" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
-                    <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark" href='<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>'><?php endif; ?>
-                        <div class="admin-modules-list-description mt-3">
+                    <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>'><?php endif; ?>
+                        <div class="admin-modules-list-description mt-0">
                             <h6>
                                 <?php if (isset($data['name'])): ?>
                                     <?php print($data['name']); ?>
