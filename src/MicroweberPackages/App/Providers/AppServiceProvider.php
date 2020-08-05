@@ -168,7 +168,7 @@ class AppServiceProvider extends ServiceProvider {
 
         $this->app->instance('config', new ConfigSave($this->app));
 
-        $this->app->register(TaggableFileCacheServiceProvider::class); 
+        $this->app->register(TaggableFileCacheServiceProvider::class);
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);

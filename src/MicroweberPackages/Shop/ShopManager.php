@@ -559,7 +559,8 @@ class ShopManager
                 fclose($handle);
                 $currencies_list = $res;
 
-                foreach ($currencies_list as $currency) {
+                //TODO
+               /* foreach ($currencies_list as $currency) {
                     $findCurrency = Currency::where('name', $currency[0])->where('code', $currency[2])->where('symbol', $currency[3])->first();
                     if (!$findCurrency) {
                         $newCurrency = new Currency();
@@ -572,7 +573,7 @@ class ShopManager
                         $newCurrency->swap_currency_symbol = 0;
                         $newCurrency->save();
                     }
-                }
+                }*/
 
                 return $res;
             }
