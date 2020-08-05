@@ -310,6 +310,43 @@ textarea:not(.form-control) {
   border-color: $primary;
 }
 
+.btn-hover-style-3 {
+  border: 0;
+  border-radius: 0 !important;
+  border-bottom: 1px solid $gray-400;
+  .btn{
+    border: 0;
+    border-radius: 0 !important;
+    border-top: 4px solid transparent !important;
+    border-bottom: 4px solid transparent !important;
+    color: $gray-500   !important;
+    margin-bottom: -1px;
+
+    i{
+      color:$gray-400;
+    }
+
+    &:hover{
+      i{
+        color:$primary;
+      }
+
+      color: $gray-700 !important;
+      background-color: $gray-100;
+    }
+
+    &.active{
+      i{
+        color:$primary;
+      }
+
+      color: $gray-700 !important;
+      background-color: transparent !important;
+      border-bottom: 4px solid $primary !important;
+    }
+  }
+}
+
 .btn-outline-warning.active,
 .btn-outline-warning:hover,
 .btn-outline-warning:not(:disabled):not(.disabled):active,

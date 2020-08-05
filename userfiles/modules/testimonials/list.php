@@ -23,14 +23,14 @@
     }
 
     add_new_testimonial = function () {
-        $('.mw-ui-btn-nav-tabs .mw-ui-btn:nth-child(2)').trigger('click');
+        $('.js-add-new-testimonials').trigger('click');
     }
 
     edit_testimonial = function (id) {
         $('.js-add-new-button').show();
         $("#edit-testimonials").attr("edit-id", id);
         mw.reload_module("#edit-testimonials");
-        $('.js-add-new-testimonials .mw-accordion-title').trigger('click');
+        $('.js-add-new-testimonials').trigger('click');
     }
 
     $(document).ready(function () {

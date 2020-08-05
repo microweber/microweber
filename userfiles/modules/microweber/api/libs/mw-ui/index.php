@@ -1694,6 +1694,33 @@
                                     <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Blue</a>
                                     <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Black</a>
                                 </nav>
+                                <br/>
+                                <br/>
+                                <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-2">
+                                    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Black</a>
+                                </nav>
+                                <br/>
+                                <br/>
+                                <nav class="nav nav-pills nav-justified btn-group btn-group-toggle">
+                                    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Black</a>
+                                </nav>
+                                <br/>
+                                <br/>
+                                <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+                                    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#home"><i class="mdi mdi-card-plus mr-1"></i> White</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#profile"><i class="mdi mdi-card-plus mr-1"></i> Yellow</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Red</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Blue</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Black</a>
+                                </nav>
 
                                 <div id="myTabContent" class="tab-content py-3">
                                     <div class="tab-pane fade show active" id="home">
