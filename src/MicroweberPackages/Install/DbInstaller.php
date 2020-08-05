@@ -122,11 +122,16 @@ class DbInstaller
         }
         if (!DbSchema::hasTable('migrations')) {
             try {
+
+                if (DbSchema::hasColumn('migrations', 'hash')) {
+                    DbSchema::table('migrations', function (Blueprint $table) {
+                        $table->dropColumn('hash');
+                    });
+                }
                 DbSchema::create('migrations', function ($table) {
                     $table->increments('id');
                     $table->string('migration');
                     $table->integer('batch');
-                    $table->string('hash')->nullable();
                 });
             } catch (QueryException $e) {
 
