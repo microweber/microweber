@@ -13,7 +13,7 @@ class CreateContentTable extends Migration
      */
     public function up()
     {
-        app()->database_manager->build_tables($this->getSchema());
+        return app()->database_manager->build_tables($this->getSchema());
     }
 
     public function getSchema()
@@ -246,6 +246,6 @@ class CreateContentTable extends Migration
     public function down()
     {
         // delete
-        Schema::drop('options');
+
     }
 }
