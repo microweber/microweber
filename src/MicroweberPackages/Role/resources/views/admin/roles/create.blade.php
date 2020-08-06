@@ -65,7 +65,7 @@
                                                     <a href="#" class="btn btn-link px-0">Check tutorial how to set a role</a>
                                                 </th>
                                                 <?php endif; ?>
-                                                <td>
+                                                <td class="row-module-name">
                                                     <img src="{{$permission['icon']}}" class="module-img"/>
                                                     <strong>{{$permission['name']}}</strong>
                                                 </td>

@@ -873,6 +873,8 @@ header {
 
 .table-permissions .row-desc {
   width: 300px; }
+.table-permissions .row-module-name {
+  width: 250px; }
 .table-permissions td {
   vertical-align: middle; }
 .table-permissions .custom-checkbox {
