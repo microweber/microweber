@@ -138,6 +138,26 @@
         mw.on.hashParam('installed', function () {
             _modulesSort();
         });
+
+        $('#module_keyword').on('change', function () {
+            if ($(this).val() == '') {
+                mw.url.windowHashParam('search', this.value)
+            }
+        });
+
+        $('#module_keyword').keypress(function (e) {
+//            e.preventDefault();
+            var key = e.which;
+            if (key == 13) {
+                mw.url.windowHashParam('search', $('#module_keyword').val());
+                return false;
+            }
+        });
+
+        $('.js-search-keyword').on('click', function (e) {
+            e.preventDefault();
+            mw.url.windowHashParam('search', $('#module_keyword').val())
+        })
     });
 
     $(document).ready(function () {
@@ -193,10 +213,10 @@
                                 <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
                             </div>
 
-                            <input value="" type="search" class="form-control" name="module_keyword" id="module_keyword" placeholder='<?php _e("Search for modules"); ?>' autocomplete="off" onkeyup="event.keyCode===13?mw.url.windowHashParam('search',this.value):false">
+                            <input value="" type="search" class="form-control" name="module_keyword" id="module_keyword" placeholder='<?php _e("Search for modules"); ?>' autocomplete="off">
                         </div>
                     </div>
-                    <button type="button" onclick="mw.url.windowHashParam('search',$(this).parent().find('input').val())" class="btn btn-outline-primary ml-2">Search</button>
+                    <button type="button" class="btn btn-outline-primary ml-2 js-search-keyword">Search</button>
                 </form>
             </div>
 
