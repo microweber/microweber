@@ -37,7 +37,7 @@
     </script>
 
     <form method="get">
-        <div class="row well">
+        <div class="row bg-info pl-2 pr-2 pt-3 pb-3">
             <div class="col-md-3">
                 <b><?php _e('Name'); ?></b>
                 <input type="text" class="form-control" value="@if(request()->get('name')){{request()->get('name')}}@endif" name="name">
