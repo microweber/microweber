@@ -62,7 +62,7 @@
                                 </th>
                                     <?php endif; ?>
                                 <td>
-                                    <img src="{{$permission['icon']}}" style="width:18px;margin-right:4px;" />
+                                    <img src="{{$permission['icon']}}" style="width:26px;margin-right:4px;" />
                                     <strong>{{$permission['name']}}</strong>
                                 </td>
                                 <td class="text-center">
