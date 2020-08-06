@@ -56,7 +56,7 @@
         </div>
     </form>
 
-    <br />
+    <br /> 
 
     <div class="actions">
         <form method="POST" class="js-delete-selected-form" action="{{ route('customers.delete') }}">
