@@ -3,8 +3,8 @@
 namespace MicroweberPackages\Role\Http\Controllers\Admin;
 
 use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Role\Repositories\Permission;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use JavaScript;
 
@@ -28,9 +28,10 @@ class RolesController extends AdminController
      */
     public function index(Request $request)
     {
+        $permissions = Permission::all();
         $roles = Role::all();
 
-        return $this->view('role::admin.roles.index', compact('roles'));
+        return $this->view('role::admin.roles.index', compact('roles', 'permissions'));
     }
 
     /**

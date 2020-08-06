@@ -12,13 +12,9 @@
 */
 
 Route::group(['middleware' => ['role:admin']], function () {
-    Route::resource('admin/permissions', \MicroweberPackages\Role\Http\Controllers\Admin\PermissionsController::class);
     Route::resource('admin/roles', \MicroweberPackages\Role\Http\Controllers\Admin\RolesController::class);
     Route::resource('admin/users', \MicroweberPackages\Role\Http\Controllers\Admin\UsersController::class);
-    // Route::resource('add-items', 'Admin\AddItemController');
 });
 
-// Dev
-Route::resource('admin/permissions', \MicroweberPackages\Role\Http\Controllers\Admin\PermissionsController::class);
 Route::resource('admin/roles', \MicroweberPackages\Role\Http\Controllers\Admin\RolesController::class);
 Route::resource('admin/users', \MicroweberPackages\Role\Http\Controllers\Admin\UsersController::class);
