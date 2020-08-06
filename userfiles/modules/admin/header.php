@@ -351,12 +351,32 @@ $user = get_user_by_id($user_id);
             <?php $action = url_param('action'); ?>
             <?php $load_module = url_param('load_module'); ?>
 
+            <?php if (empty($view)) {
+                $view = Request::segment(2);
+            }
+            ?>
+
             <?php
-            if (empty($action)) {
-                $action = Request::segment(2);
-                if (!empty($action)) {
-                    $view = 'shop';
-                }
+            $website_class = '';
+            if ($view == 'content' and $action == false) {
+                $website_class = 'active';
+            } else if ($view == 'content' and $action != false) {
+                $website_class = 'active';
+            }
+
+            $shop_class = '';
+            if ($view == 'shop' and $action == false) {
+                $shop_class = "active";
+            } elseif ($view == 'shop' and $action != false) {
+                $shop_class = "active";
+            } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
+                $shop_class = "active";
+            } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
+                $shop_class = "active";
+            } elseif ($view == 'invoices') {
+                $shop_class = "active";
+            } elseif ($view == 'customers') {
+                $shop_class = "active";
             }
             ?>
 
@@ -369,30 +389,6 @@ $user = get_user_by_id($user_id);
 
                 <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
 
-                <?php
-                $website_class = '';
-                if ($view == 'content' and $action == false) {
-                    $website_class = 'active';
-                } else if ($view == 'content' and $action != false) {
-                    $website_class = 'active';
-                }
-
-                $shop_class = '';
-                if ($view == 'shop' and $action == false) {
-                    $shop_class = "active";
-                } elseif ($view == 'shop' and $action != false) {
-                    $shop_class = "active";
-                } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
-                    $shop_class = "active";
-                } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
-                    $shop_class = "active";
-                } elseif ($view == 'shop' AND $action == 'invoices') {
-                    $shop_class = "active";
-                }
-                if ($action == 'customers') {
-                   $shop_class = "active";
-                }
-                ?>
 
                 <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
                     <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
@@ -445,17 +441,17 @@ $user = get_user_by_id($user_id);
                             </a>
 
                             <!--
-                            <a href="<?php /*print admin_url(); */?>view:shop/action:clients" class="dropdown-item <?php /*if ($action == 'clients'): */?> active <?php /*endif; */?>">
-                                <?php /*_e("Clients"); */?>
+                            <a href="<?php /*print admin_url(); */ ?>view:shop/action:clients" class="dropdown-item <?php /*if ($action == 'clients'): */ ?> active <?php /*endif; */ ?>">
+                                <?php /*_e("Clients"); */ ?>
                             </a>-->
 
                             <?php if (class_exists(\MicroweberPackages\Customer\Customer::class)): ?>
-                                <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($action == 'customers'): ?> active <?php endif; ?>">
+                                <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
                                     <?php _e("Clients"); ?>
                                 </a>
                             <?php endif; ?>
                             <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
-                                <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($action == 'invoices'): ?> active <?php endif; ?>">
+                                <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
                                     <?php _e("Invoices"); ?>
                                 </a>
                             <?php endif; ?>
