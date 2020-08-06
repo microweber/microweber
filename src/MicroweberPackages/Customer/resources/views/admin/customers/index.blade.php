@@ -19,15 +19,15 @@
                 e.preventDefault();
 
                 var id = [];
-                $("input[name='id']:checked").each (function() {
+                $("input[name='id']:checked").each(function () {
                     id.push($(this).val());
                 });
 
                 $.ajax({
                     type: "POST",
                     url: $(this).attr('action'),
-                    data: {id:id},
-                    success: function(data) {
+                    data: {id: id},
+                    success: function (data) {
                         window.location = window.location;
                     }
                 });
@@ -36,27 +36,41 @@
         });
     </script>
 
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ route('customers.create') }}" class="btn btn-outline-primary pull-right mb-3"><i class="fa fa-plus"></i>
+                New customer</a>
+        </div>
+    </div>
+
     <form method="get">
-        <div class="row bg-info pl-2 pr-2 pt-3 pb-3">
-            <div class="col-md-3">
-                <b><?php _e('Name'); ?></b>
-                <input type="text" class="form-control" value="@if(request()->get('name')){{request()->get('name')}}@endif" name="name">
-            </div>
-            <div class="col-md-3">
-                <b><?php _e('Contact Name'); ?></b>
-                <input type="text" class="form-control" value="@if(request()->get('contact_name')){{request()->get('contact_name')}}@endif" name="contact_name">
-            </div>
-            <div class="col-md-3">
-                <b><?php _e('Phone'); ?></b>
-                <input type="text" class="form-control" value="@if(request()->get('phone')){{request()->get('phone')}}@endif" name="phone">
-            </div>
-            <div class="col-md-3">
-                <button type="submit" style="margin-top: 17px" class="btn btn-success btn-block"><i class="fa fa-filter"></i> <?php _e('Filter results'); ?></button>
+        <div class="bg-info pl-3 pr-3 pt-3 pb-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <b><?php _e('Name'); ?></b>
+                    <input type="text" class="form-control"
+                           value="@if(request()->get('name')){{request()->get('name')}}@endif" name="name">
+                </div>
+                <div class="col-md-3">
+                    <b><?php _e('Contact Name'); ?></b>
+                    <input type="text" class="form-control"
+                           value="@if(request()->get('contact_name')){{request()->get('contact_name')}}@endif"
+                           name="contact_name">
+                </div>
+                <div class="col-md-3">
+                    <b><?php _e('Phone'); ?></b>
+                    <input type="text" class="form-control"
+                           value="@if(request()->get('phone')){{request()->get('phone')}}@endif" name="phone">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" style="margin-top: 17px" class="btn btn-success btn-block"><i
+                                class="fa fa-filter"></i> <?php _e('Filter results'); ?></button>
+                </div>
             </div>
         </div>
     </form>
 
-    <br /> 
+    <br/>
 
     <div class="actions">
         <form method="POST" class="js-delete-selected-form" action="{{ route('customers.delete') }}">
@@ -65,7 +79,7 @@
         </form>
     </div>
 
-    <table class="table">
+    <table class="table mt-3">
         <thead>
         <tr>
             <th><input type="checkbox" class="js-select-all"></th>
@@ -78,7 +92,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($customers as $customer):
+        @foreach($customers as $customer)
         <tr>
             <th><input type="checkbox" name="id" class="js-selected-customer" value="{{$customer->id}}"></th>
             <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
@@ -88,13 +102,17 @@
             <td>{{ $customer->created_at }}</td>
             <td>
                 <div class="btn-group">
-                    <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     Action
+                    <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        Action
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{{ route('customers.edit', $customer->id) }}"><i class="fa fa-pen"></i> &nbsp; <?php _e('Edit'); ?></a>
-                        <a class="dropdown-item" href="{{ route('customers.show', $customer->id) }}"><i class="fa fa-eye"></i> &nbsp; <?php _e('View'); ?></a>
-                        <a class="dropdown-item" href="{{ route('customers.edit', $customer->id) }}"><i class="fa fa-times"></i> &nbsp; <?php _e('Delete'); ?></a>
+                        <a class="dropdown-item" href="{{ route('customers.edit', $customer->id) }}"><i
+                                    class="fa fa-pen"></i> &nbsp; <?php _e('Edit'); ?></a>
+                        <a class="dropdown-item" href="{{ route('customers.show', $customer->id) }}"><i
+                                    class="fa fa-eye"></i> &nbsp; <?php _e('View'); ?></a>
+                        <a class="dropdown-item" href="{{ route('customers.edit', $customer->id) }}"><i
+                                    class="fa fa-times"></i> &nbsp; <?php _e('Delete'); ?></a>
                     </div>
                 </div>
             </td>
@@ -104,5 +122,5 @@
     </table>
 
 
-</div>
+    </div>
 @endsection
