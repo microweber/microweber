@@ -30,7 +30,7 @@ class RolesController extends AdminController
     {
         $roles = Role::all();
 
-        return $this->view('role::admin.roles.index', compact('roles', 'permissions'));
+        return $this->view('role::admin.roles.index', compact('roles'));
     }
 
     /**
