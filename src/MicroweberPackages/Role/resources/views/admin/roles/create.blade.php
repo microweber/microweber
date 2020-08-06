@@ -32,7 +32,10 @@
             @foreach($permissionGroups as $permissionGroupName=>$permissionGroup)
                 <div class="mb-3 mt-4">
                     <h5 class="font-weight-bold" style="text-transform: capitalize;">{{$permissionGroupName}}</h5>
-                    <small class="text-muted">The user can operate with the content of the website like edit pages, categories, posts, tags.Please check below what are the avaliable operations that user can do.</small>
+                    <small class="text-muted">
+                        The user can operate with the content of the website like edit pages, categories, posts, tags.
+                        Please check below what are the avaliable operations that user can do.
+                    </small>
 
                     <div class="row mt-3">
                         <div class="col-md-12">
@@ -59,7 +62,7 @@
                                             <tr>
                                                 <?php if($key == 0): ?>
                                                 <th scope="row" rowspan="100" class="row-desc">
-                                                    <small class="text-muted d-block">Click on the checkbox to alow the users action. User can edit?</small>
+                                                    <small class="text-muted d-block">Click on the checkbox to allow the users can {{strtolower($permissionGroupName)}} actions?</small>
                                                     <a href="#" class="btn btn-link px-0">Check tutorial how to set a role</a>
                                                 </th>
                                                 <?php endif; ?>
