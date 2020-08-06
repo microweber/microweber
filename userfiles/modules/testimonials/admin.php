@@ -131,16 +131,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="<?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mw-icon-navicon-round mr-1"></i> List of Testimonials</a>
-                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-card-plus mr-1"></i> <?php print _e('Settings'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-card-plus mr-1"></i> <?php print _e('Templates'); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center active js-list-testimonials" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Testimonials</a>
+                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
                 <a class="btn btn-outline-secondary justify-content-center js-add-new-testimonials" data-toggle="tab" href="#new" style="display: none;"><i class="mdi mdi-card-plus mr-1"></i> Add New / Edit</a>
             </nav>
 
             <div id="mw-modules-tabs" class="tab-content py-3">
                 <div class="js-list-testimonials tab-pane fade show active" id="list">
-                    <div class="text-right">
-                        <a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-success"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+                    <div>
+                        <a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded mb-3"><i class="mdi mdi-plus"></i> &nbsp;<?php _e('New testimonial'); ?></a>
                     </div>
 
                     <module type="testimonials/list" id="list-testimonials"/>
@@ -170,13 +170,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
 
                 <div class="tab-pane fade" id="new">
-                    <div class="js-add-new-button text-right">
-                        <a class="btn btn-success" href="javascript:;" onclick="add_testimonial()" id="add-testimonial"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
-                    </div>
-
-                    <div class="">
-                        <module type="testimonials/edit" id="edit-testimonials" edit-id="0"/>
-                    </div>
+                    <module type="testimonials/edit" id="edit-testimonials" edit-id="0"/>
                 </div>
             </div>
         </div>

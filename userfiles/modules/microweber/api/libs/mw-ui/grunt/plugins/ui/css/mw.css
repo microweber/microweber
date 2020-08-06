@@ -856,10 +856,10 @@ header {
   background: transparent !important;
   box-shadow: none !important; }
 
-.card-in-live-edit .card-header {
+.card-in-live-edit > .card-header {
   display: none !important; }
 
-.card-in-live-edit .card-body {
+.card-in-live-edit > .card-body {
   padding: 0 !important;
   background: transparent !important;
   border-radius: 0 !important;

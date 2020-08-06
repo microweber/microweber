@@ -61,7 +61,7 @@
         #settings-main {
             min-height: 200px;
             overflow-x: hidden;
-            padding: 10px 25px;
+            /*padding: 10px 25px;*/
         }
 
         #settings-container {
