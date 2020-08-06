@@ -1,7 +1,7 @@
 @extends('invoice::admin.layout')
 
 @section('icon')
-    <i class="fa fa-user module-icon-svg-fill"></i>
+    <i class="mdi mdi-account-search module-icon-svg-fill"></i>
 @endsection
 
 @section('title', _e('Clients', true))
@@ -38,33 +38,41 @@
 
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ route('customers.create') }}" class="btn btn-outline-primary pull-right mb-3"><i class="fa fa-plus"></i>
-                New customer</a>
+            <a href="{{ route('customers.create') }}" class="btn btn-outline-primary pull-right mb-3 icon-left">
+                <i class="mdi mdi-account-plus"></i> New customer
+            </a>
         </div>
     </div>
 
     <form method="get">
+        <input type="hidden" value="true" name="filter">
         <div class="bg-info pl-3 pr-3 pt-3 pb-3">
             <div class="row">
+                <div class="col-md-4">
+                    <label><?php _e('Search'); ?></label>
+                    <input type="text" class="form-control"
+                           value="@if(request()->get('search')){{request()->get('search')}}@endif"
+                           name="search">
+                </div>
                 <div class="col-md-3">
-                    <b><?php _e('Name'); ?></b>
+                    <label><?php _e('Name'); ?></label>
                     <input type="text" class="form-control"
                            value="@if(request()->get('name')){{request()->get('name')}}@endif" name="name">
                 </div>
+
                 <div class="col-md-3">
-                    <b><?php _e('Contact Name'); ?></b>
-                    <input type="text" class="form-control"
-                           value="@if(request()->get('contact_name')){{request()->get('contact_name')}}@endif"
-                           name="contact_name">
-                </div>
-                <div class="col-md-3">
-                    <b><?php _e('Phone'); ?></b>
+                    <label><?php _e('Phone'); ?></label>
                     <input type="text" class="form-control"
                            value="@if(request()->get('phone')){{request()->get('phone')}}@endif" name="phone">
                 </div>
-                <div class="col-md-3">
-                    <button type="submit" style="margin-top: 17px" class="btn btn-success btn-block"><i
-                                class="fa fa-filter"></i> <?php _e('Filter results'); ?></button>
+                <div class="col-md-2">
+                    <div class="pt-4">
+                    @if(request()->get('filter') == 'true')
+                        <a href="{{route('customers.index')}}" class="btn btn-outline-primary icon-right">Filter <i class="mdi mdi-close"></i></a>
+                    @else
+                        <button type="submit" class="btn btn-outline-primary icon-right">Filter <i class="mdi mdi-filter"></i></button>
+                    @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,7 +91,7 @@
         <thead>
         <tr>
             <th><input type="checkbox" class="js-select-all"></th>
-            <th><?php _e('Customer Name'); ?></th>
+            <th><?php _e('Name'); ?></th>
             <th><?php _e('Email'); ?></th>
             <th><?php _e('Phone'); ?></th>
             <th><?php _e('Amount Due'); ?></th>
