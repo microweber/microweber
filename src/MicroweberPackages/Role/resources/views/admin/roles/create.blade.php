@@ -44,7 +44,7 @@
                                     <table class="table table-permissions">
                                         <thead>
                                         <tr>
-                                            <th scope="col">
+                                            <th scope="col" colspan="2">
                                                 <h6 class="font-weight-bold"><i class="mdi mdi-text mdi-18px mr-2 text-primary"></i> Add and edit {{$permissionGroupName}}</h6>
                                             </th>
                                             <th scope="col"></th>
