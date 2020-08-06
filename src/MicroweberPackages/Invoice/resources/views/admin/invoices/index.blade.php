@@ -134,7 +134,7 @@
 
     <div class="actions">
         <div class="actions-messages"></div>
-        <button class="btn btn-danger js-delete-all"><i class="fa fa-times"></i> Delete all</button>
+        <button class="btn btn-danger js-delete-all mb-3"><i class="fa fa-times"></i> Delete all</button>
     </div>
 
     <table class="table table-hover">
@@ -148,12 +148,12 @@
                     </div>
                 </div>
             </th>
-            <th style="text-transform: uppercase">Date</th>
-            <th style="text-transform: uppercase">Number</th>
-            <th style="text-transform: uppercase">Customer</th>
-            <th style="text-transform: uppercase">Status</th>
-            <th style="text-transform: uppercase">Paid Status</th>
-            <th style="text-transform: uppercase">Amount Due</th>
+            <th>Date</th>
+            <th>Number</th>
+            <th>Customer</th>
+            <th>Status</th>
+            <th>Paid Status</th>
+            <th>Amount Due</th>
             <th></th>
         </tr>
         </thead>
