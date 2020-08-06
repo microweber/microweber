@@ -354,9 +354,6 @@ $user = get_user_by_id($user_id);
             <?php
             if (empty($action)) {
                 $action = Request::segment(2);
-                if (!empty($action)) {
-                    $view = 'invoices';
-                }
             }
             ?>
 
@@ -386,8 +383,9 @@ $user = get_user_by_id($user_id);
                     $shop_class = "active";
                 } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
                     $shop_class = "active";
-                } elseif ($action == 'invoices') {
-                    $shop_class = "active";
+                }
+                if ($action == 'invoices') {
+                   $shop_class = "active";
                 }
                 ?>
 
