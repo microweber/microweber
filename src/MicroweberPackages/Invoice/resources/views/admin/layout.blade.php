@@ -3,6 +3,7 @@
     <div class="card-header">
         <h5>
             {{--<img src="http://localhost/microweber-12/userfiles/modules/captcha/captcha.svg" class="module-icon-svg-fill"> --}}
+            @yield('icon')
             <strong>@yield('title')</strong>
         </h5>
     </div>
