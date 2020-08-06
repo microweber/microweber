@@ -206,17 +206,17 @@ mw.filePicker = function (options) {
 
         }
         else if(this.settings.nav === 'tabs') {
-            var ul = $('<ul class="nav nav-tabs" />');
+            var ul = $('<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3 w-100" />');
             this.settings.components.forEach(function (item) {
-                ul.append('<li class="nav-item"><a class="nav-link active" data-type="'+item.type+'">'+item.label+'</a></li>');
+                ul.append('<a href="javascript:;" class="btn btn-outline-secondary justify-content-center px-2" data-type="'+item.type+'">'+item.label+'</a>');
             });
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);
             setTimeout(function () {
                 scope._tabs = mw.tabs({
-                    nav: $('li a', ul),
+                    nav: $('a', ul),
                     tabs: $('.mw-filepicker-component-section', scope.$root),
-                    activeClass: 'btn-primary',
+                    activeClass: 'active',
                     onclick: function (el, event, i) {
                         if(scope.__navigation_first.indexOf(i) === -1) {
                             scope.__navigation_first.push(i);

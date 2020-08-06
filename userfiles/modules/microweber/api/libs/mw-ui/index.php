@@ -1721,6 +1721,26 @@
                                     <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Blue</a>
                                     <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other"><i class="mdi mdi-card-plus mr-1"></i> Black</a>
                                 </nav>
+                                <br/>
+                                <br/>
+
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#home">Active</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#profile">Link</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#other">Link</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#other">Link</a>
+                                    </li>
+                                </ul>
 
                                 <div id="myTabContent" class="tab-content py-3">
                                     <div class="tab-pane fade show active" id="home">

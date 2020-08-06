@@ -124,7 +124,7 @@ if (!isset($data['client_company'])) {
             <div id="avatar_holder" class="text-center">
                 <div class="d-inline-block">
                     <?php if ($data['client_picture'] == '') { ?>
-                        <div class="img-circle-holder img-absolute bg-primary-opacity-1 js-img-holder">
+                        <div class="img-circle-holder img-absolute bg-primary-opacity-1 m-auto js-img-holder">
                             <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-user.png" class="js-user-image"/>
 
                             <div class="js-add-image">
@@ -132,7 +132,7 @@ if (!isset($data['client_company'])) {
                             </div>
                         </div>
                     <?php } else { ?>
-                        <div class="img-circle-holder img-absolute bg-primary-opacity-1 js-img-holder">
+                        <div class="img-circle-holder img-absolute bg-primary-opacity-1 m-auto js-img-holder">
                             <img src="<?php print $data['client_picture']; ?>" class="js-user-image"/>
 
                             <div class="js-add-image">
