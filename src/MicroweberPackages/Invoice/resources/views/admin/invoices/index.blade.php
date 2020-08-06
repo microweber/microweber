@@ -161,7 +161,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($invoices as $invoice):
+        @foreach($invoices as $invoice)
         <tr>
             <th>
                 <div class="form-group">
