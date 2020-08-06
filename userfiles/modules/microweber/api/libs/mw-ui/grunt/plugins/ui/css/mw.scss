@@ -184,6 +184,7 @@ header {
           }
         }
 
+        &.dropdown-no-js.show,
         &.dropdown.show {
           background: $white;
           border: 1px solid #eeeff1;
@@ -268,7 +269,8 @@ header {
         }
       }
 
-      .dropdown {
+      .dropdown,
+      .dropdown-no-js {
         .dropdown-menu.show {
           position: relative;
         }
@@ -1226,18 +1228,18 @@ header {
   }
 }
 
-.card-in-live-edit{
+.card-in-live-edit {
   border: 0 !important;
   padding: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
-.card-in-live-edit > .card-header{
+.card-in-live-edit > .card-header {
   display: none !important;
 }
 
-.card-in-live-edit > .card-body{
+.card-in-live-edit > .card-body {
   padding: 0 !important;
   background: transparent !important;
   border-radius: 0 !important;

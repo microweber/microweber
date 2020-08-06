@@ -126,16 +126,16 @@ header {
           color: #2b2b2b; }
           .main aside > ul > li.nav-item > a.active > i {
             color: #4592ff; }
-      .main aside > ul > li.nav-item.dropdown.show {
+      .main aside > ul > li.nav-item.dropdown-no-js.show, .main aside > ul > li.nav-item.dropdown.show {
         background: #fff;
         border: 1px solid #eeeff1;
         max-width: 100%; }
-        .main aside > ul > li.nav-item.dropdown.show > a {
+        .main aside > ul > li.nav-item.dropdown-no-js.show > a, .main aside > ul > li.nav-item.dropdown.show > a {
           color: #2b2b2b;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis; }
-          .main aside > ul > li.nav-item.dropdown.show > a > i {
+          .main aside > ul > li.nav-item.dropdown-no-js.show > a > i, .main aside > ul > li.nav-item.dropdown.show > a > i {
             color: #4592ff; }
       .main aside > ul > li.nav-item .dropdown-menu {
         border: 0;
@@ -186,16 +186,21 @@ header {
             color: #2b2b2b;
             background: #fff;
             border-left: 5px solid #4592ff; }
-    .main aside > ul .dropdown .dropdown-menu.show {
+    .main aside > ul .dropdown .dropdown-menu.show,
+    .main aside > ul .dropdown-no-js .dropdown-menu.show {
       position: relative; }
-    .main aside > ul .dropdown .dropdown-toggle {
+    .main aside > ul .dropdown .dropdown-toggle,
+    .main aside > ul .dropdown-no-js .dropdown-toggle {
       display: flex; }
-      .main aside > ul .dropdown .dropdown-toggle .badge-holder {
+      .main aside > ul .dropdown .dropdown-toggle .badge-holder,
+      .main aside > ul .dropdown-no-js .dropdown-toggle .badge-holder {
         width: calc(100% - 54px);
         display: inline-block; }
-        .main aside > ul .dropdown .dropdown-toggle .badge-holder .badge {
+        .main aside > ul .dropdown .dropdown-toggle .badge-holder .badge,
+        .main aside > ul .dropdown-no-js .dropdown-toggle .badge-holder .badge {
           float: right; }
-    .main aside > ul .dropdown .dropdown-toggle::after {
+    .main aside > ul .dropdown .dropdown-toggle::after,
+    .main aside > ul .dropdown-no-js .dropdown-toggle::after {
       float: right;
       width: 20px;
       height: 20px;
@@ -207,7 +212,8 @@ header {
       background-size: contain;
       border: 0 !important;
       margin-top: 1px; }
-    .main aside > ul .dropdown.show .dropdown-toggle::after {
+    .main aside > ul .dropdown.show .dropdown-toggle::after,
+    .main aside > ul .dropdown-no-js.show .dropdown-toggle::after {
       transform: rotate(90deg); }
   .main .tree {
     display: none;

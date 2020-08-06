@@ -383,13 +383,12 @@ $user = get_user_by_id($user_id);
                     $shop_class = "active";
                 } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
                     $shop_class = "active";
-                }
-                if ($action == 'invoices') {
-                   $shop_class = "active";
+                } elseif ($view == 'shop' AND $action == 'invoices') {
+                    $shop_class = "active";
                 }
                 ?>
 
-                <li class="nav-item dropdown <?php echo $website_class; ?>">
+                <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
                     <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                         <i class="mdi mdi-earth"></i>
                         <span class="badge-holder"><?php _e("Website"); ?></span>
@@ -423,10 +422,7 @@ $user = get_user_by_id($user_id);
                     </div>
                 </li>
                 <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
-                    <?php
-
-                    ?>
-                    <li class="nav-item dropdown <?php echo $shop_class; ?>">
+                    <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
                             <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0) {
@@ -445,9 +441,9 @@ $user = get_user_by_id($user_id);
                                 <?php _e("Clients"); ?>
                             </a>
                             <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
-                            <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($action == 'invoices'): ?> active <?php endif; ?>">
-                                <?php _e("Invoices"); ?>
-                            </a>
+                                <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($action == 'invoices'): ?> active <?php endif; ?>">
+                                    <?php _e("Invoices"); ?>
+                                </a>
                             <?php endif; ?>
                             <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
