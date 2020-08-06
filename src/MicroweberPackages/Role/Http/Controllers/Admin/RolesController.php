@@ -42,7 +42,7 @@ class RolesController extends AdminController
     {
         $permissionGroups = Permission::all();
 
-        return $this->view('role::admin.roles.create', compact('permissionGroups'));
+        return $this->view('role::admin.roles.edit', compact('permissionGroups'));
     }
 
     /**
@@ -78,13 +78,15 @@ class RolesController extends AdminController
 
         $role = Role::findOrFail($id);
 
-        $selectedPermissions = $role->permissions()->pluck('name');
+        $permissionGroups = Permission::all();
 
-        JavaScript::put([
+        $selectedPermissions = $role->permissions()->pluck('name')->toArray();
+
+      /*  JavaScript::put([
             'foo' => $selectedPermissions
-        ]);
+        ]);*/
 
-        return view('admin.roles.edit', compact('role', 'permissions', 'selectedPermissions'));
+        return $this->view('role::admin.roles.edit', compact('role', 'permissions', 'selectedPermissions', 'permissionGroups'));
     }
 
     /**
@@ -97,7 +99,7 @@ class RolesController extends AdminController
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|unique:roles|max:20',
+            'name' => 'required|max:20|unique:roles,' . $id,
             'permission' => 'required',
         ]);
 
@@ -106,7 +108,7 @@ class RolesController extends AdminController
         $permissions = $request->input('permission') ? $request->input('permission') : [];
         $role->syncPermissions($permissions);
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('roles.index');
     }
 
 

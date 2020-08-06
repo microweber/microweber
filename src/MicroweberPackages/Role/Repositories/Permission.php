@@ -54,9 +54,24 @@ class Permission
                 $module['categories'] = 'admin';
             }
 
+            $module['permission_names'] = [
+                'module.'.strtolower($module['name']).'.view',
+                'module.'.strtolower($module['name']).'.create',
+                'module.'.strtolower($module['name']).'.edit',
+                'module.'.strtolower($module['name']).'.delete',
+            ];
+
+            foreach ($module['permission_names'] as $permissionName) {
+                $findPermission = \Spatie\Permission\Models\Permission::where('name', $permissionName)->first();
+                if (!$findPermission) {
+                    \Spatie\Permission\Models\Permission::create([
+                        'name'=>$permissionName
+                    ]);
+                }
+            }
+
             $groups[$module['categories']][] = $module;
         }
-
 
         return $groups;
     }
