@@ -149,17 +149,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="tab-pane fade" id="settings">
                     <!-- Settings Content -->
                     <div class="module-live-edit-settings module-testimonials-settings">
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Show testimonials for project'); ?></label>
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Show testimonials for project'); ?></label>
+                            <small class="text-muted d-block mb-2">If you have more than one template for testimonials, choose which one to be visible</small>
                             <module type="testimonials/project_select" id="project-select-testimonials" option-group="<?php print $params['id'] ?>"/>
                         </div>
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Maximum number of testimonials to display'); ?></label>
-                            <input type="text" class="mw-ui-field mw-full-width mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
+
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Maximum number of testimonials to display'); ?></label>
+                            <small class="text-muted d-block mb-2">Number of the visable testimonials </small>
+                            <input type="text" class="form-control mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
                         </div>
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Maximum number of characters to display'); ?></label>
-                            <input type="text" class="mw-ui-field mw-full-width mw_option_field" name="limit" value="<?php print $limit; ?>"/>
+
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Maximum number of characters to display'); ?></label>
+                            <small class="text-muted d-block mb-2">Limit of the testimonial characters</small>
+                            <input type="text" class="form-control mw_option_field" name="limit" value="<?php print $limit; ?>"/>
                         </div>
                     </div>
                     <!-- Settings Content - End -->

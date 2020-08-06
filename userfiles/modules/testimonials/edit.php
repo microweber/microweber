@@ -182,8 +182,8 @@ if (!isset($data['client_company'])) {
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label d-block"><?php _e('Project name'); ?></label>
-                    <small class="text-muted">You can have more than one “testimonials”, check in Settings tab</small>
+                    <label class="control-label"><?php _e('Project name'); ?></label>
+                    <small class="text-muted d-block mb-2">You can have more than one “testimonials”, check in Settings tab</small>
                     <input type="text" name="project_name" value="<?php print $data['project_name'] ?>" class="form-control">
                 </div>
             </div>
