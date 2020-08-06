@@ -885,5 +885,7 @@ header {
   margin-right: 4px; }
 .table-permissions tr:hover td {
   background: rgba(69, 146, 255, 0.1); }
+.table-permissions th {
+  border-top: 0; }
 
 /*# sourceMappingURL=mw.css.map */

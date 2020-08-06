@@ -45,9 +45,8 @@
                                         <thead>
                                         <tr>
                                             <th scope="col" colspan="2">
-                                                <h6 class="font-weight-bold"><i class="mdi mdi-text mdi-18px mr-2 text-primary"></i> Add and edit {{$permissionGroupName}}</h6>
+                                                <h6 class="font-weight-bold mb-0"><i class="mdi mdi-text mdi-18px mr-2 text-primary"></i> Add and edit {{$permissionGroupName}}</h6>
                                             </th>
-                                            <th scope="col"></th>
                                             <th class="text-center" scope="col">View</th>
                                             <th class="text-center" scope="col">Create</th>
                                             <th class="text-center" scope="col">Edit</th>

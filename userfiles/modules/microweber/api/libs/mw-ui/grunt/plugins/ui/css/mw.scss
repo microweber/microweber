@@ -1269,8 +1269,10 @@ header {
     margin-right: 4px;
   }
 
-  tr:hover td{
+  tr:hover td {
     background: rgba(red($primary), green($primary), blue($primary), .1);
   }
-
+  th {
+    border-top: 0;
+  }
 }
