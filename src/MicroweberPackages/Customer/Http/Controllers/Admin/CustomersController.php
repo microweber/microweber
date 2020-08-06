@@ -126,11 +126,17 @@ class CustomersController extends AdminController
 
     public function create()
     {
+        $countries = Country::all();
         $currencies = Currency::all();
+
+        if (empty($countries)) {
+            countries_list();
+            $countries = Country::all();
+        }
 
         return $this->view('customer::admin.customers.edit',[
             'customer' => false,
-            'countries'=>Country::all(),
+            'countries'=>$countries,
             'currencies' => $currencies,
             'currency' => false
         ]);
