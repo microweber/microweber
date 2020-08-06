@@ -74,6 +74,13 @@ if ($id != false) {
         });
     </script>
 
+    <style>
+        .module-img {
+            height: 35px;
+            margin-bottom: 10px;
+        }
+    </style>
+
     <div class="card style-1 h-100 mw-modules-module-holder">
         <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column">
             <form class="admin-modules-list-form <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0) {
@@ -83,7 +90,7 @@ if ($id != false) {
             } ?> " id="module_admin_settings_form_<?php print $params['id']; ?>">
                 <div class="d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
                     <?php if (isset($data['icon'])): ?>
-                        <img src="<?php print $data['icon'] ?>" style="height:40px;" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
+                        <img src="<?php print $data['icon'] ?>" class="module-img" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
                     <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>'><?php endif; ?>
