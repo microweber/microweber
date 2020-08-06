@@ -23,7 +23,9 @@
                     });
 
                     if (checked == true) {
-                        $(this).addClass('bg-primary-opacity-1');
+                        $(this).find('td').addClass('bg-primary-opacity-1');
+                    }else{
+                        $(this).find('td').removeClass('bg-primary-opacity-1');
                     }
                 });
             }
