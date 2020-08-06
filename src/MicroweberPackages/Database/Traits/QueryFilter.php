@@ -245,7 +245,7 @@ trait QueryFilter
                         }
 
                         if ($to_search_in_fields != false and $to_search_keyword != false) {
-                            if ($dbDriver == 'sqlite') {
+                         /*   if ($dbDriver == 'sqlite') {
                                 $pdo = DB::connection('sqlite')->getPdo();
                                 $pdo->sqliteCreateFunction('regexp',
                                     function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
@@ -256,8 +256,8 @@ trait QueryFilter
                                         return;
                                     }
                                 );
-                            }
-
+                            }*/
+                            // THIS FUNCTION IS MOVED TO APP SERVICE PROVIDER TO GLOBAL LARAVEL DB QUERY
 
                             $to_search_keywords = explode(',', $to_search_keyword);
 

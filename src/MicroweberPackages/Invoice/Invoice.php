@@ -82,7 +82,6 @@ class Invoice extends Model
                     ->orderBy('created_at', 'desc')
                     ->first();
 
-
         if (!$lastOrder) {
             // We get here if there is no order at all
             // If there is no number set it to 0, which will be 1 at the end.

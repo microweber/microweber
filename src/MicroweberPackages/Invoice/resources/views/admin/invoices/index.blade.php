@@ -1,5 +1,7 @@
 @extends('invoice::admin.layout')
 
+@section('title', 'Invoices')
+
 @section('content')
 
     @if (session('status'))
@@ -16,8 +18,8 @@
 
     <form method="get" class="js-invoice-filter-form">
         <input type="hidden" value="true" name="filter">
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row d-flex justify-content-between">
+            <div class="col-auto">
                 <div class="form-inline">
                     <div class="form-group mr-1 mb-2">
                         <label for="inputInvoices2" class="sr-only">Invoices</label>
@@ -27,24 +29,15 @@
                 </div>
             </div>
 
-            @if(request()->get('filter') == 'true')
-            <div class="col-md-2">
-              <a href="{{route('invoices.index')}}" style="margin-top: 15px" class="btn btn-outline-primary">Filter <i class="fa fa-times"></i></a>
-            </div>
-            @else
-                <div class="col-md-2">
-                    <!-- No filter -->
-                </div>
-            @endif
-
-            <div class="col-md-2">
-                <button type="submit" style="margin-top: 15px" class="btn btn-outline-primary">Filter <i class="fa fa-filter"></i></button>
-            </div>
-            <div class="col-md-2 pull-right">
-                <a href="{{ route('invoices.create') }}" style="margin-top: 15px"  class="btn btn-primary btn-block"><i class="fa fa-plus"></i> New Invoice</a>
-            </div>
+            <div class="col-auto">
+                @if(request()->get('filter') == 'true')
+                  <a href="{{route('invoices.index')}}" class="btn btn-outline-primary">Filter <i class="fa fa-times"></i></a>
+                @endif
+                <button type="submit" class="btn btn-outline-primary">Filter <i class="fa fa-filter"></i></button>
+                <a href="{{ route('invoices.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> New Invoice</a>
+             </div>
         </div>
-        <div class="invoices-search-box">
+        <div class="invoices-search-box bg-info mt-4 pr-2 pl-2 pt-3 pb-3">
         <div class="row">
 
             <div class="col-md-3">

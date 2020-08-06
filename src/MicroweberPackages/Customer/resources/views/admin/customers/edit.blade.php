@@ -1,6 +1,15 @@
 @extends('invoice::admin.layout')
 
-@section('title', 'Manage Customers')
+
+@section('icon')
+    <i class="fa fa-user module-icon-svg-fill"></i>
+@endsection
+
+@if (isset($customer) && $customer)
+    @section('title', 'Edit customer')
+@else
+    @section('title', 'Add new customer')
+@endif
 
 @section('content')
 

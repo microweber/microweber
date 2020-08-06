@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -332,6 +333,16 @@ class AppServiceProvider extends ServiceProvider {
 
     public function boot()
     {
+        if (DB::Connection() instanceof \Illuminate\Database\SQLiteConnection) {
+            DB::connection('sqlite')->getPdo()->sqliteCreateFunction('regexp',
+                function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
+                    if (isset($pattern, $data) === true) {
+                        return preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0;
+                    }
+                    return;
+                }
+            );
+        }
 
         $this->app->singleton('lang_helper', function ($app) {
             return new Lang($app);

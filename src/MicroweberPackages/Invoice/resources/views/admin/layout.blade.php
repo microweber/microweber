@@ -1,6 +1,14 @@
-<div class="container" style="margin-top: 50px">
+<div class="card style-1 mb-3">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="margin-bottom: 20px">
+    <div class="card-header">
+        <h5>
+            {{--<img src="http://localhost/microweber-12/userfiles/modules/captcha/captcha.svg" class="module-icon-svg-fill"> --}}
+            @yield('icon')
+            <strong>@yield('title')</strong>
+        </h5>
+    </div>
+
+ {{--   <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="margin-bottom: 20px">
         <a class="navbar-brand" href="{{ route('invoices.index') }}">Invoices</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,13 +30,9 @@
                 </li>
             </ul>
         </div>
-    </nav>
+    </nav>--}}
 
-    <h2 style="margin-bottom: 20px">@yield('title')</h2>
-
-    <br />
-    <br />
-
+    <div class="card-body pt-3">
     @yield('content')
-
+    </div>
 </div>
