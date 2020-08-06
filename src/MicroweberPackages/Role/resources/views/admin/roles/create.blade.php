@@ -54,6 +54,9 @@
                             </thead>
                             <tbody>
                             @foreach ($permissionGroup as $key=>$permission)
+                            @php
+                                $permissionHash = md5($permission['name'])
+                            @endphp
                             <tr>
                                 <?php if($key == 0): ?>
                                 <th scope="row" rowspan="100">
@@ -67,26 +70,26 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1_{{$key}}">
-                                        <label class="custom-control-label" for="customCheck1_{{$key}}"></label>
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1_{{$permissionHash}}">
+                                        <label class="custom-control-label" for="customCheck1_{{$permissionHash}}"></label>
                                     </div>
                                 </td>
                                 <td class="text-center">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck2_{{$key}}"">
-                                        <label class="custom-control-label" for="customCheck2_{{$key}}"></label>
+                                        <input type="checkbox" class="custom-control-input" id="customCheck2_{{$permissionHash}}">
+                                        <label class="custom-control-label" for="customCheck2_{{$permissionHash}}"></label>
                                     </div>
                                 </td>
                                 <td class="text-center">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck3_{{$key}}">
-                                        <label class="custom-control-label" for="customCheck3_{{$key}}"></label>
+                                        <input type="checkbox" class="custom-control-input" id="customCheck3_{{$permissionHash}}">
+                                        <label class="custom-control-label" for="customCheck3_{{$permissionHash}}"></label>
                                     </div>
                                 </td>
                                 <td class="text-center">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck4_{{$key}}">
-                                        <label class="custom-control-label" for="customCheck4_{{$key}}"></label>
+                                        <input type="checkbox" class="custom-control-input" id="customCheck4_{{$permissionHash}}">
+                                        <label class="custom-control-label" for="customCheck4_{{$permissionHash}}"></label>
                                     </div>
                                 </td>
                             </tr>
