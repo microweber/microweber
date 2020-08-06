@@ -116,7 +116,7 @@
                       <label id="name-error" class="error" for="email">{{ $errors->first('permission') }}</label>
                   @endif
               </div>--}}
-            <button class="btn btn-outline-default waves-effect" type="reset"><i class="mdi mdi-cancel"></i> Cancel</button>
+            <button class="btn btn-outline-danger" type="reset"><i class="mdi mdi-cancel"></i> Cancel</button>
             <button class="btn btn-outline-success float-right waves-effect" type="submit"><i class="mdi mdi-content-save"></i> Save</button>
         </form>
     </div>
