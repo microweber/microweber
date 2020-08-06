@@ -11,6 +11,30 @@
         </div><br/>
     @endif
 
+    <script>
+        $(document).ready(function () {
+            function checkForCheckedBoxes() {
+                $('.js-check-for-checked').each(function (index) {
+                    var checked = false;
+                    $(this).find('input[type="checkbox"]').each(function (index) {
+                        if ($(this).is(':checked')) {
+                            checked = true;
+                        }
+                    });
+
+                    if (checked == true) {
+                        $(this).addClass('bg-primary-opacity-1');
+                    }
+                });
+            }
+
+            $('body').on('click', '.js-check-for-checked input[type="checkbox"]', function () {
+                checkForCheckedBoxes();
+            });
+
+            checkForCheckedBoxes();
+        });
+    </script>
 
     <form id="form_validation" method="POST" action="{{ route('roles.store') }}">
         {{ csrf_field() }}
@@ -53,7 +77,7 @@
                                         @php
                                             $permissionHash = md5($permission['name'])
                                         @endphp
-                                        <tr>
+                                        <tr class="js-check-for-checked">
                                             <?php if($key == 0): ?>
                                             <th scope="row" rowspan="100" class="row-desc">
                                                 <small class="text-muted d-block">Click on the checkbox to allow the users can {{strtolower($permissionGroupName)}} actions?</small>
@@ -62,7 +86,7 @@
                                             <?php endif; ?>
                                             <td class="row-module-name">
                                                 <img src="{{$permission['icon']}}" class="module-img"/>
-                                                <strong>{{$permission['name']}}</strong>
+                                                {{$permission['name']}}
                                             </td>
                                             <td class="text-center">
                                                 <div class="custom-control custom-checkbox">
