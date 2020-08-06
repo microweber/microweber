@@ -25,6 +25,7 @@ class Invoice extends Model
 
     const STATUS_ANNULLED = 'ANNULLED';
     const STATUS_STORNO = 'STORNO';
+    const STATUS_REVERSAL = 'REVERSAL';
     const STATUS_PROFORMA = 'PROFORMA';
     const STATUS_ORIGINAL = 'ORIGINAL';
 

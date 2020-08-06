@@ -350,6 +350,16 @@ $user = get_user_by_id($user_id);
             <?php $view = url_param('view'); ?>
             <?php $action = url_param('action'); ?>
             <?php $load_module = url_param('load_module'); ?>
+
+            <?php
+            if (empty($action)) {
+                $action = Request::segment(2);
+                if (!empty($action)) {
+                    $view = 'invoices';
+                }
+            }
+            ?>
+
             <ul class="nav flex-column" id="mw-admin-main-navigation">
                 <li class="nav-item">
                     <a href="<?php print admin_url(); ?>" class="nav-link <?php if (!$view): ?> active <?php endif; ?>">
@@ -375,6 +385,8 @@ $user = get_user_by_id($user_id);
                 } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
                     $shop_class = "active";
                 } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
+                    $shop_class = "active";
+                } elseif ($action == 'invoices') {
                     $shop_class = "active";
                 }
                 ?>
@@ -434,6 +446,11 @@ $user = get_user_by_id($user_id);
                             <a href="<?php print admin_url(); ?>view:shop/action:clients" class="dropdown-item <?php if ($action == 'clients'): ?> active <?php endif; ?>">
                                 <?php _e("Clients"); ?>
                             </a>
+                            <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
+                            <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($action == 'invoices'): ?> active <?php endif; ?>">
+                                <?php _e("Invoices"); ?>
+                            </a>
+                            <?php endif; ?>
                             <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
                             </a>

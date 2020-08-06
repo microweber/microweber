@@ -31,9 +31,10 @@
 
             <div class="col-auto">
                 @if(request()->get('filter') == 'true')
-                  <a href="{{route('invoices.index')}}" class="btn btn-outline-primary">Filter <i class="fa fa-times"></i></a>
+                    <a href="{{route('invoices.index')}}" class="btn btn-outline-primary">Filter <i class="fa fa-times"></i></a>
+                @else
+                    <button type="submit" class="btn btn-outline-primary">Filter <i class="fa fa-filter"></i></button>
                 @endif
-                <button type="submit" class="btn btn-outline-primary">Filter <i class="fa fa-filter"></i></button>
                 <a href="{{ route('invoices.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> New Invoice</a>
              </div>
         </div>
@@ -56,14 +57,12 @@
             <div class="col-md-2">
                 <label>Status</label>
                 <select name="status" class="form-control selectpicker">
-                    <option disabled="disabled">Status</option>
                     <option @if(request()->get('status') == '') selected="selected"@endif value="">ALL</option>
-                    <option @if(request()->get('status') == 'DUE') selected="selected"@endif value="DUE">DUE</option>
-                    <option @if(request()->get('status') == 'DRAFT') selected="selected"@endif value="DRAFT">DRAFT</option>
-                    <option @if(request()->get('status') == 'SENT') selected="selected"@endif value="SENT">SENT</option>
-                    <option @if(request()->get('status') == 'VIEWED') selected="selected"@endif value="VIEWED">VIEWED</option>
-                    <option @if(request()->get('status') == 'OVERDUE') selected="selected"@endif value="OVERDUE">OVERDUE</option>
-                    <option @if(request()->get('status') == 'COMPLETED') selected="selected"@endif value="COMPLETED">COMPLETED</option>
+                    <option disabled="disabled">Status</option>
+                    <option @if(request()->get('status') == 'ANNULED') selected="selected"@endif value="ANNULED">ANNULED</option>
+                    <option @if(request()->get('status') == 'REVERSAL') selected="selected"@endif value="REVERSAL">REVERSAL</option>
+                    <option @if(request()->get('status') == 'PROFORMA') selected="selected"@endif value="PROFORMA">PROFORMA</option>
+                    <option @if(request()->get('status') == 'ORIGINAL') selected="selected"@endif value="ORIGINAL">ORIGINAL</option>
                     <option disabled="disabled">Paid Status</option>
                     <option @if(request()->get('status') == 'UNPAID') selected="selected"@endif value="UNPAID">UNPAID</option>
                     <option @if(request()->get('status') == 'PAID') selected="selected"@endif value="PAID">PAID</option>
