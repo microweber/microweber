@@ -17,7 +17,7 @@
     </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+            <table class="tabletable-striped table-hover dataTable js-exportable">
                 <thead>
                     <tr>
                         <th>Id</th>

@@ -1,4 +1,8 @@
-<div class="card style-1 mb-3">
+<div class="main-toolbar" id="mw-modules-toolbar">
+    <a href="javascript:;" onClick="history.go(-1)" class="btn btn-link text-silver"><i class="mdi mdi-chevron-left"></i> <?php _e("Back"); ?></a>
+</div>
+
+<div class="card style-1 bg-light mb-3">
     <div class="card-header">
         <h5>
             @yield('icon')
