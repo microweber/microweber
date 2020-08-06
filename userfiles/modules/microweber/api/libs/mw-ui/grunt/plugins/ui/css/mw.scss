@@ -1245,3 +1245,32 @@ header {
   border-radius: 0 !important;
   box-shadow: none !important;
 }
+
+.table-permissions {
+  .row-desc {
+    width: 300px;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+
+  .custom-checkbox {
+    margin: 0;
+  }
+
+  .module-img {
+    width: 20px;
+    margin-right: 4px;
+  }
+
+  .module-img {
+    width: 20px;
+    margin-right: 4px;
+  }
+
+  tr:hover td{
+    background: rgba(red($primary), green($primary), blue($primary), .1);
+  }
+
+}

@@ -871,4 +871,19 @@ header {
   border-radius: 0 !important;
   box-shadow: none !important; }
 
+.table-permissions .row-desc {
+  width: 300px; }
+.table-permissions td {
+  vertical-align: middle; }
+.table-permissions .custom-checkbox {
+  margin: 0; }
+.table-permissions .module-img {
+  width: 20px;
+  margin-right: 4px; }
+.table-permissions .module-img {
+  width: 20px;
+  margin-right: 4px; }
+.table-permissions tr:hover td {
+  background: rgba(69, 146, 255, 0.1); }
+
 /*# sourceMappingURL=mw.css.map */
