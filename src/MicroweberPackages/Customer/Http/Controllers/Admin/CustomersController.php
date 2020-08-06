@@ -118,9 +118,7 @@ class CustomersController extends AdminController
             'shippingAddress.country',
         ])->find($id);
 
-        return response()->json([
-            'customer' => $customer
-        ]);
+        return redirect(route('customers.index'))->with('status', 'Customer is created success.');
     }
 
 

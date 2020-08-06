@@ -70,7 +70,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Country:</label>
-                    <select class="form-control selectpicker" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->country_id}}@endif" name="addresses[0][country_id]">
+                    <select class="form-control selectpicker" data-live-search="true" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->country_id}}@endif" name="addresses[0][country_id]">
                         @foreach($countries as $country)
                            <option value="{{ $country->id }}">{{ $country->name }}</option>
                         @endforeach
