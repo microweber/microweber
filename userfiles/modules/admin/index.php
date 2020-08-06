@@ -17,8 +17,8 @@
 
     <main class="module-<?php print  $holder_cls ?>">
 
-    <?php if (isset($render_content) != false and $render_content): ?>
-        <?php print $render_content?>
+        <?php if (isset($render_content) != false and $render_content): ?>
+            <?php print $render_content ?>
 
         <?php elseif ($v1 != false): ?>
             <?php
