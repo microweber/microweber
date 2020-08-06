@@ -46,21 +46,18 @@ class Permission
      */
     private static function getEnabledModulePermissions()
     {
-        $permissions = [];
+        $groups = [];
+        $modules = get_modules();
 
-        foreach (get_modules() as $module) {
-
-           // $config = config('microweber.modules.' . strtolower($module['name']) . '.permissions');
-
-            $config = [
-
-            ];
-
-            if (! is_null($config)) {
-                $permissions[$module['name']] = $config;
+        foreach ($modules as $module) {
+            if (!isset($module['categories']) || empty($module['categories'])) {
+                $module['categories'] = 'admin';
             }
+
+            $groups[$module['categories']][] = $module;
         }
 
-        return $permissions;
+
+        return $groups;
     }
 }

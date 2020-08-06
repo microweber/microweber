@@ -13,7 +13,6 @@
 
     <div class="col-md-12 text-right">
          <a href="{{route('roles.create')}}" class="btn btn-outline-primary mb-3"><i class="mdi mdi-account-settings"></i> Add New Role</a>
-         <a href="{{route('permissions.create')}}" class="btn btn-outline-primary mb-3"><i class="mdi mdi-security"></i> Add New Permissions</a>
     </div>
 
         <div class="table-responsive">

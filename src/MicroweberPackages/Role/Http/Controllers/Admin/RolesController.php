@@ -28,7 +28,6 @@ class RolesController extends AdminController
      */
     public function index(Request $request)
     {
-        $permissions = Permission::all();
         $roles = Role::all();
 
         return $this->view('role::admin.roles.index', compact('roles', 'permissions'));
@@ -41,9 +40,9 @@ class RolesController extends AdminController
      */
     public function create()
     {
-        $permissions = Permission::get()->pluck('name', 'name');
+        $permissionGroups = Permission::all();
 
-        return $this->view('role::admin.roles.create', compact('permissions'));
+        return $this->view('role::admin.roles.create', compact('permissionGroups'));
     }
 
     /**
@@ -75,7 +74,7 @@ class RolesController extends AdminController
      */
     public function edit($id)
     {
-        $permissions = Permission::get()->pluck('name', 'name');
+        $permissions = Permission::all();
 
         $role = Role::findOrFail($id);
 
