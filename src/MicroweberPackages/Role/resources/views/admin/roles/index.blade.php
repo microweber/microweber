@@ -31,13 +31,13 @@
                 <td>{{ $row->id }}</td>
                 <td>{{ $row->name }}</td>
                 <td>
-                    <a href="{{route('roles.edit',$row->id)}}" class="btn btn-outline-primary"><i class="mdi mdi-pencil"></i> Edit</a>
+                    <a href="{{route('roles.edit',$row->id)}}" class="btn btn-outline-primary btn-sm"><i class="mdi mdi-pencil"></i> Edit</a>
                 </td>
                 <td>
                     <form id="delete_form" method="POST" action="{{ route('roles.destroy',$row->id) }}">
                         {{ csrf_field() }}
                         <input name="_method" type="hidden" value="DELETE">
-                        <button class="btn btn-outline-danger" type="submit"><i class="mdi mdi-trash-can-outline"></i> Delete</button>
+                        <button class="btn btn-outline-danger btn-sm" type="submit"><i class="mdi mdi-trash-can-outline"></i> Delete</button>
                     </form>
                 </td>
             </tr>
