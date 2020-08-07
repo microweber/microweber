@@ -68,7 +68,24 @@ if (isset($data[0]) == false) {
             }
         }
 
+        var isValid = function () {
+            var valid = true;
+            mw.$('[name="email"], [name="text"]', '#users_edit_{rand}').each(function () {
+                if(!this.validity.valid) {
+                    $(this).addClass('is-invalid')
+                    valid = false;
+                } else {
+                    $(this).removeClass('is-invalid')
+                }
+            })
+            return valid;
+        }
+
         SaveAdminUserForm<?php  print $data['id']; ?> = function () {
+            if(!isValid()) {
+                return;
+            }
+
             var val = mwd.getElementById("reset_password").value.trim();
             if (!val) {
                 mwd.getElementById("reset_password").disabled = true;
