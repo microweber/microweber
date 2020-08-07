@@ -890,5 +890,7 @@ header {
   background: rgba(69, 146, 255, 0.1); }
 .table-permissions th {
   border-top: 0; }
+.table-permissions th, .table-permissions td {
+  vertical-align: middle; }
 
 /*# sourceMappingURL=mw.css.map */
