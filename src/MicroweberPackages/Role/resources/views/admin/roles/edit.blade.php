@@ -206,7 +206,9 @@
                         </div>
                     @endforeach
 
-                    <button class="btn btn-outline-danger" type="reset"><i class="mdi mdi-cancel"></i> Cancel</button>
-                    <button class="btn btn-outline-success float-right waves-effect" type="submit"><i class="mdi mdi-content-save"></i> Save</button>
+                    <a href="{{route('roles.index')}}" class="btn btn-outline-secondary btn-sm">Cancel</a>
+                    <button class="btn btn-secondary btn-sm" type="reset">Reset</button>
+
+                    <button class="btn btn-success btn-sm float-right" type="submit">Save</button>
                 </form>
 @endsection

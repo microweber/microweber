@@ -232,8 +232,8 @@ $user = get_user_by_id($user_id);
                     </li>
 
                     <li class="mx-1 d-none d-md-block">
-                        <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
-                            <span class="d-none d-md-block"><?php _e("Add New"); ?></span> <i class="mdi mdi-plus"></i>
+                        <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
                         </button>
                         <div class="dropdown-menu ">
                             <?php $custom_view = url_param('view'); ?>
@@ -258,7 +258,7 @@ $user = get_user_by_id($user_id);
                                         }
                                     }
                                     ?>
-                                    <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a>
+                                    <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
