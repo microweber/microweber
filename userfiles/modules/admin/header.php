@@ -134,6 +134,10 @@ if (!$shop_disabled) {
         $shop_disabled = true;
     }
 }
+
+if (!user_can_view_module(['name'=>'online_shop'])) {
+    $shop_disabled = true;
+}
 ?>
 
 
