@@ -19,9 +19,8 @@
     <table class="table table-striped table-hover dataTable js-exportable">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Permissions</th>
+                <th style="width: 10%;">Id</th>
+                <th style="width:90%;">Name</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -32,18 +31,13 @@
                 <td>{{ $row->id }}</td>
                 <td>{{ $row->name }}</td>
                 <td>
-                    @foreach($row->permissions()->pluck('name') as $permission)
-                        {{ $permission }},
-                    @endforeach
-                </td>
-                <td>
-                    <a href="{{route('roles.edit',$row->id)}}" class="btn btn-warning waves-effect">Edit</a>
+                    <a href="{{route('roles.edit',$row->id)}}" class="btn btn-outline-primary"><i class="mdi mdi-pencil"></i> Edit</a>
                 </td>
                 <td>
                     <form id="delete_form" method="POST" action="{{ route('roles.destroy',$row->id) }}">
                         {{ csrf_field() }}
                         <input name="_method" type="hidden" value="DELETE">
-                        <button class="btn btn-danger waves-effect" type="submit">Delete</button>
+                        <button class="btn btn-outline-danger" type="submit"><i class="mdi mdi-trash-can-outline"></i> Delete</button>
                     </form>
                 </td>
             </tr>
