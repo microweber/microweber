@@ -394,6 +394,7 @@ $user = get_user_by_id($user_id);
                 <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
 
 
+                <?php if (user_can_view_module(['name'=>'content'])): ?>
                 <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
                     <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                         <i class="mdi mdi-earth"></i>
@@ -427,6 +428,8 @@ $user = get_user_by_id($user_id);
                         </a>
                     </div>
                 </li>
+                <?php endif; ?>
+
                 <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                     <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
@@ -465,6 +468,7 @@ $user = get_user_by_id($user_id);
                         </div>
                     </li>
                 <?php endif; ?>
+
                 <li class="nav-item">
                     <?php
                     if (($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')) {
@@ -473,7 +477,10 @@ $user = get_user_by_id($user_id);
                         $modules_class = '';
                     }
                     ?>
-                    <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a></li>
+                    <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a>
+                </li>
+
+
                 <?php if (mw()->ui->disable_marketplace != true): ?>
                     <li class="nav-item">
                         <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">

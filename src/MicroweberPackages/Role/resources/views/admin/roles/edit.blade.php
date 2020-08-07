@@ -169,28 +169,28 @@
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['view']}}" @if(in_array('module.'.strtolower($permission['name']).'.view', $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-view" id="customCheck1_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['view']}}" @if(in_array($permission['permission_slugs']['view'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-view" id="customCheck1_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck1_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['create']}}" @if(in_array('module.'.strtolower($permission['name']).'.create', $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-create" id="customCheck2_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['create']}}" @if(in_array($permission['permission_slugs']['create'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-create" id="customCheck2_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck2_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['edit']}}" @if(in_array('module.'.strtolower($permission['name']).'.edit', $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-edit" id="customCheck3_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['edit']}}" @if(in_array($permission['permission_slugs']['edit'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-edit" id="customCheck3_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck3_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['delete']}}" @if(in_array('module.'.strtolower($permission['name']).'.delete', $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-delete" id="customCheck4_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['delete']}}" @if(in_array($permission['permission_slugs']['delete'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-delete" id="customCheck4_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck4_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
