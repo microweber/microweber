@@ -258,7 +258,7 @@ if (isset($data[0]) == false) {
 
                     <div class="form-group">
                         <label class="control-label"><?php _e("Phone"); ?></label>
-                        <input type="text" class="form-control bg-warning" name="phone" value="<?php print $data['phone']; ?>">
+                        <input type="text" class="form-control" name="phone" value="<?php print $data['phone']; ?>">
                     </div>
 
                     <div class="form-group mt-4 mb-4">
@@ -274,9 +274,15 @@ if (isset($data[0]) == false) {
                         <div class="form-group">
                             <label class="control-label mb-1">Role of the user</label>
                             <small class="text-muted d-block mb-1">Choose the current role of the user. <a href="#">Manage user roles</a></small>
-                            <select class="selectpicker" data-width="100%" name="is_admin">
-                                <option value="1" <?php if ($data['is_admin'] == 1): ?>selected<?php endif; ?>>Admin</option>
-                                <option value="0" <?php if ($data['is_admin'] == 0): ?>selected<?php endif; ?>>User</option>
+                            <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]">
+                                <?php
+                                $roles = \MicroweberPackages\Role\Repositories\Role::all();
+                                foreach ($roles as $role):
+                                ?>
+                                   <option><?php echo $role['name']; ?></option>
+                                <?php
+                                endforeach;
+                                ?>
                             </select>
                         </div>
 
