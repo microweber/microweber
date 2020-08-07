@@ -93,7 +93,7 @@ if (isset($data[0]) == false) {
             var el = document.getElementById('user-save-button');
             el.disabled = true;
             mw.spinner({element: el, color: 'white'});
-            mw.form.post(mw.$('#users_edit_{rand}'), '<?php print api_link('save_user') ?>', function (el) {
+            mw.form.post(mw.$('#users_edit_{rand}'), '<?php print api_link('save_user') ?>', function (scopeEl) {
                 if (this.error) {
                     mw.notification.error(this.error);
                     return;
@@ -103,7 +103,8 @@ if (isset($data[0]) == false) {
                 if(userId === 0) {
                     location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + this.toString();
                 }
-
+                mw.spinner({element: el, color: 'white'}).remove();
+                el.disabled = false;
             });
         }
 
