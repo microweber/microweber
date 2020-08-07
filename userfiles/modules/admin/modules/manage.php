@@ -59,6 +59,18 @@ if ($load_module == true): ?>
         $mods = mw()->module_manager->get($mod_params);
     }
 
+    $allowMods = [];
+    foreach ($mods as $mod) {
+
+        if (!user_can_view_module($mod)) {
+            continue;
+        }
+
+        $allowMods[] = $mod;
+    }
+
+    $mods = $allowMods;
+
     $upds = false;
     ?>
 
