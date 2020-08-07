@@ -27,7 +27,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-striped table-hover dataTable js-exportable">
+        <table class="table table-striped table-hover dataTable js-exportable table-permissions">
             <thead>
             <tr>
                 <th style="width: 50px;">ID</th>
@@ -36,14 +36,14 @@
                 <th style="width:300px;" class="text-center"><?php _e('Actions'); ?></th>
             </tr>
             </thead>
-            <tfoot>
+           {{-- <tfoot>
             <tr>
                 <th style="width: 50px;">ID</th>
                 <th style="width:200px;"><?php _e('Role name'); ?></th>
                 <th class="text-center"><?php _e('Users'); ?></th>
                 <th style="width:300px;" class="text-center"><?php _e('Actions'); ?></th>
             </tr>
-            </tfoot>
+            </tfoot>--}}
             <tbody>
             @foreach($roles as $row)
                 <tr>
@@ -52,7 +52,11 @@
                     <td class="text-center">1</td>
                     <td style="width:300px;" class="text-center">
                         <a href="{{route('roles.edit',$row->id)}}" class="btn btn-link btn-sm">Edit</a>
-                        <a href="#" class="btn btn-link btn-sm">Dublicate</a>
+
+                        <form method="post" action="{{ route('roles.clone') }}" class="d-inline">
+                            <input type="hidden" value="{{ $row->id }}" name="id">
+                            <button type="submit" class="btn btn-link btn-sm">Dublicate</button>
+                        </form>
 
                         <form id="delete_form" method="POST" action="{{ route('roles.destroy',$row->id) }}" class="d-inline">
                             {{ csrf_field() }}

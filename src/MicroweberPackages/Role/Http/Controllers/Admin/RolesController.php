@@ -76,9 +76,7 @@ class RolesController extends AdminController
     public function edit($id)
     {
         $permissions = Permission::all();
-
         $role = Role::findOrFail($id);
-
         $permissionGroups = Permission::all();
 
         $selectedPermissions = $role->permissions()->pluck('name')->toArray();
@@ -112,6 +110,17 @@ class RolesController extends AdminController
         return redirect()->route('roles.index');
     }
 
+    public function cloneRole(Request $request)
+    {
+        $oldRole = Role::with('permissions')->find($request->id);
+
+        $role = Role::create([
+            'name' => $oldRole->name . ' (dublicate)',
+        ]);
+        $role->givePermissionTo($oldRole->permissions);
+
+        return redirect(route('roles.edit', $role->id))->with('status', 'Role is cloned.');
+    }
 
     /**
      * Remove Role from storage.
