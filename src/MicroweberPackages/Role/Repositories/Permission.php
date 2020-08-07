@@ -39,6 +39,26 @@ class Permission
         ];
      */
 
+    public static function getAllPermissionsSlugs()
+    {
+        $permissionSlugs = [];
+        $modules = get_modules();
+
+        foreach ($modules as $module) {
+
+            $permissionSlug = $module['name'];
+            $permissionSlug = strtolower($permissionSlug);
+            $permissionSlug = str_replace(' ', '_', $permissionSlug);
+
+            $permissionSlugs[] = 'module.'.strtolower($permissionSlug).'.view';
+            $permissionSlugs[] = 'module.'.strtolower($permissionSlug).'.create';
+            $permissionSlugs[] = 'module.'.strtolower($permissionSlug).'.edit';
+            $permissionSlugs[] = 'module.'.strtolower($permissionSlug).'.delete';
+        }
+
+        return $permissionSlugs;
+    }
+
     /**
      * Get enabled module permissions.
      *
