@@ -15,12 +15,14 @@ class CreateRolesTable extends Migration
     {
         $tableNames = config('permission.table_names');
 
-        Schema::create($tableNames['roles'], function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('guard_name');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable($tableNames['roles'])) {
+            Schema::create($tableNames['roles'], function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+                $table->string('guard_name');
+                $table->timestamps();
+            });
+        }
 
     }
 

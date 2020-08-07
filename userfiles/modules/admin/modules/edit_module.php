@@ -74,20 +74,32 @@ if ($id != false) {
         });
     </script>
 
+    <style>
+        .module-img {
+            height: 35px;
+            margin-bottom: 10px;
+        }
+
+        .mw-modules-module-holder {
+            min-height: 140px;
+            cursor: pointer;
+        }
+    </style>
+
     <div class="card style-1 h-100 mw-modules-module-holder">
-        <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column">
+        <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
             <form class="admin-modules-list-form <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0) {
                 print 'module-installed';
             } else {
                 print 'module-uninstalled';
             } ?> " id="module_admin_settings_form_<?php print $params['id']; ?>">
-                <div class="d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+                <div class="d-flex align-items-center justify-content-center flex-column">
                     <?php if (isset($data['icon'])): ?>
-                        <img src="<?php print $data['icon'] ?>" style="height:54px;" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
+                        <img src="<?php print $data['icon'] ?>" class="module-img" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
-                    <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark" href='<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>'><?php endif; ?>
-                        <div class="admin-modules-list-description mt-3">
+                    <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>'><?php endif; ?>
+                        <div class="admin-modules-list-description mt-0">
                             <h6>
                                 <?php if (isset($data['name'])): ?>
                                     <?php print($data['name']); ?>
@@ -104,7 +116,7 @@ if ($id != false) {
                 </div>
 
                 <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-                    <button class="btn btn-link text-danger btn-rounded btn-icon position-absolute module-uninstall-btn" data-toggle="tooltip" data-title="<?php _e("Uninstall"); ?>" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print$data['id'] ?>" value="đ"><i class="mdi mdi-close-thick"></i></button>
+                    <button class="btn btn-link btn-sm text-danger btn-rounded btn-icon position-absolute module-uninstall-btn" data-toggle="tooltip" data-title="<?php _e("Uninstall"); ?>" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print$data['id'] ?>" value="đ"><i class="mdi mdi-close-thick"></i></button>
                     <!-- <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn"><?php _e("Open"); ?></span>-->
                 <?php else: ?>
                     <button class="btn btn-outline-success btn-sm position-absolute module-ctrl-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>"><?php _e("Install"); ?></button>

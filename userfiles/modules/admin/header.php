@@ -350,6 +350,36 @@ $user = get_user_by_id($user_id);
             <?php $view = url_param('view'); ?>
             <?php $action = url_param('action'); ?>
             <?php $load_module = url_param('load_module'); ?>
+
+            <?php if (empty($view)) {
+                $view = Request::segment(2);
+            }
+            ?>
+
+            <?php
+            $website_class = '';
+            if ($view == 'content' and $action == false) {
+                $website_class = 'active';
+            } else if ($view == 'content' and $action != false) {
+                $website_class = 'active';
+            }
+
+            $shop_class = '';
+            if ($view == 'shop' and $action == false) {
+                $shop_class = "active";
+            } elseif ($view == 'shop' and $action != false) {
+                $shop_class = "active";
+            } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
+                $shop_class = "active";
+            } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
+                $shop_class = "active";
+            } elseif ($view == 'invoices') {
+                $shop_class = "active";
+            } elseif ($view == 'customers') {
+                $shop_class = "active";
+            }
+            ?>
+
             <ul class="nav flex-column" id="mw-admin-main-navigation">
                 <li class="nav-item">
                     <a href="<?php print admin_url(); ?>" class="nav-link <?php if (!$view): ?> active <?php endif; ?>">
@@ -359,27 +389,8 @@ $user = get_user_by_id($user_id);
 
                 <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
 
-                <?php
-                $website_class = '';
-                if ($view == 'content' and $action == false) {
-                    $website_class = 'active';
-                } else if ($view == 'content' and $action != false) {
-                    $website_class = 'active';
-                }
 
-                $shop_class = '';
-                if ($view == 'shop' and $action == false) {
-                    $shop_class = "active";
-                } elseif ($view == 'shop' and $action != false) {
-                    $shop_class = "active";
-                } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
-                    $shop_class = "active";
-                } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
-                    $shop_class = "active";
-                }
-                ?>
-
-                <li class="nav-item dropdown <?php echo $website_class; ?>">
+                <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
                     <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                         <i class="mdi mdi-earth"></i>
                         <span class="badge-holder"><?php _e("Website"); ?></span>
@@ -413,10 +424,7 @@ $user = get_user_by_id($user_id);
                     </div>
                 </li>
                 <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
-                    <?php
-
-                    ?>
-                    <li class="nav-item dropdown <?php echo $shop_class; ?>">
+                    <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
                             <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0) {
@@ -431,9 +439,22 @@ $user = get_user_by_id($user_id);
                                     print $order_notif_html;
                                 } ?>
                             </a>
-                            <a href="<?php print admin_url(); ?>view:shop/action:clients" class="dropdown-item <?php if ($action == 'clients'): ?> active <?php endif; ?>">
-                                <?php _e("Clients"); ?>
-                            </a>
+
+                            <!--
+                            <a href="<?php /*print admin_url(); */ ?>view:shop/action:clients" class="dropdown-item <?php /*if ($action == 'clients'): */ ?> active <?php /*endif; */ ?>">
+                                <?php /*_e("Clients"); */ ?>
+                            </a>-->
+
+                            <?php if (class_exists(\MicroweberPackages\Customer\Customer::class)): ?>
+                                <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
+                                    <?php _e("Clients"); ?>
+                                </a>
+                            <?php endif; ?>
+                            <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
+                                <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
+                                    <?php _e("Invoices"); ?>
+                                </a>
+                            <?php endif; ?>
                             <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
                             </a>

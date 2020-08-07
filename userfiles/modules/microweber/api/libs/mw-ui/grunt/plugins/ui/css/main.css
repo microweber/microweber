@@ -7992,6 +7992,31 @@ textarea:not(.form-control) {
   background-color: #e1f1fd;
   border-color: #4592ff; }
 
+.btn-hover-style-3 {
+  border: 0;
+  border-radius: 0 !important;
+  border-bottom: 1px solid #cfcfcf; }
+  .btn-hover-style-3 .btn {
+    border: 0;
+    border-radius: 0 !important;
+    border-top: 4px solid transparent !important;
+    border-bottom: 4px solid transparent !important;
+    color: #adb5bd !important;
+    margin-bottom: -1px; }
+    .btn-hover-style-3 .btn i {
+      color: #cfcfcf; }
+    .btn-hover-style-3 .btn:hover {
+      color: #2b2b2b !important;
+      background-color: #fafafa; }
+      .btn-hover-style-3 .btn:hover i {
+        color: #4592ff; }
+    .btn-hover-style-3 .btn.active {
+      color: #2b2b2b !important;
+      background-color: transparent !important;
+      border-bottom: 4px solid #4592ff !important; }
+      .btn-hover-style-3 .btn.active i {
+        color: #4592ff; }
+
 .btn-outline-warning.active,
 .btn-outline-warning:hover,
 .btn-outline-warning:not(:disabled):not(.disabled):active,

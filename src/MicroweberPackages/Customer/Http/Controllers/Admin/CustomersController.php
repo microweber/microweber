@@ -61,7 +61,9 @@ class CustomersController extends AdminController
         $verifyEmail = Customer::where('email', $request->email)->first();
 
         $customer = new Customer();
-        //$customer->name = $request->name;
+        $customer->name = $request->addresses[0]['name'];
+        $customer->first_name = $request->addresses[0]['name'];
+        $customer->last_name = '';
         $customer->currency_id = $request->currency_id;
         $customer->company_id = $request->header('company');
         $customer->email = $request->email;
@@ -72,6 +74,7 @@ class CustomersController extends AdminController
      //   $customer->enable_portal = $request->enable_portal;
       //  $customer->role = 'customer';
        // $customer->password = Hash::make($request->password);
+        $customer->active =1;
         $customer->save();
 
         if ($request->addresses) {
@@ -82,7 +85,7 @@ class CustomersController extends AdminController
                 // $newAddress->address_street_2 = $address["address_street_2"];
                 $newAddress->city = $address["city"];
                 $newAddress->state = $address["state"];
-                $newAddress->country_id = $address["country_id"];
+                $newAddress->country_id = (int) $address["country_id"];
                 $newAddress->zip = $address["zip"];
                 $newAddress->phone = $address["phone"];
                 $newAddress->type = $address["type"];
@@ -115,19 +118,23 @@ class CustomersController extends AdminController
             'shippingAddress.country',
         ])->find($id);
 
-        return response()->json([
-            'customer' => $customer
-        ]);
+        return redirect(route('customers.index'))->with('status', 'Customer is created success.');
     }
 
 
     public function create()
     {
+        $countries = Country::all();
         $currencies = Currency::all();
+
+        if (empty($countries)) {
+            countries_list();
+            $countries = Country::all();
+        }
 
         return $this->view('customer::admin.customers.edit',[
             'customer' => false,
-            'countries'=>Country::all(),
+            'countries'=>$countries,
             'currencies' => $currencies,
             'currency' => false
         ]);

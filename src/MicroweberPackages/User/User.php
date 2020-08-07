@@ -32,6 +32,7 @@ class User extends Authenticatable
         'username',
         'first_name',
         'last_name',
+        'phone',
         'name',
         'last_login',
         'last_login_ip',
@@ -85,8 +86,15 @@ class User extends Authenticatable
         'oauth_provider',
         'profile_url',
         'website_url',
+        'phone',
 
     );
+
+    protected $rules = [
+        'email' => ['required']
+    ];
+
+    private $validator;
 
     public function setPasswordAttribute($pass)
     {
@@ -189,5 +197,16 @@ class User extends Authenticatable
             return  asset($avatar->getUrl());
         }
         return ;
+    }
+
+    public function validateAndFill($data)
+    {
+        $this->validator = \Validator::make($data, $this->rules);
+        if ($this->validator->fails()) {
+            return false;
+        }
+        $this->fill($data);
+
+        return true;
     }
 }

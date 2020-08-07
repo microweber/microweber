@@ -12,6 +12,7 @@ class Currency extends Model
         'precision',
         'thousand_separator',
         'decimal_separator',
-        'position'
+        'swap_currency_symbol',
+        //'position'
     ];
 }

@@ -25,6 +25,7 @@ class Invoice extends Model
 
     const STATUS_ANNULLED = 'ANNULLED';
     const STATUS_STORNO = 'STORNO';
+    const STATUS_REVERSAL = 'REVERSAL';
     const STATUS_PROFORMA = 'PROFORMA';
     const STATUS_ORIGINAL = 'ORIGINAL';
 
@@ -81,7 +82,6 @@ class Invoice extends Model
         $lastOrder = Invoice::where('invoice_number', 'REGEXP', $value . '-')
                     ->orderBy('created_at', 'desc')
                     ->first();
-
 
         if (!$lastOrder) {
             // We get here if there is no order at all

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Install;
 
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 use Illuminate\Database\QueryException;
@@ -119,13 +120,21 @@ class DbInstaller
 
             }
         }
+
+        if (DbSchema::hasTable('migrations')) {
+            if (DbSchema::hasColumn('migrations', 'hash')) {
+                DbSchema::table('migrations', function ($table) {
+                    $table->dropColumn('hash');
+                });
+            }
+        }
+
         if (!DbSchema::hasTable('migrations')) {
             try {
                 DbSchema::create('migrations', function ($table) {
                     $table->increments('id');
                     $table->string('migration');
                     $table->integer('batch');
-                    $table->string('hash');
                 });
             } catch (QueryException $e) {
 

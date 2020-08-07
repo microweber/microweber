@@ -23,14 +23,18 @@
     }
 
     add_new_testimonial = function () {
-        $('.mw-ui-btn-nav-tabs .mw-ui-btn:nth-child(2)').trigger('click');
+        $('.js-add-new-testimonials').trigger('click');
+    }
+
+    list_testimonial = function () {
+        $('.js-list-testimonials').trigger('click');
     }
 
     edit_testimonial = function (id) {
         $('.js-add-new-button').show();
         $("#edit-testimonials").attr("edit-id", id);
         mw.reload_module("#edit-testimonials");
-        $('.js-add-new-testimonials .mw-accordion-title').trigger('click');
+        $('.js-add-new-testimonials').trigger('click');
     }
 
     $(document).ready(function () {
@@ -65,6 +69,7 @@
         });
     });
 </script>
+<script>mw.lib.require('mwui_init');</script>
 
 <style>
     .testimonial-client-image {
@@ -77,39 +82,48 @@
         background-size: cover;
         margin: 0 auto 10px auto;
     }
+
+    .text-danger.position-absolute{
+        right: -10px;
+        top: -20px;
+    }
+
+    .testimonial-holder .text-danger.position-absolute{
+        display: none;
+    }
+
+    .testimonial-holder:hover .text-danger.position-absolute{
+        display: block;
+    }
 </style>
 
 <?php $data = get_testimonials(); ?>
 <?php if ($data): ?>
-    <div class="table-responsive">
-        <table width="100%" class="mw-ui-table mw-ui-table-basic" id="testimonials-list" style="table-layout: auto">
-            <thead>
-            <tr>
-                <th><?php _e('Image'); ?></th>
-                <th><?php _e('Name'); ?>/<?php _e('Content'); ?></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($data as $item): ?>
-                <tr data-id="<?php print $item['id'] ?>">
-                    <td class="text-center" style="width: 120px;">
-                        <div style="background-image: url('<?php print thumbnail($item['client_picture'], 75, 75) ?>');" class="testimonial-client-image"></div>
 
-                        <a class="tip mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small" data-tip="Edit Item" data-tipposition="top-center" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');">Edit</a>
-                        &nbsp;
-                        <a style="color: rgba(204, 0, 0, 1)" class="mw-ui-btn mw-ui-btn-important mw-ui-btn-outline mw-ui-btn-small tip " data-tip="Delete Item" data-tipposition="top-center" href="javascript:delete_testimonial('<?php print $item['id'] ?>');"><i class="mw-icon-bin"></i></a>
-                    </td>
-                    <td>
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php print $item['name'] ?> </label>
+    <?php foreach ($data as $item): ?>
+        <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-auto d-flex flex-column align-items-center">
+                        <div class="img-circle-holder img-absolute">
+                            <img src="<?php print thumbnail($item['client_picture'], 75, 75) ?>"/>
                         </div>
-                        <p><?php print character_limiter($item['content'], 100); ?></p>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+
+                        <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');">Edit</a>
+                    </div>
+
+                    <div class="col">
+                        <a href="javascript:delete_testimonial('<?php print $item['id'] ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
+
+                        <h6 class="font-weight-bold"><?php print $item['name'] ?> </h6>
+
+                        <p><?php print character_limiter($item['content'], 400); ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
 <?php else: ?>
     <h2 class="text-center"><?php _e('You have no testimonials'); ?></h2>
     <div class="text-center"><a href="javascript:;" onclick="add_new_testimonial()" class="mw-ui-btn"><?php _e('Create new'); ?></a></div>

@@ -138,6 +138,26 @@
         mw.on.hashParam('installed', function () {
             _modulesSort();
         });
+
+        $('#module_keyword').on('change', function () {
+            if ($(this).val() == '') {
+                mw.url.windowHashParam('search', this.value)
+            }
+        });
+
+        $('#module_keyword').keypress(function (e) {
+//            e.preventDefault();
+            var key = e.which;
+            if (key == 13) {
+                mw.url.windowHashParam('search', $('#module_keyword').val());
+                return false;
+            }
+        });
+
+        $('.js-search-keyword').on('click', function (e) {
+            e.preventDefault();
+            mw.url.windowHashParam('search', $('#module_keyword').val())
+        })
     });
 
     $(document).ready(function () {
@@ -193,10 +213,10 @@
                                 <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
                             </div>
 
-                            <input value="" type="search" class="form-control" name="module_keyword" id="module_keyword" placeholder='<?php _e("Search for modules"); ?>' autocomplete="off" onkeyup="event.keyCode===13?mw.url.windowHashParam('search',this.value):false">
+                            <input value="" type="search" class="form-control" name="module_keyword" id="module_keyword" placeholder='<?php _e("Search for modules"); ?>' autocomplete="off">
                         </div>
                     </div>
-                    <button type="button" onclick="mw.url.windowHashParam('search',$(this).parent().find('input').val())" class="btn btn-outline-primary ml-2">Search</button>
+                    <button type="button" class="btn btn-outline-primary ml-2 js-search-keyword">Search</button>
                 </form>
             </div>
 
@@ -213,24 +233,23 @@
                 <div class="row d-flex justify-content-between">
                     <div class="col-md-6">
                         <div>
+                            <label class="d-block mb-2"><?php _e("Type"); ?></label>
+
+                            <select class="selectpicker js-modules-sort-types" data-width="100%">
+                                <option value="live_edit"><?php _e("Live edit modules"); ?></option>
+                                <option value="admin" selected><?php _e("Admin modules"); ?></option>
+                                <option value="advanced"><?php _e("All modules"); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
                             <label class="d-block mb-2"><?php _e("Status"); ?></label>
 
                             <select class="selectpicker js-modules-sort-status" data-width="100%">
                                 <option value="1"><?php _e("Installed"); ?></option>
                                 <option value="0"><?php _e("Uninstalled"); ?></option>
-<!--                                <option value="2">--><?php //_e("All"); ?><!--</option>-->
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div>
-                            <label class="d-block mb-2"><?php _e("Type"); ?></label>
-
-                            <select class="selectpicker js-modules-sort-types" data-width="100%">
-                                <option value="live_edit"><?php _e("Live edit modules"); ?></option>
-                                <option value="admin"><?php _e("Admin modules"); ?></option>
-                                <option value="advanced"><?php _e("All modules"); ?></option>
+                                <!--                                <option value="2">--><?php //_e("All"); ?><!--</option>-->
                             </select>
                         </div>
                     </div>

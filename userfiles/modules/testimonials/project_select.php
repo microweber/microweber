@@ -13,7 +13,7 @@ $selected = get_option('show_testimonials_per_project', $params['option-group'])
         });
     </script>
 <?php if (!empty($data)): ?>
-    <select class="mw-ui-field mw-full-width mw_option_field" name="show_testimonials_per_project" option-group="<?php print $params['option-group'] ?>">
+    <select class="form-control mw_option_field" name="show_testimonials_per_project" option-group="<?php print $params['option-group'] ?>">
         <option value=""><?php _e('All projects'); ?></option>
         <?php foreach ($data as $item): ?>
             <?php if ($item['project_name'] != ''): ?>

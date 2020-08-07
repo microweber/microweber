@@ -11,11 +11,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill" /> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
         </h5>
     </div>
 
@@ -69,23 +69,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 margin-bottom: 12px;
             }
 
-            #add-testimonial {
-                position: absolute;
-                right: 0;
-                top: 0;
-                border-left-width: 1px;
-                border-left-style: solid;
-            }
-
             .testimonial-client-image {
                 max-width: 100px;
                 max-height: 100px;
             }
-
-            .mw-ui-btn-nav-tabs .mw-ui-btn:nth-child(2) {
-                display: none;
-            }
-
         </style>
 
         <script>
@@ -142,78 +129,55 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             });
         </script>
 
+        <div class="<?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
+            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+                <a class="btn btn-outline-secondary justify-content-center active js-list-testimonials" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Testimonials</a>
+                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center js-add-new-testimonials" data-toggle="tab" href="#new" style="display: none;"><i class="mdi mdi-card-plus mr-1"></i> Add New / Edit</a>
+            </nav>
 
-        <div class="mw-modules-tabs <?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
-            <div class="mw-accordion-item js-list-testimonials">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-navicon-round"></i> List of Testimonials
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <div class="mw-ui-field-holder">
-                        <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" href="javascript:;" onclick="add_new_testimonial()" id="add-testimonial"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+            <div id="mw-modules-tabs" class="tab-content py-3">
+                <div class="js-list-testimonials tab-pane fade show active" id="list">
+                    <div>
+                        <a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded mb-3"><i class="mdi mdi-plus"></i> &nbsp;<?php _e('New testimonial'); ?></a>
                     </div>
 
                     <module type="testimonials/list" id="list-testimonials"/>
                 </div>
-            </div>
 
-            <div class="mw-accordion-item js-add-new-testimonials">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-plus-round"></i> Add New / Edit
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <div class="mw-ui-field-holder js-add-new-button">
-                        <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" href="javascript:;" onclick="add_testimonial()" id="add-testimonial"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
-                    </div>
-
-                    <div class="">
-                        <module type="testimonials/edit" id="edit-testimonials" edit-id="0"/>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                <div class="tab-pane fade" id="settings">
                     <!-- Settings Content -->
                     <div class="module-live-edit-settings module-testimonials-settings">
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Show testimonials for project'); ?></label>
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Show testimonials for project'); ?></label>
+                            <small class="text-muted d-block mb-2">If you have more than one template for testimonials, choose which one to be visible</small>
                             <module type="testimonials/project_select" id="project-select-testimonials" option-group="<?php print $params['id'] ?>"/>
                         </div>
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Maximum number of testimonials to display'); ?></label>
-                            <input type="text" class="mw-ui-field mw-full-width mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
+
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Maximum number of testimonials to display'); ?></label>
+                            <small class="text-muted d-block mb-2">Number of the visable testimonials </small>
+                            <input type="text" class="form-control mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
                         </div>
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Maximum number of characters to display'); ?></label>
-                            <input type="text" class="mw-ui-field mw-full-width mw_option_field" name="limit" value="<?php print $limit; ?>"/>
+
+                        <div class="form-group">
+                            <label class="control-label"><?php _e('Maximum number of characters to display'); ?></label>
+                            <small class="text-muted d-block mb-2">Limit of the testimonial characters</small>
+                            <input type="text" class="form-control mw_option_field" name="limit" value="<?php print $limit; ?>"/>
                         </div>
                     </div>
                     <!-- Settings Content - End -->
                 </div>
-            </div>
 
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                <div class="tab-pane fade" id="templates">
                     <module type="admin/modules/templates"/>
                 </div>
+
+                <div class="tab-pane fade" id="new">
+                    <module type="testimonials/edit" id="edit-testimonials" edit-id="0"/>
+                </div>
             </div>
-
-
         </div>
     </div>
 </div>

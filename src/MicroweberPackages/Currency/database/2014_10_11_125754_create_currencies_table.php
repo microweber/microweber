@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePermissionTable extends Migration
+class CreateCurrenciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreatePermissionTable extends Migration
      */
     public function up()
     {
-        $tableNames = config('permission.table_names');
-
-        Schema::create($tableNames['permissions'], function (Blueprint $table) {
+        Schema::create('currencies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('guard_name');
+            $table->string('code');
+            $table->string('symbol');
+            $table->integer('precision');
+            $table->string('thousand_separator');
+            $table->string('decimal_separator');
+            $table->boolean('swap_currency_symbol');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -31,8 +33,6 @@ class CreatePermissionTable extends Migration
      */
     public function down()
     {
-        $tableNames = config('permission.table_names');
-
-        Schema::drop($tableNames['permissions']);
+        Schema::dropIfExists('currencies');
     }
 }
