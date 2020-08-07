@@ -3,7 +3,7 @@
 @section('title', 'Set role and permitions')
 
 @section('icon')
-    <i class="mdi mdi-book-account module-icon-svg-fill mr-2"></i>
+    <i class="mdi mdi-book-account module-icon-svg-fill"></i>
 @endsection
 
 @section('content')

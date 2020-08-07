@@ -3,7 +3,7 @@
 @section('title', 'Manage roles')
 
 @section('icon')
-    <i class="mdi mdi-format-list-checks module-icon-svg-fill mr-2"></i>
+    <i class="mdi mdi-format-list-checks module-icon-svg-fill"></i>
 @endsection
 
 @section('content')

@@ -1222,9 +1222,10 @@ header {
 .module-icon-svg-fill {
   display: inline-block;
   height: 24px;
-  fill: red;
+  color: $primary;
+  margin-right: 10px;
   path {
-    fill: red;
+    fill: $primary;
   }
 }
 
