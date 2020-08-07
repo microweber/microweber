@@ -10,13 +10,6 @@
         </h5>
     </div>
 
-    <style>
-        .table thead th {
-            text-transform: uppercase;
-            font-size: 13px;
-        }
-    </style>
-
     <div class="card-body pt-3">
         @yield('content')
     </div>

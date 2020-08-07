@@ -885,7 +885,7 @@ header {
 .table-permissions .module-img {
   width: 20px;
   margin-right: 4px; }
-.table-permissions tr:hover td {
+.table-permissions tr:not(.no-hover):hover td {
   background: rgba(69, 146, 255, 0.1); }
 .table-permissions th {
   border-top: 0; }

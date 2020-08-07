@@ -1272,7 +1272,7 @@ header {
     margin-right: 4px;
   }
 
-  tr:hover td {
+  tr:not(.no-hover):hover td {
     background: rgba(red($primary), green($primary), blue($primary), .1);
   }
   th {
