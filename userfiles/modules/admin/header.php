@@ -534,10 +534,10 @@ $user = get_user_by_id($user_id);
 
                 <?php $load_module = url_param('load_module'); ?>
                 <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-                    <a class="nav-link <?php print ($load_module == 'users' ? 'active' : ''); ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
-                        <i class="mdi mdi-account-multiple"></i>
-                        <?php _e("Users"); ?>
+                    <a class="nav-link <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
+                        <i class="mdi mdi-account-multiple"></i> <?php _e("Users"); ?>
                     </a>
+
                     <?php if (mw()->ui->enable_service_links): ?>
                         <?php if (mw()->ui->custom_support_url): ?>
                             <!--                            <a class="dropdown-item" href="--><?php //print mw()->ui->custom_support_url ?><!--"><strong>--><?php //_e("Support"); ?><!--</strong></a>-->
