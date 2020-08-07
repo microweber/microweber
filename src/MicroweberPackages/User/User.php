@@ -91,7 +91,7 @@ class User extends Authenticatable
     );
 
     protected $rules = [
-        'email' => ['required', 'email']
+        'email' => ['required']
     ];
 
     private $validator;
