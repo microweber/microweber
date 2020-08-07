@@ -306,6 +306,11 @@ function get_slug_permissions_module($module) {
 
 }
 
+function user_can($permission) {
+    $user = \Illuminate\Support\Facades\Auth::user();
+    return $user->can($permission);
+}
+
 function user_can_view_module($module) {
 
     $permissions = get_slug_permissions_module($module);
