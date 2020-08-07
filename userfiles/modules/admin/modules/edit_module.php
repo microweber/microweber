@@ -79,16 +79,21 @@ if ($id != false) {
             height: 35px;
             margin-bottom: 10px;
         }
+
+        .mw-modules-module-holder {
+            min-height: 140px;
+            cursor: pointer;
+        }
     </style>
 
     <div class="card style-1 h-100 mw-modules-module-holder">
-        <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column">
+        <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
             <form class="admin-modules-list-form <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0) {
                 print 'module-installed';
             } else {
                 print 'module-uninstalled';
             } ?> " id="module_admin_settings_form_<?php print $params['id']; ?>">
-                <div class="d-flex align-items-center justify-content-center flex-column" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+                <div class="d-flex align-items-center justify-content-center flex-column">
                     <?php if (isset($data['icon'])): ?>
                         <img src="<?php print $data['icon'] ?>" class="module-img" x-data-toggle="tooltip" data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
