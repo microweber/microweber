@@ -1,4 +1,4 @@
-mw.Editor.core = {
+MWEditor.core = {
     button: function(config) {
         config = config || {};
         var defaults = {
@@ -21,22 +21,70 @@ mw.Editor.core = {
             }
         };
         var settings = $.extend(true, {}, defaults, config);
-        return mw.element(settings);
-    },
-    dropdown: function (options) {
-        this.root = mw.Editor.core.element();
-        this.select = mw.select({
-            element: this.root.node,
-            multiple: false,
-            autocomplete: false,
-            tags: false,
-            data: options.data,
-            size: 'medium',
-            placeholder: options.placeholder
-        });
-        this.root.$select = this.select;
-        this.root.$node.on('mousedown touchstart', function (e) {
+        var el = mw.element(settings);
+        el.on('mousedown touchstart', function (e) {
             e.preventDefault();
         });
+        return el;
     },
-}
+
+    _dropdownOption: function (data) {
+        // data: { label: string, value: any },
+        var option = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-dropdown-option',
+                innerHTML: data.label
+            }
+        });
+        option.value = data.value;
+        return option;
+    },
+    dropdown: function (options) {
+        var lscope = this;
+        this.root = MWEditor.core.element();
+        this.select = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-controller-component mw-editor-controller-component-select'
+            }
+        });
+        var displayValNode = MWEditor.core.element({
+            props: {
+                className: 'mw-ui-btn mw-ui-size-medium mw-ui-bg-default mw-editor-select-display-value'
+            }
+        });
+        var valueHolder = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-controller-component-select-values-holder'
+            }
+        });
+        this.root.value = function (val){
+            this.displayValue(val.label);
+            this.value(val.value);
+        };
+
+        this.root.displayValue = function (val) {
+            displayValNode.html(val);
+        };
+
+        this.select.append(displayValNode);
+        this.select.append(valueHolder);
+        for (var i = 0; i < options.data.length; i++) {
+            valueHolder.append(MWEditor.core._dropdownOption(options.data[i]));
+        }
+        var _preSelect = function (node) {
+            var all = document.querySelectorAll('.mw-editor-controller-component-select.active');
+            var i = 0, l = all.length;
+            for ( ; i < l; i++) {
+                if(all[i] !== node) {
+                    all[i].classList.remove('active')
+                }
+            }
+        };
+
+        this.select.on('click', function (){
+            _preSelect(this.node);
+            this.toggleClass('active');
+        });
+        this.root.append(this.select);
+    },
+};

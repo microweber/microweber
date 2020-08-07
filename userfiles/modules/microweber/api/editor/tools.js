@@ -1,4 +1,4 @@
-mw.Editor.tools = {
+MWEditor.tools = {
     extend: function(out) {
         out = out || {};
         for (var i = 1; i < arguments.length; i++) {
@@ -13,14 +13,14 @@ mw.Editor.tools = {
                             out[key] = obj[key].slice(0);
                         }
                         else {
-                            out[key] = mw.Editor.tools.extend(out[key], obj[key]);
+                            out[key] = MWEditor.tools.extend(out[key], obj[key]);
                         }
                     }
                     else {
                         out[key] = obj[key];
                     }
                 } else {
-                    console.log(obj, arguments)
+                    out[key] = obj[key];
                 }
             }
         }

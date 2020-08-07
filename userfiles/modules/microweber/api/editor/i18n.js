@@ -1,4 +1,4 @@
-mw.Editor.i18n = {
+MWEditor.i18n = {
     en: {
         'Change': 'Change',
         'Edit image': 'Edit',

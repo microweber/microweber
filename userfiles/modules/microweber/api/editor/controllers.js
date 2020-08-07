@@ -1,6 +1,6 @@
-mw.Editor.controllers = {
+MWEditor.controllers = {
     align: function (scope, api, rootScope) {
-        this.root = mw.Editor.core.element();
+        this.root = MWEditor.core.element();
         this.root.$node.addClass('mw-editor-state-component mw-editor-state-component-align');
         this.buttons = [];
 
@@ -13,7 +13,7 @@ mw.Editor.controllers = {
         this.render = function () {
             var scope = this;
             arr.forEach(function (item) {
-                var el = mw.Editor.core.button({
+                var el = MWEditor.core.button({
                     props: {
                         className: 'mdi-format-align-' + item.icon
                     }
@@ -38,7 +38,7 @@ mw.Editor.controllers = {
     bold: function (scope, api, rootScope) {
         this.render = function () {
             var scope = this;
-            var el = mw.Editor.core.button({
+            var el = MWEditor.core.button({
                 props: {
                     className: 'mdi-format-bold'
                 }
@@ -61,7 +61,7 @@ mw.Editor.controllers = {
     },
     'italic': function(scope, api, rootScope){
         this.render = function () {
-            var el = mw.Editor.core.button({
+            var el = MWEditor.core.button({
                 props: {
                     className: 'mdi-format-italic'
                 }
@@ -83,7 +83,7 @@ mw.Editor.controllers = {
     },
     'media': function(scope, api, rootScope){
         this.render = function () {
-            var el = mw.Editor.core.button({
+            var el = MWEditor.core.button({
                 props: {
                     className: 'mdi-folder-multiple-image'
                 }
@@ -107,7 +107,7 @@ mw.Editor.controllers = {
     'link': function(scope, api, rootScope){
 
         this.render = function () {
-            var el = mw.Editor.core.button({
+            var el = MWEditor.core.button({
                 props: {
                     className: 'mdi-link'
                 }
@@ -144,10 +144,10 @@ mw.Editor.controllers = {
             var css = opt.css;
             var font = css.font();
             var size = font.size;
-            opt.controller.element.$select.displayValue(size);
+            opt.controller.element.displayValue(size);
         };
         this.render = function () {
-            var dropdown = new mw.Editor.core.dropdown({
+            var dropdown = new MWEditor.core.dropdown({
                 data: [
                     { label: '8px', value: 8 },
                     { label: '22px', value: 22 },
@@ -162,9 +162,9 @@ mw.Editor.controllers = {
     },
     format: function (scope, api, rootScope) {
         this._availableTags = [
-            { label: 'H1', value: 'h1' },
-            { label: 'H2', value: 'h2' },
-            { label: 'H3', value: 'h3' },
+            { label: '<h1>Title</h1>', value: 'h1' },
+            { label: '<h2>Title</h2>', value: 'h2' },
+            { label: '<h3>Title</h3>', value: 'h3' },
             { label: 'Paragraph', value: 'p' },
             { label: 'Block', value: 'div' }
         ];
@@ -192,10 +192,10 @@ mw.Editor.controllers = {
         this.checkSelection = function (opt) {
             var el = opt.api.elementNode(opt.selection.focusNode);
             var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
-            opt.controller.element.$select.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
+            opt.controller.element.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
         };
         this.render = function () {
-            var dropdown = new mw.Editor.core.dropdown({
+            var dropdown = new MWEditor.core.dropdown({
                 data: this._availableTags
             });
             $(dropdown.select).on('change', function (e, val) {
@@ -239,11 +239,11 @@ mw.Editor.controllers = {
                     fam = family_array.shift();
                 }
                 fam = fam.replace(/['"]+/g, '');
-                opt.controller.element.$select.displayValue(fam);
+                opt.controller.element.displayValue(fam);
 
         };
         this.render = function () {
-            var dropdown = new mw.Editor.core.dropdown({
+            var dropdown = new MWEditor.core.dropdown({
                 data: [
                     { label: 'Arial 1', value: 'Arial' },
                     { label: 'Verdana 1', value: 'Verdana' },
@@ -258,9 +258,9 @@ mw.Editor.controllers = {
     },
     undoRedo: function(scope, api, rootScope) {
         this.render = function () {
-            this.root = mw.Editor.core.element();
+            this.root = MWEditor.core.element();
             this.root.$node.addClass('mw-ui-btn-nav mw-editor-state-component')
-            var undo = mw.Editor.core.button({
+            var undo = MWEditor.core.button({
                 props: {
                     className: 'mdi-undo'
                 }
@@ -269,7 +269,7 @@ mw.Editor.controllers = {
                 rootScope.state.undo();
             });
 
-            var redo = mw.Editor.core.button({
+            var redo = MWEditor.core.button({
                 props: {
                     className: 'mdi-redo'
                 }
@@ -315,12 +315,12 @@ mw.Editor.controllers = {
     },
     'ul': function(scope, api, rootScope){
         this.render = function () {
-            var el = mw.Editor.core.button({
+            var el = MWEditor.core.button({
                 props: {
                     className: 'mdi-format-list-bulleted'
                 }
             });
-            el.$node.on('click', function (e) {
+            el.$node.on('mousedown touchstart', function (e) {
                 api.execCommand('insertUnorderedList');
             });
             return el;
@@ -332,13 +332,13 @@ mw.Editor.controllers = {
     },
     'ol': function(scope, api, rootScope){
         this.render = function () {
-            var el = mw.Editor.core.button({
+            var el = MWEditor.core.button({
                 props: {
                     className: 'mdi-format-list-numbered tip',
                     'data-tip': 'Ordered list'
                 }
             });
-            el.$node.on('click', function (e) {
+            el.$node.on('mousedown touchstart', function (e) {
                 api.execCommand('insertOrderedList');
             });
             return el;
@@ -347,5 +347,78 @@ mw.Editor.controllers = {
             opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
         };
         this.element = this.render();
-    }
+    },
+    'indent': function(scope, api, rootScope){
+        this.render = function () {
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-format-indent-increase',
+                    'data-tip': 'Indent'
+                }
+            });
+            el.$node.on('mousedown touchstart', function (e) {
+                api.execCommand('indent');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    'outdent': function(scope, api, rootScope){
+        this.render = function () {
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-format-indent-decrease',
+                    'data-tip': 'Indent'
+                }
+            });
+            el.$node.on('mousedown touchstart', function (e) {
+                api.execCommand('outdent');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    removeFormat: function (scope, api, rootScope) {
+        this.render = function () {
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-format-clear',
+                    tooltip: 'Remove Format'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.execCommand('removeFormat');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    unlink: function (scope, api, rootScope) {
+        this.render = function () {
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-link-off', tooltip: 'Unlink'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.execCommand('unlink');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+
+
 };

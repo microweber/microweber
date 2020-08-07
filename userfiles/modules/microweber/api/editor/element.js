@@ -9,6 +9,7 @@
             document: document,
             register: null
         };
+        var scope = this;
 
         this.settings = $.extend({}, defaults, options);
 
@@ -26,6 +27,13 @@
             this.$node = $(this.node);
         };
 
+        this._specialProps = function(dt, val){
+            if(dt === 'tooltip') {
+                this.node.dataset[dt] = val;
+                return true;
+            }
+        };
+
         this.setProps = function(){
             for(var i in this.settings.props) {
                 if (i === 'dataset') {
@@ -33,7 +41,10 @@
                         this.node.dataset[dt] = this.settings.props[i][dt];
                     }
                 } else {
-                    this.node[i] = this.settings.props[i];
+                    var val = this.settings.props[i];
+                    if(!this._specialProps(i, val)) {
+                        this.node[i] = val;
+                    }
                 }
             }
         };
@@ -45,8 +56,30 @@
             }
         };
 
+        this.addClass = function (cls) {
+            this.node.classList.add(cls.trim());
+        };
+
+        this.toggleClass = function (cls) {
+            this.node.classList.toggle(cls.trim());
+        };
+
+        this.removeClass = function (cls) {
+            this.node.classList.remove(cls.trim());
+        };
+
+        this.html = function (val) {
+            if(!val) {
+                return this.innerHTML;
+            }
+            this.node.innerHTML = val;
+        };
+
         this.append = function (el) {
-            return this.$node.append( el.node ? el.node : el );
+            if(el) {
+                return this.$node.append( el.node ? el.node : el );
+
+            }
         };
 
         this.prepend = function (el) {
@@ -56,8 +89,8 @@
         this.on = function(events, cb){
             events = events.trim().split(' ');
             events.forEach(function (ev) {
-                this.node.addEventListener(ev, function(e) {
-                    cb.call(this, e);
+                scope.node.addEventListener(ev, function(e) {
+                    cb.call(scope, e, this);
                 }, false);
             });
         };

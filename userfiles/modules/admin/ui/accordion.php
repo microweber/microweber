@@ -346,24 +346,25 @@
         mw.lib.require("mwui");
         $(document).ready(function () {
 
-            var editor = new mw.Editor({
+            var editor = new MWEditor({
                 selector: '#editortest',
                 mode: 'iframe',
                 controls: [
                     [
-                        'undoRedo', '|', 'fontSelector', 'fontSize', 'media', 'format'
+                        'undoRedo', '|', 'fontSelector', 'fontSize', 'media', 'format','unlink', 'removeFormat'
+
 
                     ],
-                    [ 'bold', '|', 'italic' ]
+                    [ 'bold', 'italic', '|', 'indent', 'outdent' ]
                 ],
                 content: `1Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
-                In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
+                In faucibus odio eget nisi pulvinar porttitor. <a href="http://somerandomweb.com">Nam elementum magna</a> Nam elementum magna in velit malesuada tin
                 cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="http://localhost/mw1/userfiles/media/localhost/top-matte-cars-060815-6912.jpg"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
                 , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });
 
-            var editor2 = new mw.Editor({
+            var editor2 = new MWEditor({
                 selector: '#editortest2',
                 mode: 'div',
                 controls: [
@@ -394,9 +395,8 @@
                 , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });
-            console.log(editor2)
 
-            var editor3 = new mw.Editor({
+            var editor3 = new MWEditor({
                 mode: 'document',
                 editMode: 'liveedit',
                 controls: [

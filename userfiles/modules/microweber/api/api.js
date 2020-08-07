@@ -169,15 +169,6 @@ mw.askusertostay = false;
   String.prototype.contains = function(a) {
     return !!~this.indexOf(a);
   };
-  String.prototype.tonumber = function(){
-    var n = parseFloat(this);
-    if(!isNaN(n)){
-        return n;
-    }
-    else{
-      return 0;
-    }
-  };
 
   mw.onLive = function(callback) {
     if (typeof mw.settings.liveEdit === 'boolean' && mw.settings.liveEdit) {
@@ -698,28 +689,6 @@ mw.getScripts = function (array, callback) {
     return xhr;
   };
 
-
-  api = function(action, params, callback){
-      var obj;
-    var url = mw.settings.api_url + action;
-    var type = typeof params;
-    if(type === 'string'){
-        obj = mw.serializeFields(params);
-    }
-    else if(type === 'object' && !jQuery.isArray(params)){
-        obj = params;
-    }
-    else{
-      obj = {};
-    }
-    $.post(url, obj, function(data){
-       if(typeof callback === 'function'){
-          callback.call(data);
-       }
-    }).fail(function(){
-
-    });
-  };
 
   mw.inLog = function(what) {
     if(!mw._inlog) {
