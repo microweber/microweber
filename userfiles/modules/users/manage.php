@@ -56,15 +56,22 @@ $paging = get_users($paging_data);
 $self_id = user_id();
 
 $registration_approval_required = get_option('registration_approval_required', 'users');
+
 ?>
+<style>
+    .mw-admin-users-manage-table td,
+    .mw-admin-users-manage-table td *{
+        vertical-align: middle;
+    }
+</style>
 
 <?php if (is_array($data)): ?>
-    <div class="table-responsive bg-white">
-        <table cellspacing="0" cellpadding="0" class="table table-hover m-0" width="100%">
+    <div class="table-responsive bg-white mw-admin-users-manage-table">
+        <table cellspacing="0" cellpadding="0" class="table table-hover m-0">
             <tbody>
             <?php foreach ($data as $item): ?>
                 <tr id="mw-admin-user-<?php print $item['id']; ?>">
-                    <td style="vertical-align: middle;">
+                    <td>
                         <?php if (isset($item['thumbnail']) and trim($item['thumbnail']) != ''): ?>
                             <div class="img-circle-holder img-absolute w-60">
                                 <img src="<?php print $item['thumbnail'] ?>">
@@ -76,7 +83,7 @@ $registration_approval_required = get_option('registration_approval_required', '
                         <?php endif; ?>
                     </td>
 
-                    <td style="vertical-align: middle;">
+                    <td>
                         <div class="text-primary font-weight-bold">
                             <?php if (isset($item['oauth_provider']) and trim($item['oauth_provider']) != ''): ?>
                                 <a href="<?php print $item['profile_url']; ?>" target="_blank" title="<?php print ucwords($item['oauth_provider']) ?>" class="mw-icon-<?php print $item['oauth_provider'] ?>"></a>
@@ -87,17 +94,17 @@ $registration_approval_required = get_option('registration_approval_required', '
                         </div>
                     </td>
 
-                    <td style="vertical-align: middle;">
+                    <td>
                         <small class="text-muted d-block"><?php _e("Username"); ?></small>
                         <?php print $item['username']; ?>
                     </td>
 
-                    <td style="vertical-align: middle;">
+                    <td>
                         <small class="text-muted d-block"><?php _e("Email"); ?></small>
                         <?php print $item['email']; ?>
                     </td>
 
-                    <td style="vertical-align: middle;">
+                    <td>
                         <?php if ($item['is_active'] == 1): ?>
                             <span class="mw-icon-check mw-registered" style="float: none"></span>
                         <?php else: ?>
@@ -109,12 +116,12 @@ $registration_approval_required = get_option('registration_approval_required', '
                         <?php endif; ?>
                     </td>
 
-                    <td style="vertical-align: middle;">
+                    <td>
                         <?php if ($self_id != $item['id']): ?>
                             <span class="btn btn-outline-danger btn-sm del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"><?php _e("Delete"); ?></span>
                         <?php endif; ?>
 
-                        <a class="btn btn-outline-primary btn-sm" href="#edit-user=<?php print $item['id']; ?>"><?php _e("Edit"); ?></a>
+                        <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:modules/load_module:users/edit-user:' . $item['id']); ?>"><?php _e("Edit"); ?></a>
                     </td>
                 </tr>
             <?php endforeach; ?>

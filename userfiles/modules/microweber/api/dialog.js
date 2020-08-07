@@ -241,7 +241,7 @@
             this.dialogFooter = this.options.root.createElement('div');
             this.dialogFooter.className = 'mw-dialog-footer';
             if (this.options.footer) {
-                $(this.dialogFooter).append($(this.options.footer));
+                $(this.dialogFooter).append(this.options.footer);
             }
         };
 

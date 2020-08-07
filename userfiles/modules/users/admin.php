@@ -3,12 +3,20 @@
 <?php endif; ?>
 <?php only_admin_access(); ?>
 
-<?php $action = url_param('action'); ?>
+<?php
+    $action = url_param('action');
+    $editUser = url_param('edit-user') or url_param('edituser');
 
-<?php if ($action == 'profile'): ?>
-    <module type="users/profile/my_profile_admin"/>
-    <?php return; ?>
-<?php endif; ?>
+    if ($action == 'profile'){
+        print '<module type="users/profile/my_profile_admin"/>';
+        return;
+    } elseif ($editUser !== false) {
+        print('<module type="users/edit_user" edit-user="' . $editUser . '" />');
+        return;
+    }
+
+?>
+
 
 <style>
     #mw-admin-manage-users-header{
@@ -26,7 +34,6 @@
         border-radius: 50px;
     }
 </style>
-
 
 <script type="text/javascript"> mw.require('forms.js', true); </script>
 
@@ -78,12 +85,7 @@
         }
 
         mw.load_module('users/edit_user', '#user_edit_admin_panel', function () {
-            mw.responsive.table('.users-list-table', {
-                breakPoints: {
-                    920: 3,
-                    620: 1
-                }
-            })
+            mw.responsive.table('.users-list-table')
         });
     }
 
@@ -102,121 +104,43 @@
             holder.attr(x, attrs[x]);
         }
         mw.load_module('users/manage', '#users_admin_panel', function () {
-            TableLoadded = true;
             var params = mw.url.getHashParams(window.location.hash);
-            if (!!params['edit-user']) {
-                _mw_admin_user_edit();
-            }
-            else {
-                UsersRotator.go(0)
-            }
-            mw.responsive.table('.users-list-table', {
-                breakPoints: {
-                    920: 3,
-                    620: 1
-                }
-            })
+            mw.responsive.table('.users-list-table')
         });
     }
 
-    TableLoadded = false;
-    $(window).bind("load", function () {
+    $(window).on("load", function () {
         var hash = mw.url.getHashParams(window.location.hash);
-        if (typeof hash['edit-user'] == 'undefined') {
-            if (hash.sortby === undefined) {
-                mw.url.windowHashParam('sortby', 'created_at desc');
-            }
+        if (hash.sortby === undefined) {
+            mw.url.windowHashParam('sortby', 'created_at desc');
         }
     });
 
-    _mw_admin_user_edit = function () {
-        var attrs = mw.url.getHashParams(window.location.hash);
-        var holder = mw.$('#user_edit_admin_panel');
-        if (attrs['edit-user'] !== undefined && attrs['edit-user'] !== '') {
-            holder.attr('edit-user', attrs['edit-user']);
-            mw.spinner({
-                element: '#users_admin_panel',
-                size: 32,
-                color: '#4592ff'
-            });
-            mw.load_module('users/edit_user', '#user_edit_admin_panel', function () {
-                if (typeof UsersRotator === 'undefined') {
-                    UsersRotator = mw.admin.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
-                }
-                UsersRotator.go(1, function () {
-                    mw.tools.scrollTo(mwd.querySelector('#mw_toolbar_nav'));
-                });
-            });
-        }
-    }
-
     mw.on.hashParam('is_admin', function () {
         if (this === false) return false;
-        mw.url.windowDeleteHashParam('edit-user');
         _mw_admin_users_manage();
         mw.url.hashParamToActiveNode('is_admin', 'mw-users-is-admin');
     });
 
     mw.on.hashParam('search', function () {
         if (this === false) return false;
-        mw.url.windowDeleteHashParam('edit-user');
         _mw_admin_users_manage();
     });
 
     mw.on.hashParam('is_active', function () {
         if (this === false) return false;
-        mw.url.windowDeleteHashParam('edit-user');
         _mw_admin_users_manage();
         mw.url.hashParamToActiveNode('is_active', 'mw-users-is-active');
     });
 
     mw.on.hashParam('sortby', function () {
         if (this === false) return false;
-        mw.url.windowDeleteHashParam('edit-user');
         _mw_admin_users_manage();
     });
 
     $("#main-menu-my-profile").parent().removeClass('active');
     $("#main-menu-manage-users").parent().addClass('active');
 
-    mw.on.hashParam('edit-user', function () {
-
-        if (this == false) {
-            _mw_admin_users_manage();
-            UsersRotator.go(0);
-            mw.$('#mw-admin-manage-users-header').show()
-            mw.$('.modules-index-bar, .manage-items').fadeIn();
-        } else {
-            _mw_admin_user_edit();
-            mw.$('.modules-index-bar, .manage-items').fadeOut();
-            mw.$('#mw-admin-manage-users-header').hide()
-        }
-
-        var val = this.toString();
-        var current_user = '<?php print user_id(); ?>';
-
-        if (val === 'false') {
-            mw.$("#user-section-title").html(userSections.manage);
-            mw.$("#add-new-user-btn").show();
-            $("#main-menu-my-profile").parent().removeClass('active');
-            $("#main-menu-manage-users").parent().addClass('active');
-        } else if (val === '0') {
-            mw.$("#user-section-title").html(userSections.create);
-            mw.$("#add-new-user-btn").hide();
-            $("#main-menu-my-profile").parent().removeClass('active');
-            $("#main-menu-manage-users").parent().addClass('active');
-        } else {
-            mw.$("#user-section-title").html(userSections.edit);
-            mw.$("#add-new-user-btn").hide();
-            if (val == current_user) {
-                $("#main-menu-my-profile").parent().addClass('active');
-                $("#main-menu-manage-users").parent().removeClass('active');
-            } else {
-                $("#main-menu-my-profile").parent().removeClass('active');
-                $("#main-menu-manage-users").parent().addClass('active');
-            }
-        }
-    });
 
     function mw_admin_delete_user_by_id(id) {
         mw.tools.confirm("<?php _ejs("Are you sure you want to delete this user?"); ?>", function () {
@@ -236,14 +160,7 @@ if ($mw_notif != false) {
 }
 mw()->notifications_manager->mark_as_read('users');
 ?>
-<?php if (is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            mw.url.windowHashParam('edit-user', '<?php print $mw_notif['rel_id'] ?>');
-            _mw_admin_user_edit();
-        });
-    </script>
-<?php endif; ?>
+
 
 <div class="card style-1 bg-light mb-3">
     <div class="card-header">
@@ -288,7 +205,7 @@ mw()->notifications_manager->mark_as_read('users');
             <div>
                 <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> Filter</a>
 
-                <a href="#edit-user=0" class="btn btn-primary" id="add-new-user-btn">
+                <a href="<?php print admin_url('view:modules/load_module:users/edit-user:0'); ?>" class="btn btn-primary" id="add-new-user-btn">
                     <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
                 </a>
             </div>
