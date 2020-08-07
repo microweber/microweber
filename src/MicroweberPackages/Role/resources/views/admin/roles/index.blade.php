@@ -1,6 +1,10 @@
 @extends('invoice::admin.layout')
 
-@section('title', 'Roles')
+@section('title', 'Manage roles')
+
+@section('icon')
+    <i class="mdi mdi-format-list-checks module-icon-svg-fill"></i>
+@endsection
 
 @section('content')
     @if ($errors->any())
@@ -11,38 +15,56 @@
         </div><br/>
     @endif
 
-<div class="col-md-12 text-right">
-     <a href="{{route('roles.create')}}" class="btn btn-outline-primary mb-3"><i class="mdi mdi-account-settings"></i> Add New Role</a>
-</div>
+    <div class="row d-flex justify-content-end align-items-end mb-4">
+        <div class="col-md-6">
+            <h5 class="font-weight-bold">User roles list and permitions</h5>
+            <small class="text-muted">List of your user roles below</small>
+        </div>
 
-<div class="table-responsive">
-    <table class="table table-striped table-hover dataTable js-exportable">
-        <thead>
+        <div class="col-md-6 text-right">
+            <a href="{{route('roles.create')}}" class="btn btn-success btn-sm"><i class="mdi mdi-book-account"></i> Add New role</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover dataTable js-exportable table-permissions">
+            <thead>
             <tr>
-                <th style="width: 10%;">Id</th>
-                <th style="width:90%;">Name</th>
-                <th></th>
-                <th></th>
+                <th style="width:200px;"><?php _e('Role name'); ?></th>
+                <th class="text-center"><?php _e('Users'); ?></th>
+                <th style="width:300px;" class="text-center"><?php _e('Actions'); ?></th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+           {{-- <tfoot>
+            <tr>
+                <th style="width: 50px;">ID</th>
+                <th style="width:200px;"><?php _e('Role name'); ?></th>
+                <th class="text-center"><?php _e('Users'); ?></th>
+                <th style="width:300px;" class="text-center"><?php _e('Actions'); ?></th>
+            </tr>
+            </tfoot>--}}
+            <tbody>
             @foreach($roles as $row)
-            <tr>
-                <td>{{ $row->id }}</td>
-                <td>{{ $row->name }}</td>
-                <td>
-                    <a href="{{route('roles.edit',$row->id)}}" class="btn btn-outline-primary btn-sm"><i class="mdi mdi-pencil"></i> Edit</a>
-                </td>
-                <td>
-                    <form id="delete_form" method="POST" action="{{ route('roles.destroy',$row->id) }}">
-                        {{ csrf_field() }}
-                        <input name="_method" type="hidden" value="DELETE">
-                        <button class="btn btn-outline-danger btn-sm" type="submit"><i class="mdi mdi-trash-can-outline"></i> Delete</button>
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ $row->name }}</td>
+                    <td class="text-center">{{ $row->users->count() }}</td>
+                    <td style="width:300px;" class="text-center">
+                        <a href="{{route('roles.edit',$row->id)}}" class="btn btn-link btn-sm">Edit</a>
+
+                        <form method="post" action="{{ route('roles.clone') }}" class="d-inline">
+                            <input type="hidden" value="{{ $row->id }}" name="id">
+                            <button type="submit" class="btn btn-link btn-sm">Dublicate</button>
+                        </form>
+
+                        <form id="delete_form" method="POST" action="{{ route('roles.destroy',$row->id) }}" class="d-inline">
+                            {{ csrf_field() }}
+                            <input name="_method" type="hidden" value="DELETE">
+                            <button class="btn btn-link btn-sm text-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 @endsection

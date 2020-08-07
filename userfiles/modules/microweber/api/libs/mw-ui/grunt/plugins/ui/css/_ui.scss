@@ -314,30 +314,30 @@ textarea:not(.form-control) {
   border: 0;
   border-radius: 0 !important;
   border-bottom: 1px solid $gray-400;
-  .btn{
+  .btn {
     border: 0;
     border-radius: 0 !important;
     border-top: 4px solid transparent !important;
     border-bottom: 4px solid transparent !important;
-    color: $gray-500   !important;
+    color: $gray-500 !important;
     margin-bottom: -1px;
 
-    i{
-      color:$gray-400;
+    i {
+      color: $gray-400;
     }
 
-    &:hover{
-      i{
-        color:$primary;
+    &:hover {
+      i {
+        color: $primary;
       }
 
       color: $gray-700 !important;
       background-color: $gray-100;
     }
 
-    &.active{
-      i{
-        color:$primary;
+    &.active {
+      i {
+        color: $primary;
       }
 
       color: $gray-700 !important;
@@ -1697,4 +1697,8 @@ label.control-label {
       color: $black;
     }
   }
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background: #f2f3f5;
 }

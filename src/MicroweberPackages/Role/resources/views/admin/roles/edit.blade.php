@@ -1,6 +1,10 @@
 @extends('invoice::admin.layout')
 
-@section('title', 'Roles')
+@section('title', 'Set role and permitions')
+
+@section('icon')
+    <i class="mdi mdi-book-account module-icon-svg-fill"></i>
+@endsection
 
 @section('content')
     @if ($errors->any())
@@ -66,13 +70,13 @@
                     @endif
                     @csrf
 
-                    <div class="form-group form-float">
-                        <div class="form-line">
-                            <label class="form-label">Role Name</label>
-                            <input type="text" class="form-control" name="name" value="@if(isset($role)){{$role->name}}@else{{old('name')}}@endif" required>
-                        </div>
+                    <div class="form-group mx-auto" style="max-width: 385px">
+                        <label class="control-label">Role Name</label>
+                        <small class="text-muted d-block mb-2">What is the name of the role?</small>
+                        <input type="text" class="form-control" name="name" value="@if(isset($role)){{$role->name}}@else{{old('name')}}@endif" required>
+
                         @if ($errors->has('name'))
-                            <label id="name-error" class="error" for="email">{{ $errors->first('name') }}</label>
+                            <label id="name-error" class="error d-block" for="email">{{ $errors->first('name') }}</label>
                         @endif
                     </div>
 
@@ -82,19 +86,24 @@
                         @endphp
 
                         <div class="mb-4 mt-4">
-                            <h5 class="font-weight-bold" style="text-transform: capitalize;">{{$permissionGroupName}}</h5>
-                            <small class="text-muted">
-                                The user can operate with the content of the website like edit pages, categories, posts, tags.
-                                Please check below what are the avaliable operations that user can do.
-                            </small>
+                            <div class="row d-flex justify-content-end align-items-end">
+                                <div class="col-md-8">
+                                    <div class="px-3">
+                                        <h5 class="font-weight-bold" style="text-transform: capitalize;">{{$permissionGroupName}}</h5>
+                                        <small class="text-muted">
+                                            The user can operate with the content of the website like edit pages, categories, posts, tags.
+                                            Please check below what are the avaliable operations that user can do.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)">Select All</button>
+                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)">Unselect All</button>
+                                </div>
+                            </div>
 
                             <div class="row mt-3">
                                 <div class="col-md-12">
-                                    <div class="text-right">
-                                        <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)">Select All</button>
-                                        <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)">Unselect All</button>
-                                    </div>
-
                                     <div class="bg-white p-3">
                                         <div class="table-responsive">
                                             <table class="table table-permissions" id="{{$permissionGroupHash}}">
@@ -160,28 +169,28 @@
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="module.{{strtolower($permission['name'])}}.view" @if(in_array('module.'.strtolower($permission['name']).'.view', $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-view" id="customCheck1_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['view']}}" @if(in_array($permission['permission_slugs']['view'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-view" id="customCheck1_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck1_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="module.{{strtolower($permission['name'])}}.create" @if(in_array('module.'.strtolower($permission['name']).'.create', $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-create" id="customCheck2_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['create']}}" @if(in_array($permission['permission_slugs']['create'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-create" id="customCheck2_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck2_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="module.{{strtolower($permission['name'])}}.edit" @if(in_array('module.'.strtolower($permission['name']).'.edit', $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-edit" id="customCheck3_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['edit']}}" @if(in_array($permission['permission_slugs']['edit'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-edit" id="customCheck3_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck3_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="module.{{strtolower($permission['name'])}}.delete" @if(in_array('module.'.strtolower($permission['name']).'.delete', $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-delete" id="customCheck4_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['delete']}}" @if(in_array($permission['permission_slugs']['delete'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-delete" id="customCheck4_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck4_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
@@ -197,7 +206,9 @@
                         </div>
                     @endforeach
 
-                    <button class="btn btn-outline-danger" type="reset"><i class="mdi mdi-cancel"></i> Cancel</button>
-                    <button class="btn btn-outline-success float-right waves-effect" type="submit"><i class="mdi mdi-content-save"></i> Save</button>
+                    <a href="{{route('roles.index')}}" class="btn btn-outline-secondary btn-sm">Cancel</a>
+                    <button class="btn btn-secondary btn-sm" type="reset">Reset</button>
+
+                    <button class="btn btn-success btn-sm float-right" type="submit">Save</button>
                 </form>
 @endsection

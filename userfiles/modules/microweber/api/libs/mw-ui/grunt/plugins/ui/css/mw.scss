@@ -1222,9 +1222,10 @@ header {
 .module-icon-svg-fill {
   display: inline-block;
   height: 24px;
-  fill: red;
+  color: $primary;
+  margin-right: 10px;
   path {
-    fill: red;
+    fill: $primary;
   }
 }
 
@@ -1264,7 +1265,7 @@ header {
 
   .module-img {
     width: 20px;
-    margin-right: 4px;
+    margin-right: 8px;
   }
 
   .module-img {
@@ -1278,4 +1279,5 @@ header {
   th {
     border-top: 0;
   }
+
 }

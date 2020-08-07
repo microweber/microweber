@@ -43,8 +43,8 @@ class ModuleManager
             define('EMPTY_MOD_STR', "<div class='mw-empty-module '>{module_title} {type}</div>");
         }
 
-      /*  print '         1                  ';
-        dump(debug_backtrace(1));*/
+        /*  print '         1                  ';
+          dump(debug_backtrace(1));*/
 
         if (!is_object($this->app)) {
             if (is_object($app)) {
@@ -109,22 +109,20 @@ class ModuleManager
     */
 
 
-
-
-
     private $modules_register = [];
+
     public function register($config)
     {
 
-        if(isset($config['type']) and $config['type']){
+        if (isset($config['type']) and $config['type']) {
             $type = $config['type'];
 
             $this->modules_register[] = $config;
 
             //Register controllers
-            if(isset($config['controllers']) and $config['controllers'] and is_array($config['controllers'])){
-                foreach ($config['controllers'] as $controller_key =>$controller){
-                    $this->_register_module_callback_controller($type.'/'.$controller_key, $controller);
+            if (isset($config['controllers']) and $config['controllers'] and is_array($config['controllers'])) {
+                foreach ($config['controllers'] as $controller_key => $controller) {
+                    $this->_register_module_callback_controller($type . '/' . $controller_key, $controller);
                 }
             }
         }
@@ -138,61 +136,61 @@ class ModuleManager
     }
 
 
-   /* public function register_module($module)
-    {
+    /* public function register_module($module)
+     {
 
-    }
+     }
 
-    public function generate_module($module)
-    {
-        if (!isset($module['public_folder'])) {
-            new Exception('Please set public folder for registering module');
-        }
+     public function generate_module($module)
+     {
+         if (!isset($module['public_folder'])) {
+             new Exception('Please set public folder for registering module');
+         }
 
-        $moduleName = trim($module['name']);
-        $modulePublicFolder = trim($module['public_folder']);
-        $modulePublicPath = normalize_path(modules_path() . $modulePublicFolder);
+         $moduleName = trim($module['name']);
+         $modulePublicFolder = trim($module['public_folder']);
+         $modulePublicPath = normalize_path(modules_path() . $modulePublicFolder);
 
-        $moduleIcon = '';
-        if (is_file($module['icon'])) {
-            file_put_contents($modulePublicPath . 'icon.png', file_get_contents($module['icon']));
-            $moduleIcon = $modulePublicPath . 'icon.png';
-            $moduleIcon = dir2url($moduleIcon);
-            $moduleIcon = str_replace(site_url(), '{SITE_URL}', $moduleIcon);
-        }
+         $moduleIcon = '';
+         if (is_file($module['icon'])) {
+             file_put_contents($modulePublicPath . 'icon.png', file_get_contents($module['icon']));
+             $moduleIcon = $modulePublicPath . 'icon.png';
+             $moduleIcon = dir2url($moduleIcon);
+             $moduleIcon = str_replace(site_url(), '{SITE_URL}', $moduleIcon);
+         }
 
-        if (isset($module['controller'])) {
-            file_put_contents($modulePublicPath . 'index.php', '
-<?php
-return \App::call("' . $module['controller'] . '@index");
-?>
-        ');
-        }
+         if (isset($module['controller'])) {
+             file_put_contents($modulePublicPath . 'index.php', '
+ <?php
+ return \App::call("' . $module['controller'] . '@index");
+ ?>
+         ');
+         }
 
-        if (isset($module['admin_controller'])) {
-            file_put_contents($modulePublicPath . 'admin.php', '
-<?php
-return \App::call("' . $module['admin_controller'] . '@index");
-?>
-        ');
-        }
+         if (isset($module['admin_controller'])) {
+             file_put_contents($modulePublicPath . 'admin.php', '
+ <?php
+ return \App::call("' . $module['admin_controller'] . '@index");
+ ?>
+         ');
+         }
 
-        $moduleConfig = array();
-        $moduleConfig['name'] = $module['name'];
-        $moduleConfig['icon'] = $moduleIcon;
-        $moduleConfig['author'] = "Microweber";
-        $moduleConfig['description'] = $module['name'];
-        $moduleConfig['website'] = "http://microweber.com/";
-        $moduleConfig['help'] = "http://microweber.info/modules";
-        $moduleConfig['version'] = 0.19;
-        $moduleConfig['ui'] = true;
-        $moduleConfig['ui_admin'] = true;
-        $moduleConfig['position'] = 30;
-        $moduleConfig['categories'] = "admin";
+         $moduleConfig = array();
+         $moduleConfig['name'] = $module['name'];
+         $moduleConfig['icon'] = $moduleIcon;
+         $moduleConfig['author'] = "Microweber";
+         $moduleConfig['description'] = $module['name'];
+         $moduleConfig['website'] = "http://microweber.com/";
+         $moduleConfig['help'] = "http://microweber.info/modules";
+         $moduleConfig['version'] = 0.19;
+         $moduleConfig['ui'] = true;
+         $moduleConfig['ui_admin'] = true;
+         $moduleConfig['position'] = 30;
+         $moduleConfig['categories'] = "admin";
 
-        file_put_contents($modulePublicPath . 'config.php', "<?php\n\$config = ".var_export($moduleConfig, true).";\n?>");
+         file_put_contents($modulePublicPath . 'config.php', "<?php\n\$config = ".var_export($moduleConfig, true).";\n?>");
 
-    }*/
+     }*/
 
     public function install()
     {
@@ -254,7 +252,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
 
         if (isset($options['reload_modules']) == true) {
             $modules_remove_old = true;
-            if(is_cli()){
+            if (is_cli()) {
                 $this->_install_mode = true;
             }
         }
@@ -295,7 +293,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
 
         $dir = rglob($glob_patern, 0, $dir_name);
 
-      //  var_dump($dir);
+        //  var_dump($dir);
 
         $dir_name_mods = modules_path();
         $dir_name_mods2 = elements_path();
@@ -321,7 +319,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
                     $moduleDir = $mod_name_dir = str_replace($dir_name_mods, '', $moduleDir);
                     $moduleDir = $mod_name_dir = str_replace($dir_name_mods2, '', $moduleDir);
 
-                    $def_icon = modules_path() . 'default.png';
+                    $def_icon = modules_path() . 'default.svg';
 
                     ob_start();
 
@@ -616,7 +614,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
             $return = array_merge($data, $return);
         }
 
-         if ($this->modules_register) {
+        if ($this->modules_register) {
             $return = array_merge($return, $this->modules_register);
 
         }
@@ -633,13 +631,12 @@ return \App::call("' . $module['admin_controller'] . '@index");
             return false;
         }
 
-        if(isset($this->app->parser->module_registry[$module_name]) and$this->app->parser->module_registry[$module_name]){
+        if (isset($this->app->parser->module_registry[$module_name]) and $this->app->parser->module_registry[$module_name]) {
             return true;
-        } else  if(isset($this->app->parser->module_registry[$module_name.'/index']) and $this->app->parser->module_registry[$module_name.'/index']){
+        } else if (isset($this->app->parser->module_registry[$module_name . '/index']) and $this->app->parser->module_registry[$module_name . '/index']) {
             return true;
 
         }
-
 
 
         global $mw_loaded_mod_memory;
@@ -659,7 +656,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
     {
 
-        $template_dir = templates_path().'default/';
+        $template_dir = templates_path() . 'default/';
 
         if (defined('ACTIVE_TEMPLATE_DIR')) {
             $template_dir = ACTIVE_TEMPLATE_DIR;
@@ -1074,7 +1071,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
     public function is_installed($module_name)
     {
 
-        if(!mw_is_installed()){
+        if (!mw_is_installed()) {
             return true;
         }
         $module_name = trim($module_name);
@@ -1415,7 +1412,7 @@ return \App::call("' . $module['admin_controller'] . '@index");
 
             $dir = rglob($glob_patern, 0, $dir_name);
             $replace_root = normalize_path($dir_name);
-            $def_icon = modules_path() . 'default.png';
+            $def_icon = modules_path() . 'default.svg';
             if (!empty($dir)) {
                 foreach ($dir as $module) {
                     $module_dir = dirname($module);
@@ -1432,7 +1429,10 @@ return \App::call("' . $module['admin_controller'] . '@index");
                     $config['module'] = rtrim($config['module'], '/');
 
                     $try_icon = $module_dir . $module_name . '.png';
-                    if (is_file($try_icon)) {
+                    $try_icon_svg = $module_dir . $module_name . '.svg';
+                    if (is_file($try_icon_svg)) {
+                        $config['icon'] = $this->app->url_manager->link_to_file($try_icon_svg);
+                    } elseif (is_file($try_icon)) {
                         $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } elseif (is_file($module_dir . $module_name . '.jpg')) {
                         $config['icon'] = $this->app->url_manager->link_to_file($module_dir . $module_name . '.jpg');

@@ -852,9 +852,10 @@ header {
 .module-icon-svg-fill {
   display: inline-block;
   height: 24px;
-  fill: red; }
+  color: #4592ff;
+  margin-right: 10px; }
   .module-icon-svg-fill path {
-    fill: red; }
+    fill: #4592ff; }
 
 .card-in-live-edit {
   border: 0 !important;
@@ -881,7 +882,7 @@ header {
   margin: 0; }
 .table-permissions .module-img {
   width: 20px;
-  margin-right: 4px; }
+  margin-right: 8px; }
 .table-permissions .module-img {
   width: 20px;
   margin-right: 4px; }

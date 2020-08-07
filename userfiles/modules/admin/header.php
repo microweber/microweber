@@ -134,6 +134,10 @@ if (!$shop_disabled) {
         $shop_disabled = true;
     }
 }
+
+if (!user_can_view_module(['name'=>'online_shop'])) {
+    $shop_disabled = true;
+}
 ?>
 
 
@@ -232,8 +236,8 @@ $user = get_user_by_id($user_id);
                     </li>
 
                     <li class="mx-1 d-none d-md-block">
-                        <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
-                            <span class="d-none d-md-block"><?php _e("Add New"); ?></span> <i class="mdi mdi-plus"></i>
+                        <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
                         </button>
                         <div class="dropdown-menu ">
                             <?php $custom_view = url_param('view'); ?>
@@ -258,7 +262,7 @@ $user = get_user_by_id($user_id);
                                         }
                                     }
                                     ?>
-                                    <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a>
+                                    <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
@@ -390,6 +394,7 @@ $user = get_user_by_id($user_id);
                 <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
 
 
+                <?php if (user_can_view_module(['name'=>'content'])): ?>
                 <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
                     <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                         <i class="mdi mdi-earth"></i>
@@ -423,6 +428,8 @@ $user = get_user_by_id($user_id);
                         </a>
                     </div>
                 </li>
+                <?php endif; ?>
+
                 <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                     <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
@@ -461,6 +468,7 @@ $user = get_user_by_id($user_id);
                         </div>
                     </li>
                 <?php endif; ?>
+
                 <li class="nav-item">
                     <?php
                     if (($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')) {
@@ -469,7 +477,10 @@ $user = get_user_by_id($user_id);
                         $modules_class = '';
                     }
                     ?>
-                    <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a></li>
+                    <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a>
+                </li>
+
+
                 <?php if (mw()->ui->disable_marketplace != true): ?>
                     <li class="nav-item">
                         <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
@@ -534,10 +545,10 @@ $user = get_user_by_id($user_id);
 
                 <?php $load_module = url_param('load_module'); ?>
                 <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-                    <a class="nav-link <?php print ($load_module == 'users' ? 'active' : ''); ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
-                        <i class="mdi mdi-account-multiple"></i>
-                        <?php _e("Users"); ?>
+                    <a class="nav-link <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
+                        <i class="mdi mdi-account-multiple"></i> <?php _e("Users"); ?>
                     </a>
+
                     <?php if (mw()->ui->enable_service_links): ?>
                         <?php if (mw()->ui->custom_support_url): ?>
                             <!--                            <a class="dropdown-item" href="--><?php //print mw()->ui->custom_support_url ?><!--"><strong>--><?php //_e("Support"); ?><!--</strong></a>-->

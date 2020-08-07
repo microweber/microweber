@@ -46,15 +46,27 @@ class Permission
 
         foreach ($modules as $module) {
 
-            $permissionSlug = $module['name'];
-            $permissionSlug = strtolower($permissionSlug);
-            $permissionSlug = str_replace(' ', '_', $permissionSlug);
+           $modulePermissionSlugs = self::generateModulePermissionsSlugs($module);
+           foreach ($modulePermissionSlugs as $modulePermissionSlug) {
+               $permissionSlugs[] = $modulePermissionSlug;
+           }
 
-            $permissionSlugs[] = 'module.'.strtolower($permissionSlug).'.view';
-            $permissionSlugs[] = 'module.'.strtolower($permissionSlug).'.create';
-            $permissionSlugs[] = 'module.'.strtolower($permissionSlug).'.edit';
-            $permissionSlugs[] = 'module.'.strtolower($permissionSlug).'.delete';
         }
+
+        return $permissionSlugs;
+    }
+
+    public static function generateModulePermissionsSlugs($module)
+    {
+        $permissionSlug = $module['name'];
+        $permissionSlug = strtolower($permissionSlug);
+        $permissionSlug = str_replace(' ', '_', $permissionSlug);
+
+        $permissionSlugs = [];
+        $permissionSlugs['view'] = 'module.'.strtolower($permissionSlug).'.view';
+        $permissionSlugs['create'] = 'module.'.strtolower($permissionSlug).'.create';
+        $permissionSlugs['edit'] = 'module.'.strtolower($permissionSlug).'.edit';
+        $permissionSlugs['delete'] = 'module.'.strtolower($permissionSlug).'.delete';
 
         return $permissionSlugs;
     }
@@ -74,18 +86,12 @@ class Permission
                 $module['categories'] = 'admin';
             }
 
-            $module['permission_names'] = [
-                'module.'.strtolower($module['name']).'.view',
-                'module.'.strtolower($module['name']).'.create',
-                'module.'.strtolower($module['name']).'.edit',
-                'module.'.strtolower($module['name']).'.delete',
-            ];
-
-            foreach ($module['permission_names'] as $permissionName) {
-                $findPermission = \Spatie\Permission\Models\Permission::where('name', $permissionName)->first();
+            $module['permission_slugs'] = self::generateModulePermissionsSlugs($module);
+            foreach ($module['permission_slugs'] as $permissionSlug) {
+                $findPermission = \Spatie\Permission\Models\Permission::where('name', $permissionSlug)->first();
                 if (!$findPermission) {
                     \Spatie\Permission\Models\Permission::create([
-                        'name'=>$permissionName
+                        'name'=>$permissionSlug
                     ]);
                 }
             }

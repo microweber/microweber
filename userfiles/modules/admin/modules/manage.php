@@ -1,6 +1,8 @@
-<?php if (!is_admin()) {
+<?php
+if (!is_admin()) {
     mw_error("must be admin");
-}; ?>
+};
+?>
 
 <?php $load_module = url_param('load_module');
 if ($load_module == true): ?>
@@ -11,7 +13,6 @@ if ($load_module == true): ?>
     ?>
 <?php else: ?>
     <?php
-
     $mod_params = array();
     $mod_params['ui'] = 'any';
     if (isset($params['reload_modules'])) {
@@ -22,23 +23,19 @@ if ($load_module == true): ?>
         }
 
         $mods = scan_for_modules($s);
-
     }
-    if (isset($params['category'])) {
 
+    if (isset($params['category'])) {
         $mod_params['category'] = $params['category'];
     }
 
-
     if (isset($params['keyword'])) {
-
         $mod_params['keyword'] = $params['keyword'];
     }
-    if (isset($params['search-keyword'])) {
 
+    if (isset($params['search-keyword'])) {
         $mod_params['keyword'] = $params['search-keyword'];
     }
-
 
     if (isset($params['show-ui'])) {
         if ($params['show-ui'] == 'admin') {
@@ -46,40 +43,41 @@ if ($load_module == true): ?>
         } else if ($params['show-ui'] == 'live_edit') {
             $mod_params['ui'] = '1';
         }
-
     }
 
     if (isset($params['installed'])) {
-
         $mod_params['installed'] = $params['installed'];
     } else {
         $mod_params['installed'] = 1;
     }
 
-
     if (isset($params['install_new'])) {
         $update_api = new \Microweber\Update();
         $result = $update_api->get_modules();
-
-
         $mods = $result;
-
-
     } else {
         $mods = mw()->module_manager->get($mod_params);
-
-
     }
 
-    $upds = false;
+    $allowMods = [];
+    foreach ($mods as $mod) {
+        if (!user_can_view_module($mod)) {
+            continue;
+        }
+        $allowMods[] = $mod;
+    }
+    $mods = $allowMods;
 
+    $upds = false;
     ?>
+
     <style>
         .mw-module-installed-0 {
             opacity: 0.6;
         }
     </style>
-    <?php if (isset($mods) and is_array($mods) == true): ?>
+
+    <?php if (isset($mods) and is_array($mods) == true and $mods == true): ?>
         <div class="row mw-modules">
             <?php if (is_array($upds) == true): ?>
                 <?php foreach ($upds as $upd_mod): ?>

@@ -8910,4 +8910,7 @@ label.control-label {
 .js-change-color.btn-secondary .filter-option-inner-inner {
   color: #000; }
 
+.table-striped tbody tr:nth-of-type(odd) {
+  background: #f2f3f5; }
+
 /*# sourceMappingURL=main.css.map */

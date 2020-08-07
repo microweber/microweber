@@ -18,3 +18,9 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 Route::resource('admin/roles', \MicroweberPackages\Role\Http\Controllers\Admin\RolesController::class);
 Route::resource('admin/users', \MicroweberPackages\Role\Http\Controllers\Admin\UsersController::class);
+
+
+Route::post('admin/roles/clone', [
+    'as' => 'roles.clone',
+    'uses' => '\MicroweberPackages\Role\Http\Controllers\Admin\RolesController@cloneRole'
+]);

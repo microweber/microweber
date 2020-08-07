@@ -1134,6 +1134,8 @@ class UserManager
                 }
             }
 
+            $user->assignRole($params['roles']);
+
             $save = $user->save();
 
             if (isset($params['attributes']) or isset($params['data_fields'])) {

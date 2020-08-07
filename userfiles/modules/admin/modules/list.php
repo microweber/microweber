@@ -2,23 +2,19 @@
 $modules_options = array();
 $modules_options['skip_admin'] = true;
 $modules_options['ui'] = true;
-
 $modules = array();
 $modules_by_categories = array();
 $mod_obj_str = 'modules';
-
 $template_config = mw()->template->get_config();
-
 $show_grouped_by_cats = false;
 $hide_dynamic_layouts = false;
 $disable_elements = false;
-if(isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled'){
-//dd($template_config);
-    $disable_elements = true;
 
+if (isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled') {
+    $disable_elements = true;
 }
 
-if(isset($params['hide-dynamic']) and $params['hide-dynamic']){
+if (isset($params['hide-dynamic']) and $params['hide-dynamic']) {
     $hide_dynamic_layouts = true;
 }
 
@@ -28,23 +24,16 @@ if (isset($is_elements) and $is_elements == true) {
     if (isset($params['layout_type'])) {
         $el_params['layout_type'] = $params['layout_type'];
     }
+
     $modules = mw()->layouts_manager->get($el_params);
     //$modules = false;
 
     if ($modules == false) {
         // scan_for_modules($modules_options);
         $el_params['no_cache'] = true;
-                mw()->module_manager->scan_for_elements($el_params);
+        mw()->module_manager->scan_for_elements($el_params);
         $modules = mw()->layouts_manager->get($el_params);
-
-
     }
-
-
-
-
-
-   // dd($modules);
 
     if ($modules == false) {
         $modules = array();
@@ -52,49 +41,38 @@ if (isset($is_elements) and $is_elements == true) {
 
     $elements_from_template = mw()->layouts_manager->get_elements_from_current_site_template();
     if (!empty($elements_from_template)) {
-
-        $modules = array_merge($elements_from_template,$modules);
-
+        $modules = array_merge($elements_from_template, $modules);
     }
 
-
-
-    if($disable_elements){
-    $modules = array();
-}
-
+    if ($disable_elements) {
+        $modules = array();
+    }
 
     // REMOVE
     //$modules = array();
-//return;
+    //return;
 
     // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
     $dynamic_layouts = false;
     $module_layouts_skins = false;
     $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-      $module_layouts_skins = mw()->module_manager->templates('layouts');
-    if($hide_dynamic_layouts){
-         $dynamic_layouts =  false;
-         $module_layouts_skins =  false;
+    $module_layouts_skins = mw()->module_manager->templates('layouts');
+    if ($hide_dynamic_layouts) {
+        $dynamic_layouts = false;
+        $module_layouts_skins = false;
     }
-
 
 
     // $module_layouts_skins_def = mw()->module_manager->templates('layouts',false, false, 'module_dir');
     //$module_layouts_skins_def = mw()->module_manager->templates('layouts',false, false, 'dream');
-//var_dump($module_layouts_skins_def);
-//    if(is_array($module_layouts_skins) and is_arr($module_layouts_skins_def) and ($module_layouts_skins != $module_layouts_skins_def)){
-//        $module_layouts_skins = array_merge($module_layouts_skins,$module_layouts_skins_def);
-//    }
-
-
+    //var_dump($module_layouts_skins_def);
+    //    if(is_array($module_layouts_skins) and is_arr($module_layouts_skins_def) and ($module_layouts_skins != $module_layouts_skins_def)){
+    //        $module_layouts_skins = array_merge($module_layouts_skins,$module_layouts_skins_def);
+    //    }
 } else {
     $modules = mw()->module_manager->get('installed=1&ui=1');
     $module_layouts = mw()->module_manager->get('installed=1&module=layouts');
-
-
-    $hide_from_display_list = array('layouts','template_settings');
-
+    $hide_from_display_list = array('layouts', 'template_settings');
     $sortout_el = array();
     $sortout_mod = array();
     if (!empty($modules)) {
@@ -110,10 +88,6 @@ if (isset($is_elements) and $is_elements == true) {
             $modules = array_merge($modules, $module_layouts);
         }
     }
-
-
-
-
 
     $modules_from_template = mw()->module_manager->get_modules_from_current_site_template();
     if (!empty($modules_from_template)) {
@@ -135,7 +109,7 @@ if (isset($is_elements) and $is_elements == true) {
     $is_shop_disabled = get_option('shop_disabled', 'website') == "y";
 
     if ($modules) {
-        foreach ($modules as $mkey=> $module) {
+        foreach ($modules as $mkey => $module) {
             if (!isset($module['categories']) or !($module['categories'])) {
                 $module['categories'] = 'other';
             }
@@ -166,9 +140,6 @@ if (isset($is_elements) and $is_elements == true) {
     }
 
 
-
-
-
 }
 
 
@@ -190,8 +161,6 @@ if ($modules_by_categories and is_arr($modules_by_categories) and count($modules
 if (($modules and !$modules_by_categories) or ($modules and !$show_grouped_by_cats)) {
     $modules_by_categories = array('Modules' => $modules);
 }
-
-
 
 
 if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($modules) and is_array($modules)) {
@@ -270,7 +239,6 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     $def_icon = mw()->url_manager->link_to_file($def_icon);
 
 
-
     ?>
     <?php if (isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
         <?php
@@ -319,7 +287,6 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
         <?php
 
 
-
         $i = 0; ?>
 
         <?php
@@ -332,7 +299,6 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     unselectable="on">
                     <span class="mw_module_hold">
                         <?php
-
 
 
                         if (!isset($dynamic_layout['screenshot'])): ?>
@@ -356,7 +322,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                               alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>"><?php print titlelize(_e($dynamic_layout['name'], true)); ?></span>
                     </span>
                 </li>
-            <?php
+                <?php
 
 
             endif; ?>
@@ -382,7 +348,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
             <?php if ($mod_obj_str == 'elements'): ?>
-                <li unselectable="on"  >
+                <li unselectable="on">
                     <hr>
                     <h4 onclick="$('.default-layouts', '.list-<?php print $mod_obj_str ?>').toggle()"><?php _e('Default static layouts'); ?> </h4>
                     <hr>
@@ -426,16 +392,16 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
                     ?>
                     <?php $module_id = $module_item['name_clean'] . '_' . uniqid($i); ?>
-                    <li    <?php if (isset($hide_from_display_list) and in_array($module_item['module'],$hide_from_display_list)) { ?> style="display: none"   <?php } ?>   <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
+                    <li <?php if (isset($hide_from_display_list) and in_array($module_item['module'], $hide_from_display_list)) { ?> style="display: none"   <?php } ?>   <?php if (!isset($params['clean'])) { ?> id="<?php print $module_id; ?>" <?php } ?>
                             data-module-name="<?php print $module_item['module'] ?>"
 
                         <?php if ($mod_obj_str == 'elements'): ?> style="" <?php endif; ?>
                             data-filter="<?php print $module_item['name'] ?>"
                             ondrop="true"
                             data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
-                    <?php if (isset($module_item['template'])) { ?>
+                        <?php if (isset($module_item['template'])) { ?>
                             template="<?php print $module_item['template'] ?>"
-                    <?php } ?>
+                        <?php } ?>
                             class="module-item module-item-module module-cat-toggle-<?php print $mod_cat ?> <?php if ($mod_obj_str == 'elements'): ?>default-layouts<?php endif; ?><?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>">
                     <span unselectable="on" class="mw_module_hold"
                           title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
@@ -448,8 +414,8 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
       $t = $module_item["name"];
       $t2 = _e($module_item["name"], true);
       if ($t2 and $t != $t2) {
-        //  $t = $t . ' / ' . $t2;
-          $t=$t2;
+          //  $t = $t . ' / ' . $t2;
+          $t = $t2;
       }
 
       $t = str_replace("\r", "", $t);
