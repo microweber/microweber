@@ -35,6 +35,7 @@ if (isset($data[0]) == false) {
     $data['basic_mode'] = 0;
     $data['thumbnail'] = '';
     $data['profile_url'] = '';
+    $data['phone'] = '';
 } else {
     $data = $data[0];
 }
@@ -78,6 +79,12 @@ if (isset($data[0]) == false) {
             el.disabled = true;
             mw.spinner({element: el, color: 'white'});
             mw.form.post(mw.$('#users_edit_{rand}'), '<?php print api_link('save_user') ?>', function (el) {
+
+                if (this.error) {
+                    mw.notification.error(this.error);
+                    return;
+                }
+
                 mw.notification.success(mw.lang('All changes saved'));
 
                 var UserId = this;
@@ -246,12 +253,12 @@ if (isset($data[0]) == false) {
 
                     <div class="form-group">
                         <label class="control-label"><?php _e("Email"); ?></label>
-                        <input type="text" class="form-control" name="email" value="<?php print $data['email']; ?>">
+                        <input type="email" class="form-control" name="email" value="<?php print $data['email']; ?>">
                     </div>
 
                     <div class="form-group">
                         <label class="control-label"><?php _e("Phone"); ?></label>
-                        <input type="text" class="form-control bg-warning" name="phone" value="<?php print $data['email']; ?>">
+                        <input type="text" class="form-control bg-warning" name="phone" value="<?php print $data['phone']; ?>">
                     </div>
 
                     <div class="form-group mt-4 mb-4">
