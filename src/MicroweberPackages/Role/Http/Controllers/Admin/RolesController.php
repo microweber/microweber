@@ -40,9 +40,10 @@ class RolesController extends AdminController
      */
     public function create()
     {
+        $selectedPermissions = array();
         $permissionGroups = Permission::all();
 
-        return $this->view('role::admin.roles.edit', compact('permissionGroups'));
+        return $this->view('role::admin.roles.edit', compact('permissionGroups', 'selectedPermissions'));
     }
 
     /**
@@ -82,9 +83,9 @@ class RolesController extends AdminController
 
         $selectedPermissions = $role->permissions()->pluck('name')->toArray();
 
-      /*  JavaScript::put([
-            'foo' => $selectedPermissions
-        ]);*/
+        /*  JavaScript::put([
+              'foo' => $selectedPermissions
+          ]);*/
 
         return $this->view('role::admin.roles.edit', compact('role', 'permissions', 'selectedPermissions', 'permissionGroups'));
     }
