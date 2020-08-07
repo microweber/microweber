@@ -297,7 +297,7 @@ function user_can($permission) {
 }
 
 function user_can_view_module($module) {
-
+    
     $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
     $user = \Illuminate\Support\Facades\Auth::user();
