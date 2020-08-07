@@ -61,14 +61,11 @@ if ($load_module == true): ?>
 
     $allowMods = [];
     foreach ($mods as $mod) {
-
         if (!user_can_view_module($mod)) {
             continue;
         }
-
         $allowMods[] = $mod;
     }
-
     $mods = $allowMods;
 
     $upds = false;

@@ -290,21 +290,6 @@ function get_user($id = false)
     return mw()->user_manager->get($id);
 }
 
-function get_slug_permissions_module($module) {
-
-    $permissionSlug = $module['name'];
-    $permissionSlug = strtolower($permissionSlug);
-    $permissionSlug = str_replace(' ', '_', $permissionSlug);
-
-    $permissionSlugs = [];
-    $permissionSlugs['view'] = 'module.'.strtolower($permissionSlug).'.view';
-    $permissionSlugs['create'] = 'module.'.strtolower($permissionSlug).'.create';
-    $permissionSlugs['edit'] = 'module.'.strtolower($permissionSlug).'.edit';
-    $permissionSlugs['delete'] = 'module.'.strtolower($permissionSlug).'.delete';
-
-    return $permissionSlugs;
-
-}
 
 function user_can($permission) {
     $user = \Illuminate\Support\Facades\Auth::user();
@@ -313,10 +298,9 @@ function user_can($permission) {
 
 function user_can_view_module($module) {
 
-    $permissions = get_slug_permissions_module($module);
+    $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
     $user = \Illuminate\Support\Facades\Auth::user();
-
     if ($user->can($permissions['view'])) {
         return true;
     }
