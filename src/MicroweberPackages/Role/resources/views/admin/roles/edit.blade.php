@@ -70,13 +70,13 @@
                     @endif
                     @csrf
 
-                    <div class="form-group form-float">
-                        <div class="form-line">
-                            <label class="form-label">Role Name</label>
-                            <input type="text" class="form-control" name="name" value="@if(isset($role)){{$role->name}}@else{{old('name')}}@endif" required>
-                        </div>
+                    <div class="form-group mx-auto" style="max-width: 385px">
+                        <label class="control-label">Role Name</label>
+                        <small class="text-muted d-block mb-2">What is the name of the role?</small>
+                        <input type="text" class="form-control" name="name" value="@if(isset($role)){{$role->name}}@else{{old('name')}}@endif" required>
+
                         @if ($errors->has('name'))
-                            <label id="name-error" class="error" for="email">{{ $errors->first('name') }}</label>
+                            <label id="name-error" class="error d-block" for="email">{{ $errors->first('name') }}</label>
                         @endif
                     </div>
 
