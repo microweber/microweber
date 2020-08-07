@@ -1134,7 +1134,7 @@ class UserManager
                 }
             }
 
-            $user->assignRole($params['roles']); 
+            $user->assignRole($params['roles']);
 
             $save = $user->save();
 
