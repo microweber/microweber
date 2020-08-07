@@ -30,7 +30,6 @@
         <table class="table table-striped table-hover dataTable js-exportable table-permissions">
             <thead>
             <tr>
-                <th style="width: 50px;">ID</th>
                 <th style="width:200px;"><?php _e('Role name'); ?></th>
                 <th class="text-center"><?php _e('Users'); ?></th>
                 <th style="width:300px;" class="text-center"><?php _e('Actions'); ?></th>
@@ -47,9 +46,8 @@
             <tbody>
             @foreach($roles as $row)
                 <tr>
-                    <td>{{ $row->id }}</td>
                     <td>{{ $row->name }}</td>
-                    <td class="text-center">1</td>
+                    <td class="text-center">{{ $row->users->count() }}</td>
                     <td style="width:300px;" class="text-center">
                         <a href="{{route('roles.edit',$row->id)}}" class="btn btn-link btn-sm">Edit</a>
 

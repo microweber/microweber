@@ -274,7 +274,7 @@ if (isset($data[0]) == false) {
                         <div class="form-group">
                             <label class="control-label mb-1">Role of the user</label>
                             <small class="text-muted d-block mb-1">Choose the current role of the user. <a href="#">Manage user roles</a></small>
-                            <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]">
+                            <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]" multiple="multiple">
                                 <?php
                                 $roles = \MicroweberPackages\Role\Repositories\Role::all();
                                 foreach ($roles as $role):

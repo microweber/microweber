@@ -28,7 +28,7 @@ class RolesController extends AdminController
      */
     public function index(Request $request)
     {
-        $roles = \MicroweberPackages\Role\Repositories\Role::all();
+        $roles = Role::with('users')->get();
 
         return $this->view('role::admin.roles.index', compact('roles'));
     }
