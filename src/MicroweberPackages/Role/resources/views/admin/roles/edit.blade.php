@@ -82,19 +82,24 @@
                         @endphp
 
                         <div class="mb-4 mt-4">
-                            <h5 class="font-weight-bold" style="text-transform: capitalize;">{{$permissionGroupName}}</h5>
-                            <small class="text-muted">
-                                The user can operate with the content of the website like edit pages, categories, posts, tags.
-                                Please check below what are the avaliable operations that user can do.
-                            </small>
+                            <div class="row d-flex justify-content-end align-items-end">
+                                <div class="col-md-8">
+                                    <div class="px-3">
+                                        <h5 class="font-weight-bold" style="text-transform: capitalize;">{{$permissionGroupName}}</h5>
+                                        <small class="text-muted">
+                                            The user can operate with the content of the website like edit pages, categories, posts, tags.
+                                            Please check below what are the avaliable operations that user can do.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)">Select All</button>
+                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)">Unselect All</button>
+                                </div>
+                            </div>
 
                             <div class="row mt-3">
                                 <div class="col-md-12">
-                                    <div class="text-right">
-                                        <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)">Select All</button>
-                                        <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)">Unselect All</button>
-                                    </div>
-
                                     <div class="bg-white p-3">
                                         <div class="table-responsive">
                                             <table class="table table-permissions" id="{{$permissionGroupHash}}">
