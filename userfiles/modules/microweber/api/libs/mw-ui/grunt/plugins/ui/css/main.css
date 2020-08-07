@@ -8611,6 +8611,14 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     line-height: 1;
     height: calc(1.0em + 1.5rem); }
 
+.mdi-14px.mdi-set,
+.mdi-14px.mdi:before {
+  font-size: 14px; }
+
+.mdi-18px.mdi-set,
+.mdi-18px.mdi:before {
+  font-size: 18px; }
+
 .mdi-20px.mdi-set,
 .mdi-20px.mdi:before {
   font-size: 20px; }

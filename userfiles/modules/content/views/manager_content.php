@@ -112,11 +112,11 @@
                                         </div>
 
                                         <div class="manage-post-item-links">
-                                            <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
+                                            <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
                                                 <?php _e("Edit"); ?>
                                             </a>
 
-                                            <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print content_link($item['id']); ?>?editmode:y">
+                                            <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print content_link($item['id']); ?>?editmode:y">
                                                 <?php _e("Live Edit"); ?>
                                             </a>
 
