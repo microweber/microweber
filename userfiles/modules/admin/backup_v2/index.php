@@ -14,15 +14,6 @@
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<?php
-if (!user_can('module.admin.backup_v2.index')):
-?>
-<div class="alert alert-danger"><i class="fa fa-user-secret"></i> You don't have permissions to see this page.</div>
-<?php
-return;
-endif;
-?>
-
 <style>
     #quick-parent-selector-tree{
         max-height: 40vh;
