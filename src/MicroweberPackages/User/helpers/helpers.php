@@ -300,6 +300,10 @@ function user_can($permission) {
     return $user->can($permission);
 }
 
+function module_permissions($module) {
+    return \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+}
+
 function user_can_view_module($module) {
 
     $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
