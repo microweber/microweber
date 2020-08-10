@@ -1,7 +1,7 @@
 
 /*************************************************************
  *
-        mw.Editor.addController(
+        MWEditor.addController(
             'underline',
             function () {
 
@@ -10,7 +10,7 @@
             }
         );
 
-        mw.Editor.addController({
+        MWEditor.addController({
             name: 'underline',
             render: function () {
 
@@ -23,8 +23,8 @@
  **************************************************************/
 
 
-mw.Editor.addController = function (name, render, checkSelection, dependencies) {
-    if (mw.Editor.controllers[name]) {
+MWEditor.addController = function (name, render, checkSelection, dependencies) {
+    if (MWEditor.controllers[name]) {
         console.warn(name + ' already defined');
         return;
     }
@@ -35,11 +35,11 @@ mw.Editor.addController = function (name, render, checkSelection, dependencies) 
         checkSelection = obj.checkSelection;
         dependencies = obj.dependencies;
     }
-    if(mw.Editor.controllers[name]) {
+    if(MWEditor.controllers[name]) {
         console.warn(name + ' controller is already registered in the editor')
         return;
     }
-    mw.Editor.controllers[name] = function () {
+    MWEditor.controllers[name] = function () {
         this.render = render;
         if(checkSelection) {
             this.checkSelection = checkSelection;
@@ -50,8 +50,8 @@ mw.Editor.addController = function (name, render, checkSelection, dependencies) 
 };
 
 
-mw.Editor.addInteractionController = function (name, render, interact, dependencies) {
-    if (mw.Editor.controllers[name]) {
+MWEditor.addInteractionController = function (name, render, interact, dependencies) {
+    if (MWEditor.controllers[name]) {
         console.warn(name + ' already defined');
         return;
     }
@@ -62,11 +62,11 @@ mw.Editor.addInteractionController = function (name, render, interact, dependenc
         interact = obj.interact;
         dependencies = obj.dependencies;
     }
-    if(mw.Editor.interactionControls[name]) {
+    if(MWEditor.interactionControls[name]) {
         console.warn(name + ' controller is already registered in the editor')
         return;
     }
-    mw.Editor.interactionControls[name] = function () {
+    MWEditor.interactionControls[name] = function () {
         this.render = render;
         if(interact) {
             this.interact = interact;

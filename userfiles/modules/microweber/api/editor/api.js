@@ -77,6 +77,15 @@ mw._editorApi = function (scope) {
                 return false;
             }
         },
+        isSafeMode: function(el) {
+            if (!el) {
+                var node = scope.getSelection().focusNode;
+                el = scope.api.elementNode(node);
+            }
+            var hasSafe = mw.tools.hasAnyOfClassesOnNodeOrParent(el, ['safe-mode']);
+            var regInsafe = mw.tools.parentsOrCurrentOrderMatchOrNone(el, ['regular-mode', 'safe-mode']);
+            return hasSafe && !regInsafe;
+        },
         execCommand: function (a, b, c) {
             scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
             var sel = scope.getSelection();
@@ -84,7 +93,7 @@ mw._editorApi = function (scope) {
                 if (scope.actionWindow.document.queryCommandSupported(a) && scope.api.isSelectionEditable()) {
                     b = b || false;
                     c = c || false;
-                    if (sel.rangeCount > 0 && mw.wysiwyg.execCommandFilter(a, b, c)) {
+                    if (sel.rangeCount > 0) {
                         var node = scope.api.elementNode(sel.focusNode);
                         scope.api.action(mw.tools.firstBlockLevel(node), function () {
                             scope.actionWindow.document.execCommand(a, b, c);

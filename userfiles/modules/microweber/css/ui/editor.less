@@ -14,6 +14,50 @@
         }
     }
 }
+.mw-editor-controller-component-select{
+    .mw-editor-select-display-value{
+        text-align: left;
+    }
+    .mw-editor-select-display-value:after{
+        content: "\F0140";
+        display: inline-block;
+        font: normal normal normal 24px/1 "Material Design Icons";
+        font-size: inherit;
+        text-rendering: auto;
+        line-height: inherit;
+        position: relative;
+        left: 5px;
+    }
+    .mw-editor-controller-component-select-values-holder{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #fff;
+        border: 1px solid #ccc;
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s;
+        line-height: normal;
+        cursor: pointer;
+        min-width: 100%;
+    }
+    &.active{
+        z-index: 10;
+        .mw-editor-controller-component-select-values-holder{
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    .mw-editor-dropdown-option{
+        padding: 6px 10px;
+        &+.mw-editor-dropdown-option{
+            border-top: 1px solid #ccc;
+        }
+    }
+}
+
+
+
 .mw-editor-wrapper{
     &.mw-editor-wrapper-document-mode{
         position: fixed;
@@ -23,6 +67,10 @@
         z-index: 1023;
         background-color: white;
 
+    }
+    .mw-editor-controller-component-select{
+        display: inline-block;
+        position: relative;
     }
     &.mw-editor-default{
         border:1px solid #DDDDDD;
@@ -44,6 +92,30 @@
 }
 
 .mw-small-editor-skin-default, .mw-editor-default{
+    .mw-editor-controller-component[data-tooltip]:after{
+        position: absolute;
+        content: attr(data-tooltip);
+        background: #111;
+        color: #fff;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 3px;
+        padding: 5px;
+        bottom: 110%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        pointer-events: none;
+        transition: .2s;
+        line-height: normal;
+        margin-bottom: 5px;
+    }
+    .mw-editor-controller-component[data-tooltip]:hover:after,
+    .mw-editor-controller-component[data-tooltip]:focus:after{
+        opacity: 1;
+        margin-top:0;
+        bottom: 100%;
+    }
     .mw-bar-row {
         border-bottom:1px solid #DDDDDD;
         background-color: #fff;

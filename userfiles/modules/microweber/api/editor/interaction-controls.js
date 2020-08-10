@@ -10,7 +10,7 @@
 *
 * */
 
-mw.Editor.interactionControls = {
+MWEditor.interactionControls = {
     linkTooltip: function (rootScope) {
         this.render = function () {
             var scope = this;
@@ -25,7 +25,7 @@ mw.Editor.interactionControls = {
                     className: 'mw-editor-link-tooltip-url'
                 }
             });
-            var urlUnlink = mw.Editor.core.button({
+            var urlUnlink = MWEditor.core.button({
                 props: {
                     className: 'mdi-link-off',
                 }

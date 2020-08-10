@@ -7,7 +7,7 @@ var canDestroy = function (event) {
 
 
 
-mw.Editor.leSave = {
+MWEditor.leSave = {
    prepare: function(root){
         if(!root) {
             return null;
@@ -163,11 +163,11 @@ mw.Editor.leSave = {
     }
 };
 
-mw.Editor.leCore = {};
+MWEditor.leCore = {};
 
 // methods accessible by scope.liveedit
 
-mw.Editor.liveeditMode = function(scope){
+MWEditor.liveeditMode = function(scope){
     return {
 
         prepare: {
@@ -201,7 +201,7 @@ mw.Editor.liveeditMode = function(scope){
                     }
                     var sel = scope.selection;
                     if (mw.event.is.enter(event)) {
-                        if (mw.Editor.liveeditMode.isSafeMode(event.target)) {
+                        if (MWEditor.liveeditMode.isSafeMode(event.target)) {
                             var isList = mw.tools.firstMatchesOnNodeOrParent(event.target, ['li', 'ul', 'ol']);
                             if (!isList) {
                                 event.preventDefault();
@@ -224,10 +224,10 @@ mw.Editor.liveeditMode = function(scope){
             var node = scope.api.elementNode(sel.focusNode);
             var range = sel.getRangeAt(0);
             if(!node.innerText.replace(/\s/gi, '')){
-                mw.Editor.liveeditMode._manageDeleteAndBackspaceInSafeMode.emptyNode(event, node, sel, range);
+                MWEditor.liveeditMode._manageDeleteAndBackspaceInSafeMode.emptyNode(event, node, sel, range);
                 return false;
             }
-            mw.Editor.liveeditMode._manageDeleteAndBackspaceInSafeMode.nodeBoundaries(event, node, sel, range);
+            MWEditor.liveeditMode._manageDeleteAndBackspaceInSafeMode.nodeBoundaries(event, node, sel, range);
             return true;
         },
         merge: {

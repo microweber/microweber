@@ -1,6 +1,5 @@
 
 
-
 var EditorPredefinedControls = {
     'default': [
         [ 'bold', '|', 'italic' ],
@@ -11,7 +10,7 @@ var EditorPredefinedControls = {
     ]
 };
 
-mw.Editor = function (options) {
+window.MWEditor = function (options) {
     var defaults = {
         regions: null,
         document: document,
@@ -56,7 +55,7 @@ mw.Editor = function (options) {
         this.settings.selector = this.document.body;
     }
     if(!this.settings.selector){
-        console.warn('mw.Editor - selector not specified');
+        console.warn('MWEditor - selector not specified');
         return;
     }
 
@@ -71,8 +70,8 @@ mw.Editor = function (options) {
     this.interactionControls = [];
     this.createInteractionControls = function () {
         this.settings.interactionControls.forEach(function(ctrl){
-            if (mw.Editor.interactionControls[ctrl]) {
-                var int = new mw.Editor.interactionControls[ctrl](scope, scope);
+            if (MWEditor.interactionControls[ctrl]) {
+                var int = new MWEditor.interactionControls[ctrl](scope, scope);
                 if(!int.element){
                     int.element = int.render();
                 }
@@ -83,11 +82,15 @@ mw.Editor = function (options) {
     };
 
     this.lang = function (key) {
-        if (mw.Editor.i18n[this.settings.language] && mw.Editor.i18n[this.settings.language][key]) {
-            return  mw.Editor.i18n[this.settings.language][key];
+        if (MWEditor.i18n[this.settings.language] && MWEditor.i18n[this.settings.language][key]) {
+            return  MWEditor.i18n[this.settings.language][key];
         }
         console.warn(key + ' is not specified for ' + this.settings.language + ' language');
         return key;
+    };
+
+    this.require = function () {
+
     };
 
     this.addDependencies = function (obj){
@@ -111,22 +114,23 @@ mw.Editor = function (options) {
         node.rel = 'stylesheet';
         scope.actionWindow.document.body.appendChild(node);
     };
-    this.addDependency = function (url, type) {
+    this.addDependency = function (obj) {
+        targetWindow = obj.targetWindow || scope.actionWindow;
         if (!type) {
             type = url.split('.').pop();
         }
         if(!type || !url) return;
         var node;
         if(type === 'css') {
-            node = scope.actionWindow.document.createElement('link');
+            node = targetWindow.document.createElement('link');
             node.rel = 'stylesheet';
             node.href = url;
             node.type = 'text/css';
         } else if(type === 'js') {
-            node = scope.actionWindow.document.createElement('script');
+            node = targetWindow.document.createElement('script');
             node.src = url;
         }
-        scope.actionWindow.document.body.appendChild(node);
+        targetWindow.document.body.appendChild(node);
     };
 
     this.interactionControlsRun = function (data) {
@@ -340,7 +344,7 @@ mw.Editor = function (options) {
                 }
             });
 
-        var icon = mw.Editor.core.button({
+        var icon = MWEditor.core.button({
             tag:'span',
             props: {
                 className: ' mw-editor-group-button',
@@ -500,7 +504,7 @@ mw.Editor = function (options) {
     };
 
     this.liveEditMode = function () {
-        this.liveedit = mw.Editor.liveeditMode(this.actionWindow.document.body, scope);
+        this.liveedit = MWEditor.liveeditMode(this.actionWindow.document.body, scope);
     };
 
     this._initInputRecordTime = null;
@@ -518,8 +522,8 @@ mw.Editor = function (options) {
     };
 
     this.init = function () {
-        this.controllers = mw.Editor.controllers;
-        this.controllersHelpers = mw.Editor.controllersHelpers;
+        this.controllers = MWEditor.controllers;
+        this.controllersHelpers = MWEditor.controllersHelpers;
         this.initState();
         this._onReady();
         this.createWrapper();
@@ -536,7 +540,7 @@ mw.Editor = function (options) {
             this._initInputRecord();
             mw.$(this.settings.selector).append(this.wrapper)[0].mwEditor = this;
         }
-        this.controlGroupManager()
+        this.controlGroupManager();
 
     };
     this.init();

@@ -293,6 +293,10 @@ function get_user($id = false)
 
 function user_can($permission) {
     $user = \Illuminate\Support\Facades\Auth::user();
+    if (!$user) {
+        return false;
+    }
+
     return $user->can($permission);
 }
 
@@ -301,6 +305,10 @@ function user_can_view_module($module) {
     $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
     $user = \Illuminate\Support\Facades\Auth::user();
+    if (!$user) {
+        return false;
+    }
+
     if ($user->can($permissions['view'])) {
         return true;
     }

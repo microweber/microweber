@@ -1,5 +1,5 @@
 <?php only_admin_access(); ?>
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>,.mw_adm_cont_head_change_holder', function () {
             mw.notification.success("<?php _ejs("Advanced settings updated"); ?>.");
@@ -10,21 +10,18 @@
     });
 
     function settings_load_module(title, module) {
-        $("#mw_admin_edit_settings_load_module_popup").remove()
-
+        $("#mw_admin_edit_settings_load_module_popup").remove();
         mw_admin_edit_settings_load_module = mw.dialog({
             content: '<div id="mw_admin_edit_settings_load_module"></div>',
             title: title,
             id: 'mw_admin_edit_settings_load_module_popup'
         });
-
         var params = {}
         mw.load_module(module, '#mw_admin_edit_settings_load_module', null, params);
     }
 
-
     function reloadMwDB() {
-        api('mw_post_update');
+        $.post( mw.settings.api_url + 'mw_post_update' );
         mw.notification.success("<?php _ejs("The DB was reloaded"); ?>.");
     }
 </script>
