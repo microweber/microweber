@@ -98,7 +98,7 @@ class RolesController extends AdminController
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|max:20|unique:roles,' . $id,
+            'name' => 'required|max:20|unique:roles',
             'permission' => 'required',
         ]);
 
