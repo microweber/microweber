@@ -14,6 +14,15 @@
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+<?php
+if (!user_can('module.admin.backup_v2.index')):
+?>
+<div class="alert alert-danger"><i class="fa fa-user-secret"></i> You don't have permissions to see this page.</div>
+<?php
+return;
+endif;
+?>
+
 <style>
     #quick-parent-selector-tree{
         max-height: 40vh;
@@ -99,12 +108,17 @@
 
     <div class="mw_edit_page_default" id="mw_edit_page_left">
 
+        <?php
+        if (user_can('module.admin.backup_v2.index')):
+        ?>
         <div class="mw-ui-btn-nav pull-left">
             <a href="javascript:;" onclick="mw.backup_export.choice('#export-template')" class="mw-ui-btn mw-ui-btn-notification">
                 <i class="mw-icon-download"></i>&nbsp; <span><?php _e("Create backup & export content"); ?></span>
             </a>
         </div>
-
+        <?php
+        endif;
+        ?>
         <template id="export-template">
 
             <div class="export-stepper">
@@ -316,11 +330,16 @@
 
         </template>
 
+        <?php
+        if (user_can('module.admin.backup_v2.create') || user_can('module.admin.backup_v2.edit')):
+        ?>
         <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info pull-right">
             <i class="mw-icon-upload"></i>&nbsp;
             <span><?php _e("Upload file"); ?></span>
         </span>
-
+        <?php
+        endif;
+        ?>
 		<!-- Upload file notification loader -->
         <div id="mw_uploader_loading" class="mw-ui-btn mw-ui-btn-notification" style="display:none;"><?php _e("Uploading files"); ?></div>
 
