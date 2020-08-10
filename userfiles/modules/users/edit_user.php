@@ -125,6 +125,7 @@ if (isset($data[0]) == false) {
                 }
             });
         });
+
         reset_password = function (y) {
             var y = y || false;
             var field2 = mw.$(".js-reset-password");
@@ -139,6 +140,7 @@ if (isset($data[0]) == false) {
             }
         }
     </script>
+
     <style>
         .js-img-holder:hover img {
             display: none;
@@ -239,7 +241,7 @@ if (isset($data[0]) == false) {
                                 <div class="input-group input-group-password mb-3 append-transparent <?php if ($data['id'] != 0): ?>semi_hidden js-reset-password<?php endif; ?>">
                                     <input type="password" <?php if ($data['id'] != 0): ?>disabled="disabled"<?php endif; ?> name="password" class="form-control" id="reset_password"/>
                                     <div class="input-group-append">
-                                        <span class="input-group-text <?php if ($data['id'] != 0): ?>js-show-password<?php endif; ?> bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
+                                        <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +251,7 @@ if (isset($data[0]) == false) {
                                 <div class="input-group input-group-password mb-3 append-transparent">
                                     <input type="password" name="verify_password" class="form-control" id="verify_password"/>
                                     <div class="input-group-append">
-                                        <span class="input-group-text <?php if ($data['id'] != 0): ?>js-show-password<?php endif; ?> bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
+                                        <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
                                     </div>
                                 </div>
                             </div>
