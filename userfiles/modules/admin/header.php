@@ -135,7 +135,7 @@ if (!$shop_disabled) {
     }
 }
 
-if (!user_can_view_module(['module'=>'online_shop'])) {
+if (!user_can_view_module(['module'=>'shop'])) {
     $shop_disabled = true;
 }
 ?>
@@ -439,32 +439,57 @@ $user = get_user_by_id($user_id);
                                 }; ?></span>
                         </a>
                         <div class="dropdown-menu">
+
+                            <?php
+                            if (user_can_view_module(['module'=>'shop.products'])):
+                            ?>
                             <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>"><?php _e("Products"); ?></a>
+                            <?php
+                            endif;
+                            ?>
+
+                            <?php
+                            if (user_can_view_module(['module'=>'shop.orders'])):
+                            ?>
                             <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
                                 <?php _e("Orders"); ?>
                                 <?php if ($view == 'shop') {
                                     print $order_notif_html;
                                 } ?>
                             </a>
+                            <?php
+                            endif;
+                            ?>
 
                             <!--
                             <a href="<?php /*print admin_url(); */ ?>view:shop/action:clients" class="dropdown-item <?php /*if ($action == 'clients'): */ ?> active <?php /*endif; */ ?>">
                                 <?php /*_e("Clients"); */ ?>
                             </a>-->
 
+                            <?php
+                            if (user_can_view_module(['module'=>'shop.customers'])):
+                            ?>
                             <?php if (class_exists(\MicroweberPackages\Customer\Customer::class)): ?>
                                 <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
                                     <?php _e("Clients"); ?>
                                 </a>
                             <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php
+                            if (user_can_view_module(['module'=>'shop.invoices'])):
+                            ?>
                             <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
                                 <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
                                     <?php _e("Invoices"); ?>
                                 </a>
                             <?php endif; ?>
+                            <?php endif; ?>
+
                             <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
                             </a>
+
                         </div>
                     </li>
                 <?php endif; ?>
