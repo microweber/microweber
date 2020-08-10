@@ -293,6 +293,11 @@ function get_user($id = false)
 
 function user_can($permission) {
     $user = \Illuminate\Support\Facades\Auth::user();
+
+    if ($user->is_admin == 1) {
+        return true;
+    }
+    
     if (!$user) {
         return false;
     }
