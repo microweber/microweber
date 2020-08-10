@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Online shop | Invoices";
+$config['name'] = "Invoices";
 $config['author'] = "Microweber";
 $config['ui_admin'] = false;
 $config['ui'] = false;
