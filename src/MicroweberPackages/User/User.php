@@ -91,7 +91,7 @@ class User extends Authenticatable
     );
 
     protected $rules = [
-        'email' => ['required']
+        'email' => 'required'
     ];
 
     private $validator;
@@ -199,10 +199,20 @@ class User extends Authenticatable
         return ;
     }
 
+    public function getValidatorMessages()
+    {
+        return $this->validator->messages()->toArray();
+    }
+
     public function validateAndFill($data)
     {
+        if (!empty($data['password']) && !empty($data['verify_password'])) {
+            $this->rules['password'] = 'required|min:4';
+            $this->rules['verify_password'] = 'required|same:password';
+        }
+
         $this->validator = \Validator::make($data, $this->rules);
-        if ($this->validator->fails()) {
+        if ($this->validator->fails()) { 
             return false;
         }
         $this->fill($data);

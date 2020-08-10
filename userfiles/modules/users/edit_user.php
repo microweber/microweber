@@ -247,7 +247,7 @@ if (isset($data[0]) == false) {
                             <div class="form-group <?php if ($data['id'] != 0): ?>semi_hidden js-reset-password<?php endif; ?>">
                                 <label class="control-label"><?php _e("Password again"); ?></label>
                                 <div class="input-group input-group-password mb-3 append-transparent">
-                                    <input type="password" name="password_again" class="form-control bg-warning" id="password_again"/>
+                                    <input type="password" name="verify_password" class="form-control" id="verify_password"/>
                                     <div class="input-group-append">
                                         <span class="input-group-text <?php if ($data['id'] != 0): ?>js-show-password<?php endif; ?> bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
                                     </div>
