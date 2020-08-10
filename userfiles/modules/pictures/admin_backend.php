@@ -356,27 +356,14 @@ if (!isset($data["thumbnail"])) {
             mw._postsImageUploader = new mw.filePicker({
                 element: '#backend_image_uploader',
                 nav: 'dropdown',
-                footer: false, a
-                boxed
-            :
-            false,
-                dropDownTargetMode
-            :
-            'dialog',
-                label
-            :
-            mw.lang('Media'),
-                hideHeader
-            :
-            true,
-                multiple
-            :
-            true,
-                accept
-            :
-            'image/*',
-        })
-            ;
+                footer: false,
+                boxed: false,
+                dropDownTargetMode: 'dialog',
+                label: mw.lang('Media'),
+                hideHeader: true,
+                multiple: true,
+                accept: 'image/*',
+            });
 
             mw._postsImageUploader._thumbpreload = function () {
                 var el = mw.$('<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>');

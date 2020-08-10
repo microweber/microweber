@@ -18,22 +18,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 
     <div class="card-body pt-3">
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
 
-        <div class="mw-modules-tabs">
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <!-- Settings Content -->
-                    <div class="module-live-edit-settings module-breadcrumb-settings">
-                        <?php $selected_start_depth = get_option('data-start-from', $params['id']); ?>
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="settings">
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-breadcrumb-settings">
+                    <?php $selected_start_depth = get_option('data-start-from', $params['id']); ?>
 
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Root level"); ?></label>
-                            <select name="data-start-from" class="mw-ui-field mw_option_field mw-full-width">
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Root level"); ?></label>
+                        <div>
+                            <select name="data-start-from" class="mw_option_field selectpicker" data-width="100%">
                                 <option value='' <?php if ('' == $selected_start_depth): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
                                 <option value='page' <?php if ('page' == $selected_start_depth): ?>   selected="selected"  <?php endif; ?>><?php _e("Page"); ?></option>
                                 <?php ?>
@@ -42,21 +41,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </select>
                         </div>
                     </div>
-                    <!-- Settings Content - End -->
                 </div>
+                <!-- Settings Content - End -->
             </div>
 
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <module type="admin/modules/templates"/>
-                </div>
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
             </div>
         </div>
-
     </div>
 </div>
