@@ -18,19 +18,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 
     <div class="card-body pt-3">
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
 
-        <div class="mw-modules-tabs">
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <module type="admin/modules/templates"/>
-                </div>
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="templates">
+                <module type="admin/modules/templates"/>
             </div>
         </div>
-
     </div>
 </div>

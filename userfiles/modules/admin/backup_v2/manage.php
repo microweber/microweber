@@ -16,22 +16,23 @@
         <th><?php _e("Date"); ?></th>
         <th><?php _e("Time"); ?></th>
         <th><?php _e("Size"); ?></th>
+          <?php
+          if (user_can('module.admin.backup_v2.create') || user_can('module.admin.backup_v2.edit')):
+          ?>
         <th><?php _e("Download"); ?></th>
         <th><?php _e("Import"); ?></th>
+          <?php
+          endif;
+          ?>
+          <?php
+          if (user_can('module.admin.backup_v2.destroy')):
+          ?>
         <th><?php _e("Delete"); ?></th>
+          <?php
+          endif;
+          ?>
       </tr>
     </thead>
-    <tfoot>
-      <tr>
-        <td><?php _e("Filename"); ?></td>
-        <td><?php _e("Date"); ?></td>
-        <td><?php _e("Time"); ?></td>
-        <td><?php _e("Size"); ?></td>
-        <td><?php _e("Download"); ?></td>
-        <td><?php _e("Import"); ?></td>
-        <td><?php _e("Delete"); ?></td>
-      </tr>
-    </tfoot>
     <tbody>
       <?php
       $backupV2 = new BackupV2();
@@ -46,13 +47,25 @@
           <td><span class="mw-date"><?php print $item['date']  ?></span></td>
           <td><span class="mw-date"><?php print $item['time']  ?></span></td>
           <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
+
+          <?php
+          if (user_can('module.admin.backup_v2.create') || user_can('module.admin.backup_v2.edit')):
+          ?>
           <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('BackupV2/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
-
         <a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.backup_import.import('<?php print $item['filename']  ?>')"><?php _e("Import"); ?></a>
-
         </td>
+          <?php
+          endif;
+          ?>
+
+          <?php
+          if (user_can('module.admin.backup_v2.destroy')):
+          ?>
         <td><a class="show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.backup_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
+          <?php
+          endif;
+          ?>
       </tr>
       <?php $i++; endforeach ; ?>
       <?php endif; ?>

@@ -1281,3 +1281,59 @@ header {
   }
 
 }
+
+.module-layouts-viewer {
+  column-count: 2;
+  column-gap: 1em;
+  margin-top: 20px;
+
+  .default-layout {
+    position: absolute;
+    background: $primary;
+    color: #fff;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 10px;
+  }
+
+  .screenshot.active {
+    border: 1px solid $primary;
+  }
+
+  .screenshot.active .holder .title {
+    background: $primary;
+  }
+}
+
+.module-layouts-viewer,
+.current-template {
+  .screenshot {
+    display: inline-block;
+    margin: 0 0 1em;
+    width: 100%;
+    border: 1px solid $dark;
+
+    .holder img {
+      display: block;
+    }
+
+    .holder .title {
+      background: $dark;
+      color: #fff;
+      padding: 5px 8px;
+      font-size: 12px;
+    }
+
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  span.title {
+    color: $dark;
+    font-size: 15px;
+    display: block;
+    margin: 20px 0 10px 0;
+  }
+}

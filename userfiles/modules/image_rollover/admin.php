@@ -21,13 +21,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class="card-body pt-3">
         <style>
-            #module-image-rollover-settings,
-            #module-image-rollover-settings * {
-                -webkit-box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                box-sizing: border-box;
-            }
-
             #font-and-text {
                 width: 100%;
             }
@@ -58,14 +51,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 height: 100px;
             }
 
-            #sizeslider,
-            #fontsizeslider {
-                width: 380px;
-            }
-
-            #module-image-rollover-settings .mw-ui-box-content {
-                padding: 20px;
-            }
 
         </style>
 
@@ -82,6 +67,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         }
         if ($size == false or $size == '') {
             $size = 60;
+        }
+
+        $no_image = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image.jpg';
+
+        if (!$default_image) {
+            $default_image = $no_image;
+        }
+        if (!$rollover_image) {
+            $rollover_image = $no_image;
         }
         ?>
 
@@ -190,98 +184,75 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             });
         </script>
 
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
 
-        <div class="mw-modules-tabs">
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <!-- Settings Content -->
-                    <div class="module-live-edit-settings  module-image-rollover-settings" id="module-image-rollover-settings">
-                        <div class="mw-ui-row-nodrop image-row">
-                            <div class="mw-ui-col">
-                                <div class="mw-ui-col-container center">
-                                    <h3>Default image</h3>
-                                    <img src="<?php print $default_image; ?>" class="the-image" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                                    <br>
-                                    <div style="padding-top: 15px; clear: both"></div>
-                                    <span class="mw-ui-btn mw-ui-btn-info mw-full-width" id="upload-image"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
-                                    <div class="center m-t-10">
-                                        <?php _e('or'); ?><br/>
-                                        <a href="javascript:mw_admin_image_rollover_upload_browse_existing()" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small m-t-10"><?php _e('browse uploaded'); ?></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mw-ui-col">
-                                <div class="mw-ui-col-container center">
-                                    <h3>Rollover image</h3>
-                                    <img src="<?php print $rollover_image; ?>" class="the-image-rollover" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
-                                    <br>
-                                    <div style="padding-top: 15px; clear: both"></div>
-                                    <span class="mw-ui-btn mw-ui-btn-info mw-full-width" id="upload-image-rollover"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
-                                    <div class="center m-t-10">
-                                        <?php _e('or'); ?><br/>
-                                        <a href="javascript:mw_admin_image_rollover_upload_browse_existing(true)" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small m-t-10"><?php _e('browse uploaded'); ?></a>
-                                    </div>
-                                </div>
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="settings">
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings  module-image-rollover-settings" id="module-image-rollover-settings">
+                    <div class="row image-row">
+                        <div class="col-md-6 mb-4">
+                            <h6 class="font-weight-bold text-center">Default image</h6>
+                            <img src="<?php print $default_image; ?>" class="the-image mx-auto mt-3 d-block" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                            <br>
+                            <div class="d-block d-md-flex justify-content-between align-items-center p-1">
+                                <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
+                                <a href="javascript:mw_admin_image_rollover_upload_browse_existing()" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _e('Browse uploaded'); ?></a>
                             </div>
                         </div>
 
-                        <div class="mw-ui-row-nodrop image-row">
-                            <div class="mw-ui-col">
-                                <hr/>
-
-                                <label class="mw-ui-label" style="padding-top: 10px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
-                                <div id="sizeslider" class="mw-slider"></div>
-
-                                <br>
-
-                                <label class="mw-ui-check">
-                                    <input type="checkbox" checked="" id="size_auto" value="pending">
-                                    <span></span><span><?php _e('Auto'); ?></span>
-                                </label>
-
-                                <?php if (!isset($params['menu_rollover'])) { ?>
-                                    <div class="mw-ui-col-container" style="padding-top: 20px;">
-                                        <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
-                                            <label class="mw-ui-label">Title:</label>
-                                            <input type="text" class="mw-ui-field mw-ui-filed-big mw_option_field w100" placeholder="<?php _e('Enter title'); ?>" value="<?php print $text; ?>" name="text" id="text"/>
-                                        </div>
-
-                                        <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
-                                            <label class="mw-ui-label">Links to:</label>
-                                            <input type="text" class="mw-ui-field mw-ui-filed-big mw_option_field w100" placeholder="<?php _e('Enter URL'); ?>" value="<?php print $text; ?>" name="href-url" id="href-url"/>
-                                        </div>
-                                    </div>
-                                <?php } ?>
+                        <div class="col-md-6 mb-4">
+                            <h6 class="font-weight-bold text-center">Rollover image</h6>
+                            <img src="<?php print $rollover_image; ?>" class="the-image-rollover mx-auto mt-3 d-block" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                            <br>
+                            <div class="d-block d-md-flex justify-content-between align-items-center p-1">
+                                <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image-rollover"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
+                                <a href="javascript:mw_admin_image_rollover_upload_browse_existing(true)" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _e('Browse uploaded'); ?></a>
                             </div>
                         </div>
-
-                        <input type="hidden" class="mw_option_field" name="size" id="size" value="<?php print $size; ?>"/>
-                        <input type="hidden" class="mw_option_field" name="default_image" id="default_image" value="<?php print $default_image; ?>"/>
-                        <input type="hidden" class="mw_option_field" name="rollover_image" id="rollover_image" value="<?php print $rollover_image; ?>"/>
                     </div>
-                    <!-- Settings Content - End -->
+
+                    <hr class="thin"/>
+
+                    <div class="form-group">
+                        <label class="control-label" style="padding-top: 10px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
+                        <div id="sizeslider" class="mw-slider"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="size_auto" value="pending" checked="">
+                            <label class="custom-control-label" for="size_auto"><?php _e('Auto'); ?></label>
+                        </div>
+                    </div>
+
+                    <?php if (!isset($params['menu_rollover'])) { ?>
+                        <div class="form-group">
+                            <label class="control-label">Link title</label>
+                            <small class="text-muted mb-2 d-block">Create a link below the image</small>
+                            <input type="text" class="mw_option_field form-control" value="<?php print $text; ?>" name="text" id="text"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Link URL</label>
+                            <small class="text-muted mb-2 d-block">Type the URL for the link</small>
+                            <input type="text" class="mw_option_field form-control" placeholder="<?php _e('http://'); ?>" value="<?php print $text; ?>" name="href-url" id="href-url"/>
+                        </div>
+                    <?php } ?>
+
+                    <input type="hidden" class="mw_option_field" name="size" id="size" value="<?php print $size; ?>"/>
+                    <input type="hidden" class="mw_option_field" name="default_image" id="default_image" value="<?php print $default_image; ?>"/>
+                    <input type="hidden" class="mw_option_field" name="rollover_image" id="rollover_image" value="<?php print $rollover_image; ?>"/>
                 </div>
+                <!-- Settings Content - End -->
             </div>
 
-            <?php if (!isset($params['menu_rollover'])) { ?>
-                <div class="mw-accordion-item">
-                    <div class="mw-ui-box-header mw-accordion-title">
-                        <div class="header-holder">
-                            <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-                        </div>
-                    </div>
-                    <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                        <module type="admin/modules/templates"/>
-                    </div>
-                </div>
-            <?php } ?>
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
+            </div>
         </div>
-
     </div>
 </div>

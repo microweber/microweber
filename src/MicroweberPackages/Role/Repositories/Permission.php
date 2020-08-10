@@ -46,6 +46,8 @@ class Permission
 
         foreach ($modules as $module) {
 
+            // Get module config
+
            $modulePermissionSlugs = self::generateModulePermissionsSlugs($module);
            foreach ($modulePermissionSlugs as $modulePermissionSlug) {
                $permissionSlugs[] = $modulePermissionSlug;
@@ -58,15 +60,20 @@ class Permission
 
     public static function generateModulePermissionsSlugs($module)
     {
-        $permissionSlug = $module['name'];
+        if (!isset($module['module']) || empty($module['module'])) {
+            throw new \Exception('Please, set module path.');
+        }
+
+        $permissionSlug = $module['module'];
         $permissionSlug = strtolower($permissionSlug);
         $permissionSlug = str_replace(' ', '_', $permissionSlug);
+        $permissionSlug = str_replace('/', '.', $permissionSlug);
 
         $permissionSlugs = [];
-        $permissionSlugs['view'] = 'module.'.strtolower($permissionSlug).'.view';
+        $permissionSlugs['index'] = 'module.'.strtolower($permissionSlug).'.index';
         $permissionSlugs['create'] = 'module.'.strtolower($permissionSlug).'.create';
         $permissionSlugs['edit'] = 'module.'.strtolower($permissionSlug).'.edit';
-        $permissionSlugs['delete'] = 'module.'.strtolower($permissionSlug).'.delete';
+        $permissionSlugs['destroy'] = 'module.'.strtolower($permissionSlug).'.destroy';
 
         return $permissionSlugs;
     }
