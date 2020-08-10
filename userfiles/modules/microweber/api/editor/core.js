@@ -81,6 +81,7 @@ MWEditor.core = {
             }
         };
 
+
         this.select.on('click', function (){
             _preSelect(this.node);
             this.toggleClass('active');

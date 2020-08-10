@@ -12,7 +12,7 @@ mw.Spinner = function(options){
     this.options = options;
 
     this.options.size = this.options.size || 20;
-    this.options.color = this.options.color || '#394cb0';
+    this.options.color = this.options.color || '#4592ff';
     this.options.insertMode = this.options.insertMode || 'append';
 
     this.color = function(val){

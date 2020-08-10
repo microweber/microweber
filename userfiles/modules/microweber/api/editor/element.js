@@ -85,6 +85,16 @@
         this.prepend = function (el) {
             return this.$node.prepend( el.node ? el.node : el );
         };
+        this._disabled = false;
+
+        Object.defineProperty(this, "disabled", {
+            get : function () { return this._disabled; },
+            set : function (value) {
+                this._disabled = value;
+                this.node.disabled = this._disabled;
+                this.node.dataset.disabled = this._disabled;
+            }
+        });
 
         this.on = function(events, cb){
             events = events.trim().split(' ');

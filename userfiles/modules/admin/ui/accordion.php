@@ -355,7 +355,7 @@
 
 
                     ],
-                    [ 'bold', 'italic', '|', 'indent', 'outdent' ]
+                    [ 'bold', 'italic', '|', 'indent', 'outdent', 'table' ]
                 ],
                 content: `1Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
                 In faucibus odio eget nisi pulvinar porttitor. <a href="http://somerandomweb.com">Nam elementum magna</a> Nam elementum magna in velit malesuada tin
@@ -369,7 +369,7 @@
                 mode: 'div',
                 controls: [
                     [
-                        'undoRedo', '|', 'fontSelector', 'link', 'media', 'ul', 'ol',
+                        'undoRedo', '|', 'fontSelector', 'link', 'media', 'ul', 'ol', 'table',
                         {
                             group: {
                                 icon: 'mdi mdi-format-bold',
@@ -391,7 +391,7 @@
                 ],
                 content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
                 In faucibus odio eget nisi pulvinar porttitor. <a href="http://somerandomweb.com">Nam elementum magna</a> in velit malesuada tin
-                cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="http://localhost/mw1/userfiles/media/localhost/top-matte-cars-060815-6912.jpg"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
+                cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="http://localhost/mw/userfiles/media/localhost/192kb.jpg"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
                 , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });

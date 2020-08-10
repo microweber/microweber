@@ -145,6 +145,7 @@ MWEditor.controllers = {
             var font = css.font();
             var size = font.size;
             opt.controller.element.displayValue(size);
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -193,6 +194,7 @@ MWEditor.controllers = {
             var el = opt.api.elementNode(opt.selection.focusNode);
             var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
             opt.controller.element.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -240,6 +242,7 @@ MWEditor.controllers = {
                 }
                 fam = fam.replace(/['"]+/g, '');
                 opt.controller.element.displayValue(fam);
+                opt.controller.element.disabled = !opt.api.isSelectionEditable();
 
         };
         this.render = function () {
@@ -411,6 +414,23 @@ MWEditor.controllers = {
             });
             el.on('mousedown touchstart', function (e) {
                 api.execCommand('unlink');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    table: function (scope, api, rootScope) {
+        this.render = function () {
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-table-large', tooltip: 'Insert Table'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.insertHTML('<table class="mw-ui-table" border="1" width="100%"><tr><td></td><td></td></tr><tr><td></td><td></td></tr></table>');
             });
             return el;
         };

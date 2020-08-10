@@ -27,7 +27,7 @@ window.MWEditor = function (options) {
         iframeAreaSelector: null,
         activeClass: 'mw-ui-btn-info',
         interactionControls: [
-            'image', 'linkTooltip'
+            'image', 'linkTooltip', 'table'
         ],
         language: 'en',
         rootPath: mw.settings.modules_url + 'microweber/api/editor',
@@ -164,12 +164,17 @@ window.MWEditor = function (options) {
                 var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
                 var css = mw.CSSParser(target);
                 var api = scope.api;
+                var event = e.originaleEvent ? e.originaleEvent : e;
+                var localTarget = event.target;
 
                 var iterData = {
                     selection: scope.selection,
                     target: target,
+                    localTarget: localTarget,
+                    isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
                     css: css.get,
                     cssNative: css.css,
+                    event: event,
                     api: api,
                     scope: scope,
                     isEditable: scope.api.isSelectionEditable()
