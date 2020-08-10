@@ -64,8 +64,6 @@ class Permission
             throw new \Exception('Please, set module path.');
         }
 
-        var_dump($module);
-
         $permissionSlug = $module['module'];
         $permissionSlug = strtolower($permissionSlug);
         $permissionSlug = str_replace(' ', '_', $permissionSlug);
