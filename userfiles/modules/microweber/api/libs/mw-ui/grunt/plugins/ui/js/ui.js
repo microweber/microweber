@@ -77,8 +77,10 @@ $(document).ready(function () {
 
         if ('password' == field.attr('type')) {
             field.prop('type', 'text');
+            $(this).find('i').removeClass('text-muted').addClass('text-primary');
         } else {
             field.prop('type', 'password');
+            $(this).find('i').removeClass('text-primary').addClass('text-muted');
         }
     });
 
