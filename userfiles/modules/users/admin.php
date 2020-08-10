@@ -4,29 +4,30 @@
 <?php only_admin_access(); ?>
 
 <?php
-    $action = url_param('action');
-    $editUser = url_param('edit-user') or url_param('edituser');
+$action = url_param('action');
+$editUser = url_param('edit-user') or url_param('edituser');
 
-    if ($action == 'profile'){
-        print '<module type="users/profile/my_profile_admin"/>';
-        return;
-    } elseif ($editUser !== false) {
-        print('<module type="users/edit_user" edit-user="' . $editUser . '" />');
-        return;
-    }
+if ($action == 'profile') {
+    print '<module type="users/profile/my_profile_admin"/>';
+    return;
+} elseif ($editUser !== false) {
+    print('<module type="users/edit_user" edit-user="' . $editUser . '" />');
+    return;
+}
 
 ?>
 
 
 <style>
-    #mw-admin-manage-users-header{
+    #mw-admin-manage-users-header {
         display: flex;
     }
-    #users-manage-body{
+
+    #users-manage-body {
         position: relative;
     }
 
-    #users-manage-body .mw-spinner{
+    #users-manage-body .mw-spinner {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -264,7 +265,7 @@ mw()->notifications_manager->mark_as_read('users');
                                             mw.url.windowHashParam('is_active', val);
                                         }
                                     }
-                                    function resetFilters(){
+                                    function resetFilters() {
                                         mw.url.windowDeleteHashParam('is_active')
                                         mw.url.windowDeleteHashParam('is_admin')
                                         mw.url.windowDeleteHashParam('sortby')
@@ -302,7 +303,9 @@ mw()->notifications_manager->mark_as_read('users');
                             </div>
                         </div>
                     </div>
-                    <button onclick="resetFilters()" class="btn btn-outline-primary" type="button">Reset filters</button>
+                    <div class="text-center">
+                        <button onclick="resetFilters()" class="btn btn-outline-primary btn-sm" type="button">Reset filters</button>
+                    </div>
                 </div>
             </div>
         </div>
