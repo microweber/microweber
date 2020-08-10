@@ -43,7 +43,7 @@
                             <p class="text-center">
                                 You don't have permissions to see <b><?php echo $module_info['name']; ?></b> module. <br /><br />
                                 <button onclick="window.history.back()" class="btn btn-outline-dark btn-sm"><i class="mdi mdi-chevron-double-left"></i> Back to modules</button>
-                            </p>
+                            </p> 
                         </div>
                     </div>
                     <?php
