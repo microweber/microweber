@@ -145,7 +145,7 @@ if ($last_page_front != false) {
     }
     ?>
 
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between">
         <h5>
             <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
                 <span class="<?php if ($type == 'shop'): ?>mai-market2<?php else: ?>mw-icon-<?php print $type; ?><?php endif; ?>"></span>
@@ -200,7 +200,7 @@ if ($last_page_front != false) {
         $add_new_btn_url = admin_url('view:content#action=new:') . $url_param_type;
         ?>
 
-        <div style="min-width:50%;">
+        <div>
 
             <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                 <div class="mw-ui-dropdown">
