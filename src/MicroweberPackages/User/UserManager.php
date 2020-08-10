@@ -1092,7 +1092,10 @@ class UserManager
         $data_to_save = $this->app->format->clean_xss($data_to_save);
 
 
-        if ($user->validateAndFill($data_to_save)) {
+        $checkValidator = $user->validateAndFill($data_to_save);
+        $getValidatorMessages = $user->getValidatorMessages();
+
+        if ($checkValidator) {
 
             if (isset($data_to_save['id'])) {
 
@@ -1136,7 +1139,11 @@ class UserManager
 
             $user->assignRole($params['roles']);
 
-            $save = $user->save();
+            try {
+                $save = $user->save();
+            } catch (\Exception $e) {
+                return array('error' => $e->getMessage());
+            }
 
             if (isset($params['attributes']) or isset($params['data_fields'])) {
                 $params['extended_save'] = true;
@@ -1162,7 +1169,13 @@ class UserManager
             $params['id'] = $id_to_return;
             $this->app->event_manager->trigger('mw.user.save', $params);
         } else {
-            return array('error' => 'Error saving the user!');
+            $errorMessages = '';
+            foreach ($getValidatorMessages as $validatorInputs) {
+                foreach($validatorInputs as $validatorInput) {
+                    $errorMessages .= $validatorInput . '<br />';
+                }
+            }
+            return array('error' => $errorMessages);
         }
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
