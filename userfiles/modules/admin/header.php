@@ -135,7 +135,7 @@ if (!$shop_disabled) {
     }
 }
 
-if (!user_can_view_module(['name'=>'online_shop'])) {
+if (!user_can_view_module(['module'=>'online_shop'])) {
     $shop_disabled = true;
 }
 ?>
@@ -394,7 +394,7 @@ $user = get_user_by_id($user_id);
                 <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
 
 
-                <?php if (user_can_view_module(['name'=>'content'])): ?>
+                <?php if (user_can_view_module(['module'=>'content'])): ?>
                 <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
                     <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                         <i class="mdi mdi-earth"></i>
