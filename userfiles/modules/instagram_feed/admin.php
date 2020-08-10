@@ -50,62 +50,54 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
 
-        <div class="mw-modules-tabs">
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
+
+        <div class="tab-content py-3">
+
+
+            <div class="tab-pane fade show active" id="settings">
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-instagram-feed-settings">
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Instagram Username'); ?></label>
+                        <input type="text" class="mw_option_field form-control" placeholder="Example: microweber" name="username" value="<?php print $username; ?>">
                     </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <!-- Settings Content -->
-                    <div class="module-live-edit-settings module-instagram-feed-settings">
 
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Instagram Username'); ?></label>
-                            <input type="text" class="mw_option_field mw-ui-field mw-full-width" placeholder="Example: microweber" name="username" value="<?php print $username; ?>">
-                        </div>
-
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Number of items'); ?></label>
-                            <input type="number" class="mw_option_field mw-ui-field mw-full-width" name="number_of_items" value="<?php print $number_of_items; ?>">
-                        </div>
-
-                        <br/>
-
-                        <b>Api Settings</b>
-
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Instagram Api Client'); ?></label>
-                            <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_client" value="<?php print $instagram_api_client; ?>">
-                        </div>
-
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Instagram Api Secret'); ?></label>
-                            <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_secret" value="<?php print $instagram_api_secret; ?>">
-                        </div>
-
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e('Instagram Api Access Token'); ?></label>
-                            <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="instagram_api_access_token" value="<?php print $instagram_api_access_token; ?>">
-                        </div>
-
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Number of items'); ?></label>
+                        <input type="number" class="mw_option_field form-control" name="number_of_items" value="<?php print $number_of_items; ?>">
                     </div>
-                    <!-- Settings Content - End -->
+
+                    <hr class="thin"/>
+
+                    <h5 class="font-weight-bold mb-3">Api Settings</h5>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Instagram Api Client'); ?></label>
+                        <input type="text" class="mw_option_field form-control" name="instagram_api_client" value="<?php print $instagram_api_client; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Instagram Api Secret'); ?></label>
+                        <input type="text" class="mw_option_field form-control" name="instagram_api_secret" value="<?php print $instagram_api_secret; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Instagram Api Access Token'); ?></label>
+                        <input type="text" class="mw_option_field form-control" name="instagram_api_access_token" value="<?php print $instagram_api_access_token; ?>">
+                    </div>
+
                 </div>
+                <!-- Settings Content - End -->
             </div>
 
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <module type="admin/modules/templates"/>
-                </div>
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
             </div>
         </div>
-
     </div>
 </div>

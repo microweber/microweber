@@ -201,7 +201,7 @@ if (isset($params['live_edit'])) {
                     </div>
                 </div>
 
-                <p>Please fill the fields to create a new category</p>
+                <p>Please fill the fields to create or edit a new category</p>
 
                 <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
                     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
@@ -361,7 +361,7 @@ if (isset($params['live_edit'])) {
                             <label class="control-label">Other settings</label>
                             <small class="text-muted d-block mb-2">Discover more advanced options</small>
 
-                            <button type="button" class="btn btn-outline-secondary btn-sm btn-rounded" data-toggle="collapse" data-target="#show-more">Show more</button>
+                            <button type="button" class="btn btn-link btn-sm px-0" data-toggle="collapse" data-target="#show-more">Show more</button>
 
                             <div class="collapse mt-3" id="show-more">
                                 <div class="row">
