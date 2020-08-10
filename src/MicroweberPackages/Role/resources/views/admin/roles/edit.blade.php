@@ -169,7 +169,7 @@
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['view']}}" @if(in_array($permission['permission_slugs']['view'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-view" id="customCheck1_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['index']}}" @if(in_array($permission['permission_slugs']['index'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-view" id="customCheck1_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck1_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>
@@ -190,7 +190,7 @@
 
                                                         <td class="text-center">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['delete']}}" @if(in_array($permission['permission_slugs']['delete'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-delete" id="customCheck4_{{$permissionHash}}">
+                                                                <input type="checkbox" name="permission[]" value="{{$permission['permission_slugs']['destroy']}}" @if(in_array($permission['permission_slugs']['destroy'], $selectedPermissions))checked="checked" @endif class="custom-control-input js-all-delete" id="customCheck4_{{$permissionHash}}">
                                                                 <label class="custom-control-label" for="customCheck4_{{$permissionHash}}"></label>
                                                             </div>
                                                         </td>

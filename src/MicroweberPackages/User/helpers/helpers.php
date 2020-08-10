@@ -309,7 +309,7 @@ function user_can_view_module($module) {
         return false;
     }
 
-    if ($user->can($permissions['view'])) {
+    if ($user->can($permissions['index'])) {
         return true;
     }
 
