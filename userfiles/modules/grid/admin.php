@@ -17,7 +17,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </h5>
     </div>
 
-    <div class="card-body pt-3">
-        <p class="text-center p-3">This module has not settings</p>
+    <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column">
+        <div class="icon-title d-inline-flex">
+            <i class="mdi mdi-view-grid-plus"></i> <h5 class="mb-0"><?php _e('This module has no settings'); ?></h5>
+        </div>
     </div>
 </div>
