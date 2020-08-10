@@ -8001,8 +8001,7 @@ textarea:not(.form-control) {
     border-radius: 0 !important;
     border-top: 4px solid transparent !important;
     border-bottom: 4px solid transparent !important;
-    color: #adb5bd !important;
-    margin-bottom: -1px; }
+    color: #adb5bd !important; }
     .btn-hover-style-3 .btn i {
       color: #cfcfcf; }
     .btn-hover-style-3 .btn:hover {
@@ -8674,6 +8673,15 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     color: #919191 !important; }
 .muted-cards-2 .card:hover {
   background: #fcfcfc;
+  border-color: #eeeff1;
+  -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+  -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+  box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11); }
+
+.muted-cards-3 .card:not(:hover) .js-move {
+  visibility: hidden; }
+.muted-cards-3 .card:hover {
+  background: #fafafa;
   border-color: #eeeff1;
   -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);

@@ -320,7 +320,7 @@ textarea:not(.form-control) {
     border-top: 4px solid transparent !important;
     border-bottom: 4px solid transparent !important;
     color: $gray-500 !important;
-    margin-bottom: -1px;
+    //margin-bottom: -1px;
 
     i {
       color: $gray-400;
@@ -1347,6 +1347,23 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   .card:hover {
     background: #fcfcfc;
+    border-color: #eeeff1;
+    -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+    -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+    box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+  }
+}
+
+.muted-cards-3 {
+  .card:not(:hover) {
+    .js-move {
+      visibility: hidden;
+    }
+
+  }
+
+  .card:hover {
+    background: #fafafa;
     border-color: #eeeff1;
     -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
