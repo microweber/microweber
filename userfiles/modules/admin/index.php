@@ -36,8 +36,8 @@
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-center align-items-center">
                                 <div class="icon-title">
-                                    <i class="mdi mdi-account-lock text-dark"></i> <h5 class="mb-0">Permission
-                                        denied!</h5>
+                                    <i class="mdi mdi-account-lock text-dark"></i>
+                                    <h5 class="mb-0">Permission denied!</h5>
                                 </div>
                             </div>
                             <p class="text-center">
