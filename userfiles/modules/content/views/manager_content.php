@@ -9,6 +9,12 @@
         <div class="manage-posts-holder-inner muted-cards">
             <?php if (is_array($data)): ?>
                 <?php foreach ($data as $item): ?>
+
+                    <?php
+                        echo $item['title']. '<br /><hr />';
+                        continue;
+                    ?>
+
                     <?php if (isset($item['id'])): ?>
                         <?php
                         $pub_class = '';
@@ -86,10 +92,10 @@
                                             <a target="_top" href="<?php print $edit_link_front; ?>" class="btn btn-link p-0">
                                                 <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title"><?php print strip_tags($item['title']) ?></h5>
                                             </a>
-                                            <?php //mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
+                                            <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
 
-                                            <?php $cats =[];// content_categories($item['id']); ?>
-                                            <?php $tags =[];// content_tags($item['id'], false); ?>
+                                            <?php $cats = content_categories($item['id']); ?>
+                                            <?php $tags = content_tags($item['id'], false); ?>
                                             <?php if ($cats): ?>
                                                 <span class="manage-post-item-cats-inline-list">
                                                     <?php foreach ($cats as $ck => $cat): ?>
@@ -107,32 +113,32 @@
 
 
                                             <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_top" href="<?php print content_link($item['id']); ?>?editmode:y">
-                                                <small class="text-muted"><?php //print content_link($item['id']); ?></small>
+                                                <small class="text-muted"><?php print content_link($item['id']); ?></small>
                                             </a>
                                         </div>
 
                                         <div class="manage-post-item-links">
                                             <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
-                                                <?php //_e("Edit"); ?>
+                                                <?php _e("Edit"); ?>
                                             </a>
 
-                                            <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php // print content_link($item['id']); ?>?editmode:y">
-                                                <?php //_e("Live Edit"); ?>
+                                            <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print content_link($item['id']); ?>?editmode:y">
+                                                <?php _e("Live Edit"); ?>
                                             </a>
 
                                             <a class="btn btn-outline-danger btn-sm" href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
-                                                <?php //_e("Delete"); ?>
+                                                <?php _e("Delete"); ?>
                                             </a>
-                                            <?php // print $append; ?>
+                                            <?php print $append; ?>
                                         </div>
                                     </div>
 
                                     <div class="col item-author manage-post-item-col-4">
-                                        <span class="text-muted" title="<?php //print user_name($item['created_by']); ?>"><?php //print user_name($item['created_by'], 'username') ?></span>
+                                        <span class="text-muted" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                                     </div>
 
                                     <div class="col item-comments manage-post-item-col-5" style="max-width: 100px;">
-                                        <?php // mw()->event_manager->trigger('module.content.manager.item', $item) ?>
+                                        <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
                                     </div>
                                 </div>
                             </div>
