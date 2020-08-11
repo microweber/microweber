@@ -12,13 +12,6 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require": {
-    "illuminate/database": "*",
-    "jeremeamia/superclosure": "*",
-    "microweber-packages/microweber-database-manager": "dev-master",
-    "microweber-packages/microweber-event-manager": "dev-master"
-  },
-
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Option\\": ""

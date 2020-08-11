@@ -12,9 +12,7 @@
             "email": "bobi@microweber.com"
         }
   ],
-  "require": {
-        "ezyang/htmlpurifier": "*"
-  },
+
    "autoload": {
     "psr-4": {
       "MicroweberPackages\\Helper\\": ""

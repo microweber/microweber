@@ -12,9 +12,6 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require": {
-    "microweber-packages/microweber-helpers": "dev-master"
-  },
   "require-dev": {
     "phpunit/phpunit": "^9.0"
   },

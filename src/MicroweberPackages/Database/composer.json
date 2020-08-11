@@ -12,16 +12,6 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require": {
-    "jeremeamia/superclosure": "*",
-    "microweber-packages/laravel-tagged-file-cache": "dev-master",
-    "microweber-packages/microweber-event-manager": "dev-master",
-    "microweber-packages/microweber-helpers": "dev-master"
-  },
-  "require-dev": {
-    "orchestra/testbench": "*",
-    "mockery/mockery": "*"
-  },
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Database\\": ""

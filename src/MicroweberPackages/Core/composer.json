@@ -12,15 +12,7 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require": {
-    "microweber-packages/microweber-cms": "dev-master",
-    "microweber-packages/microweber-shop": "dev-master",
-    "microweber-packages/microweber-package-manager": "dev-master",
-    "microweber-packages/microweber-option-manager": "dev-master",
-    "microweber-packages/laravel-config-save": "dev-master",
-    "microweber-packages/laravel-tagged-file-cache": "dev-master"
-  },
-  "autoload": {
+   "autoload": {
     "psr-4": {
       "MicroweberPackages\\Core\\": ""
     }
