@@ -212,7 +212,7 @@ if (!$shop_disabled) {
 
 </script>
 
-<?php if (is_admin()): ?>
+<?php if (has_access()): ?>
 
     <?php
 
@@ -264,7 +264,7 @@ if (!$shop_disabled) {
 <?php endif; ?>
 
 <div id="mw-admin-container">
-    <?php if (is_admin()): ?>
+    <?php if (has_access()): ?>
     <header class="position-sticky sticky-top bg-white">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">

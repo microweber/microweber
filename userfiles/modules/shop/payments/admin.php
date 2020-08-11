@@ -1,4 +1,4 @@
-<?php if (!is_admin()) {
+<?php if (!has_access()) {
     return;
 } ?>
 <script type="text/javascript">

@@ -1,4 +1,4 @@
-<?php if (is_admin() == false) {
+<?php if (has_access() == false) {
     return array('error' => 'Not logged in as admin');
 }
 

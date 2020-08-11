@@ -26,6 +26,6 @@ description: Default
     </div>
 </div>
 
-<?php if (is_admin()): ?>
+<?php if (has_access()): ?>
     <?php print notif(_e('Click here to edit the FB Page URL', true)); ?>
 <?php endif; ?>

@@ -27,7 +27,7 @@ class NotificationsManager
     public function read($id)
     {
         if (defined('MW_API_CALL')) {
-            $is_admin = $this->app->user_manager->is_admin();
+            $is_admin = $this->app->user_manager->has_access();
             if ($is_admin == false) {
                 return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
             }
@@ -140,7 +140,7 @@ class NotificationsManager
 
     public function mark_all_as_read($params = false)
     {
-        $is_admin = $this->app->user_manager->is_admin();
+        $is_admin = $this->app->user_manager->has_access();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
         }
@@ -173,7 +173,7 @@ class NotificationsManager
     public function delete($id)
     {
 
-        $is_admin = $this->app->user_manager->is_admin();
+        $is_admin = $this->app->user_manager->has_access();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
         }

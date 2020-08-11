@@ -4,7 +4,7 @@
 return print('This file is deprecated ' . __FILE__);
 
 
-only_admin_access();
+has_access();
 $comments_data = array();
 //$comments_data['in_table'] = 'comments';
 $comments_data['cache_group'] = 'comments/global';

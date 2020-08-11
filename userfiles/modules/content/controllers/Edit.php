@@ -45,13 +45,12 @@ class Edit
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
-        $is_admin = $this->app->user_manager->admin_access();
     }
 
     function index($params)
     {
 
-        if (is_admin() == false) {
+        if (has_access() == false) {
             return;
         }
         if (isset($params['content_type']) and $params['content_type'] == 'category') {

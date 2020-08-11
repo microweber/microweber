@@ -13,7 +13,7 @@ event_bind('website.privacy_settings', function () {
 api_expose('get_contact_entry_by_id');
 function get_contact_entry_by_id($params)
 {
-	only_admin_access();
+	has_access();
 	
 	$form_data = mw()->forms_manager->get_entires('single=1&id=' . $params['id']);
 	

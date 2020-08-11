@@ -250,10 +250,10 @@ if (array_key_exists('types', $_GET)) {
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a href="javascript:;" class="mw-ui-btn active"><?php _e("My Computer"); ?></a>
             <a href="javascript:;" class="mw-ui-btn"><?php _e("URL"); ?></a>
-            <?php if (is_admin()): ?>
+            <?php if (has_access()): ?>
                 <a href="javascript:;" class="mw-ui-btn" id="browseTab"><?php _e("Uploaded"); ?></a>
             <?php endif; ?>
-             <?php if (is_admin()): ?>
+             <?php if (has_access()): ?>
                 <a href="javascript:;" class="mw-ui-btn" id="unslashImagesTab"><?php _e("Media Library"); ?></a>
             <?php endif; ?>
         </div>

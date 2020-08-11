@@ -136,7 +136,7 @@ class MediaManager
 
     public function upload_progress_check()
     {
-        if ($this->app->user_manager->is_admin() == false) {
+        if ($this->app->user_manager->has_access() == false) {
             mw_error('not logged in as admin');
         }
         if (isset($_SERVER['HTTP_REFERER'])) {
@@ -173,7 +173,7 @@ class MediaManager
 
     public function upload($data)
     {
-        if ($this->app->user_manager->is_admin() == false) {
+        if ($this->app->user_manager->has_access() == false) {
             mw_error('not logged in as admin');
         }
         $files_utils = new \MicroweberPackages\Utils\Files();
@@ -306,7 +306,7 @@ class MediaManager
 
     public function reorder($data)
     {
-        $adm = $this->app->user_manager->is_admin();
+        $adm = $this->app->user_manager->has_access();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -331,7 +331,7 @@ class MediaManager
 
     public function delete($data)
     {
-        $adm = $this->app->user_manager->is_admin();
+        $adm = $this->app->user_manager->has_access();
         $ids_to_delete = array();
         if (!isset($data['id']) and (!is_array($data) and intval($data) > 0)) {
             $ids_to_delete[] = intval($data);
@@ -1165,7 +1165,7 @@ class MediaManager
 
     public function create_media_dir($params)
     {
-        only_admin_access();
+        has_access();
         $resp = array();
         // $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = media_uploads_path();
@@ -1200,7 +1200,7 @@ class MediaManager
 
     public function delete_media_file($params)
     {
-        only_admin_access();
+        has_access();
 
         // $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = media_uploads_path();

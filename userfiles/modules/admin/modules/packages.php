@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 
 <module type="admin/developer_tools/package_manager"/>
 

@@ -1,5 +1,5 @@
 <?php
-if (!is_admin()) {
+if (!has_access()) {
     mw_error("must be admin");
 };
 ?>

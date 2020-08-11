@@ -37,7 +37,7 @@ class Api
      */
     static function get($params)
     {
-        if (is_admin() == false) {
+        if (has_access() == false) {
             mw_error("Must be admin");
         }
 

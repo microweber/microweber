@@ -234,8 +234,8 @@ class shipping_to_country
     // getInstance method
     function save($data)
     {
-        if (is_admin() == false) {
-            error('Must be admin');
+        if (has_access() == false) {
+            error('You dont have access to see this page');
 
         }
         if (isset($data['id']) and $data['id'] == 0) {
@@ -281,7 +281,7 @@ class shipping_to_country
     function delete($data)
     {
 
-        $adm = is_admin();
+        $adm = has_access();
         if ($adm == false) {
             error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -340,7 +340,7 @@ class shipping_to_country
     function reorder($data)
     {
 
-        $adm = is_admin();
+        $adm = has_access();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

@@ -1,4 +1,4 @@
-<?php if(!is_admin()){error("must be admin");}; ?>
+<?php if(!has_access()){error("must be admin");}; ?>
 <!-- h2 stays for breadcrumbs -->
 <h2><a href="#" class="active"><?php _e("Create a Backup"); ?></a></h2>
 <form action="" class="jNice">

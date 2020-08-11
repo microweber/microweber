@@ -54,7 +54,7 @@ $paypal_is_test = (get_option('paypalpro_testmode', 'payments')) == 'y';
 
 ?>
 
-<?php if ($paypal_is_test == true and is_admin()): ?>
+<?php if ($paypal_is_test == true and has_access()): ?>
     <?php print notif("You are using Paypal Pro in test mode!"); ?>
 <?php endif; ?>
 

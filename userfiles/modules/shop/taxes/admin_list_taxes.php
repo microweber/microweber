@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+has_access();
 
 $defined_taxes = mw()->tax_manager->get();
 //d($defined_taxes);

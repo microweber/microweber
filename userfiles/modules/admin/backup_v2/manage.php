@@ -1,4 +1,4 @@
-<?php if(!is_admin()){error("must be admin");}; ?>
+<?php if(!has_access()){error("must be admin");}; ?>
  <?php $here = $config['url_to_module']; ?>
 
 <p><?php _e("Microweber supports importing content from"); ?>

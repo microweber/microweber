@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 <script type="text/javascript">
     mw.require("<?php print $config['url_to_module']; ?>template_exporter.js");
     mw.require("files.js");

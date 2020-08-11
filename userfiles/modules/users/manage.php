@@ -1,4 +1,4 @@
-<?php if (is_admin() == false) {
+<?php if (has_access() == false) {
     mw_error("Must be admin");
 }
 

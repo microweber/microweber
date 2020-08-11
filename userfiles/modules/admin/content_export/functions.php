@@ -5,7 +5,7 @@ use Microweber\Utils\ContentImport;
 api_expose('content_export_start');
 function content_export_start($data)
 {
-	only_admin_access();
+	has_access();
 	
 	$export = new ContentExport($data);
 	$export->setExportFormatType('json');
@@ -17,8 +17,8 @@ function content_export_start($data)
 api_expose('content_export_download');
 function content_export_download($data)
 {
-	/* if (!is_admin()) {
-		mw_error('Must be admin');
+	/* if (!has_access()) {
+		mw_error('You dont have access to see this page');
 	} */
 
 	$export = new ContentExport();
@@ -30,8 +30,8 @@ function content_export_download($data)
 api_expose('content_import');
 function content_import($data)
 {
-	if (!is_admin()) {
-		mw_error('Must be admin');
+	if (!has_access()) {
+		mw_error('You dont have access to see this page');
 	}
 	
 	$import = new ContentImport();

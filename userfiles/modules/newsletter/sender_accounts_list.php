@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 <?php
 $senders = newsletter_get_senders();
 ?>

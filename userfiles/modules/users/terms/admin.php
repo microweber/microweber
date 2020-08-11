@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+has_access();
 
 $mod_id = 'users';
 if (isset($params['terms-group'])) {

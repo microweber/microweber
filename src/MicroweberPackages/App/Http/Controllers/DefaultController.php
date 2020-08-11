@@ -260,7 +260,7 @@ class DefaultController extends Controller
             $api_exposed .= (api_expose_user(true));
         }
 
-        if (is_admin()) {
+        if (has_access()) {
             $api_exposed .= (api_expose_admin(true));
         }
 
@@ -277,7 +277,7 @@ class DefaultController extends Controller
             }
         }
 
-        if (is_admin()) {
+        if (has_access()) {
             $hooks_admin = api_bind_admin(true);
             if (is_array($hooks_admin)) {
                 $hooks = array_merge($hooks, $hooks_admin);
@@ -1172,7 +1172,7 @@ class DefaultController extends Controller
         }
 
         $page_url = rtrim($page_url, '/');
-        $is_admin = $this->app->user_manager->is_admin();
+        $is_admin = $this->app->user_manager->has_access();
         $page_url_orig = $page_url;
         $simply_a_file = false;
         $show_404_to_non_admin = false;
@@ -1264,7 +1264,7 @@ class DefaultController extends Controller
         $is_preview_module = $this->app->url_manager->param('preview_module');
 
         if ($is_preview_module != false) {
-            if ($this->app->user_manager->is_admin()) {
+            if ($this->app->user_manager->has_access()) {
                 $is_preview_module = module_name_decode($is_preview_module);
                 if (is_module($is_preview_module)) {
                     $is_preview_module_skin = $this->app->url_manager->param('preview_module_template');
@@ -1401,7 +1401,7 @@ class DefaultController extends Controller
         $maintenance_mode = get_option('maintenance_mode', 'website');
 
 
-        if ($maintenance_mode == 'y' && !is_admin()) {
+        if ($maintenance_mode == 'y' && !has_access()) {
             if (!defined('ACTIVE_SITE_TEMPLATE')) {
                 $this->app->content_manager->define_constants();
             }
@@ -1762,7 +1762,7 @@ class DefaultController extends Controller
         }
 
         if (isset($content['is_active']) and ($content['is_active'] == 'n' or $content['is_active'] == 0)) {
-            if ($this->app->user_manager->is_admin() == false) {
+            if ($this->app->user_manager->has_access() == false) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
@@ -1776,7 +1776,7 @@ class DefaultController extends Controller
                 $content = $page_non_active;
             }
         } elseif (isset($content['is_deleted']) and $content['is_deleted'] == 1) {
-            if ($this->app->user_manager->is_admin() == false) {
+            if ($this->app->user_manager->has_access() == false) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
@@ -1882,7 +1882,7 @@ class DefaultController extends Controller
                 }
 
 
-                if (!is_admin()) {
+                if (!has_access()) {
                     $load_template_404 = template_dir() . '404.php';
                     $load_template_404_2 = TEMPLATES_DIR . 'default/404.php';
                     if (is_file($load_template_404)) {
@@ -1940,7 +1940,7 @@ class DefaultController extends Controller
                     }
                 }
 
-                $is_admin = $this->app->user_manager->is_admin();
+                $is_admin = $this->app->user_manager->has_access();
                 if ($is_admin == true and isset($isolated_el) != false) {
                     $tb = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
 
@@ -1991,7 +1991,7 @@ class DefaultController extends Controller
 
             //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
 
-            $is_admin = $this->app->user_manager->is_admin();
+            $is_admin = $this->app->user_manager->has_access();
             // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
 
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
@@ -2248,7 +2248,7 @@ class DefaultController extends Controller
             }
             if (isset($_REQUEST['debug'])) {
                 if ($this->app->make('config')->get('app.debug')) {
-                    $is_admin = $this->app->user_manager->is_admin();
+                    $is_admin = $this->app->user_manager->has_access();
                     if ($is_admin == true) {
                         include mw_includes_path() . 'debug.php';
                     }
@@ -2394,7 +2394,7 @@ class DefaultController extends Controller
 
     public function editor_tools()
     {
-        if (!defined('IN_ADMIN') and is_admin()) {
+        if (!defined('IN_ADMIN') and has_access()) {
             define('IN_ADMIN', true);
         }
         if (!defined('IN_EDITOR_TOOLS')) {
@@ -2563,7 +2563,7 @@ class DefaultController extends Controller
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
 
 
-            // $is_admin = $this->app->user_manager->is_admin();
+            // $is_admin = $this->app->user_manager->has_access();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 

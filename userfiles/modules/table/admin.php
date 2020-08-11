@@ -42,7 +42,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         ?>
         <?php
 
-        only_admin_access();
+        has_access();
 
         $tablehtml = get_option('table_html', $params['id']);
         $tablehtml = preg_replace("/\r|\n/", "", $tablehtml);

@@ -1,5 +1,5 @@
 <?php
-if (is_admin() == false) {
+if (has_access() == false) {
     return false;
 }
 $rand = uniqid();

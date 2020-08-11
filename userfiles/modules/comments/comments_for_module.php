@@ -6,7 +6,7 @@ return ('This file is deprecated ' . __FILE__);
 
 
 
-only_admin_access() ;
+has_access() ;
 $comments_data = array();
 if(isset($params['rel_type'])){
 $comments_data['rel_type'] =  $params['rel_type'];

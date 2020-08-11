@@ -1,9 +1,9 @@
 <?php
-admin_access();
+has_access();
 
 
-       $is_elements = true;
- //d($modulsdsdes );
+$is_elements = true;
+//d($modulsdsdes );
 
 include('list.php');
 ?>

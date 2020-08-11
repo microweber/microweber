@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 
 <div class="mb-3 float-right">
     <img src="<?php print $config['url_to_module'] ?>omnipay_mollie.png"/>
