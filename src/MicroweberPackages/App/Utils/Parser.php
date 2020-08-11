@@ -1535,7 +1535,7 @@ class Parser
                                     pq($elem_clone)->html($field_content);
                                 }
 
-                                if($field_content_modified_date and $this->app->user_manager->is_admin()){
+                                if(defined('IN_EDIT') and IN_EDIT == true and $field_content_modified_date){
                                     pq($elem_clone)->attr('itemprop','dateModified');
                                     pq($elem_clone)->attr('content',date("Y M d",strtotime($field_content_modified_date)));
                                   //  pq($elem_clone)->attr('itemscope','');
