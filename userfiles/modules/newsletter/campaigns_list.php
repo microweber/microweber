@@ -1,4 +1,4 @@
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
 <?php
 $campaigns = newsletter_get_campaigns();
 ?>

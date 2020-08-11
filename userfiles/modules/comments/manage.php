@@ -1,5 +1,5 @@
 <?php
-only_has_access();
+must_have_access();
 
 $display = new \Microweber\Comments\Controllers\Admin();
 

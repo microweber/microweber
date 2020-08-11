@@ -1,4 +1,4 @@
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
 
 <script>
     mw.require("<?php  print  modules_url() ?>calendar/calendar_admin.js");

@@ -1,4 +1,4 @@
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
 
 <script src="<?php print modules_url()?>editor/html_editor/html_editor.js"></script>
 

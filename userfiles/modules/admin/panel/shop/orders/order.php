@@ -1,6 +1,6 @@
 <?php
 
-only_has_access();
+must_have_access();
 
 $ord = mw()->shop_manager->get_order_by_id($params['order-id']);
 

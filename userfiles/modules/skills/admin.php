@@ -1,4 +1,4 @@
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
 
 <?php
 $from_live_edit = false;

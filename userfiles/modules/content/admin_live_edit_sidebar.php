@@ -1,4 +1,4 @@
-<?php only_has_access() ?>
+<?php must_have_access() ?>
 <?php
 if (isset($params['for-module-id'])) {
     $params['id'] = $params['for-module-id'];

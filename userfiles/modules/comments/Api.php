@@ -208,7 +208,7 @@ class Api extends Crud
     function mark_as_old($data)
     {
 
-        only_has_access();
+        must_have_access();
 
         if (isset($data['content_id'])) {
             $table = MODULE_DB_COMMENTS;

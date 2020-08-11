@@ -6,7 +6,7 @@ if(!isset($params["category_subtype"]) or $params["category_subtype"] == false o
 }
 
 
-only_has_access();
+must_have_access();
  
 if(isset($params["data-category-id"])){
 	$data = get_category_by_id($params["data-category-id"]);

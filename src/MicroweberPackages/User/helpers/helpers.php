@@ -201,7 +201,7 @@ function has_access($function_name)
     return mw()->user_manager->has_access($function_name);
 }
 
-function only_has_access()
+function must_have_access()
 {
     return mw()->user_manager->admin_access();
 }

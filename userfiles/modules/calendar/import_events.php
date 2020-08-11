@@ -1,4 +1,4 @@
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
     <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content ">
         <h4>Import CSV</h4>
 

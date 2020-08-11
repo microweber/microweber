@@ -1,5 +1,5 @@
 <?php
-only_has_access();
+must_have_access();
 $is_shop = false;
 
 if (isset($params['is_shop'])) {

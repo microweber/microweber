@@ -1,4 +1,4 @@
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
 
 <div class="mb-3 float-right">
     <img src="<?php print $config['url_to_module'] ?>voguepay.png" style="max-width: 140px;"/>

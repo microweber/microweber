@@ -1,4 +1,4 @@
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
 <script>
     after_event_group_edit = function (id) {
         mw.reload_module('calendar/edit_groups');

@@ -1,4 +1,4 @@
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
 
 <?php
 $mail_providers = get_modules('type=mail_provider');

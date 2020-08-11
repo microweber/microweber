@@ -1,5 +1,5 @@
 <?php
-only_has_access();
+must_have_access();
 
 $set_content_type = 'post';
 if (isset($params['global']) and $params['global'] != false) {

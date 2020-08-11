@@ -320,7 +320,7 @@ api_expose_admin('mw_send_anonymous_server_data');
 // function used do send us the language files
 function mw_send_anonymous_server_data($params)
 {
-    only_has_access();
+    must_have_access();
     $update_api = mw('update');
 
     if ($params != false) {
@@ -734,7 +734,7 @@ function mw_composer_install_package_by_name($params)
     if (!mw_is_installed()) {
 
     } else {
-        only_has_access();
+        must_have_access();
 
     }
 

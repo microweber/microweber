@@ -1,4 +1,4 @@
-<?php only_has_access();?>
+<?php must_have_access();?>
 <script type="text/javascript">
     mw.require('<?php print modules_url() ?>comments/style.css');
     mw.require('<?php print modules_url() ?>comments/edit_comments.js');

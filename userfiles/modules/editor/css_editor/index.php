@@ -1,6 +1,6 @@
 <?php $custom_css = get_option("custom_css", "template");
 ?>
-<?php only_has_access(); ?>
+<?php must_have_access(); ?>
 
 <style>
     html,body{
