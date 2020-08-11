@@ -35,11 +35,9 @@ class Manager
 
         if (isset($params['manage_categories'])) {
             print load_module('categories/manage', $params);
-
             return;
-
-
         }
+
         if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             $params['is_shop'] = 1;
         } else if (isset($params['is_shop']) and $params['is_shop'] == 'n') {
@@ -240,6 +238,8 @@ class Manager
             }
         }
 
+        $time_start = microtime(true);
+
         $view = new View($post_list_view);
         $view->assign('params', $params);
         $view->assign('page_info', $page_info);
@@ -250,6 +250,12 @@ class Manager
         $view->assign('post_params', $posts_mod);
         $view->assign('paging_param', $posts_mod['paging_param']);
 
-        return $view->display();
+        $view->display(true);
+
+        $time_end = microtime(true);
+        $time = $time_end - $time_start;
+
+        echo "Rendered in $time seconds\n";
+
     }
 }
