@@ -185,18 +185,15 @@ $params_module = $params;
         mw.reload_module('#<?php print $params['id']; ?>');
     });
 </script>
-
-<div class="card style-1 mb-3">
+<div class="card style-1 mb-3 <?php if (isset($params['no_toolbar']) AND $params['no_toolbar']): ?>card-in-live-edit<?php endif; ?>">
     <?php if (!isset($params['no_toolbar']) and isset($toolbar)): ?>
         <?php print $toolbar; ?>
     <?php else: ?>
-        <div class="manage-toobar-content">
+        <div class="manage-toobar-content my-3">
             <div class="mw-ui-link-nav">
                 <span class="mw-ui-link" onclick="mw.check.all('#<?php print $params['id']; ?>')"><?php _e("Select All"); ?></span>
                 <span class="mw-ui-link" onclick="mw.check.none('#<?php print $params['id']; ?>')"><?php _e("Unselect All"); ?></span>
-                <span class="mw-ui-link" onclick="delete_selected_posts();">
-            <?php _e("Delete"); ?>
-            </span>
+                <span class="mw-ui-link" onclick="delete_selected_posts();"><?php _e("Delete"); ?></span>
             </div>
         </div>
     <?php endif; ?>
@@ -232,15 +229,13 @@ $params_module = $params;
 
         if (isset($paging_links) and is_array($paging_links)): ?>
             <ul class="mw-paging">
-                <?php $i = 1;
-                foreach ($paging_links as $item): ?>
+                <?php $i = 1; ?>
+                <?php foreach ($paging_links as $item): ?>
                     <li class="page-item <?php if ($numactive == $i): ?> active <?php endif; ?>">
-                        <a class="page-link page-<?php print $i; ?>"
-                           href="#<?php print $paging_param ?>=<?php print $i ?>"
-
-                           onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                        <a class="page-link page-<?php print $i; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
                     </li>
-                    <?php $i++; endforeach; ?>
+                    <?php $i++; ?>
+                <?php endforeach; ?>
             </ul>
         <?php endif; ?>
 
