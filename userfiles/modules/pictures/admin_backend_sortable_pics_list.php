@@ -1,6 +1,6 @@
 <?php
 
-only_admin_access();
+only_has_access();
 
 
 $for = $for_id = $sess_id = false;

@@ -114,7 +114,7 @@ event_bind('mw.mail_subscribe', function ($params) {
 api_expose('save_mail_provider');
 function save_mail_provider()
 {
-	only_admin_access();
+	only_has_access();
 
 	$providerName = $_POST['mail_provider_name'];
 	unset($_POST['mail_provider_name']);
@@ -148,7 +148,7 @@ function save_mail_provider()
 api_expose('test_mail_provider');
 function test_mail_provider()
 {
-	only_admin_access();
+	only_has_access();
 	
 	if (isset($_POST['mail_provider_name'])) {
 		
@@ -164,7 +164,7 @@ function test_mail_provider()
 
 function get_mail_provider($providerName)
 {
-	only_admin_access();
+	only_has_access();
 
 	$params = array();
 	$params['provider_name'] = $providerName;
@@ -175,7 +175,7 @@ function get_mail_provider($providerName)
 
 function get_mail_provider_settings($providerName)
 {
-	only_admin_access();
+	only_has_access();
 	
 	$mailProvider = get_mail_provider($providerName);
 
@@ -189,7 +189,7 @@ function get_mail_provider_settings($providerName)
 
 function save_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
 	
-	only_admin_access();
+	only_has_access();
 	
 	$provider = get_mail_provider($providerName);
 	
@@ -208,7 +208,7 @@ function save_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId
 
 function get_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
 	
-	only_admin_access();
+	only_has_access();
 	
 	$provider = get_mail_provider($providerName);
 	

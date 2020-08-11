@@ -1,6 +1,6 @@
 <?php
 
-only_admin_access();
+only_has_access();
 $update_api = mw()->update;
 $forced = false;
 if (isset($params['force'])) {

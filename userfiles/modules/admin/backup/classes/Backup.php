@@ -166,7 +166,7 @@ class Backup
         $start = microtime_float();
         if (defined('MW_CRON_EXEC')) {
         } else {
-            only_admin_access();
+            only_has_access();
         }
 
         @ob_end_clean();
@@ -746,7 +746,7 @@ class Backup
         $start = microtime_float();
         if (defined('MW_CRON_EXEC')) {
         } else {
-            only_admin_access();
+            only_has_access();
         }
 
         $table = '*';
@@ -1295,7 +1295,7 @@ class Backup
 
     public function move_uploaded_file_to_backup($params)
     {
-        only_admin_access();
+        only_has_access();
         if (!isset($params['src'])) {
             return array('error' => 'You have not provided src to the file.');
         }

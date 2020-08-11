@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 <?php $lic = mw()->update->get_licenses('limit=10000'); ?>
 
 <script>

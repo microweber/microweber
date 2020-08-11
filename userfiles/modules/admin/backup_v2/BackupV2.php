@@ -82,7 +82,7 @@ class BackupV2
 
 	public function upload($query)
 	{
-		only_admin_access();
+		only_has_access();
 
 		if (! isset($query['src'])) {
 			return array(
@@ -168,7 +168,7 @@ class BackupV2
 
 	public function import($query) {
 
-		only_admin_access();
+		only_has_access();
 
 		$fileId = null;
 		if (isset($query['id'])) {

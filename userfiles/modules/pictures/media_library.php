@@ -1,5 +1,5 @@
 <?php
-	only_admin_access();
+	only_has_access();
 ?>
 <div class="mw-module-admin-wrap">
   <div class="media-search-stock-images-wrapper">

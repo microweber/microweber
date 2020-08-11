@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 <?php
 $subscribers_params = array();
 $subscribers_params['no_limit'] = true;

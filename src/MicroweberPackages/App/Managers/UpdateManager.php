@@ -272,7 +272,7 @@ class UpdateManager
 
         $to_be_unzipped = array();
         if (defined('MW_API_CALL')) {
-            only_admin_access();
+            only_has_access();
         }
 
         $updates = $this->check();
@@ -657,7 +657,7 @@ class UpdateManager
 
         return;
         if (defined('MW_API_CALL')) {
-            only_admin_access();
+            only_has_access();
         }
 
 

@@ -6,7 +6,7 @@
     });
 </script>
 <?php
-only_admin_access();
+only_has_access();
 
 $edit_page_info = $data;
 

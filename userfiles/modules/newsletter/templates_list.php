@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 <?php
 $templates_params = array();
 $templates_params['no_limit'] = true;

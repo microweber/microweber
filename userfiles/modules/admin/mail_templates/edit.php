@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 
 <?php
 $template_id = (isset($params['data_template_id']) ? $params['data_template_id'] : '');

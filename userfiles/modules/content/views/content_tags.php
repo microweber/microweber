@@ -4,7 +4,7 @@ if (!function_exists('content_tags')) {
 }
 $tags_str = array();
 
-only_admin_access();
+only_has_access();
 
 if (!isset($params['content-id'])) {
     return;

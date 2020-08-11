@@ -1,7 +1,7 @@
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info" history_back="true"/>
 <?php endif; ?>
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 
 <?php
 $action = url_param('action');

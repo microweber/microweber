@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+only_has_access();
 ?>
 <script type="text/javascript">
     $(document).ready(function () {

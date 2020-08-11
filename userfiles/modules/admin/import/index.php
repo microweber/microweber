@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 <script  type="text/javascript">
     mw.require("<?php print $config['url_to_module']; ?>import.js");
 </script>

@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+only_has_access();
 
 $notification_id = (int) $params['notification_id'];
 $data = mw()->notifications_manager->get('single=1&id=' . $notification_id);

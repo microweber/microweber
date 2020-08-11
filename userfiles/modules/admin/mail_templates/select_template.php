@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 <?php
 if (!isset($params['option_group']) && empty($params['option_group'])) {
     echo 'Set option group!!';

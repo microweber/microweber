@@ -1,4 +1,4 @@
-<?php only_admin_access() ?>
+<?php only_has_access() ?>
 <?php
 $template_config = mw()->template->get_config();
 

@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 
 <?php
 $enable_user_fb_registration = get_option('enable_user_fb_registration', 'users');

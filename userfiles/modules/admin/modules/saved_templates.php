@@ -23,7 +23,7 @@ return;
 
 ?>
 
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 <?php if (isset($params['module_name']) and isset($params['module_id'])): ?>
     <?php
 

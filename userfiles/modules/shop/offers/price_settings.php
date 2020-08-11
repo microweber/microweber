@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+only_has_access();
 
 if (!isset($params['price-id']) or !isset($params['price-id']) or !isset($params['id'])) {
     return;

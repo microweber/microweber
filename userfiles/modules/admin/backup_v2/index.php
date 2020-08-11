@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php only_has_access(); ?>
 <link rel="stylesheet" href="<?php echo modules_url() . '/admin/backup_v2/css/style.css' ?>" type="text/css" />
 <script  type="text/javascript">
 	var importContentFromFileText = '<?php _e("Importing content from file"); ?>';
