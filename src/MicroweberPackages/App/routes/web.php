@@ -1,10 +1,15 @@
 <?php
-
+/*
 Route::get('xaxaxa',function (){
 
-    var_dump(get_posts());
+    foreach (get_posts() as $post) {
 
-});
+       $link =  content_link($post['id']);
+
+       var_dump($link);
+    }
+
+});*/
 
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
