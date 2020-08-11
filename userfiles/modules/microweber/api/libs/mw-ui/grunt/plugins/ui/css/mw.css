@@ -372,8 +372,9 @@ header {
   .card-message-holder .item-id {
     max-width: none; } }
 
-.card-product-holder .item-title {
-  min-width: 340px; }
+@media screen and (min-width: 575px) {
+  .card-product-holder .item-title {
+    min-width: 340px; } }
 .card-product-holder .item-image {
   min-width: 120px;
   max-width: 120px; }
