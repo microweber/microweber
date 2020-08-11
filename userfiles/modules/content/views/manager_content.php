@@ -9,12 +9,6 @@
         <div class="manage-posts-holder-inner muted-cards">
             <?php if (is_array($data)): ?>
                 <?php foreach ($data as $item): ?>
-
-                    <?php
-                        echo $item['title']. '<br /><hr />';
-                        continue;
-                    ?>
-
                     <?php if (isset($item['id'])): ?>
                         <?php
                         $pub_class = '';
