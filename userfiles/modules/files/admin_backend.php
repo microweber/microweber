@@ -5,7 +5,7 @@
 
 
     <?php
-    if (has_access() == false) {
+    if (is_admin() == false) {
         return;
     }
 

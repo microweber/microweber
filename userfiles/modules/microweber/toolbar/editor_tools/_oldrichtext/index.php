@@ -206,8 +206,8 @@
 </head>
 <body style="padding: 0;margin: 0;">
 <?php mw_var('plain_modules', true);
-if (has_access() == false) {
-    //exit('You dont have access to see this page');
+if (is_admin() == false) {
+    //exit('Must be admin');
 }
 ?>
 

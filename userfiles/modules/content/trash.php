@@ -1,4 +1,4 @@
-<?php has_access();
+<?php only_admin_access();
 // d($params);
 $is_momodule_comments = is_module('comments');
 

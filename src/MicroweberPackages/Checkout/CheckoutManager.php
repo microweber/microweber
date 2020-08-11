@@ -165,7 +165,7 @@ class CheckoutManager
         } else {
 
 
-            if (!has_access()) {
+            if (!is_admin()) {
                 $shop_require_terms = $this->app->option_manager->get('shop_require_terms', 'website');
                 if ($shop_require_terms) {
                     $user_id_or_email = $this->app->user_manager->id();

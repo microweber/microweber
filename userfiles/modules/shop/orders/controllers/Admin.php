@@ -15,7 +15,7 @@ class Admin
     function __construct($app = null)
     {
 
-        has_access();
+        only_admin_access();
 
 
         if (!is_object($this->app)) {

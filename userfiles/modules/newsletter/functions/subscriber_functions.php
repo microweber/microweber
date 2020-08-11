@@ -25,7 +25,7 @@ function newsletter_subscribe($params)
     	$name = Input::get('name');
     }
 
-    $adm = mw()->user_manager->has_access();
+    $adm = mw()->user_manager->is_admin();
     if (defined('MW_API_CALL')) {
         $validate_token = mw()->user_manager->csrf_validate($params);
         if (!$adm) {

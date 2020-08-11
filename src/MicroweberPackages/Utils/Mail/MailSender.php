@@ -278,7 +278,7 @@ class MailSender
 
     public function test($params)
     {
-        $is_admin = has_access();
+        $is_admin = is_admin();
         if ($is_admin == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

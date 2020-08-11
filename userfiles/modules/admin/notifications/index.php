@@ -1,5 +1,5 @@
 <?php
-has_access();
+only_admin_access();
 if (!isset($notif_params)) {
     $notif_params = $params;
 }

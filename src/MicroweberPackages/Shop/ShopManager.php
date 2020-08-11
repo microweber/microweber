@@ -365,7 +365,7 @@ class ShopManager
 
     public function delete_client($data)
     {
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

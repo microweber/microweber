@@ -182,7 +182,7 @@ if (!user_can_view_module(['module'=>'shop'])) {
 </script>
 
 <?php
-if (!has_access()) {
+if (!is_admin()) {
     return;
 }
 ?>

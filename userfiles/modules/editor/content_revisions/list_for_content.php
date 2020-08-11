@@ -1,5 +1,5 @@
 <?php
-if (!has_access()){
+if (!is_admin()){
     return;
 }
 $data = false;

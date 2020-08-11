@@ -1,4 +1,4 @@
-<?php has_access(); ?>
+<?php only_admin_access(); ?>
 <script>
 
     function start_campaign(id = false) {

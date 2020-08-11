@@ -1,5 +1,5 @@
 <?php
-    has_access();
+    only_admin_access();
 
 
     $ord = 'order_by=id desc';

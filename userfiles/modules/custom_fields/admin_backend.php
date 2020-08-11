@@ -1,4 +1,4 @@
-<?php has_access(); ?>
+<?php only_admin_access(); ?>
 <script type="text/javascript">
 
     mw.require("custom_fields.js", true);

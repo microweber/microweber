@@ -4,7 +4,7 @@
 use MicroweberPackages\View\View;
 
 
-has_access();
+only_admin_access();
 
 
 $shipping_to_country = mw('shop\shipping\gateways\country\shipping_to_country');

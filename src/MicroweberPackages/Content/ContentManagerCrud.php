@@ -180,7 +180,7 @@ class ContentManagerCrud extends Crud
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
         if (isset($params['keyword'])) {
-            if (!has_access()) {
+            if (!is_admin()) {
                 $params['is_deleted'] = 0;
                 $params['is_active'] = 1;
             }
@@ -379,7 +379,7 @@ class ContentManagerCrud extends Crud
         }
 
         $mw_global_content_memory = array();
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content'];
 
         $table_data = $this->tables['content_data'];

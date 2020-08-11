@@ -1,7 +1,7 @@
 <?php
 
 $uid = user_id();
-if (isset($params['user_id']) and has_access()) {
+if (isset($params['user_id']) and is_admin()) {
     $uid = $params['user_id'];
 }
 $terms = false;

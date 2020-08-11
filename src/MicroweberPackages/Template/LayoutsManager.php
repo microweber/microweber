@@ -477,7 +477,7 @@ class LayoutsManager
 
     public function save($data_to_save)
     {
-        if (has_access() == false) {
+        if (is_admin() == false) {
             return false;
         }
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
@@ -546,7 +546,7 @@ class LayoutsManager
 
     public function delete_all()
     {
-        if (has_access() == false) {
+        if (is_admin() == false) {
             return false;
         } else {
             $table = get_table_prefix() . 'elements';
@@ -574,7 +574,7 @@ class LayoutsManager
 
     public function template_remove_custom_css($params)
     {
-        $is_admin = $this->app->user_manager->has_access();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($is_admin == false) {
             return false;
         }
@@ -651,7 +651,7 @@ class LayoutsManager
 
     public function template_save_css($params)
     {
-        $is_admin = $this->app->user_manager->has_access();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($is_admin == false) {
             return false;
         }

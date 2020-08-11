@@ -66,8 +66,8 @@ class Import
 
     public function get()
     {
-        if (!has_access()) {
-            error('You dont have access to see this page');
+        if (!is_admin()) {
+            error('must be admin');
         }
 
         $here = $this->get_import_location();
@@ -107,7 +107,7 @@ class Import
 
     public function move_uploaded_file_to_import($params)
     {
-        has_access();
+        only_admin_access();
         if (!isset($params['src'])) {
             return array('error' => 'You have not provided src to the file.');
         }
@@ -130,8 +130,8 @@ class Import
 
     public function delete($params)
     {
-        if (!has_access()) {
-            error('You dont have access to see this page');
+        if (!is_admin()) {
+            error('must be admin');
         }
 
         // Get the provided arg
@@ -164,8 +164,8 @@ class Import
 
     public function download($params)
     {
-        if (!has_access()) {
-            mw_error('You dont have access to see this page');
+        if (!is_admin()) {
+            mw_error('must be admin');
         }
 
         ini_set('memory_limit', '512M');
@@ -250,7 +250,7 @@ class Import
 
     public function restore($params)
     {
-        has_access();
+        only_admin_access();
 
         $id = null;
         if (isset($params['id'])) {
@@ -285,7 +285,7 @@ class Import
 
     public function import_file($filename)
     {
-        has_access();
+        only_admin_access();
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing backup to restore.');
         }
@@ -472,7 +472,7 @@ class Import
 
     public function queue_import_json($filename)
     {
-        has_access();
+        only_admin_access();
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing backup to restore.');
         }
@@ -751,7 +751,7 @@ class Import
 
     public function queue_import_xml($filename)
     {
-        has_access();
+        only_admin_access();
 
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing backup to restore.');
@@ -821,7 +821,7 @@ class Import
 
     public function queue_import_xls($filename)
     {
-        has_access();
+        only_admin_access();
         $target_url = 'http://api.microweber.com/service/xls2csv/index.php';
         $filename = str_replace('..', '', $filename);
         $file_name_with_full_path = realpath($filename);
@@ -867,7 +867,7 @@ class Import
 
     public function queue_import_csv($filename)
     {
-        has_access();
+        only_admin_access();
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing backup to restore.');
         }
@@ -1217,7 +1217,7 @@ class Import
     public function get_import_location()
     {
         if (defined('MW_CRON_EXEC')) {
-        } elseif (!has_access()) {
+        } elseif (!is_admin()) {
             return false;
         }
 
@@ -1298,7 +1298,7 @@ class Import
         );
 
 
-        has_access();
+        only_admin_access();
 
         ini_set('memory_limit', '512M');
         set_time_limit(0);

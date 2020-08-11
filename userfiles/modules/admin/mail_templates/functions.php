@@ -124,7 +124,7 @@ function get_mail_template_fields($type = '')
 api_expose_admin('save_mail_template');
 function save_mail_template($data)
 {
-    if (!has_access()) {
+    if (!is_admin()) {
         return;
     }
 
@@ -231,7 +231,7 @@ function get_mail_templates($params = array())
 api_expose_admin('delete_mail_template');
 function delete_mail_template($params)
 {
-    if (!has_access()) {
+    if (!is_admin()) {
         return;
     }
     if (isset($params['id'])) {

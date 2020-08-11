@@ -1,6 +1,6 @@
 <?php
 
-has_access();
+only_admin_access();
 
 use MicroweberPackages\View\View;
 

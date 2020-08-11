@@ -196,12 +196,12 @@ function user_id()
     return mw()->user_manager->id();
 }
 
-function has_access($permission = '')
+function has_access($function_name)
 {
-    return mw()->user_manager->has_access($permission);
+    return mw()->user_manager->has_access($function_name);
 }
 
-function admin_access()
+function only_admin_access()
 {
     return mw()->user_manager->admin_access();
 }
@@ -288,6 +288,19 @@ function get_users($params = false)
 function get_user($id = false)
 {
     return mw()->user_manager->get($id);
+}
+
+
+function user_can($permission) {
+    $user = \Illuminate\Support\Facades\Auth::user();
+    if (!$user) {
+        return false;
+    }
+    if ($user->is_admin == 1) {
+        return true;
+    }
+
+    return $user->can($permission);
 }
 
 function module_permissions($module) {

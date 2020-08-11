@@ -26,6 +26,7 @@ class Manager
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
         $this->event_manager = $this->app->event_manager;
+        $is_admin = $this->app->user_manager->admin_access();
     }
 
     function index($params)

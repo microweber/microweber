@@ -16,7 +16,7 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
 //    }
 }
 
-if (!has_access()) {
+if (!is_admin()) {
     $validate_token = mw()->user_manager->csrf_validate($_GET);
     if ($validate_token == false) {
         die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
@@ -50,7 +50,7 @@ if ($is_dangerous_file) {
 
 $allowed_to_upload = false;
 
-if (has_access() != false) {
+if (is_admin() != false) {
     $allowed_to_upload = true;
 } else {
     $uid = user_id();

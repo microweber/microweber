@@ -12,6 +12,6 @@ $paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
 
 
 
-<?php if($paypal_is_test == true and has_access()): ?>
+<?php if($paypal_is_test == true and is_admin()): ?>
  <?php print notif("You are using Paypal Express in test mode!"); ?>
 <?php endif; ?>

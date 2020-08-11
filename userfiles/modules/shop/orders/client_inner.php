@@ -1,4 +1,4 @@
-<?php has_access(); ?>
+<?php only_admin_access(); ?>
 
 <?php if (isset($params['order-id']) == true): ?>
     <?php

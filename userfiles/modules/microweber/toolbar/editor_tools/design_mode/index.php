@@ -1,4 +1,4 @@
-<?php has_access() ?>
+<?php only_admin_access() ?>
 <?php
 $ref = site_url();
 if(isset($_SERVER['HTTP_REFERER']))

@@ -91,7 +91,7 @@ class Lang
     function __store_lang_file_ns($lang = false)
     {
 
-        if (!has_access()) {
+        if (!is_admin()) {
             return;
         }
 
@@ -212,7 +212,7 @@ class Lang
      */
     function __store_lang_file($lang = false)
     {
-        if (!has_access()) {
+        if (!is_admin()) {
             return;
         }
         $lang_files_dir = userfiles_path() . 'language' . DIRECTORY_SEPARATOR;
@@ -659,7 +659,7 @@ class Lang
             }
         }
 
-        if (has_access() == true) {
+        if (is_admin() == true) {
             if (isset($data['unicode_temp_remove'])) {
                 unset($data['unicode_temp_remove']);
             }
@@ -708,7 +708,7 @@ class Lang
                 // $mw_language_content = array_unique($mw_language_content);
                 $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
-                if (has_access() == true) {
+                if (is_admin() == true) {
                     file_put_contents($lang_file, $lang_file_str);
                 }
             }

@@ -215,7 +215,7 @@ class UpdateManager
 
         if (defined('MW_API_CALL')) {
             $to_trash = true;
-            $adm = $this->app->user_manager->has_access();
+            $adm = $this->app->user_manager->is_admin();
             if ($adm == false) {
                 return array('error' => 'You must be admin to install from Marketplace!');
             }
@@ -272,7 +272,7 @@ class UpdateManager
 
         $to_be_unzipped = array();
         if (defined('MW_API_CALL')) {
-            has_access();
+            only_admin_access();
         }
 
         $updates = $this->check();
@@ -382,7 +382,7 @@ class UpdateManager
         return;
         $params = parse_params($params);
 
-        $a = $this->app->user_manager->has_access();
+        $a = $this->app->user_manager->is_admin();
         if ($a == false) {
             mw_error('Must be admin!');
         }
@@ -413,7 +413,7 @@ class UpdateManager
     public function apply_updates_queue($params = false)
     {
         return;
-        $a = $this->app->user_manager->has_access();
+        $a = $this->app->user_manager->is_admin();
         if ($a == false) {
             mw_error('Must be admin!');
         }
@@ -657,7 +657,7 @@ class UpdateManager
 
         return;
         if (defined('MW_API_CALL')) {
-            has_access();
+            only_admin_access();
         }
 
 
@@ -1023,7 +1023,7 @@ class UpdateManager
 
     public function validate_license($params = false)
     {
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return;
         }
@@ -1065,7 +1065,7 @@ class UpdateManager
 
     public function get_licenses($params = false)
     {
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return;
         }
@@ -1089,7 +1089,7 @@ class UpdateManager
 
     public function save_license($params)
     {
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return;
         }

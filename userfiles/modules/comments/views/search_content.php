@@ -1,5 +1,5 @@
 <?php
-has_access() ;
+only_admin_access() ;
 $comments_data = array();
 $comments_data['in_table'] =  'comments';
 $comments_data['cache_group'] =  'comments/global';

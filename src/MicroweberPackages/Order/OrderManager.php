@@ -39,7 +39,7 @@ class OrderManager
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-        if (defined('MW_API_CALL') and $this->app->user_manager->has_access() == false) {
+        if (defined('MW_API_CALL') and $this->app->user_manager->is_admin() == false) {
             if (!isset($params['payment_verify_token'])) {
                 $params['session_id'] = mw()->user_manager->session_id();
             }
@@ -84,7 +84,7 @@ class OrderManager
     {
         // this function also handles ajax requests from admin
 
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
 
         if (defined('MW_API_CALL') and $adm == false) {
             return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);

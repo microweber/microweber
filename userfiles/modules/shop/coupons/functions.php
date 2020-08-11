@@ -243,7 +243,7 @@ function coupon_get_by_code($coupon_code)
 api_expose('coupon_delete');
 function coupon_delete()
 {
-    if (!has_access())
+    if (!is_admin())
         return;
 
     $table = "cart_coupons";

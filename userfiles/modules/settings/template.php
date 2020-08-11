@@ -1,5 +1,5 @@
 <?php
-if (!has_access()) {
+if (!is_admin()) {
     return;
 }
 $save_url = site_url('module?type=settings___template');

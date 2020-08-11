@@ -38,7 +38,7 @@ api_expose_admin('users/register_email_send_test', function () {
 
 api_expose('users/register_email_send', function ($params = false) {
     $uid = null;
-    if (isset($params['user_id']) and has_access()) {
+    if (isset($params['user_id']) and is_admin()) {
         $uid = intval($params['user_id']);
     }
     return mw()->user_manager->register_email_send($uid);
@@ -120,7 +120,7 @@ api_expose_user('users/export_my_data', function ($params) {
         return array('error' => 'You must be logged');
     }
     $user_id = user_id();
-    if (isset($params['user_id']) and $params['user_id'] and has_access()) {
+    if (isset($params['user_id']) and $params['user_id'] and is_admin()) {
         $user_id = $params['user_id'];
     }
 

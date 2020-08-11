@@ -1535,7 +1535,7 @@ class Parser
                                     pq($elem_clone)->html($field_content);
                                 }
 
-                                if($field_content_modified_date){ // $this->app->user_manager->has_access()
+                                if($field_content_modified_date and $this->app->user_manager->is_admin()){
                                     pq($elem_clone)->attr('itemprop','dateModified');
                                     pq($elem_clone)->attr('content',date("Y M d",strtotime($field_content_modified_date)));
                                   //  pq($elem_clone)->attr('itemscope','');
@@ -2026,11 +2026,11 @@ class Parser
             $attrs['view'] = $custom_view = str_replace('..', '', $custom_view);
         }
 
-       /* if ($custom_view != false and strtolower($custom_view) == 'admin') {
-            if ($this->app->user_manager->has_access() == false) {
+        if ($custom_view != false and strtolower($custom_view) == 'admin') {
+            if ($this->app->user_manager->is_admin() == false) {
                 mw_error('Not logged in as admin');
             }
-        }*/
+        }
 
         $module_name = trim($module_name);
         $module_name = str_replace('\\', '/', $module_name);

@@ -1,5 +1,5 @@
 <?php
-has_access();
+only_admin_access();
 $action = url_param('action');
 $is_in_shop = false;
 $rand = uniqid(); ?>

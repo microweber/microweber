@@ -258,7 +258,7 @@ class ModuleManager
         }
 
         if ($modules_remove_old or isset($options['cleanup_db']) == true) {
-            if ($this->app->user_manager->has_access() == true) {
+            if ($this->app->user_manager->is_admin() == true) {
                 $this->app->cache_manager->delete('categories');
                 $this->app->cache_manager->delete('categories_items');
                 $this->app->cache_manager->delete('db');
@@ -495,7 +495,7 @@ class ModuleManager
 
     public function save($data_to_save)
     {
-        if (mw()->user_manager->has_access() == false and $this->_install_mode == false) {
+        if (mw()->user_manager->is_admin() == false and $this->_install_mode == false) {
             return false;
         }
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
@@ -734,7 +734,7 @@ class ModuleManager
 
     public function delete_module($id)
     {
-        if ($this->app->user_manager->has_access() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
         $id = intval($id);
@@ -1100,7 +1100,7 @@ class ModuleManager
 
     public function reorder_modules($data)
     {
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1123,7 +1123,7 @@ class ModuleManager
 
     public function delete_all()
     {
-        if ($this->app->user_manager->has_access() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         } else {
             $table = $this->tables['modules'];
@@ -1321,7 +1321,7 @@ class ModuleManager
     {
         $params = parse_params($params);
 
-        if ($this->app->user_manager->has_access() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
 
@@ -1336,14 +1336,14 @@ class ModuleManager
 
     public function delete_module_as_template($data)
     {
-        if ($this->app->user_manager->has_access() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
 
         $table = 'module_templates';
         $save = false;
 
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1363,7 +1363,7 @@ class ModuleManager
 
     public function save_module_as_template($data_to_save)
     {
-        if ($this->app->user_manager->has_access() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
 

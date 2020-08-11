@@ -48,8 +48,8 @@ class BackupV2
 
 	public function get()
 	{
-		if (! has_access()) {
-			error('You dont have access to see this page');
+		if (! is_admin()) {
+			error('must be admin');
 		}
 
 		$backupLocation = $this->manager->getBackupLocation();
@@ -82,7 +82,7 @@ class BackupV2
 
 	public function upload($query)
 	{
-		has_access();
+		only_admin_access();
 
 		if (! isset($query['src'])) {
 			return array(
@@ -117,8 +117,8 @@ class BackupV2
 
 	public function download($query)
 	{
-		if (! has_access()) {
-			mw_error('You dont have access to see this page');
+		if (! is_admin()) {
+			mw_error('must be admin');
 		}
 
 		if (isset($query['id'])) {
@@ -168,7 +168,7 @@ class BackupV2
 
 	public function import($query) {
 
-		has_access();
+		only_admin_access();
 
 		$fileId = null;
 		if (isset($query['id'])) {
@@ -285,8 +285,8 @@ class BackupV2
 
 	public function delete($query)
 	{
-		if (! has_access()) {
-			error('You dont have access to see this page');
+		if (! is_admin()) {
+			error('must be admin');
 		}
 
 		// Get the provided arg

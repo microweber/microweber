@@ -81,8 +81,11 @@ class CategoryManager
      */
     public function tree($params = false)
     {
+
+
         $renderer = new KnpCategoryTreeRenderer($this->app);
         $renderer->setUseCache(true);
+
 
 //        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
 //            return $renderer->render($params, $params['tree_data']);

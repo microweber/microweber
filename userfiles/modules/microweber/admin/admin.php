@@ -1,7 +1,7 @@
 <?php include (MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
 
 <?php var_dump(MW_ADMIN_VIEWS_DIR); ?>
-<?php if(has_access() == false): ?>
+<?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
 <?php else: ?>
 <?php $v1 = mw()->url_manager->param('load_module'); ?>

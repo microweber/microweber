@@ -117,7 +117,7 @@ class FormsManager
             $params['for_id'] = str_replace("-custom-fields", false, $params['for_id']);
         }
 
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL')) {
             //            $validate_token = $this->app->user_manager->csrf_validate($params);
 //            if (!$adm) {
@@ -712,7 +712,7 @@ class FormsManager
 
     public function delete_entry($data)
     {
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -729,7 +729,7 @@ class FormsManager
 
     public function delete_list($data)
     {
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -750,7 +750,7 @@ class FormsManager
 
         //   $data_for_csv = array();
 
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

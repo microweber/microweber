@@ -2255,7 +2255,7 @@ class ContentManager
         if (is_string($data)) {
             $data = parse_params($data);
         }
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
         $stop = false;
@@ -2287,7 +2287,7 @@ class ContentManager
             }
 
             if (isset($data['id']) and $data['id'] != 0) {
-                if (!has_access()) {
+                if (!is_admin()) {
                     $check = get_content_by_id($data['id']);
                     if ($check['created_by'] != user_id()) {
                         return array('error' => 'Wrong content');
@@ -2296,7 +2296,7 @@ class ContentManager
             }
 
             if (isset($data['is_home'])) {
-                if (!has_access()) {
+                if (!is_admin()) {
                     unset($data['is_home']);
                 }
             }
@@ -2519,7 +2519,7 @@ class ContentManager
 
     public function reorder($params)
     {
-        $id = $this->app->user_manager->has_access();
+        $id = $this->app->user_manager->is_admin();
         if ($id == false) {
             return array('error' => 'You must be admin to reorder content!');
         }
@@ -2558,7 +2558,7 @@ class ContentManager
                 $params['id'] = $id;
             }
         }
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'You must be admin to unpublish content!');
         }
@@ -2607,7 +2607,7 @@ class ContentManager
                 $params['id'] = $id;
             }
         }
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'You must be admin to publish content!');
         }

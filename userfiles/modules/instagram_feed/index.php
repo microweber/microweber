@@ -105,6 +105,6 @@ if (isset($profile_data['edge_owner_to_timeline_media']) and isset($profile_data
 if ($template_file != false and is_file($template_file)) {
     include($template_file);
 }
-if (!$photos and has_access()) {
+if (!$photos and is_admin()) {
     print lnotif("Click here to edit Instagram feed");
 }

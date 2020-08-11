@@ -1,4 +1,4 @@
-<?php if(!has_access()){error("must be admin");}; ?>
+<?php if(!is_admin()){error("must be admin");}; ?>
 <script  type="text/javascript">
  	mw.require("files.js");
 </script>

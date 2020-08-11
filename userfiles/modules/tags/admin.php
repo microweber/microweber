@@ -1,4 +1,4 @@
-<?php has_access(); ?>
+<?php only_admin_access(); ?>
 
 <?php if (!isset($params['live_edit'])): ?>
     <?php include($config['path_to_module'] . 'admin_backend.php'); ?>

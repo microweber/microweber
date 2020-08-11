@@ -1,4 +1,4 @@
-<?php has_access(); ?>
+<?php only_admin_access(); ?>
 
 <?php $got_lic = mw()->update->get_licenses('count=1') ?>
 

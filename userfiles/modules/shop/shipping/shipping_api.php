@@ -49,8 +49,8 @@ class shipping_api {
 
 
     function save($data) {
-        if (has_access()==false){
-            error('You dont have access to see this page');
+        if (is_admin()==false){
+            error('Must be admin');
 
         }
 
@@ -95,7 +95,7 @@ class shipping_api {
 
     function delete($data) {
 
-        $adm = has_access();
+        $adm = is_admin();
         if ($adm==false){
             error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -110,7 +110,7 @@ class shipping_api {
 
     function reorder($data) {
 
-        $adm = has_access();
+        $adm = is_admin();
         if ($adm==false){
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

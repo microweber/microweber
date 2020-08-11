@@ -103,7 +103,7 @@ class Worker
         if (defined('MW_CRON_EXEC')) {
 
         } else {
-            has_access();
+            only_admin_access();
 
         }
 
@@ -471,7 +471,7 @@ class Worker
         if (defined('MW_CRON_EXEC')) {
 
         } else {
-            has_access();
+            only_admin_access();
 
         }
         $temp_db = false;
@@ -698,7 +698,7 @@ class Worker
 
         if (defined('MW_CRON_EXEC')) {
 
-        } else if (!has_access()) {
+        } else if (!is_admin()) {
             error("must be admin");
         }
 
@@ -870,7 +870,7 @@ class Worker
 
     function move_uploaded_file_to_export($params)
     {
-        has_access();
+        only_admin_access();
 
         if (!isset($params['src'])) {
 
@@ -902,7 +902,7 @@ class Worker
 
     public function get()
     {
-        if (!has_access()) {
+        if (!is_admin()) {
             error("must be admin");
         }
 
@@ -944,7 +944,7 @@ class Worker
 
     function delete($params)
     {
-        if (!has_access()) {
+        if (!is_admin()) {
             error("must be admin");
         }
 
@@ -984,7 +984,7 @@ class Worker
 
     function download($params)
     {
-        if (!has_access()) {
+        if (!is_admin()) {
             error("must be admin");
         }
 

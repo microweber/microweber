@@ -77,7 +77,7 @@ class MenuManager
 
     public function menu_item_save($data_to_save)
     {
-        $id = $this->app->user_manager->has_access();
+        $id = $this->app->user_manager->is_admin();
         if ($id == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

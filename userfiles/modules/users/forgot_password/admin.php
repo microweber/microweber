@@ -1,4 +1,4 @@
-<?php has_access(); ?>
+<?php only_admin_access(); ?>
 
 <?php $show_login_link = get_option('show-login-link', $params['id']); ?>
 

@@ -35,7 +35,7 @@ class LogManager
         $table = $this->table;
         $params['table'] = $table;
 
-        if (has_access() == false) {
+        if (is_admin() == false) {
             $params['user_ip'] = MW_USER_IP;
         }
 
@@ -46,7 +46,7 @@ class LogManager
 
     public function reset()
     {
-        $adm = $this->app->user_manager->has_access();
+        $adm = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $adm == false) {
             return array('error' => 'Error: not logged in as admin.'.__FILE__.__LINE__);
         }
@@ -63,7 +63,7 @@ class LogManager
         $params = parse_params($params);
         $table = $this->table;
         $params['table'] = $table;
-        if (has_access() == false) {
+        if (is_admin() == false) {
             $params['user_ip'] = MW_USER_IP;
         }
         $q = $this->app->database_manager->get($params);

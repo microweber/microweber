@@ -1,6 +1,6 @@
 <?php
 
-has_access();
+only_admin_access();
 
 
 $modules = mw()->module_manager->get('installed=1&ui=1');

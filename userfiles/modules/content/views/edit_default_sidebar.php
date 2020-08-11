@@ -236,8 +236,10 @@
                         <small data-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>">(?)</small>
                     </div>
                 </div>
-<!-- TODO
-               CONTENT TAGS MODULE-->
+
+                <?php if (isset($params['content_type']) AND $params['content_type'] == 'page'): ?>
+                    <module type="content/views/content_tags" content-type="<?php print $params['content_type'] ?>" content-id="<?php print $params['page-id'] ?>"/>
+                <?php endif; ?>
             </div>
         </div>
     <?php endif; ?>

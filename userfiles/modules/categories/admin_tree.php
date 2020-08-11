@@ -1,5 +1,5 @@
 <?php
-has_access();
+only_admin_access();
 /**
  * Print the site pages as tree
  *
@@ -67,7 +67,7 @@ if ($o != false and intval($o) > 0) {
  
 
 
-if (has_access() == false) {
+if (is_admin() == false) {
     $params['is_active'] = 1;
 }
 

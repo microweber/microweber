@@ -301,7 +301,7 @@ class OptionManager
     public function save($data)
     {
         if (defined('MW_API_CALL')) {
-            $is_admin = $this->app->user_manager->has_access();
+            $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
                 return false;
             }

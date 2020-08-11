@@ -641,7 +641,7 @@ function generate_recurrence_repeat($event, $recurrenceRepeatOn, $timeZone, $yea
 api_expose('calendar_remove_event');
 function calendar_remove_event()
 {
-    if (!has_access()) {
+    if (!is_admin()) {
         return;
     }
 

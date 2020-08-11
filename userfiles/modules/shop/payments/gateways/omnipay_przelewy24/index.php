@@ -14,6 +14,6 @@ $is_test = (get_option('przelewy24_testmode', 'payments')) == 'y';
 
 
 
-<?php if($is_test == true and has_access()): ?>
+<?php if($is_test == true and is_admin()): ?>
  <?php print notif("You are using Przelewy24 in test mode!"); ?>
 <?php endif; ?>

@@ -166,7 +166,7 @@ class Backup
         $start = microtime_float();
         if (defined('MW_CRON_EXEC')) {
         } else {
-            has_access();
+            only_admin_access();
         }
 
         @ob_end_clean();
@@ -746,7 +746,7 @@ class Backup
         $start = microtime_float();
         if (defined('MW_CRON_EXEC')) {
         } else {
-            has_access();
+            only_admin_access();
         }
 
         $table = '*';
@@ -1124,8 +1124,8 @@ class Backup
     {
         if (defined('MW_API_CALL')) {
             if (defined('MW_CRON_EXEC')) {
-            } elseif (!has_access()) {
-                return 'You dont have access to see this page';
+            } elseif (!is_admin()) {
+                return 'must be admin';
             }
         }
         $loc = $this->backups_folder;
@@ -1295,7 +1295,7 @@ class Backup
 
     public function move_uploaded_file_to_backup($params)
     {
-        has_access();
+        only_admin_access();
         if (!isset($params['src'])) {
             return array('error' => 'You have not provided src to the file.');
         }
@@ -1318,8 +1318,8 @@ class Backup
 
     public function get()
     {
-        if (!has_access()) {
-            error('You dont have access to see this page');
+        if (!is_admin()) {
+            error('must be admin');
         }
 
         $here = $this->get_bakup_location();
@@ -1352,8 +1352,8 @@ class Backup
 
     public function delete($params)
     {
-        if (!has_access()) {
-            error('You dont have access to see this page');
+        if (!is_admin()) {
+            error('must be admin');
         }
 
         $id = $params['id'];
@@ -1388,8 +1388,8 @@ class Backup
 
     public function download($params)
     {
-        if (!has_access()) {
-            error('You dont have access to see this page');
+        if (!is_admin()) {
+            error('must be admin');
         }
 
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'memory_limit')) {

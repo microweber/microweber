@@ -1,4 +1,4 @@
-<?php has_access(); ?>
+<?php only_admin_access(); ?>
 
 <?php
 $captcha_name = get_option('captcha_name', $params['id']);
