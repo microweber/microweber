@@ -336,7 +336,7 @@ class UserManager
         }
 
         return true;
-        
+
         $can = $user->can($permission);
 
         return $can;
