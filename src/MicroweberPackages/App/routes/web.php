@@ -21,7 +21,7 @@ Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], functi
 
     Route::any('/api', 'DefaultController@api');
     Route::any('/api/{slug}', 'DefaultController@api');
-    
+
     $custom_admin_url = \Config::get('microweber.admin_url');
     $admin_url = 'admin';
     if($custom_admin_url){

@@ -196,7 +196,7 @@ function user_id()
     return mw()->user_manager->id();
 }
 
-function has_access($function_name)
+function has_access($function_name = '')
 {
     return mw()->user_manager->has_access($function_name);
 }
