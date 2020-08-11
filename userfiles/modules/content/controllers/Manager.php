@@ -31,8 +31,6 @@ class Manager
 
     function index($params)
     {
-
-
         if (isset($params['manage_categories'])) {
             print load_module('categories/manage', $params);
             return;
@@ -238,8 +236,6 @@ class Manager
             }
         }
 
-        $time_start = microtime(true);
-
         $view = new View($post_list_view);
         $view->assign('params', $params);
         $view->assign('page_info', $page_info);
@@ -250,13 +246,6 @@ class Manager
         $view->assign('post_params', $posts_mod);
         $view->assign('paging_param', $posts_mod['paging_param']);
 
-        $html = $view->display(true);
-
-        $time_end = microtime(true);
-        $time = $time_end - $time_start;
-
-        $html .= "PHP Rendered in $time seconds\n";
-
-        echo $html;
+        return $view->display();
     }
 }
