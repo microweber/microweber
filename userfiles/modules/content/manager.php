@@ -1,12 +1,15 @@
 <?php
+
 if (!isset($params)) {
     $params = array();
 }
 
 $set_content_type_from_opt = false;
+
 if (isset($params['parent-module-id'])) {
 	$set_content_type_from_opt = get_option('data-content-type', $params['parent-module-id']);
 }
+
 
 if (isset($params['content_type'])) {
 
