@@ -20,11 +20,11 @@
                     <div class="form-group">
                         <div class="custom-control custom-radio">
                             <input type="radio" id="is_active_1" name="is_active" class="custom-control-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" for="is_active_1">Visible</label>
+                            <label class="custom-control-label" for="is_active_1">Published</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="is_active_0" name="is_active" class="custom-control-input" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" for="is_active_0">Hidden</label>
+                            <label class="custom-control-label" for="is_active_0">Unpublished</label>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
 
                 <div class="row mb-3">
                     <div class="col-12">
-                        <small class="text-muted">Want to add the product in more categories?</small>
+                        <small class="text-muted">Want to add the <?php echo $data['content_type']; ?> in more categories?</small>
                         <br/>
                         <button type="button" class="btn btn-outline-primary btn-sm text-dark my-3" data-toggle="collapse" data-target="#show-categories-tree">Add to category</button>
                         <br/>
