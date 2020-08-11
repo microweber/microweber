@@ -31,16 +31,16 @@
                 $module_permissions = module_permissions($module_info);
 
                 $module_denied = true;
-                if (user_can($module_permissions['index'])) {
+                if (has_access($module_permissions['index'])) {
                     $module_denied = false;
                 }
-                if (user_can($module_permissions['create'])) {
+                if (has_access($module_permissions['create'])) {
                     $module_denied = false;
                 }
-                if (user_can($module_permissions['edit'])) {
+                if (has_access($module_permissions['edit'])) {
                     $module_denied = false;
                 }
-                if (user_can($module_permissions['destroy'])) {
+                if (has_access($module_permissions['destroy'])) {
                     $module_denied = false;
                 }
                 if ($module_denied):

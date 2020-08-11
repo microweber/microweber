@@ -17,7 +17,7 @@
         <th><?php _e("Time"); ?></th>
         <th><?php _e("Size"); ?></th>
           <?php
-          if (user_can('module.admin.backup_v2.create') || user_can('module.admin.backup_v2.edit')):
+          if (has_access('module.admin.backup_v2.create') || has_access('module.admin.backup_v2.edit')):
           ?>
         <th><?php _e("Download"); ?></th>
         <th><?php _e("Import"); ?></th>
@@ -25,7 +25,7 @@
           endif;
           ?>
           <?php
-          if (user_can('module.admin.backup_v2.destroy')):
+          if (has_access('module.admin.backup_v2.destroy')):
           ?>
         <th><?php _e("Delete"); ?></th>
           <?php
@@ -49,7 +49,7 @@
           <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
 
           <?php
-          if (user_can('module.admin.backup_v2.create') || user_can('module.admin.backup_v2.edit')):
+          if (has_access('module.admin.backup_v2.create') || has_access('module.admin.backup_v2.edit')):
           ?>
           <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('BackupV2/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
@@ -60,7 +60,7 @@
           ?>
 
           <?php
-          if (user_can('module.admin.backup_v2.destroy')):
+          if (has_access('module.admin.backup_v2.destroy')):
           ?>
         <td><a class="show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.backup_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
           <?php
