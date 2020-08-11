@@ -126,7 +126,6 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             thismodal.resize(w, h);
             thismodal.center();
         }
-
     };
 
     mw.on.hashParam("action", function () {
@@ -217,14 +216,14 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
     }
 
     $(mwd).ready(function () {
-
+        thismodal.width('800px');
         resizeModal()
     });
 </script>
 
 <div class="post-settings-holder">
     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-        <a class="btn btn-outline-secondary justify-content-center active" onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Manage"); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center active" onclick="mw.manage_live_edit_content('<?php print $params['id'] ?>');" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Manage"); ?></a>
         <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
         <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
         <a class="btn btn-outline-secondary justify-content-center" style="display: none;" data-toggle="tab" href="#last-1"></a>
