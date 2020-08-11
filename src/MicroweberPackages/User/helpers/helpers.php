@@ -206,6 +206,11 @@ function must_have_access()
     return mw()->user_manager->admin_access();
 }
 
+function only_admin_access()
+{
+    return mw()->user_manager->admin_access();
+}
+
 function is_admin()
 {
     return mw()->user_manager->is_admin();
