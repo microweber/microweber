@@ -100,7 +100,7 @@
     <div class="mw_edit_page_default" id="mw_edit_page_left">
 
         <?php
-        if (has_access('module.admin.backup_v2.index')):
+        if (user_can('module.admin.backup_v2.index')):
         ?>
         <div class="mw-ui-btn-nav pull-left">
             <a href="javascript:;" onclick="mw.backup_export.choice('#export-template')" class="mw-ui-btn mw-ui-btn-notification">
@@ -322,7 +322,7 @@
         </template>
 
         <?php
-        if (has_access('module.admin.backup_v2.create') || has_access('module.admin.backup_v2.edit')):
+        if (user_can('module.admin.backup_v2.create') || user_can('module.admin.backup_v2.edit')):
         ?>
         <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info pull-right">
             <i class="mw-icon-upload"></i>&nbsp;
