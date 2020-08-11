@@ -236,18 +236,12 @@ if ($last_page_front != false) {
 
             <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
                 <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
-                <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline m-l-10" id="edit-content-btn" data-tip="bottom-left">
-                    <span class="mai-edit"></span>&nbsp; <span><?php _e("Edit page"); ?></span>
-                </a>
+                <a href="<?php print $edit_link; ?>" class="btn btn-outline-primary btn-sm" id="edit-content-btn"><?php _e("Edit page"); ?></a>
             <?php endif; ?>
 
             <?php if (isset($params['category-id'])): ?>
                 <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
-                <a href="<?php print $edit_link; ?>"
-                   class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" id="edit-category-btn"
-                   data-tip="bottom-left">
-                    <span><?php _e("Edit category"); ?></span>
-                </a>
+                <a href="<?php print $edit_link; ?>" class="btn btn-outline-primary btn-sm" id="edit-category-btn"><?php _e("Edit category"); ?></a>
             <?php endif; ?>
 
 
