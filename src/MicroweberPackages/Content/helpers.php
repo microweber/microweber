@@ -121,7 +121,7 @@ function get_content($params = false)
  */
 function get_content_admin($params)
 {
-    if (is_admin() == false) {
+    if (has_access() == false) {
         return false;
     }
 

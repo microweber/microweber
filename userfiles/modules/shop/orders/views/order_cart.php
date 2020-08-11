@@ -1,6 +1,6 @@
 <?php
 
-only_admin_access();
+has_access();
 $ord = mw()->shop_manager->get_order_by_id($params['order-id']);
 
 $cart_items = array();

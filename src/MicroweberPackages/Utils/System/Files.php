@@ -134,8 +134,8 @@ class Files
      */
     public function get($params)
     {
-        if (is_admin() == false) {
-            mw_error('Must be admin');
+        if (has_access() == false) {
+            mw_error('You dont have access to see this page');
         }
 
         $params = parse_params($params);

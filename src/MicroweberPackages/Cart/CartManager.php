@@ -280,15 +280,15 @@ class CartManager extends Crud
         }
         if ($skip_sid == false) {
             if (!defined('MW_ORDERS_SKIP_SID')) {
-                if ($this->app->user_manager->is_admin() == false) {
+                if ($this->app->user_manager->has_access() == false) {
                     $params['session_id'] = mw()->user_manager->session_id();
                 } else {
-                    if (isset($params['session_id']) and $this->app->user_manager->is_admin() == true) {
+                    if (isset($params['session_id']) and $this->app->user_manager->has_access() == true) {
                     } else {
                         $params['session_id'] = mw()->user_manager->session_id();
                     }
                 }
-                if (isset($params['no_session_id']) and $this->app->user_manager->is_admin() == true) {
+                if (isset($params['no_session_id']) and $this->app->user_manager->has_access() == true) {
                     unset($params['session_id']);
                 }
             }
@@ -389,7 +389,7 @@ class CartManager extends Crud
 
         $cart = array();
         $cart['id'] = intval($data['id']);
-        if ($this->app->user_manager->is_admin() == false) {
+        if ($this->app->user_manager->has_access() == false) {
             $cart['session_id'] = mw()->user_manager->session_id();
         }
         $cart['order_completed'] = 0;

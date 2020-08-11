@@ -10,6 +10,6 @@ if($how_many_ants == false or $how_many_ants == '' or intval( $how_many_ants) ==
 	 $('#<?php print $params['id']; ?>').insectify({chance: 1, squishable:1,"max-speed":10, 'mouse-distance':20, 'max-insects': <?php print intval($how_many_ants); ?>});
 	});
 </script>
-<?php if(is_admin()): ?>
+<?php if(has_access()): ?>
 <?php print notif("Click here to edit the Ants"); ?>
 <?php endif;

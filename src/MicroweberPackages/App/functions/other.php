@@ -222,7 +222,7 @@ function mw_print_admin_backup_settings_link()
 api_expose_admin('mw_post_update');
 function mw_post_update()
 {
-    $a = is_admin();
+    $a = has_access();
     if ($a != false) {
         return mw()->update->post_update();
     }
@@ -237,7 +237,7 @@ api_expose_admin('mw_install_market_item');
 
 function mw_install_market_item($params)
 {
-    $a = is_admin();
+    $a = has_access();
     if ($a != false) {
         return mw('update')->install_market_item($params);
     }
@@ -320,7 +320,7 @@ api_expose_admin('mw_send_anonymous_server_data');
 // function used do send us the language files
 function mw_send_anonymous_server_data($params)
 {
-    only_admin_access();
+    has_access();
     $update_api = mw('update');
 
     if ($params != false) {
@@ -734,7 +734,7 @@ function mw_composer_install_package_by_name($params)
     if (!mw_is_installed()) {
 
     } else {
-        only_admin_access();
+        has_access();
 
     }
 

@@ -148,7 +148,7 @@ function __store_lang_file()
  */
 
 api_expose_admin('send_lang_form_to_microweber', function ($data) {
-    if (is_admin() == true) {
+    if (has_access() == true) {
         $lang = current_lang();
         $send = array();
         $send['function_name'] = __FUNCTION__;

@@ -25,7 +25,7 @@ class Admin
         }
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
 
-        only_admin_access();
+        has_access();
 
     }
 

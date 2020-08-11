@@ -33,6 +33,6 @@ if ($template != false) {
 if ($template_file != false and is_file($template_file)) {
     include($template_file);
 }
-if (!$items and is_admin()) {
+if (!$items and has_access()) {
     print lnotif("Click here to edit Twitter feed");
 }

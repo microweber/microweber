@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 <script>
     mw.require('admin_package_manager.js');
 </script>

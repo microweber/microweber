@@ -79,7 +79,7 @@ class Comments extends Crud
     public function save($data)
     {
 
-        $adm = is_admin();
+        $adm = has_access();
 
         $table = MODULE_DB_COMMENTS;
         mw_var('FORCE_SAVE', $table);
@@ -162,7 +162,7 @@ class Comments extends Crud
                 }
             }
 
-            if (!is_admin()) {
+            if (!has_access()) {
 
 
                 $needs_terms = get_option('require_terms', 'comments') == 'y';
@@ -323,7 +323,7 @@ class Comments extends Crud
     public function mark_as_spam($data)
     {
 
-        only_admin_access();
+        has_access();
         if (isset($data['comment_id'])) {
             $s = array();
             $s['id'] = $data['comment_id'];
@@ -345,7 +345,7 @@ class Comments extends Crud
     public function mark_as_old($data)
     {
 
-        only_admin_access();
+        has_access();
 
         if (isset($data['content_id'])) {
             $table = MODULE_DB_COMMENTS;

@@ -1,6 +1,6 @@
 <?php
 
-if(!is_admin()){
+if(!has_access()){
 return;
 }
 $cont_id = 0;

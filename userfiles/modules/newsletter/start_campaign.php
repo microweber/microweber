@@ -1,5 +1,5 @@
 
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 
 <?php 
 if (isset($params['id'])) {

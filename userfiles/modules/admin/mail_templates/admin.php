@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
 <?php endif; ?>

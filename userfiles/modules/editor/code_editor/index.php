@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 
 <div class="module-live-edit-settings">
     <script>

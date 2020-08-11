@@ -8,7 +8,7 @@
     <a href="<?php print api_link('logout') ?>">
         <?php _e("Log Out"); ?>
     </a>
-    <?php if (is_admin()): ?>
+    <?php if (has_access()): ?>
         <div class="mw-user-logged-holder"><a href="<?php print admin_url() ?>">
                 <?php _e("Admin panel"); ?>
             </a></div>

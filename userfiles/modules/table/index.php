@@ -27,4 +27,4 @@ if (is_file($template_file)) {
     include($template_file);
 }
 
-if(is_admin() && empty($json) && empty($tablehtml)) print notif("Click here to edit table");
+if(has_access() && empty($json) && empty($tablehtml)) print notif("Click here to edit table");

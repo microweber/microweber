@@ -3,7 +3,7 @@
 api_expose('save_testimonial');
 function save_testimonial($data)
 {
-    if (!is_admin()) {
+    if (!has_access()) {
         return;
     }
 
@@ -31,7 +31,7 @@ function get_testimonials($params = array())
 api_expose('delete_testimonial');
 function delete_testimonial($params)
 {
-    if (!is_admin()) {
+    if (!has_access()) {
         return;
     }
     if (isset($params['id'])) {
@@ -44,7 +44,7 @@ function delete_testimonial($params)
 api_expose('reorder_testimonials');
 function reorder_testimonials($params)
 {
-    if (!is_admin()) {
+    if (!has_access()) {
         return;
     }
     if (isset($params['ids'])) {

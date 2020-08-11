@@ -51,4 +51,4 @@ require_once('scwCookie/scwCookie.class.php');
 $scwCookie = new ScwCookie\ScwCookie($json, $params['id']);
 $scwCookie->output();
 
-if (is_admin()) print notif("Click here to edit scwCookie");
+if (has_access()) print notif("Click here to edit scwCookie");

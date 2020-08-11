@@ -57,7 +57,7 @@ class Api extends Crud
     function save($data)
     {
 
-        $adm = is_admin();
+        $adm = has_access();
 
         $table = $this->table;
         mw_var('FORCE_SAVE', $table);
@@ -208,7 +208,7 @@ class Api extends Crud
     function mark_as_old($data)
     {
 
-        only_admin_access();
+        has_access();
 
         if (isset($data['content_id'])) {
             $table = MODULE_DB_COMMENTS;

@@ -11,7 +11,7 @@ return;
 
 
 
-only_admin_access();
+has_access();
 
 
 

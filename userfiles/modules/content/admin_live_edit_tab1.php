@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+has_access();
 
 $set_content_type = 'post';
 if (isset($params['global']) and $params['global'] != false) {

@@ -461,7 +461,7 @@ trait ExtendedSave
             return $this->_extended_save_has_permission;
         }
 
-        return $this->app->user_manager->is_admin();
+        return $this->app->user_manager->has_access();
     }
 
     public function extended_save_set_permission($boolean)

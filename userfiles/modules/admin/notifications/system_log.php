@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+has_access();
 $log_params = $params;
 
 if (isset($log_params['id'])) {

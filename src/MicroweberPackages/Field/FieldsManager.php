@@ -122,7 +122,7 @@ class FieldsManager
         }
 
         // return false;
-        $id = $this->app->user_manager->is_admin();
+        $id = $this->app->user_manager->has_access();
         if ($id == false) {
             //return false;
         }
@@ -629,7 +629,7 @@ class FieldsManager
 
             $sidq = '';
             if (intval($id) == 0 and $for_session != false) {
-                if (is_admin() != false) {
+                if (has_access() != false) {
                     $sid = mw()->user_manager->session_id();
                     $params['session_id'] = $sid;
                 }
@@ -876,7 +876,7 @@ class FieldsManager
 
     public function reorder($data)
     {
-        $adm = $this->app->user_manager->is_admin();
+        $adm = $this->app->user_manager->has_access();
         if ($adm == false) {
             $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -901,7 +901,7 @@ class FieldsManager
 
     public function delete($id)
     {
-        $uid = $this->app->user_manager->is_admin();
+        $uid = $this->app->user_manager->has_access();
         if (defined('MW_API_CALL') and $uid == false) {
             exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -996,7 +996,7 @@ class FieldsManager
 
         if (isset($data['copy_from'])) {
             $copy_from = intval($data['copy_from']);
-            if (is_admin() == true) {
+            if (has_access() == true) {
                 $table_custom_field = $this->table;
                 $form_data = $this->app->database_manager->get_by_id($table_custom_field, $id = $copy_from);
                 if (is_array($form_data)) {

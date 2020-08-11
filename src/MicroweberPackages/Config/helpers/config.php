@@ -6,7 +6,7 @@ function mw_is_installed()
 }
 
 api_expose_admin('mw_save_framework_config_file', function ($params) {
-    if (empty($params) or !is_admin()) {
+    if (empty($params) or !has_access()) {
         return;
     }
     $save_configs = array();

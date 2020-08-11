@@ -11,12 +11,12 @@ class ContentManagerHelpers extends ContentManagerCrud
 {
     public function add_content_to_menu($content_id, $menu_id = false)
     {
-        $id = $this->app->user_manager->is_admin();
+        $id = $this->app->user_manager->has_access();
         if (defined('MW_API_CALL') and $id == false) {
             return;
         }
         $new_item = false;
-        $id = $this->app->user_manager->is_admin();
+        $id = $this->app->user_manager->has_access();
         if (defined('MW_API_CALL') and $id == false) {
             return;
         }
@@ -453,7 +453,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
         if (defined('MW_API_CALL')) {
             $to_trash = true;
-            $adm = $this->app->user_manager->is_admin();
+            $adm = $this->app->user_manager->has_access();
             if ($adm == false) {
                 return array('error' => 'You must be admin to copy content!');
             }
@@ -546,7 +546,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         $json_print = array();
 
 
-        $is_admin = $this->app->user_manager->is_admin();
+        $is_admin = $this->app->user_manager->has_access();
         if ($post_data) {
             if (isset($post_data['data_base64'])) {
 
@@ -1147,7 +1147,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function save_content_field($data, $delete_the_cache = true)
     {
-        $adm = $this->app->user_manager->is_admin();
+        $adm = $this->app->user_manager->has_access();
         $table = $this->tables['content_fields'];
         $table_drafts = $this->tables['content_fields_drafts'];
 

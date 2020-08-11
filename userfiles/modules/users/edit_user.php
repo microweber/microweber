@@ -1,5 +1,5 @@
 <?php
-if (is_admin() == false) {
+if (has_access() == false) {
     mw_error("Must be admin");
 }
 
@@ -286,7 +286,7 @@ if (isset($data[0]) == false) {
                                 </div>
                             </div>
 
-                            <?php if (is_admin()) : ?>
+                            <?php if (has_access()) : ?>
                                 <small class="d-block text-muted text-center mb-3">User status and role</small>
 
                                 <div class="form-group">
@@ -365,7 +365,7 @@ if (isset($data[0]) == false) {
                                     </div>
                                 <?php endif; ?>
 
-                                <?php if (is_admin()) : ?>
+                                <?php if (has_access()) : ?>
                                     <script>
                                         function mw_admin_tos_popup(user_id) {
                                             var modalTitle = '<?php _e('Terms agreement log'); ?>';

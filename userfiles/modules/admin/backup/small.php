@@ -1,4 +1,4 @@
-<?php if(!is_admin()){error("must be admin");}; ?>
+<?php if(!has_access()){error("must be admin");}; ?>
 <script  type="text/javascript">
     mw.require("<?php print $config['url_to_module']; ?>backup.js");
 	mw.require("files.js");

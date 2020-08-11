@@ -319,21 +319,27 @@ class UserManager
 
     public function login_as($params)
     {
-        $is_a = $this->is_admin();
+        $is_a = $this->has_access();
         if ($is_a == true) {
             return true;
         }
     }
 
-    public function has_access($function_name)
+    public function has_access($permission = '')
     {
-        // will be updated with roles and perms
-        $is_a = $this->is_admin();
-        if ($is_a == true) {
-            return true;
-        } else {
+        $user = \Illuminate\Support\Facades\Auth::user();
+        if (!$user) {
             return false;
         }
+        if ($user->is_admin == 1) {
+            return true;
+        }
+
+        return true;
+        
+        $can = $user->can($permission);
+
+        return $can;
     }
 
     public function admin_access()
@@ -587,7 +593,7 @@ class UserManager
     {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){
-            if ($this->is_admin() == false) {
+            if ($this->has_access() == false) {
                 $validate_token = $this->csrf_validate($params);
                 if ($validate_token == false) {
                     return array('error' => 'Invalid token!');
@@ -999,7 +1005,7 @@ class UserManager
         }
         if (!$force) {
             if (defined('MW_API_CALL') and mw_is_installed() == true) {
-                if (isset($params['is_admin']) and $this->is_admin() == false and !is_null(User::first())) {
+                if (isset($params['is_admin']) and $this->has_access() == false and !is_null(User::first())) {
                     unset($params['is_admin']);
                 }
             }
@@ -1021,7 +1027,7 @@ class UserManager
             }
 
             if (isset($params['id']) and $params['id'] != 0) {
-                $adm = $this->is_admin();
+                $adm = $this->has_access();
                 if ($adm == false) {
                     $is_logged = user_id();
                     if ($is_logged == false or $is_logged == 0) {
@@ -1034,7 +1040,7 @@ class UserManager
                 }
             } else {
                 if (defined('MW_API_CALL') and mw_is_installed() == true) {
-                    $adm = $this->is_admin();
+                    $adm = $this->has_access();
                     if ($adm == false) {
                         $params['id'] = $this->id();
                         $is_logged = user_id();

@@ -565,10 +565,10 @@ if (array_key_exists('title', $_GET)) {
                 <select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto">
                     <option selected><?php /*_e("My Computer"); */?></option>
                     <option><?php /*_e("URL"); */?></option>
-                    <?php /*if (is_admin()): */?>
+                    <?php /*if (has_access()): */?>
                         <option id="browseTab"><?php /*_e("Uploaded"); */?></option>
                     <?php /*endif; */?>
-                    <?php /*if (is_admin()): */?>
+                    <?php /*if (has_access()): */?>
                         <option id="unslashImagesTab"><?php /*_e("Media Library"); */?></option>
                     <?php /*endif; */?>
                 </select>

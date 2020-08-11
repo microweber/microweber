@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php has_access(); ?>
 <?php
 $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
