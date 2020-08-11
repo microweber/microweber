@@ -250,12 +250,13 @@ class Manager
         $view->assign('post_params', $posts_mod);
         $view->assign('paging_param', $posts_mod['paging_param']);
 
-        $view->display(true);
+        $html = $view->display(true);
 
         $time_end = microtime(true);
         $time = $time_end - $time_start;
 
-        echo "Rendered in $time seconds\n";
+        $html .= "PHP Rendered in $time seconds\n";
 
+        echo $html;
     }
 }
