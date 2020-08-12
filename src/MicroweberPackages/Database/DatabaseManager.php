@@ -283,9 +283,7 @@ class DatabaseManager extends DbUtils
 
             return $query;
         }
-
-
-
+        
 
         if ($use_cache == false) {
              $data = $query->get();
@@ -293,7 +291,6 @@ class DatabaseManager extends DbUtils
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
                 return $query->get();
             });
-
         }
 
         if ($data == false or empty($data)) {
