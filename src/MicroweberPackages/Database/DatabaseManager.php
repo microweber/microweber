@@ -247,7 +247,7 @@ class DatabaseManager extends DbUtils
             if ($use_cache == false) {
                 $query = $query->count();
             } else {
-                $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+                $query = Cache::tags($table)->remember($cache_key, $ttl * 20, function () use ($query) {
                     return $query->count();
                 });
             }
@@ -287,7 +287,7 @@ class DatabaseManager extends DbUtils
         if ($use_cache == false) {
              $data = $query->get();
         } else {
-            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+            $data = Cache::tags($table)->remember($cache_key, $ttl * 20, function () use ($query) {
                 return $query->get();
             });
         }

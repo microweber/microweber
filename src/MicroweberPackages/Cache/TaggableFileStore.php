@@ -87,8 +87,10 @@ class TaggableFileStore implements Store
     {
         $findTagPath = $this->_findCachePathByKey($key);
 
+        /*
         // Clear instance of tags
         $this->tags = array(); // TODO DONT REMOVE THIS
+        */
 
         if (!$findTagPath) {
             return;
@@ -173,7 +175,10 @@ class TaggableFileStore implements Store
         $this->_addKeyPathToTagMap($key, $subPath . $filename);
 
         // Save key value in file
-        file_put_contents($path, $value);
+        $save = file_put_contents($path, $value);
+        if (!$save) {
+            throw new \Exception('Cant file put contents:' . $path);
+        }
 
         // Clear instance of tags
         $this->tags = array();
@@ -310,7 +315,6 @@ class TaggableFileStore implements Store
      */
     public function remember($key, $minutes, Closure $callback)
     {
-
         // If the item exists in the cache we will just return this immediately
         // otherwise we will execute the given Closure and cache the result
         // of that execution for the given number of minutes in storage.
@@ -318,7 +322,7 @@ class TaggableFileStore implements Store
             return $value;
         }
 
-        $this->put($key, $value = $callback(), $minutes);
+        $this->put($key, $value = $callback(), $minutes, $this->tags);
 
         return $value;
     }
