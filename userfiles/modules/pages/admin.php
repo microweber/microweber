@@ -1,225 +1,199 @@
-<?php //$rand = uniqid(); ?>
-<?php $pages = get_content('content_type=page&limit=1000'); ?>
-<?php $posts_parent_page = get_option('data-parent', $params['id']); ?>
-<?php $posts_maxdepth = get_option('maxdepth', $params['id']); ?>
-<?php $include_categories = get_option('include_categories', $params['id']); ?>
 <?php
-
+$from_live_edit = false;
+if (isset($params["live_edit"]) and $params["live_edit"]) {
+    $from_live_edit = $params["live_edit"];
+}
 ?>
-<script type="text/javascript">
-    mw.add_new_page = function (id) {
-        if (id == undefined) {
-            var id = 0;
-        }
 
-        var par_page = $("#mw_change_pages_parent_root").val();
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
 
-        pTabs.set(3);
-        mw.$('#mw_page_create_live_edit').removeAttr('data-content-id');
-        mw.$('#mw_page_create_live_edit').attr('from_live_edit', 1);
-        mw.$('#mw_page_create_live_edit').attr('content_type', 'page');
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-header">
+        <?php $module_info = module_info($params['module']); ?>
+        <h5>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+        </h5>
+    </div>
 
-        mw.$('#mw_page_create_live_edit').attr('parent', par_page);
+    <div class="card-body pt-3">
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Pages</a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
 
-        mw.$('#mw_page_create_live_edit').attr('content-id', id);
-        mw.$('#mw_page_create_live_edit').attr('quick_edit', 1);
-        mw.$('#mw_page_create_live_edit').removeAttr('live_edit');
-        mw.load_module('content/edit_page', '#mw_page_create_live_edit', function () {
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 900, mw.$('#settings-container').height() + 25, false);
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="list">
+                <?php $pages = get_content('content_type=page&limit=1000'); ?>
+                <?php $posts_parent_page = get_option('data-parent', $params['id']); ?>
+                <?php $posts_maxdepth = get_option('maxdepth', $params['id']); ?>
+                <?php $include_categories = get_option('include_categories', $params['id']); ?>
 
-            mw.$(".preview_frame_wrapper .mw-overlay").removeAttr("onclick");
-            mw.$("#mw_pages_list_tree_live_edit_holder").show().visibilityDefault()
+                <script type="text/javascript">
+                    mw.add_new_page = function (id) {
+                        if (id == undefined) {
+                            var id = 0;
+                        }
 
-        })
-    }
+                        var par_page = $("#mw_change_pages_parent_root").val();
 
-    $(document).ready(function () {
-        pTabs = mw.tabs({
-            nav: ".mw-ui-btn-nav-tabs a",
-            tabs: ".tab"
-        });
-    });
+                        pTabs.set(3);
+                        mw.$('#mw_page_create_live_edit').removeAttr('data-content-id');
+                        mw.$('#mw_page_create_live_edit').attr('from_live_edit', 1);
+                        mw.$('#mw_page_create_live_edit').attr('content_type', 'page');
 
-    $(document).ready(function () {
-        mw.$("#mw_change_pages_parent_root").change(function () {
-            var val = this.value;
-            mw.$('#mw_pages_list_tree_live_edit').attr('parent', val);
-            mw.reload_module('#mw_pages_list_tree_live_edit')
-        });
+                        mw.$('#mw_page_create_live_edit').attr('parent', par_page);
 
-    });
-</script>
+                        mw.$('#mw_page_create_live_edit').attr('content-id', id);
+                        mw.$('#mw_page_create_live_edit').attr('quick_edit', 1);
+                        mw.$('#mw_page_create_live_edit').removeAttr('live_edit');
+                        mw.load_module('content/edit_page', '#mw_page_create_live_edit', function () {
+                            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 900, mw.$('#settings-container').height() + 25, false);
 
-<script type="text/javascript">
-    mw.require('forms.js', true);
-</script>
-<script type="text/javascript">
+                            mw.$(".preview_frame_wrapper .mw-overlay").removeAttr("onclick");
+                            mw.$("#mw_pages_list_tree_live_edit_holder").show().visibilityDefault()
 
-    mw.on.moduleReload("mw_pages_list_tree_live_edit", function () {
-        mw.manage_pages_sort();
-
-    });
-
-
-    mw.manage_pages_sort = function () {
-        if (!mw.$("#mw_pages_list_tree_live_edit").hasClass("ui-sortable")) {
-            mw.$("#mw_pages_list_tree_live_edit ul").sortable({
-                items: 'li',
-
-                handle: '.pages_tree_link',
-                update: function () {
-                    var obj = {ids: []}
-                    $(this).find('.pages_tree_link').each(function () {
-                        var id = this.attributes['data-page-id'].nodeValue;
-                        obj.ids.push(id);
-                    });
-
-                    if (mw.notification != undefined) {
-                        mw.notification.success('Saving...');
+                        })
                     }
 
-                    $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
-
-                        if (mw.notification != undefined) {
-                            mw.notification.success('Reloading module...');
-                        }
-                        mw.reload_module_parent('pages');
-
+                    $(document).ready(function () {
+                        mw.$("#mw_change_pages_parent_root").change(function () {
+                            var val = this.value;
+                            mw.$('#mw_pages_list_tree_live_edit').attr('parent', val);
+                            mw.reload_module('#mw_pages_list_tree_live_edit')
+                        });
 
                     });
-                },
-                start: function (a, ui) {
-                    $(this).height($(this).outerHeight());
-                    $(ui.placeholder).height($(ui.item).outerHeight())
-                    $(ui.placeholder).width($(ui.item).outerWidth())
-                },
+                </script>
+                <script type="text/javascript">mw.require('forms.js', true);</script>
+                <script type="text/javascript">
+                    mw.on.moduleReload("mw_pages_list_tree_live_edit", function () {
+                        mw.manage_pages_sort();
 
-                //placeholder: "custom-field-main-table-placeholder",
-                scroll: false
+                    });
 
+                    mw.manage_pages_sort = function () {
+                        if (!mw.$("#mw_pages_list_tree_live_edit").hasClass("ui-sortable")) {
+                            mw.$("#mw_pages_list_tree_live_edit ul").sortable({
+                                items: 'li',
+                                handle: '.pages_tree_link',
+                                update: function () {
+                                    var obj = {ids: []}
+                                    $(this).find('.pages_tree_link').each(function () {
+                                        var id = this.attributes['data-page-id'].nodeValue;
+                                        obj.ids.push(id);
+                                    });
 
-            });
+                                    if (mw.notification != undefined) {
+                                        mw.notification.success('Saving...');
+                                    }
 
-        }
-    }
-    $(document).ready(function () {
-        mw.manage_pages_sort();
-    });
-</script>
+                                    $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
 
-<style>
-    .tab {
-        display: none;
-    }
+                                        if (mw.notification != undefined) {
+                                            mw.notification.success('Reloading module...');
+                                        }
+                                        mw.reload_module_parent('pages');
+                                    });
+                                },
+                                start: function (a, ui) {
+                                    $(this).height($(this).outerHeight());
+                                    $(ui.placeholder).height($(ui.item).outerHeight())
+                                    $(ui.placeholder).width($(ui.item).outerWidth())
+                                },
 
-    #content-edit-settings-tabs.fixed {
-        margin-top: -70px;
-    }
-</style>
+                                //placeholder: "custom-field-main-table-placeholder",
+                                scroll: false
+                            });
+                        }
+                    }
 
+                    $(document).ready(function () {
+                        mw.manage_pages_sort();
+                    });
+                </script>
 
-<a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium pull-right" onclick="mw.add_new_page();"><span class="mw-icon-page"></span><?php _e("Add new page"); ?></a>
-
-<div id="mw_page_create_live_edit"></div>
-
-
-<a id="add_new_post" href="javascript:;"></a>
-<div class="clearfix"/>
-
-<div class="mw-modules-tabs">
-    <div class="mw-accordion-item">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-beaker"></i> Manage pages
-            </div>
-        </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <div class="mw-ui-category-selector mw-ui-manage-list" id="mw_pages_list_tree_live_edit_holder" style="visibility: visible;display: block">
-                <?php
-                $pt_opts = array();
-                $pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}"   href="javascript:mw.add_new_page({id})">{title}</a>';
-                $pt_opts['ul_class'] = 'pages_tree cat_tree_live_edit';
-                $pt_opts['li_class'] = 'sub-nav';
-
-                //  pages_tree($pt_opts);
-                ?>
-
-                <module type="pages" link="javascript:mw.add_new_page({id})" ul-class="pages_tree cat_tree_live_edit" li-class="sub-nav" id="mw_pages_list_tree_live_edit" parent="<?php print $posts_parent_page ?>"/>
-            </div>
-        </div>
-    </div>
-
-    <div class="mw-accordion-item">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
-            </div>
-        </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <!-- Settings Content -->
-            <div class="module-live-edit-settings module-pages-settings">
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Pages & Sub-Pages From"); ?></label>
-                    <select name="data-parent" id="mw_change_pages_parent_root" class="mw-ui-field mw-full-width mw_option_field">
-                        <option valie="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>
-                            <?php _e("None"); ?>
-                        </option>
-                        <?php
-                        $pt_opts = array();
-                        $pt_opts['link'] = "{empty}{title}";
-                        $pt_opts['list_tag'] = " ";
-                        $pt_opts['list_item_tag'] = "option";
-
-                        $pt_opts['active_ids'] = $posts_parent_page;
-
-                        $pt_opts['active_code_tag'] = '   selected="selected"  ';
-
-                        pages_tree($pt_opts);
-
-
-                        ?>
-                        <?php if (defined('PAGE_ID')): ?>
-                            <option value="<?php print PAGE_ID; ?>">[use current page]</option>
-                        <?php endif; ?>
-                    </select>
+                <div class="text-right">
+                    <a href="javascript:;" class="btn btn-success btn-sm" onclick="mw.add_new_page();"><i class="mw-icon-page"></i> <?php _e("Add new page"); ?></a>
                 </div>
 
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Show Categories from page"); ?></label>
+                <div id="mw_page_create_live_edit"></div>
+                <div class="clearfix"/>
 
-                    <select name="include_categories" class="mw-ui-field mw-full-width mw_option_field">
-                        <option value="y" <?php if ('y' == $include_categories): ?>   selected="selected"  <?php endif; ?> ><?php _e("Yes"); ?></option>
-                        <option value="n" <?php if ('y' != $include_categories): ?>   selected="selected"  <?php endif; ?> ><?php _e("No"); ?></option>
-                    </select>
-                </div>
+                <div id="mw_pages_list_tree_live_edit_holder" style="max-width: 300px;">
+                    <?php
+                    $pt_opts = array();
+                    $pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}"   href="javascript:mw.add_new_page({id})">{title}</a>';
+                    $pt_opts['ul_class'] = 'pages_tree cat_tree_live_edit nav flex-column';
+                    $pt_opts['ul_class_deep'] = 'dropdown-menu';
+                    $pt_opts['li_class'] = 'nav-item';
+                    $pt_opts['a_class'] = '';
+                    $pt_opts['li_submenu_class'] = 'dropdown';
+                    $pt_opts['li_submenu_a_class'] = 'dropdown-toggle';
 
+                    //  pages_tree($pt_opts);
+                    ?>
 
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Max depth"); ?></label>
-
-                    <select name="maxdepth" class="mw-ui-field mw-full-width mw_option_field">
-                        <option value="none" selected>
-                            <?php _e("Default"); ?>
-                        </option>
-                        <?php for ($i = 1; $i < 10; $i++): ?>
-                            <option value="<?php print $i ?>" <?php if (($i == $posts_maxdepth)): ?>   selected="selected"  <?php endif; ?>> <?php print $i ?></option>
-                        <?php endfor; ?>
-                    </select>
+                    <module type="pages" link="javascript:mw.add_new_page({id})" ul-class="pages_tree cat_tree_live_edit" li-class="sub-nav" id="mw_pages_list_tree_live_edit" parent="<?php print $posts_parent_page ?>"/>
                 </div>
             </div>
-            <!-- Settings Content - End -->
-        </div>
-    </div>
 
-    <div class="mw-accordion-item">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
+            <div class="tab-pane fade" id="settings">
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-pages-settings">
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Pages & Sub-Pages From"); ?></label>
+                        <select name="data-parent" id="mw_change_pages_parent_root" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                            <option valie="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
+                            <?php
+                            $pt_opts = array();
+                            $pt_opts['link'] = "{empty}{title}";
+                            $pt_opts['list_tag'] = " ";
+                            $pt_opts['list_item_tag'] = "option";
+                            $pt_opts['active_ids'] = $posts_parent_page;
+                            $pt_opts['active_code_tag'] = '   selected="selected"  ';
+
+                            pages_tree($pt_opts);
+                            ?>
+                            <?php if (defined('PAGE_ID')): ?>
+                                <option value="<?php print PAGE_ID; ?>">[use current page]</option>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Show Categories from page"); ?></label>
+
+                        <select name="include_categories" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                            <option value="y" <?php if ('y' == $include_categories): ?>   selected="selected"  <?php endif; ?> ><?php _e("Yes"); ?></option>
+                            <option value="n" <?php if ('y' != $include_categories): ?>   selected="selected"  <?php endif; ?> ><?php _e("No"); ?></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Max depth"); ?></label>
+
+                        <select name="maxdepth" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                            <option value="none" selected>
+                                <?php _e("Default"); ?>
+                            </option>
+                            <?php for ($i = 1; $i < 10; $i++): ?>
+                                <option value="<?php print $i ?>" <?php if (($i == $posts_maxdepth)): ?>   selected="selected"  <?php endif; ?>> <?php print $i ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                </div>
+                <!-- Settings Content - End -->
+            </div>
+
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <module type="admin/modules/templates"/>
-        </div>
+
+
     </div>
 </div>

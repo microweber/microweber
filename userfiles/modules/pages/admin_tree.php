@@ -22,16 +22,14 @@ $params['categories_extra_attributes'] = array(
     'data-categories-type' => '{category_type}',
     'value' => '{id}'
 );
+
 $params['link'] = '<a data-page-id="{id}" class="mw-tree-renderer-admin-link-item {content_link_class} {active_class} {active_parent_class} pages_tree_link {nest_level} content-item-{id} {exteded_classes}" href="{link}' . $append_to_link . '">{title}</a>';
 $params['categories_link'] = '<a data-category-id="{id}" class="mw-tree-renderer-admin-link-item {content_link_class} {active_class} {active_parent_class} pages_tree_link {nest_level} category-item-{id}" href="{link}' . $append_to_link . '">{title}</a>';
-
-
 
 
 if (isset($params['data-parent'])) {
     $params['parent'] = intval($params['data-parent']);
 } else {
-
     $o = get_option('data-parent', $params['id']);
     if ($o != false and intval($o) > 0) {
         $params['parent'] = $o;
@@ -39,35 +37,34 @@ if (isset($params['data-parent'])) {
         if (isset($params['content_id'])) {
             $params['parent'] = intval($params['content_id']);
         }
-
-
     }
 }
+
 if (!isset($params['parent'])) {
     //	$params['parent'] = 0;
 }
+
 $include_categories = false;
 if (isset($params['data-include_categories']) and isset($params['parent'])) {
     $params['include_categories'] = intval($params['parent']);
 } else {
-
     $o = get_option('include_categories', $params['id']);
     if ($o != false and ($o) == 'y') {
         $include_categories = $params['include_categories'] = true;
     }
 }
+
 $o = get_option('maxdepth', $params['id']);
 
 if ($o != false and intval($o) > 0) {
     $params['maxdepth'] = $o;
 }
 
-
 if (is_admin() == false) {
     $params['is_active'] = 1;
 }
 
-$params['categories_link_class'] = 'mw-tree-renderer-admin-link-item     pages_tree_link';
+$params['categories_link_class'] = 'mw-tree-renderer-admin-link-item pages_tree_link';
 $params['categories_ul_class'] = 'category_tree';
 $params['categories_li_class'] = 'category_element';
 
@@ -91,9 +88,8 @@ $params['return_data'] = true;
 <?php endif; ?>
 <?php $is_del = get_content('count=1&is_deleted=1'); ?>
 
-
 <ul class="pages_tree pages_trash_holder depth-1">
-    <li class="pages_trash pages_tree_item  depth-1" title="<?php _e("Trash"); ?>">
+    <li class="pages_trash pages_tree_item depth-1" title="<?php _e("Trash"); ?>">
         <a data-page-id="deleted" class="pages_trash_link pages_tree_link depth-1" onclick="mw.url.windowHashParam('action', 'trash');" href="javascript: return false;">
             <span class="pages_tree_link_text pages_trash_text"><?php _e("Trash"); ?></span>
         </a>
