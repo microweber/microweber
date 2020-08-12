@@ -25,7 +25,7 @@ window.MWEditor = function (options) {
         skin: 'default',
         state: null,
         iframeAreaSelector: null,
-        activeClass: 'mw-ui-btn-info',
+        activeClass: 'active-control',
         interactionControls: [
             'image', 'linkTooltip', 'table'
         ],
@@ -43,8 +43,13 @@ window.MWEditor = function (options) {
     if (typeof this.settings.controls === 'string') {
         this.settings.controls = EditorPredefinedControls[this.settings.controls] || EditorPredefinedControls.default;
     }
-    if (typeof this.settings.smallEditor === 'string') {
-        this.settings.smallEditor = EditorPredefinedControls[this.settings.smallEditor] || EditorPredefinedControls.smallEditorDefault;
+
+    if(!!this.settings.smallEditor) {
+        if(this.settings.smallEditor === true) {
+            this.settings.smallEditor = EditorPredefinedControls.smallEditorDefault;
+        } else if (typeof this.settings.smallEditor === 'string') {
+            this.settings.smallEditor = EditorPredefinedControls[this.settings.smallEditor] || EditorPredefinedControls.smallEditorDefault;
+        }
     }
 
     this.document = this.settings.document;
@@ -140,7 +145,8 @@ window.MWEditor = function (options) {
     };
 
     this.initInteraction = function () {
-        var ait = 100, currt = new Date().getTime();
+        var ait = 100,
+            currt = new Date().getTime();
         this.interactionData = {};
         $(scope.actionWindow.document).on('selectionchange', function(e){
             $(scope).trigger('selectionchange', [{
@@ -356,7 +362,12 @@ window.MWEditor = function (options) {
                 innerHTML: '<span class="' + group.icon + ' mw-editor-group-button-icon"></span><span class="mw-editor-group-button-caret"></span>'
             }
         }).$node.on('click', function () {
-            $(this).parent().toggleClass('active')
+            MWEditor.core._preSelect(this.parentNode);
+            $(this).parent().toggleClass('active');
+        });
+
+        groupel.on('click', function (){
+            MWEditor.core._preSelect();
         });
 
         var media;
@@ -550,6 +561,10 @@ window.MWEditor = function (options) {
     };
     this.init();
 };
+
+if (window.mw) {
+   mw.Editor = MWEditor;
+}
 
 
 mw.require('state.js');

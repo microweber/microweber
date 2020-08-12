@@ -4,7 +4,8 @@ MWEditor.core = {
         var defaults = {
             tag: 'button',
             props: {
-                className: 'mdi mw-editor-controller-component mw-editor-controller-button mw-ui-btn mw-ui-btn-medium'
+                className: 'mdi mw-editor-controller-component mw-editor-controller-button',
+                type: 'button'
             }
         };
         if (config.props && config.props.className){
@@ -36,6 +37,9 @@ MWEditor.core = {
                 innerHTML: data.label
             }
         });
+        option.on('mousedown touchstart', function (e) {
+            e.preventDefault();
+        });
         option.value = data.value;
         return option;
     },
@@ -47,11 +51,12 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component mw-editor-controller-component-select'
             }
         });
-        var displayValNode = MWEditor.core.element({
+        var displayValNode = MWEditor.core.button({
             props: {
-                className: 'mw-ui-btn mw-ui-size-medium mw-ui-bg-default mw-editor-select-display-value'
+                className: 'mw-editor-select-display-value'
             }
         });
+        
         var valueHolder = MWEditor.core.element({
             props: {
                 className: 'mw-editor-controller-component-select-values-holder'
@@ -69,23 +74,27 @@ MWEditor.core = {
         this.select.append(displayValNode);
         this.select.append(valueHolder);
         for (var i = 0; i < options.data.length; i++) {
-            valueHolder.append(MWEditor.core._dropdownOption(options.data[i]));
+            var dt = options.data[i];
+            var opt = MWEditor.core._dropdownOption(dt);
+            opt.on('click', function (){
+                lscope.select.trigger('change', dt);
+            });
+            valueHolder.append(opt);
         }
-        var _preSelect = function (node) {
-            var all = document.querySelectorAll('.mw-editor-controller-component-select.active');
-            var i = 0, l = all.length;
-            for ( ; i < l; i++) {
-                if(all[i] !== node) {
-                    all[i].classList.remove('active')
-                }
-            }
-        };
-
 
         this.select.on('click', function (){
-            _preSelect(this.node);
+            MWEditor.core._preSelect(this.node);
             this.toggleClass('active');
         });
         this.root.append(this.select);
     },
+    _preSelect: function (node) {
+        var all = document.querySelectorAll('.mw-editor-controller-component-select.active, .mw-bar-control-item-group.active');
+        var i = 0, l = all.length;
+        for ( ; i < l; i++) {
+            if(!node || all[i] !== node) {
+                all[i].classList.remove('active');
+            }
+        }
+    }
 };

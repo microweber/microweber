@@ -52,6 +52,10 @@
 }
 
 .mw-small-editor-skin-default, .mw-editor-default{
+    [disabled] {
+        pointer-events: none;
+        opacity: .55;
+    }
     .mw-bar-control-item[data-disabled="true"] {
         .mw-editor-controller-component-select{
             pointer-events: none;
@@ -59,10 +63,12 @@
         }
 
     }
+
     .mw-editor-controller-component-select{
 
         .mw-editor-select-display-value{
             text-align: left;
+            font-size: 12px;
         }
         .mw-editor-select-display-value:after{
             content: "\F0140";
@@ -104,30 +110,30 @@
     .mw-editor-controller-component[data-tooltip]:after{
         position: absolute;
         content: attr(data-tooltip);
-        background: #111;
+        background: rgba(80,83,86,1);
         color: #fff;
         font-size: 11px;
         font-weight: bold;
         border-radius: 3px;
         padding: 5px;
-        bottom: 110%;
+        bottom: 86%;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translateX(-50%) scale(1);
         opacity: 0;
         pointer-events: none;
-        transition: .2s;
+        transition: .2s cubic-bezier(0.4, 0.0, 0.2, 1);
         line-height: normal;
-        margin-bottom: 5px;
     }
     .mw-editor-controller-component[data-tooltip]:hover:after,
     .mw-editor-controller-component[data-tooltip]:focus:after{
         opacity: 1;
         margin-top:0;
         bottom: 100%;
+        transform: translateX(-50%) scale(1);
     }
     .mw-bar-row {
         border-bottom:1px solid #DDDDDD;
-        background-color: #fff;
+        background-color: rgba(247,247,247, 1);
         padding: @editorSpacing;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -154,7 +160,7 @@
             }
             &.mw-editor-control-group-media-matches{
                 .mw-editor-controller-button{
-                    display: inline-block;
+                    display: inline-flex;
                 }
                 .mw-bar-control-item-group-contents {
                     visibility: hidden;
@@ -192,10 +198,43 @@
         vertical-align: middle;
     }
     .mw-editor-controller-button{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        cursor: default;
+        text-align: center;
+        position: relative;
+        text-decoration: none;
+        border-radius: 2px;
+        color: #686868;
+        border: 1px solid transparent;
+        outline: 0;
+        transition: .3s;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: transparent;
         font-size: 19px;
-        padding: 0;
-        width: 32px;
-        line-height: 2.308rem;
+        min-width: 32px;
+        height: 32px;
+        line-height: 0;
+        padding: 0 5px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        &:hover{
+            background-color: rgba(255,255,255,.77);
+            border-color: rgba(255,255,255,.87);
+        }
+
+
+        &.active-control{
+            background-color: #4592ff;
+            color: #fff;
+        }
         &.mw-editor-group-button{
             width: auto;
             padding: 0 5px;
@@ -204,14 +243,16 @@
                 vertical-align: middle;
             }
             .mw-editor-group-button-caret{
-                font-size: 10px;
+                font-size: 16px;
                 vertical-align: middle;
                 margin: 0;
                 color: #999;
                 position: relative;
                 top: -1px;
+                font-family: "Material Design Icons";
                 &:after{
-                    content: '\25BC';
+                    content: "\F035D";
+
                 }
             }
         }

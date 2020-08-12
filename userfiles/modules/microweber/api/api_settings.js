@@ -242,9 +242,7 @@
             'jquery.datetimepicker.full.min.js',
             'jquery.datetimepicker.min.css'
         ],
-        nzzestedSortable: [
-            'jquery.mjs.nestedSortable.js'
-        ],
+
         nestedSortable: [
             function () {
                 mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');

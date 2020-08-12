@@ -122,9 +122,9 @@ MWEditor.interactionControls = {
                     className: 'mw-table-inline-manager'
                 }
             });
-            var inserts =
 
-            var content = + '<ul>'
+
+            var content =  '<ul>'
                 + '<li>'
                 + '<a href="javascript:;">Insert<span class="mw-icon-dropdown"></span></a>'
                 + '<ul>'
@@ -151,7 +151,7 @@ MWEditor.interactionControls = {
                 + '</ul>'
                 + '</li>'
             + '</ul>';
-            
+
 
             return root;
         };

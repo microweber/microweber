@@ -259,8 +259,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     edit_load = function (module, callback) {
-        mw.spinner({
-            element: '.card'
+        var spinner =  mw.spinner({
+            element: '#mw-content-backend',
+            size:40
         })
         var n = mw.url.getHashParams(window.location.hash)['new_content'];
         if (n == 'true') {
@@ -282,9 +283,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
                 mw.$('.fade-window').addClass('active')
                 if (callback) callback.call();
-                mw.spinner({
-                    element: '.card'
-                }).remove()
+                spinner.remove()
             });
         }, time)
 

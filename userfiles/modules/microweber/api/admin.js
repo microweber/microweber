@@ -36,16 +36,18 @@ mw.admin = {
             }*/
         },
         init: function (area, params) {
-            var params = params || {};
+            params = params || {};
             if (typeof params === 'object') {
                 if (typeof params.src != 'undefined') {
                     delete(params.src);
                 }
             }
-            var params = typeof params === 'object' ? json2url(params) : params;
-            var area = mw.$(area);
+            params.live_edit=false;
+            params = typeof params === 'object' ? json2url(params) : params;
+            area = mw.$(area);
             var frame = mwd.createElement('iframe');
             frame.src = mw.external_tool('wysiwyg?' + params);
+            console.log(mw.external_tool('wysiwyg?' + params))
             frame.className = 'mw-iframe-editor';
             frame.scrolling = 'no';
             var name = 'mweditor' + mw.random();

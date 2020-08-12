@@ -8,7 +8,16 @@ if (isset($data['content-id'])) {
 }
 
 ?>
+<?php
+$content = get_content_by_id($data['content_id']);
+
+?>
+<template id="content_template"><?php print $content['content']; ?></template>
 <script>
+    mw.require('editor.js')
+</script>
+<script>
+
     mw.load_editor_internal = function (element_id) {
         var element_id = element_id || 'mw-admin-content-iframe-editor';
         var area = mwd.getElementById(element_id);
@@ -42,7 +51,43 @@ if (isset($data['content-id'])) {
                 delete window.mweditor;
             }
 
-            mweditor = mw.admin.editor.init(area, params);
+            // mweditor = mw.admin.editor.init(area, params);
+
+
+            mweditor = new mw.Editor({
+                selector: area,
+                mode: 'div',
+                smallEditor: false,
+                controls: [
+                    [
+                        'undoRedo', '|', 'image', '|',
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-bold',
+                                controls: ['bold', 'italic']
+                            }
+                        },
+                        '|',
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-align-left',
+                                controls: ['align']
+                            }
+                        },
+                        '|', 'format',
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-list-bulleted-square',
+                                controls: ['ul', 'ol']
+                            }
+                        },
+                        '|', 'link', 'unlink', 'wordPaste', 'table'
+                    ],
+                ],
+                content: document.getElementById('content_template').innerHTML
+            });
+
+
 
             if (mwd.getElementById('content-title-field') !== null) {
                 mweditor.onload = function () {
@@ -50,7 +95,7 @@ if (isset($data['content-id'])) {
                         var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
                         if (titleel !== null) {
                             var rel = mw.tools.mwattr(titleel, 'rel');
-                            if (rel == 'post' || rel == 'page' || rel == 'product' || rel == 'content') {
+                            if (rel === 'post' || rel === 'page' || rel === 'product' || rel === 'content') {
                                 mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
                             }
                         }

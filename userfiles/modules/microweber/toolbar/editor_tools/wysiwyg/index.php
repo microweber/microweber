@@ -64,7 +64,7 @@ ScaleFrame = function(){
 
 
   var par_frame = parent.mw.$('iframe[name="'+window.name+'"]')[0];
-  if(par_frame != undefined){
+  if(!!par_frame){
     parent.mw.$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
     //mw.$("#mw-admin-text-editor").hide();
   }

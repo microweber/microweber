@@ -718,6 +718,7 @@ mw.getScripts = function (array, callback) {
     }
   };
 
+
   mw.$ = function(selector, context) {
     if(typeof selector === 'object' || (typeof selector === 'string' && selector.indexOf('<') !== -1)){ return jQuery(selector); }
     context = context || mwd;
