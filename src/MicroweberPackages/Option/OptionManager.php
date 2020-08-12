@@ -219,7 +219,7 @@ class OptionManager
         $data['limit'] = 1;
         $ok = $this->app->database_manager->escape_string($data['option_key']);
 
-        $filter = array();
+     /*   $filter = array();
         $filter['limit'] = 1;
         $filter['option_key'] = $key;
         if ($option_group != false) {
@@ -232,8 +232,30 @@ class OptionManager
         $filter['table'] = $table;
 
         $get_all = mw()->database_manager->get($filter);
+     */
 
+        $cache_key = '';
+        if ($key) {
+            $cache_key .= $key;
+        } if ($option_group) {
+            $cache_key .= $option_group;
+        } if ($module) {
+            $cache_key .= $module;
+        }
+        $cache_key = crc32($cache_key);
 
+        $get_all = cache()->remember($cache_key, 1000000, function () use($key,$option_group,$module) {
+            $option = Option::where('option_key', $key)
+                ->when($option_group, function ($query, $option_group) {
+                    return $query->where('option_group', $option_group);
+                })->when($module, function ($query, $module) {
+                    return $query->where('module', $module);
+                })->get()->toArray();
+            if (!$option) {
+                return [];
+            }
+            return $option;
+        });
 
         if (!is_array($get_all)) {
             return false;

@@ -283,7 +283,6 @@ class DatabaseManager extends DbUtils
 
             return $query;
         }
-        
 
         if ($use_cache == false) {
              $data = $query->get();
