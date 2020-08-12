@@ -106,21 +106,19 @@
     }
     function getTaggingTagButtonHtml(id, name, slug, posts_count =0) {
 
-        var html = '<div class="btn-group btn-tag btn-tag-id-' + id + '" role="group">' +
-            '    <button type="button" class="btn btn-secondary"><i class="fa fa-tag"></i> ' + name + '</button>' +
-            '    <button type="button" class="btn btn-secondary" data-slug="' + slug + '" onClick="showPostsWithTags(this)">(' + posts_count + ')</button>' +
-            '    <button type="button" class="btn btn-secondary" onClick="editTaggingTag(' + id + ')"><i class="fa fa-pen"></i></button>' +
-            '    <button type="button" class="btn btn-secondary" onClick="deleteTaggingTag(' + id + ')"><i class="fa fa-times"></i></button>' +
+        var html = '<div class="btn-group tag mb-3 mr-3 btn-tag-id-' + id + '" role="group">' +
+            '    <button type="button" class="btn btn-secondary btn-sm icon-left" data-slug="' + slug + '" onClick="showPostsWithTags(this)"><strong>' + name + '</strong> <small class="ml-1 text-muted">(' + posts_count + ')</small></button>' +
+            '    <button type="button" class="btn btn-secondary btn-sm btn-icon" onClick="editTaggingTag(' + id + ')"><i class="mdi mdi-pencil text-primary"></i></button>' +
+            '    <button type="button" class="btn btn-secondary btn-sm btn-icon" onClick="deleteTaggingTag(' + id + ')"><i class="mdi mdi-close text-danger"></i></button>' +
             '</div>';
 
         return html;
     }
 
     function getTaggingTaggedButtonHtml(taggable_id, tag_name) {
-
-        var html = '<div class="btn-group btn-tag btn-tag-id-' + taggable_id + '" role="group">' +
-            '    <button type="button" class="btn btn-secondary"><i class="fa fa-tag"></i> ' + tag_name + '</button>' +
-            '    <button type="button" class="btn btn-secondary" onClick="deleteTaggingTagged(' + taggable_id + ')"><i class="fa fa-times"></i></button>' +
+        var html = '<div class="btn-group tag mb-2 mr-1 btn-tag-id-' + taggable_id + '" role="group">' +
+            '    <button type="button" class="btn-sm icon-left no-hover btn btn-primary"><i class="mdi mdi-tag"></i> ' + tag_name + '</button>' +
+            '    <button type="button" class="btn btn-primary btn-sm btn-icon" onClick="deleteTaggingTagged(' + taggable_id + ')"><i class="mdi mdi-close"></i></button>' +
             '</div>';
 
         return html;
@@ -163,9 +161,9 @@
             }
 
             var postTagBoxHtml = '' +
-                '<div class="js-post-tag-box js-post-tag-' + taggable_id + '">' +
-                '<p>' + data.title + '</p>' +
-                '<div>Tags: ' + tags + '<button class="btn btn-success js-post-tag-add-new" onClick="addTaggingTagged(' + taggable_id + ')" style="margin-top:5px;margin-right:5px;"><i class="fa fa-plus"></i></button></div>' +
+                '<div class="js-post-tag-box bg-white px-2 mb-3 js-post-tag-' + taggable_id + '">' +
+                '<p class="mb-1 mt-2">' + data.title + '</p>' +
+                '<div class="d-flex align-items-center"><div class="mb-2 mr-2">Tags:</div> ' + tags + '<button class="btn btn-success btn-sm btn-icon js-post-tag-add-new mb-2" onClick="addTaggingTagged(' + taggable_id + ')"><i class="fa fa-plus"></i></button></div>' +
                 '</div>';
 
             var postTagBox = $('.js-post-tag-' + taggable_id);
@@ -252,7 +250,7 @@
 
 <div class="row">
 
-    <div class="col-6">
+    <div class="col-md-6">
         <div class="form-group">
             <label class="control-label mb-0">Search <span class="js-filter-by-text">posts</span></label>
             <small class="d-block text-muted mb-2">You can search posts by title & tags.</small>
@@ -265,12 +263,12 @@
         </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-md-6">
         <!-- tags search -->
     </div>
 
-    <div class="col-6">
-        <div class="card style-1">
+    <div class="col-md-6">
+        <div class="card style-1 bg-light">
             <div class="card-header">
                 <h6 class="font-weight-bold"><span class="js-filter-by-text">Posts</span> list</h6>
             </div>
@@ -299,15 +297,15 @@
         </div>
     </div>
 
-    <div class="col-xs-6">
-        <div class="card style-1">
+    <div class="col-md-6">
+        <div class="card style-1 bg-light">
             <div class="card-header">
                 <h6 class="font-weight-bold">Tags for <span class="js-filter-by-text">Post</span></h6>
             </div>
             <div class="card-body" style="height: 525px;overflow-y: scroll;">
                 <h6 class="font-weigh-bold">List of all tags for selected <span class="js-filter-by-text">Posts</span></h6>
 
-                <p>Select the <span class="js-filter-by-text">tags</span> you want to add or edit for posts.</p>
+                <small class="d-block text-muted mb-2">Select the <span class="js-filter-by-text">tags</span> you want to add or edit for posts.</small>
                 <hr class="thin"/>
 
                 <div class="js-posts-tags">
