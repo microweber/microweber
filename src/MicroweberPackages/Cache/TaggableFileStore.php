@@ -265,20 +265,27 @@ class TaggableFileStore implements Store
         }
     }
 
+    private $_tag_map_cache=[];
     private function _getTagMapByName($tagName)
     {
-        $cacheFile = $this->_getTagMapPathByName($tagName);
+        if(isset($this->_tag_map_cache[$tagName])){
+            return $this->_tag_map_cache[$tagName];
+        }
 
+        $cacheFile = $this->_getTagMapPathByName($tagName);
+        $cacheFile = $this->normalizePath($cacheFile, false);
         if (!$this->files->isFile($cacheFile)) {
             return;
         }
 
         $cacheMapContent = @file_get_contents($cacheFile);
         $cacheMapContent = @json_decode($cacheMapContent, true);
+
         if(!$cacheMapContent){
+            $this->_tag_map_cache[$tagName] = [];
             return [];
         }
-
+        $this->_tag_map_cache[$tagName] = $cacheMapContent;
         return $cacheMapContent;
     }
 
