@@ -87,11 +87,6 @@ class TaggableFileStore implements Store
     {
         $findTagPath = $this->_findCachePathByKey($key);
 
-        /*
-        // Clear instance of tags
-        $this->tags = array(); // TODO DONT REMOVE THIS
-        */
-
         if (!$findTagPath) {
             return;
         }
@@ -113,7 +108,7 @@ class TaggableFileStore implements Store
         // the file and return null. This helps clean up the old files and keeps
         // this directory much cleaner for us as old files aren't hanging out.
         if ($this->currentTime() >= $expire) {
-           $this->forget($key);
+            $this->forget($key);
             return;
         }
 
@@ -123,6 +118,8 @@ class TaggableFileStore implements Store
             $this->forget($key);
             return;
         }
+
+        $this->tags = [];
 
         return $data;
     }
@@ -320,11 +317,12 @@ class TaggableFileStore implements Store
         // If the item exists in the cache we will just return this immediately
         // otherwise we will execute the given Closure and cache the result
         // of that execution for the given number of seconds in storage.
+
         if (!is_null($value = $this->get($key))) {
             return $value;
         }
 
-        $this->put($key, $value = $callback(), $seconds, $this->tags);
+        $this->put($key, $value = $callback(), $seconds);
 
         return $value;
     }

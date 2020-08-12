@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\App\Providers;
 
+use AlternativeLaravelCache\Provider\AlternativeCacheStoresServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -170,6 +171,8 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->instance('config', new ConfigSave($this->app));
 
         $this->app->register(TaggableFileCacheServiceProvider::class);
+
+        //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
