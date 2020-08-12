@@ -8637,8 +8637,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 .muted-cards .card:not(:hover) {
   border-top-color: transparent;
   border-left-color: transparent;
-  border-right-color: transparent;
-  border-radius: 0; }
+  border-right-color: transparent; }
   .muted-cards .card:not(:hover) .js-move {
     visibility: hidden; }
   .muted-cards .card:not(:hover) .btn-outline-primary,
@@ -8862,8 +8861,8 @@ label.control-label {
     right: 0; }
 
 .progress-silver {
-  border: 1px solid #919191;
-  background-color: rgba(145, 145, 145, 0.3);
+  border: 1px solid #dee2e6;
+  background-color: rgba(222, 226, 230, 0.3);
   border-radius: 7px; }
 
 .btn-group > .btn.dropdown-toggle {

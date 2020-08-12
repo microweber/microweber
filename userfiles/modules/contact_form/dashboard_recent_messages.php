@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php must_have_access(); ?>
 
 <script type="text/javascript">
     mw.require('<?php print $config['url_to_module']; ?>manager/forms_data_manager.js');

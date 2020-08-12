@@ -54,9 +54,13 @@ class View
         return $defined_vars;
     }
 
-    public function display()
+    public function display($return = false)
     {
-        echo $this->__toString();
+        if ($return) {
+            return $this->__toString();
+        } else {
+            echo $this->__toString();
+        }
     }
 
     public function __toString()

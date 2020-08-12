@@ -78,10 +78,10 @@ if ($tag) {
 
     function getTagButtonHtmlInForm(id,name,slug) {
 
-        var html = '<div class="btn-group btn-tag btn-tag-id-'+id+'" role="group">' +
-            '    <button type="button" class="btn btn-secondary" onClick="editTaggingTagReplaceForm('+id+')"><i class="fa fa-tag"></i> ' + name + '</button>' +
-            '    <button type="button" class="btn btn-secondary" onClick="editTaggingTagReplaceForm('+id+')"><i class="fa fa-pen"></i></button>' +
-            '    <button type="button" class="btn btn-secondary" onClick="deleteTaggingTag('+id+')"><i class="fa fa-times"></i></button>' +
+        var html = '<div class="btn-group tag mb-2 mr-1 btn-tag-id-'+id+'" role="group">' +
+            '    <button type="button" class="btn-sm icon-left no-hover btn btn-secondary" onClick="editTaggingTagReplaceForm('+id+')"><i class="mdi mdi-tag"></i> ' + name + '</button>' +
+            '    <button type="button" class="btn btn-primary btn-sm btn-icon" onClick="editTaggingTagReplaceForm('+id+')"><i class="mdi mdi-pencil"></i></button>' +
+            '    <button type="button" class="btn btn-primary btn-sm btn-icon" onClick="deleteTaggingTag('+id+')"><i class="mdi mdi-close"></i></button>' +
             '</div>';
 
         return html;
@@ -113,37 +113,30 @@ if ($tag) {
 </script>
 
 <form method="post" class="js-admin-tag-edit-form">
-
-    <div class="demobox">
-        <label class="mw-ui-label"><?php _e('Tag Name');?></label>
+    <div class="form-group">
+        <label class="control-label"><?php _e('Tag Name');?></label>
+        <small class="text-muted mb-2 d-block"><?php _e('The name is how it appears on your site.');?></small>
         <input type="text" name="name" value="<?php echo $name; ?>" class="form-control js-admin-tag-edit-form-tag-name js-clear-after-save">
-        <div class="helptext"><?php _e('The name is how it appears on your site.');?></div>
     </div>
 
-    <div class="demobox" <?php if ($tag): ?> style="display: none;" <?php endif; ?>>
-        <label class="mw-ui-label"><?php _e('Tag Slug');?></label>
+    <div class="form-group" <?php if ($tag): ?> style="display: none;" <?php endif; ?>>
+        <label class="control-label"><?php _e('Tag Slug');?></label>
+        <small class="text-muted mb-2 d-block"><?php _e('The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.');?></small>
         <input type="text" name="slug" value="<?php echo $slug; ?>" class="form-control js-admin-tag-edit-form-tag-slug js-clear-after-save">
-        <div class="helptext"><?php _e('The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.');?></div>
     </div>
 
 
-    <div class="demobox">
-        <label class="mw-ui-label"><?php _e('Tag Description'); ?></label>
+    <div class="form-group">
+        <label class="control-label"><?php _e('Tag Description'); ?></label>
+        <small class="text-muted mb-2 d-block"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></small>
         <textarea name="description" class="form-control js-admin-tag-edit-form-tag-description js-clear-after-save"><?php echo $description; ?></textarea>
-        <div class="helptext"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></div>
     </div>
 
     <input type="hidden" name="tagging_tag_id" class="js-admin-tag-edit-form-tag-id" value="<?php if ($tag): echo $tag['id']; endif; ?>" />
 
-    <button class="btn btn-success" type="submit"><i class="mw-icon-web-checkmark"></i> &nbsp; <?php _e('Save Tag');?></button>
-
+    <button class="btn btn-success btn-sm" type="submit"><?php _e('Save Tag');?></button>
 </form>
+
 <div class="js-admin-tag-edit-messages" style="padding-top: 15px"></div>
 
-<style>
-    .js-admin-tags {
-        margin-top:20px;
-    }
-</style>
-
-<div class="js-admin-tags"></div>
+<div class="js-admin-tags mt-3"></div>

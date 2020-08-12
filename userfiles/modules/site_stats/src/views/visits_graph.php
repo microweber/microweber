@@ -255,11 +255,12 @@ if ($params['period']) {
 
         </div>
         <div class="card-body stat-box-content">
+            <?php if($users_online){ ?>
             <div class="users-online">
                 <?php print $users_online; ?>
                 <span><?php _e("Users online") ?></span>
             </div>
-
+            <?php } ?>
             <div class="graph-holder">
                 <div class="dashboard_stats"></div>
                 <div class="lines">

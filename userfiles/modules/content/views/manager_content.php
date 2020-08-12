@@ -7,6 +7,13 @@
 
     <div class="manage-posts-holder" id="mw_admin_posts_sortable">
         <div class="manage-posts-holder-inner muted-cards">
+
+            <?php
+            $edit_text = _e('Edit', true);
+            $delete_text = _e('Delete', true);
+            $live_edit_text = _e('Live Edit', true);
+            ?>
+
             <?php if (is_array($data)): ?>
                 <?php foreach ($data as $item): ?>
                     <?php if (isset($item['id'])): ?>
@@ -17,6 +24,7 @@
                             $pub_class = ' content-unpublished';
                             $append = '<div class="post-unpublished d-inline-flex align-items-center justify-content-center"><a href="javascript:;" class="btn btn-sm btn-link" onclick="mw.post.set(' . $item['id'] . ', \'publish\');">' . _e("Publish", true) . '</a> <span class="badge badge-warning">' . _e("Unpublished", true) . '</span></div>';
                         }
+                        $content_link = content_link($item['id']);
                         ?>
                         <?php $pic = get_picture($item['id']); ?>
                         <div class="card card-product-holder mb-2 post-has-image-<?php print ($pic == true ? 'true' : 'false'); ?> manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
@@ -78,7 +86,7 @@
                                             <?php endif; ?>
                                         </div>
                                         <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']); ?>
-                                        <?php $edit_link_front = content_link($item['id']) . '?editmode:y'; ?>
+                                        <?php $edit_link_front = $content_link. '?editmode:y'; ?>
                                     </div>
 
                                     <div class="col item-title manage-post-item-col-3 manage-post-main">
@@ -106,24 +114,24 @@
                                             <?php endif; ?>
 
 
-                                            <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_top" href="<?php print content_link($item['id']); ?>?editmode:y">
-                                                <small class="text-muted"><?php print content_link($item['id']); ?></small>
+                                            <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_top" href="<?php print $content_link; ?>?editmode:y">
+                                                <small class="text-muted"><?php print $content_link; ?></small>
                                             </a>
                                         </div>
 
                                         <div class="manage-post-item-links">
                                             <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
-                                                <?php _e("Edit"); ?>
+                                                <?php echo $edit_text;  ?>
                                             </a>
 
-                                            <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print content_link($item['id']); ?>?editmode:y">
-                                                <?php _e("Live Edit"); ?>
+                                            <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
+                                                <?php echo $live_edit_text; ?>
                                             </a>
 
                                             <a class="btn btn-outline-danger btn-sm" href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
-                                                <?php _e("Delete"); ?>
+                                                <?php echo $delete_text; ?>
                                             </a>
-                                            <?php print $append; ?>
+
                                         </div>
                                     </div>
 

@@ -31,15 +31,11 @@ class Manager
 
     function index($params)
     {
-
-
         if (isset($params['manage_categories'])) {
             print load_module('categories/manage', $params);
-
             return;
-
-
         }
+
         if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             $params['is_shop'] = 1;
         } else if (isset($params['is_shop']) and $params['is_shop'] == 'n') {

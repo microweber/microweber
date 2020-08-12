@@ -1,4 +1,4 @@
-<?php  only_admin_access() ?>
+<?php  must_have_access() ?>
 
 <?php $dir_name = normalize_path(modules_path()); ?>
 

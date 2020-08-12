@@ -1,4 +1,15 @@
 <?php
+/*
+Route::get('xaxaxa',function (){
+
+    foreach (get_posts() as $post) {
+
+       $link =  content_link($post['id']);
+
+       var_dump($link);
+    }
+
+});*/
 
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
@@ -21,7 +32,6 @@ Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], functi
 
     Route::any('/api', 'DefaultController@api');
     Route::any('/api/{slug}', 'DefaultController@api');
-
 
     $custom_admin_url = \Config::get('microweber.admin_url');
     $admin_url = 'admin';

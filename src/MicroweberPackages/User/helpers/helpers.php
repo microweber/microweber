@@ -196,9 +196,14 @@ function user_id()
     return mw()->user_manager->id();
 }
 
-function has_access($function_name)
+function has_access($function_name = '')
 {
     return mw()->user_manager->has_access($function_name);
+}
+
+function must_have_access()
+{
+    return mw()->user_manager->admin_access();
 }
 
 function only_admin_access()
@@ -296,6 +301,9 @@ function user_can($permission) {
     if (!$user) {
         return false;
     }
+    if ($user->is_admin == 1) {
+        return true;
+    }
 
     return $user->can($permission);
 }
@@ -311,6 +319,10 @@ function user_can_view_module($module) {
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
         return false;
+    }
+    
+    if ($user->is_admin == 1) {
+        return true;
     }
 
     if ($user->can($permissions['index'])) {

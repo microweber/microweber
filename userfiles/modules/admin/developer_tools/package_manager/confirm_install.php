@@ -3,7 +3,7 @@
 if (!mw_is_installed()) {
 
 } else {
-    only_admin_access();
+    must_have_access();
 
 }
 

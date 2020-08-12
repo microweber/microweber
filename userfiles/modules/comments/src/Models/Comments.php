@@ -323,7 +323,7 @@ class Comments extends Crud
     public function mark_as_spam($data)
     {
 
-        only_admin_access();
+        must_have_access();
         if (isset($data['comment_id'])) {
             $s = array();
             $s['id'] = $data['comment_id'];
@@ -345,7 +345,7 @@ class Comments extends Crud
     public function mark_as_old($data)
     {
 
-        only_admin_access();
+        must_have_access();
 
         if (isset($data['content_id'])) {
             $table = MODULE_DB_COMMENTS;

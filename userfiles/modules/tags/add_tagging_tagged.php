@@ -14,10 +14,12 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
         position: relative;
         padding: 10px 0px;
     }
+
     .mw-ui-field {
         width: 100%;
     }
-    .helptext{
+
+    .helptext {
         color: #666;
     }
 </style>
@@ -32,7 +34,7 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
                 url: mw.settings.api_url + 'tagging_tagged/add',
                 type: 'post',
                 data: $(this).serialize(),
-                success: function(data) {
+                success: function (data) {
                     if (data.status == true) {
                         var postTagCloud = $('.js-post-tag-' + $('.js-admin-post-tag-add-form-post-id').val());
 
@@ -52,7 +54,7 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
                         $('.js-admin-post-tag-add-form-tag-name').val('');
 
                         if (typeof(tagsSelect) !== 'undefined') {
-                            tagsSelect.value({id:'', title:''});
+                            tagsSelect.value({id: '', title: ''});
                         }
 
                         var i_ids;
@@ -71,7 +73,7 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
                         //  mw.reload_module_everywhere('tags');
                         mw.notification.success('<?php _e('Tag is added!');?>');
                     } else {
-                        $('.js-admin-post-tag-messages').html('<div class="mw-ui-box mw-ui-box-content mw-ui-box-important"><i class="fa fa-times"></i> '+data.message+'</div>');
+                        $('.js-admin-post-tag-messages').html('<div class="mw-ui-box mw-ui-box-content mw-ui-box-important"><i class="fa fa-times"></i> ' + data.message + '</div>');
                         mw.notification.error(data.message);
                     }
                 }
@@ -95,17 +97,17 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
         }
     });
     <?php if (!empty($tag['id'])) : ?>
-    tagsSelect.value({id:<?php echo $tag['id']; ?>, title:'<?php echo $tag['tag_name']; ?>'});
+    tagsSelect.value({id:<?php echo $tag['id']; ?>, title: '<?php echo $tag['tag_name']; ?>'});
     <?php endif; ?>
-    
-    $(tagsSelect).on("change", function(event, tag){
+
+    $(tagsSelect).on("change", function (event, tag) {
         if (tag.id) {
             $.ajax({
                 url: mw.settings.api_url + 'tagging_tag/view',
                 type: 'post',
                 data: {tagging_tag_id: tag.id},
                 success: function (data) {
-                    if (data.name) { 
+                    if (data.name) {
                         $('.js-admin-post-tag-add-form-global-tag-id').val(data.id);
                         $('.js-admin-post-tag-add-form-tag-name').val(data.name);
                     }
@@ -117,41 +119,28 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
 
 
 <form method="post" class="js-admin-post-tag-add-form">
-
-    <div class="demobox">
-        <label class="mw-ui-label"><?php _e('Tag Name');?></label>
+    <div class="form-group">
+        <label class="control-label"><?php _e('Tag Name'); ?></label>
+        <small class="text-muted mb-2 d-block"><?php _e('The name is how it appears on your site.'); ?></small>
         <input type="text" name="tag_name" value="" class="form-control js-admin-post-tag-add-form-tag-name">
-        <div class="helptext"><?php _e('The name is how it appears on your site.');?></div>
     </div>
 
-
     <?php if ($taggable_id): ?>
-      <input type="hidden" name="taggable_id" class="js-admin-post-tag-add-form-taggable-id" value="<?php echo $taggable_id; ?>" />
+        <input type="hidden" name="taggable_id" class="js-admin-post-tag-add-form-taggable-id" value="<?php echo $taggable_id; ?>"/>
     <?php endif; ?>
 
     <?php if ($taggable_ids): ?>
-    <?php foreach ($taggable_ids as $taggable_id_data): ?>
-            <input type="hidden" name="taggable_ids[]" value="<?php echo $taggable_id_data['taggable_id']; ?>" />
-    <?php endforeach; ?>
+        <?php foreach ($taggable_ids as $taggable_id_data): ?>
+            <input type="hidden" name="taggable_ids[]" value="<?php echo $taggable_id_data['taggable_id']; ?>"/>
+        <?php endforeach; ?>
     <?php endif; ?>
 
     <!-- this will be filled automaticly -->
-    <input type="hidden" name="tagging_tag_id" class="js-admin-post-tag-add-form-global-tag-id" value="" />
+    <input type="hidden" name="tagging_tag_id" class="js-admin-post-tag-add-form-global-tag-id" value=""/>
 
-
-    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> &nbsp; <?php _e('Add tag');?></button>
-
+    <button class="btn btn-success btn-sm" type="submit"><?php _e('Add tag'); ?></button>
 </form>
 
-<style>
-    .js-admin-post-tag-messages {
-        margin-top: 15px;
-    }
-    .js-admin-post-tags {
-        margin-top:20px;
-    }
-</style>
+<div class="js-admin-post-tag-messages mt-2"></div>
 
-<div class="js-admin-post-tag-messages"></div>
-
-<div class="js-admin-post-tags"></div>
+<div class="js-admin-post-tags mt-3"></div>

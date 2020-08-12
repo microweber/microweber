@@ -131,8 +131,9 @@ class DatabaseWriter
 			$dbSelectParams['id'] = $item['id'];
 			
 			$itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
-			
-			return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
+            BackupImportLogger::setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase );
+
+            return array('item'=>$item, 'itemIdDatabase'=>$itemIdDatabase);
 		}
 		
 		if ($item['save_to_table'] == 'options') {
@@ -293,6 +294,8 @@ class DatabaseWriter
 		return; */
 
         if (isset($this->content->__table_structures)) {
+            BackupImportLogger::setLogInfo('Building database tables');
+
             app()->database_manager->build_tables($this->content->__table_structures);
         }
 
@@ -301,6 +304,7 @@ class DatabaseWriter
             if (!\Schema::hasTable($table)) {
                 continue;
             }
+            BackupImportLogger::setLogInfo('Importing in table: ' . $table);
 
 			if (!empty($items)) {
 				foreach($items as $item) {

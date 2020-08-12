@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+must_have_access();
 
 $set_content_type = 'post';
 if (isset($params['global']) and $params['global'] != false) {
@@ -8,25 +8,25 @@ if (isset($params['global']) and $params['global'] != false) {
 
 $rand = uniqid(); ?>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        mw.lib.require('bootstrap3ns');
-        mw.lib.require('bootstrap_tags');
-    });
+    <script type="text/javascript">
+        $(document).ready(function () {
+            mw.lib.require('bootstrap3ns');
+            mw.lib.require('bootstrap_tags');
+        });
 
-    function mw_reload_content_mod_window(curr_mod) {
-        setTimeout(function () {
-            mw.reload_module_parent('#<?php print $params['id'] ?>');
-            window.location.href = mw.url.removeHash(window.location.href);
-        }, 1000)
-
-        $(mwd.body).ajaxStop(function () {
+        function mw_reload_content_mod_window(curr_mod) {
             setTimeout(function () {
+                mw.reload_module_parent('#<?php print $params['id'] ?>');
                 window.location.href = mw.url.removeHash(window.location.href);
             }, 1000)
-        });
-    }
-</script>
+
+            $(mwd.body).ajaxStop(function () {
+                setTimeout(function () {
+                    window.location.href = mw.url.removeHash(window.location.href);
+                }, 1000)
+            });
+        }
+    </script>
 
 <?php if (!isset($is_shop) or $is_shop == false): ?>
     <?php $is_shop = false;
@@ -54,24 +54,15 @@ $rand = uniqid(); ?>
 <?php endif; ?>
 
 <?php if (!isset($set_content_type) or $set_content_type != 'none') : ?>
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e("Display"); ?> <?php print ($set_content_type) ?> <?php _e("from page"); ?></label>
+    <div class="form-group">
+        <label class="control-label d-block"><?php _e("Display") . ' '; ?><?php print ($set_content_type) ?><?php ' ' . _e("from page"); ?></label>
 
-
-        <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw-ui-field w100 mw_option_field" onchange="mw_reload_content_mod_window()">
-
-            <?php if(intval($posts_parent_page) > 0 and !get_content_by_id($posts_parent_page)){ ?>
-                <option value=""   selected="selected"  >
-                    <?php _e("Unknown page"); ?>
-                </option>
+        <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field selectpicker" data-size="5" data-live-search="true" onchange="mw_reload_content_mod_window()">
+            <?php if (intval($posts_parent_page) > 0 and !get_content_by_id($posts_parent_page)) { ?>
+                <option value="" selected="selected"><?php _e("Unknown page"); ?></option>
             <?php } ?>
-            <option value="current_page" <?php if (('current_page' == ($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>
-                --
-                <?php _e("Current page"); ?>
-            </option>
-            <option value="0" <?php if ($posts_parent_page != 'current_page' and (0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>
-                <?php _e("All pages"); ?>
-            </option>
+            <option value="current_page" <?php if (('current_page' == ($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>-- <?php _e("Current page"); ?></option>
+            <option value="0" <?php if ($posts_parent_page != 'current_page' and (0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("All pages"); ?></option>
             <?php
             $pt_opts = array();
             $pt_opts['link'] = "{title}";
@@ -94,20 +85,16 @@ $rand = uniqid(); ?>
             }
 
             pages_tree($pt_opts);
-
             ?>
         </select>
     </div>
     <?php if ($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
         <?php $posts_parent_category = get_option('data-category-id', $params['id']); ?>
 
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label"><?php _e("Show only from category"); ?></label>
-            <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"
-                    class="mw-ui-field w100 mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>">
-                <option value='' <?php if ((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>
-                    <?php _e("Select a category"); ?>
-                </option>
+        <div class="form-group">
+            <label class="control-label d-block"><?php _e("Show only from category"); ?></label>
+            <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true" data-also-reload="<?php print  $config['the_module'] ?>">
+                <option value='' <?php if ((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
                 <?php
                 $pt_opts = array();
                 $pt_opts['link'] = " {title}";
@@ -125,18 +112,9 @@ $rand = uniqid(); ?>
                 $pt_opts['rel_id'] = $posts_parent_page;
                 category_tree($pt_opts);
                 ?>
-                <option value='0' <?php if ((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>
-                    --
-                    <?php _e("All"); ?>
-                </option>
-                <option value='related' <?php if (('related' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>
-                    --
-                    <?php _e("Related"); ?>
-                </option>
-                <option value='sub_pages' <?php if (('sub_pages' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>
-                    --
-                    <?php _e("Sub Pages"); ?>
-                </option>
+                <option value='0' <?php if ((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>-- <?php _e("All"); ?></option>
+                <option value='related' <?php if (('related' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>-- <?php _e("Related"); ?></option>
+                <option value='sub_pages' <?php if (('sub_pages' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>-- <?php _e("Sub Pages"); ?></option>
             </select>
         </div>
     <?php endif; ?>
@@ -202,168 +180,141 @@ $rand = uniqid(); ?>
     ?>
 
     <style type="text/css">
-        .mw-ui-row-nodrop {
-            width: 100%;
+        .setting-row {
             padding: 10px;
         }
 
-        .admin-manage-toolbar-content .mw-ui-row-nodrop {
-            padding-left: 0;
-            padding-right: 0;
+        .setting-row .custom-control,
+        .setting-row label {
+            margin: 0;
         }
 
-        .mw-ui-row-nodrop:hover {
+        .setting-row:hover {
             background-color: #f5f5f5;
-        }
-
-        .mw-ui-row-nodrop .mw-ui-col:last-child {
-            text-align: right;
-            vertical-align: middle;
-        }
-
-        .mw-ui-row-nodrop, .mw-ui-row-nodrop *, .mw-ui-row-nodrop .mw-ui-col {
-            vertical-align: middle;
         }
     </style>
 
-    <label class="mw-ui-label"><?php _e("Display on") . ' '; ?> <?php print ($set_content_type) ?>: </label>
+    <label class="control-label"><?php _e("Display on") . ' '; ?> <?php print ($set_content_type) ?>:</label>
 
     <div class="">
-        <ul id="post_fields_sort_<?php print  $rand ?>" class="fields-controlls">
-            <div class="mw-ui-row-nodrop">
-                <div class="mw-ui-col">
-                    <label class="mw-ui-check">
-                        <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <?php if (in_array('thumbnail', $show_fields)): ?>   checked="checked"  <?php endif; ?> />
-                        <span></span> <span><?php _e("Thumbnail"); ?></span>
-                    </label>
-                </div>
-
-                <div class="mw-ui-col">
-                    <?php
-
-                    /*
-                      <label class="mw-ui-label-horizontal"><?php _e("Size"); ?></label>
-                      <input name="data-thumbnail-size" class="mw-ui-field mw_option_field"   type="text" style="width:95px;" placeholder="250x200"  value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
-                     */
-
-                    ?>
+        <div id="post_fields_sort_<?php print  $rand ?>" class="fields-controlls">
+            <div class="setting-row d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="thumbnail" id="thumbnail" <?php if (in_array('thumbnail', $show_fields)): ?>checked<?php endif; ?>>
+                        <label class="custom-control-label" for="thumbnail"><?php _e("Thumbnail"); ?></label>
+                    </div>
                 </div>
             </div>
 
-            <div class="mw-ui-row-nodrop">
-                <div class="mw-ui-col">
-                    <label class="mw-ui-check">
-                        <input type="checkbox" name="data-show" value="title" class="mw_option_field" <?php if (in_array('title', $show_fields)): ?>   checked="checked"  <?php endif; ?> />
-                        <span></span> <span><?php _e("Title"); ?></span>
-                    </label>
+            <div class="setting-row d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="title" id="title" <?php if (in_array('title', $show_fields)): ?>checked<?php endif; ?>>
+                        <label class="custom-control-label" for="title"><?php _e("Title"); ?></label>
+                    </div>
                 </div>
-                <div class="mw-ui-col">
-                    <label class="mw-ui-label-horizontal"><?php _e("Length"); ?></label>
-                    <input name="data-title-limit" class="mw-ui-field mw_option_field" type="text" placeholder="255" style="width:95px;" value="<?php print get_option('data-title-limit', $params['id']) ?>"/>
+
+                <div>
+                    <label class="d-inline-block"><?php _e("Length"); ?></label>
+                    <input type="text" class="form-control d-inline-block w-auto mw_option_field" name="data-title-limit" value="<?php print get_option('data-title-limit', $params['id']) ?>" placeholder="255"/>
                 </div>
             </div>
 
-            <div class="mw-ui-row-nodrop">
-                <div class="mw-ui-col">
-                    <label class="mw-ui-check">
-                        <input type="checkbox" name="data-show" value="description" class="mw_option_field" <?php if (in_array('description', $show_fields)): ?>   checked="checked"  <?php endif; ?> />
-                        <span></span> <span><?php _e("Description"); ?></span>
-                    </label>
+            <div class="setting-row d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="description" id="description" <?php if (in_array('description', $show_fields)): ?>checked<?php endif; ?>>
+                        <label class="custom-control-label" for="description"><?php _e("Description"); ?></label>
+                    </div>
                 </div>
 
-                <div class="mw-ui-col">
-                    <label class="mw-ui-label-horizontal"><?php _e("Length"); ?></label>
-                    <input name="data-character-limit" class="mw-ui-field mw_option_field" type="text" placeholder="80" style="width:95px;" value="<?php print get_option('data-character-limit', $params['id']) ?>"/>
+                <div>
+                    <label class="d-inline-block"><?php _e("Length"); ?></label>
+                    <input type="text" class="form-control d-inline-block w-auto mw_option_field" name="data-character-limit" value="<?php print get_option('data-character-limit', $params['id']) ?>" placeholder="80"/>
                 </div>
             </div>
 
             <?php if ($is_shop): ?>
-                <div class="mw-ui-row-nodrop">
-                    <div class="mw-ui-col">
-                        <label class="mw-ui-check">
-                            <input type="checkbox" name="data-show" value="price" class="mw_option_field" <?php if (in_array('price', $show_fields)): ?>   checked="checked"  <?php endif; ?> />
-                            <span></span> <span><?php _e("Show price"); ?></span>
-                        </label>
-                    </div>
-                    <div class="mw-ui-col"></div>
-                </div>
-
-                <div class="mw-ui-row-nodrop">
-                    <div class="mw-ui-col">
-                        <label class="mw-ui-check">
-                            <input type="checkbox" name="data-show" value="add_to_cart" class="mw_option_field" <?php if (in_array('add_to_cart', $show_fields)): ?>   checked="checked"  <?php endif; ?> />
-                            <span></span> <span><?php _e("Add to cart button"); ?></span>
-                        </label>
-                    </div>
-
-                    <div class="mw-ui-col">
-                        <label class="mw-ui-label-horizontal"><?php _e("Title"); ?></label>
-                        <input name="data-add-to-cart-text" class="mw-ui-field mw_option_field" style="width:95px;" placeholder="<?php _e("Add to cart"); ?>" type="text" value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>"/>
+                <div class="setting-row d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="price" id="price" <?php if (in_array('price', $show_fields)): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label" for="price"><?php _e("Show price"); ?></label>
+                        </div>
                     </div>
                 </div>
 
-
-                <div class="mw-ui-row-nodrop">
-                    <div class="mw-ui-col">
-                        <label class="mw-ui-check">
-                            <input type="checkbox" name="filter-only-in-stock" value="1" class="mw_option_field" <?php if (get_option('filter-only-in-stock', $params['id'])): ?>   checked="checked"  <?php endif; ?> />
-                            <span></span> <span><?php _e("Show only products in stock"); ?></span>
-                        </label>
+                <div class="setting-row d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="add_to_cart" id="add_to_cart" <?php if (in_array('add_to_cart', $show_fields)): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label" for="add_to_cart"><?php _e("Add to cart button"); ?></label>
+                        </div>
                     </div>
-                    <div class="mw-ui-col"></div>
+
+                    <div>
+                        <label class="d-inline-block"><?php _e("Title"); ?></label>
+                        <input name="data-add-to-cart-text" class="mw_option_field form-control d-inline-block w-auto" style="width:95px;" placeholder="<?php _e("Add to cart"); ?>" type="text" value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>"/>
+                    </div>
                 </div>
 
+                <div class="setting-row d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input mw_option_field" name="filter-only-in-stock" value="1" id="filter-only-in-stock" <?php if (get_option('filter-only-in-stock', $params['id'])): ?>checked<?php endif; ?>>
+                            <label class="custom-control-label" for="filter-only-in-stock"><?php _e("Show only products in stock"); ?></label>
+                        </div>
+                    </div>
+                </div>
             <?php endif; ?>
 
-            <div class="mw-ui-row-nodrop">
-                <div class="mw-ui-col">
-                    <label class="mw-ui-check">
-                        <input type="checkbox" name="data-show" value="read_more" class="mw_option_field" <?php if (in_array('read_more', $show_fields)): ?>   checked="checked"  <?php endif; ?> />
-                        <span></span> <span><?php _e("Read More Link"); ?></span>
-                    </label>
+            <div class="setting-row d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="read_more" id="read_more" <?php if (in_array('read_more', $show_fields)): ?>checked<?php endif; ?>>
+                        <label class="custom-control-label" for="read_more"><?php _e("Read More Link"); ?></label>
+                    </div>
                 </div>
 
-                <div class="mw-ui-col">
-                    <label class="mw-ui-label-horizontal"><?php _e("Title"); ?></label>
-                    <input name="data-read-more-text" class="mw-ui-field mw_option_field" type="text" placeholder="<?php _e("Read more"); ?>" style="width:95px;" value="<?php print get_option('data-read-more-text', $params['id']) ?>"/>
+                <div>
+                    <label class="d-inline-block"><?php _e("Title"); ?></label>
+                    <input name="data-read-more-text" class="mw_option_field form-control d-inline-block w-auto" type="text" placeholder="<?php _e("Read more"); ?>" style="width:95px;" value="<?php print get_option('data-read-more-text', $params['id']) ?>"/>
+                </div>
+            </div>
+            <div class="setting-row d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="created_at" id="created_at" <?php if (in_array('created_at', $show_fields)): ?>checked<?php endif; ?>>
+                        <label class="custom-control-label" for="created_at"><?php _e("Date"); ?></label>
+                    </div>
                 </div>
             </div>
 
-            <div class="mw-ui-row-nodrop">
-                <div class="mw-ui-col">
-                    <label class="mw-ui-check">
-                        <input type="checkbox" name="data-show" value="created_at" class="mw_option_field" <?php if (in_array('created_at', $show_fields)): ?>   checked="checked"  <?php endif; ?> />
-                        <span></span> <span><?php _e("Date"); ?></span>
-                    </label>
+            <div class="setting-row d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-hide-paging" value="y" id="data-hide-paging" <?php if (get_option('data-hide-paging', $params['id']) == 'y'): ?>checked<?php endif; ?>>
+                        <label class="custom-control-label" for="data-hide-paging"><?php _e("Hide paging"); ?></label>
+                    </div>
                 </div>
-                <div class="mw-ui-col"></div>
-            </div>
 
-            <div class="mw-ui-row-nodrop">
-                <div class="mw-ui-col">
-                    <label class="mw-ui-check">
-                        <input type="checkbox" name="data-hide-paging" value="y" class="mw_option_field" <?php if (get_option('data-hide-paging', $params['id']) == 'y'): ?>   checked="checked"  <?php endif; ?> />
-                        <span></span><span><?php _e("Hide paging"); ?></span>
-                    </label>
-                </div>
-                <div class="mw-ui-col">
-                    <label class="mw-ui-label-horizontal"><?php _e("Posts per page"); ?></label>
-                    <input name="data-limit" class="mw-ui-field mw_option_field right" type="number" style="width:55px;" placeholder="10" value="<?php print get_option('data-limit', $params['id']) ?>"/>
+                <div>
+                    <label class="d-inline-block"><?php _e("Posts per page"); ?></label>
+                    <input name="data-limit" class="mw_option_field form-control d-inline-block w-auto" type="number" style="width:55px;" placeholder="10" value="<?php print get_option('data-limit', $params['id']) ?>"/>
                 </div>
             </div>
 
+            <div class="setting-row d-flex align-items-center justify-content-between">
+                <div></div>
 
+                <div>
+                    <label class="d-inline-block">
+                        <?php $ord_by = get_option('data-order-by', $params['id']); ?>
+                        <?php _e("Order by"); ?>
+                    </label>
 
-
-
-            <div class="mw-ui-row-nodrop">
-                <label class="mw-ui-label-horizontal">
-                    <?php $ord_by = get_option('data-order-by', $params['id']); ?>
-                    <span></span><span><?php _e("Order by"); ?></span>
-                </label>
-
-                <div class="mw-ui-col">
-                    <select name="data-order-by" class="mw-ui-field w100 mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>">
+                    <select name="data-order-by" class="mw_option_field selectpicker" data-width="auto" data-also-reload="<?php print  $config['the_module'] ?>">
                         <option value="" <?php if ((0 == intval($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?>(ASC)</option>
                         <option value="position asc" <?php if (('position asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?>(DESC)</option>
                         <option value="created_at desc" <?php if (('created_at desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Date"); ?>(ASC)</option>
@@ -373,6 +324,6 @@ $rand = uniqid(); ?>
                     </select>
                 </div>
             </div>
-        </ul>
+        </div>
     </div>
 <?php endif; ?>

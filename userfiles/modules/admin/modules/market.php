@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php must_have_access(); ?>
 <?php $parent_module = mw()->url_manager->param('parent-module'); ?>
 
 

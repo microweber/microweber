@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+must_have_access();
 $form_rand_id = uniqid() . rand();
 $data = false;
 if (isset($params["data-category-id"])) {

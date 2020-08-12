@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php must_have_access(); ?>
 <script type="text/javascript">
     mw.require('forms.js', true);
 </script>

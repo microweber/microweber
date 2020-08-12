@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+must_have_access();
 $data = false;
 if (isset($params['content-id'])) {
     $data = get_content_by_id($params["content-id"]);

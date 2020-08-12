@@ -1,4 +1,4 @@
-<?php only_admin_access() ?>
+<?php must_have_access() ?>
 
 <div id="coupons-accordion" class="mw-ui-box mw-ui-box-silver-blue m-t-20">
     <div class="mw-ui-box-header" onclick="mw.accordion('#coupons-accordion');">

@@ -12,12 +12,7 @@
       "email": "bobi@microweber.com"
     }
   ],
-  "require": {
 
-    "illuminate/database": "*",
-    "jeremeamia/superclosure": "*",
-    "microweber-packages/microweber-helpers": "dev-master"
-  },
 
   "autoload": {
     "psr-4": {

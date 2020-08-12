@@ -325,7 +325,7 @@ class UserManager
         }
     }
 
-    public function has_access($function_name)
+    public function has_access($function_name = '')
     {
         // will be updated with roles and perms
         $is_a = $this->is_admin();

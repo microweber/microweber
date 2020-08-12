@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+must_have_access();
 $data = [];
 if (isset($params['content_id'])) {
     $data = array(

@@ -23,7 +23,7 @@ class Themes
 	 */
 	public function upload($query)
 	{
-		only_admin_access();
+		must_have_access();
 
 		$overwrite = false;
 		if (isset($query['overwrite']) && $query['overwrite'] == 1) {

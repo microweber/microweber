@@ -1,6 +1,6 @@
 <?php $rand = $params['id']; ?>
 <?php
-only_admin_access(); ?>
+must_have_access(); ?>
 <?php $option_groups = array('website', 'users', 'template', 'email'); ?>
 <script>
     mw.require('forms.js');

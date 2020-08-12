@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php must_have_access(); ?>
 <script type="text/javascript" src="<?php print(site_url()); ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
 
 <script src="<?php print site_url('apijs') ?>" type="text/javascript"></script>

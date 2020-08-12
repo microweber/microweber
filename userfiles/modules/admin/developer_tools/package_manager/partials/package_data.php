@@ -1,4 +1,4 @@
-<?php only_admin_access();
+<?php must_have_access();
 
 
 $is_core_update = false;

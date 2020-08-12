@@ -1,6 +1,6 @@
 <?php
 
-only_admin_access();
+must_have_access();
 
  ?>
  Nothing to see here

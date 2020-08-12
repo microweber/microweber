@@ -215,8 +215,6 @@ class DatabaseManager extends DbUtils
         $query = $this->map_values_to_query($query, $params);
 
         $ttl = $this->table_cache_ttl;
-
-
         if (!$query) {
             return;
         }
@@ -284,16 +282,12 @@ class DatabaseManager extends DbUtils
             return $query;
         }
 
-
-
-
         if ($use_cache == false) {
              $data = $query->get();
         } else {
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
                 return $query->get();
             });
-
         }
 
         if ($data == false or empty($data)) {

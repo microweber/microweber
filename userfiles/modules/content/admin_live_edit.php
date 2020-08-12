@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+must_have_access();
 $is_shop = false;
 
 if (isset($params['is_shop'])) {
@@ -118,46 +118,18 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 } else {
     $add_post_q .= '  ';
 }
-
 ?>
-<style>
-    .mw-ui-box.tab {
-        display: none;
-    }
 
-
-    .manage-posts-holder, .manage-post-item {
-        border: none
-    }
-
-    .manage-toobar-content {
-        margin-bottom: 10px;
-    }
-    .post-settings-holder .mw-ui-btn-nav{
-        clear: none;
-    }
-</style>
 <script type="text/javascript">
-
-    //    $( window ).bind( "adminSaveContentCompleted", function() {
-    //
-    //
-    //        alert( "Content is saved "  );
-    //    });
-
-
     resizeModal = function (w, h) {
-        if(window.thismodal && thismodal.resize){
+        if (window.thismodal && thismodal.resize) {
             thismodal.resize(w, h);
             thismodal.center();
         }
-
     };
-
 
     mw.on.hashParam("action", function () {
         var id = (this.split(':')[1]);
-
 
         if (this == 'new:post' || this == 'new:page' || this == 'new:product') {
             mw.add_new_content_live_edit(id);
@@ -166,13 +138,10 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
         } else {
             mw.edit_content_live_edit(id);
         }
-
     });
 
     mw.add_new_content_live_edit = function ($cont_type) {
-
-
-        Tabs.set(3);
+        $('a[href="#last-1"]').trigger('click');
 
         $('#mw_posts_create_live_edit').removeAttr('data-content-id');
         $('#mw_posts_create_live_edit').attr('from_live_edit', 1);
@@ -199,11 +168,11 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
             resizeModal();
         });
-
-
     }
+
     mw.manage_live_edit_content = function ($id) {
-        Tabs.set(3);
+        $('a[href="#last-1"]').trigger('click');
+
         if ($id != undefined) {
             $('#mw_posts_manage_live_edit').attr('module-id', $id);
         }
@@ -212,10 +181,11 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             resizeModal();
         })
     }
+
     mw.edit_content_live_edit = function ($cont_id) {
-        Tabs.set(4);
+        $('a[href="#last-2"]').trigger('click');
         mw.$('#mw_posts_edit_live_edit').empty();
-        if(window.thismodal && thismodal.dialogContainer) {
+        if (window.thismodal && thismodal.dialogContainer) {
             thismodal.dialogContainer.querySelector('iframe').style.height = 'auto';
             thismodal.dialogContainer.scrollTop = 0;
         }
@@ -245,65 +215,53 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
         });
     }
 
-
     $(mwd).ready(function () {
-        Tabs = mw.tabs({
-            nav: ".post-settings-holder .mw-ui-btn-nav-tabs .mw-ui-btn",
-            tabs: ".mw-ui-box-content-tabs .tab",
-            activeClass: 'active-info',
-            onclick: function (tab, event, index) {
-                window.name = index;
-            }
-        });
-        if (window.name != '') {
-            var index = parseFloat(window.name);
-            if (!isNaN(index)) {
-                Tabs.set(index);
-            }
-
-        }
+        thismodal.width('800px');
         resizeModal()
     });
-
 </script>
 
 <div class="post-settings-holder">
-    <?php if (isset($params['global'])) { ?>
-        <a href="javascript:;" class="mw-ui-btn" onclick="mw.add_new_content_live_edit('<?php print addslashes($set_content_type_mod); ?>');" style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="mw-icon-<?php print trim($set_content_type_mod); ?>"></span>
-            <?php _e("Add new"); ?>
-            <?php _e(ucwords($set_content_type_mod)); ?></a>
-    <?php } else if ($is_shop) { ?>
-        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-medium pull-right" onclick="mw.add_new_content_live_edit('product');"><span class="mw-icon-product"></span>
-            <?php _e("New Product"); ?>
-        </a>
-    <?php } else { ?>
-        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-notification mw-ui-btn-rounded mw-ui-btn-medium pull-right" onclick="mw.add_new_content_live_edit('post');">
-            <span class="mw-icon-plus"></span> &nbsp;<?php _e("New Post"); ?>
-        </a>
-    <?php } ?>
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-        <a href="javascript:;" class="mw-ui-btn active" onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');"><?php _e("Manage"); ?></a>
-        <a href="javascript:;" class="mw-ui-btn"><?php _e("Settings"); ?></a>
-        <a href="javascript:;" class="mw-ui-btn"><?php _e("Skin/Template"); ?></a>
-    </div>
-    <div class="mw-ui-box mw-ui-box-content mw-ui-box-content-tabs">
-        <div class="tab" style="display: block">
+    <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+        <a class="btn btn-outline-secondary justify-content-center active" onclick="mw.manage_live_edit_content('<?php print $params['id'] ?>');" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Manage"); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center" style="display: none;" data-toggle="tab" href="#last-1"></a>
+        <a class="btn btn-outline-secondary justify-content-center" style="display: none;" data-toggle="tab" href="#last-2"></a>
+    </nav>
+
+    <div class="tab-content py-3">
+        <div class="tab-pane fade show active" id="list">
+            <div class="text-right">
+                <?php if (isset($params['global'])): ?>
+                    <a href="javascript:;" class="btn btn-success btn-sm" onclick="mw.add_new_content_live_edit('<?php print addslashes($set_content_type_mod); ?>');" style="position: absolute;top: 12px;right: 12px;z-index: 2;"><i class="mdi mdi-<?php print trim($set_content_type_mod); ?>"></i>
+                        <?php _e("Add new"); ?> <?php _e(ucwords($set_content_type_mod)); ?></a>
+                <?php elseif ($is_shop) : ?>
+                    <a href="javascript:;" class="btn btn-success btn-sm" onclick="mw.add_new_content_live_edit('product');"><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
+                <?php else : ?>
+                    <a href="javascript:;" class="btn btn-success btn-sm" onclick="mw.add_new_content_live_edit('post');"><i class="mdi mdi-text"></i> <?php _e("New Post"); ?></a>
+                <?php endif; ?>
+            </div>
+
             <module type="content/manager" <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true"/>
         </div>
-        <div class="tab" style="display:none">
+
+        <div class="tab-pane fade" id="settings">
             <?php include($posts_mod); ?>
         </div>
-        <div class="tab" style="display:none">
+
+        <div class="tab-pane fade" id="templates">
             <?php if (isset($params['global'])) : ?>
                 <module type="admin/modules/templates" id="posts_list_templ" for-module="posts"/>
             <?php else: ?>
                 <module type="admin/modules/templates" id="posts_list_templ"/>
             <?php endif; ?>
         </div>
-        <div class="tab">
+
+        <div class="tab-pane fade" id="last-1">
             <div <?php print $add_post_q ?> id="mw_posts_create_live_edit"></div>
         </div>
-        <div class="tab">
+        <div class="tab-pane fade" id="last-2">
             <div id="mw_posts_edit_live_edit" class="mw_posts_edit_live_edit"></div>
         </div>
     </div>

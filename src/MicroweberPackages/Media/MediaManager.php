@@ -1165,7 +1165,7 @@ class MediaManager
 
     public function create_media_dir($params)
     {
-        only_admin_access();
+        must_have_access();
         $resp = array();
         // $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = media_uploads_path();
@@ -1200,7 +1200,7 @@ class MediaManager
 
     public function delete_media_file($params)
     {
-        only_admin_access();
+        must_have_access();
 
         // $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = media_uploads_path();

@@ -22,16 +22,15 @@
   ],
   "require": {
     "doctrine/dbal": "2.5.3",
-    "laravel/framework": "v7.12.0",
+    "laravel/framework": "7.*",
+    "composer/installers": "*",
     "symplify/monorepo-builder": "^8.1",
     "laravelcollective/html": "^6.0@dev",
     "laravel/socialite": "^5.0@dev",
     "ezyang/htmlpurifier": "*",
     "knplabs/knp-menu": "^3.2@dev",
     "arcanedev/seo-helper": "dev-master",
-    "microweber-templates/dream": "dev-master",
-    "microweber-templates/new-world": "dev-master",
-    "microweber-templates/liteness": "dev-master",
+
     "graham-campbell/markdown": "^12.0@dev",
     "jenssegers/agent": "^3.0@dev",
     "geoip2/geoip2": "dev-master",
@@ -43,7 +42,11 @@
     "wikimedia/composer-merge-plugin": "^1.5@dev",
     "rtconner/laravel-tagging": "^4.0",
     "spatie/laravel-permission": "*",
-    "barryvdh/laravel-dompdf": "*"
+    "barryvdh/laravel-dompdf": "*",
+    "jeremeamia/superclosure": "*",
+    "microweber-templates/dream": "dev-master",
+    "microweber-templates/new-world": "dev-master",
+    "microweber-templates/liteness": "dev-master"
   },
   "require-dev": {
     "orchestra/testbench": "^5.0",

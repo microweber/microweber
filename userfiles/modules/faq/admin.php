@@ -1,4 +1,4 @@
-<?php only_admin_access() ?>
+<?php must_have_access() ?>
 
 <?php
 $from_live_edit = false;
@@ -35,9 +35,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $json = array(0 => $defaults);
         }
         ?>
-
+        <script>mw.lib.require('mwui_init');</script>
+        <script>mw.lib.require('material_icons');</script>
         <script>
-
             faqs = {
                 init: function (item) {
 
@@ -118,7 +118,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $(document).ready(function () {
 
                 $('#faq-settings').sortable({
-                    handle: '.mw-ui-box-header',
+                    handle: '.card-header',
                     items: ".faq-setting-item",
 
                     update: function (event, ui) {
@@ -129,87 +129,53 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         </script>
 
-        <style scoped="scoped">
-            #faq-settings {
-                clear: both;
-            }
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Questions</a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
 
-            #faq-settings > div {
-                margin-top: 15px;
-                clear: both;
-            }
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="list">
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-faq-settings">
+                    <input type="hidden" class="mw_option_field" name="settings" option-group="faq" id="settingsfield"/>
 
-            .add-new-button {
-                text-align: right;
-            }
-
-            .mw-ui-box-header {
-                cursor: -moz-grab;
-                cursor: -webkit-grab;
-                cursor: grab;
-            }
-
-            .remove-question {
-                color: #f12b1c;
-            }
-        </style>
-
-        <div class="admin-side-content">
-            <div class="mw-modules-tabs <?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
-                <div class="mw-accordion-item">
-                    <div class="mw-ui-box-header mw-accordion-title">
-                        <div class="header-holder">
-                            <i class="mw-icon-navicon-round"></i> List of Questions
-                        </div>
+                    <div class="mb-3">
+                        <a class="btn btn-primary btn-rounded" href="javascript:faqs.create()"><?php _e('Add new'); ?></a>
                     </div>
-                    <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                        <!-- Settings Content -->
-                        <div class="module-live-edit-settings module-faq-settings">
-                            <input type="hidden" class="mw_option_field" name="settings" option-group="faq" id="settingsfield"/>
 
-                            <div class="mw-ui-field-holder add-new-button">
-                                <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" href="javascript:faqs.create()"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
-                            </div>
-
-                            <div id="faq-settings">
-                                <?php $count = 0; ?>
-                                <?php if ($json and is_array($json)): ?>
-                                    <?php foreach ($json as $slide): ?>
-                                        <?php $count++; ?>
-                                        <div class="mw-ui-box  faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
-                                            <div class="mw-ui-box-header"><span class="mw-icon-drag ui-sortable-handle"></span> <a class="pull-right remove-question tip" data-tipposition="left-center" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mw-icon-close"></i></a></div>
-                                            <div class="mw-ui-box-content">
-                                                <div class="mw-ui-field-holder">
-                                                    <label class="mw-ui-label"><?php _e('Question'); ?></label>
-                                                    <input type="text" class="mw-ui-field faq-name w100 " value="<?php print $slide['question']; ?>">
-                                                </div>
-
-                                                <div class="mw-ui-field-holder">
-                                                    <label class="mw-ui-label"><?php _e('Answer'); ?></label>
-                                                    <textarea class="mw-ui-field faq-role w100" id="textarea<?php print $count; ?>"><?php print $slide['answer']; ?></textarea>
-                                                </div>
-                                            </div>
+                    <div id="faq-settings">
+                        <?php $count = 0; ?>
+                        <?php if ($json and is_array($json)): ?>
+                            <?php foreach ($json as $slide): ?>
+                                <?php $count++; ?>
+                                <div class="card style-1 mb-3 faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
+                                    <div class="card-header d-flex align-items center justify-content-between flex-row">
+                                        <span class="mdi mdi-cursor-move mdi-20px ui-sortable-handle text-muted"></span>
+                                        <a class="remove-question text-danger" data-toggle="tooltip" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mdi mdi-close mdi-20px"></i></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php _e('Question'); ?></label>
+                                            <input type="text" class="form-control faq-name " value="<?php print $slide['question']; ?>">
                                         </div>
-                                    <?php endforeach ?>
-                                <?php endif ?>
-                            </div>
-                        </div>
-                        <!-- Settings Content - End -->
-                    </div>
-                </div>
 
-                <div class="mw-accordion-item">
-                    <div class="mw-ui-box-header mw-accordion-title">
-                        <div class="header-holder">
-                            <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-                        </div>
-                    </div>
-                    <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                        <module type="admin/modules/templates"/>
+                                        <div class="form-group">
+                                            <label class="control-label"><?php _e('Answer'); ?></label>
+                                            <textarea class="form-control faq-role" id="textarea<?php print $count; ?>"><?php print $slide['answer']; ?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach ?>
+                        <?php endif ?>
                     </div>
                 </div>
+                <!-- Settings Content - End -->
+            </div>
+
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
             </div>
         </div>
-
     </div>
 </div>

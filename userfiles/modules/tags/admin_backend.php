@@ -116,8 +116,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php sync_tags(); ?>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> Posts</a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#global-tags"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e('Global Tags'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> Tagged content</a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#global-tags"><i class="mdi mdi-tag mr-1"></i> <?php _e('Global Tags'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -129,23 +129,26 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div style="font-weight: bold;">Search tags</div>
-                        <div class="input-group">
-                            <input type="text" class="form-control js-search-tags-keyword" placeholder="Keyword...">
-                            <div class="input-group-append">
-                                <button class="btn btn-success js-search-posts-submit" type="button">Search</button>
+                        <div class="form-group">
+                            <label class="control-label mb-0">Search tags</label>
+                            <small class="d-block text-muted mb-2">You can search multiple tags seperated by coma.</small>
+
+                            <div class="input-group">
+                                <input type="text" class="form-control js-search-tags-keyword" placeholder="Keyword...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success js-search-posts-submit" type="button">Search</button>
+                                </div>
                             </div>
                         </div>
-                        <span class="mb-3">You can search multiple tags seperated by coma.</span>
                     </div>
 
-                    <div class="col-md-6">
-                        <button class="btn btn-success pull-right" onclick="editTaggingTag(false);"><i class="fa fa-plus"></i> Create new global tag</button>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-success btn-sm" onclick="editTaggingTag(false);">Create new global tag</button>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="card style-1">
-                            <div class="card-header">Global tags</div>
+                        <div class="card style-1 bg-light">
+                            <div class="card-header"><h6 class="font-weight-bold">Global tags</h6></div>
                             <div class="card-body">
                                 <div class="js-all-tags"></div>
                             </div>

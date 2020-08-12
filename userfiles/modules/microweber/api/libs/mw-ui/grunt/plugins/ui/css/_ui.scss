@@ -1292,7 +1292,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     border-top-color: transparent;
     border-left-color: transparent;
     border-right-color: transparent;
-    border-radius: 0;
+    //border-radius: 0;
     .js-move {
       visibility: hidden;
     }
@@ -1627,8 +1627,8 @@ label.control-label {
 }
 
 .progress-silver {
-  border: 1px solid $text-muted;
-  background-color: rgba(red($text-muted), green($text-muted), blue($text-muted), .3);
+  border: 1px solid $gray-300;
+  background-color: rgba(red($gray-300), green($gray-300), blue($gray-300), .3);
   border-radius: 7px;
 }
 
