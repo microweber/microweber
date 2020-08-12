@@ -241,6 +241,7 @@ class OptionManager
         if (!is_array($get_all)) {
             return false;
         }
+
         $get = array();
         foreach ($get_all as $get_opt) {
             if ($key == $get_opt['option_key']) { //  && $get_opt['option_group'] == $option_group && $get_opt['module'] == $module
