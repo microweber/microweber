@@ -217,10 +217,10 @@ class OptionManager
         }
 
         $data['limit'] = 1;
-        $ok = $this->app->database_manager->escape_string($data['option_key']);
+       // $ok = $this->app->database_manager->escape_string($data['option_key']);
 
-     /*   $filter = array();
-        $filter['limit'] = 1;
+        $filter = array();
+     //   $filter['limit'] = 1;
         $filter['option_key'] = $key;
         if ($option_group != false) {
             $filter['option_group'] = $option_group;
@@ -232,24 +232,18 @@ class OptionManager
         $filter['table'] = $table;
 
         $get_all = mw()->database_manager->get($filter);
-     */
 
-        $cache_key = '';
-        if ($key) {
-            $cache_key .=$key;
-        }
-
-
+/*
         $get_all = cache()->remember($table.'full_cache_table', 1000000, function () {
             return Option::get()->toArray();
-        });
+        });*/
 
         if (!is_array($get_all)) {
             return false;
         }
         $get = array();
         foreach ($get_all as $get_opt) {
-            if ($key == $get_opt['option_key'] && $get_opt['option_group'] == $option_group && $get_opt['module'] == $module) {
+            if ($key == $get_opt['option_key']) { //  && $get_opt['option_group'] == $option_group && $get_opt['module'] == $module
 /*
                 $override = $this->app->event_manager->trigger('option.after.get', $get_opt);
                 if (is_array($override) && isset($override[0])) {
