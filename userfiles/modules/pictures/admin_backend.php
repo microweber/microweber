@@ -198,11 +198,11 @@ if (!isset($data["thumbnail"])) {
 <div class="select_actions_holder">
     <div class="select_actions">
         <a href="javascript:;" class="btn btn-sm btn-link text-danger" onclick="deleteSelected()">
-            <span><?php _e('Delete') ?><?php _e('selected') ?></span>
+            <span><?php _e('Delete') ?> <?php _e('selected') ?></span>
         </a>
         <span>/</span>
         <a href="javascript:;" class="btn btn-sm btn-link" onclick="downloadSelected('none')">
-            <span><?php _e('Download') ?><?php _e('selected') ?></span>
+            <span><?php _e('Download') ?> <?php _e('selected') ?></span>
         </a>
     </div>
 </div>
@@ -213,7 +213,7 @@ if (!isset($data["thumbnail"])) {
 </script>
 
 
-<div class=" left  m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
+<div class="left m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 
     <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader">
     </div>
@@ -357,13 +357,14 @@ if (!isset($data["thumbnail"])) {
                 element: '#backend_image_uploader',
                 nav: 'dropdown',
                 footer: false,
-                boxed: false,
-                dropDownTargetMode: 'dialog',
+                boxed: <?php print isset($params['boxed']) ? $params['boxed'] : 'false'; ?>,
+                dropDownTargetMode : 'dialog',
                 label: mw.lang('Media'),
-                hideHeader: true,
+                hideHeader: <?php print isset($params['hideHeader']) ? $params['hideHeader'] : 'true'; ?>,
+                uploaderType: <?php print isset($params['uploaderType']) ? '"'.$params['uploaderType'] . '"' : '"big"'; ?>,
                 multiple: true,
                 accept: 'image/*',
-            });
+        })
 
             mw._postsImageUploader._thumbpreload = function () {
                 var el = mw.$('<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>');
@@ -387,47 +388,23 @@ if (!isset($data["thumbnail"])) {
                 var url = res.src ? res.src : res;
                 after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 after_upld(url, 'done');
-                mw._postsImageUploader.hide()
+                if (mw._postsImageUploader.settings.hideHeader) {
+                    mw._postsImageUploader.hide()
+                } else {
+                    mw._postsImageUploader.hideUploaders()
+                }
             });
 
             var thumbs = mw.$('.admin-thumb-item', $root);
 
             if (thumbs.length) {
-                mw._postsImageUploader.hide()
+                if (mw._postsImageUploader.settings.hideHeader) {
+                    mw._postsImageUploader.hide()
+                } else {
+                    mw._postsImageUploader.hideUploaders()
+                }
             }
 
-
-            /*            $(uploader).on("FilesAdded", function (a, b) {
-             var i = 0, l = b.length;
-             for (; i < l; i++) {
-             if (mw.$(".admin-thumbs-holder .admin-thumb-item").length > 0) {
-             mw.$(".admin-thumbs-holder .admin-thumb-item:last").after('<div class="admin-thumb-item admin-thumb-item-loading" id="im-' + b[i].id + '"><span class="mw-post-media-img"><i class="uimprogress"></i></span><div class="mw-post-media-img-edit mw-post-media-img-edit-temp">' + b[i].name + '</div></div>');
-             }
-             else {
-             mw.$(".admin-thumbs-holder").append('<div class="admin-thumb-item admin-thumb-item-loading" id="im-' + b[i].id + '"><span class="mw-post-media-img"><i class="uimprogress"></i></span><div class="mw-post-media-img-edit mw-post-media-img-edit-temp">' + b[i].name + '</div></div>');
-             }
-             }
-             });
-             $(uploader).on("progress", function (a, b) {
-             mw.$("#im-" + b.id + " .uimprogress").width(b.percent + "%").html(b.percent + "%");
-             });
-             $(uploader).on("done", function (e, a) {
-             after_upld(undefined, 'done');
-             });
-
-             $(uploader).on("FileUploaded done", function (e, a) {
-             if (a && a.ask_user_to_enable_auto_resizing) {
-             mw.module_pictures.open_image_upload_settings_modal();
-             }
-             if (a &&  a.image_was_auto_resized_msg) {
-             mw.top().notification.warning(a.image_was_auto_resized_msg, 5200);
-             }
-             if(a){
-             after_upld(a.src, e.type, '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-             }
-
-
-             });*/
 
 
             $(".image-tag-view").remove();

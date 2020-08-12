@@ -28,6 +28,26 @@ if (isset($params['live_edit'])) {
 
 }
 ?>
+<style>
+    .mw-filepicker-component-section{
+        width: 125px;
+    }
+    #post-media-card-header{
+        padding: 15px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 0;
+        position: relative;
+        width: 100%;
+    }
+    .select_actions_holder {
+        position: absolute;
+        top: -55px;
+        right: 0;
+    }
+</style>
 <div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">
         mw.require('forms.js');
@@ -353,8 +373,26 @@ if (isset($params['live_edit'])) {
                         </script>
                         <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 
+                        <div class="card-header no-border" id="post-media-card-header">
+                            <h6><strong><?php _e('Pictures'); ?></strong></h6>
+                            <div class="post-media-type-holder">
+                                <select class="selectpicker btn-as-link" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
+                                    <option value="url">Add image from URL</option>
+                                    <option value="server">Browse uploaded</option>
+                                    <option value="library">Select from Unsplash</option>
+                                    <option value="file">Upload file</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-12">
-                            <module type="pictures/admin" title="<?php _e("Category images"); ?>" for="categories" for-id="<?php print $data['id'] ?>" id="mw-cat-pics-admin"/>
+                            <module
+                                type="pictures/admin"
+                                title="<?php _e("Category images"); ?>"
+                                for="categories" for-id="<?php print $data['id'] ?>"
+                                hideHeader="true"
+                                uploaderType="small"
+                                id="mw-cat-pics-admin"/>
                         </div>
 
                         <div class="col-12">

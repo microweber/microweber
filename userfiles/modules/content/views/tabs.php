@@ -7,8 +7,6 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
 <script>
     mw.lib.require('colorpicker');
-
-
 </script>
 
 

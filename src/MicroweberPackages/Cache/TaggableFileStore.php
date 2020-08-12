@@ -273,8 +273,11 @@ class TaggableFileStore implements Store
             return;
         }
 
-        $cacheMapContent = file_get_contents($cacheFile);
-        $cacheMapContent = json_decode($cacheMapContent, true);
+        $cacheMapContent = @file_get_contents($cacheFile);
+        $cacheMapContent = @json_decode($cacheMapContent, true);
+        if(!$cacheMapContent){
+            return [];
+        }
 
         return $cacheMapContent;
     }
@@ -285,9 +288,11 @@ class TaggableFileStore implements Store
 
             $cacheFile = $this->_getTagMapPathByName($tag);
 
-            $cacheMapContent = file_get_contents($cacheFile);
-            $cacheMapContent = json_decode($cacheMapContent, true);
-
+            $cacheMapContent = @file_get_contents($cacheFile);
+            $cacheMapContent = @json_decode($cacheMapContent, true);
+            if(!$cacheMapContent){
+                $cacheMapContent = [];
+            }
             $cacheMapContent[$key] = $filename;
 
             file_put_contents($cacheFile, json_encode($cacheMapContent, JSON_PRETTY_PRINT));

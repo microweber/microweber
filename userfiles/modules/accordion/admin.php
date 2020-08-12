@@ -21,7 +21,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class="card-body pt-3">
         <script type="text/javascript">
-            mw.lib.require('font_awesome5');
             mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
             mw.require('icon_selector.js');
             mw.require('prop_editor.js');
@@ -91,37 +90,27 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             })
         </script>
 
-        <div class="mw-modules-tabs">
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
+
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="settings">
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-accordion-settings">
+                    <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-primary btn-rounded" onclick="accordionSettings.addNew()"><i class="mdi mdi-plus"></i> <?php _e('Add new'); ?></button>
                     </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <!-- Settings Content -->
-                    <div class="module-live-edit-settings module-accordion-settings">
-                        <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
-                        <div class="mw-ui-field-holder add-new-button text-right m-b-10">
-                    <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" onclick="accordionSettings.addNew()">
-                        <i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?>
-                    </span>
-                        </div>
-                        <div id="accordion-settings"></div>
-                    </div>
+
+                    <div id="accordion-settings"></div>
                 </div>
             </div>
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <module type="admin/modules/templates"/>
-                </div>
+
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
             </div>
         </div>
-
     </div>
 </div>

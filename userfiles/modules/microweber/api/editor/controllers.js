@@ -81,7 +81,7 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
-    'media': function(scope, api, rootScope){
+    'image': function(scope, api, rootScope){
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
@@ -145,6 +145,7 @@ MWEditor.controllers = {
             var font = css.font();
             var size = font.size;
             opt.controller.element.displayValue(size);
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -153,7 +154,7 @@ MWEditor.controllers = {
                     { label: '22px', value: 22 },
                 ]
             });
-            $(dropdown.select).on('change', function (e, val) {
+            dropdown.select.on('change', function (e, val) {
                 api.fontSize(val.value);
             });
             return dropdown.root;
@@ -193,12 +194,14 @@ MWEditor.controllers = {
             var el = opt.api.elementNode(opt.selection.focusNode);
             var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
             opt.controller.element.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
                 data: this._availableTags
             });
-            $(dropdown.select).on('change', function (e, val) {
+            dropdown.select.on('change', function (e, val) {
+                console.log(e, val)
                 var sel = scope.getSelection();
                 var range = sel.getRangeAt(0);
                 var el = scope.actionWindow.document.createElement(val.value);
@@ -240,6 +243,7 @@ MWEditor.controllers = {
                 }
                 fam = fam.replace(/['"]+/g, '');
                 opt.controller.element.displayValue(fam);
+                opt.controller.element.disabled = !opt.api.isSelectionEditable();
 
         };
         this.render = function () {
@@ -249,7 +253,7 @@ MWEditor.controllers = {
                     { label: 'Verdana 1', value: 'Verdana' },
                 ]
             });
-            $(dropdown.select).on('change', function (e, val) {
+            dropdown.select.on('change', function (e, val) {
                 api.fontFamily(val.value);
             });
             return dropdown.root;
@@ -411,6 +415,60 @@ MWEditor.controllers = {
             });
             el.on('mousedown touchstart', function (e) {
                 api.execCommand('unlink');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    table: function (scope, api, rootScope) {
+        this.render = function () {
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-table-large', tooltip: 'Insert Table'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.insertHTML('<table class="mw-ui-table" border="1" width="100%"><tr><td></td><td></td></tr><tr><td></td><td></td></tr></table>');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    wordPaste: function (scope, api, rootScope) {
+        this.render = function () {
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-file-word', tooltip: 'Insert Table'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.saveSelection();
+                var dialog;
+                var ok = MWEditor.core.button({
+                    props: {
+                        className: 'mdi-file-word', tooltip: 'Paste from word',
+                        innerHTML: rootScope.lang('OK')
+                    }
+                });
+                var cleanEl = mw.element({
+                    props: {
+                        contentEditable: true,
+                        autofocus: true,
+                        style: {
+                            height: '250px'
+                        }
+                    }
+                });
+                dialog = mw.dialog({
+                    content: cleanEl.node,
+                    footer: ok.node
+                });
             });
             return el;
         };

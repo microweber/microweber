@@ -323,6 +323,13 @@
                     i = 0,
                     last = arr[l - 2],
                     percentage = Math.round(((l - 1) / 500) * 100);
+
+
+                if(percentage > 100){
+                    percentage = 100;
+                }
+
+
                 bar[0].style.width = percentage + '%';
                 percent.html(percentage + '%');
                 if (last == 'done') {

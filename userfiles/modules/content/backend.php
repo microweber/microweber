@@ -259,7 +259,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
     edit_load = function (module, callback) {
-        mw.tools.loading(true)
+        var spinner =  mw.spinner({
+            element: '#mw-content-backend',
+            size:40
+        })
         var n = mw.url.getHashParams(window.location.hash)['new_content'];
         if (n == 'true') {
             var slide = false;
@@ -277,10 +280,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         setTimeout(function () {
             mw.load_module(module, holder, function () {
-                mw.tools.loading(false);
+
                 mw.$('.fade-window').addClass('active')
                 if (callback) callback.call();
-                mw.tools.loading(false)
+                spinner.remove()
             });
         }, time)
 

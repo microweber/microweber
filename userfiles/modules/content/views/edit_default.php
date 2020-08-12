@@ -204,7 +204,7 @@ if (isset($params['quick_edit'])) {
                                         var slugEdited = false;
                                         slugFromTitle = function () {
                                             if (slugEdited === false) {
-                                                var slug = mw.slug.create($('#content-title-field').value);
+                                                var slug = mw.slug.create($('#content-title-field').val());
 
                                                 $('.js-slug-base-url-changed').val(slug);
                                                 $('.js-slug-base-url').text(slug);
@@ -265,7 +265,7 @@ if (isset($params['quick_edit'])) {
                                         <div class="form-group">
                                             <label>Description</label>
 
-                                            <div id="mw-admin-content-iframe-editor" class="form-control"></div>
+                                            <div id="mw-admin-content-iframe-editor"></div>
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>

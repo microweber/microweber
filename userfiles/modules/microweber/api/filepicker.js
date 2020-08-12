@@ -178,6 +178,14 @@ mw.filePicker = function (options) {
         }
     };
 
+    this.hideUploaders = function (type) {
+        mw.$('.mw-filepicker-component-section', this.$root).hide();
+    };
+
+    this.showUploaders = function (type) {
+        mw.$('.mw-filepicker-component-section', this.$root).show();
+    };
+
     this.desktopUploaderType = function (type) {
         if(!type) return this.settings.uploaderType;
         this.settings.uploaderType = type;
@@ -237,7 +245,6 @@ mw.filePicker = function (options) {
             this._navigationHeader.appendChild(select[0]);
             select.on('changed.bs.select', function (e, xval) {
                 var val = select.selectpicker('val');
-                console.log(val, xval)
                 var componentObject = scope._getComponentObject(val) ;
                 var index = scope.settings.components.indexOf(componentObject);
                 var items = $('.mw-filepicker-component-section', scope.$root);
@@ -333,7 +340,7 @@ mw.filePicker = function (options) {
     };
 
     this._sections = [];
-    this.buildComponentSection = function (component) {
+    this.buildComponentSection = function () {
         var main = mw.$('<div class="'+(this.settings.boxed ? 'card-body' : '') +' mw-filepicker-component-section"></div>');
         this.$root.append(main);
         this._sections.push(main[0]);
@@ -399,11 +406,7 @@ mw.filePicker = function (options) {
         // if user provides value for more than one section, the active value will be the one in the current section
         var activeSection = this.activeSection();
         if (this.$ok && this.$ok[0]) {
-            if (activeSection && activeSection._filePickerValue) {
-                this.$ok[0].disabled = false;
-            } else {
-                this.$ok[0].disabled = true;
-            }
+            this.$ok[0].disabled = !(activeSection && activeSection._filePickerValue);
         }
     };
 

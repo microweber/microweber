@@ -132,7 +132,7 @@ mw.form = {
         return this_radio_valid;
     },
     image_url:function(url, valid, invalid){
-        var url = url.replace(/\s/gi,'');
+        url = url.replace(/\s/gi,'');
         if(url.length<6){
             typeof invalid =='function'? invalid.call(url) : '';
             return false;

@@ -40,6 +40,11 @@
                     for(var dt in this.settings.props[i]) {
                         this.node.dataset[dt] = this.settings.props[i][dt];
                     }
+                } else if (i === 'style') {
+                    for(var st in this.settings.props[i]) {
+                        var stval = this.settings.props[i][st];
+                        this.node.style[st] = stval;
+                    }
                 } else {
                     var val = this.settings.props[i];
                     if(!this._specialProps(i, val)) {
@@ -84,6 +89,21 @@
 
         this.prepend = function (el) {
             return this.$node.prepend( el.node ? el.node : el );
+        };
+        this._disabled = false;
+
+        Object.defineProperty(this, "disabled", {
+            get : function () { return this._disabled; },
+            set : function (value) {
+                this._disabled = value;
+                this.node.disabled = this._disabled;
+                this.node.dataset.disabled = this._disabled;
+            }
+        });
+
+        this.trigger = function(event, data){
+            data = data || {};
+            scope.node.dispatchEvent(new Event(event, data));
         };
 
         this.on = function(events, cb){

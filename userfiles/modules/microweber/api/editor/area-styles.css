@@ -2,6 +2,9 @@
     position: absolute;
     border: 3px solid #009cff;
     border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .mw-small-editor{
