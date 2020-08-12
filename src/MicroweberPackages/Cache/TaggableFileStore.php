@@ -151,8 +151,12 @@ class TaggableFileStore implements Store
      * @param mixed  $value
      * @param int    $seconds
      */
-    public function put($key, $value, $seconds)
+    public function put($key, $value, $seconds = false)
     {
+        if (!$seconds) {
+            $seconds = now()->addYear(4);
+        }
+
         $value = $this->expiration($seconds) . serialize($value);
 
         $filename = $this->generatePathFilename($key);

@@ -442,7 +442,7 @@ class OptionManager
 
         if (mw_is_installed() == true) {
             $table = $this->tables['options'];
-            $ttl = '99999';
+            $ttl = now()->addYear(1);
 
             $cache_key = $table . '_items_per_page_' . $group;
             $items_per_page = Cache::tags($table)->remember($cache_key, $ttl, function () use ($table, $group) {
