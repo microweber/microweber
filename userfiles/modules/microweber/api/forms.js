@@ -84,7 +84,8 @@ mw.form = {
     if(is_form_valid){
 
         var form = mw.$(selector)[0];
-        $.when(form.$beforepost()).then(function( x ) {
+        var when = form.$beforepost ? form.$beforepost : function () {};
+        $.when(when()).then(function() {
             setTimeout(function () {
                 var obj = mw.form.serialize(selector, ignorenopost);
                 var xhr = $.ajax({
