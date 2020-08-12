@@ -270,32 +270,37 @@
     </div>
 
     <div class="col-6">
-        <div class="card">
+        <div class="card style-1">
             <div class="card-header">
                 <h6 class="font-weight-bold"><span class="js-filter-by-text">Posts</span> list</h6>
-                <button class="btn btn-sm btn-default pull-right">&nbsp;</button>
             </div>
 
             <div class="card-body">
-                <h5 class="card-title">List of all <span class="js-filter-by-text">Posts</span></h5>
-                <button class="btn btn-primary pull-right js-add-tags-to-posts" disabled="disabled">Add tags to&nbsp;<span class="js-filter-by-text">Posts</span></button>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6>List of all <span class="js-filter-by-text">Posts</span></h6>
+                    <button class="btn btn-success btn-sm js-add-tags-to-posts" disabled="disabled">Add tags to&nbsp;<span class="js-filter-by-text">Posts</span></button>
+                </div>
 
-                <p class="card-text">Select the <span class="js-filter-by-text">Posts</span> you want to add or edit tags.</p>
+                <small class="text-muted d-block mb-3">Select the <span class="js-filter-by-text">Posts</span> you want to add or edit tags.</small>
 
-                Filter:
-                <select class="form-control js-posts-filter-by">
-                    <option value="posts">Posts</option>
-                    <option value="products">Products</option>
-                </select>
-                <br/>
-                <b><span class="js-filter-by-text">Post</span> lists</b>
-                <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;"></div>
+                <div class="form-group">
+                    <label class="control-label d-block">Filter:</label>
+                    <select class="js-posts-filter-by selectpicker" data-width="100%">
+                        <option value="posts">Posts</option>
+                        <option value="products">Products</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label d-block"><span class="js-filter-by-text">Post</span> lists</label>
+                    <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="col-xs-6">
-        <div class="card">
+        <div class="card style-1">
             <div class="card-header">
                 <h6 class="font-weight-bold">Tags for <span class="js-filter-by-text">Post</span></h6>
             </div>
