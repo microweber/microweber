@@ -150,8 +150,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <?php foreach ($json as $slide): ?>
                                 <?php $count++; ?>
                                 <div class="card style-1 mb-3 faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
-                                    <div class="card-header">
-                                        <span class="mdi mdi-cursor-move mdi-20px ui-sortable-handle text-muted"></span> <a class="pull-right remove-question text-danger" data-toggle="tooltip" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mdi mdi-close mdi-20px"></i></a>
+                                    <div class="card-header d-flex align-items center justify-content-between flex-row">
+                                        <span class="mdi mdi-cursor-move mdi-20px ui-sortable-handle text-muted"></span>
+                                        <a class="remove-question text-danger" data-toggle="tooltip" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mdi mdi-close mdi-20px"></i></a>
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group">
