@@ -18,63 +18,60 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 
     <div class="card-body pt-3">
-        <script>mw.require("files.js");</script>
-        <script>
-            $(document).ready(function () {
-                $("#upload").on("click", function () {
-                    mw.fileWindow({
-                        element: mwd.getElementById('upload'),
-                        types: 'media',
-                        change: function (url) {
-                            mw.$("#upload_value").val(url);
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+        </nav>
 
-                            if (Prior.value != '1') {
-                                Prior.value = '1';
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="settings">
+                <script>mw.require("files.js");</script>
+                <script>
+                    $(document).ready(function () {
+                        $("#upload").on("click", function () {
+                            mw.fileWindow({
+                                element: mwd.getElementById('upload'),
+                                types: 'media',
+                                change: function (url) {
+                                    mw.$("#upload_value").val(url);
+
+                                    if (Prior.value != '1') {
+                                        Prior.value = '1';
+                                        $(Prior).trigger('change');
+                                    }
+                                    mw.$("#upload_value").trigger("change");
+                                }
+                            });
+                        })
+
+                        Prior = mwd.getElementById('prior');
+                        mw.$("#audio").keyup(function () {
+                            if (Prior.value !== '2') {
+                                Prior.value = '2';
                                 $(Prior).trigger('change');
                             }
-                            mw.$("#upload_value").trigger("change");
-                        }
+                        });
                     });
-                })
-
-                Prior = mwd.getElementById('prior');
-                mw.$("#audio").keyup(function () {
-                    if (Prior.value !== '2') {
-                        Prior.value = '2';
-                        $(Prior).trigger('change');
-                    }
-                });
-            });
-        </script>
-
-        <div class="mw-modules-tabs">
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
+                </script>
+                
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-audio-settings">
+                    <div class="form-group">
+                        <label class="control-label d-block"><?php _e("Upload Audio file"); ?></label>
+                        <input type="hidden" name="data-audio-upload" value="<?php print get_option('data-audio-upload', $params['id']) ?>" class="mw_option_field" id="upload_value"/>
+                        <span class="btn btn-primary btn-rounded relative" id="upload"><span class="fas fa-upload"></span> &nbsp; <?php _e("Upload File"); ?></span>
                     </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <!-- Settings Content -->
-                    <div class="module-live-edit-settings module-audio-settings">
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Upload Audio file"); ?></label>
-                            <input type="hidden" name="data-audio-upload" value="<?php print get_option('data-audio-upload', $params['id']) ?>" class="mw_option_field" id="upload_value"/>
-                            <span class="mw-ui-btn mw-ui-btn-info relative" id="upload"><span class="fas fa-upload"></span> &nbsp; <?php _e("Upload File"); ?></span>
-                        </div>
 
-                        <div class="mw-ui-field-holder">
-                            <label class="mw-ui-label"><?php _e("Paste URL"); ?></label>
-                            <input name="data-audio-url" class="mw-ui-field mw-full-width mw_option_field" id="audio" type="text" value="<?php print get_option('data-audio-url', $params['id']) ?>"/>
-                        </div>
-                        <p><?php print _e('You can <strong>Upload your audio file</strong> or you can <strong>Paste URL</strong> to the file. It\'s possible to use <strong > only one option </strong >.'); ?></p>
-
-                        <input type="text" class="semi_hidden mw_option_field" name="prior" id="prior" value="<?php print get_option('prior', $params['id']) ?>"/>
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Paste URL"); ?></label>
+                        <small class="text-muted d-block mb-2"><?php print _e('You can <strong>Upload your audio file</strong> or you can <strong>Paste URL</strong> to the file. It\'s possible to use <strong > only one option</strong>.'); ?></small>
+                        <input name="data-audio-url" class="mw_option_field form-control" id="audio" type="text" value="<?php print get_option('data-audio-url', $params['id']) ?>"/>
                     </div>
+
+                    <input type="text" class="semi_hidden mw_option_field form-control" name="prior" id="prior" value="<?php print get_option('prior', $params['id']) ?>"/>
                 </div>
-                <!-- Settings Content - End -->
+            </div>
+            <!-- Settings Content - End -->
             </div>
         </div>
-
     </div>
 </div>

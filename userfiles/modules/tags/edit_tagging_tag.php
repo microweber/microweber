@@ -81,7 +81,7 @@ if ($tag) {
         var html = '<div class="btn-group tag mb-2 mr-1 btn-tag-id-'+id+'" role="group">' +
             '    <button type="button" class="btn-sm icon-left no-hover btn btn-secondary" onClick="editTaggingTagReplaceForm('+id+')"><i class="mdi mdi-tag"></i> ' + name + '</button>' +
             '    <button type="button" class="btn btn-primary btn-sm btn-icon" onClick="editTaggingTagReplaceForm('+id+')"><i class="mdi mdi-pencil"></i></button>' +
-            '    <button type="button" class="btn btn-primary btn-sm btn-icon" onClick="deleteTaggingTag('+id+')"><i class="mdi mdi-thick"></i></button>' +
+            '    <button type="button" class="btn btn-primary btn-sm btn-icon" onClick="deleteTaggingTag('+id+')"><i class="mdi mdi-close"></i></button>' +
             '</div>';
 
         return html;
