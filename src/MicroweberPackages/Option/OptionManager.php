@@ -231,7 +231,7 @@ class OptionManager
         }
         $filter['table'] = $table;
 
-        $get_all = mw()->database_manager->get($filter);
+        $get_all = mw()->database_manager->get($filter); 
 
 /*
         $get_all = cache()->remember($table.'full_cache_table', 1000000, function () {

@@ -317,7 +317,7 @@ class TaggableFileStore implements Store
         if (!is_null($value = $this->get($key))) {
             return $value;
         }
-        
+
         $this->put($key, $value = $callback(), $minutes);
 
         return $value;
