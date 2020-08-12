@@ -215,8 +215,6 @@ class DatabaseManager extends DbUtils
         $query = $this->map_values_to_query($query, $params);
 
         $ttl = $this->table_cache_ttl;
-
-
         if (!$query) {
             return;
         }

@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Config;
  */
 class Utils
 {
-    public $cache_minutes = 60;
+    public $cache_seconds = 36000;
 
     public function build_tables($tables)
     {
@@ -48,8 +48,8 @@ class Utils
 
             if (!$value) {
                 $value = 1;
-                $minutes = $this->cache_minutes;
-                Cache::put($key, $value, $minutes);
+                $seconds = $this->cache_seconds;
+                Cache::put($key, $value, $seconds);
 
                 return $this->_exec_table_builder($table_name, $fields_to_add);
             } else {
