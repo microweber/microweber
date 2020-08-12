@@ -1023,7 +1023,7 @@ class Worker
             die();
         }
         if (is_file($filename)) {
-            $dl = new \Microweber\Utils\Files();
+            $dl = new \MicroweberPackages\Utils\System\Files();
             return $dl->download_to_browser($filename);
         }
     }
