@@ -19,7 +19,7 @@ use Cache;
 class OptionManager
 {
     public $app;
-    public $options_memory = array(); //internal array to hold options in cache 
+    public $options_memory = array(); //internal array to hold options in cache
     public $override_memory = array(); //array to hold options values that are not persistent in DB and changed on runtime
     public $tables = array();
     public $table_prefix = false;
@@ -236,25 +236,12 @@ class OptionManager
 
         $cache_key = '';
         if ($key) {
-            $cache_key .= $key;
-        } if ($option_group) {
-            $cache_key .= $option_group;
-        } if ($module) {
-            $cache_key .= $module;
+            $cache_key .=$key;
         }
-        $cache_key = crc32($cache_key);
 
-        $get_all = cache()->remember($cache_key, 1000000, function () use($key,$option_group,$module) {
-            $option = Option::where('option_key', $key)
-                ->when($option_group, function ($query, $option_group) {
-                    return $query->where('option_group', $option_group);
-                })->when($module, function ($query, $module) {
-                    return $query->where('module', $module);
-                })->get()->toArray();
-            if (!$option) {
-                return [];
-            }
-            return $option;
+
+        $get_all = cache()->remember($table.'full_cache_table', 1000000, function () {
+            return Option::get()->toArray();
         });
 
         if (!is_array($get_all)) {
@@ -262,7 +249,7 @@ class OptionManager
         }
         $get = array();
         foreach ($get_all as $get_opt) {
-            if (isset($get_opt['option_key']) and $key == $get_opt['option_key']) {
+            if ($key == $get_opt['option_key'] && $get_opt['option_group'] == $option_group && $get_opt['module'] == $module) {
 /*
                 $override = $this->app->event_manager->trigger('option.after.get', $get_opt);
                 if (is_array($override) && isset($override[0])) {
@@ -334,7 +321,7 @@ class OptionManager
         }
 
         $this->clear_memory();
-        
+
         $option_group = false;
         if (is_array($data)) {
             if (strval($data['option_key']) != '') {
