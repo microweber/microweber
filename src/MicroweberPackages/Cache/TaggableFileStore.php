@@ -113,10 +113,8 @@ class TaggableFileStore implements Store
         // the file and return null. This helps clean up the old files and keeps
         // this directory much cleaner for us as old files aren't hanging out.
         if ($this->currentTime() >= $expire) {
-           // $this->forget($key);
-          //  return;
-            // TODO
-            // TODO
+           $this->forget($key);
+            return;
         }
 
         try {
@@ -147,7 +145,7 @@ class TaggableFileStore implements Store
         return $findTagPath;
     }
     /**
-     * Store an item in the cache for a given number of minutes.
+     * Store an item in the cache for a given number of seconds.
      *
      * @param string $key
      * @param mixed  $value
@@ -308,21 +306,21 @@ class TaggableFileStore implements Store
      * Get an item from the cache, or store the default value.
      *
      * @param string        $key
-     * @param \DateTime|int $minutes
+     * @param \DateTime|int $seconds
      * @param Closure       $callback
      *
      * @return mixed
      */
-    public function remember($key, $minutes, Closure $callback)
+    public function remember($key, $seconds, Closure $callback)
     {
         // If the item exists in the cache we will just return this immediately
         // otherwise we will execute the given Closure and cache the result
-        // of that execution for the given number of minutes in storage.
+        // of that execution for the given number of seconds in storage.
         if (!is_null($value = $this->get($key))) {
             return $value;
         }
 
-        $this->put($key, $value = $callback(), $minutes, $this->tags);
+        $this->put($key, $value = $callback(), $seconds, $this->tags);
 
         return $value;
     }
@@ -339,7 +337,7 @@ class TaggableFileStore implements Store
     {
         // If the item exists in the cache we will just return this immediately
         // otherwise we will execute the given Closure and cache the result
-        // of that execution for the given number of minutes. It's easy.
+        // of that execution for the given number of seconds. It's easy.
         if (!is_null($value = $this->get($key))) {
             return $value;
         }
