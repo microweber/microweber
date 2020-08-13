@@ -8829,6 +8829,8 @@ label.control-label {
       margin-bottom: 20px;
       background-repeat: no-repeat;
       background-position: center center; }
+    .dropable-zone .holder .dropable-zone-img.img-media {
+      background-image: url("../img/dropable_zone_media.svg"); }
     .dropable-zone .holder .progress {
       max-width: 100%;
       width: 180px;
