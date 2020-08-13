@@ -1,4 +1,8 @@
-<?php must_have_access(); ?>
+<?php
+if (!user_can('module.contact_form.index')) {
+    return;
+}
+?>
 
 <?php
 $from_live_edit = false;

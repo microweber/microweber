@@ -1,6 +1,8 @@
-<?php must_have_access(); ?>
-
-
+<?php
+if (!user_can('module.contact_form.index')) {
+    return;
+}
+?>
 <script>
     initEditor = function () {
         if (!window.editorLaunced) {

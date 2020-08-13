@@ -1,3 +1,9 @@
+<?php
+if (!user_can('module.users.edit')) {
+return;
+}
+?>
+
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info" history_back="true"/>
 <?php endif; ?>

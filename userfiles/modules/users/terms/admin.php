@@ -1,5 +1,7 @@
 <?php
-must_have_access();
+if (!user_can('module.users.terms.index')) {
+    return;
+}
 
 $mod_id = 'users';
 if (isset($params['terms-group'])) {

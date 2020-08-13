@@ -1,4 +1,7 @@
 <?php
+if (!user_can('module.users.edit')) {
+    return;
+}
 
 $user_id = $params['user_id'];
 $loginAttempts = \Microweber\App\LoginAttempt::where('user_id', $user_id)

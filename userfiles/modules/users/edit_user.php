@@ -1,6 +1,6 @@
 <?php
-if (is_admin() == false) {
-    mw_error("Must be admin");
+if (!user_can('module.users.edit')) {
+    return;
 }
 
 $uid = 0;

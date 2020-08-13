@@ -13,7 +13,9 @@ event_bind('website.privacy_settings', function () {
 api_expose('get_contact_entry_by_id');
 function get_contact_entry_by_id($params)
 {
-	must_have_access();
+    if (!user_can('module.contact_form.index')) {
+        return;
+    }
 	
 	$form_data = mw()->forms_manager->get_entires('single=1&id=' . $params['id']);
 	
