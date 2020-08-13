@@ -181,6 +181,9 @@ class OptionManager
             return $this->override_memory[$option_group][$key];
         }
 
+        if(!$key){
+            return;
+        }
 
         $function_cache_id = false;
 
