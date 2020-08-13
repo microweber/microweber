@@ -1,6 +1,6 @@
 <?php
 if (!user_can_access('module.users.edit')) {
-return;
+    return;
 }
 ?>
 

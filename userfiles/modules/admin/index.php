@@ -44,7 +44,7 @@
                     $module_denied = false;
                 }
                 if ($module_denied) {
-                    include 'permission_denied_card.php';
+                   // include 'permission_denied_card.php';
                     return;
                 }
                 ?>
