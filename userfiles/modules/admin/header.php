@@ -178,14 +178,8 @@ if (!user_can_view_module(['module'=>'shop'])) {
         mw.load_module('shop/orders/admin/add_order', '#mw_admin_edit_order_item_module', null, params);
     }
 
-
 </script>
 
-<?php
-if (!is_admin()) {
-    return;
-}
-?>
 <?php
 $order_notif_html = false;
 $new_orders_count = mw()->order_manager->get_count_of_new_orders();

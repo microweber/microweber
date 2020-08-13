@@ -1,6 +1,6 @@
 <?php include(__DIR__ . DS . 'header.php'); ?>
 
-<?php if (is_admin() == false): ?>
+<?php if (is_logged() == false): ?>
     <module type="users/login" template="admin"/>
 <?php else: ?>
     <?php $v1 = mw()->url_manager->param('load_module'); ?>
