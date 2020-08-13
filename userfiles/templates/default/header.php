@@ -22,9 +22,6 @@
     </script>
 
 
-
-
-
     <?php if(isset($custom_head)): ?>
     <?php print $custom_head; ?>
     <?php else : ?>
