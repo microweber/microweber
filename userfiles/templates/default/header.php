@@ -41,7 +41,7 @@
           <div class="mw-row">
               <div class="mw-col" style="width: 20%">
                   <div class="mw-col-container">
-                      <div class="brand element" id="logo"><a href="<?php print site_url(); ?>">New World</a></div>
+                      <div class="brand element" id="logo"><a href="<?php print site_url(); ?>">Basic Theme</a></div>
                   </div>
               </div>
               <div class="mw-col" style="width: 45%">
