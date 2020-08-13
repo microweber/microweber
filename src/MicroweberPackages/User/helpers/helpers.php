@@ -314,6 +314,26 @@ function module_permissions($module) {
     return \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 }
 
+function user_can_destroy_module($module)
+{
+    $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+
+    $user = \Illuminate\Support\Facades\Auth::user();
+    if (!$user) {
+        return false;
+    }
+
+    if ($user->is_admin == 1) {
+        return true;
+    }
+
+    if ($user->can($permissions['destroy'])) {
+        return true;
+    }
+
+    return false;
+}
+
 function user_can_view_module($module) {
 
     $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);

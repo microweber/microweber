@@ -114,12 +114,15 @@ if ($id != false) {
                     <input type="hidden" name="position" value="<?php print $data['position'] ?>"/>
                 </div>
 
+                <?php if (user_can_destroy_module($data)): ?>
                 <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
                     <button class="btn btn-link btn-sm text-danger btn-rounded btn-icon position-absolute module-uninstall-btn" data-toggle="tooltip" data-title="<?php _e("Uninstall"); ?>" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print$data['id'] ?>" value="đ"><i class="mdi mdi-close-thick"></i></button>
                     <!-- <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn"><?php _e("Open"); ?></span>-->
                 <?php else: ?>
                     <button class="btn btn-outline-success btn-sm position-absolute module-ctrl-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>"><?php _e("Install"); ?></button>
                 <?php endif; ?>
+                <?php endif; ?>
+
             </form>
         </div>
     </div>

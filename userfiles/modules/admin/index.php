@@ -30,8 +30,6 @@
                 $module_info = module_info($v_mod);
                 $module_permissions = module_permissions($module_info);
 
-                var_dump($module_permissions);
-
                 $module_denied = true;
                 if (user_can($module_permissions['index'])) {
                     $module_denied = false;

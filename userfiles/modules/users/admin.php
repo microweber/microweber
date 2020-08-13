@@ -13,6 +13,7 @@ if ($action == 'profile') {
     print('<module type="users/edit_user" edit-user="' . $editUser . '" />');
     return;
 }
+
 ?>
 
 

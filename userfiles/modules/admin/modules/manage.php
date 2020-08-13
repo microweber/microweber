@@ -1,9 +1,3 @@
-<?php
-if (!is_admin()) {
-    mw_error("must be admin");
-};
-?>
-
 <?php $load_module = url_param('load_module');
 if ($load_module == true): ?>
     <?php
