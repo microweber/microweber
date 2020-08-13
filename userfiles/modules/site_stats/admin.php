@@ -1,5 +1,8 @@
 <?php
-must_have_access();
+
+if (!user_can('module.site_stats.index')) {
+    return;
+}
 
 $display = new \Microweber\SiteStats\Controllers\Admin();
 

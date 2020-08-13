@@ -1,4 +1,8 @@
-<?php must_have_access(); ?>
+<?php
+if (!user_can('module.contact_form.index')) {
+    return;
+}
+?>
 
 <script type="text/javascript">
     mw.require('<?php print $config['url_to_module']; ?>manager/forms_data_manager.js');

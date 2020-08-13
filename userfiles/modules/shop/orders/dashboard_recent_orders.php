@@ -1,7 +1,7 @@
 <?php
-must_have_access();
-
-
+if (!user_can('module.shop.orders.index')) {
+    return;
+}
 ?>
 <script>
     $(document).ready(function () {

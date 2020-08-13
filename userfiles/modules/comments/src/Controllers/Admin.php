@@ -25,13 +25,14 @@ class Admin
         }
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
 
-        must_have_access();
-
     }
 
 
     function index($params)
     {
+        if (!user_can('module.comments.index')) {
+            exit;
+        }
 
         $view_file = $this->views_dir . 'admin.php';
         $view = new View($view_file);
@@ -43,6 +44,10 @@ class Admin
 
     function comments_list($params)
     {
+
+        if (!user_can('module.comments.index')) {
+            exit;
+        }
 
         if (!isset($params['content_id'])) {
 
@@ -97,6 +102,9 @@ class Admin
 
     function comment_item($params)
     {
+        if (!user_can('module.comments.index')) {
+            exit;
+        }
 
         $data = array(
             'id' => $params['comment_id'],
@@ -124,6 +132,9 @@ class Admin
 
     function manage($params)
     {
+        if (!user_can('module.comments.index')) {
+            exit;
+        }
 
         $keyword = false;
         $paging_param = 'comments_page';
