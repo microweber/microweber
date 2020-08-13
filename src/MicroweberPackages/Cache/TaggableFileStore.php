@@ -210,9 +210,6 @@ class TaggableFileStore implements Store
         $this->_addKeyPathToTagMap($key, $subPath . $filename);
 
         // Save key value in file
-      //  \Log::debug($path, $value);
-     //   dump($key,$path,$value, '2222222222222222');
-// @todo bug fix here
         $save = file_put_contents($path, $value);
         if (!$save) {
             throw new \Exception('Cant file put contents:' . $path);

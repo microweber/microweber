@@ -900,12 +900,12 @@ class MediaManager
         $cache_id_without_ext = 'tn-' . md5(serialize($cache_id_data));
         $cache_id = $cache_id_without_ext . '.' . $ext;
         $cache_path = $cd . $cache_id;
+        $cache_path = normalize_path($cache_path,false);
 
         if ($is_remote) {
             return $src;
-        } elseif (file_exists($cache_path)) {
+        } elseif (is_file($cache_path)) {
             $cache_path = $this->app->url_manager->link_to_file($cache_path);
-
             return $cache_path;
         } else {
             if (stristr($base_src, 'pixum_img')) {
@@ -922,11 +922,10 @@ class MediaManager
             }
 
             $cache_id_data['cache_path'] = $cache_path;
-
-            cache_save($cache_id_data, $cache_id_without_ext, 'media');
-
+            if (!cache_get($cache_id_without_ext, 'media')) {
+                cache_save($cache_id_data, $cache_id_without_ext, 'media', 99999);
+            }
             $tn_img_url = $this->app->url_manager->site('api/image-tn/') . $cache_id_without_ext;
-
             return $tn_img_url;
         }
 
@@ -1070,6 +1069,11 @@ class MediaManager
                         $thumbOptions = array('height' => $height, 'width' => $width);
                         if ($crop) {
                             $thumbOptions['crop'] = $crop;
+                        }
+
+                        $cache_path_dir = dirname($cache_path);
+                        if(!is_dir($cache_path_dir)){
+                            mkdir_recursive($cache_path_dir);
                         }
                         $tn->createThumb($thumbOptions, $cache_path);
 
