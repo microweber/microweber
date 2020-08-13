@@ -219,7 +219,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div style="width: 120px;" class="mb-2">
                                 <div class="dropable-zone small-zone square-zone bg-white" id="upload_thumb_btn">
                                     <div class="holder">
-                                        <div class="dropable-zone-img mb-2"></div>
+                                        <div class="dropable-zone-img img-media mb-2"></div>
                                         <button type="button" class="btn btn-link py-1">Add media</button>
                                         <p>or drop file</p>
                                     </div>
