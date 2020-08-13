@@ -385,10 +385,10 @@ class TaggableFileStore implements Store
         // otherwise we will execute the given Closure and cache the result
         // of that execution for the given number of seconds in storage.
          $value = $this->get($key);
-        if (is_null($value) and $this->has($key)) {
-
-            return false;
-        }
+//        if (is_null($value) and $this->has($key)) {
+//
+//            return false;
+//        }
         if (!is_null($value)) {
             return $value;
         }
