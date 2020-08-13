@@ -1,6 +1,6 @@
 <?php
 if (!user_can('module.comments.index')) {
-    exit;
+    return;
 }
 
 $comments_data = array(

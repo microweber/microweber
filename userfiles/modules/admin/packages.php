@@ -1,8 +1,6 @@
 
 <?php
 if (!user_can('module.packages')) {
-    $module_info['name'] = 'Marketplace';
-    include 'permission_denied_card.php';
     return;
 }
 ?>

@@ -31,7 +31,7 @@ class Admin
     function index($params)
     {
         if (!user_can('module.comments.index')) {
-            exit;
+            return;
         }
 
         $view_file = $this->views_dir . 'admin.php';
@@ -46,7 +46,7 @@ class Admin
     {
 
         if (!user_can('module.comments.index')) {
-            exit;
+            return;
         }
 
         if (!isset($params['content_id'])) {
@@ -103,7 +103,7 @@ class Admin
     function comment_item($params)
     {
         if (!user_can('module.comments.index')) {
-            exit;
+            return;
         }
 
         $data = array(
@@ -133,7 +133,7 @@ class Admin
     function manage($params)
     {
         if (!user_can('module.comments.index')) {
-            exit;
+            return;
         }
 
         $keyword = false;
