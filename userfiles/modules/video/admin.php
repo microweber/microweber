@@ -161,7 +161,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <button type="button" class="btn btn-link text-danger px-0" id="remove-video-button" style="<?php print !!$uploadedVideo ? '' : 'display:none;' ?>;" onclick="$('#video-preview').hide(); $(this).hide(); $('.js-video-preview-label').hide(); $('#upload_field').val('').trigger('change')"><?php _e("Remove"); ?> Video</button>
                     </div>
 
-                    <div class="form-group mt-3 js-video-preview-label" style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;">
+                    <div class="form-group mt-3 mb-2 js-video-preview-label" style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;">
                         <label class="control-label"><?php _e("Preview"); ?></label>
                     </div>
 
