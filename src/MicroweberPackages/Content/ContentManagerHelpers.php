@@ -6,6 +6,7 @@ use ContentFields;
 use Illuminate\Support\Facades\Cache;
 use DB;
 use MicroweberPackages\Menu\Menu;
+use MicroweberPackages\App\Http\Controllers\DefaultController;
 
 class ContentManagerHelpers extends ContentManagerCrud
 {
@@ -654,7 +655,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
 
             if (!isset($ref_page) or $ref_page == false) {
-                $guess_page_data = new \MicroweberPackages\Controllers\DefaultController();
+                $guess_page_data = new DefaultController();
                 // $guess_page_data =  new  $this->app->controller($this->app);
                 $ref_page_url = strtok($ref_page_url, '?');
 

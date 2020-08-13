@@ -8826,7 +8826,9 @@ label.control-label {
       width: 70px;
       height: 55px;
       background-size: contain;
-      margin-bottom: 20px; }
+      margin-bottom: 20px;
+      background-repeat: no-repeat;
+      background-position: center center; }
     .dropable-zone .holder .progress {
       max-width: 100%;
       width: 180px;

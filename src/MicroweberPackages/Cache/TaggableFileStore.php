@@ -52,6 +52,10 @@ class TaggableFileStore implements Store
      */
     protected $tags = array();
 
+
+    private $_cached_data_memory = array();
+    private $_tag_map_cache_memory=[];
+
     /**
      * Create a new file cache store instance.
      *
@@ -85,6 +89,10 @@ class TaggableFileStore implements Store
      */
     public function get($key)
     {
+        if(isset($this->_cached_data_memory[$key])){
+            return $this->_cached_data_memory[$key];
+        }
+
         $findTagPath = $this->_findCachePathByKey($key);
 
         if (!$findTagPath) {
@@ -120,7 +128,7 @@ class TaggableFileStore implements Store
         }
 
         $this->tags = [];
-
+        $this->_cached_data_memory[$key] = $data;
         return $data;
     }
 
@@ -152,6 +160,11 @@ class TaggableFileStore implements Store
     {
         if (!$seconds) {
             $seconds = now()->addYear(4);
+        }
+
+
+        if(isset($this->_cached_data_memory[$key])){
+            unset($this->_cached_data_memory[$key]);
         }
 
         $value = $this->expiration($seconds) . serialize($value);
@@ -267,23 +280,30 @@ class TaggableFileStore implements Store
 
     private function _getTagMapByName($tagName)
     {
-        $cacheFile = $this->_getTagMapPathByName($tagName);
+        if(isset($this->_tag_map_cache_memory[$tagName])){
+            return $this->_tag_map_cache_memory[$tagName];
+        }
 
+        $cacheFile = $this->_getTagMapPathByName($tagName);
+        $cacheFile = $this->normalizePath($cacheFile, false);
         if (!$this->files->isFile($cacheFile)) {
             return;
         }
 
         $cacheMapContent = @file_get_contents($cacheFile);
         $cacheMapContent = @json_decode($cacheMapContent, true);
+
         if(!$cacheMapContent){
+            $this->_tag_map_cache_memory[$tagName] = [];
             return [];
         }
-
+        $this->_tag_map_cache_memory[$tagName] = $cacheMapContent;
         return $cacheMapContent;
     }
 
     private function _addKeyPathToTagMap($key, $filename)
     {
+        //@todo fix this , its writing files all the time
         foreach ($this->tags as $tag) {
 
             $cacheFile = $this->_getTagMapPathByName($tag);
@@ -294,7 +314,6 @@ class TaggableFileStore implements Store
                 $cacheMapContent = [];
             }
             $cacheMapContent[$key] = $filename;
-
             file_put_contents($cacheFile, json_encode($cacheMapContent, JSON_PRETTY_PRINT));
         }
 

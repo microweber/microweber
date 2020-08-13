@@ -1224,7 +1224,7 @@ class MediaManager
                     //  if (stristr($target_path, media_base_path())) {
                     if (stristr($target_path, media_uploads_path())) {
                         if (is_dir($target_path)) {
-                            mw('Microweber\Utils\Files')->rmdir($target_path, false);
+                            mw('MicroweberPackages\Utils\System\Files')->rmdir($target_path, false);
                             $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
                         } elseif (is_file($target_path)) {
                             unlink($target_path);
