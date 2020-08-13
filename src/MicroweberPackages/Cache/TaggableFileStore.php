@@ -78,6 +78,28 @@ class TaggableFileStore implements Store
         $this->directoryData = $this->normalizePath($this->directoryData);
     }
 
+
+    public function has($key)
+    {
+        if(isset($this->_cached_data_memory[$key])){
+            return true;
+        }
+
+        $findTagPath = $this->_findCachePathByKey($key);
+
+        if (!$findTagPath) {
+            return false;
+        }
+
+        $findTagPath = $this->getPath() . $findTagPath;
+        if (!$this->files->exists($findTagPath)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
     /**
      * Retrieve an item from the cache by key.
      *
