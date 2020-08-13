@@ -2,6 +2,11 @@
 if (!$data) {
     return;
 }
+
+if (!is_array($data) or empty($data)) {
+    return;
+}
+
 ?>
 
 <ul class="">
