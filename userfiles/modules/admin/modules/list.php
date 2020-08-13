@@ -358,7 +358,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
             <?php $i = 0; ?>
             <?php foreach ($modules as $module_item): ?>
-            
+
                 <?php $i++; ?>
                 <?php if (isset($module_item['module'])): ?>
                     <?php

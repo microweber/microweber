@@ -1,6 +1,4 @@
-<?php must_have_access();
-
-
+<?php
 $is_core_update = false;
 
 $author = array_first(explode('/', $item['name']), function ($key, $value) {

@@ -203,7 +203,7 @@ function has_access($function_name = '')
 
 function must_have_access($permission = '')
 {
-    if (!user_can($permission)) {
+    if (!user_can($permission)) { 
         mw_error('Permission denied! You dont have access to see this page.');
     }
 }

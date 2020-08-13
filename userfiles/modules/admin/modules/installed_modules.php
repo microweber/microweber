@@ -223,7 +223,10 @@
             <div>
                 <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e("Filter"); ?></a>
 
+                <?php if (user_can('module.modules.edit')):?>
                 <a href="javascript:;" onclick="mw_reload_all_modules()" class="btn btn-primary reload-module-btn icon-left"><i class="mdi mdi-refresh icon-left"></i> <?php _e("Reload modules"); ?></a>
+                 <?php endif; ?>
+
             </div>
         </div>
 

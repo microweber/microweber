@@ -1,19 +1,12 @@
-<?php must_have_access() ?>
+
 <?php
-
-
 include(__DIR__ . '/package_data.php');
-
-
 ?>
-
 
 <div class="mw-ui-box ">
     <div class="mw-ui-box-content js-package-install-content">
 
         <?php if ($item['type'] != 'microweber-core-update'): ?>
-
-
             <?php if ($screenshot): ?>
                 <?php if ($item['type'] == 'microweber-template'): ?>
                     <a target="_blank" href="<?php print $item['homepage']; ?>"
@@ -31,9 +24,7 @@ include(__DIR__ . '/package_data.php');
                     <div class="package-image" style="  background-image: none"></div>
                 <?php endif; ?>
             <?php endif; ?>
-
         <?php endif; ?>
-
 
         <div class="package-item-footer">
             <div class="mw-ui-row">
