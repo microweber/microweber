@@ -93,18 +93,24 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 });
 
                 $(upThumb).on("progress", function (a, b) {
+                    $("#upload_thumb_status").find('.progress-bar').width('0%');
                     $("#upload_thumb_status").show();
-                    $("#upload_thumb_status").find('.mw-ui-progress-bar').width(b.percent + '%');
-                    $("#upload_thumb_status").find('.mw-ui-progress-percent').html(b.percent + '%');
+                    $("#upload_thumb_status").find('.progress-bar').width(b.percent + '%');
                 });
 
                 $(upVideo).on("progress", function (a, b) {
-                    $("#upload_status").show();
-                    $("#upload_status").find('.mw-ui-progress-bar').width(b.percent + '%');
-                    $("#upload_status").find('.mw-ui-progress-percent').html(b.percent + '%');
+                    $("#upload_progress").find('.progress-bar').width('0%');
+                    $("#upload_progress").show();
+                    $("#upload_progress").find('.progress-bar').width(b.percent + '%');
                 });
+
                 $(upVideo).on("done", function (a, b) {
-                    $("#upload_status").hide();
+                    $("#upload_progress").hide();
+
+                });
+
+                $(upThumb).on("done", function (a, b) {
+                    $("#upload_thumb_status").hide();
 
                 });
 
@@ -122,7 +128,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Testimonials</a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-play-box mr-1"></i> Video</a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
         </nav>
@@ -137,7 +143,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="control-label"><?php _e("Embed Video"); ?></label>
                         <small class="text-muted mb-2 d-block"><?php _e("Paste video URL or Embed Code"); ?></small>
-                        <textarea name="embed_url" rows="8" id="emebed_video_field" class="form-control mw_option_field" data-mod-name="<?php print $params['data-type'] ?>"><?php print (get_option('embed_url', $params['id'])) ?></textarea>
+                        <textarea name="embed_url" rows="5" id="emebed_video_field" class="form-control mw_option_field" data-mod-name="<?php print $params['data-type'] ?>"><?php print (get_option('embed_url', $params['id'])) ?></textarea>
                     </div>
 
                     <hr class="thin"/>
@@ -161,11 +167,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <video style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;"<?php print 'src="' . $uploadedVideo . '"'; ?> width="100%" height="200px" id="video-preview" controls></video>
 
-                    <div class="mw-ui-progress" id="upload_status" style="display: none">
-                        <div style="width: 0%" class="mw-ui-progress-bar"></div>
-                        <div class="mw-ui-progress-info"><?php _e("Status"); ?>: <span class="mw-ui-progress-percent">0</span></div>
+                    <div class="progress mt-2" id="upload_progress" style="display: none">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                     </div>
-
                 </div>
                 <!-- Settings Content - End -->
             </div>
@@ -173,74 +177,83 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="tab-pane fade" id="settings">
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-video-settings">
-                    <div class="mw-ui-row-nodrop mw-ui-row-fixed" style="width: auto">
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <div class="form-group">
-                                    <label class="mw-ui-inline-label"><?php _e("Width"); ?></label>
-                                    <input name="width" style="width:50px;" placeholder="450" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('width', $params['id']) ?>"/>
+                    <div class="form-group">
+                        <label class="control-label">Video settings</label>
+                        <small class="text-muted d-block mb-2">Set a width height in pixels</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="control-label"><?php _e("Width"); ?></label>
+                                <input name="width" placeholder="450" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('width', $params['id']) ?>"/>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="control-label"><?php _e("Height"); ?></label>
+                                <input name="height" placeholder="350" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('height', $params['id']) ?>"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <small class="d-block text-muted mb-2">The video will start automaticly if you check the option</small>
+
+                        <div class="custom-control custom-checkbox">
+                            <input id="chk_autoplay" name="autoplay" class="mw_option_field custom-control-input" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('autoplay', $params['id']) == 'y') { ?>checked<?php } ?>/>
+                            <label class="custom-control-label" for="chk_autoplay">Autoplay</label>
+                        </div>
+                    </div>
+
+                    <hr class="thin"/>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Upload Video Thumbnail from your computer"); ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected."); ?></small>
+                    </div>
+
+                    <div class="row d-flex align-items-end">
+                        <div class="col-6">
+                            <div style="width: 120px;" class="mb-2">
+                                <div class="dropable-zone small-zone square-zone bg-white" id="upload_thumb_btn">
+                                    <div class="holder">
+                                        <div class="dropable-zone-img mb-2"></div>
+                                        <button type="button" class="btn btn-link py-1">Add media</button>
+                                        <p>or drop file</p>
+                                    </div>
                                 </div>
                             </div>
+
+                            <input name="upload_thumb" id="upload_thumb_field" class="form-control mw_option_field semi_hidden" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('upload_thumb', $params['id']) ?>"/>
+                            <input name="upload_thumb" id="upload_thumb" class="form-control mw_option_field" type="hidden" data-mod-name="<?php print $params['data-type'] ?>" value=""/>
                         </div>
 
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <div class="form-group">
-                                    <label class="mw-ui-inline-label"><?php _e("Height"); ?></label>
-                                    <input name="height" placeholder="350" style="width:50px;" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('height', $params['id']) ?>"/>
-                                </div>
-                            </div>
+                        <div class="col-6 text-right">
+                            <a href="#" class="btn btn-link text-danger px-0">Remove thumbnail image</a>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="mw-ui-check">
-                            <input id="chk_autoplay" name="autoplay" class="form-control mw_option_field" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('autoplay', $params['id']) == 'y') { ?> checked='checked' <?php } ?>/>
-                            <span></span>
-                            <span><?php _e("Autoplay"); ?></span>
-                        </label>
-                    </div>
-
-                    <hr/>
-
-                    <div class="form-group">
-                        <label class="control-label"><?php _e("Upload Video Thumbnail from your computer"); ?>
-                            <br>
-                            <small><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected."); ?>
-                            </small>
-                        </label>
-
-                        <div class="row" style="margin-top:10px;">
-                            <div class="col-xs-6">
-                                <input name="upload_thumb" id="upload_thumb_field" class="form-control mw_option_field semi_hidden" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('upload_thumb', $params['id']) ?>"/>
-                                <span class="mw-ui-btn mw-ui-btn-info" id="upload_thumb_btn"><span class="fas fa-upload"></span> &nbsp; <?php _e("Choose thumbnail image"); ?></span>
-                            </div>
-                            <div class="col-xs-6">
-                                <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 100, 100); ?>" alt=""/>
-                                <input id="upload_thumb" name="upload_thumb" class="form-control mw_option_field" type="hidden" data-mod-name="<?php print $params['data-type'] ?>" value=""/>
-                            </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 600, 600); ?>" alt=""/>
                         </div>
                     </div>
 
-                    <div class="mw-ui-progress" id="upload_thumb_status" style="display: none">
-                        <div style="width: 0%" class="mw-ui-progress-bar"></div>
-                        <div class="mw-ui-progress-info"><?php _e("Status"); ?>: <span class="mw-ui-progress-percent">0</span></div>
+                    <div class="progress mt-2" id="upload_thumb_status" style="display: none">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                     </div>
 
-                    <hr/>
+                    <hr class="thin"/>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Video Lazy Loading for SEO"); ?>
-                            <br>
-                            <small><?php _e("Optional setting for use with embedded YouTube videos to defer the downloading of video scripts. Thumbnail image required, see Thumbnail Upload section."); ?>
-                            </small>
-                        </label>
-                        <div class="row" style="margin-top:10px;">
-                            <label class="mw-ui-check col-xs-6">
-                                <input id="chk_lazyload" name="lazyload" class="form-control mw_option_field" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('lazyload', $params['id']) == 'y') { ?> checked='checked' <?php } ?>/>
-                                <span></span>
-                                <span><?php _e("Lazy load"); ?></span>
-                            </label>
+                        <label class="control-label"><?php _e("Video Lazy Loading for SEO"); ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e("Optional setting for use with embedded YouTube videos to defer the downloading of video scripts. Thumbnail image required, see Thumbnail Upload section."); ?></small>
+
+                        <div class="custom-control custom-checkbox">
+                            <input id="chk_lazyload" name="lazyload" class="mw_option_field custom-control-input" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('lazyload', $params['id']) == 'y') { ?>checked<?php } ?>/>
+                            <label class="custom-control-label" for="chk_lazyload"><?php _e("Lazy load"); ?></label>
                         </div>
                     </div>
                 </div>

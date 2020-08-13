@@ -54,7 +54,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                     <div class="card-body py-4">
                         <?php if ($user != false): ?>
                             <div><?php _e("Welcome") . ' ' . user_name(); ?></div>
-                            <a href="<?php print site_url() ?>"><?php _e("Go to"); ?><?php print site_url() ?></a>
+                            <a href="<?php print site_url() ?>"><?php _e("Go to"); ?> &nbsp;<small><?php print site_url() ?></small></a>
                             <a href="<?php print api_link('logout') ?>"><?php _e("Log Out"); ?></a>
                         <?php else: ?>
                             <?php if (get_option('enable_user_microweber_registration', 'users') == 'y' and get_option('microweber_app_id', 'users') != false and get_option('microweber_app_secret', 'users') != false): ?>
