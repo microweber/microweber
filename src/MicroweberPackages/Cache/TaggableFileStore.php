@@ -55,6 +55,7 @@ class TaggableFileStore implements Store
 
     private $_cached_data_memory = array();
     private $_tag_map_cache_memory=[];
+    private $_tag_map_paths_cache_memory=[];
 
     /**
      * Create a new file cache store instance.
@@ -209,6 +210,8 @@ class TaggableFileStore implements Store
         $this->_addKeyPathToTagMap($key, $subPath . $filename);
 
         // Save key value in file
+      //  \Log::debug($path, $value);
+
         $save = file_put_contents($path, $value);
         if (!$save) {
             throw new \Exception('Cant file put contents:' . $path);
@@ -328,15 +331,35 @@ class TaggableFileStore implements Store
         //@todo fix this , its writing files all the time
         foreach ($this->tags as $tag) {
 
-            $cacheFile = $this->_getTagMapPathByName($tag);
+           if(!isset($this->_tag_map_paths_cache_memory[$tag])){
 
-            $cacheMapContent = @file_get_contents($cacheFile);
-            $cacheMapContent = @json_decode($cacheMapContent, true);
-            if(!$cacheMapContent){
-                $cacheMapContent = [];
+                $cacheFile = $this->_getTagMapPathByName($tag);
+
+                $cacheMapContent = @file_get_contents($cacheFile);
+                $cacheMapContent = @json_decode($cacheMapContent, true);
+                if(!$cacheMapContent){
+                    $cacheMapContent = [];
+                }
+
+           } else {
+               $cacheMapContent = $this->_tag_map_paths_cache_memory[$tag];
+           }
+            if(!isset($cacheMapContent[$key] )) {
+                $cacheMapContent[$key] = $filename;
             }
-            $cacheMapContent[$key] = $filename;
-            file_put_contents($cacheFile, json_encode($cacheMapContent, JSON_PRETTY_PRINT));
+             if (!isset($cacheMapContent[$key])) {
+                 $this->_tag_map_paths_cache_memory[$tag] = $cacheMapContent;
+                 $cacheFile = $this->_getTagMapPathByName($tag);
+
+                 file_put_contents($cacheFile, json_encode($cacheMapContent));
+                  //dd(debug_backtrace(1),'_addKeyPathToTagMap');
+                  //options group cache
+                //  dump('_addKeyPathToTagMap',$tag,$key,$cacheMapContent);
+
+             } else {
+                // dump($tag,$key,$cacheMapContent);
+              //   dump($tag,$key);
+            }
         }
 
     }
@@ -455,6 +478,7 @@ class TaggableFileStore implements Store
         if ($this->files->exists($findTagPath)) {
             @$this->files->delete($findTagPath);
         }
+
     }
     
     public function delete($key)
