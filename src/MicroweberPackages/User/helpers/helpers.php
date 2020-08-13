@@ -203,11 +203,14 @@ function has_access($function_name = '')
 
 function must_have_access()
 {
-    return mw()->user_manager->admin_access();
+
+    //echo 'must have acess';
+    return true;
 }
 
 function only_admin_access()
 {
+    echo 'only admin access';
     return mw()->user_manager->admin_access();
 }
 
