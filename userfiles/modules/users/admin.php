@@ -1,3 +1,9 @@
+<?php
+if (!user_can_access('module.users.edit')) {
+return;
+}
+?>
+
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info" history_back="true"/>
 <?php endif; ?>
@@ -13,6 +19,7 @@ if ($action == 'profile') {
     print('<module type="users/edit_user" edit-user="' . $editUser . '" />');
     return;
 }
+
 ?>
 
 

@@ -1,9 +1,7 @@
 <?php
-
-if (is_admin() == false) {
-    mw_error("Must be admin");
+if (!user_can_access('module.users.edit')) {
+    return;
 }
-
 
 $user_params = array();
 if (isset($params['sortby'])) {

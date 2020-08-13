@@ -106,6 +106,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 $(upVideo).on("done", function (a, b) {
                     $("#upload_progress").hide();
+                    $(".js-video-preview-label").show();
 
                 });
 

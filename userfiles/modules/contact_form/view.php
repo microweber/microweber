@@ -1,5 +1,7 @@
 <?php
-must_have_access();
+if (!user_can_access('module.contact_form.index')) {
+    return;
+}
 
 $notification_id = (int) $params['notification_id'];
 

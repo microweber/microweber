@@ -203,8 +203,9 @@ function has_access($function_name = '')
 
 function must_have_access($permission = '')
 {
-    if (!user_can($permission)) {
-        mw_error('Permission denied! You dont have access to see this page.');
+    if (!user_can_access($permission)) {
+        $file = debug_backtrace()[0]['file'];
+        mw_error('Permission denied! You dont have access to see this page. <br />File:' . $file);
     }
 }
 
@@ -298,7 +299,8 @@ function get_user($id = false)
 }
 
 
-function user_can($permission) {
+function user_can_access($permission) {
+
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
         return false;
@@ -312,6 +314,26 @@ function user_can($permission) {
 
 function module_permissions($module) {
     return \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+}
+
+function user_can_destroy_module($module)
+{
+    $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+
+    $user = \Illuminate\Support\Facades\Auth::user();
+    if (!$user) {
+        return false;
+    }
+
+    if ($user->is_admin == 1) {
+        return true;
+    }
+
+    if ($user->can($permissions['destroy'])) {
+        return true;
+    }
+
+    return false;
 }
 
 function user_can_view_module($module) {

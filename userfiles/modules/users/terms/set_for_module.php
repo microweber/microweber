@@ -1,4 +1,8 @@
-<?php must_have_access(); ?>
+<?php
+if (!user_can_access('module.users.terms.index')) {
+    return;
+}
+?>
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {

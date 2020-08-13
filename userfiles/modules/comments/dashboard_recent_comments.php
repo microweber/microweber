@@ -1,4 +1,7 @@
 <?php
+if (!user_can_access('module.comments.index')) {
+    return;
+}
 
 $comments_data = array(
     'rel_type' => 'content',
