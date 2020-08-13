@@ -1,6 +1,6 @@
 <?php
 
-if (!user_can('module.site_stats.index')) {
+if (!user_can_access('module.site_stats.index')) {
     return;
 }
 

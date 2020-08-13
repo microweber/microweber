@@ -1,5 +1,5 @@
 <?php
-if (!user_can('module.users.edit')) {
+if (!user_can_access('module.users.edit')) {
     return;
 }
 

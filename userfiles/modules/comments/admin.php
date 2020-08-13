@@ -1,5 +1,5 @@
 <?php
-if (!user_can('module.comments.index')) {
+if (!user_can_access('module.comments.index')) {
     return;
 }
 

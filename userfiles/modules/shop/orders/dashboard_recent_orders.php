@@ -1,5 +1,5 @@
 <?php
-if (!user_can('module.shop.orders.index')) {
+if (!user_can_access('module.shop.orders.index')) {
     return;
 }
 ?>

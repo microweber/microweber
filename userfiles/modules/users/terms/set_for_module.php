@@ -1,5 +1,5 @@
 <?php
-if (!user_can('module.users.terms.index')) {
+if (!user_can_access('module.users.terms.index')) {
     return;
 }
 ?>

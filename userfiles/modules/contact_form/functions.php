@@ -13,7 +13,7 @@ event_bind('website.privacy_settings', function () {
 api_expose('get_contact_entry_by_id');
 function get_contact_entry_by_id($params)
 {
-    if (!user_can('module.contact_form.index')) {
+    if (!user_can_access('module.contact_form.index')) {
         return;
     }
 	

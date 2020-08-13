@@ -3,7 +3,7 @@
 if (!mw_is_installed()) {
 
 } else {
-    if (!user_can('module.marketplace.index')) {
+    if (!user_can_access('module.marketplace.index')) {
         return;
     }
 }

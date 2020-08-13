@@ -1,6 +1,6 @@
 
 <?php
-if (!user_can('module.packages')) {
+if (!user_can_access('module.packages')) {
     return;
 }
 ?>

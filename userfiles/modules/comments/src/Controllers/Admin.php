@@ -30,7 +30,7 @@ class Admin
 
     function index($params)
     {
-        if (!user_can('module.comments.index')) {
+        if (!user_can_access('module.comments.index')) {
             return;
         }
 
@@ -45,7 +45,7 @@ class Admin
     function comments_list($params)
     {
 
-        if (!user_can('module.comments.index')) {
+        if (!user_can_access('module.comments.index')) {
             return;
         }
 
@@ -102,7 +102,7 @@ class Admin
 
     function comment_item($params)
     {
-        if (!user_can('module.comments.index')) {
+        if (!user_can_access('module.comments.index')) {
             return;
         }
 
@@ -132,7 +132,7 @@ class Admin
 
     function manage($params)
     {
-        if (!user_can('module.comments.index')) {
+        if (!user_can_access('module.comments.index')) {
             return;
         }
 

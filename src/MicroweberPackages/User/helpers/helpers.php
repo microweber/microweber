@@ -203,7 +203,7 @@ function has_access($function_name = '')
 
 function must_have_access($permission = '')
 {
-    if (!user_can($permission)) {
+    if (!user_can_access($permission)) {
         $file = debug_backtrace()[0]['file'];
         mw_error('Permission denied! You dont have access to see this page. <br />File:' . $file);
     }
@@ -299,7 +299,8 @@ function get_user($id = false)
 }
 
 
-function user_can($permission) {
+function user_can_access($permission) {
+
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
         return false;

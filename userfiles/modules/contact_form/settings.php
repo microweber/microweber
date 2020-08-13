@@ -1,5 +1,5 @@
 <?php
-if (!user_can('module.contact_form.index')) {
+if (!user_can_access('module.contact_form.index')) {
     return;
 }
 ?>
