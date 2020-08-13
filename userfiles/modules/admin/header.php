@@ -180,6 +180,13 @@ if (!user_can_view_module(['module'=>'shop'])) {
 
 </script>
 
+
+<?php
+if (!is_logged()) {
+    return;
+}
+?>
+
 <?php
 $order_notif_html = false;
 $new_orders_count = mw()->order_manager->get_count_of_new_orders();
@@ -229,6 +236,9 @@ $user = get_user_by_id($user_id);
                         </a>
                     </li>
 
+                    <?php
+                    if (user_can_access('module.content.edit')):
+                    ?>
                     <li class="mx-1 d-none d-md-block">
                         <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
                             <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
@@ -261,6 +271,8 @@ $user = get_user_by_id($user_id);
                             <?php endif; ?>
                         </div>
                     </li>
+                    <?php endif; ?>
+
                 </ul>
 
 
@@ -331,11 +343,13 @@ $user = get_user_by_id($user_id);
                 <?php event_trigger('mw.admin.header.toolbar'); ?>
 
                 <ul class="nav">
+                    <?php if (user_can_access('module.content.edit')):?>
                     <li class="mx-1">
                         <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
                             <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
                         </a>
                     </li>
+                    <?php endif; ?>
 
                     <?php event_trigger('mw.admin.header.toolbar.ul'); ?>
                 </ul>
@@ -488,6 +502,7 @@ $user = get_user_by_id($user_id);
                     </li>
                 <?php endif; ?>
 
+                <?php if (user_can_access('module.modules.index')): ?>
                 <li class="nav-item">
                     <?php
                     if (($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')) {
@@ -498,14 +513,16 @@ $user = get_user_by_id($user_id);
                     ?>
                     <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a>
                 </li>
+                <?php endif; ?>
 
-
+                <?php if (user_can_access('module.marketplace.index')): ?>
                 <?php if (mw()->ui->disable_marketplace != true): ?>
                     <li class="nav-item">
                         <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
                             <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
                         </a>
                     </li>
+                <?php endif; ?>
                 <?php endif; ?>
 
                 <?php /*

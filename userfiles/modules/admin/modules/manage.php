@@ -1,7 +1,7 @@
 <?php
-if (!user_can_access('module.modules.index')) {
+/*if (!user_can_access('module.modules.index')) {
     return;
-}
+}*/
 ?>
 
 <?php $load_module = url_param('load_module');
