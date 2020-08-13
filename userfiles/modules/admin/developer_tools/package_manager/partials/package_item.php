@@ -1,4 +1,8 @@
-
+<?php
+if (!user_can('module.marketplace.index')) {
+    return;
+}
+?>
 <?php
 include(__DIR__ . '/package_data.php');
 ?>

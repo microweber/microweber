@@ -3,8 +3,9 @@
 if (!mw_is_installed()) {
 
 } else {
-    must_have_access();
-
+    if (!user_can('module.marketplace.index')) {
+        return;
+    }
 }
 
 

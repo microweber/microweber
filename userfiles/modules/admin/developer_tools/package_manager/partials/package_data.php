@@ -1,4 +1,8 @@
 <?php
+if (!user_can('module.marketplace.index')) {
+    return;
+}
+
 $is_core_update = false;
 
 $author = array_first(explode('/', $item['name']), function ($key, $value) {

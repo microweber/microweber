@@ -1,4 +1,8 @@
-<?php must_have_access(); ?>
+<?php
+if (!user_can('module.marketplace.index')) {
+    return;
+}
+?>
 <script type="text/javascript">
     mw.require('forms.js', true);
 </script>

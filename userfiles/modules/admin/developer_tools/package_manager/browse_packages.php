@@ -1,3 +1,8 @@
+<?php
+if (!user_can('module.marketplace.index')) {
+    return;
+}
+?>
 
 <script>
     mw.require('admin_package_manager.js');
