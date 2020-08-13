@@ -189,9 +189,7 @@ class TaggableFileStore implements Store
             unset($this->_cached_data_memory[$key]);
         }
 
-        if(is_null($value) ){
-            dd(debug_backtrace(1));
-        }
+
 
         $value = $this->expiration($seconds) . serialize($value);
 
