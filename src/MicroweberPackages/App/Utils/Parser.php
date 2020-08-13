@@ -2026,11 +2026,11 @@ class Parser
             $attrs['view'] = $custom_view = str_replace('..', '', $custom_view);
         }
 
-        if ($custom_view != false and strtolower($custom_view) == 'admin') {
+     /*   if ($custom_view != false and strtolower($custom_view) == 'admin') {
             if ($this->app->user_manager->is_admin() == false) {
-                mw_error('Not logged in as admin');
+                mw_error($custom_view. 'Not logged in as admin');
             }
-        }
+        }*/
 
         $module_name = trim($module_name);
         $module_name = str_replace('\\', '/', $module_name);

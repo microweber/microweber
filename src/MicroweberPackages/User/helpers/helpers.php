@@ -201,16 +201,15 @@ function has_access($function_name = '')
     return mw()->user_manager->has_access($function_name);
 }
 
-function must_have_access()
+function must_have_access($permission = '')
 {
-
-    //echo 'must have acess';
-    return true;
+    if (!user_can($permission)) {
+        mw_error('Permission denied! You dont have access to see this page.');
+    }
 }
 
 function only_admin_access()
 {
-    echo 'only admin access';
     return mw()->user_manager->admin_access();
 }
 

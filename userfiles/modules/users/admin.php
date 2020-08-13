@@ -1,7 +1,6 @@
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info" history_back="true"/>
 <?php endif; ?>
-<?php must_have_access(); ?>
 
 <?php
 $action = url_param('action');
@@ -14,7 +13,6 @@ if ($action == 'profile') {
     print('<module type="users/edit_user" edit-user="' . $editUser . '" />');
     return;
 }
-
 ?>
 
 
