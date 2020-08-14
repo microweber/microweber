@@ -197,7 +197,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="enable_service_links" id="enable_service_links" class="mw_option_field custom-control-input" <?php if ($enable_service_links): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0"/>
+                                    <input type="checkbox" name="enable_service_links" id="enable_service_links" class="mw_option_field custom-control-input" <?php if ($enable_service_links): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
                                     <label class="custom-control-label" for="enable_service_links"><?php _e('Enable support links'); ?></label>
                                 </div>
 
@@ -222,7 +222,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 </script>
 
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="disable_powered_by_link" id="disable_powered_by_link" class="mw_option_field custom-control-input" <?php if (!$disable_powered_by_link): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0"/>
+                                    <input type="checkbox" name="disable_powered_by_link" id="disable_powered_by_link" class="mw_option_field custom-control-input" <?php if (!$disable_powered_by_link): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
                                     <label class="custom-control-label" for="disable_powered_by_link"><?php _e('Enable'); ?> "<?php _e('Powered By'); ?>"</label>
                                 </div>
 
@@ -266,10 +266,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="mw_option_field custom-control-input" <?php if (!$disable_marketplace): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0"/>
+                                    <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="mw_option_field custom-control-input" <?php if (!$disable_marketplace): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
                                     <label class="custom-control-label" for="disable_marketplace">Microweber Marketplace</label>
                                 </div>
-
                                 <small class="text-muted d-block mb-2"><?php _e('Allow users to see Microweber Marketplace'); ?></small>
                             </div>
 
