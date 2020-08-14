@@ -22,6 +22,16 @@ if ($settings == false) {
             'label' => 'Google Analytics',
             'code' => 'UA-xxxxxxxxx-1'
         );
+        $json['Facebook_Pixel'] = array(
+            'enabled' => 'false',
+            'label' => 'Facebook Pixel',
+            'code' => '123456'
+        );
+        $json['Mautic_Tracking'] = array(
+            'enabled' => 'false',
+            'label' => 'Mautic Tracking',
+            'code' => 'https://yourmautic.com/mtc.js'
+        );
         $json['Tawk.to'] = array(
             'enabled' => 'false',
             'label' => 'Tawk.to - Live chat',

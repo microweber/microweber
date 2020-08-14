@@ -32,6 +32,16 @@ enabled: 'true', 'false'
 label:	'Google Analytics'
 code:	'UA-xxxxxxxxx-1'
 
+Facebook_Pixel
+enabled: 'true', 'false'
+label:	'Facebook Pixel'
+code:	'123456'
+
+Mautic_Tracking
+enabled: 		'true', 'false'
+label:			'Mautic Tracking'
+code:			'https://yourmautic.com/mtc.js'
+
 Tawk_to
 enabled: 		'true', 'false'
 label:			'Tawk.to - Live chat'
@@ -70,6 +80,12 @@ code:			'123456'
         'Google_Analytics' => array('enabled' => 'false',
             'label' => 'Google Analytics',
             'code' => 'UA-xxxxxxxxx-1'),
+        'Facebook_Pixel' => array('enabled' => 'false',
+            'label' => 'Facebook Pixel',
+            'code' => ''),
+        'Mautic_Tracking' => array('enabled' => 'false',
+            'label' => 'Mautic Tracking',
+            'code' => ''),
         'Tawk.to' => array('enabled' => 'false',
             'label' => 'Tawk.to - Live chat',
             'code' => ''),
@@ -253,6 +269,80 @@ code:			'123456'
                     </div>
 
                     <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label"><?php _e('Facebook Pixel enabled'); ?>:</label>
+                        <ul class="mw-ui-inline-list">
+                            <li>
+                                <label class="mw-ui-check">
+                                    <input name="Facebook_Pixel_enabled" type="radio"
+                                           class="mw-ui-field enable"
+                                           value="true" <?php if ('true' == trim($settings['Facebook_Pixel']['enabled'])): ?> checked="checked"  <?php endif; ?> />
+                                    <span></span><span>
+					<?php _e("yes"); ?>
+				            </span></label>
+                            </li>
+                            <li>
+                                <label class="mw-ui-check">
+                                    <input name="Facebook_Pixel_enabled" type="radio"
+                                           class="mw-ui-field enable"
+                                           value="false" <?php if ('' == trim($settings['Facebook_Pixel']['enabled']) or 'false' == trim($settings['Facebook_Pixel']['enabled'])): ?> checked="checked"  <?php endif; ?> />
+                                    <span></span><span>
+					<?php _e("no"); ?>
+				            </span></label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mw-ui-box setting-fields" style="display:<?php if ('true' == trim($settings['Facebook_Pixel']['enabled'])): ?>block<?php else: ?>none<?php endif; ?>">
+                        <div class="mw-ui-box-content">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e('Facebook Pixel label'); ?>:</label>
+                                <input type="text" class="mw-ui-field Facebook_Pixel_label" value="<?php print $settings['Facebook_Pixel']['label']; ?>">
+                            </div>
+
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e('Facebook Pixel code'); ?>:</label>
+                                <input type="text" class="mw-ui-field Facebook_Pixel_code" value="<?php print $settings['Facebook_Pixel']['code']; ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label"><?php _e('Mautic Tracking enabled'); ?>:</label>
+                        <ul class="mw-ui-inline-list">
+                            <li>
+                                <label class="mw-ui-check">
+                                    <input name="Mautic_Tracking_enabled" type="radio"
+                                           class="mw-ui-field enable"
+                                           value="true" <?php if ('true' == trim($settings['Mautic_Tracking']['enabled'])): ?> checked="checked"  <?php endif; ?> />
+                                    <span></span><span>
+					<?php _e("yes"); ?>
+				            </span></label>
+                            </li>
+                            <li>
+                                <label class="mw-ui-check">
+                                    <input name="Mautic_Tracking_enabled" type="radio"
+                                           class="mw-ui-field enable"
+                                           value="false" <?php if ('' == trim($settings['Mautic_Tracking']['enabled']) or 'false' == trim($settings['Mautic_Tracking']['enabled'])): ?> checked="checked"  <?php endif; ?> />
+                                    <span></span><span>
+					<?php _e("no"); ?>
+				            </span></label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mw-ui-box setting-fields" style="display:<?php if ('true' == trim($settings['Mautic_Tracking']['enabled'])): ?>block<?php else: ?>none<?php endif; ?>">
+                        <div class="mw-ui-box-content">
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e('Mautic Tracking label'); ?>:</label>
+                                <input type="text" class="mw-ui-field Mautic_Tracking_label" value="<?php print $settings['Mautic_Tracking']['label']; ?>">
+                            </div>
+
+                            <div class="mw-ui-field-holder">
+                                <label class="mw-ui-label"><?php _e('Mautic Tracking url'); ?>:</label>
+                                <input type="text" class="mw-ui-field Mautic_Tracking_code" value="<?php print $settings['Mautic_Tracking']['code']; ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e('Tawk.to enabled'); ?>:</label>
                         <ul class="mw-ui-inline-list">
                             <li>
@@ -395,6 +485,8 @@ code:			'123456'
                     data = {};
 
                     data['Google_Analytics'] = {};
+                    data['Facebook_Pixel'] = {};
+                    data['Mautic_Tracking'] = {};
                     data['Tawk.to'] = {};
                     data['Smartsupp'] = {};
                     data['Hotjar'] = {};
@@ -410,6 +502,14 @@ code:			'123456'
                     data['Google_Analytics']['enabled'] = item.querySelector('input[name=Google_Analytics_enabled]:checked').value;
                     data['Google_Analytics']['label'] = item.querySelector('.Google_Analytics_label').value;
                     data['Google_Analytics']['code'] = item.querySelector('.Google_Analytics_code').value;
+
+                    data['Facebook_Pixel']['enabled'] = item.querySelector('input[name=Facebook_Pixel_enabled]:checked').value;
+                    data['Facebook_Pixel']['label'] = item.querySelector('.Facebook_Pixel_label').value;
+                    data['Facebook_Pixel']['code'] = item.querySelector('.Facebook_Pixel_code').value;
+
+                    data['Mautic_Tracking']['enabled'] = item.querySelector('input[name=Mautic_Tracking_enabled]:checked').value;
+                    data['Mautic_Tracking']['label'] = item.querySelector('.Mautic_Tracking_label').value;
+                    data['Mautic_Tracking']['code'] = item.querySelector('.Mautic_Tracking_code').value;
 
                     data['Tawk.to']['enabled'] = item.querySelector('input[name=Tawk_to_enabled]:checked').value;
                     data['Tawk.to']['label'] = item.querySelector('.Tawk_to_label').value;
