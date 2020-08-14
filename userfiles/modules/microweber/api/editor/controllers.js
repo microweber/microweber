@@ -92,6 +92,7 @@ MWEditor.controllers = {
                 mw.fileWindow({
                     types: 'images',
                     change: function (url) {
+                        if(!url) return;
                         url = url.toString();
                         api.insertImage(url);
                     }
@@ -152,7 +153,8 @@ MWEditor.controllers = {
                 data: [
                     { label: '8px', value: 8 },
                     { label: '22px', value: 22 },
-                ]
+                ],
+                placeholder: rootScope.lang('Font Size')
             });
             dropdown.select.on('change', function (e, val) {
                 api.fontSize(val.value);
@@ -162,12 +164,17 @@ MWEditor.controllers = {
         this.element = this.render();
     },
     format: function (scope, api, rootScope) {
+
         this._availableTags = [
             { label: '<h1>Title</h1>', value: 'h1' },
             { label: '<h2>Title</h2>', value: 'h2' },
             { label: '<h3>Title</h3>', value: 'h3' },
+            { label: '<h4>Title</h4>', value: 'h4' },
+            { label: '<h5>Title</h5>', value: 'h5' },
+            { label: '<h6>Title</h6>', value: 'h6' },
             { label: 'Paragraph', value: 'p' },
-            { label: 'Block', value: 'div' }
+            { label: 'Block', value: 'div' },
+            { label: 'Pre formated', value: 'pre' }
         ];
 
         this.availableTags = function () {
@@ -198,11 +205,12 @@ MWEditor.controllers = {
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
-                data: this._availableTags
+                data: this._availableTags,
+                placeholder: rootScope.lang('Format')
             });
             dropdown.select.on('change', function (e, val) {
-                console.log(e, val)
-                var sel = scope.getSelection();
+                api.execCommand('formatBlock', false, val.value);
+                /*var sel = scope.getSelection();
                 var range = sel.getRangeAt(0);
                 var el = scope.actionWindow.document.createElement(val.value);
 
@@ -225,7 +233,7 @@ MWEditor.controllers = {
                     sel.addRange(range);
                 } else {
                     range.surroundContents(el);
-                }
+                }*/
             });
             return dropdown.root;
         };
@@ -251,9 +259,10 @@ MWEditor.controllers = {
                 data: [
                     { label: 'Arial 1', value: 'Arial' },
                     { label: 'Verdana 1', value: 'Verdana' },
-                ]
+                ],
+                placeholder: rootScope.lang('Font')
             });
-            dropdown.select.on('change', function (e, val) {
+            dropdown.select.on('change', function (e, val, b) {
                 api.fontFamily(val.value);
             });
             return dropdown.root;

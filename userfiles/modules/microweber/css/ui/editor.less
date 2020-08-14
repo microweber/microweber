@@ -51,7 +51,17 @@
 
 }
 
-.mw-small-editor-skin-default, .mw-editor-default{
+.mw-editor-table-manager{
+    white-space: nowrap;
+    .mw-editor-controller-component{
+        display: inline-block;
+    }
+    .mw-editor-dropdown-option{
+        white-space: nowrap;
+    }
+}
+
+.mw-small-editor-skin-default, .mw-editor-default, .mw-editor-table-manager{
     [disabled] {
         pointer-events: none;
         opacity: .55;
@@ -64,49 +74,7 @@
 
     }
 
-    .mw-editor-controller-component-select{
 
-        .mw-editor-select-display-value{
-            text-align: left;
-            font-size: 12px;
-        }
-        .mw-editor-select-display-value:after{
-            content: "\F0140";
-            display: inline-block;
-            font: normal normal normal 24px/1 "Material Design Icons";
-            font-size: inherit;
-            text-rendering: auto;
-            line-height: inherit;
-            position: relative;
-            left: 5px;
-        }
-        .mw-editor-controller-component-select-values-holder{
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            border: 1px solid #ccc;
-            opacity: 0;
-            visibility: hidden;
-            transition: .3s;
-            line-height: normal;
-            cursor: pointer;
-            min-width: 100%;
-        }
-        &.active{
-            z-index: 10;
-            .mw-editor-controller-component-select-values-holder{
-                opacity: 1;
-                visibility: visible;
-            }
-        }
-        .mw-editor-dropdown-option{
-            padding: 6px 10px;
-            &+.mw-editor-dropdown-option{
-                border-top: 1px solid #ccc;
-            }
-        }
-    }
     .mw-editor-controller-component[data-tooltip]:after{
         position: absolute;
         content: attr(data-tooltip);
@@ -197,64 +165,129 @@
         border-left: 1px solid #eaeaea;
         vertical-align: middle;
     }
-    .mw-editor-controller-button{
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-sizing: border-box;
-        cursor: default;
-        text-align: center;
-        position: relative;
-        text-decoration: none;
-        border-radius: 2px;
-        color: #686868;
-        border: 1px solid transparent;
-        outline: 0;
-        transition: .3s;
-        white-space: nowrap;
-        vertical-align: middle;
-        background-color: transparent;
-        font-size: 19px;
-        min-width: 32px;
-        height: 32px;
-        line-height: 0;
+}
+
+.mw-editor-table-manager{
+    position: absolute;
+    z-index: 9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.mw-editor-controller-button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    cursor: default;
+    text-align: center;
+    position: relative;
+    text-decoration: none;
+    border-radius: 2px;
+    color: #686868;
+    border: 1px solid transparent;
+    outline: 0;
+    transition: .3s;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: transparent;
+    font-size: 19px;
+    min-width: 32px;
+    height: 32px;
+    line-height: 0;
+    padding: 0 5px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &:hover{
+        background-color: rgba(255,255,255,.77);
+        border-color: rgba(255,255,255,.87);
+    }
+
+
+    &.active-control{
+        background-color: #4592ff;
+        color: #fff;
+    }
+    &.mw-editor-group-button{
+        width: auto;
         padding: 0 5px;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+        display: none;
+        .mw-editor-group-button-icon{
+            vertical-align: middle;
+        }
+        .mw-editor-group-button-caret{
+            font-size: 16px;
+            vertical-align: middle;
+            margin: 0;
+            color: #999;
+            position: relative;
+            top: -1px;
+            font-family: "Material Design Icons";
+            &:after{
+                content: "\F035D";
 
+            }
+        }
+    }
+}
+
+.mw-editor-controller-component-select {
+
+    .mw-editor-select-display-value{
+        text-align: left;
+        font-size: 12px;
+    }
+    .mw-editor-select-display-value:after{
+        content: "\F0140";
+        display: inline-block;
+        font: normal normal normal 24px/1 "Material Design Icons";
+        font-size: inherit;
+        text-rendering: auto;
+        line-height: inherit;
+        position: relative;
+        left: 5px;
+    }
+    .mw-editor-controller-component-select-values-holder{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #fff;
+        border: 1px solid #ccc;
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s;
+        line-height: normal;
+        cursor: pointer;
+        min-width: 100%;
+        overflow: auto;
+        &::-webkit-scrollbar {
+            width: 7px;
+        }
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: #ccc;
+        }
+    }
+    &.active{
+        z-index: 10;
+        .mw-editor-controller-component-select-values-holder{
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    .mw-editor-dropdown-option{
+        padding: 6px 10px;
+        transition: .3s;
         &:hover{
-            background-color: rgba(255,255,255,.77);
-            border-color: rgba(255,255,255,.87);
+            background-color: #f7f7f7;
         }
-
-
-        &.active-control{
-            background-color: #4592ff;
-            color: #fff;
-        }
-        &.mw-editor-group-button{
-            width: auto;
-            padding: 0 5px;
-            display: none;
-            .mw-editor-group-button-icon{
-                vertical-align: middle;
-            }
-            .mw-editor-group-button-caret{
-                font-size: 16px;
-                vertical-align: middle;
-                margin: 0;
-                color: #999;
-                position: relative;
-                top: -1px;
-                font-family: "Material Design Icons";
-                &:after{
-                    content: "\F035D";
-
-                }
-            }
+        &+.mw-editor-dropdown-option{
+            border-top: 1px solid #ccc;
         }
     }
 }

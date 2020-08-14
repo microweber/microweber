@@ -27,6 +27,7 @@
         mw.fileWindow({
             types: 'images',
             change: function (url) {
+                if(!url) return;
                 url = url.toString();
                 mw.$("#client_picture").val(url).trigger('change');
                 mw.$(".js-user-image").attr('src', url);

@@ -211,6 +211,8 @@
             data.categories = '';
 
         }
+        console.log(data);
+        return;
 
         module.addClass('loading');
         mw.content.save(data, {

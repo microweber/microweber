@@ -580,6 +580,7 @@ mw.propEditor = {
                     mw.fileWindow({
                         types:'images',
                         change:function(url){
+                            if(!url) return;
                             url = url.toString();
                             proto._valSchema[config.id] = proto._valSchema[config.id] || [];
                             proto._valSchema[config.id][btn._index] = url;

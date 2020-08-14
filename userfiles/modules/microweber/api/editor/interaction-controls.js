@@ -115,18 +115,69 @@ MWEditor.interactionControls = {
         };
         this.element = this.render();
     },
-    tableManager: function(){
+    tableManager: function(rootScope){
+        var lscope = this;
+        this.interact = function (data) {
+            if (!data.eventIsActionLike) { return; }
+            if (mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td')) {
+                var $target = $(data.localTarget);
+                this.$target = $target;
+                var css = $target.offset();
+                css.top -= lscope.element.node.offsetHeight;
+                this.element.$node.css(css).show();
+            } else {
+                this.element.$node.hide();
+            }
+        };
+
+        this._afterAction = function () {
+            this.element.$node.hide();
+        };
+
         this.render = function () {
             var root = mw.element({
                 props: {
-                    className: 'mw-table-inline-manager'
+                    className: 'mw-editor-table-manager'
                 }
             });
+            var bar = mw.bar();
+            bar.createRow();
+            root.append(bar.bar);
+
+            var insertDD = new MWEditor.core.dropdown({
+                data: [
+                    { label: 'Row Above', value: {action: 'insertRow', type: 'above'} },
+                    { label: 'Row Under', value: {action: 'insertRow', type: 'under'} },
+                    { label: 'Column on the left', value: {action: 'insertColumn', type: 'left'} },
+                    { label: 'Column on the right', value: {action: 'insertColumn', type: 'right'} },
+                ],
+                placeholder: 'Insert'
+            });
+
+            insertDD.select.on('change', function (e, data, node) {
+                lscope[data.value.action](data.value.type);
+                lscope._afterAction()
+            });
+            var deletetDD = new MWEditor.core.dropdown({
+                data: [
+                    { label: 'Row', value: {action: 'deleteRow'} },
+                    { label: 'Column', value: {action: 'deleteColumn'} },
+                ],
+                placeholder: 'Delete'
+            });
+
+            deletetDD.select.on('change', function (e, data, node) {
+                lscope[data.value.action]();
+                lscope._afterAction()
+            });
+
+            bar.add(insertDD.root.node);
+            bar.add(deletetDD.root.node);
 
 
-            var content =  '<ul>'
+            /*var content =  '<ul>'
                 + '<li>'
-                + '<a href="javascript:;">Insert<span class="mw-icon-dropdown"></span></a>'
+                + '<a href="javascript:;"><span class="mw-icon-dropdown"></span></a>'
                 + '<ul>'
                 + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.insertRow(\'above\', mw.liveedit.inline.activeCell);">Row Above</a></li>'
                 + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.insertRow(\'under\', mw.liveedit.inline.activeCell);">Row Under</a></li>'
@@ -150,13 +201,38 @@ MWEditor.interactionControls = {
                 + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.deleteColumn(mw.liveedit.inline.activeCell);">Column</a></li>'
                 + '</ul>'
                 + '</li>'
-            + '</ul>';
+            + '</ul>';*/
 
 
             return root;
         };
 
+        this.deleteRow = function (cell) {
+            cell = cell || this.getActiveCell();
+            cell.parentNode.remove();
+        };
+
+
+        this.deleteColumn = function (cell) {
+            cell = cell || this.getActiveCell();
+            var index = mw.tools.index(cell),
+                body = cell.parentNode.parentNode,
+                rows = mw.$(body).children('tr'),
+                l = rows.length,
+                i = 0;
+            for (; i < l; i++) {
+                var row = rows[i];
+                row.getElementsByTagName('td')[index].remove();
+            }
+        };
+
+        this.getActiveCell = function () {
+            var node = rootScope.api.elementNode( rootScope.getSelection().focusNode);
+            return mw.tools.firstParentOrCurrentWithTag(node,'td');
+        };
+
         this.insertColumn = function (dir, cell) {
+            cell = cell || this.getActiveCell();
             cell = mw.$(cell)[0];
             if (cell === null) {
                 return false;
@@ -176,6 +252,7 @@ MWEditor.interactionControls = {
             }
         };
         this.insertRow = function (dir, cell) {
+            cell = cell || this.getActiveCell();
             cell = mw.$(cell)[0];
             if (cell === null) {
                 return false;
@@ -195,9 +272,11 @@ MWEditor.interactionControls = {
             }
         };
         this.deleteRow = function (cell) {
+            cell = cell || this.getActiveCell();
             mw.$(cell.parentNode).remove();
         };
         this.deleteColumn = function (cell) {
+            cell = cell || this.getActiveCell();
             var index = mw.tools.index(cell), body = cell.parentNode.parentNode, rows = mw.$(body).children('tr'), l = rows.length, i = 0;
             for (; i < l; i++) {
                 var row = rows[i];
@@ -206,10 +285,12 @@ MWEditor.interactionControls = {
         };
 
         this.setStyle = function (cls, cell) {
+            cell = cell || this.getActiveCell();
             var table = mw.tools.firstParentWithTag(cell, 'table');
             mw.tools.classNamespaceDelete(table, 'mw-wysiwyg-table');
             mw.$(table).addClass(cls);
         };
+        this.element = this.render();
     }
 
 };

@@ -396,7 +396,7 @@
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });
 
-            var editor3 = new MWEditor({
+            /*var editor3 = new MWEditor({
                 mode: 'document',
                 editMode: 'liveedit',
                 controls: [
@@ -404,7 +404,7 @@
                     [ 'bold', '|', 'italic', '|', 'fontSize'   ]
                 ],
                 regions:'.edit'
-            });
+            });*/
         });
     </script>
     <h2>Editor</h2>

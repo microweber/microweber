@@ -53,13 +53,15 @@ MWEditor.core = {
         });
         var displayValNode = MWEditor.core.button({
             props: {
-                className: 'mw-editor-select-display-value'
+                className: 'mw-editor-select-display-value',
+                innerHTML: options.placeholder || ''
             }
         });
-        
+
         var valueHolder = MWEditor.core.element({
             props: {
-                className: 'mw-editor-controller-component-select-values-holder'
+                className: 'mw-editor-controller-component-select-values-holder',
+
             }
         });
         this.root.value = function (val){
@@ -68,21 +70,34 @@ MWEditor.core = {
         };
 
         this.root.displayValue = function (val) {
-            displayValNode.html(val);
+            displayValNode.text(val || options.placeholder || '');
         };
 
         this.select.append(displayValNode);
         this.select.append(valueHolder);
+        this.select.valueHolder = valueHolder;
         for (var i = 0; i < options.data.length; i++) {
             var dt = options.data[i];
-            var opt = MWEditor.core._dropdownOption(dt);
-            opt.on('click', function (){
-                lscope.select.trigger('change', dt);
-            });
-            valueHolder.append(opt);
+            (function (dt){
+                var opt = MWEditor.core._dropdownOption(dt);
+                opt.on('click', function (){
+                    lscope.select.trigger('change', dt);
+                });
+                valueHolder.append(opt);
+            })(dt);
+
         }
 
         this.select.on('click', function (){
+            var wrapper = mw.tools.firstParentWithClass(this.node, 'mw-editor-wrapper');
+            if(wrapper) {
+                var edOff = wrapper.getBoundingClientRect();
+                var selOff = this.node.getBoundingClientRect();
+                this.valueHolder.css({
+                    maxHeight: edOff.height - (selOff.top - edOff.top)
+                });
+            }
+
             MWEditor.core._preSelect(this.node);
             this.toggleClass('active');
         });

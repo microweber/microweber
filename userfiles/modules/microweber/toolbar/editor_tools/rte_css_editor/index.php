@@ -382,6 +382,7 @@ var init = function(){
         mw.fileWindow({
             types: 'images',
             change: function (url) {
+                if(!url) return;
                 url = url.toString();
                 output('backgroundImage', 'url(' + url + ')');
                 $('.background-preview').css('backgroundImage', 'url(' + url + ')')

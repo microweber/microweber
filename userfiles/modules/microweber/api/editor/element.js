@@ -54,6 +54,48 @@
             }
         };
 
+        this.__ = {
+            cssNumber: [
+                'animationIterationCount',
+                'columnCount',
+                'fillOpacity',
+                'flexGrow',
+                'flexShrink',
+                'fontWeight',
+                'gridArea',
+                'gridColumn',
+                'gridColumnEnd',
+                'gridColumnStart',
+                'gridRow',
+                'gridRowEnd',
+                'gridRowStart',
+                'lineHeight',
+                'opacity',
+                'order',
+                'orphans',
+                'widows',
+                'zIndex',
+                'zoom'
+            ]
+        };
+
+        this._normalizeCSSValue = function (prop, val) {
+            if(typeof val === 'number') {
+                if(this.__.cssNumber.indexOf(prop) === -1) {
+                    val = val + 'px';
+                }
+            }
+            return val;
+        };
+
+        this.css = function(css){
+            if(typeof css === 'object') {
+                for (var i in css) {
+                    this.node.style[i] = this._normalizeCSSValue(i, css[i]);
+                }
+            }
+        };
+
         this.prop = function(prop, val){
             if(this.node[prop] !== val){
                 this.node[prop] = val;
@@ -74,8 +116,20 @@
         };
 
         this.html = function (val) {
-            if(!val) {
+            if(typeof val === 'undefined') {
                 return this.innerHTML;
+            }
+            this.node.innerHTML = val;
+        };
+        this.text = function (val, clean) {
+            if(typeof val === 'undefined') {
+                return this.innerText;
+            }
+            if(typeof clean === 'undefined') {
+                clean = true;
+            }
+            if (clean) {
+                val = document.createRange().createContextualFragment(val).textContent;
             }
             this.node.innerHTML = val;
         };
@@ -103,14 +157,18 @@
 
         this.trigger = function(event, data){
             data = data || {};
-            scope.node.dispatchEvent(new Event(event, data));
+            scope.node.dispatchEvent(new CustomEvent(event, {
+                detail: data,
+                cancelable: true,
+                bubbles: true
+            }));
         };
 
         this.on = function(events, cb){
             events = events.trim().split(' ');
             events.forEach(function (ev) {
                 scope.node.addEventListener(ev, function(e) {
-                    cb.call(scope, e, this);
+                    cb.call(scope, e, e.detail, this);
                 }, false);
             });
         };

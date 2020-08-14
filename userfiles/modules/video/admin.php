@@ -86,6 +86,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     mw.tools.refresh(mwd.getElementById('chk_autoplay'));
                 });
 
+                $(".js-remove-thumb").on('click', function (){
+                    $("#upload_thumb_field").val('').trigger('change');
+                    $("#thumb").removeAttr('src')
+                })
+
                 all.on("FileUploaded", function (a, b) {
                     mw.notification.success("<?php _ejs("File Uploaded"); ?>");
 
@@ -227,17 +232,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                             <input name="upload_thumb" id="upload_thumb_field" class="form-control mw_option_field semi_hidden" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('upload_thumb', $params['id']) ?>"/>
-                            <input name="upload_thumb" id="upload_thumb" class="form-control mw_option_field" type="hidden" data-mod-name="<?php print $params['data-type'] ?>" value=""/>
                         </div>
 
                         <div class="col-6 text-right">
-                            <a href="#" class="btn btn-link text-danger px-0">Remove thumbnail image</a>
+                            <span class="btn btn-link text-danger px-0 js-remove-thumb">Remove thumbnail image</span>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-12">
-                            <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 600, 600); ?>" alt=""/>
+                            <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 600, 300); ?>" alt=""/>
                         </div>
                     </div>
 

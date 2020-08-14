@@ -125,6 +125,7 @@ mw.url = {
         return obj;
     },
     type:function(url){
+        if(!url) return;
       url = url.toString();
       if( url ===  'false' ){
           return false;

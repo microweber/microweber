@@ -20,14 +20,14 @@ window.MWEditor = function (options) {
         smallEditor: 'smallEditorDefault',
         scripts: [],
         cssFiles: [],
-        value: '',
+        content: '',
         url: null,
         skin: 'default',
         state: null,
         iframeAreaSelector: null,
         activeClass: 'active-control',
         interactionControls: [
-            'image', 'linkTooltip', 'table'
+            'image', 'linkTooltip', 'tableManager'
         ],
         language: 'en',
         rootPath: mw.settings.modules_url + 'microweber/api/editor',
@@ -144,6 +144,7 @@ window.MWEditor = function (options) {
         });
     };
 
+
     this.initInteraction = function () {
         var ait = 100,
             currt = new Date().getTime();
@@ -156,8 +157,39 @@ window.MWEditor = function (options) {
         });
         var max = 78;
         scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', function(e){
+            var eventIsActionLike = e.type === 'click' || e.type === 'execCommand' || e.type === 'keydown';
+            var event = e.originaleEvent ? e.originaleEvent : e;
+            var localTarget = event.target;
+
+            var wTarget = localTarget;
+            if(eventIsActionLike) {
+                var shouldCloseSelects = false;
+                while (wTarget) {
+                    var cc = wTarget.classList;
+                    if(cc) {
+                        if(cc.contains('mw-editor-controller-component-select')) {
+                            break;
+                        } else if(cc.contains('mw-bar-control-item-group')) {
+                            break;
+                        } else if(cc.contains('mw-editor-area')) {
+                            shouldCloseSelects = true;
+                            break;
+                        } else if(cc.contains('mw-editor-frame-area')) {
+                            shouldCloseSelects = true;
+                            break;
+                        } else if(cc.contains('mw-editor-wrapper')) {
+                            shouldCloseSelects = true;
+                            break;
+                        }
+                    }
+                    wTarget = wTarget.parentNode;
+                }
+                if(shouldCloseSelects) {
+                    MWEditor.core._preSelect();
+                }
+            }
             var time = new Date().getTime();
-            if((time - scope._interactionTime) > max){
+            if(eventIsActionLike || (time - scope._interactionTime) > max){
                 if (e.pageX) {
                     scope.interactionData.pageX = e.pageX;
                     scope.interactionData.pageY = e.pageY;
@@ -170,8 +202,7 @@ window.MWEditor = function (options) {
                 var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
                 var css = mw.CSSParser(target);
                 var api = scope.api;
-                var event = e.originaleEvent ? e.originaleEvent : e;
-                var localTarget = event.target;
+
 
                 var iterData = {
                     selection: scope.selection,
@@ -183,7 +214,8 @@ window.MWEditor = function (options) {
                     event: event,
                     api: api,
                     scope: scope,
-                    isEditable: scope.api.isSelectionEditable()
+                    isEditable: scope.api.isSelectionEditable(),
+                    eventIsActionLike: eventIsActionLike,
                 };
 
                 scope.interactionControlsRun(iterData);
@@ -196,6 +228,7 @@ window.MWEditor = function (options) {
                             css: css.get,
                             cssNative: css.css,
                             api: api,
+                            eventIsActionLike: eventIsActionLike,
                             scope: scope,
                             isEditable: scope.api.isSelectionEditable()
                         });
@@ -222,7 +255,7 @@ window.MWEditor = function (options) {
             if (e.keyCode === ctrlKey || e.keyCode === 91) {
                 ctrlDown = true;
             }
-            if ((ctrlDown && e.keyCode === zKey) || (ctrlDown && e.keyCode === vKey) || (ctrlDown && e.keyCode === cKey)) {
+            if ((ctrlDown && e.keyCode === zKey) /*|| (ctrlDown && e.keyCode === vKey)*/ || (ctrlDown && e.keyCode === cKey)) {
                 e.preventDefault();
                 return false;
             }
