@@ -215,8 +215,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <small class="text-muted d-block mb-2"><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected."); ?></small>
                     </div>
 
-                    <div class="row d-flex align-items-end">
-                        <div class="col-6">
+                    <div class="row d-flex">
+                        <div class="col-auto">
                             <div style="width: 120px;" class="mb-2">
                                 <div class="dropable-zone small-zone square-zone bg-white" id="upload_thumb_btn">
                                     <div class="holder">
@@ -231,14 +231,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <input name="upload_thumb" id="upload_thumb" class="form-control mw_option_field" type="hidden" data-mod-name="<?php print $params['data-type'] ?>" value=""/>
                         </div>
 
-                        <div class="col-6 text-right">
-                            <a href="#" class="btn btn-link text-danger px-0">Remove thumbnail image</a>
+                        <div class="col-auto">
+                            <div class="mb-2">
+                                <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 120, 120); ?>" alt=""/><br />
+                                <a href="#" class="btn btn-link text-danger px-0">Remove</a>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-12">
-                            <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 600, 600); ?>" alt=""/>
                         </div>
                     </div>
 
