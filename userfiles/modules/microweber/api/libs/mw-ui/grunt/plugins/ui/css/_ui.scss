@@ -1635,6 +1635,12 @@ label.control-label {
   }
 }
 
+small {
+  a {
+    font-size: 0.75rem;
+  }
+}
+
 .progress-silver {
   border: 1px solid $gray-300;
   background-color: rgba(red($gray-300), green($gray-300), blue($gray-300), .3);

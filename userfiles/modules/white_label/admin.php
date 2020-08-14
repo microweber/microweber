@@ -196,12 +196,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="enable_service_links" id="enable_service_links" class="mw_option_field custom-control-input" <?php if ($enable_service_links=='0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
+                                    <input type="checkbox" name="enable_service_links" id="enable_service_links" class="mw_option_field custom-control-input" <?php if ($enable_service_links == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
                                     <label class="custom-control-label" for="enable_service_links"><?php _e('Enable support links'); ?></label>
                                 </div>
 
                                 <small class="text-muted d-block mb-2"><?php _e('Enter url of your contact page'); ?></small>
-                                <input name="custom_support_url" option-group="whitelabel" placeholder="" class="form-control" type="url" <?php if ($enable_service_links!=='0'): ?> disabled <?php endif; ?> value="<?php print$custom_support_url; ?>"/>
+                                <input name="custom_support_url" option-group="whitelabel" placeholder="" class="form-control" type="url" <?php if ($enable_service_links !== '0'): ?> disabled <?php endif; ?> value="<?php print$custom_support_url; ?>"/>
                             </div>
 
                             <div class="form-group">
@@ -221,7 +221,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 </script>
 
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="disable_powered_by_link" id="disable_powered_by_link" class="mw_option_field custom-control-input" <?php if ($disable_powered_by_link=='0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1" />
+                                    <input type="checkbox" name="disable_powered_by_link" id="disable_powered_by_link" class="mw_option_field custom-control-input" <?php if ($disable_powered_by_link == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
                                     <label class="custom-control-label" for="disable_powered_by_link"><?php _e('Enable'); ?> "<?php _e('Powered By'); ?>"</label>
                                 </div>
 
@@ -265,7 +265,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="mw_option_field custom-control-input" <?php if ($disable_marketplace == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1" />
+                                    <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="mw_option_field custom-control-input" <?php if ($disable_marketplace == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
                                     <label class="custom-control-label" for="disable_marketplace">Microweber Marketplace</label>
                                 </div>
                                 <small class="text-muted d-block mb-2"><?php _e('Allow users to see Microweber Marketplace'); ?></small>
@@ -282,6 +282,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
         </div>
 
+        <div class="text-right">
+            <a href="javascript:;" onclick="mw.show_licenses_modal();">My Licenses</a>
+            <script>
+                mw.show_licenses_modal = function () {
+                    var data = {}
+                    licensesModal = mw.tools.open_module_modal('settings/group/licenses', data, {
+                        title: 'Licenses',
+                        skin: 'simple'
+                    })
+                }
+            </script>
+        </div>
     </div>
 </div>
 
