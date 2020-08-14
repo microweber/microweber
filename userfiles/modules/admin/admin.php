@@ -1,6 +1,6 @@
 <?php include(MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
 
-<?php if (is_admin() == false): ?>
+<?php if (is_logged() == false): ?>
     <module type="users/login" template="admin"/>
 <?php else: ?>
     <?php

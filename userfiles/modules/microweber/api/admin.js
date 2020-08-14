@@ -343,7 +343,7 @@ mw.admin = {
 
 
 mw.contactForm = function () {
-    mw.modalFrame({
+    mw.dialogIframe({
         url: 'https://microweber.com/contact-frame/',
         overlay: true,
         height: 600

@@ -6,6 +6,10 @@ hr.thin {
   border-top: 1px solid $gray-400;
 }
 
+label {
+  margin-bottom: 0.3rem;
+}
+
 .btn.btn-link {
   text-decoration: none;
 }
@@ -1628,6 +1632,12 @@ label.control-label {
       bottom: 0;
       right: 0;
     }
+  }
+}
+
+small {
+  a {
+    font-size: 0.75rem;
   }
 }
 

@@ -7785,6 +7785,9 @@ hr {
 hr.thin {
   border-top: 1px solid #cfcfcf; }
 
+label {
+  margin-bottom: 0.3rem; }
+
 .btn.btn-link {
   text-decoration: none; }
 

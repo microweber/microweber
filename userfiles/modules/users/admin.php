@@ -1,7 +1,12 @@
+<?php
+if (!user_can_access('module.users.edit')) {
+    return;
+}
+?>
+
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info" history_back="true"/>
 <?php endif; ?>
-<?php must_have_access(); ?>
 
 <?php
 $action = url_param('action');

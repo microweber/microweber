@@ -1,4 +1,9 @@
-<?php must_have_access(); ?>
+<?php
+if (!user_can_access('module.marketplace.index')) {
+    return;
+}
+?>
+
 <script>
     mw.require('admin_package_manager.js');
 </script>

@@ -22,7 +22,7 @@
                                 <module type="users/terms/set_for_module" for_module="newsletter" />
 
                                 <div class="form-group mb-3">
-                                    <label class="control-label">Want to view and edit the text and the page?</label>
+                                    <label class="control-label d-block">Want to view and edit the text and the page?</label>
                                     <button class="btn btn-sm btn-outline-primary mt-2" data-toggle="collapse" data-target="#newsletter-settings">Edit the text and URL</button>
                                 </div>
 
@@ -37,5 +37,3 @@
         </div>
     </div>
 </div>
-
-

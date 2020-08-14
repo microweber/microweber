@@ -1,7 +1,7 @@
 <?php
-if (!is_admin()) {
-    mw_error("must be admin");
-};
+/*if (!user_can_access('module.modules.index')) {
+    return;
+}*/
 ?>
 
 <?php $load_module = url_param('load_module');

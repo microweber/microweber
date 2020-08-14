@@ -181,6 +181,9 @@ class OptionManager
             return $this->override_memory[$option_group][$key];
         }
 
+        if(!$key){
+            return;
+        }
 
         $function_cache_id = false;
 
@@ -231,12 +234,12 @@ class OptionManager
         }
         $filter['table'] = $table;
 
-        $get_all = mw()->database_manager->get($filter);
+          $get_all = mw()->database_manager->get($filter);
 
-/*
-        $get_all = cache()->remember($table.'full_cache_table', 1000000, function () {
-            return Option::get()->toArray();
-        });*/
+
+//        $get_all = cache()->remember($table.'full_cache_table', 1000000, function () {
+//            return Option::get()->toArray();
+//        }) ;
 
         if (!is_array($get_all)) {
             return false;
@@ -251,7 +254,14 @@ class OptionManager
                     $get_opt = $override[0];
                 }*/
 
-                $get[] = $get_opt;
+                if ($option_group != false) {
+                    if ($option_group == $get_opt['option_group']) {
+                        $get[] = $get_opt;
+                    }
+                } else {
+                    $get[] = $get_opt;
+
+                }
             }
         }
 
