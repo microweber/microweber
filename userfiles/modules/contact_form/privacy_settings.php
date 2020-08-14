@@ -25,10 +25,19 @@ if (isset($params['for_module_id'])) {
 }
 ?>
 
+<?php
+$simple = false;
+if (isset($params['simple']) AND $params['simple'] == 'true') {
+    $simple = true;
+}
+?>
 
-<div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-body pt-3">
-        <hr class="thin mt-0 mb-5"/>
+<div class="<?php if (!$simple): ?>card bg-none style-1 mb-0<?php endif; ?> card-settings">
+    <div class="<?php if (!$simple): ?>card-body pt-3<?php endif; ?>">
+
+        <?php if (!$simple): ?>
+            <hr class="thin mt-0 mb-5"/>
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-md-3">
@@ -36,8 +45,8 @@ if (isset($params['for_module_id'])) {
                 <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
             </div>
             <div class="col-md-9">
-                <div class="card bg-light style-1 mb-3">
-                    <div class="card-body pt-3">
+                <div class="<?php if (!$simple): ?>card bg-light style-1 mb-3<?php endif; ?>">
+                    <div class="<?php if (!$simple): ?>card-body pt-3<?php endif; ?>">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group mb-3">
