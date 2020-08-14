@@ -1339,3 +1339,15 @@ header {
     margin: 20px 0 10px 0;
   }
 }
+
+.show-on-hover {
+  visibility: hidden !important;
+}
+
+.show-on-hover-root:hover .show-on-hover {
+  visibility: visible !important;
+}
+
+.mw-icon-drag {
+  cursor: grab;
+}
