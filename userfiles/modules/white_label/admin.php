@@ -50,7 +50,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </style>
 
                 <div class="module-live-edit-settings">
-                    <h2><?php _e('Enter the license key to activate White Label'); ?></h2>
                     <module type="admin/modules/activate" prefix="modules/white_label"/>
                 </div>
                 <?php return; ?>
