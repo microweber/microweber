@@ -1,5 +1,247 @@
 mw._editorApi = function (scope) {
     return {
+        cleanWord: function (content) {
+            var wrapListRoots = function () {
+                var all = scope.$editArea.querySelectorAll('li[data-level]'), i = 0, has = false;
+                for (; i < all.length; i++) {
+                    var parent = all[i].parentElement.nodeName;
+                    if (parent !== 'OL' && parent !== 'UL') {
+                        has = true;
+                        var group = mw.$([]), curr = all[i];
+                        while (!!curr && curr.nodeName === 'LI') {
+                            group.push(curr);
+                            curr = curr.nextElementSibling;
+                        }
+                        var el = mwd.createElement(all[i].getAttribute('data-type') === 'ul' ? 'ul' : 'ol');
+                        el.className = 'element';
+                        group.wrapAll(el);
+                        break;
+                    }
+                }
+                if (has) return wrapListRoots();
+            };
+
+            var buildWordList = function (lists, count) {
+                var i, check = false, max = 0;
+                count = count || 0;
+                if (count === 0) {
+                    for (i in lists) {
+                        var curr = lists[i];
+                        if (!curr.nodeName || curr.nodeType !== 1) continue;
+                        var $curr = mw.$(curr);
+                        lists[i] = mw.tools.setTag(curr, 'li');
+                    }
+                }
+
+                lists.each(function () {
+                    var num = this.innerText.trim().split('.')[0], check = parseInt(num, 10);
+                    var curr = mw.$(this);
+                    if (!curr.attr('data-type')) {
+                        if (!isNaN(check) && num > 0) {
+                            this.innerHTML = this.innerHTML.replace(num + '.', '');
+                            curr.attr('data-type', 'ol');
+                        }
+                        else {
+                            curr.attr('data-type', 'ul');
+                        }
+                    }
+                    if (!this.__done) {
+                        this.__done = false;
+                        var level = parseInt($(this).attr('data-level'));
+                        if (!isNaN(level) && level > max) {
+                            max = level;
+                        }
+                        if (!isNaN(level) && level > 1) {
+                            var prev = this.previousElementSibling;
+                            if (!!prev && prev.nodeName === 'LI') {
+                                var type = this.getAttribute('data-type');
+                                var wrap = document.createElement(type === 'ul' ? 'ul' : 'ol');
+                                wrap.setAttribute('data-level', level);
+                                mw.$(wrap).append(this);
+                                mw.$(wrap).appendTo(prev);
+                                check = true;
+                            }
+                            else if (!!prev && (prev.nodeName === 'UL' || prev.nodeName === 'OL')) {
+                                var where = mw.$('li[data-level="' + level + '"]', prev);
+                                if (where.length > 0) {
+                                    where.after(this);
+                                    check = true;
+                                }
+                                else {
+                                    var type = this.getAttribute('data-type');
+                                    var wrap = document.createElement(type === 'ul' ? 'ul' : 'ol');
+                                    wrap.setAttribute('data-level', level)
+                                    mw.$(wrap).append(this);
+                                    mw.$(wrap).appendTo($('li:last', prev))
+                                    check = true;
+                                }
+                            }
+                            else if (!prev && (this.parentNode.nodeName !== 'UL' && this.parentNode.nodeName !== 'OL')) {
+                                var $curr = mw.$([this]), curr = this;
+                                while ($(curr).next('li[data-level="' + level + '"]').length > 0) {
+                                    $curr.push($(curr).next('li[data-level="' + level + '"]')[0]);
+                                    curr = mw.$(curr).next('li[data-level="' + level + '"]')[0];
+                                }
+                                $curr.wrapAll($curr.eq(0).attr('data-type') === 'ul' ? '<ul></ul>' : '<ol></ol>')
+                                check = true;
+                            }
+                        }
+                    }
+                });
+
+                mw.$("ul[data-level!='1'], ol[data-level!='1']").each(function () {
+                    var level = parseInt($(this).attr('data-level'));
+                    if (!!this.previousElementSibling) {
+                        var plevel = parseInt($(this.previousElementSibling).attr('data-level'));
+                        if (level > plevel) {
+                            mw.$('li:last', this.previousElementSibling).append(this)
+                            check = true;
+                        }
+                    }
+                });
+                if (count === 0) {
+                    setTimeout(function () {
+                        buildWordList($('li[data-level]'), 1);
+                        wrapListRoots();
+                    }, 1);
+                }
+                return lists;
+            };
+
+            var word_listitem_get_level = function (item) {
+                var msspl = item.getAttribute('style').split('mso-list');
+                if (msspl.length > 1) {
+                    var mssplitems = msspl[1].split(' ');
+                    for (var i = 0; i < mssplitems.length; i++) {
+                        if (mssplitems[i].indexOf('level') !== -1) {
+                            return parseInt(mssplitems[i].split('level')[1], 10);
+                        }
+                    }
+                }
+            }
+
+            var isWordHtml = function (html) {
+                return html.indexOf('urn:schemas-microsoft-com:office:word') !== -1;
+            }
+
+            var _cleanWordList = function (html) {
+
+                if (!isWordHtml(html)) return html;
+                if (html.indexOf('</body>') !== -1) {
+                    html = html.split('</body>')[0];
+                }
+                var parser = mw.tools.parseHtml(html).body;
+
+                var lists = mw.$('[style*="mso-list:"]', parser);
+                lists.each(function () {
+                    var level = word_listitem_get_level(this);
+                    if (!!level) {
+                        this.setAttribute('data-level', level)
+                        this.setAttribute('class', 'level-' + level)
+                    }
+
+                });
+
+                mw.$('[style]', parser).removeAttr('style');
+
+                if (lists.length > 0) {
+                    lists = buildWordList(lists);
+                    var start = mw.$([]);
+                    mw.$('li', parser).each(function () {
+                        this.innerHTML = this.innerHTML
+                            .replace(/�/g, '')/* Not a dot */
+                            .replace(new RegExp(String.fromCharCode(160), "g"), "")
+                            .replace(/&nbsp;/gi, '')
+                            .replace(/\�/g, '')
+                            .replace(/<\/?span[^>]*>/g, "")
+                            .replace('�', '');
+                    });
+                }
+                return parser.innerHTML;
+            };
+
+            var cleanWord = function (html) {
+                html = _cleanWordList(html);
+                html = html.replace(/<td([^>]*)>/gi, '<td>');
+                html = html.replace(/<table([^>]*)>/gi, '<table cellspacing="0" cellpadding="0" border="1" style="width:100%;" width="100%" class="element">');
+                html = html.replace(/<o:p>\s*<\/o:p>/g, '');
+                html = html.replace(/<o:p>[\s\S]*?<\/o:p>/g, '&nbsp;');
+                html = html.replace(/\s*mso-[^:]+:[^;"]+;?/gi, '');
+                html = html.replace(/\s*MARGIN: 0cm 0cm 0pt\s*;/gi, '');
+                html = html.replace(/\s*MARGIN: 0cm 0cm 0pt\s*"/gi, "\"");
+                html = html.replace(/\s*TEXT-INDENT: 0cm\s*;/gi, '');
+                html = html.replace(/\s*TEXT-INDENT: 0cm\s*"/gi, "\"");
+                html = html.replace(/\s*TEXT-ALIGN: [^\s;]+;?"/gi, "\"");
+                html = html.replace(/\s*PAGE-BREAK-BEFORE: [^\s;]+;?"/gi, "\"");
+                html = html.replace(/\s*FONT-VARIANT: [^\s;]+;?"/gi, "\"");
+                html = html.replace(/\s*tab-stops:[^;"]*;?/gi, '');
+                html = html.replace(/\s*tab-stops:[^"]*/gi, '');
+                html = html.replace(/\s*face="[^"]*"/gi, '');
+                html = html.replace(/\s*face=[^ >]*/gi, '');
+                html = html.replace(/\s*FONT-FAMILY:[^;"]*;?/gi, '');
+                html = html.replace(/<(\w[^>]*) class=([^ |>]*)([^>]*)/gi, "<$1$3");
+                html = html.replace(/<STYLE[^>]*>[\s\S]*?<\/STYLE[^>]*>/gi, '');
+                html = html.replace(/<(?:META|LINK)[^>]*>\s*/gi, '');
+                html = html.replace(/\s*style="\s*"/gi, '');
+                html = html.replace(/<SPAN\s*[^>]*>\s*&nbsp;\s*<\/SPAN>/gi, '&nbsp;');
+                html = html.replace(/<SPAN\s*[^>]*><\/SPAN>/gi, '');
+                html = html.replace(/<(\w[^>]*) lang=([^ |>]*)([^>]*)/gi, "<$1$3");
+                html = html.replace(/<SPAN\s*>([\s\S]*?)<\/SPAN>/gi, '$1');
+                html = html.replace(/<FONT\s*>([\s\S]*?)<\/FONT>/gi, '$1');
+                html = html.replace(/<\\?\?xml[^>]*>/gi, '');
+                html = html.replace(/<w:[^>]*>[\s\S]*?<\/w:[^>]*>/gi, '');
+                html = html.replace(/<\/?\w+:[^>]*>/gi, '');
+                html = html.replace(/<\!--[\s\S]*?-->/g, '');
+                html = html.replace(/<(U|I|STRIKE)>&nbsp;<\/\1>/g, '&nbsp;');
+                html = html.replace(/<H\d>\s*<\/H\d>/gi, '');
+                html = html.replace(/<(\w+)[^>]*\sstyle="[^"]*DISPLAY\s?:\s?none[\s\S]*?<\/\1>/ig, '');
+                html = html.replace(/<(\w[^>]*) language=([^ |>]*)([^>]*)/gi, "<$1$3");
+                html = html.replace(/<(\w[^>]*) onmouseover="([^\"]*)"([^>]*)/gi, "<$1$3");
+                html = html.replace(/<(\w[^>]*) onmouseout="([^\"]*)"([^>]*)/gi, "<$1$3");
+                html = html.replace(/<H(\d)([^>]*)>/gi, '<h$1>');
+                html = html.replace(/<font size=2>(.*)<\/font>/gi, '$1');
+                html = html.replace(/<font size=3>(.*)<\/font>/gi, '$1');
+                html = html.replace(/<a name=.*>(.*)<\/a>/gi, '$1');
+                html = html.replace(/<H1([^>]*)>/gi, '<H2$1>');
+                html = html.replace(/<\/H1\d>/gi, '<\/H2>');
+                //html = html.replace(/<span>/gi, '$1');
+                html = html.replace(/<\/span\d>/gi, '');
+                html = html.replace(/<(H\d)><FONT[^>]*>([\s\S]*?)<\/FONT><\/\1>/gi, '<$1>$2<\/$1>');
+                html = html.replace(/<(H\d)><EM>([\s\S]*?)<\/EM><\/\1>/gi, '<$1>$2<\/$1>');
+                return html;
+            };
+
+            var cleanTables = function (root) {
+                var toRemove = "tbody > *:not(tr), thead > *:not(tr), tr > *:not(td)",
+                    all = root.querySelectorAll(toRemove),
+                    l = all.length,
+                    i = 0;
+                for (; i < l; i++) {
+                    mw.$(all[i]).remove();
+                }
+                var tables = root.querySelectorAll('table'),
+                    l = tables.length,
+                    i = 0;
+                for (; i < l; i++) {
+                    var item = tables[i],
+                        l = item.children.length,
+                        i = 0;
+                    for (; i < l; i++) {
+                        var item = item.children[i];
+                        if (typeof item !== 'undefined' && item.nodeType !== 3) {
+                            var name = item.nodeName.toLowerCase();
+                            var posibles = "thead tfoot tr tbody col colgroup";
+                            if (!posibles.contains(name)) {
+                                mw.$(item).remove();
+                            }
+                        }
+                    }
+                }
+            };
+
+            return cleanWord(content)
+
+        },
         action: function(targetParent, func) {
             scope.state.record({
                 target: targetParent,

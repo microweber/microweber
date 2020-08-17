@@ -16,7 +16,13 @@
 }
 
 
-
+.mw-editor-frame-area,
+.mw-editor-area{
+    background-color: #fff;
+    padding: @editorSpacing;
+    min-height: 100px;
+    overflow: auto;
+}
 
 .mw-editor-wrapper{
     &.mw-editor-wrapper-document-mode{
@@ -34,12 +40,15 @@
     }
     &.mw-editor-default{
         border:1px solid #DDDDDD;
-
-        .mw-editor-area{
-            background-color: #fff;
-            padding: @editorSpacing;
-            min-height: 100px;
+        border-radius: 5px;
+        .mw-bar-row:first-child{
+            border-radius: 5px 5px 0 0;
         }
+        .mw-editor-iframe-area,
+        .mw-editor-area{
+            border-radius: 0 0 5px 5px;
+        }
+
         .mw-editor-state-component{
 
         }

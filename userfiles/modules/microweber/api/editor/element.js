@@ -117,13 +117,13 @@
 
         this.html = function (val) {
             if(typeof val === 'undefined') {
-                return this.innerHTML;
+                return this.node.innerHTML;
             }
             this.node.innerHTML = val;
         };
         this.text = function (val, clean) {
             if(typeof val === 'undefined') {
-                return this.innerText;
+                return this.node.innerText;
             }
             if(typeof clean === 'undefined') {
                 clean = true;
@@ -137,7 +137,6 @@
         this.append = function (el) {
             if(el) {
                 return this.$node.append( el.node ? el.node : el );
-
             }
         };
 
@@ -162,6 +161,7 @@
                 cancelable: true,
                 bubbles: true
             }));
+            return this;
         };
 
         this.on = function(events, cb){
@@ -171,6 +171,7 @@
                     cb.call(scope, e, e.detail, this);
                 }, false);
             });
+            return this;
         };
         this.init = function(){
             this.create();
