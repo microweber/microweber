@@ -2,9 +2,13 @@
 
 
 
+
+
 $update_order = array();
 $data['host'] = $hostname;
-
+$is_paypalArr = explode('.',$hostname);
+$n = count($is_paypalArr);
+$is_paypal= "{$is_paypalArr[$n-2]}.{$is_paypalArr[$n-1]}";
 
 
 if (strtolower(trim($hostname)) == 'paypal.com') {

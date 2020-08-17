@@ -14,7 +14,7 @@ class Role
     {
         $roles = [];
 
-        $findAdminRole = \Spatie\Permission\Models\Role::where('name','Admin')->first();
+      /*  $findAdminRole = \Spatie\Permission\Models\Role::where('name','Admin')->first();
         if (!$findAdminRole) {
 
             // Create Admin Role
@@ -25,7 +25,7 @@ class Role
             $newRole->save();
 
             $newRole->givePermissionTo($permissions);
-        }
+        }*/
 
         $getRoles = \Spatie\Permission\Models\Role::all();
         if (!empty($getRoles)) {
@@ -33,6 +33,10 @@ class Role
                 $roles[] = $role;
             }
         }
+
+        $roles[] = [
+          'name'=>'Super Admin'
+        ];
 
         return $roles;
     }

@@ -55,7 +55,7 @@ $rand = uniqid(); ?>
 
 <?php if (!isset($set_content_type) or $set_content_type != 'none') : ?>
     <div class="form-group">
-        <label class="control-label d-block"><?php _e("Display") . ' '; ?><?php print ($set_content_type) ?><?php ' ' . _e("from page"); ?></label>
+        <label class="control-label d-block"><?php echo _e("Display", true) . ' ' . $set_content_type . ' ' . _e("from page", true); ?></label>
 
         <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field selectpicker" data-size="5" data-live-search="true" onchange="mw_reload_content_mod_window()">
             <?php if (intval($posts_parent_page) > 0 and !get_content_by_id($posts_parent_page)) { ?>

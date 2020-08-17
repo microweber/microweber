@@ -196,12 +196,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="enable_service_links" id="enable_service_links" class="mw_option_field custom-control-input" <?php if ($enable_service_links == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
+                                    <input type="checkbox" name="enable_service_links" id="enable_service_links" class="mw_option_field custom-control-input" <?php if ($enable_service_links == '1'): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
                                     <label class="custom-control-label" for="enable_service_links"><?php _e('Enable support links'); ?></label>
                                 </div>
 
-                                <small class="text-muted d-block mb-2"><?php _e('Enter url of your contact page'); ?></small>
-                                <input name="custom_support_url" option-group="whitelabel" placeholder="" class="form-control" type="url" <?php if ($enable_service_links !== '0'): ?> disabled <?php endif; ?> value="<?php print$custom_support_url; ?>"/>
+                                <small class="text-muted d-block mb-2"><?php _e('Enter url of your contact page'); ?></small> 
+                                <input name="custom_support_url" option-group="whitelabel" placeholder="" class="form-control" type="url" <?php if ($enable_service_links == '0'): ?> disabled <?php endif; ?> value="<?php print $custom_support_url; ?>"/>
                             </div>
 
                             <div class="form-group">
