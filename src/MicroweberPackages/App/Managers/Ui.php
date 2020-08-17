@@ -166,8 +166,6 @@ class Ui
 
     public function module($name = false, $arr = false)
     {
-        return; // TODO
-
         if (!$name) {
             return;
         }
