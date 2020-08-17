@@ -86,9 +86,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     mw.tools.refresh(mwd.getElementById('chk_autoplay'));
                 });
 
-                $(".js-remove-thumb").on('click', function (){
+                $(".js-remove-thumb").on('click', function () {
                     $("#upload_thumb_field").val('').trigger('change');
                     $("#thumb").removeAttr('src')
+                    $('.js-video-thumb-holder').hide();
                 })
 
                 all.on("FileUploaded", function (a, b) {
@@ -101,6 +102,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     $("#upload_thumb_status").find('.progress-bar').width('0%');
                     $("#upload_thumb_status").show();
                     $("#upload_thumb_status").find('.progress-bar').width(b.percent + '%');
+                    $(".js-video-thumb-holder").show();
                 });
 
                 $(upVideo).on("progress", function (a, b) {
@@ -235,15 +237,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <input name="upload_thumb" id="upload_thumb_field" class="form-control mw_option_field semi_hidden" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('upload_thumb', $params['id']) ?>"/>
                         </div>
 
-                        <div class="col-auto"><div class="mb2">
-<img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 120, 120); ?>" alt=""/><br />
-                            <span class="btn btn-link text-danger px-0 js-remove-thumb">Remove</span>
-                        </div></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 600, 600); ?>" alt=""/>
+                        <div class="col-auto js-video-thumb-holder" <?php if(!get_option('upload_thumb', $params['id'])): ?>style="display:none;"<?php endif; ?>>
+                            <div class="mb2">
+                                <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 120, 120); ?>" alt="" style="max-width: 120px;"/><br/>
+                                <span class="btn btn-link text-danger px-0 js-remove-thumb">Remove</span>
+                            </div>
                         </div>
                     </div>
 
