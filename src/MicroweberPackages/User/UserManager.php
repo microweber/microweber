@@ -1137,7 +1137,11 @@ class UserManager
                 }
             }
 
-            $user->assignRole($params['roles']);
+            if ($params['roles'][0] == 'Super Admin') {
+                $user->is_admin = 1;
+            } else {
+                $user->assignRole($params['roles']);
+            }
 
             try {
                 $save = $user->save();

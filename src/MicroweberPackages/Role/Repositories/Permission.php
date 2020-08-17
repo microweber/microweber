@@ -94,14 +94,14 @@ class Permission
             }
 
             $module['permission_slugs'] = self::generateModulePermissionsSlugs($module);
-            foreach ($module['permission_slugs'] as $permissionSlug) {
+           /* foreach ($module['permission_slugs'] as $permissionSlug) {
                 $findPermission = \Spatie\Permission\Models\Permission::where('name', $permissionSlug)->first();
                 if (!$findPermission) {
                     \Spatie\Permission\Models\Permission::create([
                         'name'=>$permissionSlug
                     ]);
                 }
-            }
+            }*/
 
             $groups[$module['categories']][] = $module;
         }

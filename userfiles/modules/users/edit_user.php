@@ -286,18 +286,23 @@ if (isset($data[0]) == false) {
                                 </div>
                             </div>
 
+                            <?php
+                            /*$userRoles = \Illuminate\Support\Facades\Auth::user()->with('roles')->get();
+                            var_dump($userRoles->roles); */ 
+                            ?>
+
                             <?php if (is_admin()) : ?>
                                 <small class="d-block text-muted text-center mb-3">User status and role</small>
 
                                 <div class="form-group">
                                     <label class="control-label mb-1">Role of the user</label>
                                     <small class="text-muted d-block mb-1">Choose the current role of the user. <a href="#">Manage user roles</a></small>
-                                    <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]" multiple="multiple">
+                                    <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]">
                                         <?php
                                         $roles = \MicroweberPackages\Role\Repositories\Role::all();
                                         foreach ($roles as $role):
                                             ?>
-                                            <option><?php echo $role['name']; ?></option>
+                                            <option <?php if(is_admin() && $role['name'] == 'Super Admin'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>
                                             <?php
                                         endforeach;
                                         ?>
