@@ -80,6 +80,16 @@
                         @endif
                     </div>
 
+                    <div class="form-group mx-auto" style="max-width: 385px">
+                        <label class="control-label">Role Description</label>
+                        <small class="text-muted d-block mb-2">What is the description of the role?</small>
+                        <textarea class="form-control" name="description">@if(isset($role)){{$role->description}}@else{{old('description')}}@endif</textarea>
+
+                        @if ($errors->has('name'))
+                            <label id="name-error" class="error d-block" for="email">{{ $errors->first('name') }}</label>
+                        @endif
+                    </div>
+
                     @foreach($permissionGroups as $permissionGroupName=>$permissionGroup)
                         @php
                             $permissionGroupHash = md5($permissionGroupName)

@@ -98,7 +98,7 @@ class Permission
             $moduleCategory = $module['categories'];
             $moduleCategory = explode(',', $moduleCategory);
             $moduleCategory = reset($moduleCategory);
-            
+
 
             $groups[$moduleCategory][] = $module;
         }
