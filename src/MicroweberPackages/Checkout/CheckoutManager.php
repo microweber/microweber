@@ -899,7 +899,19 @@ class CheckoutManager
 
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
-        $hostname = $this->get_domain_from_str($_SERVER['REMOTE_ADDR']);
+
+
+        $client_ip = false;
+        if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) and $_SERVER['HTTP_X_FORWARDED_FOR']){
+            $client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+        } else {
+            $client_ip = $_SERVER['REMOTE_ADDR'];
+
+        }
+
+        $hostname = $this->get_domain_from_str($client_ip);
+
 
         $payment_verify_token = $this->app->database_manager->escape_string($payment_verify_token);
         $table = $this->tables['cart_orders'];
