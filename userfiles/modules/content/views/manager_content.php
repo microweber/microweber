@@ -120,6 +120,9 @@
                                         </div>
 
                                         <div class="manage-post-item-links">
+                                            <?php
+                                            if (user_can_access('module.content.edit')):
+                                            ?>
                                             <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
                                                 <?php echo $edit_text;  ?>
                                             </a>
@@ -127,11 +130,19 @@
                                             <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
                                                 <?php echo $live_edit_text; ?>
                                             </a>
+                                            <?php
+                                            endif;
+                                             ?>
 
+                                            <?php
+                                            if (user_can_access('module.content.destroy')):
+                                                ?>
                                             <a class="btn btn-outline-danger btn-sm" href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
                                                 <?php echo $delete_text; ?>
                                             </a>
-
+                                            <?php
+                                            endif;
+                                            ?>
                                         </div>
                                     </div>
 

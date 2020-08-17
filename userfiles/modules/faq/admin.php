@@ -129,6 +129,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         </script>
 
+        <style>
+            .faq-setting-item{
+                cursor: pointer;
+            }
+            .faq-setting-item .mdi-cursor-move,
+            .faq-setting-item .remove-question {
+                visibility: hidden;
+            }
+
+            .faq-setting-item:hover .mdi-cursor-move,
+            .faq-setting-item:hover .remove-question {
+                visibility: visible;
+            }
+        </style>
+
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Questions</a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
@@ -141,7 +156,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input type="hidden" class="mw_option_field" name="settings" option-group="faq" id="settingsfield"/>
 
                     <div class="mb-3">
-                        <a class="btn btn-primary btn-rounded" href="javascript:faqs.create()"><?php _e('Add new'); ?></a>
+                        <a class="btn btn-primary btn-rounded btn-sm" href="javascript:faqs.create()"><?php _e('Add new'); ?></a>
                     </div>
 
                     <div id="faq-settings">
@@ -149,12 +164,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <?php if ($json and is_array($json)): ?>
                             <?php foreach ($json as $slide): ?>
                                 <?php $count++; ?>
-                                <div class="card style-1 mb-3 faq-setting-item" id="faq-setting-item-<?php print $count; ?>">
-                                    <div class="card-header d-flex align-items center justify-content-between flex-row">
-                                        <span class="mdi mdi-cursor-move mdi-20px ui-sortable-handle text-muted"></span>
-                                        <a class="remove-question text-danger" data-toggle="tooltip" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mdi mdi-close mdi-20px"></i></a>
+                                <div class="card style-1 mb-3 faq-setting-item" id="faq-setting-item-<?php print $count; ?>" style="overflow: hidden!important;">
+                                    <div class="card-header no-border">
+                                        <div class="row d-flex align-items-center justify-content-between w-100">
+                                            <div class="col-auto px-0">
+                                                <span class="mdi mdi-cursor-move mdi-20px ui-sortable-handle text-muted"></span>
+                                            </div>
+                                            <div class="col" data-toggle="collapse" data-target="#faq-<?php echo $count; ?>" onclick="$(this).parent().parent().toggleClass('no-border');">
+                                                <h6 class="m-0"><?php print $slide['question']; ?></h6>
+                                            </div>
+                                            <div class="col-auto px-0">
+                                                <a class="remove-question text-danger" data-toggle="tooltip" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mdi mdi-close mdi-20px"></i></a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body collapse" id="faq-<?php echo $count; ?>">
                                         <div class="form-group">
                                             <label class="control-label"><?php _e('Question'); ?></label>
                                             <input type="text" class="form-control faq-name " value="<?php print $slide['question']; ?>">

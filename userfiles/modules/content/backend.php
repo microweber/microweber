@@ -1,5 +1,8 @@
 <?php
-must_have_access();
+if (!user_can_access('module.content.index')) {
+    return;
+}
+
 $action = url_param('action');
 $is_in_shop = false;
 $rand = uniqid(); ?>
