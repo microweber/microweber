@@ -117,13 +117,13 @@
 
         this.html = function (val) {
             if(typeof val === 'undefined') {
-                return this.innerHTML;
+                return this.node.innerHTML;
             }
             this.node.innerHTML = val;
         };
         this.text = function (val, clean) {
             if(typeof val === 'undefined') {
-                return this.innerText;
+                return this.node.innerText;
             }
             if(typeof clean === 'undefined') {
                 clean = true;

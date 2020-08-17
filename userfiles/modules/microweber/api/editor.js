@@ -301,7 +301,7 @@ window.MWEditor = function (options) {
 
             scope.$iframeArea.html(scope.settings.content || '');
             scope.$iframeArea.on('input', function () {
-                scope.registerChange()
+                scope.registerChange();
             });
             scope.actionWindow = this.contentWindow;
             scope.$editArea = scope.$iframeArea;

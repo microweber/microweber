@@ -62,7 +62,7 @@ $content = get_content_by_id($data['content_id']);
                         {
                             group: {
                                 icon: 'mdi mdi-format-bold',
-                                controls: ['bold', 'italic']
+                                controls: ['bold', 'italic', 'underline', 'strikeThrough']
                             }
                         },
                         '|',

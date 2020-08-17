@@ -40,7 +40,9 @@ MWEditor.controllers = {
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-bold'
+                    className: 'mdi-format-bold',
+                    tooltip: rootScope.lang('Bold')
+
                 }
             });
 
@@ -59,11 +61,37 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
-    'italic': function(scope, api, rootScope){
+    strikeThrough: function (scope, api, rootScope) {
+        this.render = function () {
+            var scope = this;
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-format-strikethrough',
+                    tooltip: rootScope.lang('Strike through')
+                }
+            });
+
+            el.$node.on('mousedown touchstart', function (e) {
+                api.execCommand('strikeThrough');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            if(opt.css.is().striked) {
+                rootScope.controllerActive(opt.controller.element.node, true);
+            } else {
+                rootScope.controllerActive(opt.controller.element.node, false);
+            }
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    italic: function(scope, api, rootScope){
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-italic'
+                    className: 'mdi-format-italic',
+                    tooltip: rootScope.lang('Italic')
                 }
             });
             el.$node.on('mousedown touchstart', function (e) {
@@ -81,11 +109,35 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+    'underline': function(scope, api, rootScope){
+        this.render = function () {
+            var el = MWEditor.core.button({
+                props: {
+                    className: 'mdi-format-underline',
+                    tooltip: rootScope.lang('Underline')
+                }
+            });
+            el.$node.on('mousedown touchstart', function (e) {
+                api.execCommand('underline');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            if(opt.css.is().underlined) {
+                rootScope.controllerActive(opt.controller.element.node, true);
+            } else {
+                rootScope.controllerActive(opt.controller.element.node, false);
+            }
+        };
+        this.element = this.render();
+    },
     'image': function(scope, api, rootScope){
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-folder-multiple-image'
+                    className: 'mdi-folder-multiple-image',
+                    tooltip: rootScope.lang('Insert Image')
                 }
             });
             el.$node.on('click', function (e) {
@@ -105,12 +157,13 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
-    'link': function(scope, api, rootScope){
+    link: function(scope, api, rootScope){
 
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-link'
+                    className: 'mdi-link',
+                    tooltip: rootScope.lang('Insert link')
                 }
             });
             el.$node.on('click', function (e) {
@@ -152,6 +205,14 @@ MWEditor.controllers = {
             var dropdown = new MWEditor.core.dropdown({
                 data: [
                     { label: '8px', value: 8 },
+                    { label: '10px', value: 10 },
+                    { label: '12px', value: 12 },
+                    { label: '14px', value: 14 },
+                    { label: '16px', value: 16 },
+                    { label: '18px', value: 18 },
+                    { label: '20px', value: 20 },
+                    { label: '22px', value: 22 },
+                    { label: '24px', value: 24 },
                     { label: '22px', value: 22 },
                 ],
                 placeholder: rootScope.lang('Font Size')
@@ -275,7 +336,8 @@ MWEditor.controllers = {
             this.root.$node.addClass('mw-ui-btn-nav mw-editor-state-component')
             var undo = MWEditor.core.button({
                 props: {
-                    className: 'mdi-undo'
+                    className: 'mdi-undo',
+                    tooltip: rootScope.lang('Undo')
                 }
             });
             undo.$node.on('mousedown touchstart', function (e) {
@@ -284,7 +346,8 @@ MWEditor.controllers = {
 
             var redo = MWEditor.core.button({
                 props: {
-                    className: 'mdi-redo'
+                    className: 'mdi-redo',
+                    tooltip: rootScope.lang('Redo')
                 }
             });
             redo.$node.on('mousedown touchstart', function (e) {
@@ -453,7 +516,7 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-file-word', tooltip: 'Insert Table'
+                    className: 'mdi-file-word', tooltip: 'Paste from Word'
                 }
             });
             el.on('mousedown touchstart', function (e) {
@@ -461,8 +524,12 @@ MWEditor.controllers = {
                 var dialog;
                 var ok = MWEditor.core.button({
                     props: {
-                        className: 'mdi-file-word', tooltip: 'Paste from word',
                         innerHTML: rootScope.lang('OK')
+                    }
+                });
+                var cancel = MWEditor.core.button({
+                    props: {
+                        innerHTML: rootScope.lang('Cancel')
                     }
                 });
                 var cleanEl = mw.element({
@@ -474,9 +541,21 @@ MWEditor.controllers = {
                         }
                     }
                 });
+                var footer = mw.element();
+                ok.on('click', function (){
+                    var content = cleanEl.html().trim();
+                    dialog.remove();
+                    api.restoreSelection();
+                    if(content){
+                        api.insertHTML(api.cleanWord(content));
+                    }
+
+                });
+                footer.append(cancel);
+                footer.append(ok);
                 dialog = mw.dialog({
                     content: cleanEl.node,
-                    footer: ok.node
+                    footer: footer.node
                 });
             });
             return el;
