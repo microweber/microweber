@@ -7,10 +7,16 @@
             <div>
 
                 <div class="input-group mb-0 prepend-transparent">
+
+                    <?php
+                    if (user_can_access('module.categories.edit')):
+                    ?>
                     <div class="input-group-prepend">
                         <span onclick="mw.quick_cat_edit_create(0);" class="btn btn-outline-primary btn-sm btn-sm-only-icon"><i class="mw-icon-plus"></i>&nbsp; <?php _e("New category"); ?></span>
                         <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                     </div>
+                    <?php endif; ?>
+
                     <input type="text" class="form-control form-control-sm" aria-label="Search" placeholder="<?php _e('Search') ?>" oninput="categorySearch(this)">
                 </div>
             </div>
@@ -36,7 +42,12 @@
                 }
 
 
-                $tree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm btn-sm-only-icon\"><i class=\"mdi mdi-pencil\"></i> <span class=\"d-none d-md-block\">Edit</span></span></span>";
+                if (user_can_access('module.categories.edit')){
+                    $tree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm btn-sm-only-icon\"><i class=\"mdi mdi-pencil\"></i> <span class=\"d-none d-md-block\">Edit</span></span></span>";
+                } else {
+                    $tree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
+                }
+
                 category_tree($tree);
                 ?>
             </div>

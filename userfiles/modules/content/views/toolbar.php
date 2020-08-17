@@ -350,10 +350,21 @@ if ($last_page_front != false) {
                 <div class="d-inline-block ml-3">
                     <div class="js-bulk-actions" style="display: none;">
                         <select class="selectpicker js-bulk-action" title="Bulk actions" data-style="btn-sm" data-width="auto">
+
+                            <?php
+                            if (user_can_access('module.content.edit')):
+                            ?>
                             <option value="assign_selected_posts_to_category"><?php _e("Move to category"); ?></option>
                             <option value="publish_selected_posts"><?php _e("Published"); ?></option>
                             <option value="unpublish_selected_posts"><?php _e("Unpublish"); ?></option>
+                            <?php endif; ?>
+
+                            <?php
+                            if (user_can_access('module.content.destroy')):
+                            ?>
                             <option value="delete_selected_posts"><?php _e("Delete"); ?></option>
+                            <?php endif; ?>
+
                         </select>
                     </div>
                 </div>
