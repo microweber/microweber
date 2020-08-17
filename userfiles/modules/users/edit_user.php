@@ -288,7 +288,7 @@ if (isset($data[0]) == false) {
 
                             <?php
                             /*$userRoles = \Illuminate\Support\Facades\Auth::user()->with('roles')->get();
-                            var_dump($userRoles->roles); */ 
+                            var_dump($userRoles->roles); */
                             ?>
 
                             <?php if (is_admin()) : ?>

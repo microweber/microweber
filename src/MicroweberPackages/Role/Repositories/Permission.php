@@ -48,10 +48,10 @@ class Permission
 
             // Get module config
 
-           $modulePermissionSlugs = self::generateModulePermissionsSlugs($module);
-           foreach ($modulePermissionSlugs as $modulePermissionSlug) {
-               $permissionSlugs[] = $modulePermissionSlug;
-           }
+            $modulePermissionSlugs = self::generateModulePermissionsSlugs($module);
+            foreach ($modulePermissionSlugs as $modulePermissionSlug) {
+                $permissionSlugs[] = $modulePermissionSlug;
+            }
 
         }
 
@@ -70,10 +70,10 @@ class Permission
         $permissionSlug = str_replace('/', '.', $permissionSlug);
 
         $permissionSlugs = [];
-        $permissionSlugs['index'] = 'module.'.strtolower($permissionSlug).'.index';
-        $permissionSlugs['create'] = 'module.'.strtolower($permissionSlug).'.create';
-        $permissionSlugs['edit'] = 'module.'.strtolower($permissionSlug).'.edit';
-        $permissionSlugs['destroy'] = 'module.'.strtolower($permissionSlug).'.destroy';
+        $permissionSlugs['index'] = 'module.' . strtolower($permissionSlug) . '.index';
+        $permissionSlugs['create'] = 'module.' . strtolower($permissionSlug) . '.create';
+        $permissionSlugs['edit'] = 'module.' . strtolower($permissionSlug) . '.edit';
+        $permissionSlugs['destroy'] = 'module.' . strtolower($permissionSlug) . '.destroy';
 
         return $permissionSlugs;
     }
@@ -94,16 +94,13 @@ class Permission
             }
 
             $module['permission_slugs'] = self::generateModulePermissionsSlugs($module);
-           /* foreach ($module['permission_slugs'] as $permissionSlug) {
-                $findPermission = \Spatie\Permission\Models\Permission::where('name', $permissionSlug)->first();
-                if (!$findPermission) {
-                    \Spatie\Permission\Models\Permission::create([
-                        'name'=>$permissionSlug
-                    ]);
-                }
-            }*/
 
-            $groups[$module['categories']][] = $module;
+            $moduleCategory = $module['categories'];
+            $moduleCategory = explode(',', $moduleCategory);
+            $moduleCategory = reset($moduleCategory);
+            
+
+            $groups[$moduleCategory][] = $module;
         }
 
         return $groups;
