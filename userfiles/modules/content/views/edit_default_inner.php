@@ -9,11 +9,10 @@ if (isset($data['content-id'])) {
 
 ?>
 <?php
-$content = get_content_by_id($data['content_id']);
+    $content = get_content_by_id($data['content_id']);
 
 ?>
-1<?php print $content['content']; ?>
-<template id="content_template"><?php print $content['content']; ?></template>
+<textarea id="content_template" name="content"><?php print $content['content']; ?></textarea>
 <script>
     mw.require('editor.js')
 </script>
@@ -53,9 +52,11 @@ $content = get_content_by_id($data['content_id']);
 
 
             mweditor = new mw.Editor({
-                selector: area,
+                selector: '#content_template',
                 mode: 'div',
                 smallEditor: false,
+                minHeight: 250,
+                maxHeight: '70vh',
                 controls: [
                     [
                         'undoRedo', '|', 'image', '|',
@@ -81,8 +82,7 @@ $content = get_content_by_id($data['content_id']);
                         },
                         '|', 'link', 'unlink', 'wordPaste', 'table'
                     ],
-                ],
-                content: document.getElementById('content_template').innerHTML
+                ]
             });
 
 

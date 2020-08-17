@@ -18,7 +18,7 @@ MWEditor.controllers = {
                         className: 'mdi-format-align-' + item.icon
                     }
                 });
-                el.$node.on('mousedown touchstart', function (e) {
+                el.on('mousedown touchstart', function (e) {
                     api.execCommand(item.action);
                 });
                 scope.root.append(el);
@@ -46,7 +46,7 @@ MWEditor.controllers = {
                 }
             });
 
-            el.$node.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart', function (e) {
                 api.execCommand('bold');
             });
             return el;
@@ -71,7 +71,7 @@ MWEditor.controllers = {
                 }
             });
 
-            el.$node.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart', function (e) {
                 api.execCommand('strikeThrough');
             });
             return el;
@@ -94,7 +94,7 @@ MWEditor.controllers = {
                     tooltip: rootScope.lang('Italic')
                 }
             });
-            el.$node.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart', function (e) {
                 api.execCommand('italic');
             });
             return el;
@@ -117,7 +117,7 @@ MWEditor.controllers = {
                     tooltip: rootScope.lang('Underline')
                 }
             });
-            el.$node.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart', function (e) {
                 api.execCommand('underline');
             });
             return el;
@@ -140,7 +140,7 @@ MWEditor.controllers = {
                     tooltip: rootScope.lang('Insert Image')
                 }
             });
-            el.$node.on('click', function (e) {
+            el.on('click', function (e) {
                 mw.fileWindow({
                     types: 'images',
                     change: function (url) {
@@ -166,7 +166,7 @@ MWEditor.controllers = {
                     tooltip: rootScope.lang('Insert link')
                 }
             });
-            el.$node.on('click', function (e) {
+            el.on('click', function (e) {
                 api.saveSelection();
                 var picker = mw.component({
                     url: 'link_editor_v2',
@@ -340,8 +340,9 @@ MWEditor.controllers = {
                     tooltip: rootScope.lang('Undo')
                 }
             });
-            undo.$node.on('mousedown touchstart', function (e) {
+            undo.on('mousedown touchstart', function (e) {
                 rootScope.state.undo();
+                rootScope._syncTextArea();
             });
 
             var redo = MWEditor.core.button({
@@ -350,8 +351,9 @@ MWEditor.controllers = {
                     tooltip: rootScope.lang('Redo')
                 }
             });
-            redo.$node.on('mousedown touchstart', function (e) {
+            redo.on('mousedown touchstart', function (e) {
                 rootScope.state.redo();
+                rootScope._syncTextArea();
             });
             this.root.node.appendChild(undo.node);
             this.root.node.appendChild(redo.node);
@@ -396,7 +398,7 @@ MWEditor.controllers = {
                     className: 'mdi-format-list-bulleted'
                 }
             });
-            el.$node.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart', function (e) {
                 api.execCommand('insertUnorderedList');
             });
             return el;
@@ -414,7 +416,7 @@ MWEditor.controllers = {
                     'data-tip': 'Ordered list'
                 }
             });
-            el.$node.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart', function (e) {
                 api.execCommand('insertOrderedList');
             });
             return el;
@@ -432,7 +434,7 @@ MWEditor.controllers = {
                     'data-tip': 'Indent'
                 }
             });
-            el.$node.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart', function (e) {
                 api.execCommand('indent');
             });
             return el;
@@ -450,7 +452,7 @@ MWEditor.controllers = {
                     'data-tip': 'Indent'
                 }
             });
-            el.$node.on('mousedown touchstart', function (e) {
+            el.on('mousedown touchstart', function (e) {
                 api.execCommand('outdent');
             });
             return el;

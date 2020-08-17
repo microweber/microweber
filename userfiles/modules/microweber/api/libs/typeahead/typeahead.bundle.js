@@ -1824,7 +1824,7 @@
             bind: function() {
                 var that = this, onSelectableClick;
                 onSelectableClick = _.bind(this._onSelectableClick, this);
-                this.$node.on("click.tt", this.selectors.selectable, onSelectableClick);
+                this.on("click.tt", this.selectors.selectable, onSelectableClick);
                 _.each(this.datasets, function(dataset) {
                     dataset.onSync("asyncRequested", that._propagate, that).onSync("asyncCanceled", that._propagate, that).onSync("asyncReceived", that._propagate, that).onSync("rendered", that._onRendered, that).onSync("cleared", that._onCleared, that);
                 });

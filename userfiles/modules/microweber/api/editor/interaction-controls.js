@@ -31,7 +31,7 @@ MWEditor.interactionControls = {
                 }
             });
 
-            urlUnlink.$node.on('click', function () {
+            urlUnlink.on('click', function () {
                 rootScope.api.unlink();
             });
 
@@ -72,7 +72,7 @@ MWEditor.interactionControls = {
                     className: 'mw-ui-btn mw-ui-btn-medium'
                 }
             });
-            changeButton.$node.on('click', function () {
+            changeButton.on('click', function () {
                 mw.top().fileWindow({
                     type: 'images',
                     change: function (url) {

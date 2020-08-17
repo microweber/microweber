@@ -137,7 +137,6 @@
         this.append = function (el) {
             if(el) {
                 return this.$node.append( el.node ? el.node : el );
-
             }
         };
 
@@ -162,6 +161,7 @@
                 cancelable: true,
                 bubbles: true
             }));
+            return this;
         };
 
         this.on = function(events, cb){
@@ -171,6 +171,7 @@
                     cb.call(scope, e, e.detail, this);
                 }, false);
             });
+            return this;
         };
         this.init = function(){
             this.create();
