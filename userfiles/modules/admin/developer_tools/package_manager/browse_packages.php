@@ -13,9 +13,7 @@ if (!user_can_access('module.marketplace.index')) {
 }
 ?>
 
-<script>
-    mw.require('admin_package_manager.js');
-</script>
+<script>mw.require('admin_package_manager.js');</script>
 
 <?php
 $is_update_mode = false;
@@ -85,7 +83,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
             <?php if ($is_update_mode) { ?>
                 <i class="mdi mdi-view-grid-plus text-primary mr-3"></i> <strong><?php _e("Updates"); ?></strong>
             <?php } else { ?>
-                <i class="mdi mdi-view-grid-plus text-primary mr-3"></i> <strong><?php _e("Packages"); ?></strong>
+                <i class="mdi mdi-fruit-cherries text-primary mr-3"></i> <strong><?php _e("Marketpalace"); ?></strong>
             <?php } ?>
         </h5>
 
@@ -176,7 +174,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
             }
 
             .package-ext-link {
-
                 /* These are technically the same, but use both */
                 overflow-wrap: break-word;
                 word-wrap: break-word;
@@ -197,36 +194,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
             }
 
             .package-item-footer {
-                padding: 12px 0;
-            }
-
-            .package-item-footer .mw-ui-row {
-                display: flex !important;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .package-item-footer strong {
-                font-size: 16px;
-            }
-
-            .package-item-footer .title a {
-                font-size: 16px;
-                font-weight: bold;
-            }
-
-            .package-col-microweber-module .package-item-footer {
-                display: block;
-            }
-
-            .package-col-microweber-module .package-item-footer div + div {
-                text-align: right;
-                flex-direction: row;
-            }
-
-            .mw-ui-box {
-                height: 100%;
+                padding: 12px 0 0 0;
             }
         </style>
 
@@ -293,70 +261,19 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 });
             });
         </script>
-
+        <script>mw.lib.require('mwui_init');</script>
 
         <?php if (!$is_update_mode) : ?>
-            <div class="row m-b-20">
-                <div class="col-12 col-md-12 col-lg-12">
-                    <div class="mw-ui-col-container">
-                        <h1 class="bold">Marketplace</h1>
-                        <p>Welcome to the marketplace. Here you will find new modules, templates and updates.</p>
-                    </div>
-                </div>
-            </div>
+            <p>Welcome to the marketplace. Here you will find new modules, templates and updates.</p>
         <?php endif; ?>
 
 
-        <div id="mw-packages-browser-nav-tabs-nav" class="row">
-            <?php if ($packages_by_type_all) : ?>
-                <div class="col-12 col-md-4 col-lg-2">
-                    <div class="mw-ui-col-container">
-                        <ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-menu" id="packages-browser-nav">
-                            <?php if ($packages_by_type_all) : ?>
-                                <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
-                                    <?php
-                                    $pkkeys = explode('-', $pkkey);
-                                    array_shift($pkkeys);
-                                    $pkkeys = implode('-', $pkkeys);
-                                    ?>
-                                    <li class="m-0"><a class="tablink" href="javascript:void(0);"><?php print titlelize($pkkeys) ?></a></li>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-
-                            <?php if ($packages_by_type_with_update): ?>
-                                <li class="opened">
-                                    <?php
-                                    $total = 0;
-                                    $items = '';
-                                    foreach ($packages_by_type_with_update as $pkkey => $pkitems):
-                                        $pkkeys = explode('-', $pkkey);
-                                        array_shift($pkkeys);
-                                        $pkkeys = implode('-', $pkkeys);
-
-                                        if ($pkkeys == 'core-update') {
-                                            $pkkeys = 'Version update';
-                                        } else {
-                                            $pkkeys = $pkkeys . ' updates';
-                                        }
-                                        $count = count($pkitems);
-                                        $total += $count;
-                                        $items .= '<li><a class="tablink" href="javascript:;">' . titlelize($pkkeys) . '<sup class="badge badge-danger badge-sm badge-pill">' . $count . '</sup></a></li>';
-                                    endforeach;
-                                    ?>
-                                    <a href="javascript:;">Updates <sup style="display: none" class="badge badge-danger badge-sm badge-pill"><?php print $total; ?></sup></a>
-                                    <ul><?php print $items; ?></ul>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-            <?php endif; ?>
-
-            <div class="col-12 col-md-8 col-lg-10">
+        <div id="mw-packages-browser-nav-tabs-nav">
+            <div class="row">
                 <?php if ($core_update) : ?>
                     <?php foreach ($core_update as $pkkey => $pkitems): ?>
                         <?php foreach ($core_update as $key => $item): ?>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="col-12 col-md-6 mb-4">
                                 <?php
                                 $view_file = __DIR__ . '/partials/package_item.php';
                                 $view = new \MicroweberPackages\View\View($view_file);
@@ -371,74 +288,124 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                     <?php endforeach; ?>
                 <?php endif; ?>
 
-                <?php if ($packages_by_type and !empty($packages_by_type)) : ?>
-                    <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
-                        <div class="tab">
-                            <?php if ($pkitems) : ?>
-                                <div class="row">
-                                    <?php foreach ($pkitems as $key => $item): ?>
-                                        <div
-                                                class="col-12 col-sm-6 col-md-12 col-lg-<?php print $item['type'] === 'microweber-module' ? '3' : '4'; ?>  m-b-20 package-col-<?php print $item['type']; ?>">
-                                            <?php
-                                            $view_file = __DIR__ . '/partials/package_item.php';
-
-                                            $view = new \MicroweberPackages\View\View($view_file);
-                                            $view->assign('item', $item);
-
-                                            print    $view->display();
-                                            ?>
-                                        </div>
-
-                                    <?php endforeach; ?>
-                                </div>
+                <div class="col-12">
+                    <?php if ($packages_by_type_all) : ?>
+                        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+                            <?php if ($packages_by_type_all) : ?>
+                                <?php $count = 0; ?>
+                                <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
+                                    <?php
+                                    $count++;
+                                    $pkkeys = explode('-', $pkkey);
+                                    array_shift($pkkeys);
+                                    $pkkeys = implode('-', $pkkeys);
+                                    ?>
+                                    <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" href="#<?php echo $pkkeys; ?>"><?php print titlelize($pkkeys) ?></a>
+                                <?php endforeach; ?>
                             <?php endif; ?>
-                        </div>
-                    <?php endforeach; ?>
-                    <?php foreach ($packages_by_type_with_update as $pkkey => $pkitems): ?>
-                        <div class="tab">
-                            <?php if ($pkitems) : ?>
-                                <div class="row">
-                                    <?php foreach ($pkitems as $key => $item): ?>
-                                        <?php
 
-                                        $holder_class = 'col-lg-4';
-                                        if ($item['type'] == 'microweber-module') {
-                                            $holder_class = 'col-lg-3';
-                                        }
-                                        if ($item['type'] == 'microweber-core-update') {
-                                            $holder_class = 'col-lg-6  ';
-                                        }
-                                        ?>
-                                        <div class="col-12 col-sm-6 col-md-12  <?php print $holder_class; ?>  m-b-20 package-col-<?php print $item['type']; ?>">
-                                            <?php
-                                            $view_file = __DIR__ . '/partials/package_item.php';
+                            <?php if ($packages_by_type_with_update): ?>
+                                <?php
+                                $total = 0;
+                                $items = '';
+                                foreach ($packages_by_type_with_update as $pkkey => $pkitems):
+                                    $pkkeys = explode('-', $pkkey);
+                                    array_shift($pkkeys);
+                                    $pkkeys = implode('-', $pkkeys);
 
-                                            $view = new \MicroweberPackages\View\View($view_file);
-                                            $view->assign('item', $item);
-
-                                            print    $view->display();
-                                            ?>
-                                        </div>
-
-                                    <?php endforeach; ?>
-                                </div>
+                                    if ($pkkeys == 'core-update') {
+                                        $pkkeys = 'Version update';
+                                    } else {
+                                        $pkkeys = $pkkeys . ' updates';
+                                    }
+                                    $count = count($pkitems);
+                                    $total += $count;
+                                    $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '<sup class="badge badge-danger badge-sm badge-pill">' . $count . '</sup></a>';
+                                endforeach;
+                                ?>
+                                <?php print $items; ?>
                             <?php endif; ?>
-                        </div>
-                    <?php endforeach; ?>
+                        </nav>
+                    <?php endif; ?>
 
-                <?php else: ?>
-                <?php if (!$core_update) : ?>
-                    <div class="mw-ui-box-content tab">
-                        No packages found.
-                    </div>
-                <?php endif; ?>
+                    <?php if ($packages_by_type and !empty($packages_by_type)) : ?>
+                        <div class="tab-content py-3">
+                            <?php $count = 0; ?>
+                            <?php foreach ($packages_by_type as $pkkey => $pkitems): ?>
+                                <?php $count++; ?>
+                                <?php
+                                $pkkeys = explode('-', $pkkey);
+                                array_shift($pkkeys);
+                                $pkkeys = implode('-', $pkkeys);
+                                ?>
+                                <div class="tab-pane fade <?php if ($count == 1): ?>show active<?php endif; ?>" id="<?php echo $pkkeys; ?>">
+                                    <?php if ($pkitems) : ?>
+                                        <div class="row">
+                                            <?php foreach ($pkitems as $key => $item): ?>
+                                                <div class="col-12 col-sm-6 col-md-12 col-lg-<?php print $item['type'] === 'microweber-module' ? '6' : '6'; ?> mb-4 package-col-<?php print $item['type']; ?>">
+                                                    <?php
+                                                    $view_file = __DIR__ . '/partials/package_item.php';
+                                                    $view = new \MicroweberPackages\View\View($view_file);
+                                                    $view->assign('item', $item);
+                                                    print    $view->display();
+                                                    ?>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+
+                            <?php foreach ($packages_by_type_with_update as $pkkey => $pkitems): ?>
+                                <?php
+                                $pkkeys = explode('-', $pkkey);
+                                array_shift($pkkeys);
+                                $pkkeys = implode('-', $pkkeys);
+                                ?>
+                                <div class="tab-pane fade" id="<?php echo $pkkeys; ?>">
+                                    <?php if ($pkitems) : ?>
+                                        <div class="row">
+                                            <?php foreach ($pkitems as $key => $item): ?>
+                                                <?php
+
+                                                $holder_class = 'col-lg-6';
+                                                if ($item['type'] == 'microweber-module') {
+                                                    $holder_class = 'col-lg-4';
+                                                }
+                                                if ($item['type'] == 'microweber-core-update') {
+                                                    $holder_class = 'col-lg-6';
+                                                }
+                                                ?>
+                                                <div class="col-12 col-sm-6 col-md-12 <?php print $holder_class; ?> mb-4 package-col-<?php print $item['type']; ?>">
+                                                    <?php
+                                                    $view_file = __DIR__ . '/partials/package_item.php';
+
+                                                    $view = new \MicroweberPackages\View\View($view_file);
+                                                    $view->assign('item', $item);
+
+                                                    print    $view->display();
+                                                    ?>
+                                                </div>
+
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+
+                    <?php else: ?>
+                    <?php if (!$core_update) : ?>
+                        <div class="mw-ui-box-content tab">
+                            No packages found.
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
+
+
+            <?php endif; ?>
         </div>
-
-
-    <?php endif; ?>
     </div>
-</div>
-
-</div>
 </div>

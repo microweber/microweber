@@ -5,7 +5,7 @@
   "keywords": [
     "white label"
   ],
-  "homepage": "https://microweber.com/microweber-white-label-licence-module",
+  "homepage": "https://microweber.org/modules/mw-internal/white_label",
   "type": "microweber-module",
   "target-dir": "white_label"
 }
