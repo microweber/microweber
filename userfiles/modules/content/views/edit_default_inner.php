@@ -12,7 +12,7 @@ if (isset($data['content-id'])) {
 $content = get_content_by_id($data['content_id']);
 
 ?>
-1<?php print $content['content']; ?>2222222222222222
+1<?php print $content['content']; ?>
 <template id="content_template"><?php print $content['content']; ?></template>
 <script>
     mw.require('editor.js')
