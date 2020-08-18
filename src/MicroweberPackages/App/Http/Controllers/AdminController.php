@@ -95,7 +95,7 @@ class AdminController extends Controller
             $this->hasNoAdmin();
         }
 
-        if (defined('MW_USER_IP')) {
+        if (function_exists('user_ip')) {
             $allowed_ips = config('microweber.admin_allowed_ips');
             if ($allowed_ips) {
                 $allowed_ips = explode(',', $allowed_ips);
@@ -103,7 +103,7 @@ class AdminController extends Controller
                 if (!empty($allowed_ips)) {
                     $is_allowed = false;
                     foreach ($allowed_ips as $allowed_ip) {
-                        $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(MW_USER_IP, $allowed_ip);
+                        $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(user_ip(), $allowed_ip);
                         if ($is) {
                             $is_allowed = $is;
                         }
