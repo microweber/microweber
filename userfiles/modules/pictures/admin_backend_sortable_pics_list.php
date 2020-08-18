@@ -92,9 +92,9 @@ $rand = 'pic-sorter-'.uniqid();
 
                             <hr>
 
-                            <span class="mw-ui-btn pull-left" onclick="imageConfigDialogInstance.remove()">Cancel</span>
+                            <span class="mw-ui-btn pull-left" onclick="mw.dialog.get(this).remove()">Cancel</span>
                             <span class="mw-ui-btn mw-ui-btn-notification pull-right"
-                                  onclick="saveOptions(<?php print $item['id'] ?>);imageConfigDialogInstance.remove()">Update</span>
+                                  onclick="saveOptions(<?php print $item['id'] ?>);mw.dialog.get(this).remove()">Update</span>
 
                         </div>
                     </div>
