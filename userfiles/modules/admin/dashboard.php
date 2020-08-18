@@ -52,7 +52,14 @@
             <?php event_trigger('mw.admin.dashboard.links2'); ?>
             <?php event_trigger('mw.admin.dashboard.help'); ?>
 
-            <?php if (mw()->ui->enable_service_links): ?>
+            <?php
+            $showThirdMenu = true;
+            if (have_license('modules/white_label')) {
+                $showThirdMenu = mw()->ui->enable_service_links;
+            }
+            ?>
+
+            <?php if ($showThirdMenu): ?>
                 <?php $dash_menu = mw()->ui->module('admin.dashboard.menu.third'); ?>
                 <?php if (!empty($dash_menu)): ?>
                     <?php foreach ($dash_menu as $item): ?>
