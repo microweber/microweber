@@ -446,7 +446,7 @@ class DatabaseManager extends DbUtils
             var_dump($data);
         }*/
 
-        $data['user_ip'] = MW_USER_IP;
+        $data['user_ip'] = user_ip();
         if (isset($data['id']) == false or $data['id'] == 0) {
             $data['id'] = 0;
             $l = $this->last_id($table);
