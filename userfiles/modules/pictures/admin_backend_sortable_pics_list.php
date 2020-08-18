@@ -84,18 +84,30 @@ $rand = 'pic-sorter-'.uniqid();
 
                 <div class="image-options">
                     <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e("Alt text"); ?></label>
+                        <label class="mw-ui-label"><?php _e("Title"); ?></label>
                         <input class="mw-ui-field w100" autocomplete="off" value="<?php if ($item['title'] !== '') {
                             print $item['title'];
                         } else {
                             print $default_title;
                         } ?>"
-                               onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<?php print $item['id'] ?>', this.value);});"
+                               onkeyup="mw.on.stopWriting(this, function(){ mw.module_pictures.save_title('<?php print $item['id'] ?>', this.value);});"
                                onfocus="$(this.parentNode).addClass('active');"
                                onblur="$(this.parentNode).removeClass('active');"
                                name="media-description-<?php print $tn; ?>"/>
 
                     </div>
+
+                    <div class="mw-ui-field-holder">
+                        <label class="mw-ui-label tip" data-tip="Text which appears, if the image cannot be displayed "><?php _e("Alt text"); ?></label>
+                        <input class="mw-ui-field w100"
+                               autocomplete="off"
+                               value="<?php if ($item['alt'] !== '') { print $item['alt']; } else { print ''; } ?>"
+                               onkeyup="mw.on.stopWriting(this, function(){ mw.module_pictures.save_alt('<?php print $item['id'] ?>', this.value);});"
+                               onfocus="$(this.parentNode).addClass('active');"
+                               onblur="$(this.parentNode).removeClass('active');"
+                               name="media-description-<?php print $tn; ?>"/>
+                    </div>
+
 
                     <div id="image-json-options-<?php print  $item['id']; ?>">
                         <div class="image-json-options">
