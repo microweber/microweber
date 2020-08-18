@@ -4,33 +4,29 @@
 <div class="col-md-<?php echo $settings['field_size']; ?>">
     <div class="form-group">
 
-        <?php if($settings['show_label']): ?>
-        <label class="control-label"><?php echo $data["name"]; ?>
-            <?php if ($settings['required']): ?>
-                <span style="color:red;">*</span>
-            <?php endif; ?>
-        </label>
+        <?php if ($settings['show_label']): ?>
+            <label class="control-label"><?php echo $data["name"]; ?>
+                <?php if ($settings['required']): ?>
+                    <span style="color:red;">*</span>
+                <?php endif; ?>
+            </label>
         <?php endif; ?>
 
-        <div class="relative inline-block mw-custom-field-upload" id="upload_<?php echo($rand); ?>">
-            <div class="mw-ui-row-nodrop">
-                <div class="mw-ui-col" style="width: auto">
-
-      <span class="mw-ui-btn" id="upload_button_<?php echo($rand); ?>">
-        <span class="mw-icon-upload"></span>&nbsp; <?php _e("Browse"); ?>
-        </span>
+        <div class="relative mw-custom-field-upload" id="upload_<?php echo($rand); ?>">
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-primary w-auto" id="upload_button_<?php echo($rand); ?>"><i class="mdi mdi-upload"></i> <?php _e("Browse"); ?></button>
                     <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php echo $data["name"]; ?>" autocomplete="off"/>
 
                     <input type="hidden" <?php if ($settings['required']) { ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php echo($rand); ?>" name="<?php echo $data["name"]; ?>" autocomplete="off"/>
 
-                    <span class="ellipsis" id="val_<?php echo $rand; ?>" style="font-size: small; opacity: 0.66; max-width: 200px; margin-left: 12px;"></span>
-
+                    <div class="alert alert-success mt-3" style="display: none;" id="val_<?php echo $rand; ?>"></div>
                 </div>
-
             </div>
         </div>
     </div>
-    <div class="alert alert-error" id="upload_err<?php echo($rand); ?>" style="display:none;"></div>
+
+    <div class="alert alert-danger" id="upload_err<?php echo($rand); ?>" style="display:none;"></div>
 </div>
 
 <script>
@@ -52,9 +48,7 @@
 
 
         $(<?php echo $up; ?>).bind('FilesAdded', function (frame, file) {
-
             mwd.getElementById('file_name<?php echo $data["name"]; ?>').value = file[0].name;
-
         });
 
         $(<?php echo $up; ?>).bind('progress', function (frame, file) {
@@ -71,26 +65,27 @@
             mw.$("#upload_progress_" + local_id + " .bar").width(0);
             mw.$("#upload_err" + local_id).hide();
             mw.$("#val_<?php echo $rand; ?>").html(file.src.split('/').pop());
+            mw.$("#val_<?php echo $rand; ?>").show();
         });
 
 
         $(<?php echo $up; ?>).bind('error', function (frame, file) {
-
             mw.$("#upload_progress_" + local_id).hide();
             mw.$("#upload_err" + local_id).show().html("<strong>" + file.name + "</strong> - Invalid filetype!");
             mw.$("#upload_progress_" + local_id + " .bar").width(0);
             mw.$("#val_<?php echo $rand; ?>").empty();
+            mw.$("#val_<?php echo $rand; ?>").hide();
 
         });
 
 
         $(<?php echo $up; ?>).bind('responseError', function (frame, json) {
-
             mw.$("#upload_progress_" + local_id).hide();
             mw.$("#upload_err" + local_id).show().html("<strong>Error " + json.error.code + "</strong> - " + json.error.message);
             mw.$("#upload_progress_" + local_id + " .bar").width(0);
 
             mw.$("#val_<?php echo $rand; ?>").empty();
+            mw.$("#val_<?php echo $rand; ?>").hide();
         });
 
         mwd.getElementById('upload_button_<?php echo($rand); ?>').appendChild(<?php echo $up; ?>);
@@ -102,11 +97,8 @@
                 rel: "<?php echo($settings['rel_type']); ?>",
                 custom_field_id: "<?php echo($data['id']); ?>",
                 rel_id: "<?php echo($settings['rel_id']); ?>"
-            }
-            )
-            ;
+            });
         }
         <?php endif; ?>
-
     });
 </script>

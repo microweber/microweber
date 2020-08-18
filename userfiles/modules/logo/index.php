@@ -35,9 +35,9 @@ if ($logoimage_inverse == false or $logoimage_inverse == '') {
         $logoimage_inverse = $params['logoimage_inverse'];
     } else {
         if($logoimage){
-            $logoimage_inverse = $logoimage;
+            $logoimage_inverse = false;
         } else {
-            $logoimage_inverse = $default;
+            $logoimage_inverse = false;
         }
     }
 }
