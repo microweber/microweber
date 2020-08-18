@@ -14,6 +14,28 @@ MWEditor.core = {
         var settings = $.extend(true, {}, defaults, config);
         return mw.element(settings);
     },
+    colorPicker: function(config) {
+        config = config || {};
+        var defaults = {
+            props: {
+                className: 'mw-editor-controller-component mw-editor-color-picker'
+            }
+        };
+        var settings = $.extend(true, {}, defaults, config);
+        var el = MWEditor.core.button(settings);
+        var input = mw.element({
+            tag: 'input',
+            props: {
+                type: 'color',
+                className: 'mw-editor-color-picker-node'
+            }
+        });
+        input.on('change', function (){
+           el.node.dataset.value = this.value;
+        });
+        el.append(input);
+        return el;
+    },
     element: function(config) {
         config = config || {};
         var defaults = {
