@@ -67,6 +67,7 @@ window.MWEditor = function (options) {
     }
 
     this.settings.selectorNode = mw.$(this.settings.selector)[0];
+    console.log(this.settings.selectorNode.nodeName, this.settings.selectorNode)
     this.settings.isTextArea = this.settings.selectorNode.nodeName && this.settings.selectorNode.nodeName === 'TEXTAREA';
 
 
@@ -375,7 +376,7 @@ window.MWEditor = function (options) {
         if(typeof trigger === 'undefined'){
             trigger = true;
         }
-        this.area.$node.html(content);
+        this.$editArea.html(content);
         if(trigger){
             scope.registerChange(content);
         }
