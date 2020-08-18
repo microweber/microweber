@@ -26,7 +26,7 @@ if ($for_id != false) {
 
 
 $init_image_options = array();
-$default_image_options = 'Alt Text, Link, Caption, Author, Source, Tags';
+$default_image_options = 'Title, Alt Text, Link, Caption, Author, Source, Tags';
 $image_options = (isset($params['image-options']) ? $params['image-options'] : (isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options));
 
 
