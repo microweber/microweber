@@ -131,6 +131,7 @@ if ($screenshots) {
 
         <label class="form-group d-block">
             <label class="control-label"><?php _e("Current Skin / Template"); ?></label>
+            <small class="text-muted d-block mb-2">Select different design</small>
             <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw_option_field selectpicker" data-width="100%" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
                 <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
                     <?php _e("Default"); ?>
@@ -271,18 +272,8 @@ if ($screenshots) {
                 parent-module="<?php print $params['parent-module'] ?>" parent-template="<?php print $cur_template ?>"/>
 
         <?php if (!isset($params['simple'])) { ?>
-            <label class="mw-ui-label">
-                <hr>
-                <small>
-                    <?php _e("Need more designs"); ?>
-                    ?<br>
-                    <?php _e("You can use all templates you like and change the skin"); ?>
-                    .
-                </small>
-            </label>
-            <a class="mw-ui-link" target="_blank" href="<?php print mw()->update->marketplace_admin_link($params); ?>">
-                <?php _e("Browse Templates"); ?>
-            </a>
+            <small class="text-umted d-block mt-3"><?php _e("Looking for more designs ?"); ?></small>
+            <a class="btn btn-link btn-sm p-0" target="_blank" href="<?php print admin_url(); ?>view:packages"><?php _e("Check in our Marketplace"); ?></a>
         <?php } ?>
     </div>
 <?php endif; ?>
