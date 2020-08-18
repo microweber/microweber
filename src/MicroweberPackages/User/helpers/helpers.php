@@ -5,7 +5,6 @@ function user_ip()
 {
     $ipaddress = '127.0.0.1';
     if (!defined('MW_USER_IP')) {
-        $ipaddress = '';
         if (isset($_SERVER['HTTP_CLIENT_IP'])) {
             $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
         } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
