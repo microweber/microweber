@@ -45,3 +45,5 @@ node_modules/
 /run-build.sh
 /userfiles/templates
 /phpunit-5.7.27.phar
+/bootstrap/cache/services.php
+/bootstrap/cache/packages.php
