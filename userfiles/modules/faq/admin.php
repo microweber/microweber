@@ -20,115 +20,55 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 
     <div class="card-body pt-3">
-
         <?php
         $settings = get_option('settings', 'faq');
-
         $defaults = array(
             'question' => '',
             'answer' => '',
         );
-
         $json = json_decode($settings, true);
-
         if (isset($json) == false or count($json) == 0) {
             $json = array(0 => $defaults);
         }
+        $pp = json_encode($json);
         ?>
         <script>mw.lib.require('mwui_init');</script>
-        <script>mw.lib.require('material_icons');</script>
+        <script>mw.require('prop_editor.js')</script>
+        <script>mw.require('module_settings.js')</script>
         <script>
-            faqs = {
-                init: function (item) {
+          $(window).on('load', function (){
+              window.faqSettings = new mw.moduleSettings({
+                  element: '#settings-box',
+                  header: '<i class="mw-icon-drag"></i> Question {count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+                  data: <?php print $pp ?>,
+                  key: 'settings',
+                  group: '<?php print $params['id']; ?>',
+                  autoSave: true,
+                  schema: [
+                      {
+                          interface: 'text',
+                          label: ['<?php _e('Question'); ?>'],
+                          id: 'question'
+                      },
 
-                    $(item.querySelectorAll('.faq-setting-item textarea')).each(function () {
-                        mw.editor({
-                            element: this,
-                            height: 320,
-                            width: '100%',
-                            addControls: false,
-                            hideControls: false,
-                            ready: function () {
-
-                            }
-                        })
-                    })
-
-                    $(item.querySelectorAll('input[type="text"], textarea')).bind('change', function () {
-                        mw.on.stopWriting(this, function () {
-                            faqs.save();
-                        });
-                    });
-                },
-
-                collect: function () {
-                    var data = {}, all = mwd.querySelectorAll('.faq-setting-item'), l = all.length, i = 0;
-                    for (; i < l; i++) {
-                        var item = all[i];
-                        data[i] = {};
-                        data[i]['question'] = item.querySelector('.faq-name').value;
-                        data[i]['answer'] = item.querySelector('.faq-role').value;
-
-                    }
-                    return data;
-                },
-                save: function () {
-                    mw.$('#settingsfield').val(JSON.stringify(faqs.collect())).trigger('change');
-                },
-
-
-                create: function () {
-                    var last = $('.faq-setting-item:first');
-                    var html = last.html() || 'Example';
-                    var item = mwd.createElement('div');
-                    item.className = last.attr("class");
-                    item.innerHTML = html;
-                    $(item.querySelectorAll('input')).val('');
-                    $(item.querySelectorAll('textarea')).val('');
-                    $(item.querySelectorAll('.mw-uploader')).remove();
-                    $(item.querySelectorAll('.mw-iframe-editor')).remove();
-                    $(item.querySelectorAll('h6')).remove();
-                    last.before(item);
-                    faqs.init(item);
-                },
-
-                remove: function (element) {
-                    var txt;
-                    if (confirm("<?php _ejs('Are you sure?'); ?>")) {
-                        $(element).remove();
-                        faqs.save();
-                    }
-                },
-
-
-            }
-
-
-            $(document).ready(function () {
-                var all = mwd.querySelectorAll('.faq-setting-item'), l = all.length, i = 0;
-                for (; i < l; i++) {
-                    if (!!all[i].prepared) continue;
-                    var item = all[i];
-                    item.prepared = true;
-                    faqs.init(item);
-                }
-            });
-
-
-            $(document).ready(function () {
-
-                $('#faq-settings').sortable({
-                    handle: '.card-header',
-                    items: ".faq-setting-item",
-
-                    update: function (event, ui) {
-                        faqs.save();
-                    }
-                });
-            });
-
+                      {
+                          interface: 'richtext',
+                          label: ['<?php _e('Answer'); ?>'],
+                          id: 'answer'
+                      }
+                  ]
+              });
+              $(faqSettings).on("change", function (e, val) {
+                  var final = [];
+                  $.each(val, function () {
+                      var curr = $.extend({}, this);
+                      final.push(curr)
+                  });
+                  var toVal = JSON.stringify(final);
+                  mw.$('#settingsfield').val(toVal).trigger('change');
+              });
+          })
         </script>
-
         <style>
             .faq-setting-item{
                 cursor: pointer;
@@ -143,60 +83,23 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 visibility: visible;
             }
         </style>
-
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Questions</a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
         </nav>
-
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="list">
-                <!-- Settings Content -->
                 <div class="module-live-edit-settings module-faq-settings">
                     <input type="hidden" class="mw_option_field" name="settings" option-group="faq" id="settingsfield"/>
 
                     <div class="mb-3">
-                        <a class="btn btn-primary btn-rounded btn-sm" href="javascript:faqs.create()"><?php _e('Add new'); ?></a>
+                        <span class="btn btn-primary btn-rounded btn-sm" onclick="faqSettings.addNew()"><?php _e('Add new'); ?></span>
                     </div>
-
                     <div id="faq-settings">
-                        <?php $count = 0; ?>
-                        <?php if ($json and is_array($json)): ?>
-                            <?php foreach ($json as $slide): ?>
-                                <?php $count++; ?>
-                                <div class="card style-1 mb-3 faq-setting-item" id="faq-setting-item-<?php print $count; ?>" style="overflow: hidden!important;">
-                                    <div class="card-header no-border">
-                                        <div class="row d-flex align-items-center justify-content-between w-100">
-                                            <div class="col-auto px-0">
-                                                <span class="mdi mdi-cursor-move mdi-20px ui-sortable-handle text-muted"></span>
-                                            </div>
-                                            <div class="col" data-toggle="collapse" data-target="#faq-<?php echo $count; ?>" onclick="$(this).parent().parent().toggleClass('no-border');">
-                                                <h6 class="m-0"><?php print $slide['question']; ?></h6>
-                                            </div>
-                                            <div class="col-auto px-0">
-                                                <a class="remove-question text-danger" data-toggle="tooltip" href="javascript:faqs.remove('#faq-setting-item-<?php print $count; ?>');" title="Remove"><i class="mdi mdi-close mdi-20px"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body collapse" id="faq-<?php echo $count; ?>">
-                                        <div class="form-group">
-                                            <label class="control-label"><?php _e('Question'); ?></label>
-                                            <input type="text" class="form-control faq-name " value="<?php print $slide['question']; ?>">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label"><?php _e('Answer'); ?></label>
-                                            <textarea class="form-control faq-role" id="textarea<?php print $count; ?>"><?php print $slide['answer']; ?></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach ?>
-                        <?php endif ?>
+                        <div id="settings-box"></div>
                     </div>
                 </div>
-                <!-- Settings Content - End -->
             </div>
-
             <div class="tab-pane fade" id="templates">
                 <module type="admin/modules/templates"/>
             </div>
