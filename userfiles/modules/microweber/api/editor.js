@@ -362,7 +362,7 @@ window.MWEditor = function (options) {
 
     this.documentMode = function () {
         if(!this.settings.regions) {
-            console.warn('Regions are not defined in Document mode.')
+            console.warn('Regions are not defined in Document mode.');
             return;
         }
         this.$editArea = $(this.document.body);
@@ -414,9 +414,10 @@ window.MWEditor = function (options) {
                 className: ' mw-editor-group-button',
                 innerHTML: '<span class="' + group.icon + ' mw-editor-group-button-icon"></span><span class="mw-editor-group-button-caret"></span>'
             }
-        }).on('click', function () {
+        });
+        icon.on('click', function () {
             MWEditor.core._preSelect(this.parentNode);
-            $(this).parent().toggleClass('active');
+            $(this.node).parent().toggleClass('active');
         });
 
         groupel.on('click', function (){

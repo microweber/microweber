@@ -8,11 +8,7 @@ if (isset($data['content-id'])) {
 }
 
 ?>
-<?php
-    $content = get_content_by_id($data['content_id']);
 
-?>
-<textarea id="content_template" name="content"><?php print $content['content']; ?></textarea>
 <script>
     mw.require('editor.js')
 </script>

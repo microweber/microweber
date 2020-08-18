@@ -79,7 +79,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 create: function () {
                     var last = $('.faq-setting-item:first');
-                    var html = last.html();
+                    var html = last.html() || 'Example';
                     var item = mwd.createElement('div');
                     item.className = last.attr("class");
                     item.innerHTML = html;
@@ -87,14 +87,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     $(item.querySelectorAll('textarea')).val('');
                     $(item.querySelectorAll('.mw-uploader')).remove();
                     $(item.querySelectorAll('.mw-iframe-editor')).remove();
+                    $(item.querySelectorAll('h6')).remove();
                     last.before(item);
                     faqs.init(item);
                 },
 
                 remove: function (element) {
                     var txt;
-                    var r = confirm("<?php _ejs('Are you sure?'); ?>");
-                    if (r == true) {
+                    if (confirm("<?php _ejs('Are you sure?'); ?>")) {
                         $(element).remove();
                         faqs.save();
                     }
