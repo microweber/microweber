@@ -57,7 +57,7 @@ $rand = uniqid(); ?>
     <div class="form-group">
         <label class="control-label d-block"><?php echo _e("Display", true) . ' ' . $set_content_type . ' ' . _e("from page", true); ?></label>
 
-        <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field selectpicker" data-size="5" data-live-search="true" onchange="mw_reload_content_mod_window()">
+        <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true" onchange="mw_reload_content_mod_window()">
             <?php if (intval($posts_parent_page) > 0 and !get_content_by_id($posts_parent_page)) { ?>
                 <option value="" selected="selected"><?php _e("Unknown page"); ?></option>
             <?php } ?>
@@ -128,7 +128,7 @@ $rand = uniqid(); ?>
         //print_r(content_tags());
         ?>
 
-        <div class="mw-ui-field-holder">
+        <div>
             <?php
             $tags_val = get_option('data-tags', $params['id']);
             if ($tags_val and is_string($tags_val)) {
@@ -142,7 +142,7 @@ $rand = uniqid(); ?>
 
             <div class="form-group">
                 <label class="control-label" for="tags"><?php _e("Show content with tags"); ?></label>
-                <input type="text" name="data-tags" class="form-control mw-full-width mw_option_field " value="<?php print $tags_val ?>" data-role="tagsinput" id="tags"/>
+                <input type="text" name="data-tags" class="form-control mw-full-width mw_option_field" value="<?php print $tags_val ?>" data-role="tagsinput" id="tags" placeholder="Separate options with a comma"/>
             </div>
 
             <script>
