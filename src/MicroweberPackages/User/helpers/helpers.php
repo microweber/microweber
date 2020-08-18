@@ -1,18 +1,32 @@
 <?php
+
+
 function user_ip()
 {
+    $ipaddress = '127.0.0.1';
     if (!defined('MW_USER_IP')) {
-        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and $_SERVER["HTTP_CF_CONNECTING_IP"]) {
-            define('MW_USER_IP', $_SERVER['HTTP_CF_CONNECTING_IP']);
-        } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) and $_SERVER['HTTP_X_FORWARDED_FOR']) {
-            define('MW_USER_IP', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else if (isset($_SERVER['HTTP_X_FORWARDED'])) {
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        } else if (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        } else if (isset($_SERVER['HTTP_FORWARDED'])) {
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        } else if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
+            $ipaddress = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+        } else if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $ipaddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
         } else if (isset($_SERVER['REMOTE_ADDR'])) {
-            define('MW_USER_IP', $_SERVER['REMOTE_ADDR']);
-        } else {
-            define('MW_USER_IP', '127.0.0.1');
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
         }
     }
-
+    if (!defined('MW_USER_IP')) {
+        define('MW_USER_IP', $ipaddress);
+    }
     return MW_USER_IP;
 }
 
