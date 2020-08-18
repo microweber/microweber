@@ -363,27 +363,30 @@
                 , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });
+            var allControls = Object.keys(MWEditor.controllers);
+            var spl = Math.floor(allControls.length/2);
+            var ctrl1 = allControls.slice(0, spl);
+            var ctrl2 = allControls.slice(spl, allControls.length);
 
             var editor2 = new MWEditor({
                 selector: '#editortest2',
                 mode: 'div',
                 controls: [
                     [
-                        'undoRedo', '|', 'fontSelector', 'link', 'media', 'ul', 'ol', 'table',
+                        ...ctrl1,
                         {
                             group: {
                                 icon: 'mdi mdi-format-bold',
-                                when: 999, //'only screen and (max-width: 600px)', // string media query | number
                                 controls: ['bold', 'italic', 'fontSize']
                             }
                         }
                     ],
                     [
-                        'bold', '|', 'italic', '|', 'fontSize',
+                        ...ctrl2,
                         {
                             group: {
                                 icon: 'mdi mdi-format-align-left',
-                                when: 999, //'only screen and (max-width: 600px)', // string media query | number
+                                when: 'only screen and (max-width: 600px)',
                                 controls: ['align']
                             }
                         }
@@ -391,7 +394,7 @@
                 ],
                 content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
                 In faucibus odio eget nisi pulvinar porttitor. <a href="http://somerandomweb.com">Nam elementum magna</a> in velit malesuada tin
-                cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="http://localhost/mw/userfiles/media/localhost/192kb.jpg"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
+                cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="https://picsum.photos/200"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
                 , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });
@@ -409,8 +412,8 @@
     </script>
     <h2>Editor</h2>
     <br>
-<b>Iframe</b>
-<div id="editortest"></div>
+<div style="display: none"><b>Iframe</b>
+    <div id="editortest"></div></div>
     <br>
     <br>
     <b>Div</b>
@@ -421,7 +424,7 @@
 <div class="edit">
     Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
     In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
-    cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="http://localhost/mw1/userfiles/media/localhost/top-matte-cars-060815-6912.jpg"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
+    cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="https://picsum.photos/200"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
         , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
     Nunc posuere ultricies eros, eget aliquet mauris.`
 

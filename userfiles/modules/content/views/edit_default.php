@@ -264,7 +264,14 @@ if (isset($params['quick_edit'])) {
                                         <div class="form-group">
                                             <label>Description</label>
 
-                                            <div id="mw-admin-content-iframe-editor"></div>
+                                            <div id="mw-admin-content-iframe-editor">
+                                                <?php
+                                                /*var_dump($data);exit;
+                                                    $content = get_content_by_id($data['content_id']);*/
+
+                                                ?>
+                                                <textarea id="content_template" name="content"><?php print $data['content']; ?></textarea>
+                                            </div>
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>

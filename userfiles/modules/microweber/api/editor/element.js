@@ -134,6 +134,9 @@
             this.node.innerHTML = val;
         };
 
+        this.parent = function () {
+            return this.node.parentNode;
+        };
         this.append = function (el) {
             if(el) {
                 return this.$node.append( el.node ? el.node : el );
