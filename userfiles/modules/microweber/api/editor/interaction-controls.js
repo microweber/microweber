@@ -173,36 +173,7 @@ MWEditor.interactionControls = {
 
             bar.add(insertDD.root.node);
             bar.add(deletetDD.root.node);
-
-
-            /*var content =  '<ul>'
-                + '<li>'
-                + '<a href="javascript:;"><span class="mw-icon-dropdown"></span></a>'
-                + '<ul>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.insertRow(\'above\', mw.liveedit.inline.activeCell);">Row Above</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.insertRow(\'under\', mw.liveedit.inline.activeCell);">Row Under</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.insertColumn(\'left\', mw.liveedit.inline.activeCell)">Column on left</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.insertColumn(\'right\', mw.liveedit.inline.activeCell)">Column on right</a></li>'
-                + '</ul>'
-                + '</li>'
-                + '<li>'
-                + '<a href="javascript:;">Style<span class="mw-icon-dropdown"></span></a>'
-                + '<ul>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.setStyle(\'mw-wysiwyg-table\', mw.liveedit.inline.activeCell);">Bordered</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.setStyle(\'mw-wysiwyg-table-zebra\', mw.liveedit.inline.activeCell);">Bordered Zebra</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple\', mw.liveedit.inline.activeCell);">Simple</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple-zebra\', mw.liveedit.inline.activeCell);">Simple Zebra</a></li>'
-                + '</ul>'
-                + '</li>'
-                + '<li>'
-                + '<a href="javascript:;">Delete<span class="mw-icon-dropdown"></span></a>'
-                + '<ul>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.deleteRow(mw.liveedit.inline.activeCell);">Row</a></li>'
-                + '<li><a href="javascript:;" onclick="mw.liveedit.inline.tableManager.deleteColumn(mw.liveedit.inline.activeCell);">Column</a></li>'
-                + '</ul>'
-                + '</li>'
-            + '</ul>';*/
-
+            this.element.$node.hide();
 
             return root;
         };
