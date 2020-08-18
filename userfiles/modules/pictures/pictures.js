@@ -69,6 +69,15 @@ mw.module_pictures = {
                 mw.reload_module_parent('pictures');
             });
     },
+    save_alt: function (id, alt) {
+        var data = {};
+        data.id = id;
+        data.alt = alt;
+        $.post(mw.settings.api_url + 'save_media', data,
+            function (data) {
+                mw.reload_module_parent('pictures');
+            });
+    },
 	save_tags: function (id, tags) {
         var data = {};
         data.id = id;

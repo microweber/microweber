@@ -1,11 +1,8 @@
 <?php
 
-must_have_access();
-
+only_admin_access();
 
 $for = $for_id = $sess_id = false;
-
-
 
 if (isset($params['for'])) {
     $for = $params['for'];
@@ -18,6 +15,10 @@ if (isset($params['session_id'])) {
     $sess_id = $params['session_id'];
 }
 
+
+
+
+
 $media = false;
 
 if ($for_id != false) {
@@ -28,9 +29,8 @@ if ($for_id != false) {
 }
 
 
-
 $init_image_options = array();
-$default_image_options = 'Link, Caption, Author, Source, Tags';
+$default_image_options = 'Title, Alt Text, Link, Caption, Author, Source, Tags';
 $image_options = (isset($params['image-options']) ? $params['image-options'] : (isset($params['data-image-options']) ? $params['data-image-options'] : $default_image_options));
 
 
@@ -192,19 +192,6 @@ $rand = 'pic-sorter-'.uniqid();
             <div class="mw-post-media-img-edit">
 
                 <div class="image-options">
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label"><?php _e("Alt text"); ?></label>
-                        <input class="mw-ui-field w100" autocomplete="off" value="<?php if ($item['title'] !== '') {
-                            print $item['title'];
-                        } else {
-                            print $default_title;
-                        } ?>"
-                               onkeyup="mw.on.stopWriting(this, function(){mw.module_pictures.save_title('<?php print $item['id'] ?>', this.value);});"
-                               onfocus="$(this.parentNode).addClass('active');"
-                               onblur="$(this.parentNode).removeClass('active');"
-                               name="media-description-<?php print $tn; ?>"/>
-
-                    </div>
 
                     <div id="image-json-options-<?php print  $item['id']; ?>">
                         <div class="image-json-options">
@@ -222,9 +209,9 @@ $rand = 'pic-sorter-'.uniqid();
 
                             <hr>
 
-                            <span class="mw-ui-btn pull-left" onclick="imageConfigDialogInstance.remove()">Cancel</span>
+                            <span class="mw-ui-btn pull-left" onclick="mw.dialog.get(this).remove()">Cancel</span>
                             <span class="mw-ui-btn mw-ui-btn-notification pull-right"
-                                  onclick="saveOptions(<?php print $item['id'] ?>);imageConfigDialogInstance.remove()">Update</span>
+                                  onclick="saveOptions(<?php print $item['id'] ?>);mw.dialog.get(this).remove()">Update</span>
 
                         </div>
                     </div>
