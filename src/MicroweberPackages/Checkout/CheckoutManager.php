@@ -901,14 +901,7 @@ class CheckoutManager
 
 
 
-        $client_ip = false;
-        if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) and $_SERVER['HTTP_X_FORWARDED_FOR']){
-            $client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-
-        } else {
-            $client_ip = $_SERVER['REMOTE_ADDR'];
-
-        }
+        $client_ip = user_ip();
 
         $hostname = $this->get_domain_from_str($client_ip);
 
