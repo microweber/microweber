@@ -2,8 +2,10 @@
 function user_ip()
 {
     if (!defined('MW_USER_IP')) {
-        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"]) and $_SERVER["HTTP_CF_CONNECTING_IP"]) {
             define('MW_USER_IP', $_SERVER['HTTP_CF_CONNECTING_IP']);
+        } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) and $_SERVER['HTTP_X_FORWARDED_FOR']) {
+            define('MW_USER_IP', $_SERVER['HTTP_X_FORWARDED_FOR']);
         } else if (isset($_SERVER['REMOTE_ADDR'])) {
             define('MW_USER_IP', $_SERVER['REMOTE_ADDR']);
         } else {
@@ -96,7 +98,6 @@ function user_social_login($params)
 {
     return mw()->user_manager->social_login($params);
 }
-
 
 
 function logout()
@@ -299,7 +300,8 @@ function get_user($id = false)
 }
 
 
-function user_can_access($permission) {
+function user_can_access($permission)
+{
 
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
@@ -312,7 +314,8 @@ function user_can_access($permission) {
     return $user->can($permission);
 }
 
-function module_permissions($module) {
+function module_permissions($module)
+{
     return \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 }
 
@@ -336,7 +339,8 @@ function user_can_destroy_module($module)
     return false;
 }
 
-function user_can_view_module($module) {
+function user_can_view_module($module)
+{
 
     $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
@@ -344,7 +348,7 @@ function user_can_view_module($module) {
     if (!$user) {
         return false;
     }
-    
+
     if ($user->is_admin == 1) {
         return true;
     }
