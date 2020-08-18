@@ -336,7 +336,8 @@ textarea:not(.form-control) {
       }
 
       color: $gray-700 !important;
-      background-color: $gray-100;
+      //background-color: $gray-100;
+      background-color: $secondary;
     }
 
     &.active {
