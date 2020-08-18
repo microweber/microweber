@@ -17,9 +17,10 @@
 
     <label class="mw-ui-label"><small><?php _e("Allowable Format for upload"); ?></small></label>
 
+
       <div class="mw-ui-field-holder">
         <label class="mw-ui-check">
-        <input type="checkbox"  name="options[file_types]" <?php if(isset($data['options']) and isset($data['options']['file_types']) and in_array('images',$data['options']['file_types'])) : ?> checked <?php endif; ?> value="images"  />
+        <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('images',$settings['options']['file_types'])) : ?> checked <?php endif; ?> value="images"  />
             <span></span>
             <span><?php _e("Images Files"); ?></span>
         </label>
@@ -27,7 +28,7 @@
 
       <div class="mw-ui-field-holder">
         <label class="mw-ui-check">
-            <input type="checkbox"  name="options[file_types]" <?php if(isset($data['options']) and isset($data['options']['file_types']) and in_array('documents',$data['options']['file_types'])) : ?> checked <?php endif; ?>  value="documents" />
+            <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('documents',$settings['options']['file_types'])) : ?> checked <?php endif; ?>  value="documents" />
             <span></span>
             <span><?php _e("Document Files"); ?></span>
         </label>
@@ -35,7 +36,7 @@
        
       <div class="mw-ui-field-holder">
         <label class="mw-ui-check">
-            <input type="checkbox"  name="options[file_types]" <?php if(isset($data['options']) and isset($data['options']['file_types']) and in_array('archives',$data['options']['file_types'])) : ?> checked <?php endif; ?>  value="archives" />
+            <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('archives',$settings['options']['file_types'])) : ?> checked <?php endif; ?>  value="archives" />
             <span></span>
             <span><?php _e("Archive Files"); ?></span>
         </label>
@@ -45,13 +46,21 @@
      <div class="mw-ui-field-holder">
       <label class="mw-ui-label"><?php _e("Custom File Types"); ?></label>
 
-      <input type="text" class="mw-ui-field mw-full-width"  name="options[file_types]" value="<?php if(isset($data['options']) and isset($data['options']['file_types']) and is_array($data['options']['file_types'])) : ?><?php
+      <input type="text" class="mw-ui-field mw-full-width"  name="options[file_types]" value="<?php if(isset($settings['options']) and isset($settings['options']['file_types']) and is_array($settings['options']['file_types'])) : ?><?php
 
       $array2 = array("images", "documents", "archives");
 
-      $oresult = array_diff( $data['options']['file_types'], $array2 );
+      $oresult = array_diff( $settings['options']['file_types'], $array2 );
+      $xresult = [];
+      foreach ($oresult as $restype) {
+          $restype = trim($restype);
+          if (empty($restype)) {
+              continue;
+          }
+          $xresult[] = $restype;
+      }
 
-      echo implode(',', $oresult); ?><?php endif; ?>" placeholder='psd,html,css' />
+      echo implode(',', $xresult); ?><?php endif; ?>" placeholder='psd,html,css' />
 
 
       </div>
