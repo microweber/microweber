@@ -46,7 +46,8 @@
     "jeremeamia/superclosure": "*",
     "microweber-templates/dream": "dev-master",
     "microweber-templates/new-world": "dev-master",
-    "microweber-templates/liteness": "dev-master"
+    "microweber-templates/liteness": "dev-master",
+    "microweber-packages/microweber-class-alias": "dev-master"
   },
   "require-dev": {
     "orchestra/testbench": "^5.0",
