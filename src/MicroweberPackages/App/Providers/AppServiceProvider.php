@@ -37,6 +37,7 @@ use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Client\ClientsManagerServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Order\OrderManagerServiceProvider;
+use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
@@ -207,6 +208,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
         $this->app->register(  \Barryvdh\DomPDF\ServiceProvider::class);
+        $this->app->register(  PageServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
