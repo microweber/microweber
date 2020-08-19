@@ -3,6 +3,7 @@ namespace MicroweberPackages\Page;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\PageScope;
+use MicroweberPackages\Menu\HasMenu;
 
 class Page extends Model
 {
@@ -23,6 +24,7 @@ class Page extends Model
         'is_shop',
         'is_deleted',
         'status',
+        'add_content_to_menu',
     ];
 
 
@@ -35,5 +37,4 @@ class Page extends Model
     {
         static::addGlobalScope(new PageScope());
     }
-
 }
