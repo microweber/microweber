@@ -69,14 +69,17 @@
     ?>
 
     <script type="text/javascript">
+        function addCustomFieldByVal(fieldName) {
+            $('.js-cf-options').val(fieldName);
+            $('.js-cf-options ').trigger('change');
+        }
+
         $(document).ready(function () {
             mw.dropdown();
-            mw.$('#dropdown-custom-fields').on('change', function () {
-                var val = $(this).getDropdownValue();
-                var copyof = mw.$('#dropdown-custom-fields li[value="' + val + '"][data-copyof]').dataset('copyof');
+            mw.$('.js-cf-options').on('change', function () {
+                var val = $(this).val();
+                var copyof = mw.$('.js-cf-options li[value="' + val + '"][data-copyof]').dataset('copyof');
                 copyof = false;
-                // @todo copyof
-                //mw.custom_fields.copy_field_by_id('1', '<?php print $for; ?>', '<?php print $for_id; ?>');
                 if (copyof == false) {
                     var make_field = {}
                     make_field.rel = '<?php print $for; ?>';
@@ -86,8 +89,6 @@
                 } else {
                     mw.custom_fields.copy_field_by_id(copyof, '<?php print $for; ?>', '<?php print $for_id; ?>');
                 }
-
-                mw.$('.mw-dropdown-value', this).html($(this).dataset('default'))
             });
         });
 
@@ -103,6 +104,37 @@
             thismodal.resize(800)
         }
     </script>
+    <style>
+        .custom-fields-add-buttons [class*='mw-custom-field-icon-'] {
+            font-size: 25px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .custom-fields-add-buttons button {
+            width: 12.5%;
+            text-align: center;
+            display: block;
+            float: left;
+        }
+
+        .card-closed {
+            width: auto !important;
+            display: inline-block;
+        }
+
+        .card .card-header {
+            cursor: pointer;
+        }
+
+        .card-closed .card-header:first-child {
+            border-radius: 10px;
+        }
+
+        .card-closed .card-header:after {
+            display: none;
+        }
+    </style>
 
     <div class="module-live-edit-settings">
         <div id="custom-field-editor" class="mw-ui-box mw-ui-box-content" style="display: none">
@@ -110,7 +142,8 @@
                 <small><?php _e("Edit"); ?> <b id="which_field"></b> <?php _e("Field"); ?></small>
             </label>
             <div class="custom-field-edit">
-                <div class="custom-field-edit-header"><span class="custom-field-edit-title"></span> <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;"><?php _e('close'); ?> <span class="mw-ui-arr mw-ui-arr-down" style="opacity:0.6;"></span> </span>
+                <div class="custom-field-edit-header">
+                    <span class="custom-field-edit-title"></span> <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;"><?php _e('close'); ?> <span class="mw-ui-arr mw-ui-arr-down" style="opacity:0.6;"></span> </span>
                 </div>
                 <div class="mw-admin-custom-field-edit-item-wrapper">
                     <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
@@ -118,9 +151,8 @@
             </div>
         </div>
 
-        <div id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>">
-            <button class="btn btn-primary d-inline-block" onClick="javascript:$('#add-field-select').toggleClass('collapse');"><?php _e("Add New Field"); ?></button>
-            <?php //$exiisting_fields = get_custom_fields('fields=name&rel=content&rel_id=>0&group_by=type,name&return_full=1',true);
+        <div>
+            <?php
             $ex = array();
             $ex['rel_type'] = $for;
             //$ex['rel_id'] = $for_id;
@@ -138,27 +170,62 @@
             //$exiisting_fields = mw()->fields_manager->get_all($ex);
             ?>
 
-
-
             <?php $exiisting_fields = false; //TODO ?>
-            <div class="d-inline-block">
-                <div class="collapse" id="add-field-select">
-                    <select class="selectpicker" data-live-search="true" data-size="7">
-                        <?php if (is_array($exiisting_fields)): ?>
-                            <?php foreach ($exiisting_fields as $item): ?>
-                                <option data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>"><span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span><span class="mw-custom-field-title" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span></option>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
 
-                        <?php foreach ($fields as $field => $value): ?>
-                            <option value="<?php print $field; ?>"><span class="mw-custom-field-icon-<?php print $field; ?>"></span><span class="mw-custom-field-title"><?php _e($value); ?></span></option>
-                        <?php endforeach; ?>
-                    </select>
+            <div>
+                <div class="card mb-3 mt-3 card-closed">
+                    <div class="card-header bg-primary text-white py-1 pl-3" onClick="javascript:$('#add-field-select').toggleClass('collapse');$(this).parent().toggleClass('card-closed');$(this).find('.d-flex').toggleClass('justify-content-between');">
+                        <div class="d-flex align-items-center w-100">
+                            <i class="mdi mdi-plus mdi-20px mr-2"></i>
+                            <span><?php _e("Add new field"); ?></span>
+                        </div>
+                    </div>
+                    <div class="card-body collapse" id="add-field-select">
+                        <div class="custom-fields-add-buttons">
+                            <?php if (is_array($exiisting_fields)): ?>
+                                <?php foreach ($exiisting_fields as $item): ?>
+                                    <button class="btn btn-link text-dark" onclick="javascript:addCustomFieldByVal('<?php print $item['type']; ?>');">
+                                        <div>
+                                            <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
+                                            <span class="mw-custom-field-title text-break-line-1" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
+                                        </div>
+                                    </button>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+
+                            <?php foreach ($fields as $field => $value): ?>
+                                <button class="btn btn-link text-dark" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
+                                    <div>
+                                        <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
+                                        <span class="mw-custom-field-title text-break-line-1"><?php _e($value); ?></span>
+                                    </div>
+                                </button>
+                            <?php endforeach; ?>
+
+                            <select class="js-cf-options" data-live-search="true" data-size="7" style="display: none;">
+                                <?php if (is_array($exiisting_fields)): ?>
+                                    <?php foreach ($exiisting_fields as $item): ?>
+                                        <option data-copyof="<?php print $item['id'] ?>" value="<?php print $item['type']; ?>">
+                                            <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
+                                            <span class="mw-custom-field-title" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+
+                                <?php foreach ($fields as $field => $value): ?>
+                                    <option value="<?php print $field; ?>">
+                                        <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
+                                        <span class="mw-custom-field-title"><?php _e($value); ?></span>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <hr>
+        <hr class="thin">
 
         <div id="custom-fields-box">
             <?php if (isset($params['live_edit'])): ?>
