@@ -106,6 +106,20 @@ class TemplateMetaTagsRenderer
                     } elseif ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
                         $meta['og_type'] = $meta['subtype'];
                     }
+                    if($meta['content_type']=='product') {
+                    	// fetch sku, currency, price for product structured data
+                    	$meta['product_currency'] = $this->app->option_manager->get('currency', 'payments');
+                    	$product_price = $this->app->shop_manager->get_product_price($meta_content_id);
+                        $meta['product_price'] = number_format($product_price, 2);
+			            $product_fields = $this->app->fields_manager->get('content', $meta_content_id, 1);
+			            $meta['product_sku'] = '';
+			            foreach($product_fields as $k => $field_data) {
+				            if($field_data['name_key'] == 'sku' && !empty($field_data['value'])){
+					            $meta['product_sku'] = $field_data['value'];
+					            break;
+				            }
+			            }
+                    }
                     if ($meta['description'] != false and trim($meta['description']) != '') {
                         // $meta['description'] = $meta['description'];
                     } elseif ($meta['content'] != false and trim($meta['content']) != '') {
