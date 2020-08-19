@@ -1351,3 +1351,92 @@ header {
 .mw-icon-drag {
   cursor: grab;
 }
+
+/************************************
+        Custom Fields Icons
+*************************************/
+
+[class*='mw-custom-field-icon-'] {
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: inherit;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mw-custom-field-icon-phone:before {
+  content: '\F011D';
+}
+
+.mw-custom-field-icon-breakline:before {
+  content: '\F0374';
+}
+
+.mw-custom-field-icon-hidden:before {
+  content: "\F0209";
+}
+
+.mw-custom-field-icon-text:before {
+  content: '\F0284';
+}
+
+.mw-custom-field-icon-address:before {
+  content: '\F02DC';
+}
+
+.mw-custom-field-icon-site:before {
+  content: '\F01E7';
+}
+
+.mw-custom-field-icon-date:before {
+  content: '\F00EF';
+}
+
+.mw-custom-field-icon-time:before {
+  content: '\F0150';
+}
+
+.mw-custom-field-icon-email:before {
+  content: '\F01EE';
+}
+
+.mw-custom-field-icon-upload:before {
+  content: '\F0B7E';
+}
+
+.mw-custom-field-icon-price:before {
+  content: '\F01C1';
+}
+
+.mw-custom-field-icon-number:before {
+  content: '\F03A0';
+}
+
+.mw-custom-field-icon-radio:before {
+  content: '\F043E';
+}
+
+.mw-custom-field-icon-checkbox:before {
+  content: '\F0132';
+}
+
+.mw-custom-field-icon-dropdown:before {
+  content: '\F09D7';
+}
+
+.mw-custom-field-icon-property:before {
+  content: "\F064E";
+}
+
+.mw-custom-field-icon-button:before {
+  content: "";
+}
+
+.mw-custom-field-icon-captcha:before {
+  content: "";
+}
+.mw-custom-field-icon-captcha:before {
+  content: "";
+}
