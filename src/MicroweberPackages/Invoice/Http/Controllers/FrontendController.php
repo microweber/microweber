@@ -1,11 +1,8 @@
 <?php
 namespace MicroweberPackages\Invoice\Http\Controllers;
 
-use _HumbugBox58fd4d9e2a25\___PHPSTORM_HELPERS\this;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use MicroweberPackages\App\Http\Controllers\Controller;
 use MicroweberPackages\Currency\Currency;
-use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\Invoice;
 use PDF;
 use MicroweberPackages\Invoice\CompanySetting;

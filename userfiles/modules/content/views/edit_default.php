@@ -150,7 +150,26 @@ if (isset($params['quick_edit'])) {
 ?>
 
 <div class="<?php echo $wrapper_class; ?>">
-    <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-edit-content" autocomplete="off">
+
+    <?php
+    $data['id'] = intval($data['id']);
+    $formActionUrl = site_url() . 'api/save_content_admin';
+    if ($type == 'Page') {
+        $formActionUrl = route('admin.pages.index');
+        if ($data['id'] > 0) {
+            $formActionUrl = route('admin.pages.update', $data['id']);
+        }
+    }
+    ?>
+
+    <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form"
+          action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
+
+        <?php if($data['id'] > 0): ?>
+            <input name="_method" type="hidden" value="PATCH">
+        <?php endif; ?>
+        <?php // echo csrf_token(); ?>
+
         <input type="hidden" name="id" id="mw-content-id-value" value="<?php print $data['id']; ?>"/>
         <input type="hidden" name="subtype" id="mw-content-subtype" value="<?php print $data['subtype']; ?>"/>
         <input type="hidden" name="subtype_value" id="mw-content-subtype-value-<?php print $rand; ?>" value="<?php print $data['subtype_value']; ?>"/>
