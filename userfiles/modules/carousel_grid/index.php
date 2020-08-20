@@ -56,21 +56,31 @@ $items_number = intval($items_number);
     mw.lib.require('slick');
     $(document).ready(function () {
 
+        var preloadForAll = function (array, eachcall, callback) {
+            var size = array.length, i = 0, count = 0;
+            for (; i < size; i++) {
+                (function (img){
+                    mw.image.preload(img.src, function (imgWidth, imgHeight) {
+                        count++;
+                        eachcall.call(img, imgWidth, imgHeight)
+                        if (count === size) {
+                            if (!!callback) callback.call()
+                        }
+                    })
+                })(array[i])
+            }
+        };
+
 
         var allslides = $("#carousel-grid-<?php print $params['id']; ?> .carousel-grid-slide");
         var slidesDone = 0;
         (function (allslides, slidesDone) {
             allslides.each(function () {
                 var photos = $("img", this), data = [], datao = [], scope = $(this);
-                photos.each(function () {
-                    datao.push(this.src);
-                });
 
-
-                (function (scope, datao) {
-
-                    mw.image.preloadForAll(datao, function (width, height) {
-                        data.push({url: this.src, width: width, height: height});
+                (function (scope, photos) {
+                    preloadForAll(photos, function (width, height) {
+                         data.push({url: this.src, width: width, height: height, alt: this.alt, title: this.title});
                     }, function () {
                         var config = {
                             images: data,
@@ -138,7 +148,7 @@ $items_number = intval($items_number);
                             })
                         }
                     })
-                })(scope, datao)
+                })(scope, photos)
 
             })
 
