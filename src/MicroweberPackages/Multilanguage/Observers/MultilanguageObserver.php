@@ -16,6 +16,10 @@ class MultilanguageObserver
 {
     public function retrieved(Model $model)
     {
+        if ($this->getLocale() == $this->getDefaultLocale()) {
+            return;
+        }
+
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
 
@@ -44,6 +48,10 @@ class MultilanguageObserver
      */
     public function saved(Model $model)
     {
+        if ($this->getLocale() == $this->getDefaultLocale()) {
+            return;
+        }
+
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
 
@@ -74,8 +82,13 @@ class MultilanguageObserver
         }
     }
 
+    protected function getDefaultLocale()
+    {
+        return strtolower(mw()->lang_helper->default_lang());
+    }
+
     protected function getLocale()
     {
-        return mw()->lang_helper->current_lang();
+        return strtolower(mw()->lang_helper->current_lang());
     }
 }
