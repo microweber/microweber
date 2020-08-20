@@ -215,6 +215,7 @@
 
         module.addClass('loading');
         mw.content.save(data, {
+            url: el.action,
             onSuccess: function (a) {
                 if (window.pagesTreeRefresh) {
                     pagesTreeRefresh()

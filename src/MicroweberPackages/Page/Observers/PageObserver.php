@@ -21,5 +21,7 @@ class PageObserver
     public function saving(Page $page)
     {
         $page->content_type = 'page';
+        
+        cache_delete('content');
     }
 }

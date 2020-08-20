@@ -9,11 +9,10 @@
 
 Route::get('/page-test', function (){
 
-
 /*
     $page = new \MicroweberPackages\Page\Page();
     $page->title = 'Simple Page';
-    $page->save();*/
+    $page->save();
 
 
     $page = new \MicroweberPackages\Page\Page();
@@ -22,8 +21,13 @@ Route::get('/page-test', function (){
     $page->save();
 
 
-    echo 1;
-    die();
+   dd(\MicroweberPackages\Page\Page::all());*/
 
+
+});
+
+Route::name('admin.')->prefix('admin')->namespace('\MicroweberPackages\Page\Http\Controllers\Admin')->group(function () {
+
+    Route::resource('pages', 'PagesController');
 
 });

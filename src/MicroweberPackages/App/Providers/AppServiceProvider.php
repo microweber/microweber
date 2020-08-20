@@ -178,6 +178,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
+        $this->app->register(  PageServiceProvider::class);
         $this->app->register(ContentServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
         $this->app->register(CategoryManagerServiceProvider::class);
@@ -208,7 +209,6 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
         $this->app->register(  \Barryvdh\DomPDF\ServiceProvider::class);
-        $this->app->register(  PageServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
