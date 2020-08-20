@@ -14,6 +14,8 @@ use MicroweberPackages\Multilanguage\MultilanguageTranslations;
 
 class MultilanguageObserver
 {
+    protected static $fieldsToSave = [];
+
     public function retrieved(Model $model)
     {
         if ($this->getLocale() == $this->getDefaultLocale()) {
@@ -40,6 +42,20 @@ class MultilanguageObserver
         }
     }
 
+    public function saving(Model $model)
+    {
+        if ($this->getLocale() == $this->getDefaultLocale()) {
+            return;
+        }
+
+        if (isset($model->translatable) && is_array($model->translatable)) {
+            foreach ($model->translatable as $fieldName) {
+                self::$fieldsToSave[$fieldName] = $model->$fieldName;
+                unset($model->$fieldName);
+            }
+        }
+    }
+
     /**
      * Handle the Page "saving" event.
      *
@@ -55,10 +71,6 @@ class MultilanguageObserver
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
 
-                if (empty($model->$fieldName)) {
-                    continue;
-                }
-
                 $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
                     ->where('rel_type', $model->getTable())
                     ->where('rel_id', $model->id)
@@ -66,20 +78,19 @@ class MultilanguageObserver
                     ->first();
 
                 if ($findTranslate) {
-                    $findTranslate->field_value = $model->$fieldName;
+                    $findTranslate->field_value = self::$fieldsToSave[$fieldName];
                     $findTranslate->save();
                 } else {
                     MultilanguageTranslations::create([
                         'field_name' => $fieldName,
-                        'field_value' => $model->$fieldName,
+                        'field_value' => self::$fieldsToSave[$fieldName],
                         'rel_type' => $model->getTable(),
                         'rel_id' => $model->id,
                         'locale' => $this->getLocale()
                     ]);
                 }
-                
-                unset($model->$fieldName);
             }
+            self::$fieldsToSave = [];
         }
     }
 
