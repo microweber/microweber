@@ -151,7 +151,8 @@ $items_number = intval($items_number);
 <?php if ($data): ?>
     <script>
         gallery<?php print $rand; ?> = [
-                <?php foreach($data  as $item): ?>{image: "<?php print ($item['filename']); ?>", description: "<?php print $item['title']; ?>"},
+            <?php foreach($data  as $item): ?>
+            {image: "<?php print ($item['filename']); ?>", description: "<?php print $item['title']; ?>"},
             <?php endforeach;  ?>
         ];
     </script>
@@ -165,9 +166,17 @@ $items_number = intval($items_number);
         print lnotif("Click to add images");
     } else {
         foreach ($data as $key => $pic) {
+            $alt_text = '';
+            if (isset($pic['image_options']['alt-text'])) {
+                $alt_text = $pic['image_options']['alt-text'];
+            }
+            $title_text = '';
+            if (isset($pic['image_options']['title'])) {
+                $title_text = $pic['image_options']['title'];
+            }
             $count++;
             $html .= $count == 1 ? '<div class="carousel-grid-slide">' : '';
-            $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" >' . ($pic['title'] != null ? ('<span class="carousel-grid-slide-description">' . $pic['title'] . '</span>') : '');
+            $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" alt="' . $alt_text . '" title="' . $title_text . '">' . ($pic['title'] != null ? ('<span class="carousel-grid-slide-description">' . $pic['title'] . '</span>') : '');
             $html .= ($count == $items_number || !isset($data[$key + 1])) ? '</div>' : '';
             $count = $count != $items_number ? $count : 0;
         }
