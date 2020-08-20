@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    @if ($errors->any())
+    @if (isset($errors) && $errors->any())
         <div class="alert alert-danger">
             @foreach ($errors->all() as $error)
                 {{ $error }} <br/>
@@ -75,7 +75,7 @@
                         <small class="text-muted d-block mb-2">What is the name of the role?</small>
                         <input type="text" class="form-control" name="name" value="@if(isset($role)){{$role->name}}@else{{old('name')}}@endif" required>
 
-                        @if ($errors->has('name'))
+                        @if (isset($errors) && $errors->has('name'))
                             <label id="name-error" class="error d-block" for="email">{{ $errors->first('name') }}</label>
                         @endif
                     </div>
@@ -85,7 +85,7 @@
                         <small class="text-muted d-block mb-2">What is the description of the role?</small>
                         <textarea class="form-control" name="description">@if(isset($role)){{$role->description}}@else{{old('description')}}@endif</textarea>
 
-                        @if ($errors->has('name'))
+                        @if (isset($errors) && $errors->has('name'))
                             <label id="name-error" class="error d-block" for="email">{{ $errors->first('name') }}</label>
                         @endif
                     </div>

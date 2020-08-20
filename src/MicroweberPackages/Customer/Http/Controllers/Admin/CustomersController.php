@@ -61,9 +61,9 @@ class CustomersController extends AdminController
         $verifyEmail = Customer::where('email', $request->email)->first();
 
         $customer = new Customer();
-        $customer->name = $request->addresses[0]['name'];
-        $customer->first_name = $request->addresses[0]['name'];
-        $customer->last_name = '';
+        $customer->name = $request->name;
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
         $customer->currency_id = $request->currency_id;
         $customer->company_id = $request->header('company');
         $customer->email = $request->email;

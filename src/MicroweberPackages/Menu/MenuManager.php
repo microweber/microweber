@@ -125,9 +125,9 @@ class MenuManager
                 $data_to_save['title'] = '';
             }
         }
-        if (!isset($data_to_save['auto_populate'])) {
-            $data_to_save['auto_populate'] = '';
-        }
+//        if (!isset($data_to_save['auto_populate'])) {
+//            $data_to_save['auto_populate'] = '';
+//        }
         if (isset($data_to_save['categories'])) {
             unset($data_to_save['categories']);
         }
@@ -140,11 +140,11 @@ class MenuManager
             $data_to_save['parent_id'] = intval($data_to_save['parent_id']);
             $this->app->cache_manager->delete('menus/' . $data_to_save['parent_id']);
         }
-        if (isset($data_to_save['custom_link'])) {
-            $data_to_save['content_id'] = 0;
-            $data_to_save['categories_id'] = 0;
-            $data_to_save['url'] = $data_to_save['custom_link'];
-        }
+//        if (isset($data_to_save['custom_link'])) {
+//            $data_to_save['content_id'] = 0;
+//            $data_to_save['categories_id'] = 0;
+//            $data_to_save['url'] = $data_to_save['custom_link'];
+//        }
 
         $table = $this->tables['menus'];
 
