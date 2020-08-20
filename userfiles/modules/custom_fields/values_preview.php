@@ -49,7 +49,7 @@ if (isset($params['field-id'])) {
         <i class="mdi mdi-plus mdi-16px"></i>
     </span>
 <?php elseif (isset($field['type']) and ($field['type'] == 'text' or $field['type'] == 'message' or $field['type'] == 'textarea' or $field['type'] == 'title')): ?>
-    <textarea class="mw-admin-custom-field-value-edit-text mw-ui-field" style=" width:100%; overflow:hidden;" data-id="<?php print $field['id']; ?>"><?php print $field['value']; ?></textarea>
+    <textarea class="mw-admin-custom-field-value-edit-text form-control bg-primary-opacity-1 border-0 border-radius-0" style=" width:100%; overflow:hidden;" data-id="<?php print $field['id']; ?>"><?php print $field['value']; ?></textarea>
 <?php elseif (isset($field['type']) and (($field['type'] == 'address') or $field['type'] == 'upload')): ?>
     <div style="width:100%; display:block; min-height:20px;" onclick="mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);"><?php print $field['values_plain']; ?></div>
 
