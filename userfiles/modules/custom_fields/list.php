@@ -123,6 +123,20 @@ if (isset($params['for_module_id'])): ?>
     }
     ?>
 
+    <style>
+        .mobile-th {
+            display: none;
+        }
+
+        #custom-fields-post-table [class*='mw-custom-field-icon-'] {
+            font-size: 25px;
+            display: block;
+        }
+
+        #custom-fields-post-table td {
+            vertical-align: middle;
+        }
+    </style>
     <?php if (!empty($more)): ?>
         <?php if ($list_preview == false): ?>
             <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
@@ -143,15 +157,27 @@ if (isset($params['for_module_id'])): ?>
             </div>
         <?php else : ?>
             <div class="table-responsive">
-                <table class="table table-striped" id="custom-fields-post-table">
+                <table class="table table-hover" id="custom-fields-post-table">
                     <thead>
                     <tr>
-                        <th><?php _e("Type"); ?></th>
-                        <th><?php _e("Name"); ?></th>
-                        <th><?php _e("Placeholder"); ?></th>
-                        <th><?php _e("Value"); ?></th>
-                        <th><?php _e("Settings"); ?></th>
-                        <th><?php _e("Delete"); ?></th>
+                        <th>
+                            <small><?php _e("Type"); ?></small>
+                        </th>
+                        <th>
+                            <small><?php _e("Name"); ?></small>
+                        </th>
+                        <th>
+                            <small><?php _e("Placeholder"); ?></small>
+                        </th>
+                        <th>
+                            <small><?php _e("Value"); ?></small>
+                        </th>
+                        <th class="text-center">
+                            <small><?php _e("Settings"); ?></small>
+                        </th>
+                        <th class="text-center">
+                            <small><?php _e("Delete"); ?></small>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -164,7 +190,7 @@ if (isset($params['for_module_id'])): ?>
 
                             <td data-id="<?php print $field['id']; ?>">
                                 <span class="mobile-th"><?php _e("Name"); ?>: </span>
-                                <span class="mw-admin-custom-field-name-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
+                                <span class="mw-admin-custom-field-name-edit-inline text-capitalize" data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
                             </td>
 
                             <td data-id="<?php print $field['id']; ?>">
@@ -178,14 +204,14 @@ if (isset($params['for_module_id'])): ?>
                                     <module type="custom_fields/values_preview" field-id="<?php print $field['id']; ?>" id="mw-admin-custom-field-edit-item-preview-<?php print $field['id']; ?>"/>
                                 </div>
                             </td>
-                            <td class="custom-fields-cell-settings">
-                                <a style="color:#0086db;" href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);">
+                            <td class="text-center">
+                                <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" class="btn btn-link btn-sm px-0">
                                     <?php print _e('Settings'); ?>
                                 </a>
                             </td>
 
-                            <td class="custom-fields-cell-delete">
-                                <a class="show-on-hover tip" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-tip="<?php print _e('Delete'); ?>"><span class="mw-icon-bin"></span></a>
+                            <td class="text-center">
+                                <a class="text-danger" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-toggle="tooltip" title="<?php print _e('Delete'); ?>"><i class="mdi mdi-close mdi-20px"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -231,9 +257,9 @@ if (isset($params['for_module_id'])): ?>
     <?php else : ?>
         <?php if (!isset($params['save_to_content_id']) and $suggest_from_rel == false and $list_preview == false): ?>
             <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
-                <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
-    <?php _e("You dont have any custom fields"); ?>
-                        . </span></div>
+                <div class="mw-custom-fields-from-page-title">
+                    <span class="mw-custom-fields-from-page-title-text"><?php _e("You dont have any custom fields"); ?>.</span>
+                </div>
             </div>
         <?php endif; ?>
     <?php endif; ?>
