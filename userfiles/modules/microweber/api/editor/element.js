@@ -1,4 +1,5 @@
 (function(){
+
     var Element = function(options){
 
         options = options || {};
@@ -19,6 +20,22 @@
             if(this.settings.register) {
                 var reg = this.settings.register;
                 reg.push(this);
+            }
+        };
+
+        this.nodes = [];
+
+        this.get = function(selector, scope){
+            this.nodes = (scope || document).querySelectorAll(selector);
+        };
+
+        this.each = function(cb){
+            if(this.nodes) {
+                for (var i = 0; i < this.nodes.length; i++) {
+                    cb.call(this.nodes[i], i);
+                }
+            } else if(this.node) {
+                cb.call(this.node, 0);
             }
         };
 
@@ -101,6 +118,13 @@
                 this.node[prop] = val;
                 this.$node.trigger('propChange', [prop, val, Element]);
             }
+        };
+
+        this.hide = function () {
+            this.node.style.display = 'none';
+        };
+        this.show = function () {
+            this.node.style.display = '';
         };
 
         this.addClass = function (cls) {
