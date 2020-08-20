@@ -3,10 +3,11 @@ namespace MicroweberPackages\Page;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\PageScope;
-use MicroweberPackages\Menu\HasMenu;
+use MicroweberPackages\Menu\Traits\HasMenuItem;
 
 class Page extends Model
 {
+    use HasMenuItem;
 
     protected $table = 'content';
     protected $primaryKey = 'id';
@@ -23,10 +24,10 @@ class Page extends Model
         'is_home',
         'is_shop',
         'is_deleted',
-        'status',
-        'add_content_to_menu',
+        'status'
     ];
 
+    public $translatable = ['title','description','content','content_body'];
 
     /**
      * The "booted" method of the model.

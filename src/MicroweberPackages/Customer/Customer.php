@@ -11,15 +11,7 @@ use MicroweberPackages\Payment\Payment;
 
 class Customer extends Model
 {
-    // Fillabble Example
-    // protected $fillable = ['name', 'email', 'active'];
-
-    // Guarded Example
-    protected $guarded = [];
-
-    // protected $attributes = [
-    //	'active' => 1
-    // ];
+    public $translatable = ['first_name','last_name'];
 
     public function getActiveAttribute($attribute)
     {

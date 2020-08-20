@@ -42,7 +42,7 @@ class MultilanguageObserver
      * @param  \Illuminate\Database\Eloquent\Model $model
      * @return void
      */
-    public function saving(Model $model)
+    public function saved(Model $model)
     {
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {

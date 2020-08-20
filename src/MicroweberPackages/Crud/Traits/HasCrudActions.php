@@ -22,11 +22,7 @@ trait HasCrudActions
                 ->get();
         }
 
-        if ($request->has('table')) {
-            return $this->getModel()->table($request);
-        }
-
-        return [];
+        return $this->getModel()->all();
     }
 
     /**
