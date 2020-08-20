@@ -40,6 +40,7 @@ MWEditor.interactionControls = {
             el.append(urlElement);
             el.append(urlUnlink);
             el.target = null;
+            el.hide();
             return el;
         };
         this.interact = function (data) {
@@ -92,6 +93,7 @@ MWEditor.interactionControls = {
             el.append(changeButton);
             el.append(editButton);
             this.nodes.push(el.node, changeButton.node, editButton.node);
+            el.hide()
             return el;
         };
         this.interact = function (data) {
@@ -119,8 +121,9 @@ MWEditor.interactionControls = {
         var lscope = this;
         this.interact = function (data) {
             if (!data.eventIsActionLike) { return; }
-            if (mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td')) {
-                var $target = $(data.localTarget);
+            var td = mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td');
+            if (td) {
+                var $target = $(td);
                 this.$target = $target;
                 var css = $target.offset();
                 css.top -= lscope.element.node.offsetHeight;
@@ -132,6 +135,10 @@ MWEditor.interactionControls = {
 
         this._afterAction = function () {
             this.element.$node.hide();
+            rootScope.state.record({
+                target: rootScope.$editArea[0],
+                value: rootScope.$editArea[0].innerHTML
+            });
         };
 
         this.render = function () {
@@ -155,8 +162,12 @@ MWEditor.interactionControls = {
             });
 
             insertDD.select.on('change', function (e, data, node) {
+                rootScope.state.record({
+                    target: rootScope.$editArea[0],
+                    value: rootScope.$editArea[0].innerHTML
+                });
                 lscope[data.value.action](data.value.type);
-                lscope._afterAction()
+                lscope._afterAction();
             });
             var deletetDD = new MWEditor.core.dropdown({
                 data: [
@@ -167,13 +178,17 @@ MWEditor.interactionControls = {
             });
 
             deletetDD.select.on('change', function (e, data, node) {
+                rootScope.state.record({
+                    target: rootScope.$editArea[0],
+                    value: rootScope.$editArea[0].innerHTML
+                });
                 lscope[data.value.action]();
                 lscope._afterAction()
             });
 
             bar.add(insertDD.root.node);
             bar.add(deletetDD.root.node);
-            this.element.$node.hide();
+            root.hide();
 
             return root;
         };

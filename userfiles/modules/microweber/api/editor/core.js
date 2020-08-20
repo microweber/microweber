@@ -18,11 +18,13 @@ MWEditor.core = {
         config = config || {};
         var defaults = {
             props: {
-                className: 'mw-editor-controller-component mw-editor-color-picker'
+                className: 'mw-editor-controller-component'
             }
         };
         var settings = $.extend(true, {}, defaults, config);
+
         var el = MWEditor.core.button(settings);
+        el.addClass('mw-editor-color-picker')
         var input = mw.element({
             tag: 'input',
             props: {
@@ -30,8 +32,12 @@ MWEditor.core = {
                 className: 'mw-editor-color-picker-node'
             }
         });
-        input.on('change', function (){
-           el.node.dataset.value = this.value;
+        var time = null;
+        input.on('input', function (){
+            clearTimeout(time);
+            time = setTimeout(function (el, node){
+                el.trigger('change', node.value);
+            }, 210, el, this.node);
         });
         el.append(input);
         return el;
@@ -110,7 +116,8 @@ MWEditor.core = {
 
         }
 
-        this.select.on('click', function (){
+        this.select.on('click', function (e){
+            e.stopPropagation();
             var wrapper = mw.tools.firstParentWithClass(this.node, 'mw-editor-wrapper');
             if(wrapper) {
                 var edOff = wrapper.getBoundingClientRect();
@@ -120,16 +127,16 @@ MWEditor.core = {
                 });
             }
 
-            MWEditor.core._preSelect(this.node);
             this.toggleClass('active');
         });
         this.root.append(this.select);
     },
     _preSelect: function (node) {
         var all = document.querySelectorAll('.mw-editor-controller-component-select.active, .mw-bar-control-item-group.active');
+        var parent = mw.tools.firstParentOrCurrentWithAnyOfClasses(node ? node.parentNode : null, ['mw-editor-controller-component-select','mw-bar-control-item-group']);
         var i = 0, l = all.length;
         for ( ; i < l; i++) {
-            if(!node || all[i] !== node) {
+            if(!node || (all[i] !== node && all[i] !== parent)) {
                 all[i].classList.remove('active');
             }
         }
