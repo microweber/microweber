@@ -6,11 +6,11 @@ if (isset($params['field-id'])) {
 }
 ?>
 <style>
-    .mw-admin-custom-field-value-edit-inline-holder .delete-custom-fields{
+    .mw-admin-custom-field-value-edit-inline-holder .delete-custom-fields {
         visibility: hidden;
     }
 
-    .mw-admin-custom-field-value-edit-inline-holder:hover .delete-custom-fields{
+    .mw-admin-custom-field-value-edit-inline-holder:hover .delete-custom-fields {
         visibility: visible;
     }
 </style>
@@ -45,8 +45,8 @@ if (isset($params['field-id'])) {
         <?php endforeach; ?>
     </span>
 
-    <span class="btn btn-primary btn-icon btn-sm btn-create-custom-field-value d-inline-flex show-on-hover" data-id="<?php print $field['id']; ?>">
-        <i class="mdi mdi-plus mdi-18px"></i>
+    <span class="btn-create-custom-field-value btn btn-primary btn-sm py-2 px-0 d-inline-flex align-items-center justify-content-center show-on-hover" data-id="<?php print $field['id']; ?>">
+        <i class="mdi mdi-plus mdi-16px"></i>
     </span>
 <?php elseif (isset($field['type']) and ($field['type'] == 'text' or $field['type'] == 'message' or $field['type'] == 'textarea' or $field['type'] == 'title')): ?>
     <textarea class="mw-admin-custom-field-value-edit-text mw-ui-field" style=" width:100%; overflow:hidden;" data-id="<?php print $field['id']; ?>"><?php print $field['value']; ?></textarea>
