@@ -68,7 +68,6 @@ class MultilanguageObserver
                 if ($findTranslate) {
                     $findTranslate->field_value = $model->$fieldName;
                     $findTranslate->save();
-
                 } else {
                     MultilanguageTranslations::create([
                         'field_name' => $fieldName,
@@ -78,6 +77,8 @@ class MultilanguageObserver
                         'locale' => $this->getLocale()
                     ]);
                 }
+                
+                unset($model->$fieldName);
             }
         }
     }
