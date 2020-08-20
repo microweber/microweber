@@ -62,8 +62,8 @@ mw.admin.custom_fields.addValueButtons = function (root) {
         all[i].avbinded = true;
         all[i].onclick = function () {
             var span = mwd.createElement('span');
-            span.className = 'mw-admin-custom-field-value-edit-inline-holder';
-            span.innerHTML = '<span class="mw-admin-custom-field-value-edit-inline" data-id="' + mw.$(this).dataset('id') + '"></span><span onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields"></span><span class="custom-field-comma">,</span>';
+            span.className = 'mw-admin-custom-field-value-edit-inline-holder bg-primary-opacity-1 my-1 d-inline-flex mr-2';
+            span.innerHTML = '<small class="mw-admin-custom-field-value-edit-inline p-1 text-dark" data-id="' + mw.$(this).dataset('id') + '"></small><small onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields bg-danger text-white p-1"><i class="mdi mdi-close"></i></small>   ';
             mw.admin.custom_fields.initValue(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
             mw.$(this).prev().append(span);
             mw.admin.custom_fields.valueLiveEdit(span.querySelector('.mw-admin-custom-field-value-edit-inline'));

@@ -257,9 +257,9 @@ if (isset($params['for_module_id'])): ?>
     <?php else : ?>
         <?php if (!isset($params['save_to_content_id']) and $suggest_from_rel == false and $list_preview == false): ?>
             <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
-                <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
-    <?php _e("You dont have any custom fields"); ?>
-                        . </span></div>
+                <div class="mw-custom-fields-from-page-title">
+                    <span class="mw-custom-fields-from-page-title-text"><?php _e("You dont have any custom fields"); ?>.</span>
+                </div>
             </div>
         <?php endif; ?>
     <?php endif; ?>
