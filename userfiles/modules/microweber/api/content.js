@@ -119,7 +119,7 @@ mw.content = mw.content || {
         mw.trigger('adminSaveStart');
         $.ajax({
             type: 'POST',
-            url: mw.settings.api_url + 'save_content_admin',
+            url: e.url || (mw.settings.api_url + 'save_content_admin'),
             data: data,
             datatype: "json",
             async: true,

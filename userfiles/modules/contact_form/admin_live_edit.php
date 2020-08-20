@@ -74,7 +74,7 @@ if (!user_can_access('module.contact_form.index')) {
             <module type="contact_form/privacy_settings" simple="true"/>
 
             <?php if ($mod_id != 'contact_form_default') : ?>
-                <br />
+                <br/>
                 <div class="form-group">
                     <label class="control-label">Capcha settings</label>
                     <small class="text-muted d-block mb-2">Setup your capcha</small>
@@ -100,13 +100,12 @@ if (!user_can_access('module.contact_form.index')) {
     <div class="tab-pane fade" id="custom-fields">
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
-
             <module type="contact_form/manager/assign_list_to_module" data-for-module="<?php print $config['module_name'] ?>" data-for-module-id="<?php print $params['id'] ?>"/>
             <hr/>
 
-            <h6><?php _e("Contact Form Fields"); ?></h6>
+            <h5 class="font-weight-bold"><?php _e("Contact Form Fields"); ?></h5>
+            <small class="text-muted d-block">Add / Edit fieldes of the form using the custom fields</small>
             <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $params['id'] ?>"/>
-
         </div>
         <!-- Settings Content - End -->
     </div>
