@@ -497,15 +497,32 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
-    fontColor: function (scope, api, rootScope) {
+    textColor: function (scope, api, rootScope) {
         this.render = function () {
             var el = MWEditor.core.colorPicker({
                 props: {
                     className: 'mdi-format-color-text', tooltip: 'Text color'
                 }
             });
-            el.on('mousedown touchstart', function (e) {
-                api.execCommand('foreColor', false, "rgba(0,0,0,0.5)");
+            el.on('change', function (e, val) {
+                api.execCommand('foreColor', false, val);
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+        };
+        this.element = this.render();
+    },
+    textBackgroundColor: function (scope, api, rootScope) {
+        this.render = function () {
+            var el = MWEditor.core.colorPicker({
+                props: {
+                    className: 'mdi-format-color-fill', tooltip: 'Text background color'
+                }
+            });
+            el.on('change', function (e, val) {
+                api.execCommand('backcolor', false, val);
             });
             return el;
         };

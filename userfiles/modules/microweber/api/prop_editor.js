@@ -733,20 +733,26 @@ mw.propEditor = {
                 proto._valSchema[config.id] = value;
             };
             this.id = config.id;
-            this.editor = new mw.Editor({
-                selector: field,
+            var defaults = {
                 height: 120,
                 mode: 'div',
                 smallEditor: false,
                 controls: [
                     [
-                        'undoRedo', '|', 'image', '|',
-                        'bold', 'italic', 'underline', 'strikeThrough',
-                        '|', 'link', 'unlink'
+                        'bold', 'italic',
+                        {
+                            group: {
+                                icon: 'mdi xmdi-format-bold',
+                                controls: ['underline', 'strikeThrough', 'removeFormat']
+                            }
+                        },
+
+                        '|', 'align', '|', 'textColor', 'textBackgroundColor', '|', 'link', 'unlink'
                     ],
                 ]
-
-            });
+            };
+            config.options = config.options || {};
+            this.editor = new mw.Editor($.extend({}, defaults, config.options, {selector: field}));
         }
     }
 };

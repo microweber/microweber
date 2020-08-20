@@ -18,10 +18,10 @@
 
 .mw-ui-box {
     border: 1px solid @borderColor;
-    border-radius: @radius;
+    border-radius: 5px;
     clear: both;
-    background-color: @buttonColor;
-    box-shadow: 0 .126rem .26rem rgba(0,0,0,.066) !important
+    background-color: #fff;
+    box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.11) !important
 }
 
 .mw-ui-box,
@@ -32,12 +32,13 @@
 }
 
 .mw-ui-box-header {
-    background: @boxbg;
+    padding: 15px 25px 10px 25px;
+    background-color: #fff;
     overflow: hidden;
-    padding: 10px;
     border-bottom: 1px solid @borderColor;
-    border-top-left-radius: @radius;
-    border-top-right-radius: @radius;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: relative;
 
 }
 
@@ -52,6 +53,7 @@
     margin-right: 12px;
 }
 
+
 .mw-ui-box-header h2 {
     padding: 0;
 }
@@ -60,7 +62,7 @@
     overflow: auto;
 }
 .mw-ui-box-content {
-    padding: 12px;
+    padding: 25px 25px;
     position: relative;
 }
 

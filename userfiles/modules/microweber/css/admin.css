@@ -206,3 +206,13 @@ div.form-control {
     pointer-events: none;
     min-height: 300px;
 }
+
+.mw-module-settings-box + .mw-module-settings-box{
+    margin-top: 15px;
+}
+.mw-module-settings-box .mw-ui-box-header .mdi-drag{
+    cursor: grab;
+}
+.mw-module-settings-box .mw-ui-box-header{
+    padding: 15px;
+}
