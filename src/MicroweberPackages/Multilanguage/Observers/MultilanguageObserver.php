@@ -14,16 +14,42 @@ use MicroweberPackages\Multilanguage\MultilanguageTranslations;
 
 class MultilanguageObserver
 {
+    public function retrieved(Model $model)
+    {
+        if (isset($model->translatable) && is_array($model->translatable)) {
+            foreach ($model->translatable as $fieldName) {
+
+                if (empty($model->$fieldName)) {
+                    continue;
+                }
+
+                $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
+                    ->where('rel_type', $model->getTable())
+                    ->where('rel_id', $model->id)
+                    ->where('locale', $this->getLocale())
+                    ->first();
+
+                if ($findTranslate) {
+                    $model->$fieldName = $findTranslate->field_value;
+                }
+            }
+        }
+    }
+
     /**
      * Handle the Page "saving" event.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model $model
      * @return void
      */
     public function saving(Model $model)
     {
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
+
+                if (empty($model->$fieldName)) {
+                    continue;
+                }
 
                 $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
                     ->where('rel_type', $model->getTable())
@@ -37,11 +63,11 @@ class MultilanguageObserver
 
                 } else {
                     MultilanguageTranslations::create([
-                        'field_name'=>$fieldName,
-                        'field_value'=>$model->$fieldName,
-                        'rel_type'=>$model->getTable(),
-                        'rel_id'=>$model->id,
-                        'locale'=>$this->getLocale()
+                        'field_name' => $fieldName,
+                        'field_value' => $model->$fieldName,
+                        'rel_type' => $model->getTable(),
+                        'rel_id' => $model->id,
+                        'locale' => $this->getLocale()
                     ]);
                 }
             }
