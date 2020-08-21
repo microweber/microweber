@@ -11,7 +11,7 @@ use MicroweberPackages\Crud\Traits\HasCrudActions;
 use MicroweberPackages\Post\Http\Requests\PostRequest;
 use MicroweberPackages\Post\Post;
 
-class PostController
+class PostsController
 {
     use HasCrudActions;
 
