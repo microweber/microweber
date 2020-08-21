@@ -1,10 +1,11 @@
 <?php
-namespace MicroweberPackages\CustomField;
+namespace MicroweberPackages\Product;
 
 
-use MicroweberPackages\CustomField\Scopes\PriceScope;
+use MicroweberPackages\CustomField\CustomField;
+use MicroweberPackages\Product\Scopes\PriceScope;
 
-class CustomFieldPrice extends CustomField
+class ProductPrice extends CustomField
 {
     /**
      * The "booted" method of the model.

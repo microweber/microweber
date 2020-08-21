@@ -15,4 +15,9 @@ class CustomFieldValue extends Model
     ];
 
     public $timestamps = false;
+
+    public function customField()
+    {
+        return $this->hasOne(CustomField::class);
+    }
 }

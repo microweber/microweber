@@ -8,13 +8,23 @@
 
 namespace MicroweberPackages\Product\Observers;
 
-use MicroweberPackages\CustomField\CustomFieldPrice;
-use MicroweberPackages\CustomField\CustomFieldSpecialPrice;
 use MicroweberPackages\Product\Product;
+use MicroweberPackages\Product\ProductPrice;
+use MicroweberPackages\Product\ProductSpecialPrice;
 
 class ProductObserver
 {
     protected static $fieldsToSave = [];
+
+
+    public function retrieved(Product $model)
+    {
+      /* foreach($model->getAttributes() as $attributeKey=>$attributeValue) {
+           unset($model->$attributeKey);
+       }*/
+
+
+    }
 
     public function saving(Product $product) {
 
@@ -41,9 +51,9 @@ class ProductObserver
     public function saved(Product $product)
     {
         if (isset(self::$fieldsToSave['price'])) {
-            $price = CustomFieldPrice::where('rel_id', $product->id)->first();
+            $price = ProductPrice::where('rel_id', $product->id)->first();
             if (!$price) {
-                $price = new CustomFieldPrice();
+                $price = new ProductPrice();
             }
 
             $price->value = self::$fieldsToSave['price'];
@@ -53,9 +63,9 @@ class ProductObserver
 
         if (isset(self::$fieldsToSave['special_price'])) {
 
-            $specialPrice = CustomFieldSpecialPrice::where('rel_id', $product->id)->first();
+            $specialPrice = ProductSpecialPrice::where('rel_id', $product->id)->first();
             if (!$specialPrice) {
-                $specialPrice = new CustomFieldSpecialPrice();
+                $specialPrice = new ProductSpecialPrice();
             }
 
             $specialPrice->value = self::$fieldsToSave['special_price'];

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\CustomField\Scopes;
+namespace MicroweberPackages\Product\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
