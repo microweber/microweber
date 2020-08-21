@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Product\Providers;
+namespace MicroweberPackages\Product;
 
-use MicroweberPackages\Product\RecentlyViewed;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Product\Observers\ProductObserver;
 
 class ProductServiceProvider extends ServiceProvider
 {
@@ -14,25 +14,9 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Product::observe(ProductObserver::class);
 
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
     }
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->singleton(RecentlyViewed::class, function ($app) {
-            return new RecentlyViewed(
-                $app['session'],
-                $app['events'],
-                'recently_viewed',
-                session()->getId() . '_recently_viewed'
-            );
-        });
-
-        $this->app->alias(RecentlyViewed::class, 'recently_viewed');
-    }
 }
