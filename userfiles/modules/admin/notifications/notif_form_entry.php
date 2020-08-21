@@ -36,11 +36,13 @@ if (isset($item['created_by'])) {
 
 <div class="card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
-        <div class="row align-items-center mb-3">
-            <div class="col text-left">
-                <span class="text-primary text-break-line-2">New form entry</span>
+        <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
+            <div class="row align-items-center mb-3">
+                <div class="col text-left">
+                    <span class="text-primary text-break-line-2">New form entry</span>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
 
         <div class="row align-items-center">
             <div class="col" style="max-width:55px;">
