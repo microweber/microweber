@@ -24,7 +24,8 @@ class Page extends Model
         'is_home',
         'is_shop',
         'is_deleted',
-        'status'
+        'status',
+        'add_content_to_menu'
     ];
 
     public $translatable = ['title','description','content','content_body'];
