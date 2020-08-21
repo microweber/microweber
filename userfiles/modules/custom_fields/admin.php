@@ -111,8 +111,12 @@
             margin-bottom: 10px;
         }
 
+        .custom-fields-add-buttons button .mw-custom-field-title text-break-line-1 {
+            font-size: 12px;
+        }
+
         .custom-fields-add-buttons button {
-            width: 12.5%;
+            width: 16.6%;
             text-align: center;
             display: block;
             float: left;
