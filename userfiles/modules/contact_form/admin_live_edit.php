@@ -79,13 +79,13 @@ if (!user_can_access('module.contact_form.index')) {
                 <br/>
                 <div class="form-group">
                     <label class="control-label">Capcha settings</label>
-                    <small class="text-muted d-block mb-2">Setup your capcha</small>
+                    <small class="text-muted d-block mb-2">Setup your capcha preferences from <a href="<?php print admin_url('view:modules/load_module:captcha'); ?>" target="_blank">Captcha module</a></small>
                 </div>
 
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" name="disable_captcha" id="disable_captcha" value="y" option-group="<?php print $mod_id ?>" class="mw_option_field custom-control-input" <?php if (get_option('disable_captcha', $mod_id) == 'y'): ?>checked <?php endif; ?>/>
-                        <label class="custom-control-label" for="disable_captcha"><?php _e("Disable Code Verification ex"); ?>.: <img src="<?php print mw_includes_url(); ?>img/code_verification_example.jpg" alt=""/></label>
+                        <label class="custom-control-label" for="disable_captcha"><?php _e("Disable Code Verification ex"); ?>.: <img src="<?php print mw_includes_url(); ?>img/code_verification_example.jpg" alt="" style="margin-top: -8px;"/></label>
                     </div>
                 </div>
 
