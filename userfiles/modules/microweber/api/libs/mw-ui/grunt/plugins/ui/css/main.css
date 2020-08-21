@@ -8896,6 +8896,9 @@ small a {
 .table-hover tbody tr:hover {
   background: rgba(69, 146, 255, 0.1) !important; }
 
+.table-hover.table-hover-silver tbody tr:hover {
+  background: rgba(207, 207, 207, 0.1) !important; }
+
 .input-group-password .js-show-password {
   cursor: pointer; }
 
@@ -8925,6 +8928,33 @@ small a {
 
 .bg-primary-opacity-9 {
   background: rgba(69, 146, 255, 0.9); }
+
+.bg-secondary-opacity-1 {
+  background: rgba(238, 239, 239, 0.1); }
+
+.bg-secondary-opacity-2 {
+  background: rgba(238, 239, 239, 0.2); }
+
+.bg-secondary-opacity-3 {
+  background: rgba(238, 239, 239, 0.3); }
+
+.bg-secondary-opacity-4 {
+  background: rgba(238, 239, 239, 0.4); }
+
+.bg-secondary-opacity-5 {
+  background: rgba(238, 239, 239, 0.5); }
+
+.bg-secondary-opacity-6 {
+  background: rgba(238, 239, 239, 0.6); }
+
+.bg-secondary-opacity-7 {
+  background: rgba(238, 239, 239, 0.7); }
+
+.bg-secondary-opacity-8 {
+  background: rgba(238, 239, 239, 0.8); }
+
+.bg-secondary-opacity-9 {
+  background: rgba(238, 239, 239, 0.9); }
 
 .js-change-color.btn-success, .js-change-color.btn-danger, .js-change-color.btn-warning, .js-change-color.btn-info, .js-change-color.btn-primary, .js-change-color.btn-secondary {
   background: transparent; }

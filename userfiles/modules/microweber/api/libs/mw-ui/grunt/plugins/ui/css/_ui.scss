@@ -1677,6 +1677,12 @@ small {
   }
 }
 
+.table-hover.table-hover-silver {
+  tbody tr:hover {
+    background: rgba(red($gray-400), green($gray-400), blue($gray-400), .1) !important;
+  }
+}
+
 .input-group-password {
   .js-show-password {
     cursor: pointer;
@@ -1717,6 +1723,42 @@ small {
 
 .bg-primary-opacity-9 {
   background: rgba(red($primary), green($primary), blue($primary), .9);
+}
+
+.bg-secondary-opacity-1 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .1);
+}
+
+.bg-secondary-opacity-2 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .2);
+}
+
+.bg-secondary-opacity-3 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .3);
+}
+
+.bg-secondary-opacity-4 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .4);
+}
+
+.bg-secondary-opacity-5 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .5);
+}
+
+.bg-secondary-opacity-6 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .6);
+}
+
+.bg-secondary-opacity-7 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .7);
+}
+
+.bg-secondary-opacity-8 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .8);
+}
+
+.bg-secondary-opacity-9 {
+  background: rgba(red($secondary), green($secondary), blue($secondary), .9);
 }
 
 .js-change-color {

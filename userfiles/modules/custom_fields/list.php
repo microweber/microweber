@@ -157,7 +157,7 @@ if (isset($params['for_module_id'])): ?>
             </div>
         <?php else : ?>
             <div class="table-responsive">
-                <table class="table table-hover" id="custom-fields-post-table">
+                <table class="table table-hover table-hover-silver" id="custom-fields-post-table">
                     <thead>
                     <tr>
                         <th>
