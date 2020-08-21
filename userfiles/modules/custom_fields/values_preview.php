@@ -13,6 +13,36 @@ if (isset($params['field-id'])) {
     .mw-admin-custom-field-value-edit-inline-holder:hover .delete-custom-fields {
         visibility: visible;
     }
+
+    .mw-admin-custom-field-value-edit-inline-holder:not(.mw-admin-custom-field-checkbox) {
+        min-width: 100px;
+        position: relative;
+        padding-right: 30px !important;
+    }
+
+    .mw-admin-custom-field-value-edit-inline:not(.mw-admin-custom-field-checkbox):empty:before {
+        content: 'Edit here';
+        display: block;
+        position: absolute;
+        top: 5px;
+        padding-right: 10px !important;
+        color: #919191;
+    }
+
+    .mw-admin-custom-field-value-edit-inline-holder:hover .mw-admin-custom-field-value-edit-inline:not(.mw-admin-custom-field-checkbox):after {
+        position: absolute;
+        top: 5px;
+        display: inline-block;
+        font: normal normal normal 24px/1 "Material Design Icons";
+        text-rendering: auto;
+        line-height: inherit;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        content: '\F064F';
+        font-size: 14px;
+        right: 6px;
+        color: #919191;
+    }
 </style>
 <script>
     mw.on.moduleReload('<?php print $params['id']; ?>', function () {
@@ -38,7 +68,7 @@ if (isset($params['field-id'])) {
         <?php $i = 0; ?>
         <?php foreach ($vals as $val): ?>
             <?php $i++; ?>
-            <span class="mw-admin-custom-field-value-edit-inline-holder bg-primary-opacity-1 d-inline-flex mr-2 my-1 p-0">
+            <span class="mw-admin-custom-field-value-edit-inline-holder mw-admin-custom-field-checkbox bg-primary-opacity-1 d-inline-flex mr-2 my-1 p-0">
                 <small class="mw-admin-custom-field-value-edit-inline p-1 text-dark" data-id="<?php print $field['id']; ?>"><?php print $val; ?></small>
                 <small class="delete-custom-fields bg-danger text-white p-1" onclick="mw.admin.custom_fields.deleteFieldValue(this);"><i class="mdi mdi-close"></i></small>
             </span>
@@ -63,7 +93,7 @@ if (isset($params['field-id'])) {
     ?>
     <span class="custom-fields-values-holder">
         <span class="mw-admin-custom-field-value-edit-inline-holder bg-primary-opacity-1 d-inline-block px-3 py-1">
-            <small class="mw-admin-custom-field-value-edit-inline px-3 py-1" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></small>
+            <small class="mw-admin-custom-field-value-edit-inline px-1 py-1" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></small>
         </span>
     </span>
 <?php endif; ?>
