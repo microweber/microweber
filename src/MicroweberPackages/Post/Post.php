@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Page;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Content\Scopes\PageScope;
+use MicroweberPackages\Content\Scopes\PostScope;
 use MicroweberPackages\Menu\Traits\HasMenuItem;
 
 class Post extends Model
@@ -37,6 +37,6 @@ class Post extends Model
      */
     protected static function booted()
     {
-        static::addGlobalScope(new PageScope());
+        static::addGlobalScope(new PostScope());
     }
 }
