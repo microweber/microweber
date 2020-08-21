@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Product;
+namespace MicroweberPackages\Post;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Product\Observers\ProductObserver;
+use MicroweberPackages\Post\Observers\PostObserver;
 
-class ProductServiceProvider extends ServiceProvider
+class PostServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -14,7 +14,7 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Product::observe(ProductObserver::class);
+        Post::observe(PostObserver::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
     }
