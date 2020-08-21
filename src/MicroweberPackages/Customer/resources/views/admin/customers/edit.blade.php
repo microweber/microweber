@@ -36,6 +36,7 @@
             <div class="col-md-12">
                 <h3>Basic Info</h3>
             </div>
+
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Display Name:</label>
