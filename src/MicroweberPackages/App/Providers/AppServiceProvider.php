@@ -39,6 +39,7 @@ use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Order\OrderManagerServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentServiceProvider;
+use MicroweberPackages\Product\ProductServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
 use MicroweberPackages\Tax\TaxManagerServiceProvider;
@@ -186,6 +187,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(MenuManagerServiceProvider::class);
+        $this->app->register(ProductServiceProvider::class);
 
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);

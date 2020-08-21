@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Page;
+namespace MicroweberPackages\Product;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\ProductScope;
@@ -29,6 +29,14 @@ class Product extends Model
     ];
 
     public $translatable = ['title','description','content','content_body'];
+
+    public function setPrice($price) {
+        $this->price = $price;
+    }
+
+    public function setSpecialPrice($price) {
+        $this->special_price = $price;
+    }
 
     /**
      * The "booted" method of the model.

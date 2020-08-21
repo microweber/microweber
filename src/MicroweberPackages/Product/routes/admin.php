@@ -16,3 +16,16 @@ Route::name('admin.')
         Route::resource('products', 'RoductsController');
         
 });
+
+Route::get('admin/product-x', function () {
+
+   // $product = new \MicroweberPackages\Product\Product();
+    $product = \MicroweberPackages\Product\Product::where('id', 1)->first();
+    $product->price = 99.99;
+    $product->special_price = 69.99;
+    $product->title = 'Гумени Глави - Квартал № 41 - 1994 (цял албум)';
+    $product->url = 'gumeni-glavi-cql-album';
+    $product->description = 'Gumeni glavi brat! Shamara beshe moi';
+    $product->save();
+
+});
