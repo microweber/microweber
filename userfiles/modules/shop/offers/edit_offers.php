@@ -2,7 +2,7 @@
 $allOffers = offers_get_all();
 ?>
 <div class="table-responsive">
-    <table class="table-style-1 mw-ui-table">
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>#</th>
@@ -31,19 +31,9 @@ $allOffers = offers_get_all();
                     <td><?php if ($offer['expires_at']): ?><?php print date_system_format($offer['expires_at']) ?><?php else: ?>-<?php endif; ?></td>
                     <td class="<?php print $class_status; ?>"><?php print($offer['is_active'] == 1 ? 'on' : 'off') ?></td>
                     <td class="action-buttons">
-                        <button onclick="editOffer(<?php print($offer['id']) ?>)"
-                                class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Edit">
-                            Edit
-                        </button>
-                        <button onclick="deleteOffer(<?php print($offer['id']) ?>)"
-                                class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="Delete">
-                            Delete
-                        </button>
-
-                        <a href="<?php echo content_link($offer['product_id']) ?>)" target="_new"
-                                class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" title="View">
-                            View
-                        </a>
+                        <button onclick="editOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit">Edit</button>
+                        <button onclick="deleteOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-danger btn-sm" title="Delete">Delete</button>
+                        <a href="<?php echo content_link($offer['product_id']) ?>" target="_new" class="btn btn-primary btn-sm" title="View">View</a>
                     </td>
                 </tr>
                 <?php
