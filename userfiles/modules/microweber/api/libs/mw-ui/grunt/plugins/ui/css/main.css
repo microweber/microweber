@@ -8971,4 +8971,26 @@ small a {
 .table thead th {
   font-weight: normal; }
 
+.table-1 {
+  clear: both;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border: 1px solid #adb5bd; }
+  .table-1 td,
+  .table-1 thead th,
+  .table-1 tfoot td {
+    padding: 10px;
+    border: 1px solid #adb5bd; }
+  .table-1 thead th,
+  .table-1 tfoot td {
+    font-weight: normal;
+    font-size: inherit;
+    text-align: inherit;
+    background-color: #e9ecef; }
+  .table-1 tbody tr:last-child td,
+  .table-1 thead tr:last-child td,
+  .table-1 tfoot tr:last-child td {
+    border-bottom: none; }
+
 /*# sourceMappingURL=main.css.map */

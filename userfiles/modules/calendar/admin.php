@@ -52,12 +52,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             }
         </script>
 
-
         <?php $calendar_group_id = get_option('calendar_group_id', $params['id']); ?>
-
-        <?php if ($from_live_edit): ?>
-            <a href="javascript:manageCalendarEventsPopup('<?php print $params['id'] ?> ')" class="btn btn-outline-primary btn-rounded"><?php print _e('Manage Calendar Events'); ?></a>
-        <?php endif; ?>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> Events</a>

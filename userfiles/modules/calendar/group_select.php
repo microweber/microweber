@@ -10,7 +10,6 @@ $calendar_group_id = false;
 <?php
 $mod_id = $params['id'];
 
-
 if (isset($params['calendar-group-module-id'])) {
     $mod_id = $params['calendar-group-module-id'];
     $use_only_as_input = false;
@@ -24,14 +23,11 @@ if (isset($params['calendar-event-id'])) {
         $calendar_group_id = $event_data['calendar_group_id'];
     }
 }
-
-
 ?>
-<?php if (!$use_only_as_input) {
-    ?>
+
+<?php if (!$use_only_as_input): ?>
     <script type="text/javascript">
         $(document).ready(function () {
-
             mw.options.form('.<?php print $config['module_class'] ?>', function () {
                 mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
                 mw.reload_module_parent('calendar')
@@ -43,25 +39,20 @@ if (isset($params['calendar-event-id'])) {
             });
         });
     </script>
-    <?php
-} ?>
-<?php if ($groups) { ?>
-    <label>
-        <label class="mw-ui-label">Group:</label>
-        <select name="calendar_group_id" class="mw-ui-field js-calendar-group-selector mw_option_field mw-full-width" option-group="<?php print $mod_id; ?>">
+<?php endif; ?>
+
+<?php if ($groups): ?>
+    <div class="form-group">
+        <label class="control-label">Group:</label>
+        <select name="calendar_group_id" class="js-calendar-group-selector mw_option_field selectpicker" data-width="100%" data-size="5" option-group="<?php print $mod_id; ?>">
             <option value="0">Default</option>
-            <?php foreach ($groups as $group) {
-                ?>
-                <option
-                        value="<?php print $group['id']; ?>" <?php if ($calendar_group_id == $group['id']) {
-                    ?>  selected <?php
-                } ?> >
+            <?php foreach ($groups as $group): ?>
+                <option value="<?php print $group['id']; ?>" <?php if ($calendar_group_id == $group['id']) : ?> selected <?php endif; ?>>
                     <?php print $group['title']; ?>
                 </option>
-                <?php
-            } ?>
+            <?php endforeach; ?>
         </select>
-    </label>
-<?php } else { ?>
+    </div>
+<?php else: ?>
     <input type="hidden" name="calendar_group_id" value="0"/>
-<?php } ?>
+<?php endif; ?>

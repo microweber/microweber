@@ -1788,6 +1788,40 @@ small {
   background: #f2f3f5;
 }
 
-.table thead th{
+.table thead th {
   font-weight: normal;
 }
+
+.table-1 {
+  clear: both;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border: 1px solid $gray-500;
+
+  td,
+  thead th,
+  tfoot td {
+    padding: 10px;
+    border: 1px solid $gray-500;
+  }
+
+  thead th,
+  tfoot td {
+    font-weight: normal;
+    font-size: inherit;
+    text-align: inherit;
+    background-color: $gray-200;
+  }
+
+  tbody tr:last-child td,
+  thead tr:last-child td,
+  tfoot tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+
+
+
+
