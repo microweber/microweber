@@ -3,6 +3,7 @@ namespace MicroweberPackages\Product;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\ProductScope;
+use MicroweberPackages\ContentData\ContentData;
 
 class Product extends Model
 {
@@ -38,6 +39,36 @@ class Product extends Model
     protected static function booted()
     {
         static::addGlobalScope(new ProductScope());
+    }
+
+    public function qty()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'qty')->first();
+    }
+
+    public function sku()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'sku')->first();
+    }
+
+    public function shippingWeight()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_weight')->first();
+    }
+
+    public function shippingWidth()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_width')->first();
+    }
+
+    public function shippingHeight()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_height')->first();
+    }
+
+    public function shippingDepth()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_depth')->first();
     }
 
     public function price()
