@@ -1,5 +1,5 @@
 {
-  "name": "microweber-packages/microweber-field",
+  "name": "microweber-packages/microweber-custom-field",
   "description": "Config rewrite for Laravel. Allows to save key and values in cofig files.",
   "version": "0.0.1",
   "authors": [
@@ -14,7 +14,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Field\\": ""
+      "MicroweberPackages\\CustomField\\": ""
     },
     "files": [
       "helpers/custom_fields.php"

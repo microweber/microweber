@@ -3,26 +3,50 @@ if (!user_can_access('module.contact_form.index')) {
     return;
 }
 ?>
+<script>mw.require('editor.js')</script>
+<script>
+    $(document).ready(function () {
+        mweditor = new mw.Editor({
+            selector: '#editorAM',
+            mode: 'div',
+            smallEditor: false,
+            minHeight: 250,
+            maxHeight: '70vh',
+            controls: [
+                [
+                    'undoRedo', '|', 'image', '|',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-bold',
+                            controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                        }
+                    },
+                    '|',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-align-left',
+                            controls: ['align']
+                        }
+                    },
+                    '|', 'format',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-list-bulleted-square',
+                            controls: ['ul', 'ol']
+                        }
+                    },
+                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                ],
+            ]
+        });
+    });
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
         });
-    });
-    initEditor = function () {
-        if (!window.editorLaunced) {
-            editorLaunced = true;
-            var fr = mw.editor({
-                element: mwd.getElementById('editorAM'),
-                hideControls: ['format', 'fontsize', 'justifyfull']
-            });
-            mw.tools.iframeAutoHeight(fr)
-        }
-    }
-
-    $(document).ready(function () {
-        initEditor()
     });
 </script>
 

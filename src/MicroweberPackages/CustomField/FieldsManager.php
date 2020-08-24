@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Field;
+namespace MicroweberPackages\CustomField;
 
 use MicroweberPackages\View\View;
 

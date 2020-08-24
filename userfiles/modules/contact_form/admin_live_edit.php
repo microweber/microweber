@@ -52,10 +52,12 @@ if (!user_can_access('module.contact_form.index')) {
             }
             ?>
 
+            <module type="contact_form/manager/assign_list_to_module" data-for-module="<?php print $config['module_name'] ?>" data-for-module-id="<?php print $params['id'] ?>"/>
+            <hr class="thin"/>
+
             <h5 class="font-weight-bold mb-3">Contact form advanced settings</h5>
 
             <module type="admin/mail_providers/integration_select" option_group="contact_form"/>
-
 
             <hr class="thin"/>
 
@@ -77,13 +79,13 @@ if (!user_can_access('module.contact_form.index')) {
                 <br/>
                 <div class="form-group">
                     <label class="control-label">Capcha settings</label>
-                    <small class="text-muted d-block mb-2">Setup your capcha</small>
+                    <small class="text-muted d-block mb-2">Setup your capcha preferences from <a href="<?php print admin_url('view:modules/load_module:captcha'); ?>" target="_blank">Captcha module</a></small>
                 </div>
 
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" name="disable_captcha" id="disable_captcha" value="y" option-group="<?php print $mod_id ?>" class="mw_option_field custom-control-input" <?php if (get_option('disable_captcha', $mod_id) == 'y'): ?>checked <?php endif; ?>/>
-                        <label class="custom-control-label" for="disable_captcha"><?php _e("Disable Code Verification ex"); ?>.: <img src="<?php print mw_includes_url(); ?>img/code_verification_example.jpg" alt=""/></label>
+                        <label class="custom-control-label" for="disable_captcha"><?php _e("Disable Code Verification ex"); ?>.: <img src="<?php print mw_includes_url(); ?>img/code_verification_example.jpg" alt="" style="margin-top: -8px;"/></label>
                     </div>
                 </div>
 
@@ -100,9 +102,6 @@ if (!user_can_access('module.contact_form.index')) {
     <div class="tab-pane fade" id="custom-fields">
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
-            <module type="contact_form/manager/assign_list_to_module" data-for-module="<?php print $config['module_name'] ?>" data-for-module-id="<?php print $params['id'] ?>"/>
-            <hr/>
-
             <h5 class="font-weight-bold"><?php _e("Contact Form Fields"); ?></h5>
             <small class="text-muted d-block">Add / Edit fieldes of the form using the custom fields</small>
             <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $params['id'] ?>"/>

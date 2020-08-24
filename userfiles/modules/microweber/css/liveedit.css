@@ -1590,8 +1590,8 @@ body.has-opened-sidebar #live_edit_toolbar {
 }
 
 .mw_module_image img[src*=".svg"] {
-    min-width: 40px;
-    min-height: 40px;
+    min-width: 30px;
+    min-height: 30px;
 }
 
 .mw_module_image_holder {

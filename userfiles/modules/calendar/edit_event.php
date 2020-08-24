@@ -3,6 +3,7 @@
 <script>
     mw.require("<?php  print  modules_url() ?>calendar/calendar_admin.js");
 </script>
+
 <?php
 $data = false;
 $add_new = false;
@@ -10,8 +11,8 @@ $add_new = false;
 if (isset($params['event_id'])) {
     $data = calendar_get_event_by_id($params['event_id']);
     if (!empty($data)) {
-       // $data['start_date'] = date("Y-m-d", strtotime($data['start_date']));
-       // $data['end_date'] = date("Y-m-d", strtotime($data['end_date']));
+        // $data['start_date'] = date("Y-m-d", strtotime($data['start_date']));
+        // $data['end_date'] = date("Y-m-d", strtotime($data['end_date']));
         $data['start_time'] = date("H:i", strtotime($data['start_time']));
         $data['end_time'] = date("H:i", strtotime($data['end_time']));
     }
@@ -41,7 +42,7 @@ if (empty($data)) {
 ?>
 
 <style type="text/css">
-    #editEventForm .mw-ui-field, #editEventForm .mw-component-post-search {
+    #editEventForm .form-control, #editEventForm .mw-component-post-search {
         width: 100%;
     }
 </style>
@@ -61,18 +62,16 @@ if (empty($data)) {
     var content_id = <?php echo !!$data['content_id'] ? $data['content_id'] : 'false'; ?>;
 
     $(window).on('load', function () {
-
-            $("#postSearch").on("postSelected", function (event, data) {
-                content_id = data.id;
-                onSelectedPost(content_id);
-
-            });
-            editEventModal = window.thismodal;
-            console.log(editEventModal)
-
+        $("#postSearch").on("postSelected", function (event, data) {
+            content_id = data.id;
             onSelectedPost(content_id);
-    })
+        });
 
+        editEventModal = window.thismodal;
+        //console.log(editEventModal)
+
+        onSelectedPost(content_id);
+    })
 
     function onSelectedPost(content_id) {
         if (content_id) {
@@ -87,32 +86,31 @@ if (empty($data)) {
 </script>
 
 <script src="<?php echo $config['url_to_module']; ?>js/image-upload.js" type='text/javascript'></script>
-
 <script src="<?php echo $config['url_to_module']; ?>js/edit-event-ajax.js" type='text/javascript'></script>
 <script src="<?php echo $config['url_to_module']; ?>js/edit-event.js" type='text/javascript'></script>
 
 <form id="editEventForm">
     <input type="hidden" name="id" value="<?php echo $data['id'] ?>"/>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Title</label>
-        <input type="text" name="title" class="mw-ui-field" value="<?php echo $data['title'] ?>" id="event-title" required/>
+    <div class="form-group">
+        <label class="control-label">Title</label>
+        <input type="text" name="title" class="form-control" value="<?php echo $data['title'] ?>" id="event-title" required/>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Short Description</label>
-        <input type="text" name="short_description" class="mw-ui-field" value="<?php echo $data['short_description'] ?>" id="event-short_description"/>
+    <div class="form-group">
+        <label class="control-label">Short Description</label>
+        <input type="text" name="short_description" class="form-control" value="<?php echo $data['short_description'] ?>" id="event-short_description"/>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Description</label>
-        <textarea name="description" class="mw-ui-field" id="event-desc"><?php echo $data['description'] ?></textarea>
+    <div class="form-group">
+        <label class="control-label">Description</label>
+        <textarea name="description" class="form-control" id="event-desc"><?php echo $data['description'] ?></textarea>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label">Image</label>
+    <div class="form-group">
+        <label class="control-label d-block">Image</label>
         <input type="hidden" name="image_url" value="<?php echo $data['image_url'] ?>" id="event-img"/>
-        <span id="mw_uploader" class="mw-ui-btn">
+        <span id="mw_uploader" class="btn btn-primary">
             <span class="ico iupload"></span> &nbsp;
             <span>Upload file<span id="upload_info"></span></span>
         </span>
@@ -120,89 +118,75 @@ if (empty($data)) {
         <img src="<?php echo $data['image_url'] ?>" style="margin-top:15px;width:250px;"/>
     </div>
 
-
-    <div class="mw-ui-row">
-        <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">Link</label>
-                    <input type="text" name="link_url" autocomplete="off" class="mw-ui-field" value="<?php echo $data['link_url'] ?>"/>
-                </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label class="control-label">Link</label>
+                <input type="text" name="link_url" autocomplete="off" class="form-control" value="<?php echo $data['link_url'] ?>"/>
             </div>
         </div>
 
-        <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-                <?php
-                $post_title = '';
-                if (isset($data['content_id']) and $data['content_id'] == 1) {
-                    $post = get_content_by_id($data['content_id']);
+        <div class="col">
+            <?php
+            $post_title = '';
+            if (isset($data['content_id']) and $data['content_id'] == 1) {
+                $post = get_content_by_id($data['content_id']);
 
-                    if (isset($post['title'])) {
-                        $post_title = $post['title'];
-                    }
+                if (isset($post['title'])) {
+                    $post_title = $post['title'];
                 }
-                ?>
+            }
+            ?>
 
-                <div class="mw-ui-field-holder">
-                    <label for="postSearch" class="mw-ui-label"><?php _e('Connected post'); ?></label>
-                    <input id="postSearch" autocomplete="off" class="mw-ui-field colElement w100" type="text" value="<?php echo $post_title ?>" name="" data-mwcomponent="postSearch"/>
+            <div class="form-group">
+                <label for="postSearch" class="control-label"><?php _e('Connected post'); ?></label>
+                <input id="postSearch" autocomplete="off" class="form-control colElement" type="text" value="<?php echo $post_title ?>" name="" data-mwcomponent="postSearch"/>
 
-                    <input type="hidden" name="content_id" id='content_id_from_search' value="<?php echo $data['content_id'] ?>"/>
+                <input type="hidden" name="content_id" id='content_id_from_search' value="<?php echo $data['content_id'] ?>"/>
+            </div>
+        </div>
+    </div>
+
+    <hr class="thin">
+
+    <div class="row d-flex align-items-center">
+        <div class="col">
+            <div class="form-group">
+                <label class="control-label">Start Date</label>
+                <input type="text" name="start_date" autocomplete="off" class="form-control js-start-date" value="<?php echo $data['start_date'] ?>"/>
+            </div>
+        </div>
+
+        <div class="col js-start-time-wrapper">
+            <div class="form-group">
+                <label class="control-label">Start Time</label>
+                <input type="text" name="start_time" autocomplete="off" class="form-control" value="<?php echo $data['start_time'] ?>"/>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label class="control-label">End Date</label>
+                <input type="text" name="end_date" autocomplete="off" class="form-control" value="<?php echo $data['end_date'] ?>"/>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group js-end-time-wrapper">
+                <label class="control-label">End Time</label>
+                <input type="text" name="end_time" autocomplete="off" class="form-control" value="<?php echo $data['end_time'] ?>"/>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group m-0">
+                <div class="custom-control custom-checkbox m-0">
+                    <input type="checkbox" name="all_day" class="js-all-day custom-control-input" id="all_day" value="1" data-value-checked="1" data-value-unchecked="0"/>
+                    <label class="custom-control-label" for="all_day">All day</label>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <hr>
-
-    <div class="mw-ui-row">
-        <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">Start Date</label>
-                    <input type="text" name="start_date" autocomplete="off" class="mw-ui-field js-start-date" value="<?php echo $data['start_date'] ?>"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="mw-ui-col js-start-time-wrapper">
-            <div class="mw-ui-col-container">
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">Start Time</label>
-                    <input type="text" name="start_time" autocomplete="off" class="mw-ui-field" value="<?php echo $data['start_time'] ?>"/>
-                </div>
-            </div>
-        </div>
-        <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label">End Date</label>
-                    <input type="text" name="end_date" autocomplete="off" class="mw-ui-field" value="<?php echo $data['end_date'] ?>"/>
-                </div>
-            </div>
-        </div>
-        <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-                <div class="mw-ui-field-holder js-end-time-wrapper">
-                    <label class="mw-ui-label">End Time</label>
-                    <input type="text" name="end_time" autocomplete="off" class="mw-ui-field" value="<?php echo $data['end_time'] ?>"/>
-                </div>
-            </div>
-        </div>
-        <div class="mw-ui-col">
-            <div class="mw-ui-col-container">
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-check m-t-30"><input type="checkbox" name="all_day" class="js-all-day" value="1"/><span></span><span>All day</span></label>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="mw-ui-field-holder">
-        <select name="recurrence_type" class="mw-ui-field js-select-recurrence mw-full-width">
+    <div class="form-group">
+        <select name="recurrence_type" class="js-select-recurrence selectpicker" data-width="100%" data-size="5">
             <option value="doesnt_repeat">Doesn't repeat</option>
             <option value="daily">Daily</option>
             <option value="weekly_on_the_day_name">Weekly on the day_name</option>
@@ -217,21 +201,17 @@ if (empty($data)) {
         </select>
     </div>
 
-
     <div class="js-custom-recurrence-wrapper" style="display:none;border:1px #e5e5e5 dashed;padding: 15px;">
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label">Repeat every</label>
+        <div class="form-group">
+            <label class="control-label">Repeat every</label>
 
-
-            <div class="mw-ui-row">
-                <div class="mw-ui-col">
-                    <div class="mw-ui-col-container">
-                        <input type="number" name="recurrence_repeat_every" value="<?php echo $data['recurrence_repeat_every']; ?>" class="mw-ui-field">
-                    </div>
+            <div class="row">
+                <div class="col">
+                    <input type="number" name="recurrence_repeat_every" value="<?php echo $data['recurrence_repeat_every']; ?>" class="form-control">
                 </div>
-                <div class="mw-ui-col">
-                    <div class="mw-ui-col-container">
-                        <select name="recurrence_repeat_type" class="mw-ui-field js-recurrence-repeat-type">
+                <div class="col">
+                    <div class="col-container">
+                        <select name="recurrence_repeat_type" class="js-recurrence-repeat-type selectpicker" data-width="100%" data-size="5">
                             <option value="day">Day</option>
                             <option value="week">Week</option>
                             <option value="month">Month</option>
@@ -242,66 +222,64 @@ if (empty($data)) {
             </div>
         </div>
 
-
         <div class="js-recurrence-repeat-on" style="display:none;">
-            <label class="mw-ui-label">Repeat on</label>
-            <table class="mw-ui-table">
+            <label class="control-label">Repeat on</label>
+            <table class="table">
                 <tr>
                     <td>
-                        <label class="mw-ui-check"><input type="checkbox" value="1" name="recurrence_repeat_on[monday]"/><span></span><span>Monday</span></label>
+                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[monday]"/><span></span><span>Monday</span></label>
                     </td>
                     <td>
-                        <label class="mw-ui-check"><input type="checkbox" value="1" name="recurrence_repeat_on[tuesday]"/><span></span><span>Tuesday</span></label>
+                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[tuesday]"/><span></span><span>Tuesday</span></label>
                     </td>
                     <td>
-                        <label class="mw-ui-check"><input type="checkbox" value="1" name="recurrence_repeat_on[wednesday]"/><span></span><span>Wednesday</span></label>
+                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[wednesday]"/><span></span><span>Wednesday</span></label>
                     </td>
                     <td>
-                        <label class="mw-ui-check"><input type="checkbox" value="1" name="recurrence_repeat_on[thursday]"/><span></span><span>Thursday</span></label>
+                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[thursday]"/><span></span><span>Thursday</span></label>
                     </td>
                     <td>
-                        <label class="mw-ui-check"><input type="checkbox" value="1" name="recurrence_repeat_on[friday]"/><span></span><span></span>Friday</label>
+                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[friday]"/><span></span><span></span>Friday</label>
                     </td>
                     <td>
-                        <label class="mw-ui-check"><input type="checkbox" value="1" name="recurrence_repeat_on[saturday]"/><span></span><span>Saturday</span></label>
+                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[saturday]"/><span></span><span>Saturday</span></label>
                     </td>
                     <td>
-                        <label class="mw-ui-check"><input type="checkbox" value="1" name="recurrence_repeat_on[sunday]"><span></span><span>Sunday</span></label>
+                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[sunday]"><span></span><span>Sunday</span></label>
                     </td>
                 </tr>
             </table>
         </div>
 
         <div class="js-recurrence-monthly-on" style="display:none;">
-            <select name="recurrence_monthly_on" class="mw-ui-field js-recurrence-monthly-on mw-full-width">
+            <select name="recurrence_monthly_on" class="js-recurrence-monthly-on selectpicker" data-width="100%" data-size="5">
                 <option value="the_day_number">Monthly on day</option>
                 <option value="the_week_number_day_name">Monthly on the</option>
             </select>
         </div>
     </div>
 
+    <module type="calendar/group_select" calendar-event-id="<?php echo $data['id'] ?>"/>
 
-    <div class="mw-ui-field-holder">
-        <module type="calendar/group_select" calendar-event-id="<?php echo $data['id'] ?>"/>
+    <div class="form-group">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" name="active" class="js-active custom-control-input" value="1" data-value-checked="1" data-value-unchecked="0" id="active" <?php if ($data['active'] == "1"): ?>checked<?php endif; ?> />
+            <label class="custom-control-label" for="active">Active</label>
+        </div>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-check">
-            <input type="checkbox" name="active" class="js-active" value="1" <?php if ($data['active'] == "1"): ?>checked="checked"<?php endif; ?> />
-            <span></span><span>Active</span>
-        </label>
-    </div>
+    <hr class="thin">
 
-    <hr>
+    <div class="d-flex justify-content-between">
+        <div>
+            <?php if (!$add_new): ?>
+                <a class="btn btn-danger btn-sm" href="javascript:deleteEvent('<?php echo $data['id'] ?>')">Delete</a>
+            <?php endif; ?>
+        </div>
 
-    <div class="mw-ui-btn-nav pull-right">
-        <span class="mw-ui-btn " onclick="thismodal.remove()">Cancel</span>
-        <button class="mw-ui-btn mw-ui-btn-invert " type="submit">Save</button>
-    </div>
-
-    <div class="mw-ui-btn-nav pull-left">
-        <?php if (!$add_new): ?>
-            <a class="mw-ui-btn" href="javascript:deleteEvent('<?php echo $data['id'] ?>')">Delete</a>
-        <?php endif; ?>
+        <div>
+            <span class="btn btn-secondary btn-sm" onclick="thismodal.remove()">Cancel</span>
+            <button class="btn btn-success btn-sm" type="submit">Save</button>
+        </div>
     </div>
 </form>

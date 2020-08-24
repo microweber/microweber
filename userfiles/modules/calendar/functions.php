@@ -7,7 +7,7 @@ require_once(__DIR__ . '/src/CalendarDatesHelper.php');
 
 function calendar_module_get_config()
 {
-    return require_once(__DIR__ . '/config.php');
+    return include(__DIR__ . '/config.php');
 }
 
 function calendar_get_events($params = [])

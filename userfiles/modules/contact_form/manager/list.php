@@ -1,8 +1,8 @@
 <?php
 if (is_admin() == false) {
-	return array(
-		'error' => 'Not logged in as admin'
-	);
+    return array(
+        'error' => 'Not logged in as admin'
+    );
 }
 ?>
 <script type="text/javascript">
@@ -71,20 +71,20 @@ if (isset($params['load_list'])) {
 }
 
 if ($filterData['list_id'] == 'all_lists') {
-	$listData = array(
-		'title'=> 'All lists'
-	);
+    $listData = array(
+        'title' => 'All lists'
+    );
 } else {
-	$listData = get_form_lists("id=" . $filterData['list_id'] . "&limit=1");
-	if(!$listData){
-	    return;
+    $listData = get_form_lists("id=" . $filterData['list_id'] . "&limit=1");
+    if (!$listData) {
+        return;
     }
-	$listData = $listData[0];
+    $listData = $listData[0];
 }
 
 $limit = 30;
 if (isset($params['keyword'])) {
-	$filterData['keyword'] = $params['keyword'];
+    $filterData['keyword'] = $params['keyword'];
 }
 if (isset($params['for_module'])) {
     //$data['module_name'] = $params['for_module'];
@@ -112,7 +112,7 @@ $filterData['limit'] = $limit;
 $custom_fields = array();
 
 if ((url_param('current_page') != false)) {
-	$filterData['current_page'] = url_param('current_page');
+    $filterData['current_page'] = url_param('current_page');
 }
 
 $data_paging = $filterData;
@@ -132,9 +132,9 @@ $custom_fields = array();
 
 
 if ($filterData['list_id'] == 'all_lists') {
-	$data = get_form_entires(array('limit'=>$filterData['limit']));
+    $data = get_form_entires(array('limit' => $filterData['limit']));
 } else {
-	$data = get_form_entires($filterData);
+    $data = get_form_entires($filterData);
 }
 
 if (is_array($data)) {
@@ -164,65 +164,74 @@ if (is_array($data)) {
 $view = new \MicroweberPackages\View\View(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
 $view->assign('last_messages', $data);
 echo $view->__toString();
+
+$load_list = 'default';
+if ((url_param('load_list') != false)) {
+    $load_list = url_param('load_list');
+}
+
+$hideEditButton = false;
+if ($load_list == 'default') {
+    $hideEditButton = true;
+} else if ($load_list == 'all_lists') {
+    $hideEditButton = true;
+}
+
+
+if (trim($load_list) == 'default') {
+    $data = array();
+    $data['title'] = "Default list";
+    $data['id'] = "default";
+} else if (trim($load_list) == 'all_lists') {
+    $data = array();
+    $data['title'] = "All lists";
+    $data['id'] = "all_lists";
+} else {
+    $data = get_form_lists('single=1&id=' . $load_list);
+}
 ?>
 
-<div class="mw-ui-row m-t-20">
-
-    <?php
-    $load_list = 'default';
-    if ((url_param('load_list') != false)) {
-        $load_list = url_param('load_list');
-    }
-    ?>
-    
-	<?php 
-	$hideEditButton = false;
-	if ($load_list == 'default') {
-		$hideEditButton = true;
-	} else if ($load_list == 'all_lists') {
-		$hideEditButton = true;
-	}
-	?>
-    
-    <div class="mw-ui-col">
+<div class="row mt-4">
+    <div class="col-sm-4 text-center text-sm-left">
         <?php if (!$hideEditButton): ?>
-            <span class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-important mw-ui-delete"
-                  onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
-                    <?php _e("Delete"); ?>&nbsp;<b><?php echo $listData['title']; ?></b>&nbsp;<?php _e("list"); ?>
-                </span>
+            <span class="btn btn-outline-danger btn-sm" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete"); ?>&nbsp;<b><?php echo $listData['title']; ?></b>&nbsp;<?php _e("list"); ?></span>
         <?php endif; ?>
     </div>
 
     <?php if (is_array($data) && !empty($data)) : ?>
-        <div class="mw-ui-col text-center" style="width: 70%">
-            <div class="mw-paging mw-paging- mw-paging- inline-block">
-                <?php print paging("num=$data_paging"); ?>
-            </div>
-            <?php if (isset($params['export_to_excel'])) : ?>
-            <?php endif; ?>
-            <?php if (isset($params['export_to_excel'])) : ?>
-            <?php endif; ?>
+        <div class="col-sm-4 text-center">
+            <div class="pagination justify-content-center"><?php print paging("num=$data_paging"); ?></div>
         </div>
 
-        <div class="mw-ui-col" style="width: 240px;">
-            <div class="mw-field" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
+        <div class="col-sm-4 text-center text-sm-right">
+            <div class="form-group" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
                 <form method="get">
-                    <select name="per_page" onchange="this.form.submit()">
+                    <select name="per_page" class="selectpicker" data-size="5" data-width="100px" data-style="btn-sm" onchange="this.form.submit()">
                         <option value="">Select</option>
                         <option value="10" <?php if ($limit == 30): ?>  selected  <?php endif; ?>>30</option>
                         <option value="50" <?php if ($limit == 50): ?>  selected  <?php endif; ?>>50</option>
                         <option value="100" <?php if ($limit == 100): ?>  selected  <?php endif; ?>>100</option>
                         <option value="200" <?php if ($limit == 200): ?>  selected  <?php endif; ?>>200</option>
                     </select>
-
-
                 </form>
-            </div>
-            <br/><br/>
-            <div class="text-right">
-                <strong><?php print _e('Total'); ?>:</strong>
-                <span><?php echo ($total_count); ?> messages in this list</span>
             </div>
         </div>
     <?php endif; ?>
 </div>
+
+<div class="row mt-1">
+    <div class="col-sm-6">
+        <div class="export-label">
+            <span><?php _e("Export data"); ?></span>
+            <span class="btn btn-outline-primary btn-sm" onclick="javascript:mw.forms_data_manager.export_to_excel('<?php print $data['id'] ?>');"><?php _e("Excel"); ?></span>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="text-right">
+            <strong><?php print _e('Total'); ?>:</strong>
+            <span><?php echo($total_count); ?> messages in this list</span>
+        </div>
+    </div>
+</div>
+

@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     // Edit event fill the form and select the options
     if (typeof event_data.recurrence_type !== 'undefined') {
+        
         $(".js-select-recurrence").val(event_data.recurrence_type).change();
 
         if (event_data.recurrence_type == 'custom') {

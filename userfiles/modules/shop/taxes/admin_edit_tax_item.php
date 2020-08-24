@@ -1,5 +1,4 @@
 <script>
-
     function mw_admin_edit_tax_item_submit_form(form) {
         var data = $(form).serialize()
         var url = mw.settings.api_url + 'shop/save_tax_item';
@@ -10,8 +9,8 @@
 
         return false;
     }
-
 </script>
+
 <?php
 $default_item = array('id' => 0, 'name' => '', 'type' => '', 'rate' => '');
 $item = array();
@@ -23,26 +22,33 @@ if (isset($params['tax_item_id'])) {
 }
 
 $values = array_merge($default_item, $item);
-
 ?>
 
-<form id="mw_edit_tax_item" onsubmit="return mw_admin_edit_tax_item_submit_form(this)" class="form-new-style">
+<form id="mw_edit_tax_item" onsubmit="return mw_admin_edit_tax_item_submit_form(this)">
     <input type="hidden" name="id" value="<?php print $values['id']; ?>"/>
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e('Tax name'); ?></label>
-        <input name="name" type="text" class="mw-ui-field element-block" required="required" value="<?php print $values['name']; ?>">
+
+    <div class="form-group">
+        <label class="control-label"><?php _e('Tax name'); ?></label>
+        <small class="text-muted d-block mb-2">For example: VAT</small>
+        <input name="name" type="text" class="form-control" required="required" value="<?php print $values['name']; ?>">
     </div>
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e('Tax Type'); ?></label>
-        <select name="type" class="mw-ui-field mw-ui-field-medium element-block">
+
+    <div class="form-group">
+        <label class="control-label"><?php _e('Tax Type'); ?></label>
+        <small class="text-muted d-block mb-2">The tax can be fixed price or percentage of the price</small>
+        <select name="type" class="selectpicker" data-width="100%">
             <option value="fixed" <?php if ($values['type'] == 'fixed') : ?> selected="selected" <?php endif; ?>><?php _e('Fixed'); ?></option>
             <option value="percent" <?php if ($values['type'] == 'percent') : ?> selected="selected" <?php endif; ?>><?php _e('Percent'); ?></option>
         </select>
     </div>
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e('Tax rate'); ?></label>
-        <input name="rate" type="text" class="mw-ui-field element-block" required="required" value="<?php print $values['rate']; ?>">
+
+    <div class="form-group">
+        <label class="control-label"><?php _e('Tax rate'); ?></label>
+        <small class="text-muted d-block mb-2">The amount of your tax. For example: 55.99</small>
+        <input name="rate" type="text" class="form-control" required="required" value="<?php print $values['rate']; ?>">
     </div>
-    <br/>
-    <input class="mw-ui-btn mw-ui-btn-info pull-right" type="submit" name="submit" value="<?php _e('Save'); ?>"/>
+
+    <div class="text-right">
+        <button type="submit" class="btn btn-success btn-sm" name="submit"><?php _e('Save'); ?></button>
+    </div>
 </form>

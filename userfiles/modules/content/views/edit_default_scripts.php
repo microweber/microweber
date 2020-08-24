@@ -360,14 +360,10 @@
 
 
     /* END OF FUNCTIONS */
-
 </script>
+
 <script>
-
-
     $(mwd).ready(function () {
-
-
         $("#quickform-edit-content").on('keydown', "input[type='text']", function (e) {
             if (e.keyCode == 13) {
                 e.preventDefault()

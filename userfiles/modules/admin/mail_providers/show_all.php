@@ -4,19 +4,15 @@
 $mail_providers = get_modules('type=mail_provider');
 ?>
 
-<div class="mw-accordion">
-<?php if(!empty($mail_providers)):?>
-<?php foreach($mail_providers as $provider): ?>
-<div class="mw-accordion-item">
-	<div class="mw-ui-box-header mw-accordion-title">
-		<div class="header-holder">
-			<i class="mai-setting2"></i> <?php print $provider['name'] ?>
-		</div>
-	</div>
-	<div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-	<module type="<?php print $provider['module'] ?>" view="admin"/>
-	</div>
-</div>
-<?php endforeach; ?>
+<?php if (!empty($mail_providers)): ?>
+    <?php foreach ($mail_providers as $key => $provider): ?>
+        <div class="card style-1 mb-3 card-collapse">
+            <div class="card-header no-border" data-toggle="collapse" data-target="#mail_provider-<?php echo $key; ?>">
+                <h6 class="font-weight-bold"><?php print $provider['name'] ?></h6>
+            </div>
+            <div class="card-body collapse" id="mail_provider-<?php echo $key; ?>">
+                <module type="<?php print $provider['module'] ?>" view="admin"/>
+            </div>
+        </div>
+    <?php endforeach; ?>
 <?php endif; ?>
-</div>

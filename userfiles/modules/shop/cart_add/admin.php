@@ -1,61 +1,72 @@
 <?php
-
-$for_id = false;
-$for = 'content';
-
-if (isset($params['rel'])) {
-    $params['rel_type'] = $params['rel'];
+$from_live_edit = false;
+if (isset($params["live_edit"]) and $params["live_edit"]) {
+    $from_live_edit = $params["live_edit"];
 }
-
-
-if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'post' and defined('POST_ID')) {
-    $for_id = $params['content-id'] = POST_ID;
-    $for = 'content';
-}
-
-if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'page' and defined('PAGE_ID')) {
-    $for_id = $params['content-id'] = PAGE_ID;
-    $for = 'content';
-}
-
-
 ?>
 
-<script>
-    $(document).ready(function () {
-        $(window).on("custom_fields.save", function (event) {
-            mw.reload_module_parent('#<?php print $params['id'] ?>');
-        });
-    });
-</script>
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
 
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-header">
+        <?php $module_info = module_info($params['module']); ?>
+        <h5>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+        </h5>
+    </div>
 
-<div class="mw-modules-tabs">
-    <?php if ($for_id): ?>
-        <div class="mw-accordion-item">
-            <div class="mw-ui-box-header mw-accordion-title">
-                <div class="header-holder">
-                    <i class="mw-icon-gear"></i> <?php _e('Custom fields'); ?>
+    <div class="card-body pt-3">
+        <?php
+        $for_id = false;
+        $for = 'content';
+
+        if (isset($params['rel'])) {
+            $params['rel_type'] = $params['rel'];
+        }
+
+        if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'post' and defined('POST_ID')) {
+            $for_id = $params['content-id'] = POST_ID;
+            $for = 'content';
+        }
+
+        if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'page' and defined('PAGE_ID')) {
+            $for_id = $params['content-id'] = PAGE_ID;
+            $for = 'content';
+        }
+        ?>
+
+        <script>
+            $(document).ready(function () {
+                $(window).on("custom_fields.save", function (event) {
+                    mw.reload_module_parent('#<?php print $params['id'] ?>');
+                });
+            });
+        </script>
+
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <?php if ($for_id): ?>
+                <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <?php endif; ?>
+            <a class="btn btn-outline-secondary justify-content-center <?php if (!$for_id): ?>active<?php endif; ?>" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
+
+        <div class="tab-content py-3">
+            <?php if ($for_id): ?>
+                <div class="tab-pane fade show active" id="settings">
+                    <!-- Settings Content -->
+                    <div class="module-live-edit-settings module-cart-add-settings">
+                        <module type="custom_fields/admin" data-content-id="<?php print intval($for_id); ?>"/>
+                    </div>
+                    <!-- Settings Content - End -->
                 </div>
-            </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                <!-- Settings Content -->
-                <div class="module-live-edit-settings module-cart-add-settings">
-                    <module type="custom_fields/admin" data-content-id="<?php print intval($for_id); ?>"/>
-                </div>
-                <!-- Settings Content - End -->
-            </div>
-        </div>
-    <?php endif; ?>
+            <?php endif; ?>
 
-    <div class="mw-accordion-item">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
+            <div class="tab-pane fade <?php if (!$for_id): ?>show active<?php endif; ?>" id="templates">
+                <module type="admin/modules/templates"/>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <module type="admin/modules/templates"/>
-        </div>
+
     </div>
 </div>
