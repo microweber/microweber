@@ -10,11 +10,6 @@ mw.admin = {
         mw.cookie.set("lang", language);
         location.reload();
     },
-
-
-
-
-
     editor: {
         set: function (frame) {
             mw.$(frame).width('100%');
@@ -75,170 +70,10 @@ mw.admin = {
         }
     },
     manageToolbarQuickNav: null,
-    manageToolbarInt: null,
-    manageToolbarSet: function () {
-        return false;
-        var toolbar = mwd.querySelector('.admin-manage-toolbar');
-        if (toolbar === null) {
-            return false;
-        }
-
-        if (mw.admin.manageToolbarQuickNav === null && mwd.getElementById('content-edit-settings-tabs') !== null) {
-            mw.admin.manageToolbarQuickNav = mwd.getElementById('content-edit-settings-tabs');
-        }
-        if (mw.admin.manageToolbarQuickNav !== null) {
-            if ((scrolltop) > 0) {
-                if (mwd.getElementById('content-edit-settings-tabs') != null) {
-
-                    mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
-                }
-            }
-            else {
-
-                mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
-            }
-            QTABSArrow('#quick-add-post-options .active');
-        }
-    },
-    CategoryTreeWidth: function (p) {
-        p = p || false;
-        AdminCategoryTree = mwd.querySelector('.tree-column');
-		if(AdminCategoryTree == null){
-		return;
-		}
-        if (p && (p.contains('edit') || p.contains('new'))) {
-            if (AdminCategoryTree !== null) {
-                AdminCategoryTree.treewidthactivated = true;
-                mw.$('.tree-column').click(function () {
-                    if (AdminCategoryTree.treewidthactivated === true) {
-                        mw.$(this).removeClass('tree-column-active');
-                        clearInterval(mw.admin.manageToolbarInt);
-                        mw.admin.manageToolbarInt = setInterval(function () {
-                            mw.admin.manageToolbarSet();
-                        }, 5);
-                        setTimeout(function () {
-                            clearInterval(mw.admin.manageToolbarInt);
-                        }, 205);
-                    }
-                });
-                mw.$(mwd.body).bind('click', function (e) {
-
-                    if (AdminCategoryTree.treewidthactivated === true && mw.cookie.ui('adminsidebarpin') !== 'true') {
-                        if (!mw.tools.hasParentsWithClass(e.target, 'tree-column')) {
-                            mw.$(AdminCategoryTree).addClass('tree-column-active');
-                            mw.admin.manageToolbarSet();
-                            clearInterval(mw.admin.manageToolbarInt);
-                            mw.admin.manageToolbarInt = setInterval(function () {
-                                mw.admin.manageToolbarSet();
-                            }, 5);
-                            setTimeout(function () {
-                                clearInterval(mw.admin.manageToolbarInt);
-                            }, 205);
-                        }
-                    }
-                });
-            }
-        }
-        else {
-            mw.$(AdminCategoryTree).removeClass('tree-column-active');
-            AdminCategoryTree.treewidthactivated = false;
-        }
-        clearInterval(mw.admin.manageToolbarInt);
-        mw.admin.manageToolbarInt = setInterval(function () {
-            mw.admin.manageToolbarSet();
-        }, 5);
-        setTimeout(function () {
-            clearInterval(mw.admin.manageToolbarInt);
-        }, 205);
-    },
     insertModule: function (module) {
-
         mwd.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
     },
 
-    postStates: {
-        show: function (el, pos) {
-            if (!mw.admin.postStatesTip) {
-                mw.admin.postStates.build();
-            }
-            var el = el || mwd.querySelector('.btn-posts-state');
-            var pos = pos || 'bottom-left';
-            mw.tools.tooltip.setPosition(mw.admin.postStatesTip, el, pos);
-            mw.admin.postStatesTip.style.display = 'block';
-            mw.$('.btn-posts-state.tip').addClass('tip-disabled');
-            mw.$(mw.tools._titleTip).hide();
-        },
-        hide: function (e, d) {
-            if (!mw.admin.postStatesTip) {
-                mw.admin.postStates.build();
-            }
-            if (mw.admin.postStatesTip._over == false) {
-                mw.admin.postStatesTip.style.display = 'none';
-            }
-            mw.$('.btn-posts-state.tip').removeClass('tip-disabled');
-        },
-        timeoutHide: function () {
-            if (!mw.admin.postStatesTip) {
-                mw.admin.postStates.build();
-            }
-            setTimeout(function () {
-                if (mw.admin.postStatesTip._over == false) {
-                    mw.admin.postStatesTip.style.display = 'none';
-                }
-            }, 444);
-        },
-        build: function () {
-            mw.admin.postStatesTip = mw.tooltip({
-                content: mwd.getElementById('post-states-tip').innerHTML,
-                position: 'bottom-left',
-                element: '.btn-posts-state'
-            });
-            mw.$(mw.admin.postStatesTip).addClass('posts-states-tooltip');
-            mw.admin.postStatesTip.style.display = 'none';
-            mw.admin.postStatesTip._over = false;
-            mw.$(mw.admin.postStatesTip).hover(function () {
-                this._over = true;
-            }, function () {
-                this._over = false;
-                //mw.admin.postStatesTip.style.display = 'none';
-            });
-            mw.$(mwd.body).bind('mousedown', function (e) {
-                if (mw.admin.postStatesTip._over === false && mw.admin.postStatesTip.style.display == 'block' && !mw.tools.hasClass(e.target, 'btn-posts-state') && !mw.tools.hasParentsWithClass(e.target, 'btn-posts-state')) {
-                    mw.admin.postStatesTip.style.display = 'none';
-                }
-            });
-        },
-        set: function (a) {
-            if (a === 'publish') {
-                mw.$('.btn-publish').addClass('active');
-                mw.$('.btn-unpublish').removeClass('active');
-                mw.$('.btn-posts-state > span').attr('class', 'mw-icon-check').parent().dataset("tip", mw.msg.published);
-                mw.$('#is_post_active').val('1');
-                mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
-                mw.admin.postStatesTip.style.display = 'none';
-                mw.$(".btn-posts-state").html($('.btn-publish').html())
-            }
-            else if (a === 'unpublish') {
-                mw.$('.btn-publish').removeClass('active');
-                mw.$('.btn-unpublish').addClass('active');
-                mw.$('.btn-posts-state > span').attr('class', 'mw-icon-unpublish').parent().dataset("tip", mw.msg.unpublished);
-                mw.$('#is_post_active').val('0');
-                mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
-                mw.admin.postStatesTip.style.display = 'none';
-                mw.$(".btn-posts-state").html($('.btn-unpublish').html())
-            }
-
-
-        },
-        toggle: function () {
-            if (!mw.admin.postStatesTip || mw.admin.postStatesTip.style.display == 'none') {
-                mw.admin.postStates.show();
-            }
-            else {
-                mw.admin.postStates.hide();
-            }
-        }
-    },
 
         simpleRotator: function (rotator) {
         if (rotator === null) {
@@ -375,7 +210,7 @@ $(mww).on('load', function () {
     mw.on.moduleReload('pages_tree_toolbar', function () {
 
     });
-    mw.admin.manageToolbarSet();
+
 
 
     if (mwd.getElementById('main-bar-user-menu-link') !== null) {
@@ -391,7 +226,7 @@ $(mww).on('load', function () {
         });
     }
 
-    mw.$(window).on('adminSaveStart', function () {
+    mw.on('adminSaveStart', function () {
         var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.saving + '...';
     });
@@ -404,35 +239,6 @@ $(mww).on('load', function () {
         mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
     });
 
-});
-
-
-$(mww).on('scroll resize load', function (e) {
-    if (e.type === "scroll" || e.type === 'resize') {
-        mw.admin.manageToolbarSet();
-    }
-    if (self === top) {
-        var bottommenu = mwd.getElementById('mw-admin-main-menu-bottom');
-        if (bottommenu !== null) {
-            var usermenu = mwd.getElementById('user-menu'),
-                lft = bottommenu.previousElementSibling,
-                wh = mw.$(window).height();
-
-                if(lft === null){
-                    bottommenu.style.position = '';
-                    return;
-                }
-
-            if (wh < ($(lft).offset().top - mw.$(window).scrollTop() + lft.offsetHeight + usermenu.offsetHeight + bottommenu.offsetHeight)) {
-                bottommenu.style.position = "static";
-            }
-            else {
-                bottommenu.style.position = '';
-            }
-
-        }
-
-    }
 });
 
 

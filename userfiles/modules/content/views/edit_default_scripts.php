@@ -250,7 +250,7 @@
 
                         var xhr = mw.save_inner_editable_fields(save_inner_edit_data);
                         xhr.success(function () {
-                            $(window).trigger('adminSaveEnd');
+                            mw.trigger('adminSaveEnd');
                         });
                         xhr.fail(function () {
                             $(window).trigger('adminSaveFailed');
@@ -464,7 +464,7 @@
             $(this).remove()
         })
 
-        mww.QTABS = mw.tools.tabGroup({
+        mww.QTABS = mw.tabs({
             nav: mw.$("#quick-add-post-options .mw-ui-abtn"),
             tabs: mw.$("#quick-add-post-options-items-holder .quick-add-post-options-item"),
             toggle: true,

@@ -284,12 +284,25 @@
             this.dialogContainer = this.options.root.createElement('div');
             this.dialogContainer._dialog = this;
 
+
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
 
             var cont = this.options.encapsulate ? dialogEncapsulate(this.options.content) : this.options.content;
+            if(this.options.shadow) {
+                this.shadow = this.dialogContainer.attachShadow({
+                    mode: 'open'
+                });
+                if(typeof cont === 'string') {
+                    this.shadow.innerHTML = (cont);
+                } else {
+                    this.shadow.appendChild(cont)
+                }
+            } else {
 
             mw.$(this.dialogContainer).append(cont);
+            }
+
 
             if (this.options.encapsulate) {
                 this.iframe = cont;

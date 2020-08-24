@@ -1,4 +1,72 @@
-mw._editorApi = function (scope) {
+MWEditor._providers = {
+
+};
+
+MWEditor.provider = function (scope) {
+
+};
+
+
+(function(master){
+    var LinkEditor = function(options) {
+        return new LinkEditor.module.init(options);
+    };
+    LinkEditor.module = LinkEditor.prototype = {
+        controllers: {
+            url: function () {
+                var root = document.createElement('div');
+                var _linkText = '<div class="form-group">' +
+                    '<label>Link text</label>' +
+                    '<small class="text-muted d-block mb-2">Selected text for the link. </small>' +
+                    '<input type="text" class="form-control">' +
+                    '</div>';
+
+                var _linkUrl = '<div class="form-group">' +
+                    '<label>Website URL</label>' +
+                    '<small class="text-muted d-block mb-2">Type the website URL to link it</small>' +
+                    '<input type="url" placeholder="http://" class="form-control">' +
+                    '</div>';
+
+                var _target = '<div class="form-group">' +
+                    '<label>Website URL</label>' +
+                    '<small class="text-muted d-block mb-2">Type the website URL to link it</small>' +
+                    '<input type="url" placeholder="http://" class="form-control">' +
+                    '</div>';
+            }
+        },
+        helpers: {
+            _id: function () {
+              return 'le-' + new Date().getTime();
+            },
+            field: function (conf) {
+                var placeholder = conf.reqplaceholder ? ('placeholder="' + conf.placeholder + '"') : '';
+                var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
+                var name = conf.name ? ('name="' + conf.name + '"') : '';
+                conf.type = conf.type || 'text';
+                return '<div class="form-group">' +
+                '<label>' + conf.label + '</label>' +
+                '<small class="text-muted d-block mb-2">' + conf.description + '</small>' +
+                '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' class="form-control">' +
+                '</div>';
+            }
+        },
+        build: function (options){
+            var defaults = {
+                controllers: ['url', 'file', 'section'],
+                mode: 'dialog',
+            };
+            this.settings = options;
+        },
+        init: function(options) {
+            this.build(options);
+        }
+    };
+    LinkEditor.prototype.init.prototype = LinkEditor.prototype;
+    master.LinkEditor = LinkEditor;
+})(this);
+
+
+MWEditor.api = function (scope) {
     return {
         cleanWord: function (content) {
             var wrapListRoots = function () {

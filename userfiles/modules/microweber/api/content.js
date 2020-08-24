@@ -98,7 +98,7 @@ mw.content = mw.content || {
             data.content = doc.body.innerHTML;
         }
 
-        if (data.title == "" || typeof data.title === 'undefined') {
+        if (!data.title) {
             calc.title = false;
         }
         if (!mw.tools.isEmptyObject(calc)) {
@@ -133,6 +133,7 @@ mw.content = mw.content || {
                 else {
                     if (typeof e.onSuccess === 'function') {
                         e.onSuccess.call(data);
+                        mw.trigger('adminSaveEnd');
                     }
                 }
             },

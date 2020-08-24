@@ -36,7 +36,7 @@ MWEditor.addController = function (name, render, checkSelection, dependencies) {
         dependencies = obj.dependencies;
     }
     if(MWEditor.controllers[name]) {
-        console.warn(name + ' controller is already registered in the editor')
+        console.warn(name + ' controller is already registered in the editor');
         return;
     }
     MWEditor.controllers[name] = function () {
