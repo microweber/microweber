@@ -200,7 +200,7 @@ if (trim($load_list) == 'default') {
 
     <?php if (is_array($data) && !empty($data)) : ?>
         <div class="col-sm-4 text-center">
-            <div class="mw-paging mw-paging- mw-paging- inline-block"><?php print paging("num=$data_paging"); ?></div>
+            <div class="pagination justify-content-center"><?php print paging("num=$data_paging"); ?></div>
         </div>
 
         <div class="col-sm-4 text-center text-sm-right">

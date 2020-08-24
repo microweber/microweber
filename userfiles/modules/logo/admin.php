@@ -203,14 +203,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 }, 78)
                             });
                         });
-
-
-                        mw.editor({
-                            element: '#text',
-                            height: 200,
-                            width: '100%',
-                            hideControls: ['format', 'ol', 'ul', 'div', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'link', 'unlink', 'remove_formatting']
-                        })
                     });
                 </script>
                 <script>
@@ -597,6 +589,32 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="form-group">
+                            <script>mw.require('editor.js')</script>
+                            <script>
+                                $(document).ready(function () {
+                                    mweditor = new mw.Editor({
+                                        selector: '#text',
+                                        mode: 'div',
+                                        smallEditor: false,
+                                        minHeight: 150,
+                                        maxHeight: '70vh',
+                                        controls: [
+                                            [
+                                                'undoRedo', '|',
+                                                {
+                                                    group: {
+                                                        icon: 'mdi mdi-format-bold',
+                                                        controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                                                    }
+                                                },
+
+                                                '|', 'link', 'unlink', 'wordPaste'
+                                            ],
+                                        ]
+                                    });
+                                });
+                            </script>
+
                             <textarea class="mw_option_field form-control" placeholder="<?php _e('Enter Text'); ?>" row="5" name="text" id="text"><?php print $text; ?></textarea>
                         </div>
                     </div>

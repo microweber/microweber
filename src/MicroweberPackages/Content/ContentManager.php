@@ -526,7 +526,7 @@ class ContentManager
 
                 $item_to_print = '';
                 $item_to_print .= "";
-                $item_to_print .= "<a class=\"{$act_class}\" href=\"$value\" data-page-number=\"$key\">$key</a> ";
+                $item_to_print .= "<li class=\"page-item\"><a class=\"{$act_class} page-link\" href=\"$value\" data-page-number=\"$key\">$key</a></li> ";
                 $item_to_print .= '';
                 $paging_items[$key] = $item_to_print;
 
@@ -574,7 +574,7 @@ class ContentManager
                 $next_link = '#';
                 if (isset($data[$active_item - 1])) {
                     $prev_link = $data[$active_item - 1];
-                    $limited_paging_begin[] = '<a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '">&laquo;</a>';
+                    $limited_paging_begin[] = '<li class="page-item"><a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '" class="page-link">&laquo;</a></li>';
 
                     $ready_paging_first_links[] = [
                         'attributes' => [
@@ -593,7 +593,7 @@ class ContentManager
 
                 if (isset($data[$active_item + 1])) {
                     $next_link = $data[$active_item + 1];
-                    $limited_paging[] = '<a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '">&raquo;</a>';
+                    $limited_paging[] = '<li class="page-item"><a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '" class="page-link">&raquo;</a></li>';
 
                     $ready_paging_last_links[] = [
                         'attributes' => [
@@ -608,7 +608,7 @@ class ContentManager
                 }
 
                 if (isset($params['show_first_last'])) {
-                    $limited_paging[] = '<a data-page-number="' . end($data) . '" href="' . end($data) . '">' . _e('Last', true) . '</a>';
+                    $limited_paging[] = '<li class="page-item"><a data-page-number="' . end($data) . '" href="' . end($data) . '" class="page-link">' . _e('Last', true) . '</a></li>';
 
                     $ready_paging_last_links[] = [
                         'attributes' => [

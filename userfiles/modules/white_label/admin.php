@@ -200,22 +200,46 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <label class="custom-control-label" for="enable_service_links"><?php _e('Enable support links'); ?></label>
                                 </div>
 
-                                <small class="text-muted d-block mb-2"><?php _e('Enter url of your contact page'); ?></small> 
+                                <small class="text-muted d-block mb-2"><?php _e('Enter url of your contact page'); ?></small>
                                 <input name="custom_support_url" option-group="whitelabel" placeholder="" class="form-control" type="url" <?php if ($enable_service_links == '0'): ?> disabled <?php endif; ?> value="<?php print $custom_support_url; ?>"/>
                             </div>
 
                             <div class="form-group">
+                                <script>mw.require('editor.js')</script>
                                 <script>
                                     $(document).ready(function () {
-                                        mw.editor({
-                                            element: '#powered_by_link_text',
-                                            height: '300px',
-                                            hideControls: ['fontfamily', 'fontsize', 'image', 'format', 'alignment', 'ol', 'ul'],
-                                            ready: function () {
-                                                <?php if ($disable_powered_by_link): ?>
-                                                $(mwd.querySelector('.pw-editor-holder')).addClass('disabled')
-                                                <?php endif; ?>
-                                            }
+                                        mweditor = new mw.Editor({
+                                            selector: '#powered_by_link_text',
+                                            mode: 'div',
+                                            smallEditor: false,
+                                            minHeight: 150,
+                                            maxHeight: '70vh',
+                                            controls: [
+                                                [
+                                                    'undoRedo', '|', 'image', '|',
+                                                    {
+                                                        group: {
+                                                            icon: 'mdi mdi-format-bold',
+                                                            controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                                                        }
+                                                    },
+                                                    '|',
+                                                    {
+                                                        group: {
+                                                            icon: 'mdi mdi-format-align-left',
+                                                            controls: ['align']
+                                                        }
+                                                    },
+                                                    '|', 'format',
+                                                    {
+                                                        group: {
+                                                            icon: 'mdi mdi-format-list-bulleted-square',
+                                                            controls: ['ul', 'ol']
+                                                        }
+                                                    },
+                                                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                                                ],
+                                            ]
                                         });
                                     });
                                 </script>
