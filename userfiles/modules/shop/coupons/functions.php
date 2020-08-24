@@ -93,6 +93,11 @@ function coupons_save_coupon($couponData = array())
     $errorMessage = '';
     $table = 'cart_coupons';
 
+
+    if (!isset($couponData['is_active'])) {
+        $couponData['is_active'] = 0;
+    }
+
     // check if coupon code exists
     $check = coupon_get_by_code($couponData['coupon_code']);
     if (!empty($check)) {
