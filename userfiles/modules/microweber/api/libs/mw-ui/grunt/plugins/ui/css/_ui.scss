@@ -27,7 +27,7 @@ label {
 }
 
 //Fix for dropdowns
-.card {
+.card:not(.card-collapse) {
   overflow: unset !important;
   .card-header {
     overflow: unset !important;

@@ -10,7 +10,6 @@
         data.field_id = '<?php print $params['field_id']; ?>';
 
         mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
-
             mw.custom_fields.sort($selector);
 
             mw.$("input,textarea,select,checkbox,date,radio", $selector).bind("change keyup paste", function () {
