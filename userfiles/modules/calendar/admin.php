@@ -20,22 +20,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 
     <div class="card-body pt-3">
-
         <script>
             mw.require("<?php  print  modules_url() ?>calendar/calendar_admin.js");
-        </script>
-
-        <script>
-            //mw.require('ui.css');
-            //mw.lib.require('jqueryui');
-
             mw.require("<?php print $config['url_to_module'];?>/lib/fullcalendar/fullcalendar.min.css");
             mw.require("<?php print $config['url_to_module'];?>/lib/fullcalendar/lib/moment.min.js");
             mw.require("<?php print $config['url_to_module'];?>/lib/fullcalendar/fullcalendar.min.js");
         </script>
 
         <script>
-
             //function reload_calendar_after_save() {
             //    mw.reload_module_everywhere('#<?php //print $params['id'] ?>//');
             //    mw.reload_module_everywhere('calendar/edit_events');
@@ -44,99 +36,63 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             //    alert(33333)
             //
             //}
-
         </script>
-
-        <?php if (isset($params['backend'])): ?>
-            <module type="admin/modules/info"/>
-        <?php endif; ?>
-
 
         <script>
             function manageCalendarEventsPopup(module_id) {
-
                 var opts = {};
                 opts.width = '800';
                 opts.height = '90vh';
-
                 opts.liveedit = true;
                 opts.iframe = true;
                 opts.mode = 'modal';
                 opts.autosize = 'false';
-
                 var additional_params = {};
-
                 return window.parent.mw.tools.open_global_module_settings_modal('calendar/edit_events', module_id, opts, additional_params);
-
             }
-
-
         </script>
 
-        <div class="admin-side-content">
-            <?php $calendar_group_id = get_option('calendar_group_id', $params['id']); ?>
 
-            <div class="mw-modules-tabs <?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
-                <?php if ($from_live_edit): ?>
-                    <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
-                        <a href="javascript:manageCalendarEventsPopup('<?php print $params['id'] ?> ')" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
-                            <span class="fas fa-list"></span> &nbsp;<?php print _e('Manage Calendar Events'); ?>
+        <?php $calendar_group_id = get_option('calendar_group_id', $params['id']); ?>
 
+        <?php if ($from_live_edit): ?>
+            <a href="javascript:manageCalendarEventsPopup('<?php print $params['id'] ?> ')" class="btn btn-outline-primary btn-rounded"><?php print _e('Manage Calendar Events'); ?></a>
+        <?php endif; ?>
 
-                        </a>
-
-
-                    </div>
-                <?php endif; ?>
-
-                <?php if (!$from_live_edit): ?>
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <div class="header-holder">
-                                <i class="mw-icon-navicon-round"></i> Events
-                            </div>
-                        </div>
-                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                            <!-- Settings Content -->
-                            <div class="module-live-edit-settings module-calendar-settings">
-                                <module type="calendar/edit_events"/>
-                            </div>
-                            <!-- Settings Content - End -->
-                        </div>
-                    </div>
-
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <div class="header-holder">
-                                <i class="mw-icon-beaker"></i> Groups
-                            </div>
-                        </div>
-                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                            <module type="calendar/edit_groups"/>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <?php if ($from_live_edit): ?>
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <div class="header-holder">
-                                <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-                            </div>
-                        </div>
-                        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                            <module type="admin/modules/templates"/>
-                        </div>
-                    </div>
-                <?php endif; ?>
-            </div>
-
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> Events</a>
             <?php if (!$from_live_edit): ?>
-                <br/>
-                <small><a href="javascript:openEventsImportModal()">Import / Export</a></small>
+                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#groups"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Groups'); ?></a>
+            <?php endif; ?>
+            <?php if ($from_live_edit): ?>
+                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+            <?php endif; ?>
+        </nav>
+
+        <div class="tab-content py-3">
+
+            <div class="tab-pane fade show active" id="list">
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-calendar-settings">
+                    <module type="calendar/edit_events"/>
+                </div>
+                <!-- Settings Content - End -->
+            </div>
+            <?php if (!$from_live_edit): ?>
+                <div class="tab-pane fade" id="groups">
+                    <module type="calendar/edit_groups"/>
+                </div>
             <?php endif; ?>
 
+            <?php if ($from_live_edit): ?>
+                <div class="tab-pane fade" id="templates">
+                    <module type="admin/modules/templates"/>
+                </div>
+            <?php endif; ?>
         </div>
 
+        <?php if (!$from_live_edit): ?>
+            <small><a href="javascript:openEventsImportModal()">Import / Export</a></small>
+        <?php endif; ?>
     </div>
 </div>
