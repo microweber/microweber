@@ -172,7 +172,6 @@ class AppServiceProvider extends ServiceProvider {
 
         $this->app->instance('config', new ConfigSave($this->app));
 
-        $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(TaggableFileCacheServiceProvider::class);
 
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
