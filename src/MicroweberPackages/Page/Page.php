@@ -13,19 +13,24 @@ class Page extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'title',
-        'url',
-        'parent',
-        'description',
-        'position',
-        'content',
-        'content_body',
-        'is_active',
-        'is_home',
-        'is_shop',
-        'is_deleted',
-        'status',
-        'add_content_to_menu'
+        "subtype",
+        "subtype_value",
+        "content_type",
+        "parent",
+        "layout_file",
+        "active_site_template",
+        "title",
+        "url",
+        "content_meta_title",
+        "description",
+        "content_meta_keywords",
+        "original_link",
+        "require_login",
+        "created_by",
+        "is_home",
+        "is_shop",
+        "is_active",
+        "add_content_to_menu"
     ];
 
     public $translatable = ['title','description','content','content_body'];
