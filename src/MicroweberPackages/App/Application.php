@@ -19,7 +19,7 @@ use MicroweberPackages\Content\ContentManager;
 use MicroweberPackages\Content\DataFieldsManager;
 use MicroweberPackages\Database\DatabaseManager;
 use MicroweberPackages\Event\Event;
-use MicroweberPackages\Field\FieldsManager;
+use MicroweberPackages\CustomField\FieldsManager;
 use MicroweberPackages\Form\FormsManager;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\UrlManager;
