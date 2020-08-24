@@ -24,7 +24,7 @@ class CustomField extends Model
 
     public function value()
     {
-        return $this->hasOne(CustomFieldValue::class,'custom_field_id', 'id');
+        return $this->morphMany(CustomFieldValue::class,'custom_field_id', 'id');
     }
 
     public function save(array $options = [])

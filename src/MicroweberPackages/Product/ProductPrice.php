@@ -19,7 +19,6 @@ class ProductPrice extends CustomField
 
     public function save(array $options = [])
     {
-
         $this->rel_type = 'content';
         $this->type = 'price';
         $this->name = 'price';

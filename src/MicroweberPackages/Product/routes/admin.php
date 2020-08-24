@@ -33,6 +33,9 @@ Route::get('admin/product-x', function () {
     $product->description = 'Gumeni glavi brat! Shamara beshe moi';
     $product->save();*/
 
-    dd($product->price()->value);
+
+
+
+    dd($product->qty());
 
 });
