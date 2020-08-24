@@ -99,22 +99,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     });
                 </script>
 
-                <div class="mw-ui-box mw-ui-settings-box mw-ui-box-content ">
-                    <div class="m-b-10">
-                        <h4 class=" pull-left"><?php _e("Enable coupons support"); ?></h4>
-                        <label class="mw-switch pull-left inline-switch">
-                            <input type="checkbox" name="enable_coupons" class="mw_option_field" data-option-group="shop" data-value-checked="1" data-value-unchecked="0"<?php if (get_option('enable_coupons', 'shop') == 1): ?> checked="1" <?php endif; ?>>
-                            <span class="mw-switch-off"><?php _e('OFF'); ?></span>
-                            <span class="mw-switch-on"><?php _e('ON'); ?></span>
-                            <span class="mw-switcher"></span>
-                        </label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="form-group">
+                        <div class="custom-control custom-switch m-0">
+                            <input type="checkbox" name="enable_coupons" class="mw_option_field custom-control-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
 
-                        <div class="clearfix"></div>
+                            <label class="custom-control-label" for="enable_coupons"><?php _e("Enable coupons support"); ?></label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="mw-ui-field-holder add-new-button text-right m-b-10">
-                    <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded js-add-new-coupon" href="#"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+                    <div class="form-group">
+                        <a href="javascript:;" class="btn btn-primary btn-rounded js-add-new-coupon"><?php _e('Add new'); ?></a>
+                    </div>
                 </div>
 
                 <module type="shop/coupons/edit_coupons"/>
