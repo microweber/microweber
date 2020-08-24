@@ -1787,3 +1787,7 @@ small {
 .table-striped tbody tr:nth-of-type(odd) {
   background: #f2f3f5;
 }
+
+.table thead th{
+  font-weight: normal;
+}
