@@ -17,6 +17,15 @@ function load_all_functions_files_for_modules($options = false)
                     include_once $is_function;
                     $files[] = ($is_function);
                 }
+                $if_config = normalize_path(modules_path().$module['module'].DS.'config.php', false);
+                if (is_file($if_config)) {
+                    include_once $if_config;
+                    if (isset($config) && isset($config['service_provider'])) {
+                        if (class_exists($config['service_provider'])) {
+                            app()->register($config['service_provider']);
+                        }
+                    }
+                }
             }
         }
 
