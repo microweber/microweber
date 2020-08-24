@@ -7798,9 +7798,9 @@ label {
   width: calc(100% + 50px);
   margin-left: -25px; }
 
-.card {
+.card:not(.card-collapse) {
   overflow: unset !important; }
-  .card .card-header {
+  .card:not(.card-collapse) .card-header {
     overflow: unset !important; }
 
 textarea:not(.form-control) {
