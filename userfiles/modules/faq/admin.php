@@ -59,15 +59,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                       }
                   ]
               });
-              $(faqSettings).on("change", function (e, val) {
-                  var final = [];
-                  $.each(val, function () {
-                      var curr = $.extend({}, this);
-                      final.push(curr)
+              setTimeout(function (){
+                  $(faqSettings).on("change", function (e, val) {
+                      var final = [];
+                      $.each(val, function () {
+                          var curr = $.extend({}, this);
+                          final.push(curr)
+                      });
+                      var toVal = JSON.stringify(final);
+                      mw.$('#settingsfield').val(toVal).trigger('change');
                   });
-                  var toVal = JSON.stringify(final);
-                  mw.$('#settingsfield').val(toVal).trigger('change');
-              });
+              }, 300)
           })
         </script>
         <style>
