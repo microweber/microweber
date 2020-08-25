@@ -45,6 +45,13 @@ if (empty($data)) {
     #editEventForm .form-control, #editEventForm .mw-component-post-search {
         width: 100%;
     }
+    .table td{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .table .check span:last-child{
+        margin-left: 5px;
+    }
 </style>
 
 <script type='text/javascript'>mw.lib.require('datepicker');</script>
