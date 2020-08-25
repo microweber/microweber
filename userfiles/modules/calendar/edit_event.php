@@ -45,11 +45,13 @@ if (empty($data)) {
     #editEventForm .form-control, #editEventForm .mw-component-post-search {
         width: 100%;
     }
-    .table td{
+
+    .table td {
         padding-left: 5px;
         padding-right: 5px;
     }
-    .table .check span:last-child{
+
+    .table .check span:last-child {
         margin-left: 5px;
     }
 </style>
@@ -231,31 +233,56 @@ if (empty($data)) {
 
         <div class="js-recurrence-repeat-on" style="display:none;">
             <label class="control-label">Repeat on</label>
-            <table class="table">
-                <tr>
-                    <td>
-                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[monday]"/><span></span><span>Monday</span></label>
-                    </td>
-                    <td>
-                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[tuesday]"/><span></span><span>Tuesday</span></label>
-                    </td>
-                    <td>
-                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[wednesday]"/><span></span><span>Wednesday</span></label>
-                    </td>
-                    <td>
-                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[thursday]"/><span></span><span>Thursday</span></label>
-                    </td>
-                    <td>
-                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[friday]"/><span></span><span></span>Friday</label>
-                    </td>
-                    <td>
-                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[saturday]"/><span></span><span>Saturday</span></label>
-                    </td>
-                    <td>
-                        <label class="check"><input type="checkbox" value="1" name="recurrence_repeat_on[sunday]"><span></span><span>Sunday</span></label>
-                    </td>
-                </tr>
-            </table>
+            <div class="row">
+                <div class="col">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="recurrence_repeat_on[monday]" value="1" name="recurrence_repeat_on[monday]">
+                        <label class="custom-control-label" for="recurrence_repeat_on[monday]">Monday</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="recurrence_repeat_on[tuesday]" value="1" name="recurrence_repeat_on[tuesday]">
+                        <label class="custom-control-label" for="recurrence_repeat_on[tuesday]">Tuesday</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="recurrence_repeat_on[wednesday]" value="1" name="recurrence_repeat_on[wednesday]">
+                        <label class="custom-control-label" for="recurrence_repeat_on[wednesday]">Wednesday</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="recurrence_repeat_on[thursday]" value="1" name="recurrence_repeat_on[thursday]">
+                        <label class="custom-control-label" for="recurrence_repeat_on[thursday]">Thursday</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="recurrence_repeat_on[friday]" value="1" name="recurrence_repeat_on[friday]">
+                        <label class="custom-control-label" for="recurrence_repeat_on[friday]">Friday</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="recurrence_repeat_on[saturday]" value="1" name="recurrence_repeat_on[saturday]">
+                        <label class="custom-control-label" for="recurrence_repeat_on[saturday]">Saturday</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="recurrence_repeat_on[sunday]" value="1" name="recurrence_repeat_on[sunday]">
+                        <label class="custom-control-label" for="recurrence_repeat_on[sunday]">Sunday</label>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="js-recurrence-monthly-on" style="display:none;">
