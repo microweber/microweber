@@ -45,6 +45,13 @@ if (empty($data)) {
     #editEventForm .form-control, #editEventForm .mw-component-post-search {
         width: 100%;
     }
+    .table td{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .table .check span:last-child{
+        margin-left: 5px;
+    }
 </style>
 
 <script type='text/javascript'>mw.lib.require('datepicker');</script>
@@ -186,7 +193,7 @@ if (empty($data)) {
     </div>
 
     <div class="form-group">
-        <select name="recurrence_type" class="js-select-recurrence Xselectpicker" data-width="100%" data-size="5">
+        <select name="recurrence_type" class="js-select-recurrence selectpicker" data-width="100%" data-size="5">
             <option value="doesnt_repeat">Doesn't repeat</option>
             <option value="daily">Daily</option>
             <option value="weekly_on_the_day_name">Weekly on the day_name</option>
