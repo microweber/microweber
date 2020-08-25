@@ -186,7 +186,7 @@ if (empty($data)) {
     </div>
 
     <div class="form-group">
-        <select name="recurrence_type" class="js-select-recurrence selectpicker" data-width="100%" data-size="5">
+        <select name="recurrence_type" class="js-select-recurrence Xselectpicker" data-width="100%" data-size="5">
             <option value="doesnt_repeat">Doesn't repeat</option>
             <option value="daily">Daily</option>
             <option value="weekly_on_the_day_name">Weekly on the day_name</option>
