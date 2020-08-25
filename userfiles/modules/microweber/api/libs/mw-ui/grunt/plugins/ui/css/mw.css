@@ -57,14 +57,18 @@ header {
 
 .main-toolbar {
   position: absolute;
-  margin-top: -43px; }
+  margin-top: -43px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%; }
   .main-toolbar i.mdi {
     margin-top: 1px; }
 
 .main {
   display: flex;
   overflow: hidden;
-  padding-top: 30px; }
+  padding-top: 55px;
+  margin-top: 0 !important; }
   .main aside {
     width: 190px;
     float: left;

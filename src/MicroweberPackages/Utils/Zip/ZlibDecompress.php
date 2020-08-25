@@ -588,4 +588,3 @@ class ZlibDecompress {
     return -9;                          /* ran out of codes */
 	}
 }
-?>
