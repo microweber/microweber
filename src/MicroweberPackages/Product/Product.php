@@ -54,18 +54,9 @@ class Product extends Model
 
 
 
-    public function dataFields()
+    public function data()
     {
-//        Relation::morphMap([
-//            'content' =>ContentData::class,
-//        ]);
 
-      //  return $this->morphTo();
-        // return $this->morphMany('MicroweberPackages\ContentData\ContentData', 'content_data','rel_type','rel_id');
-
-        //  return $this->morphMany('MicroweberPackages\ContentData\ContentData', 'content_data','rel_type','rel_id');
-      //   return $this->morphMany('MicroweberPackages\ContentData\ContentData', 'content','rel_type','rel_id','content');
-      // return $this->morphMany(ContentData::class, 'rel')->orWhere('rel_type','content');
         return $this->morphMany(ContentData::class, 'rel');
     }
 
@@ -88,54 +79,54 @@ class Product extends Model
 
 
 
-//
-//    public function setPrice($price) {
-//        $this->price = $price;
-//    }
-//
-//    public function setSpecialPrice($price) {
-//        $this->special_price = $price;
-//    }
-//
 
-//
-//    public function qty()
-//    {
-//        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'qty')->first();
-//    }
-//
-//    public function sku()
-//    {
-//        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'sku')->first();
-//    }
-//
-//    public function shippingWeight()
-//    {
-//        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_weight')->first();
-//    }
-//
-//    public function shippingWidth()
-//    {
-//        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_width')->first();
-//    }
-//
-//    public function shippingHeight()
-//    {
-//        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_height')->first();
-//    }
-//
-//    public function shippingDepth()
-//    {
-//        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_depth')->first();
-//    }
-//
-//    public function price()
-//    {
-//        return $this->hasOne(ProductPrice::class, 'rel_id');
-//    }
-//
-//    public function specialPrice()
-//    {
-//        return $this->hasOne(ProductSpecialPrice::class, 'rel_id');
-//    }
+    public function setPrice($price) {
+        $this->price = $price;
+    }
+
+    public function setSpecialPrice($price) {
+        $this->special_price = $price;
+    }
+
+
+
+    public function qty()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'qty')->first();
+    }
+
+    public function sku()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'sku')->first();
+    }
+
+    public function shippingWeight()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_weight')->first();
+    }
+
+    public function shippingWidth()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_width')->first();
+    }
+
+    public function shippingHeight()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_height')->first();
+    }
+
+    public function shippingDepth()
+    {
+        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_depth')->first();
+    }
+
+    public function price()
+    {
+        return $this->hasOne(ProductPrice::class, 'rel_id');
+    }
+
+    public function specialPrice()
+    {
+        return $this->hasOne(ProductSpecialPrice::class, 'rel_id');
+    }
 }

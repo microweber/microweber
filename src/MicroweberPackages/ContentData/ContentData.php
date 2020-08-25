@@ -19,11 +19,8 @@ class ContentData extends Model
     ];
 
 
-    public function sku()
-    {
-        echo 1;
-        die();
-    }
+
+
 
 //
 //    public function setAttribute($key, $value)
@@ -50,13 +47,13 @@ class ContentData extends Model
      */
 
 
-    public function setQtyAttribute($value)
-    {
-        $tmp['field_name'] = 'qty';
-        $tmp['field_value'] =$value;
-        $this->attributes [] = $tmp;
-        return $this;
-    }
+//    public function setQtyAttribute($value)
+//    {
+//        $tmp['field_name'] = 'qty';
+//        $tmp['field_value'] =$value;
+//        $this->attributes [] = $tmp;
+//        return $this;
+//    }
 
 
     public function scopeSku($query)
