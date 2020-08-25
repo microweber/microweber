@@ -395,16 +395,10 @@ api_expose('thumbnail_img');
     }
 })->middleware(\MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class);
 
-
-
-
 api_expose('create_media_dir');
-
 api_expose('media/delete_media_file');
 
-
 // queue
-
 api_expose('queue_dispatch', function () {
     return;
     mw()->event_manager->trigger('mw.queue.dispatch');
