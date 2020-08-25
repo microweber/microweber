@@ -23,7 +23,19 @@ Route::get('admin/product-x', function () {
    $product = \MicroweberPackages\Product\Product::with('price','specialPrice')->where('id', 1)->first();
 
 
-    /*$product = \MicroweberPackages\Product\Product::where('id', 1)->first();
+    $product = \MicroweberPackages\Product\Product::where('id', 1)->first();
+
+    $content_data = new \MicroweberPackages\ContentData\ContentData(
+        'sku','skyy9458944'
+    );
+    $product->attach($content_data);
+
+
+
+//    $product->setAttr(['label' => 'red', 'order_d' => 12]);
+//    $product->setDataFields(['name' => 'Petko', 'order_d' => 12]);
+
+
     $product->price = 99.99;
     $product->special_price = 69.99;
     $product->qty = 4;
@@ -31,9 +43,7 @@ Route::get('admin/product-x', function () {
     $product->title = 'Гумени Глави - Квартал № 41 - 1994 (цял албум)';
     $product->url = 'gumeni-glavi-cql-album';
     $product->description = 'Gumeni glavi brat! Shamara beshe moi';
-    $product->save();*/
-
-
+    $product->save();
 
 
     dd($product->qty());
