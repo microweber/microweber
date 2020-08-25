@@ -42,10 +42,8 @@ MWEditor.controllers = {
                 props: {
                     className: 'mdi-format-bold',
                     tooltip: rootScope.lang('Bold')
-
                 }
             });
-
             el.on('mousedown touchstart', function (e) {
                 api.execCommand('bold');
             });

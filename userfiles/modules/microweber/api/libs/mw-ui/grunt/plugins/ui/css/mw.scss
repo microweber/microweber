@@ -87,6 +87,9 @@ header {
 .main-toolbar {
   position: absolute;
   margin-top: -43px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   i.mdi {
     margin-top: 1px;
   }
@@ -95,7 +98,8 @@ header {
 .main {
   display: flex;
   overflow: hidden;
-  padding-top: 30px;
+  padding-top: 55px;
+  margin-top: 0 !important;
 
   aside {
     width: 190px;
@@ -1437,6 +1441,7 @@ header {
 .mw-custom-field-icon-captcha:before {
   content: "";
 }
+
 .mw-custom-field-icon-captcha:before {
   content: "";
 }

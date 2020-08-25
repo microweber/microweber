@@ -22,6 +22,16 @@ if (isset($_POST['taggable_ids']) && !empty($_POST['taggable_ids']) && $_POST['t
     .helptext {
         color: #666;
     }
+    .mw-select{
+        width: 100%;
+    }
+     form .mw-select-options{
+        max-height: 220px !important;
+    }
+    form{
+        min-height: 300px;
+    }
+
 </style>
 
 <script>

@@ -34,14 +34,16 @@ $mod_suffix = md5($params['id']);
     .fc-event {
         cursor: pointer;
     }
+
+    .fc-content{
+        color: #fff;
+        padding: 7px 5px;
+        background: #4592ff;
+    }
 </style>
 
 <script>
-
-
-
     $(document).ready(function () {
-
         var scopeCalendar = mw.$('#calendar-<?php print $mod_suffix; ?>');
 
         $(document).on('calendar.update', function () {
@@ -49,16 +51,14 @@ $mod_suffix = md5($params['id']);
                 scopeCalendar.fullCalendar('removeEvents');
                 scopeCalendar.fullCalendar('addEventSource', json_events);
             });
-
         });
 
-
         var zone = "05:30";  //Change this to your timezone
-
         var currentMousePos = {
             x: -1,
             y: -1
         };
+
         jQuery(document).on("mousemove", function (event) {
             currentMousePos.x = event.pageX;
             currentMousePos.y = event.pageY;
@@ -106,7 +106,7 @@ $mod_suffix = md5($params['id']);
 
             viewRender: function (view, element) {
                 // getData for selected year-month
-                getData('<?php print $mod_suffix ?>', function(){
+                getData('<?php print $mod_suffix ?>', function () {
                     scopeCalendar.fullCalendar('removeEvents');
                     scopeCalendar.fullCalendar('addEventSource', json_events);
                 });
@@ -116,7 +116,6 @@ $mod_suffix = md5($params['id']);
         });
 
         function getData($mod_suffix, c) {
-
             var date = $("#calendar-" + $mod_suffix).fullCalendar('getDate');
             if (!date) {
                 return;
@@ -131,15 +130,13 @@ $mod_suffix = md5($params['id']);
                 async: false,
                 success: function (s) {
                     json_events = s;
-                    if(c) {
+                    if (c) {
                         c.call()
                     }
                 }
             });
         }
-
     });
-
 </script>
 
 <div id="eventContent" title="<?php _e('Event Details'); ?>" style="display:none;">

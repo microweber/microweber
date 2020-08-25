@@ -37,6 +37,7 @@
   padding: 8px 0;
   position: relative;
   outline: none;
+
 }
 
 select.mw-ui-invisible-field {
@@ -54,18 +55,38 @@ select.mw-ui-invisible-field {
 }
 
 .mw-ui-field {
-  border: 1px solid @fieldBorderColor;
-  padding: 8px;
+
   max-width: 100%;
-  border-radius: @radius;
-  background-color: white;
+
   outline: none;
   cursor: text;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   box-shadow: inset 0 0 3px rgba(0, 0, 0, .2);
-  transition: border-color .3s, box-shadow, .3s;
+
+
+
+    height: 2.5rem;
+    padding: 0.75rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #2b2b2b;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #cfcfcf;
+    border-radius: 5px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus{
+        border-color: #4592ff;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+
+
     &[type='range']{
         box-shadow: none;
         cursor: grab;
@@ -372,17 +393,16 @@ div.mw-ui-field:after {
       border-radius: 2px;
       &:after {
         display: inline-block;
-        font-family: Microweber;
         text-transform: none;
         top: 0%;
         left: 0%;
         width: 100%;
         height: 100%;
         line-height: 100%;
-          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
-background-position: center;
-          background-repeat: no-repeat;
-          background-size: 60%;
+        background-position: center;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-size: 60%;
         color: @info;
         text-align: center;
           font-size: 11px;

@@ -665,7 +665,7 @@ mw.wysiwyg = {
                     if (mw.form) {
                         var is_link = mw.form.validate.url(html);
                         if (is_link) {
-                            var html = "<a href='" + html + "'>" + html + "</a>";
+                            html = "<a href='" + html + "'>" + html + "</a>";
                         }
                     }
 

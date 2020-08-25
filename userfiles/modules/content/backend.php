@@ -197,7 +197,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
 
 
-        mw.admin.CategoryTreeWidth(this);
+
 
         mw.$(".js-top-save").hide();
 

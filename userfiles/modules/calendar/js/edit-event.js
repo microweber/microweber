@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     // Edit event fill the form and select the options
     if (typeof event_data.recurrence_type !== 'undefined') {
-        
+
         $(".js-select-recurrence").val(event_data.recurrence_type).change();
 
         if (event_data.recurrence_type == 'custom') {
@@ -76,85 +76,94 @@ $(document).ready(function () {
             $('.js-end-time-wrapper').show();
         }
     });
+    var __recTime = null;
 
-    $('.js-select-recurrence').change(function () {
+    $('.js-select-recurrence').on('change', function () {
 
-        // Enable click on recurrence repeat type
-        enableRecurrenceRepeatTypeDayMonthYear();
-        enableRecurrenceRepeatTypeDayWeekYear();
+        clearTimeout(__recTime);
 
-        // Reset repeat type
-        $(".js-recurrence-repeat-type").val("day").change();
-        $('.js-custom-recurrence-wrapper').hide();
-        $('.js-recurrence-monthly-on').hide();
+        __recTime = setTimeout(function (){
 
-        if (this.value == "custom") {
-            $('.js-custom-recurrence-wrapper').show();
-        } else if (this.value == "annually_on_custom_day") {
-            $('.js-custom-recurrence-wrapper').show();
-        } else if (this.value == "weekly_on_the_day_name") {
+            var val = $('select.js-select-recurrence').val();
 
-            // Reset globals
-            selectedWeekdays.length = 0;
+            // Enable click on recurrence repeat type
+            enableRecurrenceRepeatTypeDayMonthYear();
+            enableRecurrenceRepeatTypeDayWeekYear();
 
-            toggleEveryWeekday(false);
-            toggleWeekendDays(false);
+            // Reset repeat type
+            $(".js-recurrence-repeat-type").val("day").change();
+            $('.js-custom-recurrence-wrapper').hide();
+            $('.js-recurrence-monthly-on').hide();
 
-            $('.js-custom-recurrence-wrapper').show();
-            changeRecurrenceRepeatTypeToWeek();
+            if (val === "custom") {
+                $('.js-custom-recurrence-wrapper').show();
+            } else if (val === "annually_on_custom_day") {
+                $('.js-custom-recurrence-wrapper').show();
+            } else if (val === "weekly_on_the_day_name") {
 
-            // Disable to click on other options
-            disableRecurrenceRepeatTypeDayMonthYear();
+                // Reset globals
+                selectedWeekdays.length = 0;
 
-            // Change to day of selected day
-            var startDate = $('.js-start-date').val();
-            var dayName = getDayName(startDate);
-            $("input[name*='recurrence_repeat_on[" + dayName.toLowerCase() + "]']").click();
+                toggleEveryWeekday(false);
+                toggleWeekendDays(false);
 
-        } else if (this.value == "weekly_on_the_days_names") {
-            $('.js-custom-recurrence-wrapper').show();
-            changeRecurrenceRepeatTypeToWeek();
+                $('.js-custom-recurrence-wrapper').show();
+                changeRecurrenceRepeatTypeToWeek();
+
+                // Disable to click on other options
+                disableRecurrenceRepeatTypeDayMonthYear();
+
+                // Change to day of selected day
+                var startDate = $('.js-start-date').val();
+                var dayName = getDayName(startDate);
+                $("input[name*='recurrence_repeat_on[" + dayName.toLowerCase() + "]']").click();
+
+            } else if (val === "weekly_on_the_days_names") {
+                $('.js-custom-recurrence-wrapper').show();
+                changeRecurrenceRepeatTypeToWeek();
 
 
 
-        } else if (this.value == "weekly_on_all_days") {
-            $('.js-custom-recurrence-wrapper').show();
+            } else if (val === "weekly_on_all_days") {
+                $('.js-custom-recurrence-wrapper').show();
 
-            // Disable to click on other options
-            disableRecurrenceRepeatTypeDayMonthYear();
+                // Disable to click on other options
+                disableRecurrenceRepeatTypeDayMonthYear();
 
-            changeRecurrenceRepeatTypeToWeek();
-            toggleEveryWeekday(true);
-            toggleWeekendDays(true);
-            refreshWeeklyOnTheDaysNamesOption();
+                changeRecurrenceRepeatTypeToWeek();
+                toggleEveryWeekday(true);
+                toggleWeekendDays(true);
+                refreshWeeklyOnTheDaysNamesOption();
 
-        } else if (this.value == "every_weekday") {
-            // Reset globals
-            selectedWeekdays.length = 0;
+            } else if (val === "every_weekday") {
+                // Reset globals
+                selectedWeekdays.length = 0;
 
-            toggleEveryWeekday(false);
-            toggleWeekendDays(false);
+                toggleEveryWeekday(false);
+                toggleWeekendDays(false);
 
-            $('.js-custom-recurrence-wrapper').show();
-            // Disable to click on other options
-            disableRecurrenceRepeatTypeDayMonthYear();
+                $('.js-custom-recurrence-wrapper').show();
+                // Disable to click on other options
+                disableRecurrenceRepeatTypeDayMonthYear();
 
-            changeRecurrenceRepeatTypeToWeek();
-            toggleEveryWeekday(true);
-        } else if (this.value == "monthly_on_the_day_number") {
-            changeRecurrenceRepeatTypeToMonth();
-            $('.js-custom-recurrence-wrapper').show();
-            disableRecurrenceRepeatTypeDayWeekYear();
+                changeRecurrenceRepeatTypeToWeek();
+                toggleEveryWeekday(true);
+            } else if (val === "monthly_on_the_day_number") {
+                changeRecurrenceRepeatTypeToMonth();
+                $('.js-custom-recurrence-wrapper').show();
+                disableRecurrenceRepeatTypeDayWeekYear();
 
-            $(".js-recurrence-monthly-on").val("the_day_number").change();
+                $(".js-recurrence-monthly-on").val("the_day_number").change();
 
-        } else if (this.value == "monthly_on_the_week_number_day_name") {
-            changeRecurrenceRepeatTypeToMonth();
-            $('.js-custom-recurrence-wrapper').show();
-            disableRecurrenceRepeatTypeDayWeekYear();
+            } else if (val === "monthly_on_the_week_number_day_name") {
+                changeRecurrenceRepeatTypeToMonth();
+                $('.js-custom-recurrence-wrapper').show();
+                disableRecurrenceRepeatTypeDayWeekYear();
 
-            $(".js-recurrence-monthly-on").val("the_week_number_day_name").change();
-        }
+                $(".js-recurrence-monthly-on").val("the_week_number_day_name").change();
+            }
+
+        }, 78);
 
     });
 
@@ -269,12 +278,17 @@ $(document).ready(function () {
             toggleEveryWeekday(true);
         }
 
-        $('.js-recurrence-repeat-on').slideUp();
-        $('.js-recurrence-monthly-on').slideUp();
-        if (this.value == "week") {
+        if (this.value === "week") {
             $('.js-recurrence-repeat-on').slideDown();
-        } else if (this.value == "month") {
+        } else {
+            $('.js-recurrence-repeat-on').slideUp();
+        }
+
+
+        if (this.value === "month") {
             $('.js-recurrence-monthly-on').slideDown();
+        } else {
+            $('.js-recurrence-monthly-on').slideUp();
         }
     });
 

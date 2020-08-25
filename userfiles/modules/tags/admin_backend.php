@@ -69,7 +69,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 mw_admin_edit_tag_modal = mw.dialog({
                     content: '<div id="mw_admin_add_tagging_tagged_item_module">Loading...</div>',
                     title: modal_title,
-                    id: 'mw_admin_add_tagging_tagged_item_popup_modal'
+                    id: 'mw_admin_add_tagging_tagged_item_popup_modal',
+                    height: 'auto'
                 });
 
                 var params = {}

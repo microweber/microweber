@@ -6,7 +6,7 @@ var EditorPredefinedControls = {
         [ 'bold', '|', 'italic' ]
     ],
     smallEditorDefault: [
-        ['bold', '|', 'italic']
+        ['bold', 'italic', '|', 'link']
     ]
 };
 
@@ -387,7 +387,7 @@ window.MWEditor = function (options) {
     };
 
     this.controls = [];
-    this.api = mw._editorApi(this);
+    this.api = MWEditor.api(this);
 
     this._addControllerGroups = [];
     this.addControllerGroup = function (obj, row, bar) {
