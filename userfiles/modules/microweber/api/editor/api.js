@@ -39,15 +39,58 @@ MWEditor.provider = function (scope) {
               return 'le-' + new Date().getTime();
             },
             field: function (conf) {
-                var placeholder = conf.reqplaceholder ? ('placeholder="' + conf.placeholder + '"') : '';
+                var placeholder = conf.placeholder ? ('placeholder="' + conf.placeholder + '"') : '';
                 var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
                 var name = conf.name ? ('name="' + conf.name + '"') : '';
                 conf.type = conf.type || 'text';
+                var required = conf.required ? ('required') : '';
+
                 return '<div class="form-group">' +
-                '<label>' + conf.label + '</label>' +
+                '<label for="'+id+'">' + conf.label + '</label>' +
                 '<small class="text-muted d-block mb-2">' + conf.description + '</small>' +
-                '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' class="form-control">' +
+                '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control">' +
                 '</div>';
+            },
+            checkbox: function (conf) {
+                var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
+                var name = conf.name ? ('name="' + conf.name + '"') : '';
+                var required = conf.required ? ('required') : '';
+
+                return '<div class="form-group">' +
+                    '<div class="custom-control custom-checkbox">' +
+                    '<label for="'+id+'">' + conf.label + '</label>' +
+                    '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
+                    '</div>'+
+                    '</div>';
+            },
+            radio: function (conf) {
+                var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
+                var name = conf.name ? ('name="' + conf.name + '"') : '';
+                var required = conf.required ? ('required') : '';
+
+                return '<div class="form-group">' +
+                    '<div class="custom-control custom-checkbox">' +
+                    '<label for="'+id+'">' + conf.label + '</label>' +
+                    '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
+                    '</div>'+
+                    '</div>';
+            },
+            select: function (conf) {
+                var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
+                var name = conf.name ? ('name="' + conf.name + '"') : '';
+                var required = conf.required ? ('required') : '';
+                var multiple = conf.multiple ? ('multiple') : '';
+
+                var options = (conf.options || []).map(function (item){
+                    return '<option value="'+ item.value +'">'+(item.title||item.name||item.name||item.value)+'</option>';
+                }).join('');
+
+                return '<div class="form-group"><label>' + conf.label + '</label>' +
+                    '<select class="selectpicker" '+multiple+' data-actions-box="true">' +
+                    options +
+                    '</select>' +
+                    '</div>';
+
             }
         },
         build: function (options){
@@ -63,6 +106,7 @@ MWEditor.provider = function (scope) {
     };
     LinkEditor.prototype.init.prototype = LinkEditor.prototype;
     master.LinkEditor = LinkEditor;
+
 })(this);
 
 
