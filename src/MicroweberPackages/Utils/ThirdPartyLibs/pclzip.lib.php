@@ -5690,6 +5690,3 @@ namespace MicroweberPackages\ThirdPartyLibs;
     return $p_path;
   }
   // --------------------------------------------------------------------------------
-
-
-?>
