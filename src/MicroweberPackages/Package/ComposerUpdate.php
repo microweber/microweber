@@ -363,6 +363,8 @@ class ComposerUpdate
 
     public function installPackageByName($params)
     {
+        ob_start();
+
         if ('disabled' == $this->updateChannel) {
             return;
         }
@@ -505,15 +507,16 @@ class ComposerUpdate
 
         $version = strip_tags($version);
         $version = trim($version);
- ob_start();
+
         $return = $this->searchPackages($params);
-ob_end_clean();
 
         if (!$return) {
+            ob_end_clean();
             return array('error' => 'Error. Cannot find any packages for ' . $keyword);
         }
 
         if (!isset($return[$keyword])) {
+            ob_end_clean();
             return array('error' => 'Error. Package not found in repositories ' . $keyword);
 
         }
@@ -549,12 +552,14 @@ ob_end_clean();
             }
 
             if (!$version_data) {
+                ob_end_clean();
                 return;
             }
 
             $dryRun = false;
             $need_key = false;
             if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
+                ob_end_clean();
                 return array('error' => 'No download source found for ' . $keyword);
             }
 
@@ -569,6 +574,7 @@ ob_end_clean();
                     $error_text = _e($error_text, true);
                 }
 
+                ob_end_clean();
                 return array(
                     'error' => $error_text,
                     // 'form_data_required' => 'license_key',
@@ -581,6 +587,7 @@ ob_end_clean();
             }
 
             if (!$temp_folder) {
+                ob_end_clean();
                 return array('error' => 'Error preparing installation for ' . $keyword);
 
             }
@@ -609,10 +616,7 @@ ob_end_clean();
             $io = new InstallerIO('', 32, null);
             // $io = new NullIO('', false, null);
 
-            ob_start();
             $composer = Factory::create($io);
-            ob_end_clean();
-
 
             //       $input->setOption('no-plugins',true);
 
@@ -639,7 +643,7 @@ ob_end_clean();
             } catch (PackageManagerUnzipOnChunksException $e) {
                 $cache_key_for_unzip_on_chunks = $e->getMessage();
 
-
+                ob_end_clean();
                 return array(
                     'try_again' => true,
                     'error' => 'There was error with unzip',
@@ -711,6 +715,7 @@ ob_end_clean();
                         $error = _e($error);
                     }
 
+                    ob_end_clean();
                     return array(
                         'error' => $error,
                         //   'form_data_required' => 'confirm_key',
@@ -779,7 +784,7 @@ ob_end_clean();
                     app()->update->post_update();
                 }
             }
-
+            ob_end_clean();
             return $resp;
 
         }
