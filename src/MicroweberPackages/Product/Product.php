@@ -2,42 +2,20 @@
 namespace MicroweberPackages\Product;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\ContentData\ContentData;
-use MicroweberPackages\Product\Casts\ProductDataAttributes;
+use MicroweberPackages\Database\Traits\CreatedByTrait;
 
 class Product extends Model
 {
     protected $table = 'content';
-    protected $primaryKey = 'id';
 
-    protected $fillable = [
-        'title',
-        'url',
-        'parent',
-        'description',
-        'position',
-        'is_active',
-        'is_deleted',
-        'status'
-    ];
-
-    protected $casts = [
-        'data' => ProductDataAttributes::class,
-    ];
-
-    public $translatable = ['title','description','content','content_body'];
-
-
+    public  $contentData = [];
 
     public function getMorphClass()
     {
         return 'content';
     }
-
-
-
 
 
     /**
@@ -50,83 +28,53 @@ class Product extends Model
         static::addGlobalScope(new ProductScope());
     }
 
-
-
-
-
     public function data()
     {
-
         return $this->morphMany(ContentData::class, 'rel');
     }
 
-//    public function attributes()
-//    {
-//        return $this->morphMany('Attributes', 'rel');
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function setPrice($price) {
-        $this->price = $price;
-    }
-
-    public function setSpecialPrice($price) {
-        $this->special_price = $price;
-    }
-
-
-
-    public function qty()
+    public function getPriceAttribute($value)
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'qty')->first();
+        return '5';
+        //SQL QUERY
     }
 
-    public function sku()
+    public function setContentData($values)
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'sku')->first();
+        foreach($values as $key => $val) {
+            $this->contentData[$key] = $val;
+        }
     }
 
-    public function shippingWeight()
+    public function getContentData($values)
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_weight')->first();
+        $res = [];
+        $arrData = !empty($this->data) ? $this->data->toArray() : [];
+
+        foreach($values as $value) {
+            if(array_key_exists($value, $this->contentData)) {
+                $res[$value] =  $this->contentData[$value];
+            } else {
+                foreach($arrData as $key => $val) {
+                    if($val['field_name']  == $value){
+                        $res[$value] =  $val['field_value'];
+                    }
+                }
+            }
+        }
+
+        return $res;
     }
 
-    public function shippingWidth()
+    public function save(array $options = [])
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_width')->first();
-    }
+        $this->content_type = 'product';
 
-    public function shippingHeight()
-    {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_height')->first();
-    }
+        foreach($this->contentData as $key => $value) {
+            $this->data()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
+                ['field_name' => $key, 'field_value' => $value]);
+        }
 
-    public function shippingDepth()
-    {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_depth')->first();
-    }
-
-    public function price()
-    {
-        return $this->hasOne(ProductPrice::class, 'rel_id');
-    }
-
-    public function specialPrice()
-    {
-        return $this->hasOne(ProductSpecialPrice::class, 'rel_id');
+        parent::save($options);
     }
 }

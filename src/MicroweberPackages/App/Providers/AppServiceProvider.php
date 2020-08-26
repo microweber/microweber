@@ -40,6 +40,7 @@ use MicroweberPackages\Order\OrderManagerServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Product\ProductServiceProvider;
+use MicroweberPackages\ContentData\ContentDataServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
 use MicroweberPackages\Tax\TaxManagerServiceProvider;
@@ -187,6 +188,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(MenuManagerServiceProvider::class);
         $this->app->register(ProductServiceProvider::class);
+        $this->app->register(ContentDataServiceProvider::class);
 
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);

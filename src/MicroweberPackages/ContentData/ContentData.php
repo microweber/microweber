@@ -2,11 +2,14 @@
 namespace MicroweberPackages\ContentData;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Database\Observers\CreatedByObserver;
+
 
 class ContentData extends Model
 {
-
     protected $table = 'content_data';
+
+    public $timestamps = true;
 
     protected $fillable = [
         'rel_type',
@@ -14,51 +17,10 @@ class ContentData extends Model
         'field_value',
         'field_name',
         'content_id',
-        'edited_by',
-        'created_by'
+       // 'edited_by',
+       // 'created_by'
     ];
 
 
-
-
-
-//
-//    public function setAttribute($key, $value)
-//    {
-//
-//
-//
-//        //parent::setAttribute($key, $value);
-//    }
-
-
-
-
-    /**
-     * @param $value
-     */
-    public function setSkuAttribute($value)
-    {
-        $this->attributes['field_name'] = 'sku';
-        $this->attributes['field_value'] =$value;
-        return $this;
-    }  /**
-     * @param $value
-     */
-
-
-//    public function setQtyAttribute($value)
-//    {
-//        $tmp['field_name'] = 'qty';
-//        $tmp['field_value'] =$value;
-//        $this->attributes [] = $tmp;
-//        return $this;
-//    }
-
-
-    public function scopeSku($query)
-    {
-        return $query->where('field_name', 'sku');
-    }
 
 }

@@ -8,7 +8,7 @@
  * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
-namespace MicroweberPackages\Database;
+namespace MicroweberPackages\Database\Observers;
 
 
 class BaseModelObserver

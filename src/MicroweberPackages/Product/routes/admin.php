@@ -1,7 +1,6 @@
 <?php
 
-//@todo return here
-//return;
+use MicroweberPackages\Product\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +21,18 @@
 
 Route::get('admin/xxx-xxx', function () {
 
-    $product = \MicroweberPackages\Product\Product::where('id', 10)->first();
-
-    dd('aaaa',$product->data);
+    $product = Product::find(10);
+    $product->setContentData(['laptop' => 'dell', 'sku' => 4, 'apartament' => 'reduta3', 'tedzsfdsf' => 'kola sddws']);
+    //$contentData = $product->getContentData(['sku', 'qty', 'ekont']);
+    //dd($contentData);
+    $product->save();
+//
+//    $product->save();
+//
+//    $product->data();
+//
+//    dd('aaaa',$product->data);
+    dd(23);
 });
 
 Route::get('admin/product-xx', function () {
