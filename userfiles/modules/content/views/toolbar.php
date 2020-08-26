@@ -172,7 +172,7 @@ if ($last_page_front != false) {
             </h5>
         <?php elseif ($act == 'products'): ?>
             <h5>
-                <i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i>
+                <i class="mdi mdi-shopping text-primary mr-3"></i>
                 <strong><?php _e("Products"); ?></strong>
             </h5>
         <?php elseif (isset($params['is_shop'])): ?>
