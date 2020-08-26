@@ -4,7 +4,6 @@ namespace MicroweberPackages\Product;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\ContentData\ContentData;
-use MicroweberPackages\Database\Traits\CreatedByTrait;
 
 class Product extends Model
 {
