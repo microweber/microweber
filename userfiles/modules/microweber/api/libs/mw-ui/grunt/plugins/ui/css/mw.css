@@ -56,7 +56,6 @@ header {
       min-width: 173px; } }
 
 .main-toolbar {
-  position: absolute;
   margin-top: -43px;
   display: flex;
   justify-content: space-between;

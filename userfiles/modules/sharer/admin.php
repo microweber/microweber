@@ -91,7 +91,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="display: none;">
                     <td>
                         <div class="form-group m-0">
                             <div class="custom-control custom-checkbox d-flex align-items-center m-0">
