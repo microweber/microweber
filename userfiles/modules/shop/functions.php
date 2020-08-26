@@ -44,7 +44,7 @@ function mw_print_admin_dashboard_orders_btn()
     $admin_dashboard_btn['text'] = _e("View Orders", true) . $notif_html;
     mw()->ui->module('admin.dashboard.menu', $admin_dashboard_btn);
 }
-
+/*
 event_bind('mw_edit_product_admin', function ($data) {
     if (isset($data['id'])) {
         if (get_option('shop_disabled', 'website') == 'y') {
@@ -52,7 +52,7 @@ event_bind('mw_edit_product_admin', function ($data) {
         }
         print '<module type="shop/products/product_options" content-id="' . $data['id'] . '" />';
     }
-});
+});*/
 
 
 event_bind('module.content.edit.main', function ($data) {
