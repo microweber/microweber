@@ -93,7 +93,7 @@
         })
     });
 
-    mw.checkout_confirm_email_test = function () {
+    checkout_confirm_email_test = function () {
         var email_to = {}
         email_to.to = $('#test_email_to').val();
         //email_to.subject = $('#test_email_subject').val();

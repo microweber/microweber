@@ -40,23 +40,6 @@ if (!empty($template_id)) {
         });
     });
 
-    NewMailEditor = mw.editor({
-        element: mwd.getElementById('editorAM'),
-        hideControls: ['format', 'fontsize', 'justifyfull'],
-        height: 400,
-        addControls: mwd.getElementById('editorctrls').innerHTML,
-        ready: function (content) {
-            content.defaultView.mw.dropdown();
-            mw.$("#email_content_dynamic_vals li", content).bind('click', function () {
-                NewMailEditor.api.insert_html($(this).attr('value'));
-            });
-        }
-    });
-    $(NewMailEditor).bind('change', function () {
-        <?php if ($template['id'] == ''): ?>
-        <?php endif; ?>
-    });
-
     function cancelTemplateEdit() {
         mw.reload_module('admin/mail_templates');
 
@@ -66,12 +49,55 @@ if (!empty($template_id)) {
     }
 </script>
 
-<div id="editorctrls" style="display: none">
 
+<script>mw.require('editor.js')</script>
+<script>
+    $(document).ready(function () {
+        mweditor = new mw.Editor({
+            selector: '#editorAM',
+            mode: 'div',
+            smallEditor: false,
+            minHeight: 250,
+            maxHeight: '70vh',
+            controls: [
+                [
+                    'undoRedo', '|', 'image', '|',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-bold',
+                            controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                        }
+                    },
+                    '|',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-align-left',
+                            controls: ['align']
+                        }
+                    },
+                    '|', 'format',
+                    {
+                        group: {
+                            icon: 'mdi mdi-format-list-bulleted-square',
+                            controls: ['ul', 'ol']
+                        }
+                    },
+                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                ],
+            ]
+        });
+
+        $(mweditor).bind('change', function () {
+            <?php if ($template['id'] == ''): ?>
+            <?php endif; ?>
+        });
+    });
+</script>
+
+<div id="editorctrls" style="display: none">
     <span class="mw_dlm"></span>
     <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="email_content_dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
         <span class="mw-dropdown-value">
-
             <span class="mw-dropdown-val"><?php _e("E-mail Values"); ?></span>
         </span>
         <div class="mw-dropdown-content">
