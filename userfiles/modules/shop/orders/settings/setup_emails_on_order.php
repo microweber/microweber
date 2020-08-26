@@ -34,20 +34,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <small class="text-muted d-block mb-2">
             <?php _e("You must have a working email setup in order to send emails"); ?>.
-            <a class="btn btn-link btn-sm py-0" target="_blank" href="<?php print admin_url('view:settings#option_group=email'); ?>"><?php _e("Setup email here"); ?>.</a>
+            <a class="btn btn-outline-primary btn-sm ml-2" target="_blank" href="<?php print admin_url('view:settings#option_group=email'); ?>"><?php _e("check your e-mail settings"); ?></a>
         </small>
+
+        <hr class="thin" />
 
         <?php $send_email_on_new_order = get_option('send_email_on_new_order', 'orders'); ?>
 
         <div class="form-group">
             <label class="control-label"><?php _e("Send email to"); ?></label>
+            <small class="text-muted d-block mb-2">Send the autorespond emails to</small>
             <select class="mw_option_field selectpicker" data-width="100%" data-option-group="orders" name="send_email_on_new_order">
                 <option value="" <?php if ($send_email_on_new_order == ''): ?>selected="selected"<?php endif; ?>><?php _e('Default (Admins & Client)'); ?></option>
                 <option value="admins" <?php if ($send_email_on_new_order == 'admins'): ?>selected="selected"<?php endif; ?>><?php _e('Only Admins'); ?></option>
                 <option value="client" <?php if ($send_email_on_new_order == 'client'): ?>selected="selected"<?php endif; ?>><?php _e('Only Client'); ?></option>
             </select>
         </div>
-
 
         <div class="form-group">
             <label class="control-label d-block"><?php _e("Send email when"); ?></label>
@@ -62,6 +64,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <label class="custom-control-label" for="order_email_send_when_2"><?php _e('Order is paid'); ?></label>
             </div>
         </div>
+
+        <hr class="thin" />
 
         <module type="admin/mail_providers/integration_select" option_group="shop"/>
 
