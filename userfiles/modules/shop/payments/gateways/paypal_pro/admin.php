@@ -2,7 +2,7 @@
 
 
 <div class="mb-3 float-right">
-    <img src="<?php print $config['url_to_module'] ?>paypal_pro_inner.png" style="max-width: 140px;"/>
+    <img src="<?php print $config['url_to_module'] ?>paypal_pro.svg"  style="width: 50px; margin-top: -70px;"/>
 </div>
 
 <div class="form-group">
