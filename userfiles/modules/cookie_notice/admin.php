@@ -118,14 +118,14 @@ code:			'123456'
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label"><?php _e('Panel Background Color'); ?>:</label>
-                            <input type="text" id="bg-color" class="form-control backgroundColor" readonly="readonly" style="width:80px;<?php print (isset($settings['backgroundColor']) ? ' background:' . $settings['backgroundColor'] : ''); ?>" value="<?php print (isset($settings['backgroundColor']) ? $settings['backgroundColor'] : ''); ?>">
+                            <input type="text" id="bg-color" class="form-control backgroundColor" readonly="readonly" style="width:150px;<?php print (isset($settings['backgroundColor']) ? ' background:' . $settings['backgroundColor'] : ''); ?>" value="<?php print (isset($settings['backgroundColor']) ? $settings['backgroundColor'] : ''); ?>">
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label"><?php _e('Panel Text Color'); ?>:</label>
-                            <input type="text" id="text-color" class="form-control textColor" readonly="readonly" style="width:80px;<?php print (isset($settings['textColor']) ? ' background:' . $settings['textColor'] : ''); ?>" value="<?php print (isset($settings['textColor']) ? $settings['textColor'] : ''); ?>">
+                            <input type="text" id="text-color" class="form-control textColor" readonly="readonly" style="width:150px;<?php print (isset($settings['textColor']) ? ' background:' . $settings['textColor'] : ''); ?>" value="<?php print (isset($settings['textColor']) ? $settings['textColor'] : ''); ?>">
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 <?php must_have_access(); ?>
 
 <div class="mb-3 float-right">
-    <img src="<?php print $config['url_to_module'] ?>bank_transfer.png" style="max-width: 140px;"/>
+    <img src="<?php print $config['url_to_module'] ?>bank_transfer.svg"  style="width: 40px; margin-top: -70px;"/>
 </div>
 
 <div class="form-group">
