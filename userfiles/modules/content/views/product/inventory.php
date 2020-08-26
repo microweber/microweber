@@ -22,21 +22,21 @@
             <div class="col-md-6">
                 <div class="form-group mb-3">
                     <label>SKU (Stock Keeping Unit)</label>
-                    <input type="text" class="form-control" value="">
+                    <input type="text" name="sku" class="form-control" value="">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Barcode (ISBN, UPC, GTIN, etc.)</label>
-                    <input type="text" class="form-control" value="">
+                    <input type="text" name="barcode" class="form-control" value="">
                 </div>
             </div>
 
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-track-quantity-check" id="customCheck2">
+                        <input type="checkbox" name="track_quantity" class="custom-control-input js-track-quantity-check" id="customCheck2">
                         <label class="custom-control-label" for="customCheck2">Track quantity</label>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label>Available</label>
                         <div class="input-group mb-1 append-transparent input-group-quantity">
-                            <input type="text" class="form-control" value="0" />
+                            <input type="text" class="form-control" name="quantity" value="0" />
                             <div class="input-group-append">
                                 <div class="input-group-text plus-minus-holder">
                                     <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>
@@ -78,7 +78,7 @@
                     <div class="form-group">
                         <label>Max quantity per order</label>
                         <div class="input-group mb-1 append-transparent input-group-quantity">
-                            <input type="text" class="form-control" value="" placeholder="No limit" />
+                            <input type="text" class="form-control" name="max_quantity_per_order" value="" placeholder="No limit" />
                             <div class="input-group-append">
                                 <div class="input-group-text plus-minus-holder">
                                     <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>

@@ -11,18 +11,18 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text text-muted">BGN</span>
                     </div>
-                    <input type="text" class="form-control" value="0.00">
+                    <input type="text" class="form-control" name="price" value="0.00">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Price on sale (compare at price)</label>
+                    <label>Special Price</label>
                     <div class="input-group mb-3 prepend-transparent append-transparent">
                         <div class="input-group-prepend">
                             <span class="input-group-text text-muted">BGN</span>
                         </div>
-                        <input type="text" class="form-control" value="0.00">
+                        <input type="text" class="form-control" name="special_price" value="0.00">
                         <div class="input-group-append">
                             <span class="input-group-text" data-toggle="tooltip" title="" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price."><i class="mdi mdi-help-circle"></i></span>
                         </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <hr class="thin no-padding"/>
+     <!--   <hr class="thin no-padding"/>
 
         <div class="row">
             <div class="col-md-12">
@@ -42,7 +42,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text text-muted">BGN</span>
                     </div>
-                    <input type="text" class="form-control" value="0.00">
+                    <input type="text" class="form-control" name="unit_price" value="0.00">
                 </div>
 
                 <div class="form-group">
@@ -52,6 +52,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
