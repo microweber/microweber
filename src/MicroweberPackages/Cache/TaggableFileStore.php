@@ -297,7 +297,7 @@ class TaggableFileStore implements Store
         foreach ($this->tags as $tag) {
             $cacheFile = $this->_getTagMapPathByName($tag);
             if (!is_file($cacheFile)) {
-                file_put_contents($cacheFile, json_encode([]));
+                @file_put_contents($cacheFile, json_encode([]));
             }
         }
     }
@@ -349,7 +349,7 @@ class TaggableFileStore implements Store
                 $cacheMapContent[$key] = $filename;
                 $this->_tag_map_paths_cache_memory[$tag] = $cacheMapContent;
                 $cacheFile = $this->_getTagMapPathByName($tag);
-                file_put_contents($cacheFile, json_encode($cacheMapContent));
+                @file_put_contents($cacheFile, json_encode($cacheMapContent));
                 // dd($tag,debug_backtrace(1),'_addKeyPathToTagMap');
                 //  dump('_addKeyPathToTagMap',$tag,$key,$cacheMapContent);
 
