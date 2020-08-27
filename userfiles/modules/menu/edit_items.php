@@ -33,7 +33,7 @@ if ($id != 0) {
     <div id="menu-item-{id}" data-item-id="{id}" class="module_item d-flex justify-content-between align-items-center py-1 px-2 show-on-hover-root">
         <div class="d-inline-flex align-items-center">
             <i class="mdi mdi-cursor-move mdi-20px text-muted mr-2 show-on-hover mw_admin_modules_sortable_handle"></i>
-            <span data-item-id="{id}" class="menu_element_link {active_class}" onclick="mw.menu_admin.set_edit_item({id}, this, ' . $id . ');">{title}</span>
+            <span data-item-id="{id}" class="menu_element_link font-weight-bold {active_class}" onclick="mw.menu_admin.set_edit_item({id}, this, ' . $id . ');">{title}</span>
         </div>
         <div class="d-inline-flex align-items-center">
             <span class="btn btn-outline-primary btn-sm" onclick="mw.menu_admin.set_edit_item({id}, this, ' . $id . ');">' . _e('Edit', true) . '</span>
@@ -107,7 +107,7 @@ if ($id != 0) {
 
 <?php if (isset($data) and $data != false): ?>
     <div class="form-group">
-        <label class="control-label"><?php _e("Menu structure"); ?></label>
+        <label class="control-label"><strong><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?> <?php _e("structure"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Here you can edit your menu links. You can also drag and drop to reorder them."); ?></small>
     </div>
 
@@ -146,6 +146,6 @@ if ($id != 0) {
 <?php if ($id != 0): ?>
     <div class="d-flex justify-content-between align-items-center mt-3">
         <p class="m-0 font-weight-bold"><?php print strtoupper(str_replace('_', ' ', $menu_title)) . ' '; ?><?php _e("Selected"); ?></p>
-        <a href="javascript: mw.menu_delete('<?php print $id; ?>');" class="btn btn-outline-danger btn-sm">Delete &nbsp;<strong><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?></strong></a>
+        <a href="javascript: mw.menu_delete('<?php print $id; ?>');" class="btn btn-outline-danger btn-sm">Delete&nbsp;<strong><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?></strong></a>
     </div>
 <?php endif; ?>
