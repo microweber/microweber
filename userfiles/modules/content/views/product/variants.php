@@ -21,24 +21,24 @@ $productVariantOptions[] = [
     function addProductVariantOption(option_id = 0, option_name = '', option_values = '')
     {
         var optionHtml = '<div class="row js-product-variant-option-box js-product-variant-option-'+option_id+'">\n' +
-            '                    <div class="col-md-4">\n' +
-            '                        <div class="form-group">\n' +
-            '                            <h6 class="pb-1"><strong>Option</strong></h6>\n' +
-            '                            <div>\n' +
-            '                                <input type="text" name="product_variant_option['+option_id+'][name]" value="'+option_name+'" class="form-control">\n' +
-            '                            </div>\n' +
-            '                        </div>\n' +
-            '                    </div>\n' +
-            '                    <div class="col-md-8">\n' +
-            '                        <div class="text-right">\n' +
-            '                            <button type="button" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</button>\n' +
-            '                            <button type="button" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2" onclick="deleteProductVariantOption('+option_id+')">Remove</button>\n' +
-            '                        </div>\n' +
-            '                        <div class="form-group">\n' +
-            '                            <input type="text" data-role="tagsinput"  name="product_variant_option['+option_id+'][values]" value="'+option_values+'" class="js-tags-input" placeholder="Separate options with a comma" />\n' +
-            '                        </div>\n' +
-            '                    </div>\n' +
-            '                </div>';
+            '<div class="col-md-4">\n' +
+            '<div class="form-group">\n' +
+            '     <h6 class="pb-1"><strong>Option</strong></h6>\n' +
+            '      <div>\n' +
+            '           <input type="text" name="product_variant_option['+option_id+'][name]" value="'+option_name+'" class="form-control">\n' +
+            '     </div>\n' +
+            '</div>\n' +
+            '</div>\n' +
+            '<div class="col-md-8">\n' +
+            '    <div class="text-right">\n' +
+            '        <button type="button" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</button>\n' +
+            '        <button type="button" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2" onclick="deleteProductVariantOption('+option_id+')">Remove</button>\n' +
+            '    </div>\n' +
+            '    <div class="form-group">\n' +
+            '        <input type="text" data-role="tagsinput"  name="product_variant_option['+option_id+'][values]" value="'+option_values+'" class="js-tags-input" placeholder="Separate options with a comma" />\n' +
+            '    </div>\n' +
+            '</div>\n' +
+            '</div>';
 
         $('.js-product-variants-options').append(optionHtml);
 
