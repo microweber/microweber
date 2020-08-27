@@ -1,3 +1,15 @@
+<?php
+$productVariantOptions = [];
+$productVariantOptions[] = [
+    'option_name'=>'Size',
+    'option_values'=>['L','X','XL','M'],
+];
+$productVariantOptions[] = [
+    'option_name'=>'Color',
+    'option_values'=>['Green','Blue','White','Black'],
+];
+?>
+
 <script>mw.lib.require('mwui_init')</script>
 <style>
     .js-product-variants {
@@ -6,10 +18,67 @@
 </style>
 
 <script>
+    function addProductVariantOption(option_id = 0, option_name = '', option_values = '')
+    {
+        var optionHtml = '<div class="row js-product-variant-option-'+option_id+'">\n' +
+            '                    <div class="col-md-4">\n' +
+            '                        <div class="form-group">\n' +
+            '                            <h6 class="pb-1"><strong>Option '+(option_id+1)+'</strong></h6>\n' +
+            '                            <div>\n' +
+            '                                <input type="text" name="product_variant_option['+option_id+'][name]" value="'+option_name+'" class="form-control">\n' +
+            '                            </div>\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                    <div class="col-md-8">\n' +
+            '                        <div class="text-right">\n' +
+            '                            <button type="button" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</button>\n' +
+            '                            <button type="button" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2" onclick="deleteProductVariantOption('+option_id+')">Remove</button>\n' +
+            '                        </div>\n' +
+            '                        <div class="form-group">\n' +
+            '                            <input type="text" data-role="tagsinput"  name="product_variant_option['+option_id+'][values]" value="'+option_values+'" class="js-tags-input" placeholder="Separate options with a comma" />\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>';
+
+        $('.js-product-variant-option').append(optionHtml);
+
+        $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
+    }
+
+
+    var productVariantOptions = <?php echo json_encode($productVariantOptions); ?>;
+
+    for (i = 0; i < productVariantOptions.length; i++) {
+        option_values = productVariantOptions[i].option_values.join(', ');
+        addProductVariantOption(i, productVariantOptions[i].option_name, option_values);
+    }
+
+
+    function deleteProductVariantOption(option_id) {
+        $('.js-product-variant-option-' + option_id).remove();
+        productVariantOptions.splice(0, option_id)
+    }
+
     $(document).ready(function () {
+
        $('.js-product-has-variants').click(function () {
            $('.js-product-variants').toggle();
        });
+
+       $('.js-add-variant-option').click(function () {
+           if (productVariantOptions.length > 2) {
+                alert('Maximum product variants are 3');
+               return;
+           }
+           productVariantOptions.push({"option_name":"","option_values":[]});
+           addProductVariantOption(productVariantOptions.length-1);
+
+       });
+
+        <?php if (!empty($productVariantOptions)): ?>
+        $('.js-product-has-variants').click();
+        <?php endif; ?>
+
     });
 </script>
 
@@ -35,33 +104,13 @@
 
             <h6 class="text-uppercase mb-3"><strong>Create an option</strong></h6>
 
-            <div class="options">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <h6 class="pb-1"><strong>Option 1</strong></h6>
-                            <div>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
+            <div class="options js-product-variant-option">
 
-                    <div class="col-md-8">
-                        <div class="text-right">
-                            <a href="#" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</a>
-                            <a href="#" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2">Remove</a>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" data-role="tagsinput" value="L,M,XL" placeholder="Separate options with a comma" />
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <hr class="thin" />
-                    </div>
-                </div>
             </div>
 
-            <button type="button" class="btn btn-outline-primary text-dark">Add another option</button>
+            <hr class="thin" />
+
+            <button type="button" class="btn btn-outline-primary text-dark js-add-variant-option">Add another option</button>
 
             <hr class="thin no-padding"/>
 
