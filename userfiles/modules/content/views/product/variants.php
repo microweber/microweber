@@ -18,6 +18,46 @@ $productVariantOptions[] = [
 </style>
 
 <script>
+    function addProductVariantValues() {
+        var variantHtml = '   <tr>\n' +
+            '                        <th scope="row" style="vertical-align: middle;">\n' +
+            '                            <span>L / Red</span>\n' +
+            '                        </th>\n' +
+            '                        <td>\n' +
+            '                            <div class="input-group prepend-transparent m-0">\n' +
+            '                                <div class="input-group-prepend">\n' +
+            '                                    <span class="input-group-text text-muted">BGN</span>\n' +
+            '                                </div>\n' +
+            '                                <input type="text" class="form-control" value="0.00">\n' +
+            '                            </div>\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                            <div class="input-group append-transparent input-group-quantity m-0">\n' +
+            '                                <input type="text" class="form-control" value="0">\n' +
+            '                                <div class="input-group-append">\n' +
+            '                                    <div class="input-group-text plus-minus-holder">\n' +
+            '                                        <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>\n' +
+            '                                        <button type="button" class="minus"><i class="mdi mdi-menu-down"></i></button>\n' +
+            '                                    </div>\n' +
+            '                                </div>\n' +
+            '                            </div>\n' +
+            '                        </td>\n' +
+            '                        <td>\n' +
+            '                            <div class="form-group m-0">\n' +
+            '                                <input type="text" class="form-control" value="">\n' +
+            '                            </div>\n' +
+            '                        </td>\n' +
+            '                        <td style="vertical-align: middle;">\n' +
+            '                            <div class="btn-group">\n' +
+            '                                <button class="btn btn-outline-secondary btn-sm">Edit</button>\n' +
+            '                                <button class="btn btn-outline-secondary btn-sm"><i class="mdi mdi-trash-can-outline"></i></button>\n' +
+            '                            </div>\n' +
+            '                        </td>\n' +
+            '                    </tr>';
+
+        
+
+    }
     function addProductVariantOption(option_id = 0, option_name = '', option_values = '')
     {
         var optionHtml = '<div class="row js-product-variant-option-box js-product-variant-option-'+option_id+'">\n' +
@@ -57,6 +97,8 @@ $productVariantOptions[] = [
     function deleteProductVariantOption(option_id) {
         $('.js-product-variant-option-' + option_id).remove();
     }
+
+    function
 
     $(document).ready(function () {
 
@@ -102,16 +144,12 @@ $productVariantOptions[] = [
 
             <h6 class="text-uppercase mb-3"><strong>Create an option</strong></h6>
 
-            <div class="options js-product-variants-options">
-
-            </div>
+            <div class="options js-product-variants-options"></div>
 
             <hr class="thin" />
 
             <button type="button" class="btn btn-outline-primary text-dark js-add-variant-option">Add another option</button>
-
             <hr class="thin no-padding"/>
-
             <h6 class="text-uppercase mb-3"><strong>Preview</strong></h6>
 
             <div class="table-responsive">
@@ -126,42 +164,6 @@ $productVariantOptions[] = [
                     </tr>
                     </thead>
                     <tbody>
-
-                    <tr>
-                        <th scope="row" style="vertical-align: middle;">
-                            <span>L / Red</span>
-                        </th>
-                        <td>
-                            <div class="input-group prepend-transparent m-0">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text text-muted">BGN</span>
-                                </div>
-                                <input type="text" class="form-control" value="0.00">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group append-transparent input-group-quantity m-0">
-                                <input type="text" class="form-control" value="0">
-                                <div class="input-group-append">
-                                    <div class="input-group-text plus-minus-holder">
-                                        <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>
-                                        <button type="button" class="minus"><i class="mdi mdi-menu-down"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group m-0">
-                                <input type="text" class="form-control" value="">
-                            </div>
-                        </td>
-                        <td style="vertical-align: middle;">
-                            <div class="btn-group">
-                                <button class="btn btn-outline-secondary btn-sm">Edit</button>
-                                <button class="btn btn-outline-secondary btn-sm"><i class="mdi mdi-trash-can-outline"></i></button>
-                            </div>
-                        </td>
-                    </tr>
 
                     </tbody>
                 </table>
