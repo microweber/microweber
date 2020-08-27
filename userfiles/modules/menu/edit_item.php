@@ -3,11 +3,11 @@ $rand = uniqid();
 if (is_admin() == false) {
     mw_error('Must be admin');
 }
+
 $id = false;
 if (isset($params['item-id'])) {
     $id = intval($params['item-id']);
 }
-
 
 if ($id == 0) {
     $data = array();
@@ -33,22 +33,12 @@ if ($id == 0) {
     $data['url'] = '';
     $data['title'] = '';
     $data['auto_populate'] = '';
-//	$data['categories_id'] = '';
 } else {
-
     $data = mw()->menu_manager->menu_item_get($id);
 }
-if ($id != 0) {
-//$data = menu_tree( $id);
-}
-
-
 
 ?>
 <?php if ($data != false): ?>
-    <?php //$rand = uniqid(); ?>
-
-
     <div class="<?php print $config['module_class']; ?> menu_item_edit" id="mw_content/menu_item_save_<?php print $rand ?>">
         <?php if ((!isset($data['title']) or $data['title'] == '') and isset($data["content_id"]) and intval($data["content_id"]) > 0): ?>
             <?php $cont = get_content_by_id($data["content_id"]);
@@ -133,68 +123,65 @@ if ($id != 0) {
 
                 <?php if ($data['id'] != 0): ?>
 
-<div id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
+                    <div id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
 
 
+                        <?php
 
-  <?php
+                        /*  <br>
 
-  /*  <br>
-
-    <div  class="mw-ui-field-holder">
-        <label class="mw-ui-label">Auto add to menu <small class="mw-help" data-help="This option will populate the menu automatically with sub-pages and sub-categories"> (?)</small></label>
-        <select name="auto_populate" class="mw-ui-field mw-ui-field-medium">
-            <option  value="" <?php if($data['auto_populate'] == '') : ?>  selected   <?php endif; ?>   >Default</option>
-            <option  value="all" <?php if($data['auto_populate'] == 'all') : ?>  selected   <?php endif; ?> >Add Pages and Categories</option>
-            <option  value="pages" <?php if($data['auto_populate'] == 'pages') : ?>  selected   <?php endif; ?> >Add only Pages</option>
-            <option  value="categories" <?php if($data['auto_populate'] == 'categories') : ?>  selected   <?php endif; ?> >Add only Categories</option>
-        </select>
-
-
-    </div>*/
-
-  ?>
+                          <div  class="mw-ui-field-holder">
+                              <label class="mw-ui-label">Auto add to menu <small class="mw-help" data-help="This option will populate the menu automatically with sub-pages and sub-categories"> (?)</small></label>
+                              <select name="auto_populate" class="mw-ui-field mw-ui-field-medium">
+                                  <option  value="" <?php if($data['auto_populate'] == '') : ?>  selected   <?php endif; ?>   >Default</option>
+                                  <option  value="all" <?php if($data['auto_populate'] == 'all') : ?>  selected   <?php endif; ?> >Add Pages and Categories</option>
+                                  <option  value="pages" <?php if($data['auto_populate'] == 'pages') : ?>  selected   <?php endif; ?> >Add only Pages</option>
+                                  <option  value="categories" <?php if($data['auto_populate'] == 'categories') : ?>  selected   <?php endif; ?> >Add only Categories</option>
+                              </select>
 
 
-    <?php
-    if(!isset($data['url_target'])){
-        $data['url_target'] = '';
-    }
-    ?>
+                          </div>*/
 
-    <br>
-
-    <div  class="mw-ui-field-holder">
-        <label class="mw-ui-label">Target attribute <small class="mw-help" data-help="Target "> (?)</small></label>
-
-        <select class="mw-ui-field" name="url_target">
-        <?php
-        $attributeValues = explode("|", "|_blank|_self|_parent|_top|framename");
-        foreach ($attributeValues as $attributeValue):
-        ?>
-       	<option value="<?php echo $attributeValue; ?>" <?php if($data['url_target'] == $attributeValue):?>selected="selected"<?php endif; ?>><?php echo $attributeValue; ?></option>
-        <?php endforeach; ?>
-		</select>
-
-    </div>
+                        ?>
 
 
+                        <?php
+                        if (!isset($data['url_target'])) {
+                            $data['url_target'] = '';
+                        }
+                        ?>
 
-    <br>
+                        <br>
+
+                        <div class="mw-ui-field-holder">
+                            <label class="mw-ui-label">Target attribute
+                                <small class="mw-help" data-help="Target "> (?)</small>
+                            </label>
+
+                            <select class="mw-ui-field" name="url_target">
+                                <?php
+                                $attributeValues = explode("|", "|_blank|_self|_parent|_top|framename");
+                                foreach ($attributeValues as $attributeValue):
+                                    ?>
+                                    <option value="<?php echo $attributeValue; ?>" <?php if ($data['url_target'] == $attributeValue): ?>selected="selected"<?php endif; ?>><?php echo $attributeValue; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+
+                        </div>
 
 
+                        <br>
 
 
+                        <label class="mw-ui-label">Select image for menu item</label>
+                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>b').toggle();">
+                            <?php _e("Select images"); ?>
+                        </button>
 
-    <label class="mw-ui-label">Select image for menu item</label>
-                    <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-rounded" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>b').toggle();">
-                        <?php _e("Select images"); ?>
-                    </button>
-
-                    <div id="menu-selector-<?php print $data['id'] ?>b" class="mw-ui mw-ui-category-selector" style="top: 3px;height:420px">
-                        <microweber module="image_rollover" view="admin" menu_rollover="true" size="<?php print $data['size'] ?>" default_image="<?php print $data['default_image'] ?>" rollover_image="<?php print $data['rollover_image'] ?>" for="content"/>
+                        <div id="menu-selector-<?php print $data['id'] ?>b" class="mw-ui mw-ui-category-selector" style="top: 3px;height:420px">
+                            <microweber module="image_rollover" view="admin" menu_rollover="true" size="<?php print $data['size'] ?>" default_image="<?php print $data['default_image'] ?>" rollover_image="<?php print $data['rollover_image'] ?>" for="content"/>
+                        </div>
                     </div>
-</div>
                 <?php endif; ?>
 
                 <hr>
@@ -245,11 +232,11 @@ if ($id != 0) {
     };
     $(document).ready(function () {
 
-        $('.change-url-box .mw-ui-btn, .change-url-box input').on('click', function(){
+        $('.change-url-box .mw-ui-btn, .change-url-box input').on('click', function () {
             var scope = this;
             /*var link = mw.top().instruments.link({
-                mode: 'dialog'
-            });*/
+             mode: 'dialog'
+             });*/
 
             //link.handler.on('change', function(e, url, target, name, data){
             var picker = mw.component({
@@ -260,8 +247,8 @@ if ($id != 0) {
                     controllers: 'page, custom, content, section, layout, file'
                 }
             });
-            $(picker).on('Result', function(e, ldata){
-                if(!ldata) {
+            $(picker).on('Result', function (e, ldata) {
+                if (!ldata) {
                     return
                 }
                 var url = ldata.url,
@@ -269,20 +256,20 @@ if ($id != 0) {
                     name = ldata.text,
                     data = ldata.object;
 
-                if(scope.nodeName === 'INPUT'){
+                if (scope.nodeName === 'INPUT') {
                     scope.value = url;
                     $(scope).trigger('change')
-                } else{
-                    if(scope.dataset.for){
+                } else {
+                    if (scope.dataset.for) {
                         var field = $('#' + scope.dataset.for);
                         field.val(url);
                         var parent = mw.tools.firstParentWithClass(this, 'mw-ui-gbox');
                         fields = mw.$('[name="content_id"], [name="categories_id"]', parent).val('0');
                         // fields.attr('type', 'text');
-                        if(data){
-                            if(data.type === 'page'){
+                        if (data) {
+                            if (data.type === 'page') {
                                 fields.filter('[name="content_id"]', parent).val(data.id)
-                            } else if(data.type === 'category') {
+                            } else if (data.type === 'category') {
                                 fields.filter('[name="categories_id"]').val(data.id);
                             }
                         }
@@ -294,8 +281,8 @@ if ($id != 0) {
 
             //})
             /*$(link.frame).on('load', function () {
-                $('#customweburl_text_field_holder', this.contentWindow.document).hide()
-            })*/
+             $('#customweburl_text_field_holder', this.contentWindow.document).hide()
+             })*/
         })
     })
 </script>

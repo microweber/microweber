@@ -1,7 +1,5 @@
-<?php //include_once($config['path_to_module'].'functions.php'); ?>
 <?php
 $rand = crc32(serialize($params));
-
 $menu_name = get_option('menu_name', $params['id']);
 
 if ($menu_name == false and isset($params['menu_name'])) {
@@ -11,11 +9,9 @@ if ($menu_name == false and isset($params['menu_name'])) {
 } elseif ($menu_name == false and isset($params['name'])) {
     $menu_name = $params['name'];
 }
-
-
 ?>
-<script type="text/javascript">
 
+<script type="text/javascript">
     mw.add_new_page_to_menu = function (id) {
         mw.tools.loading(true);
 
@@ -24,7 +20,6 @@ if ($menu_name == false and isset($params['menu_name'])) {
         }
 
         MenuTabs.set(3);
-
 
         mw.$('#mw_page_create_live_edit').removeAttr('data-content-id');
 
@@ -60,51 +55,34 @@ if ($menu_name == false and isset($params['menu_name'])) {
 
 </script>
 
-<style>
-    .tab {
-        display: none;
-    }
-
-</style>
 <div class="module-live-edit-settings">
     <!--    <a href="javascript:mw.add_new_page_to_menu();" class="mw-ui-btn mw-ui-btn-medium pull-right">--><?php //_e("Create new page"); ?><!--</a>-->
 
+    <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+        <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Menus'); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center d-none" data-toggle="tab" href="#add_new_menu" id="add_new_menu_tab"><i class="mdi mdi-pencil-ruler mr-1"></i> 1</a>
+        <a class="btn btn-outline-secondary justify-content-center d-none" data-toggle="tab" href="#add_new_page" id="add_new_content_tab"><i class="mdi mdi-pencil-ruler mr-1"></i> 2</a>
+    </nav>
 
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs mw-ui-btn-nav-tabs-new" id="menu-tabs">
-        <a href="javascript:;" class="mw-ui-btn active">
-            <?php _e("My menus"); ?>
-        </a>
-        <a href="javascript:;" class="mw-ui-btn">
-            <?php _e("Skin/Template"); ?>
-        </a>
-        <span style="display:none">
-            <a href="javascript:;" id="add_new_menu_tab"></a>
-        </span>
-        <span style="display:none">
-            <a href="javascript:;" id="add_new_content_tab"></a>
-        </span>
-    </div>
-
-    <div class="mw-ui-box mw-ui-box-content" style="padding-top:20px;">
-        <div class="tab" style="display: block">
+    <div class="tab-content py-3">
+        <div class="tab-pane fade show active" id="list">
             <?php include($config['path_to_module'] . 'admin_live_edit_tab1.php'); ?>
         </div>
-        <div class="tab">
+
+        <div class="tab-pane fade" id="templates">
             <module type="admin/modules/templates"/>
         </div>
 
-        <div class="tab">
-            <div id="add_new_menu" style="overflow: hidden">
-                <input name="menu_id" type="hidden" value="0"/>
-                <div style="overflow: hidden">
-                    <input class="mw-ui-field w100" type="text" name="title" placeholder="<?php _e("Menu Name"); ?>"/>
-                    <button type="button" class="mw-ui-btn pull-right" onclick="mw.menu_save('#add_new_menu')">
-                        <?php _e("Add"); ?>
-                    </button>
-                </div>
+        <div class="tab-pane fade" id="add_new_menu">
+            <input name="menu_id" type="hidden" value="0"/>
+            <div style="overflow: hidden">
+                <input class="mw-ui-field w100" type="text" name="title" placeholder="<?php _e("Menu Name"); ?>"/>
+                <button type="button" class="mw-ui-btn pull-right" onclick="mw.menu_save('#add_new_menu')"><?php _e("Add"); ?></button>
             </div>
         </div>
-        <div class="tab" id="add_new_page">
+
+        <div class="tab-pane fade" id="add_new_page">
             <div id="mw_page_create_live_edit"></div>
         </div>
     </div>
