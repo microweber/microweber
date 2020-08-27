@@ -8,6 +8,10 @@ $productVariantOptions[] = [
     'option_name'=>'Color',
     'option_values'=>['Green','Blue','White','Black'],
 ];
+$productVariantOptions[] = [
+    'option_name'=>'Type',
+    'option_values'=>['Cotton','Metal'],
+];
 ?>
 
 <script>mw.lib.require('mwui_init')</script>
@@ -85,32 +89,30 @@ $productVariantOptions[] = [
         $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
     }
 
+    function cartesian(arrays){
+        var quant = 1, counters = [], retArr = [];
 
-    const moveThreadForwardAt = (t, tCursor) => {
-        if (tCursor < 0)
-            return true; // reached end of first array
-
-        const newIndex = (t[tCursor][0] + 1) % t[tCursor][1];
-        t[tCursor][0] = newIndex;
-
-        if (newIndex == 0)
-            return moveThreadForwardAt(t, tCursor - 1);
-
-        return false;
-    }
-
-    const cartesianMult = (...args) => {
-        let result = [];
-        const t = Array.from(Array(args.length)).map((x, i) => [0, args[i].length]);
-        let reachedEndOfFirstArray = false;
-
-        while (false == reachedEndOfFirstArray) {
-            result.push(t.map((v, i) => args[i][v[0]]));
-
-            reachedEndOfFirstArray = moveThreadForwardAt(t, args.length - 1);
+        // Counts total possibilities and build the counters Array;
+        for(var i=0;i<arrays.length;i++){
+            counters[i] = 0;
+            quant *= arrays[i].length;
         }
 
-        return result;
+        // iterate all possibilities
+        for(var i=0,nRow;i<quant;i++){
+            nRow = [];
+            for(var j=0;j<counters.length;j++){
+                if(counters[j] < arrays[j].length){
+                    nRow.push(arrays[j][counters[j]]);
+                } else { // in case there is no such an element it restarts the current counter
+                    counters[j] = 0;
+                    nRow.push(arrays[j][counters[j]]);
+                }
+                counters[j]++;
+            }
+            retArr.push(nRow);
+        }
+        return retArr;
     }
 
     function refreshProductVariantValues()
@@ -123,8 +125,8 @@ $productVariantOptions[] = [
             productVariantCombinations.push(productVariantOptionValues);
         });
 
-        for (let item of cartesianMult(productVariantCombinations)) {
-            console.log('[' + item.join(', ') + ']');
+        $('.js-product-variants-fields').html('');
+        for (let item of cartesian(productVariantCombinations)) {
             addProductVariantValues(item.join('/'));
         }
     }
@@ -138,6 +140,7 @@ $productVariantOptions[] = [
     ?>
 
     function deleteProductVariantOption(option_id) {
+        refreshProductVariantValues();
         $('.js-product-variant-option-' + option_id).remove();
     }
 
@@ -148,7 +151,7 @@ $productVariantOptions[] = [
        });
 
        $('.js-add-variant-option').click(function () {
-           if ($('.js-product-variant-option-box').length > 2) {
+           if ($('.js-product-variant-option-box').length > 5) {
                 alert('Maximum product variants are 3');
                return;
            }
