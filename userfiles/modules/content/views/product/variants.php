@@ -20,10 +20,10 @@ $productVariantOptions[] = [
 <script>
     function addProductVariantOption(option_id = 0, option_name = '', option_values = '')
     {
-        var optionHtml = '<div class="row js-product-variant-option-'+option_id+'">\n' +
+        var optionHtml = '<div class="row js-product-variant-option-box js-product-variant-option-'+option_id+'">\n' +
             '                    <div class="col-md-4">\n' +
             '                        <div class="form-group">\n' +
-            '                            <h6 class="pb-1"><strong>Option '+(option_id+1)+'</strong></h6>\n' +
+            '                            <h6 class="pb-1"><strong>Option</strong></h6>\n' +
             '                            <div>\n' +
             '                                <input type="text" name="product_variant_option['+option_id+'][name]" value="'+option_name+'" class="form-control">\n' +
             '                            </div>\n' +
@@ -40,23 +40,22 @@ $productVariantOptions[] = [
             '                    </div>\n' +
             '                </div>';
 
-        $('.js-product-variant-option').append(optionHtml);
+        $('.js-product-variants-options').append(optionHtml);
 
         $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
     }
 
 
-    var productVariantOptions = <?php echo json_encode($productVariantOptions); ?>;
-
-    for (i = 0; i < productVariantOptions.length; i++) {
-        option_values = productVariantOptions[i].option_values.join(', ');
-        addProductVariantOption(i, productVariantOptions[i].option_name, option_values);
-    }
-
+    <?php
+    foreach ($productVariantOptions as $productVariantOptionKey=>$productVariantOption):
+    ?>
+        addProductVariantOption(<?php echo $productVariantOptionKey; ?>, '<?php echo $productVariantOption['option_name']; ?>', '<?php echo implode(',', $productVariantOption['option_values']); ?>,');
+    <?php
+    endforeach;
+    ?>
 
     function deleteProductVariantOption(option_id) {
         $('.js-product-variant-option-' + option_id).remove();
-        productVariantOptions.splice(0, option_id)
     }
 
     $(document).ready(function () {
@@ -66,12 +65,11 @@ $productVariantOptions[] = [
        });
 
        $('.js-add-variant-option').click(function () {
-           if (productVariantOptions.length > 2) {
+           if ($('.js-product-variant-option-box').length > 2) {
                 alert('Maximum product variants are 3');
                return;
            }
-           productVariantOptions.push({"option_name":"","option_values":[]});
-           addProductVariantOption(productVariantOptions.length-1);
+           addProductVariantOption(Math.floor(Math.random() * 1000));
 
        });
 
@@ -104,7 +102,7 @@ $productVariantOptions[] = [
 
             <h6 class="text-uppercase mb-3"><strong>Create an option</strong></h6>
 
-            <div class="options js-product-variant-option">
+            <div class="options js-product-variants-options">
 
             </div>
 
