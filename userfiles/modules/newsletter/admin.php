@@ -39,8 +39,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         ?>
 
         <?php if (isset($params['backend'])): ?>
-            <module type="admin/modules/info"/>
-
             <div class="mw-module-admin-wrap">
                 <div class="admin-side-content" style="max-width:100%;">
                     <div id="newsletter-admin">

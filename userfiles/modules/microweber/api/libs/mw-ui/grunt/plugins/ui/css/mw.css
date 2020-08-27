@@ -1015,4 +1015,22 @@ header {
 .mw-custom-field-icon-captcha:before {
   content: ""; }
 
+.bg-100 {
+  background: #fafafa; }
+
+.bg-200 {
+  background: #e9ecef; }
+
+.bg-300 {
+  background: #dee2e6; }
+
+.bg-400 {
+  background: #cfcfcf; }
+
+.bg-500 {
+  background: #adb5bd; }
+
+.bg-grey {
+  background: #f2f3f5; }
+
 /*# sourceMappingURL=mw.css.map */

@@ -185,34 +185,49 @@ div.form-control {
 #mw-content-backend {
     position: relative;
 }
-#mw-content-backend.has-mw-spinner:after{
+
+#mw-content-backend.has-mw-spinner:after {
     position: absolute;
     content: '';
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,.7);
+    background: rgba(255, 255, 255, .7);
     z-index: 10;
 }
-#mw-content-backend.has-mw-spinner > .mw-spinner{
+
+#mw-content-backend.has-mw-spinner > .mw-spinner {
     position: absolute;
     left: 50%;
     top: 120px;
-    transform: translate(-50%,0);
+    transform: translate(-50%, 0);
     z-index: 12;
 }
-#mw-content-backend.has-mw-spinner{
+
+#mw-content-backend.has-mw-spinner {
     pointer-events: none;
     min-height: 300px;
 }
 
-.mw-module-settings-box + .mw-module-settings-box{
+.mw-module-settings-box + .mw-module-settings-box {
     margin-top: 15px;
 }
-.mw-module-settings-box .mw-ui-box-header .mdi-drag{
+
+.mw-module-settings-box .mw-ui-box-header .mdi-drag {
     cursor: grab;
 }
-.mw-module-settings-box .mw-ui-box-header{
+
+.mw-module-settings-box .mw-ui-box-header {
     padding: 15px;
+}
+
+.menu-item-box {
+    border: 1px solid #cfcfcf;
+    border-radius: 7px;
+    list-style: none;
+    overflow: hidden;
+    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 10px;
 }
