@@ -6,15 +6,16 @@
     });
 </script>
 
-<label class="mw-ui-label bold p-b-10"><?php _e("Disable online shop"); ?></label>
+<div class="form-group">
+    <label class="control-label d-block"><?php _e("Online shop status"); ?></label>
+    <small class="text-muted d-block mb-2">Choose the status of your online shop</small>
+    <div class="custom-control custom-radio d-inline-block mr-2">
+        <input name="shop_disabled" class="mw_option_field custom-control-input" id="shop_disabled_0" data-option-group="website" value="n" type="radio" <?php if (get_option('shop_disabled', 'website') != "y"): ?> checked="checked" <?php endif; ?> >
+        <label class="custom-control-label" for="shop_disabled_0"><?php _e("Enabled"); ?></label>
+    </div>
 
-<div class="mw-ui-check-selector">
-    <label class="mw-ui-check" style="margin-right: 15px;">
-        <input name="shop_disabled" class="mw_option_field" data-option-group="website" value="n" type="radio" <?php if (get_option('shop_disabled', 'website') != "y"): ?> checked="checked" <?php endif; ?> >
-        <span></span><span><?php _e("No"); ?></span>
-    </label>
-    <label class="mw-ui-check">
-        <input name="shop_disabled" class="mw_option_field" data-option-group="website" value="y" type="radio" <?php if (get_option('shop_disabled', 'website') == "y"): ?> checked="checked" <?php endif; ?> >
-        <span></span> <span><?php _e("Yes"); ?></span>
-    </label>
+    <div class="custom-control custom-radio d-inline-block mr-2">
+        <input name="shop_disabled" class="mw_option_field custom-control-input" id="shop_disabled_1" data-option-group="website" value="y" type="radio" <?php if (get_option('shop_disabled', 'website') == "y"): ?> checked="checked" <?php endif; ?> >
+        <label class="custom-control-label" for="shop_disabled_1"><?php _e("Disabled"); ?></label>
+    </div>
 </div>
