@@ -23,7 +23,11 @@
 .mw-filepicker-component-section {
     /*max-height: 70vh;*/
     overflow: auto;
+}
+.mw-filepicker-component-section,
+.mw-filepicker-component-section iframe{
     min-height: 50px;
+
 }
 .mw-filepicker-component-navigation-header{
     display: flex;
