@@ -288,7 +288,7 @@
     <?php $fffound = false; ?>
     <?php $fffound_module_id = false; ?>
 
-    <div id="module-saved-presets" class="mw-ui-box mw-ui-box-content">
+    <div id="module-saved-presets" class="">
         <?php $saved_modules = get_saved_modules_as_template("module={$module_name}"); ?>
         <?php if (is_array($saved_modules)): ?>
             <div class="mw-presets-list-holder">
@@ -305,30 +305,26 @@
                     ?>
 
                     <script>mw_existing_modules_presets_ids.push('<?php print  $item['module_id'] ?>');</script>
-                    <div class="mw-flex-row mw-presets-list js-module-preset-item-form-holder <?php if ($fffound) { ?> active  <?php } ?>" js-mod-id="<?php print  $item['module_id'] ?>">
+                    <div class="card w-100 mb-2 p-2 mw-presets-list js-module-preset-item-form-holder <?php if ($fffound): ?>bg-primary-opacity-3<?php endif; ?>" js-mod-id="<?php print  $item['module_id'] ?>">
                         <input type="hidden" name="id" value="<?php print  $item['id'] ?>">
                         <input type="hidden" name="module" value="<?php print  $item['module'] ?>">
                         <textarea name="module_attrs" style="display: none"><?php print  $item['module_attrs'] ?></textarea>
-                        <div class="mw-flex-col-xs-3">
-                            <div class="box">
-                                <label class="mw-ui-check">
-                                    <input type="radio" name="preset_selector" title="<?php print  $item['module_id'] ?>" type="button" value="1" js-mod-id="<?php print $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="mw-ui-btn mw-ui-btn-medium module-presets-action-btn  js-module-presets-action-btn-use js-module-presets-action-btn-use-radio">
-                                    <span></span>
-                                    <button type="button" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class=" pull-right mw-ui-btn mw-ui-btn-medium <?php if (($fffound) != false): ?>mw-ui-btn-notification<?php else : ?>mw-ui-btn-info<?php endif; ?>mw-ui-btn-outline module-presets-action-btn js-module-presets-action-btn-use">Use</button>
-                                </label>
+                        <div class="row">
+                            <div class="col-auto d-flex align-items-center justify-content-center">
+                                <div class="custom-control custom-radio mb-0">
+                                    <input type="radio" name="preset_selector" title="<?php print  $item['module_id'] ?>" value="1" id="<?php print $item['module_id'] ?>-field" js-mod-id="<?php print $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="custom-control-input module-presets-action-btn  js-module-presets-action-btn-use js-module-presets-action-btn-use-radio" <?php if ($fffound) { ?>checked<?php } ?>>
+                                    <label class="custom-control-label mb-0" for="<?php print $item['module_id'] ?>-field">&nbsp;</label>
+                                </div>
+                                <button type="button" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="btn btn-sm <?php if (($fffound) != false): ?>btn-success<?php else : ?>btn-primary<?php endif; ?> module-presets-action-btn js-module-presets-action-btn-use"><?php if ($fffound): ?>Using<?php else: ?>Use<?php endif; ?></button>
                             </div>
-                        </div>
 
-                        <div class="mw-flex-col-xs-5 ">
-                            <div class="box">
-                                <input type="text" onkeyup="mw.on.stopWriting(this,function(){mw_preset_edit_name(this)});" js-mod-id="<?php print  $item['module_id'] ?>" class="mw-ui-field js-module-presets-edit-name mw-ui-field-medium" name="name" value="<?php print  $item['name'] ?>"/>
+                            <div class="col">
+                                <input type="text" onkeyup="mw.on.stopWriting(this,function(){mw_preset_edit_name(this)});" js-mod-id="<?php print  $item['module_id'] ?>" class="js-module-presets-edit-name form-control form-control-sm" name="name" value="<?php print  $item['name'] ?>"/>
                             </div>
-                        </div>
 
-                        <div class="mw-flex-col-xs-4 ">
-                            <div class="box">
-                                <button style="display: none" type="button" js-mod-id="<?php print  $item['module_id'] ?>" release="<?php print  $item['module_id'] ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn mw-ui-btn-outline   module-presets-action-btn js-module-presets-action-btn-clear">Clear</button>
-                                <button delete="<?php print  $item['module_id'] ?>" js-mod-id="<?php print  $item['module_id'] ?>" class="mw-ui-btn mw-ui-btn-important mw-ui-btn-medium mw-ui-btn-outline module-presets-action-btn module-presets-action-btn-delete"><span class="mw-icon-app-trash-outline"></span></button>
+                            <div class="col-auto">
+                                <button style="display: none" type="button" js-mod-id="<?php print  $item['module_id'] ?>" release="<?php print  $item['module_id'] ?>" class="btn btn-outline-warning btn-sm module-presets-action-btn js-module-presets-action-btn-clear">Clear</button>
+                                <button delete="<?php print  $item['module_id'] ?>" js-mod-id="<?php print  $item['module_id'] ?>" class="btn btn-outline-danger btn-sm module-presets-action-btn module-presets-action-btn-delete btn-icon"><i class="mdi mdi-trash-can-outline"></i></button>
                             </div>
                         </div>
                     </div>
@@ -336,13 +332,9 @@
             </div>
 
             <?php if (($fffound) != false): ?>
-                <div class="mw-ui-row">
-                    <div class="mw-ui-col">
-                        <div class="module-presets-bottom-holder">
-                            <input type="hidden" name="module_id" value="<?php print $module_id ?>">
-                            <button type="button" js-mod-id="<?php print  $fffound; ?>" release="<?php print  $fffound; ?>" id="js-release-btn" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info module-presets-action-btn">Clear use ofpreset</button>
-                        </div>
-                    </div>
+                <div class="module-presets-bottom-holder">
+                    <input type="hidden" name="module_id" value="<?php print $module_id ?>">
+                    <button type="button" js-mod-id="<?php print  $fffound; ?>" release="<?php print  $fffound; ?>" id="js-release-btn" class="btn btn-warning btn-sm module-presets-action-btn">Clear use of preset</button>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
@@ -374,7 +366,7 @@
 
     <script>
         var btn = document.createElement('span');
-        btn.className = 'mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-outline tip';
+        btn.className = 'btn btn-primary btn-sm float-right mb-3';
         btn.dataset.tip = "Create new preset";
         btn.dataset.tipposition = "bottom-right";
         btn.id = 'create-presets-btn';
@@ -409,23 +401,17 @@
     </script>
 
     <div class="create-presets-holder" style="display: none;" id="create-preset">
-        <b>Create new preset</b>
-        <div class="mw-flex-row m-t-10 js-module-preset-item-form-holder">
-            <div class="mw-flex-col-xs-8 ">
+        <div class="js-module-preset-item-form-holder">
+            <div class="form-group">
+                <label class="control-label">Create new preset</label>
                 <input type="hidden" name="module" value="<?php print $module_name ?>">
                 <input type="hidden" name="module_id" value="<?php print $module_id ?>">
-                <input type="text" name="name" value="" placeholder="<?php _e('Title'); ?>"
-                       class="mw-ui-field mw-ui-field-medium w100">
+                <input type="text" name="name" value="" placeholder="<?php _e('Title'); ?>" class="form-control"/>
             </div>
-            <div class="mw-flex-col-xs-4">
-                <div class="mw-ui-btn-nav">
-                        <span
-                                onclick="cancelCreatePreset()"
-                                class="mw-ui-btn mw-ui-btn-medium">Cancel</span>
-                    <span
-                            js-mod-id="<?php print  $module_id ?>" is-new="true"
-                            class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification module-presets-action-btn">Save</span>
-                </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="button" onclick="cancelCreatePreset()" class="btn btn-secondary btn-sm">Cancel</button>
+                <button type="button" js-mod-id="<?php print  $module_id ?>" is-new="true" class="btn btn-success btn-sm module-presets-action-btn">Save</button>
             </div>
         </div>
     </div>
