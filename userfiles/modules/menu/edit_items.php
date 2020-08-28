@@ -99,7 +99,7 @@ if ($id != 0) {
     $(document).ready(function () {
         mw.menu_items_sort_<?php print $rand; ?>();
 
-        $(".manage-menus ul li").addClass('menu-item-box bg-grey');
+        $(".manage-menus .module_item").addClass('menu-item-box bg-grey');
     });
 </script>
 
@@ -115,6 +115,10 @@ if ($id != 0) {
         <style type="text/css" scoped="scoped">
             #mw_admin_menu_items_sort_<?php print $rand; ?> > ul {
                 height: auto !important;
+            }
+
+            #mw_admin_menu_items_sort_<?php print $rand; ?> > ul ul{
+                margin-left: 25px;
             }
 
             #mw_admin_menu_items_sort_<?php print $rand; ?> > ul li {

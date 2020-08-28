@@ -39,7 +39,7 @@ if ($id == 0) {
 ?>
 
 <?php if ($data != false): ?>
-<div class="<?php print $config['module_class']; ?> menu_item_edit px-4 py-2" id="mw_content/menu_item_save_<?php print $rand ?>">
+<div class="<?php print $config['module_class']; ?> menu_item_edit px-4 py-2 menu-item-box" id="mw_content/menu_item_save_<?php print $rand ?>">
     <?php if ((!isset($data['title']) or $data['title'] == '') and isset($data["content_id"]) and intval($data["content_id"]) > 0): ?>
         <?php
         $cont = get_content_by_id($data["content_id"]);
@@ -169,26 +169,26 @@ if ($id == 0) {
                     <div id="menu-selector-<?php print $data['id'] ?>b" class="mw-ui mw-ui-category-selector" style="display: none;">
                         <microweber module="image_rollover" view="admin" menu_rollover="true" size="<?php print $data['size'] ?>" default_image="<?php print $data['default_image'] ?>" rollover_image="<?php print $data['rollover_image'] ?>" for="content"/>
                     </div>
-
-                    <hr class="thin no-padding">
-
-                    <div class="d-flex justify-content-between">
-                        <button onclick="cancel_editing_menu(<?php print $data['id'] ?>);" class="btn btn-secondary btn-sm"><?php _e("Cancel"); ?></button>
-                        <button class="btn btn-success btn-sm" onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php print $data['id'] ?>');"><?php _e("Save"); ?></button>
-                    </div>
-
-                    <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
-                    <input type="hidden" name="content_id" value="<?php print $data['content_id'] ?>"/>
-                    <input type="hidden" name="categories_id" value="<?php print $data['categories_id'] ?>"/>
-
-                    <?php if (isset($params['menu-parent-id'])): ?>
-                        <input type="hidden" name="parent_id" value="<?php print $params['menu-parent-id'] ?>"/>
-                    <?php elseif (isset($data['parent_id']) and $data['parent_id'] != 0): ?>
-                        <input type="hidden" name="parent_id" value="<?php print $data['parent_id'] ?>"/>
-                    <?php elseif (isset($params['parent_id'])): ?>
-                        <input type="hidden" name="parent_id" value="<?php print $params['parent_id'] ?>"/>
-                    <?php endif; ?>
                 </div>
+
+                <hr class="thin no-padding">
+
+                <div class="d-flex justify-content-between">
+                    <button onclick="cancel_editing_menu(<?php print $data['id'] ?>);" class="btn btn-secondary btn-sm"><?php _e("Cancel"); ?></button>
+                    <button class="btn btn-success btn-sm" onclick="mw.menu_save_new_item('#custom_link_inline_controller_edit_<?php print $data['id'] ?>');"><?php _e("Save"); ?></button>
+                </div>
+
+                <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
+                <input type="hidden" name="content_id" value="<?php print $data['content_id'] ?>"/>
+                <input type="hidden" name="categories_id" value="<?php print $data['categories_id'] ?>"/>
+
+                <?php if (isset($params['menu-parent-id'])): ?>
+                    <input type="hidden" name="parent_id" value="<?php print $params['menu-parent-id'] ?>"/>
+                <?php elseif (isset($data['parent_id']) and $data['parent_id'] != 0): ?>
+                    <input type="hidden" name="parent_id" value="<?php print $data['parent_id'] ?>"/>
+                <?php elseif (isset($params['parent_id'])): ?>
+                    <input type="hidden" name="parent_id" value="<?php print $params['parent_id'] ?>"/>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
