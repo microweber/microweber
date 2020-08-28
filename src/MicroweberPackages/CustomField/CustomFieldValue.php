@@ -18,6 +18,6 @@ class CustomFieldValue extends Model
 
     public function customField()
     {
-        return $this->hasOne(CustomField::class);
+        return $this->belongsTo(CustomField::class);
     }
 }
