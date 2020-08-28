@@ -1,179 +1,182 @@
 @import "var";
 
 .mw-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1200;
+  &.mw-dialog-scroll-mode-window {
+    overflow: auto;
+  }
+  &.mw-dialog-scroll-mode-inside {
+    overflow: hidden;
+    .mw-dialog-holder {
+      max-height: 96%;
+    }
+    .mw-dialog-container {
+      overflow: hidden auto;
+      max-height: 88vh;
+    }
+  }
+  .mw-dialog-container {
+    position: relative;
+  }
+  .mw-dialog-overlay {
     position: fixed;
+    z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1200;
-    &.mw-dialog-scroll-mode-window{
-        overflow: auto;
-    }
-    &.mw-dialog-scroll-mode-inside{
-        overflow: hidden;
-        .mw-dialog-holder{
-            max-height: 96%;
-        }
-        .mw-dialog-container{
-            overflow: hidden auto;
-            max-height: 88vh;
-        }
-    }
-    .mw-dialog-container{
-        position: relative;
-    }
-    .mw-dialog-overlay{
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,.2);
-    }
-    .mw-dialog-holder{
-        position: absolute !important;
-        z-index: 2;
-    }
-    &.mw-dialog-iframe iframe{
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-    }
-    &.mw-dialog-iframe-autoheight iframe{
-        position: relative;
-    }
+    background-color: rgba(0, 0, 0, .2);
+  }
+  .mw-dialog-holder {
+    position: absolute !important;
+    z-index: 2;
+  }
+  &.mw-dialog-iframe iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+  }
+  &.mw-dialog-iframe-autoheight iframe {
+    position: relative;
+  }
 }
 
-.mw-dialog-skin-default{
+.mw-dialog-skin-default {
+  visibility: hidden;
+  .mw-dialog-header {
+    padding: 6px 25px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 0;
+    z-index: 2;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #D9DADB;
+
+    min-height: 43px;
+    background-color: #4592ff;
+    color: #fff;
+
+    .mw-dialog-title {
+      max-width: calc(100% ~"-" 55px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 17px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .mw-dropdown-content {
+      background-color: #2b2b2b;
+    }
+  }
+  .mw-dialog-footer {
+    padding: 10px 0px;
+    margin: 0 25px;
+    overflow: hidden;
+    position: relative;
+    text-align: right;
+    border-top: 1px solid #D9DADB;
+
+    .mw-ui-btn + .mw-ui-btn {
+      margin-left: 10px;
+    }
+    &:empty {
+      display: none;
+    }
+
+  }
+  &.mw-dialog-scroll-mode-window {
+    .mw-dialog-header {
+      position: sticky;
+    }
+  }
+  .mw-dialog-holder {
+    max-width: 98%;
+    background-color: #FAFAFA;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, .15);
+    border-radius: 10px;
     visibility: hidden;
-    .mw-dialog-header{
-        padding: 6px 25px;
-        display: flex;
-        align-items:center;
-        position: relative;
-        top: 0;
-        z-index: 2;
-        border-radius: 10px 10px 0 0;
-        border-bottom: 1px solid #D9DADB;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: none;
+    &.mw-dialog-drag-start {
+      transition: none;
+    }
+  }
+  .mw-dialog-overlay {
+    opacity: 0;
+    visibility: hidden;
+  }
+  &.active {
+    visibility: visible;
+    .mw-dialog-holder {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .mw-dialog-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  .mw-dialog-close {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 32px;
+    height: 28px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color .3s;
+    border: 1px solid #CFCFCF;
+    border-radius: 0px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 
-        min-height: 43px;
-        background-color: #4592ff;
-        color: #fff;
-
-        .mw-dialog-title{
-            max-width: calc(100% ~"-" 55px);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-size: 17px;
-            font-weight: bold;
-            color: #fff;
-        }
-        .mw-dropdown-content{
-            background-color: #2b2b2b;
-        }
+    &:hover {
+      background-color: rgba(255, 255, 255, 1);
+      color: #4592ff;
     }
-    .mw-dialog-footer{
-        padding: 10px 0px;
-        margin: 0 25px;
-        overflow: hidden;
-        position: relative;
-        text-align: right;
-        border-top: 1px solid #D9DADB;
-
-        .mw-ui-btn + .mw-ui-btn{
-            margin-left: 10px;
-        }
-        &:empty{
-            display: none;
-        }
-
+    &:after {
+      content: "\f2d7";
+      font-family: Microweber;
+      font-size: 12px;
     }
-    &.mw-dialog-scroll-mode-window{
-        .mw-dialog-header{
-            position: sticky;
-        }
+  }
+  .mw-dialog-container {
+    padding: 10px 25px;
+  }
+  &.mw-dialog-iframe-loading {
+    iframe {
+      opacity: 0;
+      min-height: 100px;
     }
-    .mw-dialog-holder{
-        max-width: 98%;
-        background-color: #FAFAFA;
-        box-shadow: 0 3px 9px rgba(0,0,0,.15);
-        border-radius: 10px;
-        visibility: hidden;
-        opacity: 0;
-        transform:  translateY(20px);
-        transition: none;
-        &.mw-dialog-drag-start{
-            transition: none;
-        }
-    }
-    .mw-dialog-overlay{
-        opacity: 0;
-        visibility: hidden;
-    }
-    &.active{
-        visibility: visible;
-        .mw-dialog-holder{
-            visibility: visible;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .mw-dialog-overlay{
-            opacity: 1;
-            visibility: visible;
-        }
-    }
-    .mw-dialog-close{
-        position: absolute;
-        top: 7px;
-        right: 7px;
-        width: 32px;
-        height: 28px;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color .3s;
-        border: 1px solid #CFCFCF;
-        border-radius: 5px;
-        &:hover{
-            background-color: rgba(255,255,255,1);
-            color:#4592ff;
-        }
-        &:after{
-            content: "\f2d7";
-            font-family: Microweber;
-            font-size: 15px;
-        }
-    }
-    .mw-dialog-container{
-        padding: 10px 25px;
-    }
-    &.mw-dialog-iframe-loading{
-        iframe {
-            opacity: 0;
-            min-height: 100px;
-        }
-    }
+  }
 }
 
 html[dir='rtl'] {
-    .mw-dialog-close{
-        right: auto;
-        left: 0;
-    }
+  .mw-dialog-close {
+    right: auto;
+    left: 0;
+  }
 }
 
 .mw-dialog-module-settings {
-    .mw-dialog-overlay{
-        pointer-events: none;
-    }
+  .mw-dialog-overlay {
+    pointer-events: none;
+  }
 }
 

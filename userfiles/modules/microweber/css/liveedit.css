@@ -1290,6 +1290,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     opacity: 1;
     transition: opacity .3s;
     transform: translateY(-50%);
+    margin-right: 10px;
 }
 
 .module-modal-settings-menu-holder:hover {
