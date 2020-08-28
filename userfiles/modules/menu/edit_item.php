@@ -39,7 +39,7 @@ if ($id == 0) {
 ?>
 
 <?php if ($data != false): ?>
-<div class="<?php print $config['module_class']; ?> menu_item_edit px-4 py-2 menu-item-box" id="mw_content/menu_item_save_<?php print $rand ?>">
+<div class="<?php print $config['module_class']; ?> menu_item_edit" id="mw_content/menu_item_save_<?php print $rand ?>">
     <?php if ((!isset($data['title']) or $data['title'] == '') and isset($data["content_id"]) and intval($data["content_id"]) > 0): ?>
         <?php
         $cont = get_content_by_id($data["content_id"]);
@@ -73,7 +73,7 @@ if ($id == 0) {
     }
     ?>
     <div id="custom_link_inline_controller" style="display: none;">
-        <div id="custom_link_inline_controller_edit_<?php print $data['id'] ?>">
+        <div id="custom_link_inline_controller_edit_<?php print $data['id'] ?>" class="px-4 py-2 menu-item-box">
             <?php
             if (!isset($data['default_image'])) {
                 $data['default_image'] = '';

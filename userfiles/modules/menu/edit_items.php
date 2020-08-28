@@ -37,7 +37,7 @@ if ($id != 0) {
         </div>
         <div class="d-inline-flex align-items-center">
             <span class="btn btn-outline-primary btn-sm" onclick="mw.menu_admin.set_edit_item({id}, this, ' . $id . ');">' . _e('Edit', true) . '</span>
-            <span class="btn btn-link px-2" onclick="mw.menu_admin.delete_item({id});"><i class="mdi mdi-close mdi-20px text-danger"></i></span>
+            <span class="btn btn-link px-2" onclick="mw.menu_admin.delete_item({id});"><i class="mdi mdi-trash-can-outline mdi-20px text-danger"></i></span>
         </div>
 	</div>';
 
