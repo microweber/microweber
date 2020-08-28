@@ -37,7 +37,7 @@ class CreatedByObserver
         }
 
         if($this->hasField($model,'session_id')) {
-            $model->session_id= \Session::getId();;
+            $model->session_id= \Session::getId();
         }
 
     }
