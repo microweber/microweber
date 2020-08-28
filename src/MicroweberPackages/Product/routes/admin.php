@@ -1,6 +1,8 @@
 <?php
 
 use MicroweberPackages\Product\Product;
+use MicroweberPackages\CustomField\CustomField;
+use MicroweberPackages\CustomField\CustomFieldValue;
 
 /*
 |--------------------------------------------------------------------------
@@ -9,87 +11,40 @@ use MicroweberPackages\Product\Product;
 |
 */
 
-//Route::name('admin.')
-//    ->prefix('admin')
-//    ->namespace('\MicroweberPackages\Product\Http\Controllers\Admin')
-//    ->middleware(['XSS'])
-//    ->group(function () {
-//
-//        Route::resource('products', 'RoductsController');
-//
-//});
 
 Route::get('admin/xxx-xxx', function () {
 
     $product = Product::find(10);
-    $product->setContentData(['laptop' => 'dell', 'sku' => 4, 'apartament' => 'reduta3', 'tedzsfdsf' => 'kola sddws']);
-    //$contentData = $product->getContentData(['sku', 'qty', 'ekont']);
-    //dd($contentData);
-    $product->save();
-//
-//    $product->save();
-//
-//    $product->data();
-//
-//    dd('aaaa',$product->data);
-    dd(23);
+    //$contentData = $product->getContentData(['tlegon2', 'qty']);
+    $product->deleteContentData(['tlegon2', 'laptop', 'test']);
+    dd(1);
+    //$product->deleteContentData(['tlegon2', 'laptop']);
+    //dd($product->qty);
 });
 
-Route::get('admin/product-xx', function () {
+/*
+//>>>MW Interface
+$product->setContentData(['telefon' => 'nokia2', 'sku' => 5]);
+$product->deleteContentData(['tlegon2', 'laptop', 'test']);
+$contentData = $product->getContentData(['telefon', 'qty']);
+$product->save();
 
-    $product = \MicroweberPackages\Product\Product::where('id', 10)->first();
+$product = Product::whereContentData(['qty' => 'nolimit']);
 
+//--
+$customFieldValue = new CustomFieldValue();
+$customFieldValue->position = 100;
+$customFieldValue->value = 100;
 
+$customField = CustomField::find(25);
 
-    $product->data->field_name = 'test1';
-    $product->data->field_value = 1;
-    $product->data->save();
+$customFieldValue->customField()->associate($customField);
+$customFieldValue->save();
+//--
 
-
-    $product->data->field_name = 'dddd';
-    $product->data->field_value = 'sdfsdfsdf';
-    $product->data->save();
-
-
-dump( $product->data->dddd);
-
-     $product = \MicroweberPackages\Product\Product::where('id', 10)->first();
-    $product->data->aa = 1;
-    $product->data->save();
-
-    print 23123123;
-   // dump($product);
-//dd('aaaa',$product->data);
-});
-Route::get('admin/product-x', function () {
-
-  // $product = new \MicroweberPackages\Product\Product();
-   $product = \MicroweberPackages\Product\Product::with('price','specialPrice')->where('id', 1)->first();
+$product->price;
+$product->qty;
 
 
-    $product = \MicroweberPackages\Product\Product::where('id', 10)->first();
-//
-//    $content_data = new \MicroweberPackages\ContentData\ContentData(
-//        ['sku','skyy9458944']
-//    );
-//    $product->attach($content_data);
+*/
 
-
-
-//    $product->setAttr(['label' => 'red', 'order_d' => 12]);
-//    $product->setDataFields(['name' => 'Petko', 'order_d' => 12]);
-
-
-    $product->price = 99.99;
-    $product->special_price = 69.99;
-    $product->qty = 4;
-    $product->sku = 'gumeni33';
-    $product->title = 'Гумени Глави - Квартал № 41 - 1994 (цял албум)';
-    $product->url = 'gumeni-glavi-cql-album';
-    $product->description = 'Gumeni glavi brat! Shamara beshe moi';
-    $product->save();
-
-
-    dd($product->qty());
-
-});

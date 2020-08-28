@@ -4,12 +4,14 @@ namespace MicroweberPackages\Product;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\ContentData\ContentData;
+use MicroweberPackages\Content\Content;
+use MicroweberPackages\CustomField\CustomField;
 
-class Product extends Model
+class Product extends Content
 {
     protected $table = 'content';
 
-    public  $contentData = [];
+    protected $content_type = 'product';
 
     public function getMorphClass()
     {
@@ -32,48 +34,53 @@ class Product extends Model
         return $this->morphMany(ContentData::class, 'rel');
     }
 
-    public function getPriceAttribute($value)
+    public function customField()
     {
-        return '5';
-        //SQL QUERY
+        return $this->hasMany(CustomField::class, 'rel_id');
     }
 
-    public function setContentData($values)
+    private function fetchSingleAttributeByName ($name)
     {
-        foreach($values as $key => $val) {
-            $this->contentData[$key] = $val;
-        }
-    }
-
-    public function getContentData($values)
-    {
-        $res = [];
-        $arrData = !empty($this->data) ? $this->data->toArray() : [];
-
-        foreach($values as $value) {
-            if(array_key_exists($value, $this->contentData)) {
-                $res[$value] =  $this->contentData[$value];
-            } else {
-                foreach($arrData as $key => $val) {
-                    if($val['field_name']  == $value){
-                        $res[$value] =  $val['field_value'];
-                    }
+        foreach($this->customField as $customFieldRow) {
+            if($customFieldRow->type == $name) {
+                if(isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
+                    return $customFieldRow->fieldValue[0]->value;
                 }
             }
         }
 
-        return $res;
+        return null;
     }
 
-    public function save(array $options = [])
+    private function fetchSingleContentDataByName($name)
     {
-        $this->content_type = 'product';
-
-        foreach($this->contentData as $key => $value) {
-            $this->data()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
-                ['field_name' => $key, 'field_value' => $value]);
+        foreach($this->data as $contentDataRow) {
+            if($contentDataRow->field_name == $name) {
+                return $contentDataRow->field_value;
+            }
         }
 
-        parent::save($options);
+        return null;
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->fetchSingleAttributeByName('price');
+    }
+
+    public function getQtyAttribute()
+    {
+        return $this->fetchSingleContentDataByName('qty');
+    }
+
+    public function scopeWhereContentData($query, $whereArr)
+    {
+        $query->whereHas('data', function($query) use ($whereArr){
+            foreach($whereArr as $fieldName => $fieldValue) {
+                $query->where('field_name', $fieldName)->where('field_value', $fieldValue);
+            }
+        });
+
+        return $query;
     }
 }

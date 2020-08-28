@@ -1,16 +1,15 @@
 <?php
-namespace MicroweberPackages\Content;
+namespace MicroweberPackages\CustomField;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Database\Observers\CreatedByObserver;
-use MicroweberPackages\Content\Content;
 
 /**
  * Class ConfigSaveServiceProvider
  * @package MicroweberPackages\Config
  */
 
-class ContentServiceProvider extends ServiceProvider
+class CustomFieldServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -19,7 +18,6 @@ class ContentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Content::observe(CreatedByObserver::class);
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        CustomField::observe(CreatedByObserver::class);
     }
 }

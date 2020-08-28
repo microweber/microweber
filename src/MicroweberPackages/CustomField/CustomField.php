@@ -6,41 +6,50 @@ use Illuminate\Database\Eloquent\Model;
 class CustomField extends Model
 {
     protected $table = 'custom_fields';
-    protected $primaryKey = 'id';
 
-    protected $fillable = [
-        'rel_type',
-        'rel_id',
-        'type',
-        'name',
-        'name_key',
-        'placeholder',
-        'error_text',
-        'options',
-        'show_label',
-        'is_active',
-        'required',
-    ];
+    public $timestamps = true;
 
-    public function value()
+//    protected $fillable = [
+//        'rel_type',
+//        'rel_id',
+//        'type',
+//        'name',
+//        'name_key',
+//        'placeholder',
+//        'error_text',
+//        'options',
+//        'show_label',
+//        'is_active',
+//        'required',
+//    ];
+
+    public function fieldValue()
     {
-        return $this->morphMany(CustomFieldValue::class,'custom_field_id', 'id');
+        return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id');
     }
 
     public function save(array $options = [])
     {
         if (isset($this->value)) {
-           $findValue = CustomFieldValue::where('custom_field_id', $this->id)->where('value', $this->value)->first();
-           if (!$findValue) {
-               $findValue = new CustomFieldValue();
-           }
-           $findValue->custom_field_id = $this->id;
-           $findValue->value = $this->value;
-           $findValue->save();
 
+            CustomFieldValue::where('custom_field_id', $this->id)->delete();
+
+            if (is_array($this->value)) {
+                foreach ($this->value as $val) {
+                    $findValue = new CustomFieldValue();
+                    $findValue->custom_field_id = $this->id;
+                    $findValue->value = $val;
+                    $findValue->save();
+                }
+            } else {
+                $findValue = new CustomFieldValue();
+                $findValue->custom_field_id = $this->id;
+                $findValue->value = $this->value;
+                $findValue->save();
+            }
+
+            unset($this->value);
         }
-
-        unset($this->value);
 
         return parent::save($options);
     }
