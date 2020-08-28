@@ -777,13 +777,12 @@ class ComposerUpdate
             }
 
             if (function_exists('app') && isset(app()->update)) {
+                app()->update->post_update();
                 if ($install_core_update) {
                     app()->update->post_update($version);
-
-                } else {
-                    app()->update->post_update();
                 }
             }
+
             ob_end_clean();
             return $resp;
 
