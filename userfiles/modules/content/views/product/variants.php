@@ -123,7 +123,7 @@ $productVariantOptions[] = [
             //var productVariantOptionName = $(this).find('.js-option-name').val();
             var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
             productVariantCombinations.push(productVariantOptionValues);
-        });
+        }); 
 
         $('.js-product-variants-fields').html('');
         for (let item of cartesian(productVariantCombinations)) {
