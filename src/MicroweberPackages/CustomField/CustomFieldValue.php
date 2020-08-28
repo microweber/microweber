@@ -20,4 +20,15 @@ class CustomFieldValue extends Model
     {
         return $this->belongsTo(CustomField::class);
     }
+
+    public function save(array $options = [])
+    {
+        if(!isset($this->id)) {
+            //Create
+            $position = CustomFieldValue::where('custom_field_id', $this->custom_field_id)->max('position');
+            $this->position = $position+1;
+        }
+
+        parent::save($options);
+    }
 }
