@@ -966,6 +966,8 @@ class ComposerUpdate
             $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
         }
 
+        $system_repos[] = array("type" => "composer", "url" => "https://mw-package.credocart.bg/");
+
 
         // $system_repos = array();
 
