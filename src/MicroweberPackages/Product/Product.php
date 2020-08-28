@@ -11,7 +11,10 @@ class Product extends Content
 {
     protected $table = 'content';
 
-    protected $content_type = 'product';
+    protected $attributes = [
+        'content_type' => 'product',
+        'subtype' => 'product'
+    ];
 
     public function getMorphClass()
     {
