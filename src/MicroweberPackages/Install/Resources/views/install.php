@@ -11,12 +11,13 @@
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
     <script type="text/javascript" src="<?php print mw()->template->get_apijs_settings_url(); ?>"></script>
     <script type="text/javascript" src="<?php print mw()->template->get_apijs_url(); ?>"></script>
     <script type="text/javascript" src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
-    <link type="text/css" rel="stylesheet" media="all"
-          href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
+
+    <!--    <link type="text/css" rel="stylesheet" media="all" href="--><?php //print mw_includes_url(); ?><!--api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css"/>-->
+    <!--    <link type="text/css" rel="stylesheet" media="all" href="--><?php //print mw_includes_url(); ?><!--api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>-->
 
     <?php
     $rand = uniqid();
@@ -26,9 +27,8 @@
     if (!isset($pre_configured)) {
         $pre_configured = false;
     }
-
-
     ?>
+
     <script type="text/javascript">
         function prefix_add(el) {
             var val = el.value.replace(/ /g, '').replace(/[^\w\s]/gi, '');
@@ -52,7 +52,6 @@
                 $('#db_name_value').val('');
             }
 
-
             setFormDisplay('', !def);
         }
 
@@ -68,20 +67,17 @@
         $(document).ready(function () {
             getTemplateForInstallScreen()
             //  getTemplatesFromPackageManagerBeforeInstall();
-
         });
 
         function installMarketplaceItemByPackageName($name) {
-            mw.tools.loading('#demo-one', true,16000);
-            mw.tools.loading('#screenshot_preview', true,16000);
-
+            mw.tools.loading('#demo-one', true, 16000);
+            mw.tools.loading('#screenshot_preview', true, 16000);
             mw.notification.success('Please wait... Installing... ' + $name, 16000);
             mw.tools.scrollTo('#demo-one');
 
             if (typeof(mw.marketplace_dialog_jquery_ui) != 'undefined') {
                 mw.marketplace_dialog_jquery_ui.dialog('close');
             }
-
 
             $.post("<?php print site_url() ?>", {install_package_by_name: $name}, function (data) {
                 mw.notification.success('Template is installed... ' + $name, 16000);
@@ -92,10 +88,7 @@
             }).always(function () {
 
             });
-
-
         }
-
 
         function selectChange() {
             var selectBox = document.getElementById("default_template");
@@ -108,7 +101,6 @@
         }
 
         function showMarketplaceItemsInstallScreen() {
-
             $("#default_template option:first").attr('selected', 'selected');
             $("#default_template").prop("selectedIndex", 0).change();
 
@@ -125,18 +117,16 @@
                         if (value.screenshot) {
                             var screenshot = value.screenshot;
                         }
-                        if (value.latest_version &&  value.latest_version.extra && value.latest_version.extra._meta && value.latest_version.extra._meta.screenshot) {
+                        if (value.latest_version && value.latest_version.extra && value.latest_version.extra._meta && value.latest_version.extra._meta.screenshot) {
                             var screenshot = value.latest_version.extra._meta.screenshot;
                         }
 
-
-                        html += '<div class="m-b-20  m-l-10   mw-flex-col-md-5" style="padding:10px;"><div style="width: 100%; height: 120px; background-image: url('+screenshot+'); background-size: cover; background-position: top center;"></div><br /><button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" style="width: 100%;"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">Install ' + value.description + '</button><br /></div>';
-
+                        html += '<div class="m-b-20  m-l-10   mw-flex-col-md-5" style="padding:10px;"><div style="width: 100%; height: 120px; background-image: url(' + screenshot + '); background-size: cover; background-position: top center;"></div><br /><button type="button" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline" style="width: 100%;"  data-screenshot="' + screenshot + '" onclick="installMarketplaceItemByPackageName(' + '\'' + value.name + '\'' + ')">Install ' + value.description + '</button><br /></div>';
                     }
-
-
                 });
+
                 html += '</div>';
+
                 $("#dialog-message-marketplace").html(html);
                 mw.marketplace_dialog_jquery_ui = $("#dialog-message-marketplace").dialog({
                     modal: true,
@@ -147,9 +137,7 @@
                         }
                     }
                 });
-
             });
-
         }
 
         function getTemplateForInstallScreen() {
@@ -172,18 +160,14 @@
                             option += '<option  data-screenshot="' + screenshot + '" value="' + value.dir_name + '">' + value.name + '</option>';
                         }
                     }
-
-
                 });
 
                 if (window.navigator.onLine) {
-                     option += '<option value="_get_more">get more...</option>';
+                    option += '<option value="_get_more">get more...</option>';
                 }
-
 
                 $("#default_template").html('');
                 $("#default_template").append(option);
-
 
                 setscreenshot()
             });
@@ -219,6 +203,7 @@
                 return false;
             });
         });
+
         install_step = 1;
         install_step_num_fails = 0;
         install_step_orig_data = null;
@@ -230,58 +215,43 @@
             if (install_step) {
                 $data = $data + '&install_step=' + install_step;
             }
+
             $.post("<?php print site_url() ?>", $data,
                 function (data) {
-
-
                     $('#mw_log').hide().empty();
                     if (data != undefined) {
-
                         if (typeof(data) == 'object' && typeof(data.install_step) != undefined) {
                             install_step = data.install_step;
                             make_install_on_steps(install_step_orig_data);
-                        }
-
-                        else {
+                        } else {
                             if (data.indexOf('Warning') !== -1) {
                                 installprogressStop()
                             }
+
                             if (data.indexOf('Error') !== -1) {
                                 //  installprogressStop()
                                 $('#mw_log').addClass('mw-ui-box-important');
                             }
 
-
                             if (data == 'done') {
-
                                 setTimeout(function () {
-
-
                                     var redirect_after_install_url = "<?php print admin_url(); ?>?install_done=1";
-
                                     var adminurlval = $('#admin_url').val().trim();
-
                                     if (adminurlval != '') {
                                         var redirect_after_install_url = "<?php print site_url(); ?>" + adminurlval + "?install_done=1";
                                     }
 
                                     window.location.href = redirect_after_install_url;
-
                                 }, 3000);
 
-
                                 //location.reload();
-
                             } else {
-
                                 $('#mw_log').html(data).show();
                                 $('.mw-install-holder').slideDown();
                             }
-
                         }
-
-
                     }
+
                     if (!install_step || install_step == 'finalize') {
                         $('#installprogressbar').slideUp();
                     }
@@ -290,23 +260,20 @@
                 if (install_step_num_fails < 10) {
                     make_install_on_steps(install_step_orig_data);
                 }
-
             });
         };
-
 
         installprogressStopped = false;
 
         installprogress = function (reset) {
-
             if (installprogressStopped) {
                 installprogressStopped = false;
                 return false;
             }
 
             var holder = $('#installprogressbar'),
-                bar = $(".mw-ui-progress-bar", holder),
-                percent = $(".mw-ui-progress-percent", holder),
+                bar = $(".progress-bar", holder),
+                percent = $(".progress-bar-percent", holder),
                 reset = typeof reset === 'undefined' ? true : reset;
 
             if (reset === true) {
@@ -324,42 +291,36 @@
                     last = arr[l - 2],
                     percentage = Math.round(((l - 1) / 500) * 100);
 
-
-                if(percentage > 100){
+                if (percentage > 100) {
                     percentage = 100;
                 }
 
-
                 bar[0].style.width = percentage + '%';
                 percent.html(percentage + '%');
+
                 if (last == 'done') {
                     percent.html('0%');
                     installprogressStop();
                     $("#installinfo").html('');
-                }
-                else {
+                } else {
                     $("#installinfo").html(last);
                     setTimeout(function () {
                         installprogress(false);
                     }, 1000);
                 }
-
             });
         }
 
         installprogressStop = function () {
             var holder = $('#installprogressbar'),
-                bar = $(".mw-ui-progress-bar", holder),
-                percent = $(".mw-ui-progress-percent", holder);
+                bar = $(".progress-bar", holder),
+                percent = $(".progress-bar-percent", holder);
             holder.fadeOut();
             bar.width('0%');
             percent.html('0%');
             installprogressStopped = true;
         }
-
-
     </script>
-
 
     <script>
         $(document).ready(function () {
@@ -400,27 +361,30 @@
 
 
 <div class="installholder">
-    <small class="version">v. <?php print MW_VERSION ?></small>
-    <div class="mw-ui-box">
-        <div class="mw-ui-box-header">
-            <?php if ($pre_configured): ?>
-                <h2>Setup your website</h2>
-            <?php else: ?>
-                <a href="http://Microweber.com" target="_blank" id="logo"><span class="mw-icon-mw"></span></a>
-            <?php endif; ?>
+    <small class="text-muted d-block text-right mb-2">v. <?php print MW_VERSION ?></small>
 
+    <div class="card">
+        <div class="card-header d-block">
+            <div class="text-center my-3">
+                <?php if ($pre_configured): ?>
+                    <h4 class="text-center text-primary">Setup your website</h4>
+                <?php else: ?>
+                    <a href="http://Microweber.com" target="_blank" id="logo"><img src="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/img/logo.svg" style="width: 250px" /></a>
+                <?php endif; ?>
+            </div>
 
-            <div id="mw_log" class="error mw-ui-box mw-ui-box-content" style="display: none"></div>
+            <div id="mw_log" class="error" style="display: none"></div>
+
             <div class="mw_install_progress">
-                <div class="mw-ui-progress" id="installprogressbar" style="display: none">
-                    <div class="mw-ui-progress-bar" style="width: 0%;"></div>
-                    <div class="mw-ui-progress-info"><?php _e('Installing'); ?></div>
-                    <span class="mw-ui-progress-percent">0%</span>
+                <div class="progress" id="installprogressbar" style="display: none">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="progress-bar-percent"></span></div>
                 </div>
+
                 <div id="installinfo"></div>
             </div>
         </div>
-        <div class="mw-ui-box-content">
+
+        <div class="card-body">
             <div class="demo" id="demo-one">
                 <div class="description">
 
@@ -476,11 +440,13 @@
                             if (class_exists('PDO', false)) {
                                 $is_pdo_loaded = true;
                             }
+
                             if ($is_pdo_loaded == false) {
                                 if (extension_loaded('pdo')) {
                                     $is_pdo_loaded = true;
                                 }
                             }
+
                             if ($is_pdo_loaded == false) {
                                 if (defined('PDO::ATTR_DRIVER_NAME')) {
                                     $is_pdo_loaded = true;
@@ -492,10 +458,12 @@
                                     $is_pdo_loaded = false;
                                 }
                             }
+
                             if ($is_pdo_loaded == false) {
                                 $check_pass = false;
                                 $server_check_errors['pdo'] = 'The PDO MYSQL PHP extension must be loaded';
                             }
+
                             if (extension_loaded('gd') && function_exists('gd_info')) {
                             } else {
                                 $check_pass = false;
@@ -526,14 +494,11 @@
                                 $server_check_errors['media_base_path'] = _e('The directory ' . media_base_path() . ' must be writable', true);
                             }
                             ?>
+
                             <?php if ($check_pass == false): ?>
                                 <?php if (!empty($server_check_errors)): ?>
-                                    <h3>
-                                        <?php _e('Server check'); ?>
-                                    </h3>
-                                    <h4>
-                                        <?php _e('There are some errors on your server that will prevent Microweber from working properly'); ?>
-                                    </h4>
+                                    <h5 class="font-weight"><?php _e('Server check'); ?></h5>
+                                    <h6 class="font-weight"><?php _e('There are some errors on your server that will prevent Microweber from working properly'); ?></h6>
                                     <ol class="error">
                                         <?php foreach ($server_check_errors as $server_check_error): ?>
                                             <li> <?php print $server_check_error; ?> </li>
@@ -552,312 +517,240 @@
 
                                     <div class="mw-ui-row" id="install-row">
                                         <div>
-                                            <div class="mw-ui-col-container">
-                                                <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
-                                                    <?php if (!$hide_db_setup): ?>
-                                                        <h2><?php _e('Database Server'); ?></h2>
-                                                    <?php else: ?>
-                                                        <h2><span class="mw-ui-btn"
-                                                                  onclick="$('#mw_db_setup_toggle').toggle();"><?php _e('Database Server'); ?></span>
-                                                        </h2>
-                                                    <?php endif; ?>
+                                            <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
+                                                <?php if (!$hide_db_setup): ?>
+                                                    <h4><?php _e('Database Server'); ?></h4>
+                                                <?php else: ?>
+                                                    <h4>
+                                                        <button type="button" class="btn btn-secondary" onclick="$('#mw_db_setup_toggle').toggle();"><?php _e('Database Server'); ?></button>
+                                                    </h4>
+                                                <?php endif; ?>
 
-                                                    <div class="hr"></div>
-                                                    <div class="mw-ui-field-holder">
-                                                        <label class="mw-ui-label">
-                                                            Database Engine
-                                                            <span data-help="Choose the database type"><span
-                                                                        class="mw-icon-help-outline mwahi tip"></span></span></label>
+                                                <hr class="thin"/>
 
-                                                        <select class="mw-ui-field" name="db_driver"
-                                                                onchange="showForm(this)" autocomplete="off"
-                                                                tabindex="1">
-                                                            <?php foreach ($dbEngines as $engine): ?>
-                                                                <option value="<?php print $engine; ?>"
-                                                                    <?php if ($dbDefaultEngine == $engine) {
-                                                                        print 'selected';
-                                                                    } ?>>
-                                                                    <?php print $dbEngineNames[$engine]; ?>
-                                                                </option>
+                                                <div class="form-group">
+                                                    <label class="control-label">Database Engine</label>
+                                                    <small class="text-muted d-block mb-2">Choose the database type</small>
+
+                                                    <select class="form-control" name="db_driver" onchange="showForm(this)" autocomplete="off" tabindex="1">
+                                                        <?php foreach ($dbEngines as $engine): ?>
+                                                            <option value="<?php print $engine; ?>"
+                                                                <?php if ($dbDefaultEngine == $engine) {
+                                                                    print 'selected';
+                                                                } ?>>
+                                                                <?php print $dbEngineNames[$engine]; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+
+                                                <div id="db-form">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?php _e('Hostname'); ?></label>
+                                                        <small class="text-muted d-block mb-2"><?php _e('The address of your database server'); ?></small>
+                                                        <input type="text" class="form-control" autofocus name="db_host" tabindex="2" value="<?php if (isset($config['host'])): ?><?php print $config['host']; ?><?php endif; ?>"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?php _e('Username'); ?></label>
+                                                        <small class="text-muted d-block mb-2"><?php _e('The username of your database.'); ?></small>
+                                                        <input type="text" class="form-control" name="db_user" tabindex="2" value="<?php if (isset($config['username'])): ?><?php print $config['username']; ?><?php endif; ?>"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?php _e('Password'); ?></label>
+                                                        <small class="text-muted d-block mb-2"><?php _e('The password of your database.'); ?></small>
+                                                        <input type="password" class="form-control" name="db_pass" tabindex="2" value="<?php if (isset($config['password'])): ?><?php print $config['password']; ?><?php endif; ?>"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?php _e('Database'); ?></label>
+                                                        <small class="text-muted d-block mb-2"><?php _e('The name of your database.'); ?></small>
+                                                        <input type="text" class="form-control" name="db_name" id="db_name_value" tabindex="2" value="<?php if (isset($config['database'])): ?><?php print $config['database']; ?><?php endif; ?>"/>
+                                                    </div>
+                                                </div>
+
+                                                <div id="db-form-sqlite" style="display:none">
+                                                    <div class="form-group">
+                                                        <label class="control-label"><?php _e('Database file'); ?> </label>
+                                                        <small class="text-muted d-block mb-2"><?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?></small>
+                                                        <input type="text" class="form-control" autofocus name="db_name_sqlite" tabindex="2" value="<?php if (isset($config['db_name_sqlite'])): ?><?php print $config['db_name_sqlite']; ?><?php endif; ?>"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="control-label"><?php _e('Table Prefix'); ?></label>
+                                                    <small class="text-muted d-block mb-2"><?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?></small>
+                                                    <input type="text" class="form-control" name="table_prefix" tabindex="3" value="<?php if (isset($config['prefix'])): ?><?php print $config['prefix']; ?><?php endif; ?>" onblur="prefix_add(this)"/>
+                                                </div>
+                                            </div>
+
+                                            <hr class="thin no-padding"/>
+
+                                            <div>
+                                                <?php
+                                                // $templates_opts = array('remove_hidden_from_install_screen' => true);
+                                                // $templates = site_templates($templates_opts);
+                                                // moved by ajax
+                                                $templates = [['dir_name' => 'default', 'name' => 'Default']]
+                                                ?>
+
+                                                <?php if (is_array($templates) and !empty($templates)): ?>
+                                                    <div class="form-group">
+                                                        <h5 class="text-primary mb-3 text-center"><?php print 'Choose your preferred design'; ?></h5>
+
+                                                        <div class="row">
+                                                            <div class="col-auto">
+                                                                <button class="btn btn-primary btn-icon change-templ-btn" type="button" id="prev"><i class="mdi mdi-chevron-left mdi-24px"></i></button>
+                                                            </div>
+
+                                                            <div class="col px-0">
+                                                                <select class="form-control" name="default_template" id="default_template" tabindex="6">
+                                                                    <?php foreach ($templates as $template): ?>
+                                                                        <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
+                                                                            <option <?php if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?> value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
+                                                                        <?php endif; ?>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                                <button class="btn btn-primary btn-icon change-templ-btn" type="button" id="next"><i class="mdi mdi-chevron-right mdi-24px"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+
+                                            <script>
+                                                $(document).ready(function () {
+                                                    setscreenshot()
+                                                });
+
+                                                function setscreenshot() {
+                                                    var scrshot = ($('#default_template').children('option:selected').data('screenshot'));
+                                                    $('#theImg').remove();
+
+                                                    if (typeof(scrshot) != 'undefined') {
+                                                        $('#screenshot_preview').append('<div id="theImg"></div>');
+                                                        $('#theImg').css('background-image', 'url(' + scrshot + ')');
+                                                        $('#theImg').attr('data-src', scrshot);
+                                                    }
+                                                }
+                                            </script>
+
+                                            <div id="screenshot_preview" class="mt-4"></div>
+
+                                            <?php if ($pre_configured): ?>
+
+                                            <?php endif; ?>
+
+                                            <div class="row mt-5">
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="with_default_content" name="with_default_content" value="1" tabindex="7" checked="">
+                                                            <label class="custom-control-label" for="with_default_content">Check this custom checkbox</label>
+                                                        </div>
+                                                        <small class="text-muted d-block mb-2"><?php _e('If checked, some default content will be added.'); ?></small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <?php $current_lang = current_lang(); ?>
+                                                    <div class="form-group">
+                                                        <select name="site_lang" class="form-control" tabindex="8">
+                                                            <?php if ($current_lang != 'en'): ?>
+                                                                <option value="<?php print strtoupper($current_lang); ?>"><?php print strtoupper($current_lang); ?></option>
+                                                            <?php else: ?>
+                                                                <option value="en">EN</option>
+                                                            <?php endif; ?>
+
+                                                            <?php $langs = get_available_languages(); ?>
+                                                            <?php foreach ($langs as $lang): ?>
+                                                                <option value="<?php print $lang; ?>"><?php print strtoupper($lang); ?></option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <div id="db-form">
-                                                        <div class="mw-ui-field-holder">
-                                                            <label class="mw-ui-label">
-                                                                <?php _e('Hostname'); ?>
-                                                                <span data-help="<?php _e('The address of your database server'); ?>"><span
-                                                                            class="mw-icon-help-outline mwahi"></span></span></label>
-                                                            <input type="text" class="mw-ui-field" autofocus
-                                                                   name="db_host" tabindex="2"
-                                                                   value="<?php if (isset($config['host'])) {
-                                                                       print $config['host'];
-                                                                   } ?>"/>
-                                                        </div>
-                                                        <div class="mw-ui-field-holder">
-                                                            <label class="mw-ui-label">
-                                                                <?php _e('Username'); ?>
-                                                                <span data-help="<?php _e('The username of your database.'); ?>"><span
-                                                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
-                                                            <input type="text" class="mw-ui-field" name="db_user"
-                                                                   tabindex="2"
-                                                                   value="<?php if (isset($config['username'])) {
-                                                                       print $config['username'];
-                                                                   } ?>"/>
-                                                        </div>
-                                                        <div class="mw-ui-field-holder">
-                                                            <label class="mw-ui-label">
-                                                                <?php _e('Password'); ?>
-                                                            </label>
-                                                            <input type="password" class="mw-ui-field"
-                                                                   name="db_pass" tabindex="2"
-                                                                   value="<?php if (isset($config['password'])) {
-                                                                       print $config['password'];
-                                                                   } ?>"/>
-                                                        </div>
-                                                        <div class="mw-ui-field-holder">
-                                                            <label class="mw-ui-label">
-                                                                <?php _e('Database'); ?>
-                                                                <span
-                                                                        data-help="<?php _e('The name of your database.'); ?>"><span
-                                                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
-                                                            <input type="text" class="mw-ui-field"
-                                                                   name="db_name" id="db_name_value" tabindex="2"
-                                                                   value="<?php if (isset($config['database'])) {
-                                                                       print $config['database'];
-                                                                   } ?>"/>
-                                                        </div>
-                                                    </div>
-                                                    <div id="db-form-sqlite" style="display:none">
-                                                        <div class="mw-ui-field-holder">
-                                                            <label class="mw-ui-label">
-                                                                <?php _e('Database file'); ?>
-                                                                <span data-help="<?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?>">
-                                                                    <span class="mw-icon-help-outline mwahi tip"></span>
-                                                                </span>
-                                                            </label>
-                                                            <input type="text" class="mw-ui-field" autofocus
-                                                                   name="db_name_sqlite" tabindex="2"
-                                                                   value="<?php if (isset($config['db_name_sqlite'])) {
-                                                                       print $config['db_name_sqlite'];
-                                                                   } ?>"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mw-ui-field-holder">
-                                                        <label class="mw-ui-label"><?php _e('Table Prefix'); ?><span
-                                                                    data-help="<?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?>"><span
-                                                                        class="mw-icon-help-outline mwahi tip"></span></span></label>
-                                                        <input type="text" class="mw-ui-field" name="table_prefix"
-                                                               tabindex="3" value="<?php if (isset($config['prefix'])) {
-                                                            print $config['prefix'];
-                                                        } ?>" onblur="prefix_add(this)"/>
-                                                    </div>
                                                 </div>
-
-                                                <div>
-                                                    <?php
-                                                    // $templates_opts = array('remove_hidden_from_install_screen' => true);
-                                                    // $templates = site_templates($templates_opts);
-                                                    // moved by ajax
-                                                    $templates = [['dir_name' => 'default', 'name' => 'Default']]
-                                                    ?>
-                                                    <?php if (is_array($templates) and !empty($templates)): ?>
-                                                        <div class="mw-ui-field-holder">
-                                                            <label class="mw-ui-label bold center"
-                                                                   style="margin-bottom:20px; color: #0086db; font-size: 18px;"><?php print 'Choose Your Template'; ?>
-                                                                <span data-help="<?php print 'Choose default site template'; ?>"><span
-                                                                            class="mw-icon-help-outline mwahi tip"></span></span></label>
-
-                                                            <div class="mw-ui-row">
-                                                                <div class="mw-ui-col" style="width:40px;">
-                                                                    <button class="mw-ui-btn mw-ui-btn-info change-templ-btn"
-                                                                            type="button" id="prev"><i
-                                                                                class="mw-icon-arrowleft"></i></button>
-                                                                </div>
-                                                                <div class="mw-ui-col">
-                                                                    <select class="mw-ui-field" name="default_template"
-                                                                            id="default_template" tabindex="6">
-
-                                                                        <?php foreach ($templates as $template): ?>
-                                                                            <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
-                                                                                <option <?php if (isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?>
-                                                                                        value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
-                                                                            <?php endif; ?>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mw-ui-col"
-                                                                     style="width:40px; text-align: right;">
-                                                                    <button class="mw-ui-btn mw-ui-btn-info change-templ-btn"
-                                                                            type="button" id="next"><i
-                                                                                class="mw-icon-arrowright"></i></button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                </div>
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        setscreenshot()
-                                                    });
-
-                                                    function setscreenshot() {
-                                                        var scrshot = ($('#default_template').children('option:selected').data('screenshot'));
-                                                        $('#theImg').remove();
-
-                                                        if (typeof(scrshot) != 'undefined') {
-                                                            $('#screenshot_preview').append('<div id="theImg"></div>');
-                                                            $('#theImg').css('background-image', 'url(' + scrshot + ')');
-                                                            $('#theImg').attr('data-src', scrshot);
-                                                        }
-                                                    }
-                                                </script>
-
-                                                <div id="screenshot_preview" style="margin:10px 0;"></div>
-                                                <?php if ($pre_configured): ?>
-
-                                                <?php endif; ?>
-                                                <div class="mw-ui-row">
-                                                    <div class="mw-ui-col">
-                                                        <div class="mw-ui-field-holder pull-left">
-                                                            <label class="mw-ui-check">
-                                                                <input name="with_default_content" type="checkbox"
-                                                                       checked="checked" value="1" tabindex="7">
-                                                                <span></span>&nbsp;
-                                                                <span><?php _e('Install the template with default content'); ?></span>
-                                                                <span data-help="<?php _e('If checked, some default content will be added.'); ?>"><span
-                                                                            class="mw-icon-help-outline mwahi tip"></span></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mw-ui-col" style="width: 100px">
-                                                        <?php
-                                                        $current_lang = current_lang();
-                                                        ?>
-                                                        <div class="mw-ui-field-holder">
-
-
-                                                            <select name="site_lang" class="mw-ui-field" tabindex="8">
-                                                                <?php if ($current_lang != 'en'): ?>
-                                                                    <option value="<?php print strtoupper($current_lang); ?>"><?php print strtoupper($current_lang); ?></option>
-                                                                <?php else: ?>
-
-                                                                    <option value="en">EN</option>
-
-                                                                <?php endif; ?>
-
-                                                                <?php $langs = get_available_languages(); ?>
-                                                                <?php foreach ($langs as $lang): ?>
-                                                                    <option value="<?php print $lang; ?>"><?php print strtoupper($lang); ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
                                             </div>
                                         </div>
-                                        <div id="admin-user" <?php if ($pre_configured == true): ?><?php endif; ?>>
 
+                                        <hr class="thin no-padding">
+
+                                        <div id="admin-user" <?php if ($pre_configured == true): ?><?php endif; ?>>
                                             <div class="mw-ui-col-container">
                                                 <div class="admin-setup">
-                                                    <?php if ($pre_configured != true): ?>
-                                                        <h2><?php _e('Create Admin user'); ?></h2>
-                                                        <div class="hr"></div>
-                                                    <?php endif; ?>
+                                                    <h4><?php print 'Login Information'; ?></h4>
+                                                    <hr class="thin">
 
-                                                    <label class="mw-ui-label bold center"
-                                                           style="margin-top:30px; color: #0086db; font-size: 18px;"><?php print 'Login Information'; ?></label>
-
-                                                    <div class="mw-ui-row" style="margin-top:20px;">
-                                                        <div class="mw-ui-col" style="padding-right:10px;">
-                                                            <div class="mw-ui-field-holder">
-                                                                <label class="mw-ui-label">
-                                                                    <?php _e('Admin username'); ?>
-                                                                </label>
-                                                                <input type="text" class="mw-ui-field" tabindex="9"
-                                                                       name="admin_username" <?php if (isset($config['admin_username']) == true and isset($config['admin_username']) != ''): ?> value="<?php print $config['admin_username'] ?>" <?php endif; ?> />
-                                                            </div>
-                                                            <div class="mw-ui-field-holder">
-                                                                <label class="mw-ui-label">
-                                                                    <?php _e('Admin password'); ?>
-                                                                </label>
-                                                                <input type="password" class="mw-ui-field" tabindex="11"
-                                                                       name="admin_password" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label"><?php _e('Admin username'); ?></label>
+                                                                <input type="text" class="form-control" tabindex="9" name="admin_username" <?php if (isset($config['admin_username']) == true and isset($config['admin_username']) != ''): ?> value="<?php print $config['admin_username'] ?>" <?php endif; ?> />
                                                             </div>
 
-                                                            <div class="mw-ui-field-holder pull-left">
-                                                                <label class="mw-ui-check">
-                                                                    <input name="subscribe_for_update_notification"
-                                                                           type="checkbox" checked="checked" value="1"
-                                                                           tabindex="13"><span></span>
-                                                                    <span><?php _e('Update nofitication'); ?></span>
-                                                                    <span data-help="<?php _e('If checked, you will get update notifiactions when new version is avaiable.'); ?>"><span
-                                                                                class="mw-icon-help-outline mwahi tip"></span></span>
-                                                                </label>
+                                                            <div class="form-group">
+                                                                <label class="control-label"><?php _e('Admin password'); ?></label>
+                                                                <input type="password" class="form-control" tabindex="11" name="admin_password" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                             </div>
                                                         </div>
 
-                                                        <div class="mw-ui-col" style="padding-left:10px;">
-                                                            <div class="mw-ui-field-holder">
-                                                                <label class="mw-ui-label">
-                                                                    <?php _e('Admin email'); ?>
-                                                                </label>
-                                                                <input type="text" class="mw-ui-field" tabindex="10"
-                                                                       name="admin_email" <?php if (isset($config['admin_email']) == true and isset($config['admin_email']) != ''): ?> value="<?php print $config['admin_email'] ?>" <?php endif; ?> />
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label"><?php _e('Admin email'); ?></label>
+                                                                <input type="text" class="form-control" tabindex="10" name="admin_email" <?php if (isset($config['admin_email']) == true and isset($config['admin_email']) != ''): ?> value="<?php print $config['admin_email'] ?>" <?php endif; ?> />
                                                             </div>
-                                                            <div class="mw-ui-field-holder">
-                                                                <label class="mw-ui-label">
-                                                                    <?php _e('Repeat password'); ?>
-                                                                </label>
-                                                                <input type="password" class="mw-ui-field" tabindex="12"
-                                                                       name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
+
+                                                            <div class="form-group">
+                                                                <label class="control-label"><?php _e('Repeat password'); ?></label>
+                                                                <input type="password" class="form-control" tabindex="12" name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                             </div>
+
                                                             <a name="create-admin"></a>
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" id="subscribe_for_update_notification" name="subscribe_for_update_notification" value="1" tabindex="13" checked="">
+                                                                    <label class="custom-control-label" for="subscribe_for_update_notification"><?php _e('Update nofitication'); ?></label>
+                                                                </div>
+
+                                                                <small class="text-muted d-block mb-2"><?php _e('If checked, you will get update notifiactions when new version is avaiable.'); ?></small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
+                                        <div class="mt-2 mb-4">
+                                            <div class="text-right">
+                                                <button type="button" href="javascript:void(0);" class="btn btn-link px-0" onClick="$('.advanced-options-installation').toggle()" tabindex="14">Show advanced options</button>
+                                            </div>
 
-                                        <div class="mw-ui-col-container" style="margin-top:15px">
-                                            <button type="button" href="JavaScript:void(0);"
-                                                    onClick="$('.advanced-options-installation').toggle()"
-                                                    style="color: #009cff; border: none;" tabindex="14">Show advanced
-                                                options
-                                            </button>
-                                            <div class="advanced-options-installation" style="display:none;">
-
-                                                <div class="mw-ui-field-holder">
-                                                    <label class="mw-ui-label">
-                                                        <?php _e('Admin URL'); ?>
-                                                    </label>
-                                                    <input type="text" class="mw-ui-field"
-                                                           name="admin_url" value="admin" id="admin_url" tabindex="15"/>
+                                            <div class="advanced-options-installation mt-2" style="display:none;">
+                                                <div class="form-group">
+                                                    <label class="control-label"><?php _e('Admin URL'); ?></label>
+                                                    <input type="text" class="form-control" name="admin_url" value="admin" id="admin_url" tabindex="15"/>
                                                 </div>
-
-
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <?php $default_content_file = mw_root_path() . '.htaccess'; ?>
                                     <?php if ($pre_configured == true): ?>
                                         <input type="hidden" name="clean_pre_configured" value="1">
                                     <?php endif; ?>
 
-                                    <div class="mw_clear"></div>
-                                    <input type="hidden" name="make_install" value="1"
-                                           id="is_installed_<?php print $rand; ?>">
+                                    <input type="hidden" name="make_install" value="1" id="is_installed_<?php print $rand; ?>">
                                     <input type="hidden" value="UTC" name="default_timezone"/>
-                                    <button type="submit" name="submit"
-                                            class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right"
-                                            tabindex="16"><?php _e('Install'); ?></button>
 
-
+                                    <div class="text-right">
+                                        <button type="submit" name="submit" class="btn btn-primary" tabindex="16"><?php _e('Install'); ?></button>
+                                    </div>
                                 </form>
                             <?php endif; ?>
                         <?php else: ?>

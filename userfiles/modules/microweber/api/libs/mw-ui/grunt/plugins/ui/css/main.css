@@ -8993,4 +8993,7 @@ small a {
   .table-1 tfoot tr:last-child td {
     border-bottom: none; }
 
+.table tr.valign-middle td {
+  vertical-align: middle; }
+
 /*# sourceMappingURL=main.css.map */

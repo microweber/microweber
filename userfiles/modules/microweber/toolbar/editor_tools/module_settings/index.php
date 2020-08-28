@@ -310,7 +310,7 @@
                         dropdownContent.className = 'mw-dropdown-content';
                         dropdownContent.innerHTML = '<ul></ul>';
                         dropdown.className = 'mw-dropdown mw-dropdown-default';
-                        dropdown.innerHTML = '<span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-dropdown-val css-preset-dropdown"></span>';
+                        dropdown.innerHTML = '<span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-dropdown-val css-preset-dropdown btn px-1"></span>';
                         var btn = document.createElement('li');
                         var btn2 = document.createElement('li');
                         btn2.innerHTML = 'Reset module';

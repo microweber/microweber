@@ -24,26 +24,31 @@ $num = 1.00;
 
     ?>
     <?php if (is_array($curencies)): ?>
+        <hr class="thin"/>
+        <h5 class="font-weight-bold"><?php _e("Accept payments in currency"); ?></h5>
 
-        <h2><?php _e("Accept payments in currency"); ?></h2>
+        <div class="form-group">
+            <label class="control-label">Select the currency accepted by payment provider</label>
+            <small class="text-muted d-block mb-2"><?php _e("If your payment provider does not support the default currency then the customer will pay in selected currency"); ?></small>
+            <select name="payment_currency" class="mw_option_field selectpicker" data-width="100%" data-option-group="payments" data-reload="mw_curr_rend" autocomplete="off" data-live-search="true" data-size="5">
+                <option value="" <?php if ($payment_currency == false): ?> selected="selected" <?php endif; ?>><?php _e('Default'); ?></option>
+                <?php foreach ($curencies as $item): ?>
+                    <option value="<?php print $item ?>" <?php if ($payment_currency == $item): ?> selected="selected" <?php endif; ?>><?php print $item ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-        <select name="payment_currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend" autocomplete="off">
-            <option value="" <?php if ($payment_currency == false): ?> selected="selected" <?php endif; ?>><?php _e('Default'); ?></option>
-            <?php foreach ($curencies as $item): ?>
-                <option value="<?php print $item ?>" <?php if ($payment_currency == $item): ?> selected="selected" <?php endif; ?>><?php print $item ?></option>
-            <?php endforeach; ?>
-        </select>
-
-        <br/>
-        <small><?php _e("You must use one of the above currencies to accept payments"); ?></small>
-        <label class="mw-ui-label"><?php _e("Convert rate to from default currency to payment currency"); ?></label>
-        <input name="payment_currency_rate" value="<?php print $payment_currency_rate; ?>" id="payment_currency_rate_val_sugg" type="text" class="mw-ui-field price-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend"/>
-        <?php $sugg = mw()->shop_manager->currency_convert_rate($cur, $payment_currency); ?>
-        <?php $sugg = false; ?>
-        <?php if ($sugg != false): ?>
-            <br/>
-            <small><?php _e("Suggested"); ?>: <?php print $sugg ?> <a class="mw-ui-link" href="javascript:$('#payment_currency_rate_val_sugg').val(<?php print $sugg ?>).change(); void(0);">[<?php _e("use"); ?>]</a></small>
-        <?php endif; ?>
+        <div class="form-group">
+            <label class="control-label"><?php _e('Convert rate'); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("Convert rate from default currency to payment currency"); ?></small>
+            <input name="payment_currency_rate" value="<?php print $payment_currency_rate; ?>" id="payment_currency_rate_val_sugg" type="text" class="price-field mw_option_field form-control" data-option-group="payments" data-reload="mw_curr_rend"/>
+            <?php $sugg = mw()->shop_manager->currency_convert_rate($cur, $payment_currency); ?>
+            <?php $sugg = false; ?>
+            <?php if ($sugg != false): ?>
+                <br/>
+                <small><?php _e("Suggested"); ?>: <?php print $sugg ?> <a class="mw-ui-link" href="javascript:$('#payment_currency_rate_val_sugg').val(<?php print $sugg ?>).change(); void(0);">[<?php _e("use"); ?>]</a></small>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
 <?php endif; ?>
 

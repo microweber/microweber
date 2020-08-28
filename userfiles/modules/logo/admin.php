@@ -608,7 +608,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                     }
                                                 },
 
-                                                '|', 'link', 'unlink', 'wordPaste'
+                                                '|', 'wordPaste'
                                             ],
                                         ]
                                     });

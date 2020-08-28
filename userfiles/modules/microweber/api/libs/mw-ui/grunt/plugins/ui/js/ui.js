@@ -1,7 +1,9 @@
 /* UI */
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    $('.selectpicker').selectpicker();
+    $('.selectpicker').selectpicker({
+        container: 'body'
+    });
 
     $(".js-range").each(function (index) {
         var from = $(this).find('.js-from');

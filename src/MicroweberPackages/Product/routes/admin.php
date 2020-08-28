@@ -1,5 +1,9 @@
 <?php
 
+use MicroweberPackages\Product\Product;
+use MicroweberPackages\CustomField\CustomField;
+use MicroweberPackages\CustomField\CustomFieldValue;
+
 /*
 |--------------------------------------------------------------------------
 | Frontend Routes
@@ -7,35 +11,40 @@
 |
 */
 
-Route::name('admin.')
-    ->prefix('admin')
-    ->namespace('\MicroweberPackages\Product\Http\Controllers\Admin')
-    ->middleware(['XSS'])
-    ->group(function () {
 
-        Route::resource('products', 'RoductsController');
-        
+Route::get('admin/xxx-xxx', function () {
+
+    $product = Product::find(10);
+    //$contentData = $product->getContentData(['tlegon2', 'qty']);
+    $product->deleteContentData(['tlegon2', 'laptop', 'test']);
+    dd(1);
+    //$product->deleteContentData(['tlegon2', 'laptop']);
+    //dd($product->qty);
 });
 
-Route::get('admin/product-x', function () {
+/*
+//>>>MW Interface
+$product->setContentData(['telefon' => 'nokia2', 'sku' => 5]);
+$product->deleteContentData(['tlegon2', 'laptop', 'test']);
+$contentData = $product->getContentData(['telefon', 'qty']);
+$product->save();
 
-  // $product = new \MicroweberPackages\Product\Product();
-   $product = \MicroweberPackages\Product\Product::with('price','specialPrice')->where('id', 1)->first();
+$product = Product::whereContentData(['qty' => 'nolimit']);
+
+//--
+$customFieldValue = new CustomFieldValue();
+$customFieldValue->position = 100;
+$customFieldValue->value = 100;
+
+$customField = CustomField::find(25);
+
+$customFieldValue->customField()->associate($customField);
+$customFieldValue->save();
+//--
+
+$product->price;
+$product->qty;
 
 
-    /*$product = \MicroweberPackages\Product\Product::where('id', 1)->first();
-    $product->price = 99.99;
-    $product->special_price = 69.99;
-    $product->qty = 4;
-    $product->sku = 'gumeni33';
-    $product->title = 'Гумени Глави - Квартал № 41 - 1994 (цял албум)';
-    $product->url = 'gumeni-glavi-cql-album';
-    $product->description = 'Gumeni glavi brat! Shamara beshe moi';
-    $product->save();*/
+*/
 
-
-
-
-    dd($product->qty());
-
-});

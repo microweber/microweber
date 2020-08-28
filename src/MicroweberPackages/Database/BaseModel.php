@@ -11,6 +11,7 @@
 namespace MicroweberPackages\Database;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use MicroweberPackages\Database\Observers\BaseModelObserver;
 
 class BaseModel extends Eloquent
 {

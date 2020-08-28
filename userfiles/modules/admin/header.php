@@ -135,7 +135,7 @@ if (!$shop_disabled) {
     }
 }
 
-if (!user_can_view_module(['module'=>'shop'])) {
+if (!user_can_view_module(['module' => 'shop'])) {
     $shop_disabled = true;
 }
 ?>
@@ -238,39 +238,39 @@ $user = get_user_by_id($user_id);
 
                     <?php
                     if (user_can_access('module.content.edit')):
-                    ?>
-                    <li class="mx-1 d-none d-md-block">
-                        <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
-                        </button>
-                        <div class="dropdown-menu ">
-                            <?php $custom_view = url_param('view'); ?>
-                            <?php $custom_action = url_param('action'); ?>
-                            <?php event_trigger('content.create.menu'); ?>
-                            <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
-                            <?php if (!empty($create_content_menu)): ?>
-                                <?php foreach ($create_content_menu as $type => $item): ?>
-                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                                    <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-                                    <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
-                                    <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
-                                    <?php $base_url = (isset($item['base_url'])) ? ($item['base_url']) : false; ?>
-                                    <?php
-                                    if ($base_url == false) {
-                                        $base_url = admin_url('view:content');
-                                        if ($custom_action != false) {
-                                            if ($custom_action == 'pages' or $custom_action == 'posts' or $custom_action == 'products') {
-                                                $base_url = $base_url . '/action:' . $custom_action;
+                        ?>
+                        <li class="mx-1 d-none d-md-block">
+                            <button type="button" class="btn btn-success btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
+                                <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
+                            </button>
+                            <div class="dropdown-menu ">
+                                <?php $custom_view = url_param('view'); ?>
+                                <?php $custom_action = url_param('action'); ?>
+                                <?php event_trigger('content.create.menu'); ?>
+                                <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
+                                <?php if (!empty($create_content_menu)): ?>
+                                    <?php foreach ($create_content_menu as $type => $item): ?>
+                                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                        <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                        <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
+                                        <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
+                                        <?php $base_url = (isset($item['base_url'])) ? ($item['base_url']) : false; ?>
+                                        <?php
+                                        if ($base_url == false) {
+                                            $base_url = admin_url('view:content');
+                                            if ($custom_action != false) {
+                                                if ($custom_action == 'pages' or $custom_action == 'posts' or $custom_action == 'products') {
+                                                    $base_url = $base_url . '/action:' . $custom_action;
+                                                }
                                             }
                                         }
-                                    }
-                                    ?>
-                                    <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                    </li>
+                                        ?>
+                                        <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </li>
                     <?php endif; ?>
 
                 </ul>
@@ -343,12 +343,12 @@ $user = get_user_by_id($user_id);
                 <?php event_trigger('mw.admin.header.toolbar'); ?>
 
                 <ul class="nav">
-                    <?php if (user_can_access('module.content.edit')):?>
-                    <li class="mx-1">
-                        <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
-                            <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
-                        </a>
-                    </li>
+                    <?php if (user_can_access('module.content.edit')): ?>
+                        <li class="mx-1">
+                            <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
+                                <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
+                            </a>
+                        </li>
                     <?php endif; ?>
 
                     <?php event_trigger('mw.admin.header.toolbar.ul'); ?>
@@ -402,127 +402,115 @@ $user = get_user_by_id($user_id);
                 <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
 
 
-                <?php if (user_can_view_module(['module'=>'content'])): ?>
-                <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
-                    <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
-                        <i class="mdi mdi-earth"></i>
-                        <span class="badge-holder"><?php _e("Website"); ?></span>
-                    </a>
-
-                    <div class="dropdown-menu">
-                        <a href="<?php print admin_url(); ?>view:content/action:pages" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
-                            <?php _e("Pages"); ?>
-                            <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print admin_url('view:content#action=new:page'); ?>"><i class="mdi mdi-plus"></i></span>
+                <?php if (user_can_view_module(['module' => 'content'])): ?>
+                    <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
+                        <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
+                            <i class="mdi mdi-earth"></i>
+                            <span class="badge-holder"><?php _e("Website"); ?></span>
                         </a>
 
-                        <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:posts">
-                            <?php _e("Posts"); ?>
-                            <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><i class="mdi mdi-plus"></i></span>
-                        </a>
-                        <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
-                            <a class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:products">
-                                <?php _e("Products"); ?>
-                                <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-primary btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                        <div class="dropdown-menu">
+                            <a href="<?php print admin_url(); ?>view:content/action:pages" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
+                                <?php _e("Pages"); ?>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print admin_url('view:content#action=new:page'); ?>"><i class="mdi mdi-plus"></i></span>
                             </a>
-                        <?php endif; ?>
 
-                        <a class="dropdown-item <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
-                            <?php _e("Categories"); ?>
-                            <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" data-href="<?php print admin_url('view:content#action=new:category'); ?>" data-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="mdi mdi-plus"></i></span>
-                        </a>
+                            <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:posts">
+                                <?php _e("Posts"); ?>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><i class="mdi mdi-plus"></i></span>
+                            </a>
+                            <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
+                                <a class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:products">
+                                    <?php _e("Products"); ?>
+                                    <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                            <?php endif; ?>
 
-                        <a class="dropdown-item <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
-                            <?php _e("Settings"); ?>
-                        </a>
-                    </div>
-                </li>
+                            <a class="dropdown-item <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
+                                <?php _e("Categories"); ?>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print admin_url('view:content#action=new:category'); ?>" data-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="mdi mdi-plus"></i></span>
+                            </a>
+
+                            <a class="dropdown-item <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
+                                <?php _e("Settings"); ?>
+                            </a>
+                        </div>
+                    </li>
                 <?php endif; ?>
 
                 <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                     <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
-                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0) {
-                                    print $order_notif_html;
-                                }; ?></span>
+                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                         </a>
                         <div class="dropdown-menu">
-
-                            <?php
-                            if (user_can_view_module(['module'=>'shop.products'])):
-                            ?>
-                            <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>"><?php _e("Products"); ?></a>
-                            <?php
+                            <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
+                                <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                    <?php _e("Products"); ?>
+                                    <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                                <?php
                             endif;
                             ?>
 
-                            <?php
-                            if (user_can_view_module(['module'=>'shop.orders'])):
-                            ?>
-                            <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
-                                <?php _e("Orders"); ?>
-                                <?php if ($view == 'shop') {
-                                    print $order_notif_html;
-                                } ?>
-                            </a>
-                            <?php
-                            endif;
-                            ?>
+                            <?php if (user_can_view_module(['module' => 'shop.orders'])): ?>
+                                <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
+                                    <?php _e("Orders"); ?>
+                                    <?php if ($view == 'shop'): ?><?php print $order_notif_html; ?><?php endif; ?>
+                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                            <?php endif; ?>
 
                             <!--
                             <a href="<?php /*print admin_url(); */ ?>view:shop/action:clients" class="dropdown-item <?php /*if ($action == 'clients'): */ ?> active <?php /*endif; */ ?>">
                                 <?php /*_e("Clients"); */ ?>
                             </a>-->
 
-                            <?php
-                            if (user_can_view_module(['module'=>'shop.customers'])):
-                            ?>
-                            <?php if (class_exists(\MicroweberPackages\Customer\Customer::class)): ?>
-                                <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
-                                    <?php _e("Clients"); ?>
-                                </a>
-                            <?php endif; ?>
+                            <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
+                                <?php if (class_exists(\MicroweberPackages\Customer\Customer::class)): ?>
+                                    <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
+                                        <?php _e("Clients"); ?>
+                                    </a>
+                                <?php endif; ?>
                             <?php endif; ?>
 
-                            <?php
-                            if (user_can_view_module(['module'=>'shop.invoices'])):
-                            ?>
-                            <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
-                                <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
-                                    <?php _e("Invoices"); ?>
-                                </a>
-                            <?php endif; ?>
+                            <?php if (user_can_view_module(['module' => 'shop.invoices'])): ?>
+                                <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
+                                    <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
+                                        <?php _e("Invoices"); ?>
+                                    </a>
+                                <?php endif; ?>
                             <?php endif; ?>
 
                             <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
                             </a>
-
                         </div>
                     </li>
                 <?php endif; ?>
 
                 <?php if (user_can_access('module.modules.index')): ?>
-                <li class="nav-item">
-                    <?php
-                    if (($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')) {
-                        $modules_class = 'active';
-                    } else {
-                        $modules_class = '';
-                    }
-                    ?>
-                    <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a>
-                </li>
+                    <li class="nav-item">
+                        <?php
+                        if (($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')) {
+                            $modules_class = 'active';
+                        } else {
+                            $modules_class = '';
+                        }
+                        ?>
+                        <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a>
+                    </li>
                 <?php endif; ?>
 
                 <?php if (user_can_access('module.marketplace.index')): ?>
-                <?php if (mw()->ui->disable_marketplace != true): ?>
-                    <li class="nav-item">
-                        <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
-                            <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
-                        </a>
-                    </li>
-                <?php endif; ?>
+                    <?php if (mw()->ui->disable_marketplace != true): ?>
+                        <li class="nav-item">
+                            <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
+                                <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <?php /*

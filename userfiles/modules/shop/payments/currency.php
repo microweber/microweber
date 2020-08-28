@@ -36,7 +36,7 @@ $curencies = mw()->shop_manager->currency_get();
                                     <div class="form-group mb-4">
                                         <label class="control-label">Set default currency</label>
                                         <small class="text-muted d-block mb-2">Default currency with which you will accept payments.</small>
-                                        <select name="currency" class="mw_option_field selectpicker" data-width="100%" data-size="7" data-option-group="payments" data-reload="mw_curr_rend">
+                                        <select name="currency" class="mw_option_field selectpicker" data-width="100%" data-size="7" data-option-group="payments" data-reload="mw_curr_rend" data-live-search="true" data-size="5">
                                             <?php if (!$cur): ?>
                                                 <option value="" disabled="disabled" selected="selected"><?php _e('Select currency'); ?></option>
                                             <?php endif; ?>

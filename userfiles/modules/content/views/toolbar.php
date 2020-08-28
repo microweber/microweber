@@ -146,33 +146,49 @@ if ($last_page_front != false) {
     ?>
 
     <div class="card-header d-flex justify-content-between">
-        <h5>
-            <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
+
+        <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
+            <h5>
                 <span class="<?php if ($type == 'shop'): ?>mai-market2<?php else: ?>mw-icon-<?php print $type; ?><?php endif; ?>"></span>
                 <?php print ($page_info['title']) ?>
-            <?php elseif (isset($params['category-id'])): ?>
+            </h5>
+        <?php elseif (isset($params['category-id'])): ?>
+            <h5>
                 <?php $cat = get_category_by_id($params['category-id']); ?>
                 <?php if (isset($cat['title'])): ?>
                     <i class="mdi mdi-folder text-primary mr-3"></i>
                     <strong><?php print $cat['title'] ?></strong>
                 <?php endif; ?>
-            <?php elseif ($act == 'pages'): ?>
+            </h5>
+        <?php elseif ($act == 'pages'): ?>
+            <h5>
                 <i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i>
                 <strong><?php _e("Pages"); ?></strong>
-            <?php elseif ($act == 'posts'): ?>
+            </h5>
+        <?php elseif ($act == 'posts'): ?>
+            <h5>
                 <i class="mdi mdi-text text-primary mr-3"></i>
                 <strong><?php _e("Posts"); ?></strong>
-            <?php elseif ($act == 'products'): ?>
-                <i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i>
+            </h5>
+        <?php elseif ($act == 'products'): ?>
+            <h5>
+                <i class="mdi mdi-shopping text-primary mr-3"></i>
                 <strong><?php _e("Products"); ?></strong>
-            <?php elseif (isset($params['is_shop'])): ?>
+            </h5>
+        <?php elseif (isset($params['is_shop'])): ?>
+            <h5>
                 <span class="mdi mdi-shopping text-primary mr-3"></span>
                 <strong><?php _e("My Shop"); ?></strong>
-            <?php else: ?>
-                <i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i>
+            </h5>
+        <?php else: ?>
+            <div>
+            <h5 class="d-inline-block">
+                <i class="mdi mdi-earth text-primary mr-3"></i>
                 <strong><?php _e("Website"); ?></strong>
-            <?php endif; ?>
-        </h5>
+            </h5>
+            <a href="#" class="btn btn-outline-success btn-sm ml-2">Add New</a>
+            </div>
+        <?php endif; ?>
 
         <?php
         $cat_page = false;
@@ -353,16 +369,16 @@ if ($last_page_front != false) {
 
                             <?php
                             if (user_can_access('module.content.edit')):
-                            ?>
-                            <option value="assign_selected_posts_to_category"><?php _e("Move to category"); ?></option>
-                            <option value="publish_selected_posts"><?php _e("Published"); ?></option>
-                            <option value="unpublish_selected_posts"><?php _e("Unpublish"); ?></option>
+                                ?>
+                                <option value="assign_selected_posts_to_category"><?php _e("Move to category"); ?></option>
+                                <option value="publish_selected_posts"><?php _e("Published"); ?></option>
+                                <option value="unpublish_selected_posts"><?php _e("Unpublish"); ?></option>
                             <?php endif; ?>
 
                             <?php
                             if (user_can_access('module.content.destroy')):
-                            ?>
-                            <option value="delete_selected_posts"><?php _e("Delete"); ?></option>
+                                ?>
+                                <option value="delete_selected_posts"><?php _e("Delete"); ?></option>
                             <?php endif; ?>
 
                         </select>

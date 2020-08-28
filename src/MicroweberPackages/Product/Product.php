@@ -4,32 +4,20 @@ namespace MicroweberPackages\Product;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\ContentData\ContentData;
+use MicroweberPackages\Content\Content;
+use MicroweberPackages\CustomField\CustomField;
 
-class Product extends Model
+class Product extends Content
 {
     protected $table = 'content';
-    protected $primaryKey = 'id';
 
-    protected $fillable = [
-        'title',
-        'url',
-        'parent',
-        'description',
-        'position',
-        'is_active',
-        'is_deleted',
-        'status'
-    ];
+    protected $content_type = 'product';
 
-    public $translatable = ['title','description','content','content_body'];
-
-    public function setPrice($price) {
-        $this->price = $price;
+    public function getMorphClass()
+    {
+        return 'content';
     }
 
-    public function setSpecialPrice($price) {
-        $this->special_price = $price;
-    }
 
     /**
      * The "booted" method of the model.
@@ -41,43 +29,58 @@ class Product extends Model
         static::addGlobalScope(new ProductScope());
     }
 
-    public function qty()
+    public function data()
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'qty')->first();
+        return $this->morphMany(ContentData::class, 'rel');
     }
 
-    public function sku()
+    public function customField()
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'sku')->first();
+        return $this->hasMany(CustomField::class, 'rel_id');
     }
 
-    public function shippingWeight()
+    private function fetchSingleAttributeByName ($name)
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_weight')->first();
+        foreach($this->customField as $customFieldRow) {
+            if($customFieldRow->type == $name) {
+                if(isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
+                    return $customFieldRow->fieldValue[0]->value;
+                }
+            }
+        }
+
+        return null;
     }
 
-    public function shippingWidth()
+    private function fetchSingleContentDataByName($name)
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_width')->first();
+        foreach($this->data as $contentDataRow) {
+            if($contentDataRow->field_name == $name) {
+                return $contentDataRow->field_value;
+            }
+        }
+
+        return null;
     }
 
-    public function shippingHeight()
+    public function getPriceAttribute()
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_height')->first();
+        return $this->fetchSingleAttributeByName('price');
     }
 
-    public function shippingDepth()
+    public function getQtyAttribute()
     {
-        return $this->hasOne(ContentData::class, 'rel_id')->where('field_name', 'shipping_depth')->first();
+        return $this->fetchSingleContentDataByName('qty');
     }
 
-    public function price()
+    public function scopeWhereContentData($query, $whereArr)
     {
-        return $this->hasOne(ProductPrice::class, 'rel_id');
-    }
+        $query->whereHas('data', function($query) use ($whereArr){
+            foreach($whereArr as $fieldName => $fieldValue) {
+                $query->where('field_name', $fieldName)->where('field_value', $fieldValue);
+            }
+        });
 
-    public function specialPrice()
-    {
-        return $this->hasOne(ProductSpecialPrice::class, 'rel_id');
+        return $query;
     }
 }

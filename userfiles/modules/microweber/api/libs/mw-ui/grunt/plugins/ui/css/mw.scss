@@ -85,7 +85,7 @@ header {
 }
 
 .main-toolbar {
-  position: absolute;
+  //position: absolute;
   margin-top: -43px;
   display: flex;
   justify-content: space-between;
@@ -1444,4 +1444,27 @@ header {
 
 .mw-custom-field-icon-captcha:before {
   content: "";
+}
+
+.bg-100 {
+  background: $gray-100;
+}
+
+.bg-200 {
+  background: $gray-200;
+}
+
+.bg-300 {
+  background: $gray-300;
+}
+
+.bg-400 {
+  background: $gray-400;
+}
+
+.bg-500 {
+  background: $gray-500;
+}
+.bg-grey {
+  background: #f2f3f5;
 }
