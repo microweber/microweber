@@ -24,4 +24,5 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
         });
 
     }
+
 }
