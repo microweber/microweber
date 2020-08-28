@@ -4,6 +4,8 @@ namespace MicroweberPackages\Content;
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Tag\Tag;
+use MicroweberPackages\CustomField\CustomField;
+use MicroweberPackages\CustomField\CustomFieldValue;
 
 class Content extends Model
 {
@@ -15,24 +17,26 @@ class Content extends Model
 
     public  $contentData = [];
 
-//    public function notifications()
-////    {
-////        return $this->morphMany('Notifications', 'rel');
-////    }
-////
-////    public function comments()
-////    {
-////        return $this->morphMany('Comments', 'rel');
-////    }
-////
-////    public function data_fields()
-////    {
-////        return $this->morphMany('ContentData', 'rel');
-////    }
-
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function customFields()
+    {
+        return $this->hasMany(CustomField::class, 'rel_id');
+    }
+
+    public function customFieldsValues()
+    {
+        return $this->hasManyThrough(
+            CustomFieldValue::class,
+            CustomField::class,
+            'rel_id',
+            'custom_field_id',
+            'id',
+            'id'
+        );
     }
 
     public function setContentData($values)
