@@ -14,12 +14,70 @@ use MicroweberPackages\CustomField\CustomFieldValue;
 
 Route::get('admin/xxx-xxx', function () {
 
-    $product = Product::find(10);
-    //$contentData = $product->getContentData(['tlegon2', 'qty']);
-    $product->deleteContentData(['tlegon2', 'laptop', 'test']);
-    dd(1);
-    //$product->deleteContentData(['tlegon2', 'laptop']);
-    //dd($product->qty);
+
+//    //Create CustomField
+//    $customField = new CustomField();
+//    $customField->value = [23, 'blue4'];
+//    $customField->type = 'price';
+//    $customField->options = ['team1' => 'levski', 'team2' => 'cska'];
+//    $customField->name = 'цена на едро';
+//    $customField->rel_type = 'content';
+//    $customField->rel_id = 19;
+//    $customField->save();
+//
+//
+//
+//    dd('DONE Create CustomField');
+//    //Create CustomField
+//
+//
+//    //>>>>>CustomFieldValueSAVE
+//    $customFieldValue = new CustomFieldValue();
+//    //$customFieldValue->position = 100;
+//    $customFieldValue->value = 47;
+//
+//    $customField = CustomField::find(23);
+//
+//    $customFieldValue->customField()->associate($customField);
+//    $customFieldValue->save();
+//    dd('DONE');
+//    //<<<<<CustomFieldValueSAVE
+//
+//    $product = Product::find(10);
+//
+//    //dd($product->fieldValue); //type='price', name
+//
+////   $cf = $product->getCustomFields('izberi-cvqt');
+////
+//    //$cf = $product->getCustomFieldsValues();
+//    $cf = $product->customFields;
+//   foreach ($cf as $field ){
+//        dd($field->fieldValue);
+//       if($field->name_key == 'izberi-cvqt'){
+//       dd($field->fieldValue->first()->value);
+//       }
+//       //dd($field->fieldValue);
+//   }
+//
+//
+//
+//    $newCustomField = new CustomField();
+//    $newCustomField->type = 'radio';
+//    $newCustomField->name= 'Izberi cvqt';
+//    $newCustomField->value= ['red','blue'];
+//
+//    $product->associate($newCustomField);
+//
+//
+//
+//
+//
+//
+//
+//    //$product->getCustomFields(); // price=10,
+//    //dd($product->customFields);
+//    dd($product->customFieldsValues);
+//    dd(1);
 });
 
 /*
