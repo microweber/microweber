@@ -1,9 +1,78 @@
-MWEditor._providers = {
 
-};
+mw.controlFields = {
+    __id: new Date().getTime(),
+    _id: function () {
+        this.__id++;
+        return 'le-' + this.__id;
+    },
+    _label: function (conf){
+        var id = conf.id || this._id();
+        return conf.label ? ('<label for="'+id+'">' + conf.label + '</label>') : '';
+    },
+    _wrap: function (content) {
+        return '<div class="form-group">' + content + '</div>';
+    },
+    _description: function (conf) {
+        return conf.description ? ('<small class="text-muted d-block mb-2">' + conf.description + '</small>') : '';
+    },
+    field: function (conf) {
+        conf = conf || {};
+        var placeholder = conf.placeholder ? ('placeholder="' + conf.placeholder + '"') : '';
+        var id = (conf.id || this._id());
+        id =  (' id="' + id + '" ');
+        var name = conf.name ? ('name="' + conf.name + '"') : '';
+        conf.type = conf.type || 'text';
+        var required = conf.required ? ('required') : '';
 
-MWEditor.provider = function (scope) {
+        return this._wrap(
+              this._label(conf) + this._description(conf) +
+            '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control">'
+        );
+    },
+    checkbox: function (conf) {
+        conf = conf || {};
+        var id = (conf.id || this._id());
+        id =  (' id="' + id + '" ');
+        var name = conf.name ? ('name="' + conf.name + '"') : '';
+        var required = conf.required ? ('required') : '';
 
+        return  this._wrap(
+            '<div class="custom-control custom-checkbox">' +
+             this.label(conf) +
+            '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
+            '</div>');
+    },
+    radio: function (conf) {
+        conf = conf || {};
+        var id = (conf.id || this._id());
+        id =  (' id="' + id + '" ');
+        var name = conf.name ? ('name="' + conf.name + '"') : '';
+        var required = conf.required ? ('required') : '';
+
+        return  this._wrap(
+            '<div class="custom-control custom-checkbox">' +
+            this.label(conf) +
+            '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
+            '</div>');
+    },
+    select: function (conf) {
+        conf = conf || {};
+        var id = (conf.id || this._id());
+        id =  (' id="' + id + '" ');
+        var name = conf.name ? ('name="' + conf.name + '"') : '';
+        var required = conf.required ? ('required') : '';
+        var multiple = conf.multiple ? ('multiple') : '';
+
+        var options = (conf.options || []).map(function (item){
+            return '<option value="'+ item.value +'">'+(item.title||item.name||item.label||item.value)+'</option>';
+        }).join('');
+
+        return  this._wrap(
+            this.label(conf) +
+            '<select class="selectpicker" ' + multiple + '  ' + id + ' ' + name + ' ' + required + '>' +
+            options +
+            '</select>' );
+    }
 };
 
 
@@ -12,87 +81,35 @@ MWEditor.provider = function (scope) {
         return new LinkEditor.module.init(options);
     };
     LinkEditor.module = LinkEditor.prototype = {
-        controllers: {
-            url: function () {
-                var root = document.createElement('div');
-                var _linkText = '<div class="form-group">' +
-                    '<label>Link text</label>' +
-                    '<small class="text-muted d-block mb-2">Selected text for the link. </small>' +
-                    '<input type="text" class="form-control">' +
-                    '</div>';
+        urlController: function () {
+            var root = document.createElement('div');
 
-                var _linkUrl = '<div class="form-group">' +
-                    '<label>Website URL</label>' +
-                    '<small class="text-muted d-block mb-2">Type the website URL to link it</small>' +
-                    '<input type="url" placeholder="http://" class="form-control">' +
-                    '</div>';
+            var _linkText = mw.controlFields.field({
+                label: mw.lang('Link text'),
+                description: mw.lang('Selected text for the link.'),
+            });
 
-                var _target = '<div class="form-group">' +
-                    '<label>Website URL</label>' +
-                    '<small class="text-muted d-block mb-2">Type the website URL to link it</small>' +
-                    '<input type="url" placeholder="http://" class="form-control">' +
-                    '</div>';
-            }
-        },
-        helpers: {
-            _id: function () {
-              return 'le-' + new Date().getTime();
-            },
-            field: function (conf) {
-                var placeholder = conf.placeholder ? ('placeholder="' + conf.placeholder + '"') : '';
-                var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
-                var name = conf.name ? ('name="' + conf.name + '"') : '';
-                conf.type = conf.type || 'text';
-                var required = conf.required ? ('required') : '';
-
-                return '<div class="form-group">' +
-                '<label for="'+id+'">' + conf.label + '</label>' +
-                '<small class="text-muted d-block mb-2">' + conf.description + '</small>' +
-                '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control">' +
+            var _linkText = '<div class="form-group">' +
+                '<label></label>' +
+                '<small class="text-muted d-block mb-2"></small>' +
+                '<input type="text" class="form-control">' +
                 '</div>';
-            },
-            checkbox: function (conf) {
-                var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
-                var name = conf.name ? ('name="' + conf.name + '"') : '';
-                var required = conf.required ? ('required') : '';
 
-                return '<div class="form-group">' +
-                    '<div class="custom-control custom-checkbox">' +
-                    '<label for="'+id+'">' + conf.label + '</label>' +
-                    '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
-                    '</div>'+
-                    '</div>';
-            },
-            radio: function (conf) {
-                var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
-                var name = conf.name ? ('name="' + conf.name + '"') : '';
-                var required = conf.required ? ('required') : '';
+            var _linkUrl = '<div class="form-group">' +
+                '<label>Website URL</label>' +
+                '<small class="text-muted d-block mb-2">Type the website URL to link it</small>' +
+                '<input type="url" placeholder="http://" class="form-control">' +
+                '</div>';
 
-                return '<div class="form-group">' +
-                    '<div class="custom-control custom-checkbox">' +
-                    '<label for="'+id+'">' + conf.label + '</label>' +
-                    '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
-                    '</div>'+
-                    '</div>';
-            },
-            select: function (conf) {
-                var id = (conf.id || this._id()) ? ('id="' + conf.id + '"') : '';
-                var name = conf.name ? ('name="' + conf.name + '"') : '';
-                var required = conf.required ? ('required') : '';
-                var multiple = conf.multiple ? ('multiple') : '';
+            var _target = '<div class="form-group">' +
+                '<label>Website URL</label>' +
+                '<small class="text-muted d-block mb-2">Type the website URL to link it</small>' +
+                '<input type="url" placeholder="http://" class="form-control">' +
+                '</div>';
 
-                var options = (conf.options || []).map(function (item){
-                    return '<option value="'+ item.value +'">'+(item.title||item.name||item.name||item.value)+'</option>';
-                }).join('');
-
-                return '<div class="form-group"><label>' + conf.label + '</label>' +
-                    '<select class="selectpicker" '+multiple+' data-actions-box="true">' +
-                    options +
-                    '</select>' +
-                    '</div>';
-
-            }
+            return root;
         },
+
         build: function (options){
             var defaults = {
                 controllers: ['url', 'file', 'section'],

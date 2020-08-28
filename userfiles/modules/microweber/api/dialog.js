@@ -127,6 +127,9 @@
         else if (parent_cont.length !== 0) {
             return parent_cont[0]._dialog;
         }
+        else if (window.thismodal) {
+            return thismodal;
+        }
         else {
              // deprecated
             child_cont = el.querySelector('.mw_modal');
