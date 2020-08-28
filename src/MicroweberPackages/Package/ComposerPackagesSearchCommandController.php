@@ -132,7 +132,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             );
 
             $results = $this->_trySearch($repositories, $tokens, $searchIn);
-
+            
             if ($results) {
                 $results_found = $results;
             }
@@ -357,9 +357,9 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         $this->_setDisableNonActiveReposInComposer = $bool;
     }
 
-    private function _trySearch($repositories, $tokens, $searchIn)
+    private function _trySearch($repositories, $tokens, $searchIn, $type = 'microweber')
     {
-        return $repositories->search(implode(' ', $tokens), $searchIn, 'microweber');
+        return $repositories->search(implode(' ', $tokens), $searchIn);
     }
 
     private function _removeNonInstallablePackages($packages)

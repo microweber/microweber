@@ -54,6 +54,10 @@ if (empty($data)) {
     .table .check span:last-child {
         margin-left: 5px;
     }
+
+    #up_img{
+        margin:15px 0;max-width:250px;display: block
+    }
 </style>
 
 <script type='text/javascript'>mw.lib.require('datepicker');</script>
@@ -119,12 +123,12 @@ if (empty($data)) {
     <div class="form-group">
         <label class="control-label d-block">Image</label>
         <input type="hidden" name="image_url" value="<?php echo $data['image_url'] ?>" id="event-img"/>
+        <img id="up_img" src="<?php echo $data['image_url'] ?>"/>
+
         <span id="mw_uploader" class="btn btn-primary">
             <span class="ico iupload"></span> &nbsp;
             <span>Upload file<span id="upload_info"></span></span>
         </span>
-        <br/>
-        <img src="<?php echo $data['image_url'] ?>" style="margin-top:15px;width:250px;"/>
     </div>
 
     <div class="row">
@@ -216,7 +220,7 @@ if (empty($data)) {
 
             <div class="row">
                 <div class="col">
-                    <input type="number" name="recurrence_repeat_every" value="<?php echo $data['recurrence_repeat_every']; ?>" class="form-control">
+                    <input type="number" name="recurrence_repeat_every" min="1" value="<?php echo $data['recurrence_repeat_every']; ?>" class="form-control">
                 </div>
                 <div class="col">
                     <div class="col-container">

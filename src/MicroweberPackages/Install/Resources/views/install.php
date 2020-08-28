@@ -365,11 +365,11 @@
 
     <div class="card">
         <div class="card-header d-block">
-            <div class="text-center mb-3">
+            <div class="text-center my-3">
                 <?php if ($pre_configured): ?>
                     <h4 class="text-center text-primary">Setup your website</h4>
                 <?php else: ?>
-                    <a href="http://Microweber.com" target="_blank" id="logo"><span class="mw-icon-mw"></span></a>
+                    <a href="http://Microweber.com" target="_blank" id="logo"><img src="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/img/logo.svg" style="width: 250px" /></a>
                 <?php endif; ?>
             </div>
 

@@ -136,11 +136,12 @@ mw.filePicker = function (options) {
             }, {'filetype':'images'});*/
             $(scope).on('$firstOpen', function (e, el, type) {
                 var comp = scope._getComponentObject('server');
-                console.log(type, type === 'server')
                 if (type === 'server') {
+                    mw.tools.loading(el, true);
                     var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
                     $wrap.append(fr);
                     fr.onload = function () {
+                        mw.tools.loading(el, false);
                         this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
                             var url = this.href;
                             scope.setSectionValue(url);
@@ -159,9 +160,11 @@ mw.filePicker = function (options) {
             $(scope).on('$firstOpen', function (e, el, type) {
                 var comp = scope._getComponentObject('library');
                 if (type === 'library') {
+                    mw.tools.loading(el, true);
                     var fr = mw.tools.moduleFrame('pictures/media_library');
                     $wrap.append(fr);
                     fr.onload = function () {
+                        mw.tools.loading(el, false);
                         this.contentWindow.mw.on.hashParam('select-file', function () {
                             var url = this.toString();
                             scope.setSectionValue(url);
@@ -228,7 +231,7 @@ mw.filePicker = function (options) {
                     onclick: function (el, event, i) {
                         if(scope.__navigation_first.indexOf(i) === -1) {
                             scope.__navigation_first.push(i);
-                            $(scope).trigger('$firstOpen', [el, i]);
+                            $(scope).trigger('$firstOpen', [el, this.dataset.type]);
                         }
                         scope.manageActiveSectionState();
                     }
@@ -330,6 +333,9 @@ mw.filePicker = function (options) {
 
     this.result = function () {
         var activeSection = this.activeSection();
+        if(this.settings.onResult) {
+            this.settings.onResult.call(this, activeSection._filePickerValue);
+        }
         $(scope).trigger('Result', [activeSection._filePickerValue]);
     };
 

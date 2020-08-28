@@ -25,6 +25,7 @@ echo "\n";
 
 ?>
 
+mw.require('components.js');
 
 mw.confirm = mw.tools.confirm;
 mw.tabs = mw.tools.tabGroup;
