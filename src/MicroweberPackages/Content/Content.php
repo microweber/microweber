@@ -66,13 +66,23 @@ class Content extends Model
         return $res;
     }
 
-    public function deleteContentData($values)
+    public function deleteContentData(array $values)
     {
-        foreach($this->data as $contentDataInstance) {
-            if(in_array($contentDataInstance->field_name, $values)) {
-                $contentDataInstance->delete();
+
+            foreach ($this->data as $key=> $contentDataInstance) {
+                if (in_array($contentDataInstance->field_name, $values)) {
+                    $contentDataInstance->delete();
+                    $this->refresh();
+                }
             }
-        }
+            foreach ($this->contentData as $key => $value) {
+                foreach ($values as $del_key => $del_value) {
+                    if (isset($this->contentData[$del_key])) {
+                        unset($this->contentData[$del_key]);
+                    }
+                }
+            }
+
     }
 
     public function save(array $options = [])
