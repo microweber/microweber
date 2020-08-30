@@ -1,10 +1,10 @@
-# Microweber Package to set custom content data to content
+# Microweber Package to set custom data to any model
 
 
 
 ## Operation
 
-You can set and get custom data which is related to the Content model 
+You can set and get custom data which is related to any model 
 
 
 ### Setting Content Data 
