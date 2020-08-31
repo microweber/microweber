@@ -65,7 +65,19 @@ trait  HasCustomFieldsTrait {
       //  $this->customField()->associate($customField);
 
      //   $this->customFieldsValues()->associate($customField);
-         return $this->refresh();
+    }
+
+    public function setCustomField($customFieldArr)
+    {
+        $newCf = $this->customField()->where('name_key', \Str::slug($customFieldArr['name'], '-'))->updateOrCreate([ 'name_key' => \Str::slug($customFieldArr['name'])], [
+                'value' => $customFieldArr['value'],
+                'type' => $customFieldArr['type'],
+                'options' => $customFieldArr['options'],
+                'name' => $customFieldArr['name'],
+            ]
+        );
+
+        $this->newCustoFieldsToAssoc[] = $newCf;
     }
 
     public function customField()
@@ -83,6 +95,7 @@ trait  HasCustomFieldsTrait {
             }
 
             $model->newCustoFieldsToAssoc = []; //empty the array
+            $model->refresh();
         });
     }
 }

@@ -17,8 +17,8 @@ trait HasContentDataTrait
     public function setContentData($values)
     {
         foreach ($values as $key => $val) {
-            $this->data()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
-                ['field_name' => $key, 'field_value' => $val]);
+                $this->data()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
+                    ['field_name' => $key, 'field_value' => $val]);
         }
     }
 
