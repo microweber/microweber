@@ -59,14 +59,10 @@ use MicroweberPackages\ContentData\HasContentDataTrait;
 class Car extends Model
 {
     use HasContentDataTrait;
-
-    protected $table = 'content';
-
 }
 
 
 $product = new Car();
-$product->title = 'Test car bmw';
 $product->setContentData(['model' => 'bmw', 'year' => 2005]);
 $product->save();
 
