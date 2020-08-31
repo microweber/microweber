@@ -10,7 +10,7 @@ trait  HasCustomFieldsTrait {
 //        return $this->hasMany(CustomField::class, 'rel_id');
 //    }
 
-    private $newCustoFieldsToAssoc = []; //When enter in bootHasCustomFieldsTrait
+    private $_newCustomFieldsToAssociate = []; //When enter in bootHasCustomFieldsTrait
 
     public function customFieldsValues()
     {
@@ -44,28 +44,29 @@ trait  HasCustomFieldsTrait {
     public function addCustomField($customFieldArr)
     {
 
-        $newCf = $this->customField()->create([
-                    'value' => $customFieldArr['value'],
-                    'type' => $customFieldArr['type'],
-                    'options' => $customFieldArr['options'],
-                    'name' => $customFieldArr['name'],
-                 ]
-            );
-
-        $this->newCustoFieldsToAssoc[] = $newCf;
-    }
-
-    public function setCustomField($customFieldArr)
-    {
-        $newCf = $this->customField()->where('name_key', \Str::slug($customFieldArr['name'], '-'))->updateOrCreate([ 'name_key' => \Str::slug($customFieldArr['name'])], [
+        $this->_newCustomFieldsToAssociate[] = $this->customField()->create([
                 'value' => $customFieldArr['value'],
                 'type' => $customFieldArr['type'],
                 'options' => $customFieldArr['options'],
                 'name' => $customFieldArr['name'],
             ]
         );
+        return $this;
+    }
 
-        $this->newCustoFieldsToAssoc[] = $newCf;
+    public function setCustomField($customFieldArr)
+    {
+        $this->_newCustomFieldsToAssociate[] = $this->customField()->where('name_key', \Str::slug($customFieldArr['name'], '-'))
+            ->updateOrCreate(
+                ['name_key' => \Str::slug($customFieldArr['name'])],
+                [
+                    'value' => $customFieldArr['value'],
+                    'type' => $customFieldArr['type'],
+                    'options' => $customFieldArr['options'],
+                    'name' => $customFieldArr['name'],
+                ]
+            );
+        return $this;
     }
 
     public function customField()
@@ -78,11 +79,11 @@ trait  HasCustomFieldsTrait {
     public static function bootHasCustomFieldsTrait()
     {
         static::saved(function ($model)  {
-            foreach($model->newCustoFieldsToAssoc as $customField) {
+            foreach($model->_newCustomFieldsToAssociate as $customField) {
                 $model->customField()->save($customField);
             }
 
-            $model->newCustoFieldsToAssoc = []; //empty the array
+            $model->_newCustomFieldsToAssociate = []; //empty the array
             $model->refresh();
         });
     }

@@ -40,9 +40,9 @@ class CustomField extends Model
 
     public function save(array $options = [])
     {
-        $cf_values_to_save = null;
+        $customFieldValueToSave = null;
         if (isset($this->value)) {
-            $cf_values_to_save = $this->value;
+            $customFieldValueToSave = $this->value;
 
             unset($this->value);
         }
@@ -64,26 +64,27 @@ class CustomField extends Model
 
         $saved = parent::save($options);
 
-        if (isset($cf_values_to_save)) {
-
+        if (isset($customFieldValueToSave)) {
+            //@todo   try to update instead of delete
             CustomFieldValue::where('custom_field_id', $this->id)->delete();
 
-            if (is_array($cf_values_to_save)) {
-                foreach ($cf_values_to_save as $val) {
-                    $findValue = new CustomFieldValue();
-                    $findValue->value = $val;
-                    $findValue->customField()->associate($this);
-                    $findValue->save();
+            if (is_array($customFieldValueToSave)) {
+                foreach ($customFieldValueToSave as $val) {
+                   $this->createCustomFieldValue($val);
                 }
             } else {
-                $findValue = new CustomFieldValue();
-                $findValue->value = $cf_values_to_save;
-                $findValue->customField()->associate($this);
-                $findValue->save();
+                $this->createCustomFieldValue($customFieldValueToSave);
             }
 
         }
 
         return $saved;
+     }
+
+     private function createCustomFieldValue($val){
+         $findValue = new CustomFieldValue();
+         $findValue->value = $val;
+         $findValue->customField()->associate($this);
+         $findValue->save();
      }
 }

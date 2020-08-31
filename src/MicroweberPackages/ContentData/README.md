@@ -1,10 +1,11 @@
-# Microweber Package to set custom data to any model
+# Set custom data to any model
 
 
 
 ## Operation
 
 You can set and get custom data which is related to any model 
+
 
 
 ### Setting Content Data 
@@ -45,4 +46,32 @@ $product->save();
 
 ```php
 $product = Product::whereContentData(['sku' => '5'])->first();
+```
+
+
+
+## Include in your model
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\ContentData\HasContentDataTrait;
+
+class Car extends Model
+{
+    use HasContentDataTrait;
+
+    protected $table = 'content';
+
+}
+
+
+$product = new Car();
+$product->title = 'Test car bmw';
+$product->setContentData(['model' => 'bmw', 'year' => 2005]);
+$product->save();
+
+$car = Car::whereContentData(['model' => 'bmw'])->first();
+$data = $car->getContentData(['model', 'year']);
+print $data['model'];
+print $data['year'];
 ```
