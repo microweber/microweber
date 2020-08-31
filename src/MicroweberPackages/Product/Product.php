@@ -32,16 +32,6 @@ class Product extends Content
         static::addGlobalScope(new ProductScope());
     }
 
-    public function data()
-    {
-        return $this->morphMany(ContentData::class, 'rel');
-    }
-
-    public function customField()
-    {
-        return $this->hasMany(CustomField::class, 'rel_id');
-    }
-
     private function fetchSingleAttributeByName ($name)
     {
         foreach($this->customField as $customFieldRow) {
@@ -76,14 +66,5 @@ class Product extends Content
         return $this->fetchSingleContentDataByName('qty');
     }
 
-    public function scopeWhereContentData($query, $whereArr)
-    {
-        $query->whereHas('data', function($query) use ($whereArr){
-            foreach($whereArr as $fieldName => $fieldValue) {
-                $query->where('field_name', $fieldName)->where('field_value', $fieldValue);
-            }
-        });
 
-        return $query;
-    }
 }

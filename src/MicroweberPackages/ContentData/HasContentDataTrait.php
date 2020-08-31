@@ -3,14 +3,22 @@
 namespace MicroweberPackages\ContentData;
 
 
-trait HasContentData
+trait HasContentDataTrait
 {
     public $contentData = [];
+
+
+    public function data()
+    {
+        return $this->morphMany(ContentData::class, 'rel');
+    }
+
 
     public function setContentData($values)
     {
         foreach ($values as $key => $val) {
-            $this->contentData[$key] = $val;
+            $this->data()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
+                ['field_name' => $key, 'field_value' => $val]);
         }
     }
 
@@ -51,6 +59,17 @@ trait HasContentData
             }
         }
 
+    }
+
+    public function scopeWhereContentData($query, $whereArr)
+    {
+        $query->whereHas('data', function($query) use ($whereArr){
+            foreach($whereArr as $fieldName => $fieldValue) {
+                $query->where('field_name', $fieldName)->where('field_value', $fieldValue);
+            }
+        });
+
+        return $query;
     }
 
 }

@@ -3,8 +3,19 @@ namespace MicroweberPackages\CustomField;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class CustomField extends Model
 {
+    protected $fillable = [
+        'value',
+        'type',
+        'options',
+        'name',
+
+        // 'edited_by',
+        // 'created_by'
+    ];
+
     protected $table = 'custom_fields';
 
     public $timestamps = true;
