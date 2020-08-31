@@ -33,7 +33,7 @@ class CustomField extends Model
         'is_active' => 1,
     ];
 
-    public function fieldValue() // was fieldValue
+    public function fieldValue()
     {
         return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')->orderBy('position');
     }

@@ -24,20 +24,25 @@ trait  HasCustomFieldsTrait {
         );
     }
 
+    public function scopeWhereCustomField($query, $whereArr)
+    {
+        foreach($whereArr as $fieldName => $fieldValue) {
+            $query->whereHas('customField', function ($query) use ($whereArr,$fieldName,$fieldValue) {
+                $query->where('name_key', \Str::slug($fieldName, '-'))->whereHas('fieldValue', function ($query) use ($fieldValue) {
+                    if (is_array($fieldValue)) {
+                        $query->whereIn('value', $fieldValue);
+                    } else {
+                        $query->where('value', $fieldValue);
+                    }
+                });
+            });
+        }
+
+        return $query;
+    }
+
     public function addCustomField($customFieldArr)
     {
-//        $customField = new customField();
-//        $customField->type =  $customFieldArr['type'] ?? 'text';
-//        $customField->name =  $customFieldArr['name'];
-//        $customField->value = $customFieldArr['value'];
-//        $customField->options = $customFieldArr['options'];
-//
-//        $customField->save();
-
-
-
-       // dd($this->getMorphClass());
-      //  dd($this->id);
 
         $newCf = $this->customField()->create([
                     'value' => $customFieldArr['value'],
@@ -48,23 +53,6 @@ trait  HasCustomFieldsTrait {
             );
 
         $this->newCustoFieldsToAssoc[] = $newCf;
-        //dd($new_cf->id);
-
-
-
-//        $customField = new CustomField();
-//        $customField->value = $customFieldArr['value'];
-//        $customField->type = $customFieldArr['type'] ?? 'text';
-//        $customField->options =  $customFieldArr['options'];
-//        $customField->name = $customFieldArr['name'];
-//        //$customField->rel_type = $customFieldArr['rel_type'] ?? NULL;
-//        //$customField->rel_id = $customFieldArr['rel_id'] ?? NULL;;
-//        $customField->save();
-
-        //$this->customField()->associate($customField);
-      //  $this->customField()->associate($customField);
-
-     //   $this->customFieldsValues()->associate($customField);
     }
 
     public function setCustomField($customFieldArr)

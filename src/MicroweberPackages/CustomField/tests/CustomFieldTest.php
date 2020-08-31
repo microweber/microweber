@@ -19,57 +19,6 @@ class CustomFieldTestModel extends Model
 
 class CustomFieldTestModelTest extends TestCase
 {
-    public function xxxxtestCustomFieldTestModel()
-    {
-//        $newProduct = new CustomFieldTestModel();
-//        $newProduct->title = 'Samo Levski2';
-//
-//        $newProduct->addCustomField(
-//            [
-//                'type'=>'price',
-//                'name'=>'цена на едро',
-//                'value'=>['цска', 'цска 1948'],
-//                'options'=>['team1' => 'levski', 'team2' => 'cska'],
-//            ]
-//        );
-//
-//        $newProduct->save();
-//
-//        $newProduct->setCustomField([
-//            'type'=>'price',
-//            'name'=>'цена на едро',
-//            'value'=>['цска2', 'цска2 1948'],
-//            'options'=>['team' => 'levski2', 'team3' => 'cska2'],
-//        ]);
-
-       //dd($newProduct->customField);
-        //$newProduct->save();
-
-        $product = CustomFieldTestModel::find(92);
-        $product->setCustomField([
-            'type'=>'price',
-            'name'=>'цена на едро',
-            'value'=>['цска3', 'цска3 1948'],
-            'options'=>['team' => 'levski3', 'team3' => 'cska3'],
-        ]);
-        $product->save();
-        dd($product->customField);
-
-        //$this->assertEquals($newProduct->customField, 'Test car bmw');
-
-
-
-        //    $customField = new CustomField();
-//    $customField->value = [23, 'blue4'];
-//    $customField->type = 'price';
-//    $customField->options = ['team1' => 'levski', 'team2' => 'cska'];
-//    $customField->name = 'цена на едро';
-//    $customField->rel_type = 'content';
-//    $customField->rel_id = 19;
-//    $customField->save();
-
-    }
-
     public function testAddCustomFieldToModel()
     {
         $newProduct = new CustomFieldTestModel();
@@ -114,5 +63,56 @@ class CustomFieldTestModelTest extends TestCase
             $this->assertEquals('цска', $customFieldValue[0]->value);
             $this->assertEquals('цска 1948', $customFieldValue[1]->value);
         }
+    }
+
+    public function testGetCustomFieldModel()
+    {
+        $newProduct = new CustomFieldTestModel();
+        $newProduct->title = 'Samo Levski2';
+
+        $newProduct->setCustomField(
+            [
+                'type'=>'dropdown',
+                'name'=>'цвят',
+                'value'=>['red', 'blue', 'зелен'],
+                'options'=>[],
+
+            ]
+        );
+       $newProduct->setCustomField(
+            [
+                'type'=>'dropdown',
+                'name'=>'size',
+                'value'=>['XL', 'M'],
+                'options'=>[],
+
+            ]
+        );
+
+
+        $newProduct->setCustomField(
+            [
+                'type'=>'dropdown',
+                'name'=>'material',
+                'value'=>['jeans', 'cotton'],
+                'options'=>[],
+
+            ]
+        );
+
+
+        $newProduct->save();
+
+
+       // Article::withAnyTag(['Gardening','Cooking'])->get(); // fetch articles with any tag listed
+
+
+
+        $prod = CustomFieldTestModel::whereCustomField([
+         'цвят'=>'red',
+            'size'=>'M',
+            'material'=>'jeans',
+        ])->get();
+
     }
 }
