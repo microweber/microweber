@@ -317,14 +317,12 @@ api_expose('users/register_email_send', function ($params = false) {
 
 api_expose_admin('users/forgot_password_email_send_test', function () {
 	
-	echo '';
-	
-	/* try {
+	try {
 		mw()->option_manager->override('users', 'forgot_pass_email_enabled', true);
-		return mw()->user_manager->send_forgot_password();
+		return mw()->user_manager->send_forgot_password(false);
 	} catch (Exception $e) {
 		echo "Error Message: <br />" . $e->getMessage();
-	} */
+	}
 	
 });
 
@@ -361,6 +359,7 @@ api_expose('users/search_authors', function ($params = false) {
 
 
 api_expose('users/verify_email_link', function ($params) {
+
     if (isset($params['key'])) {
 
         try {
@@ -368,7 +367,7 @@ api_expose('users/verify_email_link', function ($params) {
             if ($decoded) {
                 $decoded = intval($decoded);
                 $adminUser = \User::findOrFail($decoded);
-                $adminUser->is_verified = 1;
+                $adminUser->is_active = 1;
                 $adminUser->save();
                 mw()->cache_manager->delete('users/global');
                 mw()->cache_manager->delete('users/' . $decoded);
@@ -416,3 +415,4 @@ api_expose_user('users/export_my_data', function ($params) {
 
 
 });
+
