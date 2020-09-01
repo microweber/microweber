@@ -11,10 +11,9 @@ return array(
     'log' => 'daily',
     'providers' =>
         array(
-            0 => 'Microweber\\App\\Providers\\AppServiceProvider',
-            1 => 'Microweber\\App\\Providers\\EventServiceProvider',
-            2 => 'Microweber\\App\\Providers\\RouteServiceProvider',
-            3 => 'Microweber\\MicroweberServiceProvider',
+            0 => \MicroweberPackages\App\Providers\AppServiceProvider::class,
+            1 => \MicroweberPackages\App\Providers\EventServiceProvider::class,
+            2 => \MicroweberPackages\App\Providers\RouteServiceProvider::class
         ),
     'manifest' => storage_path() . DIRECTORY_SEPARATOR . 'framework',
 );
