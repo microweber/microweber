@@ -53,6 +53,8 @@ if (isset($_GET['group']) and $_GET['group']) {
     </div>
 
     <div class="card-body pt-3">
+        <h2 class="text-center mt-3 mb-4">Website settings</h2>
+        
         <div class="card style-1 mb-3">
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
