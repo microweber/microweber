@@ -49,7 +49,7 @@
     "microweber-templates/liteness": "dev-master",
     "microweber-packages/microweber-class-alias": "dev-master",
     "erusev/parsedown": "dev-master",
-    "simshaun/recurr": "^0.0.0@dev"
+    "simshaun/recurr": "*"
   },
   "require-dev": {
     "orchestra/testbench": "^5.0",
@@ -73,7 +73,7 @@
   "config": {
     "preferred-install": "dist",
     "platform": {
-      "php": "7.3"
+      "php": "7.4"
     },
     "github-protocols": [
       "https",
