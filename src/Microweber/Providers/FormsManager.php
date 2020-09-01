@@ -552,9 +552,24 @@ class FormsManager
                 }
 
                 $user_mails[] = $email_to;
-                if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
-                    $user_mails[] = $email_bcc;
-                }
+				
+				$arr_email_bcc = Array();
+				
+				if (!empty($email_bcc)) {
+
+					if(strpos($email_bcc, ',')) {
+						$arr_email_bcc = explode(',', $email_bcc);
+					} else {
+						$arr_email_bcc[] = $email_bcc;
+					}
+					
+					foreach($arr_email_bcc AS $bcc){
+						if (isset($bcc) and (filter_var($bcc, FILTER_VALIDATE_EMAIL))) {
+							$user_mails[] = $bcc;
+						}
+					}
+					
+				}
 
                 // $email_from = false;
                 if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
@@ -600,7 +615,7 @@ class FormsManager
                     $sender = new \Microweber\Utils\MailSender();
                     $sender->silent_exceptions = true;
                     foreach ($user_mails as $value) {
-                        if ($value == $email_to || $value == $email_bcc) {
+                        if ($value == $email_to || in_array($value,$arr_email_bcc)) {
                             $msg = $notif['content'];
                             $subj = $notif['description'];
                             $from = $email_from;
@@ -847,3 +862,4 @@ class FormsManager
         }
     }
 }
+
