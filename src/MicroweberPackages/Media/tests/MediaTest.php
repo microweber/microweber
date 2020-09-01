@@ -4,49 +4,65 @@ namespace MicroweberPackages\Media\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 
+use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Media\HasMediaTrait;
+
+class ContentTestModel extends Model
+{
+    use HasMediaTrait;
+
+    protected $table = 'content';
+
+}
+
 class MediaTest extends TestCase
 {
-    public function testSaveMedia()
+    public function asdasdasdtestAddMediaToModel()
     {
-        $picture = array(
-            'rel_type' => 'content',
-            'rel_id' => 3,
-            'title' => 'My new pic',
-            'media_type' => 'picture',
-            'src' => 'http://lorempixel.com/400/200/',
-        );
-        $saved_pic_id = save_media($picture);
+        $newPage = new ContentTestModel();
+        $newPage->title = 'Pictures from Sofia';
 
-        $picture_data = get_media_by_id($saved_pic_id);
+        $newPage->addMedia([
+            'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
+            'title' => 'View from Vitosha'
+        ]);
 
-        $src = $picture_data['filename'];
-        $title = $picture_data['title'];
+//        $newPage->addMedia([
+//            'filename' => 'http://lorempixel.com/400/200/',
+//            'title' => 'View from Vitosha 2'
+//        ]);
+//
+//        $newPage->addMedia([
+//            'filename' => 'http://lorempixel.com/400/200/',
+//            'title' => 'View from Vitosha 3'
+//        ]);
 
-        $this->assertEquals(intval($saved_pic_id) > 0, true);
-        $this->assertEquals(is_array($picture_data), true);
-        $this->assertEquals($title, 'My new pic');
-        $this->assertEquals($src, 'http://lorempixel.com/400/200/');
+        $newPage->save();
+
+        dd('DONE');
     }
 
-    public function testDeleteMedia()
+    public function testDeleteMediaToModel()
     {
-        $picture = array(
-            'rel_type' => 'content',
-            'rel_id' => 3,
-            'title' => 'My new pic to del',
-            'media_type' => 'picture',
-            'src' => 'http://lorempixel.com/400/200/',
-        );
-        $saved_pic_id = save_media($picture);
-        $picture_data = get_media_by_id($saved_pic_id);
-        $to_delete = array('id' => $saved_pic_id);
-        $delete = delete_media($to_delete);
-        $title = $picture_data['title'];
-        $picture_null = get_media_by_id($saved_pic_id);
+        $newPage = new ContentTestModel();
+        $newPage->title = 'Pictures from Sofia';
 
-        $this->assertEquals($picture_null, false);
-        $this->assertEquals(is_array($picture_data), true);
-        $this->assertEquals($title, 'My new pic to del');
-        $this->assertEquals(!($delete), false);
+        $newPage->addMedia([
+            'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
+            'title' => 'View from Vitosha MUST DELETE!'
+        ]);
+
+        $newPage->addMedia([
+            'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
+            'title' => 'View from Vitosha 3'
+        ]);
+
+        $newPage->save();
+
+        $mediaToDel = $newPage->media[0];
+        //dump($mediaToDel);
+        $newPage->deleteMedia($mediaToDel);
+        dump('-----------------');
+        dump($newPage->media);
     }
 }

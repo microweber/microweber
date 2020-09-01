@@ -70,6 +70,7 @@ trait  HasCustomFieldsTrait {
         static::saved(function ($model)  {
             foreach($model->_newCustomFieldsToAssociate as $customField) {
                 $model->customField()->save($customField);
+                $customField->updateMaxPositionFieldOnModel();
             }
 
             $model->_newCustomFieldsToAssociate = []; //empty the array
