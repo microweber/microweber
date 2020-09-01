@@ -44,13 +44,7 @@ trait  HasCustomFieldsTrait {
     public function addCustomField($customFieldArr)
     {
 
-        $this->_newCustomFieldsToAssociate[] = $this->customField()->create([
-                'value' => $customFieldArr['value'],
-                'type' => $customFieldArr['type'],
-                'options' => $customFieldArr['options'],
-                'name' => $customFieldArr['name'],
-            ]
-        );
+        $this->_newCustomFieldsToAssociate[] = $this->customField()->create($customFieldArr);
         return $this;
     }
 
@@ -59,12 +53,7 @@ trait  HasCustomFieldsTrait {
         $this->_newCustomFieldsToAssociate[] = $this->customField()->where('name_key', \Str::slug($customFieldArr['name'], '-'))
             ->updateOrCreate(
                 ['name_key' => \Str::slug($customFieldArr['name'])],
-                [
-                    'value' => $customFieldArr['value'],
-                    'type' => $customFieldArr['type'],
-                    'options' => $customFieldArr['options'],
-                    'name' => $customFieldArr['name'],
-                ]
+                $customFieldArr
             );
         return $this;
     }
