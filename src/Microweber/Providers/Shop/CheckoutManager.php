@@ -676,13 +676,28 @@ class CheckoutManager
                 $order_email_content = $mail_template['message'];
 
                 $order_email_cc = array();
-                if (!empty($order_email_cc_string) && strpos($order_email_cc_string, ',')) {
-                    $order_email_cc = explode(',', $order_email_cc_string);
-                } else {
-                    $order_email_cc[] = $order_email_cc_string;
-                }
+                if (!empty($order_email_cc_string)) {
 
+                    if(strpos($order_email_cc_string, ',')) {
+                        $order_email_cc = explode(',', $order_email_cc_string);
+                    } else {
+                        $order_email_cc[] = $order_email_cc_string;
+                    }
+
+                }
+				
+				/*
                 if (empty($order_email_cc)) {
+                    $admins = get_users('is_admin=1');
+                    foreach ($admins as $admin) {
+                        if (isset($admin['email']) && !empty($admin['email']) && filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
+                            $order_email_cc[] = $admin['email'];
+                        }
+                    }
+                }
+				*/
+				
+				if (($send_to_client && $send_to_admins) || (!$send_to_client && $send_to_admins)) {
                     $admins = get_users('is_admin=1');
                     foreach ($admins as $admin) {
                         if (isset($admin['email']) && !empty($admin['email']) && filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
