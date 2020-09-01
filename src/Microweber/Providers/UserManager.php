@@ -877,9 +877,7 @@ class UserManager
         if ($user_id == false) {
             $user_id = $this->id();
         }
-        if ($user_id == false) {
-            return;
-        }
+        
         $data = $this->get_by_id($user_id);
         if (!$data) {
             return;
@@ -894,12 +892,25 @@ class UserManager
                  */
 
                 // Get register mail temlate
-                $new_user_registration_template_id = $this->app->option_manager->get('new_user_registration_email_template', 'users');
+                $new_user_registration_template_id = $this->app->option_manager->get('new_user_registration_mail_template', 'users');
                 $mail_template = get_mail_template_by_id($new_user_registration_template_id, 'new_user_registration');
-
+				
+				$register_email_cc_string = $mail_template['copy_to'];
                 $register_email_subject = $mail_template['subject'];
+                $register_email_subject_cc = 'New User Registration';
                 $register_email_content = $mail_template['message'];
+				
+				$register_email_cc = array();
+				
+                if (!empty($register_email_cc_string)) {
 
+                    if(strpos($register_email_cc_string, ',')) {
+                        $register_email_cc = explode(',', $register_email_cc_string);
+                    } else {
+                        $register_email_cc[] = $register_email_cc_string;
+                    }
+
+                }
 
                 $appendFiles = array();
                 if (!empty(get_option('append_files', 'mail_template_id_' . $new_user_registration_template_id))) {
@@ -918,17 +929,28 @@ class UserManager
                             }
                         }
                     }
+                    
                     $verify_email_link = $this->app->format->encrypt($data['id']);
                     $verify_email_link = api_url('users/verify_email_link') . '?key=' . $verify_email_link;
+                    $verify_email_link = '<a href="'. $verify_email_link .'">'. $verify_email_link .'</a>';
+
                     $register_email_content = str_ireplace('{verify_email_link}', $verify_email_link, $register_email_content);
-
-
+					
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-
-                        $sender = new \Microweber\Utils\MailSender();
+						
+						$sender = new \Microweber\Utils\MailSender();
+						
+						if (is_array($register_email_cc)) {
+							// echo 'Send to admins.';
+							foreach ($register_email_cc as $email_cc) {
+								$sender->send($email_cc, $register_email_subject_cc, $register_email_content, false, false, false, false, false, false, $appendFiles);
+							}
+						}
+						
                         return $sender->send($to, $register_email_subject, $register_email_content, false, false, false, false, false, false, $appendFiles);
 
                     }
+					
                 }
             }
         }
@@ -1383,137 +1405,165 @@ class UserManager
 
     public function send_forgot_password($params)
     {
-        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
-        if (!$no_captcha) {
-            if (!isset($params['captcha'])) {
-                return array('error' => 'Please enter the captcha answer!');
-            } else {
-                $validate_captcha = $this->app->captcha_manager->validate($params['captcha']);
-                if ($validate_captcha == false) {
-                    return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
-                }
-            }
+        
+        $base_link = $this->app->url_manager->current(1);
+
+        $cur_template = template_dir();
+
+        $cur_template_file = normalize_path($cur_template . 'login.php', false);
+        $cur_template_file2 = normalize_path($cur_template . 'forgot_password.php', false);
+
+        if (is_file($cur_template_file)) {
+            $base_link = site_url('login');
+        } elseif (is_file($cur_template_file2)) {
+            $base_link = site_url('forgot_password');
+        }
+	
+        $forgot_pass_email_enabled = mw()->option_manager->get('forgot_pass_email_enabled', 'users');
+
+        if ($forgot_pass_email_enabled != true) {
+            return array('error' => 'This function is disabled!');
         }
 
-        if (isset($params['email'])) {
-            //return array('error' => 'Enter username or email!');
-        } elseif (!isset($params['username']) or trim($params['username']) == '') {
-            return array('error' => 'Enter username or email!');
-        }
+        $test_mode = false;
 
-        $data_res = false;
-        $data = false;
-        if (isset($params) and !empty($params)) {
-            $user = isset($params['username']) ? $params['username'] : false;
-            $email = isset($params['email']) ? $params['email'] : false;
-            $data = array();
-            if (trim($user != '')) {
-                $data1 = array();
-                $data1['username'] = $user;
-                $data = array();
-                if (trim($user != '')) {
-                    $data = $this->get_all($data1);
-                    if ($data == false) {
-                        $data1 = array();
-                        $data1['email'] = $user;
-                        $data = $this->get_all($data1);
-                    }
-                }
-            } elseif (trim($email != '')) {
-                $data1 = array();
-                $data1['email'] = $email;
-                $data = array();
-                if (trim($email != '')) {
-                    $data = $this->get_all($data1);
-                }
+        if($params){ 
+
+            if (!isset($params['username'])) {
+                return array('error' => 'The data are incomplete!');
             }
 
-            if (isset($data[0])) {
-                $data_res = $data[0];
-            }
-            if (!is_array($data_res)) {
-                return array('error' => 'Enter right username or email!');
-            } else {
-                $to = $data_res['email'];
-                if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                    $subject = 'Password reset!';
-                    $content = "Hello, {$data_res['username']} <br> ";
-                    $content .= 'You have requested a password reset link from IP address: ' . MW_USER_IP . '<br><br> ';
-                    $security = array();
-                    $security['ip'] = MW_USER_IP;
-                    //  $security['hash'] = $this->app->format->array_to_base64($data_res);
-                    // $function_cache_id = md5(rand()) . uniqid() . rand() . str_random(40);
-                    $function_cache_id = md5($data_res['id']) . uniqid() . rand() . str_random(40);
-                    if (isset($data_res['id'])) {
-                        $data_to_save = array();
-                        $data_to_save['id'] = $data_res['id'];
-                        $data_to_save['password_reset_hash'] = $function_cache_id;
-                        $table = $this->tables['users'];
-                        $save = $this->app->database_manager->save($table, $data_to_save);
-                    }
+            $captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
 
-                    $base_link = $this->app->url_manager->current(1);
+            if(!$captcha_disabled){
 
-                    $cur_template = template_dir();
-                    $cur_template_file = normalize_path($cur_template . 'login.php', false);
-                    $cur_template_file2 = normalize_path($cur_template . 'forgot_password.php', false);
-                    if (is_file($cur_template_file)) {
-                        $base_link = site_url('login');
-                    } elseif (is_file($cur_template_file2)) {
-                        $base_link = site_url('forgot_password');
-                    }
+                if (!isset($params['captcha'])) {
 
-                    $pass_reset_link = $base_link . '?reset_password_link=' . $function_cache_id;
-                    $security['base_link'] = $base_link;
-                    $security['reset_password_link'] = "<a href='{$pass_reset_link}'>" . $pass_reset_link . '</a>';
-                    $security['username'] = $data_res['username'];
-                    $security['first_name'] = $data_res['first_name'];
-                    $security['last_name'] = $data_res['last_name'];
-                    $security['created_at'] = $data_res['created_at'];
-                    $security['email'] = $data_res['email'];
-                    $security['id'] = $data_res['id'];
+                    return array('error' => 'Please enter the captcha answer!');
 
-                    $notif = array();
-                    $notif['module'] = 'users';
-                    $notif['rel_type'] = 'users';
-                    $notif['rel_id'] = $data_to_save['id'];
-                    $notif['title'] = 'Password reset link sent';
-                    $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
-                    $notif['description'] = $content_notif;
-                    $this->app->log_manager->save($notif);
-                    $content .= "Click here to reset your password  <a style='word-break:break-all;' href='{$pass_reset_link}'>" . $pass_reset_link . '</a><br><br> ';
-
-                    //custom email
-
-                    if (get_option('forgot_pass_email_enabled', 'users')) {
-                        $cust_subject = get_option('forgot_pass_email_subject', 'users');
-                        $cust_content = get_option('forgot_pass_email_content', 'users');
-                        if (trim($cust_subject) != '') {
-                            $subject = $cust_subject;
-                        }
-                        if ($cust_content != false) {
-                            $cust_content_check = strip_tags($cust_content);
-                            $cust_content_check = trim($cust_content_check);
-                            if ($cust_content_check != '') {
-                                foreach ($security as $key => $value) {
-                                    if (!is_array($value) and is_string($key)) {
-                                        $cust_content = str_ireplace('{' . $key . '}', $value, $cust_content);
-                                    }
-                                }
-                                $content = $cust_content;
-                            }
-                        }
-                    }
-
-                    $sender = new \Microweber\Utils\MailSender();
-                    $sender->send($to, $subject, $content);
-
-                    return array('success' => 'Your password reset link has been sent to ' . $to);
                 } else {
-                    return array('error' => 'Error: the user doesn\'t have a valid email address!');
+
+                    $validate_captcha = $this->app->captcha_manager->validate($params['captcha']);
+
+                    if ($validate_captcha == false) {
+                        return array('error' => 'Invalid captcha answer!', 'captcha_error' => true);
+                    }
+
+                }
+
+            }
+
+            $data = get_users("email=". $params['username']);
+            $data = $data[0];
+
+        } else { // TEST MODE
+
+            $test_mode = true;
+
+            $data = $this->get_by_id($this->id());
+
+        }
+
+        if(!$data){
+            return array('error' => 'Account not found!');
+        }
+
+        // GET USER IP
+
+        $data['ip'] = MW_USER_IP;
+
+        // GENERATE LINK
+
+        $function_cache_id = null;
+
+        if($data['id']){
+
+            $function_cache_id = md5($data['id']) . uniqid() . rand() . str_random(40);
+
+            // IF NOT TEST MODE STORE IN THE USER DB
+
+            if(!$test_mode){
+                $data_to_save = array();
+                $data_to_save['id'] = $data['id'];
+                $data_to_save['password_reset_hash'] = $function_cache_id;
+                $table = $this->tables['users'];
+                $save = $this->app->database_manager->save($table, $data_to_save);
+            }
+
+        }
+
+        $reset_link = $base_link . '?reset_password_link=' . $function_cache_id;
+
+        $data['reset_password_link'] = '<a href="'. $reset_link .'">'. $reset_link .'</a>';
+
+        $forgot_password_template_id = mw()->option_manager->get('forgot_password_mail_template', 'users');
+
+        if(!$forgot_password_template_id){
+            return array('error' => 'Please create a template!');
+        }
+		
+        $mail_template = get_mail_template_by_id($forgot_password_template_id, 'forgot_password');
+
+        $forgot_password_email_cc_string = $mail_template['copy_to'];
+        $forgot_password_email_subject = $mail_template['subject'];
+        $forgot_password_email_subject_cc = 'New request of Password Reset';
+        $forgot_password_email_content = $mail_template['message'];
+        
+        $forgot_password_email_cc = array();
+
+        if (!empty($forgot_password_email_cc_string)) {
+
+            if(strpos($forgot_password_email_cc_string, ',')) {
+                $forgot_password_email_cc = explode(',', $forgot_password_email_cc_string);
+            } else {
+                $forgot_password_email_cc[] = $forgot_password_email_cc_string;
+            }
+
+        }
+
+        $appendFiles = array();
+
+        if (!empty(get_option('append_files', 'mail_template_id_' . $forgot_password_template_id))) {
+            $appendFiles = explode(",", get_option('append_files', 'mail_template_id_' . $forgot_password_template_id));
+        }
+
+        if ($forgot_password_email_subject == false or trim($forgot_password_email_subject) == '') {
+            $forgot_password_email_subject = _e('Password Reset');
+        }
+
+        $to = isset($data['email']) ? $data['email'] : null;
+
+        if(!$to){
+            return array('error' => 'Invalid Email!');
+        }
+        
+        if ($forgot_password_email_content != false and trim($forgot_password_email_subject) != '') {
+            
+            if (!empty($data)) {
+                foreach ($data as $key => $value) {
+                    if (!is_array($value) and is_string($key)) {
+                        $forgot_password_email_content = str_ireplace('{' . $key . '}', $value, $forgot_password_email_content);
+                    }
                 }
             }
+
+            if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+
+                $sender = new \Microweber\Utils\MailSender();
+                
+                if (is_array($forgot_password_email_cc)) {
+                    
+                    foreach ($forgot_password_email_cc as $email_cc) {
+                        $sender->send($email_cc, $forgot_password_email_subject_cc, $forgot_password_email_content, false, false, false, false, false, false, $appendFiles);
+                    }
+                }
+                
+                return $sender->send($to, $forgot_password_email_subject, $forgot_password_email_content, false, false, false, false, false, false, $appendFiles);
+                
+            }
+            
         }
+        
     }
 
     public function social_login($params)
