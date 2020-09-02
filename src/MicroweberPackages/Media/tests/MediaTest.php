@@ -57,6 +57,11 @@ class MediaTest extends TestCase
             'title' => 'View from Vitosha 3'
         ]);
 
+        $newPage->addMedia([
+            'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
+            'title' => 'View from Vitosha 4'
+        ]);
+
         $newPage->save();
 
         $mediaToDel = $newPage->media[0];

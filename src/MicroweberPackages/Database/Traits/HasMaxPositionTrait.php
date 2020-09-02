@@ -20,8 +20,36 @@ trait  HasMaxPositionTrait {
 
         $this->position = $maxPosition;
 
-        $this->save();
+        $this->savePositionFieldWithoutEvents();
 
         return $this;
+    }
+
+//    public static function bootHasMediaTrait()
+//    {
+//        static::saved(function ($model)  {
+//            foreach($model->_newMediaToAssociate as $mediaField) {
+//                $model->media()->save($mediaField);
+//                $mediaField->updateMaxPositionFieldOnModel();
+//            }
+//
+//            $model->_newMediaToAssociate = []; //empty the array
+//
+//            $model->refresh();
+//        });
+//    }
+
+    protected static function bootHasMaxPositionTrait()
+    {
+        static::saved(function ($model) {
+            $model->updateMaxPositionFieldOnModel();
+        });
+    }
+
+    public function savePositionFieldWithoutEvents(array $options=[])
+    {
+        return static::withoutEvents(function() use ($options) {
+            return $this->save($options);
+        });
     }
 }

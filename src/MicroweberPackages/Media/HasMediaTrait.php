@@ -15,7 +15,7 @@ trait  HasMediaTrait {
 
     public function addMedia($mediaArr)
     {
-        $this->_newMediaToAssociate[] = $this->media()->create($mediaArr);
+        $this->_newMediaToAssociate[] = $mediaArr;
         return $this;
     }
 
@@ -28,9 +28,8 @@ trait  HasMediaTrait {
     public static function bootHasMediaTrait()
     {
         static::saved(function ($model)  {
-            foreach($model->_newMediaToAssociate as $mediaField) {
-                $model->media()->save($mediaField);
-                $mediaField->updateMaxPositionFieldOnModel();
+            foreach($model->_newMediaToAssociate as $mediaArr) {
+                $model->media()->create($mediaArr);
             }
 
             $model->_newMediaToAssociate = []; //empty the array

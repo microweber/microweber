@@ -43,8 +43,7 @@ trait  HasCustomFieldsTrait {
 
     public function addCustomField($customFieldArr)
     {
-
-        $this->_newCustomFieldsToAssociate[] = $this->customField()->create($customFieldArr);
+        $this->_newCustomFieldsToAssociate[] = $customFieldArr;
         return $this;
     }
 
@@ -69,8 +68,7 @@ trait  HasCustomFieldsTrait {
     {
         static::saved(function ($model)  {
             foreach($model->_newCustomFieldsToAssociate as $customField) {
-                $model->customField()->save($customField);
-                $customField->updateMaxPositionFieldOnModel();
+                $model->customField()->create($customField);
             }
 
             $model->_newCustomFieldsToAssociate = []; //empty the array

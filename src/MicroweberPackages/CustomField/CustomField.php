@@ -50,16 +50,16 @@ class CustomField extends Model
             unset($this->value);
         }
 
-        if(!isset($this->id) && isset($this->rel_id) && isset($this->rel_type)) {
-            //Create
-            $position = CustomField::where([
-                                    ['rel_id', '=', $this->rel_id],
-                                    ['rel_type', '=', $this->rel_type]
-                                    ])
-                                    ->max('position');
-
-            $this->position = $position + 1;
-        }
+//        if(!isset($this->id) && isset($this->rel_id) && isset($this->rel_type)) {
+//            //Create
+//            $position = CustomField::where([
+//                                    ['rel_id', '=', $this->rel_id],
+//                                    ['rel_type', '=', $this->rel_type]
+//                                    ])
+//                                    ->max('position');
+//
+//            $this->position = $position + 1;
+//        }
 
         if(isset($this->name)) {
             $this->name_key = \Str::slug($this->name, '-');
