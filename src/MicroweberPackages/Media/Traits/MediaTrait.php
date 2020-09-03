@@ -1,9 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Media;
+namespace MicroweberPackages\Media\Traits;
+
+use MicroweberPackages\Media\Models\Media;
 
 
-trait  HasMediaTrait {
+trait  MediaTrait {
 
 
     private $_newMediaToAssociate = []; //When enter in bootHasCustomFieldsTrait
@@ -15,7 +17,7 @@ trait  HasMediaTrait {
 
     public function addMedia($mediaArr)
     {
-        $this->_newMediaToAssociate[] = $this->media()->create($mediaArr);
+        $this->_newMediaToAssociate[] = $mediaArr;
         return $this;
     }
 
@@ -25,17 +27,17 @@ trait  HasMediaTrait {
         $this->refresh();
     }
 
-    public static function bootHasMediaTrait()
+    public static function bootMediaTrait()
     {
         static::saved(function ($model)  {
-            foreach($model->_newMediaToAssociate as $mediaField) {
-                $model->media()->save($mediaField);
-                $mediaField->updateMaxPositionFieldOnModel();
+            foreach($model->_newMediaToAssociate as $mediaArr) {
+                $model->media()->create($mediaArr);
             }
 
             $model->_newMediaToAssociate = []; //empty the array
 
             $model->refresh();
+
         });
     }
 

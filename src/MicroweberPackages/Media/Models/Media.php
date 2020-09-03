@@ -1,15 +1,15 @@
 <?php
-namespace MicroweberPackages\Media;
+namespace MicroweberPackages\Media\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
-use MicroweberPackages\Database\Traits\HasMaxPositionTrait;
+use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
 class Media extends Model
 {
     //use \Conner\Tagging\Taggable;
 
-    use HasMaxPositionTrait;
+    use MaxPositionTrait;
 
     public $table = 'media';
 

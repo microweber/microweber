@@ -1,9 +1,11 @@
 <?php
 
-namespace MicroweberPackages\ContentData;
+namespace MicroweberPackages\ContentData\Traits;
 
 
-trait HasContentDataTrait
+use MicroweberPackages\ContentData\Models\ContentData;
+
+trait ContentDataTrait
 {
     public $contentData = [];
 

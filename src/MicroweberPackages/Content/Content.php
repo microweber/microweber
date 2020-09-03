@@ -3,17 +3,17 @@ namespace MicroweberPackages\Content;
 
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\ContentData\HasContentDataTrait;
-use MicroweberPackages\CustomField\HasCustomFieldsTrait;
+use MicroweberPackages\ContentData\Traits\ContentDataTrait;
+use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Tag\Tag;
-use MicroweberPackages\CustomField\CustomField;
-use MicroweberPackages\CustomField\CustomFieldValue;
+
+
 
 class Content extends Model
 {
     use Taggable;
-    use HasContentDataTrait;
-    use HasCustomFieldsTrait;
+    use ContentDataTrait;
+    use CustomFieldsTrait;
 
     protected $table = 'content';
 

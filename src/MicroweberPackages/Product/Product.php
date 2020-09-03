@@ -3,9 +3,9 @@ namespace MicroweberPackages\Product;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\ProductScope;
-use MicroweberPackages\ContentData\ContentData;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\CustomField\CustomField;
+use MicroweberPackages\ContentData\Models\ContentData;
 
 class Product extends Content
 {

@@ -1,0 +1,26 @@
+{
+  "name": "microweber-packages/microweber-content-data",
+  "description": "Microweber Content Data Package",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    }
+  ],
+   "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\ContentData\\": ""
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "https://microweber.org",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

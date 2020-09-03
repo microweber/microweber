@@ -1,9 +1,13 @@
 <?php
 
-namespace MicroweberPackages\CustomField;
+namespace MicroweberPackages\CustomField\Traits;
 
 
-trait  HasCustomFieldsTrait {
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
+
+
+trait  CustomFieldsTrait {
 
 //    public function customFields()
 //    {
@@ -43,8 +47,7 @@ trait  HasCustomFieldsTrait {
 
     public function addCustomField($customFieldArr)
     {
-
-        $this->_newCustomFieldsToAssociate[] = $this->customField()->create($customFieldArr);
+        $this->_newCustomFieldsToAssociate[] = $customFieldArr;
         return $this;
     }
 
@@ -65,12 +68,11 @@ trait  HasCustomFieldsTrait {
 
     }
 
-    public static function bootHasCustomFieldsTrait()
+    public static function bootCustomFieldsTrait()
     {
         static::saved(function ($model)  {
             foreach($model->_newCustomFieldsToAssociate as $customField) {
-                $model->customField()->save($customField);
-                $customField->updateMaxPositionFieldOnModel();
+                $model->customField()->create($customField);
             }
 
             $model->_newCustomFieldsToAssociate = []; //empty the array
