@@ -2,9 +2,8 @@
 
 namespace MicroweberPackages\ContentData\tests;
 
-use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\Core\tests\TestCase;
-
+use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -27,10 +26,8 @@ class CustomModelContentDataTest extends TestCase
         $product->save();
 
         $prod_id = $product->id;
-        //  dd($prod_id);
 
         $product = TestModel::find($prod_id);
-
 
         $product->setContentData(['model' => 'bmw', 'year' => 2005]);
 
@@ -47,9 +44,6 @@ class CustomModelContentDataTest extends TestCase
         $product = TestModel::find($prod_id);
         $product->deleteContentData(['year']);
         $product->save();
-
-
-        //   $product = Product::find($prod_id);
 
         $contentData = $product->getContentData(['model', 'year']);
 
