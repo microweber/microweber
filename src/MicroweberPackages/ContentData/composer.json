@@ -1,24 +1,32 @@
 {
   "name": "microweber-packages/microweber-content-data",
-  "description": "Microweber Content Data Package",
+  "description": "Microweber Content Data",
   "version": "0.0.1",
   "authors": [
     {
       "name": "Microweber",
       "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
     }
   ],
-   "autoload": {
+  "autoload": {
     "psr-4": {
       "MicroweberPackages\\ContentData\\": ""
     }
   },
-  "config": {
-    "sort-packages": true
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\ContentData\\ContentDataServiceProvider"
+      ]
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
-  "homepage": "https://microweber.org",
+  "homepage": "http://microweber.org",
   "license": "MIT",
   "support": {
     "email": "support@microweber.com"
