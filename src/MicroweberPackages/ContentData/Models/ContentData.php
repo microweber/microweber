@@ -1,8 +1,10 @@
 <?php
-namespace MicroweberPackages\ContentData;
+
+
+namespace MicroweberPackages\ContentData\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Database\Observers\CreatedByObserver;
+
 
 
 class ContentData extends Model
