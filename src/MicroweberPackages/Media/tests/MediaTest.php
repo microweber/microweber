@@ -5,11 +5,12 @@ namespace MicroweberPackages\Media\tests;
 use MicroweberPackages\Core\tests\TestCase;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Media\HasMediaTrait;
+
+use MicroweberPackages\Media\Traits\MediaTrait;
 
 class ContentTestModel extends Model
 {
-    use HasMediaTrait;
+    use MediaTrait;
 
     protected $table = 'content';
 
@@ -63,7 +64,8 @@ class MediaTest extends TestCase
         ]);
 
         $newPage->save();
-
+dd($newPage->media);
+//dd($newPage->media());
         $mediaToDel = $newPage->media[0];
         //dump($mediaToDel);
         $newPage->deleteMedia($mediaToDel);

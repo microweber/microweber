@@ -2,12 +2,12 @@
 namespace MicroweberPackages\CustomField;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Database\Traits\HasMaxPositionTrait;
+use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
 
 class CustomField extends Model
 {
-    use HasMaxPositionTrait;
+    use MaxPositionTrait;
 
     protected $fillable = [
         'value',

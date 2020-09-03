@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Database\Traits;
 
-trait  HasMaxPositionTrait {
+trait  MaxPositionTrait {
 
     public function updateMaxPositionFieldOnModel()
     {
@@ -39,7 +39,7 @@ trait  HasMaxPositionTrait {
 //        });
 //    }
 
-    protected static function bootHasMaxPositionTrait()
+    protected static function bootMaxPositionTrait()
     {
         static::saved(function ($model) {
             $model->updateMaxPositionFieldOnModel();
