@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\CustomField;
+namespace MicroweberPackages\CustomField\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

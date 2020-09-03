@@ -1,9 +1,13 @@
 <?php
 
-namespace MicroweberPackages\CustomField;
+namespace MicroweberPackages\CustomField\Traits;
 
 
-trait  HasCustomFieldsTrait {
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
+
+
+trait  CustomFieldsTrait {
 
 //    public function customFields()
 //    {
@@ -64,7 +68,7 @@ trait  HasCustomFieldsTrait {
 
     }
 
-    public static function bootHasCustomFieldsTrait()
+    public static function bootCustomFieldsTrait()
     {
         static::saved(function ($model)  {
             foreach($model->_newCustomFieldsToAssociate as $customField) {

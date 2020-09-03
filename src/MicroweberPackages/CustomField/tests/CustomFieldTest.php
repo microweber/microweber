@@ -5,12 +5,12 @@ namespace MicroweberPackages\CustomField\tests;
 use MicroweberPackages\Core\tests\TestCase;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\CustomField\HasCustomFieldsTrait;
+use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 
 
 class CustomFieldTestModel extends Model
 {
-    use HasCustomFieldsTrait;
+    use CustomFieldsTrait;
 
     protected $table = 'content';
 
@@ -43,10 +43,10 @@ class CustomFieldTestModelTest extends TestCase
         );
 
         $newProduct->save();
-
-        foreach($newProduct->customField as $customField) {
-            $this->assertEquals($customField->name, 'цена на едро');
-        }
+        $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
+//        foreach($newProduct->customField as $customField) {
+//            $this->assertEquals($customField->name, 'цена на едро');
+//        }
     }
 
     public function hhhhtestSetCustomFieldToModel()

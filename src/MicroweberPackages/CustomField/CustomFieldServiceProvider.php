@@ -4,10 +4,9 @@ namespace MicroweberPackages\CustomField;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Database\Observers\CreatedByObserver;
 
-/**
- * Class ConfigSaveServiceProvider
- * @package MicroweberPackages\Config
- */
+use MicroweberPackages\CustomField\Models\CustomField;
+
+
 
 class CustomFieldServiceProvider extends ServiceProvider
 {

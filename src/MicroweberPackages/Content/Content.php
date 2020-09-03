@@ -4,7 +4,7 @@ namespace MicroweberPackages\Content;
 use Conner\Tagging\Taggable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
-use MicroweberPackages\CustomField\HasCustomFieldsTrait;
+use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Tag\Tag;
 
 
@@ -13,7 +13,7 @@ class Content extends Model
 {
     use Taggable;
     use ContentDataTrait;
-    use HasCustomFieldsTrait;
+    use CustomFieldsTrait;
 
     protected $table = 'content';
 
