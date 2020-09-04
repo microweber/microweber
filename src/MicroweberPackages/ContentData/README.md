@@ -54,7 +54,7 @@ $product = Product::whereContentData(['sku' => '5'])->first();
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\ContentData\ContentDataTrait;
+use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 
 class Car extends Model
 {

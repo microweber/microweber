@@ -407,8 +407,9 @@ class CheckoutManager
             $payment_currency = get_option('payment_currency', 'payments');
             $payment_currency_rate = get_option('payment_currency_rate', 'payments');
 
+            if (!isset($place_order['payment_currency'])) {
             $place_order['payment_currency'] = $place_order['currency'];
-
+            }
 
             if ($payment_currency and $payment_currency != $currencyCode) {
 
