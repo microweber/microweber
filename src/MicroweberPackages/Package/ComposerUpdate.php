@@ -153,6 +153,7 @@ class ComposerUpdate
 
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
+        $keyword= strtolower($keyword);
 
 
         $temp_folder = $this->_prepareComposerWorkdir($keyword, $version);
@@ -376,6 +377,10 @@ class ComposerUpdate
             throw new \Exception('Please set require name.');
         }
 
+
+        $params['require_name'] = strtolower($params['require_name']);
+
+
         $version = 'latest';
         if (isset($params['require_version']) and $params['require_version']) {
             $version = trim($params['require_version']);
@@ -472,6 +477,7 @@ class ComposerUpdate
             $composer_temp = file_get_contents($conf_temp);
             $composer_temp = json_decode($composer_temp, true);
 
+            copy($conf_temp,mw_root_path().'/cache/composer.json');
 
             $argv = array();
             //  $argv[] = 'dry-run';

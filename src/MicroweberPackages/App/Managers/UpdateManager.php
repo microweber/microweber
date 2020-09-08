@@ -1248,7 +1248,7 @@ class UpdateManager
         if ($results == 'noresults') {
             return array();
         }
-        
+
         return $results;
     }
 
