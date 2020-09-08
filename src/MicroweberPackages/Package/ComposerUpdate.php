@@ -351,6 +351,8 @@ class ComposerUpdate
             return;
         }
 
+        app()->update->clear_log();
+
         $params = parse_params($params);
         $install_core_update = false;
 

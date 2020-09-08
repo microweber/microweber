@@ -1186,6 +1186,12 @@ class UpdateManager
         return $log_file_url;
     }
 
+    public function clear_log()
+    {
+        $log_file = userfiles_path() . $this->log_filename;
+        @file_put_contents($log_file, '');
+    }
+
     public function log_msg($msg)
     {
         if ($msg === true) {
