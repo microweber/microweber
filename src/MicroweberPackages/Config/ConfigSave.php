@@ -1,7 +1,6 @@
 <?php
 namespace MicroweberPackages\Config;
 
-use File;
 use Illuminate\Config\Repository;
 
 class ConfigSave extends Repository
