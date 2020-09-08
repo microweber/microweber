@@ -46,8 +46,8 @@ class MediaTest extends TestCase
     public function testDeleteMediaToModel()
     {
         $newPage = new ContentTestModel();
-        $newPage->title = 'Pictures from Sofia';
 
+        $newPage->title = 'Pictures from Sofia';
         $newPage->addMedia([
             'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
             'title' => 'View from Vitosha MUST DELETE!'

@@ -87,6 +87,7 @@ mw.filePicker = function (options) {
                 var val = this.value.trim();
                 if(!mw.dialog.get(this)) {
                     scope.setSectionValue(val || null);
+                    scope.result();
                 }
             });
             return $wrap[0];
@@ -337,6 +338,10 @@ mw.filePicker = function (options) {
             this.settings.onResult.call(this, activeSection._filePickerValue);
         }
         $(scope).trigger('Result', [activeSection._filePickerValue]);
+    };
+
+    this.getValue = function () {
+        return this.activeSection()._filePickerValue;
     };
 
     this._getComponentObject = function (type) {

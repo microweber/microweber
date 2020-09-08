@@ -167,7 +167,7 @@ MWEditor.controllers = {
             el.on('click', function (e) {
                 api.saveSelection();
                 var picker = mw.component({
-                    url: 'link_editor_v2',
+                    url: 'link_editor_v3',
                     options: {
                         target: true,
                         text: true,

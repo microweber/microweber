@@ -1745,16 +1745,45 @@ mw.wysiwyg = {
     link: function (url, node_id, text) {
         mw.require('external_callbacks.js');
         mw.wysiwyg.save_selection();
-        var el = document.getElementById(node_id);
+        var el = node_id ? document.getElementById(node_id) : mw.tools.firstParentWithTag(getSelection().focusNode, 'a');
+        var val;
         if(el) {
-            text = el.innerHTML;
+            val = {
+                url: url || el.href,
+                text: text || el.innerHTML,
+                target: el.target === '_blank'
+            }
+
         }
-        var picker = mw.component({
+        /*new mw.LinkEditor().promise().then(function(data) {
+            mw.wysiwyg.restore_selection();
+            mw.iframecallbacks.insert_link(data.url, (data.target ? '_blank' : '_self') , data.text);
+        });*/
+
+        var dialog = mw.dialogIframe({
+            width: 570,
+            url: mw.external_tool('link_editor_v3'),
+            height: 'auto',
+            autoHeight: true,
+        });
+        $(dialog).on('Result', function(e, result){
+            mw.wysiwyg.restore_selection();
+            mw.iframecallbacks.insert_link(result.url, (result.target ? '_blank' : '_self') , result.text);
+        });
+        dialog.iframe.onload = function (){
+            if(el) {
+                this.contentWindow.linkEditor.setValue(val)
+            }
+        }
+
+
+        /*var picker = mw.component({
             url: 'link_editor_v2',
+            footer: false,
+            width: 555,
             options: {
                 target: true,
                 text: true,
-                controllers: 'page, custom, content, section, layout, email, file',
                 values: {
                     url: url,
                     text: text,
@@ -1765,7 +1794,7 @@ mw.wysiwyg = {
         $(picker).on('Result', function(e, result){
             mw.wysiwyg.restore_selection();
             mw.iframecallbacks.insert_link(result.url, (result.targetBlank ? '_blank' : '_self') , result.text);
-        });
+        });*/
     },
 
     unlink: function () {
@@ -2223,7 +2252,7 @@ mw.wysiwyg = {
         }
 
         lists.each(function () {
-            var num = this.innerText.trim().split('.')[0], check = parseInt(num, 10);
+            var num = this.textContent.trim().split('.')[0], check = parseInt(num, 10);
             var curr = mw.$(this);
             if (!curr.attr('data-type')) {
                 if (!isNaN(check) && num > 0) {

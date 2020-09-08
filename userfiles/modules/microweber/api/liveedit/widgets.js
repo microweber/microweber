@@ -102,12 +102,12 @@ mw.liveedit.widgets = {
                     scope.dialog.remove();
                 });
                 scope.dialog = mw.dialogIframe({
-                    url: mw.external_tool('link_editor_v2'),
+                    url: mw.external_tool('link_editor_v3'),
                     autoHeight: true,
                     height: 'auto',
-                    width: 700,
+                    width: 555,
                     title: this.settings.dialogTitle,
-                    footer: footer
+                    // footer: footer
                 });
             }
         };

@@ -2,15 +2,11 @@
 
 namespace MicroweberPackages\Package\Helpers;
 
-
 use Composer\Package\PackageInterface;
-
 
 
 class TemplateInstaller extends BaseInstaller
 {
-
-
     protected $folder_base = 'userfiles/templates/';
     protected $supports = 'microweber-template';
 

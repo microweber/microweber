@@ -55,7 +55,7 @@ $.fn.reload_module = function (c) {
                 if (this.getAttribute('value') == val) {
                     el.dataset("value", val);
                     var isValidOption = true;
-                    var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerText : this.innerText;
+                    var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].textContent : this.innerText;
                     mw.$(".mw-dropdown-val", el[0]).html(html);
                     if (triggerChange === true) {
                         el.trigger("change")

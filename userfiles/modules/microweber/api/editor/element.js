@@ -1,29 +1,40 @@
 (function(){
 
-    var Element = function(options){
+    var Element = function(options, root){
+
+        this.nodes = [];
+        this.root = root || document;
+        this._asElement = false;
+
+        if(options.nodeName && options.nodeType) {
+            this.nodes.push(options);
+            this.node = (options);
+            options = {};
+            this._asElement = true;
+        } else if(typeof options === 'string') {
+            this.nodes = Array.prototype.slice.call(this.root.querySelectorAll());
+            options = {};
+            this._asElement = true;
+        }
 
         options = options || {};
 
+
         var defaults = {
             tag: 'div',
-            props: {},
-            document: document,
-            register: null
+            props: {}
         };
         var scope = this;
 
         this.settings = $.extend({}, defaults, options);
 
-        this.document = this.settings.document || document;
+        this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
-        this.register = function(){
-            if(this.settings.register) {
-                var reg = this.settings.register;
-                reg.push(this);
-            }
+        this.toggle = function () {
+            this.css('display', this.css('display') === 'none' ? 'block' : 'none');
         };
 
-        this.nodes = [];
+
 
         this.get = function(selector, scope){
             this.nodes = (scope || document).querySelectorAll(selector);
@@ -105,7 +116,14 @@
             return val;
         };
 
-        this.css = function(css){
+        this.css = function(css, val){
+            if(typeof css === 'string') {
+                if(typeof val !== 'undefined'){
+                    this.node.style[css] = this._normalizeCSSValue(css, val);
+                } else {
+                    return this.document.defaultView.getComputedStyle(this.node)[css];
+                }
+            }
             if(typeof css === 'object') {
                 for (var i in css) {
                     this.node.style[i] = this._normalizeCSSValue(i, css[i]);
@@ -116,7 +134,7 @@
         this.prop = function(prop, val){
             if(this.node[prop] !== val){
                 this.node[prop] = val;
-                this.$node.trigger('propChange', [prop, val, Element]);
+                this.trigger('propChange', [prop, val, Element]);
             }
         };
 
@@ -147,13 +165,13 @@
         };
         this.text = function (val, clean) {
             if(typeof val === 'undefined') {
-                return this.node.innerText;
+                return this.node.textContent;
             }
             if(typeof clean === 'undefined') {
                 clean = true;
             }
             if (clean) {
-                val = document.createRange().createContextualFragment(val).textContent;
+                val = this.document.createRange().createContextualFragment(val).textContent;
             }
             this.node.innerHTML = val;
         };
@@ -163,7 +181,7 @@
         };
         this.append = function (el) {
             if(el) {
-                return this.$node.append( el.node ? el.node : el );
+                return this.node.append( el.node ? el.node : el );
             }
         };
 
@@ -201,10 +219,10 @@
             return this;
         };
         this.init = function(){
+            if(this._asElement) return;
             this.create();
             this.setProps();
-            this.register();
-        };
+         };
         this.init();
     };
     mw.element = function(options){

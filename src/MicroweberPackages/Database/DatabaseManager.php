@@ -18,7 +18,7 @@ use MicroweberPackages\Content\Content;
 use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Traits\ExtendedSave;
-use MicroweberPackages\Media\Media;
+use MicroweberPackages\Media\Models\Media;
 use SuperClosure\SerializableClosure;
 
 

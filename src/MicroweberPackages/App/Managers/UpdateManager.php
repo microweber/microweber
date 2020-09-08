@@ -1186,6 +1186,12 @@ class UpdateManager
         return $log_file_url;
     }
 
+    public function clear_log()
+    {
+        $log_file = userfiles_path() . $this->log_filename;
+        @file_put_contents($log_file, '');
+    }
+
     public function log_msg($msg)
     {
         if ($msg === true) {
@@ -1248,13 +1254,20 @@ class UpdateManager
         if ($results == 'noresults') {
             return array();
         }
+
         return $results;
     }
 
 
     public function composer_install_package_by_name($params)
     {
-        return $this->composer_update->installPackageByName($params);
+        try {
+            return $this->composer_update->installPackageByName($params);
+        }catch (\Exception $e) {
+            return array(
+                'error' => $e->getMessage()
+            );
+        }
     }
 
     public function composer_merge($composer_patch_path)
