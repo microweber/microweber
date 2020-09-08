@@ -15,11 +15,7 @@ namespace MicroweberPackages\Package\Helpers;
 
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Helper\HelperSet;
-use Composer\IO\ConsoleIO;
 use Composer\IO\BufferIO;
-use Composer\IO\BaseIO;
 
 
 class InstallerIO extends BufferIO
@@ -32,18 +28,12 @@ class InstallerIO extends BufferIO
      */
     public function __construct($input = '', $verbosity = StreamOutput::VERBOSITY_NORMAL, OutputFormatterInterface $formatter = null)
     {
-
         parent::__construct($input, $verbosity, $formatter);
     }
 
     public function writeError($messages, $newline = true, $verbosity = self::NORMAL)
     {
-
       //  app()->update->log_msg($messages);
         echo $messages . PHP_EOL;
-
      }
-
-
-
 }

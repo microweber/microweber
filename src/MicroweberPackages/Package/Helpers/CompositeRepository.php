@@ -1,13 +1,8 @@
 <?php
-
-
 namespace MicroweberPackages\Package\Helpers;
 
 
-use Composer\Repository\CompositeRepository as CompositeRepositoryBase;
-
-
-class CompositeRepository extends CompositeRepositoryBase
+class CompositeRepository extends \Composer\Repository\CompositeRepository
 {
 
     /**

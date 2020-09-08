@@ -23,7 +23,7 @@
   "require": {
     "doctrine/dbal": "2.5.3",
     "laravel/framework": "7.*",
-    "composer/installers": "*",
+    "composer/installers": "^1.0@dev",
     "symplify/monorepo-builder": "^8.1",
     "laravelcollective/html": "^6.0@dev",
     "laravel/socialite": "^5.0@dev",

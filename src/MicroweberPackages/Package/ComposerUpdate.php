@@ -1,36 +1,18 @@
 <?php
 namespace MicroweberPackages\Package;
 
-use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
-use Composer\Command\SearchCommand;
 use Composer\Config;
-use Composer\IO\NullIO;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use Symfony\Component\Console\Input\ArrayInput;
 use MicroweberPackages\Package\ComposerFactory as Factory;
 use Composer\IO\ConsoleIO;
-use Composer\IO\BufferIO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\StreamOutput;
-use Composer\Installer;
-use Composer\Package\CompletePackageInterface;
-use Composer\Package\Link;
-use Composer\Package\PackageInterface;
-use Composer\Repository\CompositeRepository;
-use Composer\Repository\PlatformRepository;
-use Composer\Repository\RepositoryInterface;
-use MicroweberPackages\Package\ComposerPackagesSearchCommandController;
-use Composer\Console\HtmlOutputFormatter;
-use MicroweberPackages\Package\Helpers\TemplateInstaller;
-use MicroweberPackages\Package\Helpers\ModuleInstaller;
-use MicroweberPackages\Package\Helpers\CoreUpdateInstaller;
 use MicroweberPackages\Package\Helpers\InstallerIO;
 use Composer\Semver\Comparator;
-use ZipArchive;
 
 class ComposerUpdate
 {
