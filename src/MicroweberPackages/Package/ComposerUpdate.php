@@ -77,7 +77,7 @@ class ComposerUpdate
         $update = new UpdateCommand();
         $update->setComposer($composer);
         $out = $update->run($input, $output);
-        ob_end_clean();
+        
 
         return $out;
 
@@ -111,7 +111,7 @@ class ComposerUpdate
         $update = new InstallCommand();
         $update->setComposer($composer);
         $out = $update->run($input, $output);
-        ob_end_clean();
+        
 
         return $out;
     }
@@ -200,7 +200,7 @@ class ComposerUpdate
 
         $return = $packages->handle($keyword);
 
-        ob_end_clean();
+        
 
 
         $return_found = array();
@@ -345,7 +345,6 @@ class ComposerUpdate
 
     public function installPackageByName($params)
     {
-        ob_start();
 
         if ('disabled' == $this->updateChannel) {
             return;
@@ -392,12 +391,10 @@ class ComposerUpdate
         $return = $this->searchPackages($params);
 
         if (!$return) {
-            ob_end_clean();
             return array('error' => 'Error. Cannot find any packages for ' . $keyword);
         }
 
         if (!isset($return[$keyword])) {
-            ob_end_clean();
             return array('error' => 'Error. Package not found in repositories ' . $keyword);
 
         }
@@ -433,14 +430,13 @@ class ComposerUpdate
             }
 
             if (!$version_data) {
-                ob_end_clean();
+                
                 return;
             }
 
             $dryRun = false;
             $need_key = false;
             if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
-                ob_end_clean();
                 return array('error' => 'No download source found for ' . $keyword);
             }
 
@@ -455,7 +451,6 @@ class ComposerUpdate
                     $error_text = _e($error_text, true);
                 }
 
-                ob_end_clean();
                 return array(
                     'error' => $error_text,
                     // 'form_data_required' => 'license_key',
@@ -468,7 +463,7 @@ class ComposerUpdate
             }
 
             if (!$temp_folder) {
-                ob_end_clean();
+                
                 return array('error' => 'Error preparing installation for ' . $keyword);
 
             }
@@ -524,7 +519,7 @@ class ComposerUpdate
             } catch (PackageManagerUnzipOnChunksException $e) {
                 $cache_key_for_unzip_on_chunks = $e->getMessage();
 
-                ob_end_clean();
+                
                 return array(
                     'try_again' => true,
                     'error' => 'There was error with unzip',
@@ -590,11 +585,7 @@ class ComposerUpdate
                     }
 
                     $error = 'Please confirm installation';
-                    if (function_exists('_e')) {
-                        $error = _e($error);
-                    }
 
-                    ob_end_clean();
                     return array(
                         'error' => $error,
                         //   'form_data_required' => 'confirm_key',
@@ -669,7 +660,7 @@ class ComposerUpdate
 
             $mods = scan_for_modules($s);
 
-            ob_end_clean();
+            
             return $resp;
 
         }

@@ -65,9 +65,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             'microweber-template',
             'microweber-module',
         );
-        //mw()->update->log_msg('preparing');
-
-        echo 'preparing' . PHP_EOL;
+        mw()->update->log_msg('Preparing..');
 
         if (php_can_use_func('ini_set')) {
             ini_set('memory_limit', '2777M');

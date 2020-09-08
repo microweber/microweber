@@ -33,7 +33,6 @@ class InstallerIO extends BufferIO
 
     public function writeError($messages, $newline = true, $verbosity = self::NORMAL)
     {
-      //  app()->update->log_msg($messages);
-        echo $messages . PHP_EOL;
+        app()->update->log_msg($messages);
      }
 }
