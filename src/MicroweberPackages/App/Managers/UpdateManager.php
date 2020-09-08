@@ -1248,13 +1248,20 @@ class UpdateManager
         if ($results == 'noresults') {
             return array();
         }
+        
         return $results;
     }
 
 
     public function composer_install_package_by_name($params)
     {
-        return $this->composer_update->installPackageByName($params);
+        try {
+            return $this->composer_update->installPackageByName($params);
+        }catch (\Exception $e) {
+            return array(
+                'error' => $e->getMessage()
+            );
+        }
     }
 
     public function composer_merge($composer_patch_path)
