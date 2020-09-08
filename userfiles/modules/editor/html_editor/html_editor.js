@@ -53,7 +53,7 @@ mw.html_editor.get_edit_fields = function (also_in_modules, root_element_selecto
 
 mw.html_editor.createItemContent = function (option) {
     var method = 'frame';
-    var text = option.el.innerText.trim();
+    var text = option.el.textContent.trim();
     if (method == 'text') {
         return text.substring(0, 45) + '...';
     }

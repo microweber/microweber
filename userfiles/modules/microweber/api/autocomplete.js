@@ -6,7 +6,10 @@ mw.autoComplete = function(options){
         var defaults = {
             size:'normal',
             multiple:false,
-            map: { title:'title', value:'id' }
+            map: { title:'title', value:'id' },
+            titleDecorator: function (title, data) {
+                return title;
+            }
         };
         this.options = $.extend({}, defaults, options);
         this.options.element = mw.$(this.options.element)[0];
@@ -105,7 +108,7 @@ mw.autoComplete = function(options){
 
     this.rendSingle = function(){
         var item = this.selected[0];
-        this.inputField.value = item ? this.dataTitle(item) : '';
+        this.inputField.value = item ? item[this.map.title] : '';
         this.valueHolder.innerHTML = '';
         var img = this.dataImage(item);
         if(img){
@@ -153,13 +156,16 @@ mw.autoComplete = function(options){
         }
     };
     this.dataTitle = function(data){
-        if(!data) return;
-        if(typeof data === 'string'){
-            return data;
+        if (!data) return;
+        var title;
+        if (typeof data === 'string') {
+            title = data;
         }
-        else{
-            return data[this.map.title];
+        else {
+            title = data[this.map.title];
         }
+
+        return this.options.titleDecorator(title, data);
     };
 
     this.searchRemote = function(val){
@@ -171,8 +177,9 @@ mw.autoComplete = function(options){
             }
             else{
                $.each(config.data, function(key,value){
-                    if(value.indexOf('${val}') !==-1 ){
-                        config.data[key] = value.replace('${val}',value);
+
+                    if(value.indexOf && value.indexOf('${val}') !==-1 ){
+                        config.data[key] = value.replace('${val}', val);
                     }
                });
             }

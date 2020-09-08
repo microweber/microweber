@@ -172,6 +172,7 @@
             scrollMode: 'inside', // 'inside' | 'window',
             centerMode: 'intuitive', // 'intuitive' | 'center'
             containment: 'window',
+            overflowMode: 'auto', // 'auto' | 'hidden' | 'visible'
         };
 
         this.options = $.extend({}, defaults, options, {
@@ -267,7 +268,9 @@
             this.dialogMain = this.options.root.createElement('div');
 
             this.dialogMain.id = this.id;
-            var cls = 'mw-defaults mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode + ' mw-dialog-skin-' + this.options.skin;
+            var cls = 'mw-defaults mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode
+                + ' mw-dialog-skin-' + this.options.skin
+                + ' mw-dialog-overflowMode-' + this.options.overflowMode;
             cls += (!this.options.className ? '' : (' ' + this.options.className));
             this.dialogMain.className = cls;
             this.dialogMain._dialog = this;

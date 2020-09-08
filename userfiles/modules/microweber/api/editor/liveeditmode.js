@@ -223,7 +223,7 @@ MWEditor.liveeditMode = function(scope){
         manageDeleteAndBackspaceInSafeMode : function (event, sel) {
             var node = scope.api.elementNode(sel.focusNode);
             var range = sel.getRangeAt(0);
-            if(!node.innerText.replace(/\s/gi, '')){
+            if(!node.textContent.replace(/\s/gi, '')){
                 MWEditor.liveeditMode._manageDeleteAndBackspaceInSafeMode.emptyNode(event, node, sel, range);
                 return false;
             }

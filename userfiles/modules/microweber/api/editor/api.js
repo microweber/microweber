@@ -1,4 +1,90 @@
 
+
+
+mw.IconClassResolver = function ($for) {
+    if (!$for) {
+        return '';
+    }
+    switch ($for) {
+        case 'shop': $for = 'mdi mdi-shopping'; break;
+        case 'website': $for = 'mdi mdi-earth'; break;
+        case 'module': $for = 'mdi mdi-view-grid-plus'; break;
+        case 'marketplace': $for = 'mdi mdi-fruit-cherries'; break;
+        case 'users': $for = 'mdi mdi-account-multiple'; break;
+        case 'post': $for = 'mdi mdi-text'; break;
+        case 'page': $for = 'mdi mdi-shopping'; break;
+        case 'static': $for = 'mdi mdi-shopping'; break;
+        case 'category': $for = 'mdi mdi-folder'; break;
+        case 'product': $for = 'mdi mdi-shopping'; break;
+
+        default: $for = '';
+    }
+    return $for;
+};
+
+var extend = function () {
+    var extended = {};
+    var deep = false;
+    var i = 0;
+    var l = arguments.length;
+
+    if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
+        deep = arguments[0];
+        i++;
+    }
+    var merge = function (obj) {
+        for ( var prop in obj ) {
+            if ( Object.prototype.hasOwnProperty.call( obj, prop ) ) {
+                if ( deep && Object.prototype.toString.call(obj[prop]) === '[object Object]' ) {
+                    extended[prop] = extend( true, extended[prop], obj[prop] );
+                } else {
+                    extended[prop] = obj[prop];
+                }
+            }
+        }
+    };
+    for ( ; i < l; i++ ) {
+        var obj = arguments[i];
+        merge(obj);
+    }
+    return extended;
+
+};
+
+mw.emitter = {
+    _events: {},
+    _onNative: function (node, type, callback) {
+        type.trim().split(' ').forEach(function (ev) {
+            node.addEventListener(ev, callback);
+        });
+    },
+    on: function (event, callback, c) {
+        if(!event) return;
+        if(event.length) {
+            for(var i = 0; i < event.length; i++) {
+                this.on(event[i], callback, c);
+            }
+            return;
+        }
+        if(event.nodeName) {
+            return this._onNative(event, callback, c);
+        }
+        if (!this._events[event]){
+            this._events[event] = [];
+        }
+        this._events[event].push(callback);
+    },
+    dispatch: function(event, data) {
+        if (this._events[event]) {
+            this._events[event].forEach(function(handler) {
+                handler(data);
+            });
+        }
+    }
+};
+
+
+
 mw.controlFields = {
     __id: new Date().getTime(),
     _id: function () {
@@ -7,10 +93,28 @@ mw.controlFields = {
     },
     _label: function (conf){
         var id = conf.id || this._id();
-        return conf.label ? ('<label for="'+id+'">' + conf.label + '</label>') : '';
+        return conf.label ? ('<label class="'+(conf.className || '')+'" for="'+id+'">' + conf.label + '</label>') : '';
     },
-    _wrap: function (content) {
-        return '<div class="form-group">' + content + '</div>';
+    _button: function (conf){
+        var id = conf.id || this._id();
+        var button = document.createElement('button');
+        button.type = conf.type || 'button';
+        button.className = 'btn btn-'+conf.size+' btn-'+conf.color;
+        button.innerHTML = (conf.label || conf.content);
+        return button;
+    },
+    _wrap: function () {
+        var el =  document.createElement('div');
+        [].forEach.call(arguments, function (content) {
+            el.className = 'form-group';
+            if(typeof content === 'string') {
+                el.innerHTML += content;
+            } else {
+                el.appendChild(content);
+            }
+        });
+        return el;
+        // return '<div class="form-group">' + content + '</div>';
     },
     _description: function (conf) {
         return conf.description ? ('<small class="text-muted d-block mb-2">' + conf.description + '</small>') : '';
@@ -31,28 +135,30 @@ mw.controlFields = {
     },
     checkbox: function (conf) {
         conf = conf || {};
+        conf.className = conf.className || 'custom-control-label';
         var id = (conf.id || this._id());
+        conf.id = id;
         id =  (' id="' + id + '" ');
         var name = conf.name ? ('name="' + conf.name + '"') : '';
         var required = conf.required ? ('required') : '';
-
         return  this._wrap(
             '<div class="custom-control custom-checkbox">' +
-             this.label(conf) +
             '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
+            this._label(extend({}, conf, {className: 'custom-control-label'})) +
             '</div>');
     },
     radio: function (conf) {
         conf = conf || {};
         var id = (conf.id || this._id());
         id =  (' id="' + id + '" ');
+        var value =  (' value="' + conf.value + '" ');
         var name = conf.name ? ('name="' + conf.name + '"') : '';
         var required = conf.required ? ('required') : '';
 
         return  this._wrap(
-            '<div class="custom-control custom-checkbox">' +
-            this.label(conf) +
-            '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
+            '<div class="custom-control custom-radio">' +
+            '<input type="radio" ' + id + ' ' + name + ' ' + required + ' ' + value + ' class="custom-control-input">' +
+            this._label(extend({}, conf, {className: 'custom-control-label'})) +
             '</div>');
     },
     select: function (conf) {
@@ -68,7 +174,7 @@ mw.controlFields = {
         }).join('');
 
         return  this._wrap(
-            this.label(conf) +
+            this._label(conf) +
             '<select class="selectpicker" ' + multiple + '  ' + id + ' ' + name + ' ' + required + '>' +
             options +
             '</select>' );
@@ -76,55 +182,8 @@ mw.controlFields = {
 };
 
 
-(function(master){
-    var LinkEditor = function(options) {
-        return new LinkEditor.module.init(options);
-    };
-    LinkEditor.module = LinkEditor.prototype = {
-        urlController: function () {
-            var root = document.createElement('div');
 
-            var _linkText = mw.controlFields.field({
-                label: mw.lang('Link text'),
-                description: mw.lang('Selected text for the link.'),
-            });
 
-            var _linkText = '<div class="form-group">' +
-                '<label></label>' +
-                '<small class="text-muted d-block mb-2"></small>' +
-                '<input type="text" class="form-control">' +
-                '</div>';
-
-            var _linkUrl = '<div class="form-group">' +
-                '<label>Website URL</label>' +
-                '<small class="text-muted d-block mb-2">Type the website URL to link it</small>' +
-                '<input type="url" placeholder="http://" class="form-control">' +
-                '</div>';
-
-            var _target = '<div class="form-group">' +
-                '<label>Website URL</label>' +
-                '<small class="text-muted d-block mb-2">Type the website URL to link it</small>' +
-                '<input type="url" placeholder="http://" class="form-control">' +
-                '</div>';
-
-            return root;
-        },
-
-        build: function (options){
-            var defaults = {
-                controllers: ['url', 'file', 'section'],
-                mode: 'dialog',
-            };
-            this.settings = options;
-        },
-        init: function(options) {
-            this.build(options);
-        }
-    };
-    LinkEditor.prototype.init.prototype = LinkEditor.prototype;
-    master.LinkEditor = LinkEditor;
-
-})(this);
 
 
 MWEditor.api = function (scope) {
@@ -163,7 +222,7 @@ MWEditor.api = function (scope) {
                 }
 
                 lists.each(function () {
-                    var num = this.innerText.trim().split('.')[0], check = parseInt(num, 10);
+                    var num = this.textContent.trim().split('.')[0], check = parseInt(num, 10);
                     var curr = mw.$(this);
                     if (!curr.attr('data-type')) {
                         if (!isNaN(check) && num > 0) {
@@ -247,11 +306,11 @@ MWEditor.api = function (scope) {
                         }
                     }
                 }
-            }
+            };
 
             var isWordHtml = function (html) {
                 return html.indexOf('urn:schemas-microsoft-com:office:word') !== -1;
-            }
+            };
 
             var _cleanWordList = function (html) {
 
