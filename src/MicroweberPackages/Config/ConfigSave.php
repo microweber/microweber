@@ -113,7 +113,8 @@ class ConfigSave extends Repository
 
             if ($to_save) {
                 if (!file_exists($path)) {
-                    File::makeDirectory($path);
+                    mkdir($path);
+                    //File::makeDirectory($path);
                 }
                 $path .= $file . '.php';
                 $val = var_export($this->items[$file], true);
@@ -132,7 +133,7 @@ class ConfigSave extends Repository
                 $path = normalize_path($path, false);
 
                 // Storing data
-                File::put($path, $code);
+               file_put_contents($path, $code);
             }
         }
     }
