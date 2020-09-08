@@ -3,6 +3,7 @@ mw.require('url.js');
 mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; };
 
 mw.on = function(eventName, callback){
+    eventName = eventName.trim()
     $.each(eventName.split(' '), function(){
         mw.$(mw._on._eventsRegister).on(this.toString(), callback);
     });

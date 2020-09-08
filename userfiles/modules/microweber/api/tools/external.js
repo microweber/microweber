@@ -67,7 +67,8 @@
             mode: 'iframe',
             value: null,
             options: {},
-            title: mw.lang('Settings')
+            title: mw.lang('Settings'),
+            footer: true
         };
 
         this.settings = $.extend({}, defaults, options);
@@ -140,8 +141,15 @@
             cancel.className = 'mw-ui-btn mw-ui-btn-medium';
             footer.appendChild(cancel);
             footer.appendChild(scope.btnok);
-            this.dialog = mw.top().dialog({ width: this.settings.width || 870, footer: footer, title: this.settings.title });
+            this.dialog = mw.top().dialog({
+                width: this.settings.width || 870,
+                footer: this.settings.footer ? footer : false,
+                title: this.settings.title });
             this.dialog.dialogContainer.appendChild(this.container);
+            this.dialog.Component = this;
+            $('iframe', this.dialog.dialogContainer).on('load', function (){
+                this.contentWindow.thismodal = scope.dialog;
+            })
             cancel.onclick = function (e) {
                 e.preventDefault();
                 scope.dialog.remove();

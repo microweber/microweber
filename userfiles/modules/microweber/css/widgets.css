@@ -1,0 +1,51 @@
+.mw-ui-form-controllers-footer{
+    padding: 15px 0 10px;
+    border-top: 1px solid #cfcfcf;
+    margin: 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+.mw-ui-form-controller-root{
+    display: none;
+    padding-top: 15px;
+}
+.mw-ui-form-controller-root.active{display: block}
+
+
+.mw-ui-form-controller-root > div:first-child {
+     padding-top: 15px;
+    /*max-height: calc(100vh - 260px);*/
+    overflow: auto;
+}
+
+.mw-link-editor-nav-drop-box{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    border: 1px solid #4592ff;
+    background-color: white;
+}
+.mw-link-editor-nav-drop-box > span i{
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 0.5em;
+    position: relative;
+}
+.mw-link-editor-nav-drop-box > span{
+    display: block;
+    cursor: pointer;
+
+    font-weight: 500;
+    border-top: 1px solid #cfcfcf;
+    border-bottom: 1px solid transparent;
+    padding: 8.5px 15px;
+    color: #adb5bd;
+
+}
+
+.mw-link-editor-posts-search .mdi{
+    display: inline-block;
+    width: 25px;
+    color: #bcbfc2;
+    font-size: 17px;
+}

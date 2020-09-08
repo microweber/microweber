@@ -3002,26 +3002,23 @@ html.mw-loading:after {
   color: #0e80e5;
 }
 .mw-tree-nav-skin-default .mw-tree-item-title:before {
-  font-family: 'Microweber';
+  font-family: "Material Design Icons";
 }
 .mw-tree-nav-skin-default li.type-category > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
   content: 'c';
+  font-family: 'Microweber';
 }
 .mw-tree-nav-skin-default li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
   content: "\F0214";
-  font-family: "Material Design Icons";
 }
 .mw-tree-nav-skin-default li.type-page.subtype-home > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
   content: "\F02DC";
-  font-family: "Material Design Icons";
 }
 .mw-tree-nav-skin-default li.type-page.subtype-shop > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
   content: "\F049A";
-  font-family: "Material Design Icons";
 }
 .mw-tree-nav-skin-default li.type-page.subtype-dynamic > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
   content: "\F1009";
-  font-family: Material Design Icons;
   z-index: 1;
 }
 .mw-tree-nav-skin-default .mw-tree-item-hidden {
@@ -6411,6 +6408,12 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   overflow: hidden auto;
   max-height: 88vh;
 }
+.mw-dialog.mw-dialog-overflowMode-visible .mw-dialog-container {
+  overflow: visible;
+}
+.mw-dialog.mw-dialog-overflowMode-hidden .mw-dialog-container {
+  overflow: hidden;
+}
 .mw-dialog .mw-dialog-container {
   position: relative;
 }
@@ -6518,15 +6521,15 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
   right: 7px;
   width: 32px;
   height: 28px;
-  display: flex;
-  align-items: center;
   text-align: center;
-  justify-content: center;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s;
   border: 1px solid #CFCFCF;
-  border-radius: 5px;
+  border-radius: 0px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 .mw-dialog-skin-default .mw-dialog-close:hover {
   background-color: #ffffff;
@@ -6535,7 +6538,7 @@ transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s;
 .mw-dialog-skin-default .mw-dialog-close:after {
   content: "\f2d7";
   font-family: Microweber;
-  font-size: 15px;
+  font-size: 12px;
 }
 .mw-dialog-skin-default .mw-dialog-container {
   padding: 10px 25px;
