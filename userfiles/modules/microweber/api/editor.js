@@ -67,7 +67,6 @@ window.MWEditor = function (options) {
     }
 
     this.settings.selectorNode = mw.$(this.settings.selector)[0];
-    console.log(this.settings.selectorNode.nodeName, this.settings.selectorNode)
     this.settings.isTextArea = this.settings.selectorNode.nodeName && this.settings.selectorNode.nodeName === 'TEXTAREA';
 
 
@@ -655,6 +654,14 @@ if (window.mw) {
    mw.Editor = MWEditor;
 }
 
+
+mw.require('autocomplete.js');
+mw.require('filepicker.js');
+
+mw.require('form-controls.js');
+mw.require('link-editor.js');
+
+//
 
 mw.require('state.js');
 mw.require('editor/element.js');
