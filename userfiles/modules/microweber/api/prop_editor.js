@@ -1,3 +1,4 @@
+mw.require('editor.js')
 mw.propEditor = {
     addInterface:function(name, func){
         this.interfaces[name] = this.interfaces[name] || func;
@@ -36,8 +37,9 @@ mw.propEditor = {
         },
         field: function(val, type, options){
             type = type || 'text';
+            var el;
             if(type === 'select'){
-                var el = document.createElement('select');
+                el = document.createElement('select');
                 if(options && options.length){
                     var option = document.createElement('option');
                         option.innerHTML = 'Choose...';
@@ -57,8 +59,10 @@ mw.propEditor = {
                     }
                 }
             }
-            else{
-                var el = document.createElement('input');
+            else if(type === 'textarea'){
+                el = document.createElement('textarea');
+            } else{
+                el = document.createElement('input');
                 try { // IE11 throws error on html5 types
                     el.type = type;
                 } catch (err) {
@@ -580,6 +584,7 @@ mw.propEditor = {
                     mw.fileWindow({
                         types:'images',
                         change:function(url){
+                            if(!url) return;
                             url = url.toString();
                             proto._valSchema[config.id] = proto._valSchema[config.id] || [];
                             proto._valSchema[config.id][btn._index] = url;
@@ -721,28 +726,33 @@ mw.propEditor = {
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
             });
-
             this.node = holder;
             this.setValue = function(value){
                 field.value = value;
-                if(this.editor.api){
-                    $(this.editor).contents().find('#editor-area').html(value);
-                }
-                else{
-                    var scope = this;
-                    setTimeout(function(){ scope.setValue(value); }, 300);
-                }
+                this.editor.setContent(value, true);
                 proto._valSchema[config.id] = value;
             };
             this.id = config.id;
+            var defaults = {
+                height: 120,
+                mode: 'div',
+                smallEditor: false,
+                controls: [
+                    [
+                        'bold', 'italic',
+                        {
+                            group: {
+                                icon: 'mdi xmdi-format-bold',
+                                controls: ['underline', 'strikeThrough', 'removeFormat']
+                            }
+                        },
 
-            this.editor = mw.editor({
-                element:field,
-                height:220,
-                width:'100%',
-                addControls: false,
-                hideControls:false
-            });
+                        '|', 'align', '|', 'textColor', 'textBackgroundColor', '|', 'link', 'unlink'
+                    ],
+                ]
+            };
+            config.options = config.options || {};
+            this.editor = new mw.Editor($.extend({}, defaults, config.options, {selector: field}));
         }
     }
 };

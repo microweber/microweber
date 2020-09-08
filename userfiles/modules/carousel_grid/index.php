@@ -56,21 +56,31 @@ $items_number = intval($items_number);
     mw.lib.require('slick');
     $(document).ready(function () {
 
+        var preloadForAll = function (array, eachcall, callback) {
+            var size = array.length, i = 0, count = 0;
+            for (; i < size; i++) {
+                (function (img){
+                    mw.image.preload(img.src, function (imgWidth, imgHeight) {
+                        count++;
+                        eachcall.call(img, imgWidth, imgHeight)
+                        if (count === size) {
+                            if (!!callback) callback.call()
+                        }
+                    })
+                })(array[i])
+            }
+        };
+
 
         var allslides = $("#carousel-grid-<?php print $params['id']; ?> .carousel-grid-slide");
         var slidesDone = 0;
         (function (allslides, slidesDone) {
             allslides.each(function () {
                 var photos = $("img", this), data = [], datao = [], scope = $(this);
-                photos.each(function () {
-                    datao.push(this.src);
-                });
 
-
-                (function (scope, datao) {
-
-                    mw.image.preloadForAll(datao, function (width, height) {
-                        data.push({url: this.src, width: width, height: height});
+                (function (scope, photos) {
+                    preloadForAll(photos, function (width, height) {
+                         data.push({url: this.src, width: width, height: height, alt: this.alt, title: this.title});
                     }, function () {
                         var config = {
                             images: data,
@@ -138,7 +148,7 @@ $items_number = intval($items_number);
                             })
                         }
                     })
-                })(scope, datao)
+                })(scope, photos)
 
             })
 
@@ -151,7 +161,8 @@ $items_number = intval($items_number);
 <?php if ($data): ?>
     <script>
         gallery<?php print $rand; ?> = [
-                <?php foreach($data  as $item): ?>{image: "<?php print ($item['filename']); ?>", description: "<?php print $item['title']; ?>"},
+            <?php foreach($data  as $item): ?>
+            {image: "<?php print ($item['filename']); ?>", description: "<?php print $item['title']; ?>"},
             <?php endforeach;  ?>
         ];
     </script>
@@ -165,9 +176,17 @@ $items_number = intval($items_number);
         print lnotif("Click to add images");
     } else {
         foreach ($data as $key => $pic) {
+            $alt_text = '';
+            if (isset($pic['image_options']['alt-text'])) {
+                $alt_text = $pic['image_options']['alt-text'];
+            }
+            $title_text = '';
+            if (isset($pic['image_options']['title'])) {
+                $title_text = $pic['image_options']['title'];
+            }
             $count++;
             $html .= $count == 1 ? '<div class="carousel-grid-slide">' : '';
-            $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" >' . ($pic['title'] != null ? ('<span class="carousel-grid-slide-description">' . $pic['title'] . '</span>') : '');
+            $html .= '<img src="' . thumbnail($pic['filename'], 600) . '" alt="' . $alt_text . '" title="' . $title_text . '">' . ($pic['title'] != null ? ('<span class="carousel-grid-slide-description">' . $pic['title'] . '</span>') : '');
             $html .= ($count == $items_number || !isset($data[$key + 1])) ? '</div>' : '';
             $count = $count != $items_number ? $count : 0;
         }

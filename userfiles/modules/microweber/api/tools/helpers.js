@@ -177,7 +177,7 @@
             }
             return can;
         },
-        createStyle: function (c, css, ins) {
+         createStyle: function (c, css, ins) {
             ins = ins || mwd.getElementsByTagName('head')[0];
             var style = mw.$(c)[0];
             if (!style) {
@@ -713,7 +713,7 @@
             im.src = u;
         },
         mapNodeValues: function (n1, n2) {
-            if (!n1 || !n2 || n1 === null || n2 === null) return false;
+            if (!n1 || !n2) return false;
             var setValue1 = ((!!n1.type && n1.nodeName !== 'BUTTON') || n1.nodeName === 'TEXTAREA') ? 'value' : 'textContent';
             var setValue2 = ((!!n2.type && n2.nodeName !== 'BUTTON') || n2.nodeName === 'TEXTAREA') ? 'value' : 'textContent';
             var events = 'keyup paste';

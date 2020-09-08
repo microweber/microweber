@@ -2,17 +2,21 @@
     position: absolute;
     border: 3px solid #009cff;
     border-radius: 3px;
-}
-
-.mw-editor-wrapper-document-mode{
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .mw-small-editor{
     position: absolute;
+}
+.mw-editor-link-tooltip{
+    position: absolute;
+    z-index: 10;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #ffffff;
+    color: #5e5e5e;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 

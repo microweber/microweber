@@ -1,4 +1,19 @@
-<table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic" width="100%">
+<style>
+    .mw-universal-tooltip {
+        background: transparent;
+        border-color: #eeeff1;
+        -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+        -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+        box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        padding: 0;
+    }
+
+    .mw-tooltip-content {
+        padding: 0 !important;
+    }
+</style>
+<table cellspacing="0" cellpadding="0" class="table table-striped bg-white m-0" width="100%">
     <tbody>
 
     <tr>

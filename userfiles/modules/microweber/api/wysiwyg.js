@@ -608,14 +608,14 @@ mw.wysiwyg = {
                 return '';
             }
         }
-        if (mw.wysiwyg.isLocalPaste(clipboard)) {console.log(2)
+        if (mw.wysiwyg.isLocalPaste(clipboard)) {
             mw.wysiwyg.doLocalPaste(clipboard);
             e.preventDefault();
             return '';
         }
 
 
-        if (mw.wysiwyg.pastedFromExcel(clipboard)) {console.log(3)
+        if (mw.wysiwyg.pastedFromExcel(clipboard)) {
             html = mw.wysiwyg.cleanExcel(clipboard)
             mw.wysiwyg.insert_html(html);
             e.preventDefault();
@@ -623,14 +623,13 @@ mw.wysiwyg = {
         }
 
 
-        if (clipboard.files.length > 0) {console.log(4)
+        if (clipboard.files.length > 0) {
             var i = 0;
             for (; i < clipboard.files.length; i++) {
                 var item = clipboard.files[i];
                 if (item.type.indexOf('image/') != -1) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        console.log(e.target)
                         mw.wysiwyg.insert_html('<img src="' + (e.target.result) + '">');
                         mw.wysiwyg.normalizeBase64Images();
                     }
@@ -639,7 +638,7 @@ mw.wysiwyg = {
             }
             e.preventDefault();
         }
-        else {console.log(5)
+        else {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
                 if (!mw.is.ie) {
                     html = clipboard.getData('text/html');
@@ -666,7 +665,7 @@ mw.wysiwyg = {
                     if (mw.form) {
                         var is_link = mw.form.validate.url(html);
                         if (is_link) {
-                            var html = "<a href='" + html + "'>" + html + "</a>";
+                            html = "<a href='" + html + "'>" + html + "</a>";
                         }
                     }
 
@@ -1732,7 +1731,7 @@ mw.wysiwyg = {
 
 
                 mw.wysiwyg.setActiveButtons(target);
-                if (target.tagName == 'A') {
+                if (target.tagName === 'A') {
                     mw.$(".mw_editor_link").addClass('mw_editor_btn_active');
                 }
                 var parent_a = mw.tools.firstParentWithTag(target, 'a');
@@ -1746,16 +1745,45 @@ mw.wysiwyg = {
     link: function (url, node_id, text) {
         mw.require('external_callbacks.js');
         mw.wysiwyg.save_selection();
-        var el = document.getElementById(node_id);
+        var el = node_id ? document.getElementById(node_id) : mw.tools.firstParentWithTag(getSelection().focusNode, 'a');
+        var val;
         if(el) {
-            text = el.innerHTML;
+            val = {
+                url: url || el.href,
+                text: text || el.innerHTML,
+                target: el.target === '_blank'
+            }
+
         }
-        var picker = mw.component({
+        /*new mw.LinkEditor().promise().then(function(data) {
+            mw.wysiwyg.restore_selection();
+            mw.iframecallbacks.insert_link(data.url, (data.target ? '_blank' : '_self') , data.text);
+        });*/
+
+        var dialog = mw.dialogIframe({
+            width: 570,
+            url: mw.external_tool('link_editor_v3'),
+            height: 'auto',
+            autoHeight: true,
+        });
+        $(dialog).on('Result', function(e, result){
+            mw.wysiwyg.restore_selection();
+            mw.iframecallbacks.insert_link(result.url, (result.target ? '_blank' : '_self') , result.text);
+        });
+        dialog.iframe.onload = function (){
+            if(el) {
+                this.contentWindow.linkEditor.setValue(val)
+            }
+        }
+
+
+        /*var picker = mw.component({
             url: 'link_editor_v2',
+            footer: false,
+            width: 555,
             options: {
                 target: true,
                 text: true,
-                controllers: 'page, custom, content, section, layout, email, file',
                 values: {
                     url: url,
                     text: text,
@@ -1766,7 +1794,7 @@ mw.wysiwyg = {
         $(picker).on('Result', function(e, result){
             mw.wysiwyg.restore_selection();
             mw.iframecallbacks.insert_link(result.url, (result.targetBlank ? '_blank' : '_self') , result.text);
-        });
+        });*/
     },
 
     unlink: function () {
@@ -2224,7 +2252,7 @@ mw.wysiwyg = {
         }
 
         lists.each(function () {
-            var num = this.innerText.trim().split('.')[0], check = parseInt(num, 10);
+            var num = this.textContent.trim().split('.')[0], check = parseInt(num, 10);
             var curr = mw.$(this);
             if (!curr.attr('data-type')) {
                 if (!isNaN(check) && num > 0) {

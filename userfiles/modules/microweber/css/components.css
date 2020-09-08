@@ -1,59 +1,13 @@
 
-.mw-ui-category-selector {
-    position: relative;
-    padding: 0;
-    background: #f9f9f9;
-    /*border: 1px solid #DCDCDC;*/
-    /*border-top-color: #BDBDBD;*/
-    overflow: hidden;
-    border-radius: 2px;
-    overflow: auto;
-    display: none;
-    height: 200px;
-    min-height: 115px;
-    /*resize: vertical;*/
-}
-
-.mw-ui-category-selector-abs {
+.mw-uploader-input{
     position: absolute;
-    z-index: 99;
-    min-width: 100%;
-    width: auto;
+    cursor: pointer;
+    top: 0;
     left: 0;
-    top: 0;
-    max-height: 300px;
-    box-shadow: 0 4px 10px -6px #999;
-}
-
-.mw-ui-category-selector div.module-categories-selector {
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 5px 20px;
-}
-
-.mw-ui-category-selector div.module-categories-selector * {
-    resize: none; /* webkit strange inheritance bug for resize property */
-}
-
-.mw-ui-category-selector li {
-    list-style: none;
-    clear: both;
-}
-
-.mw-ui-category-selector li a {
-    display: block;
-    padding: 5px 0;
-    overflow: hidden;
-    line-height: 24px;
-    resize: none; /* !!!webkit */
-}
-
-.mw-ui-category-selector li a:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-.mw-ui-category-selector div.module-categories-selector .mw-ui-check input[type="radio"] + span {
-    top: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 99px;
+    opacity: 0;
 }
 
 .cat_selector_view_ctrl {
@@ -79,13 +33,6 @@
     border-color: #BDBBBB;
 }
 
-.mw-tag-selector {
-    cursor: text;
-    width: auto;
-    display: block;
-    min-height: 50px;
-    padding-bottom: 2px;
-}
 
 .mw-tag-selector.mw-ui-field-full {
     width: 100%;
@@ -137,9 +84,6 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     padding: 7px 0;
 }
 
-.mw-tag-selector {
-    background: #fafafa
-}
 
 /*.mw-tag-selector .post-category-tags .mw-ui-btn {
     float: left;
@@ -158,12 +102,6 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     color: #fff;
 }*/
 
-.tag-label-content {
-    position: relative;
-    top: 0;
-    margin-right: 5px;
-    line-height: 180%;
-}
 
 .mw-text-checker {
     display: inline !important;
@@ -182,56 +120,59 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .post-thumb-uploader {
-    width: 129px;
-    height: 129px;
-    border: 2px dashed #8DBF2D;
-    background: #EBFFE0 url(../img/add_img_thumbnail.png) no-repeat center center;
-    overflow: hidden;
-    cursor: pointer;
-    float: left;
-    margin: 0 15px 15px 0;
+    width: auto;
+    height: auto;
     position: relative;
-}
-
-#backend_image_uploader_label {
-    position: absolute;
-    top: 82px;
-    left: 0;
-    width: 100%;
     display: block;
-    text-align: center;
-    font-size: 11px;
-    color: #8DBE2C;
+}
+.post-thumb-uploader.mw-filepicker-desktop-type-big {
+    width: 100%;
 }
 
-.post-thumb-uploader:hover {
-    border-color: #618D0D;
-    background-color: #D8FFC4;
+.post-media-select-all-pictures.all-selected:before{
+    content: "\F0856";
+}
+.post-media-select-all-pictures:before{
+    display: inline-block;
+    content: "\F0131";
+    font-family: "Material Design Icons";
+    color: #009cff;
+    font-size: 20px;
+    vertical-align: middle;
+}
+.post-media-select-all-pictures.active{
+    display:inline-block;
+}
+.post-media-select-all-pictures{
+    display: none;
+    white-space: nowrap;
+    position: absolute;
+    margin: -55px 0 0;
 }
 
-.post-thumb-uploader:hover #backend_image_uploader_label {
-    text-decoration: underline
-}
 
 .admin-thumbs-holder {
-    padding-top: 5px;
+    padding-top: 0px;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
 }
 
 .mw-post-media-img {
     display: block;
-    position: relative;
-    float: left;
-    width: 131px;
-    height: 131px;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
-    background-color: white;
-    cursor: move;
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
-    background-color: #f5f5f5;
+    background-color: #f2f3f5;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .ui-sortable-helper .mw-post-media-img {
@@ -240,16 +181,36 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     cursor: -webkit-grabbing;
 }
 
-.admin-thumbs-holder .admin-thumb-item:first-child .mw-post-media-img:after {
-    content: ".";
-    display: block;
-    height: 17px;
-    width: 17px;
-    text-indent: -9999px;
-    background: url(../img/postthumbnail.png) no-repeat;
+.admin-thumbs-holder .admin-thumb-item.mw-post-media-img{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+
+.mw-drop-zone{
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(225, 241, 253, 0.91);
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+
+    border: 2px dashed #4592ff;
+}
+
+.dropable-zone.small-zone .holder{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.admin-thumbs-holder .featured-image{
+    display: none;
 }
 
 .admin-thumb-item .mw-ui-check span {
@@ -258,8 +219,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .admin-thumb-item .mw-ui-check {
     position: absolute;
-    bottom: 9px;
-    right: 0;
+    top: 5px;
+    left: 5px;
     z-index: 1;
     /*visibility: hidden;
     opacity: 0;*/
@@ -277,17 +238,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     float: left;
 }
 
-.select_actions_holder:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-}
 
-.select_actions_holder {
-
+.select_actions_holder{
+    position: absolute;
+    top: 15px;
+    right: 5px;
 }
 
 .select_actions {
@@ -301,6 +256,19 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .select_actions .mw-ui-btn {
     width: 40px;
+}
+.select_actions > span{
+    font-size: 12px;
+    opacity: 1;
+    visibility: visible;
+}
+.dropable-zone.square-zone.small-zone {
+    min-width: 100%;
+}
+
+#post-media-card-header.active{
+    opacity: 0;
+    pointer-events: none;
 }
 
 .btnnv-label {
@@ -318,17 +286,87 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     opacity: 1;
 }
 
+.admin-thumb-item:after{
+    position: absolute;
+    display: block;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.pictures-admin-content-type-product .admin-thumb-item-loading:before,
+.pictures-admin-content-type-post .admin-thumb-item-loading:before{
+    font: normal normal normal 60px/1 "Material Design Icons";
+    color: #bcbfc2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+    opacity: .2;
+}
+.pictures-admin-content-type-product .admin-thumb-item-loading:before {
+    content: "\F049A";
+}
+.pictures-admin-content-type-post .admin-thumb-item-loading:before {
+    content: "\F09A8";
+}
+
+.admin-thumb-item.ui-sortable-helper {
+    cursor: grabbing;
+}
 .admin-thumb-item {
     display: block;
     position: relative;
     float: left;
-    width: 125px;
-    height: 165px;
-    margin: 0 12px 15px 0;
+    width: 18%;
+    height: 110px;
+    margin: 0 1% 2%;
+    border: 1px solid #cfcfcf;
+    cursor: grab;
 }
 
-.admin-thumbs-holder .admin-thumb-item:first-child {
-    margin-left: 0;
+.admin-thumbs-holder .admin-thumb-item-placeholder {
+    display: block;
+    float: left;
+    position: relative;
+    width: 18%;
+    height: 110px;
+    margin: 0 1% 1%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #FFFF66;
+    border: 1px dotted #235F99;
+    visibility: visible !important;
+}
+.admin-thumbs-holder .admin-thumb-item-placeholder.admin-thumb-item-placeholder-first{
+    width: 38%;
+    margin-bottom: 0;
+}
+
+.admin-thumbs-holder .admin-thumb-item:first-child{
+    width: 38%;
+    margin-top: 0;
+    margin-bottom: 0;
+
+}
+
+
+
+.admin-thumb-item.checked:after{
+    background-color: rgba(69, 146, 255, 0.2);
+}
+.admin-thumb-item.checked {
+    border-color: #4592ff;
+}
+
+.admin-thumb-item:hover:after,
+.admin-thumb-item.checked:hover:after{
+    background: -moz-linear-gradient(top,  rgba(106,174,219,0.6) 0%, rgba(229,229,229,0) 100%);
+    background: -webkit-linear-gradient(top,  rgba(106,174,219,0.6) 0%,rgba(229,229,229,0) 100%);
+    background: linear-gradient(to bottom,  rgba(106,174,219,0.6) 0%,rgba(229,229,229,0) 100%);
 }
 
 .uimprogress {
@@ -347,8 +385,15 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     text-align: center;
 }
 
+.admin-thumb-item-loading .mw-spinner{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
 .admin-thumb-item-loading .mw-post-media-img {
-    background: #F7F7F7 /*url(../img/img_check_loading.gif) no-repeat center center*/;
+    background: #f2f3f5 /*url(../img/img_check_loading.gif) no-repeat center center*/;
 }
 
 .mw-post-media-img-edit {
@@ -379,7 +424,6 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .mw-post-media-img-edit .mw-icon-close,
 .image-tag-view {
     position: absolute;
-    border: none;
     top: 0;
     right: 0;
     background: white;
@@ -424,19 +468,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     visibility: hidden;
 }
 
-.admin-thumbs-holder .admin-thumb-item-placeholder {
-    display: block;
-    float: left;
-    position: relative;
-    margin: 0 15px 45px 0;
-    width: 131px;
-    height: 131px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-color: #FFFF66;
-    border: 1px dotted #235F99;
-    visibility: visible !important;
-}
+
+
 
 #pages_edit_container {
     position: relative;
@@ -835,36 +868,7 @@ body.mw-external-loading:after {
     background: transparent;
 }
 
-#mw-ui-category-selector-manage > ul > li {
-    padding-left: 0;
-    padding-bottom: 5px;
-}
 
-#mw-ui-category-selector-manage > ul > li a {
-    padding-left: 20px;
-    position: relative;
-}
-
-.category-edit-label {
-    position: absolute;
-    right: 12px;
-    top: 6px;
-    font-size: 12px;
-    color: #0078ff;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-    opacity: 0;
-    pointer-events: none;
-}
-
-#mw-ui-category-selector-manage > ul > li a:hover {
-    background: white;
-}
-
-#mw-ui-category-selector-manage > ul > li a:hover .category-edit-label {
-    opacity: 1;
-}
 
 .mw-element-name-handle-no-fallback-icon:before {
     display: none !important;
@@ -940,5 +944,9 @@ body.mw-external-loading:after {
 .mw-multiple-fields > .mw-field input:hover,
 .mw-multiple-fields > .mw-field input:focus {
     z-index: 1;
+    position: relative;
+}
+
+.mw-filepicker-component-section .form-group{
     position: relative;
 }

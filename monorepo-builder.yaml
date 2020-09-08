@@ -1,0 +1,35 @@
+parameters:
+    # for "merge" command
+    data_to_append:
+        require-dev:
+            phpunit/phpunit: '^7.3'
+            symplify/monorepo-builder: '^8.1'
+
+    # for "split" command
+    directories_to_repositories:
+        src/MicroweberPackages/Core: 'git@github.com:microweber-packages/microweber-core.git'
+       # src/MicroweberPackages/Cms: 'git@github.com:microweber-packages/microweber-cms.git'
+        src/MicroweberPackages/Config: 'git@github.com:microweber-packages/laravel-config-save.git'
+        src/MicroweberPackages/Cache: 'git@github.com:microweber-packages/laravel-tagged-file-cache.git'
+       # src/MicroweberPackages/CaptchaManager: 'git@github.com:microweber-packages/microweber-captcha-manager.git'
+      #  src/MicroweberPackages/TemplateManager: 'git@github.com:microweber-packages/microweber-template-manager.git'
+      #  src/MicroweberPackages/BackupManager: 'git@github.com:microweber-packages/microweber-backup-manager.git'
+     #   src/MicroweberPackages/FormsManager: 'git@github.com:microweber-packages/microweber-forms-manager.git'
+      #  src/MicroweberPackages/EventManager: 'git@github.com:microweber-packages/microweber-event-manager.git'
+      #  src/MicroweberPackages/PackageManager: 'git@github.com:microweber-packages/microweber-package-manager.git'
+      #  src/MicroweberPackages/OptionManager: 'git@github.com:microweber-packages/microweber-option-manager.git'
+       # src/MicroweberPackages/UserManager: 'git@github.com:microweber-packages/microweber-user-manager.git'
+       # src/MicroweberPackages/DatabaseManager: 'git@github.com:microweber-packages/microweber-database-manager.git'
+       # src/MicroweberPackages/Utils: 'git@github.com:microweber-packages/microweber-utils.git'
+       # src/MicroweberPackages/Shop: 'git@github.com:microweber-packages/microweber-shop.git'
+       # src/MicroweberPackages/Helpers: 'git@github.com:microweber-packages/microweber-helpers.git'
+
+services:
+    # release workers - in order to execute
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorker: null
+    Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker: null

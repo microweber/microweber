@@ -15,7 +15,6 @@ mw.layoutPlus = {
         var $layout = mw.$(this._active);
         var off = $layout.offset();
         var left = (off.left + ($layout.outerWidth()/2));
-
         this._top.css({top: off.top - 20, left: left});
         this._bottom.css({top: off.top + $layout.outerHeight(), left: left});
     },

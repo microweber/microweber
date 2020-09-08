@@ -3,7 +3,7 @@
 
 namespace content\controllers;
 
-use Microweber\View;
+use MicroweberPackages\View\View;
 
 class Manager
 {
@@ -26,20 +26,19 @@ class Manager
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
         $this->event_manager = $this->app->event_manager;
-        $is_admin = $this->app->user_manager->admin_access();
     }
 
     function index($params)
     {
-
+        if (!user_can_access('module.content.index')) {
+            return;
+        }
 
         if (isset($params['manage_categories'])) {
             print load_module('categories/manage', $params);
-
             return;
-
-
         }
+
         if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             $params['is_shop'] = 1;
         } else if (isset($params['is_shop']) and $params['is_shop'] == 'n') {

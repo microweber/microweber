@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+must_have_access();
 
 
 // file moved to userfiles/modules/comments/dashboard_recent_comments.php

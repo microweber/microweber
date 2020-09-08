@@ -1,8 +1,13 @@
-<?php only_admin_access();
-
+<?php
+if (!user_can_access('module.marketplace.index')) {
+    return;
+}
 
 $is_core_update = false;
-$author = array_first(explode('/', $item['name']));
+
+$author = array_first(explode('/', $item['name']), function ($key, $value) {
+    return $value;
+});
 if (isset($item['authors']) and isset($item['authors'][0]) and isset($item['authors'][0]['name'])) {
     $author = $item['authors'][0]['name'];
 

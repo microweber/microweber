@@ -1,12 +1,8 @@
-
-
-
-
 <div id="xtree"></div>
 <div id="domtree"></div>
 
 <script type="text/javascript">
-    //parent.mw.require("external_callbacks.js");
+    // parent.mw.require("external_callbacks.js");
     mw.require("jquery-ui.js");
     mw.require("events.js");
     mw.require("forms.js");
@@ -18,8 +14,6 @@
     mw.require('tree.js');
 
     mw.require('domtree.js');
-
-
 
 
     mw.require('css_parser.js');
@@ -51,7 +45,6 @@
 <script>
 
 var ActiveNode = null;
-
 
 var reset = function(){
     if(!ActiveNode){
@@ -389,6 +382,7 @@ var init = function(){
         mw.fileWindow({
             types: 'images',
             change: function (url) {
+                if(!url) return;
                 url = url.toString();
                 output('backgroundImage', 'url(' + url + ')');
                 $('.background-preview').css('backgroundImage', 'url(' + url + ')')
@@ -429,7 +423,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     }
 
     if(ActiveNode){
-        var can = ActiveNode.innerText === ActiveNode.innerHTML;
+        var can = ActiveNode.textContent === ActiveNode.innerHTML;
         mw.$('#text-mask')[can ? 'show' : 'hide']();
         mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
         if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(ActiveNode.parentNode, ['edit', 'module'])) {

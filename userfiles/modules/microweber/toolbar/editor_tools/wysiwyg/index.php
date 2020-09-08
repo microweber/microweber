@@ -64,7 +64,7 @@ ScaleFrame = function(){
 
 
   var par_frame = parent.mw.$('iframe[name="'+window.name+'"]')[0];
-  if(par_frame != undefined){
+  if(!!par_frame){
     parent.mw.$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
     //mw.$("#mw-admin-text-editor").hide();
   }
@@ -268,18 +268,12 @@ body {
   min-height: 20px;
 }
 
-.mw-admin-editor #mw-iframe-editor-area:empty{
-  background-color: #efecec;
-}
 
 .mw-plain-module-name {
 	display: block;
 	padding-top: 5px;
 }
 
-.mw-admin-editor{
-    background: none;
-}
 
 
 .mw-wysiwyg-module-helper{

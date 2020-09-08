@@ -33,25 +33,26 @@ mw.tools.confirm = function (question, callback) {
             + '</tr>'
             + '</table>';
 
-        var ok = $('<span tabindex="99999" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">'+mw.msg.ok+'</span>');
-        var cancel = $('<span class="mw-ui-btn mw-ui-btn-medium ">' + mw.msg.cancel + '</span>');
+        var ok = mw.top().$('<span tabindex="99999" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">' + mw.msg.ok + '</span>');
+        var cancel = mw.top().$('<span class="mw-ui-btn mw-ui-btn-medium ">' + mw.msg.cancel + '</span>');
+        var modal;
 
         if (mw.$("#mw_confirm_modal").length === 0) {
-            var modal = mw.top().dialog({
+            modal = mw.top().dialog({
                 content: html,
                 width: 400,
                 height: 'auto',
                 autoHeight: true,
                 overlay: false,
                 name: "mw_confirm_modal",
-                footer: [cancel, ok]
+                footer: [cancel, ok],
+                title: mw.lang('Confirm')
             });
         }
         else {
             mw.$("#mw_confirm_modal .mw_alert_holder").html(question);
-            var modal = mw.$("#mw_confirm_modal")[0].modal;
+            modal = mw.$("#mw_confirm_modal")[0].modal;
         }
-
 
         ok.on('keydown', function (e) {
             if (e.keyCode === 13 || e.keyCode === 32) {

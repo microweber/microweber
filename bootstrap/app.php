@@ -11,8 +11,8 @@
 |
 */
 
-$app = new Microweber\LaravelApplication(
-	realpath(__DIR__.'/../')
+$app = new \MicroweberPackages\App\LaravelApplication(
+    realpath(__DIR__ . '/../')
 );
 
 /*
@@ -27,18 +27,18 @@ $app = new Microweber\LaravelApplication(
 */
 
 $app->singleton(
-	'Illuminate\Contracts\Http\Kernel',
-	'Microweber\App\Http\Kernel'
+    \Illuminate\Contracts\Http\Kernel::class,
+    \MicroweberPackages\App\Http\Kernel::class
 );
 
 $app->singleton(
-	'Illuminate\Contracts\Console\Kernel',
-	'Microweber\App\Console\Kernel'
+    \Illuminate\Contracts\Console\Kernel::class,
+    \MicroweberPackages\App\Console\Kernel::class
 );
 
 $app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'Microweber\App\Exceptions\Handler'
+    \Illuminate\Contracts\Debug\ExceptionHandler::class,
+    \MicroweberPackages\App\Exceptions\Handler::class
 );
 
 /*

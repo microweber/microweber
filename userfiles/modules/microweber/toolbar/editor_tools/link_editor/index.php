@@ -243,8 +243,6 @@
                                 $('#link-tree-search').on('input', function(){
                                     var val = this.value.toLowerCase().trim();
                                     if(!val){
-                                        pagesTree.showAll();
-                                    }
                                     else{
                                         pagesTree.options.data.forEach(function(item) {
                                             if(item.title.toLowerCase().indexOf(val) === -1) {

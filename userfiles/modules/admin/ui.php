@@ -1569,13 +1569,13 @@
                     pick2 = mw.colorPicker({
                         element: '#resr',
                         onchange: function (color) {
-                            $("#mw-admin-main-menu").css("background", color);
+                            console.log(color);
                         }
                     });
                     pick3 = mw.colorPicker({
                         element: '#resr2',
                         onchange: function (color) {
-                            $("#mw-admin-main-menu").css("background", color);
+                            console.log(color);
                         }
                     });
                 });

@@ -1,5 +1,5 @@
 <?php
-only_admin_access();
+must_have_access();
 /**
  * Simple file browser
  *
@@ -60,7 +60,7 @@ if (isset($params['extensions']) and $params['extensions']) {
     $params_get_files['extensions'] = $params['extensions'];
 }
 
-$data = mw('Microweber\Utils\Files')->get($params_get_files);
+$data = mw('MicroweberPackages\Utils\System\Files')->get($params_get_files);
 
 $path_nav = explode(DS, $path);
 
@@ -293,7 +293,7 @@ if (isset($params['sort_by'])) {
                         rendImages();
                     }, 333);
 
-                    browserList.height($(top).height() - browserList.offset().top - 220)
+                    // browserList.height($(top).height() - browserList.offset().top - 220)
                 });
 
             </script>

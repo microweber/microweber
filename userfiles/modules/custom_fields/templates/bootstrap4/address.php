@@ -1,23 +1,23 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <?php if($settings['show_label']): ?>
-    <label class="control-label">
-        <?php echo $data['name']; ?>
-        <?php if ($settings['required']): ?>
-            <span style="color: red;">*</span>
-        <?php endif; ?>
-    </label>
+    <?php if ($settings['show_label']): ?>
+        <label class="control-label">
+            <?php echo $data['name']; ?>
+            <?php if ($settings['required']): ?>
+                <span style="color: red;">*</span>
+            <?php endif; ?>
+        </label>
     <?php endif; ?>
 
     <?php foreach ($data['values'] as $key => $value): ?>
 
         <div class="control-group">
 
-            <?php if($settings['show_label']): ?>
-            <label class="control-label"><?php _e($value); ?>
-                <?php if ($settings['required']): ?>
-                    <span style="color:red;">*</span>
-                <?php endif; ?>
-            </label>
+            <?php if ($settings['show_label']): ?>
+                <label class="control-label"><?php _e($value); ?>
+                    <?php if ($settings['required']): ?>
+                        <span style="color:red;">*</span>
+                    <?php endif; ?>
+                </label>
             <?php endif; ?>
 
             <?php if ($key == 'country')  : ?>

@@ -11,7 +11,4 @@
     }
 </script>
 
-<button onClick="upload_template_modal()" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline tip"
-        title="<?php _e('Upload new template'); ?>" type="button">
-    <i class="mw-icon-upload m-0"></i> <?php _e('Upload new template'); ?>
-</button>
+<button onClick="upload_template_modal()" class="btn btn-outline-primary mb-3" type="button"><?php _e('Upload new template'); ?></button>

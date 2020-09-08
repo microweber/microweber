@@ -35,10 +35,13 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
 <script type="text/javascript" src="<?php print $here ?>js/plupload.html4.js"></script> */?>
 
 <div id="container">
-    <div id="pickfiles_<?php print $uid ?>" href="javascript:;">&nbsp;</div>
+    <div id="pickfiles_<?php print $uid ?>">&nbsp;</div>
 </div>
-<script type="text/javascript"> mw.require('files.js'); </script>
-<script type="text/javascript">
+<script>
+    mw.require('files.js');
+</script>
+
+<script>
     Name = this.name;
     mwd.body.className += ' ' + Name;
     Params = mw.url.getUrlParams(window.location.href);
@@ -74,18 +77,16 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
             chunk_size: 1500000,
             url: '<?php print site_url('plupload'); ?>?' + urlparams,
             filters: filters,
-            multi_selection: multi
+            multi_selection: multi,
+            drop_element: true
         });
+        console.log(uploader)
         window.onmessage = function (event) {
             var data = JSON.parse(event.data);
             var base = mw.url.strip(uploader.settings.url);
             var params = mw.url.getUrlParams(uploader.settings.url);
             var u = base + "?" + json2url(params) + "&" + json2url(data);
-         //   uploader.settings.url = u;
             uploader.setOption('url', u);
-
-
-
         }
         uploader.init();
          uploader.bind('FilesAdded', function (up, files) {
@@ -122,3 +123,6 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
         });
     });
 </script>
+
+
+

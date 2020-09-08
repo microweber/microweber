@@ -1,11 +1,11 @@
 (function () {
 
-    if(window.mw) {
+    if (window.mw) {
         console.log('%c !!! mw already defined !!! ', 'background: #009cff; color: #fff; font-size:16px;');
         return;
     }
 
-    var mw = { };
+    var mw = {};
 
     mw.settings = {
         regions: false,
@@ -39,8 +39,8 @@
     }
 
     mw.settings.libs = {
-            jqueryui:  [
-                function () {
+        jqueryui: [
+            function () {
                 mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.js');
                 mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.css');
             }
@@ -87,6 +87,22 @@
                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
                 mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
+            }
+        ],
+        mwui: [
+            function () {
+                // mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/main.css');
+                // mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/css/plugins.min.css');
+                // mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/mw.css');
+                //The files above are added in default.css
+                mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/js/plugins.js');
+            }
+
+
+        ],
+        mwui_init: [
+            function () {
+                mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/js/ui.js');
             }
         ],
         flag_icons: [
@@ -146,12 +162,12 @@
                 //var bootstrap_enabled = (typeof $().modal == 'function');
                 var bootstrap_enabled = (typeof $ != 'undefined' && typeof $.fn != 'undefined' && typeof $.fn.emulateTransitionEnd != 'undefined');
 
-                if(!bootstrap_enabled){
-                mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
-                //var bootstrap_enabled = (typeof $().modal == 'function');
-                //if (bootstrap_enabled == false) {
-                mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
-                mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
+                if (!bootstrap_enabled) {
+                    mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
+                    //var bootstrap_enabled = (typeof $().modal == 'function');
+                    //if (bootstrap_enabled == false) {
+                    mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
+                    mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
                 }
                 // }
             }
@@ -173,8 +189,8 @@
                 mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
                 mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
                 mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
-                mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.css');
-                mw.require(mw.settings.libs_url + 'bootstrap_tags' + '/bootstrap-tagsinput.js');
+                mw.require(mw.settings.libs_url + 'mw-ui/grunt/plugins/tags' + '/bootstrap-tagsinput.css');
+                mw.require(mw.settings.libs_url + 'mw-ui/grunt/plugins/tags' + '/bootstrap-tagsinput.js');
                 //} else {
                 //mw.log("You must load bootstrap to use bootstrap_tags");
                 //}
@@ -226,12 +242,10 @@
             'jquery.datetimepicker.full.min.js',
             'jquery.datetimepicker.min.css'
         ],
-        nzzestedSortable: [
-            'jquery.mjs.nestedSortable.js'
-        ],
+
         nestedSortable: [
             function () {
-                 mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');
+                mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');
             }
         ],
         colorpicker: [
@@ -422,7 +436,7 @@
     };
 
 
-    if(!window.mw) {
+    if (!window.mw) {
         window.mw = mw;
     }
 })();

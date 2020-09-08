@@ -74,7 +74,7 @@ class Controller
         if ($template_file and is_file($template_file)) {
             $view_file = $template_file;
             //$view_file = __DIR__ . DS . 'views' . DS . 'star_rating.php';
-            $view = new \Microweber\View($view_file);
+            $view = new \MicroweberPackages\View\View($view_file);
             $view->assign('ratings', intval($rating));
             $view->assign('rel_type', $rel_type);
             $view->assign('rel_id', $rel_id);
@@ -115,7 +115,7 @@ class Controller
         $total_of_ratings = $this->model->get($get);
 
         $view_file = __DIR__ . DS . 'views' . DS . 'simple_rating.php';
-        $view = new \Microweber\View($view_file);
+        $view = new \MicroweberPackages\View\View($view_file);
         if ($rating_points > 0 and $total_of_ratings > 0) {
             $rating = $rating_points / $total_of_ratings;
         }
@@ -193,7 +193,7 @@ class Controller
         $total_of_ratings = $this->model->get($get);
 
         $view_file = __DIR__ . DS . 'views' . DS . 'comment_rating.php';
-        $view = new \Microweber\View($view_file);
+        $view = new \MicroweberPackages\View\View($view_file);
         if ($rating_points > 0 and $total_of_ratings > 0) {
             $rating = $rating_points / $total_of_ratings;
         }

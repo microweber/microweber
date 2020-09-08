@@ -98,7 +98,7 @@ mw.content = mw.content || {
             data.content = doc.body.innerHTML;
         }
 
-        if (data.title == "" || typeof data.title === 'undefined') {
+        if (!data.title) {
             calc.title = false;
         }
         if (!mw.tools.isEmptyObject(calc)) {
@@ -119,7 +119,7 @@ mw.content = mw.content || {
         mw.trigger('adminSaveStart');
         $.ajax({
             type: 'POST',
-            url: mw.settings.api_url + 'save_content_admin',
+            url: e.url || (mw.settings.api_url + 'save_content_admin'),
             data: data,
             datatype: "json",
             async: true,
@@ -133,6 +133,7 @@ mw.content = mw.content || {
                 else {
                     if (typeof e.onSuccess === 'function') {
                         e.onSuccess.call(data);
+                        mw.trigger('adminSaveEnd');
                     }
                 }
             },

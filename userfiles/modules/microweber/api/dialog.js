@@ -127,6 +127,9 @@
         else if (parent_cont.length !== 0) {
             return parent_cont[0]._dialog;
         }
+        else if (window.thismodal) {
+            return thismodal;
+        }
         else {
              // deprecated
             child_cont = el.querySelector('.mw_modal');
@@ -169,6 +172,7 @@
             scrollMode: 'inside', // 'inside' | 'window',
             centerMode: 'intuitive', // 'intuitive' | 'center'
             containment: 'window',
+            overflowMode: 'auto', // 'auto' | 'hidden' | 'visible'
         };
 
         this.options = $.extend({}, defaults, options, {
@@ -264,7 +268,9 @@
             this.dialogMain = this.options.root.createElement('div');
 
             this.dialogMain.id = this.id;
-            var cls = 'mw-defaults mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode + ' mw-dialog-skin-' + this.options.skin;
+            var cls = 'mw-defaults mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode
+                + ' mw-dialog-skin-' + this.options.skin
+                + ' mw-dialog-overflowMode-' + this.options.overflowMode;
             cls += (!this.options.className ? '' : (' ' + this.options.className));
             this.dialogMain.className = cls;
             this.dialogMain._dialog = this;
@@ -284,12 +290,25 @@
             this.dialogContainer = this.options.root.createElement('div');
             this.dialogContainer._dialog = this;
 
+
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
 
             var cont = this.options.encapsulate ? dialogEncapsulate(this.options.content) : this.options.content;
+            if(this.options.shadow) {
+                this.shadow = this.dialogContainer.attachShadow({
+                    mode: 'open'
+                });
+                if(typeof cont === 'string') {
+                    this.shadow.innerHTML = (cont);
+                } else {
+                    this.shadow.appendChild(cont)
+                }
+            } else {
 
             mw.$(this.dialogContainer).append(cont);
+            }
+
 
             if (this.options.encapsulate) {
                 this.iframe = cont;
@@ -416,6 +435,9 @@
             this.hide();
             mw.removeInterval('iframe-' + this.id);
             mw.$(this).trigger('BeforeRemove');
+            if (typeof this.options.beforeRemove === 'function') {
+                this.options.beforeRemove.call(this, this)
+            }
             mw.$(this.dialogMain).remove();
             mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);

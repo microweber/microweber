@@ -1,7 +1,7 @@
-<?php if (is_admin() == false) {
-    mw_error("Must be admin");
+<?php
+if (!user_can_access('module.users.edit')) {
+    return;
 }
-
 
 $user_params = array();
 if (isset($params['sortby'])) {
@@ -56,76 +56,72 @@ $paging = get_users($paging_data);
 $self_id = user_id();
 
 $registration_approval_required = get_option('registration_approval_required', 'users');
+
 ?>
+<style>
+    .mw-admin-users-manage-table td,
+    .mw-admin-users-manage-table td *{
+        vertical-align: middle;
+    }
+</style>
+
 <?php if (is_array($data)): ?>
-    <div class="table-responsive">
-        <table cellspacing="0" cellpadding="0" class="mw-ui-table table-style-2 layout-auto" width="100%">
-            <thead>
-            <tr>
-                <th><?php _e("Names"); ?></th>
-                <th><?php _e("Username"); ?></th>
-                <th><?php _e("Email"); ?></th>
-                <th><?php _e("Role"); ?></th>
-                <th><?php _e("Is Active"); ?></th>
-                <th><?php _e("Edit"); ?>
-                </th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-                <td><?php _e("Name"); ?></td>
-                <td><?php _e("Username"); ?></td>
-                <td><?php _e("Email"); ?></td>
-                <td><?php _e("Role"); ?></td>
-                <td><?php _e("Is Active"); ?></td>
-                <td><?php _e("Edit"); ?></td>
-            </tr>
-            </tfoot>
+    <div class="table-responsive bg-white mw-admin-users-manage-table">
+        <table cellspacing="0" cellpadding="0" class="table table-hover m-0">
             <tbody>
             <?php foreach ($data as $item): ?>
                 <tr id="mw-admin-user-<?php print $item['id']; ?>">
                     <td>
-
                         <?php if (isset($item['thumbnail']) and trim($item['thumbnail']) != ''): ?>
-                            <span class="mw-user-thumb mw-user-thumb-small" style="background-image: url(<?php print $item['thumbnail'] ?>);"></span>
+                            <div class="img-circle-holder img-absolute w-60">
+                                <img src="<?php print $item['thumbnail'] ?>">
+                            </div>
                         <?php else: ?>
-                            <span class="mw-user-thumb mw-user-thumb-small mw-icon-user"></span>
+                            <div class="img-circle-holder img-absolute w-60">
+                                <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-image.jpg"/>
+                            </div>
                         <?php endif; ?>
-                        <span class="mw-user-names">
-				<?php if (isset($item['oauth_provider']) and trim($item['oauth_provider']) != ''): ?>
-                    <a href="<?php print $item['profile_url']; ?>" target="_blank" title="<?php print ucwords($item['oauth_provider']) ?>" class="mw-icon-<?php print $item['oauth_provider'] ?>"></a>
-                <?php endif; ?>
-                            <?php print $item['first_name']; ?>
-                            &nbsp;
-                            <?php print $item['last_name']; ?>
-				</span>
                     </td>
-                    <td><?php print $item['username']; ?></td>
-                    <td title="<?php print $item['email']; ?>" style="overflow: hidden;text-overflow: ellipsis"><?php print $item['email']; ?></td>
+
                     <td>
-                        <?php if ($item['is_admin'] == 1) {
-                            _e("Admin");
-                        } else {
-                            _e("User");
-                        }
-                        ?>
+                        <div class="text-primary font-weight-bold">
+                            <?php if (isset($item['oauth_provider']) and trim($item['oauth_provider']) != ''): ?>
+                                <a href="<?php print $item['profile_url']; ?>" target="_blank" title="<?php print ucwords($item['oauth_provider']) ?>" class="mw-icon-<?php print $item['oauth_provider'] ?>"></a>
+                            <?php endif; ?>
+                            <?php print $item['first_name'] . ' ' . $item['last_name']; ?>
+                            <br>
+                            <small class="text-dark"><?php if ($item['is_admin'] == 1) {_e("Admin");} else {_e("User");}  ?></small>
+                        </div>
                     </td>
+
+                    <td>
+                        <small class="text-muted d-block"><?php _e("Username"); ?></small>
+                        <?php print $item['username']; ?>
+                    </td>
+
+                    <td>
+                        <small class="text-muted d-block"><?php _e("Email"); ?></small>
+                        <?php print $item['email']; ?>
+                    </td>
+
                     <td>
                         <?php if ($item['is_active'] == 1): ?>
                             <span class="mw-icon-check mw-registered" style="float: none"></span>
                         <?php else: ?>
-                            <?php if($registration_approval_required =='y' && $item['is_active'] == 0):?>
-                            <span class="mw-icon-unpublish mw-approval-required" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
-                            <?php else:?>
-                            <span class="mw-icon-unpublish mw-inactive" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
-                            <?php endif;?>
+                            <?php if ($registration_approval_required == 'y' && $item['is_active'] == 0): ?>
+                                <span class="mw-icon-unpublish mw-approval-required" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
+                            <?php else: ?>
+                                <span class="mw-icon-unpublish mw-inactive" data-id="<?php print $item['id']; ?>" style="float: none; "></span>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </td>
+
                     <td>
                         <?php if ($self_id != $item['id']): ?>
-                            <span class="show-on-hover del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"></span>
+                            <span class="btn btn-outline-danger btn-sm del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"><?php _e("Delete"); ?></span>
                         <?php endif; ?>
-                        <a class="show-on-hover mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small" href="#edit-user=<?php print $item['id']; ?>"><?php _e("Edit"); ?></a>
+
+                        <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:modules/load_module:users/edit-user:' . $item['id']); ?>"><?php _e("Edit"); ?></a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -160,29 +156,29 @@ $registration_approval_required = get_option('registration_approval_required', '
 
     $(document).ready(function () {
 
-		$(".mw-approval-required").mouseenter(function () {
-			if($("#mw-approval-required-tooltip-show-" + $(this).data("id")).length) {
-				$("#mw-approval-required-tooltip-show-" + $(this).data("id")).show();
-			} else {
-				var el = $(".mw-approval-required");
-				var text = "Account requires approval";
-				mw.tooltip({id: 'mw-approval-required-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'}); // 'close_on_click_outside: true' not working and top-left shows top-right
-			}
-		});
+        $(".mw-approval-required").mouseenter(function () {
+            if ($("#mw-approval-required-tooltip-show-" + $(this).data("id")).length) {
+                $("#mw-approval-required-tooltip-show-" + $(this).data("id")).show();
+            } else {
+                var el = $(".mw-approval-required");
+                var text = "Account requires approval";
+                mw.tooltip({id: 'mw-approval-required-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'}); // 'close_on_click_outside: true' not working and top-left shows top-right
+            }
+        });
 
         $(".mw-approval-required").mouseleave(function () {
             $("#mw-approval-required-tooltip-show-" + $(this).data("id")).hide();
         });
 
-		$(".mw-inactive").mouseenter(function () {
-			if($("#mw-inactive-tooltip-show-" + $(this).data("id")).length) {
-				$("#mw-inactive-tooltip-show-" + $(this).data("id")).show();
-			} else {
-				var el = $(".mw-inactive");
-				var text = "Account disabled";
-				mw.tooltip({id: 'mw-inactive-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'});
-			}
-		});
+        $(".mw-inactive").mouseenter(function () {
+            if ($("#mw-inactive-tooltip-show-" + $(this).data("id")).length) {
+                $("#mw-inactive-tooltip-show-" + $(this).data("id")).show();
+            } else {
+                var el = $(".mw-inactive");
+                var text = "Account disabled";
+                mw.tooltip({id: 'mw-inactive-tooltip-show-' + $(this).data("id"), element: el, content: text, position: 'top-left'});
+            }
+        });
 
         $(".mw-inactive").mouseleave(function () {
             $("#mw-inactive-tooltip-show-" + $(this).data("id")).hide();

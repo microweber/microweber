@@ -1,6 +1,6 @@
 <?php $path = mw_includes_url() . "toolbar/editor_tools/file_picker/"; ?>
 
-<script type="text/javascript">
+<script>
     mw.require("events.js");
     mw.require("forms.js");
     mw.require("files.js");
@@ -19,7 +19,7 @@ if (array_key_exists('types', $_GET)) {
 
 
 ?>
-<script type="text/javascript">
+<script>
 
 
     var selectUrl = function(){

@@ -1,10 +1,11 @@
-mw.Editor.core = {
+MWEditor.core = {
     button: function(config) {
         config = config || {};
         var defaults = {
             tag: 'button',
             props: {
-                className: 'mdi mw-editor-controller-component mw-editor-controller-button mw-ui-btn mw-ui-btn-medium'
+                className: 'mdi mw-editor-controller-component mw-editor-controller-button',
+                type: 'button'
             }
         };
         if (config.props && config.props.className){
@@ -12,6 +13,34 @@ mw.Editor.core = {
         }
         var settings = $.extend(true, {}, defaults, config);
         return mw.element(settings);
+    },
+    colorPicker: function(config) {
+        config = config || {};
+        var defaults = {
+            props: {
+                className: 'mw-editor-controller-component'
+            }
+        };
+        var settings = $.extend(true, {}, defaults, config);
+
+        var el = MWEditor.core.button(settings);
+        el.addClass('mw-editor-color-picker')
+        var input = mw.element({
+            tag: 'input',
+            props: {
+                type: 'color',
+                className: 'mw-editor-color-picker-node'
+            }
+        });
+        var time = null;
+        input.on('input', function (){
+            clearTimeout(time);
+            time = setTimeout(function (el, node){
+                el.trigger('change', node.value);
+            }, 210, el, this.node);
+        });
+        el.append(input);
+        return el;
     },
     element: function(config) {
         config = config || {};
@@ -21,22 +50,95 @@ mw.Editor.core = {
             }
         };
         var settings = $.extend(true, {}, defaults, config);
-        return mw.element(settings);
-    },
-    dropdown: function (options) {
-        this.root = mw.Editor.core.element();
-        this.select = mw.select({
-            element: this.root.node,
-            multiple: false,
-            autocomplete: false,
-            tags: false,
-            data: options.data,
-            size: 'medium',
-            placeholder: options.placeholder
-        });
-        this.root.$select = this.select;
-        this.root.$node.on('mousedown touchstart', function (e) {
+        var el = mw.element(settings);
+        el.on('mousedown touchstart', function (e) {
             e.preventDefault();
         });
+        return el;
     },
-}
+
+    _dropdownOption: function (data) {
+        // data: { label: string, value: any },
+        var option = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-dropdown-option',
+                innerHTML: data.label
+            }
+        });
+        option.on('mousedown touchstart', function (e) {
+            e.preventDefault();
+        });
+        option.value = data.value;
+        return option;
+    },
+    dropdown: function (options) {
+        var lscope = this;
+        this.root = MWEditor.core.element();
+        this.select = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-controller-component mw-editor-controller-component-select'
+            }
+        });
+        var displayValNode = MWEditor.core.button({
+            props: {
+                className: 'mw-editor-select-display-value',
+                innerHTML: options.placeholder || ''
+            }
+        });
+
+        var valueHolder = MWEditor.core.element({
+            props: {
+                className: 'mw-editor-controller-component-select-values-holder',
+
+            }
+        });
+        this.root.value = function (val){
+            this.displayValue(val.label);
+            this.value(val.value);
+        };
+
+        this.root.displayValue = function (val) {
+            displayValNode.text(val || options.placeholder || '');
+        };
+
+        this.select.append(displayValNode);
+        this.select.append(valueHolder);
+        this.select.valueHolder = valueHolder;
+        for (var i = 0; i < options.data.length; i++) {
+            var dt = options.data[i];
+            (function (dt){
+                var opt = MWEditor.core._dropdownOption(dt);
+                opt.on('click', function (){
+                    lscope.select.trigger('change', dt);
+                });
+                valueHolder.append(opt);
+            })(dt);
+
+        }
+
+        this.select.on('click', function (e){
+            e.stopPropagation();
+            var wrapper = mw.tools.firstParentWithClass(this.node, 'mw-editor-wrapper');
+            if(wrapper) {
+                var edOff = wrapper.getBoundingClientRect();
+                var selOff = this.node.getBoundingClientRect();
+                this.valueHolder.css({
+                    maxHeight: edOff.height - (selOff.top - edOff.top)
+                });
+            }
+
+            this.toggleClass('active');
+        });
+        this.root.append(this.select);
+    },
+    _preSelect: function (node) {
+        var all = document.querySelectorAll('.mw-editor-controller-component-select.active, .mw-bar-control-item-group.active');
+        var parent = mw.tools.firstParentOrCurrentWithAnyOfClasses(node ? node.parentNode : null, ['mw-editor-controller-component-select','mw-bar-control-item-group']);
+        var i = 0, l = all.length;
+        for ( ; i < l; i++) {
+            if(!node || (all[i] !== node && all[i] !== parent)) {
+                all[i].classList.remove('active');
+            }
+        }
+    }
+};

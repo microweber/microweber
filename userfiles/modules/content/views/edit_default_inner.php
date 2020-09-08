@@ -1,18 +1,22 @@
 <?php if (!isset($data)) {
     $data = $params;
 }
-if(isset($data['content-id'])){
-	$data['content_id'] = $data['content-id'];
-} else if(isset($data['page-id'])){
-	$data['content_id'] = $data['page-id'];
+if (isset($data['content-id'])) {
+    $data['content_id'] = $data['content-id'];
+} else if (isset($data['page-id'])) {
+    $data['content_id'] = $data['page-id'];
 }
 
 ?>
+
 <script>
+    mw.require('editor.js')
+</script>
+<script>
+
     mw.load_editor_internal = function (element_id) {
         var element_id = element_id || 'mw-admin-content-iframe-editor';
         var area = mwd.getElementById(element_id);
-
 
         if (area !== null) {
             var params = {};
@@ -38,112 +42,70 @@ if(isset($data['content-id'])){
             <?php if(isset($data['active_site_layout'])): ?>
             params.preview_layout = '<?php print module_name_encode($data['active_site_layout']) ?>'
             <?php endif; ?>
-            if (typeof window.mweditor !== 'undefined') {
-                $(mweditor).remove();
-                delete window.mweditor;
-            }
+
+
+            // mweditor = mw.admin.editor.init(area, params);
+
+
+            mweditor = new mw.Editor({
+                selector: '#content_template',
+                mode: 'div',
+                smallEditor: false,
+                minHeight: 250,
+                maxHeight: '70vh',
+                controls: [
+                    [
+                        'undoRedo', '|', 'image', '|',
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-bold',
+                                controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                            }
+                        },
+                        '|',
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-align-left',
+                                controls: ['align']
+                            }
+                        },
+                        '|', 'format',
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-list-bulleted-square',
+                                controls: ['ul', 'ol']
+                            }
+                        },
+                        '|', 'link', 'unlink', 'wordPaste', 'table'
+                    ],
+                ]
+            });
 
 
 
-
-
-            mweditor = mw.admin.editor.init(area, params);
-
-
-            if(mwd.getElementById('content-title-field') !== null){
-                 mweditor.onload = function(){
-                     if(mweditor.contentWindow){
+            if (mwd.getElementById('content-title-field') !== null) {
+                mweditor.onload = function () {
+                    if (mweditor.contentWindow) {
                         var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
-                        if(titleel !== null){
+                        if (titleel !== null) {
                             var rel = mw.tools.mwattr(titleel, 'rel');
-                            if(rel == 'post' || rel == 'page' || rel == 'product'  || rel == 'content'){
+                            if (rel === 'post' || rel === 'page' || rel === 'product' || rel === 'content') {
                                 mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
                             }
                         }
-                     }
-
+                    }
 
                     mw.admin.postImageUploader();
-
-                 }
-
+                }
             }
 
-
-		   mw_preview_frame_object = mw.top().win.mw_preview_frame_object = mweditor;
-
-
-
-
-
- //
-//			 mweditor.onbeforeunload = function(e) {
-//			//  alert( 'Dialog text here.');
-//			};
-
-
+            mw_preview_frame_object = mw.top().win.mw_preview_frame_object = mweditor;
         }
-
-
     }
 </script>
 
 <script>
     $(mwd).ready(function () {
-
-
-
-
-    mw.load_editor_internal();
+        mw.load_editor_internal();
     });
-
 </script>
-<?php $content_edit_modules = mw('ui')->module('admin.content.edit.text'); ?>
-<?php $modules = array(); ?>
-<?php if (!empty($content_edit_modules) and !empty($data)) {
-
-    foreach ($content_edit_modules as $k1=>$content_edit_module) {
-		foreach ($data as $k=>$v) {
-			if(isset($content_edit_module[$k])){
-				$v1 = $content_edit_module[$k];
-				$v2 = $v;
-				if(trim($v1) == trim($v2)){
-				 $modules[] = $content_edit_module['module'];
-				}
-			}
-
-		}
-    }
-	$modules = array_unique($modules);
-}
-
-
-?>
-
-<div class="mw-ui-field-holder" id="mw-edit-page-editor-holder">
-  <?php event_trigger('content.edit.richtext',$data); ?>
-  <?php $content_edit_modules = mw()->ui->module('content.edit.richtext'); ?>
-  <?php $modules = array(); ?>
-  <?php
-
-if (!empty($content_edit_modules) and !empty($data)) {
-    foreach ($content_edit_modules as $k1=>$content_edit_module) {
-		if(isset($content_edit_module['module'])){
-
-		  $modules[] = $content_edit_module['module'];
-
-
-		}
-     }
-	$modules = array_unique($modules);
-}
-
-?>
-  <?php if(!empty($modules)): ?>
-  <?php foreach($modules as $module) : ?>
-  <?php print load_module($module,$data); ?>
-  <?php endforeach; ?>
-  <?php else:  ?>
-  <div id="mw-admin-content-iframe-editor"></div>
-  <?php endif; ?>
-</div>

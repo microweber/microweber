@@ -1,0 +1,67 @@
+.bootstrap-tagsinput {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  display: inline-block;
+  padding: 7px 10px;
+  margin-bottom: 10px;
+  color: #555;
+  vertical-align: middle;
+  border-radius: 4px;
+  max-width: 100%;
+  line-height: 22px;
+  cursor: text;
+  width: 100%;
+
+  input {
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    width: auto !important;
+    max-width: inherit;
+    min-width: 100px;
+
+    &:focus {
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .tag {
+    margin-right: 2px;
+    color: white;
+  }
+
+  [data-role="close"] {
+    cursor: pointer;
+  }
+
+  .tt-dataset {
+    border: 1px solid #ccc;
+    padding: 5px 0px;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  .tt-suggestion {
+    cursor: pointer;
+    padding: 0 10px;
+  }
+
+  .tt-suggestion:hover {
+    background-color: #efecec;
+    color: #3b3b3b;
+  }
+
+  .tag.label {
+    background-color: #3b3b3b;
+  }
+
+  .tag.label:before {
+    font-family: "FontAwesome";
+    content: "\f02b  \00a0 ";
+  }
+}

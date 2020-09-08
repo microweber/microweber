@@ -30,7 +30,7 @@
         mw.require("liveadmin.js");
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
-        mw.require("<?php print mw_includes_url(); ?>css/admin.css");
+
         mw.require("<?php print mw_includes_url(); ?>css/admin-new.css");
         mw.require("wysiwyg.js");
         mw.require("url.js");
@@ -46,7 +46,10 @@
         mw.require("upgrades.js");
         mw.require("tree.js");
 
+        mw.lib.require('mwui');
+        mw.lib.require('flag_icons', true);
         mw.lib.require('font_awesome5');
+        mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
@@ -62,9 +65,9 @@
 
                 if (self === top) {
                     window.onhashchange = function () {
-                        mw.cookie.set('back_to_admin', window.location.href);
+                        mw.cookie.set('back_to_admin', location.href);
                     }
-                    mw.cookie.set('back_to_admin', window.location.href);
+                    mw.cookie.set('back_to_admin', location.href);
                 }
                 mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function () {
                     if (mw.helpinfo != undefined) {
@@ -78,20 +81,6 @@
 
 
             $(window).load(function () {
-                // test = new mw.font();
-                // test.add({
-                //     family: {
-                //         'Roboto': [300, 500],
-                //         'Tajawal': [400, 700]
-                //     },
-                //     subset: ["cyrillic", "cyrillic-ext", "korean", "latin-ext"]
-                // });
-                // test.add({
-                //     family: {
-                //         'Roboto': [900, 55],
-                //         'Tajawal': [1, 2],
-                //     }
-                // });
                 if ($(".bootstrap3ns").size() > 0) {
                     mw.lib.require("bootstrap3ns");
                 }
@@ -102,43 +91,17 @@
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
 </head>
+
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
-
 <?php
-
 $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates');
-
 ?>
 
 
 <?php
 $past_page = site_url() . '?editmode=y';
-$last_page_front = session_get('last_content_id');
-if ($last_page_front == false) {
-    if (isset($_COOKIE['last_page'])) {
-        $last_page_front = $_COOKIE['last_page'];
-    }
-}
 
-if ($last_page_front != false) {
-    $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
-    if (isset($cont_by_url) and $cont_by_url == false) {
-        $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
-        $past_page = mw()->content_manager->link($past_page[0]['id']);
-    } else {
-        $past_page = mw()->content_manager->link($last_page_front);
-    }
-} else {
-    $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
-    if (isset($past_page[0])) {
-        $past_page = mw()->content_manager->link($past_page[0]['id']);
-    }
-}
-
-
-?>
-<?php
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
     if (isset($_COOKIE['last_page'])) {
@@ -167,20 +130,15 @@ if ($last_page_front != false) {
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 if (!$shop_disabled) {
-    if (!mw()->modules->is_installed('shop')) {
+    if (!mw()->module_manager->is_installed('shop')) {
         $shop_disabled = true;
     }
 }
 
-
+if (!user_can_view_module(['module' => 'shop'])) {
+    $shop_disabled = true;
+}
 ?>
-<?php /*<div id="admin-user-nav">
-
-
-<a href="javascript:;" class="mw-icon-off pull-right"></a>
-<a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
-
-</div>*/ ?>
 
 
 <script>
@@ -208,12 +166,11 @@ if (!$shop_disabled) {
         }
 
 
-        mw_admin_edit_order_item_popup_modal_opened = mw.modal({
+        mw_admin_edit_order_item_popup_modal_opened = mw.dialog({
             content: '<div id="mw_admin_edit_order_item_module"></div>',
             title: modalTitle,
             id: 'mw_admin_edit_order_item_popup_modal',
-            width: 900,
-            height: 800
+            width: 900
         });
 
         var params = {}
@@ -221,548 +178,428 @@ if (!$shop_disabled) {
         mw.load_module('shop/orders/admin/add_order', '#mw_admin_edit_order_item_module', null, params);
     }
 
-
 </script>
 
-<?php if (is_admin()): ?>
 
-    <?php
+<?php
+if (!is_logged()) {
+    return;
+}
+?>
 
-    $order_notif_html = false;
-    $new_orders_count = mw()->order_manager->get_count_of_new_orders();
-    if ($new_orders_count) {
-        $order_notif_html = '<sup class="mw-notification-count">' . $new_orders_count . '</sup>';
-    }
+<?php
+$order_notif_html = false;
+$new_orders_count = mw()->order_manager->get_count_of_new_orders();
+if ($new_orders_count) {
+    $order_notif_html = '<span class="badge badge-success badge-pill mr-2">' . $new_orders_count . '</span>';
+}
 
-    ?>
-    <?php
+$comments_notif_html = false;
+$new_comments_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
+if ($new_comments_count) {
+    $comments_notif_html = '<span class="badge badge-success badge-pill mr-2">' . $new_comments_count . '</span>';
+}
 
-    $comments_notif_html = false;
-    $new_comments_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
-    if ($new_comments_count) {
-        $comments_notif_html = '<sup class="mw-notification-count">' . $new_comments_count . '</sup>';
+$notif_html = '';
+$notif_count = mw()->notifications_manager->get_unread_count();
+if ($notif_count > 0) {
+    $notif_html = '<span class="badge badge-success badge-pill mr-2">' . $notif_count . '</span>';
+}
+?>
 
-    }
-
-    ?>
-
-
-    <?php
-    $notif_html = '';
-
-    $notif_count = mw()->notifications_manager->get_unread_count();
-
-    if ($notif_count > 0) {
-        $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
-    }
+<?php
+$user_id = user_id();
+$user = get_user_by_id($user_id);
+?>
 
 
-    ?>
+<div id="mw-admin-container">
+    <header class="position-sticky sticky-top bg-white">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center py-1">
+                <ul class="nav">
+                    <li class="mx-1 mobile-toggle">
+                        <button type="button" class="js-toggle-mobile-nav"><i class="mdi mdi-menu"></i></button>
+                    </li>
 
-    <div id="mw-admin-mobile-header">
-        <nav>
-            <a class="mw-admin-mobile-admin-sidebar-toggle"><span class="mw-icon-menu"></span></a>
-            <a class="create-content-btn" data-tip="bottom-left"><span class="mw-icon-plus-circled"></span></a>
-            <a class="mamh-shop" href="<?php print admin_url(); ?>view:shop/action:orders"><span
-                        class="mai-shop"></span><?php print $notif_html; ?></a>
-        </nav>
-        <div id="user-menu-top" class="pull-right">
-            <?php $user_id = user_id();
-            $user = get_user_by_id($user_id);
-            if (!empty($user)) {
-                $img = user_picture($user_id);
-                if ($img != '') {
-                    ?>
-                    <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-has-image">
-                        <span class="main-bar-profile-img"
-                              style="background-image: url('<?php print $img; ?>');"></span>
+                    <li class="mx-1 logo d-none d-md-block">
+                        <a href="<?php print admin_url('view:dashboard'); ?>">
+                            <h5 class="text-white mr-3 d-flex align-items-center h-100">
+                                <?php if (mw()->ui->admin_logo != false): ?>
+                                    <img src="<?php print mw()->ui->admin_logo ?>"/>
+                                <?php elseif (mw()->ui->admin_logo_login() != false): ?>
+                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>"/>
+                                <?php else: ?>
+                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg"/>
+                                <?php endif; ?>
+                            </h5>
+                        </a>
+                    </li>
+
+                    <?php
+                    if (user_can_access('module.content.edit')):
+                        ?>
+                        <li class="mx-1 d-none d-md-block">
+                            <button type="button" class="btn btn-success btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
+                                <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
+                            </button>
+                            <div class="dropdown-menu ">
+                                <?php $custom_view = url_param('view'); ?>
+                                <?php $custom_action = url_param('action'); ?>
+                                <?php event_trigger('content.create.menu'); ?>
+                                <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
+                                <?php if (!empty($create_content_menu)): ?>
+                                    <?php foreach ($create_content_menu as $type => $item): ?>
+                                        <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                        <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                        <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
+                                        <?php $type = (isset($item['content_type'])) ? ($item['content_type']) : false; ?>
+                                        <?php $subtype = (isset($item['subtype'])) ? ($item['subtype']) : false; ?>
+                                        <?php $base_url = (isset($item['base_url'])) ? ($item['base_url']) : false; ?>
+                                        <?php
+                                        if ($base_url == false) {
+                                            $base_url = admin_url('view:content');
+                                            if ($custom_action != false) {
+                                                if ($custom_action == 'pages' or $custom_action == 'posts' or $custom_action == 'products') {
+                                                    $base_url = $base_url . '/action:' . $custom_action;
+                                                }
+                                            }
+                                        }
+                                        ?>
+                                        <a class="dropdown-item" href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if ($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span> <?php print $title; ?></a>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </li>
+                    <?php endif; ?>
+
+                </ul>
+
+
+                <ul class="nav">
+                    <li class="mx-1 logo d-block d-md-none">
+                        <a class="mw-admin-logo" href="<?php print admin_url('view:dashboard'); ?>">
+                            <h5 class="text-white mr-md-3">
+                                <?php if (mw()->ui->admin_logo != false): ?>
+                                    <img src="<?php print mw()->ui->admin_logo ?>" style="height: 40px;"/>
+                                <?php elseif (mw()->ui->admin_logo_login() != false): ?>
+                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" style="height: 40px;"/>
+                                <?php else: ?>
+                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo-mobile.svg" style="height: 40px;"/>
+                                <?php endif; ?>
+                            </h5>
+                        </a>
+                    </li>
+
+                    <?php if ($new_orders_count != ''): ?>
+                        <li class="mx-1">
+                            <a href="<?php print admin_url(); ?>view:shop/action:orders" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                                <?php print $order_notif_html; ?>
+                                <i class="mdi mdi-shopping text-muted"></i> &nbsp;
+                                <span class="d-none d-md-block">
+                                    <?php if ($new_orders_count == 1): ?>
+                                        <?php _e("New order"); ?>
+                                    <?php elseif ($new_orders_count > 1): ?>
+                                        <?php _e("New orders"); ?>
+                                    <?php endif; ?>
+                                </span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if ($comments_notif_html != ''): ?>
+                        <li class="mx-1">
+                            <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                                <?php print $comments_notif_html; ?>&nbsp;
+                                <i class="mdi mdi-comment-account text-muted"></i>
+                                <span class="d-none d-md-block">
+                                    <?php if ($new_comments_count == 1): ?>
+                                        <?php _e("New comment"); ?>
+                                    <?php elseif ($new_comments_count > 1): ?>
+                                        <?php _e("New comments"); ?>
+                                    <?php endif; ?>
+                                </span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if ($notif_count != ''): ?>
+                        <li class="mx-1">
+                            <a href="<?php print admin_url(); ?>view:admin__notifications" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                                <?php print $notif_html; ?>
+                                <i class="mdi mdi-newspaper-variant-multiple text-muted"></i>&nbsp;
+                                <span class="notif-label">
+                                    <?php if ($notif_count == 1): ?>
+                                        <?php _e("New notification"); ?>
+                                    <?php elseif ($notif_count > 1): ?>
+                                        <?php _e("New notifications"); ?>
+                                    <?php endif; ?>
+                                </span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+
+                <?php event_trigger('mw.admin.header.toolbar'); ?>
+
+                <ul class="nav">
+                    <?php if (user_can_access('module.content.edit')): ?>
+                        <li class="mx-1">
+                            <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
+                                <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php event_trigger('mw.admin.header.toolbar.ul'); ?>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="main container my-3">
+        <aside>
+            <?php $view = url_param('view'); ?>
+            <?php $action = url_param('action'); ?>
+            <?php $load_module = url_param('load_module'); ?>
+
+            <?php if (empty($view)) {
+                $view = Request::segment(2);
+            }
+            ?>
+
+            <?php
+            $website_class = '';
+            if ($view == 'content' and $action == false) {
+                $website_class = 'active';
+            } else if ($view == 'content' and $action != false) {
+                $website_class = 'active';
+            }
+
+            $shop_class = '';
+            if ($view == 'shop' and $action == false) {
+                $shop_class = "active";
+            } elseif ($view == 'shop' and $action != false) {
+                $shop_class = "active";
+            } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
+                $shop_class = "active";
+            } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
+                $shop_class = "active";
+            } elseif ($view == 'invoices') {
+                $shop_class = "active";
+            } elseif ($view == 'customers') {
+                $shop_class = "active";
+            }
+            ?>
+
+            <ul class="nav flex-column" id="mw-admin-main-navigation">
+                <li class="nav-item">
+                    <a href="<?php print admin_url(); ?>" class="nav-link <?php if (!$view): ?> active <?php endif; ?>">
+                        <i class="mdi mdi-view-dashboard"></i> <?php _e("Dashboard"); ?>
                     </a>
-                <?php } else { ?>
-                    <a href="javascript:;" id="main-bar-user-menu-link-top" class="main-bar-user-menu-link-no-image">
-                        <span class="mw-icon-user" id="main-bar-profile-icon"></span>
-                    </a>
-                <?php }
-            } ?>
+                </li>
 
-            <div id="user-menu-top-links" style="display: none">
-                <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation">
-                    <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>"
-                       class="mw-ui-btn">
-                        <?php _e("My Profile"); ?>
-                    </a>
-                    <a href="<?php print admin_url('view:modules/load_module:users'); ?>" target="_blank"
-                       class="mw-ui-btn">
-                        <?php _e("Manage Users"); ?>
+                <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
 
+
+                <?php if (user_can_view_module(['module' => 'content'])): ?>
+                    <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
+                        <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
+                            <i class="mdi mdi-earth"></i>
+                            <span class="badge-holder"><?php _e("Website"); ?></span>
+                        </a>
+
+                        <div class="dropdown-menu">
+                            <a href="<?php print admin_url(); ?>view:content/action:pages" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
+                                <?php _e("Pages"); ?>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print admin_url('view:content#action=new:page'); ?>"><i class="mdi mdi-plus"></i></span>
+                            </a>
+
+                            <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:posts">
+                                <?php _e("Posts"); ?>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print admin_url('view:content#action=new:post'); ?>"><i class="mdi mdi-plus"></i></span>
+                            </a>
+                            <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
+                                <a class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:products">
+                                    <?php _e("Products"); ?>
+                                    <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                            <?php endif; ?>
+
+                            <a class="dropdown-item <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
+                                <?php _e("Categories"); ?>
+                                <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print admin_url('view:content#action=new:category'); ?>" data-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="mdi mdi-plus"></i></span>
+                            </a>
+
+                            <a class="dropdown-item <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
+                                <?php _e("Settings"); ?>
+                            </a>
+                        </div>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
+                    <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
+                        <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
+                            <i class="mdi mdi-shopping"></i>
+                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0): ?><?php print $order_notif_html; ?><?php endif; ?></span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
+                                <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                    <?php _e("Products"); ?>
+                                    <span data-href="<?php print admin_url('view:content#action=new:product'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                                <?php
+                            endif;
+                            ?>
+
+                            <?php if (user_can_view_module(['module' => 'shop.orders'])): ?>
+                                <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
+                                    <?php _e("Orders"); ?>
+                                    <?php if ($view == 'shop'): ?><?php print $order_notif_html; ?><?php endif; ?>
+                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                            <?php endif; ?>
+
+                            <!--
+                            <a href="<?php /*print admin_url(); */ ?>view:shop/action:clients" class="dropdown-item <?php /*if ($action == 'clients'): */ ?> active <?php /*endif; */ ?>">
+                                <?php /*_e("Clients"); */ ?>
+                            </a>-->
+
+                            <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
+                                <?php if (class_exists(\MicroweberPackages\Customer\Customer::class)): ?>
+                                    <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
+                                        <?php _e("Clients"); ?>
+                                    </a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php if (user_can_view_module(['module' => 'shop.invoices'])): ?>
+                                <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
+                                    <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
+                                        <?php _e("Invoices"); ?>
+                                    </a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
+                                <?php _e("Settings"); ?>
+                            </a>
+                        </div>
+                    </li>
+                <?php endif; ?>
+
+                <?php if (user_can_access('module.modules.index')): ?>
+                    <li class="nav-item">
+                        <?php
+                        if (($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')) {
+                            $modules_class = 'active';
+                        } else {
+                            $modules_class = '';
+                        }
+                        ?>
+                        <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if (user_can_access('module.marketplace.index')): ?>
+                    <?php if (mw()->ui->disable_marketplace != true): ?>
+                        <li class="nav-item">
+                            <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
+                                <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                <?php /*
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                        <i class="mdi mdi-cog"></i>
+                        <span class="badge-holder"><?php _e("Settings"); ?></span>
+                    </a>
+                    <div class="dropdown-menu">
+
+                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                            <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
+                        </a>
+
+                        <a class="item-template dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=template">
+                            <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
+                        </a>
+
+                        <a class="item-users dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=users">
+                            <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
+                        </a>
+
+                        <a class="item-email dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=email">
+                            <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
+                        </a>
+
+
+                        <?php event_trigger('mw_admin_settings_menu'); ?>
+                        <?php $settings_menu = mw()->module_manager->ui('admin.settings.menu'); ?>
+                        <?php if (is_array($settings_menu) and !empty($settings_menu)): ?>
+                            <?php foreach ($settings_menu as $item): ?>
+                                <?php $module = (isset($item['module'])) ? module_name_encode($item['module']) : false; ?>
+                                <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
+                                <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
+                                <?php if ($module != 'admin') { ?>
+                                    <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="dropdown-item <?php print $class ?>" href="#option_group=<?php print $module ?>">
+                                        <span class="<?php print isset($item['icon']) ? $item['icon'] : ''; ?>"></span>
+                                        <strong><?php print $title ?></strong>
+                                    </a>
+                                <?php } ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="dropdown-item item-advanced" href="#option_group=advanced">
+                            <span class="mai-options"></span>
+                            <stong><?php _e("Advanced"); ?></stong>
+                        </a>
+
+                        <a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="dropdown-item item-language" href="#option_group=language">
+                            <span class="mai-languages"></span>
+                            <strong><?php _e("Language"); ?></strong>
+                        </a>
+                    </div>
+                </li>
+                */ ?>
+
+                <?php $load_module = url_param('load_module'); ?>
+                <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
+                    <a class="nav-link <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
+                        <i class="mdi mdi-account-multiple"></i> <?php _e("Users"); ?>
                     </a>
 
                     <?php if (mw()->ui->enable_service_links): ?>
                         <?php if (mw()->ui->custom_support_url): ?>
-                            <a href="<?php print mw()->ui->custom_support_url ?>" class="mw-ui-btn">
-                                <?php _e("Support"); ?>
-                            </a>
+                            <!--                            <a class="dropdown-item" href="--><?php //print mw()->ui->custom_support_url ?><!--"><strong>--><?php //_e("Support"); ?><!--</strong></a>-->
                         <?php else: ?>
-                            <a href="javascript:;" onmousedown="mw.contactForm();" class="mw-ui-btn">
-                                <?php _e("Support"); ?>
-                            </a>
+                            <!--                            <a class="dropdown-item" href="javascript:;" onmousedown="mw.contactForm();"><strong>--><?php //_e("Support"); ?><!--</strong></a>-->
                         <?php endif; ?>
                     <?php endif; ?>
-
-                    <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set">
-                        <?php _e("View Website"); ?>
-                    </a> <a href="<?php print api_url('logout'); ?>" class="mw-ui-btn">
-                        <?php _e("Log out"); ?>
-                    </a></div>
-            </div>
-        </div>
-
-        <a href="<?php print $past_page ?>?editmode=y"
-           class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small pull-right toolbar-live-edit mobile-live-edit-btn"><i
-                    class="mai-eye2"></i></a>
-    </div>
-<?php endif; ?>
-
-<div id="mw-admin-container">
-    <?php if (is_admin()): ?>
-    <div class="admin-toolbar">
-        <div class="create-content scroll-height-exception">
-            <div class="mw-ui-row header-top-center-notifs">
-                <div class="mw-ui-col">
-                    <a href="javascript:;" class="mw-ui-btn create-content-btn" id="create-content-btn">
-                        <span class="mai-plus"></span>
-                        <?php _e("Add New"); ?>
-                        <span class="mai-cd"></span>
-                    </a>
-                </div>
-                <div class="mw-ui-col center">
-                    <?php if ($new_orders_count != ''): ?>
-                        <a href="<?php print admin_url(); ?>view:shop/action:orders"
-                           class="mw-ui-btn mw-ui-btn-default notif-btn">
-                            <span class="mai-shop"></span> &nbsp; <?php print $order_notif_html; ?>
-                            <span class="notif-label">
-                                <?php if ($new_orders_count == 1): ?>
-                                    <?php _e("New order"); ?>
-                                <?php elseif ($new_orders_count > 1): ?>
-                                    <?php _e("New orders"); ?>
-                                <?php endif; ?>
-                            </span>
-                        </a>
-                    <?php endif; ?>
-
-                    <?php if ($comments_notif_html != ''): ?>
-                        <a href="<?php print admin_url(); ?>view:modules/load_module:comments"
-                           class="mw-ui-btn mw-ui-btn-default notif-btn">
-                            <span class="mai-comment"></span> &nbsp; <?php print $comments_notif_html; ?>
-                            <span class="notif-label">
-                                <?php if ($new_comments_count == 1): ?>
-                                    <?php _e("New comment"); ?>
-                                <?php elseif ($new_comments_count > 1): ?>
-                                    <?php _e("New comments"); ?>
-                                <?php endif; ?>
-                            </span>
-                        </a>
-                    <?php endif; ?>
-
-                    <?php if ($notif_count != ''): ?>
-                        <a href="<?php print admin_url(); ?>view:admin__notifications"
-                           class="mw-ui-btn mw-ui-btn-default notif-btn">
-                            <span class="mai-notification"></span> &nbsp; <?php print $notif_html; ?>
-                            <span class="notif-label">
-                                <?php if ($notif_count == 1): ?>
-                                    <?php _e("New notification"); ?>
-                                <?php elseif ($notif_count > 1): ?>
-                                    <?php _e("New notifications"); ?>
-                                <?php endif; ?>
-                            </span>
-                        </a>
-                    <?php endif; ?>
-                </div>
-
-                <?php
-                event_trigger('mw.admin.header.toolbar');
-                ?>
-
-                <div class="mw-ui-col">
-
-                    <a href="<?php print $past_page ?>?editmode=y"
-                       class="mw-admin-go-live-now-btn mw-ui-btn mw-ui-btn-info toolbar-live-edit" target="_blank">
-                        <span class="mai-eye2"></span> <?php _e("Live Edit"); ?>
-                    </a>
-
-                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification btn-save tip pull-right js-top-save"
-                            style="display: none;" data-tip="<?php _e("Save"); ?>" data-tipposition="bottom-center"
-                            form="quickform-edit-content"><i class="fa fa-save"></i>
-                        <span>&nbsp; <?php print _e('Save'); ?></span></button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="mw-ui-row main-admin-row">
-        <div class="mw-ui-col main-bar-column">
-            <div id="main-bar" class="scroll-height-exception-master">
-                <?php $view = url_param('view'); ?>
-                <?php $action = url_param('action'); ?>
-                <?php $load_module = url_param('load_module'); ?>
-                <a href="<?php print site_url(); ?>?editmode=n" id="main-bar-mw-icon" target="_blank"
-                   class="scroll-height-exception <?php if ($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')) {
-                       print 'active';
-                   } ?>">
-                    <?php if (mw()->ui->admin_logo != false) : ?>
-                        <img src="<?php print mw()->ui->admin_logo ?>" style="max-width: 100%; max-height: 36px;"/>
-                    <?php else: ?>
-                        <!--                        <span class="mai-logo"></span>-->
-                        <!--                        <span class="mw-icon-microweber"></span>-->
-                        <img src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Microweber" class="admin-logo"/>
-                    <?php endif; ?>
-                    <strong><?php //print str_replace(array('http://','https://'), '', site_url()); ?></strong>
-                </a>
-                <ul id="mw-admin-main-menu">
-                    <li <?php if (!$view): ?> class="active" <?php endif; ?>>
-                        <a href="<?php print admin_url(); ?>">
-                            <span class="mai-dashboard"></span>
-                            <strong><?php _e("Dashboard"); ?></strong>
-                        </a>
-                    </li>
-
-
-                    <li><?php event_trigger('mw.admin.sidebar.li.first'); ?></li>
-
-
-                    <li
-                        <?php if ($view == 'content' and $action == false): ?>
-                            class="active"
-                        <?php elseif ($view == 'content' and $action != false): ?>
-                            class="active-parent"
-                        <?php endif; ?>
-                    >
-                        <a href="<?php print admin_url(); ?>view:content" title="">
-                            <span class="mai-website"></span>
-                            <strong>
-                                <?php _e("Website"); ?>
-                            </strong> </a>
-                        <ul>
-                            <li <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>>
-                                <a href="<?php print admin_url(); ?>view:content/action:pages">
-                                    <span class="mai-page"></span>
-                                    <strong><?php _e("Pages"); ?></strong>
-                                    <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new page") ?>"
-                                          data-href="<?php print admin_url('view:content#action=new:page'); ?>"><?php _e("Add"); ?></span>
-                                </a></li>
-                            <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>>
-                                <a href="<?php print admin_url(); ?>view:content/action:posts">
-                                    <span class="mai-post"></span>
-                                    <strong><?php _e("Posts"); ?></strong>
-                                    <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new post") ?>"
-                                          data-href="<?php print admin_url('view:content#action=new:post'); ?>"><?php _e("Add"); ?></span>
-                                </a></li>
-                            <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
-                                <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>>
-                                    <a href="<?php print admin_url(); ?>view:content/action:products">
-                                        <span class="mai-product"></span>
-                                        <strong><?php _e("Products"); ?></strong>
-                                        <span class="mw-admin-main-menu-mini tip"
-                                              data-tip="<?php _e("Add new product") ?>"
-                                              data-href="<?php print admin_url('view:content#action=new:product'); ?>"><?php _e("Add"); ?></span>
-                                    </a></li>
-                            <?php endif; ?>
-                            <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>>
-                                <a href="<?php print admin_url(); ?>view:content/action:categories">
-                                    <span class="mai-category"></span>
-                                    <strong> <?php _e("Categories"); ?></strong>
-                                    <span class="mw-admin-main-menu-mini tip" data-tip="<?php _e("Add new category") ?>"
-                                          data-href="<?php print admin_url('view:content#action=new:category'); ?>"><?php _e("Add"); ?></span>
-                                </a></li>
-                        </ul>
-                    </li>
-
-                    <?php if ($shop_disabled == false AND mw()->modules->is_installed('shop') == true): ?>
-
-                        <li
-                            <?php if ($view == 'shop' and $action == false): ?> class="active"
-                            <?php elseif ($view == 'shop' and $action != false): ?> class="active-parent"
-                            <?php elseif ($view == 'modules' and $load_module == 'shop__coupons'): ?> class="active"
-                            <?php endif; ?> >
-                            <a href="<?php print admin_url(); ?>view:shop" title="">
-                                <span class="mai-market2"></span>
-                                <strong><?php _e("Shop"); ?></strong>
-                                <?php if ($view != 'shop' and $notif_count > 0) {
-                                    print $order_notif_html;
-                                }; ?>
-                            </a>
-                            <ul>
-
-
-                                <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>>
-                                    <a href="<?php print admin_url(); ?>view:shop/action:products">
-                                        <span class="mai-product"></span>
-                                        <?php _e("Products"); ?>
-                                    </a>
-                                </li>
-
-                                <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>>
-                                    <a href="<?php print admin_url(); ?>view:shop/action:orders">
-                                        <span class="mai-shop"></span>
-                                        <?php _e("Orders"); ?>
-                                        <?php if ($view == 'shop') {
-                                            print $order_notif_html;
-                                        } ?>
-
-                                    </a>
-                                </li>
-
-
-                                <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>>
-                                    <a href="<?php print admin_url(); ?>view:shop/action:clients">
-                                        <span class="mai-user"></span>
-                                        <?php _e("Clients"); ?>
-                                    </a>
-                                </li>
-
-
-                                <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
-
-                                    <a href="<?php print admin_url(); ?>view:shop/action:options/">
-                                        <span class="mw-icon-web-settings" style="margin-top: 16px;"></span>
-                                        <?php _e("Shop settings"); ?>
-                                    </a>
-                                </li>
-                                <?php
-                                /*<li>
-                                    <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=payment-methods">
-                                        <span class="mai-order"></span>
-                                        <?php _e("Payment methods"); ?>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=taxes">
-                                        <span class="mai-percent"></span>
-                                        <?php _e("Taxes"); ?>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=shipping">
-                                        <span class="mai-shipping"></span>
-                                        <?php _e("Shipping"); ?>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=email">
-                                        <span class="mai-mail"></span>
-                                        <?php _e("Email confirmation"); ?>
-                                    </a>
-                                </li>
-
-
-                                <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>>
-
-                                    <a href="<?php print admin_url(); ?>view:shop/action:options/#?option=other">
-                                        <span class="mai-options"></span>
-                                        <?php _e("Options"); ?>
-                                    </a>
-                                </li>*/
-
-
-                                ?>
-
-
-                            </ul>
-                        </li>
-                    <?php endif; ?>
-
-
-                    <li <?php if (
-                    ($view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons')
-                    ): ?> class="active" <?php endif; ?>><a class="item-admin__modules"
-                                                            href="<?php print admin_url(); ?>view:modules">
-                            <span class="mai-modules"></span><strong><?php _e("Modules"); ?></strong>
-                        </a>
-
-
-                        <ul class="mw-ui-sidenav">
-                            <!--
-                            <li <?php /*if (
-                                $view == 'modules' AND $load_module != 'users' AND $load_module != 'shop__coupons'
-                            ): */ ?> class="active" <?php /*endif; */ ?>  ><a class="item-admin__modules" href="<?php /*print admin_url(); */ ?>view:modules">
-                                    <span class="mai-modules"></span><strong><?php /*_e("My Modules"); */ ?></strong>
-                                </a>
-                            </li>
--->
-
-
-                            <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <!--   <li <?php /*if ($view == 'packages'): */ ?> class="active" <?php /*endif; */ ?>>
-                                    <a href="<?php /*print admin_url(); */ ?>view:packages">
-                                        <span class="mai-market"></span> <strong>
-                                            <?php /*_e("Marketplace"); */ ?>
-                                        </strong>
-                                    </a>
-                                </li>-->
-
-                            <?php endif; ?>
-
-
-                        </ul>
-
-                    </li>
-
-
-                    <!-- NE BARAI ROKER! -->
-                    <?php if (mw()->ui->disable_marketplace != true): ?>
-                        <li class="mw-admin-menu-sidebar-marketplace-desktop <?php if ($view == 'packages'): ?>active<?php endif; ?>">
-                            <a href="<?php print admin_url(); ?>view:packages"><i
-                                        class="mai-market"></i><strong><?php _e("Marketplace"); ?></strong></a>
-                        </li>
-                    <?php endif; ?>
-                    <!-- NE BARAI ROKER! -->
-
-                    <li <?php if (!url_param('has_core_update') and ($view == 'settings') /*or ($load_module AND $load_module != 'users')*/): ?> class="active" <?php endif; ?>>
-                        <a href="<?php print admin_url(); ?>view:settings#option_group=website"> <span
-                                    class="mai-setting"></span>
-                            <strong>
-                                <?php _e("Settings"); ?>
-
-                            </strong>
-                        </a>
-
-
-                        <ul class="mw-ui-sidenav">
-                            <li><a class="item-website"
-                                   href="<?php print admin_url(); ?>view:settings#option_group=website">
-                                    <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
-                                </a>
-                            </li>
-                            <li><a class="item-template"
-                                   href="<?php print admin_url(); ?>view:settings#option_group=template">
-                                    <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
-                                </a>
-                            </li>
-
-                            <li><a class="item-users"
-                                   href="<?php print admin_url(); ?>view:settings#option_group=users">
-                                    <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
-                                </a>
-                            </li>
-                            <li><a class="item-email"
-                                   href="<?php print admin_url(); ?>view:settings#option_group=email">
-                                    <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
-                                </a>
-                            </li>
-
-
-                            <?php event_trigger('mw_admin_settings_menu'); ?>
-                            <?php $settings_menu = mw()->modules->ui('admin.settings.menu'); ?>
-                            <?php if (is_array($settings_menu) and !empty($settings_menu)): ?>
-                                <?php foreach ($settings_menu as $item): ?>
-                                    <?php $module = (isset($item['module'])) ? module_name_encode($item['module']) : false; ?>
-                                    <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
-                                    <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
-                                    <?php if ($module != 'admin') { ?>
-                                        <li>
-                                            <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;"
-                                               class="<?php print $class ?>"
-                                               href="#option_group=<?php print $module ?>">
-                                                <span class="<?php print isset($item['icon']) ? $item['icon'] : ''; ?>"></span>
-                                                <strong><?php print $title ?></strong>
-                                            </a>
-                                        </li>
-                                    <?php } ?>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-
-                            <?php
-                            /*
-                            <?php $got_lic = mw()->update->get_licenses('count=1') ?>
-                            <?php if (($got_lic) >= 0): ?>
-                                <li>
-                                    <a onclick="mw.url.windowHashParam('option_group', 'licenses');return false;" class="item-licenses" href="#option_group=licenses">
-                                        <span class="mai-licenses"></span>
-                                        <strong><?php _e("Licenses"); ?></strong>
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-
-
-                            */
-
-                            ?>
-
-                            <li>
-                                <a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;"
-                                   class="item-advanced" href="#option_group=advanced">
-                                    <span class="mai-options"></span>
-                                    <stong><?php _e("Advanced"); ?></stong>
-                                </a></li>
-                            <li><a onclick="mw.url.windowHashParam('option_group', 'language');return false;"
-                                   class="item-language" href="#option_group=language">
-                                    <span class="mai-languages"></span>
-                                    <strong><?php _e("Language"); ?></strong>
-                                </a></li>
-                        </ul>
-
-                    </li>
-                    <?php $load_module = url_param('load_module'); ?>
-                    <li <?php print 'class="' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-                        <a href="<?php print admin_url('view:modules/load_module:users'); ?>"
-                           id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image">
-                            <span class="mai-user2"></span>
-                            <strong><?php _e("Users"); ?></strong>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>"
-                                   id="main-menu-my-profile"><?php _e("My Profile"); ?></a></li>
-                            <li><a href="<?php print admin_url('view:modules/load_module:users'); ?>"
-                                   id="main-menu-manage-users"><?php _e("Manage Users"); ?></a></li>
-
-                            <?php if (mw()->ui->enable_service_links): ?>
-                                <?php if (mw()->ui->custom_support_url): ?>
-                                    <li>
-                                        <a href="<?php print mw()->ui->custom_support_url ?>"><strong><?php _e("Support"); ?></strong></a>
-                                    </li>
-                                <?php else: ?>
-                                    <li><a href="javascript:;"
-                                           onmousedown="mw.contactForm();"><strong><?php _e("Support"); ?></strong></a>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endif; ?>
-
-                            <li><a href="<?php print site_url(); ?>?editmode=y"
-                                   class=go-live-edit-href-set"><?php _e("View Website"); ?></a></li>
-
-
-                            <li class="mw-admin-menu-sidebar-logout-mobile"><a href="<?php print api_url('logout'); ?>"><span
-                                            class="mai-login"></span><strong><?php _e("Log out"); ?></strong></a></li>
-                        </ul>
-                    </li>
-
-                    <li><?php event_trigger('mw.admin.sidebar.li.last'); ?></li>
-
-
-                    <li class="mw-admin-menu-sidebar-logout-desktop"><a href="<?php print api_url('logout'); ?>"><i
-                                    class="mw-icon-off"></i><strong><?php _e("Log out"); ?></strong></a></li>
-
-                    <li id="mw-admin-main-menu-toggle"><a href="javascript:;"><span class="mw-icon-menu"></span></a>
-                    </li>
-                </ul>
-
-                <script>
-                    $(document).ready(function () {
-                        $('.go-live-edit-href-set').bind('mousedown', function () {
-                            var url_to_go = $(this).attr('href');
-
-                            var n = url_to_go.indexOf("editmode");
-                            if (n == -1) {
-                                url_to_go = url_to_go + '?editmode:y';
-                            }
-
-                            $(this).attr('href', url_to_go);
-                            return false;
-                        });
+                    <!--                    <a href="--><?php //print site_url(); ?><!--?editmode=y" class="go-live-edit-href-set dropdown-item">--><?php //_e("View Website"); ?><!--</a>-->
+                </li>
+
+                <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link"><i class="mdi mdi-power"></i> <?php _e("Log out"); ?></a></li>
+                <li><?php event_trigger('mw.admin.sidebar.li.last'); ?></li>
+
+
+            </ul>
+
+            <script>
+                $(document).ready(function () {
+                    mw.$('.go-live-edit-href-set').each(function () {
+                        var el = $(this);
+                        var href = el.attr('href');
+                        if (href.indexOf("editmode") === -1) {
+                            href = href + ((href.indexOf('?') === -1 ? '?' : '&') + 'editmode:y');
+                        }
+                        el.attr('href', href);
                     });
-                </script>
-            </div>
-            <span id="mb-active"></span>
-        </div>
-        <?php endif; ?>
+                });
+            </script>
+        </aside>
+

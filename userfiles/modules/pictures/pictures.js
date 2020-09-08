@@ -2,20 +2,41 @@ mw.module_pictures = {
     after_upload: function (data) {
         $.post(mw.settings.api_url + 'save_media', data,
             function (resp) {
-                console.log(data, resp)
+                mw.reload_module('pictures/admin_backend_sortable_pics_list')
+                mw.top().reload_module('pictures/admin_backend_sortable_pics_list')
             });
         },
     time:null,
     after_change: function (data) {
-        clearTimeout(mw.module_pictures.time)
+        var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item:visible');
+        if(!thumbs.length && mw._postsImageUploader) {
+            mw._postsImageUploader.show();
+        }
+        clearTimeout(mw.module_pictures.time);
         mw.module_pictures.time = setTimeout(function () {
             mw.reload_module('pictures');
             mw.reload_module_parent('pictures');
             mw.reload_module_parent('posts');
             mw.reload_module_parent('shop/products');
             mw.reload_module_parent("pictures/admin");
+            var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item:visible');
+            if(!thumbs.length) {
+                if(mw._postsImageUploader) {
+                    mw._postsImageUploader.show();
+                }
+                if(mw._postsImageUploaderSmall) {
+                    mw._postsImageUploaderSmall.$holder.hide();
+                }
+            } else {
+                if(mw._postsImageUploader) {
+                    mw._postsImageUploader.hide();
+                }
+                if(mw._postsImageUploaderSmall) {
+                    mw._postsImageUploaderSmall.$holder.show();
+                }
+            }
+            doselect();
         }, 1500)
-
     },
 
     save_options: function (id, image_options) {
@@ -48,6 +69,15 @@ mw.module_pictures = {
                 mw.reload_module_parent('pictures');
             });
     },
+    save_alt: function (id, alt) {
+        var data = {};
+        data.id = id;
+        data.alt = alt;
+        $.post(mw.settings.api_url + 'save_media', data,
+            function (data) {
+                mw.reload_module_parent('pictures');
+            });
+    },
 	save_tags: function (id, tags) {
         var data = {};
         data.id = id;
@@ -62,10 +92,12 @@ mw.module_pictures = {
         if(typeof id === 'string'){
           if (confirm('Are you sure you want to delete this image?')) {
               $.post(mw.settings.api_url + 'delete_media', { id: id  }, function (data) {
-                  $('.admin-thumb-item-' + id).fadeOut();
+                  $('.admin-thumb-item-' + id).fadeOut(function () {
+                        $(this).remove();
+                  });
                   setTimeout(function(){ $('[data-type="pictures/admin"]').trigger('change') }, 2000);
 
-                  mw.module_pictures.after_change()
+                  mw.module_pictures.after_change();
               });
           }
         }
@@ -73,7 +105,9 @@ mw.module_pictures = {
           if (confirm('Are you sure you want to delete selected images?')) {
               $.post(mw.settings.api_url + 'delete_media', { ids: id  }, function (data) {
                 $.each(id, function(){
-                  $('.admin-thumb-item-' + this).fadeOut();
+                  $('.admin-thumb-item-' + this).fadeOut(function () {
+                      $(this).remove();
+                  });
                 })
                   setTimeout(function(){ $('[data-type="pictures/admin"]').trigger('change') }, 2000);
 
@@ -97,12 +131,26 @@ mw.module_pictures = {
           clearTimeout(mw.module_pictures.time)
           mw.module_pictures.time = setTimeout(function(){
             el.parents('[data-type="pictures/admin"]').trigger('change')
-          }, 1500)
-        })
+          }, 1500);
+        });
         el.sortable({
             items: ".admin-thumb-item",
-            placeholder: 'admin-thumb-item-placeholder',
+            placeholder:  'admin-thumb-item-placeholder' ,
+
+            sort: function (e, ui) {
+                $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder').each(function(){
+                    $(this).height( $(this).width())
+                })
+                var plIndex = ui.placeholder.index();
+                if (plIndex === 0 || (plIndex === 1 && ui.helper[0].id === mw.$('.admin-thumb-item:first', el)[0].id)) {
+                    el.find('.admin-thumb-item-placeholder').addClass('admin-thumb-item-placeholder-first');
+                } else {
+                    el.find('.admin-thumb-item-placeholder').removeClass('admin-thumb-item-placeholder-first');
+                }
+
+            },
             update: function () {
+
                 var serial = el.sortable('serialize');
                 $.post(mw.settings.api_url + 'reorder_media', serial,
                     function (data) {
