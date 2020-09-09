@@ -18,45 +18,60 @@
     {
       "type": "composer",
       "url": "https://private-packages.microweberapi.com/"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "arcanedev/seo-helper",
+        "version": "dev-master",
+        "type": "library",
+        "source": {
+          "url": "https://github.com/microweber-deps/SEO-Helper.git",
+          "type": "git",
+          "reference": "master"
+        }
+      }
     }
   ],
   "require": {
+    "laravel/framework": "^8.0",
+    "laravel/tinker": "^2.0",
+    "fideloper/proxy": "^4.2",
+    "fruitcake/laravel-cors": "^2.0",
+    "guzzlehttp/guzzle": "^7.0.1",
     "doctrine/dbal": "2.5.3",
-    "laravel/framework": "7.*",
     "composer/installers": "^1.0@dev",
     "symplify/monorepo-builder": "^8.1",
-    "laravelcollective/html": "^6.0@dev",
-    "laravel/socialite": "^5.0@dev",
     "ezyang/htmlpurifier": "*",
     "knplabs/knp-menu": "^3.2@dev",
-    "arcanedev/seo-helper": "dev-master",
-
-    "graham-campbell/markdown": "^12.0@dev",
     "jenssegers/agent": "^3.0@dev",
     "geoip2/geoip2": "dev-master",
     "twig/twig": "3.x-dev",
     "phpoffice/phpspreadsheet": "*",
     "halaxa/json-machine": "dev-master",
-    "fideloper/proxy": "dev-master",
-    "fruitcake/laravel-cors": "^2.0@dev",
     "wikimedia/composer-merge-plugin": "^1.5@dev",
-    "rtconner/laravel-tagging": "^4.0",
-    "spatie/laravel-permission": "*",
-    "barryvdh/laravel-dompdf": "*",
     "jeremeamia/superclosure": "*",
     "microweber-templates/dream": "dev-master",
     "microweber-templates/new-world": "dev-master",
     "microweber-templates/liteness": "dev-master",
     "microweber-packages/microweber-class-alias": "dev-master",
     "erusev/parsedown": "dev-master",
-    "simshaun/recurr": "*"
+    "simshaun/recurr": "*",
+    "barryvdh/laravel-debugbar": "^3.5@dev",
+    "barryvdh/laravel-dompdf": "^0.8.0@dev",
+    "graham-campbell/markdown": "13.1.x-dev",
+    "rtconner/laravel-tagging": "^4.0",
+    "spatie/laravel-permission": "dev-master",
+    "laravelcollective/html": "^6.0@dev",
+    "laravel/socialite": "^6.0@dev",
+    "arcanedev/seo-helper": "dev-master"
   },
   "require-dev": {
-    "orchestra/testbench": "^5.0",
-    "nunomaduro/collision": "^4.1",
-    "facade/ignition": "^2.0",
-    "fzaninotto/faker": "^1.9",
-    "barryvdh/laravel-debugbar": "^3.2@dev"
+    "facade/ignition": "^2.3.6",
+    "fzaninotto/faker": "^1.9.1",
+    "mockery/mockery": "^1.3.1",
+    "nunomaduro/collision": "^5.0",
+    "phpunit/phpunit": "^9.3"
   },
   "autoload": {
     "psr-4": {
