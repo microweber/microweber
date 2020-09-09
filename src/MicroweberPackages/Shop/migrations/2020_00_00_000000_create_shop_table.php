@@ -89,6 +89,7 @@ class CreateShopTable extends Migration
                 'payer_id' => 'text',
                 'payer_status' => 'text',
                 'payment_type' => 'text',
+                'payment_data' => 'longText',
                 'order_status' => 'string',
                 'payment_shipping' => 'float',
                 'is_active' => 'integer',
