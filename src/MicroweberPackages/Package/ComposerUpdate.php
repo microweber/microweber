@@ -1,36 +1,18 @@
 <?php
 namespace MicroweberPackages\Package;
 
-use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
-use Composer\Command\SearchCommand;
 use Composer\Config;
-use Composer\IO\NullIO;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use Symfony\Component\Console\Input\ArrayInput;
 use MicroweberPackages\Package\ComposerFactory as Factory;
 use Composer\IO\ConsoleIO;
-use Composer\IO\BufferIO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\StreamOutput;
-use Composer\Installer;
-use Composer\Package\CompletePackageInterface;
-use Composer\Package\Link;
-use Composer\Package\PackageInterface;
-use Composer\Repository\CompositeRepository;
-use Composer\Repository\PlatformRepository;
-use Composer\Repository\RepositoryInterface;
-use MicroweberPackages\Package\ComposerPackagesSearchCommandController;
-use Composer\Console\HtmlOutputFormatter;
-use MicroweberPackages\Package\Helpers\TemplateInstaller;
-use MicroweberPackages\Package\Helpers\ModuleInstaller;
-use MicroweberPackages\Package\Helpers\CoreUpdateInstaller;
 use MicroweberPackages\Package\Helpers\InstallerIO;
 use Composer\Semver\Comparator;
-use ZipArchive;
 
 class ComposerUpdate
 {
@@ -95,7 +77,7 @@ class ComposerUpdate
         $update = new UpdateCommand();
         $update->setComposer($composer);
         $out = $update->run($input, $output);
-        ob_end_clean();
+        
 
         return $out;
 
@@ -129,7 +111,7 @@ class ComposerUpdate
         $update = new InstallCommand();
         $update->setComposer($composer);
         $out = $update->run($input, $output);
-        ob_end_clean();
+        
 
         return $out;
     }
@@ -171,6 +153,7 @@ class ComposerUpdate
 
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
+        $keyword= strtolower($keyword);
 
 
         $temp_folder = $this->_prepareComposerWorkdir($keyword, $version);
@@ -218,7 +201,7 @@ class ComposerUpdate
 
         $return = $packages->handle($keyword);
 
-        ob_end_clean();
+        
 
 
         $return_found = array();
@@ -363,121 +346,21 @@ class ComposerUpdate
 
     public function installPackageByName($params)
     {
-        ob_start();
 
         if ('disabled' == $this->updateChannel) {
             return;
         }
 
+        app()->update->clear_log();
+
         $params = parse_params($params);
         $install_core_update = false;
 
-        $need_confirm = true;
         $need_confirm = true;
         $cp_files = array();
         $cp_files_fails = array();
 
 
-        /*
-        //  Unzip on chunks
-
-        if (isset($params['unzip_cache_key'])) {
-              $cache_key_for_unzip_on_chunks = $params['unzip_cache_key'];
-              $unzip_chunks_cache_data = cache_get($cache_key_for_unzip_on_chunks, 'composer-unzip');
-              if ($unzip_chunks_cache_data and isset($unzip_chunks_cache_data['chunks_file'])) {
-                  $cache_file = $unzip_chunks_cache_data['chunks_file'];
-
-                  if (is_file($cache_file)) {
-                      $cache_file_content = @json_decode(@file_get_contents($cache_file), true);
-                      $file = $unzip_chunks_cache_data['file'];
-                      $path = $unzip_chunks_cache_data['path'];
-                      if ($cache_file_content == 'done') {
-                          return;
-                      }
-
-                      if ($cache_file_content) {
-                          $chunks = $cache_file_content;
-
-
-                          if ($chunks) {
-                              $chunks_count = count($chunks);
-
-
-                              foreach ($chunks as $chunks_key => $chunks_part) {
-                                  $try_again = false;
-                                  // $this->io->writeError('    Unzip chunk ' . $chunks_key . ' of ' . $chunks_count);
-
-
-                                  set_time_limit(1200);
-                                  //ini_set('memory_limit', '1024M');
-                                  ini_set('memory_limit', '-1');
-
-
-                                  $zip = new ZipArchive();
-                                  $zip->open($file, ZipArchive::CHECKCONS);
-
-
-                                  //  $extractResult = $zip->extractTo($path, $chunks_part);
-
-                                  foreach ($chunks_part as $chunk_part_name_k=> $chunk_part_name) {
-
-                                      $file_to_save = $path . DS . $chunk_part_name;
-                                      $file_to_save = normalize_path($file_to_save, false);
-                                      $file_to_save_dn = dirname($file_to_save);
-                                      if (!is_dir($file_to_save_dn)) {
-                                          mkdir_recursive($file_to_save_dn);
-                                      }
-
-
-                                      $s = $zip->getStream($chunk_part_name);
-
-
-
-                                      $file_data = stream_get_contents($s);
-                                      file_put_contents($file_to_save, $file_data);
-
-
-                                  }
-                                  $zip->close();
-                                  unset($zip);
-                                  unset($chunks[$chunks_key]);
-
-                                  if ($chunks) {
-                                      $json = json_encode($chunks, JSON_UNESCAPED_SLASHES);
-                                      $try_again = true;
-
-
-                                  } else {
-                                      $try_again = false;
-
-                                      $json = 'done';
-                                  }
-                                  file_put_contents($cache_file, $json);
-                                  //   print $chunks_key;
-                                  mw()->update->log_msg('unzup chunk ' . $chunks_key);
-                                  //   mw()->update->log_msg('unzup chunk ' . reset($chunks_part));
-                                  //  mw()->update->log_msg('unzup chunk ' . print_r($chunks_part, 1));
-                                  mw()->update->log_msg(' ' . print_r($chunks_part, true));
-                                  //    mw()->update->log_msg('unzup chunk ' . var_dump($chunks_part));
-
-                                  return array(
-                                      'try_again' => true,
-                                      'unzip_cache_key' => $cache_key_for_unzip_on_chunks
-                                  );
-
-
-                                  break;
-
-                              }
-
-
-                          }
-                      }
-                  }
-              }
-
-
-          }*/
         $confirm_key = 'composer-confirm-key-' . rand();
 
         if (isset($params['confirm_key'])) {
@@ -496,6 +379,10 @@ class ComposerUpdate
             throw new \Exception('Please set require name.');
         }
 
+
+        $params['require_name'] = strtolower($params['require_name']);
+
+
         $version = 'latest';
         if (isset($params['require_version']) and $params['require_version']) {
             $version = trim($params['require_version']);
@@ -511,12 +398,10 @@ class ComposerUpdate
         $return = $this->searchPackages($params);
 
         if (!$return) {
-            ob_end_clean();
             return array('error' => 'Error. Cannot find any packages for ' . $keyword);
         }
 
         if (!isset($return[$keyword])) {
-            ob_end_clean();
             return array('error' => 'Error. Package not found in repositories ' . $keyword);
 
         }
@@ -552,14 +437,13 @@ class ComposerUpdate
             }
 
             if (!$version_data) {
-                ob_end_clean();
+                
                 return;
             }
 
             $dryRun = false;
             $need_key = false;
             if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
-                ob_end_clean();
                 return array('error' => 'No download source found for ' . $keyword);
             }
 
@@ -574,7 +458,6 @@ class ComposerUpdate
                     $error_text = _e($error_text, true);
                 }
 
-                ob_end_clean();
                 return array(
                     'error' => $error_text,
                     // 'form_data_required' => 'license_key',
@@ -587,7 +470,7 @@ class ComposerUpdate
             }
 
             if (!$temp_folder) {
-                ob_end_clean();
+                
                 return array('error' => 'Error preparing installation for ' . $keyword);
 
             }
@@ -596,6 +479,7 @@ class ComposerUpdate
             $composer_temp = file_get_contents($conf_temp);
             $composer_temp = json_decode($composer_temp, true);
 
+            copy($conf_temp,mw_root_path().'/cache/composer.json');
 
             $argv = array();
             //  $argv[] = 'dry-run';
@@ -643,7 +527,7 @@ class ComposerUpdate
             } catch (PackageManagerUnzipOnChunksException $e) {
                 $cache_key_for_unzip_on_chunks = $e->getMessage();
 
-                ob_end_clean();
+                
                 return array(
                     'try_again' => true,
                     'error' => 'There was error with unzip',
@@ -702,8 +586,6 @@ class ComposerUpdate
                     }
                 }
 
-                $need_confirm = false;
-
                 if ($need_confirm) {
 
                     if (function_exists('cache_save')) {
@@ -711,11 +593,7 @@ class ComposerUpdate
                     }
 
                     $error = 'Please confirm installation';
-                    if (function_exists('_e')) {
-                        $error = _e($error);
-                    }
 
-                    ob_end_clean();
                     return array(
                         'error' => $error,
                         //   'form_data_required' => 'confirm_key',
@@ -790,7 +668,7 @@ class ComposerUpdate
 
             $mods = scan_for_modules($s);
 
-            ob_end_clean();
+            
             return $resp;
 
         }

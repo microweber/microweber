@@ -5,7 +5,6 @@ namespace MicroweberPackages\Package\Helpers;
 
 use Composer\Composer;
 use Composer\DependencyResolver\Pool;
-use Composer\Installer;
 use Composer\IO\BufferIO;
 use Composer\Package\PackageInterface;
 use Composer\Repository\CompositeRepository;
@@ -15,7 +14,7 @@ use Composer\Repository\RepositoryManager;
 use Composer\Semver\Constraint\Constraint;
 
 
-abstract class ComposerAbstractController implements ComposerControllerInterface
+abstract class ComposerAbstractController
 {
 
     /**

@@ -44,7 +44,7 @@ class PackageInstallCommand extends Command
         $log = mw()->update->composer_install_package_by_name($install);
 
         if (isset($log['error']) && $log['error'] !== 'Please confirm installation') {
-            echo $log['error'] . "\n";
+            app()->update->log_msg($log['error']);
         }
 
         if (isset($log['form_data_module_params'])) {
@@ -54,9 +54,9 @@ class PackageInstallCommand extends Command
             if (isset($log['success'])) {
                 echo $log['success'] . "\n";
             } elseif (isset($log['error'])) {
-                echo $log['error'] . "\n";
+                app()->update->log_msg($log['error']);
             } else {
-                echo 'Failed to confirm and install package:' . $package . "\n";
+                app()->update->log_msg('Failed to confirm and install package:' . $package . "\n");
             }
         }
 

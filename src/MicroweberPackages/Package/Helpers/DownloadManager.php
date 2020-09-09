@@ -25,8 +25,6 @@ use  Composer\Downloader\DownloaderInterface;
  */
 
 
-
-
 class DownloadManager extends DownloadManagerBase
 {
     private $io;
