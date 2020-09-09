@@ -12,10 +12,24 @@
 .mw-ui-form-controller-root.active{display: block}
 
 
-.mw-ui-form-controller-root > div:first-child {
-     padding-top: 15px;
-    /*max-height: calc(100vh - 260px);*/
+
+.mw-ui-form-controller-root .mw-autocomplete-list.mw-ui-navigation li a {
+    border-top: 1px solid #cfcfcf ;
+    border-bottom: none;
+}
+.mw-ui-form-controller-root .mw-autocomplete .mw-autocomplete-list{
+    position: relative;
+    border: none;
+    box-shadow: none !important;
+}
+.mw-ui-form-controller-root > div:first-of-type {
+    padding-top: 15px;
+    max-height: calc(100vh - 260px);
     overflow: auto;
+}
+
+.mw-link-editor-root-inIframe-true .mw-ui-form-controller-root > div:first-of-type {
+    max-height: none;
 }
 
 .mw-link-editor-nav-drop-box{
