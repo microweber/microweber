@@ -8999,4 +8999,7 @@ small a {
 .table tr.valign-middle td {
   vertical-align: middle; }
 
+.bootstrap-tagsinput input {
+  font-size: 12px; }
+
 /*# sourceMappingURL=main.css.map */
