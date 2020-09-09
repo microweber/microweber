@@ -67,6 +67,10 @@ class OrderManager
             $item = $this->app->format->render_item_custom_fields_data($item);
         }
 
+        if (isset($item['payment_data']) and ($item['payment_data'])) {
+            $item['payment_data'] = json_decode($item['payment_data']);
+        }
+
         return $item;
     }
     public function get_count_of_new_orders()
@@ -187,6 +191,10 @@ class OrderManager
             }
         }
 
+
+        if (isset($params['payment_data']) and !empty($params['payment_data'])) {
+            $params['payment_data'] = json_encode($params['payment_data']);
+        }
         $table = $this->table;
         $params['table'] = $table;
         $this->app->cache_manager->delete('cart_orders');
