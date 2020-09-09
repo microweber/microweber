@@ -164,25 +164,46 @@ MWEditor.controllers = {
                     tooltip: rootScope.lang('Insert link')
                 }
             });
+
             el.on('click', function (e) {
                 api.saveSelection();
-                var picker = mw.component({
-                    url: 'link_editor_v3',
-                    options: {
-                        target: true,
-                        text: true,
-                        controllers: 'page, custom, content, section, layout, email, file',
-                        values: {
-                            url: 1,
-                            text: 1,
-                            targetBlank: el ? el.target === '_blank' : ''
-                        }
+                var sel = scope.getSelection();
+
+                var target = mw.tools.firstParentWithTag(sel.focusNode, 'a');
+
+                var val;
+                if(target) {
+                    val = {
+                        url: target.href,
+                        text: target.innerHTML,
+                        target: target.target === '_blank'
+                    };
+                } else if(!sel.isCollapsed) {
+                    val = {
+                        url: '',
+                        text: api.getSelectionHTML(),
+                        target: false
+                    };
+                }
+                var linkEditor = new mw.LinkEditor({
+                    mode: 'dialog',
+                });
+                if(val) {
+                    linkEditor.setValue(val);
+                }
+
+                linkEditor.promise().then(function (data){
+                    var modal = linkEditor.dialog;
+                    if(data) {
+                        api.restoreSelection();
+                        api.link(data);
+                        modal.remove();
+                    } else {
+                        modal.remove();
                     }
                 });
-                $(picker).on('Result', function(e, result){
-                    api.restoreSelection();
-                    api.link(result);
-                });
+
+
             });
             return el;
         };

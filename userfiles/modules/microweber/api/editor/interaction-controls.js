@@ -20,9 +20,10 @@ MWEditor.interactionControls = {
                 }
             });
             var urlElement = mw.element({
-                tag: 'span',
+                tag: 'a',
                 props: {
-                    className: 'mw-editor-link-tooltip-url'
+                    className: 'mw-editor-link-tooltip-url',
+                    target: 'blank'
                 }
             });
             var urlUnlink = MWEditor.core.button({
@@ -53,7 +54,8 @@ MWEditor.interactionControls = {
             this.$target = $target;
             var css = $target.offset();
             css.top += $target.outerHeight();
-            this.element.urlElement.$node.html(data.target.href);
+            this.element.urlElement.html(data.target.href);
+            this.element.urlElement.prop('href', data.target.href);
             this.element.$node.css(css).show();
         };
         this.element = this.render();

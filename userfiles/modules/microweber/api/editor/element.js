@@ -6,6 +6,8 @@
         this.root = root || document;
         this._asElement = false;
 
+        options = options || {};
+
         if(options.nodeName && options.nodeType) {
             this.nodes.push(options);
             this.node = (options);
