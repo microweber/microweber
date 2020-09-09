@@ -1,40 +1,14 @@
 <?php
-
-
 namespace MicroweberPackages\Package;
 
-use Composer\Console\Application;
-use Composer\Command\UpdateCommand;
-use Composer\Command\InstallCommand;
-use Composer\Command\SearchCommand;
-use Composer\Config;
-use Symfony\Component\Console\Input\ArrayInput;
-use MicroweberPackages\Package\ComposerFactory as Factory;
-use Composer\IO\ConsoleIO;
-use Composer\IO\BufferIO;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\StreamOutput;
-use Composer\Installer;
 use Composer\Package\CompletePackageInterface;
-use Composer\Package\Link;
 use Composer\Package\PackageInterface;
-//use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Composer\Downloader\TransportException;
-use Symfony\Component\Debug\Exception\FatalErrorException;
-use Composer\Plugin\CommandEvent;
-use Composer\Plugin\PluginEvents;
+use MicroweberPackages\Package\Helpers\ComposerAbstractController;
 use MicroweberPackages\Package\PackageManagerException;
 
-use MicroweberPackages\Package\Helpers\ComposerAbstractController;
 use MicroweberPackages\Package\Helpers\CompositeRepository;
 
 class ComposerPackagesSearchCommandController extends ComposerAbstractController
@@ -91,9 +65,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             'microweber-template',
             'microweber-module',
         );
-        //mw()->update->log_msg('preparing');
-
-        echo 'preparing' . PHP_EOL;
+        mw()->update->log_msg('Preparing..');
 
         if (php_can_use_func('ini_set')) {
             ini_set('memory_limit', '2777M');
@@ -101,10 +73,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
 
 
         $repositoryManager = $this->getRepositoryManager();
-
-//        $repositoryManager->setRepositoryClass('composer', 'MicroweberPackages\Package\Helpers\ComposerRepository');
-//        $repositoryManager->setRepositoryClass('package', 'MicroweberPackages\Package\Helpers\PackageRepository');
-//
 
         $platformRepo = new PlatformRepository;
 

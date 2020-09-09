@@ -12,8 +12,10 @@
 
 namespace MicroweberPackages\Package\Helpers;
 
+use _HumbugBox58fd4d9e2a25\Exception;
 use Composer\Config;
 use Composer\Cache;
+use Composer\Downloader\ArchiveDownloader;
 use Composer\EventDispatcher\EventDispatcher;
 use Composer\Package\PackageInterface;
 use Composer\Util\IniHelper;
@@ -25,7 +27,6 @@ use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use Microweber\Utils\Unzip;
 use Symfony\Component\Process\ExecutableFinder;
 use ZipArchive;
-use MicroweberPackages\Package\Helpers\ArchiveDownloader as ArchiveDownloader;
 
 
 class ZipDownloader extends ArchiveDownloader
@@ -36,18 +37,10 @@ class ZipDownloader extends ArchiveDownloader
 
     protected $process;
 
-    public function __construct(IOInterface $io, Config $config, EventDispatcher $eventDispatcher = null, Cache $cache = null, ProcessExecutor $process = null, RemoteFilesystem $rfs = null)
-    {
-        $this->process = $process ?: new ProcessExecutor($io);
-        parent::__construct($io, $config, $eventDispatcher, $cache, $rfs);
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function download(PackageInterface $package, $path, $output = true)
+    public function xxxdownload(PackageInterface $package, $path, PackageInterface $prevPackage = null, $output = true)
     {
-        return parent::download($package, $path, $output);
+        return parent::download($package, $path, $prevPackage, $output);
     }
 
 
@@ -61,7 +54,7 @@ class ZipDownloader extends ArchiveDownloader
      */
     protected function extractWithZipArchive($file, $path, $isLastChance)
     {
-         $path = normalize_path($path, true);
+        $path = normalize_path($path, true);
 
         $temporaryDir = $this->config->get('vendor-dir') . '/composer-unzip/';
         $temporaryDir = normalize_path($temporaryDir, true);
@@ -253,7 +246,7 @@ class ZipDownloader extends ArchiveDownloader
      * @param string $file File to extract
      * @param string $path Path where to extract file
      */
-    public    function extract($file, $path)
+    public function extract(PackageInterface $package, $file, $path)
     {
 
         set_time_limit(1200);
@@ -261,22 +254,15 @@ class ZipDownloader extends ArchiveDownloader
 
 
         $path = normalize_path($path, true);
-    //    $this->__extractChunked($file, $path);
+
+        if (!is_file($file)) {
+            throw new \Exception('Could not download file from package manager.');
+        }
 
         $zip = new \ZipArchive();
         $zip->open($file);
         $extractResult = $zip->extractTo($path);
         $zip->close();
-
-
-
-
-        //        print $path;
-//        dd($extractResult);
-
-
-        //   $this->extractWithZipArchive($file, $path, false);
-
 
     }
 
@@ -287,7 +273,7 @@ class ZipDownloader extends ArchiveDownloader
      * @param  string $file
      * @return string
      */
-    protected    function getErrorMessage($retval, $file)
+    protected function getErrorMessage($retval, $file)
     {
         switch ($retval) {
             case ZipArchive::ER_EXISTS:

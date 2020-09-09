@@ -76,7 +76,7 @@ EOT
         }
 
         $composer = $this->getComposer(true, true);
-        $composer->getDownloadManager()->setOutputProgress(false);
+       // $composer->getDownloadManager()->setOutputProgress(false);
         $composer->getDownloadManager()->setPreferDist(true);
         $composer->getDownloadManager()->setPreferSource(false);
 
@@ -106,7 +106,7 @@ EOT
             ->setDevMode(false)
             ->setDumpAutoloader(false)
             ->setRunScripts(false)
-            ->setSkipSuggest(true)
+         //   ->setSkipSuggest(true)
             ->setOptimizeAutoloader(false)
             ->setPreferStable(true)
             ->setClassMapAuthoritative(false)
