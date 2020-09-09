@@ -188,6 +188,29 @@ mw.controlFields = {
 
 MWEditor.api = function (scope) {
     return {
+        getSelection: function () {
+            return scope.getSelection();
+        },
+        eachRange: function (c){
+            var sel = scope.getSelection();
+            if(sel.rangeCount && c) {
+                for(var i = 0; i < sel.rangeCount; i++) {
+                    var range = sel.getRangeAt(i);
+                    c.call(scope, range);
+                }
+            }
+        },
+        getSelectionHTML: function (){
+            var sel = scope.getSelection();
+            var html = document.createElement('div');
+            if(sel.rangeCount) {
+                var frag = sel.getRangeAt(0).cloneContents();
+                while (frag.firstChild) {
+                    html.append(frag.firstChild);
+                }
+            }
+            return html.innerHTML;
+        },
         cleanWord: function (content) {
             var wrapListRoots = function () {
                 var all = scope.$editArea.querySelectorAll('li[data-level]'), i = 0, has = false;

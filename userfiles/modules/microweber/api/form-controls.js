@@ -822,7 +822,7 @@
                 var val = {};
                 if(textField) val.text = textField.value;
                 var url = this.filepicker.getValue();
-                val.url = url?url.url:'';
+                val.url = url?url.src:'';
                 val.data = url;
                 if(targetField) val.target = targetField.checked;
                 return val;

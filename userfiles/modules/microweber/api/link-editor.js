@@ -147,7 +147,7 @@ mw.require('widgets.css');
         this.build = function (){
             this.root = document.createElement('div');
 
-
+            this.root.className = 'mw-link-editor-root mw-link-editor-root-inIframe-' + (window.self !== window.top )
             this.buildControllers ();
             if(this.settings.mode === 'dialog') {
                 this.dialog = mw.dialog({
