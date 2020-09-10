@@ -482,7 +482,7 @@ class ComposerUpdate
             }
             unset($current_composer['repositories']['packagist']);
             $current_composer['require']['spatie/laravel-medialibrary'] = 'dev-master';
-            file_put_contents($current_composer_file, json_encode($current_composer));
+           // file_put_contents($current_composer_file, json_encode($current_composer));
 
             $argv = array();
             //  $argv[] = 'dry-run';
