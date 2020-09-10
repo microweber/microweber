@@ -29,10 +29,6 @@ must_have_access();
                 width: 100% !important;
             }
 
-            #media-results li button {
-                font-size: 13px;
-            }
-
             #media-results li.no-results {
                 width: 100%;
                 text-align: center;
@@ -49,13 +45,6 @@ must_have_access();
                 text-align: center;
             }
 
-            .mw-browser-list button {
-                width: 80px;
-                margin-left: 7px;
-                margin-bottom: 7px;
-                padding: 0px;
-            }
-
             .stock-field {
                 width: 100%;
                 padding-bottom: 20px;
@@ -67,7 +56,6 @@ must_have_access();
                 position: absolute;
                 right: 4px;
                 background: #fff;
-                border-radius: 0px;
                 top: 4px;
                 border-radius: 6px;
                 padding-bottom: 2px;
@@ -141,7 +129,7 @@ must_have_access();
                             $.each(data.photos, function (key, val) {
 
                                 var li = $('<li/>');
-                                var download = $('<button class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-info" />');
+                                var download = $('<button class="btn btn-outline-primary btn-sm py-1 px-1" />');
                                 var thumbnail = $('<span class="image-item-thumbnail" style="background-image:url(' + val.url_thumb + ');">');
                                 var author = '<div class="image-item-author">Author: <a href="' + val.author_url + '" target="_new">' + val.author + '</a></div>';
                                 var likes = $('<span class="image-item-likes" />');
@@ -166,7 +154,7 @@ must_have_access();
 
                             var loadMoreFunction = "searchMediaLibrary('" + search + "'," + nextPage + ");";
 
-                            $('#mw-media-library-pagination').html('<div style="text-align: center;"><button onClick="' + loadMoreFunction + '" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-info">Load more</button></div>');
+                            $('#mw-media-library-pagination').html('<div style="text-align: center;"><button onClick="' + loadMoreFunction + '" class="btn btn-primary">Load more</button></div>');
 
                         } else {
                             $('.media-results').html('<li class="no-results">Nothing found for <b>' + search + '</b></li>')
