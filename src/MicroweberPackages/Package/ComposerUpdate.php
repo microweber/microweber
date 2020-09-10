@@ -153,8 +153,6 @@ class ComposerUpdate
 
         $keyword = strip_tags($keyword);
         $keyword = trim($keyword);
-        $keyword= strtolower($keyword);
-
 
         $temp_folder = $this->_prepareComposerWorkdir($keyword, $version);
         if (!$temp_folder) {
@@ -437,7 +435,6 @@ class ComposerUpdate
             }
 
             if (!$version_data) {
-                
                 return;
             }
 
@@ -450,7 +447,6 @@ class ComposerUpdate
             if (isset($version_data['dist_type']) and ($version_data['dist_type']) == 'license_key') {
                 $need_key = true;
             }
-
 
             if ($need_key) {
                 $error_text = 'You need license key';
@@ -470,7 +466,6 @@ class ComposerUpdate
             }
 
             if (!$temp_folder) {
-                
                 return array('error' => 'Error preparing installation for ' . $keyword);
 
             }
@@ -480,6 +475,18 @@ class ComposerUpdate
             $composer_temp = json_decode($composer_temp, true);
 
             copy($conf_temp,mw_root_path().'/cache/composer.json');
+
+            $current_composer_file = $temp_folder . '/composer.json';
+            $current_composer = file_get_contents($current_composer_file);
+            $current_composer = json_decode($current_composer, true);
+            if (isset($version_data['requires']) && is_array($version_data['requires'])) {
+                foreach ($version_data['requires'] as $requirePackage => $requireDetails) {
+                    $current_composer['require'][$requirePackage] = $requireDetails->getPrettyConstraint();
+                }
+            }
+            unset($current_composer['repositories']['packagist']);
+            $current_composer['require']['spatie/laravel-medialibrary'] = 'dev-master';
+            file_put_contents($current_composer_file, json_encode($current_composer));
 
             $argv = array();
             //  $argv[] = 'dry-run';
@@ -513,21 +520,16 @@ class ComposerUpdate
                 }
             }
 
-            $conf = $temp_folder . '/composer.json';
-
             $composer->setConfig($config);
-            //$update = new InstallCommand();
             $update = new \MicroweberPackages\Package\InstallCommand();
             $update->setComposer($composer);
             $update->setIO($io);
-
 
             try {
                 $out = $update->run($input, $output);
             } catch (PackageManagerUnzipOnChunksException $e) {
                 $cache_key_for_unzip_on_chunks = $e->getMessage();
 
-                
                 return array(
                     'try_again' => true,
                     'error' => 'There was error with unzip',
@@ -614,13 +616,11 @@ class ComposerUpdate
         if ($cp_files and !empty($cp_files)) {
 
             if ($install_core_update) {
-
                 if ($install_core_update) {
                     $from_folder_cp = $temp_folder . '/microweber-core-update/install-update/update/';
                     $from_folder = $from_folder_cp;
                     $from_folder = normalize_path($from_folder, true);
                 }
-
             }
 
             foreach ($cp_files as $f) {
