@@ -376,7 +376,7 @@ if (isset($params['live_edit'])) {
                         <div class="card-header no-border" id="post-media-card-header">
                             <h6><strong><?php _e('Pictures'); ?></strong></h6>
                             <div class="post-media-type-holder">
-                                <select class="selectpicker btn-as-link" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
+                                <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
                                     <option value="url">Add image from URL</option>
                                     <option value="server">Browse uploaded</option>
                                     <option value="library">Select from Unsplash</option>

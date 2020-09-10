@@ -162,10 +162,9 @@ if (isset($params['quick_edit'])) {
     }
     ?>
 
-    <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form"
-          action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
+    <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
 
-        <?php if($data['id'] > 0): ?>
+        <?php if ($data['id'] > 0): ?>
             <input name="_method" type="hidden" value="PATCH">
         <?php endif; ?>
         <?php // echo csrf_token(); ?>
@@ -184,8 +183,12 @@ if (isset($params['quick_edit'])) {
                     <div class="card-header">
                         <?php
                         $type_icon = 'mdi-text';
-                        if ($type = 'Product') {
+                        if ($type == 'Product') {
                             $type_icon = 'mdi-shopping';
+                        } elseif ($type == 'Post') {
+                            $type_icon = 'mdi-text';
+                        } elseif ($type == 'Page') {
+                            $type_icon = 'mdi-file-document';
                         }
                         ?>
                         <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php echo $action_text; ?></strong></h5>
@@ -197,7 +200,7 @@ if (isset($params['quick_edit'])) {
                     <?php if (isset($edit_page_info['title'])): ?>
                         <div class="card-body pt-3">
                             <div class="form-group" id="slug-field-holder">
-                                <label><?php print $type ?> title</label>
+                                <label class="control-label"><?php print $type ?> title</label>
                                 <input type="text" autocomplete="off" class="form-control" name="title" onkeyup="slugFromTitle();" id="content-title-field" value="<?php print ($title_for_input) ?>">
                                 <span>
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i>
@@ -281,7 +284,7 @@ if (isset($params['quick_edit'])) {
                                 <?php else: ?>
                                     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
                                         <div class="form-group">
-                                            <label>Description</label>
+                                            <label class="control-label">Description</label>
 
                                             <div id="mw-admin-content-iframe-editor">
                                                 <?php

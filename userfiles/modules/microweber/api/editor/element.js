@@ -14,7 +14,7 @@
             options = {};
             this._asElement = true;
         } else if(typeof options === 'string') {
-            this.nodes = Array.prototype.slice.call(this.root.querySelectorAll());
+            this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
             options = {};
             this._asElement = true;
         }
@@ -141,7 +141,9 @@
         };
 
         this.hide = function () {
-            this.node.style.display = 'none';
+            this.each(function (){
+                this.style.display = 'none';
+            });
         };
         this.show = function () {
             this.node.style.display = '';
@@ -182,8 +184,15 @@
             return this.node.parentNode;
         };
         this.append = function (el) {
-            if(el) {
-                return this.node.append( el.node ? el.node : el );
+            if (el) {
+                return this.node.appendChild( el.node ? el.node : el );
+            }
+        };
+
+        this.before = function (el) {
+
+            if (el) {
+                this.node.parentNode.insertBefore(el.node ? el.node : el, this.node);
             }
         };
 
