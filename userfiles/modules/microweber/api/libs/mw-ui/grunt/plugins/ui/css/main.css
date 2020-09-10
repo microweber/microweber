@@ -9002,4 +9002,7 @@ small a {
 .bootstrap-tagsinput input {
   font-size: 12px; }
 
+textarea.form-control {
+  min-height: 150px; }
+
 /*# sourceMappingURL=main.css.map */

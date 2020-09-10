@@ -136,15 +136,15 @@ if (isset($data['created_by']) and $data['created_by']) {
 <?php endif; ?>
 
     <!-- SEO Settings -->
-    <div class="card style-1 mb-3">
+    <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong>Search engine</strong></h6>
-            <a href="javascript:;" class="btn btn-link" data-toggle="collapse" data-target="#seo-settings">Show SEO setttings</a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings">Show SEO setttings</a>
         </div>
 
         <div class="card-body py-0">
             <div class="collapse" id="seo-settings">
-                <p>Add a title and description to see how this product might appear in a search engine listing</p>
+                <small class="text-muted d-block">Add a title and description to see how this product might appear in a search engine listing</small>
 
                 <hr class="thin no-padding"/>
 
@@ -157,7 +157,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 </label>
                                 <span class="text-muted"><span class="js-typed-letters">0</span> of 70 characters used</span>
                             </div>
-                            <input type="text" class="form-control" name="content_meta_title" placeholder="<?php _e("Title to appear on the search engines results page"); ?>" value="<?php if (isset($data['content_meta_title']) and $data['content_meta_title'] != '') print ($data['content_meta_title']) ?>"/>
+                            <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
+                            <input type="text" class="form-control" name="content_meta_title" placeholder="" value="<?php if (isset($data['content_meta_title']) and $data['content_meta_title'] != '') print ($data['content_meta_title']) ?>"/>
                         </div>
                     </div>
 
@@ -169,7 +170,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 </label>
                                 <span class="text-muted"><span class="js-typed-letters">0</span> of 70 characters used</span>
                             </div>
-                            <textarea class="form-control" name="description" placeholder="<?php _e("Describe your page in short"); ?>"><?php if ($data['description'] != '') print ($data['description']) ?></textarea>
+                            <textarea class="form-control" name="description" placeholder=""><?php if ($data['description'] != '') print ($data['description']) ?></textarea>
+                            <small class="text-muted"><?php _e("Describe your page in short"); ?></small>
                         </div>
                     </div>
 
@@ -179,7 +181,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 <small data-toggle="tooltip" title="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial"> (?)</small>
                             </label>
                             <small class="text-muted d-block mb-2">Separate keywords with a comma and space</small>
-                            <textarea class="form-control" name="content_meta_keywords" placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>"><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords']) ?></textarea>
+                            <textarea class="form-control" name="content_meta_keywords" placeholder=""><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords']) ?></textarea>
+                            <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
                         </div>
                     </div>
 
@@ -198,10 +201,10 @@ if (isset($data['created_by']) and $data['created_by']) {
     </div>
 
     <!-- Advanced Settings -->
-    <div class="card style-1 mb-3">
+    <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong>Advanced settings</strong></h6>
-            <a href="javascript:;" class="btn btn-link" data-toggle="collapse" data-target="#advenced-settings">Show advanced setttings</a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advenced-settings">Show advanced setttings</a>
         </div>
 
         <div class="card-body py-0">

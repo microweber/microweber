@@ -52,10 +52,6 @@ if ($all_existing_tags == null) {
 
 <div class="row">
     <div class="col-12">
-        <div class="form-group">
-            <input class="form-control form-control-sm" type="text" placeholder="healthy, beauty, travel"/>
-        </div>
-
         <input type="text" name="tags" data-role="tagsinput" value="<?php print implode(',', $tags_str); ?>" placeholder="Separate options with a comma" id="tags"/>
     </div>
 </div>
