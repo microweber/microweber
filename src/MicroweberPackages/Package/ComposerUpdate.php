@@ -199,7 +199,7 @@ class ComposerUpdate
 
         $return = $packages->handle($keyword);
 
-        
+
 
 
         $return_found = array();
@@ -271,7 +271,7 @@ class ComposerUpdate
                             foreach ($local_packages[$local_packages_type] as $lpk => $local_package_item) {
 
                                 if (isset($local_package_item['dir_name'])) {
-                                    if (strtolower($local_package_item['dir_name']) == strtolower($package_folder)) {
+                                    if ($local_package_item['dir_name'] == $package_folder) {
 
                                         $is_found_on_local = true;
 
@@ -376,10 +376,6 @@ class ComposerUpdate
         if (!isset($params['require_name']) or !$params['require_name']) {
             throw new \Exception('Please set require name.');
         }
-
-
-        $params['require_name'] = strtolower($params['require_name']);
-
 
         $version = 'latest';
         if (isset($params['require_version']) and $params['require_version']) {
