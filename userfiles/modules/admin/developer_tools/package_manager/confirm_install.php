@@ -128,7 +128,7 @@ if (is_array($get_existing_files_for_confirm)) {
         <div>
             <?php if ($get_existing_files_for_confirm) { ?>
                 <div class="js-files hidden">
-                    <table class="table text-left" style="table-layout: fixed;">
+                    <table class="table bg-white text-left" style="table-layout: fixed;">
                         <thead>
                         <tr>
                             <th>File location</th>
