@@ -8490,21 +8490,24 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical; }
+  -webkit-box-orient: vertical;
+  padding: 1px 0px; }
 
 .text-break-line-2 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical; }
+  -webkit-box-orient: vertical;
+  padding: 1px 0px; }
 
 .text-break-line-3 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical; }
+  -webkit-box-orient: vertical;
+  padding: 1px 0px; }
 
 /* Image in Circle */
 .img-circle-holder {
@@ -8995,5 +8998,8 @@ small a {
 
 .table tr.valign-middle td {
   vertical-align: middle; }
+
+.bootstrap-tagsinput input {
+  font-size: 12px; }
 
 /*# sourceMappingURL=main.css.map */

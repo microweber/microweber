@@ -17,6 +17,16 @@
         "MicroweberPackages\\Role\\": ""
       }
   },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\Role\\RoleServiceProvider"
+      ],
+      "aliases": {
+        "Role": "MicroweberPackages\\Role\\RoleFacade"
+      }
+    }
+  },
   "homepage": "http://microweber.com",
   "license": "MIT",
   "support": {
