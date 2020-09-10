@@ -4,18 +4,198 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6d8fd46b36513cb92a3ae8be195d196",
+    "content-hash": "60989a3e7dbc5c3383270e2f82c1e04e",
     "packages": [
+        {
+            "name": "arcanedev/php-html",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ARCANEDEV/php-html.git",
+                "reference": "9d86f73bfbd4daf0d5f081704ae381c96dab3b77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ARCANEDEV/php-html/zipball/9d86f73bfbd4daf0d5f081704ae381c96dab3b77",
+                "reference": "9d86f73bfbd4daf0d5f081704ae381c96dab3b77",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0",
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\Html\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ARCANEDEV",
+                    "email": "arcanedev.maroc@gmail.com",
+                    "homepage": "https://github.com/arcanedev-maroc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple way to create html tags with php.",
+            "homepage": "https://github.com/ARCANEDEV/php-html",
+            "keywords": [
+                "arcanedev",
+                "form",
+                "html",
+                "tags"
+            ],
+            "time": "2020-09-09T11:25:39+00:00"
+        },
         {
             "name": "arcanedev/seo-helper",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-deps/SEO-Helper.git",
-                "reference": "master"
+                "url": "https://github.com/ARCANEDEV/SEO-Helper.git",
+                "reference": "2e19be41d0f594ca08f6f4f182dded70b71b9f58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ARCANEDEV/SEO-Helper/zipball/2e19be41d0f594ca08f6f4f182dded70b71b9f58",
+                "reference": "2e19be41d0f594ca08f6f4f182dded70b71b9f58",
+                "shasum": ""
+            },
+            "require": {
+                "arcanedev/php-html": "^5.0",
+                "arcanedev/support": "^8.0",
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3"
             },
             "type": "library",
-            "time": "2020-09-09T09:21:06+00:00"
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "4.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Arcanedev\\SeoHelper\\SeoHelperServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\SeoHelper\\": "src/"
+                },
+                "files": [
+                    "helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ARCANEDEV",
+                    "email": "arcanedev.maroc@gmail.com",
+                    "homepage": "https://github.com/arcanedev-maroc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "SEO Helper is a framework agnostic package that provides tools & helpers for SEO (Laravel supported).",
+            "homepage": "https://github.com/ARCANEDEV/SEO-Helper",
+            "keywords": [
+                "Alexa",
+                "bing",
+                "description",
+                "google",
+                "helper",
+                "keywords",
+                "laravel",
+                "metas",
+                "og",
+                "opengraph",
+                "seo",
+                "tags",
+                "title",
+                "twitter",
+                "webmaster",
+                "yandex"
+            ],
+            "time": "2020-09-09T12:18:17+00:00"
+        },
+        {
+            "name": "arcanedev/support",
+            "version": "8.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ARCANEDEV/Support.git",
+                "reference": "96280ceaa1918bddfc25ffb6f58d9b96ef44ae5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/96280ceaa1918bddfc25ffb6f58d9b96ef44ae5d",
+                "reference": "96280ceaa1918bddfc25ffb6f58d9b96ef44ae5d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "laravel/framework": "^8.0",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\Support\\": "src/"
+                },
+                "files": [
+                    "helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ARCANEDEV",
+                    "email": "arcanedev.maroc@gmail.com",
+                    "homepage": "https://github.com/arcanedev-maroc"
+                }
+            ],
+            "description": "ARCANEDEV Support Helpers",
+            "homepage": "https://github.com/ARCANEDEV/Support",
+            "keywords": [
+                "arcanedev",
+                "arcanesoft",
+                "laravel",
+                "support"
+            ],
+            "time": "2020-09-09T12:09:28+00:00"
         },
         {
             "name": "asm89/stack-cors",

@@ -18,19 +18,6 @@
     {
       "type": "composer",
       "url": "https://private-packages.microweberapi.com/"
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "arcanedev/seo-helper",
-        "version": "dev-master",
-        "type": "library",
-        "source": {
-          "url": "https://github.com/microweber-deps/SEO-Helper.git",
-          "type": "git",
-          "reference": "master"
-        }
-      }
     }
   ],
   "require": {
