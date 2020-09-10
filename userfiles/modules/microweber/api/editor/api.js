@@ -93,24 +93,28 @@ mw.controlFields = {
     },
     _label: function (conf){
         var id = conf.id || this._id();
-        return conf.label ? ('<label class="'+(conf.className || '')+'" for="'+id+'">' + conf.label + '</label>') : '';
+        var label = document.createElement('label');
+        label.className = conf.className || '';
+        label.innerHTML = conf.label || conf.content || '';
+        label.htmlFor = id;
+        return label;
     },
     _button: function (conf){
         var id = conf.id || this._id();
         var button = document.createElement('button');
         button.type = conf.type || 'button';
-        button.className = 'btn btn-'+conf.size+' btn-'+conf.color;
+        button.className = 'btn btn-' + conf.size + ' btn-' + conf.color;
         button.innerHTML = (conf.label || conf.content);
         return button;
     },
     _wrap: function () {
         var el =  document.createElement('div');
+        el.className = 'form-group';
         [].forEach.call(arguments, function (content) {
-            el.className = 'form-group';
-            if(typeof content === 'string') {
+            if (typeof content === 'string') {
                 el.innerHTML += content;
             } else {
-                el.appendChild(content);
+                el.append(content);
             }
         });
         return el;
@@ -129,7 +133,8 @@ mw.controlFields = {
         var required = conf.required ? ('required') : '';
 
         return this._wrap(
-              this._label(conf) + this._description(conf) +
+            this._label(conf),
+            this._description(conf),
             '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control">'
         );
     },
@@ -144,7 +149,7 @@ mw.controlFields = {
         return  this._wrap(
             '<div class="custom-control custom-checkbox">' +
             '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
-            this._label(extend({}, conf, {className: 'custom-control-label'})) +
+            this._label(extend({}, conf, {className: 'custom-control-label'})).outerHTML +
             '</div>');
     },
     radio: function (conf) {
@@ -158,7 +163,7 @@ mw.controlFields = {
         return  this._wrap(
             '<div class="custom-control custom-radio">' +
             '<input type="radio" ' + id + ' ' + name + ' ' + required + ' ' + value + ' class="custom-control-input">' +
-            this._label(extend({}, conf, {className: 'custom-control-label'})) +
+            this._label(extend({}, conf, {className: 'custom-control-label'})) .outerHTML+
             '</div>');
     },
     select: function (conf) {

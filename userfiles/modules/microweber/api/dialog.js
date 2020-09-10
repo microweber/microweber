@@ -268,7 +268,7 @@
             this.dialogMain = this.options.root.createElement('div');
 
             this.dialogMain.id = this.id;
-            var cls = 'mw-defaults mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode
+            var cls = 'mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode
                 + ' mw-dialog-skin-' + this.options.skin
                 + ' mw-dialog-overflowMode-' + this.options.overflowMode;
             cls += (!this.options.className ? '' : (' ' + this.options.className));

@@ -317,7 +317,7 @@
                 target: {
                     label: mw.lang('Open the link in a new window')
                 },
-                icon: 'mdi mdi-mail',
+                icon: 'mdi mdi-email-outline',
                 title: 'Email'
             };
             options = extend(true, {}, defaults, (options || {}));
@@ -453,7 +453,10 @@
                 target: {
                     label: mw.lang('Open the link in a new window')
                 },
-                icon: 'mdi mdi- format-list-bulleted-square',
+                url: {
+                    label: mw.lang('Search for content')
+                },
+                icon: 'mdi mdi-format-list-bulleted-square',
                 title: 'Post/category',
                 dataUrl: function () {
                     try {
@@ -471,7 +474,7 @@
             var root = document.createElement('div');
             root.className = 'mw-ui-form-controller-root';
             var _linkText = '', _linkUrl = '', _target = '';
-            UIFormControllers._title(this.settings, root)
+            UIFormControllers._title(this.settings, root);
             var treeEl = document.createElement('div');
             treeEl.className = 'form-group mw-link-editor-posts-search';
 
@@ -502,6 +505,15 @@
                     }
                 }
             });
+
+
+            var label = mw.controlFields._label({
+                content: options.url.label
+            });
+
+            setTimeout(function (){
+                mw.element(treeEl).before(label);
+            }, 10)
 
             if (options.target) {
                 _target = mw.controlFields.checkbox({
@@ -542,6 +554,12 @@
                 val.url = getSelected ? getSelected.url : '';
                 val.data = getSelected;
                 if(targetField) val.target = targetField.checked;
+                return val;
+            };
+
+            this.setValue = function (val) {
+                if(textField) textField.value = val.text;
+                if(targetField) targetField.checked = !!val.target;
                 return val;
             };
 
@@ -688,6 +706,12 @@
                 return val;
             };
 
+            this.setValue = function (val) {
+                if(textField) textField.value = val.text;
+                if(targetField) targetField.checked = val.target;
+                return val;
+            };
+
             this._onChange = [];
             this.onChange = function (c) {
                 this._onChange.push(c);
@@ -825,6 +849,12 @@
                 val.url = url?url.src:'';
                 val.data = url;
                 if(targetField) val.target = targetField.checked;
+                return val;
+            };
+
+            this.setValue = function (val) {
+                if(textField) textField.value = val.text;
+                if(targetField) targetField.checked = !!val.target;
                 return val;
             };
 
