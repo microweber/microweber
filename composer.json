@@ -51,7 +51,8 @@
     "spatie/laravel-permission": "dev-master",
     "laravelcollective/html": "^6.0@dev",
     "laravel/socialite": "^6.0@dev",
-    "arcanedev/seo-helper": "dev-master"
+    "arcanedev/seo-helper": "dev-master",
+    "letudiant/composer-shared-package-plugin": "^3.1@dev"
   },
   "require-dev": {
     "facade/ignition": "^2.3.6",
@@ -118,6 +119,9 @@
       "merge-extra": true,
       "merge-extra-deep": true,
       "merge-scripts": true
+    },
+    "shared-package": {
+      "vendor-dir": "vendor"
     }
   }
 }

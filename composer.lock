@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "60989a3e7dbc5c3383270e2f82c1e04e",
+    "content-hash": "a288ba96e5cf17f551225c5da773d04b",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -483,12 +483,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "0408207e350d3be0a7b2c8a9795841f6f235826e"
+                "reference": "bb96b04f4a2a21b7546a1b2374028911cd862606"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/0408207e350d3be0a7b2c8a9795841f6f235826e",
-                "reference": "0408207e350d3be0a7b2c8a9795841f6f235826e",
+                "url": "https://api.github.com/repos/composer/composer/zipball/bb96b04f4a2a21b7546a1b2374028911cd862606",
+                "reference": "bb96b04f4a2a21b7546a1b2374028911cd862606",
                 "shasum": ""
             },
             "require": {
@@ -553,7 +553,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2020-09-09T09:49:04+00:00"
+            "time": "2020-09-10T14:05:31+00:00"
         },
         {
             "name": "composer/installers",
@@ -2609,12 +2609,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5bf30a553a1478ae8d8b3f6791286c7936a19ed5"
+                "reference": "257b95cde5f82df232688050e9b8a1e652d15a1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5bf30a553a1478ae8d8b3f6791286c7936a19ed5",
-                "reference": "5bf30a553a1478ae8d8b3f6791286c7936a19ed5",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/257b95cde5f82df232688050e9b8a1e652d15a1e",
+                "reference": "257b95cde5f82df232688050e9b8a1e652d15a1e",
                 "shasum": ""
             },
             "require": {
@@ -2764,7 +2764,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-09-09T02:22:37+00:00"
+            "time": "2020-09-10T12:38:01+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -3228,6 +3228,55 @@
                 "twitter"
             ],
             "time": "2020-09-04T11:07:03+00:00"
+        },
+        {
+            "name": "letudiant/composer-shared-package-plugin",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Letudiant/composer-shared-package-plugin.git",
+                "reference": "55c47cfdd7faeb6736bb78568108e60c2f6a717b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Letudiant/composer-shared-package-plugin/zipball/55c47cfdd7faeb6736bb78568108e60c2f6a717b",
+                "reference": "55c47cfdd7faeb6736bb78568108e60c2f6a717b",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "~1.0",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "composer/composer": "dev-master",
+                "phpunit/phpunit": "~4.7",
+                "symfony/var-dumper": "~2.7"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "LEtudiant\\Composer\\SharedPackagePlugin",
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "LEtudiant\\Composer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sylvain Lorinet",
+                    "email": "sylvain.lorinet@gmail.com"
+                }
+            ],
+            "description": "This composer plugin allows you to share selected packages between your projects with symlinks.",
+            "time": "2017-10-19T14:15:00+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -3972,12 +4021,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "76e093824c1d2f245dbaeae64b52bbea94efa4b2"
+                "reference": "e0c86a5f0427e27ab18e85b69d68e6216a80a652"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/76e093824c1d2f245dbaeae64b52bbea94efa4b2",
-                "reference": "76e093824c1d2f245dbaeae64b52bbea94efa4b2",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e0c86a5f0427e27ab18e85b69d68e6216a80a652",
+                "reference": "e0c86a5f0427e27ab18e85b69d68e6216a80a652",
                 "shasum": ""
             },
             "require": {
@@ -4043,7 +4092,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2020-09-08T15:54:39+00:00"
+            "time": "2020-09-10T17:21:07+00:00"
         },
         {
             "name": "nette/finder",
@@ -5719,12 +5768,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "96c25c947fb56dafc149b530e270bf109f411a78"
+                "reference": "73a121bec51739ca03667c0b6f14bd38e1648481"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/96c25c947fb56dafc149b530e270bf109f411a78",
-                "reference": "96c25c947fb56dafc149b530e270bf109f411a78",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/73a121bec51739ca03667c0b6f14bd38e1648481",
+                "reference": "73a121bec51739ca03667c0b6f14bd38e1648481",
                 "shasum": ""
             },
             "require": {
@@ -5779,7 +5828,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2020-09-08T23:32:52+00:00"
+            "time": "2020-09-10T18:42:23+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -5914,12 +5963,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "2e1940babbdc437add69a14225e30f25cfa0e9ca"
+                "reference": "8f67de03e7a717137a443b438260351d67072210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/2e1940babbdc437add69a14225e30f25cfa0e9ca",
-                "reference": "2e1940babbdc437add69a14225e30f25cfa0e9ca",
+                "url": "https://api.github.com/repos/symfony/console/zipball/8f67de03e7a717137a443b438260351d67072210",
+                "reference": "8f67de03e7a717137a443b438260351d67072210",
                 "shasum": ""
             },
             "require": {
@@ -5991,7 +6040,7 @@
                 "console",
                 "terminal"
             ],
-            "time": "2020-09-08T14:20:09+00:00"
+            "time": "2020-09-09T12:41:49+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -6524,12 +6573,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "5c36281b7f84230545f42c1a327ae5af120501ef"
+                "reference": "4c1285a92c94df831eba1d94ee78ad91729d6d3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/5c36281b7f84230545f42c1a327ae5af120501ef",
-                "reference": "5c36281b7f84230545f42c1a327ae5af120501ef",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/4c1285a92c94df831eba1d94ee78ad91729d6d3f",
+                "reference": "4c1285a92c94df831eba1d94ee78ad91729d6d3f",
                 "shasum": ""
             },
             "require": {
@@ -6577,7 +6626,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-09-02T16:27:44+00:00"
+            "time": "2020-09-09T12:41:49+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -7932,12 +7981,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "fa00ee8312a56d7deb933b013c52f25d36b1b5a1"
+                "reference": "497c62cb627e1bddee5ca66b8cb09c9d445db6f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/fa00ee8312a56d7deb933b013c52f25d36b1b5a1",
-                "reference": "fa00ee8312a56d7deb933b013c52f25d36b1b5a1",
+                "url": "https://api.github.com/repos/symfony/string/zipball/497c62cb627e1bddee5ca66b8cb09c9d445db6f0",
+                "reference": "497c62cb627e1bddee5ca66b8cb09c9d445db6f0",
                 "shasum": ""
             },
             "require": {
@@ -7995,7 +8044,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2020-09-02T16:27:44+00:00"
+            "time": "2020-09-10T08:46:37+00:00"
         },
         {
             "name": "symfony/translation",
@@ -8003,12 +8052,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "c597e4115a73994084fa62939996309554c96ca0"
+                "reference": "834997294ad70740a6b376d666fce870e1297d78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/c597e4115a73994084fa62939996309554c96ca0",
-                "reference": "c597e4115a73994084fa62939996309554c96ca0",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/834997294ad70740a6b376d666fce870e1297d78",
+                "reference": "834997294ad70740a6b376d666fce870e1297d78",
                 "shasum": ""
             },
             "require": {
@@ -8076,7 +8125,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-09-02T16:27:44+00:00"
+            "time": "2020-09-10T08:35:47+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -8145,12 +8194,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "618ecd0d52952b4c8de45404482c8a1d6cf0402f"
+                "reference": "dcd65546800408f3de20b654c0ff426904f3185c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/618ecd0d52952b4c8de45404482c8a1d6cf0402f",
-                "reference": "618ecd0d52952b4c8de45404482c8a1d6cf0402f",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/dcd65546800408f3de20b654c0ff426904f3185c",
+                "reference": "dcd65546800408f3de20b654c0ff426904f3185c",
                 "shasum": ""
             },
             "require": {
@@ -8213,7 +8262,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2020-09-08T14:20:09+00:00"
+            "time": "2020-09-09T12:41:49+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -8284,12 +8333,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/auto-bind-parameter.git",
-                "reference": "afaa9d0c39c0b21b96a95395fe18af5265f8a0fd"
+                "reference": "20b518a3e1f54719320a3ec4220f9bce2daf66a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/afaa9d0c39c0b21b96a95395fe18af5265f8a0fd",
-                "reference": "afaa9d0c39c0b21b96a95395fe18af5265f8a0fd",
+                "url": "https://api.github.com/repos/symplify/auto-bind-parameter/zipball/20b518a3e1f54719320a3ec4220f9bce2daf66a3",
+                "reference": "20b518a3e1f54719320a3ec4220f9bce2daf66a3",
                 "shasum": ""
             },
             "require": {
@@ -8318,7 +8367,7 @@
                 "MIT"
             ],
             "description": "Auto bind parameters for your Symfony applications",
-            "time": "2020-09-08T21:13:40+00:00"
+            "time": "2020-09-09T15:14:33+00:00"
         },
         {
             "name": "symplify/autowire-array-parameter",
@@ -8326,12 +8375,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/autowire-array-parameter.git",
-                "reference": "a292d0e3e64299af5205915962f5cbf95c088769"
+                "reference": "a033e39c97485f70a53ba82eadf7ff2b842ffedf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/a292d0e3e64299af5205915962f5cbf95c088769",
-                "reference": "a292d0e3e64299af5205915962f5cbf95c088769",
+                "url": "https://api.github.com/repos/symplify/autowire-array-parameter/zipball/a033e39c97485f70a53ba82eadf7ff2b842ffedf",
+                "reference": "a033e39c97485f70a53ba82eadf7ff2b842ffedf",
                 "shasum": ""
             },
             "require": {
@@ -8359,7 +8408,7 @@
                 "MIT"
             ],
             "description": "Autowire array parameters for your Symfony applications",
-            "time": "2020-09-08T21:13:40+00:00"
+            "time": "2020-09-09T15:14:33+00:00"
         },
         {
             "name": "symplify/composer-json-manipulator",
@@ -8367,12 +8416,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/composer-json-manipulator.git",
-                "reference": "0a2252d80c5cc6ea5c5d7f9dee58cd6235f09ec5"
+                "reference": "bdbe88ea7d7326c44e7b11639f09ae24dafdf31e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/composer-json-manipulator/zipball/0a2252d80c5cc6ea5c5d7f9dee58cd6235f09ec5",
-                "reference": "0a2252d80c5cc6ea5c5d7f9dee58cd6235f09ec5",
+                "url": "https://api.github.com/repos/symplify/composer-json-manipulator/zipball/bdbe88ea7d7326c44e7b11639f09ae24dafdf31e",
+                "reference": "bdbe88ea7d7326c44e7b11639f09ae24dafdf31e",
                 "shasum": ""
             },
             "require": {
@@ -8405,7 +8454,7 @@
                 "MIT"
             ],
             "description": "Package to load, merge and save composer.json file(s)",
-            "time": "2020-09-08T21:13:40+00:00"
+            "time": "2020-09-09T15:14:33+00:00"
         },
         {
             "name": "symplify/monorepo-builder",
@@ -8413,12 +8462,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/monorepo-builder.git",
-                "reference": "349daef300691eba3915ecfe0187655c0be5a237"
+                "reference": "5bb7ea16379d23273a2c14501c060f41965561c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/monorepo-builder/zipball/349daef300691eba3915ecfe0187655c0be5a237",
-                "reference": "349daef300691eba3915ecfe0187655c0be5a237",
+                "url": "https://api.github.com/repos/symplify/monorepo-builder/zipball/5bb7ea16379d23273a2c14501c060f41965561c7",
+                "reference": "5bb7ea16379d23273a2c14501c060f41965561c7",
                 "shasum": ""
             },
             "require": {
@@ -8464,7 +8513,7 @@
                 "MIT"
             ],
             "description": "Not only Composer tools to build a Monorepo.",
-            "time": "2020-09-08T21:13:40+00:00"
+            "time": "2020-09-09T15:14:33+00:00"
         },
         {
             "name": "symplify/package-builder",
@@ -8472,12 +8521,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/package-builder.git",
-                "reference": "5c2ce7755f33838d8cf2236f30d05ecce3feddbe"
+                "reference": "2834efef41017bba74d1c5cf29397f3788fe68b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/package-builder/zipball/5c2ce7755f33838d8cf2236f30d05ecce3feddbe",
-                "reference": "5c2ce7755f33838d8cf2236f30d05ecce3feddbe",
+                "url": "https://api.github.com/repos/symplify/package-builder/zipball/2834efef41017bba74d1c5cf29397f3788fe68b4",
+                "reference": "2834efef41017bba74d1c5cf29397f3788fe68b4",
                 "shasum": ""
             },
             "require": {
@@ -8518,12 +8567,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/set-config-resolver.git",
-                "reference": "7f2ff222f5648d9da08f0c190b03a3d3a1da14eb"
+                "reference": "b81927564d1e4449b44f01895146568ec3bd02dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/7f2ff222f5648d9da08f0c190b03a3d3a1da14eb",
-                "reference": "7f2ff222f5648d9da08f0c190b03a3d3a1da14eb",
+                "url": "https://api.github.com/repos/symplify/set-config-resolver/zipball/b81927564d1e4449b44f01895146568ec3bd02dc",
+                "reference": "b81927564d1e4449b44f01895146568ec3bd02dc",
                 "shasum": ""
             },
             "require": {
@@ -8556,7 +8605,7 @@
                 "MIT"
             ],
             "description": "Resolve config and sets from configs and cli opptions for CLI applications",
-            "time": "2020-09-08T21:13:40+00:00"
+            "time": "2020-09-09T15:14:33+00:00"
         },
         {
             "name": "symplify/smart-file-system",
@@ -8564,12 +8613,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/smart-file-system.git",
-                "reference": "4c6fa34a4deaa99b0cc57fff865c783b7408717d"
+                "reference": "503fa0080e5261874326b02f9cea506d6d7d099a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/4c6fa34a4deaa99b0cc57fff865c783b7408717d",
-                "reference": "4c6fa34a4deaa99b0cc57fff865c783b7408717d",
+                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/503fa0080e5261874326b02f9cea506d6d7d099a",
+                "reference": "503fa0080e5261874326b02f9cea506d6d7d099a",
                 "shasum": ""
             },
             "require": {
@@ -8598,7 +8647,7 @@
                 "MIT"
             ],
             "description": "Sanitized FileInfo with safe getRealPath() and other handy methods",
-            "time": "2020-09-01T22:38:03+00:00"
+            "time": "2020-09-02T20:33:26+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -9315,6 +9364,68 @@
                 "test"
             ],
             "time": "2020-07-09T08:09:16+00:00"
+        },
+        {
+            "name": "microweber-modules/calendar",
+            "version": "0.3",
+            "target-dir": "calendar",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-modules/calendar.git",
+                "reference": "08e36440225c3e3b391ccc04021818176bfed72b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages-satis.microweberapi.com/dist/microweber-modules/calendar/microweber-modules-calendar-08e36440225c3e3b391ccc04021818176bfed72b-zip-22dd17.zip",
+                "reference": "08e36440225c3e3b391ccc04021818176bfed72b",
+                "shasum": "fdf50311f780800981dd763aa609d45f300c5144"
+            },
+            "type": "microweber-module",
+            "extra": {
+                "_meta": {
+                    "README": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/README.md",
+                    "screenshot": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/screenshot.png",
+                    "ui-bg_glass_100_e4f1fb_1x400": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-bg_glass_100_e4f1fb_1x400.png",
+                    "ui-icons_3d80b3_256x240": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-icons_3d80b3_256x240.png",
+                    "ui-bg_highlight-soft_25_ffef8f_1x100": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-bg_highlight-soft_25_ffef8f_1x100.png",
+                    "ui-bg_highlight-hard_100_f2f5f7_1x100": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-bg_highlight-hard_100_f2f5f7_1x100.png",
+                    "ui-icons_ffffff_256x240": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-icons_ffffff_256x240.png",
+                    "ui-bg_glass_80_d7ebf9_1x400": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-bg_glass_80_d7ebf9_1x400.png",
+                    "ui-bg_highlight-hard_70_000000_1x100": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-bg_highlight-hard_70_000000_1x100.png",
+                    "ui-bg_glass_50_3baae3_1x400": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-bg_glass_50_3baae3_1x400.png",
+                    "ui-icons_2e83ff_256x240": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-icons_2e83ff_256x240.png",
+                    "ui-bg_diagonals-thick_90_eeeeee_40x40": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-bg_diagonals-thick_90_eeeeee_40x40.png",
+                    "ui-bg_highlight-soft_100_deedf7_1x100": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-bg_highlight-soft_100_deedf7_1x100.png",
+                    "ui-icons_2694e8_256x240": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-icons_2694e8_256x240.png",
+                    "ui-icons_72a7cf_256x240": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/ui-icons_72a7cf_256x240.png",
+                    "trashcan": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/trashcan.png",
+                    "calendar": "https://packages-satis.microweberapi.com/meta/fdf50311f780800981dd763aa609d45f300c5144/calendar.svg"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Recurr": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Calendar",
+            "homepage": "https://microweber.org/modules/microweber-modules/calendar",
+            "keywords": [
+                "calendar"
+            ],
+            "support": {
+                "source": "https://github.com/microweber-modules/calendar/tree/0.3",
+                "issues": "https://github.com/microweber-modules/calendar/issues"
+            },
+            "time": "2020-08-28T13:48:23+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -10913,7 +11024,8 @@
         "spatie/laravel-permission": 20,
         "laravelcollective/html": 20,
         "laravel/socialite": 20,
-        "arcanedev/seo-helper": 20
+        "arcanedev/seo-helper": 20,
+        "letudiant/composer-shared-package-plugin": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

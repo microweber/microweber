@@ -4,6 +4,7 @@ namespace MicroweberPackages\Package;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
 use Composer\Config;
+use MicroweberPackages\Package\Installer\InstallationManager;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use Symfony\Component\Console\Input\ArrayInput;
 use MicroweberPackages\Package\ComposerFactory as Factory;
@@ -166,6 +167,7 @@ class ComposerUpdate
 
         $conf_temp = $temp_folder . '/composer.json';
 
+     //   dd($conf_temp);
         $composer_temp = file_get_contents($conf_temp);
 
 
@@ -185,8 +187,13 @@ class ComposerUpdate
 
         ob_start();
 
+      //  $loop =   new \Composer\Util\Loop(HttpDownloader $httpDownloader = null, ProcessExecutor $processExecutor = null);
+
+      //  $manager = new InstallationManager($loop,  $io, $eventDispatcher );
         $composer = Factory::create($io,$composer_temp);
 
+
+      //  $composer->setInstallationManager($manager);
         $composer->setConfig($config);
         $repositoryManager = $composer->getRepositoryManager();
 
@@ -401,7 +408,33 @@ class ComposerUpdate
         }
         //   }
 
-        $temp_folder = $this->composer_temp_folder;
+      //  $temp_folder = $this->composer_temp_folder;
+
+
+        $temp_folder = $this->_prepareComposerWorkdir($keyword, $version);
+        if (!$temp_folder) {
+            return array('error' => 'Error preparing installation for ' . $keyword);
+        }
+
+      //  $conf = $temp_folder . '/composer.json';
+
+     //   $this->composer_temp_folder = $temp_folder;
+
+
+     //   $conf_temp = $temp_folder . '/composer.json';
+
+      //  $composer_temp = file_get_contents($conf_temp);
+
+
+     //   $composer_temp = json_decode($composer_temp, true);
+
+        chdir($temp_folder);
+        $this->composerPath = $temp_folder;
+
+
+
+
+
         $from_folder = normalize_path($temp_folder, true);
         $installers = array(
             'MicroweberPackages\Package\Helpers\TemplateInstaller',
@@ -466,11 +499,19 @@ class ComposerUpdate
 
             }
 
-            $conf_temp = getcwd().'/composer.json';
+
+
+
+
+            $conf_temp =$temp_folder.'/composer.json';
+
+
+
+            //$temp_folder
             $composer_temp = file_get_contents($conf_temp);
             $composer_temp = json_decode($composer_temp, true);
-
-            copy($conf_temp,mw_root_path().'/cache/composer.json');
+            //
+            //copy($conf_temp,mw_root_path().'/cache/composer.json');
 
             $current_composer_file = $temp_folder . '/composer.json';
             $current_composer = file_get_contents($current_composer_file);
@@ -480,14 +521,32 @@ class ComposerUpdate
                     $current_composer['require'][$requirePackage] = $requireDetails->getPrettyConstraint();
                 }
             }
-            unset($current_composer['repositories']['packagist']); 
+            if(isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])){
+            unset($current_composer['repositories']['packagist']);
+            }
+
+            if(!isset($current_composer['extra'])){
+                $current_composer['extra'] = [];
+            }
+
+            $current_composer['extra']['shared-package'] = [
+
+                ['package-list' => '*'],
+                ['symlink-enabled' => true],
+                ['vendor-dir' => mw_root_path().'/vendor'],
+
+            ];
+
+
             file_put_contents($current_composer_file, json_encode($current_composer));
 
             $argv = array();
             //  $argv[] = 'dry-run';
             // $argv[] = '--no-plugins';
+          //  $argv[] = '--working-dir='. escapeshellarg($temp_folder);
+         dd(__FILE__,__LINE__,$conf_temp,$argv);
 
-            $input = new ArgvInput($argv);
+         //   $input = new ArgvInput($argv);
             $input = new ArrayInput($argv);
             $output = new ConsoleOutput();
             $helper = new HelperSet();
@@ -514,7 +573,7 @@ class ComposerUpdate
                     $installation_manager->addInstaller(new $installer($io, $composer));
                 }
             }
-
+        //    dd($composer);
             $composer->setConfig($config);
             $update = new \MicroweberPackages\Package\InstallCommand();
             $update->setComposer($composer);
@@ -547,9 +606,11 @@ class ComposerUpdate
                     return $file->isFile();
                 });
                 $allFiles = array_keys($allFiles);
-
+                $skip_files=[];
                 if (!$install_core_update) {
-                    $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor', 'packages.json');
+                    $skip_files = array(  'auth.json');
+                //    $skip_files = array(  'auth.json', 'composer.lock');
+                    //$skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor', 'packages.json');
 
                 } else {
                     $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'packages.json');
