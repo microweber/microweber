@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Utils\Media\Adapters\Media;
+namespace MicroweberPackages\Utils\Media\Adapters;
 
 class Unsplash
 {
