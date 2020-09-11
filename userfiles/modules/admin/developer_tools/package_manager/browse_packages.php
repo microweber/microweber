@@ -300,7 +300,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     array_shift($pkkeys);
                                     $pkkeys = implode('-', $pkkeys);
                                     ?>
-                                    <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" href="#<?php echo $pkkeys; ?>"><?php print titlelize($pkkeys) ?></a>
+                                    <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" href="#<?php echo $pkkeys; ?>"><i class="mdi <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
