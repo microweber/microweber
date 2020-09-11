@@ -300,7 +300,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     array_shift($pkkeys);
                                     $pkkeys = implode('-', $pkkeys);
                                     ?>
-                                    <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" href="#<?php echo $pkkeys; ?>"><?php print titlelize($pkkeys) ?></a>
+                                    <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" href="#<?php echo $pkkeys; ?>"><i class="mdi <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
@@ -342,7 +342,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     <?php if ($pkitems) : ?>
                                         <div class="row">
                                             <?php foreach ($pkitems as $key => $item): ?>
-                                                <div class="col-12 col-sm-6 col-md-12 col-lg-<?php print $item['type'] === 'microweber-module' ? '6' : '6'; ?> mb-4 package-col-<?php print $item['type']; ?>">
+                                                <div class="col-12 col-sm-6 col-md-12 col-lg-<?php print $item['type'] === 'microweber-module' ? '4' : '6'; ?> mb-4 package-col-<?php print $item['type']; ?>">
                                                     <?php
                                                     $view_file = __DIR__ . '/partials/package_item.php';
                                                     $view = new \MicroweberPackages\View\View($view_file);

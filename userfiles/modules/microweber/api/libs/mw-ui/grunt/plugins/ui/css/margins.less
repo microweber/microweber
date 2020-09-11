@@ -1,5 +1,5 @@
 
-.generate-spacer-row(15);
+.generate-spacer-row(30);
 .generate-spacer-row(@n, @i: 1) when (@i =< @n) {
     .row-mx-@{i} {
         @row-step:(1px * @i);
@@ -10,7 +10,7 @@
     .generate-spacer-row(@n, (@i + 1));
 }
 
-.generate-spacer-col(15);
+.generate-spacer-col(30);
 .generate-spacer-col(@n, @i: 1) when (@i =< @n) {
     .col-px-@{i} {
         @col-step:(1px * @i);

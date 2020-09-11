@@ -1765,6 +1765,7 @@ mw.wysiwyg = {
             url: mw.external_tool('link_editor_v3'),
             height: 'auto',
             autoHeight: true,
+            title: '<i class="mdi mdi-link"></i> Link settings'
         });
         $(dialog).on('Result', function(e, result){
             mw.wysiwyg.restore_selection();

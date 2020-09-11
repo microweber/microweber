@@ -16,9 +16,6 @@ if (isset($params['session_id'])) {
 }
 
 
-
-
-
 $media = false;
 
 if ($for_id != false) {
@@ -40,13 +37,12 @@ foreach ($temp as $i) {
 }
 
 
-
-$rand = 'pic-sorter-'.uniqid();
+$rand = 'pic-sorter-' . uniqid();
 
 ?>
 
 <style>
-    .admin-thumb-item-uploader-holder{
+    .admin-thumb-item-uploader-holder {
         display: block;
         position: relative;
         float: left;
@@ -54,10 +50,12 @@ $rand = 'pic-sorter-'.uniqid();
         height: 110px;
         margin: 0 1% 1%;
     }
-    .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone button{
+
+    .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone button {
         text-decoration: underline;
     }
-    .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone{
+
+    .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone {
         border-color: #4592ff;
         background-color: rgba(69, 146, 255, 0.1);
     }
@@ -67,18 +65,17 @@ $rand = 'pic-sorter-'.uniqid();
 <div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none">Drop here to upload</div>
 
 
-
 <script>
     $(document).ready(function () {
         mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
-        var uploadHolder =  mw.$('#admin-thumb-item-uploader<?php print $rand; ?>');
+        var uploadHolder = mw.$('#admin-thumb-item-uploader<?php print $rand; ?>');
         mw.require('uploader.js');
 
         mw._postsImageUploaderSmall = mw.upload({
             element: uploadHolder,
             accept: 'image/*',
-            multiple:true,
+            multiple: true,
             dropZone: '#admin-thumbs-drop-zone-<?php print $rand; ?>',
         });
         mw._postsImageUploaderSmall.$holder = uploadHolder.parent();
@@ -87,7 +84,7 @@ $rand = 'pic-sorter-'.uniqid();
         })
         $(mw._postsImageUploaderSmall).on('FileUploaded', function (e, res) {
             var url = res.src ? res.src : res;
-            if(window.after_upld) {
+            if (window.after_upld) {
                 after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 after_upld(url, 'done');
                 mw._postsImageUploader.hide()
@@ -96,7 +93,7 @@ $rand = 'pic-sorter-'.uniqid();
 
         if (!mw.$('#admin-thumbs-holder-sort-<?php print $rand; ?> .admin-thumb-item').length) {
             uploadHolder.hide();
-            if(mw._postsImageUploader) {
+            if (mw._postsImageUploader) {
                 mw._postsImageUploader.show();
             }
 
@@ -114,19 +111,19 @@ $rand = 'pic-sorter-'.uniqid();
 
             })
             .on('show.bs.select', function () {
-                if(!!dropdownUploader) return;
+                if (!!dropdownUploader) return;
                 var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
                 dropdownUploader = mw.upload({
                     element: item,
                     accept: 'image/*',
-                    multiple:true
+                    multiple: true
                 });
                 $(dropdownUploader).on('FileAdded', function (e, res) {
                     mw._postsImageUploader._thumbpreload()
                 })
                 $(dropdownUploader).on('FileUploaded', function (e, res) {
                     var url = res.src ? res.src : res;
-                    if(window.after_upld) {
+                    if (window.after_upld) {
                         after_upld(url, 'Result', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                         after_upld(url, 'done');
                         mw._postsImageUploader.hide()
@@ -135,15 +132,15 @@ $rand = 'pic-sorter-'.uniqid();
             })
 
         var dragTimer;
-        $(document).on('dragover', function(e) {
+        $(document).on('dragover', function (e) {
             var dt = e.originalEvent.dataTransfer;
             if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
                 $("#admin-thumbs-drop-zone-<?php print $rand; ?>").show();
                 clearTimeout(dragTimer);
             }
         });
-        $(document).on('dragleave', function(e) {
-            dragTimer = setTimeout(function() {
+        $(document).on('dragleave', function (e) {
+            dragTimer = setTimeout(function () {
                 $("#admin-thumbs-drop-zone-<?php print $rand; ?>").hide();
             }, 25);
         });
@@ -153,8 +150,8 @@ $rand = 'pic-sorter-'.uniqid();
         });
 
         setInterval(function () {
-            $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder').each(function(){
-                $(this).height( $(this).width())
+            $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder').each(function () {
+                $(this).height($(this).width())
             })
         }, 78)
 
@@ -165,70 +162,70 @@ $rand = 'pic-sorter-'.uniqid();
 </script>
 
 <div class="admin-thumbs-holder" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
-<?php if (is_array($media)): ?>
-    <?php $default_title = _e("Image title", true); ?>
-    <?php foreach ($media as $key => $item): ?>
-        <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>"
-             id="admin-thumb-item-<?php print $item['id'] ?>">
+    <?php if (is_array($media)): ?>
+        <?php $default_title = _e("Image title", true); ?>
+        <?php foreach ($media as $key => $item): ?>
+            <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>"
+                 id="admin-thumb-item-<?php print $item['id'] ?>">
 
 
-            <?php
+                <?php
 
-            $tn = thumbnail($item['filename'], 200, 200, true); ?>
-            <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
-            <?php  if ($key == 0): ?>
+                $tn = thumbnail($item['filename'], 200, 200, true); ?>
+                <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
+                <?php if ($key == 0): ?>
 
-           <div class="featured-image"><?php print _e('featured image'); ?></div>
+                    <div class="featured-image"><?php print _e('featured image'); ?></div>
 
-            <?php  endif; ?>
-            <span class="mdi mdi-cog image-settings tip" data-tip="Image Settings"
-                  onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
-            <span class="mw-icon-close image-settings remove-image tip" data-tip="Delete Image"
-                  onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></span>
-            <label class="mw-ui-check">
-                <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"
-                       value="<?php print $item['id'] ?>"><span></span>
-            </label>
-            <div class="mw-post-media-img-edit">
+                <?php endif; ?>
+                <span class="mdi mdi-cog image-settings tip" data-tip="Image Settings"
+                      onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
+                <span class="mw-icon-close image-settings remove-image tip" data-tip="Delete Image"
+                      onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></span>
+                <label class="mw-ui-check">
+                    <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"
+                           value="<?php print $item['id'] ?>"><span></span>
+                </label>
+                <div class="mw-post-media-img-edit">
 
-                <template class="image-options">
+                    <template class="image-options">
 
-                    <div id="image-json-options-<?php print  $item['id']; ?>">
-                        <div class="image-json-options">
-                            <?php
-                            $curr = isset($item['image_options']) ? $item['image_options'] : array();
-                            foreach ($init_image_options as $name) {
-                                $ok = url_title(strtolower($name));
-                                ?>
-                                <div class="mw-ui-field-holder">
-                                    <label class="mw-ui-label"><?php print $name ?></label>
-                                    <input type="text" class="mw-ui-field w100" name="<?php print $ok; ?>"
-                                           value="<?php print isset($curr[$ok]) ? $curr[$ok] : ''; ?>"/>
+                        <div id="image-json-options-<?php print  $item['id']; ?>">
+                            <div class="image-json-options">
+                                <?php
+                                $curr = isset($item['image_options']) ? $item['image_options'] : array();
+                                foreach ($init_image_options as $name) {
+                                    $ok = url_title(strtolower($name));
+                                    ?>
+                                    <div class="form-group">
+                                        <label class="control-label"><?php print $name ?></label>
+                                        <input type="text" class="form-control" name="<?php print $ok; ?>" value="<?php print isset($curr[$ok]) ? $curr[$ok] : ''; ?>"/>
+                                    </div>
+                                <?php } ?>
+
+                                <hr class="thin"/>
+
+                                <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()">Cancel</button>
+                                <button type="button" class="btn btn-success btn-sm" onclick="saveOptions(<?php print $item['id'] ?>);mw.dialog.get(this).remove()">Update</button>
                                 </div>
-                            <?php } ?>
-
-                            <hr>
-
-                            <span class="mw-ui-btn pull-left" onclick="mw.dialog.get(this).remove()">Cancel</span>
-                            <span class="mw-ui-btn mw-ui-btn-notification pull-right"
-                                  onclick="saveOptions(<?php print $item['id'] ?>);mw.dialog.get(this).remove()">Update</span>
-
+                            </div>
                         </div>
-                    </div>
-                </template>
+                    </template>
+                </div>
+            </div>
+        <?php endforeach; ?>
+        <div class="admin-thumb-item-uploader-holder">
+            <div class="dropable-zone small-zone square-zone">
+                <div class="holder">
+                    <button type="button" class="btn btn-link">Add file</button>
+                    <p>or drop file to upload</p></div>
+            </div>
+            <div class="admin-thumb-item-uploader" id="admin-thumb-item-uploader<?php print $rand; ?>">
+
             </div>
         </div>
-    <?php endforeach; ?>
-<div class="admin-thumb-item-uploader-holder">
-    <div class="dropable-zone small-zone square-zone">
-        <div class="holder"> <button type="button" class="btn btn-link">Add file</button> <p>or drop file to upload</p> </div>
-    </div>
-    <div class="admin-thumb-item-uploader" id="admin-thumb-item-uploader<?php print $rand; ?>">
-
-    </div>
-</div>
-<?php endif; ?>
-
+    <?php endif; ?>
 
 
 </div>

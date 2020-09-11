@@ -15,7 +15,7 @@ mw.require('widgets.css');
                 { type: 'layout' },
                 /*{ type: 'title' },*/
             ],
-            title: mw.lang('Link Settings'),
+            title: '<i class="mdi mdi-link mw-link-editor-icon"></i> ' + mw.lang('Link Settings'),
             nav: 'tabs'
         };
 
@@ -30,10 +30,19 @@ mw.require('widgets.css');
         };
 
         this.setValue = function (data, controller) {
-            controller = controller || 'url';
-            this.controllers.find(function (item){
-                return item.type === controller;
-            }).controller.setValue(data);
+            controller = controller || 'auto';
+
+            if(controller === 'auto') {
+                this.controllers.forEach(function (item){
+                    item.controller.setValue(data);
+                });
+            } else {
+                this.controllers.find(function (item){
+                    return item.type === controller;
+                }).controller.setValue(data);
+            }
+
+
         };
 
 
@@ -80,7 +89,7 @@ mw.require('widgets.css');
                 if(dropdown.length) {
                     var dropdownElBtn =  document.createElement('span');
                     var dropdownEl =  document.createElement('div');
-                      dropdownElBtn.className = 'btn dropdown-toggle bs-placeholder';
+                      dropdownElBtn.className = 'btn dropdown-toggle bs-placeholder mw-link-editor-more-button';
                       dropdownEl.className = 'mw-link-editor-nav-drop-box';
                       dropdownEl.style.display = 'none';
 
@@ -146,6 +155,12 @@ mw.require('widgets.css');
         };
         this.build = function (){
             this.root = document.createElement('div');
+            this.root.onclick = function (e) {
+                var le = mw.tools.firstParentWithClass(e.target, 'mw-link-editor-nav-drop-box');
+                if(!le) {
+                    mw.element('.mw-link-editor-nav-drop-box').hide();
+                }
+            };
 
             this.root.className = 'mw-link-editor-root mw-link-editor-root-inIframe-' + (window.self !== window.top )
             this.buildControllers ();

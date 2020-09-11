@@ -239,12 +239,14 @@
 
                 <?php if (isset($params['content_type']) AND $params['content_type'] == 'page'): ?>
                     <module type="content/views/content_tags" content-type="<?php print $params['content_type'] ?>" content-id="<?php print $params['page-id'] ?>"/>
+                    <?php else: ?>
+                    <small class="text-muted">The tags are available only for saved content</small>
                 <?php endif; ?>
             </div>
         </div>
     <?php endif; ?>
 
-    <div class="card style-1 mb-3">
+    <div class="card style-1 mb-3 d-none">
         <div class="card-body">
             <div id="content-title-field-buttons">
                 <?php if ($is_live_edit == false) : ?>

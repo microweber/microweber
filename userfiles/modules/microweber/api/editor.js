@@ -1,5 +1,4 @@
 
-
 var EditorPredefinedControls = {
     'default': [
         [ 'bold', '|', 'italic' ],

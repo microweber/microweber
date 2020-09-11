@@ -46,15 +46,13 @@ if (isset($_GET['group']) and $_GET['group']) {
 
 <div class="card bg-none style-1 mb-0">
     <div class="card-header">
-        <h5><i class="mdi mdi-cog text-primary mr-3"></i> <strong>Settings</strong></h5>
+        <h5><i class="mdi mdi-earth text-primary mr-3"></i> <strong>Website settings</strong></h5>
         <div>
 
         </div>
     </div>
 
     <div class="card-body pt-3">
-        <h2 class="text-center mt-3 mb-4">Website settings</h2>
-        
         <div class="card style-1 mb-3">
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
