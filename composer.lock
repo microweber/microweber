@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a288ba96e5cf17f551225c5da773d04b",
+    "content-hash": "bb8a1e015a03ee003e09c63f5ba9ef81",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3669,6 +3669,56 @@
             "description": "Internal MaxMind Web Service API",
             "homepage": "https://github.com/maxmind/web-service-common-php",
             "time": "2020-05-06T14:07:26+00:00"
+        },
+        {
+            "name": "microweber-deps/composer-shared-package-plugin",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-deps/composer-shared-package-plugin.git",
+                "reference": "2e28fa3cf8f55843d4c3b1ede8065a4cf2f4a7f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-deps/composer-shared-package-plugin/zipball/2e28fa3cf8f55843d4c3b1ede8065a4cf2f4a7f0",
+                "reference": "2e28fa3cf8f55843d4c3b1ede8065a4cf2f4a7f0",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "*",
+                "php": ">=7.3.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "composer/composer": "dev-master",
+                "phpunit/phpunit": "~4.7",
+                "symfony/var-dumper": "~2.7"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "LEtudiant\\Composer\\SharedPackagePlugin"
+            },
+            "autoload": {
+                "psr-0": {
+                    "LEtudiant\\Composer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sylvain Lorinet",
+                    "email": "sylvain.lorinet@gmail.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "This composer plugin allows you to share selected packages between your projects with symlinks.",
+            "time": "2020-09-11T11:42:19+00:00"
         },
         {
             "name": "microweber-packages/microweber-class-alias",
@@ -11025,7 +11075,8 @@
         "laravelcollective/html": 20,
         "laravel/socialite": 20,
         "arcanedev/seo-helper": 20,
-        "letudiant/composer-shared-package-plugin": 20
+        "letudiant/composer-shared-package-plugin": 20,
+        "microweber-deps/composer-shared-package-plugin": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

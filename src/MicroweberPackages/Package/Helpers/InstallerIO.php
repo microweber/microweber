@@ -33,6 +33,9 @@ class InstallerIO extends BufferIO
 
     public function writeError($messages, $newline = true, $verbosity = self::NORMAL)
     {
-        app()->update->log_msg($messages);
+
+        echo $messages . '<br />';
+
+        //app()->update->log_msg($messages);
      }
 }

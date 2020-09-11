@@ -52,7 +52,8 @@
     "laravelcollective/html": "^6.0@dev",
     "laravel/socialite": "^6.0@dev",
     "arcanedev/seo-helper": "dev-master",
-    "letudiant/composer-shared-package-plugin": "^3.1@dev"
+    "letudiant/composer-shared-package-plugin": "^3.1@dev",
+    "microweber-deps/composer-shared-package-plugin": "dev-master"
   },
   "require-dev": {
     "facade/ignition": "^2.3.6",

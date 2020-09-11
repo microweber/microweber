@@ -521,21 +521,25 @@ class ComposerUpdate
                     $current_composer['require'][$requirePackage] = $requireDetails->getPrettyConstraint();
                 }
             }
+
+            //$current_composer['require']['composer/installers'] = '*';
+            $current_composer['require']['microweber-deps/composer-shared-package-plugin'] = '*';
+            $current_composer['require']['erusev/parsedown'] = 'dev-master';
+
+
             if(isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])){
-            unset($current_composer['repositories']['packagist']);
+                unset($current_composer['repositories']['packagist']);
             }
 
             if(!isset($current_composer['extra'])){
-                $current_composer['extra'] = [];
+                 $current_composer['extra'] = [];
             }
 
-            $current_composer['extra']['shared-package'] = [
-
-                ['package-list' => '*'],
-                ['symlink-enabled' => true],
-                ['vendor-dir' => mw_root_path().'/vendor'],
-
-            ];
+              $current_composer['extra']['shared-package'] = [
+                  ['package-list' => '*'],
+                  ['symlink-enabled' => true],
+                  ['vendor-dir' => mw_root_path().'/vendor'],
+               ];
 
 
             file_put_contents($current_composer_file, json_encode($current_composer));
@@ -591,6 +595,10 @@ class ComposerUpdate
           //  dd($update);
             try {
                 $out = $update->run($input, $output);
+
+
+        dd($from_folder);
+               die();
             } catch (PackageManagerUnzipOnChunksException $e) {
                 $cache_key_for_unzip_on_chunks = $e->getMessage();
 
@@ -618,9 +626,9 @@ class ComposerUpdate
                 $allFiles = array_keys($allFiles);
                 $skip_files=[];
                 if (!$install_core_update) {
-                    $skip_files = array(  'auth.json');
+                   // $skip_files = array(  'auth.json');
                 //    $skip_files = array(  'auth.json', 'composer.lock');
-                    //$skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor', 'packages.json');
+                    $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor', 'packages.json');
 
                 } else {
                     $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'packages.json');
