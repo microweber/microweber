@@ -108,7 +108,7 @@ trait QueryFilter
                 $exclude_ids = array_merge($exclude_ids,$exclude_ids_merge);
             }
         } else if(isset($params['exclude_ids']) and is_array($params['exclude_ids'])) {
-                $exclude_ids = array_merge($exclude_ids,$exclude_ids_merge);
+                $exclude_ids = array_merge($exclude_ids,$params['exclude_ids']);
          }
 
 
