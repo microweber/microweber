@@ -12,8 +12,10 @@ use Composer\Util\Filesystem;
 use Composer\Util\HttpDownloader;
 use Composer\Util\ProcessExecutor;
 use Composer\EventDispatcher\EventDispatcher;
+use Composer\IO\IOInterface;
+use MicroweberPackages\Package\Installer\InstallationManager;
 
-
+use Composer\Util\Loop;
 class ComposerFactory extends Factory {
 
     /**
@@ -65,6 +67,12 @@ class ComposerFactory extends Factory {
 
         $dm->setDownloader('zip', new Downloader\ZipDownloader($io, $config, $httpDownloader, $eventDispatcher, $cache, $fs, $process));
         return $dm;
+    }
+
+
+    public function createInstallationManager(Loop $loop, IOInterface $io, EventDispatcher $eventDispatcher = null)
+    {
+        return new InstallationManager($loop, $io, $eventDispatcher);
     }
 
 }

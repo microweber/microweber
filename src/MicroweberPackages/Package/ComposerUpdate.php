@@ -187,7 +187,6 @@ class ComposerUpdate
 
         ob_start();
 
-      //  $loop =   new \Composer\Util\Loop(HttpDownloader $httpDownloader = null, ProcessExecutor $processExecutor = null);
 
       //  $manager = new InstallationManager($loop,  $io, $eventDispatcher );
         $composer = Factory::create($io,$composer_temp);
@@ -543,8 +542,8 @@ class ComposerUpdate
             $argv = array();
             //  $argv[] = 'dry-run';
             // $argv[] = '--no-plugins';
-          //  $argv[] = '--working-dir='. escapeshellarg($temp_folder);
-         dd(__FILE__,__LINE__,$conf_temp,$argv);
+            $argv[] = '--working-dir='. escapeshellarg($temp_folder);
+
 
          //   $input = new ArgvInput($argv);
             $input = new ArrayInput($argv);
@@ -556,9 +555,11 @@ class ComposerUpdate
                 $config->merge($composer_temp);
             }
 
+
+
             //$output->setVerbosity(1);
             //$io = new ConsoleIO($input, $output, $helper);
-            $io = new InstallerIO('', 32, null);
+            $io = new InstallerIO($input, 32, null);
             // $io = new NullIO('', false, null);
 
             $composer = Factory::create($io);
@@ -567,6 +568,12 @@ class ComposerUpdate
 
             $installation_manager = $composer->getInstallationManager();
 
+            //        $loop =   new \Composer\Util\Loop(HttpDownloader $httpDownloader = null, ProcessExecutor $processExecutor = null);
+
+            //__construct(Loop $loop, IOInterface $io, EventDispatcher $eventDispatcher = null)
+
+
+  //          dd(__FILE__,__LINE__,$conf_temp,$argv,$installation_manager);
 
             if ($installers) {
                 foreach ($installers as $installer) {
@@ -577,8 +584,10 @@ class ComposerUpdate
             $composer->setConfig($config);
             $update = new \MicroweberPackages\Package\InstallCommand();
             $update->setComposer($composer);
-            $update->setIO($io);
 
+
+            $update->setIO($io);
+          //  dd($update);
             try {
                 $out = $update->run($input, $output);
             } catch (PackageManagerUnzipOnChunksException $e) {
