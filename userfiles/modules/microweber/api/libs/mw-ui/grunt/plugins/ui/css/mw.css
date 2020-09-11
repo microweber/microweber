@@ -22,7 +22,7 @@ header {
       margin: 0;
       max-width: 100%; } }
   header .logo img {
-    min-width: 180px; }
+    height: 45px; }
   header .logo h1, header .logo h2, header .logo h3, header .logo h4, header .logo h5, header .logo h6 {
     margin-bottom: 0; }
   header .language-selector .btn {
