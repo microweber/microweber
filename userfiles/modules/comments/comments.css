@@ -1,0 +1,127 @@
+.mwcommentsmodule .comment-image-holder{
+  width: 95px;
+}
+
+.mwcommentsmodule  .captcha-row{
+  float: left;
+  overflow: hidden;
+  background: white;
+  max-width: 300px;
+}
+.mwcommentsmodule  .captcha-row .ico{
+  margin-left: 5px;
+}
+
+.comment-textarea{
+  margin-bottom: 30px;
+}
+.mwcommentsmodule input[type='email'],
+.mwcommentsmodule textarea,
+.mwcommentsmodule input[type='text']{
+  border: 1px solid #CCCCCC;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* Comments  */
+
+.mwcommentsmodule .mw-comments-form .comment-field input, .mwcommentsmodule .mw-comments-form .comment-field textarea {
+	width: 100%;
+}
+.mwcommentsmodule .mw-comments-form textarea {
+	height: 100px;
+	min-height: 50px;
+	max-height: 250px;
+	resize: vertical;
+}
+.mwcommentsmodule .mw-comments-form input[type='submit'] {
+	position: relative;
+	z-index: 1;
+}
+.mwcommentsmodule .comment-content {
+	padding-left: 10px;
+}
+.mwcommentsmodule .comment {
+	clear: both;
+	overflow: hidden;
+	zoom:1;
+	padding: 20px 0;
+}
+.mwcommentsmodule .comment .comment-image {
+	display: block;
+	width: 60px;
+	max-height: 67px;
+	margin: 5px 0;
+	text-align: center;
+}
+.mwcommentsmodule .comment .random-color span {
+	display: block;
+	width: 67px;
+	height: 67px;
+}
+.mwcommentsmodule .comment-author {
+	font-weight: bold;
+	color: #333;
+}
+/* Comments Simple Template  */
+
+
+.mwcommentsmodule .comments-template-simple .comment {
+	padding: 10px;
+	border: 1px solid #D3D3D3;
+	margin: 10px 0;
+	background: white;
+	border-radius: 4px;
+    color: #111;
+}
+.mwcommentsmodule .comments-template-simple .comment:nth-child(2n) {
+	border-color:transparent;
+	background-color: transparent;
+}
+/* /Comments Simple Template  */
+
+
+/* Comments Stylish Template  */
+.mwcommentsmodule .comments-template-stylish .comment .comment-content {
+	background:#fff;
+	border: 1px solid #CCCCCC;
+	padding: 15px 25px;
+	position: relative;
+    color: #111;
+}
+.mwcommentsmodule .comments-template-stylish .comment a {
+	 color:#0099CC;
+}
+
+.mwcommentsmodule .comments-template-stylish .comment .comment-content:before {
+	content: "";
+	display: block;
+	position: absolute;
+	left: -8px;
+	top: 15px;
+	width: 9px;
+	height: 19px;
+	z-index: 1;
+}
+
+.mw-comments-form input[type='submit'] {
+  float: right;
+}
+
+/* /Comments Stylish Template  */
+
+.comments-form-fields .comment-field{
+  padding-bottom: 20px;
+}
+
+@media (max-width:768px){
+  .comments-template-stylish .comment-image-holder .mw-ui-col-container{
+    display: none;
+  }
+
+  .comments-template-stylish .mw-ui-col-container img.comment-image{
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
