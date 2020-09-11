@@ -23,6 +23,8 @@ header {
       max-width: 100%; } }
   header .logo img {
     height: 45px; }
+  header .logo img[src*="microweber-cms-logo-login.svg"] {
+    width: 180px; }
   header .logo h1, header .logo h2, header .logo h3, header .logo h4, header .logo h5, header .logo h6 {
     margin-bottom: 0; }
   header .language-selector .btn {
