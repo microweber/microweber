@@ -198,11 +198,11 @@ if (!isset($data["thumbnail"])) {
 <div class="select_actions_holder">
     <div class="select_actions">
         <a href="javascript:;" class="btn btn-sm btn-link text-danger" onclick="deleteSelected()">
-            <span><?php _e('Delete') ?> <?php _e('selected') ?></span>
+            <span><?php _e('Delete') ?><?php _e('selected') ?></span>
         </a>
         <span>/</span>
         <a href="javascript:;" class="btn btn-sm btn-link" onclick="downloadSelected('none')">
-            <span><?php _e('Download') ?> <?php _e('selected') ?></span>
+            <span><?php _e('Download') ?><?php _e('selected') ?></span>
         </a>
     </div>
 </div>
@@ -358,13 +358,13 @@ if (!isset($data["thumbnail"])) {
                 nav: 'dropdown',
                 footer: false,
                 boxed: <?php print isset($params['boxed']) ? $params['boxed'] : 'false'; ?>,
-                dropDownTargetMode : 'dialog',
+                dropDownTargetMode: 'dialog',
                 label: mw.lang('Media'),
                 hideHeader: <?php print isset($params['hideHeader']) ? $params['hideHeader'] : 'true'; ?>,
-                uploaderType: <?php print isset($params['uploaderType']) ? '"'.$params['uploaderType'] . '"' : '"big"'; ?>,
+                uploaderType: <?php print isset($params['uploaderType']) ? '"' . $params['uploaderType'] . '"' : '"big"'; ?>,
                 multiple: true,
                 accept: 'image/*',
-        })
+            })
 
             mw._postsImageUploader._thumbpreload = function () {
                 var el = mw.$('<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>');
@@ -404,7 +404,6 @@ if (!isset($data["thumbnail"])) {
                     mw._postsImageUploader.hideUploaders()
                 }
             }
-
 
 
             $(".image-tag-view").remove();
