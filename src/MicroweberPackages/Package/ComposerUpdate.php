@@ -185,7 +185,8 @@ class ComposerUpdate
             $config->merge($composer_temp);
         }
 
-        ob_start();
+
+       // ob_start();
 
 
       //  $manager = new InstallationManager($loop,  $io, $eventDispatcher );
@@ -550,7 +551,7 @@ class ComposerUpdate
             $output = new ConsoleOutput();
             $helper = new HelperSet();
             $config = new Config(false, $temp_folder);
-
+//dd($temp_folder);
             if ($composer_temp) {
                 $config->merge($composer_temp);
             }

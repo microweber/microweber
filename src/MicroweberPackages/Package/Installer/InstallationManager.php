@@ -37,6 +37,7 @@ use React\Promise\PromiseInterface;
 use Composer\Installer\InstallerInterface ;
 
 
+
 /**
  * Package operation manager.
  *
@@ -46,137 +47,7 @@ use Composer\Installer\InstallerInterface ;
  */
 class InstallationManager extends InstallationManagerComposer
 {
-    /** @var array<InstallerInterface> */
-    private $installers = array();
-    /** @var array<string, InstallerInterface> */
-    private $cache = array();
-    /** @var array<string, array<PackageInterface>> */
-    private $notifiablePackages = array();
-    /** @var Loop */
-    private $loop;
-    /** @var IOInterface */
-    private $io;
-    /** @var EventDispatcher */
-    private $eventDispatcher;
-    /** @var bool */
-    private $outputProgress;
 
-    public function __construct(Loop $loop, IOInterface $io, EventDispatcher $eventDispatcher = null)
-    {
-        $this->loop = $loop;
-        $this->io = $io;
-        $this->eventDispatcher = $eventDispatcher;
-    }
-
-    public function reset()
-    {
-        $this->notifiablePackages = array();
-    }
-
-    /**
-     * Adds installer
-     *
-     * @param InstallerInterface $installer installer instance
-     */
-    public function addInstaller(InstallerInterface $installer)
-    {
-        array_unshift($this->installers, $installer);
-        $this->cache = array();
-    }
-
-    /**
-     * Removes installer
-     *
-     * @param InstallerInterface $installer installer instance
-     */
-    public function removeInstaller(InstallerInterface $installer)
-    {
-        if (false !== ($key = array_search($installer, $this->installers, true))) {
-            array_splice($this->installers, $key, 1);
-            $this->cache = array();
-        }
-    }
-
-    /**
-     * Disables plugins.
-     *
-     * We prevent any plugins from being instantiated by simply
-     * deactivating the installer for them. This ensure that no third-party
-     * code is ever executed.
-     */
-    public function disablePlugins()
-    {
-        foreach ($this->installers as $i => $installer) {
-            if (!$installer instanceof PluginInstaller) {
-                continue;
-            }
-
-            unset($this->installers[$i]);
-        }
-    }
-
-    /**
-     * Returns installer for a specific package type.
-     *
-     * @param string $type package type
-     *
-     * @throws \InvalidArgumentException if installer for provided type is not registered
-     * @return InstallerInterface
-     */
-    public function getInstaller($type)
-    {
-        $type = strtolower($type);
-
-        if (isset($this->cache[$type])) {
-            return $this->cache[$type];
-        }
-
-        foreach ($this->installers as $installer) {
-            if ($installer->supports($type)) {
-                return $this->cache[$type] = $installer;
-            }
-        }
-
-        throw new \InvalidArgumentException('Unknown installer type: '.$type);
-    }
-
-    /**
-     * Checks whether provided package is installed in one of the registered installers.
-     *
-     * @param InstalledRepositoryInterface $repo    repository in which to check
-     * @param PackageInterface             $package package instance
-     *
-     * @return bool
-     */
-    public function isPackageInstalled(InstalledRepositoryInterface $repo, PackageInterface $package)
-    {
-        if ($package instanceof AliasPackage) {
-            return $repo->hasPackage($package) && $this->isPackageInstalled($repo, $package->getAliasOf());
-        }
-
-        return $this->getInstaller($package->getType())->isInstalled($repo, $package);
-    }
-
-    /**
-     * Install binary for the given package.
-     * If the installer associated to this package doesn't handle that function, it'll do nothing.
-     *
-     * @param PackageInterface $package Package instance
-     */
-    public function ensureBinariesPresence(PackageInterface $package)
-    {
-        try {
-            $installer = $this->getInstaller($package->getType());
-        } catch (\InvalidArgumentException $e) {
-            // no installer found for the current package type (@see `getInstaller()`)
-            return;
-        }
-
-        // if the given installer support installing binaries
-        if ($installer instanceof BinaryPresenceInterface) {
-            $installer->ensureBinariesPresence($package);
-        }
-    }
 
     /**
      * Executes solver operation.
