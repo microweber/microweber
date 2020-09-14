@@ -55,7 +55,7 @@
         </div>
 
         <div class="collapse @if(request()->get('filter') == 'true') show @endif" id="show-filter">
-            <div class="bg-primary-opacity-1 rounded px-3 py-2 pb-3 mb-1">
+            <div class="bg-primary-opacity-1 rounded px-3 py-2 pb-3 mt-3">
                 <div class="row">
                     <div class="col">
                         <label><?php _e('Search'); ?></label>
