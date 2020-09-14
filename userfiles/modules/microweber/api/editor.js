@@ -1,4 +1,76 @@
 
+
+(function (){
+
+    var FileManager = function (options) {
+
+        options = options || {};
+
+        var defaults = {
+            data: Array(5).fill({}), // todo: make it empty
+            viewType: 'list'
+        };
+
+        this.settings = mw.object.extend({}, defaults, options);
+
+        var table, tableHeader, tableBody;
+
+        var scope = this;
+
+        this._check = function () {
+            return '' +
+                '<label class="mw-ui-check">' +
+                    '<input type="checkbox">' +
+                '</label>';
+        };
+        this.setData = function (data) {
+
+        };
+
+        this.render = function () {
+
+        };
+
+        this.listView = function () {
+            table =  mw.element('<table />');
+            tableHeader =  mw.element('' +
+                '<thead><tr>' +
+                '<th>'+this._check()+'</th>' +
+                '<th class="mw-file-manager-sortable-table-header"><span>Name</span></th>' +
+                '<th class="mw-file-manager-sortable-table-header"><span>Size</span></th>' +
+                '<th></th>' +
+                '<th colspan="2">Last modified</th>' +
+            '</tr></thead>');
+
+            tableBody =  mw.element('<tbody />');
+            table.append(tableHeader).append(tableBody);
+
+        };
+
+        this.render = function () {
+
+
+        };
+
+        this.createRoot = function (){
+            this.root = mw.element({
+                props: {
+                    className: 'mw-file-manager-root'
+                }
+            });
+        };
+
+        this.init = function (){
+            this.createRoot();
+        };
+
+        this.init();
+    };
+    mw.FileManager = FileManager;
+})();
+
+
+
 var EditorPredefinedControls = {
     'default': [
         [ 'bold', '|', 'italic' ],
@@ -38,7 +110,7 @@ window.MWEditor = function (options) {
 
     options = options || {};
 
-    this.settings = $.extend({}, defaults, options);
+    this.settings = mw.object.extend({}, defaults, options);
 
 
     if (typeof this.settings.controls === 'string') {

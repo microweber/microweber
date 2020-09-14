@@ -29,7 +29,7 @@ mw.uiAccordion = function (options) {
                 }
             });
         }
-    }
+    };
 
     this.prepare = function (options) {
         var defaults = {

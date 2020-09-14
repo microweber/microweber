@@ -10,7 +10,7 @@ if (isset($params['content_id'])){
 <?php if ($check > 1){ ?>
     <script>
         function mw_admin_edit_content_revisions_item_popup(content_id) {
-            mw_admin_edit_content_revisions_tax_item_popup_modal_opened = mw.modal({
+            mw.dialog({
                 content: '<div id="mw_admin_edit_content_revisions_tax_item_popup_modal_module"></div>',
                 title: 'Content revisions',
                 id: 'mw_admin_edit_content_revisions_tax_item_popup_modal'

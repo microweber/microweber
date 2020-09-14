@@ -31,7 +31,7 @@
                 // icon: 'mdi mdi-format-page-break',
                 title: 'Page title'
             };
-            options = extend(true, {}, defaults, (options || {}));
+            options =  mw.object.extend(true, {}, defaults, (options || {}));
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;
@@ -173,7 +173,7 @@
                 // icon: 'mdi mdi-format-page-break',
                 title: 'Page block'
             };
-            options = extend(true, {}, defaults, (options || {}));
+            options =  mw.object.extend(true, {}, defaults, (options || {}));
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;
@@ -320,7 +320,7 @@
                 icon: 'mdi mdi-email-outline',
                 title: 'Email'
             };
-            options = extend(true, {}, defaults, (options || {}));
+            options =  mw.object.extend(true, {}, defaults, (options || {}));
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;
@@ -466,7 +466,7 @@
                     }
                 }
             };
-            options = extend(true, {}, defaults, (options || {}));
+            options =  mw.object.extend(true, {}, defaults, (options || {}));
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.target === true) options.target = defaults.target;
@@ -633,7 +633,7 @@
                     }
                 }
             };
-            options = extend(true, {}, defaults, (options || {}));
+            options =  mw.object.extend(true, {}, defaults, (options || {}));
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.target === true) options.target = defaults.target;
@@ -783,7 +783,7 @@
                     }
                 }
             };
-            options = extend(true, {}, defaults, (options || {}));
+            options =  mw.object.extend(true, {}, defaults, (options || {}));
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.target === true) options.target = defaults.target;
@@ -929,7 +929,7 @@
                 icon: 'mdi mdi-web',
                 title: 'URL'
             };
-            options = extend(true, {}, defaults, (options || {}));
+            options =  mw.object.extend(true, {}, defaults, (options || {}));
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;

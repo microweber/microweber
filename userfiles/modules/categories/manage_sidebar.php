@@ -33,7 +33,7 @@
         }
 
 
-        mw_admin_edit_category_item_module_opened = mw.modal({
+        mw.dialog({
             content: '<div id="mw_admin_edit_category_item_module"></div>',
             title: modalTitle,
             id: 'mw_admin_edit_category_item_popup_modal'

@@ -1,36 +1,8 @@
 (function(){
 
     var Element = function(options, root){
-
-        this.nodes = [];
-        this.root = root || document;
-        this._asElement = false;
-
-        options = options || {};
-
-        if(options.nodeName && options.nodeType) {
-            this.nodes.push(options);
-            this.node = (options);
-            options = {};
-            this._asElement = true;
-        } else if(typeof options === 'string') {
-            this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
-            options = {};
-            this._asElement = true;
-        }
-
-        options = options || {};
-
-
-        var defaults = {
-            tag: 'div',
-            props: {}
-        };
         var scope = this;
 
-        this.settings = $.extend({}, defaults, options);
-
-        this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
         this.toggle = function () {
             this.css('display', this.css('display') === 'none' ? 'block' : 'none');
@@ -180,24 +152,49 @@
             this.node.innerHTML = val;
         };
 
+        this._asdom = function (obj) {
+            if (typeof obj === 'string') {
+                return this.document.createRange().createContextualFragment(obj);
+            } else {
+                return obj.node ? obj.node : obj;
+            }
+        };
+
+        this._last = function () {
+            return this.nodes[this.nodes.length - 1];
+        };
+
         this.parent = function () {
-            return this.node.parentNode;
+            return  this._last().parentNode;
         };
         this.append = function (el) {
             if (el) {
-                return this.node.appendChild( el.node ? el.node : el );
+                el = this._asdom(el);
+                this.each(function (){
+                    this.append(el, this.node);
+                });
             }
+            return this;
         };
 
         this.before = function (el) {
-
             if (el) {
-                this.node.parentNode.insertBefore(el.node ? el.node : el, this.node);
+                el = this._asdom(el);
+                this.each(function (){
+                    this.insertBefore(el, this.node);
+                });
             }
+            return this;
         };
 
         this.prepend = function (el) {
-            return this.$node.prepend( el.node ? el.node : el );
+            if (el) {
+                el = this._asdom(el);
+                this.each(function (){
+                    this.prepend(el, this.node);
+                });
+            }
+            return this;
         };
         this._disabled = false;
 
@@ -212,24 +209,65 @@
 
         this.trigger = function(event, data){
             data = data || {};
-            scope.node.dispatchEvent(new CustomEvent(event, {
-                detail: data,
-                cancelable: true,
-                bubbles: true
-            }));
+            this.each(function (){
+                this.dispatchEvent(new CustomEvent(event, {
+                    detail: data,
+                    cancelable: true,
+                    bubbles: true
+                }));
+            });
+
             return this;
         };
 
         this.on = function(events, cb){
             events = events.trim().split(' ');
             events.forEach(function (ev) {
-                scope.node.addEventListener(ev, function(e) {
-                    cb.call(scope, e, e.detail, this);
-                }, false);
+                scope.each(function (){
+                    this.addEventListener(ev, function(e) {
+                        cb.call(scope, e, e.detail, this);
+                    }, false);
+                });
             });
             return this;
         };
         this.init = function(){
+            this.nodes = [];
+            this.root = root || document;
+            this._asElement = false;
+            this.document =  (this.root.body ? this.root : this.root.ownerDocument);
+
+            options = options || {};
+
+            if(options.nodeName && options.nodeType) {
+                this.nodes.push(options);
+                this.node = (options);
+                options = {};
+                this._asElement = true;
+            } else if(typeof options === 'string') {
+                if(options.indexOf('<') === -1) {
+                    this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
+                    options = {};
+                    this._asElement = true;
+                } else {
+                    var el = this._asdom(options);
+                    this.nodes = [].slice.call(el.children);
+                }
+
+            }
+
+            options = options || {};
+
+
+            var defaults = {
+                tag: 'div',
+                props: {}
+            };
+
+
+            this.settings = $.extend({}, defaults, options);
+
+
             if(this._asElement) return;
             this.create();
             this.setProps();
@@ -239,4 +277,5 @@
     mw.element = function(options){
         return new Element(options);
     };
+    mw.element.extend = function () {}
 })();

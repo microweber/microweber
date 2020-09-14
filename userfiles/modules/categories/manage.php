@@ -86,13 +86,6 @@
                         var modalTitle = '<?php _e('Add category'); ?>';
                     }
 
-                    /*mw_admin_edit_category_item_module_opened = mw.modal({
-                        content: '<div id="mw_admin_edit_category_item_module"></div>',
-                        title: modalTitle,
-                        id: 'mw_admin_edit_category_item_popup_modal'
-                    });*/
-
-
                     var params = {}
                     params['data-category-id'] = id;
                     params['no-toolbar'] = true;
