@@ -25,7 +25,7 @@ mw.propEditor = {
         },
         label:function(content){
             var el = document.createElement('label');
-            el.className = 'mw-ui-label prop-ui-label';
+            el.className = 'control-label d-block prop-ui-label';
             el.innerHTML = content;
             return el;
         },
@@ -71,7 +71,7 @@ mw.propEditor = {
 
             }
 
-            el.className = 'mw-ui-field prop-ui-field';
+            el.className = 'form-control prop-ui-field';
             el.value = val;
             return el;
         },

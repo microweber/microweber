@@ -1200,6 +1200,10 @@ class UpdateManager
             $this->log_messages[] = $msg;
         }
 
+        if (is_array($msg)) {
+            return;
+        }
+
         $log_file = userfiles_path() . $this->log_filename;
         if (!is_file($log_file)) {
             @touch($log_file);
@@ -1265,7 +1269,10 @@ class UpdateManager
             return $this->composer_update->installPackageByName($params);
         }catch (\Exception $e) {
             return array(
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTrace()
             );
         }
     }

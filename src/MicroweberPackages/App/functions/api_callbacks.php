@@ -1,7 +1,5 @@
 <?php
 
-use Microweber\Utils\Adapters\Media\Unsplash;
-
 api_expose('api_index', function ($data = false) {
     $fns = explode(' ', api_expose(true));
     $fns = array_filter($fns);
@@ -113,7 +111,7 @@ api_expose('template/print_custom_css', function ($data) {
 api_expose_admin('media_library/search', function ($data) {
 
     $search = array();
-    $unsplash = new Unsplash();
+    $unsplash = new \MicroweberPackages\Utils\Media\Adapters\Unsplash();
 
     $page = 1;
 
@@ -134,7 +132,7 @@ api_expose_admin('media_library/search', function ($data) {
 
 api_expose_admin('media_library/download', function ($data) {
 
-    $unsplash = new Unsplash();
+    $unsplash = new \MicroweberPackages\Utils\Media\Adapters\Unsplash();
     if (isset($data['photo_id'])) {
         $image = $unsplash->download($data['photo_id']);
     }

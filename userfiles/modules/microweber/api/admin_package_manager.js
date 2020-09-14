@@ -51,7 +51,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
     //mw.load_module('updates/worker', '#mw-updates-queue');
 
 
-    var update_queue_set_modal = mw.modal({
+    var update_queue_set_modal = mw.dialog({
         content: '<div class="module" type="updates/worker" id="update_queue_process_alert"></div>',
         overlay: false,
         id: 'update_queue_set_modal',

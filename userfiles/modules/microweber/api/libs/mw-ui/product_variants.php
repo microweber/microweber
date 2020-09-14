@@ -102,7 +102,7 @@
                                 <div class="card-header no-border">
                                     <h6><strong>Options</strong></h6>
                                     <div>
-                                        <select class="selectpicker btn-as-link" data-title="Add media from" data-style="btn-sm" data-width="auto">
+                                        <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto">
                                             <option>Add image from URL</option>
                                             <option>Browse uploaded</option>
                                             <option>Add file</option>

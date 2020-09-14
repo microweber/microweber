@@ -102,18 +102,19 @@ trait QueryFilter
         }
 
         $exclude_ids = [];
-        if(isset($params['exclude_ids'])){
+        if(isset($params['exclude_ids']) and is_string($params['exclude_ids'])){
             $exclude_ids_merge = explode(',',$params['exclude_ids']);
             if($exclude_ids_merge){
                 $exclude_ids = array_merge($exclude_ids,$exclude_ids_merge);
-
             }
-        }
+        } else if(isset($params['exclude_ids']) and is_array($params['exclude_ids'])) {
+                $exclude_ids = array_merge($exclude_ids,$params['exclude_ids']);
+         }
 
 
 
 
-        foreach ($params as $filter => $value) {
+            foreach ($params as $filter => $value) {
 
             $compare_sign = false;
             $compare_value = false;

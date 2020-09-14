@@ -15,7 +15,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
         <div class="card-header no-border" id="post-media-card-header">
             <h6><strong><?php _e('Pictures'); ?></strong></h6>
             <div class="post-media-type-holder">
-                <select class="selectpicker btn-as-link" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
+                <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
                     <option value="url">Add image from URL</option>
                     <option value="server">Browse uploaded</option>
                     <option value="library">Select from Unsplash</option>
@@ -33,30 +33,28 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
     <?php
     $showCustomFields = true;
-    if($data['content_type'] == 'product') {
+    if ($data['content_type'] == 'product') {
         $showCustomFields = false;
-        include_once 'product/tabs.php';
+        include_once __DIR__ . DS . 'tabs.php';
     }
     ?>
 
-
-
     <?php if ($showCustomFields): ?>
-    <div class="card style-1 mb-3 fields">
-        <div class="card-body pt-3">
-            <module type="custom_fields/admin" <?php if (trim($data['content_type']) == 'product'): ?> default-fields="price" <?php endif; ?> content-id="<?php print $data['id'] ?>" suggest-from-related="true" list-preview="true" id="fields_for_post_<?php print $data['id']; ?>"/>
-            <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
-        </div>
-    </div>
-    <?php endif; ?>
-
-   <!-- <?php /*if (trim($data['content_type']) == 'product'): */?>
-        <div class="card style-1 mb-3">
+        <div class="card style-1 mb-3 fields">
             <div class="card-body pt-3">
-                <?php /*event_trigger('mw_edit_product_admin', $data); */?>
+                <module type="custom_fields/admin" <?php if (trim($data['content_type']) == 'product'): ?> default-fields="price" <?php endif; ?> content-id="<?php print $data['id'] ?>" suggest-from-related="true" list-preview="true" id="fields_for_post_<?php print $data['id']; ?>"/>
+                <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
             </div>
         </div>
-    --><?php /*endif; */?>
+    <?php endif; ?>
+
+    <!-- <?php /*if (trim($data['content_type']) == 'product'): */ ?>
+        <div class="card style-1 mb-3">
+            <div class="card-body pt-3">
+                <?php /*event_trigger('mw_edit_product_admin', $data); */ ?>
+            </div>
+        </div>
+    --><?php /*endif; */ ?>
 
     <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
 
