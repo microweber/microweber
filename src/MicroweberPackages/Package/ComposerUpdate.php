@@ -4,6 +4,11 @@ namespace MicroweberPackages\Package;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
 use Composer\Config;
+use LEtudiant\Composer\Data\Package\PackageDataManagerInterface;
+use LEtudiant\Composer\Data\Package\SharedPackageDataManager;
+use LEtudiant\Composer\Installer\Config\SharedPackageInstallerConfig;
+use LEtudiant\Composer\Installer\SharedPackageInstaller;
+use LEtudiant\Composer\Util\SymlinkFilesystem;
 use MicroweberPackages\Package\Installer\InstallationManager;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -185,7 +190,6 @@ class ComposerUpdate
             $config->merge($composer_temp);
         }
 
-
        // ob_start();
 
 
@@ -195,6 +199,7 @@ class ComposerUpdate
 
       //  $composer->setInstallationManager($manager);
         $composer->setConfig($config);
+
         $repositoryManager = $composer->getRepositoryManager();
 
         $packages = new ComposerPackagesSearchCommandController();
@@ -352,6 +357,9 @@ class ComposerUpdate
     public function installPackageByName($params)
     {
 
+
+
+
         if ('disabled' == $this->updateChannel) {
             return;
         }
@@ -396,7 +404,12 @@ class ComposerUpdate
         $version = strip_tags($version);
         $version = trim($version);
 
+        //
+
+
         $return = $this->searchPackages($params);
+
+
 
         if (!$return) {
             return array('error' => 'Error. Cannot find any packages for ' . $keyword);
@@ -406,6 +419,8 @@ class ComposerUpdate
             return array('error' => 'Error. Package not found in repositories ' . $keyword);
 
         }
+        dd('asdasdsadas',__FILE__,__LINE__);
+
         //   }
 
       //  $temp_folder = $this->composer_temp_folder;
@@ -524,7 +539,7 @@ class ComposerUpdate
 
             //$current_composer['require']['composer/installers'] = '*';
             $current_composer['require']['microweber-deps/composer-shared-package-plugin'] = '*';
-            $current_composer['require']['erusev/parsedown'] = 'dev-master';
+            $current_composer['require']['erusev/parsedown'] = '*';
 
 
             if(isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])){
@@ -536,13 +551,19 @@ class ComposerUpdate
             }
 
               $current_composer['extra']['shared-package'] = [
-                  ['package-list' => '*'],
-                  ['symlink-enabled' => true],
-                  ['vendor-dir' => mw_root_path().'/vendor'],
+                  'package-list' => ['*'=>'*'],
+                 // 'symlink-enabled' => false,
+                  'symlink-enabled' => true,
+                  'vendor-dir' => mw_root_path().'/vendor',
+             //     'symlink-dir' => mw_root_path().'/vendor-shared',
                ];
 
 
             file_put_contents($current_composer_file, json_encode($current_composer));
+
+            $composer_temp = file_get_contents($conf_temp);
+            $composer_temp = json_decode($composer_temp, true);
+
 
             $argv = array();
             //  $argv[] = 'dry-run';
@@ -585,10 +606,34 @@ class ComposerUpdate
                     $installation_manager->addInstaller(new $installer($io, $composer));
                 }
             }
-        //    dd($composer);
+
+
+            //add shared installer here
+
+            // public function __construct(
+            //        IOInterface $io,
+            //        Composer $composer,
+            //        SymlinkFilesystem $filesystem,
+            //        PackageDataManagerInterface $dataManager,
+            //        SharedPackageInstallerConfig $config
+            //    )
+
+
+
+            $shared_data_manager = new SharedPackageDataManager($composer);
+            $sym_fs = new SymlinkFilesystem();
+            $sym_conf = new SharedPackageInstallerConfig('vendor-shared', mw_root_path().'/vendor', $composer_temp['extra']);
+
+
+             $shared_insaller = new SharedPackageInstaller($io,$composer,$sym_fs,$shared_data_manager,$composer_temp['extra']);
+            $installation_manager->addInstaller($shared_insaller);
+
             $composer->setConfig($config);
             $update = new \MicroweberPackages\Package\InstallCommand();
             $update->setComposer($composer);
+
+
+            dd($from_folder,__FILE__,__LINE__);
 
 
             $update->setIO($io);
@@ -597,7 +642,6 @@ class ComposerUpdate
                 $out = $update->run($input, $output);
 
 
-        dd($from_folder);
                die();
             } catch (PackageManagerUnzipOnChunksException $e) {
                 $cache_key_for_unzip_on_chunks = $e->getMessage();
@@ -969,7 +1013,7 @@ class ComposerUpdate
         $new_composer_config['prefer-stable'] = true;
         //   $new_composer_config['target-dir'] = 'installed';
         // $new_composer_config['vendor-dir'] = $temp_folder;
-        //   $new_composer_config['config']['no-plugins'] = true;
+       $new_composer_config['config']['no-plugins'] = true;
         $new_composer_config['config']['cache-dir'] = $cache_folder;
         $new_composer_config['config']['data-dir'] = $data_folder;
         $new_composer_config['config']['preferred-install'] = array("*" => "dist");
