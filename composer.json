@@ -27,6 +27,7 @@
     "fruitcake/laravel-cors": "^2.0",
     "guzzlehttp/guzzle": "^7.0.1",
     "doctrine/dbal": "2.5.3",
+    "composer/composer": "1.10",
     "composer/installers": "^1.0@dev",
     "symplify/monorepo-builder": "^8.1",
     "ezyang/htmlpurifier": "*",
