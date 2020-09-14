@@ -41,7 +41,7 @@ class DatabaseWriter
 	 * The current batch step.
 	 * @var integer
 	 */
-	public $currentStep = 0;
+	public $step = 0;
 	
 	/**
 	 * The total steps for batch.
@@ -72,21 +72,8 @@ class DatabaseWriter
 		$this->content = $content;
 	}
 	
-	public function getCurrentStep() {
-		
-		$this->currentStep = $this->getStepCache();
-		
-		if (!$this->currentStep) {
-			$this->currentStep = 0;
-		}
-		
-		/*
-		if ($this->currentStep > $this->totalSteps) {
-			//$this->_finishUp('getCurrentStep()');
-			//$this->currentStep = 0;
-		}*/
-		
-		return $this->currentStep;
+	public function setStep($step) {
+		$this->step = $step;
 	}
 	
 	public function setOverwriteById($overwrite) {
@@ -309,20 +296,18 @@ class DatabaseWriter
 		}
 		
 		$this->_finishUp('runWriterBottom');
-
-        $this->saveStepCache($this->totalSteps);
 		
 	}
 	
 	public function runWriterWithBatch()
 	{
-		if ($this->getCurrentStep() == 0) {
+		if ($this->step == 1) {
 			BackupImportLogger::clearLog();
 			$this->_deleteOldContent();
 		}
 
-		BackupImportLogger::setLogInfo('Importing database batch: ' . ($this->getCurrentStep() + 1) . '/' . $this->totalSteps);
-		
+		BackupImportLogger::setLogInfo('Importing database batch: ' . ($this->step) . '/' . $this->totalSteps);
+
 		if (empty($this->content)) {
 			$this->_finishUp('runWriterWithBatchNothingToImport');
 			return array("success"=>"Nothing to import.");
@@ -369,25 +354,21 @@ class DatabaseWriter
 				$itemsBatch[0] = $itemsForSave;
 			}
 			
-			if (!isset($itemsBatch[$this->getCurrentStep()])) {
+			if (!isset($itemsBatch[$this->step])) {
 				
 				BackupImportLogger::setLogInfo('No items in batch for current step.');
-
-                $this->saveStepCache($this->totalSteps);
 				
 				return array("success"=>"Done! All steps are finished.");
 			}
 			
 			$success = array();
-			foreach($itemsBatch[$this->getCurrentStep()] as $item) {
+			foreach($itemsBatch[$this->step] as $item) {
 				//echo 'Save item' . PHP_EOL;
 				//	BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
 				$success[] = $this->_saveItem($item);
 			}
 			
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
-
-            $this->saveStepCache($this->getCurrentStep() + 1);
 			
 		}
 		
@@ -396,11 +377,12 @@ class DatabaseWriter
 	public function getImportLog() {
 		
 		$log = array();
-		$log['current_step'] = $this->getCurrentStep();
+		$log['current_step'] = $this->step;
+		$log['next_step'] = $this->step + 1;
 		$log['total_steps'] = $this->totalSteps;
-		$log['precentage'] = ($this->getCurrentStep() * 100) / $this->totalSteps;
+		$log['precentage'] = ($this->step * 100) / $this->totalSteps;
 		
-		if ($this->getCurrentStep() >= $this->totalSteps) {
+		if ($this->step >= $this->totalSteps) {
 			
 			$log['done'] = true;
 			
@@ -436,7 +418,7 @@ class DatabaseWriter
 	 */
 	private function _finishUp($callFrom = '') {
 		
-		// BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
+		 BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
 		
 		// cache_delete($this->_cacheGroupName);
 		
@@ -449,22 +431,5 @@ class DatabaseWriter
 		mw()->cache_manager->clear();
 		
 		BackupImportLogger::setLogInfo('Done!');
-
-		$this->saveStepCache($this->totalSteps);
 	}
-
-	private function saveStepCache($step)
-    {
-        $step = intval($step);
-        $step = @file_put_contents(userfiles_path() .'bm-dbwriter-step.txt',$step);
-
-        return $step;
-    }
-
-    private function getStepCache()
-    {
-        $step = @file_get_contents(userfiles_path() .'bm-dbwriter-step.txt');
-
-        return intval($step);
-    }
 }

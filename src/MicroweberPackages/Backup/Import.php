@@ -12,6 +12,8 @@ use MicroweberPackages\Backup\Readers\XlsxReader;
 class Import
 {
 
+    public $step = 0;
+
 	/**
 	 * The import file type
 	 *
@@ -31,6 +33,11 @@ class Import
      * @var string
      */
 	public $language = 'en';
+
+	public function setStep($step)
+    {
+        $this->step = intval($step);
+    }
 
 	/**
 	 * Set file type
@@ -97,10 +104,7 @@ class Import
 	 */
 	public function readContentWithCache()
 	{
-		$databaseWriter = new DatabaseWriter();
-		$currentStep = $databaseWriter->getCurrentStep();
-
-		if ($currentStep == 0) {
+		if ($this->step == 1) {
 			// This is frist step
 			Cache::forget(md5($this->file));
 			return Cache::rememberForever(md5($this->file), function () {

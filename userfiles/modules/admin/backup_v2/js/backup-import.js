@@ -157,8 +157,8 @@ mw.backup_import = {
             data.import_by_type = 'overwrite_by_titles';
         }
 
-        if (typeof data.start_importing === 'undefined') {
-            data.start_importing = 1;
+        if (typeof data.step === 'undefined') {
+            data.step = 1;
 		}
 
 		$.ajax({
@@ -167,7 +167,7 @@ mw.backup_import = {
 		  data: data,
 		  success: function(json_data) {
 
-              data.start_importing = 0;
+              data.step = json_data.next_step;
 
 		  	if (json_data.must_choice_language) {
 		  		mw.backup_import.choice_language(json_data.detected_languages);
