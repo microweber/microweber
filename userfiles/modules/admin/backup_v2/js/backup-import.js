@@ -157,6 +157,8 @@ mw.backup_import = {
             data.import_by_type = 'overwrite_by_titles';
         }
 
+        data.step = 1;
+
 		$.ajax({
 		  dataType: "json",
 		  url: mw.settings.api_url+'BackupV2/import',

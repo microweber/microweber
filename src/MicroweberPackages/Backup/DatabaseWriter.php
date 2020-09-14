@@ -456,14 +456,14 @@ class DatabaseWriter
 	private function saveStepCache($step)
     {
         $step = intval($step);
-        $step = @file_put_contents(userfiles_path() .'bm-dbwriter-step',$step);
+        $step = @file_put_contents(userfiles_path() .'bm-dbwriter-step.txt',$step);
 
         return $step;
     }
 
     private function getStepCache()
     {
-        $step = @file_get_contents(userfiles_path() .'bm-dbwriter-step');
+        $step = @file_get_contents(userfiles_path() .'bm-dbwriter-step.txt');
 
         return intval($step);
     }

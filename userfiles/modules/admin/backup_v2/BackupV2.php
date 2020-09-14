@@ -179,6 +179,11 @@ class BackupV2
 			$fileId = $query['file'];
 		}
 
+        if (isset($_GET['step']) && $_GET['step'] == 1) {
+            @file_get_contents(userfiles_path() . 'backup-export-session.log');
+            @file_put_contents(userfiles_path() . 'bm-dbwriter-step.txt',0);
+        }
+
 		if (isset($query['import_by_type']) && $query['import_by_type'] == 'overwrite_by_id') {
 			$this->manager->setImportOvewriteById(true);
 		}
