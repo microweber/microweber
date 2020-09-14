@@ -157,13 +157,17 @@ mw.backup_import = {
             data.import_by_type = 'overwrite_by_titles';
         }
 
-        data.step = 1;
+        if (typeof data.start_importing === 'undefined') {
+            data.start_importing = 1;
+		}
 
 		$.ajax({
 		  dataType: "json",
 		  url: mw.settings.api_url+'BackupV2/import',
 		  data: data,
 		  success: function(json_data) {
+
+              data.start_importing = 0;
 
 		  	if (json_data.must_choice_language) {
 		  		mw.backup_import.choice_language(json_data.detected_languages);
@@ -199,7 +203,7 @@ mw.backup_import = {
 
 				}
 				//		$('#mw_backup_import_modal').
-				setTimeout(function(){ mw.backup_import.start_import();; }, 300);
+				setTimeout(function(){ mw.backup_import.start_import(); }, 300);
 
 
 			}
