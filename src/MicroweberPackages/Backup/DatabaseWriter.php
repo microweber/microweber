@@ -418,7 +418,7 @@ class DatabaseWriter
 	 */
 	private function _finishUp($callFrom = '') {
 		
-		 BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
+		 // BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
 		
 		// cache_delete($this->_cacheGroupName);
 		
