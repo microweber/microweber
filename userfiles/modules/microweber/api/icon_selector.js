@@ -1607,7 +1607,7 @@ mw.iconSelector = mw.iconSelector || {
         options = options || {};
         options.mode = options.mode || 'absolute';
         var btn = mwd.createElement('span');
-        btn.className = 'mw-ui-btn';
+        btn.className = 'btn btn-outline-secondary';
         var btnIcon;
         $(btn).append(options.value || '<span></span>');
         btnIcon = btn.firstChild;

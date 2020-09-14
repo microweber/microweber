@@ -61,7 +61,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $(window).on('load', function () {
                 this.accordionSettings = new mw.moduleSettings({
                     element: '#accordion-settings',
-                    header: '<i class="mw-icon-drag"></i> <span data-bind="title">Move</span> <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+                    header: '<i class="mdi mdi-cursor-move"></i> <span data-bind="title">Move</span> <a class="pull-right" data-action="remove"><i class="mdi mdi-close text-danger"></i></a>',
                     data: <?php print json_encode($data); ?>,
                     schema: [
                         {
