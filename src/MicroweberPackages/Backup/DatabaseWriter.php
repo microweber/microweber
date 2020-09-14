@@ -67,12 +67,6 @@ class DatabaseWriter
 	 */
 	public $content;
 	
-	/**
-	 * The name of cache group for backup file.
-	 * @var string
-	 */
-	private $_cacheGroupName = 'BackupImporting';
-	
 	public function setContent($content)
 	{
 		$this->content = $content;
@@ -80,7 +74,7 @@ class DatabaseWriter
 	
 	public function getCurrentStep() {
 		
-		$this->currentStep = (int) cache_get('CurrentStep', $this->_cacheGroupName);
+		$this->currentStep = $this->getStepCache();
 		
 		if (!$this->currentStep) {
 			$this->currentStep = 0;
@@ -315,7 +309,8 @@ class DatabaseWriter
 		}
 		
 		$this->_finishUp('runWriterBottom');
-		cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
+
+        $this->saveStepCache($this->totalSteps);
 		
 	}
 	
@@ -361,7 +356,7 @@ class DatabaseWriter
 			}
 			BackupImportLogger::setLogInfo('Save content to table: ' . $table);
 		}
-		
+
 		if (!empty($itemsForSave)) {
 			
 			$totalItemsForSave = sizeof($itemsForSave);
@@ -377,8 +372,8 @@ class DatabaseWriter
 			if (!isset($itemsBatch[$this->getCurrentStep()])) {
 				
 				BackupImportLogger::setLogInfo('No items in batch for current step.');
-				
-				cache_save($this->totalSteps, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
+
+                $this->saveStepCache($this->totalSteps);
 				
 				return array("success"=>"Done! All steps are finished.");
 			}
@@ -391,8 +386,8 @@ class DatabaseWriter
 			}
 			
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
-			
-			cache_save($this->getCurrentStep() + 1, 'CurrentStep', $this->_cacheGroupName, 60 * 10);
+
+            $this->saveStepCache($this->getCurrentStep() + 1);
 			
 		}
 		
@@ -454,5 +449,22 @@ class DatabaseWriter
 		mw()->cache_manager->clear();
 		
 		BackupImportLogger::setLogInfo('Done!');
+
+		$this->saveStepCache($this->totalSteps);
 	}
+
+	private function saveStepCache($step)
+    {
+        $step = intval($step);
+        $step = @file_put_contents(userfiles_path() .'bm-dbwriter-step',$step);
+
+        return $step;
+    }
+
+    private function getStepCache()
+    {
+        $step = @file_get_contents(userfiles_path() .'bm-dbwriter-step');
+
+        return intval($step);
+    }
 }
