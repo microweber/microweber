@@ -1,5 +1,9 @@
 @extends('invoice::admin.layout')
 
+@section('card-style')
+    bg-light
+@endsection
+
 @section('icon')
     <i class="mdi mdi-cash-register module-icon-svg-fill"></i>
 @endsection
