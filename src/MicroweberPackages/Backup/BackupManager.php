@@ -166,6 +166,10 @@ class BackupManager
             if (isset($content['must_choice_language']) && $content['must_choice_language']) {
                 return $content;
             }
+
+            if (!isset($content['data'])) {
+                return array("file"=>'', "line"=>'', "error"=>'Cant read this file. The content data array is missing.');
+            }
 			
 			$writer = new DatabaseWriter();
 			$writer->setContent($content['data']);
