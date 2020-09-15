@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'XSS' => \MicroweberPackages\App\Http\Middleware\XSS::class,
+        'xss' => \MicroweberPackages\App\Http\Middleware\XSS::class,
+        'admin' => \MicroweberPackages\App\Http\Middleware\Admin::class,
     ];
 }
