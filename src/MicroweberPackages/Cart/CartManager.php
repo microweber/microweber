@@ -133,12 +133,12 @@ class CartManager extends Crud
 
                 case 'discount':
                     if ($discount_sum and $discount_sum > 0) {
-                    $totals[$total_key] = array(
-                        'label' => _e("Discount", true),
-                        'value' => $discount_sum,
-                        'amount' => currency_format($discount_sum)
-                    );
-                   }
+                        $totals[$total_key] = array(
+                            'label' => _e("Discount", true),
+                            'value' => $discount_sum,
+                            'amount' => currency_format($discount_sum)
+                        );
+                    }
                     break;
 
                 case 'shipping':
@@ -310,7 +310,7 @@ class CartManager extends Crud
         } elseif (isset($params['order_completed']) and $params['order_completed'] === 'any') {
             unset($params['order_completed']);
         }
-       // $params['no_cache'] = 1;
+        // $params['no_cache'] = 1;
 
         $get = $this->app->database_manager->get($params);
         if (isset($params['count']) and $params['count'] != false) {
@@ -365,8 +365,17 @@ class CartManager extends Crud
 
         if (!empty($get)) {
             foreach ($get as $k => $item) {
+                
                 if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item = $this->app->format->render_item_custom_fields_data($item);
+                }
+
+                if (!isset($item['item_image']) and is_array($item) and isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
+                    $item['item_image'] = get_picture($item['rel_id']);
+                }
+
+                if (!isset($item['item_image'])) {
+                    $item['item_image'] = false;
                 }
 
                 $get[$k] = $item;
@@ -406,7 +415,6 @@ class CartManager extends Crud
             $cart_qty = $this->sum(false);
 
             return array('success' => 'Item quantity changed', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
-
 
 
             return array('success' => 'Item removed from cart');
@@ -465,7 +473,6 @@ class CartManager extends Crud
             $cart_return = $check_cart;
 
 
-
             $table = $this->table;
             $cart_data_to_save = array();
             $cart_data_to_save['qty'] = $cart['qty'];
@@ -477,11 +484,8 @@ class CartManager extends Crud
             return array('success' => 'Item quantity changed', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
 
 
-
         }
     }
-
-
 
 
     public function empty_cart()
@@ -496,7 +500,7 @@ class CartManager extends Crud
 
         $cart_sum = $this->sum(true);
         $cart_qty = $this->sum(false);
-        return array('success' => 'Cart is emptied',  'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
+        return array('success' => 'Cart is emptied', 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
 
     }
 
@@ -564,8 +568,6 @@ class CartManager extends Crud
                 }
             }
         }
-
-
 
 
         if (!isset($data['for']) and !isset($data['for_id'])) {
@@ -720,8 +722,6 @@ class CartManager extends Crud
         }
 
 
-
-
         if (is_array($prices)) {
             ksort($add);
             asort($add);
@@ -738,7 +738,6 @@ class CartManager extends Crud
             //  $cart_check_db =  \DB::table('cart')->where($cart)->first();
 
 
-
 //            $cart_check = $cart;
 //            $cart_return = $cart;
 //            $check_cart = [];
@@ -748,15 +747,13 @@ class CartManager extends Crud
 //
 //            }
 
-          //  $check_cart = $this->app->database_manager->get('cart',$cart_check);
-      //     d($cart_check);
+            //  $check_cart = $this->app->database_manager->get('cart',$cart_check);
+            //     d($cart_check);
 
 //  d($check_cart);
-        //  d($cart_check);
+            //  d($cart_check);
             $cart_check_q = $cart;
-            $check_cart = $this->app->database_manager->get('cart',$cart_check_q);
-
-
+            $check_cart = $this->app->database_manager->get('cart', $cart_check_q);
 
 
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
@@ -772,10 +769,9 @@ class CartManager extends Crud
             $cart_return['price'] = $cart['price'];
 
 
-
             if ($found_price and $check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
 
-                foreach ($check_cart as $cart_item){
+                foreach ($check_cart as $cart_item) {
                     if ($cart_item and isset($cart_item['price']) and (doubleval($cart_item['price']) == doubleval($found_price))) {
                         $cart['id'] = $cart_item['id'];
                         if ($update_qty > 0) {
@@ -921,7 +917,6 @@ class CartManager extends Crud
     {
         return $this->table;
     }
-
 
 
 }
