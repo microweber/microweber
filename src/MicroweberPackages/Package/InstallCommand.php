@@ -68,6 +68,10 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
+        var_dump($input,'executeexecuteexecuteexecuteexecuteexecuteexecuteexecute');
+        exit;
+
         $io = $this->getIO();
         if ($args = $input->getArgument('packages')) {
             $io->writeError('<error>Invalid argument ' . implode(' ', $args) . '. Use "composer require ' . implode(' ', $args) . '" instead to add packages to your composer.json.</error>');
@@ -79,6 +83,8 @@ EOT
        // $composer->getDownloadManager()->setOutputProgress(false);
         $composer->getDownloadManager()->setPreferDist(true);
         $composer->getDownloadManager()->setPreferSource(false);
+
+
 
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'install', $input, $output);
         $composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent);
