@@ -211,7 +211,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <button class="btn btn-link text-dark" onclick="javascript:addCustomFieldByVal('<?php print $item['type']; ?>');">
                                                 <div>
                                                     <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
-                                                    <span class="mw-custom-field-title text-break-line-1" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
+                                                    <span class="mw-custom-field-title text-break-line-1 small" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
                                                 </div>
                                             </button>
                                         <?php endforeach; ?>
@@ -221,7 +221,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <button class="btn btn-link text-dark" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                             <div>
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
-                                                <span class="mw-custom-field-title text-break-line-1"><?php _e($value); ?></span>
+                                                <span class="mw-custom-field-title text-break-line-1 small"><?php _e($value); ?></span>
                                             </div>
                                         </button>
                                     <?php endforeach; ?>

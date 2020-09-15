@@ -9,9 +9,11 @@ body {
 .prevent-scroll {
   overflow: hidden; }
 
-@media screen and (max-width: 991px) {
-  .container {
-    max-width: calc(100% - 30px); } }
+.container {
+  max-width: 70%; }
+  @media screen and (max-width: 991px) {
+    .container {
+      max-width: calc(100% - 30px); } }
 
 header {
   padding: 10px 0;
