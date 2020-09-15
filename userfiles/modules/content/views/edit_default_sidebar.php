@@ -34,12 +34,19 @@
 
                         <div class="collapse" id="set-a-specific-publish-date">
                             <div class="row pb-3">
+                                <script>mw.lib.require('bootstrap_datetimepicker');</script>
+                                <script>
+                                    $(function () {
+                                        $('.mw-admin-edit-post-change-created-at-value').datetimepicker();
+                                        $('.mw-admin-edit-post-change-updated-at-value').datetimepicker();
+                                    });
+                                </script>
                                 <?php if (isset($data['created_at'])): ?>
                                     <div class="col-md-12">
                                         <div class="mw-admin-edit-post-created-at" onclick="mw.adm_cont_enable_edit_of_created_at()">
                                             <small>
-                                                <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print $data['created_at'] ?></span>
-                                                <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="datetime" name="created_at" value="<?php print $data['created_at'] ?>" disabled="disabled">
+                                                <?php _e("Created on"); ?>: <span class="mw-admin-edit-post-display-created-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?></span>
+                                                <input class="form-control form-control-sm mw-admin-edit-post-change-created-at-value" style="display:none" type="text" name="created_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['created_at'])) ?>" disabled="disabled">
                                             </small>
                                         </div>
                                     </div>
@@ -49,8 +56,8 @@
                                     <div class="col-md-12 mt-2">
                                         <div class="mw-admin-edit-post-updated-at" onclick="mw.adm_cont_enable_edit_of_updated_at()">
                                             <small>
-                                                <?php _e("updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print $data['updated_at'] ?></span>
-                                                <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="datetime" name="updated_at" value="<?php print $data['updated_at'] ?>" disabled="disabled">
+                                                <?php _e("updated on"); ?>: <span class="mw-admin-edit-post-display-updated-at-value"><?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?></span>
+                                                <input class="form-control form-control-sm mw-admin-edit-post-change-updated-at-value" style="display:none" type="text" name="updated_at" value="<?php print date('Y-m-d H:i:s', strtotime($data['updated_at'])) ?>" disabled="disabled">
                                             </small>
                                         </div>
                                     </div>
@@ -237,9 +244,9 @@
                     </div>
                 </div>
 
-                <?php if (isset($params['content_type']) AND $params['content_type'] == 'page'): ?>
+                <?php if (isset($params['content_type']) AND $params['content_type'] == 'page' AND isset($params['page-id'])): ?>
                     <module type="content/views/content_tags" content-type="<?php print $params['content_type'] ?>" content-id="<?php print $params['page-id'] ?>"/>
-                    <?php else: ?>
+                <?php else: ?>
                     <small class="text-muted">The tags are available only for saved content</small>
                 <?php endif; ?>
             </div>
