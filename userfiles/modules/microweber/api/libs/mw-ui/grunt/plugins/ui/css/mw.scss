@@ -321,6 +321,9 @@ header {
   .tree {
     display: none;
     width: 170px;
+    @media screen and (min-width: 1440px) {
+      width: 220px;
+    }
     float: left;
     border: 1px solid $primary;
     transition: all 0.5s ease;
