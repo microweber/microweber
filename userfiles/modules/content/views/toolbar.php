@@ -130,17 +130,17 @@ if ($last_page_front != false) {
     <?php mw()->event_manager->trigger('module.content.manager.toolbar.start', $page_info) ?>
 
     <?php
-    $type = 'page';
+    $type = 'mdi-post-outline';
 
     if (is_array($page_info)) {
         if ($page_info['is_shop'] == 1) {
-            $type = 'shop';
+            $type = 'mdi-shopping';
         } elseif ($page_info['subtype'] == 'dynamic') {
-            $type = 'dynamicpage';
+            $type = 'mdi-post-outline';
         } else if (isset($page_info ['layout_file']) and stristr($page_info ['layout_file'], 'blog')) {
-            $type .= 'blog';
+            $type = 'mdi-text';
         } else {
-            $type = 'page';
+            $type = 'mdi-post-outline';
         }
     }
     ?>
@@ -149,7 +149,7 @@ if ($last_page_front != false) {
 
         <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
             <h5>
-                <span class="<?php if ($type == 'shop'): ?>mai-market2<?php else: ?>mw-icon-<?php print $type; ?><?php endif; ?>"></span>
+                <i class="mdi text-primary mr-2 <?php if ($type == 'shop'): ?>mdi-shopping<?php else: ?><?php print $type; ?><?php endif; ?>"></i>
                 <?php print ($page_info['title']) ?>
             </h5>
         <?php elseif (isset($params['category-id'])): ?>
@@ -162,7 +162,7 @@ if ($last_page_front != false) {
             </h5>
         <?php elseif ($act == 'pages'): ?>
             <h5>
-                <i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i>
+                <i class="mdi mdi-post-outline text-primary mr-3"></i>
                 <strong><?php _e("Pages"); ?></strong>
             </h5>
         <?php elseif ($act == 'posts'): ?>

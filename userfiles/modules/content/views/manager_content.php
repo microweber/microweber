@@ -86,7 +86,7 @@
                                             <?php endif; ?>
                                         </div>
                                         <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']); ?>
-                                        <?php $edit_link_front = $content_link. '?editmode:y'; ?>
+                                        <?php $edit_link_front = $content_link . '?editmode:y'; ?>
                                     </div>
 
                                     <div class="col item-title manage-post-item-col-3 manage-post-main">
@@ -122,25 +122,25 @@
                                         <div class="manage-post-item-links">
                                             <?php
                                             if (user_can_access('module.content.edit')):
-                                            ?>
-                                            <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
-                                                <?php echo $edit_text;  ?>
-                                            </a>
+                                                ?>
+                                                <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
+                                                    <?php echo $edit_text; ?>
+                                                </a>
 
-                                            <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
-                                                <?php echo $live_edit_text; ?>
-                                            </a>
-                                            <?php
+                                                <a target="_top" class="btn btn-outline-primary btn-sm" href="<?php print $content_link; ?>?editmode:y">
+                                                    <?php echo $live_edit_text; ?>
+                                                </a>
+                                                <?php
                                             endif;
-                                             ?>
+                                            ?>
 
                                             <?php
                                             if (user_can_access('module.content.destroy')):
                                                 ?>
-                                            <a class="btn btn-outline-danger btn-sm" href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
-                                                <?php echo $delete_text; ?>
-                                            </a>
-                                            <?php
+                                                <a class="btn btn-outline-danger btn-sm" href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
+                                                    <?php echo $delete_text; ?>
+                                                </a>
+                                                <?php
                                             endif;
                                             ?>
                                         </div>
@@ -150,7 +150,16 @@
                                         <span class="text-muted" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                                     </div>
 
-                                    <div class="col item-comments manage-post-item-col-5" style="max-width: 100px;">
+                                    <div class="col manage-post-item-col-5"  style="max-width: 130px;">
+                                        <?php if (isset($item['is_active']) AND $item['is_active'] == 1): ?>
+<!--                                            <span class="badge badge-success">Published</span>-->
+                                        <?php else: ?>
+                                            <span class="badge badge-warning font-weight-normal">Unpublished</span>
+                                        <?php endif; ?>
+                                    </div>
+
+
+                                    <div class="col item-comments manage-post-item-col-5 d-none" style="max-width: 100px;">
                                         <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
                                     </div>
                                 </div>
@@ -252,7 +261,7 @@
 
             <script>
                 $(document).ready(function () {
-                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+//                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>
             <script>
@@ -293,7 +302,7 @@
 
             <script>
                 $(document).ready(function () {
-                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+//                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>
 
