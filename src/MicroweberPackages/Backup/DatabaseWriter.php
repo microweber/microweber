@@ -301,7 +301,7 @@ class DatabaseWriter
 	
 	public function runWriterWithBatch()
 	{
-		if ($this->step == 1) {
+		if ($this->step == 0) {
 			BackupImportLogger::clearLog();
 			$this->_deleteOldContent();
 		}
@@ -355,7 +355,7 @@ class DatabaseWriter
 			}
 			
 			if (!isset($itemsBatch[$this->step])) {
-				
+
 				BackupImportLogger::setLogInfo('No items in batch for current step.');
 				
 				return array("success"=>"Done! All steps are finished.");
@@ -383,15 +383,13 @@ class DatabaseWriter
 		$log['precentage'] = ($this->step * 100) / $this->totalSteps;
 		
 		if ($this->step >= $this->totalSteps) {
-			
 			$log['done'] = true;
 			
 			// Finish up
-			$this->_finishUp();
+			$this->_finishUp('getImportLog');
 			
 			// Clear log file
 			BackupImportLogger::clearLog();
-			
 		}
 		
 		return $log;
@@ -418,18 +416,16 @@ class DatabaseWriter
 	 */
 	private function _finishUp($callFrom = '') {
 		
-		 // BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
-		
-		// cache_delete($this->_cacheGroupName);
+		 BackupImportLogger::setLogInfo('Call from: ' . $callFrom);
 		
 		if (function_exists('mw_post_update')) {
 			mw_post_update();
 		}
 		
 		BackupImportLogger::setLogInfo('Cleaning up system cache');
-		
+
 		mw()->cache_manager->clear();
-		
+
 		BackupImportLogger::setLogInfo('Done!');
 	}
 }

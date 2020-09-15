@@ -104,21 +104,20 @@ class Import
 	 */
 	public function readContentWithCache()
 	{
-		if ($this->step == 1) {
-			// This is frist step
-			Cache::forget(md5($this->file));
-			return Cache::rememberForever(md5($this->file), function () {
-				BackupImportLogger::setLogInfo('Start importing session..');
-
-				return $this->importAsType($this->file);
-			});
-		} else {
-
-			// BackupImportLogger::setLogInfo('Read content from cache..');
-
-			// This is for the next steps from wizard
-			return Cache::get(md5($this->file));
+		if ($this->step == 0) {
+            BackupImportLogger::setLogInfo('Start importing session..');
 		}
+
+		$cacheFileName = userfiles_path() .'cache/'. md5($this->file);
+
+		if (!is_file($cacheFileName)) {
+            $cacheFileContent = $this->importAsType($this->file);
+            file_put_contents($cacheFileName, serialize($cacheFileContent));
+        } else {
+            $cacheFileContent = unserialize(file_get_contents($cacheFileName));
+        }
+
+        return $cacheFileContent;
 	}
 
 	public function readContent()

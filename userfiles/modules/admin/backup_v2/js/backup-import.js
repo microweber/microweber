@@ -158,7 +158,7 @@ mw.backup_import = {
         }
 
         if (typeof data.step === 'undefined') {
-            data.step = 1;
+            data.step = 0;
 		}
 
 		$.ajax({
