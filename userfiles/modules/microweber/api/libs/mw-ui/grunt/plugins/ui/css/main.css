@@ -9032,4 +9032,7 @@ small a {
 textarea.form-control {
   min-height: 150px; }
 
+.cursor-pointer {
+  cursor: pointer; }
+
 /*# sourceMappingURL=main.css.map */
