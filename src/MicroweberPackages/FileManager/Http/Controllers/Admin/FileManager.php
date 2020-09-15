@@ -32,6 +32,21 @@ class FileManager extends Controller {
         $data = [];
         $getData = mw('MicroweberPackages\Utils\System\Files')->get($fileFilter);
 
+        // Append dirs
+        if (isset($getData['dirs']) && is_array($getData['dirs'])) {
+            foreach ($getData['dirs'] as $dir) {
+                $data[] = [
+                    'type'=>'folder',
+                    'mimeType'=> mime_content_type($dir),
+                    'name'=> basename($dir),
+                    'path'=> $dir,
+                    'created'=> date('Y-m-d H:i:s',filectime($dir)),
+                    'modified'=> date('Y-m-d H:i:s',filemtime($dir))
+                ];
+            }
+        }
+
+        // Append files
         if (isset($getData['files']) && is_array($getData['files'])) {
             foreach ($getData['files'] as $file) {
 
@@ -52,19 +67,6 @@ class FileManager extends Controller {
                     'thumbnail'=> $thumbnail,
                     'url'=> dir2url($file),
                     'size'=> filesize($file),
-                ];
-            }
-        }
-
-        if (isset($getData['dirs']) && is_array($getData['dirs'])) {
-            foreach ($getData['dirs'] as $dir) {
-                $data[] = [
-                    'type'=>'folder',
-                    'mimeType'=> mime_content_type($dir),
-                    'name'=> basename($dir),
-                    'path'=> $dir,
-                    'created'=> date('Y-m-d H:i:s',filectime($dir)),
-                    'modified'=> date('Y-m-d H:i:s',filemtime($dir))
                 ];
             }
         }
