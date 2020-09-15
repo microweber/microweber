@@ -12,7 +12,6 @@
       "email": "bobi@microweber.com"
     }
   ],
-
   "autoload": {
     "psr-4": {
       "MicroweberPackages\\FileManager\\": ""

@@ -6,7 +6,7 @@
  * Time: 2:56 PM
  */
 
-Route::name('admin.')
+/*Route::name('admin.')
     ->prefix('admin')
     ->namespace('\MicroweberPackages\FileManager\Http\Controllers\Admin')
     ->middleware(['XSS','admin'])
@@ -19,4 +19,4 @@ Route::name('admin.')
     });
 
 
-});
+});*/

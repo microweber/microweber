@@ -23,5 +23,8 @@ class FileManagerServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+       // $this->loadMigrationsFrom(__DIR__ . '/database/');
+
     }
 }
