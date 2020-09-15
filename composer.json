@@ -109,15 +109,7 @@
     "microweber-packages/microweber-utils": "self.version",
     "microweber-packages/helper-functions": "self.version",
     "microweber-packages/laravel-tagged-file-cache": "self.version"
-  },
-  "extra": {
-    "merge-plugin": {
-      "require": [
-        "src/MicroweberPackages/*/composer.json"
-      ],
-      "merge-extra": true,
-      "merge-extra-deep": true,
-      "merge-scripts": true
-    }
   }
 }
+
+
