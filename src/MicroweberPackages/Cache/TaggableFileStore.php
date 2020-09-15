@@ -210,7 +210,7 @@ class TaggableFileStore implements Store
 
         // Save key value in file
         $save = @file_put_contents($path, $value);
-        if (!$save) {  
+        if (!$save) {
             throw new \Exception('Cant file put contents:' . $path);
         }
 
