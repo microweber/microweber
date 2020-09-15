@@ -26,7 +26,7 @@ class ExportTables
 		}
 
 		foreach ($items as $item) {
-		    
+
             if (!isset($item['id'])) {
                 return;
             }
