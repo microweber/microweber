@@ -15,6 +15,14 @@ class FileManager extends Controller {
             $path = $request->get('path');
         }
 
+        $keyword = false;
+        if (!empty($request->get('keyword'))) {
+            $keyword = $request->get('keyword');
+        }
+
+        $order = $request->get('order', 'asc');
+        $orderBy = $request->get('orderBy', 'modified');
+
         $path = str_replace('./', '', $path);
         $path = str_replace('..', '', $path);
         $path = urldecode($path);
@@ -28,6 +36,13 @@ class FileManager extends Controller {
         $fileFilter = [];
         $fileFilter['directory'] = $pathRestirct . $path;
         $fileFilter['restrict_path'] = $pathRestirct;
+
+        if (!empty($keyword)) {
+            $fileFilter['search'] = $keyword;
+        }
+
+        $fileFilter['sort_order'] = $order;
+        $fileFilter['sort_by'] = $orderBy;
 
         $data = [];
         $getData = mw('MicroweberPackages\Utils\System\Files')->get($fileFilter);
@@ -74,11 +89,10 @@ class FileManager extends Controller {
         return [
             'data'=>$data,
             'query'=>[
-                'order'=>'asc',
-                'orderBy'=>'name',
-                'keyword'=>'',
-                'path'=>$path,
-                'display'=>'list',
+                'order'=>$order,
+                'orderBy'=>$orderBy,
+                'keyword'=>$keyword,
+                'path'=>$path
             ],
             'permissions'=>[
                 'edit'=>true,
@@ -87,10 +101,10 @@ class FileManager extends Controller {
             ],
             'pagination'=>[
                 'itemsPerPage'=>15,
-                'offset'=>15,
-                'total'=>15,
-                'next'=>15,
-                'prev'=>15,
+                'offset'=>0,
+                'total'=>count($data),
+                'next'=>0,
+                'prev'=>0,
             ]
         ];
     }
