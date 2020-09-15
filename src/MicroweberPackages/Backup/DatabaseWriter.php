@@ -365,11 +365,15 @@ class DatabaseWriter
 			foreach($itemsBatch[$this->step] as $item) {
 				//echo 'Save item' . PHP_EOL;
 				//	BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
-				$success[] = $this->_saveItem($item);
+                try {
+                    $success[] = $this->_saveItem($item);
+                } catch (\Exception $e) {
+                    // echo $e->getMessage();
+                    BackupImportLogger::setLogInfo('Save content to table: ' . $item['save_to_table']);
+                }
 			}
-			
+
 			//echo 'Save cache ... ' .$this->currentStep. PHP_EOL;
-			
 		}
 		
 	}
@@ -405,7 +409,11 @@ class DatabaseWriter
                 }
                 if (\Schema::hasTable($table)) {
                     BackupImportLogger::setLogInfo('Truncate table: ' . $table);
-                    \DB::table($table)->truncate();
+                    try {
+                        \DB::table($table)->truncate();
+                    } catch (\Exception $e) {
+                        BackupImportLogger::setLogInfo('Can\'t truncate table: ' . $table);
+                    }
                 }
             }
         }
