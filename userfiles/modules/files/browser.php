@@ -22,15 +22,12 @@ $path_restirct = media_uploads_path(); // the path the script should access
 
 
 if (isset($params['path']) and trim($params['path']) != '' and trim($params['path']) != 'false') {
-
     $path = $params['path']; // the path the script should access
-
 }
 
 $path = str_replace('./', '', $path);
 $path = str_replace('..', '', $path);
 $path = urldecode($path);
-
 $path = str_replace($path_restirct, '', $path);
 
 //$data = rglob($path);
