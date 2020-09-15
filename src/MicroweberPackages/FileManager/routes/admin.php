@@ -6,17 +6,13 @@
  * Time: 2:56 PM
  */
 
-/*Route::name('admin.')
+Route::name('admin.')
     ->prefix('admin')
     ->namespace('\MicroweberPackages\FileManager\Http\Controllers\Admin')
-    ->middleware(['XSS','admin'])
+    ->middleware(['xss','admin'])
     ->group(function () {
 
-    Route::get('file-manager/list', function () {
-
-        echo 11;
-
-    });
+    Route::get('file-manager/list', 'FileManager@listFiles');
 
 
-});*/
+});
