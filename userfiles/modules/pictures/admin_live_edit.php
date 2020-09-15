@@ -117,33 +117,40 @@ if (isset($params['quick-add'])) {
     });
 </script>
 <div class="pictures-admin-container">
-    <style scoped="scoped">
-        .tab {
-            display: none;
-        }
-    </style>
+
 
     <?php if ($quick_add == false): ?>
-        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-            <a href="javascript:;" class="mw-ui-btn active"><?php _e("My pictures"); ?></a>
-            <a href="javascript:;" class="mw-ui-btn"><?php _e("Skin/Template"); ?></a>
-        </div>
-    <?php endif; ?>
-    <div class="tab mw-ui-box mw-ui-box-content" style="display: block">
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("My pictures"); ?></a>
+            <?php if ($quick_add == false): ?>
+                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+            <?php endif; ?>
+        </nav>
 
-        <?php if ($quick_add == false and $use_from_post_forced == false): ?>
-            <label class="mw-ui-check" id="mw-pic-scope">
-                <input type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field" <?php if ($use_from_post): ?>   checked="checked"  <?php endif; ?> />
-                <span></span><span><?php _e("Use pictures from post"); ?></span></label>
+    <?php endif; ?>
+
+
+    <div class="tab-content py-3">
+        <div class="tab-pane fade show active" id="list">
+            <?php if ($quick_add == false and $use_from_post_forced == false): ?>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox" id="mw-pic-scope">
+                        <input type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field custom-control-input" <?php if ($use_from_post): ?>   checked="checked"  <?php endif; ?> />
+                        <label class="custom-control-label" for="mw-use-post-pics"><?php _e("Use pictures from post"); ?></label>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <module type="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" id="mw-pics-list-live-ed"/>
+        </div>
+
+        <?php if ($quick_add == false): ?>
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
+                <module type="settings/list" for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>">
+            </div>
         <?php endif; ?>
-        <module type="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" id="mw-pics-list-live-ed"/>
     </div>
-    <?php if ($quick_add == false): ?>
-        <div class="tab mw-ui-box mw-ui-box-content">
-            <module type="admin/modules/templates"/>
-            <module type="settings/list" for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>">
-        </div>
-    <?php endif; ?>
 </div>
 
 
