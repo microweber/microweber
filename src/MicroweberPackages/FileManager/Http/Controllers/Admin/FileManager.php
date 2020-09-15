@@ -58,11 +58,24 @@ class FileManager extends Controller {
 
         return [
             'data'=>$data,
-            'query'=>'',
+            'query'=>[
+                'order'=>'asc',
+                'orderBy'=>'name',
+                'keyword'=>'',
+                'path'=>$path,
+                'display'=>'list',
+            ],
             'permissions'=>[
                 'edit'=>true,
                 'create'=>true,
                 'delete'=>true,
+            ],
+            'pagination'=>[
+                'itemsPerPage'=>15,
+                'offset'=>15,
+                'total'=>15,
+                'next'=>15,
+                'prev'=>15,
             ]
         ];
     }
