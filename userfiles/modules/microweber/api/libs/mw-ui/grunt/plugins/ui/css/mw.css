@@ -231,6 +231,9 @@ header {
     margin-left: 15px;
     padding: 15px 0;
     background: #f2f3f5; }
+    @media screen and (min-width: 1440px) {
+      .main .tree {
+        width: 220px; } }
     @media screen and (max-width: 991px) {
       .main .tree {
         z-index: 9;
