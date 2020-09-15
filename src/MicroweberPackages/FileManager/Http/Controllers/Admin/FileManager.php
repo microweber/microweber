@@ -20,6 +20,11 @@ class FileManager extends Controller {
         $path = urldecode($path);
         $path = str_replace($pathRestirct, '', $path);
 
+        $thumbnailSize = 150;
+        if (!empty($request->get('thumbnailSize'))) {
+            $thumbnailSize = (int) $request->get('thumbnailSize');
+        }
+
         $fileFilter = [];
         $fileFilter['directory'] = $pathRestirct . $path;
         $fileFilter['restrict_path'] = $pathRestirct;
@@ -29,16 +34,24 @@ class FileManager extends Controller {
 
         if (isset($getData['files']) && is_array($getData['files'])) {
             foreach ($getData['files'] as $file) {
+
+                $thumbnail = false;
+
+                $ext = strtolower(get_file_extension($file));
+                if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp') {
+                    $thumbnail = thumbnail(mw()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, true);
+                }
+
                 $data[] = [
                     'type'=>'file',
-                    'mimeType'=> '',
-                    'name'=> '',
+                    'mimeType'=> mime_content_type($file),
+                    'name'=> basename($file),
                     'path'=> $file,
-                    'created'=> '',
-                    'modified'=> '',
-                    'thumbnail'=> '',
-                    'url'=> '',
-                    'size'=> '',
+                    'created'=> date('Y-m-d H:i:s',filectime($file)),
+                    'modified'=> date('Y-m-d H:i:s',filemtime($file)),
+                    'thumbnail'=> $thumbnail,
+                    'url'=> dir2url($file),
+                    'size'=> filesize($file),
                 ];
             }
         }
@@ -47,11 +60,11 @@ class FileManager extends Controller {
             foreach ($getData['dirs'] as $dir) {
                 $data[] = [
                     'type'=>'folder',
-                    'mimeType'=> '',
-                    'name'=> '',
+                    'mimeType'=> mime_content_type($dir),
+                    'name'=> basename($dir),
                     'path'=> $dir,
-                    'created'=> '',
-                    'modified'=> ''
+                    'created'=> date('Y-m-d H:i:s',filectime($dir)),
+                    'modified'=> date('Y-m-d H:i:s',filemtime($dir))
                 ];
             }
         }
