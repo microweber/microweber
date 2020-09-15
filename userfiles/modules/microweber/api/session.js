@@ -28,7 +28,7 @@ mw.session = {
         }
     },
     logRequest: function () {
-        var modal = mw.tools.modal.init({
+        var modal = mw.dialog({
             html: "<h3 style='margin:0;'>" + mw.msg.session_expired + ".</h3> <p style='margin:0;'>" + mw.msg.login_to_continue + ".</p> <br> <div id='session_popup_login'></div>",
             id: "session_modal",
             name: "session_modal",

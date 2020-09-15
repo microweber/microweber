@@ -375,7 +375,7 @@ if (isset($data[0]) == false) {
                                         function mw_admin_tos_popup(user_id) {
                                             var modalTitle = '<?php _e('Terms agreement log'); ?>';
 
-                                            mw_admin_edit_tos_item_popup_modal_opened = mw.modal({
+                                            mw.dialog({
                                                 content: '<div id="mw_admin_edit_tos_item_module"></div>',
                                                 title: modalTitle,
                                                 id: 'mw_admin_edit_tos_item_popup_modal'
@@ -389,7 +389,7 @@ if (isset($data[0]) == false) {
                                         function mw_admin_login_attempts_popup(user_id) {
                                             var modalTitle = '<?php _e('Login attempts'); ?>';
 
-                                            mw_admin_login_attempts_popup_modal_opened = mw.modal({
+                                            mw_admin_login_attempts_popup_modal_opened = mw.dialog({
                                                 content: '<div id="mw_admin_login_attempts_module"></div>',
                                                 title: modalTitle,
                                                 id: 'mw_admin_login_attempts_popup_modal'

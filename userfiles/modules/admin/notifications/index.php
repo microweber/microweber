@@ -181,7 +181,7 @@ if (isset($notif_params['quick'])) {
         mw.notif_item_read(notification_id);
 
         if (module_name == 'contact_form' || module_name == 'comments') {
-            mw.modal({
+            mw.dialog({
                 content: '<div id="mw_admin_preview_module_content"></div>',
                 title: 'Preview Notification',
                 id: 'mw_admin_preview_module_modal'

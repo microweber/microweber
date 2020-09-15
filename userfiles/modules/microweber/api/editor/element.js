@@ -3,12 +3,9 @@
     var Element = function(options, root){
         var scope = this;
 
-
         this.toggle = function () {
             this.css('display', this.css('display') === 'none' ? 'block' : 'none');
         };
-
-
 
         this.get = function(selector, scope){
             this.nodes = (scope || document).querySelectorAll(selector);
@@ -25,8 +22,10 @@
         };
 
         this.create = function(){
-            this.node = this.document.createElement(this.settings.tag);
-            this.$node = $(this.node);
+            var el = this.document.createElement(this.settings.tag);
+            this.node = el;
+            this.nodes = [el];
+            this.$node = $(el);
         };
 
         this._specialProps = function(dt, val){
@@ -171,7 +170,7 @@
             if (el) {
                 el = this._asdom(el);
                 this.each(function (){
-                    this.append(el, this.node);
+                    this.append(el);
                 });
             }
             return this;
@@ -185,6 +184,15 @@
                 });
             }
             return this;
+        };
+
+        this.after = function (el) {
+            if (el) {
+                el = this._asdom(el);
+                this.each(function (){
+                    this.parentNode.insertBefore(el, this.nextSibling);
+                });
+            }
         };
 
         this.prepend = function (el) {
@@ -216,7 +224,6 @@
                     bubbles: true
                 }));
             });
-
             return this;
         };
 
@@ -253,20 +260,16 @@
                     var el = this._asdom(options);
                     this.nodes = [].slice.call(el.children);
                 }
-
             }
 
             options = options || {};
-
 
             var defaults = {
                 tag: 'div',
                 props: {}
             };
-
-
+            
             this.settings = $.extend({}, defaults, options);
-
 
             if(this._asElement) return;
             this.create();
@@ -277,5 +280,8 @@
     mw.element = function(options){
         return new Element(options);
     };
-    mw.element.extend = function () {}
+    mw.element.module = function (name, func) {
+        Element.prototype[name] = func;
+    };
+
 })();

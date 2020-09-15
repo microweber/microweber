@@ -162,7 +162,7 @@
                 + loader
                 + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen"></span>' : '')
                 + '</div>';
-            var modal = modal || mw.top().tools.modal.init({
+            var modal = modal || mw.top().dialog({
                     width: "100%",
                     height: "100%",
                     html: '',
@@ -228,7 +228,7 @@
                 img.style.maxHeight = mxh + 'px';
                 //img.style.maxHeight = 'auto';
                 var holder = img.parentNode;
-                mw.tools.modal.center(holder);
+                mw.dialog.get(holder).center();
             }
             else {
                 var holder = modal.container.querySelector('.mwf-gallery-modeHTML');
@@ -236,7 +236,7 @@
                 holder.style.maxHeight = (wh - 33) + 'px';
                 mw.$(holder).width($(holder).width())
                 mw.$(holder).height($(holder).height())
-                mw.tools.modal.center(holder);
+                mw.dialog.get(holder).center();
             }
         },
         normalize: function (modal) {

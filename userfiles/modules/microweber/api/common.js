@@ -73,19 +73,19 @@ mw.common = {
                             overlay:overlay,
                             overlayRemovesModal:true
                         })
-                        mw.modal(conf);
+                        mw.dialog(conf);
                     });
                 }
                 else{
                     var conf = mw.common.setOptions(e, {
                         url:data,
                         width:'90%',
-                        height:'90%',
+                        height:'auto%',
                         template:skin,
                         overlay:overlay,
                         overlayRemovesModal:true
                     })
-                    mw.modalFrame(conf)
+                    mw.dialogIframe(conf)
                 }
             }
             else if(data.indexOf('#') === 0 || data.indexOf('.') === 0){
@@ -95,7 +95,7 @@ mw.common = {
                     overlay:overlay,
                     overlayRemovesModal:true
                 });
-                mw.modal(conf);
+                mw.dialog(conf);
             }
         }
     }

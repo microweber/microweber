@@ -8,7 +8,15 @@
 
         var defaults = {
             data: Array(5).fill({}), // todo: make it empty
-            viewType: 'list'
+            viewType: 'list',
+            query: {
+                order: 'asc',
+                orderBy: 'name',
+                keyword: '',
+                path: '/',
+                display: 'list'
+            },
+            endPoint: ''
         };
 
         this.settings = mw.object.extend({}, defaults, options);
@@ -23,9 +31,57 @@
                     '<input type="checkbox">' +
                 '</label>';
         };
-        this.setData = function (data) {
+
+        this._size = function (bytes, dc) {
+            if (typeof bytes === 'undefined' || bytes === null) return '';
+            if (bytes === 0) return '0 Bytes';
+            var k = 1000,
+                dm = dc === undefined ? 2 : dc,
+                sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+                i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        };
+
+
+
+        this._image = function (item) {
+            return mw.element({
+                props: {
+                    className: 'mw-file-manager-list-item-image',
+                    style: {
+                        backgroundImage: 'url(' + item.thumbnail + ')'
+                    }
+                }
+            });
+        };
+
+        this.createOptions = function () {
 
         };
+
+        this.renderSingleItemList = function (item) {
+            var check = this._check();
+            var image = this._image(item);
+            var size = this._size(item);
+            var options = this.createOptions(item);
+
+            return mw.element('<tr />')
+                    .append('<td>' + check + '</td>')
+                    .append('<td>' + image + '</td>')
+                    .append('<td>' +item.name + '</td>')
+                    .append('<td>' +size + '</td>')
+                    .append('<td>' +options + '</td>');
+        };
+
+
+        this.setData = function (data) {
+            this._data = data;
+        };
+
+        this.getData = function () {
+            return this._data;
+        };
+
 
         this.render = function () {
 

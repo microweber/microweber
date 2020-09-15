@@ -49,7 +49,7 @@
 
         $.post("<?php print site_url('api_html/Microweber/Utils/MailSender/test'); ?>", email_to, function (msg) {
 
-            mw.tools.modal.init({
+            mw.dialog({
 
                 html: "<pre>" + msg + "</pre>",
                 title: "Email send results..."

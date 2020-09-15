@@ -198,11 +198,11 @@ if (!isset($data["thumbnail"])) {
 <div class="select_actions_holder">
     <div class="select_actions">
         <a href="javascript:;" class="btn btn-sm btn-link text-danger" onclick="deleteSelected()">
-            <span><?php _e('Delete') ?><?php _e('selected') ?></span>
+            <span><?php _e('Delete') ?> <?php _e('selected') ?></span>
         </a>
         <span>/</span>
         <a href="javascript:;" class="btn btn-sm btn-link" onclick="downloadSelected('none')">
-            <span><?php _e('Download') ?><?php _e('selected') ?></span>
+            <span><?php _e('Download') ?> <?php _e('selected') ?></span>
         </a>
     </div>
 </div>

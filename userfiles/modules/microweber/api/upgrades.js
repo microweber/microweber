@@ -25,7 +25,7 @@ window.onmessage = function (e) {
                     if (typeof(data.update_queue_set != 'undefined')) {
 
 
-                        var update_queue_set_modal = mw.modal({
+                        var update_queue_set_modal = mw.dialog({
                             content: '<div class="module" type="updates/worker" id="update_queue_process_alert"></div>',
                             overlay: false,
                             id: 'update_queue_set_modal',

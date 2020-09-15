@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
     function import_language_by_namespace(namespace, language) {
-        mw.modal({
+        mw.dialog({
             content: '<div id="mw_admin_import_language_modal_content"></div>',
             title: 'Import Language File',
             height: 200,

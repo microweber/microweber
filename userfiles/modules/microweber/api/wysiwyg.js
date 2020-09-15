@@ -1761,11 +1761,11 @@ mw.wysiwyg = {
         });*/
 
         var dialog = mw.dialogIframe({
-            width: 570,
+            width: 600,
             url: mw.external_tool('link_editor_v3'),
             height: 'auto',
             autoHeight: true,
-            title: '<i class="mdi mdi-link"></i> Link settings'
+            title: '<i class="mdi mdi-link" style="font-size: 23px;margin:0 12px 0;"></i> Link settings'
         });
         $(dialog).on('Result', function(e, result){
             mw.wysiwyg.restore_selection();

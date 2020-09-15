@@ -68,7 +68,7 @@ if ($registration_approval_required == false) {
 
         $.post("<?php print site_url('api_html/users/register_email_send_test'); ?>", email_to, function (msg) {
 
-            mw.tools.modal.init({
+            mw.dialog({
 
                 html: "<pre>" + msg + "</pre>",
                 title: "<?php _e('Email send results...'); ?>"
@@ -83,7 +83,7 @@ if ($registration_approval_required == false) {
 
         $.post("<?php print site_url('api_html/users/forgot_password_email_send_test'); ?>", email_to, function (msg) {
 
-            mw.tools.modal.init({
+            mw.dialog({
                 html: "<pre>" + msg + "</pre>",
                 title: "<?php _e('Email send results...'); ?>"
             });

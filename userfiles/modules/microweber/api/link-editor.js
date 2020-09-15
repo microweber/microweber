@@ -46,7 +46,7 @@ mw.require('widgets.css');
         };
 
 
-        this.settings = extend({}, defaults, options || {});
+        this.settings = mw.object.extend({}, defaults, options || {});
 
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
@@ -113,6 +113,7 @@ mw.require('widgets.css');
                     this.nav.append(dropdownEl);
                     this.nav.append(dropdownElBtn);
                     dropdownElBtn.onclick = function (){
+                        console.log(dropdownEl)
                         mw.element(dropdownEl).toggle();
                     };
 

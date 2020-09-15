@@ -1186,34 +1186,9 @@
     </tr>
     <tr>
         <td colspan="2">
-            <h2>Modal Window</h2>
-
-            <span class="mw-ui-btn" onclick="mw.modal({})">Default</span>
-
-            <span class="mw-ui-btn" onclick="mw.modal({template:'basic'})">Simple</span>
-
-            <span class="mw-ui-btn" onclick="mw.modalFrame({url:'http://google.com'});">Iframe</span>
-            <span class="mw-ui-btn" onclick="modalAPIEXAMPLE()">API EXAMPLE</span>
-
-            <div id="modalAPIEXAMPLE" style="display: none">
 
 
-                <div class="mw-ui-btn-nav">
-                    <span class="mw-ui-btn" onclick="MODALAPI.resize(Math.floor(Math.random()*(700-150+1)+150),Math.floor(Math.random()*(700-150+1)+150))">Resize</span>
-                    <span class="mw-ui-btn" onclick="MODALAPI.center()">Center</span>
-                    <span class="mw-ui-btn" onclick="MODALAPI.resize(Math.floor(Math.random()*(700-150+1)+150),Math.floor(Math.random()*(700-150+1)+150)).center()">Resize and Center</span>
 
-                </div>
-
-            </div>
-
-            <script>
-
-                modalAPIEXAMPLE = function () {
-                    MODALAPI = mw.modal({content: $('#modalAPIEXAMPLE').html()});
-                }
-
-            </script>
         </td>
     </tr>
 

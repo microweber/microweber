@@ -121,7 +121,7 @@ mw.controlFields = {
         return  this._wrap(
             '<div class="custom-control custom-checkbox">' +
             '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
-            this._label(extend({}, conf, {className: 'custom-control-label'})).outerHTML +
+            this._label(mw.object.extend({}, conf, {className: 'custom-control-label'})).outerHTML +
             '</div>');
     },
     radio: function (conf) {
@@ -135,7 +135,7 @@ mw.controlFields = {
         return  this._wrap(
             '<div class="custom-control custom-radio">' +
             '<input type="radio" ' + id + ' ' + name + ' ' + required + ' ' + value + ' class="custom-control-input">' +
-            this._label(extend({}, conf, {className: 'custom-control-label'})) .outerHTML+
+            this._label(mw.object.extend({}, conf, {className: 'custom-control-label'})) .outerHTML+
             '</div>');
     },
     select: function (conf) {

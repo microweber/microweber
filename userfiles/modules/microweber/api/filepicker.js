@@ -121,6 +121,9 @@ mw.filePicker = function (options) {
                     },
                     fileUploaded: function (file) {
                         scope.setSectionValue(file);
+                        console.log(file);
+                        console.log(scope.activeSection());
+
                         $(scope).trigger('FileUploaded', [file]);
                         if (scope.settings.autoSelect) {
                             scope.result();
@@ -337,7 +340,7 @@ mw.filePicker = function (options) {
         if(this.settings.onResult) {
             this.settings.onResult.call(this, activeSection._filePickerValue);
         }
-        $(scope).trigger('Result', [activeSection._filePickerValue]);
+         $(scope).trigger('Result', [activeSection._filePickerValue]);
     };
 
     this.getValue = function () {
@@ -399,11 +402,14 @@ mw.filePicker = function (options) {
     };
 
     this.activeSection = function () {
-        return $(this._sections).filter(':visible')[0];
+        return $(this._sections).filter(function (){
+            return $(this).css('display') !== 'none';
+        })[0];
     };
 
     this.setSectionValue = function (val) {
         var activeSection = this.activeSection();
+        console.log(activeSection, this._sections)
         if(activeSection) {
             activeSection._filePickerValue = val;
         }

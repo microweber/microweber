@@ -187,7 +187,7 @@
 
                         $(window.parent.window).bind("resize", function () {
                             if (parent != null) {
-                                parent.mw.tools.modal.center("#" + thismodal.main[0].id);
+                                mw.parent().dialog.get("#" + thismodal.main[0].id).center()
                             }
                         });
                     }

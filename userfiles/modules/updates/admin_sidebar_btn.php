@@ -18,7 +18,7 @@ if ($check and is_array($check) and !isset($_COOKIE['mw_dont_show_update_notif']
         $(document).ready(function () {
             if ($('.mw-admin-dashboard-main').length) {
 
-                mw.modal({
+                mw.dialog({
                     height: 440,
                     width: 590,
                     id: 'mw-js-update-modal-notification-modal',

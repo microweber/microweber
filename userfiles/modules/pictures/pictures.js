@@ -164,7 +164,7 @@ mw.module_pictures = {
 
 
     open_image_upload_settings_modal: function() {
-        image_upload_settings__modal_opened = mw.modal({
+        image_upload_settings__modal_opened = mw.dialog({
             content: '<div id="image_upload_settings__modal_module"></div>',
             title: 'Image upload settings',
             id: 'image_upload_settings__modal'
