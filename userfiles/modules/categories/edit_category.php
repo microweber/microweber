@@ -212,8 +212,8 @@ if (isset($params['live_edit'])) {
                             }
                         </script>
 
-                        <a href='javascript:mw.quick_cat_edit_create(0)' class="btn btn-sm btn-success"><i class="mw-icon-plus"></i>&nbsp; <?php _e("New category"); ?></a> &nbsp;
-                        <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="btn btn-sm btn-outline-success"><?php _e("Add subcategory"); ?></a> &nbsp;
+<!--                        <a href='javascript:mw.quick_cat_edit_create(0)' class="btn btn-sm btn-success"><i class="mw-icon-plus"></i>&nbsp; --><?php //_e("New category"); ?><!--</a> &nbsp;-->
+                        <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
                     <?php endif; ?>
                 </div>
             </div>
