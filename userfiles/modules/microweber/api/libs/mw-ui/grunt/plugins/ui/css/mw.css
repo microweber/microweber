@@ -7,7 +7,11 @@ body {
   background-color: #f2f3f5; }
 
 .prevent-scroll {
-  overflow: hidden; }
+  overflow: hidden;
+  /*  .sticky-top {
+      position: fixed !important;
+      width: 100% !important;
+    }*/ }
 
 .container {
   max-width: 70%; }
@@ -231,6 +235,9 @@ header {
     margin-left: 15px;
     padding: 15px 0;
     background: #f2f3f5; }
+    @media screen and (min-width: 1440px) {
+      .main .tree {
+        width: 220px; } }
     @media screen and (max-width: 991px) {
       .main .tree {
         z-index: 9;
@@ -239,13 +246,15 @@ header {
         left: -100%;
         height: 100%;
         padding-top: 95px;
-        margin-left: 0; }
+        margin-left: 0;
+        padding-left: 10px;
+        padding-right: 10px; }
         .main .tree.opened {
           left: 190px; } }
   .main main {
-    width: calc(100% - 205px);
+    width: calc(100% - 215px);
     float: left;
-    margin-left: 15px; }
+    margin-left: 25px; }
     @media screen and (max-width: 991px) {
       .main main {
         margin-left: 0;

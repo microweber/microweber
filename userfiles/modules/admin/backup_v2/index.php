@@ -9,9 +9,13 @@
     mw.require("<?php print $config['url_to_module']; ?>js/backup-import.js?v=10");
     mw.require("<?php print $config['url_to_module']; ?>js/backup-export.js?v=10");
     mw.lib.require('mw_icons_mind');
+
 </script>
 
+
+
 <?php $here = $config['url_to_module']; ?>
+
 
 <div class="mw_edit_page_default" id="mw_edit_page_left">
     <template id="export-template">
@@ -47,7 +51,11 @@
                         </div>
                     </div>
 
-                    <div class="d-none">
+
+
+
+
+                    <div class="d-none js-toggle-backup-select-items">
                         <div class="card style-1 mb-3 card-collapse">
                             <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-modules">
                                 <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong>Include Modules</strong></h6>
@@ -103,7 +111,13 @@
 
                     <div class="step-actions step-1-actions d-flex justify-content-between mt-3">
                         <button type="button" class="btn btn-primary" onclick="mw.backup_export.export_fullbackup_start()">Create Full Backup</button>
-                        <span class="btn btn-link" data-mwstepper="next">Advanced settings</span>
+
+
+                        <span class="btn btn-link js-toggle-backup-select-items" onclick="mw.$('.js-toggle-backup-select-items').toggleClass('d-none')" >Advanced settings</span>
+
+
+
+                        <span class="btn btn-link d-none js-toggle-backup-select-items" data-mwstepper="next">Other settings</span>
                     </div>
                 </div>
             </div>

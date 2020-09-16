@@ -71,7 +71,7 @@
     </div>
 
     <div class="card style-1 mb-3 categories">
-        <div class="card-body pt-3">
+        <div class="card-body pt-3 pb-1">
             <div class="row">
                 <?php if ($data['content_type'] == 'page') : ?>
                     <div class="col-12">
@@ -128,7 +128,7 @@
             <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                 <hr class="thin no-padding"/>
 
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col-12">
                         <small class="text-muted">Want to add the <?php echo $data['content_type']; ?> in more categories?</small>
                         <br/>

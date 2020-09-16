@@ -76,7 +76,7 @@ if (isset($data['content-id'])) {
                                 controls: ['ul', 'ol']
                             }
                         },
-                        '|', 'link', 'unlink', 'wordPaste', 'table'
+                        '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
                     ],
                 ]
             });

@@ -11,6 +11,11 @@ body {
 
 .prevent-scroll {
   overflow: hidden;
+
+/*  .sticky-top {
+    position: fixed !important;
+    width: 100% !important;
+  }*/
 }
 
 .container {
@@ -321,6 +326,9 @@ header {
   .tree {
     display: none;
     width: 170px;
+    @media screen and (min-width: 1440px) {
+      width: 220px;
+    }
     float: left;
     border: 1px solid $primary;
     transition: all 0.5s ease;
@@ -337,6 +345,9 @@ header {
       padding-top: 95px;
       margin-left: 0;
 
+      padding-left: 10px;
+      padding-right: 10px;
+
       &.opened {
         left: 190px;
       }
@@ -345,9 +356,9 @@ header {
   }
 
   main {
-    width: calc(100% - 205px);
+    width: calc(100% - 215px);
     float: left;
-    margin-left: 15px;
+    margin-left: 25px;
 
     @media screen and (max-width: 991px) {
       margin-left: 0;

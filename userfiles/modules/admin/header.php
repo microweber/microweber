@@ -47,8 +47,8 @@
         mw.require("tree.js");
 
         mw.lib.require('mwui');
+        mw.lib.require('mwui_init');
         mw.lib.require('flag_icons', true);
-        mw.lib.require('font_awesome5');
         mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");

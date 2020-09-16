@@ -21,14 +21,14 @@
 
 <div class="<?php print $config['module_class'] ?>">
     <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-header">
+        <div class="card-header px-0">
             <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>General</strong></h5>
             <div>
 
             </div>
         </div>
 
-        <div class="card-body pt-3">
+        <div class="card-body pt-3 px-0">
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold">Seo Settings</h5>
@@ -104,7 +104,7 @@
     </div>
 
     <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-body pt-3">
+        <div class="card-body pt-3 px-0">
             <hr class="thin mt-0 mb-5">
 
             <div class="row">
@@ -277,7 +277,7 @@
     </div>
 
     <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-body pt-3">
+        <div class="card-body pt-3 px-0">
             <hr class="thin mt-0 mb-5">
 
             <div class="row">
@@ -299,7 +299,7 @@
     </div>
 
     <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-body pt-3">
+        <div class="card-body pt-3 px-0">
             <hr class="thin mt-0 mb-5">
 
             <div class="row">
