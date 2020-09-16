@@ -32,7 +32,7 @@ if (isset($item['created_by'])) {
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">
-                        <div class="img-circle-holder w-60">
+                        <div class="img-circle-holder">
                             <?php if ($order_first_product AND isset($order_first_product['item_image'])): ?>
                                 <img src="<?php echo thumbnail($order_first_product['item_image'], 160, 160); ?>"/>
                             <?php else: ?>
@@ -79,12 +79,14 @@ if (isset($item['created_by'])) {
             </div>
         </div>
 
-        <div class="collapse" id="notif-order-item-<?php print $item_id; ?>">
-            <div class="row mt-3">
-                <div class="col-12 text-center text-sm-left">
-                    <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-primary btn-sm btn-rounded">View order</a>
-                </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center text-sm-left">
+                <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded">View order</a>
             </div>
+        </div>
+
+        <div class="collapse" id="notif-order-item-<?php print $item_id; ?>">
+
 
             <hr class="thin"/>
 

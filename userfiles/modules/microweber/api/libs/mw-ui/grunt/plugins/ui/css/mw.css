@@ -23,6 +23,9 @@ header {
   padding: 10px 0;
   border-bottom: 1px solid #f2f3f5; }
   @media screen and (max-width: 767px) {
+    header {
+      padding: 10px 10px; } }
+  @media screen and (max-width: 767px) {
     header .container {
       padding: 0;
       margin: 0;
@@ -55,7 +58,11 @@ header {
         line-height: 1;
         color: #4592ff; }
       header .mobile-toggle button.opened {
-        transform: rotate(90deg); }
+        background: #4592ff;
+        color: #fff;
+        border-radius: 4px; }
+        header .mobile-toggle button.opened i {
+          color: #fff; }
   @media screen and (max-width: 767px) {
     header .nav-last {
       min-width: 100px; } }
@@ -183,7 +190,7 @@ header {
             align-items: center;
             justify-content: center; }
             .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i {
-              font-size: 12px;
+              font-size: 13px;
               width: 15px;
               margin: 0;
               padding: 0;
@@ -223,6 +230,10 @@ header {
       background-size: contain;
       border: 0 !important;
       margin-top: 1px; }
+    .main aside > ul .dropdown .dropdown-toggle.active::after,
+    .main aside > ul .dropdown-no-js .dropdown-toggle.active::after {
+      transform: rotate(90deg);
+      background: #4592ff; }
     .main aside > ul .dropdown.show .dropdown-toggle::after,
     .main aside > ul .dropdown-no-js.show .dropdown-toggle::after {
       transform: rotate(90deg); }
