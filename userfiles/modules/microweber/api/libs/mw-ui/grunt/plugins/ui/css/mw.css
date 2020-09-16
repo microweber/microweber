@@ -7,11 +7,11 @@ body {
   background-color: #f2f3f5; }
 
 .prevent-scroll {
-  overflow: hidden; }
-
-.prevent-scroll .sticky-top {
-  position: fixed !important;
-  width: 100% !important; }
+  overflow: hidden;
+  /*  .sticky-top {
+      position: fixed !important;
+      width: 100% !important;
+    }*/ }
 
 .container {
   max-width: 70%; }
