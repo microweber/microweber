@@ -13,6 +13,13 @@ body {
   overflow: hidden;
 }
 
+.prevent-scroll {
+  .sticky-top {
+    position: fixed !important;
+    width: 100% !important;
+  }
+}
+
 .container {
   max-width: 70%;
   @media screen and (max-width: 991px) {
