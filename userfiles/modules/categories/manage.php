@@ -80,7 +80,7 @@
                         <?php
                         unset($tree['return_data']);
                         unset($tree['rel_id']);
-                        $categoryTree = category_tree($tree);
+                        category_tree($tree);
                         ?>
                     </div>
                 </div>
