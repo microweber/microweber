@@ -36,7 +36,7 @@
                 $tree['ul_class'] = 'mw-ui-category-tree';
                 $tree['li_class'] = 'sub-nav';
                 $tree['rel_type'] = 'content';
-                $tree['rel_id'] = $page['id'];
+
 
                 if (user_can_access('module.categories.edit')) {
                     $tree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span class=\"d-none d-md-block\">Edit</span></span></span>";
@@ -48,6 +48,7 @@
                 <?php
                 $pages_with_cats = get_pages('no_limit=true&parent=0');
                 foreach ($pages_with_cats as $page):
+                    $tree['rel_id'] = $page['id'];
                 ?>
 
                 <?php
