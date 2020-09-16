@@ -57,24 +57,26 @@ class TemplateMetaTagsRenderer
             if ($meta_category_id > 0) {
                 $meta_category_data = $this->app->category_manager->get_by_id($meta_category_id);
 
-                $meta['title'] = $meta_category_data['title'];
-                $meta['description'] = $meta_category_data['description'];
-                if (isset($meta_category_data['category_meta_title']) and $meta_category_data['category_meta_title'] != '') {
-                    $meta['title'] = $meta_category_data['category_meta_title'];
-                }
-                if (isset($meta_category_data['category_meta_description']) and $meta_category_data['category_meta_description'] != '') {
-                    $meta['description'] = $meta_category_data['category_meta_description'];
-                }
+                if($meta_category_data) {
+                    $meta['title'] = $meta_category_data['title'];
+                    $meta['description'] = $meta_category_data['description'];
+                    if (isset($meta_category_data['category_meta_title']) and $meta_category_data['category_meta_title'] != '') {
+                        $meta['title'] = $meta_category_data['category_meta_title'];
+                    }
+                    if (isset($meta_category_data['category_meta_description']) and $meta_category_data['category_meta_description'] != '') {
+                        $meta['description'] = $meta_category_data['category_meta_description'];
+                    }
 
-                if (isset($meta_category_data['category_meta_keywords']) and $meta_category_data['category_meta_keywords'] != '') {
-                    $meta['content_meta_keywords'] = $meta_category_data['category_meta_keywords'];
-                }
-                $meta['og_description'] = $meta['description'];
+                    if (isset($meta_category_data['category_meta_keywords']) and $meta_category_data['category_meta_keywords'] != '') {
+                        $meta['content_meta_keywords'] = $meta_category_data['category_meta_keywords'];
+                    }
+                    $meta['og_description'] = $meta['description'];
 
-                $content_image = $this->app->media_manager->get_picture($meta_category_id,'category');
-                if ($content_image) {
-                    $meta['content_image'] = $content_image;
-                    $meta['og_image'] = $content_image;
+                    $content_image = $this->app->media_manager->get_picture($meta_category_id, 'category');
+                    if ($content_image) {
+                        $meta['content_image'] = $content_image;
+                        $meta['og_image'] = $content_image;
+                    }
                 }
             } else if ($meta_content_id > 0) {
                 $meta = $this->app->content_manager->get_by_id($meta_content_id);
