@@ -32,31 +32,35 @@
                 <?php
                 $field_name = "categories";
                 $selected = 0;
-                $tree = array();
-                $tree['ul_class'] = 'mw-ui-category-tree';
-                $tree['li_class'] = 'sub-nav';
-                $tree['rel_type'] = 'content';
+                $mainFilterTree = array();
+                $mainFilterTree['ul_class'] = 'mw-ui-category-tree';
+                $mainFilterTree['li_class'] = 'sub-nav';
+                $mainFilterTree['rel_type'] = 'content';
 
+                if (isset($params['page-id']) and $params['page-id'] != false) {
+                    $mainFilterTree['rel_id'] = intval($params['page-id']);
+                }
 
                 if (user_can_access('module.categories.edit')) {
-                    $tree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span class=\"d-none d-md-block\">Edit</span></span></span>";
+                    $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span class=\"d-none d-md-block\">Edit</span></span></span>";
                 } else {
-                    $tree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
+                    $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
                 ?>
 
                 <?php
                 $pages_with_cats = get_pages('no_limit=true&parent=0');
                 foreach ($pages_with_cats as $page):
-                    $tree['rel_id'] = $page['id'];
+                    $pageTreeFilter = $mainFilterTree;
+                    $pageTreeFilter['rel_id'] = $page['id'];
                 ?>
 
                 <?php
-                $tree['return_data'] = true;
-                $categoryTree = category_tree($tree);
-                if (empty($categoryTree)) {
-                    continue;
-                }
+                    $pageTreeFilter['return_data'] = true;
+                    $categoryTree = category_tree($pageTreeFilter);
+                    if (empty($categoryTree)) {
+                        continue;
+                    }
                 ?>
                 <div class="card mb-3">
                 <div class="card-body">
@@ -80,9 +84,7 @@
                             <h5>Other</h5>
                         </div>
                         <?php
-                        unset($tree['return_data']);
-                        unset($tree['rel_id']);
-                        category_tree($tree);
+                        category_tree($mainFilterTree);
                         ?>
                     </div>
                 </div>
