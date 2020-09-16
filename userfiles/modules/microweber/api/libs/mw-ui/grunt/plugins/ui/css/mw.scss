@@ -11,13 +11,11 @@ body {
 
 .prevent-scroll {
   overflow: hidden;
-}
 
-.prevent-scroll {
-  .sticky-top {
+/*  .sticky-top {
     position: fixed !important;
     width: 100% !important;
-  }
+  }*/
 }
 
 .container {
@@ -346,6 +344,9 @@ header {
       height: 100%;
       padding-top: 95px;
       margin-left: 0;
+
+      padding-left: 10px;
+      padding-right: 10px;
 
       &.opened {
         left: 190px;
