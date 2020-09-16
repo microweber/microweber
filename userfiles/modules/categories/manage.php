@@ -28,19 +28,21 @@
 
 
             <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
+
                 <?php
+                $pages_with_cats = get_pages('no_limit=true&parent=0');
+                foreach ($pages_with_cats as $page):
+                ?>
+
+                <?php
+
                 $field_name = "categories";
                 $selected = 0;
                 $tree = array();
                 $tree['ul_class'] = 'mw-ui-category-tree';
                 $tree['li_class'] = 'sub-nav';
                 $tree['rel_type'] = 'content';
-
-
-                if (isset($params['page-id']) and $params['page-id'] != false) {
-                    $tree['rel_id'] = intval($params['page-id']);
-                }
-
+                $tree['rel_id'] = $page['id'];
 
                 if (user_can_access('module.categories.edit')) {
                     $tree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span class=\"d-none d-md-block\">Edit</span></span></span>";
@@ -48,9 +50,41 @@
                     $tree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
 
-
-                 category_tree($tree);
+                $tree['return_data'] = true;
+                $categoryTree = category_tree($tree);
+                if (empty($categoryTree)) {
+                    continue;
+                }
                 ?>
+                <div class="card mb-3">
+                <div class="card-body">
+                    <div class="card-header">
+                    <h5><i class="mdi mdi-post-outline"></i> <?php echo $page['title'];?></h5>
+                    </div>
+                <?php
+                echo $categoryTree;
+                ?>
+                </div>
+                </div>
+
+
+                <?php
+                endforeach;
+                ?>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5>Other</h5>
+                        </div>
+                        <?php
+                        unset($tree['return_data']);
+                        unset($tree['rel_id']);
+                        $categoryTree = category_tree($tree);
+                        ?>
+                    </div>
+                </div>
+
             </div>
             <script>
                 mw.require('block-edit.js');
