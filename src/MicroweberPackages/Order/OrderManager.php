@@ -49,6 +49,7 @@ class OrderManager
         }
         $table = $table = $this->table;
         $params['table'] = $table;
+        $params['no_cache'] = true;
 
         return $this->app->database_manager->get($params);
     }

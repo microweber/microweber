@@ -109,9 +109,9 @@ class BackupV2
 				);
 			}
 		} else {
-			return array(
-				'error' => 'Uploaded file is not found!'
-			);
+//			return array(
+//				'error' => 'Uploaded file is not found!'
+//			);
 		}
 	}
 
