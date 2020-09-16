@@ -64,7 +64,7 @@
                                         <div class="img-circle-holder border-radius-0 border-0">
                                             <?php if ($pic == true): ?>
                                                 <a href="javascript:;" onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
-                                                    <img src="<?php print thumbnail($pic, 108) ?>"/>
+                                                    <img src="<?php print thumbnail($pic, 120, 120, true) ?>"/>
                                                 </a>
                                             <?php else : ?>
                                                 <a href="javascript:;" onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
