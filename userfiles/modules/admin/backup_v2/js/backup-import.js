@@ -9,7 +9,7 @@ mw.backup_import = {
 		data.src=src;
 		$.post(mw.settings.api_url+'BackupV2/upload', data ,
 			function(msg) {
-				mw.reload_module('admin/BackupV2/manage');
+				mw.reload_module('admin/backup_v2/manage');
 				mw.notification.msg(msg, 5000);
 			});
 	},
