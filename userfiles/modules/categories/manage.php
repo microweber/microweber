@@ -30,12 +30,6 @@
             <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
 
                 <?php
-                $pages_with_cats = get_pages('no_limit=true&parent=0');
-                foreach ($pages_with_cats as $page):
-                ?>
-
-                <?php
-
                 $field_name = "categories";
                 $selected = 0;
                 $tree = array();
@@ -49,7 +43,14 @@
                 } else {
                     $tree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
+                ?>
 
+                <?php
+                $pages_with_cats = get_pages('no_limit=true&parent=0');
+                foreach ($pages_with_cats as $page):
+                ?>
+
+                <?php
                 $tree['return_data'] = true;
                 $categoryTree = category_tree($tree);
                 if (empty($categoryTree)) {
