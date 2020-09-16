@@ -112,7 +112,7 @@
 </style>
 
 <div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-body pt-3 pb-0">
+    <div class="card-body pt-3 pb-0 px-0">
         <div class="row">
             <div class="col-md-3">
                 <h5 class="font-weight-bold"><?php _e("Search"); ?></h5>
@@ -141,7 +141,7 @@
 <hr class="thin mx-4"/>
 
 <div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-body pt-0">
+    <div class="card-body pt-0 px-0">
         <div class="row">
             <div class="col-md-3">
                 <h5 class="font-weight-bold"><?php _e("Translation"); ?></h5>

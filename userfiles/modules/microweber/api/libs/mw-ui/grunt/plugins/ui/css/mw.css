@@ -9,6 +9,10 @@ body {
 .prevent-scroll {
   overflow: hidden; }
 
+.prevent-scroll .sticky-top {
+  position: fixed !important;
+  width: 100% !important; }
+
 .container {
   max-width: 70%; }
   @media screen and (max-width: 991px) {
@@ -246,9 +250,9 @@ header {
         .main .tree.opened {
           left: 190px; } }
   .main main {
-    width: calc(100% - 205px);
+    width: calc(100% - 215px);
     float: left;
-    margin-left: 15px; }
+    margin-left: 25px; }
     @media screen and (max-width: 991px) {
       .main main {
         margin-left: 0;
