@@ -88,7 +88,7 @@ mw.options = {
 
         var also_reload = el.attr('data-reload') || el.attr('data-also-reload');
 
-        var modal = mw.$(mw.tools.modal.get(el).container);
+        var modal = mw.$(mw.dialog.get(el).container);
 
         if (refresh_modules11 == undefined && modal !== undefined) {
 

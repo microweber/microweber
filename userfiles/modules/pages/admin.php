@@ -50,7 +50,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         mw.$('#mw_page_create_live_edit').attr('quick_edit', 1);
                         mw.$('#mw_page_create_live_edit').removeAttr('live_edit');
                         mw.load_module('content/edit_page', '#mw_page_create_live_edit', function () {
-                            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 900, mw.$('#settings-container').height() + 25, false);
 
                             mw.$(".preview_frame_wrapper .mw-overlay").removeAttr("onclick");
                             mw.$("#mw_pages_list_tree_live_edit_holder").show().visibilityDefault()

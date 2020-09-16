@@ -108,7 +108,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixes on mw.dialog 
 - Fixes on Custom fields 
 - Fixes on Calendar module in Live Edit mode
-- Fixes on Modal mw.tools.modal.get(...) is not a function when in mw.dialog
+- Fixes on Modal mw.dialog.get(...) is not a function when in mw.dialog
 - Fixes on Testimonials module select image does not work
 - Fixes on UI in RTL languages
 - Fixes on Import from CSV 

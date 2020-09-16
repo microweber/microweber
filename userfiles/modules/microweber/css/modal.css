@@ -1,3 +1,9 @@
+.mw-gallery,
+.mw-gallery *:before,
+.mw-gallery *:after,
+.mw-gallery *{
+    box-sizing: border-box;
+}
 .mw-gallery{
     position: fixed;
     top: 0;
@@ -19,12 +25,36 @@
 .mw-gallery-content{
     position: relative;
     z-index: 1;
-    max-height: 100vh;
-    max-width: 100vw;
+    height: 100vh;
+    width: 100vw;
 }
 
 .mw-gallery-item{
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(.93);
+    transition: .6s;
+    opacity: 0;
+    visibility: hidden;
+}
+.mw-gallery-item.active{
+    transform: translate(-50%,-50%) scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+.mw-gallery-item-image img{
+    display: block;
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+}
+.mw-gallery-item-description{
+    max-height: 20vh;
+    color: white;
+    padding: 10px;
+    background-color: rgba(0,0,0,.2);
 }
 
 .mw-gallery-prev,
@@ -37,6 +67,8 @@
     color: white;
     display: inline-block;
     padding: 20px;
+    font-family: ui-sans-serif, sans-serif;
+    z-index: 5;
 }
 .mw-gallery-prev:after{
     content: '\2039';
@@ -48,6 +80,31 @@
     right: 20px;
 }
 
+.mw-gallery-controls > *{
+    padding: 10px;
+    cursor: pointer;
+    font-family: "Material Design Icons";
+    font-size: 20px;
+}
+
+.mw-gallery-control-play.pause:after{
+    content: "\F03E4";
+}
+.mw-gallery-control-play:after{
+    content: '\F040A';
+}
+
+.mw-gallery-control-close:after{
+    content: "\F0156";
+}
+
+.mw-gallery-controls{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #eee;
+    z-index: 11;
+}
 .mw-gallery-next:after{
     content: '\203A';
 }

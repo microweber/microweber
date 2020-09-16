@@ -34,7 +34,7 @@ $(document).ready(function(){
 modulePreview = function(el){
    var url = el.tagName == 'A' ? el.href : el.src;
 
-   var modal = mw.tools.modal.frame({
+   var modal = mw.dialogIframe({
      url:url,
      name:"preview_" + el.id,
      title:'Preview Template - <b>' + el.title + "</b>",
@@ -60,12 +60,12 @@ if(isset($params['for'])){
 }
 if(!isset($params['parent-module'])){
 error('parent-module is required');
-	
+
 }
 
 if(!isset($params['parent-module-id'])){
-error('parent-module-id is required');	
-	
+error('parent-module-id is required');
+
 }
  $curent_module = $params['parent-module'];
  $curent_module_url = module_name_encode($params['parent-module']);
@@ -139,9 +139,9 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
 
   <?php //d($item); ?>
 
-  
-  
-  
+
+
+
   <?php endif; ?>
   <?php  $i++; endforeach ; ?>
   <?php endif; ?>

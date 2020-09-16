@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c8170bd94b2b2626d8bb5db34aa786d",
+    "content-hash": "357f4b1ef028525d2ca5c8e555b4fa07",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2823,12 +2823,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "bf32c4478a3dc75f46569cdb26206e69a6c65f2d"
+                "reference": "26f62b17db1df45b7b093a8d31a2786ec8560566"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/bf32c4478a3dc75f46569cdb26206e69a6c65f2d",
-                "reference": "bf32c4478a3dc75f46569cdb26206e69a6c65f2d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/26f62b17db1df45b7b093a8d31a2786ec8560566",
+                "reference": "26f62b17db1df45b7b093a8d31a2786ec8560566",
                 "shasum": ""
             },
             "require": {
@@ -2978,7 +2978,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-09-15T18:45:32+00:00"
+            "time": "2020-09-16T12:46:35+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -12029,7 +12029,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "composer/installers": 20,
         "knplabs/knp-menu": 20,
         "jenssegers/agent": 20,
         "geoip2/geoip2": 20,
@@ -12047,7 +12046,8 @@
         "spatie/laravel-permission": 20,
         "laravelcollective/html": 20,
         "laravel/socialite": 20,
-        "arcanedev/seo-helper": 20
+        "arcanedev/seo-helper": 20,
+        "composer/installers": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

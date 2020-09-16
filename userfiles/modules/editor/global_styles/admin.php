@@ -101,7 +101,7 @@ header_bg_color = function(a){
 }
 
 content_bg_media = function(){
-  mw.tools.modal.frame({
+  mw.dialogIframe({
       url:"rte_image_editor#set_content_bg_media",
       //title:"Upload Picture",
       name:"mw_rte_image",

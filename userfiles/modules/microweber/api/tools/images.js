@@ -332,7 +332,7 @@ mw.image = {
         }
     },
     settings: function () {
-        //var modal = mw.tools.modal.frame({
+        //var modal = mw.dialogIframe({
         var modal = mw.dialogIframe({
             url: 'imageeditor',
             template: "mw_modal_basic",

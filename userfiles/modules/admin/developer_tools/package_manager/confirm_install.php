@@ -64,7 +64,7 @@ if (is_array($get_existing_files_for_confirm)) {
             success: function (msg) {
                 mw.notification.msg(msg, 3000);
                 if (msg.success) {
-                    mw.tools.modal.get('#js-buttons-confirm-install').remove()
+                    mw.dialog.get('#js-buttons-confirm-install').remove()
                 }
 
                 if (typeof(mw.marketplace_dialog_jquery_ui) != 'undefined') {

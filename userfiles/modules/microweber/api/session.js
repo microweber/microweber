@@ -48,10 +48,9 @@ mw.session = {
         setInterval(function () {
             mw.session.check(function (is_logged) {
                 if (is_logged) {
-                    var m = mw.tools.modal.get("#session_modal");
+                    var m = mw.dialog.get("#session_modal");
                     if (m) {
-                        mw.$(m.overlay).remove();
-                        mw.$(m.main).remove();
+                        m.remove();
                     }
                 }
                 else {

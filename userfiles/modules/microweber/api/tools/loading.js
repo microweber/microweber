@@ -75,6 +75,7 @@ mw.tools.loading = function (element, progress, speed) {
 
     }
 
+
     if (typeof element === 'boolean') {
         progress = !!element;
         element = mwd.body;
@@ -95,6 +96,7 @@ mw.tools.loading = function (element, progress, speed) {
 
     var isLoading = mw.tools.hasClass(element, 'mw-loading');
     var el = element.querySelector('.mw-progress');
+
     if (!el) {
         el = document.createElement('div');
         el.className = 'mw-progress';
@@ -102,8 +104,12 @@ mw.tools.loading = function (element, progress, speed) {
         if (element === mwd.body) el.style.position = 'fixed';
         element.appendChild(el);
     }
+    if (progress === 'hide') {
+        el.remove();
+        return;
+    }
     var pos = mw.CSSParser(element).get.position();
-    if (pos == 'static') {
+    if (pos === 'static') {
         element.style.position = 'relative';
     }
     if (progress) {

@@ -11,7 +11,7 @@
 
 ?>
 
- 
+
 <?php
 
 print load_module('pictures/admin');
@@ -72,7 +72,7 @@ if(array_key_exists('post', $_GET)){     ?>
 
 
   <!-- Content -->
-       
+
    <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
   <div class="mw-ui-box-header">
        <h2><?php _e('Posts'); ?></h2>
@@ -112,7 +112,7 @@ if (!empty($content)) {
 
   </div>
   </div>
-      
+
   <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
   <div class="mw-ui-box-header">
        <h2><?php _e('Orders'); ?></h2>
@@ -179,7 +179,7 @@ mw.mobile = {
     temp:[],
     mediaUpload:function(callback){
 
-        var up = mw.tools.modal.frame({
+        var up = mw.dialogIframe({
           url:"rte_image_editor#someFUNC",
           name:"mw_rte_image",
           width:430,
