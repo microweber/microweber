@@ -246,7 +246,9 @@ header {
         left: -100%;
         height: 100%;
         padding-top: 95px;
-        margin-left: 0; }
+        margin-left: 0;
+        padding-left: 10px;
+        padding-right: 10px; }
         .main .tree.opened {
           left: 190px; } }
   .main main {
