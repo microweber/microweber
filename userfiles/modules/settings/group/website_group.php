@@ -45,18 +45,18 @@ if (isset($_GET['group']) and $_GET['group']) {
 </div>
 
 <div class="card bg-none style-1 mb-0">
-    <div class="card-header">
+    <div class="card-header px-0">
         <h5><i class="mdi mdi-earth text-primary mr-3"></i> <strong>Website settings</strong></h5>
         <div>
 
         </div>
     </div>
 
-    <div class="card-body pt-3">
+    <div class="card-body pt-3 px-0">
         <div class="card style-1 mb-3">
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=general" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                             <div class="info-holder">
@@ -66,7 +66,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=updates" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-flash-outline mdi-20px"></i></div>
                             <div class="info-holder">
@@ -76,7 +76,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=email" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-email-outline mdi-20px"></i></div>
                             <div class="info-holder">
@@ -86,7 +86,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=template" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-text-box-check-outline mdi-20px"></i></div>
                             <div class="info-holder">
@@ -96,7 +96,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=advanced" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-keyboard-outline mdi-20px"></i></div>
                             <div class="info-holder">
@@ -106,7 +106,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=files" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-file-cabinet mdi-20px"></i></div>
                             <div class="info-holder">
@@ -116,7 +116,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=login" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-login mdi-20px"></i></div>
                             <div class="info-holder">
@@ -126,7 +126,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=language" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-translate mdi-20px"></i></div>
                             <div class="info-holder">
@@ -136,7 +136,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                         </a>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
                         <a href="?group=privacy" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-shield-edit-outline mdi-20px"></i></div>
                             <div class="info-holder">
