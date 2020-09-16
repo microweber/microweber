@@ -12,10 +12,10 @@ body {
 .prevent-scroll {
   overflow: hidden;
 
-/*  .sticky-top {
-    position: fixed !important;
-    width: 100% !important;
-  }*/
+  /*  .sticky-top {
+      position: fixed !important;
+      width: 100% !important;
+    }*/
 }
 
 .container {
@@ -27,6 +27,9 @@ body {
 
 header {
   padding: 10px 0;
+  @media screen and (max-width: 767px) {
+    padding: 10px 10px;
+  }
   border-bottom: 1px solid #f2f3f5;
 
   .container {
@@ -78,7 +81,14 @@ header {
       }
 
       &.opened {
-        transform: rotate(90deg);
+        background: $primary;
+        color: $white;
+        border-radius: 4px;
+        i {
+          color: $white;
+        }
+
+        //transform: rotate(90deg);
       }
     }
   }
@@ -255,7 +265,7 @@ header {
               justify-content: center;
 
               i {
-                font-size: 12px;
+                font-size: 13px;
                 width: 15px;
                 margin: 0;
                 padding: 0;
@@ -312,6 +322,10 @@ header {
           background-size: contain;
           border: 0 !important;
           margin-top: 1px;
+        }
+        .dropdown-toggle.active::after {
+          transform: rotate(90deg);
+          background: $primary;
         }
 
         &.show {
