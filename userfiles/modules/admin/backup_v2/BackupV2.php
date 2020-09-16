@@ -179,6 +179,8 @@ class BackupV2
 			$fileId = $query['file'];
 		}
 
+        $this->manager->setImportStep(intval($_GET['step']));
+
 		if (isset($query['import_by_type']) && $query['import_by_type'] == 'overwrite_by_id') {
 			$this->manager->setImportOvewriteById(true);
 		}

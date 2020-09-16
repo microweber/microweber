@@ -202,10 +202,16 @@ var Uploader = function( options ) {
             file: chunk,
         };
         _i++;
+        $(scope).trigger('uploadStart', [data]);
+
         this.upload(data, function () {
             if(chunks.length) {
                 scope.uploadFile(file, done, _chunks, _all, _i);
             } else {
+                $(scope).trigger('FileUploaded', [file]);
+                if(scope.settings.on.fileUploaded) {
+                    scope.settings.on.fileUploaded(file);
+                }
                 done.call(file);
             }
         });
@@ -241,6 +247,7 @@ var Uploader = function( options ) {
                     scope.settings.on.filesUploaded();
                 }
                 $(scope).trigger('FilesUploaded');
+
             }
         } else {
             var count = 0;
@@ -276,7 +283,7 @@ var Uploader = function( options ) {
                 return;
             }
         }
-        $(scope).trigger('uploadStart', [pdata]);
+
         return $.ajax({
             url: this.getUrl(),
             type: 'post',
@@ -288,10 +295,6 @@ var Uploader = function( options ) {
                 if(done) {
                     done.call(res);
                 }
-                if(scope.settings.on.fileUploaded) {
-                    scope.settings.on.fileUploaded(res);
-                }
-                $(scope).trigger('FileUploaded', res);
             },
             dataType: 'json',
             xhr: function () {

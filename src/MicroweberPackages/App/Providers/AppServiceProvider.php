@@ -18,6 +18,7 @@ use MicroweberPackages\Content\ContentServiceProvider;
 use MicroweberPackages\Customer\CustomerServiceProvider;
 use MicroweberPackages\Database\DatabaseManagerServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
+use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\Form\FormsManagerServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
@@ -201,6 +202,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
 
+        $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(FormsManagerServiceProvider::class);
         $this->app->register(UserManagerServiceProvider::class);

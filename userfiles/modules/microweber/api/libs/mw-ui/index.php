@@ -925,6 +925,136 @@
                                     </tr>
                                     </tbody>
                                 </table>
+
+                                <hr class="my-5"/>
+
+                                <p>you can use
+                                    <strong>&lt;table class="vertical-align-middle> </strong> for vertical align middle
+                                </p>
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Column heading</th>
+                                        <th scope="col">Column heading</th>
+                                        <th scope="col">Column heading</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">Active</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Default</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Primary</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-1">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Column heading</th>
+                                        <th scope="col">Column heading</th>
+                                        <th scope="col">Column heading</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">Active</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Default</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Primary</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-1 table-hover table-hover-silver">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Column heading</th>
+                                        <th scope="col">Column heading</th>
+                                        <th scope="col">Column heading</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">Active</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Default</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Primary</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-1 table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Column heading</th>
+                                        <th scope="col">Column heading</th>
+                                        <th scope="col">Column heading</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">Active</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Default</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Primary</th>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                        <td>Column content</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div><!-- /example -->
                         </div>
                     </div>
@@ -1822,6 +1952,22 @@
             <div class="tab-pane fade" id="others-tab" role="tabpanel" aria-labelledby="others-tab">
                 <div class="container">
                     <div class="bs-docs-section">
+                        <div>
+                            <h3>Helper classes</h3>
+                            <div class="mb-3">
+                                <h5>Backgrounds with opacity</h5>
+                                <strong>.bg-primary-opacity-1</strong> to <strong>.bg-primary-opacity-9</strong>
+                                <br/>
+                                <strong>.bg-secondary-opacity-1</strong> to <strong>.bg-secondary-opacity-0</strong>
+                                <hr/>
+                            </div>
+
+                            <div class="mb-3">
+                                <h5>Text opacity</h5>
+                                <strong>.text-opacity-1</strong> to <strong>.text-opacity-9</strong>
+                                <hr/>
+                            </div>
+                        </div>
                         <div class="row mb-4">
                             <div class="col-md-4">
                                 <h3>Square dropable zones</h3>

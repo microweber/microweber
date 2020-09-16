@@ -89,7 +89,7 @@
 }
 
 .export-stepper-1-select {
-    margin: 26px 0 12px;
+    margin: 0px 0 25px;
 }
 
 .export-stepper .mw-stepper-item {
@@ -98,18 +98,10 @@
 
 .export-stepper-1-select .mw-construct-itd {
     width: 100%;
-    padding-bottom: 12px;
 }
 
 .step-actions .mw-ui-btn {
     min-width: 180px;
-}
-
-.step-actions {
-    display: flex;
-    padding: 12px 22px 0;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .step-actions-2, .step-actions-3 {
@@ -117,9 +109,7 @@
 }
 
 .step-header-actions {
-    padding-bottom: 25px;
-    justify-content: flex-end;
-    display: flex;
+    padding-bottom: 15px;
 }
 
 .export-step-2-items-head .mw-construct-itd,
@@ -163,10 +153,52 @@
     justify-content: center;
 }
 
-@media (min-height: 700px) {
+@media screen and (min-height: 700px) {
     .export-stepper-1 .export-stepper-content,
     .export-stepper-4 .export-stepper-content {
-        min-height: 580px;
+        padding: 40px 0;
     }
 }
 
+.export-stepper-content{
+    padding-top: 20px;
+}
+
+.mw-selectable-list label {
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+}
+
+.mw-selectable-list > label > * {
+    padding-top: 0;
+    padding-bottom: 0;
+    border: 0 !important;
+}
+
+.mw-selectable-list .mw-selectable-list-input .mw-ui-check {
+    top: 0;
+}
+
+.mw-selectable-list-input {
+    order: 1;
+}
+
+.mw-selectable-list-icon {
+    order: 2;
+}
+
+.mw-selectable-list-content {
+    order: 3;
+}
+
+.mw-selectable-list .mw-selectable-list-content {
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.mw-selectable-list-content-description {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #919191;
+}

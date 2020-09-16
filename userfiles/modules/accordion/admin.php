@@ -56,12 +56,24 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             array_push($data, $slide);
         }
         ?>
+        <style>
+            .show-on-hover-root {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
 
+            .show-on-hover-root > div {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        </style>
         <script>
             $(window).on('load', function () {
                 this.accordionSettings = new mw.moduleSettings({
                     element: '#accordion-settings',
-                    header: '<i class="mdi mdi-cursor-move"></i> <span data-bind="title">Move</span> <a class="pull-right" data-action="remove"><i class="mdi mdi-close text-danger"></i></a>',
+                    header: '<div class="show-on-hover-root"><div><i class="mdi mdi-cursor-move mdi-18px text-silver mr-2"></i> <span data-bind="title">Move</span></div> <a href="javascript:;" class="show-on-hover" data-action="remove"><i class="mdi mdi-close text-danger mdi-18px font-weight-bold"></i></a></div>',
                     data: <?php print json_encode($data); ?>,
                     schema: [
                         {

@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<div class="card style-1 bg-light mb-3">
+<div class="card @yield('card-style') style-1 mb-3">
     <div class="card-header">
         <h5>
             @yield('icon')

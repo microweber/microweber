@@ -33,8 +33,8 @@
                     <h6 class="small font-weight-bold mb-3">Client card</h6>
                     <div class="card">
                         <div class="card-body">
-                            <span class="d-block"><i class="mdi mdi-account text-muted mdi-30px"></i></span>
                             @if($customer AND isset($customer->name))
+                                <span class="d-block"><i class="mdi mdi-account text-muted mdi-30px"></i></span>
                                 <span class="font-weight-bold d-block mb-1">{{$customer->name}}</span>
                                 <span class="d-block mb-1">{{$customer->email}}</span>
                                 <span class="d-block mb-1">{{$customer->phone}}</span>

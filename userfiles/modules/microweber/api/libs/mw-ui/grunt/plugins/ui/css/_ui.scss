@@ -1327,7 +1327,6 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 }
 
 .muted-cards-2 {
-
   .card:not(:hover) {
     background: #fcfcfc;
     border-top-color: transparent;
@@ -1764,6 +1763,42 @@ small {
   background: rgba(red($secondary), green($secondary), blue($secondary), .9);
 }
 
+.text-opacity-1 {
+  opacity: .1;
+}
+
+.text-opacity-2 {
+  opacity: .2;
+}
+
+.text-opacity-3 {
+  opacity: .3;
+}
+
+.text-opacity-4 {
+  opacity: .4;
+}
+
+.text-opacity-5 {
+  opacity: .5;
+}
+
+.text-opacity-6 {
+  opacity: .6;
+}
+
+.text-opacity-7 {
+  opacity: .7;
+}
+
+.text-opacity-8 {
+  opacity: .8;
+}
+
+.text-opacity-9 {
+  opacity: .9;
+}
+
 .js-change-color {
   &.btn-success,
   &.btn-danger,
@@ -1834,4 +1869,8 @@ small {
 
 textarea.form-control {
   min-height: 150px;
+}
+
+.cursor-pointer{
+  cursor: pointer;
 }

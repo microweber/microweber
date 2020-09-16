@@ -261,49 +261,49 @@ mw.backup_export = {
             data: [
                 {
                     input: {name: 'export_items', value: 'media'},
-                    icon: { className: 'mw-micon-Bag-Coins'  },
+                    icon: { className: 'mdi mdi-shopping-outline'  },
                     title: 'Export all orders',
                     description: 'If you check this checkbox then all of your orders will be added into the backup export'
                 },
                 {
                     input: {name: 'export_items', value: 'users'},
-                    icon: { className: 'mw-micon-Couple-Sign'  },
+                    icon: { className: 'mdi mdi-account-multiple-outline'  },
                     title: 'Export users',
                     description: 'This check box will include all your user database in the backup'
                 },
                 {
                     input: {name: 'export_items', value: 'menus'},
-                    icon: { className: 'mw-micon-Bulleted-List'  },
+                    icon: { className: 'mdi mdi-menu'  },
                     title: 'Export menus',
                     description: 'If you want to include the existing menus in the bachup use this check'
                 },
                 {
                     input: {name: 'export_items', value: 'comments'},
-                    icon: { className: 'mw-micon-Speach-BubbleDialog'  },
+                    icon: { className: 'mdi mdi-comment-account-outline'  },
                     title: 'Export comments',
                     description: 'Export all comments of your website'
                 },
                 {
                     input: {name: 'export_items', value: 'forms_data,forms_lists,notifications'},
-                    icon: { className: 'mw-icon-app-email'  },
+                    icon: { className: 'mdi mdi-email-outline'  },
                     title: 'Export contacts',
                     description: 'Export all contact lists of your website'
                 },
                 {
                     input: {name: 'export_items', value: 'forms_data,forms_lists'},
-                    icon: { className: 'mw-icon-post'  },
+                    icon: { className: 'mdi mdi-format-list-text'  },
                     title: 'Export Posts & Contents',
                     description: 'Export all posts & contents of your website'
                 },
                 {
                     input: {name: 'export_items', value: ''},
-                    icon: { className: 'mw-micon-File-Settings'  },
+                    icon: { className: 'mdi mdi-cog-outline'  },
                     title: 'Export  website settings',
                     description: 'All settings lik, website name, company details etc, '
                 },
                 {
                     input: {name: 'export_media', value: true, checked: true},
-                    icon: { className: 'mw-micon-Photos'  },
+                    icon: { className: 'mdi mdi-image-multiple-outline'  },
                     title: 'Include media files  <span>(images, videos, etc..)</span>',
                     description: ''
                 }

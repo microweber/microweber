@@ -12,11 +12,14 @@ class BackupManager
 	public $exportIncludeMedia = false;
 	public $exportIncludeModules = false;
 	public $exportIncludeTemplates = false;
+
+    public $importStep = 0;
 	public $importType = false;
 	public $importFile = false;
 	public $importBatch = true;
 	public $importOvewriteById = false;
 	public $importLanguage = false;
+
 	public $deleteOldContent = false;
 
 	public function __construct()
@@ -53,8 +56,7 @@ class BackupManager
 	 * Set export file format
 	 * @param string $type
 	 */
-	public function setExportType($type)
-	{
+	public function setExportType($type) {
 		$this->exportType = $type;
 	}
 	
@@ -78,12 +80,15 @@ class BackupManager
 		$this->exportIncludeTemplates = $includeTemplates;
 	}
 
+    public function setImportStep($step) {
+        $this->importStep = $step;
+    }
+
 	/**
 	 * Set import file format
 	 * @param string $type
 	 */
-	public function setImportType($type) 
-	{
+	public function setImportType($type) {
 		$this->importType = $type;
 	}
 	
@@ -154,6 +159,7 @@ class BackupManager
 	{
 		try {
 			$import = new Import();
+            $import->setStep($this->importStep);
 			$import->setType($this->importType);
 			$import->setFile($this->importFile);
 			$import->setLanguage($this->importLanguage);
@@ -166,8 +172,9 @@ class BackupManager
             if (isset($content['must_choice_language']) && $content['must_choice_language']) {
                 return $content;
             }
-			
+
 			$writer = new DatabaseWriter();
+            $writer->setStep($this->importStep);
 			$writer->setContent($content['data']);
 			$writer->setOverwriteById($this->importOvewriteById);
 			$writer->setDeleteOldContent($this->deleteOldContent);

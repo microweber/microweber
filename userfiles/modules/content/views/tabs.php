@@ -40,10 +40,31 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
     ?>
 
     <?php if ($showCustomFields): ?>
-        <div class="card style-1 mb-3 fields">
-            <div class="card-body pt-3">
-                <module type="custom_fields/admin" <?php if (trim($data['content_type']) == 'product'): ?> default-fields="price" <?php endif; ?> content-id="<?php print $data['id'] ?>" suggest-from-related="true" list-preview="true" id="fields_for_post_<?php print $data['id']; ?>"/>
-                <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
+        <style>
+            .fields > .card-body .module > .card {
+                background: transparent;
+                border: 0;
+                box-shadow: unset;
+            }
+
+            .fields > .card-body .module > .card > .card-body {
+                padding: 0 !important;
+            }
+            .fields > .card-body .module > .card > .card-header {
+                display: none;
+            }
+        </style>
+        <div class="card style-1 mb-3 card-collapse fields">
+            <div class="card-header no-border">
+                <h6><strong>Custom fields</strong></h6>
+                <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#custom-fields-settings">Show Custom fields</a>
+            </div>
+
+            <div class="card-body py-0">
+                <div class="collapse" id="custom-fields-settings">
+                    <module type="custom_fields/admin" <?php if (trim($data['content_type']) == 'product'): ?> default-fields="price" <?php endif; ?> content-id="<?php print $data['id'] ?>" suggest-from-related="true" list-preview="true" id="fields_for_post_<?php print $data['id']; ?>"/>
+                    <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
+                </div>
             </div>
         </div>
     <?php endif; ?>

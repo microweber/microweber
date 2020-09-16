@@ -8959,6 +8959,33 @@ small a {
 .bg-secondary-opacity-9 {
   background: rgba(238, 239, 239, 0.9); }
 
+.text-opacity-1 {
+  opacity: .1; }
+
+.text-opacity-2 {
+  opacity: .2; }
+
+.text-opacity-3 {
+  opacity: .3; }
+
+.text-opacity-4 {
+  opacity: .4; }
+
+.text-opacity-5 {
+  opacity: .5; }
+
+.text-opacity-6 {
+  opacity: .6; }
+
+.text-opacity-7 {
+  opacity: .7; }
+
+.text-opacity-8 {
+  opacity: .8; }
+
+.text-opacity-9 {
+  opacity: .9; }
+
 .js-change-color.btn-success, .js-change-color.btn-danger, .js-change-color.btn-warning, .js-change-color.btn-info, .js-change-color.btn-primary, .js-change-color.btn-secondary {
   background: transparent; }
   .js-change-color.btn-success:hover, .js-change-color.btn-danger:hover, .js-change-color.btn-warning:hover, .js-change-color.btn-info:hover, .js-change-color.btn-primary:hover, .js-change-color.btn-secondary:hover {
@@ -9004,5 +9031,8 @@ small a {
 
 textarea.form-control {
   min-height: 150px; }
+
+.cursor-pointer {
+  cursor: pointer; }
 
 /*# sourceMappingURL=main.css.map */

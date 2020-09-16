@@ -20,7 +20,7 @@
             <div class="export-stepper-1">
                 <div class="export-stepper-content">
 
-                    <div class="mw-construct-itd">
+                    <div class="mw-construct-itd mb-4">
                         <div class="mw-construct-itd-icon">
                             <span class="mw-micon-Data-Download"></span>
                         </div>
@@ -37,8 +37,8 @@
                                 <p>Choose the file format you want to export your backup. </p>
                             </div>
                         </div>
-                        <div class="mw-field w100">
-                            <select class="js-export-format" name="export_format">
+                        <div class="form-group">
+                            <select class="js-export-format form-control" data-width="100%" name="export_format">
                                 <option value="json">Json</option>
                                 <option value="csv">CSV</option>
                                 <option value="xml">XML</option>
@@ -47,74 +47,80 @@
                         </div>
                     </div>
 
-
-                    <div class="mw-accordion" data-options="openFirst: false">
-                        <div class="mw-accordion-item">
-                            <div class="mw-ui-box-header mw-accordion-title">
-                                <div class="header-holder">
-                                    <i class="mai-modules"></i> Include Modules
-                                </div>
+                    <div class="d-none">
+                        <div class="card style-1 mb-3 card-collapse">
+                            <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-modules">
+                                <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong>Include Modules</strong></h6>
                             </div>
-                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="width:100%;height: 200px;overflow-y: scroll;">
-                                <ul class="mw-ui-inline-list">
-                                    <?php
-                                    $modules = get_modules('order_by=module asc');
-                                    foreach ($modules as $module):
-                                        ?>
-                                        <li style="width: 100%;">
-                                            <label class="mw-ui-check">
-                                                <input type="checkbox" class="js-export-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
-                                                <span></span><span><?php echo $module['name']; ?></span>
-                                            </label>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
+
+                            <div class="card-body py-0">
+                                <div class="collapse pb-4" id="include-modules">
+                                    <div style="width:100%; height: 200px;overflow-y: scroll; overflow-x: hidden;">
+                                        <ul class="mw-ui-inline-list">
+                                            <?php
+                                            $modules = get_modules('order_by=module asc');
+                                            foreach ($modules as $module):
+                                                ?>
+                                                <li style="width: 100%;">
+                                                    <label class="mw-ui-check">
+                                                        <input type="checkbox" class="js-export-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
+                                                        <span></span><span><?php echo $module['name']; ?></span>
+                                                    </label>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="mw-accordion-item">
-                            <div class="mw-ui-box-header mw-accordion-title">
-                                <div class="header-holder">
-                                    <i class="mw-icon-template"></i> Include Template
-                                </div>
+
+                        <div class="card style-1 mb-3 card-collapse">
+                            <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-templates">
+                                <h6><i class="mdi mdi-pencil-ruler text-primary mr-2"></i> <strong>Include Templates</strong></h6>
                             </div>
-                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content" style="width:100%;height: 200px;overflow-y: scroll;">
-                                <ul class="mw-ui-inline-list">
-                                    <?php
-                                    $templates = site_templates();
-                                    foreach ($templates as $template):
-                                        ?>
-                                        <li style="width: 100%;">
-                                            <label class="mw-ui-check">
-                                                <input type="checkbox" class="js-export-templates" name="include_templates[]" value="<?php echo $template['dir_name']; ?>">
-                                                <span></span><span><?php echo $template['name']; ?></span>
-                                            </label>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
+
+                            <div class="card-body py-0">
+                                <div class="collapse pb-4" id="include-templates">
+                                    <div style="width:100%; height: 200px; overflow-y: scroll; overflow-x: hidden;">
+                                        <ul class="mw-ui-inline-list">
+                                            <?php
+                                            $templates = site_templates();
+                                            foreach ($templates as $template):
+                                                ?>
+                                                <li style="width: 100%;">
+                                                    <label class="mw-ui-check">
+                                                        <input type="checkbox" class="js-export-templates" name="include_templates[]" value="<?php echo $template['dir_name']; ?>">
+                                                        <span></span><span><?php echo $template['name']; ?></span>
+                                                    </label>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="step-actions step-1-actions">
-                        <span class="mw-ui-btn mw-ui-btn-info pull-left" onclick="mw.backup_export.export_fullbackup_start()">Create Full Backup</span>
-                        <span class="mw-ui-link pull-right" data-mwstepper="next">Continue with advanced backup settings</span>
+                    <div class="step-actions step-1-actions d-flex justify-content-between mt-3">
+                        <button type="button" class="btn btn-primary" onclick="mw.backup_export.export_fullbackup_start()">Create Full Backup</button>
+                        <span class="btn btn-link" data-mwstepper="next">Advanced settings</span>
                     </div>
-
                 </div>
             </div>
             <div class="export-stepper-2">
                 <div class="export-stepper-content">
 
                     <div class="step-header-actions step-header-actions-2">
-                        <a class="mw-ui-link mw-btn-prepend" data-mwstepper="prev"><span class="mw-icon-arrow-left-c mw-icon-round mw-icon-info"></span>back</a>
+                        <a class="btn btn-link d-flex-inline align-items-center px-0" data-mwstepper="prev"><span class="mdi mdi-arrow-left bg-primary text-white p-2 rounded-circle mr-2"></span>back</a>
                     </div>
 
                     <div class="export-step-2-items-head">
                         <div class="mw-construct-itd">
                             <div class="mw-construct-itd-content">
-                                <h5>Select types of data you want to export.</h5>
+                                <h5>Select types of data you want to export</h5>
                             </div>
                         </div>
+
                         <label class="mw-ui-check mw-ui-check-lg">
                             <input type="radio" name="all" onchange="mw.backup_export.typesSelector.selectAll();">
                             <span></span><span>Select all</span>
@@ -127,6 +133,7 @@
                     </div>
 
                     <div id="backup-select-options-to-export"></div>
+                    <br />
 
                     <div class="mw-ui-box2 export-stepper-1-select">
                         <div class="mw-construct-itd">
@@ -135,8 +142,9 @@
                                 <p>Choose the file format you want to export your backup. </p>
                             </div>
                         </div>
-                        <div class="mw-field w100">
-                            <select class="js-export-format" name="export_format">
+
+                        <div class="form-group">
+                            <select class="js-export-format form-control" name="export_format">
                                 <option value="json">Json</option>
                                 <option value="csv">CSV</option>
                                 <option value="xml">XML</option>
@@ -145,9 +153,8 @@
                         </div>
                     </div>
 
-
-                    <div class="step-actions step-actions-2">
-                        <a class="mw-ui-btn mw-ui-btn-info" data-mwstepper="next">Next</a>
+                    <div class="step-actions step-actions-2 text-right mt-3">
+                        <a href="javascript:;" class="btn btn-primary" data-mwstepper="next">Next</a>
                     </div>
 
                 </div>
@@ -156,7 +163,7 @@
 
                 <div class="export-stepper-content">
                     <div class="step-header-actions step-header-actions-2">
-                        <a class="mw-ui-link mw-btn-prepend" data-mwstepper="prev"><span class="mw-icon-arrow-left-c mw-icon-round mw-icon-info"></span>back</a>
+                        <a class="btn btn-link d-flex-inline align-items-center px-0" data-mwstepper="prev"><span class="mdi mdi-arrow-left bg-primary text-white p-2 rounded-circle mr-2"></span>back</a>
                     </div>
 
                     <div class="export-step-3-items-head">
