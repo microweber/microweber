@@ -274,32 +274,34 @@
         </div>
     <?php else: ?>
         <div class="no-items-found posts">
-            <?php
-            //                if (isset($post_params['category-id'])) {
-            //                    $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
-            //
-            //                } elseif (isset($post_params['category'])) {
-            //                    $url = "#action=new:post&amp;category_id=" . $post_params['category'];
-            //
-            //                } else if (isset($post_params['parent'])) {
-            //                    $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
-            //
-            //                }
+            <?php $url = "#action=new:post"; ?>
 
-            $url = "#action=new:post"
-            ?>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_content.svg'); ">
-                        <h4>You don’t have any posts yet</h4>
-                        <p>Create your first post right now.<br/>
-                            You are able to do that in very easy way!</p>
-                        <br/>
-                        <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded">Create a Post</a>
+            <?php d($post_params['content_type']); ?>
+            <?php if (true): ?>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_content.svg'); ">
+                            <h4>You don’t have any pages yet</h4>
+                            <p>Create your first page right now.<br/>
+                                You are able to do that in very easy way!</p>
+                            <br/>
+                            <a href="<?php print admin_url() . 'view:content#action=new:page'; ?>" class="btn btn-primary btn-rounded">Create a Page</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php else: ?>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_content.svg'); ">
+                            <h4>You don’t have any posts yet</h4>
+                            <p>Create your first post right now.<br/>
+                                You are able to do that in very easy way!</p>
+                            <br/>
+                            <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded">Create a Post</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <script>
                 $(document).ready(function () {
