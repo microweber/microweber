@@ -74,7 +74,6 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="no-items-found categories py-5">
-
                         <div class="row">
                             <div class="col-12">
                                 <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_categories.svg'); ">
@@ -90,7 +89,7 @@
                         <script>
                             $(document).ready(function () {
                                 $('.js-hide-when-no-items').hide()
-//                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+                                // $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                             });
                         </script>
                     </div>
