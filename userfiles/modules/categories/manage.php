@@ -28,26 +28,24 @@
 
 
             <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
+
                 <?php
                 $field_name = "categories";
                 $selected = 0;
-                $tree = array();
-                $tree['ul_class'] = 'mw-ui-category-tree';
-                $tree['li_class'] = 'sub-nav';
-                $tree['rel_type'] = 'content';
-
+                $mainFilterTree = array();
+                $mainFilterTree['ul_class'] = 'mw-ui-category-tree';
+                $mainFilterTree['li_class'] = 'sub-nav';
+                $mainFilterTree['rel_type'] = 'content';
 
                 if (isset($params['page-id']) and $params['page-id'] != false) {
-                    $tree['rel_id'] = intval($params['page-id']);
+                    $mainFilterTree['rel_id'] = intval($params['page-id']);
                 }
-
 
                 if (user_can_access('module.categories.edit')) {
-                    $tree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span class=\"d-none d-md-block\">Edit</span></span></span>";
+                    $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span class=\"d-none d-md-block\">Edit</span></span></span>";
                 } else {
-                    $tree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
+                    $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
-<<<<<<< HEAD
                 ?>
 
                 <?php
@@ -73,9 +71,7 @@
                 </div>
                 </div>
 
-                <?php
-                endforeach;
-                ?>
+                <?php endforeach; ?>
 
                 <?php
                 $mainFilterTree['return_data'] = true;
@@ -83,7 +79,7 @@
                 $otherCategories = category_tree($mainFilterTree);
                 ?>
 
-                <?php if (!empty($otherCategories)): ?>
+                <?php if(!empty($otherCategories)):?>
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="card-header">
@@ -94,12 +90,6 @@
                 </div>
                 <?php endif; ?>
 
-=======
-
-
-                 category_tree($tree);
-                ?>
->>>>>>> dbae1674c26d9323c7e85c4cb1d046fd2ed1bbf0
             </div>
             <script>
                 mw.require('block-edit.js');
