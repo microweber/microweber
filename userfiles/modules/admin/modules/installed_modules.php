@@ -204,10 +204,10 @@
             });
         </script>
 
-        <div class="d-flex align-items-center justify-content-between mt-3 mb-4">
-            <div>
-                <form class="form-inline">
-                    <div class="form-group">
+        <div class="d-lg-block d-xl-flex text-center align-items-center justify-content-between mt-3 mb-4">
+            <div class="mb-3">
+                <form class="d-flex justify-content-center">
+                    <div class="form-group mb-0">
                         <div class="input-group mb-0 prepend-transparent">
                             <div class="input-group-prepend bg-white">
                                 <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
@@ -216,11 +216,12 @@
                             <input value="" type="search" class="form-control" name="module_keyword" id="module_keyword" placeholder='<?php _e("Search for modules"); ?>' autocomplete="off">
                         </div>
                     </div>
+
                     <button type="button" class="btn btn-outline-primary ml-2 js-search-keyword">Search</button>
                 </form>
             </div>
 
-            <div>
+            <div class="mb-3">
                 <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e("Filter"); ?></a>
 
                 <?php if (user_can_access('module.modules.edit')):?>

@@ -20,6 +20,9 @@ body {
 
 .container {
   max-width: 70%;
+  @media screen and (max-width: 1440px) {
+    max-width: calc(100% - 30px);
+  }
   @media screen and (max-width: 991px) {
     max-width: calc(100% - 30px);
   }
