@@ -70,15 +70,15 @@
                                                 <a href="javascript:;" onclick="mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');return false;">
                                                     <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
                                                         <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
                                                         <?php else : ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
                                                         <?php endif; ?>
                                                     <?php elseif (isset($item['content_type']) and ( $item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
                                                         <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
                                                         <?php else : ?>
-                                                            <i class="mdi mdi-text mdi-48px text-muted"></i>
+                                                            <i class="mdi mdi-text mdi-48px text-muted text-opacity-5"></i>
                                                         <?php endif; ?>
                                                     <?php else : ?>
                                                     <?php endif; ?>
