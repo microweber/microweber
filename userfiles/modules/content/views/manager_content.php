@@ -261,6 +261,7 @@
 
             <script>
                 $(document).ready(function () {
+                    $('.js-hide-when-no-items').hide();
 //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>

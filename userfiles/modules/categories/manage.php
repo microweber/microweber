@@ -3,8 +3,8 @@
 
         <div class="card-header">
             <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong><?php _e("Categories"); ?></strong></h5>
-            <div class="d-flex">
-                <div class="js-hide-when-no-items">
+            <div class="js-hide-when-no-items">
+                <div class="d-flex">
                     <?php
                     if (user_can_access('module.categories.edit')):
                         ?>
