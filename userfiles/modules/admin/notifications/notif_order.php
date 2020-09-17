@@ -26,8 +26,8 @@ if (isset($item['created_by'])) {
 }
 ?>
 
-<div class="card mb-2 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
-    <div class="card-body">
+<div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
+    <div class="card-body py-2">
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
@@ -56,11 +56,13 @@ if (isset($item['created_by'])) {
             </div>
 
             <div class="col-12 col-md-6">
-                <div class="row align-items-center">
+                <div class="row align-items-center h-100">
                     <div class="col-6 col-sm-4 col-md item-amount">
                         <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?><br/><?php endif; ?>
                         <?php if (isset($order['is_paid'])): ?>
-                            <small class="text-muted"><?php echo $order['is_paid']; ?></small>
+                            <small class="text-success"><?php _e('Paid'); ?></small>
+                        <?php else: ?>
+                            <small class="text-muted"><?php _e('Unpaid'); ?></small>
                         <?php endif; ?>
                     </div>
 

@@ -1,4 +1,4 @@
-<?php if (is_array($data) and !empty($data)): ?>
+<?php if (is_array($data) and ! empty($data)): ?>
     <script>
         $(document).ready(function () {
             $('body > #mw-admin-container > .main').addClass('show-sidebar-tree');
@@ -50,7 +50,7 @@
                                                     <?php else : ?>
                                                         <i class="mdi mdi-post-outline mdi-18px" data-toggle="tooltip" title="Page"></i>
                                                     <?php endif; ?>
-                                                <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
+                                                <?php elseif (isset($item['content_type']) and ( $item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
                                                     <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
                                                         <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Product"></i>
                                                     <?php else : ?>
@@ -63,22 +63,22 @@
 
                                         <div class="img-circle-holder border-radius-0 border-0">
                                             <?php if ($pic == true): ?>
-                                                <a href="javascript:;" onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
+                                                <a href="javascript:;" onClick="mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');return false;">
                                                     <img src="<?php print thumbnail($pic, 120, 120, true) ?>"/>
                                                 </a>
                                             <?php else : ?>
-                                                <a href="javascript:;" onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
+                                                <a href="javascript:;" onclick="mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');return false;">
                                                     <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
                                                         <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
                                                         <?php else : ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
                                                         <?php endif; ?>
-                                                    <?php elseif (isset($item['content_type']) and ($item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
+                                                    <?php elseif (isset($item['content_type']) and ( $item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
                                                         <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted"></i>
+                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
                                                         <?php else : ?>
-                                                            <i class="mdi mdi-text mdi-48px text-muted"></i>
+                                                            <i class="mdi mdi-text mdi-48px text-muted text-opacity-5"></i>
                                                         <?php endif; ?>
                                                     <?php else : ?>
                                                     <?php endif; ?>
@@ -103,7 +103,7 @@
                                                     <?php foreach ($cats as $ck => $cat): ?>
                                                         <a href="#action=showpostscat:<?php print ($cat['id']); ?>" class="btn btn-link p-0 text-muted"><?php print $cat['title']; ?></a><?php if (isset($cats[$ck + 1])): ?>,<?php endif; ?>
                                                     <?php endforeach; ?>
-                                              </span>
+                                                </span>
                                             <?php endif; ?>
 
                                             <?php if ($tags): ?>
@@ -123,7 +123,8 @@
                                             <?php
                                             if (user_can_access('module.content.edit')):
                                                 ?>
-                                                <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
+                                                <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');
+                                                                            return false;">
                                                     <?php echo $edit_text; ?>
                                                 </a>
 
@@ -152,7 +153,7 @@
 
                                     <div class="col manage-post-item-col-5" style="max-width: 130px;">
                                         <?php if (isset($item['is_active']) AND $item['is_active'] == 1): ?>
-                                            <!--                                            <span class="badge badge-success">Published</span>-->
+                                                <!--                                            <span class="badge badge-success">Published</span>-->
                                         <?php else: ?>
                                             <span class="badge badge-warning font-weight-normal">Unpublished</span>
                                         <?php endif; ?>
@@ -184,7 +185,7 @@
             <div class="mw-paging" style="display: none">
                 <?php $i = 1; ?>
                 <?php foreach ($paging_links as $item): ?>
-                    <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                    <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>', '<?php print $i ?>');return false;"><?php print $i; ?></a>
                     <?php $i++; ?>
                 <?php endforeach; ?>
             </div>
@@ -196,25 +197,25 @@
                 <?php if ($count < 6): ?>
                     <?php $i = 1; ?>
                     <?php foreach ($paging_links as $item): ?>
-                        <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                        <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>', '<?php print $i ?>');return false;"><?php print $i; ?></a>
                         <?php $i++; ?>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <?php if ($numactive > 2): ?>
-                        <a class="page-1" href="#<?php print $paging_param ?>=1" onclick="mw.url.windowHashParam('<?php print $paging_param ?>','1');return false;">First</a>
+                        <a class="page-1" href="#<?php print $paging_param ?>=1" onclick="mw.url.windowHashParam('<?php print $paging_param ?>', '1');return false;">First</a>
 
                         <?php for ($i = $numactive - 2; $i <= $numactive + 2; $i++): ?>
                             <?php if ($i < $count): ?>
-                                <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                                <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>', '<?php print $i ?>');return false;"><?php print $i; ?></a>
                             <?php endif; ?>
                         <?php endfor; ?>
                     <?php else: ?>
                         <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                            <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>', '<?php print $i ?>');return false;"><?php print $i; ?></a>
                         <?php endfor; ?>
                     <?php endif; ?>
 
-                    <a class="page-<?php print $count; ?>" href="#<?php print $paging_param . '=' . ($count - 1); ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $count - 1; ?>');return false;"><?php _e("Last"); ?></a>
+                    <a class="page-<?php print $count; ?>" href="#<?php print $paging_param . '=' . ($count - 1); ?>" onclick="mw.url.windowHashParam('<?php print $paging_param ?>', '<?php print $count - 1; ?>');return false;"><?php _e("Last"); ?></a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
@@ -230,20 +231,20 @@
         }
     }
 
-    if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) : ?>
+    if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or ( isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) :
+        ?>
         <div class="no-items-found products">
             <?php
             /*  if (isset($post_params['category-id'])) {
-                  $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
+              $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
               } elseif (isset($post_params['category'])) {
-                  $url = "#action=new:product&amp;category_id=" . $post_params['category'];
+              $url = "#action=new:product&amp;category_id=" . $post_params['category'];
               } else if (isset($post_params['parent'])) {
-                  $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
+              $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
               } else {
-                  $url = "#action=new:product";
-              }*/
+              $url = "#action=new:product";
+              } */
             $url = "#action=new:product";
-
             ?>
 
             <div class="row">
@@ -262,7 +263,7 @@
             <script>
                 $(document).ready(function () {
                     $('.js-hide-when-no-items').hide();
-//                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+        //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>
             <script>
@@ -274,37 +275,38 @@
         </div>
     <?php else: ?>
         <div class="no-items-found posts">
-            <?php
-            //                if (isset($post_params['category-id'])) {
-            //                    $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
-            //
-            //                } elseif (isset($post_params['category'])) {
-            //                    $url = "#action=new:post&amp;category_id=" . $post_params['category'];
-            //
-            //                } else if (isset($post_params['parent'])) {
-            //                    $url = "#action=new:post&amp;parent_page=" . $post_params['parent'];
-            //
-            //                }
+            <?php $url = "#action=new:post"; ?>
 
-            $url = "#action=new:post"
-            ?>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_content.svg'); ">
-                        <h4>You don’t have any posts yet</h4>
-                        <p>Create your first post right now.<br/>
-                            You are able to do that in very easy way!</p>
-                        <br/>
-                        <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded">Create a Post</a>
+            <?php if (isset($post_params['content_type']) AND $post_params['content_type'] == 'page'): ?>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_pages.svg');">
+                            <h4>You don’t have pages</h4>
+                            <p>Create your first page right now.<br/>
+                                You are able to do that in very easy way!</p>
+                            <br/>
+                            <a href="<?php print admin_url() . 'view:content#action=new:page'; ?>" class="btn btn-primary btn-rounded">Create a Page</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php else: ?>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_content.svg'); ">
+                            <h4>You don’t have any posts yet</h4>
+                            <p>Create your first post right now.<br/>
+                                You are able to do that in very easy way!</p>
+                            <br/>
+                            <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded">Create a Post</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <script>
                 $(document).ready(function () {
                     $('.js-hide-when-no-items').hide()
-//                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+        //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>
 
