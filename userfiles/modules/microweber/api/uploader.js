@@ -12,7 +12,6 @@ var Uploader = function( options ) {
         async: true,
         accept: '*',
         chunkSize: 1500000,
-        chunkSize: 10000,
     };
 
     var scope = this;
