@@ -12,12 +12,12 @@
     });
     linkEditor.promise().then(function (data){
         var modal = mw.dialog.get(window.frameElement);
+
         if(data) {
+
             modal.result(data);
-            modal.remove()
-        } else {
-            modal.remove()
         }
+        modal.remove()
     });
 
 </script>

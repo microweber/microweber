@@ -223,7 +223,7 @@ window.MWEditor = function (options) {
         if (MWEditor.i18n[this.settings.language] && MWEditor.i18n[this.settings.language][key]) {
             return  MWEditor.i18n[this.settings.language][key];
         }
-        console.warn(key + ' is not specified for ' + this.settings.language + ' language');
+        //console.warn(key + ' is not specified for ' + this.settings.language + ' language');
         return key;
     };
 
@@ -791,7 +791,7 @@ mw.require('link-editor.js');
 //
 
 mw.require('state.js');
-mw.require('editor/element.js');
+
 mw.require('editor/bar.js');
 mw.require('editor/api.js');
 mw.require('editor/helpers.js');

@@ -1,4 +1,160 @@
 
+mw.require('autocomplete.js');
+
+
+mw.IconClassResolver = function ($for) {
+    if (!$for) {
+        return '';
+    }
+    switch ($for) {
+        case 'shop': $for = 'mdi mdi-shopping'; break;
+        case 'website': $for = 'mdi mdi-earth'; break;
+        case 'module': $for = 'mdi mdi-view-grid-plus'; break;
+        case 'marketplace': $for = 'mdi mdi-fruit-cherries'; break;
+        case 'users': $for = 'mdi mdi-account-multiple'; break;
+        case 'post': $for = 'mdi mdi-text'; break;
+        case 'page': $for = 'mdi mdi-shopping'; break;
+        case 'static': $for = 'mdi mdi-shopping'; break;
+        case 'category': $for = 'mdi mdi-folder'; break;
+        case 'product': $for = 'mdi mdi-shopping'; break;
+
+        default: $for = '';
+    }
+    return $for;
+};
+
+mw.controlFields = {
+    __id: new Date().getTime(),
+    _id: function () {
+        this.__id++;
+        return 'le-' + this.__id;
+    },
+    _label: function (conf){
+        var id = conf.id || this._id();
+        var label = document.createElement('label');
+        label.className = conf.className || '';
+        label.innerHTML = conf.label || conf.content || '';
+        label.htmlFor = id;
+        return label;
+    },
+    _button: function (conf){
+        var id = conf.id || this._id();
+        var button = document.createElement('button');
+        button.type = conf.type || 'button';
+        button.className = 'btn btn-' + conf.size + ' btn-' + conf.color;
+        button.innerHTML = (conf.label || conf.content);
+        return button;
+    },
+    _wrap: function () {
+        var el =  document.createElement('div');
+        el.className = 'form-group';
+        [].forEach.call(arguments, function (content) {
+            if (typeof content === 'string') {
+                el.innerHTML += content;
+            } else {
+                el.append(content);
+            }
+        });
+        return el;
+        // return '<div class="form-group">' + content + '</div>';
+    },
+    _description: function (conf) {
+        return conf.description ? ('<small class="text-muted d-block mb-2">' + conf.description + '</small>') : '';
+    },
+    field: function (conf) {
+        conf = conf || {};
+        var placeholder = conf.placeholder ? ('placeholder="' + conf.placeholder + '"') : '';
+        var id = (conf.id || this._id());
+        id =  (' id="' + id + '" ');
+        var name = conf.name ? ('name="' + conf.name + '"') : '';
+        conf.type = conf.type || 'text';
+        var required = conf.required ? ('required') : '';
+
+        return this._wrap(
+            this._label(conf),
+            this._description(conf),
+            '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control">'
+        );
+    },
+    checkbox: function (conf) {
+        conf = conf || {};
+        conf.className = conf.className || 'custom-control-label';
+        var id = (conf.id || this._id());
+        conf.id = id;
+        id =  (' id="' + id + '" ');
+        var name = conf.name ? ('name="' + conf.name + '"') : '';
+        var required = conf.required ? ('required') : '';
+        return  this._wrap(
+            '<div class="custom-control custom-checkbox">' +
+            '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
+            this._label(mw.object.extend({}, conf, {className: 'custom-control-label'})).outerHTML +
+            '</div>');
+    },
+    radio: function (conf) {
+        conf = conf || {};
+        var id = (conf.id || this._id());
+        id =  (' id="' + id + '" ');
+        var value =  (' value="' + conf.value + '" ');
+        var name = conf.name ? ('name="' + conf.name + '"') : '';
+        var required = conf.required ? ('required') : '';
+
+        return  this._wrap(
+            '<div class="custom-control custom-radio">' +
+            '<input type="radio" ' + id + ' ' + name + ' ' + required + ' ' + value + ' class="custom-control-input">' +
+            this._label(mw.object.extend({}, conf, {className: 'custom-control-label'})) .outerHTML+
+            '</div>');
+    },
+    select: function (conf) {
+        conf = conf || {};
+        var id = (conf.id || this._id());
+        id =  (' id="' + id + '" ');
+        var name = conf.name ? ('name="' + conf.name + '"') : '';
+        var required = conf.required ? ('required') : '';
+        var multiple = conf.multiple ? ('multiple') : '';
+
+        var options = (conf.options || []).map(function (item){
+            return '<option value="'+ item.value +'">'+(item.title||item.name||item.label||item.value)+'</option>';
+        }).join('');
+
+        return  this._wrap(
+            this._label(conf) +
+            '<select class="selectpicker" ' + multiple + '  ' + id + ' ' + name + ' ' + required + '>' +
+            options +
+            '</select>' );
+    }
+};
+
+mw.emitter = {
+    _events: {},
+    _onNative: function (node, type, callback) {
+        type.trim().split(' ').forEach(function (ev) {
+            node.addEventListener(ev, callback);
+        });
+    },
+    on: function (event, callback, c) {
+        if(!event) return;
+        if(event.length) {
+            for(var i = 0; i < event.length; i++) {
+                this.on(event[i], callback, c);
+            }
+            return;
+        }
+        if(event.nodeName) {
+            return this._onNative(event, callback, c);
+        }
+        if (!this._events[event]){
+            this._events[event] = [];
+        }
+        this._events[event].push(callback);
+    },
+    dispatch: function(event, data) {
+        if (this._events[event]) {
+            this._events[event].forEach(function(handler) {
+                handler(data);
+            });
+        }
+    }
+};
 
 (function(){
     var UIFormControllers = {
@@ -930,6 +1086,7 @@
                 title: 'URL'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
+            console.log(options)
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;

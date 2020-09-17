@@ -343,7 +343,7 @@
             return mw._lang[camel];
         }
         else {
-            console.warn('"' + key + '" is not present.');
+            // console.warn('"' + key + '" is not present.');
             return key;
         }
     };

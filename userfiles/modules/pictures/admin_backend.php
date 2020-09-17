@@ -94,7 +94,6 @@ if ($for_id != false) {
         }
         if (e === 'done') {
             setTimeout(function () {
-                mw.tools.modal.remove('mw_rte_image');
                 if (typeof load_iframe_editor === 'function') {
                     load_iframe_editor();
                 }

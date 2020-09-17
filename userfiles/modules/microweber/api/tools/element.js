@@ -92,7 +92,10 @@
         this.css = function(css, val){
             if(typeof css === 'string') {
                 if(typeof val !== 'undefined'){
-                    this.node.style[css] = this._normalizeCSSValue(css, val);
+                    var nval =  this._normalizeCSSValue(css, val);
+                    this.each(function (){
+                        this.style[css] = nval;console.log(this.style[css])
+                    });
                 } else {
                     return this.document.defaultView.getComputedStyle(this.node)[css];
                 }
@@ -268,7 +271,7 @@
                 tag: 'div',
                 props: {}
             };
-            
+
             this.settings = $.extend({}, defaults, options);
 
             if(this._asElement) return;

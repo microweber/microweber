@@ -12,6 +12,7 @@ var Uploader = function( options ) {
         async: true,
         accept: '*',
         chunkSize: 1500000,
+        chunkSize: 10000,
     };
 
     var scope = this;
@@ -190,8 +191,8 @@ var Uploader = function( options ) {
         }
     };
 
-    this.uploadFile = function (file, done, _chunks, _all, _i) {
-        var chunks = _chunks || this.sliceFile(file);
+    this.uploadFile = function (file, done, chunks, _all, _i) {
+        chunks = chunks || this.sliceFile(file);
         _all = _all || chunks.length;
         _i = _i || 0;
         var chunk = chunks.shift();
@@ -204,13 +205,13 @@ var Uploader = function( options ) {
         _i++;
         $(scope).trigger('uploadStart', [data]);
 
-        this.upload(data, function () {
+        this.upload(data, function (res) {
             if(chunks.length) {
-                scope.uploadFile(file, done, _chunks, _all, _i);
+                scope.uploadFile(file, done, chunks, _all, _i);
             } else {
-                $(scope).trigger('FileUploaded', [file]);
+                $(scope).trigger('FileUploaded', [res]);
                 if(scope.settings.on.fileUploaded) {
-                    scope.settings.on.fileUploaded(file);
+                    scope.settings.on.fileUploaded(res);
                 }
                 done.call(file);
             }
@@ -293,7 +294,7 @@ var Uploader = function( options ) {
             success: function (res) {
                 scope.removeFile(data.file);
                 if(done) {
-                    done.call(res);
+                    done.call(res, res);
                 }
             },
             dataType: 'json',

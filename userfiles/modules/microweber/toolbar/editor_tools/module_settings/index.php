@@ -178,7 +178,7 @@
                 thismodal.title(modal_title_str)
             }
 
-            
+
         }
 
         $(window).load(function () {
