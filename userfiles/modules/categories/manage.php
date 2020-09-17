@@ -49,7 +49,7 @@
                 ?>
 
                 <?php
-                $pages_with_cats = get_pages('no_limit=true&parent=0');
+                $pages_with_cats = get_pages('no_limit=true');
                 foreach ($pages_with_cats as $page):
                     $pageTreeFilter = $mainFilterTree;
                     $pageTreeFilter['rel_id'] = $page['id'];
