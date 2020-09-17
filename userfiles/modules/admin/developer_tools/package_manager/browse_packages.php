@@ -409,3 +409,4 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         </div>
     </div>
 </div>
+<script>mw.require('admin_package_manager.js');</script>
