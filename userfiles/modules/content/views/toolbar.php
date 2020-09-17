@@ -182,11 +182,11 @@ if ($last_page_front != false) {
             </h5>
         <?php else: ?>
             <div>
-            <h5 class="d-inline-block">
-                <i class="mdi mdi-earth text-primary mr-3"></i>
-                <strong><?php _e("Website"); ?></strong>
-            </h5>
-            <a href="#" class="btn btn-outline-success btn-sm ml-2">Add New</a>
+                <h5 class="d-inline-block">
+                    <i class="mdi mdi-earth text-primary mr-3"></i>
+                    <strong><?php _e("Website"); ?></strong>
+                </h5>
+                <a href="#" class="btn btn-outline-success btn-sm ml-2">Add New</a>
             </div>
         <?php endif; ?>
 
@@ -216,7 +216,7 @@ if ($last_page_front != false) {
         $add_new_btn_url = admin_url('view:content#action=new:') . $url_param_type;
         ?>
 
-        <div>
+        <div class="js-hide-when-no-items">
 
             <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                 <div class="mw-ui-dropdown">
@@ -304,22 +304,24 @@ if ($last_page_front != false) {
             </div>
 
             <div class="js-search-by d-inline-block">
-                <div class="js-search-by-keywords">
-                    <div class="form-inline">
-                        <div class="input-group mb-0 prepend-transparent mx-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                <div class="js-hide-when-no-items">
+                    <div class="js-search-by-keywords">
+                        <div class="form-inline">
+                            <div class="input-group mb-0 prepend-transparent mx-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                                </div>
+
+                                <input type="text" class="form-control form-control-sm" style="width: 100px;" value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>" <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>autofocus="autofocus"<?php endif; ?> placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
                             </div>
 
-                            <input type="text" class="form-control form-control-sm" style="width: 100px;" value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>" <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>autofocus="autofocus"<?php endif; ?> placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
+                            <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
                         </div>
-
-                        <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
                     </div>
-                </div>
 
-                <div class="js-search-by-tags" style="display: none;">
-                    <div id="posts-select-tags" class="js-toggle-search-mode-tags d-flex align-items-center" style="width:120px; height: 30px;"></div>
+                    <div class="js-search-by-tags" style="display: none;">
+                        <div id="posts-select-tags" class="js-toggle-search-mode-tags d-flex align-items-center" style="width:120px; height: 30px;"></div>
+                    </div>
                 </div>
             </div>
 
@@ -356,7 +358,7 @@ if ($last_page_front != false) {
 <?php endif; ?>
 <?php if (!isset($edit_page_info)): ?>
     <div class="card-body pt-3 pb-0">
-        <div class="toolbar row">
+        <div class="toolbar row js-hide-when-no-items">
             <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-1">
                 <div class="custom-control custom-checkbox mb-0">
                     <input type="checkbox" class="custom-control-input" id="posts-check">

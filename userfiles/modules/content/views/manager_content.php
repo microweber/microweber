@@ -150,9 +150,9 @@
                                         <span class="text-muted" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                                     </div>
 
-                                    <div class="col manage-post-item-col-5"  style="max-width: 130px;">
+                                    <div class="col manage-post-item-col-5" style="max-width: 130px;">
                                         <?php if (isset($item['is_active']) AND $item['is_active'] == 1): ?>
-<!--                                            <span class="badge badge-success">Published</span>-->
+                                            <!--                                            <span class="badge badge-success">Published</span>-->
                                         <?php else: ?>
                                             <span class="badge badge-warning font-weight-normal">Unpublished</span>
                                         <?php endif; ?>
@@ -261,6 +261,7 @@
 
             <script>
                 $(document).ready(function () {
+                    $('.js-hide-when-no-items').hide();
 //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>
@@ -302,6 +303,7 @@
 
             <script>
                 $(document).ready(function () {
+                    $('.js-hide-when-no-items').hide()
 //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>

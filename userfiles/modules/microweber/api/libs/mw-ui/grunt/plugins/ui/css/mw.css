@@ -296,8 +296,9 @@ header {
   background-repeat: no-repeat;
   padding: 100px 0;
   margin: 25px 0;
-  max-width: 800px;
   margin: 0 auto; }
+  .no-items-box h4 {
+    font-weight: bold; }
   @media screen and (max-width: 767px) {
     .no-items-box {
       padding: 10px 15px 0 15px;

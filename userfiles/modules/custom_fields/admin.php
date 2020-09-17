@@ -152,7 +152,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 }
 
                 .card .card-header {
-                    cursor: pointer;
+                    /*cursor: pointer;*/
                 }
 
                 .card-closed .card-header:first-child {

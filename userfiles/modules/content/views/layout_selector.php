@@ -481,7 +481,9 @@ if (!empty($recomended_layouts)) {
                             <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()">Apply this template</button>
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <a class="btn btn-link px-0" href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>"><small><?php _e("More Templates"); ?></small></a>
+                                <a class="btn btn-link px-0" href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>">
+                                    <small><?php _e("More Templates"); ?></small>
+                                </a>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
@@ -580,9 +582,15 @@ if (!empty($recomended_layouts)) {
         </div>
 
         <style>
-            .preview_frame_container iframe{
-                width: 100%;
+            .preview_frame_container iframe {
+                width: 1200px;
                 border: 1px solid silver;
+            }
+
+            .preview_frame_container {
+                transform: scale(.6);
+                left: 0;
+                transform-origin: 0 0;
             }
         </style>
 
