@@ -64,7 +64,7 @@
                     ?>
                     <div class="card border-0">
                         <div class="card-header pl-0">
-                            <h5><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo $page['title']; ?></h5>
+                            <h6><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo $page['title']; ?></h6>
                         </div>
 
                         <div class="card-body py-2">
