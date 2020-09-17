@@ -216,7 +216,7 @@ if ($last_page_front != false) {
         $add_new_btn_url = admin_url('view:content#action=new:') . $url_param_type;
         ?>
 
-        <div>
+        <div class="js-hide-when-no-items">
 
             <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                 <div class="mw-ui-dropdown">
@@ -356,7 +356,7 @@ if ($last_page_front != false) {
 <?php endif; ?>
 <?php if (!isset($edit_page_info)): ?>
     <div class="card-body pt-3 pb-0">
-        <div class="toolbar row">
+        <div class="toolbar row js-hide-when-no-items">
             <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-1">
                 <div class="custom-control custom-checkbox mb-0">
                     <input type="checkbox" class="custom-control-input" id="posts-check">
