@@ -53,23 +53,24 @@
                 foreach ($pages_with_cats as $page):
                     $pageTreeFilter = $mainFilterTree;
                     $pageTreeFilter['rel_id'] = $page['id'];
-                ?>
+                    ?>
 
-                <?php
+                    <?php
                     $pageTreeFilter['return_data'] = true;
                     $categoryTree = category_tree($pageTreeFilter);
                     if (empty($categoryTree)) {
                         continue;
                     }
-                ?>
-                <div class="card mb-3">
-                <div class="card-body">
-                    <div class="card-header">
-                    <h5><i class="mdi mdi-post-outline"></i> <?php echo $page['title'];?></h5>
+                    ?>
+                    <div class="card border-0">
+                        <div class="card-header pl-0">
+                            <h5><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo $page['title']; ?></h5>
+                        </div>
+
+                        <div class="card-body py-2">
+                            <?php echo $categoryTree; ?>
+                        </div>
                     </div>
-                     <?php echo $categoryTree; ?>
-                </div>
-                </div>
 
                 <?php endforeach; ?>
 
@@ -79,15 +80,15 @@
                 $otherCategories = category_tree($mainFilterTree);
                 ?>
 
-                <?php if(!empty($otherCategories)):?>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="card-header">
-                            <h5>Other</h5>
+                <?php if (!empty($otherCategories)): ?>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="card-header">
+                                <h5>Other</h5>
+                            </div>
+                            <?php echo $otherCategories; ?>
                         </div>
-                        <?php echo $otherCategories; ?>
                     </div>
-                </div>
                 <?php endif; ?>
 
             </div>
