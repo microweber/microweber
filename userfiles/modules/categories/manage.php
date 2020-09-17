@@ -3,30 +3,28 @@
 
         <div class="card-header">
             <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong><?php _e("Categories"); ?></strong></h5>
-            <div class="d-flex">
+            <div class="js-hide-when-no-items">
+                <div class="d-flex">
+                    <?php
+                    if (user_can_access('module.categories.edit')):
+                        ?>
+                        <button type="button" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></button>
+                    <?php endif; ?>
 
-                <?php
-                if (user_can_access('module.categories.edit')):
-                    ?>
-                    <button type="button" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></button>
-                <?php endif; ?>
+                    <div class="form-group mb-0">
+                        <div class="input-group mb-0 prepend-transparent">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                            </div>
 
-                <div class="form-group mb-0">
-                    <div class="input-group mb-0 prepend-transparent">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                            <input type="text" class="form-control form-control-sm" aria-label="Search" placeholder="<?php _e('Search') ?>" oninput="categorySearch(this)">
                         </div>
-
-                        <input type="text" class="form-control form-control-sm" aria-label="Search" placeholder="<?php _e('Search') ?>" oninput="categorySearch(this)">
                     </div>
                 </div>
             </div>
         </div>
 
-
         <div class="card-body pt-3">
-
-
             <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
 
                 <?php
@@ -50,29 +48,52 @@
 
                 <?php
                 $pages_with_cats = get_pages('no_limit=true');
-                foreach ($pages_with_cats as $page):
-                    $pageTreeFilter = $mainFilterTree;
-                    $pageTreeFilter['rel_id'] = $page['id'];
-                    ?>
+                if ($pages_with_cats): ?>
+                    <?php foreach ($pages_with_cats as $page):
+                        $pageTreeFilter = $mainFilterTree;
+                        $pageTreeFilter['rel_id'] = $page['id'];
+                        ?>
 
-                    <?php
-                    $pageTreeFilter['return_data'] = true;
-                    $categoryTree = category_tree($pageTreeFilter);
-                    if (empty($categoryTree)) {
-                        continue;
-                    }
-                    ?>
-                    <div class="card border-0">
-                        <div class="card-header pl-0">
-                            <h6><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo $page['title']; ?></h6>
+                        <?php
+                        $pageTreeFilter['return_data'] = true;
+                        $categoryTree = category_tree($pageTreeFilter);
+                        if (empty($categoryTree)) {
+                            continue;
+                        }
+                        ?>
+                        <div class="card border-0">
+                            <div class="card-header pl-0">
+                                <h6><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo $page['title']; ?></h6>
+                            </div>
+
+                            <div class="card-body py-2">
+                                <?php echo $categoryTree; ?>
+                            </div>
                         </div>
 
-                        <div class="card-body py-2">
-                            <?php echo $categoryTree; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="no-items-found categories py-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_categories.svg'); ">
+                                    <h4>You don’t have any categories yet</h4>
+                                    <p>Create your first category right now.<br/>
+                                        You are able to do that in very easy way!</p>
+                                    <br/>
+                                    <a href="javascript:;" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-rounded">Create a Category</a>
+                                </div>
+                            </div>
                         </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                $('.js-hide-when-no-items').hide()
+                                // $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+                            });
+                        </script>
                     </div>
-
-                <?php endforeach; ?>
+                <?php endif; ?>
 
                 <?php
                 $mainFilterTree['return_data'] = true;
