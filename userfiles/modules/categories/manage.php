@@ -67,27 +67,28 @@
                     <div class="card-header">
                     <h5><i class="mdi mdi-post-outline"></i> <?php echo $page['title'];?></h5>
                     </div>
-                <?php
-                echo $categoryTree;
-                ?>
+                     <?php echo $categoryTree; ?>
                 </div>
                 </div>
 
+                <?php endforeach; ?>
 
                 <?php
-                endforeach;
+                $mainFilterTree['return_data'] = true;
+                $mainFilterTree['content_id'] = false;
+                $otherCategories = category_tree($mainFilterTree);
                 ?>
 
+                <?php if(!empty($otherCategories)):?>
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="card-header">
                             <h5>Other</h5>
                         </div>
-                        <?php
-                        category_tree($mainFilterTree);
-                        ?>
+                        <?php echo $otherCategories; ?>
                     </div>
                 </div>
+                <?php endif; ?>
 
             </div>
             <script>
