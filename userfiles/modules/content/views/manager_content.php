@@ -281,7 +281,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_pages.svg');">
-                            <h4>You don’t have any pages yet</h4>
+                            <h4>You don’t have pages</h4>
                             <p>Create your first page right now.<br/>
                                 You are able to do that in very easy way!</p>
                             <br/>
