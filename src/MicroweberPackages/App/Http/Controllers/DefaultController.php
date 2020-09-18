@@ -1707,7 +1707,7 @@ class DefaultController extends Controller
             }
         }
 
-        if ($page['id'] != 0) {
+        if (isset($page['id']) AND $page['id'] != 0) {
 
             // if(!isset($page['layout_file']) or $page['layout_file'] == false){
             $page = $this->app->content_manager->get_by_id($page['id']);

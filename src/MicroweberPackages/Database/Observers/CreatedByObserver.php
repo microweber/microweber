@@ -10,6 +10,7 @@
  */
 namespace MicroweberPackages\Database\Observers;
 
+use Illuminate\Support\Facades\Session;
 
 class CreatedByObserver
 {
@@ -37,7 +38,7 @@ class CreatedByObserver
         }
 
         if($this->hasField($model,'session_id')) {
-            $model->session_id= \Session::getId();
+            $model->session_id= Session::getId();
         }
 
     }

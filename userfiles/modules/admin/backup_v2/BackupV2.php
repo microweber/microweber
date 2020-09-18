@@ -109,9 +109,9 @@ class BackupV2
 				);
 			}
 		} else {
-			return array(
-				'error' => 'Uploaded file is not found!'
-			);
+//			return array(
+//				'error' => 'Uploaded file is not found!'
+//			);
 		}
 	}
 
@@ -178,6 +178,8 @@ class BackupV2
 		} elseif (isset($_GET['file'])) {
 			$fileId = $query['file'];
 		}
+
+        $this->manager->setImportStep(intval($_GET['step']));
 
 		if (isset($query['import_by_type']) && $query['import_by_type'] == 'overwrite_by_id') {
 			$this->manager->setImportOvewriteById(true);

@@ -49,6 +49,10 @@
     mw.dialog = function (options) {
         return new mw.Dialog(options);
     };
+
+
+
+
     mw.dialogIframe = function (options, cres) {
         options.pauseInit = true;
         var attr = 'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen';
@@ -111,6 +115,10 @@
         }, 12);
         return dialog;
     };
+
+    // obsolate
+    mw.modal = mw.dialog;
+    mw.modalFrame = mw.dialogIframe;
 
     mw.dialog.get = function (selector) {
         var $el = mw.$(selector);
@@ -290,6 +298,9 @@
             this.dialogContainer = this.options.root.createElement('div');
             this.dialogContainer._dialog = this;
 
+            // TODO: obsolate
+            this.container = this.dialogContainer;
+
 
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
@@ -439,6 +450,9 @@
                 this.options.beforeRemove.call(this, this)
             }
             mw.$(this.dialogMain).remove();
+            if(this.options.onremove) {
+                this.options.onremove()
+            }
             mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);
             for (var i = 0; i < mw.top().__dialogs.length; i++) {
@@ -596,6 +610,8 @@
     mw.Dialog.elementIsInDialog = function (node) {
         return mw.tools.firstParentWithClass(node, 'mw-dialog');
     };
+
+
 
 
 })(window.mw);

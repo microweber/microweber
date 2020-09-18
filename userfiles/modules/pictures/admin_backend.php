@@ -94,7 +94,6 @@ if ($for_id != false) {
         }
         if (e === 'done') {
             setTimeout(function () {
-                mw.tools.modal.remove('mw_rte_image');
                 if (typeof load_iframe_editor === 'function') {
                     load_iframe_editor();
                 }
@@ -214,33 +213,18 @@ if (!isset($data["thumbnail"])) {
 
 
 <div class="left m-t-20" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
-
-    <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader">
-    </div>
+    <div class="relative post-thumb-uploader m-t-10" id="backend_image_uploader"></div>
 
     <div class="admin-thumbs-holder">
-
-
-        <?php if ($for_id != false) { ?>
-
+        <?php if ($for_id != false) : ?>
             <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>" for_id="<?php print $for_id ?>"/>
-
-
-        <?php } else { ?>
-
+        <?php else: ?>
             <module type="pictures/admin_backend_sortable_pics_list" for="<?php print $for ?>" session_id="<?php print $sid ?>"/>
-
-
-        <?php }
-
-
-        ?>
-
+        <?php endif; ?>
     </div>
 
     <script>mw.require("files.js", true);</script>
     <script>
-
         imageConfigDialogInstance = null;
         imageConfigDialog = function (id) {
             var el = mw.$('#admin-thumb-item-' + id + ' .image-options');
@@ -358,13 +342,13 @@ if (!isset($data["thumbnail"])) {
                 nav: 'dropdown',
                 footer: false,
                 boxed: <?php print isset($params['boxed']) ? $params['boxed'] : 'false'; ?>,
-                dropDownTargetMode : 'dialog',
+                dropDownTargetMode: 'dialog',
                 label: mw.lang('Media'),
                 hideHeader: <?php print isset($params['hideHeader']) ? $params['hideHeader'] : 'true'; ?>,
-                uploaderType: <?php print isset($params['uploaderType']) ? '"'.$params['uploaderType'] . '"' : '"big"'; ?>,
+                uploaderType: <?php print isset($params['uploaderType']) ? '"' . $params['uploaderType'] . '"' : '"big"'; ?>,
                 multiple: true,
                 accept: 'image/*',
-        })
+            })
 
             mw._postsImageUploader._thumbpreload = function () {
                 var el = mw.$('<div class="admin-thumb-item admin-thumb-item-loading"><span class="mw-post-media-img" style=""></span></div>');
@@ -404,7 +388,6 @@ if (!isset($data["thumbnail"])) {
                     mw._postsImageUploader.hideUploaders()
                 }
             }
-
 
 
             $(".image-tag-view").remove();

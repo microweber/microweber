@@ -23,7 +23,7 @@ if (isset($params['for_module'])) {
     function mw_admin_for_module_module_edit_tos(module_name) {
         var modalTitle = '<?php _e("Terms and Conditions"); ?>';
 
-        mw_admin_edit_tos_item_popup_modal_opened = mw.modal({
+        mw.dialog({
             content: '<div id="mw_admin_edit_tos_item_module"></div>',
             title: modalTitle,
             id: 'mw_admin_edit_tos_item_popup_modal'

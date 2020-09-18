@@ -782,7 +782,7 @@ class Parser
 
                                     if ($mod_as_element == false) {
                                         if ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns') {
-                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
+                                            $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
                                         }
@@ -794,7 +794,7 @@ class Parser
                                         $userclass = trim(str_replace(' module module ', ' module ', $userclass));
                                         $userclass = trim(str_replace('module module ', 'module ', $userclass));
                                         $module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
-                                       // $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
+                                        // $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 
                                     } else {
                                         $userclass = trim(str_replace(' -module ', '', $userclass));
@@ -864,12 +864,16 @@ class Parser
                                     }
                                     $this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 
+
+
                                     $mod_content = $this->load($module_name, $attrs);
+
+
                                     if($this->current_module and isset($this->current_module['settings'] ) and isset($this->current_module['settings']['html_tag']) and $this->current_module['settings']['html_tag']){
                                         $module_html_tag = $this->current_module['settings']['html_tag'];
                                     }
 
-//
+
 
                                     $plain_modules = mw_var('plain_modules');
 
@@ -890,9 +894,9 @@ class Parser
                                             }
 
                                             if ($pass /*and $nv*/) {
-                                               // $module_html .= " {$nn}='{$nv}'  ";
+                                                // $module_html .= " {$nn}='{$nv}'  ";
                                                 $module_html .= " {$nn}=\"{$nv}\"  ";
-                                               // $module_html .= " {$nn}={$nv}  ";
+                                                // $module_html .= " {$nn}={$nv}  ";
                                             }
                                         }
                                     }
@@ -910,6 +914,12 @@ class Parser
 
 
                                     $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
+//
+//                                                                        $mod_id_value = $module_name.$coming_from_parent_strz1.$par_id_mod_count;
+//                                    $that = $this;
+//                                    $mod_content = tap( $mod_id_value , function () use ($attrs,$module_name,$that) {
+//                                      return $that->load($module_name, $attrs);
+//                                    });
 
                                     if ($proceed_with_parse == true) {
                                         $this->have_more = true;
@@ -1356,6 +1366,7 @@ class Parser
                         $get_global = false;
                         $data = $this->app->category_manager->get_by_id($attr['category']);
                     } elseif (isset($attr['global'])) {
+                    } elseif (isset($attr['global'])) {
                         $get_global = true;
                     }*/
                     $cf = false;
@@ -1471,7 +1482,7 @@ class Parser
 
                     if(isset($data['updated_at'])){
                         $field_content_modified_date  = $data['updated_at'];
-                     }
+                    }
 
                     $this->_current_parser_rel = $rel;
 
@@ -1538,8 +1549,8 @@ class Parser
                                 if(defined('IN_EDIT') and IN_EDIT == true and $field_content_modified_date){
                                     pq($elem_clone)->attr('itemprop','dateModified');
                                     pq($elem_clone)->attr('content',date("Y M d",strtotime($field_content_modified_date)));
-                                  //  pq($elem_clone)->attr('itemscope','');
-                                  //  pq($elem_clone)->attr('itemtype','http://schema.org/CreativeWork');
+                                    //  pq($elem_clone)->attr('itemscope','');
+                                    //  pq($elem_clone)->attr('itemtype','http://schema.org/CreativeWork');
 
                                 }
                                 pq($elem)->replaceWith($elem_clone);
@@ -2014,8 +2025,23 @@ class Parser
         return $contentNode;
     }
     public $module_registry = array();
+    public $module_load_registry = array();
 
     public function load($module_name, $attrs = array())
+    {
+
+
+        $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
+        $that = $this;
+        if (isset($that->module_load_registry[$mod_id_value])) {
+            return $that->module_load_registry[$mod_id_value];
+        }
+        $that->module_load_registry[$mod_id_value] = $that->load_module_callback($module_name, $attrs);
+        return $that->module_load_registry[$mod_id_value];
+
+
+    }
+    private function load_module_callback($module_name, $attrs = array())
     {
         $is_element = false;
         $custom_view = false;
@@ -2026,11 +2052,11 @@ class Parser
             $attrs['view'] = $custom_view = str_replace('..', '', $custom_view);
         }
 
-     /*   if ($custom_view != false and strtolower($custom_view) == 'admin') {
-            if ($this->app->user_manager->is_admin() == false) {
-                mw_error($custom_view. 'Not logged in as admin');
-            }
-        }*/
+        /*   if ($custom_view != false and strtolower($custom_view) == 'admin') {
+               if ($this->app->user_manager->is_admin() == false) {
+                   mw_error($custom_view. 'Not logged in as admin');
+               }
+           }*/
 
         $module_name = trim($module_name);
         $module_name = str_replace('\\', '/', $module_name);
@@ -2098,7 +2124,7 @@ class Parser
         }
 
 
-         if(isset($this->module_registry[$module_name]) and $this->module_registry[$module_name]){
+        if(isset($this->module_registry[$module_name]) and $this->module_registry[$module_name]){
             return   \App::call($this->module_registry[$module_name], ["params"=>$attrs]);
         } else  if(isset($this->module_registry[$module_name.'/index']) and $this->module_registry[$module_name.'/index']){
             return   \App::call($this->module_registry[$module_name.'/index'], ["params"=>$attrs]);

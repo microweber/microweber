@@ -14,7 +14,7 @@ if(isset($_COOKIE['mw-update-popup-closed'])){
 
 <script>
     $( document ).ready(function() {
-        mw.modalFrame({
+        mw.dialogIframe({
             url:'<?php print $params["popup"] ?>',
             onremove:function(){
 

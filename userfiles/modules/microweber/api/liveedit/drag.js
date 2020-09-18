@@ -1117,7 +1117,7 @@ mw.drag = {
         xhr.error(function(){
 
             if(xhr.status == 403){
-                var modal = mw.modal({
+                var modal = mw.dialog({
                     id : 'save_content_error_iframe_modal',
                     html:"<iframe id='save_content_error_iframe' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame' ></iframe>",
                     width:$(window).width() - 90,

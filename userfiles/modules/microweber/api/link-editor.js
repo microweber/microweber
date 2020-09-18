@@ -1,5 +1,7 @@
 
 mw.require('widgets.css');
+mw.require('form-controls.js');
+
 
 (function(){
     var LinkEditor = function(options) {
@@ -46,7 +48,7 @@ mw.require('widgets.css');
         };
 
 
-        this.settings = extend({}, defaults, options || {});
+        this.settings = mw.object.extend({}, defaults, options || {});
 
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
@@ -156,8 +158,8 @@ mw.require('widgets.css');
         this.build = function (){
             this.root = document.createElement('div');
             this.root.onclick = function (e) {
-                var le = mw.tools.firstParentWithClass(e.target, 'mw-link-editor-nav-drop-box');
-                if(!le) {
+                var le2 = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-link-editor-nav-drop-box', 'mw-link-editor-more-button']);
+                if(!le2) {
                     mw.element('.mw-link-editor-nav-drop-box').hide();
                 }
             };

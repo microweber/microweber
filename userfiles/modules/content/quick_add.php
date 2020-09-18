@@ -153,20 +153,20 @@
 
  </script>
 	<script>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
 	mw_add_content_with_template = function(template_dir,layout_name){
-	
-	mw.tools.modal.frame({
+
+	mw.dialogIframe({
               url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=true&id=mw-quick-page",
               template:'mw_modal_simple',
               width:800,
@@ -174,16 +174,16 @@
               name:'quick_page',
               title:'New Page'
            });
-	
+
 	 }
-	
-	
- 
-	
-	
-	
-	
- 
+
+
+
+
+
+
+
+
 						</script>
 <div class="mw-ui-row" id="le_create_content">
 	<div class="mw-ui-col" id="le_create_content_sidebar">
@@ -224,27 +224,27 @@ $templates= site_templates();
 				<?php $c++; ?>
 				<div class="acfle_layouts_browser_template<?php if($c==1){print " active";} ?>">
 					<h2 class="<?php if($c==1){print "active";} ?>"><?php print $template['name'] ?></h2>
-					
+
 					<?php
 	$layout_options = array();
 	$layout_options ['site_template'] = $template['dir_name'];
 	$layouts = mw()->layouts_manager->get_all($layout_options);
-	
+
 	 if(!empty($layouts)): ?>
 					<?php $i=0;
-		
+
 
 		 foreach($layouts as $item): ?>
 					<?php $i++; ?>
-					<?php 
+					<?php
 
 $safe_name =  str_replace('/','___',$item['layout_file']);
 $safe_name =  str_replace('\\','___',$safe_name);
-  
+
 ?>
 					<div class="acfle_layout">
-						<div class="acfle_layout_frame" onclick="mw_add_content_with_template('<?php print $template['dir_name'] ?>', '<?php print $safe_name ?>' );"> 
-							
+						<div class="acfle_layout_frame" onclick="mw_add_content_with_template('<?php print $template['dir_name'] ?>', '<?php print $safe_name ?>' );">
+
 							<!--<iframe
               frameborder="0"
               scrolling="no"
@@ -254,15 +254,15 @@ $safe_name =  str_replace('\\','___',$safe_name);
 
 
               >
-      </iframe>--> 
+      </iframe>-->
 	  					<?php if(isset($item['screenshot']) and $item['screenshot'] != false):  ?>
 						<img src="<?php print $item['screenshot'] ?>" />
-						
-					
-						
+
+
+
 						<?php endif; ?>
 						</div>
-						
+
 						<h4><a href="javascript:void(0);" onclick="mw_add_content_with_template('<?php print $template['dir_name'] ?>', '<?php print $safe_name ?>' );"><?php print $item['name'] ?></a></h4>
 					</div>
 					<?php endforeach; ?>

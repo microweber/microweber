@@ -35,7 +35,6 @@ if ($menu_name == false and isset($params['menu_name'])) {
             mw.$('#mw_page_create_live_edit').attr('add-to-menu', v);
         }
         mw.load_module('content/edit_page', '#mw_page_create_live_edit', function () {
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, innerWidth, mw.$('#settings-container').height() + 25, false);
             $('.fade-window').removeClass('closed').addClass('active').css({
                 position: 'static'
             });

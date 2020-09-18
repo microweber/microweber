@@ -9,12 +9,12 @@ $mail_template_type = $params['mail_template_type'];
 ?>
 
 <script>
-    mw_admin_mail_templates_modal_opened = null;
+
 
     function mw_admin_mail_templates_modal() {
         var modalTitle = '<?php _e('Manage Mail templates'); ?>';
 
-        mw_admin_mail_templates_modal_opened = mw.modal({
+        mw.dialog({
             content: '<div id="mw_admin_mail_templates_manage">Loading...</div>',
             title: modalTitle,
             width: 900,

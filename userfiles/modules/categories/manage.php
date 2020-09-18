@@ -1,55 +1,117 @@
-
 <div class="mw-module-category-manager admin-side-content">
     <div class="card style-1 mb-3">
 
         <div class="card-header">
             <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong><?php _e("Categories"); ?></strong></h5>
-            <div>
-
-                <div class="input-group mb-0 prepend-transparent">
-
+            <div class="js-hide-when-no-items">
+                <div class="d-flex">
                     <?php
                     if (user_can_access('module.categories.edit')):
-                    ?>
-                    <div class="input-group-prepend">
-                        <span onclick="mw.quick_cat_edit_create(0);" class="btn btn-outline-primary btn-sm btn-sm-only-icon"><i class="mw-icon-plus"></i>&nbsp; <?php _e("New category"); ?></span>
-                        <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
-                    </div>
+                        ?>
+                        <button type="button" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></button>
                     <?php endif; ?>
 
-                    <input type="text" class="form-control form-control-sm" aria-label="Search" placeholder="<?php _e('Search') ?>" oninput="categorySearch(this)">
+                    <div class="form-group mb-0">
+                        <div class="input-group mb-0 prepend-transparent">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                            </div>
+
+                            <input type="text" class="form-control form-control-sm" aria-label="Search" placeholder="<?php _e('Search') ?>" oninput="categorySearch(this)">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-
-
         <div class="card-body pt-3">
-
-
-
             <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
+
                 <?php
                 $field_name = "categories";
                 $selected = 0;
-                $tree = array();
-                $tree['ul_class'] = 'mw-ui-category-tree';
-                $tree['li_class'] = 'sub-nav';
-                $tree['rel_type'] = 'content';
+                $mainFilterTree = array();
+                $mainFilterTree['ul_class'] = 'mw-ui-category-tree';
+                $mainFilterTree['li_class'] = 'sub-nav';
+                $mainFilterTree['rel_type'] = 'content';
 
                 if (isset($params['page-id']) and $params['page-id'] != false) {
-                    $tree['rel_id'] = intval($params['page-id']);
+                    $mainFilterTree['rel_id'] = intval($params['page-id']);
                 }
 
-
-                if (user_can_access('module.categories.edit')){
-                    $tree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm btn-sm-only-icon\"><i class=\"mdi mdi-pencil\"></i> <span class=\"d-none d-md-block\">Edit</span></span></span>";
+                if (user_can_access('module.categories.edit')) {
+                    $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span class=\"d-none d-md-block\">Edit</span></span></span>";
                 } else {
-                    $tree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
+                    $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
-
-                category_tree($tree);
                 ?>
+
+                <?php
+                $pages_with_cats = get_pages('no_limit=true');
+                if ($pages_with_cats): ?>
+                    <?php foreach ($pages_with_cats as $page):
+                        $pageTreeFilter = $mainFilterTree;
+                        $pageTreeFilter['rel_id'] = $page['id'];
+                        ?>
+
+                        <?php
+                        $pageTreeFilter['return_data'] = true;
+                        $categoryTree = category_tree($pageTreeFilter);
+                        if (empty($categoryTree)) {
+                            continue;
+                        }
+                        ?>
+                        <div class="card border-0">
+                            <div class="card-header pl-0">
+                                <h6><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo $page['title']; ?></h6>
+                            </div>
+
+                            <div class="card-body py-2">
+                                <?php echo $categoryTree; ?>
+                            </div>
+                        </div>
+
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="no-items-found categories py-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_categories.svg'); ">
+                                    <h4>You don’t have any categories yet</h4>
+                                    <p>Create your first category right now.<br/>
+                                        You are able to do that in very easy way!</p>
+                                    <br/>
+                                    <a href="javascript:;" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-rounded">Create a Category</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                $('.js-hide-when-no-items').hide()
+                                // $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+                            });
+                        </script>
+                    </div>
+                <?php endif; ?>
+
+                <?php
+                $mainFilterTree['return_data'] = true;
+                $mainFilterTree['content_id'] = false;
+                $otherCategories = category_tree($mainFilterTree);
+                ?>
+
+                <?php if (!empty($otherCategories)): ?>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="card-header">
+                                <h5>Other</h5>
+                            </div>
+                            <?php echo $otherCategories; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
             </div>
             <script>
                 mw.require('block-edit.js');
@@ -87,10 +149,10 @@
                     }
 
                     /*mw_admin_edit_category_item_module_opened = mw.modal({
-                        content: '<div id="mw_admin_edit_category_item_module"></div>',
-                        title: modalTitle,
-                        id: 'mw_admin_edit_category_item_popup_modal'
-                    });*/
+                     content: '<div id="mw_admin_edit_category_item_module"></div>',
+                     title: modalTitle,
+                     id: 'mw_admin_edit_category_item_popup_modal'
+                     });*/
 
 
                     var params = {}
@@ -104,8 +166,8 @@
                 }
 
                 mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
-                    return mw.quick_cat_edit(id);
-                }
+                        return mw.quick_cat_edit(id);
+                    }
                 $(document).ready(function () {
                     mw.categoryEditor = new mw.blockEdit({
                         element: '#edit-content-row'

@@ -273,19 +273,19 @@ if ($params['period']) {
             <div class="stats_box_footer">
                 <div class="row d-flex justify-content-between">
                     <div class="col-6 col-sm d-flex align-items-center justify-content-center justify-content-sm-start">
-                        <i class="mdi mdi-eye mdi-24px text-muted"></i> <span class="text-primary mx-2"><?php print $views_count; ?></span> <span><?php _e('Views'); ?></span>
+                        <i class="mdi mdi-eye mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $views_count; ?></span> <span><?php _e('Views'); ?></span>
                     </div>
 
                     <div class="col-6 col-sm d-flex align-items-center justify-content-center">
-                        <i class="mdi mdi-account-multiple mdi-24px text-muted"></i> <span class="text-primary mx-2"><?php print $visits_count; ?></span> <span><?php _e('Visitors') ?></span>
+                        <i class="mdi mdi-account-multiple mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $visits_count; ?></span> <span><?php _e('Visitors') ?></span>
                     </div>
 
                     <div class="col-6 col-sm d-flex align-items-center justify-content-center">
-                        <i class="mdi mdi-shopping mdi-24px text-muted"></i> <span class="text-primary mx-2"><?php print $orders_count; ?></span> <span><?php _e('Orders'); ?></span>
+                        <i class="mdi mdi-shopping mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $orders_count; ?></span> <span><?php _e('Orders'); ?></span>
                     </div>
 
                     <div class="col-6 col-sm d-flex align-items-center justify-content-center">
-                        <i class="mdi mdi-comment-account mdi-24px text-muted"></i> <span class="text-primary mx-2"><?php print $comments_count; ?></span> <span><?php _e('Comments'); ?></span>
+                        <i class="mdi mdi-comment-account mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $comments_count; ?></span> <span><?php _e('Comments'); ?></span>
                     </div>
 
                     <div class="col-12 col-sm d-flex align-items-center  justify-content-center justify-content-sm-end">

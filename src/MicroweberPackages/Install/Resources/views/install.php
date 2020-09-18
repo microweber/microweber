@@ -650,7 +650,7 @@
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">
                                                             <input type="checkbox" class="custom-control-input" id="with_default_content" name="with_default_content" value="1" tabindex="7" checked="">
-                                                            <label class="custom-control-label" for="with_default_content">Check this custom checkbox</label>
+                                                            <label class="custom-control-label" for="with_default_content"><?php _e('Import default content'); ?></label>
                                                         </div>
                                                         <small class="text-muted d-block mb-2"><?php _e('If checked, some default content will be added.'); ?></small>
                                                     </div>

@@ -26,13 +26,13 @@ if (isset($item['created_by'])) {
 }
 ?>
 
-<div class="card mb-2 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
-    <div class="card-body">
+<div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder bg-silver" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
+    <div class="card-body py-2">
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">
-                        <div class="img-circle-holder w-60">
+                        <div class="img-circle-holder">
                             <?php if ($order_first_product AND isset($order_first_product['item_image'])): ?>
                                 <img src="<?php echo thumbnail($order_first_product['item_image'], 160, 160); ?>"/>
                             <?php else: ?>
@@ -56,11 +56,13 @@ if (isset($item['created_by'])) {
             </div>
 
             <div class="col-12 col-md-6">
-                <div class="row align-items-center">
+                <div class="row align-items-center h-100">
                     <div class="col-6 col-sm-4 col-md item-amount">
                         <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?><br/><?php endif; ?>
                         <?php if (isset($order['is_paid'])): ?>
-                            <small class="text-muted"><?php echo $order['is_paid']; ?></small>
+                            <small class="text-success"><?php _e('Paid'); ?></small>
+                        <?php else: ?>
+                            <small class="text-muted"><?php _e('Unpaid'); ?></small>
                         <?php endif; ?>
                     </div>
 
@@ -79,12 +81,14 @@ if (isset($item['created_by'])) {
             </div>
         </div>
 
-        <div class="collapse" id="notif-order-item-<?php print $item_id; ?>">
-            <div class="row mt-3">
-                <div class="col-12 text-center text-sm-left">
-                    <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-primary btn-sm btn-rounded">View order</a>
-                </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center text-sm-left">
+                <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded">View order</a>
             </div>
+        </div>
+
+        <div class="collapse" id="notif-order-item-<?php print $item_id; ?>">
+
 
             <hr class="thin"/>
 

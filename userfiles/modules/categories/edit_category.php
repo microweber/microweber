@@ -29,10 +29,11 @@ if (isset($params['live_edit'])) {
 }
 ?>
 <style>
-    .mw-filepicker-component-section{
+    .mw-filepicker-component-section {
         width: 125px;
     }
-    #post-media-card-header{
+
+    #post-media-card-header {
         padding: 15px;
         background-color: #fff;
         display: flex;
@@ -42,6 +43,7 @@ if (isset($params['live_edit'])) {
         position: relative;
         width: 100%;
     }
+
     .select_actions_holder {
         position: absolute;
         top: -55px;
@@ -182,45 +184,43 @@ if (isset($params['live_edit'])) {
     <?php endif; ?>
 
     <div class="<?php if (!isset($params['no-toolbar'])): ?>card-body pt-3<?php endif; ?>">
+        <div class="text-right">
+            <div class="create-root mb-3">
+                <div id="content-title-field-buttons">
+                    <?php if (intval($data['id']) != 0): ?>
+                        <script>
+                            mw.quick_cat_edit_create = function (id) {
+                                mw.url.windowHashParam('action', 'new:category');
+                                return false;
+
+                                if (!!id) {
+                                    var modalTitle = '<?php _e('Edit category'); ?>';
+                                } else {
+                                    var modalTitle = '<?php _e('Add category'); ?>';
+                                }
+
+                                mw.dialog({
+                                    content: '<div id="mw_admin_edit_category_item_module"></div>',
+                                    title: modalTitle,
+                                    id: 'mw_admin_edit_category_item_popup_modal'
+                                });
+
+                                var params = {}
+                                params['data-category-id'] = id;
+                                params['no-toolbar'] = true;
+                                mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
+                            }
+                        </script>
+
+<!--                        <a href='javascript:mw.quick_cat_edit_create(0)' class="btn btn-sm btn-success"><i class="mw-icon-plus"></i>&nbsp; --><?php //_e("New category"); ?><!--</a> &nbsp;-->
+                        <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <div class="create-root mb-3">
-                    <div id="content-title-field-buttons">
-                        <?php if (intval($data['id']) != 0): ?>
-                            <script>
-                                mw.quick_cat_edit_create = function (id) {
-                                    mw.url.windowHashParam('action', 'new:category');
-                                    return false;
-
-                                    if (!!id) {
-                                        var modalTitle = '<?php _e('Edit category'); ?>';
-                                    } else {
-                                        var modalTitle = '<?php _e('Add category'); ?>';
-                                    }
-
-                                    mw_admin_edit_category_item_module_opened = mw.modal({
-                                        content: '<div id="mw_admin_edit_category_item_module"></div>',
-                                        title: modalTitle,
-                                        id: 'mw_admin_edit_category_item_popup_modal'
-                                    });
-
-                                    var params = {}
-                                    params['data-category-id'] = id;
-                                    params['no-toolbar'] = true;
-                                    mw.load_module('categories/edit_category', '#mw_admin_edit_category_item_module', null, params);
-                                }
-                            </script>
-
-                            <a href='javascript:mw.quick_cat_edit_create(0)' class="btn btn-sm btn-success"><i class="mw-icon-plus"></i>&nbsp; <?php _e("New category"); ?></a> &nbsp;
-                            <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="btn btn-sm btn-outline-success"><?php _e("Add subcategory"); ?></a> &nbsp;
-                        <?php endif; ?>
-
-                        <?php if (intval($data['id']) != 0): ?>
-                            <a href="javascript:mw.content.deleteCategory('<?php print ($data['id']) ?>');" class="btn btn-sm btn-danger"><i class="mw-icon-bin"></i>&nbsp; <?php _e('Delete') ?></a>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
                 <p>Please fill the fields to create or edit a new category</p>
 
                 <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
@@ -387,12 +387,12 @@ if (isset($params['live_edit'])) {
 
                         <div class="col-12">
                             <module
-                                type="pictures/admin"
-                                title="<?php _e("Category images"); ?>"
-                                for="categories" for-id="<?php print $data['id'] ?>"
-                                hideHeader="true"
-                                uploaderType="small"
-                                id="mw-cat-pics-admin"/>
+                                    type="pictures/admin"
+                                    title="<?php _e("Category images"); ?>"
+                                    for="categories" for-id="<?php print $data['id'] ?>"
+                                    hideHeader="true"
+                                    uploaderType="small"
+                                    id="mw-cat-pics-admin"/>
                         </div>
 
                         <div class="col-12">
@@ -519,6 +519,12 @@ if (isset($params['live_edit'])) {
                     </div>
                 </form>
             </div>
+        </div>
+
+        <div class="text-right">
+            <?php if (intval($data['id']) != 0): ?>
+                <a href="javascript:mw.content.deleteCategory('<?php print ($data['id']) ?>');" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin"></i>&nbsp; <?php _e('Delete') ?></a>
+            <?php endif; ?>
         </div>
     </div>
 </div>

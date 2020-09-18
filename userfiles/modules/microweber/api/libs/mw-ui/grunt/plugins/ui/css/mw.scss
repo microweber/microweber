@@ -11,10 +11,18 @@ body {
 
 .prevent-scroll {
   overflow: hidden;
+
+  /*  .sticky-top {
+      position: fixed !important;
+      width: 100% !important;
+    }*/
 }
 
 .container {
-  //max-width: 80%;
+  max-width: 70%;
+  @media screen and (max-width: 1440px) {
+    max-width: calc(100% - 30px);
+  }
   @media screen and (max-width: 991px) {
     max-width: calc(100% - 30px);
   }
@@ -22,6 +30,9 @@ body {
 
 header {
   padding: 10px 0;
+  @media screen and (max-width: 767px) {
+    padding: 10px 10px;
+  }
   border-bottom: 1px solid #f2f3f5;
 
   .container {
@@ -34,7 +45,11 @@ header {
 
   .logo {
     img {
-      min-width: 180px;
+      height: 45px;
+    }
+
+    img[src*="microweber-cms-logo-login.svg"] {
+      width: 180px;
     }
     h1, h2, h3, h4, h5, h6 {
       margin-bottom: 0;
@@ -69,7 +84,14 @@ header {
       }
 
       &.opened {
-        transform: rotate(90deg);
+        background: $primary;
+        color: $white;
+        border-radius: 4px;
+        i {
+          color: $white;
+        }
+
+        //transform: rotate(90deg);
       }
     }
   }
@@ -246,7 +268,7 @@ header {
               justify-content: center;
 
               i {
-                font-size: 12px;
+                font-size: 13px;
                 width: 15px;
                 margin: 0;
                 padding: 0;
@@ -304,6 +326,10 @@ header {
           border: 0 !important;
           margin-top: 1px;
         }
+        .dropdown-toggle.active::after {
+          transform: rotate(90deg);
+          background: $primary;
+        }
 
         &.show {
           .dropdown-toggle::after {
@@ -317,6 +343,9 @@ header {
   .tree {
     display: none;
     width: 170px;
+    @media screen and (min-width: 1440px) {
+      width: 220px;
+    }
     float: left;
     border: 1px solid $primary;
     transition: all 0.5s ease;
@@ -333,6 +362,9 @@ header {
       padding-top: 95px;
       margin-left: 0;
 
+      padding-left: 10px;
+      padding-right: 10px;
+
       &.opened {
         left: 190px;
       }
@@ -341,9 +373,9 @@ header {
   }
 
   main {
-    width: calc(100% - 205px);
+    width: calc(100% - 215px);
     float: left;
-    margin-left: 15px;
+    margin-left: 25px;
 
     @media screen and (max-width: 991px) {
       margin-left: 0;
@@ -380,10 +412,14 @@ header {
   background-size: contain;
   background-position: right center;
   background-repeat: no-repeat;
-  padding: 100px 0;
+  padding: 100px 50px;
   margin: 25px 0;
-  max-width: 800px;
+  //max-width: 800px;
   margin: 0 auto;
+
+  h4 {
+    font-weight: bold;
+  }
 
   @media screen and (max-width: 767px) {
     padding: 10px 15px 0 15px;
@@ -1465,6 +1501,7 @@ header {
 .bg-500 {
   background: $gray-500;
 }
+
 .bg-grey {
   background: #f2f3f5;
 }

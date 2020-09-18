@@ -1,6 +1,6 @@
 <script type="text/javascript">
     function upload_template_modal() {
-        mw.modal({
+        mw.dialog({
             content: '<div id="mw_admin_upload_template_modal_content"></div>',
             title: 'Upload Template',
             height: 200,

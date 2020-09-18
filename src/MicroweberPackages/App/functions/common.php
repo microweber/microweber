@@ -33,9 +33,10 @@ if (! function_exists('app')) {
     }
 }
 
-
-
-
+function mw_is_installed()
+{
+    return Config::get('microweber.is_installed');
+}
 
 if (!function_exists('d')) {
     function d($dump)

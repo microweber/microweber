@@ -14,12 +14,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\Media\\": "src"
+      "MicroweberPackages\\Media\\": ""
 
     },
     "files": [
-      "src/helpers/media.php",
-      "src/helpers/media_paths.php"
+      "helpers/media.php",
+      "helpers/media_paths.php"
     ]
   },
   "autoload-dev": {

@@ -7,22 +7,36 @@ body {
   background-color: #f2f3f5; }
 
 .prevent-scroll {
-  overflow: hidden; }
+  overflow: hidden;
+  /*  .sticky-top {
+      position: fixed !important;
+      width: 100% !important;
+    }*/ }
 
-@media screen and (max-width: 991px) {
-  .container {
-    max-width: calc(100% - 30px); } }
+.container {
+  max-width: 70%; }
+  @media screen and (max-width: 1440px) {
+    .container {
+      max-width: calc(100% - 30px); } }
+  @media screen and (max-width: 991px) {
+    .container {
+      max-width: calc(100% - 30px); } }
 
 header {
   padding: 10px 0;
   border-bottom: 1px solid #f2f3f5; }
+  @media screen and (max-width: 767px) {
+    header {
+      padding: 10px 10px; } }
   @media screen and (max-width: 767px) {
     header .container {
       padding: 0;
       margin: 0;
       max-width: 100%; } }
   header .logo img {
-    min-width: 180px; }
+    height: 45px; }
+  header .logo img[src*="microweber-cms-logo-login.svg"] {
+    width: 180px; }
   header .logo h1, header .logo h2, header .logo h3, header .logo h4, header .logo h5, header .logo h6 {
     margin-bottom: 0; }
   header .language-selector .btn {
@@ -47,7 +61,11 @@ header {
         line-height: 1;
         color: #4592ff; }
       header .mobile-toggle button.opened {
-        transform: rotate(90deg); }
+        background: #4592ff;
+        color: #fff;
+        border-radius: 4px; }
+        header .mobile-toggle button.opened i {
+          color: #fff; }
   @media screen and (max-width: 767px) {
     header .nav-last {
       min-width: 100px; } }
@@ -175,7 +193,7 @@ header {
             align-items: center;
             justify-content: center; }
             .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i {
-              font-size: 12px;
+              font-size: 13px;
               width: 15px;
               margin: 0;
               padding: 0;
@@ -215,6 +233,10 @@ header {
       background-size: contain;
       border: 0 !important;
       margin-top: 1px; }
+    .main aside > ul .dropdown .dropdown-toggle.active::after,
+    .main aside > ul .dropdown-no-js .dropdown-toggle.active::after {
+      transform: rotate(90deg);
+      background: #4592ff; }
     .main aside > ul .dropdown.show .dropdown-toggle::after,
     .main aside > ul .dropdown-no-js.show .dropdown-toggle::after {
       transform: rotate(90deg); }
@@ -227,6 +249,9 @@ header {
     margin-left: 15px;
     padding: 15px 0;
     background: #f2f3f5; }
+    @media screen and (min-width: 1440px) {
+      .main .tree {
+        width: 220px; } }
     @media screen and (max-width: 991px) {
       .main .tree {
         z-index: 9;
@@ -235,13 +260,15 @@ header {
         left: -100%;
         height: 100%;
         padding-top: 95px;
-        margin-left: 0; }
+        margin-left: 0;
+        padding-left: 10px;
+        padding-right: 10px; }
         .main .tree.opened {
           left: 190px; } }
   .main main {
-    width: calc(100% - 205px);
+    width: calc(100% - 215px);
     float: left;
-    margin-left: 15px; }
+    margin-left: 25px; }
     @media screen and (max-width: 991px) {
       .main main {
         margin-left: 0;
@@ -267,10 +294,11 @@ header {
   background-size: contain;
   background-position: right center;
   background-repeat: no-repeat;
-  padding: 100px 0;
+  padding: 100px 50px;
   margin: 25px 0;
-  max-width: 800px;
   margin: 0 auto; }
+  .no-items-box h4 {
+    font-weight: bold; }
   @media screen and (max-width: 767px) {
     .no-items-box {
       padding: 10px 15px 0 15px;

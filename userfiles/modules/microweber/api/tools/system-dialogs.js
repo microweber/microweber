@@ -9,7 +9,7 @@ mw.tools.alert = function (text) {
         + '</tr>'
         + '</table>';
     if (mw.$("#mw_alert").length === 0) {
-        return mw.modal({
+        return mw.dialog({
             html: html,
             width: 400,
             height: 200,

@@ -10,7 +10,7 @@ mw.liveedit.beforeleave = function(url) {
         "</div>";
     if (mw.askusertostay && mw.$(".edit.orig_changed").length > 0) {
         if (mwd.getElementById('modal_beforeleave') === null) {
-            var modal = mw.tools.modal.init({
+            var modal = mw.dialog({
                 html: beforeleave_html,
                 name: 'modal_beforeleave',
                 width: 470,

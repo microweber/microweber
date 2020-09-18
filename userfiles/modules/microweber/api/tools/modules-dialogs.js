@@ -101,7 +101,7 @@
             var src = src + '&root_element_id='+root_element_id;
         }
 
-        // mw.tools.modal.frame({
+        // mw.dialogIframe({
         var modal = mw.dialogIframe({
             url: src,
             // width: 500,
@@ -148,7 +148,7 @@
 
         var settings = $.extend({}, defaultOpts, modalOptions);
 
-        // return mw.tools.modal.frame(settings);
+        // return mw.dialogIframe(settings);
         return mw.dialogIframe(settings);
     },
     open_module_modal: function (module_type, params, modalOptions) {

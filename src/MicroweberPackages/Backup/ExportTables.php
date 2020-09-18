@@ -26,6 +26,11 @@ class ExportTables
 		}
 
 		foreach ($items as $item) {
+
+            if (!isset($item['id'])) {
+                return;
+            }
+
 			$this->addItemToTable($table, $item);
 		}
 	}

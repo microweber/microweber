@@ -121,7 +121,21 @@ div.form-control {
 }
 
 .mw-ui-category-tree li li {
-    padding-left: 20px;
+    padding-left: 30px;
+}
+
+.mw-ui-category-tree li li:before {
+    content: "\F060D";
+    display: inline-block;
+    font: normal normal normal 24px/1 "Material Design Icons";
+    font-size: inherit;
+    text-rendering: auto;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    margin-top: 12px;
+    margin-left: -20px;
 }
 
 .mw-ui-category-tree {

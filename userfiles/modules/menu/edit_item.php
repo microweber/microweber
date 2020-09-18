@@ -200,31 +200,42 @@ if ($id == 0) {
             $("#menu-item-" + id).removeClass('active');
             $("#edit-menu_item_edit_wrap-" + id).remove();
         };
+
+        mw.require('link-editor.js');
+
         $(document).ready(function () {
 
             $('.change-url-box .input-group-text, .change-url-box input').on('click', function () {
                 var scope = this;
-                /*var link = mw.top().instruments.link({
-                 mode: 'dialog'
-                 });*/
 
-                //link.handler.on('change', function(e, url, target, name, data){
-                var picker = mw.component({
-                    url: 'link_editor_v2',
-                    options: {
-                        target: false,
-                        text: false,
-                        controllers: 'page, custom, content, section, layout, file'
-                    }
+                var linkEditor = new mw.LinkEditor({
+                    mode: 'dialog',
+                    controllers: [
+                        { type: 'url', config: {target: false}},
+                        { type: 'page', config: {target: false} },
+                        { type: 'post', config: {target: false}},
+                        { type: 'layout', config: {target: false} }
+                    ]
                 });
-                $(picker).on('Result', function (e, ldata) {
+                var root = $(scope).parents(".col");
+                linkEditor.setValue({
+                    text: root.find('[name="title"]').val(),
+                    url: root.find('[name="url"]').val()
+                })
+
+                linkEditor.promise().then(function (ldata){
+                    console.log(ldata)
                     if (!ldata) {
                         return
                     }
+
                     var url = ldata.url,
                         target = ldata.target,
                         name = ldata.text,
-                        data = ldata.object;
+                        data = ldata.data;
+
+                    root.find('[name="title"]').val(name);
+                    root.find('[name="url"]').val(url);
 
                     if (scope.nodeName === 'INPUT') {
                         scope.value = url;

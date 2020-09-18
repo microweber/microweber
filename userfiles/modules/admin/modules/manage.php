@@ -81,7 +81,7 @@ if ($load_module == true): ?>
         <div class="row mw-modules">
             <?php if (is_array($upds) == true): ?>
                 <?php foreach ($upds as $upd_mod): ?>
-                    <div class="col-lg-3 col-md-4 col-2 mb-3">
+                    <div class="col-xl-3 col-md-4 col-6 mb-3">
                         <?php if (isset($upd_mod['module'])): ?>
                             <?php $item = module_info($upd_mod['module']); ?>
 
@@ -97,7 +97,7 @@ if ($load_module == true): ?>
 
             <?php foreach ($mods as $k => $item): ?>
                 <?php if (!isset($item['id'])): ?>
-                    <div class="col-lg-3 col-md-4 col-2 mb-3">
+                    <div class="col-xl-3 col-md-4 col-6 mb-3">
                         <div class="mw-admin-module-list-item mw-module-not-installed h-100" id="module-remote-id-<?php print $item['id'] ?>">
                             <div class=" module module-admin-modules-edit-module h-100">
                                 <?php
@@ -111,7 +111,7 @@ if ($load_module == true): ?>
                         </div>
                     </div>
                 <?php else : ?>
-                    <div class="col-lg-3 col-md-4 col-2 mb-3">
+                    <div class="col-xl-3 col-md-4 col-6 mb-3">
                         <div class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?> h-100" id="module-db-id-<?php print $item['id'] ?>">
                             <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>" class="h-100"/>
                         </div>

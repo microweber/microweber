@@ -190,8 +190,8 @@ var Uploader = function( options ) {
         }
     };
 
-    this.uploadFile = function (file, done, _chunks, _all, _i) {
-        var chunks = _chunks || this.sliceFile(file);
+    this.uploadFile = function (file, done, chunks, _all, _i) {
+        chunks = chunks || this.sliceFile(file);
         _all = _all || chunks.length;
         _i = _i || 0;
         var chunk = chunks.shift();
@@ -202,10 +202,16 @@ var Uploader = function( options ) {
             file: chunk,
         };
         _i++;
-        this.upload(data, function () {
+        $(scope).trigger('uploadStart', [data]);
+
+        this.upload(data, function (res) {
             if(chunks.length) {
-                scope.uploadFile(file, done, _chunks, _all, _i);
+                scope.uploadFile(file, done, chunks, _all, _i);
             } else {
+                $(scope).trigger('FileUploaded', [res]);
+                if(scope.settings.on.fileUploaded) {
+                    scope.settings.on.fileUploaded(res);
+                }
                 done.call(file);
             }
         });
@@ -241,6 +247,7 @@ var Uploader = function( options ) {
                     scope.settings.on.filesUploaded();
                 }
                 $(scope).trigger('FilesUploaded');
+
             }
         } else {
             var count = 0;
@@ -276,7 +283,7 @@ var Uploader = function( options ) {
                 return;
             }
         }
-        $(scope).trigger('uploadStart', [pdata]);
+
         return $.ajax({
             url: this.getUrl(),
             type: 'post',
@@ -286,12 +293,8 @@ var Uploader = function( options ) {
             success: function (res) {
                 scope.removeFile(data.file);
                 if(done) {
-                    done.call(res);
+                    done.call(res, res);
                 }
-                if(scope.settings.on.fileUploaded) {
-                    scope.settings.on.fileUploaded(res);
-                }
-                $(scope).trigger('FileUploaded', res);
             },
             dataType: 'json',
             xhr: function () {

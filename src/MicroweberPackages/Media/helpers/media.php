@@ -110,7 +110,7 @@ function get_pictures($params)
 }
 
 
-function create_media_dir($params)
+function  create_media_dir($params)
 {
     return app()->media_manager->create_media_dir($params);
 }

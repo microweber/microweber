@@ -9,18 +9,13 @@
 
 // download invoice pdf with a unique_hash $id
 // -------------------------------------------------
-Route::get('/invoices/pdf/{id}', [
+Route::middleware(['admin'])->get('/invoices/pdf/{id}', [
     'as' => 'get.invoice.pdf',
     'uses' => '\MicroweberPackages\Invoice\Http\Controllers\FrontendController@getInvoicePdf'
 ]);
 
-/*
-Route::group([
-    'middleware' => 'admin'
-], function () {
 
-});*/
-Route::prefix('admin')->namespace('\MicroweberPackages\Invoice\Http\Controllers\Admin')->group(function () {
+Route::prefix('admin')->middleware(['admin'])->namespace('\MicroweberPackages\Invoice\Http\Controllers\Admin')->group(function () {
 
     Route::post('/invoices/delete', [
         'as' => 'invoices.delete',

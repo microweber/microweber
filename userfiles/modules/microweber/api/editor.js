@@ -1,4 +1,132 @@
 
+
+(function (){
+
+    var FileManager = function (options) {
+
+        options = options || {};
+
+        var defaults = {
+            data: Array(5).fill({}), // todo: make it empty
+            viewType: 'list',
+            query: {
+                order: 'asc',
+                orderBy: 'name',
+                keyword: '',
+                path: '/',
+                display: 'list'
+            },
+            endPoint: ''
+        };
+
+        this.settings = mw.object.extend({}, defaults, options);
+
+        var table, tableHeader, tableBody;
+
+        var scope = this;
+
+        this._check = function () {
+            return '' +
+                '<label class="mw-ui-check">' +
+                    '<input type="checkbox">' +
+                '</label>';
+        };
+
+        this._size = function (bytes, dc) {
+            if (typeof bytes === 'undefined' || bytes === null) return '';
+            if (bytes === 0) return '0 Bytes';
+            var k = 1000,
+                dm = dc === undefined ? 2 : dc,
+                sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+                i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        };
+
+
+
+        this._image = function (item) {
+            return mw.element({
+                props: {
+                    className: 'mw-file-manager-list-item-image',
+                    style: {
+                        backgroundImage: 'url(' + item.thumbnail + ')'
+                    }
+                }
+            });
+        };
+
+        this.createOptions = function () {
+
+        };
+
+        this.renderSingleItemList = function (item) {
+            var check = this._check();
+            var image = this._image(item);
+            var size = this._size(item);
+            var options = this.createOptions(item);
+
+            return mw.element('<tr />')
+                    .append('<td>' + check + '</td>')
+                    .append('<td>' + image + '</td>')
+                    .append('<td>' +item.name + '</td>')
+                    .append('<td>' +size + '</td>')
+                    .append('<td>' +options + '</td>');
+        };
+
+
+        this.setData = function (data) {
+            this._data = data;
+        };
+
+        this.getData = function () {
+            return this._data;
+        };
+
+
+        this.render = function () {
+
+        };
+
+        this.listView = function () {
+            table =  mw.element('<table />');
+            tableHeader =  mw.element('' +
+                '<thead><tr>' +
+                '<th>'+this._check()+'</th>' +
+                '<th class="mw-file-manager-sortable-table-header"><span>Name</span></th>' +
+                '<th class="mw-file-manager-sortable-table-header"><span>Size</span></th>' +
+                '<th></th>' +
+                '<th colspan="2">Last modified</th>' +
+            '</tr></thead>');
+
+            tableBody =  mw.element('<tbody />');
+            table.append(tableHeader).append(tableBody);
+
+        };
+
+        this.render = function () {
+
+
+        };
+
+        this.createRoot = function (){
+            this.root = mw.element({
+                props: {
+                    className: 'mw-file-manager-root'
+                }
+            });
+        };
+
+        this.init = function (){
+            this.createRoot();
+        };
+
+        this.init();
+    };
+    mw.FileManager = FileManager;
+})();
+
+
+
 var EditorPredefinedControls = {
     'default': [
         [ 'bold', '|', 'italic' ],
@@ -38,7 +166,7 @@ window.MWEditor = function (options) {
 
     options = options || {};
 
-    this.settings = $.extend({}, defaults, options);
+    this.settings = mw.object.extend({}, defaults, options);
 
 
     if (typeof this.settings.controls === 'string') {
@@ -95,7 +223,7 @@ window.MWEditor = function (options) {
         if (MWEditor.i18n[this.settings.language] && MWEditor.i18n[this.settings.language][key]) {
             return  MWEditor.i18n[this.settings.language][key];
         }
-        console.warn(key + ' is not specified for ' + this.settings.language + ' language');
+        //console.warn(key + ' is not specified for ' + this.settings.language + ' language');
         return key;
     };
 
@@ -663,7 +791,7 @@ mw.require('link-editor.js');
 //
 
 mw.require('state.js');
-mw.require('editor/element.js');
+
 mw.require('editor/bar.js');
 mw.require('editor/api.js');
 mw.require('editor/helpers.js');

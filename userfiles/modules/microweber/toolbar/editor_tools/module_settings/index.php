@@ -146,7 +146,7 @@
 
         if (typeof thismodal === 'undefined' && self !== parent && typeof this.name != 'undefined' && this.name != '') {
             var frame = parent.mw.$('#' + this.name)[0];
-            thismodal = parent.mw.tools.modal.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
+            thismodal = parent.mw.dialog.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
         }
 
 
@@ -179,20 +179,6 @@
             }
 
 
-            $(window).load(function () {
-                if (thismodal.main && !!thismodal.main[0]) {
-
-                    if (autoSize) {
-                        parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, $('#settings-container').height() + 25, true);
-
-                        $(window.parent.window).bind("resize", function () {
-                            if (parent != null) {
-                                parent.mw.tools.modal.center("#" + thismodal.main[0].id);
-                            }
-                        });
-                    }
-                }
-            });
         }
 
         $(window).load(function () {

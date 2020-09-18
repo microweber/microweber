@@ -11,11 +11,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill" /> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
         </h5>
     </div>
 
@@ -136,10 +136,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 }
 
                 .custom-fields-add-buttons button {
-                    width: 16.6%;
+                    width: 20%;
                     text-align: center;
                     display: block;
                     float: left;
+                }
+
+                .custom-fields-add-buttons button:hover {
+                    background: #f2f3f5;
                 }
 
                 .card-closed {
@@ -148,7 +152,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 }
 
                 .card .card-header {
-                    cursor: pointer;
+                    /*cursor: pointer;*/
                 }
 
                 .card-closed .card-header:first-child {
@@ -208,20 +212,20 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <div class="custom-fields-add-buttons">
                                     <?php if (is_array($exiisting_fields)): ?>
                                         <?php foreach ($exiisting_fields as $item): ?>
-                                            <button class="btn btn-link text-dark" onclick="javascript:addCustomFieldByVal('<?php print $item['type']; ?>');">
+                                            <button class="btn btn-link text-dark px-1" onclick="javascript:addCustomFieldByVal('<?php print $item['type']; ?>');">
                                                 <div>
                                                     <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
-                                                    <span class="mw-custom-field-title text-break-line-1" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
+                                                    <span class="mw-custom-field-title text-break-line-1 small" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
                                                 </div>
                                             </button>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
 
                                     <?php foreach ($fields as $field => $value): ?>
-                                        <button class="btn btn-link text-dark" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
+                                        <button class="btn btn-link text-dark px-1" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                             <div>
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
-                                                <span class="mw-custom-field-title text-break-line-1"><?php _e($value); ?></span>
+                                                <span class="mw-custom-field-title text-break-line-1 small"><?php _e($value); ?></span>
                                             </div>
                                         </button>
                                     <?php endforeach; ?>

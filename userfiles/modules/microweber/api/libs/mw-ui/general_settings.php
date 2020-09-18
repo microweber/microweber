@@ -17,18 +17,18 @@
         </div>
 
         <div class="card bg-none style-1 mb-0">
-            <div class="card-header">
+            <div class="card-header px-0">
                 <h5><i class="mdi mdi-cog text-primary mr-3"></i> <strong>Settings</strong></h5>
                 <div>
 
                 </div>
             </div>
 
-            <div class="card-body pt-3">
+            <div class="card-body pt-3 px-0">
                 <div class="card style-1 mb-3">
                     <div class="card-body pt-3 px-5">
                         <div class="row select-settings">
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -38,7 +38,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-flash-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -48,7 +48,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-email-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -58,7 +58,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-text-box-check-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -68,7 +68,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-angularjs mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -78,7 +78,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-file-cabinet mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -88,7 +88,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-login mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -98,7 +98,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-translate mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -108,7 +108,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-shield-edit-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -124,7 +124,7 @@
                 <div class="card style-1 mb-3">
                     <div class="card-body pt-3 px-5">
                         <div class="row select-settings">
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-cart-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -134,7 +134,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-scissors-cutting mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -144,7 +144,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-account-cash-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -154,7 +154,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-cash-usd-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -164,7 +164,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-label-percent-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -174,7 +174,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-cash-register mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -184,7 +184,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-truck-outline mdi-20px"></i></div>
                                     <div class="info-holder">
@@ -194,7 +194,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
                                     <div class="icon-holder"><i class="mdi mdi-email-edit-outline mdi-20px"></i></div>
                                     <div class="info-holder">
