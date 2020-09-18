@@ -120,10 +120,16 @@
     mw.modal = mw.dialog;
     mw.modalFrame = mw.dialogIframe;
 
+    mw.dialog.remove = function (selector) {
+        return mw.dialog.get(selector).remove();
+    };
+
     mw.dialog.get = function (selector) {
         var $el = mw.$(selector);
         var el = $el[0];
+
         if(!el) return false;
+
         if(el._dialog) {
             return el._dialog;
         }

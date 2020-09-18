@@ -148,7 +148,7 @@ if (array_key_exists('title', $_GET)) {
                 thismodal.result(this)
             }
 
-            parent.mw.tools.modal.remove('mw_rte_image');
+            parent.mw.dialog.remove('mw_rte_image');
 
             mw.notification.success('<?php _ejs('The image is changed') ?>');
 
@@ -315,7 +315,7 @@ if (array_key_exists('title', $_GET)) {
                         if(window.thismodal) {
                             thismodal.result(GlobalEmbed)
                         }
-                        parent.mw.tools.modal.remove('mw_rte_image');
+                        parent.mw.dialog.remove('mw_rte_image');
                     }
                 }, 500);
             }
@@ -355,7 +355,7 @@ if (array_key_exists('title', $_GET)) {
 
             }
 
-            parent.mw.tools.modal.remove('mw_rte_image');
+            parent.mw.dialog.remove('mw_rte_image');
         });
 
         var selector = '#image_tabs option';
