@@ -28,7 +28,7 @@ class Product extends Content
         "title",
         "url",
         "content_meta_title",
-        "content", 
+        "content",
         "description",
         "content_meta_keywords",
         "original_link",

@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Content;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Database\Observers\BaseModelObserver;
 use MicroweberPackages\Database\Observers\CreatedByObserver;
 use MicroweberPackages\Content\Content;
 
@@ -19,7 +20,9 @@ class ContentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Content::observe(BaseModelObserver::class);
         Content::observe(CreatedByObserver::class);
+
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 }

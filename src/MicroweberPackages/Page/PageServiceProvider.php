@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Page;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Database\Observers\BaseModelObserver;
 use MicroweberPackages\Page\Observers\PageObserver;
 
 class PageServiceProvider extends ServiceProvider
@@ -14,6 +15,7 @@ class PageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Page::observe(BaseModelObserver::class);
         Page::observe(PageObserver::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');

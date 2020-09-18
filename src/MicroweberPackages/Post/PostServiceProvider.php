@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Post;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Database\Observers\BaseModelObserver;
 use MicroweberPackages\Post\Observers\PostObserver;
 
 class PostServiceProvider extends ServiceProvider
@@ -14,6 +15,7 @@ class PostServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Post::observe(BaseModelObserver::class);
         Post::observe(PostObserver::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
