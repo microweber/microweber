@@ -164,10 +164,19 @@ class PermalinkManager
             $slug = $segments['original_slug'];
             unset($segments['original_slug']);
             $slugPrefix = $segments;
+
+            $slugPrefixReturn = site_url();
+            $slugPrefixUrlReturn = site_url();
+
+            if (!empty($slugPrefix)) {
+                $slugPrefixReturn = implode('/', $slugPrefix) . '/';
+                $slugPrefixUrlReturn = site_url(implode('/', $slugPrefix)) . '/';
+            }
+
             return [
                 'url'=> $linkFull,
-                'slug_prefix'=>implode('/', $slugPrefix) . '/',
-                'slug_prefix_url'=>site_url(implode('/', $slugPrefix)) . '/',
+                'slug_prefix'=>$slugPrefixReturn,
+                'slug_prefix_url'=>$slugPrefixUrlReturn,
                 'slug'=>$slug
             ];
         }
