@@ -1,5 +1,7 @@
 config/*
 vendor/*
+config/database.php
+config/app.php
 userfiles/language/
 userfiles/css/
 userfiles/media/*
@@ -21,7 +23,6 @@ phpinfo.php
 dwsync.xml
 /userfiles/backup
 /userfiles/*.log
-/config/database.php
 /storage
 /storage/.gitignore
 /storage/.htaccess
