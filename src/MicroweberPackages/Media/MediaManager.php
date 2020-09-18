@@ -3,6 +3,7 @@ namespace MicroweberPackages\Media;
 
 use \Intervention\Image\ImageManagerStatic as Image;
 use MicroweberPackages\Utils\Media\Thumbnailer;
+use MicroweberPackages\Utils\System\Files; 
 
 
 class MediaManager
@@ -28,7 +29,6 @@ class MediaManager
 
     public function get_picture($content_id, $for = 'content', $full = false)
     {
-
 
         if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
             $for = 'content';
@@ -176,7 +176,7 @@ class MediaManager
         if ($this->app->user_manager->is_admin() == false) {
             mw_error('not logged in as admin');
         }
-        $files_utils = new \MicroweberPackages\Utils\Files();
+        $files_utils = new Files();
 
 
         ini_set('upload_max_filesize', '2500M');
