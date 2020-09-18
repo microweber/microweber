@@ -43,26 +43,27 @@ $(document).ready(function(){
     multiple:false,
 	name:'<?php echo $data["name"]; ?>',
     autostart:true,
+        element: mwd.getElementById('upload_button_<?php echo($rand); ?>'),
     filetypes:'<?php if ($settings['options']['file_types']): ?><?php echo implode(",",$settings['options']['file_types']); ?> <?php endif ?>'
 });
 
 var local_id = '<?php echo($rand); ?>';
 
 
-    $(<?php echo $up; ?>).bind('FilesAdded', function(frame, file){
+    $(<?php echo $up; ?>).on('FilesAdded', function(frame, file){
 
        mwd.getElementById('file_name<?php echo $data["name"]; ?>').value = file[0].name;
 
     });
 
-    $(<?php echo $up; ?>).bind('progress', function(frame, file){
+    $(<?php echo $up; ?>).on('progress', function(frame, file){
         mw.$("#upload_progress_"+local_id+" .bar").width(file.percent + '%')
         mw.$("#upload_progress_"+local_id).show();
 
 	    mw.log(file)
     });
 
-    $(<?php echo $up; ?>).bind('FileUploaded', function(frame, file){
+    $(<?php echo $up; ?>).on('FileUploaded', function(frame, file){
 		mw.$("#uploaded_file_src<?php echo($rand); ?>").val(file.src);
         mw.$("#upload_<?php echo($rand); ?> input[type='text']").val(file.src);
         mw.$("#upload_progress_"+local_id).hide();
@@ -72,7 +73,7 @@ var local_id = '<?php echo($rand); ?>';
     });
 
 
-    $(<?php echo $up; ?>).bind('error', function(frame, file){
+    $(<?php echo $up; ?>).on('error', function(frame, file){
 
         mw.$("#upload_progress_"+local_id).hide();
         mw.$("#upload_err"+local_id).show().html("<strong>" + file.name + "</strong> - Invalid filetype!");
@@ -82,7 +83,7 @@ var local_id = '<?php echo($rand); ?>';
     });
 
 
-    $(<?php echo $up; ?>).bind('responseError', function(frame, json){
+    $(<?php echo $up; ?>).on('responseError', function(frame, json){
 
         mw.$("#upload_progress_"+local_id).hide();
         mw.$("#upload_err"+local_id).show().html("<strong>Error "+json.error.code+"</strong> - " + json.error.message);
@@ -91,7 +92,6 @@ var local_id = '<?php echo($rand); ?>';
         mw.$("#val_<?php echo $rand; ?>").empty();
     });
 
-    mwd.getElementById('upload_button_<?php echo($rand); ?>').appendChild(<?php echo $up; ?>);
 
 <?php if (($settings['rel_type'] == 'module' || $settings['rel_type'] == 'modules') && $settings['rel_id']) : ?>
      <?php echo $up; ?>.contentWindow.onload = function(){

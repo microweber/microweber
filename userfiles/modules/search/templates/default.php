@@ -53,7 +53,7 @@ description: Default Search template
         });
 
 
-        mw.$("#search_field_<?php  print $params['id'] ?>").bind("keyup", function (e) {
+        mw.$("#search_field_<?php  print $params['id'] ?>").on("keyup", function (e) {
             if (e.keyCode == 13) {
                 mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', this.value);
             }

@@ -119,7 +119,7 @@ description: Autocomplete Search template
 
     if (!mw.autocompleteBinded) {
         mw.autocompleteBinded = true;
-        $(mwd.body).bind('keyup mousedown', function (e) {
+        $(mwd.body).on('keyup mousedown', function (e) {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-search-autocomplete')) {
                 mw.$('.mw-autocomplete-search-results').hide();
             }

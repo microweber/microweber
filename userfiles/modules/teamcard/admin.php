@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             teamcards = {
                 init: function (item) {
-                    $(item.querySelectorAll('input[type="text"], textarea')).bind('keyup', function () {
+                    $(item.querySelectorAll('input[type="text"], textarea')).on('keyup', function () {
                         mw.on.stopWriting(this, function () {
                             teamcards.save();
                         });
@@ -52,7 +52,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         filetypes: '*',
                         element: item.querySelector('.teamcard-file-up')
                     });
-                    $(up).bind('FileUploaded', function (event, data) {
+                    $(up).on('FileUploaded', function (event, data) {
                         item.querySelector('.teamcard-file').value = data.src
                         item.querySelector('.js-teamcard-file-preview').src = data.src
                         teamcards.save();

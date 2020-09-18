@@ -546,7 +546,8 @@
             Uploader = mw.files.uploader({
                 filetypes: "*",
                 path: path,
-                multiple: true
+                multiple: true,
+                element: mw.$("#mw_uploader")
             });
 
             $(Uploader).bind("progress", function (frame, file) {
@@ -571,7 +572,6 @@
             });
 
 
-            mw.$("#mw_uploader").append(Uploader);
             $(Uploader).bind("FileUploaded", function (obj, data) {
                 _mw_admin_files_manage('all');
             });

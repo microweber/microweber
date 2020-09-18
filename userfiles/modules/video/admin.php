@@ -31,6 +31,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <script>
             mw.require("files.js");
+            mw.require("uploader.js");
 
             setprior = function (v, t) {
                 t = t || false;
@@ -44,14 +45,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             }
 
             $(document).ready(function () {
-                var upVideo = mw.files.uploader({
+                var upVideo = mw.upload({
                     multiple: false,
-                    filetypes: 'videos'
+                    filetypes: 'videos',
+                    element: '#upload_btn'
                 });
-                var upThumb = mw.files.uploader({
+                var upThumb = mw.upload({
                     multiple: false,
-                    filetypes: 'images'
+                    filetypes: 'images',
+                    element: '#upload_thumb_btn'
                 });
+
 
                 var all = $();
                 all.push(upVideo);
@@ -122,8 +126,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 });
 
-                $('#upload_btn').append(upVideo);
-                $('#upload_thumb_btn').append(upThumb);
+
 
                 mw.$("#emebed_video_field").focus().on('change', function () {
                     setprior(1);

@@ -41,6 +41,7 @@
             multiple: false,
             name: '<?php echo $data["name"]; ?>',
             autostart: true,
+            element:  mwd.getElementById('upload_button_<?php echo($rand); ?>'),
             filetypes: '<?php if ($settings['options']['file_types']): ?><?php echo implode(",", $settings['options']['file_types']); ?> <?php endif ?>'
         });
 
@@ -88,7 +89,7 @@
             mw.$("#val_<?php echo $rand; ?>").hide();
         });
 
-        mwd.getElementById('upload_button_<?php echo($rand); ?>').appendChild(<?php echo $up; ?>);
+
 
         <?php if (($settings['rel_type'] == 'module' || $settings['rel_type'] == 'modules') && $settings['rel_id']) : ?>
         <?php echo $up; ?>.

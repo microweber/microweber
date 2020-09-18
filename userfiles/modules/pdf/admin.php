@@ -62,7 +62,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     multiple: false,
                     element: "#pdf"
                 });
-                $(before).bind('FileUploaded', function (a, b) {
+                $(before).on('FileUploaded', function (a, b) {
                     mw.$("#pdfval").val(b.src).trigger('change');
                 });
             });

@@ -149,10 +149,7 @@ mw.uploader = function (o) {
     mw.require("files.js");
 
     var uploader = mw.files.uploader(o);
-    var el = mw.$(o.element)[0];
-    if (typeof el !== 'undefined') {
-        el.appendChild(uploader);
-    }
+
     return uploader;
 };
 

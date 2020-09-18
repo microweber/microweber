@@ -98,7 +98,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
         <script>
             $(document).ready(function () {
-                mw.$("#check-all, input[name='select_delete_forever']").bind('click', function () {
+                mw.$("#check-all, input[name='select_delete_forever']").on('click', function () {
                     if (mw.$(".select_delete_forever:checked").length === 0) {
                         mw.$("#manage-buttons").hide();
                     } else {

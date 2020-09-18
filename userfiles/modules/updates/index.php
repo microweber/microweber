@@ -109,7 +109,7 @@ mw()->notifications_manager->delete_for_module('updates');
         mw.bind_update_form_submit();
 
 
-        $(window).bind("mw_updates_done", function () {
+        $(window).on("mw_updates_done", function () {
 
             mw.tools.enable(mwd.getElementById('installsubmit'));
             Alert("Updates are successfully installed.");

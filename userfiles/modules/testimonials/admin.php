@@ -117,11 +117,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     multiple: false
                 });
 
-                $(OpenQuote).bind("FileUploaded", function (a, b) {
+                $(OpenQuote).on("FileUploaded", function (a, b) {
                     mw.$("#openquote-preview img").attr("src", b.src);
                     mw.$("[name='openquote']").val(b.src).trigger('change');
                 });
-                $(CloseQuote).bind("FileUploaded", function (a, b) {
+                $(CloseQuote).on("FileUploaded", function (a, b) {
                     mw.$("#closequote-preview img").attr("src", b.src);
                     mw.$("[name='closequote']").val(b.src).trigger('change');
                 });

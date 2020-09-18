@@ -96,6 +96,7 @@ if (isset($data['content-id'])) {
                     }
 
                     mw.admin.postImageUploader();
+
                 }
             }
 

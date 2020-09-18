@@ -22,10 +22,10 @@
 			$ord = 'order_by=updated_at desc';
 	 		$orders = get_cart('limit=1000&group_by=session_id&no_session_id=true&order_completed=0&'.$ord);
 			//$orders = get_cart('debug=1&limit=1000&group_by=id&no_session_id=true&order_completed=0&'.$ord);
-			
+
 	} else {
 		$orders = get_orders('limit=2000&order_completed=1&'.$ord.$kw);
-		// 
+		//
  	}
 
 ?>
@@ -97,10 +97,10 @@
           <?php _e("Pending"); ?>
           </span>
           <?php endif; ?></td>
-        <td class="mw-order-item-amount"><?php 
-		
+        <td class="mw-order-item-amount"><?php
+
 		 print currency_format(floatval($item['amount']),$item['currency'])
-		
+
 		// print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
         <td class="mw-order-item-paid"><?php if($item['is_paid'] == 1): ?>
           <span class="mw-order-item-status-completed">
@@ -133,11 +133,11 @@
     <script>
 
         $(document).ready(function () {
-            $("#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image").bind("mouseenter mouseleave", function (e) {
+            $("#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image").on("mouseenter mouseleave", function (e) {
                 var index = $(this).dataset('index');
                 mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-index-" + index);
             });
-            $("#abandoned-cart-table<?php print $item['id'] ?> tr.mw-order-item").bind("mouseenter mouseleave", function (e) {
+            $("#abandoned-cart-table<?php print $item['id'] ?> tr.mw-order-item").on("mouseenter mouseleave", function (e) {
                 var index = $(this).dataset('index');
                 mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image-" + index);
             });
@@ -241,7 +241,7 @@
 		$abandoned_carts = get_cart('count=1&no_session_id=true&order_completed=0&group_by=session_id');
         $completed_carts = get_orders('count=1&order_completed=1');
      ?>
-  <script>mw.lib.require("morris");</script> 
+  <script>mw.lib.require("morris");</script>
   <script>
       $(document).ready(function(){
 		  OrdersChart = Morris.Donut({

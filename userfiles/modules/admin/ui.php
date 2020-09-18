@@ -937,7 +937,7 @@
     myEditor = mw.editor({ element: '#some-div-or-textarea' });
 
     // 'change' event
-    $(myEditor).bind('change', function(){
+    $(myEditor).on('change', function(){
        console.log( this.value )
     });
 
@@ -1576,48 +1576,7 @@
 
         </td>
     </tr>
-    <tr>
-        <td colspan="2">
 
-            <h2>Upload demo</h2>
-
-
-            <script>
-                mw.require("files.js");
-            </script>
-            <style>
-             #pl,#uppy{
-                 position: relative;
-                 width: 600px;
-                 height: 600px;
-                 background-color: #ccc;
-             }
-
-            </style>
-            <script>
-
-                var updefaults = {
-                    filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg,zip,sql",
-                    url:mw.settings.upload_url,
-                    multiple:true
-                }
-
-                $(window).load(function () {
-                    var pl = mw.files.uploader(updefaults)
-                    var uppy = mw.files.uploader(updefaults, true)
-                    $('#pl').append(pl)
-                    $('#uppy').append(uppy)
-                });
-
-            </script>
-
-            <h6>pl</h6>
-            <div id="pl"></div>
-            <h6>uppy</h6>
-            <div id="uppy"></div>
-
-        </td>
-    </tr>
     </tbody>
 </table>
 

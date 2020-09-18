@@ -113,7 +113,7 @@
     $(window).load(function () {
 
 
-        $(window).bind('haschange', function () {
+        $(window).on('haschange', function () {
             _command = window.location.hash.replace("#", "");
         });
 

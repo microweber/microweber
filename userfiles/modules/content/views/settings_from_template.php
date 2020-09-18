@@ -78,7 +78,7 @@ if (!empty($template_config)) {
                                                 element: "#data_<?php print $name; ?>"
                                             });
 
-                                            $(uploader).bind("FileUploaded", function (event, data) {
+                                            $(uploader).on("FileUploaded", function (event, data) {
                                                 mw.$("#data_<?php print $name; ?>_loading").hide();
                                                 mw.$("#data_<?php print $name; ?>").show();
                                                 mw.$("#data_<?php print $name; ?>_upload_info").html("");
@@ -86,13 +86,13 @@ if (!empty($template_config)) {
                                                 mw.$('input[name="data_<?php print $name; ?>"]').val(data.src);
                                             });
 
-                                            $(uploader).bind('progress', function (up, file) {
+                                            $(uploader).on('progress', function (up, file) {
                                                 mw.$("#data_<?php print $name; ?>").hide();
                                                 mw.$("#data_<?php print $name; ?>_loading").show();
                                                 mw.$("#data_<?php print $name; ?>_upload_info").html(file.percent + "%");
                                             });
 
-                                            $(uploader).bind('error', function (up, file) {
+                                            $(uploader).on('error', function (up, file) {
                                                 mw.notification.error("The file is not uploaded.");
                                             });
 

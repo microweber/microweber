@@ -9,7 +9,8 @@
 <script type="text/javascript">
 		var uploader = mw.files.uploader({
 			filetypes:"all",
-			multiple:false
+			multiple:false,
+            element: mw.$("#mw_uploader")
 		});
 
 
@@ -19,8 +20,8 @@
 
 			// mw.reload_module_interval('admin/import/process', 1500);
 
-		mw.$("#mw_uploader").append(uploader);
-				$(uploader).bind("FileUploaded", function(obj, data){
+
+				$(uploader).on("FileUploaded", function(obj, data){
 					mw.$("#mw_uploader_loading").hide();
 					mw.$("#mw_uploader").show();
                     mw.$("#upload_backup_info").html("");
@@ -28,7 +29,7 @@
 					mw.admin_import.move_uploaded_file_to_import(data.src);
 				});
 
-			    $(uploader).bind('progress', function(up, file) {
+			    $(uploader).on('progress', function(up, file) {
 
 					mw.$("#mw_uploader").hide();
 					mw.$("#mw_uploader_loading").show();
@@ -36,7 +37,7 @@
                      mw.$("#upload_backup_info").html(file.percent + "%");
             	});
 
-                $(uploader).bind('error', function(up, file) {
+                $(uploader).on('error', function(up, file) {
                    mw.notification.error("The file was not uploaded!");
 
             	});

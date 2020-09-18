@@ -4,16 +4,16 @@
 
 <script>
 var uploader = mw.files.uploader({
-    filetypes: "xlsx",
-    multiple: false
+    filetypes: ".xlsx, .xls",
+    multiple: false,
+    element: mw.$("#mw_uploader")
 });
 
 _mw_log_reload_int = false;
 $(document).ready(function () {
 
-    mw.$("#mw_uploader").append(uploader);
 
-    $(uploader).bind("FileUploaded", function (obj, data) {
+    $(uploader).on("FileUploaded", function (obj, data) {
     	$('#mw_uploader').fadeIn();
     	$('#upload_file_info').hide();
     	mw.notification.success("Moving uploaded file...");
@@ -32,13 +32,13 @@ $(document).ready(function () {
 		});
     });
 
-    $(uploader).bind('progress', function (up, file) {
+    $(uploader).on('progress', function (up, file) {
         $('#mw_uploader').hide();
         $('#upload_file_info').show();
         mw.$("#upload_file_info").html("<b>Uploading file " + file.percent + "%</b><br /><br />");
     });
 
-    $(uploader).bind('error', function (up, file) {
+    $(uploader).on('error', function (up, file) {
         mw.notification.error("The template must be zip.");
     });
 

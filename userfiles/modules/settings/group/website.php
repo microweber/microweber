@@ -191,7 +191,7 @@
                                                     multiple: false
                                                 });
 
-                                                $(favUP).bind('FileUploaded', function (a, b) {
+                                                $(favUP).on('FileUploaded', function (a, b) {
                                                     mw.$("#favicon_image").val(b.src).trigger('change');
                                                     mw.$(".js-icoimage").attr('src', b.src);
                                                     mw.$("link[rel*='icon']").attr('href', b.src);
