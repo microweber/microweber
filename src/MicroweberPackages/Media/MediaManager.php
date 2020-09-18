@@ -3,7 +3,7 @@ namespace MicroweberPackages\Media;
 
 use \Intervention\Image\ImageManagerStatic as Image;
 use MicroweberPackages\Utils\Media\Thumbnailer;
-use MicroweberPackages\Utils\System\Files; 
+use MicroweberPackages\Utils\System\Files;
 
 
 class MediaManager
