@@ -119,7 +119,7 @@ set_content_bg_media = function(a){
 
 $(document).ready(function(){
     //$("#mw-theme-settings").draggable();
-    mw.$("#mwthemesettings-fontfamily").bind("change", function(){
+    mw.$("#mwthemesettings-fontfamily").on("change", function(){
           mwd.body.style.fontFamily = $(this).getDropdownValue();
     });
 });

@@ -87,7 +87,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     multiple: false
                 });
 
-                $(UP).bind('FileUploaded', function (a, b) {
+                $(UP).on('FileUploaded', function (a, b) {
                     setNewImage(b.src);
                     setAuto();
                 });
@@ -98,7 +98,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     multiple: false
                 });
 
-                $(UPRollover).bind('FileUploaded', function (a, b) {
+                $(UPRollover).on('FileUploaded', function (a, b) {
                     setNewImageRollover(b.src);
                     setAuto();
                 });
@@ -166,7 +166,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 }
 
 
-                $("#size_auto").bind('change', function () {
+                $("#size_auto").on('change', function () {
                     if (this.checked === true) {
                         setAuto()
                     }

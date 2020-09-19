@@ -107,13 +107,14 @@ if (isset($data[0]) == false) {
         }
 
         uploader = mw.files.uploader({
-            filetypes: "images"
+            filetypes: "images",
+            element: mw.$("#change_avatar")
         });
 
         $(document).ready(function () {
-            mw.$("#change_avatar").append(uploader);
 
-            $(uploader).bind("FileUploaded", function (a, b) {
+
+            $(uploader).on("FileUploaded", function (a, b) {
                 mw.$(".js-user-image").attr("src", b.src);
                 mw.$("#user_thumbnail").val(b.src);
             });

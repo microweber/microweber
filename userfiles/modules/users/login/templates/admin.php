@@ -37,7 +37,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
         $(document).ready(function () {
             mw.tools.dropdown();
             mw.session.checkPause = true;
-            mw.$("#lang_selector").bind("change", function () {
+            mw.$("#lang_selector").on("change", function () {
                 mw.cookie.set("lang", $(this).getDropdownValue());
             });
         });

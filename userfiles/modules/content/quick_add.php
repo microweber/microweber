@@ -125,7 +125,7 @@
 
  $(mwd).ready(function(){
 
-    mw.$(".acfle_layouts_browser_template h2").bind("click", function(){
+    mw.$(".acfle_layouts_browser_template h2").on("click", function(){
       var h = $(this);
       if(h.hasClass("active")){
          h.removeClass("active");

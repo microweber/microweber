@@ -20,6 +20,7 @@
         this.create = function(){
             this.bar = this.document.createElement('div');
             this.bar.className = 'mw-bar';
+            this.element = mw.element(this.bar);
         };
 
         this.rows = [];

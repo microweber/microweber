@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 
 
-mw.$('#modules_admin_categories_<?php print $rand; ?> .category_tree a[data-category-id]').bind('click',function(e) {
+mw.$('#modules_admin_categories_<?php print $rand; ?> .category_tree a[data-category-id]').on('click',function(e) {
 
 	$p_id = $(this).parent().attr('data-category-id');
 

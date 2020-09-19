@@ -633,6 +633,8 @@ window.MWEditor = function (options) {
             }
         });
         this.smallEditorBar = mw.bar();
+
+        this.smallEditor.hide();
         this.smallEditor.append(this.smallEditorBar.bar);
         for (var i1 = 0; i1 < this.settings.smallEditor.length; i1++) {
             var item = this.settings.smallEditor[i1];
@@ -655,7 +657,7 @@ window.MWEditor = function (options) {
                     });
                 }
             } else {
-                scope.smallEditor.$node.hide();
+                scope.smallEditor.hide();
             }
         });
         this.actionWindow.document.body.appendChild(this.smallEditor.node);

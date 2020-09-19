@@ -229,7 +229,8 @@ mw.askusertostay = false;
       }
       var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
       if (false && (mwd.readyState === 'loading'/* || mwd.readyState === 'interactive'*/) && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
-         mwd.write(string);
+         //mwd.write(string);
+          (document.body || document.head).appendChild(document.createRange().createContextualFragment(string))
       }
       else {
           if(typeof $ === 'function'){

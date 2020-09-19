@@ -375,7 +375,7 @@ if (!empty($recomended_layouts)) {
         mw.$("#<?php print $params['id']?>").removeAttr('autoload');
         mw.templatePreview<?php print $rand; ?>.selector = mwd.getElementById('active_site_layout_<?php print $rand; ?>');
 
-        mw.$('#active_site_template_<?php print $rand; ?>').bind("change", function (e) {
+        mw.$('#active_site_template_<?php print $rand; ?>').on("change", function (e) {
             var parent_module = $(this).parents('.module').first();
             if (parent_module != undefined) {
                 var templ = $(this).val();
@@ -388,7 +388,7 @@ if (!empty($recomended_layouts)) {
             //mw.trigger('templateChanged');
         });
 
-        mw.$('#active_site_layout_<?php print $rand; ?>').bind("change", function (e) {
+        mw.$('#active_site_layout_<?php print $rand; ?>').on("change", function (e) {
             mw.templatePreview<?php print $rand; ?>.generate();
             mw.trigger('templateChanged');
         });

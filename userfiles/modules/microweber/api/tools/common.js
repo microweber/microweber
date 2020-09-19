@@ -107,7 +107,7 @@ $(mwd).ready(function () {
         var isgal = mwd.querySelector('.mw_modal_gallery') !== null;
         if (isgal) {
             if (e.keyCode === 27) {  /* escape */
-                mw.tools.modal.remove(mw.$(".mw_modal_gallery"))
+                mw.dialog.remove(mw.$(".mw_modal_gallery"))
                 mw.tools.cancelFullscreen()
             }
             else if (e.keyCode === 37) { /* left */

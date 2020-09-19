@@ -395,7 +395,7 @@ img{
         <!-- <span class="mw-ui-btn mw-ui-btn-medium"><i class="mw-icon-template"></i> <?php _e("Layouts"); ?></span> -->
     </div>
 
-    <div class="mw-ui-box">
+    <div class="plus-modules-list-box">
         <div class="module-bubble-tab" style="display: block"><module type="admin/modules/list" class="modules-list-init module-as-element"></div>
         <div class="module-bubble-tab"><module type="admin/modules/list_layouts" class="modules-list-init module-as-element"></div>
         <div class="module-bubble-tab-not-found-message"></div>

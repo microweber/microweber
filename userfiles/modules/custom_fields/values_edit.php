@@ -12,7 +12,7 @@
         mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
             mw.custom_fields.sort($selector);
 
-            mw.$("input,textarea,select,checkbox,date,radio", $selector).bind("change keyup paste", function () {
+            mw.$("input,textarea,select,checkbox,date,radio", $selector).on("change keyup paste", function () {
                 var el = $(this)[0]
                 mw.on.stopWriting(el, function () {
                     mw.custom_fields.save_form($selector);
@@ -24,7 +24,7 @@
                 });
             });
 
-            mw.$($selector + " input").bind('focus blur', function (e) {
+            mw.$($selector + " input").on('focus blur', function (e) {
                 var func = e.type === 'focus' ? 'addClass' : 'removeClass';
                 mw.tools[func](mw.tools.firstParentWithTag(e.target, 'tr'), 'active');
             });

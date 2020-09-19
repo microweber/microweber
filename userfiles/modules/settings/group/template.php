@@ -37,7 +37,7 @@
         }
 
         $(document).ready(function () {
-            $(window).bind('templateSelected', function () {
+            $(window).on('templateSelected', function () {
                 $(".mw-site-theme-selector").find("[name='active_site_template']").each(function (index) {
                     $("#mw_curr_theme_val").val($(this).val());
                 });

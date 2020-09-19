@@ -111,7 +111,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             multiple: false
                         });
 
-                        $(UP).bind('FileUploaded', function (a, b) {
+                        $(UP).on('FileUploaded', function (a, b) {
                             setNewImage(b.src);
                             setAuto();
                         });
@@ -122,7 +122,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             multiple: false
                         });
 
-                        $(UPInverse).bind('FileUploaded', function (a, b) {
+                        $(UPInverse).on('FileUploaded', function (a, b) {
                             setNewImageInv(b.src);
                             setAuto();
                         });
@@ -135,7 +135,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             }
                         });
 
-                        mw.$("#google-fonts").bind("change", function () {
+                        mw.$("#google-fonts").on("change", function () {
                             mw.$("#text").css('fontFamily', $(this.options[this.selectedIndex]).text())
                         });
 

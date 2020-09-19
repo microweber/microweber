@@ -19,30 +19,30 @@ if (r1==true){
 </script>
 <script>
 
-$(window).bind('load', function () {
-	
+$(window).on('load', function () {
 
-	
-	
-	
-	 
+
+
+
+
+
 	mw.on.hashParam('clients_search', function () {
-		
-		
+
+
 	 var dis = this;
    if( dis!=='' ){
      mw.$('#<?php print $params['id'] ?>').attr("data-keyword", dis);
-  
+
      }
      else{
       mw.$('#<?php print $params['id'] ?>').removeAttr("data-keyword");
       mw.url.windowDeleteHashParam('clients_search')
     }
     mw.reload_module('#<?php print $params['id'] ?>');
-	
-		
-		
-		
+
+
+
+
 	})
 });
 
@@ -53,17 +53,17 @@ $keyword = '';
 $keyword_search = '';
 if(isset($params['keyword'])){
 $keyword = strip_tags($params['keyword']);
-$keyword_search = '&keyword='.$keyword;	
+$keyword_search = '&keyword='.$keyword;
 }
 
 
   $clients = array();
-  
-  
+
+
   $orders = get_orders('order_by=created_at desc&group=email&is_completed=1'.$keyword_search);
- 
- 
- 
+
+
+
   $is_orders = get_orders('count=1');
 
 ?>

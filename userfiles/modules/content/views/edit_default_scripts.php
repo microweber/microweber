@@ -406,7 +406,7 @@
             }
             //mw.edit_content.load_editor();
         });
-        $(window).bind('templateChanged', function (e) {
+        $(window).on('templateChanged', function (e) {
 
             var iframe_ed = $('.mw-iframe-editor')
             var changed = iframe_ed.contents().find('.changed').size();
@@ -417,7 +417,7 @@
         });
         if (mwd.querySelector('.mw-iframe-editor') !== null) {
             mwd.querySelector('.mw-iframe-editor').onload = function () {
-                $(window).bind('scroll', function () {
+                $(window).on('scroll', function () {
                     var scrolltop = $(window).scrollTop();
                     if (mwd.getElementById('mw-edit-page-editor-holder') !== null) {
                         var otop = mwd.getElementById('mw-edit-page-editor-holder').offsetTop;
@@ -450,7 +450,7 @@
 
         if (title_field_shanger.length > 0) {
             $(title_field_shanger).unbind("change");
-            $(title_field_shanger).bind("change", function () {
+            $(title_field_shanger).on("change", function () {
                 var newtitle = $(this).val();
                 $('#content-title-field-master').val(newtitle);
             });
@@ -503,7 +503,7 @@
             qt.css('width', ($(".admin-manage-content-wrap").width()));
         }
 
-        $(mww).bind('mousedown', function (e) {
+        $(mww).on('mousedown', function (e) {
             var el = mwd.getElementById('content-edit-settings-tabs-holder');
             var cac = mw.wysiwyg.validateCommonAncestorContainer(e.target);
             if (el != null && !el.contains(e.target)
@@ -519,13 +519,13 @@
             }
         });
 
-        mw.$(".mw-iframe-editor").bind("editorKeyup", function () {
+        mw.$(".mw-iframe-editor").on("editorKeyup", function () {
             mw.tools.addClass(mwd.body, 'editorediting');
         });
-        $(mwd.body).bind("mousedown", function () {
+        $(mwd.body).on("mousedown", function () {
             mw.tools.removeClass(mwd.body, 'editorediting');
         });
-        mw.$(".admin-manage-toolbar").bind("mousemove", function () {
+        mw.$(".admin-manage-toolbar").on("mousemove", function () {
             mw.tools.removeClass(mwd.body, 'editorediting');
         });
 

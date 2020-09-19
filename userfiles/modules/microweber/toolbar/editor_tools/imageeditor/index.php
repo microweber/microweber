@@ -340,7 +340,7 @@
         cropImage = $('#mwimagecurrent');
         cropImage.cropper({
             crop: function (data) {
-              mw.$('.cropper-dragger', cropImage[0].parentNode).bind('dblclick', function () {
+              mw.$('.cropper-dragger', cropImage[0].parentNode).on('dblclick', function () {
                   DoCrop();
               });
             }

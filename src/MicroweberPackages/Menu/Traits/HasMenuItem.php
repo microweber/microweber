@@ -8,26 +8,35 @@
 
 namespace MicroweberPackages\Menu\Traits;
 
-trait HasMenuItem {
+use Illuminate\Database\Eloquent\Model;
 
-    /**
-     * Override save method
-     *
-     * @param array $options
-     * @return mixed
-     */
+trait HasMenuItem
+{
+    protected static $saveToMenus = [];
+
     public function save(array $options = [])
     {
         if (isset($this->add_content_to_menu)) {
-            if (is_array($this->add_content_to_menu) && $this->id > 0) {
-                foreach ($this->add_content_to_menu as $menu_id) {
-                    mw()->content_manager->helpers->add_content_to_menu($this->id, $menu_id);
-                }
+            if (is_array($this->add_content_to_menu)) {
+                self::$saveToMenus = $this->add_content_to_menu;
             }
             unset($this->add_content_to_menu);
         }
 
         parent::save($options);
+    }
+
+    public static function bootHasMenuItem()
+    {
+        static::saved(function ($model) {
+
+            if (!empty(self::$saveToMenus) && is_array(self::$saveToMenus)) {
+                foreach (self::$saveToMenus as $menu_id) {
+                    mw()->content_manager->helpers->add_content_to_menu($model->id, $menu_id);
+                }
+            }
+
+        });
     }
 
 }

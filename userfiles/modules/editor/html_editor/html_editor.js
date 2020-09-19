@@ -1,4 +1,4 @@
-wroot = window.opener || top
+wroot = window.opener || top;
 
 mw.html_editor = {};
 mw.html_editor.map = {};
@@ -14,16 +14,7 @@ mw.html_editor.init = function () {
 
 
 mw.html_editor.set_height = function () {
-    var set = function () {
-        mw.$('.CodeMirror,.selector-box').each(function () {
-            var el = $(this)
-            this.style.height = ($(window).height() - el.offset().top - 90) + 'px'
-        });
-        setTimeout(function () {
-            set()
-        }, 333)
-    }
-    set()
+
 }
 mw.html_editor.get_edit_fields = function (also_in_modules, root_element_selector) {
 

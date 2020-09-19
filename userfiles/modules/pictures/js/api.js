@@ -132,21 +132,13 @@ if(typeof mw.rotator === 'undefined'){
             paging_holder[0].appendChild(well);
             var w = $(well.getElementsByTagName('a')[0]).outerWidth(true);
             $(well).width(w*l);
-            $(rotator).parents('.module').eq(0).bind("resize", function(e, axis){
+            $(rotator).parents('.module').eq(0).on("resize", function(e, axis){
               if(axis=='horizontal'){
                  var w = $(well.getElementsByTagName('a')[0]).outerWidth(true);
                 $(well).width(w*l);
               }
             });
-            /*
-             $(well.parentNode).append ('<span class="mw-rotator-thumbnail-scroller-previous"></span><span class="mw-rotator-thumbnail-scroller-next"></span>');
-             mw.$(".mw-rotator-thumbnail-scroller-previous", well.parentNode).bind('click', function(){
 
-             });
-             mw.$(".mw-rotator-thumbnail-scroller-next", well.parentNode).bind('click', function(){
-                mw.$('.rotator-paging-item', well.parentNode).eq(0).outerWidth(true);
-
-             }); */
           }
         }
         rotator.options = function(obj){
@@ -197,7 +189,7 @@ if(typeof mw.rotator === 'undefined'){
           $(this).css("marginTop", -$(this).height()/2);
           $(this).css("marginLeft", -$(this).width()/2);
         });
-        $(window).bind("columnResize", function(e, el){
+        $(window).on("columnResize", function(e, el){
             if($.contains(el, rotator)){
                rotator.normalize()
             }
@@ -205,7 +197,7 @@ if(typeof mw.rotator === 'undefined'){
                rotator.normalize()
             }
         });
-        $(window).bind("resize", function(){
+        $(window).on("resize", function(){
            rotator.normalize(rotator);
         });
         return rotator;
@@ -277,7 +269,7 @@ if(typeof mw.rotator === 'undefined'){
                 return false;
             });
         });
-        $(mwd.body).bind("click", function(e){
+        $(mwd.body).on("click", function(e){
             if(!mw.tools.hasParentsWithClass(e.target, 'mw-images-template-default-grid')){
                 if($(selector+".active").length > 0){
                     $(selector+".active").removeAttr("style");

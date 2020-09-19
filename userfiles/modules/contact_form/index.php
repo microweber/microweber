@@ -67,7 +67,7 @@ if(typeof  processContactForm !== 'object'){
                   else{
                     if(!$(this).hasClass("binded")){
                         $(this).addClass("binded");
-                        $(this).bind("FileUploaded", function(){
+                        $(this).on("FileUploaded", function(){
                             __done ++;
                             if(__done == l){
                                callback.call(form);
@@ -75,7 +75,7 @@ if(typeof  processContactForm !== 'object'){
                             this.contentWindow['uploader'].splice(0);
                         });
 
-                        $(this).bind("responseError", function(a,b,c){
+                        $(this).on("responseError", function(a,b,c){
                           __done ++;
                           if( __done == l ){
 

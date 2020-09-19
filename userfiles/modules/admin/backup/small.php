@@ -23,7 +23,8 @@
   <script type="text/javascript">
 		var uploader = mw.files.uploader({
 			filetypes:"zip,sql",
-			multiple:false
+			multiple:false,
+            element: mw.$("#mw_uploader")
 		});
 
 		_mw_log_reload_int = false;
@@ -36,8 +37,8 @@
 					}
 
 
-		mw.$("#mw_uploader").append(uploader);
-				$(uploader).bind("FileUploaded", function(obj, data){
+
+				$(uploader).on("FileUploaded", function(obj, data){
 					mw.admin_backup.move_uploaded_file_to_backup(data.src);
 					//mw.tools.enable(mwd.getElementById('mw_uploader'));
 					mw.$("#mw_uploader_loading").hide();
@@ -46,7 +47,7 @@
 
 				});
 
-			    $(uploader).bind('progress', function(up, file) {
+			    $(uploader).on('progress', function(up, file) {
 
 
 
@@ -59,7 +60,7 @@
                      mw.$("#upload_backup_info").html(file.percent + "%");
             	});
 
-                $(uploader).bind('error', function(up, file) {
+                $(uploader).on('error', function(up, file) {
                    mw.notification.error("<?php _ejs('The backup must be sql or zip.'); ?>");
 
             	});

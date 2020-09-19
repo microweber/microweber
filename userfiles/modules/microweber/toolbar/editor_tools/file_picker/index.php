@@ -49,7 +49,8 @@ if (array_key_exists('types', $_GET)) {
             var filetypes = li.dataset('type');
 
             var frame = mw.files.uploader({
-                filetypes: filetypes
+                filetypes: filetypes,
+                element: li
             });
             frame.width = li.width();
             frame.height = li.height();
@@ -86,7 +87,7 @@ if (array_key_exists('types', $_GET)) {
                     ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name + '" ...');
                 }
             });
-            li.append(frame);
+
             li.hover(function () {
                 if (!li.hasClass('disabled')) {
                     li.parent().find("li").not(this).addClass('hovered');

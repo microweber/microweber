@@ -243,8 +243,8 @@ code:			'123456'
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Facebook_Pixel_enabled2" name="Facebook_Pixel_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Facebook_Pixel']['enabled']) or 'false' == trim($settings['Facebook_Pixel']['enabled'])): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="Facebook_Pixel_enabled2"><?php _e("no"); ?></label>
-                    </div>			   
-               </div>			   
+                    </div>
+               </div>
 
                 <div class="setting-fields" style="display:<?php if ('true' == trim($settings['Facebook_Pixel']['enabled'])): ?>block<?php else: ?>none<?php endif; ?>">
                     <div class="row">
@@ -263,7 +263,7 @@ code:			'123456'
                         </div>
                     </div>
                 </div>
-				
+
                <hr class="thin">
 
                <div class="form-group">
@@ -276,8 +276,8 @@ code:			'123456'
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Mautic_Tracking_enabled2" name="Mautic_Tracking_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Mautic_Tracking']['enabled']) or 'false' == trim($settings['Mautic_Tracking']['enabled'])): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="Mautic_Tracking_enabled2"><?php _e("no"); ?></label>
-                    </div>			   
-               </div>			   
+                    </div>
+               </div>
 
                 <div class="setting-fields" style="display:<?php if ('true' == trim($settings['Mautic_Tracking']['enabled'])): ?>block<?php else: ?>none<?php endif; ?>">
                     <div class="row">
@@ -295,7 +295,7 @@ code:			'123456'
                             </div>
                         </div>
                     </div>
-                </div>			   
+                </div>
 
                <hr class="thin">
 
@@ -402,12 +402,12 @@ code:			'123456'
         <script>
             cookies_settings = {
                 init: function (item) {
-                    $(item.querySelectorAll('input[type="text"]')).bind('keyup', function () {
+                    $(item.querySelectorAll('input[type="text"]')).on('keyup', function () {
                         mw.on.stopWriting(this, function () {
                             cookies_settings.save();
                         });
                     });
-                    $(item.querySelectorAll('input[type="radio"]')).bind('change', function () {
+                    $(item.querySelectorAll('input[type="radio"]')).on('change', function () {
                         cookies_settings.save();
                         if ($(this).hasClass('enable')) {
                             var display = 'none';

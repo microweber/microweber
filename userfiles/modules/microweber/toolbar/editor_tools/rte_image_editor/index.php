@@ -148,7 +148,7 @@ if (array_key_exists('title', $_GET)) {
                 thismodal.result(this)
             }
 
-            parent.mw.tools.modal.remove('mw_rte_image');
+            parent.mw.dialog.remove('mw_rte_image');
 
             mw.notification.success('<?php _ejs('The image is changed') ?>');
 
@@ -206,11 +206,12 @@ if (array_key_exists('title', $_GET)) {
             var filetypes = '<?php print join(",", $types);; ?>';
 
             var frame = mw.files.uploader({
-                filetypes: filetypes
+                filetypes: filetypes,
+                element: li
             });
             frame.width = li.width();
             frame.height = li.height();
-            $(frame).bind("progress", function (frame, file) {
+            $(frame).on("progress", function (frame, file) {
 
                 Progress.show();
 
@@ -245,7 +246,7 @@ if (array_key_exists('title', $_GET)) {
 
             });
 
-            $(frame).bind("done", function (frame, item) {
+            $(frame).on("done", function (frame, item) {
                 Progress.hide();
                 //ProgressBar.width('0%');
                 ProgressPercent.html('');
@@ -255,12 +256,12 @@ if (array_key_exists('title', $_GET)) {
             });
 
 
-            $(frame).bind("error", function (frame, file) {
+            $(frame).on("error", function (frame, file) {
                 ProgressPercent.html('');
                 ProgressInfo.html(ProgressErrorHTML(file.name));
             });
 
-            li.append(frame);
+
 
         });
 
@@ -314,7 +315,7 @@ if (array_key_exists('title', $_GET)) {
                         if(window.thismodal) {
                             thismodal.result(GlobalEmbed)
                         }
-                        parent.mw.tools.modal.remove('mw_rte_image');
+                        parent.mw.dialog.remove('mw_rte_image');
                     }
                 }, 500);
             }
@@ -354,7 +355,7 @@ if (array_key_exists('title', $_GET)) {
 
             }
 
-            parent.mw.tools.modal.remove('mw_rte_image');
+            parent.mw.dialog.remove('mw_rte_image');
         });
 
         var selector = '#image_tabs option';

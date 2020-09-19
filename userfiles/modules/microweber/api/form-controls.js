@@ -133,7 +133,7 @@ mw.emitter = {
     },
     on: function (event, callback, c) {
         if(!event) return;
-        if(event.length) {
+        if(Array.isArray(event)) {
             for(var i = 0; i < event.length; i++) {
                 this.on(event[i], callback, c);
             }

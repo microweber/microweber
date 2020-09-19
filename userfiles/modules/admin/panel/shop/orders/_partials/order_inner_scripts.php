@@ -2,11 +2,11 @@
 
 
         $(document).ready(function () {
-            $(".mw-order-item-image").bind("mouseenter mouseleave", function (e) {
+            $(".mw-order-item-image").on("mouseenter mouseleave", function (e) {
                 var index = $(this).dataset('index');
                 mw.tools.multihover(e, this, ".mw-order-item-index-" + index);
             });
-            $("tr.mw-order-item").bind("mouseenter mouseleave", function (e) {
+            $("tr.mw-order-item").on("mouseenter mouseleave", function (e) {
                 var index = $(this).dataset('index');
                 mw.tools.multihover(e, this, ".mw-order-item-image-" + index);
             });
@@ -32,7 +32,7 @@
             mw.$("input[name='order_status']").commuter(function () {
                 var val = this.value;
                 obj.order_status = val;
-				 
+
                 $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
                     mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
                     var states = {

@@ -2782,6 +2782,9 @@ div[id*='SSDIVEL'] {
     width: 290px;
     max-width: 100%;
 }
+.plus-modules-list-box{
+    padding: 20px 0;
+}
 
 .mw-tooltip-insert-module .mw-ui-searchfield {
     border-radius: 3px 3px 0 0;

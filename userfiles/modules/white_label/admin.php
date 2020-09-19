@@ -163,7 +163,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         uploader.field = this;
 
-                        $(uploader).bind("FileUploaded", function (obj, data) {
+                        $(uploader).on("FileUploaded", function (obj, data) {
                             uploader.field.value = data.src;
                             $(uploader.field).trigger('change')
                         });

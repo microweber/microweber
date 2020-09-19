@@ -30,7 +30,7 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
 <?php if (isset($params['change-field'])): ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            mw.$('#content_selector_<?php print $rand ?>').bind('change', function (e) {
+            mw.$('#content_selector_<?php print $rand ?>').on('change', function (e) {
                 var val = $(this).val();
                 mw.$('#<?php print $params['change-field'] ?>').val(val).trigger("change");
                 mw.$('[name="<?php print $params['change-field'] ?>"]').val(val).trigger("change");

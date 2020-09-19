@@ -160,6 +160,12 @@ if (isset($params['quick_edit'])) {
             $formActionUrl = route('admin.pages.update', $data['id']);
         }
     }
+    if ($type == 'Product') {
+        $formActionUrl = route('admin.products.index');
+        if ($data['id'] > 0) {
+            $formActionUrl = route('admin.products.update', $data['id']);
+        }
+    }
     ?>
 
     <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
@@ -167,7 +173,6 @@ if (isset($params['quick_edit'])) {
         <?php if ($data['id'] > 0): ?>
             <input name="_method" type="hidden" value="PATCH">
         <?php endif; ?>
-        <?php // echo csrf_token(); ?>
 
         <input type="hidden" name="id" id="mw-content-id-value" value="<?php print $data['id']; ?>"/>
         <input type="hidden" name="subtype" id="mw-content-subtype" value="<?php print $data['subtype']; ?>"/>

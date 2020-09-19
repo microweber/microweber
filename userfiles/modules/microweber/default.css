@@ -12,6 +12,13 @@
 @import url("api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
 @import url("api/libs/mw-ui/grunt/plugins/ui/css/mw.css");
 
+.mw-filepicker-component-section:hover .dropable-zone button{
+    text-decoration: underline;
+}
+.mw-filepicker-component-section:hover .dropable-zone{
+    border-color: #4592ff;
+    background-color: rgba(69, 146, 255, 0.1);
+}
 .mw-uploader-type-holder{
     position: relative;
 }
