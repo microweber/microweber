@@ -69,8 +69,6 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        var_dump($input,'executeexecuteexecuteexecuteexecuteexecuteexecuteexecute');
-        exit;
 
         $io = $this->getIO();
         if ($args = $input->getArgument('packages')) {

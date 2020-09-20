@@ -361,312 +361,11 @@ class ComposerUpdate
     }
 
 
+
+
     public function installPackageByName($params)
     {
 
-        if ('disabled' == $this->updateChannel) {
-            return;
-        }
-
-        app()->update->clear_log();
-
-        $params = parse_params($params);
-        $install_core_update = false;
-
-        $need_confirm = true;
-        $cp_files = array();
-        $cp_files_fails = array();
-
-
-        $confirm_key = 'composer-confirm-key-' . rand();
-
-        if (isset($params['confirm_key'])) {
-            $confirm_key_get = $params['confirm_key'];
-            $get_existing_files_for_confirm = cache_get($confirm_key_get, 'composer');
-            if ($get_existing_files_for_confirm) {
-                $cp_files = $get_existing_files_for_confirm;
-                $need_confirm = false;
-            }
-        }
-
-
-        // if (!$cp_files) {
-
-        if (!isset($params['require_name']) or !$params['require_name']) {
-            throw new \Exception('Please set require name.');
-        }
-
-        $version = 'latest';
-        if (isset($params['require_version']) and $params['require_version']) {
-            $version = trim($params['require_version']);
-        }
-
-        $keyword = $params['require_name'];
-        $keyword = strip_tags($keyword);
-        $keyword = trim($keyword);
-
-        $version = strip_tags($version);
-        $version = trim($version);
-
-        //
-
-
-        $return = $this->searchPackages($params);
-
-
-
-        if (!$return) {
-            return array('error' => 'Error. Cannot find any packages for ' . $keyword);
-        }
-
-        if (!isset($return[$keyword])) {
-            return array('error' => 'Error. Package not found in repositories ' . $keyword);
-
-        }
-
-        $package_name = $keyword;
-        $package_version = $version;
-
-        $to_folder = $this->targetPath;
-
-
-
-        if (function_exists('mw_root_path')) {
-            $to_folder = mw_root_path();
-        }
-
-        if (!$cp_files and isset($return[$keyword])) {
-            $version_data = false;
-            $package_data = $return[$keyword];
-
-            if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
-                $version_data = $package_data['latest_version'];
-            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$version])) {
-                $version_data = $package_data['versions'][$version];
-            }
-
-            if (!$version_data) {
-                return;
-            }
-
-            $dryRun = false;
-            $need_key = false;
-            if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
-                return array('error' => 'No download source found for ' . $keyword);
-            }
-
-            if (isset($version_data['dist_type']) and ($version_data['dist_type']) == 'license_key') {
-                $need_key = true;
-            }
-
-            if ($need_key) {
-                $error_text = 'You need license key';
-                if (function_exists('_e')) {
-                    $error_text = _e($error_text, true);
-                }
-
-                return array(
-                    'error' => $error_text,
-                    // 'form_data_required' => 'license_key',
-                    'form_data_module' => 'settings/group/license_edit',
-                    'form_data_module_params' => array(
-                        'require_name' => $params['require_name'],
-                        'require_version' => $version
-                    )
-                );
-            }
-
-//            if (!$temp_folder) {
-//                return array('error' => 'Error preparing installation for ' . $keyword);
-//
-//            }
-
-        }
-
-
-        $conf_user = $to_folder . '/composer.json';
-
-
-        if (!is_file($conf_user)) {
-            return array('error' => 'Cannot find composer.json in  ' . $conf_user);
-
-        }
-
-        copy($conf_user,$conf_user.'.backup');
-        $composer_temp = file_get_contents($conf_user);
-        $composer_temp = json_decode($composer_temp, true);
-
-
-
-        $composer_temp['require'][$package_name] = $package_version;
-        file_put_contents($conf_user, json_encode($composer_temp,JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT));
-
-
-
-
-
-
-
-
-        //Create the commands
-        $args = array('command' => 'update', '--dry-run' => true);
-        $output = new ConsoleOutput();
-
-        $input = new ArrayInput($args);
-        $io = new InstallerIO($input, 32, null);
-        $config = new Config(false, $to_folder);
-        $composer = Factory::create($io);
-        $composer->setConfig($config);
-
-
-
-
-        $install = \Composer\Installer::create($io, $composer);
-
-
-        $install
-           ->setDryRun(1)
-            ->setVerbose(1)
-            ->setPreferSource(0)
-            ->setPreferDist(1)
-            ->setDevMode(false)
-            //->setDumpAutoloader(false)
-            // ->setRunScripts(false)
-            //   ->setSkipSuggest(true)
-            ->setOptimizeAutoloader(false)
-            ->setPreferStable(true)
-            ->setClassMapAuthoritative(false)
-            ->setIgnorePlatformRequirements(true);
-
-        // if ($input->getOption('no-plugins')) {
-        //$install->disablePlugins();
-        //}
-
-
-        $install = $install->run($input, $output);
-
-
-        var_dump($install);
-
-
-//        $update = new InstallCommand();
-//        $update->setComposer($composer);
-//        $update->setIO($io);
-//
-//        $out = $update->run($input, $output);
-
-
-
-
-        exit('asartfrrsddd');
-
-/*    cant use this, it needs exec
-        //Create the application and run it with the commands
-        $application = new Application();
-
-        $application->setAutoExit(false);
-        $application->setCatchExceptions(false);
-
-        $composer = Factory::create($io);
-
-        $composer->setConfig($config);
-
-
-        try {
-            //Running commdand php.ini allow_url_fopen=1 && proc_open() function available
-            $application->run($input);
-            echo 'Success';
-        } catch (\Exception $e) {
-            echo 'Error: ' . $e->getMessage() . "\n";
-        }*/
-
-
-
-
-
-
-
-
-        exit('asdasdasdasd');
-
-        $argv = array();
-         $argv[] = 'dry-run';
-         $argv[] = '--no-plugins';
-        $argv[] = '--no-dev';
-        $argv[] = '--no-interaction ';
-       // $argv[] = '--working-dir=' . escapeshellarg($to_folder);
-        $argv[] = '--working-dir=' . escapeshellarg($to_folder);
-
-
-      //  $input = new ArrayInput(array('command' => 'composer:update', '--force' => true));
-
-
-
-
-
-
-
-       $input = new ArrayInput(['command' => 'require', $package_name => $package_version, '--dry-run' => '1']);
-
-
-        //   $input = new ArgvInput($argv);
-     //   $input = new ArrayInput($argv);
-        $output = new ConsoleOutput();
-        $helper = new HelperSet();
-        $config = new Config(false, $to_folder);
-
-        $io = new InstallerIO($input, 32, null);
-
-        $composer = Factory::create($io);
-
-        $composer->setConfig($config);
-
-
-      //  $update = new \MicroweberPackages\Package\InstallCommand();
-        $update = new  InstallCommand();
-        $update->setIO($io);
-        $update->setComposer($composer);
-
-
-
-        try {
-            $out = $update->run($input, $output);
-
-var_dump($out);
-exit;
-        } catch (PackageManagerUnzipOnChunksException $e) {
-            $cache_key_for_unzip_on_chunks = $e->getMessage();
-
-            return array(
-                'try_again' => true,
-                'error' => 'There was error with unzip',
-                // 'unzip_cache_key' => $cache_key_for_unzip_on_chunks
-            );
-        }
-
-
-
-
-//        if (isset($version_data['requires']) && is_array($version_data['requires'])) {
-//            foreach ($version_data['requires'] as $requirePackage => $requireDetails) {
-//                $composer_temp['require'][$requirePackage] = $requireDetails->getPrettyConstraint();
-//                var_dump($composer_temp['require']);
-//
-//            }
-//        }
-
-
-
-
-        exit;
-
-
-    }
-
-
-    public function __OLD___installPackageByName($params)
-    {
-
 
         if ('disabled' == $this->updateChannel) {
             return;
@@ -694,7 +393,6 @@ exit;
         }
 
 
-        // if (!$cp_files) {
 
         if (!isset($params['require_name']) or !$params['require_name']) {
             throw new \Exception('Please set require name.');
@@ -712,8 +410,6 @@ exit;
         $version = strip_tags($version);
         $version = trim($version);
 
-        //
-
 
         $return = $this->searchPackages($params);
 
@@ -726,9 +422,6 @@ exit;
             return array('error' => 'Error. Package not found in repositories ' . $keyword);
 
         }
-        // dd('aa',__FILE__,__LINE__);
-
-        //   }
 
         //  $temp_folder = $this->composer_temp_folder;
 
@@ -753,7 +446,7 @@ exit;
         chdir($temp_folder);
         $this->composerPath = $temp_folder;
 
-
+        $installers=[];
         $from_folder = normalize_path($temp_folder, true);
         $installers = array(
             'MicroweberPackages\Package\Helpers\TemplateInstaller',
@@ -765,6 +458,10 @@ exit;
                 'MicroweberPackages\Package\Helpers\CoreUpdateInstaller'
             );
         }
+       // $installers[]='MicroweberPackages\Package\Helpers\PackageDependenciesInstaller';
+
+
+
 
 
         $to_folder = $this->targetPath;
@@ -838,10 +535,6 @@ exit;
                 }
             }
 
-            //  $current_composer['require']['composer/installers'] = '*';
-            //   $current_composer['require']['microweber-deps/composer-shared-package-plugin'] = '*';
-//            $current_composer['require']['erusev/parsedown'] = '*';
-//            $current_composer['require']['j4mie/idiorm'] = '*';
 
 
             if (isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])) {
@@ -852,13 +545,42 @@ exit;
                 $current_composer['extra'] = [];
             }
 
-            $current_composer['extra']['shared-package'] = [
-                'package-list' => ['*' => '*'],
-                'symlink-enabled' => false,
-                //'symlink-enabled' => true,
-                'vendor-dir' => mw_root_path() . '/vendor',
-                //     'symlink-dir' => mw_root_path().'/vendor-shared',
-            ];
+            if (!isset($current_composer['require'])) {
+                $current_composer['require'] = [];
+            }
+
+
+
+
+
+            // get existsing installed packages
+
+            $installed_packages = [];
+
+
+            $user_installed_composer_json_file_path = $to_folder . '/packages/composer.json';
+            $user_installed_json_file_path = $to_folder . '/packages/vendor/composer/composer.json';
+            if (is_file($user_installed_composer_json_file_path)) {
+                $user_packages_composer_json = @file_get_contents($user_installed_composer_json_file_path);
+                $user_packages_composer_json = @json_decode($user_packages_composer_json, true);
+                if (isset($user_packages_composer_json['require']) and $user_packages_composer_json['require']) {
+                    $current_composer['require'] = array_merge($current_composer['require'], $user_packages_composer_json['require']);
+
+                    //copy installed.json
+
+
+                }
+                var_dump($current_composer['require']);
+            }
+
+            var_dump(11111111111111111111);
+            var_dump($to_folder);
+            exit;
+
+
+
+
+
 
 
             file_put_contents($current_composer_file, json_encode($current_composer));
@@ -870,7 +592,7 @@ exit;
             $argv = array();
             //  $argv[] = 'dry-run';
             // $argv[] = '--no-plugins';
-            $argv[] = '--working-dir=' . escapeshellarg($temp_folder);
+        //    $argv[] = '--working-dir=' . escapeshellarg($temp_folder);
 
 
             //   $input = new ArgvInput($argv);
@@ -1205,16 +927,16 @@ exit;
             $temp_folder = $this->_getComposerWorkdirPath($package_name . '-' . $version . '-' . md5(@json_encode($custom_repos_urls_from_settings)));
         }
 
-        $conf = $this->composerPath . '/composer.json';
+        $composer_json_file_path = $this->composerPath . '/composer.json';
         $conf_auth = $this->composerPath . '/auth.json';
 
-        $conf = normalize_path($conf, false);
+        $composer_json_file_path = normalize_path($composer_json_file_path, false);
         $conf_auth = normalize_path($conf_auth, false);
 
         $conf_new = $temp_folder . '/composer.json';
         $conf_new = normalize_path($conf_new, false);
 
-        $composer_orig = @file_get_contents($conf);
+        $composer_orig = @file_get_contents($composer_json_file_path);
         $composer_orig = @json_decode($composer_orig, true);
 
 
@@ -1314,13 +1036,24 @@ exit;
         //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
 
 //
-        $new_composer_config['extra']['shared-package'] = [
-            'package-list' => ['*'=>'*'],
-             //'symlink-enabled' => true,
-           // 'vendor-dir' => mw_root_path().'/vendor',
-            'vendor-dir' => 'vendor',
-            //     'symlink-dir' => mw_root_path().'/vendor-shared',
-        ];
+//        $new_composer_config['extra']['shared-package'] = [
+//            'package-list' => ['*'=>'*'],
+//             //'symlink-enabled' => true,
+//           // 'vendor-dir' => mw_root_path().'/vendor',
+//            'vendor-dir' => 'vendor',
+//            //     'symlink-dir' => mw_root_path().'/vendor-shared',
+//        ];
+
+
+
+
+        //
+
+
+        //
+
+
+
 
 
         file_put_contents($conf_new, json_encode($new_composer_config));
@@ -1374,6 +1107,9 @@ exit;
         return $temp_folder;
 
     }
+
+
+
 
 
     public function setLicenses($licenses)
