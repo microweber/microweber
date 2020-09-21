@@ -1003,7 +1003,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       content: '';
       border-top: 1px solid #d9dadb;
       position: absolute;
-      width: calc(100% - 50px);
+      //width: calc(100% - 50px);
+      width: 100%;
       left: auto;
       bottom: 0;
     }
@@ -1871,6 +1872,6 @@ textarea.form-control {
   min-height: 150px;
 }
 
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }

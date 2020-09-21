@@ -8443,7 +8443,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       content: '';
       border-top: 1px solid #d9dadb;
       position: absolute;
-      width: calc(100% - 50px);
+      width: 100%;
       left: auto;
       bottom: 0; }
     .card.style-1 .card-header.no-border:after {
