@@ -91,5 +91,30 @@ class Product extends Content
         return $this->fetchSingleContentDataByName('qty');
     }
 
+    public function getContentData($values = [])
+    {
+        $defaultKeys = [
+          'price'=>'0.00',
+          'special_price'=>'0.00',
+          'sku'=>'',
+          'barcode'=>'',
+          'quantity'=>'1',
+          'track_quantity'=>'0',
+          'max_quantity_per_order'=>'0',
+          'fixed_cost'=>'0.00',
+          'weight_type'=>'kg',
+          'weight'=>'0',
+          'width'=>'0',
+          'height'=>'0',
+          'depth'=>'0'
+        ];
 
+        $contentData = parent::getContentData($values);
+
+        foreach ($contentData as $key=>$value) {
+            $defaultKeys[$key] = $value;
+        }
+
+        return $defaultKeys;
+    }
 }

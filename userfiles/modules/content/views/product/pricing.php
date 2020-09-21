@@ -11,7 +11,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text text-muted">BGN</span>
                     </div>
-                    <input type="text" class="form-control" name="price" value="0.00">
+                    <input type="text" class="form-control" name="price" value="<?php echo $contentData['price']; ?>">
                 </div>
             </div>
 
@@ -22,7 +22,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text text-muted">BGN</span>
                         </div>
-                        <input type="text" class="form-control" name="special_price" value="0.00">
+                        <input type="text" class="form-control" name="special_price" value="<?php echo $contentData['special_price']; ?>">
                         <div class="input-group-append">
                             <span class="input-group-text" data-toggle="tooltip" title="" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price."><i class="mdi mdi-help-circle"></i></span>
                         </div>

@@ -29,7 +29,11 @@ class ProductsController
     {
         $fromPost = $this->getRequest('update')->all();
 
-        $product = new Product();
+        if (!isset($fromPost['track_quantity'])) {
+            $fromPost['track_quantity'] = 0;
+        }
+
+        $product = Product::find($fromPost['id']);
         $product->update($fromPost);
         $product->setContentData([
             'price' => $fromPost['price'],

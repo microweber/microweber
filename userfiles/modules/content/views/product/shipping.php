@@ -56,7 +56,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text text-muted">BGN</span>
                         </div>
-                        <input type="text" class="form-control" value="1.00">
+                        <input type="text" class="form-control" name="fixed_cost" value="<?php echo $contentData['fixed_cost']; ?>">
                         <div class="input-group-append">
                             <div class="input-group-text plus-minus-holder">
                                 <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>
@@ -76,16 +76,16 @@
                 <div class="form-group">
                     <label>Weight</label>
                     <div class="input-group mb-3 append-transparent">
-                        <input type="text" class="form-control" value="3.0">
+                        <input type="text" class="form-control" name="weight_type" value="<?php echo $contentData['weight_type']; ?>">
                         <div class="input-group-append">
-                                        <span style="width:70px;">
-                                            <select class="selectpicker" data-width="100%">
-                                                <option>kg</option>
-                                                <option>lb</option>
-                                                <option>oz</option>
-                                                <option>g</option>
-                                            </select>
-                                        </span>
+                            <span style="width:70px;">
+                                <select class="selectpicker" data-width="100%">
+                                    <option>kg</option>
+                                    <option>lb</option>
+                                    <option>oz</option>
+                                    <option>g</option>
+                                </select>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -105,25 +105,25 @@
                 <div class="col-lg-3 col-xl">
                     <div class="form-group">
                         <label>Weight</label>
-                        <input type="number" class="form-control" value="">
+                        <input type="number" name="weight" class="form-control" value="<?php echo $contentData['weight']; ?>">
                     </div>
                 </div>
                 <div class="col-lg-3 col-xl">
                     <div class="form-group">
                         <label>Width</label>
-                        <input type="number" class="form-control" value="">
+                        <input type="number" name="width" class="form-control" value="<?php echo $contentData['width']; ?>">
                     </div>
                 </div>
                 <div class="col-lg-3 col-xl">
                     <div class="form-group">
                         <label>Height</label>
-                        <input type="number" class="form-control" value="">
+                        <input type="number" name="height" class="form-control" value="<?php echo $contentData['height']; ?>">
                     </div>
                 </div>
                 <div class="col-lg-3 col-xl">
                     <div class="form-group">
                         <label>Depth</label>
-                        <input type="number" class="form-control" value="">
+                        <input type="number" name="depth" class="form-control" value="<?php echo $contentData['depth']; ?>">
                     </div>
                 </div>
             </div>

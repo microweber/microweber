@@ -29,6 +29,10 @@ trait ContentDataTrait
         $res = [];
         $arrData = !empty($this->data) ? $this->data->toArray() : [];
 
+        if (empty($values)) {
+           return $this->data->pluck('field_value', 'field_name')->toArray();
+        }
+
         foreach ($values as $value) {
             if (array_key_exists($value, $this->contentData)) {
                 $res[$value] = $this->contentData[$value];
