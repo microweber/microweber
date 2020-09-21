@@ -24,7 +24,7 @@ trait ContentDataTrait
         }
     }
 
-    public function getContentData($values)
+    public function getContentData($values = [])
     {
         $res = [];
         $arrData = !empty($this->data) ? $this->data->toArray() : [];

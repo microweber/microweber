@@ -35,7 +35,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
     $showCustomFields = true;
     if ($data['content_type'] == 'product') {
         $showCustomFields = false;
-        include_once __DIR__ . DS . 'tabs.php';
+        include_once __DIR__ . DS . 'product' . DS . 'tabs.php';
     }
     ?>
 
@@ -69,13 +69,13 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
         </div>
     <?php endif; ?>
 
-    <!-- <?php /*if (trim($data['content_type']) == 'product'): */ ?>
+    <?php /*if (trim($data['content_type']) == 'product'):  */?><!--
         <div class="card style-1 mb-3">
             <div class="card-body pt-3">
-                <?php /*event_trigger('mw_edit_product_admin', $data); */ ?>
+                <?php /*event_trigger('mw_edit_product_admin', $data); */?>
             </div>
         </div>
-    --><?php /*endif; */ ?>
+    --><?php /*endif;  */?>
 
     <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
 

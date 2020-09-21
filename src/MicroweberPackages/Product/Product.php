@@ -47,7 +47,6 @@ class Product extends Content
         return 'content';
     }
 
-
     /**
      * The "booted" method of the model.
      *
