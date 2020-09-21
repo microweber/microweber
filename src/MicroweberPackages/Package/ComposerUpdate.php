@@ -8,13 +8,9 @@ use Composer\Config;
 use Composer\Console\Application;
 use Composer\Installers\Installer;
 use Composer\Plugin\PluginManager;
-use LEtudiant\Composer\Data\Package\PackageDataManagerInterface;
-use LEtudiant\Composer\Data\Package\SharedPackageDataManager;
-use LEtudiant\Composer\Installer\Config\SharedPackageInstallerConfig;
-use LEtudiant\Composer\Installer\SharedPackageInstaller;
-use LEtudiant\Composer\Util\SymlinkFilesystem;
 use MicroweberPackages\Package\Installer\InstallationManager;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
+use MicroweberPackages\Utils\System\Files;
 use Symfony\Component\Console\Input\ArrayInput;
 use MicroweberPackages\Package\ComposerFactory as Factory;
 use Composer\IO\ConsoleIO;
@@ -205,7 +201,7 @@ class ComposerUpdate
         //  $composer->setInstallationManager($manager);
         $composer->setConfig($config);
 
-        $pm = new PluginManager($io, $composer,  $globalComposer = null, $disablePlugins = true) ;
+        $pm = new PluginManager($io, $composer, $globalComposer = null, $disablePlugins = true);
         $composer->setPluginManager($pm);
 
         $repositoryManager = $composer->getRepositoryManager();
@@ -361,8 +357,6 @@ class ComposerUpdate
     }
 
 
-
-
     public function installPackageByName($params)
     {
 
@@ -377,8 +371,10 @@ class ComposerUpdate
         $install_core_update = false;
 
         $need_confirm = true;
-        $cp_files = array();
+        $cp_files_user = array();
         $cp_files_fails = array();
+        $cp_packages_files = array();
+        $out = 0;
 
 
         $confirm_key = 'composer-confirm-key-' . rand();
@@ -387,11 +383,17 @@ class ComposerUpdate
             $confirm_key_get = $params['confirm_key'];
             $get_existing_files_for_confirm = cache_get($confirm_key_get, 'composer');
             if ($get_existing_files_for_confirm) {
-                $cp_files = $get_existing_files_for_confirm;
+                if (isset($get_existing_files_for_confirm['user'])) {
+                    $cp_files_user = $get_existing_files_for_confirm['user'];
+                }
+
+                if (isset($get_existing_files_for_confirm['packages'])) {
+                    $cp_packages_files = $get_existing_files_for_confirm['packages'];
+                }
+
                 $need_confirm = false;
             }
         }
-
 
 
         if (!isset($params['require_name']) or !$params['require_name']) {
@@ -426,207 +428,172 @@ class ComposerUpdate
         //  $temp_folder = $this->composer_temp_folder;
 
 
-        $temp_folder = $this->_prepareComposerWorkdir($keyword, $version);
-        if (!$temp_folder) {
-            return array('error' => 'Error preparing installation for ' . $keyword);
-        }
-
-        //  $conf = $temp_folder . '/composer.json';
-
-        //   $this->composer_temp_folder = $temp_folder;
 
 
-        //   $conf_temp = $temp_folder . '/composer.json';
-
-        //  $composer_temp = file_get_contents($conf_temp);
-
-
-        //   $composer_temp = json_decode($composer_temp, true);
-
-        chdir($temp_folder);
-        $this->composerPath = $temp_folder;
-
-        $installers=[];
-        $from_folder = normalize_path($temp_folder, true);
-        $installers = array(
-            'MicroweberPackages\Package\Helpers\TemplateInstaller',
-            'MicroweberPackages\Package\Helpers\ModuleInstaller'
-        );
-        if ($keyword == 'microweber/update') {
-            $install_core_update = true;
-            $installers = array(
-                'MicroweberPackages\Package\Helpers\CoreUpdateInstaller'
-            );
-        }
-       // $installers[]='MicroweberPackages\Package\Helpers\PackageDependenciesInstaller';
-
-
-
-
-
-        $to_folder = $this->targetPath;
-        if (function_exists('mw_root_path')) {
-            $to_folder = mw_root_path();
-        }
-
-        if (!$cp_files and isset($return[$keyword])) {
-            $version_data = false;
-            $package_data = $return[$keyword];
-
-            if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
-                $version_data = $package_data['latest_version'];
-            } elseif (isset($package_data['versions']) and isset($package_data['versions'][$version])) {
-                $version_data = $package_data['versions'][$version];
-            }
-
-            if (!$version_data) {
-                return;
-            }
-
-            $dryRun = false;
-            $need_key = false;
-            if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
-                return array('error' => 'No download source found for ' . $keyword);
-            }
-
-            if (isset($version_data['dist_type']) and ($version_data['dist_type']) == 'license_key') {
-                $need_key = true;
-            }
-
-            if ($need_key) {
-                $error_text = 'You need license key';
-                if (function_exists('_e')) {
-                    $error_text = _e($error_text, true);
-                }
-
-                return array(
-                    'error' => $error_text,
-                    // 'form_data_required' => 'license_key',
-                    'form_data_module' => 'settings/group/license_edit',
-                    'form_data_module_params' => array(
-                        'require_name' => $params['require_name'],
-                        'require_version' => $version
-                    )
-                );
-            }
-
+            $temp_folder = $this->_prepareComposerWorkdir($keyword, $version, true);
             if (!$temp_folder) {
                 return array('error' => 'Error preparing installation for ' . $keyword);
-
             }
 
+            //  $conf = $temp_folder . '/composer.json';
 
-            $conf_temp = $temp_folder . '/composer.json';
+            //   $this->composer_temp_folder = $temp_folder;
 
 
-            //$temp_folder
-            $composer_temp = file_get_contents($conf_temp);
-            $composer_temp = json_decode($composer_temp, true);
-            //
-            //copy($conf_temp,mw_root_path().'/cache/composer.json');
+            //   $conf_temp = $temp_folder . '/composer.json';
 
-            $current_composer_file = $temp_folder . '/composer.json';
-            $current_composer = file_get_contents($current_composer_file);
-            $current_composer = json_decode($current_composer, true);
+            //  $composer_temp = file_get_contents($conf_temp);
 
-            if (isset($version_data['requires']) && is_array($version_data['requires'])) {
-                foreach ($version_data['requires'] as $requirePackage => $requireDetails) {
-                    $current_composer['require'][$requirePackage] = $requireDetails->getPrettyConstraint();
+
+            //   $composer_temp = json_decode($composer_temp, true);
+
+            chdir($temp_folder);
+            $this->composerPath = $temp_folder;
+
+            $installers = [];
+            $from_folder = normalize_path($temp_folder, true);
+            $installers = array(
+                'MicroweberPackages\Package\Helpers\TemplateInstaller',
+                'MicroweberPackages\Package\Helpers\ModuleInstaller'
+            );
+            if ($keyword == 'microweber/update') {
+                $install_core_update = true;
+                $installers = array(
+                    'MicroweberPackages\Package\Helpers\CoreUpdateInstaller'
+                );
+            }
+            // $installers[]='MicroweberPackages\Package\Helpers\PackageDependenciesInstaller';
+
+
+            $to_folder = $this->targetPath;
+            if (function_exists('mw_root_path')) {
+                $to_folder = mw_root_path();
+            }
+
+            if (!$cp_files_user and isset($return[$keyword])) {
+                $version_data = false;
+                $package_data = $return[$keyword];
+
+                if ($version == 'latest' and isset($package_data['latest_version']) and $package_data['latest_version']) {
+                    $version_data = $package_data['latest_version'];
+                } elseif (isset($package_data['versions']) and isset($package_data['versions'][$version])) {
+                    $version_data = $package_data['versions'][$version];
                 }
-            }
 
+                if (!$version_data) {
+                    return;
+                }
 
+                $dryRun = false;
+                $need_key = false;
+                if (!isset($version_data['dist']) or !isset($version_data['dist'][0])) {
+                    return array('error' => 'No download source found for ' . $keyword);
+                }
 
-            if (isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])) {
-                unset($current_composer['repositories']['packagist']);
-            }
+                if (isset($version_data['dist_type']) and ($version_data['dist_type']) == 'license_key') {
+                    $need_key = true;
+                }
 
-            if (!isset($current_composer['extra'])) {
-                $current_composer['extra'] = [];
-            }
+                if ($need_key) {
+                    $error_text = 'You need license key';
+                    if (function_exists('_e')) {
+                        $error_text = _e($error_text, true);
+                    }
 
-            if (!isset($current_composer['require'])) {
-                $current_composer['require'] = [];
-            }
+                    return array(
+                        'error' => $error_text,
+                        // 'form_data_required' => 'license_key',
+                        'form_data_module' => 'settings/group/license_edit',
+                        'form_data_module_params' => array(
+                            'require_name' => $params['require_name'],
+                            'require_version' => $version
+                        )
+                    );
+                }
 
-
-
-
-
-            // get existsing installed packages
-
-            $installed_packages = [];
-
-
-            $user_installed_composer_json_file_path = $to_folder . '/packages/composer.json';
-            $user_installed_json_file_path = $to_folder . '/packages/vendor/composer/composer.json';
-            if (is_file($user_installed_composer_json_file_path)) {
-                $user_packages_composer_json = @file_get_contents($user_installed_composer_json_file_path);
-                $user_packages_composer_json = @json_decode($user_packages_composer_json, true);
-                if (isset($user_packages_composer_json['require']) and $user_packages_composer_json['require']) {
-                    $current_composer['require'] = array_merge($current_composer['require'], $user_packages_composer_json['require']);
-
-                    //copy installed.json
-
+                if (!$temp_folder) {
+                    return array('error' => 'Error preparing installation for ' . $keyword);
 
                 }
-                var_dump($current_composer['require']);
-            }
-
-            var_dump(11111111111111111111);
-            var_dump($to_folder);
-            exit;
 
 
+                $conf_temp = $temp_folder . '/composer.json';
 
 
+                //$temp_folder
+                $composer_temp = file_get_contents($conf_temp);
+                $composer_temp = json_decode($composer_temp, true);
 
 
+                $current_composer_file = $temp_folder . '/composer.json';
+                $current_composer = file_get_contents($current_composer_file);
+                $current_composer = json_decode($current_composer, true);
 
-            file_put_contents($current_composer_file, json_encode($current_composer));
-
-            $composer_temp = file_get_contents($conf_temp);
-            $composer_temp = json_decode($composer_temp, true);
-
-
-            $argv = array();
-            //  $argv[] = 'dry-run';
-            // $argv[] = '--no-plugins';
-        //    $argv[] = '--working-dir=' . escapeshellarg($temp_folder);
+//                   if (isset($version_data['requires']) && is_array($version_data['requires'])) {
+//                foreach ($version_data['requires'] as $requirePackage => $requireDetails) {
+//                    $current_composer['require'][$requirePackage] = $requireDetails->getPrettyConstraint();
+//                }
+//            }
+//
 
 
-            //   $input = new ArgvInput($argv);
-            $input = new ArrayInput($argv);
-            $output = new ConsoleOutput();
-            $helper = new HelperSet();
-            $config = new Config(false, $temp_folder);
+                if (isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])) {
+                    unset($current_composer['repositories']['packagist']);
+                }
+
+                if (!isset($current_composer['extra'])) {
+                    $current_composer['extra'] = [];
+                }
+
+                if (!isset($current_composer['require'])) {
+                    $current_composer['require'] = [];
+                }
+
+
+                file_put_contents($current_composer_file, json_encode($current_composer, JSON_PRETTY_PRINT));
+
+                $composer_temp = file_get_contents($conf_temp);
+                $composer_temp = json_decode($composer_temp, true);
+
+
+                $argv = array();
+                //  $argv[] = 'dry-run';
+                // $argv[] = '--no-plugins';
+                //    $argv[] = '--working-dir=' . escapeshellarg($temp_folder);
+
+
+                //   $input = new ArgvInput($argv);
+                $input = new ArrayInput($argv);
+                $output = new ConsoleOutput();
+                $helper = new HelperSet();
+                $config = new Config(false, $temp_folder);
 //dd($temp_folder);
-            if ($composer_temp) {
-                $config->merge($composer_temp);
-            }
-
-
-            //$output->setVerbosity(1);
-            //$io = new ConsoleIO($input, $output, $helper);
-            $io = new InstallerIO($input, 32, null);
-            // $io = new NullIO('', false, null);
-
-            $composer = Factory::create($io);
-
-            //       $input->setOption('no-plugins',true);
-
-            $installation_manager = $composer->getInstallationManager();
-
-
-            if ($installers) {
-                foreach ($installers as $installer) {
-                    $installation_manager->addInstaller(new $installer($io, $composer));
+                if ($composer_temp) {
+                    $config->merge($composer_temp);
                 }
-            }
-            $composer->setConfig($config);
 
 
-            //add shared installer here
+                //$output->setVerbosity(1);
+                //$io = new ConsoleIO($input, $output, $helper);
+                $io = new InstallerIO($input, 32, null);
+                // $io = new NullIO('', false, null);
+
+                $composer = Factory::create($io);
+
+                //       $input->setOption('no-plugins',true);
+
+                $installation_manager = $composer->getInstallationManager();
+
+
+                if ($installers) {
+                    foreach ($installers as $installer) {
+                        $installation_manager->addInstaller(new $installer($io, $composer));
+                    }
+                }
+                $composer->setConfig($config);
+
+
+                //add shared installer here
 
 
 //            $shared_data_manager = new SharedPackageDataManager($composer);
@@ -639,27 +606,27 @@ class ComposerUpdate
 //             $shared_insaller = new SharedPackageInstaller($io,$composer,$sym_fs,$shared_data_manager,$sym_conf);
 //            $installation_manager->addInstaller($shared_insaller);
 
-            $update = new \MicroweberPackages\Package\InstallCommand();
-            $update->setComposer($composer);
+                $update = new \MicroweberPackages\Package\InstallCommand();
+                $update->setComposer($composer);
 
 
-            $update->setIO($io);
-            //  dd($update);
-            try {
-                $out = $update->run($input, $output);
+                $update->setIO($io);
+                //  dd($update);
+                try {
+                    $out = $update->run($input, $output);
 
 
-            } catch (PackageManagerUnzipOnChunksException $e) {
-                $cache_key_for_unzip_on_chunks = $e->getMessage();
+                } catch (PackageManagerUnzipOnChunksException $e) {
+                    $cache_key_for_unzip_on_chunks = $e->getMessage();
 
-                return array(
-                    'try_again' => true,
-                    'error' => 'There was error with unzip',
-                    // 'unzip_cache_key' => $cache_key_for_unzip_on_chunks
-                );
+                    return array(
+                        'try_again' => true,
+                        'error' => 'There was error with unzip',
+                        // 'unzip_cache_key' => $cache_key_for_unzip_on_chunks
+                    );
+                }
+
             }
-
-
             if ($install_core_update) {
                 $from_folder_cp = $temp_folder . '/microweber-core-update/install-update/update/';
                 $from_folder = $from_folder_cp;
@@ -675,6 +642,7 @@ class ComposerUpdate
                 });
                 $allFiles = array_keys($allFiles);
                 $skip_files = [];
+                $copy_to_packages_folder = array('composer.json', 'composer.lock', 'vendor');
                 if (!$install_core_update) {
                     // $skip_files = array(  'auth.json');
                     //    $skip_files = array(  'auth.json', 'composer.lock');
@@ -687,7 +655,8 @@ class ComposerUpdate
 
                 $from_folder2 = normalize_path($from_folder, true);
 
-                $cp_files = array();
+                $cp_files_user = array();
+                $cp_packages_files = array();
                 if ($allFiles) {
                     foreach ($allFiles as $file_to_copy) {
                         $file_to_copy = str_ireplace($from_folder, '', $file_to_copy);
@@ -706,16 +675,40 @@ class ComposerUpdate
                         }
 
                         if (!$skip) {
-                            $cp_files[] = normalize_path($file_to_copy, false);
+                            $cp_files_user[] = normalize_path($file_to_copy, false);
+                        }
+
+
+                        if ($skip) {
+
+                        }
+
+
+                    }
+                    foreach ($allFiles as $file_to_copy) {
+                        foreach ($copy_to_packages_folder as $packages_file) {
+                            if (stripos($file_to_copy, $packages_file) !== false) {
+                                $cp_packages_files[] = normalize_path($packages_file, false);
+                            }
+                        }
+
+                        if (!empty($cp_packages_files)) {
+                            array_unique($cp_packages_files);
                         }
 
                     }
+
+
                 }
 
                 if ($need_confirm) {
 
                     if (function_exists('cache_save')) {
-                        cache_save($cp_files, $confirm_key, 'composer');
+
+                        $cp_files_cache = array();
+                        $cp_files_cache['user'] = $cp_files_user;
+                        $cp_files_cache['packages'] = $cp_packages_files;
+                        cache_save($cp_files_cache, $confirm_key, 'composer');
                     }
 
                     $error = 'Please confirm installation';
@@ -735,9 +728,40 @@ class ComposerUpdate
 
             }
 
+
+
+        if (!$install_core_update) {
+
+            if (!$need_confirm) {
+                if ($cp_packages_files) {
+                    $cp_packages_files = array_unique($cp_packages_files);
+                    if($cp_packages_files){
+                        foreach ($cp_packages_files as $f) {
+                            $src = $from_folder . DIRECTORY_SEPARATOR . $f;
+                            $dest = $to_folder .DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . $f;
+                            $src = normalize_path($src, false);
+                            $dest = normalize_path($dest, false);
+                            $dest_dn = dirname($dest);
+
+                            if (!is_dir($dest_dn)) {
+                                mkdir_recursive($dest_dn);
+                            }
+                            if(is_dir($src)){
+                                $files_manager = new Files();
+                                $files_manager->copy_directory($src, $dest);
+                            } else if(is_file($src)){
+                                copy($src,$dest);
+                            }
+
+                         }
+                    }
+                  //  dd( $cp_packages_files);
+
+                }
+            }
         }
 
-        if ($cp_files and !empty($cp_files)) {
+        if ($cp_files_user and !empty($cp_files_user)) {
 
             if ($install_core_update) {
                 if ($install_core_update) {
@@ -747,7 +771,7 @@ class ComposerUpdate
                 }
             }
 
-            foreach ($cp_files as $f) {
+            foreach ($cp_files_user as $f) {
                 $src = $from_folder . DIRECTORY_SEPARATOR . $f;
                 $dest = $to_folder . DIRECTORY_SEPARATOR . $f;
                 $src = normalize_path($src, false);
@@ -768,8 +792,8 @@ class ComposerUpdate
             }
 
             $resp = array();
-            $resp['success'] = 'Success. You have installed: ' . $keyword . ' .  Total ' . count($cp_files) . ' files installed';
-            $resp['log'] = $cp_files;
+            $resp['success'] = 'Success. You have installed: ' . $keyword . ' .  Total ' . count($cp_files_user) . ' files installed';
+            $resp['log'] = $cp_files_user;
             if ($cp_files_fails) {
                 $resp['errors'] = $cp_files_fails;
             }
@@ -894,7 +918,7 @@ class ComposerUpdate
 
     }
 
-    public function _prepareComposerWorkdir($package_name = '', $version = false)
+    public function _prepareComposerWorkdir($package_name = '', $version = false, $prepare_for_install = false)
     {
 
         if ('disabled' == $this->updateChannel) {
@@ -904,10 +928,13 @@ class ComposerUpdate
         $cache_folder = false;
         $data_folder = false;
 
-        if (function_exists('mw_cache_path')) {
-            $cache_folder = mw_cache_path() . 'composer/cache';
-            $data_folder = mw_cache_path() . 'composer/data';
-        }
+//        if (function_exists('mw_cache_path')) {
+//            $cache_folder = mw_cache_path() . 'composer/cache';
+//            $data_folder = mw_cache_path() . 'composer/data';
+//        }
+
+        $cache_folder = '../composer/cache';
+        $data_folder = '../composer/data';
 
 
 //        if ($package_name) {
@@ -927,6 +954,8 @@ class ComposerUpdate
             $temp_folder = $this->_getComposerWorkdirPath($package_name . '-' . $version . '-' . md5(@json_encode($custom_repos_urls_from_settings)));
         }
 
+        $packages_folder = $this->composerPath . '/packages/';
+        $files_manager = new Files();
         $composer_json_file_path = $this->composerPath . '/composer.json';
         $conf_auth = $this->composerPath . '/auth.json';
 
@@ -942,6 +971,7 @@ class ComposerUpdate
 
         $auth_new = $temp_folder . '/auth.json';
         $auth_new = normalize_path($auth_new, false);
+
 
         $new_composer_config = array();
         if ($package_name) {
@@ -960,6 +990,42 @@ class ComposerUpdate
         if (!isset($composer_orig['repositories']) or !is_array($composer_orig['repositories'])) {
             $composer_orig['repositories'] = array();
         }
+
+
+        if (!isset($new_composer_config['require'])) {
+            $new_composer_config['require'] = [];
+        }
+
+
+        if ($prepare_for_install) {
+
+            $composer_json_packages_folder = [];
+            // copy packages folder
+            $user_installed_composer_json_file_path = normalize_path($packages_folder . 'composer.json', false);
+            $user_installed_json_file_path = normalize_path($packages_folder . 'vendor/composer/installed.json', false);
+
+
+            if (is_file($user_installed_composer_json_file_path) and is_file($user_installed_json_file_path)) {
+
+                $files_manager->copy_directory($packages_folder, $temp_folder);
+
+
+                $composer_json_packages_folder = @file_get_contents($user_installed_composer_json_file_path);
+                $composer_json_packages_folder = json_decode($composer_json_packages_folder, true);
+            }
+
+            if (isset($composer_json_packages_folder) and isset($composer_json_packages_folder['require']) and $composer_json_packages_folder['require']) {
+                $new_composer_config['require'] = array_merge($new_composer_config['require'], $composer_json_packages_folder['require']);
+                array_unique($new_composer_config['require']);
+            }
+
+        }
+
+
+        if (isset($new_composer_config['repositories'])) {
+            //$new_composer_config['repositories'] = array_unique($new_composer_config['repositories']);
+        }
+
 
         $system_repos = array();
 
@@ -1035,28 +1101,8 @@ class ComposerUpdate
 
         //  $new_composer_config['notification-url'] = 'https://installreport.services.microweberapi.com/';
 
-//
-//        $new_composer_config['extra']['shared-package'] = [
-//            'package-list' => ['*'=>'*'],
-//             //'symlink-enabled' => true,
-//           // 'vendor-dir' => mw_root_path().'/vendor',
-//            'vendor-dir' => 'vendor',
-//            //     'symlink-dir' => mw_root_path().'/vendor-shared',
-//        ];
 
-
-
-
-        //
-
-
-        //
-
-
-
-
-
-        file_put_contents($conf_new, json_encode($new_composer_config));
+        file_put_contents($conf_new, json_encode($new_composer_config, JSON_PRETTY_PRINT));
 
         $composer_auth_temp = array();
 
@@ -1100,16 +1146,13 @@ class ComposerUpdate
                 }
             }
 
-            @file_put_contents($auth_new, json_encode($composer_auth_temp));
+            @file_put_contents($auth_new, json_encode($composer_auth_temp, JSON_PRETTY_PRINT));
         }
 
 
         return $temp_folder;
 
     }
-
-
-
 
 
     public function setLicenses($licenses)
