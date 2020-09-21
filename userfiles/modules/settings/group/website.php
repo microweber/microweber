@@ -12,6 +12,9 @@
 </script>
 
 <script type="text/javascript">
+    mw.lib.require('collapse_nav');
+</script>
+<script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
@@ -30,14 +33,21 @@
             top: '.top', // back to top button or link class
             spyOffset: 0, // specify heading offset for spy scrolling
         });
+
+        $('.js-anchorific ul').collapseNav({
+            'mobile_break': 320,
+//            'li_class': '',
+//            'li_a_class': '',
+//            'li_ul_class': ''
+        });
     })
 </script>
 
 <div class="<?php print $config['module_class'] ?> js-anchorific">
     <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-header px-0">
-            <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>General</strong></h5>
-            <div>
+            <h5 class="w-100"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>General</strong></h5>
+            <div class="d-block w-100">
                 <nav class="anchorific"></nav>
             </div>
         </div>

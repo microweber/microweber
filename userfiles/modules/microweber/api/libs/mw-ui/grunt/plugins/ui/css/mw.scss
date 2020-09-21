@@ -1512,17 +1512,71 @@ header {
   }
 
   .anchorific {
-    ul {
-      display: flex;
-      list-style-type: none;
-      margin: 0;
+    /* ul:not(.collapseNav-initialized) {
+       display: flex;
+       list-style-type: none;
+       margin: 0;
 
+       li {
+         margin-right: 20px;
+         &.active {
+           //font-weight: bold;
+         }
+       }
+     }*/
+
+    ul.collapseNav-initialized {
+      display: block;
+
+    }
+    ul {
+      display: none;
+      margin-bottom: 0;
+      text-align: right;
       li {
+        display: inline-block;
+        transition-duration: 0.5s;
         margin-right: 20px;
-        &.active {
-          //font-weight: bold;
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        ul {
+          visibility: hidden;
+          opacity: 0;
+          position: absolute;
+          transition: all 0.5s ease;
+          margin-top: 1rem;
+          right: 0;
+          left: auto !important;
+          display: none;
+          padding: 10px;
+          &.show {
+            visibility: visible;
+            opacity: 1;
+            display: block;
+            left: -23px !important;
+            right: 0 !important;
+          }
+
+          li {
+            clear: both;
+            width: 100%;
+          }
+        }
+
+        li:hover > ul,
+        li ul:hover {
+          visibility: visible;
+          opacity: 1;
+          display: block;
         }
       }
     }
   }
+
 }
