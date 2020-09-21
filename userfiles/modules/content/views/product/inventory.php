@@ -36,14 +36,14 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="track_quantity" class="custom-control-input js-track-quantity-check" id="customCheck2">
+                        <input type="checkbox" name="track_quantity" class="custom-control-input js-track-quantity-check" value="1" <?php if ($contentData['track_quantity']==1):?>checked="checked"<?php endif; ?> id="customCheck2">
                         <label class="custom-control-label" for="customCheck2">Track quantity</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                        <input type="checkbox" class="custom-control-input" id="customCheck3" name="sell_oos" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
                         <label class="custom-control-label" for="customCheck3">Continue selling when out of stock</label>
                     </div>
                 </div>

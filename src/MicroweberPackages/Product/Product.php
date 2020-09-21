@@ -101,6 +101,7 @@ class Product extends Content
           'quantity'=>'1',
           'track_quantity'=>'0',
           'max_quantity_per_order'=>'0',
+          'sell_oos'=>'0',
           'fixed_cost'=>'0.00',
           'weight_type'=>'kg',
           'weight'=>'0',
