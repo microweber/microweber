@@ -31,12 +31,15 @@ if (isset($params['rel_type'])) {
 if (!$confirm_key) {
     return;
 }
-
+$get_existing_files_for_confirm = [];
 $confirm_files_count = 0;
-$get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
+$get_existing_files_for_confirm_all = cache_get($confirm_key, 'composer');
 
-if (is_array($get_existing_files_for_confirm)) {
-    $confirm_files_count = count($get_existing_files_for_confirm);
+if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_for_confirm_all['user'])) {
+    $confirm_files_count = count($get_existing_files_for_confirm_all['user']);
+    $get_existing_files_for_confirm = $get_existing_files_for_confirm_all['user'];
+
+
 } else {
     return;
 }
