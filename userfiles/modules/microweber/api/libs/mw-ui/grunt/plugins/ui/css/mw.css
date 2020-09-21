@@ -1061,4 +1061,13 @@ header {
 .bg-grey {
   background: #f2f3f5; }
 
+.js-anchorific .anchor {
+  display: none; }
+.js-anchorific .anchorific ul {
+  display: flex;
+  list-style-type: none;
+  margin: 0; }
+  .js-anchorific .anchorific ul li {
+    margin-right: 20px; }
+
 /*# sourceMappingURL=mw.css.map */

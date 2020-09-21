@@ -19,12 +19,26 @@
     });
 </script>
 
-<div class="<?php print $config['module_class'] ?>">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchorific/1.2/min/anchorific.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.js-anchorific').anchorific({
+            navigation: '.anchorific', // position of navigation
+            headers: 'h5', // headers that you wish to target
+            speed: 200, // speed of sliding back to top
+            anchorText: '#', // prepended or appended to anchor headings
+            top: '.top', // back to top button or link class
+            spyOffset: 0, // specify heading offset for spy scrolling
+        });
+    })
+</script>
+
+<div class="<?php print $config['module_class'] ?> js-anchorific">
     <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-header px-0">
             <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>General</strong></h5>
             <div>
-
+                <nav class="anchorific"></nav>
             </div>
         </div>
 
