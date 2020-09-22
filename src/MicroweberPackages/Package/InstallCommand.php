@@ -110,7 +110,7 @@ EOT
             ->setDevMode(false)
             //->setDumpAutoloader(false)
            // ->setRunScripts(false)
-         //   ->setSkipSuggest(true)
+           ->setSkipSuggest(true)
             ->setOptimizeAutoloader(false)
             ->setPreferStable(true)
             ->setClassMapAuthoritative(false)

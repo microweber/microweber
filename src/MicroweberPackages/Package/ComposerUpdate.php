@@ -538,7 +538,7 @@ class ComposerUpdate
 
 
                 if (isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])) {
-                    unset($current_composer['repositories']['packagist']);
+                 //   unset($current_composer['repositories']['packagist']);
                 }
 
                 if (!isset($current_composer['extra'])) {
@@ -554,6 +554,10 @@ class ComposerUpdate
 
                 $composer_temp = file_get_contents($conf_temp);
                 $composer_temp = json_decode($composer_temp, true);
+
+
+
+
 
 
                 $argv = array();
@@ -579,6 +583,7 @@ class ComposerUpdate
                 // $io = new NullIO('', false, null);
 
                 $composer = Factory::create($io);
+                //$loop, IOInterface $io, EventDispatcher $eventDispatcher
 
                 //       $input->setOption('no-plugins',true);
 
@@ -644,8 +649,7 @@ class ComposerUpdate
                 $skip_files = [];
                 $copy_to_packages_folder = array('composer.json', 'composer.lock', 'vendor');
                 if (!$install_core_update) {
-                    // $skip_files = array(  'auth.json');
-                    //    $skip_files = array(  'auth.json', 'composer.lock');
+
                     $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor', 'packages.json');
 
                 } else {
@@ -679,13 +683,10 @@ class ComposerUpdate
                         }
 
 
-                        if ($skip) {
-
-                        }
 
 
                     }
-                    foreach ($allFiles as $file_to_copy) {
+                 /*   foreach ($allFiles as $file_to_copy) {
                         foreach ($copy_to_packages_folder as $packages_file) {
                             if (stripos($file_to_copy, $packages_file) !== false) {
                                 $cp_packages_files[] = normalize_path($packages_file, false);
@@ -696,7 +697,7 @@ class ComposerUpdate
                             array_unique($cp_packages_files);
                         }
 
-                    }
+                    }*/
 
 
                 }
@@ -730,7 +731,7 @@ class ComposerUpdate
 
 
 
-        if (!$install_core_update) {
+       /* if (!$install_core_update) {
 
             if (!$need_confirm) {
                 if ($cp_packages_files) {
@@ -755,11 +756,10 @@ class ComposerUpdate
 
                          }
                     }
-                  //  dd( $cp_packages_files);
 
                 }
             }
-        }
+        }*/
 
         if ($cp_files_user and !empty($cp_files_user)) {
 
@@ -954,7 +954,10 @@ class ComposerUpdate
             $temp_folder = $this->_getComposerWorkdirPath($package_name . '-' . $version . '-' . md5(@json_encode($custom_repos_urls_from_settings)));
         }
 
-        $packages_folder = $this->composerPath . '/packages/';
+
+
+        $packages_folder_name = 'packages';
+        $packages_folder = $this->composerPath . '/'.$packages_folder_name.'/';
         $files_manager = new Files();
         $composer_json_file_path = $this->composerPath . '/composer.json';
         $conf_auth = $this->composerPath . '/auth.json';
@@ -997,7 +1000,7 @@ class ComposerUpdate
         }
 
 
-        if ($prepare_for_install) {
+ /*       if ($prepare_for_install) {
 
             $composer_json_packages_folder = [];
             // copy packages folder
@@ -1019,7 +1022,7 @@ class ComposerUpdate
                 array_unique($new_composer_config['require']);
             }
 
-        }
+        }*/
 
 
         if (isset($new_composer_config['repositories'])) {
