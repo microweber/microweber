@@ -427,6 +427,7 @@ function helper_body_classes()
     }
     $seg = url_segment(0);
     if ($seg) {
+        $seg = str_slug($seg);
         $classes[] = 'page-' . $seg;
     }
 

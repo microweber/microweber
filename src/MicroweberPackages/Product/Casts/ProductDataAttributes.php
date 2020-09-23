@@ -34,9 +34,12 @@ class ProductDataAttributes implements CastsAttributes
 
 //dump($attributes);
 
-        return new ContentData(
-            $attributes
-        );
+
+
+        return $value;
+//        return new ContentData(
+//            $attributes
+//        );
     }
 
     /**
