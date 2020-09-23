@@ -146,48 +146,51 @@ if ($last_page_front != false) {
     ?>
 
     <div class="card-header d-flex justify-content-between">
-
         <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
             <h5>
                 <i class="mdi text-primary mr-2 <?php if ($type == 'shop'): ?>mdi-shopping<?php else: ?><?php print $type; ?><?php endif; ?>"></i>
                 <?php print ($page_info['title']) ?>
             </h5>
         <?php elseif (isset($params['category-id'])): ?>
-            <h5>
-                <?php $cat = get_category_by_id($params['category-id']); ?>
-                <?php if (isset($cat['title'])): ?>
-                    <i class="mdi mdi-folder text-primary mr-3"></i>
-                    <strong><?php print $cat['title'] ?></strong>
-                <?php endif; ?>
-            </h5>
+            <div>
+                <h5>
+                    <?php $cat = get_category_by_id($params['category-id']); ?>
+                    <?php if (isset($cat['title'])): ?>
+                        <i class="mdi mdi-folder text-primary mr-3"></i>
+                        <strong><?php print $cat['title'] ?></strong>
+                    <?php endif; ?>
+                </h5>
+            </div>
         <?php elseif ($act == 'pages'): ?>
             <h5>
                 <i class="mdi mdi-post-outline text-primary mr-3"></i>
                 <strong><?php _e("Pages"); ?></strong>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:pages" class="btn btn-outline-success btn-sm ml-2">Add Page</a>
             </h5>
         <?php elseif ($act == 'posts'): ?>
             <h5>
                 <i class="mdi mdi-text text-primary mr-3"></i>
                 <strong><?php _e("Posts"); ?></strong>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:posts" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Post</a>
             </h5>
         <?php elseif ($act == 'products'): ?>
             <h5>
                 <i class="mdi mdi-shopping text-primary mr-3"></i>
                 <strong><?php _e("Products"); ?></strong>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:products" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Product</a>
             </h5>
         <?php elseif (isset($params['is_shop'])): ?>
             <h5>
                 <span class="mdi mdi-shopping text-primary mr-3"></span>
                 <strong><?php _e("My Shop"); ?></strong>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:products" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Product</a>
             </h5>
         <?php else: ?>
-            <div>
-                <h5 class="d-inline-block">
-                    <i class="mdi mdi-earth text-primary mr-3"></i>
-                    <strong><?php _e("Website"); ?></strong>
-                </h5>
-                <a href="#" class="btn btn-outline-success btn-sm ml-2">Add New</a>
-            </div>
+            <h5 class="d-inline-block">
+                <i class="mdi mdi-earth text-primary mr-3"></i>
+                <strong><?php _e("Website"); ?></strong>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:pages" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Page</a>
+            </h5>
         <?php endif; ?>
 
         <?php
