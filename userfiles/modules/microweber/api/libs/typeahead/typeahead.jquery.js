@@ -6,7 +6,7 @@
 
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
-        define([ "jquery" ], function(a0) {
+        define("typeahead.js", [ "jquery" ], function(a0) {
             return factory(a0);
         });
     } else if (typeof exports === "object") {
@@ -807,8 +807,8 @@
                     suggestions = suggestions || [];
                     if (!canceled && rendered < that.limit) {
                         that.cancel = $.noop;
-                        that._append(query, suggestions.slice(0, that.limit - rendered));
                         rendered += suggestions.length;
+                        that._append(query, suggestions.slice(0, that.limit - rendered));
                         that.async && that.trigger("asyncReceived", query);
                     }
                 }
@@ -911,10 +911,7 @@
             bind: function() {
                 var that = this, onSelectableClick;
                 onSelectableClick = _.bind(this._onSelectableClick, this);
-                this.on("click.tt", this.selectors.selectable, onSelectableClick);
-                this.on("mouseover", this.selectors.selectable, function() {
-                    that.setCursor($(this));
-                });
+                this.$node.on("click.tt", this.selectors.selectable, onSelectableClick);
                 _.each(this.datasets, function(dataset) {
                     dataset.onSync("asyncRequested", that._propagate, that).onSync("asyncCanceled", that._propagate, that).onSync("asyncReceived", that._propagate, that).onSync("rendered", that._onRendered, that).onSync("cleared", that._onCleared, that);
                 });
@@ -924,7 +921,6 @@
                 return this.$node.hasClass(this.classes.open);
             },
             open: function open() {
-                this.$node.scrollTop(0);
                 this.$node.addClass(this.classes.open);
             },
             close: function close() {
@@ -1148,12 +1144,12 @@
             },
             _onLeftKeyed: function onLeftKeyed() {
                 if (this.dir === "rtl" && this.input.isCursorAtEnd()) {
-                    this.autocomplete(this.menu.getActiveSelectable() || this.menu.getTopSelectable());
+                    this.autocomplete(this.menu.getTopSelectable());
                 }
             },
             _onRightKeyed: function onRightKeyed() {
                 if (this.dir === "ltr" && this.input.isCursorAtEnd()) {
-                    this.autocomplete(this.menu.getActiveSelectable() || this.menu.getTopSelectable());
+                    this.autocomplete(this.menu.getTopSelectable());
                 }
             },
             _onQueryChanged: function onQueryChanged(e, query) {
@@ -1454,7 +1450,7 @@
                     return query;
                 } else {
                     ttEach(this, function(t) {
-                        t.setVal(_.toStr(newVal));
+                        t.setVal(newVal);
                     });
                     return this;
                 }

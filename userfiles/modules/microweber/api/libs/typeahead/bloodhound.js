@@ -6,7 +6,7 @@
 
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
-        define([ "jquery" ], function(a0) {
+        define("bloodhound", [ "jquery" ], function(a0) {
             return root["Bloodhound"] = factory(a0);
         });
     } else if (typeof exports === "object") {
@@ -423,7 +423,6 @@
             this.identify = o.identify || _.stringify;
             this.datumTokenizer = o.datumTokenizer;
             this.queryTokenizer = o.queryTokenizer;
-            this.matchAnyQueryToken = o.matchAnyQueryToken;
             this.reset();
         }
         _.mixin(SearchIndex.prototype, {
@@ -460,7 +459,7 @@
                 tokens = normalizeTokens(this.queryTokenizer(query));
                 _.each(tokens, function(token) {
                     var node, chars, ch, ids;
-                    if (matches && matches.length === 0 && !that.matchAnyQueryToken) {
+                    if (matches && matches.length === 0) {
                         return false;
                     }
                     node = that.trie;
@@ -472,10 +471,8 @@
                         ids = node[IDS].slice(0);
                         matches = matches ? getIntersection(matches, ids) : ids;
                     } else {
-                        if (!that.matchAnyQueryToken) {
-                            matches = [];
-                            return false;
-                        }
+                        matches = [];
+                        return false;
                     }
                 });
                 return matches ? _.map(unique(matches), function(id) {
@@ -617,7 +614,6 @@
             this.url = o.url;
             this.prepare = o.prepare;
             this.transform = o.transform;
-            this.indexResponse = o.indexResponse;
             this.transport = new Transport({
                 cache: o.cache,
                 limiter: o.limiter,
@@ -659,9 +655,7 @@
                 identify: _.stringify,
                 datumTokenizer: null,
                 queryTokenizer: null,
-                matchAnyQueryToken: false,
                 sufficient: 5,
-                indexRemote: false,
                 sorter: null,
                 local: [],
                 prefetch: null,
@@ -812,7 +806,6 @@
             this.sorter = o.sorter;
             this.identify = o.identify;
             this.sufficient = o.sufficient;
-            this.indexRemote = o.indexRemote;
             this.local = o.local;
             this.remote = o.remote ? new Remote(o.remote) : null;
             this.prefetch = o.prefetch ? new Prefetch(o.prefetch) : null;
@@ -882,8 +875,6 @@
             },
             search: function search(query, sync, async) {
                 var that = this, local;
-                sync = sync || _.noop;
-                async = async || _.noop;
                 local = this.sorter(this.index.search(query));
                 sync(this.remote ? local.slice() : local);
                 if (this.remote && local.length < this.sufficient) {
@@ -899,8 +890,7 @@
                             return that.identify(r) === that.identify(l);
                         }) && nonDuplicates.push(r);
                     });
-                    that.indexRemote && that.add(nonDuplicates);
-                    async(nonDuplicates);
+                    async && async(nonDuplicates);
                 }
             },
             all: function all() {

@@ -1,11 +1,11 @@
 mw.liveedit.manageContent = {
     w: '1220px',
-    page: function() {
+    page: function () {
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
             width: this.w,
             height: 'auto',
-            autoHeight:true,
+            autoHeight: true,
             name: 'quick_page',
             overlay: true,
             title: 'New Page',
@@ -13,12 +13,13 @@ mw.liveedit.manageContent = {
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },
-    category: function() {
+    category: function () {
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=false&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
-            width: this.w,
+            width: '600px',
+//            width: this.w,
             height: 'auto',
-            autoHeight:true,
+            autoHeight: true,
             name: 'quick_page',
             overlay: true,
             title: 'New Category',
@@ -26,7 +27,7 @@ mw.liveedit.manageContent = {
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },
-    edit: function(id, content_type, subtype, parent, category) {
+    edit: function (id, content_type, subtype, parent, category) {
         var str = "";
 
         if (parent) {
@@ -47,28 +48,29 @@ mw.liveedit.manageContent = {
 
         var actionType = '';
 
-        if(id === 0){
+        if (id === 0) {
             actionType = 'Add';
-        }else{
+        } else {
             actionType = 'Edit';
         }
 
         var actionOf = 'Content';
-        if(content_type === 'post'){
+        if (content_type === 'post') {
             actionOf = 'Post'
-        }else if(content_type === 'page'){
+        } else if (content_type === 'page') {
             actionOf = 'Page'
-        }else if(content_type === 'product'){
+        } else if (content_type === 'product') {
             actionOf = 'Product'
-        }else if(content_type === 'category'){
+        } else if (content_type === 'category') {
             actionOf = 'Category'
         }
 
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id=" + id + str,
-            width: this.w,
+            width: '800px',
+//            width: this.w,
             height: 'auto',
-            autoHeight:true,
+            autoHeight: true,
             name: 'quick_page',
             id: 'quick_page',
             overlay: true,
@@ -77,7 +79,7 @@ mw.liveedit.manageContent = {
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },
-    page_2: function() {
+    page_2: function () {
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
             width: this.w,
@@ -89,24 +91,24 @@ mw.liveedit.manageContent = {
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },
-    post: function() {
+    post: function () {
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-post&subtype=post&parent-page-id=" + mw.settings.page_id + "&parent-category-id=" + mw.settings.category_id,
             width: this.w,
             height: 'auto',
-            autoHeight:true,
+            autoHeight: true,
             name: 'quick_post',
             overlay: true,
             title: 'New Post'
         });
         mw.$(modal.main).addClass('mw-add-content-modal');
     },
-    product: function() {
+    product: function () {
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-product&subtype=product&parent-page-id=" + mw.settings.page_id + "&parent-category-id=" + mw.settings.category_id,
             width: this.w,
             height: 'auto',
-            autoHeight:true,
+            autoHeight: true,
             name: 'quick_product',
             overlay: true,
             title: 'New Product'
