@@ -42,6 +42,26 @@ class Product extends Content
 
     public $translatable = ['title','description','content','content_body'];
 
+    public static $contentDataDefault = [
+        'price'=>'0.00',
+        'special_price'=>'0.00',
+        'sku'=>'',
+        'barcode'=>'',
+        'quantity'=>'1',
+        'track_quantity'=>'0',
+        'max_quantity_per_order'=>'0',
+        'sell_oos'=>'0',
+        'physical_product'=>'0',
+        'free_shipping'=>'0',
+        'fixed_cost'=>'0.00',
+        'weight_type'=>'kg',
+        'params_in_checkout'=>0,
+        'weight'=>'0',
+        'width'=>'0',
+        'height'=>'0',
+        'depth'=>'0'
+    ];
+
     public function getMorphClass()
     {
         return 'content';
@@ -93,23 +113,7 @@ class Product extends Content
 
     public function getContentData($values = [])
     {
-        $defaultKeys = [
-          'price'=>'0.00',
-          'special_price'=>'0.00',
-          'sku'=>'',
-          'barcode'=>'',
-          'quantity'=>'1',
-          'track_quantity'=>'0',
-          'max_quantity_per_order'=>'0',
-          'sell_oos'=>'0',
-          'fixed_cost'=>'0.00',
-          'weight_type'=>'kg',
-          'weight'=>'0',
-          'width'=>'0',
-          'height'=>'0',
-          'depth'=>'0'
-        ];
-
+        $defaultKeys = self::$contentDataDefault;
         $contentData = parent::getContentData($values);
 
         foreach ($contentData as $key=>$value) {
