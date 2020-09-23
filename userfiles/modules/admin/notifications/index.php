@@ -217,22 +217,32 @@ if (isset($notif_params['quick'])) {
             $(this).parent().toggleClass('more');
             $(this).toggleClass('showed');
         });
-    });
 
-    $(document).ready(function () {
-        $('input.js-check-all').on('click', function () {
+        $('.js-check-all').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('.js-all-notifications .js-checked-checkbox').each(function () {
+                    $(this).prop('checked', true);
+                });
+            } else {
+                $('.js-all-notifications .js-checked-checkbox').each(function () {
+                    $(this).prop('checked', false);
+                });
+            }
+        });
+
+        $('.js-check-all, .js-checked-checkbox').on('change', function () {
             var hasChecked = false;
 
-            $('.js-all-notifications input[type="checkbox"]').each(function () {
+            $('.js-all-notifications .js-checked-checkbox').each(function () {
                 if ($(this).is(':checked')) {
                     hasChecked = true;
                 }
             });
 
             if (hasChecked) {
-                $('.js-show-options').removeClass('d-none');
+                $('.js-show-options').show();
             } else {
-                $('.js-show-options').addClass('d-none');
+                $('.js-show-options').hide();
             }
         });
     });
@@ -288,35 +298,25 @@ if (isset($notif_params['quick'])) {
                 </div>
                 <div class="col-12 d-sm-flex align-items-center justify-content-between">
                     <div class="text-center text-md-left my-2">
-                        <div class="custom-control custom-checkbox d-inline-block mb-0 mr-3">
+                        <div class="custom-control custom-checkbox d-inline-block my-2 mr-3">
                             <input type="checkbox" class="custom-control-input check-all js-check-all" id="check-all"/>
                             <label class="custom-control-label" for="check-all">Select all</label>
                         </div>
 
-                        <div class="js-show-options d-none">
-                            <button class="btn btn-outline-success btn-sm mr-1 mr-lg-2 btn-lg-only-icon"><i class="mdi mdi-email-open"></i> <span class="d-none d-xl-block">Mark as read</span></button>
-                            <button class="btn btn-outline-warning btn-sm mr-1 mr-lg-2 btn-lg-only-icon"><i class="mdi mdi-email"></i> <span class="d-none d-xl-block">Mark as unread</span></button>
-                            <button class="btn btn-outline-danger btn-sm mr-1 mr-lg-2 btn-lg-only-icon"><i class="mdi mdi-delete"></i> <span class="d-none d-xl-block">Delete selected</span></button>
+                        <div class="d-inline-flex">
+                            <div class="js-show-options" style="display: none;">
+                                <a href="javascript:mw.notif_read_selected();" class="btn btn-outline-success btn-sm mr-1 mr-lg-2 btn-lg-only-icon  notif-read-selected"><i class="mdi mdi-email-open"></i> <span class="d-none d-xl-block"><?php _e("Mark as read"); ?></span></a>
+                                <a href="javascript:mw.notif_reset_selected();" class="btn btn-outline-warning btn-sm mr-1 mr-lg-2 btn-lg-only-icon notif-unread-selected"><i class="mdi mdi-email"></i> <span class="d-none d-xl-block"><?php _e("Mark as unread"); ?></span></a>
+                                <a href="javascript:mw.notif_delete_selected();" class="btn btn-outline-danger btn-sm mr-1 mr-lg-2 btn-lg-only-icon notif-delete-selected"><i class="mdi mdi-delete"></i> <span class="d-none d-xl-block"><?php _e("Delete selected"); ?></span></a>
 
 
-                            <div>
-                                <a href="javascript:mw.notif_read_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification notif-read-selected" style="margin: 0 5px;">
-                                    <?php _e("Mark as Read"); ?>
-                                </a>
-
-                                <a href="javascript:mw.notif_reset_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-warn notif-unread-selected" style="margin: 0 5px;">
-                                    <?php _e("Mark as Unread"); ?>
-                                </a>
-
-                                <a href="javascript:mw.notif_delete_selected();" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-important notif-delete-selected" style="margin: 0 5px;">
-                                    <?php _e("Delete Selected"); ?>
-                                </a>
-
-                                <?php if ($is_quick == true): ?>
-                                    <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a> /
-                                    <a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a> /
-                                    <a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
-                                <?php endif; ?>
+                                <div>
+                                    <?php if ($is_quick == true): ?>
+                                        <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a> /
+                                        <a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a> /
+                                        <a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -367,7 +367,7 @@ if (isset($notif_params['quick'])) {
 
                         <div class="col pr-0 timeline-line">
                             <div class="custom-control custom-checkbox d-inline-block">
-                                <input type="checkbox" class="custom-control-input" id="notif-<?php echo $item['id']; ?>" value="<?php echo $item['id']; ?>" name="checked[<?php echo $item['id']; ?>]">
+                                <input type="checkbox" class="custom-control-input js-checked-checkbox" id="notif-<?php echo $item['id']; ?>" value="<?php echo $item['id']; ?>" name="checked[<?php echo $item['id']; ?>]">
                                 <label class="custom-control-label" for="notif-<?php echo $item['id']; ?>"></label>
                             </div>
 

@@ -945,7 +945,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     background: transparent;
   }
 
-  &.not-collapsed-border:not(.collapsed) {
+  &.not-collapsed-border:not(.collapsed),
+  &.not-collapsed-border.active {
     border-color: $primary;
     &:before {
       content: "\F0B2D";
@@ -1076,6 +1077,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     }
   }
 
+  &.active,
   &:not(.collapsed),
   &:hover {
     &:after {

@@ -8400,9 +8400,9 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     background: #fafafa; }
   .card.bg-silver:not(.collapsed) {
     background: transparent; }
-  .card.not-collapsed-border:not(.collapsed) {
+  .card.not-collapsed-border:not(.collapsed), .card.not-collapsed-border.active {
     border-color: #4592ff; }
-    .card.not-collapsed-border:not(.collapsed):before {
+    .card.not-collapsed-border:not(.collapsed):before, .card.not-collapsed-border.active:before {
       content: "\F0B2D";
       font: normal normal normal 24px/1 "Material Design Icons";
       color: #4592ff;
@@ -8484,7 +8484,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   .card-bubble.bg-silver.collapsed:after {
     border-top-color: #fafafa;
     background-color: #fafafa; }
-  .card-bubble:not(.collapsed):after, .card-bubble:hover:after {
+  .card-bubble.active:after, .card-bubble:not(.collapsed):after, .card-bubble:hover:after {
     border-left: 1px solid #4592ff;
     border-bottom: 1px solid #4592ff; }
 
