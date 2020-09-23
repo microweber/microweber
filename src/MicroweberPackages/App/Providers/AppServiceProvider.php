@@ -2,8 +2,7 @@
 
 namespace MicroweberPackages\App\Providers;
 
-use AlternativeLaravelCache\Provider\AlternativeCacheStoresServiceProvider;
-use Illuminate\Foundation\AliasLoader;
+ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
@@ -28,7 +27,7 @@ use MicroweberPackages\Media\Media;
 use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\MenuManagerServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
-use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
+
 use MicroweberPackages\Option\OptionManagerServiceProvider;
 use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
@@ -58,7 +57,7 @@ if (! defined('MW_VERSION')) {
     include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
-class AppServiceProvider extends ServiceProvider {
+ class AppServiceProvider extends ServiceProvider {
 
     protected $aliasInstance;
 
@@ -67,10 +66,7 @@ class AppServiceProvider extends ServiceProvider {
     */
     public $laravel_providers = [
 
-        /*
-          * Laravel Framework Service Providers...
-          */
-      //  \Illuminate\Session\SessionServiceProvider::class,
+        \Illuminate\Session\SessionServiceProvider::class,
       //  \Illuminate\Filesystem\FilesystemServiceProvider::class,
         \Illuminate\Auth\AuthServiceProvider::class,
         \Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -91,7 +87,7 @@ class AppServiceProvider extends ServiceProvider {
         \Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         \Illuminate\Translation\TranslationServiceProvider::class,
         \Illuminate\Validation\ValidationServiceProvider::class,
-        \Illuminate\View\ViewServiceProvider::class
+        \Illuminate\View\ViewServiceProvider::class,
 
     ];
 
@@ -175,7 +171,7 @@ class AppServiceProvider extends ServiceProvider {
 
         $this->app->instance('config', new ConfigSave($this->app));
 
-        $this->app->register(TaggableFileCacheServiceProvider::class);
+     //   $this->app->register(TaggableFileCacheServiceProvider::class);
 
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 

@@ -41,7 +41,7 @@
 
     <tr>
         <td><?php _e('Author'); ?></td>
-        <td><?php if(isset($author_icon)): ?><img src="<?php print $author_icon; ?>" style="max-height: 16px;"/><?php endif; ?> <?php print $author ?></td>
+        <td><?php if(isset($author_icon) and $author_icon): ?><img src="<?php print $author_icon; ?>" style="max-height: 16px;"/><?php endif; ?> <?php print $author ?></td>
     </tr>
 
     <?php if (isset($item['latest_version']['changelog'])): ?>

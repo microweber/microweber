@@ -924,6 +924,11 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   }
 
+  &.not-collapsed-border:not(.collapsed) {
+    .img-circle-holder {
+      border-color: $primary;
+    }
+  }
   &.not-collapsed-border {
     cursor: pointer;
 
@@ -940,7 +945,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     background: transparent;
   }
 
-  &.not-collapsed-border:not(.collapsed) {
+  &.not-collapsed-border:not(.collapsed),
+  &.not-collapsed-border.active {
     border-color: $primary;
     &:before {
       content: "\F0B2D";
@@ -1020,6 +1026,14 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     }
   }
 
+  &.bg-none {
+    .card-header {
+      &:after {
+        width: 100%;
+      }
+    }
+  }
+
   .card-body {
     padding: 25px 25px;
   }
@@ -1063,6 +1077,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     }
   }
 
+  &.active,
   &:not(.collapsed),
   &:hover {
     &:after {
@@ -1511,6 +1526,10 @@ label.control-label {
       padding-right: 5px;
     }
   }
+}
+
+.lh-0 {
+  line-height: 0 !important;
 }
 
 .lh-1_0 {

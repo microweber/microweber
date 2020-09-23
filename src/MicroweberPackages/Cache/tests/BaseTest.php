@@ -1,7 +1,5 @@
 <?php
 
-use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
-
 abstract class BaseTest extends Orchestra\Testbench\TestCase
 {
 
@@ -13,7 +11,7 @@ abstract class BaseTest extends Orchestra\Testbench\TestCase
 
     protected function getPackageProviders($app)
     {
-        return [TaggableFileCacheServiceProvider::class];
+        return [\MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class];
     }
 
     /**

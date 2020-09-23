@@ -34,7 +34,7 @@ if (isset($item['created_by'])) {
 }
 ?>
 
-<div class="card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if ($item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
             <div class="row align-items-center mb-3">

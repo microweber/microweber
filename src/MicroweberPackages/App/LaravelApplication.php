@@ -3,7 +3,10 @@
 namespace MicroweberPackages\App;
 
 
+use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Foundation\Application;
+use Illuminate\Session\SessionServiceProvider;
+use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 
 class LaravelApplication extends Application
 {
@@ -15,6 +18,23 @@ class LaravelApplication extends Application
         $this->_check_system();
         parent::__construct($basePath);
     }
+
+    /**
+     * Register all of the base service providers.
+     *
+     * @return void
+     */
+    protected function registerBaseServiceProviders()
+    {
+
+        parent::registerBaseServiceProviders();
+
+        $this->register(new SessionServiceProvider($this));
+        $this->register(new FilesystemServiceProvider($this));
+        $this->register(new TaggableFileCacheServiceProvider($this));
+
+    }
+
 
     private function _check_system()
     {

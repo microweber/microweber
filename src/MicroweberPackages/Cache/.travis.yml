@@ -1,6 +1,6 @@
 language: php
 php:
-  - 7.2
+  - 7.4
 before_script:
  - travis_retry composer install
  - curl -sSfL -o ~/.phpenv/versions/$TRAVIS_PHP_VERSION/bin/phpunit https://phar.phpunit.de/phpunit-5.7.phar

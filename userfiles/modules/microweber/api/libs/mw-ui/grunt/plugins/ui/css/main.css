@@ -8390,6 +8390,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
         margin-bottom: 10px; } }
   .card .card-body {
     padding: 15px 25px; }
+  .card.not-collapsed-border:not(.collapsed) .img-circle-holder {
+    border-color: #4592ff; }
   .card.not-collapsed-border {
     cursor: pointer; }
     .card.not-collapsed-border:hover {
@@ -8398,9 +8400,9 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     background: #fafafa; }
   .card.bg-silver:not(.collapsed) {
     background: transparent; }
-  .card.not-collapsed-border:not(.collapsed) {
+  .card.not-collapsed-border:not(.collapsed), .card.not-collapsed-border.active {
     border-color: #4592ff; }
-    .card.not-collapsed-border:not(.collapsed):before {
+    .card.not-collapsed-border:not(.collapsed):before, .card.not-collapsed-border.active:before {
       content: "\F0B2D";
       font: normal normal normal 24px/1 "Material Design Icons";
       color: #4592ff;
@@ -8450,6 +8452,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       display: none; }
     .card.style-1 .card-header h1, .card.style-1 .card-header h2, .card.style-1 .card-header h3, .card.style-1 .card-header h4, .card.style-1 .card-header h5, .card.style-1 .card-header h6 {
       margin: 0; }
+  .card.style-1.bg-none .card-header:after {
+    width: 100%; }
   .card.style-1 .card-body {
     padding: 25px 25px; }
   @media screen and (max-width: 575px) {
@@ -8480,7 +8484,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   .card-bubble.bg-silver.collapsed:after {
     border-top-color: #fafafa;
     background-color: #fafafa; }
-  .card-bubble:not(.collapsed):after, .card-bubble:hover:after {
+  .card-bubble.active:after, .card-bubble:not(.collapsed):after, .card-bubble:hover:after {
     border-left: 1px solid #4592ff;
     border-bottom: 1px solid #4592ff; }
 
@@ -8784,6 +8788,9 @@ label.control-label {
   .tag.tag-xs span {
     padding-left: 5px;
     padding-right: 5px; }
+
+.lh-0 {
+  line-height: 0 !important; }
 
 .lh-1_0 {
   line-height: 1.0 !important; }

@@ -250,8 +250,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_products.svg'); ">
-                        <h4>You don’t have any products yet</h4>
-                        <p>Create your first post right now.<br/>
+                        <h4>You don’t have any products</h4>
+                        <p>Create your first product right now.<br/>
                             You are able to do that in very easy way!</p>
                         <br/>
                         <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded">Create a Product</a>

@@ -191,19 +191,19 @@ if (!is_logged()) {
 $order_notif_html = false;
 $new_orders_count = mw()->order_manager->get_count_of_new_orders();
 if ($new_orders_count) {
-    $order_notif_html = '<span class="badge badge-success badge-pill mr-2">' . $new_orders_count . '</span>';
+    $order_notif_html = '<span class="badge badge-success badge-pill mr-2 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
 }
 
 $comments_notif_html = false;
 $new_comments_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
 if ($new_comments_count) {
-    $comments_notif_html = '<span class="badge badge-success badge-pill mr-2">' . $new_comments_count . '</span>';
+    $comments_notif_html = '<span class="badge badge-success badge-pill mr-2 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
 }
 
 $notif_html = '';
 $notif_count = mw()->notifications_manager->get_unread_count();
 if ($notif_count > 0) {
-    $notif_html = '<span class="badge badge-success badge-pill mr-2">' . $notif_count . '</span>';
+    $notif_html = '<span class="badge badge-success badge-pill mr-2 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
 }
 ?>
 

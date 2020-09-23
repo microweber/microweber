@@ -200,7 +200,7 @@ header {
               text-align: center; }
               .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i:before {
                 margin: 0;
-                font-size: 13px !important; }
+                font-size: 12px !important; }
           .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.dropdown-item:not(:hover) .add-new {
             background-color: #bcbfc2;
             border-color: #bcbfc2; }
@@ -1105,7 +1105,6 @@ header {
           visibility: visible;
           opacity: 1;
           display: block;
-          left: -23px !important;
           right: 0 !important; }
         .js-anchorific .anchorific ul li ul li {
           clear: both;
