@@ -219,7 +219,8 @@ class ComposerUpdate
         $return_found = array();
         $return_packages_with_updates = array();
 
-        $local_packages = array(); // TODO mw()->update->collect_local_data();
+   //     $local_packages = array(); // TODO mw()->update->collect_local_data();
+        $local_packages =   mw()->update->collect_local_data();
 
         $local_packages_found = array();
         if ($return) {
@@ -241,6 +242,11 @@ class ComposerUpdate
                     }
 
                     $package_folder = false;
+                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']) and isset($package['latest_version']['folder'])) {
+                        $package_folder = $package['latest_version']['folder'];
+                    }
+
+
                     if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']) and isset($package['latest_version']['folder'])) {
                         $package_folder = $package['latest_version']['folder'];
                     }
@@ -283,7 +289,6 @@ class ComposerUpdate
 
                         if (isset($local_packages[$local_packages_type]) and is_array($local_packages[$local_packages_type])) {
                             foreach ($local_packages[$local_packages_type] as $lpk => $local_package_item) {
-
                                 if (isset($local_package_item['dir_name'])) {
                                     if ($local_package_item['dir_name'] == $package_folder) {
 

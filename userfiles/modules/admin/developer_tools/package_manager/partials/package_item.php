@@ -4,7 +4,12 @@ if (!user_can_access('module.marketplace.index')) {
 }
 ?>
 <?php
+
+
+
 include(__DIR__ . '/package_data.php');
+
+
 ?>
 <?php $tooltipid = uniqid('tooltip'); ?>
 
@@ -25,7 +30,33 @@ include(__DIR__ . '/package_data.php');
 
                     <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?> class="btn btn-md btn-link text-dark p-0 font-weight-bold"><?php print $item['description'] ?></a>
                     <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>" data-trigger="click"><i class="mdi mdi-information-outline"></i></span>
-                    <p class="mt-3">Some info text</p>
+
+
+
+
+                    <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
+                        <p class="mt-3 text-success">
+
+
+<?php
+
+$href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode($item['current_install']['module'].'/admin');
+
+
+
+?>
+                            <a  href="<?php print $href_open_mod ?>"   class="btn btn-sm btn-info"><?php _e('Open'); ?></a>
+
+
+
+                        </p>
+                    <?php else : ?>
+                        <p class="mt-3"> </p>
+
+                    <?php endif; ?>
+
+
+
                 </div>
 
                 <div class="package-item-footer">
