@@ -924,6 +924,11 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   }
 
+  &.not-collapsed-border:not(.collapsed) {
+    .img-circle-holder {
+      border-color: $primary;
+    }
+  }
   &.not-collapsed-border {
     cursor: pointer;
 
@@ -1017,6 +1022,14 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
     h1, h2, h3, h4, h5, h6 {
       margin: 0;
+    }
+  }
+
+  &.bg-none {
+    .card-header {
+      &:after {
+        width: 100%;
+      }
     }
   }
 
@@ -1511,6 +1524,10 @@ label.control-label {
       padding-right: 5px;
     }
   }
+}
+
+.lh-0 {
+  line-height: 0 !important;
 }
 
 .lh-1_0 {

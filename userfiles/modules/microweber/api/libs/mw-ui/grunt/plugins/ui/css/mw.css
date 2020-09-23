@@ -1105,7 +1105,6 @@ header {
           visibility: visible;
           opacity: 1;
           display: block;
-          left: -23px !important;
           right: 0 !important; }
         .js-anchorific .anchorific ul li ul li {
           clear: both;

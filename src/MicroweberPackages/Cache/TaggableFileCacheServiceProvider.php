@@ -9,7 +9,7 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        \Cache::extend('file', function ($app, $config) {
+        Cache::extend('file', function ($app, $config) {
 
             $locale = app()->getLocale();
             if ($locale) {
@@ -22,7 +22,5 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
 
             return \Cache::repository(new TaggableFileStore($this->app['files'], $configPath, $config));
         });
-
     }
-
 }
