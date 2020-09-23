@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <label>Meta keywords</label>
                         <small class="text-muted d-block mb-2">Separate keywords with a comma and space</small>
-                        <textarea class="form-control"></textarea>
+                        <textarea class="form-control" placeholder="e.g. Summer, Ice cream, Beach"></textarea>
                     </div>
                 </div>
 

@@ -6,7 +6,7 @@ event_bind('mw.admin.dashboard.content.before', function ($params = false) {
 
     if (isset($_GET['install_done']) and mw()->ui->disable_marketplace != true) {
         print '<h1 style="font-size: 24px; color: #555555;">Welcome to Microweber ' . MW_VERSION . '</h1>';
-        print '<p style="font-size: 13px; color: #999999; line-height: 1.6;">Use Microweber to build your website, online shop or blog.</p>';
+        print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom: 5px;">Use Microweber to build your website, online shop or blog.</p>';
         print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom:30px;">Create and  edit content, sell online, manage orders and clients with Open Source CMS Microweber.</p>';
     }
 });
