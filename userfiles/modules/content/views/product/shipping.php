@@ -22,7 +22,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-physical-product-check" id="customCheck4">
+                        <input type="checkbox" class="custom-control-input js-physical-product-check" id="customCheck4" name="physical_product" value="1" <?php if ($contentData['physical_product']==1):?>checked="checked"<?php endif; ?>>
                         <label class="custom-control-label" for="customCheck4">This is a physical product</label>
                     </div>
                 </div>
@@ -39,11 +39,11 @@
                 <div class="form-group">
                     <label class="d-block">Free Shipping</label>
                     <div class="custom-control custom-radio d-inline-block mr-3">
-                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                        <input type="radio" id="customRadio1" class="custom-control-input" name="free_shipping" value="1" <?php if ($contentData['free_shipping']==1):?>checked="checked"<?php endif; ?>>
                         <label class="custom-control-label" for="customRadio1">Yes</label>
                     </div>
                     <div class="custom-control custom-radio d-inline-block mr-3">
-                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" checked="">
+                        <input type="radio" id="customRadio2" class="custom-control-input" name="free_shipping" value="0" <?php if ($contentData['free_shipping']==0):?>checked="checked"<?php endif; ?>>
                         <label class="custom-control-label" for="customRadio2">No</label>
                     </div>
                 </div>
@@ -76,14 +76,14 @@
                 <div class="form-group">
                     <label>Weight</label>
                     <div class="input-group mb-3 append-transparent">
-                        <input type="text" class="form-control" name="weight_type" value="<?php echo $contentData['weight_type']; ?>">
+                        <input type="text" class="form-control" name="weight" value="<?php echo $contentData['weight']; ?>">
                         <div class="input-group-append">
                             <span style="width:70px;">
-                                <select class="selectpicker" data-width="100%">
-                                    <option>kg</option>
-                                    <option>lb</option>
-                                    <option>oz</option>
-                                    <option>g</option>
+                                <select class="selectpicker" name="weight_type" data-width="100%">
+                                    <option value="kg" <?php if ($contentData['weight_type']=='kg'):?>selected="selected"<?php endif; ?>>kg</option>
+                                    <option value="lb" <?php if ($contentData['weight_type']=='lb'):?>selected="selected"<?php endif; ?>>lb</option>
+                                    <option value="oz" <?php if ($contentData['weight_type']=='oz'):?>selected="selected"<?php endif; ?>>oz</option>
+                                    <option value="g" <?php if ($contentData['weight_type']=='g'):?>selected="selected"<?php endif; ?>>g</option>
                                 </select>
                             </span>
                         </div>
@@ -132,7 +132,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="show-params-checkout-page" />
+                            <input type="checkbox" class="custom-control-input" id="show-params-checkout-page" name="params_in_checkout" value="1" <?php if ($contentData['params_in_checkout']==1):?>checked="checked"<?php endif; ?> />
                             <label class="custom-control-label" for="show-params-checkout-page">Show parameters in checkout page</label>
                         </div>
                     </div>

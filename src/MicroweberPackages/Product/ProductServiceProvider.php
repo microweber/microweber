@@ -14,7 +14,6 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         Product::observe(BaseModelObserver::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');

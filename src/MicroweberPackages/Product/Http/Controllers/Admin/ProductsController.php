@@ -29,21 +29,17 @@ class ProductsController
     {
         $fromPost = $this->getRequest('update')->all();
 
-        if (!isset($fromPost['track_quantity'])) {
-            $fromPost['track_quantity'] = 0;
+        $contentDataDefault = Product::$contentDataDefault;
+        $contentDataFromPost = $contentDataDefault;
+        foreach ($fromPost as $keyPost=>$keyValue) {
+            if (isset($contentDataDefault[$keyPost])) {
+                $contentDataFromPost[$keyPost] = $keyValue;
+            }
         }
 
         $product = Product::find($fromPost['id']);
         $product->update($fromPost);
-        $product->setContentData([
-            'price' => $fromPost['price'],
-            'special_price' => $fromPost['special_price'],
-            'sku' => $fromPost['sku'],
-            'barcode' => $fromPost['barcode'],
-            'quantity' => $fromPost['quantity'],
-            'track_quantity' => $fromPost['track_quantity'],
-            'max_quantity_per_order' => $fromPost['max_quantity_per_order']
-        ]);
+        $product->setContentData($contentDataFromPost);
         $product->save();
 
         if (method_exists($this, 'redirectTo')) {

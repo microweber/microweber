@@ -25,7 +25,6 @@ if (isset($item['license']) and isset($item['license'][0])) {
 $author_icon = false;
 if (isset($item['extra']) and isset($item['extra']['_meta']) and isset($item['extra']['_meta']['avatar'])) {
     $author_icon = $item['extra']['_meta']['avatar'];
-
 }
 
 
