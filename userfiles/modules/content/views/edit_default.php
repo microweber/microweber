@@ -6,7 +6,6 @@
     });
 </script>
 <?php
-
 $edit_page_info = $data;
 
 if (!isset($edit_page_info['title'])) {
