@@ -32,6 +32,7 @@ if (isset($item['created_by'])) {
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">
+                        <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;"><?php echo count($order_products); ?></button>
                         <div class="img-circle-holder">
                             <?php if ($order_first_product AND isset($order_first_product['item_image'])): ?>
                                 <img src="<?php echo thumbnail($order_first_product['item_image'], 160, 160); ?>"/>

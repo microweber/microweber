@@ -504,7 +504,7 @@ if (isset($params['live_edit'])) {
                                         <div class="form-group">
                                             <label class="control-label"><?php _e("Meta Keywords"); ?></label>
                                             <small class="text-muted d-block mb-2">Separate keywords with a comma and space</small>
-                                            <textarea class="form-control" name="category_meta_keywords"><?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?></textarea>
+                                            <textarea class="form-control" name="category_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach"><?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?></textarea>
                                         </div>
                                     </div>
 
