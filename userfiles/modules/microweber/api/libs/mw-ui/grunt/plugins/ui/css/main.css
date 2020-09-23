@@ -8789,6 +8789,9 @@ label.control-label {
     padding-left: 5px;
     padding-right: 5px; }
 
+.lh-0 {
+  line-height: 0 !important; }
+
 .lh-1_0 {
   line-height: 1.0 !important; }
 
