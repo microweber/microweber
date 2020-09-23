@@ -425,6 +425,7 @@ class ComposerUpdate
 
         }
 
+
         //  $temp_folder = $this->composer_temp_folder;
 
 
@@ -538,7 +539,7 @@ class ComposerUpdate
 
 
                 if (isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])) {
-                 //   unset($current_composer['repositories']['packagist']);
+                    unset($current_composer['repositories']['packagist']);
                 }
 
                 if (!isset($current_composer['extra'])) {
@@ -637,7 +638,6 @@ class ComposerUpdate
                 $from_folder = $from_folder_cp;
                 $from_folder = normalize_path($from_folder, true);
             }
-
 
             if ($out === 0) {
 
@@ -1073,8 +1073,12 @@ class ComposerUpdate
             $new_composer_config['repositories'] = $composer_orig['repositories'];
         }
 
-        $new_composer_config['repositories']['packagist'] = false;
 
+        if($prepare_for_install){
+
+     //   $new_composer_config['repositories']['packagist'] = true;
+
+        }
 
         if (!isset($composer_orig['config'])) {
             $composer_orig['config'] = [];
