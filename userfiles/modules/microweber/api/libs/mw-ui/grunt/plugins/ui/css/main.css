@@ -8443,7 +8443,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       content: '';
       border-top: 1px solid #d9dadb;
       position: absolute;
-      width: 100%;
+      width: calc(100% - 50px);
       left: auto;
       bottom: 0; }
     .card.style-1 .card-header.no-border:after {
@@ -8491,7 +8491,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  padding: 1px 0px; }
+  padding: 1px 0px;
+  text-align: left; }
 
 .text-break-line-2 {
   overflow: hidden;
@@ -8499,7 +8500,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  padding: 1px 0px; }
+  padding: 1px 0px;
+  text-align: left; }
 
 .text-break-line-3 {
   overflow: hidden;
@@ -8507,7 +8509,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  padding: 1px 0px; }
+  padding: 1px 0px;
+  text-align: left; }
 
 /* Image in Circle */
 .img-circle-holder {

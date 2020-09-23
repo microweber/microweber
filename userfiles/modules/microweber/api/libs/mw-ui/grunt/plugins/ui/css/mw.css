@@ -199,7 +199,8 @@ header {
               padding: 0;
               text-align: center; }
               .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i:before {
-                margin: 0; }
+                margin: 0;
+                font-size: 13px !important; }
           .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.dropdown-item:not(:hover) .add-new {
             background-color: #bcbfc2;
             border-color: #bcbfc2; }
