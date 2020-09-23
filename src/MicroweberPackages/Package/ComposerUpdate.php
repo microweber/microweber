@@ -219,7 +219,8 @@ class ComposerUpdate
         $return_found = array();
         $return_packages_with_updates = array();
 
-        $local_packages = array(); // TODO mw()->update->collect_local_data();
+   //     $local_packages = array(); // TODO mw()->update->collect_local_data();
+        $local_packages =   mw()->update->collect_local_data();
 
         $local_packages_found = array();
         if ($return) {
@@ -241,6 +242,11 @@ class ComposerUpdate
                     }
 
                     $package_folder = false;
+                    if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']) and isset($package['latest_version']['folder'])) {
+                        $package_folder = $package['latest_version']['folder'];
+                    }
+
+
                     if (!$package_folder and isset($package['latest_version']) and isset($package['latest_version']) and isset($package['latest_version']['folder'])) {
                         $package_folder = $package['latest_version']['folder'];
                     }
@@ -283,7 +289,6 @@ class ComposerUpdate
 
                         if (isset($local_packages[$local_packages_type]) and is_array($local_packages[$local_packages_type])) {
                             foreach ($local_packages[$local_packages_type] as $lpk => $local_package_item) {
-
                                 if (isset($local_package_item['dir_name'])) {
                                     if ($local_package_item['dir_name'] == $package_folder) {
 
@@ -425,6 +430,7 @@ class ComposerUpdate
 
         }
 
+
         //  $temp_folder = $this->composer_temp_folder;
 
 
@@ -538,7 +544,7 @@ class ComposerUpdate
 
 
                 if (isset($current_composer['repositories']) and isset($current_composer['repositories']['packagist'])) {
-                 //   unset($current_composer['repositories']['packagist']);
+                    unset($current_composer['repositories']['packagist']);
                 }
 
                 if (!isset($current_composer['extra'])) {
@@ -637,7 +643,6 @@ class ComposerUpdate
                 $from_folder = $from_folder_cp;
                 $from_folder = normalize_path($from_folder, true);
             }
-
 
             if ($out === 0) {
 
@@ -1073,8 +1078,12 @@ class ComposerUpdate
             $new_composer_config['repositories'] = $composer_orig['repositories'];
         }
 
-        $new_composer_config['repositories']['packagist'] = false;
 
+        if($prepare_for_install){
+
+     //   $new_composer_config['repositories']['packagist'] = true;
+
+        }
 
         if (!isset($composer_orig['config'])) {
             $composer_orig['config'] = [];
