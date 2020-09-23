@@ -7,7 +7,6 @@ if ($data['id'] > 0) {
 }
 ?>
 
-<?php include_once 'pricing.php'; ?>
-<?php include_once 'inventory.php'; ?>
-<?php include_once 'shipping.php'; ?>
-<?php include_once 'variants.php'; ?>
+<?php include_once __DIR__ .'/pricing.php'; ?>
+<?php include_once __DIR__ .'/inventory.php'; ?>
+<?php include_once __DIR__ .'/shipping.php'; ?>
