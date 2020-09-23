@@ -7,9 +7,9 @@ use Illuminate\Support\ServiceProvider;
 
 class TaggableFileCacheServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
-        Cache::extend('tfile', function ($app, $config) {
+        Cache::extend('file', function ($app, $config) {
 
             $locale = app()->getLocale();
             if ($locale) {
