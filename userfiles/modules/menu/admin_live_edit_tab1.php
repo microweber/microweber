@@ -14,16 +14,18 @@
     });
 
     var addMenuItem = function () {
-        var picker = mw.component({
-            url: 'link_editor_v2',
-            options: {
-                target: false,
-                text: true,
-                controllers: 'page, custom, content, section, layout'
-            }
+        var linkEditor = new mw.LinkEditor({
+            mode: 'dialog',
+            controllers: [
+                { type: 'url', config: {target: false}},
+                { type: 'page', config: {target: false} },
+                { type: 'post', config: {target: false}},
+                { type: 'layout', config: {target: false} }
+            ]
         });
 
-        $(picker).on('Result', function (e, res) {
+
+        linkEditor.promise().then(function (res){
             var data = {
                 title: res.text || res.url.split('/').pop(),
                 url: res.url,
@@ -40,6 +42,8 @@
 
             mw.menu_admin.save_item(data);
         })
+
+
     }
 </script>
 

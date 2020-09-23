@@ -30,6 +30,7 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "symfony/translation": "5.0",
         "doctrine/dbal": "2.5.3",
         "composer/composer": "1.10",
         "composer/installers": "^1.0@dev",
@@ -56,8 +57,7 @@
         "spatie/laravel-permission": "dev-master",
         "laravelcollective/html": "^6.0@dev",
         "laravel/socialite": "^6.0@dev",
-        "arcanedev/seo-helper": "dev-master",
-        "microweber-modules/test-module-with-deps": "0.1"
+        "arcanedev/seo-helper": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

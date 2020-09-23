@@ -360,17 +360,32 @@ MWEditor.api = function (scope) {
             var regInsafe = mw.tools.parentsOrCurrentOrderMatchOrNone(el, ['regular-mode', 'safe-mode']);
             return hasSafe && !regInsafe;
         },
-        execCommand: function (a, b, c) {
+        _execCommandCustom: {
+            removeFormat: function (cmd, def, val) {
+                scope.actionWindow.document.execCommand(cmd, def, val);
+                var sel = scope.getSelection();
+                var r = sel.getRangeAt(0);
+                var common = r.commonAncestorContainer;
+                var all = common.querySelectorAll('*'), l = all.length, i = 0;
+                for ( ; i < l; i++ ) {
+                    var el = all[i];
+                    if (typeof sel !== 'undefined' && sel.containsNode(el, true)) {
+                        all[i].removeAttribute('style');
+                    }
+                }
+            }
+        },
+        execCommand: function (cmd, def, val) {
             scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
             var sel = scope.getSelection();
             try {  // 0x80004005
                 if (scope.actionWindow.document.queryCommandSupported(a) && scope.api.isSelectionEditable()) {
-                    b = b || false;
-                    c = c || false;
+                    def = def || false;
+                    val = val || false;
                     if (sel.rangeCount > 0) {
                         var node = scope.api.elementNode(sel.focusNode);
                         scope.api.action(mw.tools.firstBlockLevel(node), function () {
-                            scope.actionWindow.document.execCommand(a, b, c);
+                            scope.actionWindow.document.execCommand(cmd, def, val);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
                         });
