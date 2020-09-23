@@ -1,6 +1,6 @@
 (function(){
 
-    var Element = function(options, root){
+    var MWElement = function(options, root){
         var scope = this;
 
         this.toggle = function () {
@@ -281,10 +281,10 @@
         this.init();
     };
     mw.element = function(options){
-        return new Element(options);
+        return new MWElement(options);
     };
     mw.element.module = function (name, func) {
-        Element.prototype[name] = func;
+        MWElement.prototype[name] = func;
     };
 
 })();

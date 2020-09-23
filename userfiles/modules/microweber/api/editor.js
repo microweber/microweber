@@ -4,26 +4,44 @@
 
     var FileManager = function (options) {
 
+        var scope = this;
+
         options = options || {};
 
+        var defaultRequest = function (params, callback, error) {
+            var xhr = new XMLHttpRequest();
+            scope.dispatch('beforeRequest', {xhr: xhr, params: params});
+            xhr.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    callback.call(scope, JSON.parse(this.responseText), xhr);
+                }
+            };
+            xhr.open("GET", scope.settings.path, true);
+            xhr.send();
+        };
+
         var defaults = {
-            data: Array(5).fill({}), // todo: make it empty
             viewType: 'list',
             query: {
                 order: 'asc',
                 orderBy: 'name',
                 keyword: '',
-                path: '/',
+                path: '/admin/file-manager/list',
                 display: 'list'
             },
-            endPoint: ''
+            requestData: defaultRequest
         };
+
+        var _e = {};
+
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
         this.settings = mw.object.extend({}, defaults, options);
 
         var table, tableHeader, tableBody;
 
-        var scope = this;
+
 
         this._check = function () {
             return '' +
@@ -78,8 +96,28 @@
             this._data = data;
         };
 
+        this.updateData = function (data) {
+            this.setData(data);
+            this.dispatch('dataUpdated', data);
+        };
+
         this.getData = function () {
             return this._data;
+        };
+
+        this.requestData = function () {
+            var params = {};
+            var cb = function (res) {
+                scope.updateData(res);
+            };
+
+            var err = function (er) {
+
+            };
+
+            this.settings.requestData(
+                params, cb, err
+            );
         };
 
 
@@ -122,29 +160,35 @@
 
         this.init();
     };
-    mw.FileManager = FileManager;
+
+
+
+    mw.FileManager = function (options) {
+        return new FileManager(options);
+    };
 })();
+
+
 
 
 
 var EditorPredefinedControls = {
     'default': [
-        [ 'bold', '|', 'italic' ],
-        [ 'bold', '|', 'italic' ]
+        [ 'bold', 'italic', 'underline' ],
     ],
     smallEditorDefault: [
         ['bold', 'italic', '|', 'link']
     ]
 };
 
-window.MWEditor = function (options) {
+var MWEditor = function (options) {
     var defaults = {
         regions: null,
         document: document,
         executionDocument: document,
-        mode: 'iframe', // iframe | div | document
+        mode: 'div', // iframe | div | document
         controls: 'default',
-        smallEditor: 'smallEditorDefault',
+        smallEditor: false,
         scripts: [],
         cssFiles: [],
         content: '',
@@ -185,6 +229,10 @@ window.MWEditor = function (options) {
 
     var scope = this;
 
+    if(!this.settings.selector && this.settings.element){
+        this.settings.selector = this.settings.element;
+    }
+
     if(!this.settings.selector && this.settings.mode === 'document'){
         this.settings.selector = this.document.body;
     }
@@ -194,6 +242,11 @@ window.MWEditor = function (options) {
     }
 
     this.settings.selectorNode = mw.$(this.settings.selector)[0];
+
+    if (this.settings.selectorNode) {
+        this.settings.selectorNode.__MWEditor = this;
+    }
+
     this.settings.isTextArea = this.settings.selectorNode.nodeName && this.settings.selectorNode.nodeName === 'TEXTAREA';
 
 
@@ -632,6 +685,7 @@ window.MWEditor = function (options) {
                 className: 'mw-small-editor mw-small-editor-skin-' + this.settings.skin
             }
         });
+
         this.smallEditorBar = mw.bar();
 
         this.smallEditor.hide();
@@ -780,7 +834,22 @@ window.MWEditor = function (options) {
 };
 
 if (window.mw) {
-   mw.Editor = MWEditor;
+   mw.Editor = function (options){
+       options = options || {};
+       if(!options.selector && options.element){
+           options.selector = options.element;
+       }
+       if(options.selector){
+           if (typeof options.selector === 'string') {
+               options.selector = (options.document || document).querySelector(options.selector);
+           }
+           if (options.selector && options.selector.__MWEditor) {
+               console.log(options.selector.__MWEditor)
+               return options.selector.__MWEditor;
+           }
+       }
+       return new MWEditor(options);
+   };
 }
 
 

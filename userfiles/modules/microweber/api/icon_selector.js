@@ -1177,11 +1177,11 @@ mw.lib.require('colorpicker');
         },
         _defaultsPrepare: function(c) {
             if(!mw.materialIcons){
-                $.getScript(mw.settings.modules_url + 'microweber/api/microweber.icons.js', function(data){
+                /*$.getScript(mw.settings.modules_url + 'microweber/api/microweber.icons.js', function(data){
                     $.getScript(mw.settings.modules_url + 'microweber/api/material.icons.js', function(data){
                         c.call();
                     });
-                });
+                });*/
             } else {
                 c.call();
             }

@@ -592,7 +592,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <script>mw.require('editor.js')</script>
                             <script>
                                 $(document).ready(function () {
-                                    mweditor = new mw.Editor({
+                                    mweditor = mw.Editor({
                                         selector: '#text',
                                         mode: 'div',
                                         smallEditor: false,
