@@ -1,7 +1,7 @@
 <?php
 $user = get_user();
 
-$user_image = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image.jpg';
+$user_image = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-user.png';
 if (isset($user['thumbnail'])) {
     $user_image = $user['thumbnail'];
 }

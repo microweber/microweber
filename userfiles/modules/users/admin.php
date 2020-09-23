@@ -233,83 +233,89 @@ mw()->notifications_manager->mark_as_read('users');
 
             <div class="collapse" id="show-filter">
                 <div class="bg-primary-opacity-1 rounded px-3 py-2 mb-4">
-                    <div class="row d-flex justify-content-between">
-                        <div class="col-md-4">
-                            <div>
-                                <label class="d-block mb-2"><?php _e("Role"); ?></label>
-                                <script>
-                                    handleUserSortByRoles = function (e) {
-                                        e.preventDefault();
-                                        var val = e.target.value;
-                                        if (val === '-1') {
-                                            mw.url.windowDeleteHashParam('is_admin');
-                                        } else {
-                                            mw.url.windowHashParam('is_admin', val);
-                                        }
-                                    }
-                                </script>
+                    <div class="row d-flex">
+                        <div class="col-auto">
+                            <div class="row d-flex justify-content-between">
+                                <div class="col-md-4">
+                                    <div>
+                                        <label class="d-block mb-2"><?php _e("Role"); ?></label>
+                                        <script>
+                                            handleUserSortByRoles = function (e) {
+                                                e.preventDefault();
+                                                var val = e.target.value;
+                                                if (val === '-1') {
+                                                    mw.url.windowDeleteHashParam('is_admin');
+                                                } else {
+                                                    mw.url.windowHashParam('is_admin', val);
+                                                }
+                                            }
+                                        </script>
 
-                                <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByRoles(event)">
-                                    <option value="-1"><?php _e("All"); ?></option>
-                                    <option value="0"><?php _e("User"); ?></option>
-                                    <option value="1"><?php _e("Admin"); ?></option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div>
-                                <label class="d-block mb-2"><?php _e('Status'); ?></label>
-                                <script>
-                                    handleUserSortByActiveState = function (e) {
-                                        e.preventDefault();
-                                        var val = e.target.value;
-                                        if (val === '-1') {
-                                            mw.url.windowDeleteHashParam('is_active');
-                                        } else {
-                                            mw.url.windowHashParam('is_active', val);
-                                        }
-                                    }
-                                    function resetFilters() {
-                                        mw.url.windowDeleteHashParam('is_active')
-                                        mw.url.windowDeleteHashParam('is_admin')
-                                        mw.url.windowDeleteHashParam('sortby')
-                                        $('#show-filter .selectpicker').selectpicker('val', -1);
-                                        mw.$('#sortby1')[0].checked = true
-                                    }
-                                </script>
-
-                                <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByActiveState(event)">
-                                    <option value="-1"><?php _e("All users"); ?></option>
-                                    <option value="1"><?php _e("Active users"); ?></option>
-                                    <option value="0"><?php _e("Disabled users"); ?></option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div>
-                                <label class="d-block mb-2"><?php _e('Sort by'); ?></label>
-
-                                <div class="form-group mb-0">
-                                    <div class="custom-control custom-radio d-inline-block mr-2">
-                                        <input type="radio" id="sortby1" name="sortby" class="custom-control-input mw_users_filter_show" value="created_at desc" checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)">
-                                        <label class="custom-control-label" for="sortby1"><?php _e("Date created"); ?></label>
+                                        <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByRoles(event)">
+                                            <option value="-1"><?php _e("All"); ?></option>
+                                            <option value="0"><?php _e("User"); ?></option>
+                                            <option value="1"><?php _e("Admin"); ?></option>
+                                        </select>
                                     </div>
-                                    <div class="custom-control custom-radio d-inline-block mr-2">
-                                        <input type="radio" id="sortby2" name="sortby" class="custom-control-input mw_users_filter_show" value="last_login desc" onchange="mw.url.windowHashParam('sortby', this.value)">
-                                        <label class="custom-control-label" for="sortby2"><?php _e("Last login"); ?></label>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div>
+                                        <label class="d-block mb-2"><?php _e('Status'); ?></label>
+                                        <script>
+                                            handleUserSortByActiveState = function (e) {
+                                                e.preventDefault();
+                                                var val = e.target.value;
+                                                if (val === '-1') {
+                                                    mw.url.windowDeleteHashParam('is_active');
+                                                } else {
+                                                    mw.url.windowHashParam('is_active', val);
+                                                }
+                                            }
+                                            function resetFilters() {
+                                                mw.url.windowDeleteHashParam('is_active')
+                                                mw.url.windowDeleteHashParam('is_admin')
+                                                mw.url.windowDeleteHashParam('sortby')
+                                                $('#show-filter .selectpicker').selectpicker('val', -1);
+                                                mw.$('#sortby1')[0].checked = true
+                                            }
+                                        </script>
+
+                                        <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByActiveState(event)">
+                                            <option value="-1"><?php _e("All users"); ?></option>
+                                            <option value="1"><?php _e("Active users"); ?></option>
+                                            <option value="0"><?php _e("Disabled users"); ?></option>
+                                        </select>
                                     </div>
-                                    <div class="custom-control custom-radio d-inline-block">
-                                        <input type="radio" id="sortby3" name="sortby" class="custom-control-input mw_users_filter_show" value="username asc" onchange="mw.url.windowHashParam('sortby', this.value)">
-                                        <label class="custom-control-label" for="sortby3"><?php _e("Username"); ?></label>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div>
+                                        <label class="d-block mb-2"><?php _e('Sort by'); ?></label>
+
+                                        <div class="form-group mb-0">
+                                            <div class="custom-control custom-radio d-inline-block mr-2">
+                                                <input type="radio" id="sortby1" name="sortby" class="custom-control-input mw_users_filter_show" value="created_at desc" checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)">
+                                                <label class="custom-control-label" for="sortby1"><?php _e("Date created"); ?></label>
+                                            </div>
+                                            <div class="custom-control custom-radio d-inline-block mr-2">
+                                                <input type="radio" id="sortby2" name="sortby" class="custom-control-input mw_users_filter_show" value="last_login desc" onchange="mw.url.windowHashParam('sortby', this.value)">
+                                                <label class="custom-control-label" for="sortby2"><?php _e("Last login"); ?></label>
+                                            </div>
+                                            <div class="custom-control custom-radio d-inline-block">
+                                                <input type="radio" id="sortby3" name="sortby" class="custom-control-input mw_users_filter_show" value="username asc" onchange="mw.url.windowHashParam('sortby', this.value)">
+                                                <label class="custom-control-label" for="sortby3"><?php _e("Username"); ?></label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-center">
-                        <button onclick="resetFilters()" class="btn btn-outline-primary btn-sm" type="button">Reset filters</button>
+                        <div class="col d-flex align-items-center justify-content-center">
+                            <div class="text-center">
+                                <button onclick="resetFilters()" class="btn btn-outline-primary btn-sm" type="button">Reset filters</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
