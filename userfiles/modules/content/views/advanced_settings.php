@@ -181,7 +181,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 <small data-toggle="tooltip" title="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial"> (?)</small>
                             </label>
                             <small class="text-muted d-block mb-2">Separate keywords with a comma and space</small>
-                            <textarea class="form-control" name="content_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach"><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords']) ?></textarea>
+                            <textarea class="form-control" name="content_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach
+"><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords']) ?></textarea>
                             <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
                         </div>
                     </div>
