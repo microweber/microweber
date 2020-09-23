@@ -36,7 +36,7 @@
         });
     </script>
 
-    @if($customers)
+    @if($customers->count)
         <form method="get">
             <input type="hidden" value="true" name="filter">
 
