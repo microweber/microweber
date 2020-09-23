@@ -14,12 +14,13 @@ if (!user_can_access('module.contact_form.index')) {
 
 <div class="tab-content py-3">
     <script>
+        mw.require('editor.js')
         initEditor = function () {
             if (!window.editorLaunced) {
-                editorLaunced = true;
-                mw.editor({
+                window.editorLaunced = true;
+
+                mw.Editor({
                     element: mwd.getElementById('editorAM'),
-                    hideControls: ['format', 'fontsize', 'justifyfull']
                 });
             }
         }
@@ -28,6 +29,7 @@ if (!user_can_access('module.contact_form.index')) {
             $('#form_options').on('click', function () {
                 initEditor();
             });
+            initEditor()
         });
     </script>
 

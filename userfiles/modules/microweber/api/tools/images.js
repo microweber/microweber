@@ -3,7 +3,7 @@ mw.image = {
     currentResizing: null,
     resize: {
         create_resizer: function () {
-            if (mw.image_resizer == undefined) {
+            if (!mw.image_resizer) {
                 var resizer = document.createElement('div');
                 resizer.className = 'mw-defaults mw_image_resizer';
                 resizer.innerHTML = '<div id="image-edit-nav"><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="' + mw.msg.change + '"><span class="mdi mdi-image mdi-18px"></span></span><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" id="image-settings-button" data-tip="' + mw.msg.edit + '" onclick="mw.image.settings();"><span class="mdi mdi-pencil mdi-18px"></span></span></div>';

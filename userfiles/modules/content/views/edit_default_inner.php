@@ -47,7 +47,7 @@ if (isset($data['content-id'])) {
             // mweditor = mw.admin.editor.init(area, params);
 
 
-            mweditor = new mw.Editor({
+            mweditor = mw.Editor({
                 selector: '#content_template',
                 mode: 'div',
                 smallEditor: false,

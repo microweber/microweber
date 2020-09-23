@@ -752,7 +752,7 @@ mw.propEditor = {
                 ]
             };
             config.options = config.options || {};
-            this.editor = new mw.Editor($.extend({}, defaults, config.options, {selector: field}));
+            this.editor = mw.Editor($.extend({}, defaults, config.options, {selector: field}));
         }
     }
 };

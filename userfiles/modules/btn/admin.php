@@ -88,21 +88,25 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <script>
             mw.require('icon_selector.js')
-            mw.require('wysiwyg.css')
+            mw.require('wysiwyg.css');
         </script>
 
         <script>
+
+            mw.require('editor.js');
+
             launchEditor = function () {
                 if (!window.editorLaunched) {
                     editorLaunched = true;
-                    PopUpEditor = mw.editor({
+                    PopUpEditor = mw.Editor({
                         element: document.getElementById('popupcontent'),
-                        hideControls: ['format', 'fontsize']
+                        mode: 'div',
+                        smallEditor: false
                     });
                 }
             }
 
-            $(document).ready(function () {
+            $(window).on('load', function () {
                 btn_action = function () {
                     var el = mw.$("#action");
                     if (el.val() == 'url') {

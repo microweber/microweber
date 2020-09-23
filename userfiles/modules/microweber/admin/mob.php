@@ -195,12 +195,6 @@ mw.mobile = {
  $(document).ready(function(){
 
 
-       /* var editor = mw.tools.iframe_editor(mwd.getElementById('content'));
-        editor.style.width = '100%';
-        editor.style.height = '250px';
-        editor.style.resize = 'both';        */
-
-
 
 
 
