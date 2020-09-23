@@ -108,24 +108,13 @@ return [
     |
     */
 
-    'providers' => array_merge(\MicroweberPackages\App\MicroweberConfig::providers()), [
-
-    ],
-
-    /*
-   |--------------------------------------------------------------------------
-   | Class Aliases
-   |--------------------------------------------------------------------------
-   |
-   | This array of class aliases will be registered when this application
-   | is started. However, feel free to register as many as you wish as
-   | the aliases are "lazy" loaded so they don't hinder performance.
-   |
-   */
-
-    'aliases' => array_merge(\MicroweberPackages\App\MicroweberConfig::aliases()), [
-
-
+    'providers' => [
+        /*
+         * Application Service Providers...
+         */
+        'MicroweberPackages\App\Providers\AppServiceProvider',
+        'MicroweberPackages\App\Providers\EventServiceProvider',
+        'MicroweberPackages\App\Providers\RouteServiceProvider'
     ],
 
     /*
