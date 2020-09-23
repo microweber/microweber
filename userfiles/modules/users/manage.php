@@ -78,7 +78,7 @@ $registration_approval_required = get_option('registration_approval_required', '
                             </div>
                         <?php else: ?>
                             <div class="img-circle-holder img-absolute w-60">
-                                <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-image.jpg"/>
+                                <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-user.png"/>
                             </div>
                         <?php endif; ?>
                     </td>
