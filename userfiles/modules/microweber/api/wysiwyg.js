@@ -1747,6 +1747,8 @@ mw.wysiwyg = {
         mw.wysiwyg.save_selection();
         var el = node_id ? document.getElementById(node_id) : mw.tools.firstParentWithTag(getSelection().focusNode, 'a');
         var val;
+        var sel = getSelection();
+
         if(el) {
             val = {
                 url: url || el.href,
@@ -1754,6 +1756,18 @@ mw.wysiwyg = {
                 target: el.target === '_blank'
             }
 
+        } else if(!sel.isCollapsed) {
+            var html = document.createElement('div');
+            if(sel.rangeCount) {
+                var frag = sel.getRangeAt(0).cloneContents();
+                while (frag.firstChild) {
+                    html.append(frag.firstChild);
+                }
+            }
+            val = {
+                text: text || html.innerHTML,
+                url: url || ''
+            }
         }
         /*new mw.LinkEditor().promise().then(function(data) {
             mw.wysiwyg.restore_selection();
@@ -1772,7 +1786,7 @@ mw.wysiwyg = {
             mw.iframecallbacks.insert_link(result.url, (result.target ? '_blank' : '_self') , result.text);
         });
         dialog.iframe.onload = function (){
-            if(el) {
+            if(val) {
                 this.contentWindow.linkEditor.setValue(val)
             }
         }

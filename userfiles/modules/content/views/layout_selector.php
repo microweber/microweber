@@ -164,11 +164,9 @@ if (!empty($recomended_layouts)) {
             var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
             var framewindow = iframe.contentWindow;
             framewindow.scrollTo(0, 0);
-            mw.$('.preview_frame_wrapper').removeClass("loading");
+
             mw_preview_frame_object = mw.$('.preview_frame_wrapper iframe')[0];
-            //$('html, body', framewindow.document).css('overflow', 'hidden');
-            mw.templatePreview<?php print $rand; ?>.setHeight();
-        },
+         },
         rend: function (url) {
             var holder = mw.$('.preview_frame_container');
             var wrapper = mw.$('.preview_frame_wrapper');
@@ -181,10 +179,18 @@ if (!empty($recomended_layouts)) {
             frame.onload = function (ev) {
                 mw.templatePreview<?php print $rand; ?>.set();
                 this.contentWindow.document.documentElement.className = 'mw-template-document-preview';
+                mw.spinner({
+                    element: '.preview_frame_wrapper',
+                }).hide()
             };
 
 
-            holder.html(frame);
+            holder.empty();
+            mw.spinner({
+                element: '.preview_frame_wrapper',
+                size: 40
+            }).show()
+            holder.append(frame);
         },
         next: function () {
             var index = mw.templatePreview<?php print $rand; ?>.selector.selectedIndex;
@@ -203,19 +209,7 @@ if (!empty($recomended_layouts)) {
             $(mw.templatePreview<?php print $rand; ?>.selector).trigger('change');
         },
         setHeight: function () {
-            var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
-            if (!iframe) return;
-            $(iframe).css({
-                height: 1 * ($(top).height() - 66)
-            })
-            var framewindow = iframe.contentWindow;
-            //iframe.style.height = framewindow.document.body.clientHeight + 'px';
-            if (!this._init) {
-                this._init = true
-                $(window).on("resize", function () {
-                    mw.templatePreview<?php print $rand; ?>.setHeight();
-                })
-            }
+
 
         },
         zoom: function (a) {
@@ -238,7 +232,8 @@ if (!empty($recomended_layouts)) {
             mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0, 0);
         },
         generate: function (return_url) {
-            mw.$('.preview_frame_wrapper').addClass("loading");
+
+
             var template = mw.$('#active_site_template_<?php print $rand; ?> option:selected').val();
             var layout = mw.$('#active_site_layout_<?php print $rand; ?>').val();
             var is_shop = mw.$('#active_site_layout_<?php print $rand; ?> option:selected').attr('data-is-shop');
@@ -253,18 +248,13 @@ if (!empty($recomended_layouts)) {
             if (form != undefined && form != false) {
                 if (is_shop != undefined) {
                     if (is_shop != undefined && is_shop == 'y') {
-                        //if (form != undefined && form.querySelector('input[name="is_shop"][value="1"]') != null) {
                         if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
-                            //   form.querySelector('input[name="is_shop"][value="1"]').checked = true;
-
                             form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = true;
                         }
                     }
                     else {
                         if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
                             form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = false;
-                            //     form.querySelector('input[name="is_shop"]').value = '0'
-                            //     $(form.querySelector('input[name="is_shop"]')).attr() = '0'
                         }
                         if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input)') != null) {
                             //   form.querySelector('input[name="is_shop"][value="0"]').checked = true;
@@ -275,13 +265,9 @@ if (!empty($recomended_layouts)) {
 
 
                     if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
-                        //form.querySelector('input[name="is_shop"]').value = '0'
                         form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = false;
+                    }
 
-                    }
-                    if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input)') != null) {
-                        //  form.querySelector('input[name="is_shop"][value="0"]').checked = true;
-                    }
                     <?php endif; ?>
 
                 }
@@ -582,16 +568,36 @@ if (!empty($recomended_layouts)) {
         </div>
 
         <style>
-            .preview_frame_container iframe {
-                width: 1200px;
-                border: 1px solid silver;
+            .preview_frame_container{
+                position: relative;
+                height: calc(80vh - 80px);
+                overflow: hidden;
             }
-
-            .preview_frame_container {
-                transform: scale(.6);
+            .preview_frame_wrapper{
+                position: relative;
+            }
+            .preview_frame_wrapper .mw-spinner{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .preview_frame_container iframe {
+                width: 200%;
+                height: calc(160vh - 160px) !important;
+                transform: scale(.5);
+                top: 0;
+                position: absolute;
                 left: 0;
                 transform-origin: 0 0;
+                border: 1px solid silver;
+                transition: .3s;
             }
+            .preview_frame_wrapper.has-mw-spinner iframe{
+                opacity: 0;
+            }
+
+
         </style>
 
         <div class="card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
