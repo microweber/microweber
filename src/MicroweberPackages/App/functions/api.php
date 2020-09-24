@@ -182,6 +182,22 @@ function mw_var($key, $new_val = false)
     return false;
 }
 
+function autoload_add_namespace($dirname,$namespace){
+    spl_autoload_register(function ($class) use ($dirname,$namespace) {
+        $prefix = $namespace;
+        $base_dir = $dirname;
+        $len = strlen($prefix);
+        if (strncmp($prefix, $class, $len) !== 0) {
+            return;
+        }
+        $relative_class = substr($class, $len);
+        $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+        if (file_exists($file)) {
+            require $file;
+        }
+    });
+}
+
 function autoload_add($dirname)
 {
     set_include_path($dirname .
