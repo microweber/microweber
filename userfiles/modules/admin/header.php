@@ -214,11 +214,11 @@ $user = get_user_by_id($user_id);
                         <a href="<?php print admin_url('view:dashboard'); ?>">
                             <h5 class="text-white mr-3 d-flex align-items-center h-100">
                                 <?php if (mw()->ui->admin_logo != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo ?>"/>
+                                    <img src="<?php print mw()->ui->admin_logo ?>" style="height: 40px;"/>
                                 <?php elseif (mw()->ui->admin_logo_login() != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>"/>
+                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" style="height: 40px;"/>
                                 <?php else: ?>
-                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg"/>
+                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg" style="height: 40px;"/>
                                 <?php endif; ?>
                             </h5>
                         </a>
@@ -268,8 +268,8 @@ $user = get_user_by_id($user_id);
                     <li class="mx-1 logo d-block d-md-none">
                         <a class="mw-admin-logo" href="<?php print admin_url('view:dashboard'); ?>">
                             <h5 class="text-white mr-md-3">
-                                <?php if (mw()->ui->admin_logo != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo ?>" style="height: 40px;"/>
+                                <?php if (mw()->ui->logo_live_edit != false): ?>
+                                    <img src="<?php print mw()->ui->logo_live_edit; ?>" style="height: 40px;"/>
                                 <?php elseif (mw()->ui->admin_logo_login() != false): ?>
                                     <img src="<?php print mw()->ui->admin_logo_login(); ?>" style="height: 40px;"/>
                                 <?php else: ?>
