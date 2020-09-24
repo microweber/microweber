@@ -41,11 +41,6 @@
   padding-bottom: 0;
 }
 
-.comments-admin-header input[type='search']{
-  margin: 24px 0 0;
-  float: right;
-}
-
 
 .comment-post .img{
   float: left;
@@ -80,11 +75,6 @@
 .new-comments, .old-comments{
   display: none;
   padding-left: 89px;
-}
-
-.comments-holder{
-  clear: both;
-  background: url(img/deeparr.png) no-repeat 37px 39px;
 }
 
 .comment-of-apost{

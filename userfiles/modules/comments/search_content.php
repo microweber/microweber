@@ -1,8 +1,5 @@
 <?php
-
-
 return print('This file is deprecated ' . __FILE__);
-
 
 must_have_access();
 $comments_data = array();
@@ -23,7 +20,7 @@ if (isset($params['limit'])) {
 $comments_data = array();
 if (isset($params['content_id'])) {
 
-     $comments_data['content_id'] = $params['content_id'];
+    $comments_data['content_id'] = $params['content_id'];
 
 
 } else {
@@ -52,7 +49,7 @@ if ($kw) {
 $comments_data['group_by'] = 'rel_id,rel_type';
 $comments_data['order_by'] = 'created_at desc';
 
- //  $comments_data['debug'] =  'rel,rel_id';
+//  $comments_data['debug'] =  'rel,rel_id';
 $data = get_comments($comments_data);
 
 
@@ -61,30 +58,23 @@ $data = get_comments($comments_data);
 
 
 <script type="text/javascript">
-
     mw.require("<?php print $config['url_to_module']; ?>edit_comments.js");
 </script>
 
 
 <div class="comments-holder">
     <?php if (is_array($data)): ?>
-
         <div class="mw-admin-comments-search-holder">
-            <?php foreach ($data as $item){ ?>
-            <?php if (isset($item['rel_type']) and $item['rel_type'] == 'content'): ?>
-            <module type="comments/comments_for_post" id="mw_comments_for_post_<?php print $item['rel_id'] ?>"  content_id="<?php print $item['rel_id'] ?>" search-keyword="<?php print $kw ?>">
+            <?php foreach ($data as $item) { ?>
+                <?php if (isset($item['rel_type']) and $item['rel_type'] == 'content'): ?>
+                    <module type="comments/comments_for_post" id="mw_comments_for_post_<?php print $item['rel_id'] ?>" content_id="<?php print $item['rel_id'] ?>" search-keyword="<?php print $kw ?>"/>
                 <?php endif; ?>
                 <?php if (isset($item['rel_type']) and $item['rel_type'] == 'modules'): ?>
-                <module type="comments/comments_for_module" id="mw_comments_for_post_<?php print $item['rel_id'] ?>"   rel_id="<?php print $item['rel_id'] ?>" rel="<?php print $item['rel_type'] ?>">
-                    <?php endif; ?>
-                    <?php // _d($item);  break;  ?>
-                    <?php }; ?>
+                    <module type="comments/comments_for_module" id="mw_comments_for_post_<?php print $item['rel_id'] ?>" rel_id="<?php print $item['rel_id'] ?>" rel="<?php print $item['rel_type'] ?>"/>
+                <?php endif; ?>
+            <?php }; ?>
         </div>
     <?php else: ?>
-        <h5><?php _e('You don\'t have any comments yet.'); ?></h5>
-        <br/>
-        <a href="#content_id=0" class="mw-ui-btn">
-            <?php _e("See all comments"); ?>
-        </a>
+        <a href="#content_id=0" class="btn btn-primary"><?php _e("See all comments"); ?></a>
     <?php endif; ?>
 </div>

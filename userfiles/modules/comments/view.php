@@ -1,27 +1,22 @@
 <?php
 must_have_access();
 
-$notification_id = (int) $params['notification_id'];
+$notification_id = (int)$params['notification_id'];
 $data = mw()->notifications_manager->get('single=1&id=' . $notification_id);
 ?>
 <style>
-.comments-holder .comment-holder .order-data .last-comment-date {
-    padding: 0px;
-    float: right;
-	margin-right: 40px;
-	margin-top:-30px;
-}
-.new-close.mw-icon-close:not(.module-uninstall-btn) {
-    padding-top: 4px;
-    top: 99px;
-    right: 10px;
-}
+
+    .new-close.mw-icon-close:not(.module-uninstall-btn) {
+        padding-top: 4px;
+        top: 99px;
+        right: 10px;
+    }
 </style>
 <script type="text/javascript">
     mw.require('<?php print modules_url() ?>comments/edit_comments.js');
 </script>
 <script>
-    commentToggle = window.commentToggle || function (e,comment_id) {
+    commentToggle = window.commentToggle || function (e, comment_id) {
 
             var item = mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['comment-holder']);
             if (!mw.tools.hasClass(item, 'active')) {
@@ -54,9 +49,9 @@ $data = mw()->notifications_manager->get('single=1&id=' . $notification_id);
 </script>
 
 <div class="comments-holder">
- <div class="mw-admin-comments-search-holder">
-<div class="comment-holder active" style="border:0px;" id="comment-n-<?php echo $data['rel_id']; ?>" onclick="commentToggle(event, '<?php echo $data['rel_id']; ?>');">
-<module content_id="<?php echo $data['rel_id']; ?>" type="comments/comments_list">
-</div>
-</div>
+    <div class="mw-admin-comments-search-holder">
+        <div class="comment-holder active" style="border:0px;" id="comment-n-<?php echo $data['rel_id']; ?>" onclick="commentToggle(event, '<?php echo $data['rel_id']; ?>');">
+            <module content_id="<?php echo $data['rel_id']; ?>" type="comments/comments_list">
+        </div>
+    </div>
 </div>
