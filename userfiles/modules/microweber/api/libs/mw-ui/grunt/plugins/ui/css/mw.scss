@@ -621,9 +621,10 @@ header {
     @media screen and (min-width: 575px) {
       min-width: 340px;
 
-      flex: 0 0 auto;
+      //flex: 0 0 auto;
       width: auto;
       max-width: 100%;
+      flex: auto;
     }
   }
 
@@ -635,6 +636,10 @@ header {
   .item-comments,
   .item-author {
     text-align: right;
+  }
+
+  .item-author {
+    //flex: 0 0 auto;
   }
 
   @media screen and (max-width: 1199px) {

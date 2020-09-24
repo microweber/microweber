@@ -29,7 +29,7 @@
                         <?php $pic = get_picture($item['id']); ?>
                         <div class="card card-product-holder mb-2 post-has-image-<?php print ($pic == true ? 'true' : 'false'); ?> manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
                             <div class="card-body">
-                                <div class="row align-items-center">
+                                <div class="row align-items-center flex-lg-nowrap">
                                     <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox mx-1">
