@@ -344,15 +344,16 @@ $user = get_user_by_id($user_id);
             </div>
         </div>
     </header>
-
-    <script>
-        $(document).ready(function () {
-            if ($('body').find('.main-toolbar').length == 0) {
-                $('main').prepend('<div id="info-toolbar" type="admin/modules/info" history_back="true"></div>');
-                mw.reload_module('#info-toolbar');
-            }
-        })
-    </script>
+    <?php if (url_param('view')): ?>
+        <script>
+            $(document).ready(function () {
+                if ($('body').find('.main-toolbar').length == 0) {
+                    $('main').prepend('<div id="info-toolbar" type="admin/modules/info" history_back="true"></div>');
+                    mw.reload_module('#info-toolbar');
+                }
+            })
+        </script>
+    <?php endif; ?>
 
     <div class="main container my-3">
         <aside>
