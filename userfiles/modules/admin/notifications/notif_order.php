@@ -32,7 +32,7 @@ if (isset($item['created_by'])) {
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">
-                        <?php if (count($order_products) > 1): ?>
+                        <?php if (is_array($order_products) && count($order_products) > 1): ?>
                             <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;"><?php echo count($order_products); ?></button>
                         <?php endif; ?>
                         <div class="img-circle-holder">
