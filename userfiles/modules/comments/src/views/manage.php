@@ -54,7 +54,7 @@
         </div>
         <br/>
 
-        <a href="#content_id=0" class="mw-ui-btn"><?php _e("See all comments"); ?></a>
+        <a href="#content_id=0" class="btn btn-primary"><?php _e("See all comments"); ?></a>
     <?php endif; ?>
     <?php if (!isset($params['no_paging'])): ?>
         <?php if (isset($page_count) and $page_count): ?>
