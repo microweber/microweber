@@ -165,31 +165,31 @@ if ($last_page_front != false) {
             <h5>
                 <i class="mdi mdi-post-outline text-primary mr-3"></i>
                 <strong><?php _e("Pages"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:pages" class="btn btn-outline-success btn-sm ml-2">Add Page</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2">Add Page</a>
             </h5>
         <?php elseif ($act == 'posts'): ?>
             <h5>
                 <i class="mdi mdi-text text-primary mr-3"></i>
                 <strong><?php _e("Posts"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:posts" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Post</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:post" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Post</a>
             </h5>
         <?php elseif ($act == 'products'): ?>
             <h5>
                 <i class="mdi mdi-shopping text-primary mr-3"></i>
                 <strong><?php _e("Products"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:products" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Product</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Product</a>
             </h5>
         <?php elseif (isset($params['is_shop'])): ?>
             <h5>
                 <span class="mdi mdi-shopping text-primary mr-3"></span>
                 <strong><?php _e("My Shop"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:products" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Product</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Product</a>
             </h5>
         <?php else: ?>
             <h5 class="d-inline-block">
                 <i class="mdi mdi-earth text-primary mr-3"></i>
                 <strong><?php _e("Website"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:pages" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Page</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Page</a>
             </h5>
         <?php endif; ?>
 
