@@ -9,6 +9,8 @@
 @import url("../layouts/templates/layouts.css");
 
 @import url("api/libs/mw-ui/grunt/plugins/ui/css/main.css");
+@import url("api/libs/mw-ui/grunt/plugins/ui/css/main_compiled.css");
+
 @import url("api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
 @import url("api/libs/mw-ui/grunt/plugins/ui/css/mw.css");
 

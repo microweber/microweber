@@ -2,6 +2,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.2.0/js/bootstrap-colorpicker.min.js"></script>
 
 <style>
+    <?php if (!isset($_GET['full_width'])): ?>
     .color-scheme-options {
         position: fixed;
         right: 0;
@@ -13,6 +14,7 @@
         overflow-y: scroll;
         background: #fff;
     }
+    <?php endif; ?>
 
     .color-scheme-options input {
         background: #fff !important;
@@ -83,7 +85,6 @@
         }
     </script>
 
-
     <div class="form-group">
         <label for="exampleSelect1color">Color Scheme</label>
         <select name="color_scheme" class="form-control js-color" id="exampleSelect1color">
@@ -105,11 +106,8 @@
             <option value="solar">solar</option>
             <option value="cyborg">cyborg</option>
             <option value="darkly">darkly</option>
-
         </select>
     </div>
-
-
 
     <?php foreach ($vars as $k => $v) { ?>
         <script>
