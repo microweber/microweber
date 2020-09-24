@@ -51,15 +51,16 @@ trait  CustomFieldsTrait {
         return $this;
     }
 
-    /*public function setCustomField($customFieldArr)
+    public function setCustomField($customFieldArr)
     {
         $this->_newCustomFieldsToAssociate[] = $this->customField()->where('name_key', \Str::slug($customFieldArr['name'], '-'))
             ->updateOrCreate(
                 ['name_key' => \Str::slug($customFieldArr['name'])],
                 $customFieldArr
-            );
+            )->toArray();
+
         return $this;
-    }*/
+    }
 
     public function customField()
     {

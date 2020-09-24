@@ -41,7 +41,7 @@ class ProductsController
         $product->update($fromPost);
 
         if (isset($fromPost['price'])) {
-            $product->addCustomField(
+            $product->setCustomField(
                 [
                     'type' => 'price',
                     'name' => 'Price',
