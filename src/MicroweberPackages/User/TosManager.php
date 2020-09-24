@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\User\Users;
+namespace MicroweberPackages\User;
 
 use MicroweberPackages\Database\Crud;
 

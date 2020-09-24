@@ -9,7 +9,6 @@ use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\LoginAttempt;
-use Microweber\Providers\Users\TosManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
