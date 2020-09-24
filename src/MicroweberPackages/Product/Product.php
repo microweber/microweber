@@ -6,11 +6,13 @@ use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\CustomField\CustomField;
 use MicroweberPackages\ContentData\Models\ContentData;
+use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 
 class Product extends Content
 {
     use HasSlugTrait;
+    use CustomFieldsTrait;
 
     protected $table = 'content';
     protected $attributes = [
@@ -42,9 +44,15 @@ class Product extends Content
 
     public $translatable = ['title','description','content','content_body'];
 
+    public static $customFields = [
+        [
+            'type' => 'price',
+            'name' => 'Price',
+            'value' => [0]
+        ]
+    ];
+
     public static $contentDataDefault = [
-        'price'=>'0.00',
-        'special_price'=>'0.00',
         'sku'=>'',
         'barcode'=>'',
         'quantity'=>'1',

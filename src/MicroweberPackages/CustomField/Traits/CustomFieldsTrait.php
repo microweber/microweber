@@ -1,18 +1,10 @@
 <?php
-
 namespace MicroweberPackages\CustomField\Traits;
-
 
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
-
-trait  CustomFieldsTrait {
-
-//    public function customFields()
-//    {
-//        return $this->hasMany(CustomField::class, 'rel_id');
-//    }
+trait CustomFieldsTrait {
 
     private $_newCustomFieldsToAssociate = []; //When enter in bootHasCustomFieldsTrait
 

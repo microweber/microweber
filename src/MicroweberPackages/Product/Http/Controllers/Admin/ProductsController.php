@@ -39,6 +39,21 @@ class ProductsController
 
         $product = Product::find($fromPost['id']);
         $product->update($fromPost);
+
+        if (isset($fromPost['price'])) {
+            $product->setCustomField(
+                [
+                    'type' => 'price',
+                    'name' => 'Price',
+                    'value' => [$fromPost['price']]
+                ]
+            );
+        }
+
+        if (isset($fromPost['special_price'])) {
+
+        }
+
         $product->setContentData($contentDataFromPost);
         $product->save();
 

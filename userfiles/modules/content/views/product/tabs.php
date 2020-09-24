@@ -1,9 +1,11 @@
 <?php
+$productPrice = 0;
+$customFields = \MicroweberPackages\Product\Product::$customFields;
+
 if ($data['id'] > 0) {
     $product = \MicroweberPackages\Product\Product::find($data['id']);
     $contentData = $product->getContentData();
-} else {
-    $contentData = \MicroweberPackages\Product\Product::$contentDataDefault;
+    $productPrice = $product->price;
 }
 ?>
 
