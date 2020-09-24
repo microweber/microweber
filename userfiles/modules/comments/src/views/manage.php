@@ -48,14 +48,14 @@
                 </div>
             <?php }; ?>
         </div>
+
+        <a href="#content_id=0" class="btn btn-primary"><?php _e("See all comments"); ?></a>
     <?php else: ?>
         <div class="icon-title">
             <i class="mdi mdi-comment-account"></i> <h5>You don't have any comments</h5>
         </div>
-        <br/>
-
-        <a href="#content_id=0" class="btn btn-primary"><?php _e("See all comments"); ?></a>
     <?php endif; ?>
+
     <?php if (!isset($params['no_paging'])): ?>
         <?php if (isset($page_count) and $page_count): ?>
             <ul class="pagination">

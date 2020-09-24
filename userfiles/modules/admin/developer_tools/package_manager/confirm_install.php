@@ -163,7 +163,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
                 <a class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()">Cancel</a>
 
                 <?php if ($get_existing_files_for_confirm) { ?>
-                    <button type="button" class="js-show-files btn btn-primary btn-sm">Show files</button>
+                    <button type="button" class="js-show-files btn btn-link btn-sm">Show files</button>
                 <?php } ?>
 
                 <a href="javascript:;" id="js-buttons-confirm-install-link" class="btn btn-success btn-sm" onclick="mw.install_composer_package_confirm_by_key('<?php print $confirm_key ?>', '<?php print $require_name ?>','<?php print $require_version ?>')">Confirm</a>
