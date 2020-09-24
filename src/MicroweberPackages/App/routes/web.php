@@ -10,6 +10,21 @@ Route::get('xaxaxa',function (){
     }
 
 });*/
+/*
+Route::get('/ebahgo', function() {
+
+
+    $products = \MicroweberPackages\Product\Product::all();
+
+
+    dd($products);
+
+
+   // $car = Cache::tags('cars')->put('audi', 'a4');
+   // var_dump(Cache::tags('cars')->get('audi'));
+    die();
+});
+*/
 
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
