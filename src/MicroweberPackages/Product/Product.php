@@ -20,7 +20,7 @@ class Product extends Content
         'subtype' => 'product'
     ];
 
-    protected $fillable = [
+    public $fillable = [
         "subtype",
         "subtype_value",
         "content_type",
@@ -85,11 +85,14 @@ class Product extends Content
         static::addGlobalScope(new ProductScope());
     }
 
-    private function fetchSingleAttributeByName ($name)
+    private function fetchSingleAttributeByName($name, $returnAsObject = false)
     {
         foreach($this->customField as $customFieldRow) {
             if($customFieldRow->type == $name) {
                 if(isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
+                    if ($returnAsObject) {
+                        return $customFieldRow->fieldValue[0];
+                    }
                     return $customFieldRow->fieldValue[0]->value;
                 }
             }
@@ -112,6 +115,11 @@ class Product extends Content
     public function getPriceAttribute()
     {
         return $this->fetchSingleAttributeByName('price');
+    }
+
+    public function getPriceModelAttribute()
+    {
+        return $this->fetchSingleAttributeByName('price', true);
     }
 
     public function getQtyAttribute()
