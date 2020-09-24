@@ -620,6 +620,10 @@ header {
   .item-title {
     @media screen and (min-width: 575px) {
       min-width: 340px;
+      
+      flex: 0 0 auto;
+      width: auto;
+      max-width: 100%;
     }
   }
 
