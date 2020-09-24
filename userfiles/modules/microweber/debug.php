@@ -48,7 +48,7 @@ $mtime = microtime();
     <b>Debug</b>
  
   <?php if(!(mw()->user_manager->session_all() == false)) { ?>
-  <b>Session Data</b> <?php print '<pre>';print_r(Session::all());print '</pre>'; ?>
+  <b>Session Data</b> <?php print '<pre>';print_r(\Illuminate\Support\Facades\Session::all());print '</pre>'; ?>
   <?php } ?>
   <?php $included_files = get_included_files(); ?>
   <b><?php print count($included_files); ?> PHP Files Included:</b>
