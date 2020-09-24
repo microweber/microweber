@@ -57,7 +57,8 @@
         "spatie/laravel-permission": "dev-master",
         "laravelcollective/html": "^6.0@dev",
         "laravel/socialite": "^6.0@dev",
-        "arcanedev/seo-helper": "dev-master"
+        "arcanedev/seo-helper": "dev-master",
+        "wikimedia/less.php": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
