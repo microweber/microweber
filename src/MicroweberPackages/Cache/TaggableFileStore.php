@@ -9,7 +9,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
-use JsonMachine\JsonMachine;
 
 class TaggableFileStore implements Store
 {
@@ -350,12 +349,7 @@ class TaggableFileStore implements Store
                 $cacheMapContent[$key] = $filename;
                 $this->_tag_map_paths_cache_memory[$tag] = $cacheMapContent;
                 $cacheFile = $this->_getTagMapPathByName($tag);
-
-                $cacheMapContentJson = JsonMachine::fromString($cacheMapContent);
-                if (!file_put_contents($cacheFile, $cacheMapContentJson)) {
-                    @file_put_contents($cacheFile, $cacheMapContentJson);
-                }
-
+                @file_put_contents($cacheFile, json_encode($cacheMapContent));
                 // dd($tag,debug_backtrace(1),'_addKeyPathToTagMap');
                 //  dump('_addKeyPathToTagMap',$tag,$key,$cacheMapContent);
 
