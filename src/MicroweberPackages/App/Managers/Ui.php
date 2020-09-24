@@ -24,7 +24,8 @@ class Ui
 
     public function __construct()
     {
-        $this->admin_logo_login = mw_includes_url() . 'images/microweber-cms-logo-login.svg';
+        $this->admin_logo_login = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo.svg';
+        $this->logo_live_edit = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo-mobile.svg';
         if (mw_is_installed()) {
             $this->defaults();
         }
