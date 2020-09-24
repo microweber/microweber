@@ -5,7 +5,15 @@
 
     <div class="card-body pt-3">
         <div class="row">
-            <div class="col-md-6">
+
+            <?php
+            $col_size = 12;
+            if (is_module('shop/offers')) {
+                $col_size = 6;
+            }
+            ?>
+
+            <div class="col-md-<?php echo $col_size; ?>">
                 <label>Price</label>
                 <div class="input-group mb-3 prepend-transparent">
                     <div class="input-group-prepend">
@@ -15,20 +23,14 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Special Price</label>
-                    <div class="input-group mb-3 prepend-transparent append-transparent">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text text-muted">BGN</span>
-                        </div>
-                        <input type="text" class="form-control" name="special_price" value="<?php echo $productPrice; ?>">
-                        <div class="input-group-append">
-                            <span class="input-group-text" data-toggle="tooltip" title="" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price."><i class="mdi mdi-help-circle"></i></span>
-                        </div>
-                    </div>
-                </div>
+            <?php
+            if (is_module('shop/offers')):
+            ?>
+            <div class="col-md-<?php echo $col_size; ?>">
+                <module type="shop/offers/special_price_field" />
             </div>
+            <?php endif; ?>
+
         </div>
 
      <!--   <hr class="thin no-padding"/>

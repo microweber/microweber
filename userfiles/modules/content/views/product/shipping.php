@@ -1,7 +1,9 @@
 <style>
+    <?php if ($contentData['physical_product']==0):?>
     .js-physical-product {
         display: none;
     }
+    <?php endif; ?>
 </style>
 
 <script>
