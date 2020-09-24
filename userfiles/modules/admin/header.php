@@ -21,16 +21,13 @@
         mwAdmin = true;
         admin_url = '<?php print admin_url(); ?>';
     </script>
+
     <script type="text/javascript">
         mw.lib.require('jqueryui');
-    </script>
-    <script type="text/javascript">
-
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         mw.require("liveadmin.js");
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
-
         mw.require("<?php print mw_includes_url(); ?>css/admin-new.css");
         mw.require("wysiwyg.js");
         mw.require("url.js");
@@ -60,7 +57,6 @@
     <?php if (!isset($_REQUEST['no_toolbar'])): ?>
         <script type="text/javascript">
             $(document).ready(function () {
-
                 $('.mw-lazy-load-module').reload_module();
 
                 if (self === top) {
@@ -69,6 +65,7 @@
                     }
                     mw.cookie.set('back_to_admin', location.href);
                 }
+
                 mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function () {
                     if (mw.helpinfo != undefined) {
                         mw.cookie.set('helpinfo', false, 4380);
@@ -79,14 +76,11 @@
             // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
             mw.require("fonts.js");
 
-
             $(window).load(function () {
                 if ($(".bootstrap3ns").size() > 0) {
                     mw.lib.require("bootstrap3ns");
                 }
             });
-
-
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
@@ -94,10 +88,7 @@
 
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
-<?php
-$new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates');
-?>
-
+<?php $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates'); ?>
 
 <?php
 $past_page = site_url() . '?editmode=y';
@@ -108,6 +99,7 @@ if ($last_page_front == false) {
         $last_page_front = $_COOKIE['last_page'];
     }
 }
+
 if ($last_page_front != false) {
     $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
     if (isset($cont_by_url) and $cont_by_url == false) {
@@ -126,7 +118,6 @@ if ($last_page_front != false) {
     }
 }
 
-
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 if (!$shop_disabled) {
@@ -140,7 +131,6 @@ if (!user_can_view_module(['module' => 'shop'])) {
 }
 ?>
 
-
 <script>
     $(document).ready(function () {
         $(".mw-admin-mobile-admin-sidebar-toggle").on('click', function () {
@@ -152,8 +142,6 @@ if (!user_can_view_module(['module' => 'shop'])) {
             }
 
         })
-
-
     })
 
 
@@ -356,6 +344,15 @@ $user = get_user_by_id($user_id);
             </div>
         </div>
     </header>
+
+    <script>
+        $(document).ready(function () {
+            if ($('body').find('.main-toolbar').length == 0) {
+                $('main').prepend('<div id="info-toolbar" type="admin/modules/info" history_back="true"></div>');
+                mw.reload_module('#info-toolbar');
+            }
+        })
+    </script>
 
     <div class="main container my-3">
         <aside>

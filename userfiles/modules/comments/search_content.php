@@ -61,7 +61,6 @@ $data = get_comments($comments_data);
     mw.require("<?php print $config['url_to_module']; ?>edit_comments.js");
 </script>
 
-
 <div class="comments-holder">
     <?php if (is_array($data)): ?>
         <div class="mw-admin-comments-search-holder">

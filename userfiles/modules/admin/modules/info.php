@@ -18,6 +18,6 @@ $module = mw()->module_manager->get('one=1&ui=any&module=' . $v_mod);
             <?php $active = mw()->url_manager->param('view'); ?>
         <?php endif; ?>
 
-        <module type="admin/settings_search"/>
+        <?php /*<module type="admin/settings_search"/>*/ ?>
     </div>
 </div>
