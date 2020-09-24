@@ -1,10 +1,18 @@
 <?php
+
 namespace MicroweberPackages\CustomField\Traits;
+
 
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
-trait CustomFieldsTrait {
+
+trait  CustomFieldsTrait {
+
+//    public function customFields()
+//    {
+//        return $this->hasMany(CustomField::class, 'rel_id');
+//    }
 
     private $_newCustomFieldsToAssociate = []; //When enter in bootHasCustomFieldsTrait
 
@@ -43,7 +51,7 @@ trait CustomFieldsTrait {
         return $this;
     }
 
-    public function setCustomField($customFieldArr)
+    /*public function setCustomField($customFieldArr)
     {
         $this->_newCustomFieldsToAssociate[] = $this->customField()->where('name_key', \Str::slug($customFieldArr['name'], '-'))
             ->updateOrCreate(
@@ -51,7 +59,7 @@ trait CustomFieldsTrait {
                 $customFieldArr
             );
         return $this;
-    }
+    }*/
 
     public function customField()
     {
