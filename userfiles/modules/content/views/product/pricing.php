@@ -19,7 +19,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text text-muted">BGN</span>
                     </div>
-                    <input type="text" class="form-control" name="price" value="<?php echo $productPrice; ?>">
+                    <input type="text" class="form-control js-product-price" name="price" value="<?php echo $productPrice; ?>">
                 </div>
             </div>
 
@@ -27,7 +27,7 @@
             if (is_module('shop/offers')):
             ?>
             <div class="col-md-<?php echo $col_size; ?>">
-                <module type="shop/offers/special_price_field" />
+                <module type="shop/offers/special_price_field" product_id="<?php echo $product['id'];?>" />
             </div>
             <?php endif; ?>
 

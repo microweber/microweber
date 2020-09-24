@@ -8,7 +8,7 @@
 
 <script>
     $(document).ready(function () {
-        $('.').click(function () {
+        $('.js-track-quantity-check').click(function () {
             $('.js-track-quantity').toggle();
         });
     });
@@ -38,7 +38,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="track_quantity" class="custom-control-input " value="1" <?php if ($contentData['track_quantity']==1):?>checked="checked"<?php endif; ?> id="customCheck2">
+                        <input type="checkbox" name="track_quantity" class="custom-control-input js-track-quantity-check" value="1" <?php if ($contentData['track_quantity']==1):?>checked="checked"<?php endif; ?> id="customCheck2">
                         <label class="custom-control-label" for="customCheck2">Track quantity</label>
                     </div>
                 </div>
