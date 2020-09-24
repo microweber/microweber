@@ -38,6 +38,8 @@ class ProductsController
         }
 
         $product = Product::find($fromPost['id']);
+        $product->additionalData = $fromPost;
+
         $product->update($fromPost);
 
         if (isset($fromPost['price'])) {
@@ -48,10 +50,6 @@ class ProductsController
                     'value' => [$fromPost['price']]
                 ]
             );
-        }
-
-        if (isset($fromPost['special_price'])) {
-
         }
 
         $product->setContentData($contentDataFromPost);

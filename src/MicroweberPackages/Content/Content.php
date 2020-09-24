@@ -19,6 +19,7 @@ class Content extends Model
 
     protected $table = 'content';
     protected $content_type = 'content';
+    public $additionalData = [];
 
     public function tags()
     {
