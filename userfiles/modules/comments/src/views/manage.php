@@ -54,7 +54,6 @@
         <div class="icon-title">
             <i class="mdi mdi-comment-account"></i> <h5>You don't have any comments</h5>
         </div>
-        <br/>
     <?php endif; ?>
 
     <?php if (!isset($params['no_paging'])): ?>
