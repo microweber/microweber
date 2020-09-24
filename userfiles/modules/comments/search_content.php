@@ -62,7 +62,7 @@ $data = get_comments($comments_data);
 </script>
 
 <div class="comments-holder">
-    <?php if (is_array($data) and count($data) > 0): ?>
+    <?php if (is_array($data) and !empty($data)): ?>
         <div class="mw-admin-comments-search-holder">
             <?php foreach ($data as $item) { ?>
                 <?php if (isset($item['rel_type']) and $item['rel_type'] == 'content'): ?>

@@ -44,7 +44,7 @@ $data = get_comments($comments_data);
 
 ?>
 
-<?php if (is_array($data) and count($data) > 0): ?>
+<?php if (is_array($data) and !empty($data)): ?>
 
     <div class="mw-admin-comments-search-holder">
         <?php foreach ($data as $item) { ?>
