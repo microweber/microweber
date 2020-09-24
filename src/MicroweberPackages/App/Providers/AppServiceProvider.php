@@ -34,7 +34,6 @@ use MicroweberPackages\Backup\BackupManagerServiceProvider;
 // Shop
 use MicroweberPackages\Cart\CartManagerServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
-use MicroweberPackages\Client\ClientsManagerServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Order\OrderManagerServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
@@ -160,6 +159,8 @@ if (! defined('MW_VERSION')) {
 
     public function register() {
 
+
+
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
         $this->setEnvironmentDetection();
@@ -194,7 +195,6 @@ if (! defined('MW_VERSION')) {
         $this->app->register(TaxManagerServiceProvider::class);
         $this->app->register(OrderManagerServiceProvider::class);
         $this->app->register(CurrencyServiceProvider::class);
-        $this->app->register(ClientsManagerServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
 
@@ -341,17 +341,6 @@ if (! defined('MW_VERSION')) {
 
     public function boot()
     {
-        if (DB::Connection() instanceof \Illuminate\Database\SQLiteConnection) {
-            DB::connection('sqlite')->getPdo()->sqliteCreateFunction('regexp',
-                function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
-                    if (isset($pattern, $data) === true) {
-                        return preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0;
-                    }
-                    return;
-                }
-            );
-        }
-
         $this->app->singleton('lang_helper', function ($app) {
             return new Lang($app);
         });
@@ -363,6 +352,17 @@ if (! defined('MW_VERSION')) {
 
         // If installed load module functions and set locale
         if (mw_is_installed()) {
+
+            if (DB::Connection() instanceof \Illuminate\Database\SQLiteConnection) {
+                DB::connection('sqlite')->getPdo()->sqliteCreateFunction('regexp',
+                    function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
+                        if (isset($pattern, $data) === true) {
+                            return preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0;
+                        }
+                        return;
+                    }
+                );
+            }
 
             load_all_functions_files_for_modules();
 

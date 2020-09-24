@@ -138,39 +138,6 @@ class CreateShopTable extends Migration
                 'shipping_price_custom' => 'float',
             ],
 
-
-            'cart_clients' => [
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-
-                'first_name' => 'longText',
-                'last_name' => 'longText',
-                'email' => 'longText',
-                'user_id' => 'integer',
-
-
-            ],
-
-            'cart_clients_address' => [
-                'address_title' => 'string',
-
-                'is_default' => 'string',
-                'address_type' => 'string',
-
-                'client_id' => 'integer',
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'country' => 'text',
-                'city' => 'text',
-                'state' => 'string',
-                'zip' => 'string',
-                'address' => 'longText',
-                'address2' => 'longText',
-                'phone' => 'text',
-                'address_notes' => 'longText',
-            ],
-
-
             'cart_invoices' => [
                 'total' => 'float',
                 'amount' => 'float',

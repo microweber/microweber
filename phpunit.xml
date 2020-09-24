@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="bootstrap/autoload.php"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="true"
-         verbose="true"
-         syntaxCheck="false">
-    <logging>
-           <log type="testdox-text" target="php://stdout"/>
-    </logging>
-    <testsuites>
-        <testsuite name="Microweber Test Suite">
-            <directory>./src/MicroweberPackages/*/tests/</directory>
-        </testsuite>
-        <testsuite name="Microweber Modules Test Suite">
-            <directory>./userfiles/modules/*/tests/</directory>
-        </testsuite>
-    </testsuites>
-    <php>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="SESSION_DRIVER" value="array"/>
-    </php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="bootstrap/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="true" verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage/>
+  <logging>
+    <testdoxText outputFile="php://stdout"/>
+  </logging>
+  <testsuites>
+    <testsuite name="Microweber Test Suite">
+      <directory>./src/MicroweberPackages/*/tests/</directory>
+    </testsuite>
+    <testsuite name="Microweber Modules Test Suite">
+      <directory>./userfiles/modules/*/tests/</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="SESSION_DRIVER" value="array"/>
+  </php>
 </phpunit>
