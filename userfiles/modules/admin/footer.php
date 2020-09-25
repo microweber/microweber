@@ -2,7 +2,12 @@
             <!--  /.main.container -->
         </div>
         <!--  /#mw-admin-main-block -->
-        <style>
+
+
+
+            <?php
+         /*
+              <style>
             .theme-color-picker-iframe{
                 width: 300px;
                 height: 300px;
@@ -12,6 +17,9 @@
                 border: 1px solid silver;
             }
         </style>
-        <iframe src="<?php echo modules_url() . 'microweber/api/libs/mw-ui/picker.php?full_width'; ?>" class="theme-color-picker-iframe"></iframe>
+        <iframe src="<?php echo modules_url() . 'microweber/api/libs/mw-ui/picker.php?full_width'; ?>" class="theme-color-picker-iframe"></iframe>*/
+
+            ?>
+
     </body>
 </html>
