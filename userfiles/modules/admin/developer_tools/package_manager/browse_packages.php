@@ -83,7 +83,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
             <?php if ($is_update_mode) { ?>
                 <i class="mdi mdi-update text-primary mr-3"></i> <strong><?php _e("Updates"); ?></strong>
             <?php } else { ?>
-                <i class="mdi mdi-fruit-cherries text-primary mr-3"></i> <strong><?php _e("Marketpalace"); ?></strong>
+                <i class="mdi mdi-fruit-cherries text-primary mr-3"></i> <strong><?php _e("Marketplace"); ?></strong>
             <?php } ?>
         </h5>
 
