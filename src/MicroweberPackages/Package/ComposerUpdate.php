@@ -19,6 +19,8 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use MicroweberPackages\Package\Helpers\InstallerIO;
 use Composer\Semver\Comparator;
+use Illuminate\Support\Str;
+
 
 class ComposerUpdate
 {
@@ -667,20 +669,29 @@ class ComposerUpdate
                 $cp_files_user = array();
                 $cp_packages_files = array();
                 if ($allFiles) {
+
                     foreach ($allFiles as $file_to_copy) {
                         $file_to_copy = str_ireplace($from_folder, '', $file_to_copy);
                         $file_to_copy = str_ireplace($from_folder2, '', $file_to_copy);
 
 
+
+
                         $skip = false;
 
                         foreach ($skip_files as $skip_file) {
-                            if (stripos($file_to_copy, $skip_file) !== false) {
-                                $skip = true;
-                            }
-                            if ((stripos($file_to_copy, 'files\\') !== false) && (stripos($file_to_copy, '.zip') !== false)) {
-                                $skip = true;
-                            }
+                           if(Str::startsWith($file_to_copy, $skip_file)){
+                               $skip = true;
+                           }
+
+
+
+//                            if (stripos($file_to_copy, $skip_file) !== false) {
+//                                $skip = true;
+//                            }
+//                            if ((stripos($file_to_copy, 'files\\') !== false) && (stripos($file_to_copy, '.zip') !== false)) {
+//                                $skip = true;
+//                            }
                         }
 
                         if (!$skip) {
