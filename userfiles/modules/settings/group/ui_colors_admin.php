@@ -13,7 +13,7 @@
 
 
 <?php
-$vars = [
+$default_vars = [
     'white' => '#fff',
     'black' => '#000',
     'silver' => '#bcbfc2',
@@ -34,18 +34,24 @@ $vars = [
 
 
 
-//$data = json_decode($settings, true);
 
 
-
-//
-//foreach ($data as $datum) {
-//
-//
-//
-//
-//}
-
+$schemes = ['litera','cosmo'];
 
 ?>
+<?php $selected_admin_scheme =  get_option('admin_color_scheme_name', 'website');
 
+ ?>
+<div class="form-group">
+    <label for="admin_color_scheme_name">Color Scheme</label>
+    <select name="admin_color_scheme_name" class="form-control js-color-admin-change mw_option_field" id="admin_color_scheme_name" option-group="website">
+        <option value="">none</option>
+<?php foreach ($schemes as $scheme_name){ ?>
+
+    <option value="<?php print $scheme_name ?>" <?php if($selected_admin_scheme == $scheme_name) {?> selected <?php } ?> ><?php print $scheme_name ?></option>
+
+
+<?php } ?>
+
+    </select>
+</div>
