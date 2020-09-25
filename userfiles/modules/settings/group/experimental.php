@@ -129,6 +129,17 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+<module type="settings/group/ui_colors_admin" />
+
+
+
+
+
 </div>
 
 
