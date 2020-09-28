@@ -9037,7 +9037,12 @@ small a {
   vertical-align: middle; }
 
 .bootstrap-tagsinput input {
-  font-size: 12px; }
+  font-size: 12px;
+  min-width: 200px !important; }
+
+.twitter-typeahead {
+  max-width: 100%;
+  overflow: hidden; }
 
 textarea.form-control {
   min-height: 150px; }

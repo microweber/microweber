@@ -1888,6 +1888,12 @@ small {
 
 .bootstrap-tagsinput input {
   font-size: $small-font-size;
+  min-width: 200px !important;
+}
+
+.twitter-typeahead {
+  max-width: 100%;
+  overflow: hidden;
 }
 
 textarea.form-control {
