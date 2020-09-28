@@ -64,11 +64,13 @@ class TaggableFileStore implements Store
      * @param  string $directory
      * @param  array $options
      */
-    public function __construct(Filesystem $files, $directory, $options = [])
+    public function __construct(Filesystem $files, $directory, $options = [], $tags = [])
     {
         $this->files = $files;
-        $this->directory = $directory;
+        $this->options = $options;
+        $this->tags = $tags;
 
+        $this->directory = $directory;
         $this->directory = \Config::get('cache.stores.file.path') . '/' . app()->environment();
         $this->directory = $this->normalizePath($this->directory);
 
@@ -267,9 +269,6 @@ class TaggableFileStore implements Store
      */
     public function tags($tags)
     {
-        // Clear cached tags
-        $this->tags = array();
-
         $prepareTags = array();
         if (is_string($tags)) {
             $prepareTags = explode(',', $tags);
@@ -278,9 +277,7 @@ class TaggableFileStore implements Store
             array_walk($prepareTags, 'trim');
         }
 
-        $this->tags = $prepareTags;
-
-        return $this;
+        return new TaggableFileStore($this->files, $this->directory, $this->options, $prepareTags);
     }
 
     /**
@@ -525,7 +522,7 @@ class TaggableFileStore implements Store
             $mainCacheDir = $this->directory . '/' . $this->prefix;
             $mainCacheDir = $this->normalizePath($mainCacheDir);
 
-            $this->files->deleteDirectory($mainCacheDir);
+            $deleted = $this->files->deleteDirectory($mainCacheDir);
         }
     }
 
