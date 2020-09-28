@@ -82,7 +82,7 @@
                                     <img src="<?php print thumbnail($image, 120, 120); ?>"/>
                                 <?php else: ?>
                                     <img src="<?php print thumbnail(''); ?>"/>
-                                <?php endif; ?> 
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col">
