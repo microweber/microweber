@@ -25,6 +25,14 @@ $last_messages_count = mw()->forms_manager->get_entires('count=true');
         $view = new \MicroweberPackages\View\View(__DIR__ . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
         $view->assign('last_messages', $last_messages);
         echo $view->__toString();
+
+        $has_messages = count($last_messages);
         ?>
+
+        <?php if ($has_messages): ?>
+            <div class="text-center">
+                <a href="<?php print admin_url('view:modules/load_module:contact_form'); ?>" class="btn btn-link"><?php _e("See all messages"); ?></a>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
