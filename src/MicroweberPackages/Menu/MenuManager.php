@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Menu;
 
 use Content;
+use Illuminate\Support\Facades\DB;
 use Menu;
 
 /**
@@ -205,9 +206,14 @@ class MenuManager
         } else {
             if (!defined('MW_MENU_IS_ALREADY_MADE_ONCE')) {
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
-                    $new_menu = $this->menu_create('id=0&title=' . $params['title']);
-                    $params['id'] = $new_menu;
-                    $menus = $this->app->database_manager->get($params);
+                    $findMenu = DB::table($table)->where('title', '=', $params['title'])->first();
+                    if (empty($findMenu)) {
+                        $new_menu = $this->menu_create('title=' . $params['title']);
+                        $params['id'] = $new_menu;
+                        $menus = $this->app->database_manager->get($params);
+                    } else {
+                        $menus = (array) $findMenu;
+                    }
                 }
                 define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
             }
