@@ -22,7 +22,6 @@ use MicroweberPackages\Form\FormsManagerServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
-use MicroweberPackages\Invoice\InvoicesManagerServiceProvider;
 use MicroweberPackages\Media\Media;
 use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\MenuManagerServiceProvider;
@@ -207,7 +206,6 @@ if (! defined('MW_VERSION')) {
         $this->app->register(DatabaseManagerServiceProvider::class);
         $this->app->register(BackupManagerServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
-        $this->app->register(InvoicesManagerServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         $this->app->register(PaymentServiceProvider::class);
@@ -388,19 +386,10 @@ if (! defined('MW_VERSION')) {
             $this->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
         }
 
-        $this->loadRoutes();
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
+
         if (mw_is_installed()) {
-
             $this->app->event_manager->trigger('mw.after.boot', $this);
-        }
-    }
-
-    private function loadRoutes()
-    {
-        $routesFile = dirname(__DIR__) . '/routes/web.php';
-
-        if (file_exists($routesFile)) {
-            include $routesFile;
         }
     }
 
