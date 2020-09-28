@@ -52,6 +52,8 @@ if (array_key_exists('title', $_GET)) {
     };
 
     afterMediaIsInserted = function (url, todo, eventType) {
+        console.log(url, todo, eventType)
+        console.log(hash)
 
         todo = todo || false;
         if (url === false) {
