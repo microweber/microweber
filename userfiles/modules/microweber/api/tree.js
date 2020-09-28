@@ -100,7 +100,6 @@
                 var ts = {};
                 ts[scope.options.filterRemoteKey] = val;
                 $.get(scope.options.filterRemoteURL, ts, function (data) {
-                    console.log(data)
                     scope.setData(data);
                 });
             }, 777);
@@ -113,6 +112,11 @@
                 this.filterLocal(val, key);
             }
         };
+
+        var _e = {};
+
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
         this.search = function(){
             this._seachInput = mw.$(this.options.searchInput);
@@ -184,7 +188,7 @@
                 var it = this._postCreated[i];
                 if(it.parent_id !== 0) {
                     var has = this.options.data.find(function (a) {
-                        return a.id ==  it.parent_id;
+                        return a.id ==  it.parent_id; // 1 == '1'
                     });
                     if(!has) {
                         it.parent_id = 0;
@@ -229,6 +233,13 @@
             }
 
         };
+
+        function triggerChange() {
+            if(!this._selectionChangeDisable) {
+                mw.$(scope).trigger('selectionChange', [scope.selectedData]);
+                scope.dispatch('selectionChange', scope.selectedData)
+            }
+        }
 
         this.setData = function(newData){
             this.options.data = newData;
@@ -300,10 +311,10 @@
 
             this.manageUnselected();
             this.getSelected();
-            if(!this._selectionChangeDisable) {
-                mw.$(scope).trigger('selectionChange', [scope.selectedData]);
-            }
+            triggerChange();
         };
+
+
 
         this.unselect = function(li, type){
             if(Array.isArray(li)){
@@ -320,9 +331,7 @@
             }
             this.manageUnselected();
             this.getSelected();
-            if(!this._selectionChangeDisable) {
-                mw.$(scope).trigger('selectionChange', [scope.selectedData]);
-            }
+            triggerChange();
         };
 
         this.get = function(li, type){
@@ -368,14 +377,14 @@
             this._selectionChangeDisable = true;
             this.select(this.options.data);
             this._selectionChangeDisable = false;
-            mw.$(scope).trigger('selectionChange', [this.selectedData]);
+            triggerChange()
         };
 
         this.unselectAll = function(){
             this._selectionChangeDisable = true;
             this.unselect(this.selectedData);
             this._selectionChangeDisable = false;
-            mw.$(scope).trigger('selectionChange', [this.selectedData]);
+            triggerChange()
         };
 
         this.open = function(li, type, _skipsave){

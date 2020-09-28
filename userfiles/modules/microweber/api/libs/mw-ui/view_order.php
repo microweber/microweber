@@ -2,7 +2,7 @@
 
     <main>
         <div class="main-toolbar">
-            <a href="#" class="btn btn-link text-silver"><i class="mdi mdi-chevron-left"></i> Back to orders</a>
+            <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Back to orders</a>
         </div>
 
         <div class="card bg-light style-1 mb-3">

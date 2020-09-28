@@ -64,6 +64,7 @@ mw._on = {
   _hashparams : this._hashparams || [],
   _hashparam_funcs : [],
   hashParam : function(param, callback, trigger, isManual){
+
     if(isManual){
         var index = mw.on._hashparams.indexOf(param);
         if (mw.on._hashparam_funcs[index] !== undefined){
@@ -74,7 +75,7 @@ mw._on = {
     if(trigger === true){
         var index = mw.on._hashparams.indexOf(param);
 
-        if(index != -1){
+        if(index !== -1){
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
 

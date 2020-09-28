@@ -106,12 +106,14 @@ if (isset($data[0]) == false) {
             });
         }
 
-        uploader = mw.files.uploader({
-            filetypes: "images",
-            element: mw.$("#change_avatar")
-        });
+
 
         $(document).ready(function () {
+
+            uploader = mw.files.uploader({
+                filetypes: "images",
+                element: mw.$("#change_avatar")
+            });
 
 
             $(uploader).on("FileUploaded", function (a, b) {

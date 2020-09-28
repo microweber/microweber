@@ -225,7 +225,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <button class="btn btn-link text-dark px-1" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                             <div>
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
-                                                <span class="mw-custom-field-title text-break-line-1 small"><?php _e($value); ?></span>
+                                                <span class="mw-custom-field-title text-break-line-1 text-center small"><?php _e($value); ?></span>
                                             </div>
                                         </button>
                                     <?php endforeach; ?>

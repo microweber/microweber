@@ -13,7 +13,7 @@
 
     <main class="page-settings">
         <div class="main-toolbar">
-            <a href="#" class="btn btn-link text-silver"><i class="mdi mdi-chevron-left"></i> Websites</a>
+            <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Websites</a>
         </div>
 
         <div class="card bg-none style-1 mb-0">

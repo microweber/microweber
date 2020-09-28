@@ -150,6 +150,7 @@
             if(this.settings.element) {
                 this.$element = $(this.settings.element);
                 this.element = this.$element[0];
+                console.log(this.element, this.settings)
                 if(this.element) {
                     this.$element/*.empty()*/.append(this.input);
                 }

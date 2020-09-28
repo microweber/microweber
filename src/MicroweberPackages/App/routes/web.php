@@ -26,6 +26,7 @@ Route::get('/ebahgo', function() {
 });
 */
 
+
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
     Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
@@ -76,3 +77,4 @@ Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], functi
     Route::any('{all}', array('as' => 'all', 'uses' => 'DefaultController@index'))->where('all', '.*');
 
 });
+

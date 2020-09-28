@@ -2782,7 +2782,8 @@ div[id*='SSDIVEL'] {
     width: 290px;
     max-width: 100%;
 }
-.plus-modules-list-box{
+
+.plus-modules-list-box {
     padding: 20px 0;
 }
 
@@ -4669,6 +4670,3 @@ div.element {
 #liveedit_wysiwyg .mw-dropdown {
     float: none;
 }
-
-
-
