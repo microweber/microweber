@@ -1888,6 +1888,7 @@ small {
 
 .bootstrap-tagsinput input {
   font-size: $small-font-size;
+  min-width: 200px !important;
 }
 
 textarea.form-control {

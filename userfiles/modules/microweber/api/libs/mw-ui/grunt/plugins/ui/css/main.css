@@ -9037,7 +9037,8 @@ small a {
   vertical-align: middle; }
 
 .bootstrap-tagsinput input {
-  font-size: 12px; }
+  font-size: 12px;
+  min-width: 200px !important; }
 
 textarea.form-control {
   min-height: 150px; }
