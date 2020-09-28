@@ -8,9 +8,7 @@
 
 <script>
     $(document).ready(function () {
-        $('.').click(function () {
-            $('.js-track-quantity').toggle();
-        });
+
     });
 </script>
 

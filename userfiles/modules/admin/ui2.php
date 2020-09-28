@@ -1,5 +1,53 @@
 
 
+<div class="card bg-none style-1 mb-0 card-settings">
+    <div class="card-header px-0">
+        <h5>
+            <i class="mdi mdi-file-cabinet text-primary mr-3"></i> <strong>Files</strong>
+        </h5>
+
+    </div>
+</div>
+
+<div class="mw-filemanager-actions-bar">
+    <div>
+
+        <button type="button" class="btn btn-success icon-left"><i class="mdi mdi-plus"></i> Add</button>
+        <button type="button" class="btn btn-danger icon-left"><i class="mdi mdi-trash-can-outline"></i> Delete</button>
+        <button type="button" class="btn btn-primary icon-left"><i class="mdi mdi-cloud-download"></i> Download</button>
+
+    </div>
+    <div>
+        <div class="form-inline">
+            <div class="form-group mr-1 mb-2">
+                <input type="search" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-outline-primary mb-2">Search</button>
+        </div>
+    </div>
+</div>
+
+<div class="card style-1 bg-light mb-3">
+    <div class="card-body pt-3"><div id="fm"></div></div>
+</div>
+
+
+
+<script>mw.require('filemanager.js')</script>
+
+
+
+<script>
+    mw.FileManager({element:'#fm', selectable: false})
+</script>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
 <div class="mw-ui mw-ui-box-content" id="doc-box">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
         <a class="mw-ui-btn mw-ui-btn-big active" href="#css">CSS Components</a>

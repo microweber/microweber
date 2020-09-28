@@ -1,172 +1,8 @@
 
 
-(function (){
-
-    var FileManager = function (options) {
-
-        var scope = this;
-
-        options = options || {};
-
-        var defaultRequest = function (params, callback, error) {
-            var xhr = new XMLHttpRequest();
-            scope.dispatch('beforeRequest', {xhr: xhr, params: params});
-            xhr.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    callback.call(scope, JSON.parse(this.responseText), xhr);
-                }
-            };
-            xhr.open("GET", scope.settings.path, true);
-            xhr.send();
-        };
-
-        var defaults = {
-            viewType: 'list',
-            query: {
-                order: 'asc',
-                orderBy: 'name',
-                keyword: '',
-                path: '/admin/file-manager/list',
-                display: 'list'
-            },
-            requestData: defaultRequest
-        };
-
-        var _e = {};
-
-        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
-
-        this.settings = mw.object.extend({}, defaults, options);
-
-        var table, tableHeader, tableBody;
 
 
 
-        this._check = function () {
-            return '' +
-                '<label class="mw-ui-check">' +
-                    '<input type="checkbox">' +
-                '</label>';
-        };
-
-        this._size = function (bytes, dc) {
-            if (typeof bytes === 'undefined' || bytes === null) return '';
-            if (bytes === 0) return '0 Bytes';
-            var k = 1000,
-                dm = dc === undefined ? 2 : dc,
-                sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-                i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-        };
-
-
-
-        this._image = function (item) {
-            return mw.element({
-                props: {
-                    className: 'mw-file-manager-list-item-image',
-                    style: {
-                        backgroundImage: 'url(' + item.thumbnail + ')'
-                    }
-                }
-            });
-        };
-
-        this.createOptions = function () {
-
-        };
-
-        this.renderSingleItemList = function (item) {
-            var check = this._check();
-            var image = this._image(item);
-            var size = this._size(item);
-            var options = this.createOptions(item);
-
-            return mw.element('<tr />')
-                    .append('<td>' + check + '</td>')
-                    .append('<td>' + image + '</td>')
-                    .append('<td>' +item.name + '</td>')
-                    .append('<td>' +size + '</td>')
-                    .append('<td>' +options + '</td>');
-        };
-
-
-        this.setData = function (data) {
-            this._data = data;
-        };
-
-        this.updateData = function (data) {
-            this.setData(data);
-            this.dispatch('dataUpdated', data);
-        };
-
-        this.getData = function () {
-            return this._data;
-        };
-
-        this.requestData = function () {
-            var params = {};
-            var cb = function (res) {
-                scope.updateData(res);
-            };
-
-            var err = function (er) {
-
-            };
-
-            this.settings.requestData(
-                params, cb, err
-            );
-        };
-
-
-        this.render = function () {
-
-        };
-
-        this.listView = function () {
-            table =  mw.element('<table />');
-            tableHeader =  mw.element('' +
-                '<thead><tr>' +
-                '<th>'+this._check()+'</th>' +
-                '<th class="mw-file-manager-sortable-table-header"><span>Name</span></th>' +
-                '<th class="mw-file-manager-sortable-table-header"><span>Size</span></th>' +
-                '<th></th>' +
-                '<th colspan="2">Last modified</th>' +
-            '</tr></thead>');
-
-            tableBody =  mw.element('<tbody />');
-            table.append(tableHeader).append(tableBody);
-
-        };
-
-        this.render = function () {
-
-
-        };
-
-        this.createRoot = function (){
-            this.root = mw.element({
-                props: {
-                    className: 'mw-file-manager-root'
-                }
-            });
-        };
-
-        this.init = function (){
-            this.createRoot();
-        };
-
-        this.init();
-    };
-
-
-
-    mw.FileManager = function (options) {
-        return new FileManager(options);
-    };
-})();
 
 
 
@@ -704,7 +540,7 @@ var MWEditor = function (options) {
         scope.$editArea.on('mouseup touchend', function (e, data) {
             if (scope.selection && !scope.selection.isCollapsed) {
                 if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
-                    scope.smallEditor.$node.css({
+                    scope.smallEditor.css({
                         top: scope.interactionData.pageY - scope.smallEditor.$node.height() - 20,
                         left: scope.interactionData.pageX,
                         display: 'block'
@@ -853,6 +689,7 @@ if (window.mw) {
 }
 
 
+mw.require('filemanager.js');
 mw.require('autocomplete.js');
 mw.require('filepicker.js');
 

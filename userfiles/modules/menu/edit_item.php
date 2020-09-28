@@ -224,7 +224,7 @@ if ($id == 0) {
                 })
 
                 linkEditor.promise().then(function (ldata){
-                    console.log(ldata)
+
                     if (!ldata) {
                         return
                     }

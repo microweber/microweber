@@ -22,7 +22,7 @@ $(document).ready(function () {
         mw.$("#upload_file_info").html("");
         mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
 
-        mw.spinner({element: "#mw_uploader", size: 30, color: 'white'}).hide()
+        mw.spinner({element: "#mw_uploader", size: 30, color: 'white'}).hide();
 
         mw.reload_module('admin/backup_v2/manage');
       //  mw.notification.success('File uploaded');
@@ -35,7 +35,7 @@ $(document).ready(function () {
     $(uploader).bind('progress', function (up, file) {
      //   mw.$("#mw_uploader").hide();
        // mw.$("#mw_uploader_loading").show();
-
+console.log(up, file)
 
 
         $('#mw_uploader_loading .progress-bar').html('Uploading file...<span id="upload_file_info"></span>');
