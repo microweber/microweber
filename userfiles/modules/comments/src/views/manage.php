@@ -49,7 +49,9 @@
             <?php }; ?>
         </div>
 
-        <a href="#content_id=0" class="btn btn-primary"><?php _e("See all comments"); ?></a>
+        <div class="text-center">
+            <a href="<?php print admin_url('view:modules/load_module:comments'); ?>#content_id=0" class="btn btn-link"><?php _e("See all comments"); ?></a>
+        </div>
     <?php else: ?>
         <div class="icon-title">
             <i class="mdi mdi-comment-account"></i> <h5>You don't have any comments</h5>
@@ -58,7 +60,7 @@
 
     <?php if (!isset($params['no_paging'])): ?>
         <?php if (isset($page_count) and $page_count): ?>
-            <ul class="pagination">
+            <ul class="pagination justify-content-center">
                 <?php print paging('num=' . $page_count . '&paging_param=' . $paging_param); ?>
             </ul>
         <?php endif; ?>

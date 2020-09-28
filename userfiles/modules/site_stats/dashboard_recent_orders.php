@@ -34,7 +34,7 @@ must_have_access();
     </div>
     <div class="dr-list">
         <div class="orders-holder" id="shop-orders">
-            <module type="shop/orders/admin" limit="5" hide-controlls="true" intersect-new-orders="true"/>
+            <module type="shop/orders/admin" limit="5" hide-controls="true" intersect-new-orders="true"/>
         </div>
     </div>
 </div>
