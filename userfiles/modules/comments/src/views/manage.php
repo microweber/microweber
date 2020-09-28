@@ -50,7 +50,7 @@
         </div>
 
         <div class="text-center">
-            <a href="#content_id=0" class="btn btn-link"><?php _e("See all comments"); ?></a>
+            <a href="<?php print admin_url('view:modules/load_module:comments'); ?>#content_id=0" class="btn btn-link"><?php _e("See all comments"); ?></a>
         </div>
     <?php else: ?>
         <div class="icon-title">
