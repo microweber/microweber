@@ -27,7 +27,7 @@ if (isset($item['created_by'])) {
 
 ?>
 <script>
-    $('.card').on('click', function () {
+    $('.card-order-holder').on('click', function () {
         $(this).find('.js-change-button-styles a').toggleClass('bg-primary');
         $(this).find('.js-change-button-styles a').toggleClass('text-white');
     })
