@@ -186,7 +186,8 @@ mw.fileWindow = function (config) {
         toreturn.iframe = frame[0];
         frameWindow.onload = function () {
 
-            frameWindow.$('body').on('change', function (e, url, m) {
+            $(modal).on('Result', function (e, url, m) {
+                console.log(e, url, m)
                 if (config.change) {
                     config.change.call(undefined, url);
                     modal.remove();
