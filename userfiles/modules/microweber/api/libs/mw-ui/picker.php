@@ -26,7 +26,6 @@
 <body class="">
 
 
-</div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="assets/ui/plugins/js/plugins.js"></script>
