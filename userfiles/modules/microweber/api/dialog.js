@@ -220,7 +220,7 @@
             mw.$(document).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
-                    if (dlg.options.closeOnEscape) {
+                    if (dlg && dlg.options && dlg.options.closeOnEscape) {
                         dlg._doCloseButton();
                     }
                 }

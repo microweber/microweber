@@ -131,6 +131,14 @@
                                             <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Shop settings','shop/orders/settings/enable_disable_shop')"><?php _e("Shop settings"); ?></a>
                                         <?php } ?>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Experimental"); ?></label>
+                                        <small class="text-muted d-block mb-2">Experimental settings for developers</small>
+                                        <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Experimental settings','settings/group/experimental')"><?php _e("Experimental settings"); ?></a>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
