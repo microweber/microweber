@@ -177,42 +177,49 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <script>
                     mw.top().require('instruments.js');
                     var pickUrl = function () {
-                        var picker = mw.component({
-                            url: 'link_editor_v2',
-                            options: {
-                                target: false,
-                                text: false,
-                                controllers: 'page, custom, content, section, layout, emial'
-                            }
+
+
+                        var linkEditor = new mw.LinkEditor({
+                            mode: 'dialog',
+                            controllers: [
+                                { type: 'url', config: {target: false, text: false}},
+                                { type: 'page', config: {target: false, text: false} },
+                                { type: 'post', config: {target: false, text: false}},
+                                { type: 'layout', config: {target: false, text: false} }
+                            ]
                         });
-                        $(picker).on('Result', function (e, ldata) {
-                            if (ldata) {
-                                var url = ldata.url;
-                                var url_display = ldata.url;
-                                if (ldata.object) {
-                                    if (ldata.object.id) {
-                                        if (ldata.object.type && ldata.object.type == 'category') {
-                                            url = 'category:' + ldata.object.id;
-                                        } else if (ldata.object.content_type) {
-                                            url = 'content:' + ldata.object.id;
-                                        }
+
+                        linkEditor.setValue({
+                            url: mw.$('#btn-default_url-show').find('[name="url"]').val() || ''
+                        })
+
+                        linkEditor.promise().then(function (ldata){
+                            if (!ldata) {
+                                return
+                            }
+                            var url = ldata.url;
+                            var url_display = ldata.url;
+                            if (ldata.object) {
+                                if (ldata.object.id) {
+                                    if (ldata.object.type && ldata.data.type === 'category') {
+                                        url = 'category:' + ldata.data.id;
+                                    } else if (ldata.data.content_type) {
+                                        url = 'content:' + ldata.data.id;
                                     }
-
                                 }
 
-                                if (!url_display) {
-                                    url_display = url;
-                                }
-
-                                mw.$('#btn-default_url').val(url).trigger('change');
-                                mw.$('#btn-default_url-show').val(url_display);
                             }
-                        });
+                            if (!url_display) {
+                                url_display = url;
+                            }
+                            mw.$('#btn-default_url').val(url).trigger('change');
+                            mw.$('#btn-default_url-show').val(url_display);
+                        })
+
                     };
 
                     $(window).on('load', function () {
-                        //mw.$('#btn_url_holder').find('a').on('click', function(){
-                        mw.$('#btn_url_holder').on('click', function () {
+                         mw.$('#btn_url_holder').on('click', function () {
                             pickUrl();
                         });
                     })

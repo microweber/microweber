@@ -47,7 +47,7 @@ MWEditor.interactionControls = {
         this.interact = function (data) {
             var tg = mw.tools.firstParentOrCurrentWithTag(data.target,'a');
             if(!tg) {
-                this.element.$node.hide();
+                this.element.hide();
                 return;
             }
             var $target = $(data.target);

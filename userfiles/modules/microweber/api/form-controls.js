@@ -698,7 +698,7 @@ mw.emitter = {
                 if(textField && !textField.value) {
                     return false;
                 }
-                return textField.validity;
+                return true;
             };
 
             var footer = UIFormControllers.footer();
@@ -847,7 +847,7 @@ mw.emitter = {
                 if(textField && !textField.value) {
                     return false;
                 }
-                return textField.validity;
+                return true;
             };
 
             var footer = UIFormControllers.footer();
@@ -1144,7 +1144,7 @@ mw.emitter = {
                     return false;
                 }
 
-                return urlField.validity;
+                return true;
             };
 
             var footer = UIFormControllers.footer();

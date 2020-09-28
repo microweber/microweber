@@ -1,5 +1,5 @@
 <?php
-
+return;
 require_once dirname(__DIR__) . '/../../../vendor/autoload.php';
 
 $file = __DIR__ . '/main.scss';
@@ -67,8 +67,8 @@ if ($vars) {
     $scss->setVariables($vars);
 }
 
-//header("Content-type: text/css", true);
-//$output = $scss->compile($cont, __DIR__ . '__compiled_main');
-//@file_put_contents(__DIR__ . '/main_compiled.css', $output);
-//
-//echo $output;
+header("Content-type: text/css", true);
+$output = $scss->compile($cont, __DIR__ . '__compiled_main');
+@file_put_contents(__DIR__ . '/main_compiled.css', $output);
+
+echo $output;

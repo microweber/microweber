@@ -352,7 +352,7 @@ MWEditor.controllers = {
     undoRedo: function(scope, api, rootScope) {
         this.render = function () {
             this.root = MWEditor.core.element();
-            this.root.$node.addClass('mw-ui-btn-nav mw-editor-state-component')
+            this.root.addClass('mw-ui-btn-nav mw-editor-state-component')
             var undo = MWEditor.core.button({
                 props: {
                     className: 'mdi-undo',

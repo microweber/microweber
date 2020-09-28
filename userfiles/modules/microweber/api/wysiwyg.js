@@ -1791,25 +1791,6 @@ mw.wysiwyg = {
             }
         }
 
-
-        /*var picker = mw.component({
-            url: 'link_editor_v2',
-            footer: false,
-            width: 555,
-            options: {
-                target: true,
-                text: true,
-                values: {
-                    url: url,
-                    text: text,
-                    targetBlank: el ? el.target === '_blank' : ''
-                }
-            }
-        });
-        $(picker).on('Result', function(e, result){
-            mw.wysiwyg.restore_selection();
-            mw.iframecallbacks.insert_link(result.url, (result.targetBlank ? '_blank' : '_self') , result.text);
-        });*/
     },
 
     unlink: function () {
