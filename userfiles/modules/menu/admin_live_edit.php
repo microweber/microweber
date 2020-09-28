@@ -19,8 +19,8 @@ if ($menu_name == false and isset($params['menu_name'])) {
     mw.add_new_page_to_menu = function (id) {
         mw.tools.loading(true);
 
-        if (id == undefined) {
-            var id = 0;
+        if (id === undefined) {
+            id = 0;
         }
 
         MenuTabs.set(3);

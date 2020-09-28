@@ -818,6 +818,19 @@ mw.emitter = {
                     selectable: true,
                     singleSelect: true
                 });
+                scope.tree.on("selectionChange", function(selection){
+                    console.log(selection[0])
+                    if (textField && selection && selection[0]) {
+                        textField.value = selection[0].title;
+                    }
+                    if(scope.valid()) {
+                        scope._onChange.forEach(function (f){
+                            f(scope.getValue());
+                        });
+
+
+                    }
+                });
             });
 
             if (options.target) {
@@ -883,13 +896,6 @@ mw.emitter = {
                 this._cancel.push(c);
             };
 
-            $(this.tree).on("selectionChange", function(e, selection){
-                if(scope.valid()) {
-                    scope._onChange.forEach(function (f){
-                        f(scope.getValue());
-                    });
-                }
-            });
             mw.emitter.on([textField, targetField], 'input', function (e){
                 if(scope.valid()) {
                     scope._onChange.forEach(function (f){
