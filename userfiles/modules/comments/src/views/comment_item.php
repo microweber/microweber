@@ -78,7 +78,11 @@
                     <div class="row mb-3">
                         <div class="col" style="max-width: 80px;">
                             <div class="img-circle-holder w-60 border-0 border-radius-10">
-                                <img src="https://d1qb2nb5cznatu.cloudfront.net/users/40837-medium_jpg?1405468137"/>
+                                <?php if (isset($image) and $image != ''): ?>
+                                    <img src="<?php print thumbnail($image, 120, 120); ?>"/>
+                                <?php else: ?>
+                                    <img src="<?php print thumbnail(''); ?>"/>
+                                <?php endif; ?> 
                             </div>
                         </div>
                         <div class="col">

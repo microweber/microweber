@@ -84,9 +84,7 @@ class Admin
             $content_id = false;
         }
 
-
         $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
-
 
         $view_file = $this->views_dir . 'comments_list.php';
         $view = new View($view_file);
