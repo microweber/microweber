@@ -182,40 +182,45 @@ class TaggableFileStore implements Store
      */
     public function put($key, $value, $seconds = false)
     {
-        if (!$seconds) {
-            $seconds = now()->addYear(4);
-        }
-
-        if (isset($this->_cached_data_memory[$key])) {
+        if (isset($this->_cached_data_memory[$key]) and $this->_cached_data_memory[$key] !== $value) {
             unset($this->_cached_data_memory[$key]);
         }
 
-        $value = $this->expiration($seconds) . serialize($value);
+        if (!isset($this->_cached_data_memory[$key])) {
 
-        $filename = $this->generatePathFilename($key);
-        $cachePath = $this->getPath();
-        $subPath = substr($filename, 0, 3) . DIRECTORY_SEPARATOR;
+            if (!$seconds) {
+                $seconds = now()->addYear(4);
+            }
 
-        if (!$this->files->isDirectory($cachePath . $subPath)) {
-            $this->makeDirRecursive($cachePath . $subPath);
+           //
+            $this->_cached_data_memory[$key] = $value;
+
+            $value = $this->expiration($seconds) . serialize($value);
+
+            $filename = $this->generatePathFilename($key);
+            $cachePath = $this->getPath();
+            $subPath = substr($filename, 0, 3) . DIRECTORY_SEPARATOR;
+
+            if (!$this->files->isDirectory($cachePath . $subPath)) {
+                $this->makeDirRecursive($cachePath . $subPath);
+            }
+
+            $path = $cachePath . DIRECTORY_SEPARATOR . $subPath . $filename;
+            $path = $this->normalizePath($path, false);
+            // Generate tag map files
+            $this->_makeTagMapFiles();
+
+            // Add key path to tag map
+            $this->_addKeyPathToTagMap($key, $subPath . $filename);
+
+            // Save key value in file
+            $save = @file_put_contents($path, $value);
+            if (!$save) {
+                throw new \Exception('Cant file put contents:' . $path);
+                }
         }
-
-        $path = $cachePath . DIRECTORY_SEPARATOR . $subPath . $filename;
-        $path = $this->normalizePath($path, false);
-        // Generate tag map files
-        $this->_makeTagMapFiles();
-
-        // Add key path to tag map
-        $this->_addKeyPathToTagMap($key, $subPath . $filename);
-
-        // Save key value in file
-        $save = @file_put_contents($path, $value);
-        if (!$save) {
-            throw new \Exception('Cant file put contents:' . $path);
-        }
-
-        // Clear instance of tags
-        //    $this->tags = array();
+            // Clear instance of tags
+            //    $this->tags = array();
     }
 
     public function putMany(array $values, $seconds)
