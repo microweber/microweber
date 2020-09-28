@@ -1,8 +1,8 @@
 <?php must_have_access(); ?>
-<script  type="text/javascript">
-    $(document).ready(function(){
+<script type="text/javascript">
+    $(document).ready(function () {
 
-        mw.options.form('.<?php print $config['module_class'] ?>', function(){
+        mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.clear_cache();
             mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
 
@@ -21,14 +21,14 @@
             Open module settings in sidebar on live edit
         </label>
         <?php
-        $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar','live_edit');
-         ?>
-        <select name="open_module_settings_in_sidebar" class="mw-ui-field mw_option_field"   type="text" option-group="live_edit">
-            <option value="0" <?php if(!$open_module_settings_in_sidebar): ?> selected="selected" <?php endif; ?>>
+        $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar', 'live_edit');
+        ?>
+        <select name="open_module_settings_in_sidebar" class="mw-ui-field mw_option_field" type="text" option-group="live_edit">
+            <option value="0" <?php if (!$open_module_settings_in_sidebar): ?> selected="selected" <?php endif; ?>>
                 <?php _e("No"); ?>
 
             </option>
-            <option value="1" <?php if($open_module_settings_in_sidebar): ?> selected="selected" <?php endif; ?>>
+            <option value="1" <?php if ($open_module_settings_in_sidebar): ?> selected="selected" <?php endif; ?>>
                 <?php _e("Yes"); ?>
             </option>
         </select>
@@ -54,7 +54,6 @@
             </li>
         </ul>
     </div>
-
 
 
     <div class="mw-ui-field-holder">
@@ -131,13 +130,7 @@
     </div>
 
 
-
-
-
-<module type="settings/group/ui_colors_admin" />
-
-
-
+    <module type="settings/group/ui_colors_admin"/>
 
 
 </div>
