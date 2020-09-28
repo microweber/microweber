@@ -60,7 +60,7 @@
 
     <?php if (!isset($params['no_paging'])): ?>
         <?php if (isset($page_count) and $page_count): ?>
-            <ul class="pagination">
+            <ul class="pagination justify-content-center">
                 <?php print paging('num=' . $page_count . '&paging_param=' . $paging_param); ?>
             </ul>
         <?php endif; ?>
