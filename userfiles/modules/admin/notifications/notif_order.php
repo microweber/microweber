@@ -26,7 +26,12 @@ if (isset($item['created_by'])) {
 }
 
 ?>
-
+<script>
+    $('.card').on('click', function () {
+        $(this).find('.js-change-button-styles a').toggleClass('bg-primary');
+        $(this).find('.js-change-button-styles a').toggleClass('text-white');
+    })
+</script>
 <div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ((isset($params['new']) AND $params['new'] == true) OR isset($item['is_read']) AND $item['is_read'] == 0): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">
@@ -86,7 +91,7 @@ if (isset($item['created_by'])) {
         </div>
 
         <div class="row mt-3">
-            <div class="col-12 text-center text-sm-left">
+            <div class="col-12 text-center text-sm-left js-change-button-styles">
                 <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded">View order</a>
             </div>
         </div>
