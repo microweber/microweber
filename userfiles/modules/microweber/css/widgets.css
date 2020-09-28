@@ -27,6 +27,12 @@
     max-height: calc(100vh - 260px);
     overflow: auto;
 }
+.mw-link-editor-posts-search .mw-autocomplete:before{
+    content: "\F0349";
+    font-size: 21px;
+    font-family: "Material Design Icons";
+    color: #2b2b2b;
+}
 
 /*.mw-link-editor-root-inIframe-true .mw-ui-form-controller-root > div:first-of-type {
     max-height: none;

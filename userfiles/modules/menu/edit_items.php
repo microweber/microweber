@@ -141,9 +141,9 @@ if ($id != 0) {
         <module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>"/>
     </div>
 <?php else: ?>
-    <div class="icon-title justify-content-center">
+    <div class="icon-title justify-content-center" style="min-height: 250px">
         <i class="mdi mdi-link-variant"></i>
-        <h5 class="mb-0"><?php _e("This menu is empty, please add items."); ?></h5>
+        <h5 style="margin: 0;"><?php _e("This menu is empty, please add items."); ?></h5>
     </div>
 <?php endif; ?>
 

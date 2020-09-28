@@ -262,9 +262,8 @@
 
         this.before = function (el) {
             if (el) {
-                el = this._asdom(el);
                 this.each(function (){
-                    this.insertBefore(el, this.node);
+                    this.parentNode.insertBefore(scope._asdom(el), this)
                 });
             }
             return this;
