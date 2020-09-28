@@ -28,9 +28,9 @@
     overflow: auto;
 }
 
-.mw-link-editor-root-inIframe-true .mw-ui-form-controller-root > div:first-of-type {
+/*.mw-link-editor-root-inIframe-true .mw-ui-form-controller-root > div:first-of-type {
     max-height: none;
-}
+}*/
 
 .mw-link-editor-nav-drop-box{
     position: absolute;
