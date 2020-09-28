@@ -35,7 +35,6 @@ $(document).ready(function () {
     $(uploader).bind('progress', function (up, file) {
      //   mw.$("#mw_uploader").hide();
        // mw.$("#mw_uploader_loading").show();
-console.log(up, file)
 
 
         $('#mw_uploader_loading .progress-bar').html('Uploading file...<span id="upload_file_info"></span>');
