@@ -44,13 +44,15 @@
             $status = 'Marked as spam';
             $class = 'mw-ui-btn-important';
         }
+
+        $content_picture = get_picture($comment['rel_id']);
         ?>
 
         <div class="row align-items-center">
             <div class="col" style="max-width: 100px;">
                 <div class="img-circle-holder img-absolute border-radius-0 border-0">
-                    <?php if (isset($image) and $image != ''): ?>
-                        <img src="<?php print thumbnail($image, 120, 120); ?>"/>
+                    <?php if (isset($content_picture) and $content_picture != ''): ?>
+                        <img src="<?php print thumbnail($content_picture, 120, 120); ?>"/>
                     <?php else: ?>
                         <img src="<?php print thumbnail(''); ?>"/>
                     <?php endif; ?>
