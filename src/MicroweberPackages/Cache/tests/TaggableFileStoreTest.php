@@ -2,20 +2,20 @@
 
 class TaggableFileStoreTest extends BaseTest
 {
+
     public function testSimple()
     {
-        Cache::put('coffe', '3v1', now()->addMinutes(3));
-
+        Cache::put('coffe', '3v1', now()->addMinutes(6));
         $this->assertEquals('3v1', Cache::get('coffe'));
-
     }
 
     public function testPutWithoutTags()
     {
-        Cache::put('firstName', 'Bozhidar', now()->addMinutes(3));
+        Cache::put('firstName', 'Bozhidar', now()->addMinutes(6));
         $this->assertEquals('Bozhidar', Cache::get('firstName'));
 
         Cache::put('lastName', 'Slaveykov', now()->addMinutes(6));
+
         $this->assertEquals('Slaveykov', Cache::get('lastName'));
 
     }
@@ -39,6 +39,27 @@ class TaggableFileStoreTest extends BaseTest
     }
 
 
+    public function testSpeedOfGetingCacheWithTags()
+    {
+
+        $isSpeetTestOk = true;
+        $before = microtime(true);
+
+        for ($i = 1; $i <= 1000; $i++) {
+            $this->assertEquals('Peter', Cache::tags('people')->get('firstName'));
+            $this->assertEquals('Peter', Cache::tags('artists')->get('firstName'));
+            $this->assertEquals(NULL, Cache::tags('wrongTag')->get('firstName'));
+        }
+
+        $after = microtime(true);
+        if (($after-$before) > 0.50) {
+            $isSpeetTestOk = false;
+        }
+        
+        $this->assertEquals(true, $isSpeetTestOk);
+    }
+
+
     public function testFlushByTag()
     {
         // Flush people tag
@@ -55,12 +76,18 @@ class TaggableFileStoreTest extends BaseTest
 
     }
 
+
     public function testFlushAll()
     {
         Cache::flush(); // This will be delete all asociated files with tag people
 
         $this->assertEquals(NULL, Cache::get('firstName'));
         $this->assertEquals(NULL, Cache::get('lastName'));
+
+
+        // The caches from this tags must be null
+        $this->assertEquals(NULL, Cache::tags('people')->get('firstName'));
+        $this->assertEquals(NULL, Cache::tags('artists')->get('firstName'));
     }
 
 }
