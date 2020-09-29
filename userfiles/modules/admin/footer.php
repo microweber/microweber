@@ -6,7 +6,7 @@
         <style>
             .theme-color-picker-iframe {
                 width: 300px;
-                height: 420px;
+                height: 400px;
                 position: fixed;
                 right: 0;
                 bottom: 0;
