@@ -554,6 +554,7 @@ class Parser
 
 
                                         $mod_id = '';
+                                        $mod_id_was_not_found = false;
                                         $mod_id2 = '';
 
 
@@ -565,6 +566,8 @@ class Parser
 
                                         if (!$mod_id) {
                                             $mod_id = $module_class;
+
+                                            $mod_id_was_not_found = true;
                                             if ($coming_from_parent_id and $coming_from_parent) {
                                                 //  $mod_id = $module_name;
 
@@ -572,10 +575,7 @@ class Parser
                                             if ($coming_from_parent_id and !$coming_from_parent) {
                                                 $mod_id = $mod_id . '-should-not-get-here-' . $coming_from_parent_id;
 
-                                            } else {
-
-
-                                            }
+                                            }  
 
                                         }
                                         if ($coming_from_parent_id and $coming_from_parent) {
@@ -598,7 +598,13 @@ class Parser
                                             } elseif (defined('CONTENT_ID')) {
                                                 $mod_id = $mod_id . '-' . CONTENT_ID;
                                             }
+
+                                            if($mod_id_was_not_found and isset($options['populate_module_ids_in_elements']) and $options['populate_module_ids_in_elements']){
+                                                $mod_id = $mod_id .'-'.date('YmdHis').'-'.$mw_mod_counter;
+                                            }
                                         }
+
+
 
                                         $it++;
 
@@ -780,8 +786,10 @@ class Parser
                                     }
                                     $module_name_url = $this->app->url_manager->slug($module_name);
 
+                                //    var_dump($options);
+
                                     if ($mod_as_element == false) {
-                                        if ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns') {
+                                        if (isset($options['module_as_element']) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);

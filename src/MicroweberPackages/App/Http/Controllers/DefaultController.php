@@ -971,22 +971,37 @@ class DefaultController extends Controller
 
             unset($data['ondrop']);
         }
-        //  d($data);
-        //   d($mod_n);
+       // d($data);
+
+
+
+
+        $opts = array();
+        if ($request_data) {
+            $opts = $request_data;
+        }
+
+
+        if(isset($opts['class']) and is_string($opts['class']) and strstr($opts['class'],'module-as-element')){
+            $opts['module_as_element'] = true;
+            $opts['populate_module_ids_in_elements'] = true;
+        }
+
+
         if ($mod_n == 'element-from-template' && isset($data['template'])) {
             $t = str_replace('..', '', $data['template']);
             $possible_layout = TEMPLATE_DIR . $t;
             $possible_layout = normalize_path($possible_layout, false);
+            $opts['element_from_template'] = true;
 
             if (is_file($possible_layout)) {
                 $l = new View($possible_layout);
                 $layout = $l->__toString();
-                $layout = $this->app->parser->process($layout, $options = false);
+                $layout = $this->app->parser->process($layout, $opts );
                 return response($layout);
-
-
             }
         }
+
         if ($mod_n == 'module-' && isset($data['template'])) {
             $t = str_replace('..', '', $data['template']);
             $possible_layout = templates_path() . $t;
@@ -994,7 +1009,7 @@ class DefaultController extends Controller
             if (is_file($possible_layout)) {
                 $l = new View($possible_layout);
                 $layout = $l->__toString();
-                $layout = $this->app->parser->process($layout, $options = false);
+                $layout = $this->app->parser->process($layout, $opts );
                 return response($layout);
 
 
@@ -1037,10 +1052,7 @@ class DefaultController extends Controller
 
         $tags = "<module {$tags} />";
 
-        $opts = array();
-        if ($request_data) {
-            $opts = $request_data;
-        }
+
 
         if (isset($request_data['live_edit'])) {
             event_trigger('mw.live_edit');
