@@ -5,16 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-
-    <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">
-    <link rel="stylesheet" id="main-css-style" href="grunt/plugins/ui/css/main.php">
-
-
-    <!-- MW UI changes CSS -->
-    <?php if (is_file('assets/ui/plugins/css/main.css')): ?>
-<!--        <link rel="stylesheet" href="assets/ui/plugins/css/main.css">-->
+    <?php if (is_file('grunt/plugins/ui/css/main_compiled.css')): ?>
+        <link rel="stylesheet" id="main-css-style" href="grunt/plugins/ui/css/main.php">
+    <?php elseif (is_file('assets/ui/plugins/css/main.css')): ?>
+        <link rel="stylesheet" href="assets/ui/plugins/css/main.css">
     <?php else: ?>
-<!--        <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">-->
+        <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">
     <?php endif; ?>
 
     <!-- MW UI plugins CSS -->
