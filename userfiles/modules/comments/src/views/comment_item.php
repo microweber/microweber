@@ -131,7 +131,6 @@
                             </span>
                             <small class="text-muted">says:</small>
                         </h6>
-                    </form>
 
                     <div class="mb-3">
                         <div class="js-comment-body-text"><?php print $comment['comment_body']; ?></div>
@@ -159,6 +158,7 @@
                                 </span>
                         <?php } ?>
                     </div>
+                    </form>
 
                     <?php if (isset($params['show-reply-form'])) { ?>
                         <?php /*<a href="#reply-comment-id-<?php print $comment['id'] ?>" data-target="#reply-comment-id-<?php print $comment['id'] ?>" class="btn btn-outline-secondary btn-sm icon-left js-show-more"><i class="mdi mdi-comment-account text-primary"></i> Reply</a>*/ ?>
