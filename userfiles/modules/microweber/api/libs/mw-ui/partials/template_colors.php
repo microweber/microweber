@@ -80,11 +80,11 @@
 
             var current = window.parent.$('head').find('link[href*="css/main.php"]');
             if (current.length == 0) {
-                var append = '<link rel="stylesheet" id="main-css-style" href="modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main.php">';
+                var append = '<link rel="stylesheet" id="main-css-style" href="../userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main.php">';
                 window.parent.$('head').append(append);
             }
 
-            window.parent.$('#main-css-style').attr("href", $('#main-css-style').attr("href") + "?id=" + new Date().getMilliseconds());
+            window.parent.$('#main-css-style').attr("href", '../userfiles/modules/microweber/api/libs/mw-ui/' + $('#main-css-style').attr("href") + "?id=" + new Date().getMilliseconds());
         }
 
         function reset_main_css() {

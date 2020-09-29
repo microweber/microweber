@@ -1,12 +1,13 @@
-$textDark: #2b2b2b;
-$textGray: #7e7e7e;
-$textLight: #fff;
-$gray-100: #fafafa;
+/* MW */
 
 @import 'bootstrap_variables';
 
+$textDark: $gray-700;
+$textGray: #7e7e7e;
+$textLight: $white;
+
 body {
-  background-color: #f2f3f5;
+  background-color: $body-bg;
 }
 
 .prevent-scroll {

@@ -17,10 +17,12 @@
     <link rel="stylesheet" href="assets/ui/plugins/css/plugins.min.css"/>
 
     <!-- MW Admin CSS -->
-    <?php if (is_file('assets/ui/plugins/css/mw.css')): ?>
-        <link rel="stylesheet" href="assets/ui/plugins/css/mw.css">
-    <?php else: ?>
-        <link rel="stylesheet" href="grunt/plugins/ui/css/mw.css">
+    <?php if (!is_file('grunt/plugins/ui/css/main_compiled.css')): ?>
+        <?php if (is_file('assets/ui/plugins/css/mw.css')): ?>
+            <link rel="stylesheet" href="assets/ui/plugins/css/mw.css">
+        <?php else: ?>
+            <link rel="stylesheet" href="grunt/plugins/ui/css/mw.css">
+        <?php endif; ?>
     <?php endif; ?>
 
     <!-- Other CSS -->
