@@ -2378,7 +2378,7 @@ class DefaultController extends Controller
             if (is_array($res)) {
                 $res = json_encode($res);
             } else if (is_bool($res)) {
-                $res = 1;
+                $res = (bool) $res;
             }
             $response = \Response::make($res, $status_code);
             return $response;
