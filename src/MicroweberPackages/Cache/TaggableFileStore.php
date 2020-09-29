@@ -511,10 +511,12 @@ class TaggableFileStore implements Store
             $mainCacheDir = $this->directory . '/' . $this->prefix;
             $mainCacheDir = $this->normalizePath($mainCacheDir);
 
-            $deleted = $this->files->deleteDirectory($mainCacheDir);
-            if (!$deleted) {
-                throw new \Exception('Permission denied. Cant delete folder:' . $mainCacheDir);
+            if (!is_dir($mainCacheDir)) {
+                return false;
             }
+
+            return $this->files->deleteDirectory($mainCacheDir);
+
         }
     }
 
