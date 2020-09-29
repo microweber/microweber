@@ -10,21 +10,21 @@ Route::get('xaxaxa',function (){
     }
 
 });*/
+
 /*
 Route::get('/ebahgo', function() {
 
-
-    $products = \MicroweberPackages\Product\Product::all();
-
-
-    dd($products);
+    $getMenus = mw()->database_manager->get('menus',[]);
 
 
-   // $car = Cache::tags('cars')->put('audi', 'a4');
-   // var_dump(Cache::tags('cars')->get('audi'));
-    die();
-});
-*/
+    var_dump($getMenus);
+    die(
+    mw()->database_manager->delete_by_id('menus', 149);
+    $getMenusSecond = mw()->database_manager->get('menus',[]);
+
+    dd($getMenus, $getMenusSecond);
+
+});*/
 
 
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
