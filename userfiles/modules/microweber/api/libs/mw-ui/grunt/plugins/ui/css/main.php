@@ -1,5 +1,5 @@
 <?php
-return;
+
 require_once dirname(__DIR__) . '/../../../vendor/autoload.php';
 
 $file = __DIR__ . '/main.scss';
@@ -40,6 +40,9 @@ if (isset($vars['color_scheme']) and $vars['color_scheme']) {
     $theme_structure = 'https://bootswatch.com/4/' . $vars['color_scheme'] . '/_bootswatch.scss';
     $cont1 = file_get_contents($theme_vars);
     $cont2 = file_get_contents($theme_structure);
+    if (!is_dir(__DIR__ . '/bootswatch')) {
+        mkdir(__DIR__ . '/bootswatch');
+    }
     file_put_contents(__DIR__ . '/bootswatch/_variables.scss', $cont1);
     file_put_contents(__DIR__ . '/bootswatch/_bootswatch.scss', $cont2);
 

@@ -150,7 +150,6 @@
             if(this.settings.element) {
                 this.$element = $(this.settings.element);
                 this.element = this.$element[0];
-                console.log(this.element, this.settings)
                 if(this.element) {
                     this.$element/*.empty()*/.append(this.input);
                 }
@@ -223,7 +222,22 @@
             this.upload(data, function (res) {
                 if(chunks.length) {
                     scope.uploadFile(file, done, chunks, _all, _i);
+                    var dataProgress = {
+                        percent: ((100 * _i) / _all).toFixed()
+                    };
+                    $(scope).trigger('progress', [dataProgress, res]);
+                    if(scope.settings.on.progress) {
+                        scope.settings.on.progress(dataProgress, res);
+                    }
+
                 } else {
+                    var dataProgress = {
+                        percent: '100'
+                    };
+                    $(scope).trigger('progress', [dataProgress, res]);
+                    if(scope.settings.on.progress) {
+                        scope.settings.on.progress(dataProgress, res);
+                    }
                     $(scope).trigger('FileUploaded', [res]);
                     if(scope.settings.on.fileUploaded) {
                         scope.settings.on.fileUploaded(res);
@@ -318,10 +332,10 @@
                     xhr.upload.addEventListener('progress', function (event) {
                         if (event.lengthComputable) {
                             var percent = (event.loaded / event.total) * 100;
-                            if(scope.settings.on.progress) {
-                                scope.settings.on.progress(percent, event);
+                            if(scope.settings.on.progressNative) {
+                                scope.settings.on.progressNative(percent, event);
                             }
-                            $(scope).trigger('progress', [percent, event]);
+                            $(scope).trigger('progressNative', [percent, event]);
                         }
                     });
                     return xhr;

@@ -83,6 +83,7 @@ mw.filePicker = function (options) {
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
+            $input.before('<label>Insert file url</label>');
             $input.on('input', function () {
                 var val = this.value.trim();
                 if(!mw.dialog.get(this)) {
@@ -121,8 +122,6 @@ mw.filePicker = function (options) {
                     },
                     fileUploaded: function (file) {
                         scope.setSectionValue(file);
-                        console.log(file);
-                        console.log(scope.activeSection());
 
                         $(scope).trigger('FileUploaded', [file]);
                         if (scope.settings.autoSelect) {
@@ -409,7 +408,6 @@ mw.filePicker = function (options) {
 
     this.setSectionValue = function (val) {
         var activeSection = this.activeSection();
-        console.log(activeSection, this._sections)
         if(activeSection) {
             activeSection._filePickerValue = val;
         }

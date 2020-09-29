@@ -21,3 +21,10 @@
     });
 
 </script>
+
+
+<style>
+    #link-editor .mw-ui-form-controller-root > div:first-of-type{
+        max-height: none;
+    }
+</style>
