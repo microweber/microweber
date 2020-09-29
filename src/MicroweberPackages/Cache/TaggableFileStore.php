@@ -52,19 +52,14 @@ class TaggableFileStore implements Store
      */
     protected $tags = array();
 
-
-    private $_cached_data_memory = array();
-    private $_tag_map_cache_memory = [];
-    private $_tag_map_paths_cache_memory = [];
-
     /**
      * Create a new file cache store instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  TaggableFilesystemManager $files
      * @param  string $directory
      * @param  array $options
      */
-    public function __construct(Filesystem $files, $directory, $options = [], $tags = [])
+    public function __construct(TaggableFilesystemManager $files, $directory, $options = [], $tags = [])
     {
         $this->files = $files;
         $this->options = $options;
@@ -84,7 +79,7 @@ class TaggableFileStore implements Store
 
     public function has($key)
     {
-        if (isset($this->_cached_data_memory[$key])) {
+        if (isset($this->files->cachedDataMemory[$key])) {
             return true;
         }
 
@@ -114,8 +109,11 @@ class TaggableFileStore implements Store
      */
     public function get($key)
     {
-        if (isset($this->_cached_data_memory[$key])) {
-            return $this->_cached_data_memory[$key];
+
+        $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
+
+        if (isset($this->files->cachedDataMemory[$cacheKey])) {
+            return $this->files->cachedDataMemory[$cacheKey];
         }
 
         $findTagPath = $this->_findCachePathByKey($key);
@@ -153,7 +151,7 @@ class TaggableFileStore implements Store
         }
 
         $this->tags = [];
-        $this->_cached_data_memory[$key] = $data;
+        $this->files->cachedDataMemory[$cacheKey] = $data;
         return $data;
     }
 
@@ -184,18 +182,21 @@ class TaggableFileStore implements Store
      */
     public function put($key, $value, $seconds = false)
     {
-        if (isset($this->_cached_data_memory[$key]) and $this->_cached_data_memory[$key] !== $value) {
-            unset($this->_cached_data_memory[$key]);
+
+        $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
+
+        if (isset($this->files->cachedDataMemory[$cacheKey]) and $this->files->cachedDataMemory[$cacheKey] !== $value) {
+            unset($this->files->cachedDataMemory[$cacheKey]);
         }
 
-        if (!isset($this->_cached_data_memory[$key])) {
+        if (!isset($this->files->cachedDataMemory[$cacheKey])) {
 
             if (!$seconds) {
                 $seconds = now()->addYear(4);
             }
 
-           //
-            $this->_cached_data_memory[$key] = $value;
+            //
+            $this->files->cachedDataMemory[$cacheKey] = $value;
 
             $value = $this->expiration($seconds) . serialize($value);
 
@@ -209,6 +210,7 @@ class TaggableFileStore implements Store
 
             $path = $cachePath . DIRECTORY_SEPARATOR . $subPath . $filename;
             $path = $this->normalizePath($path, false);
+
             // Generate tag map files
             $this->_makeTagMapFiles();
 
@@ -219,10 +221,8 @@ class TaggableFileStore implements Store
             $save = @file_put_contents($path, $value);
             if (!$save) {
                 throw new \Exception('Cant file put contents:' . $path);
-                }
+            }
         }
-            // Clear instance of tags
-            //    $this->tags = array();
     }
 
     public function putMany(array $values, $seconds)
@@ -282,7 +282,6 @@ class TaggableFileStore implements Store
 
     /**
      * Save Tags for cache.
-     * @deprecated  do not use
      * @param string $path
      */
     private function _makeTagMapFiles()
@@ -306,8 +305,8 @@ class TaggableFileStore implements Store
 
     private function _getTagMapByName($tagName)
     {
-        if (isset($this->_tag_map_cache_memory[$tagName])) {
-            return $this->_tag_map_cache_memory[$tagName];
+        if (isset($this->files->tagMapCacheMemory[$tagName])) {
+            return $this->files->tagMapCacheMemory[$tagName];
         }
 
         $cacheFile = $this->_getTagMapPathByName($tagName);
@@ -321,10 +320,10 @@ class TaggableFileStore implements Store
             $cacheMapContent = @json_decode($cacheMapContent, true);
         }
         if (!$cacheMapContent) {
-            $this->_tag_map_cache_memory[$tagName] = [];
+            $this->files->tagMapCacheMemory[$tagName] = [];
             return [];
         }
-        $this->_tag_map_cache_memory[$tagName] = $cacheMapContent;
+        $this->files->tagMapCacheMemory[$tagName] = $cacheMapContent;
         return $cacheMapContent;
     }
 
@@ -332,7 +331,7 @@ class TaggableFileStore implements Store
     {
         foreach ($this->tags as $tag) {
 
-            if (!isset($this->_tag_map_paths_cache_memory[$tag])) {
+            if (!isset($this->files->tagMapPathsCacheMemory[$tag])) {
                 $cacheFile = $this->_getTagMapPathByName($tag);
                 $cacheMapContent = false;
                 if (is_file($cacheFile)) {
@@ -344,12 +343,12 @@ class TaggableFileStore implements Store
                 }
 
             } else {
-                $cacheMapContent = $this->_tag_map_paths_cache_memory[$tag];
+                $cacheMapContent = $this->files->tagMapPathsCacheMemory[$tag];
             }
 
             if (!isset($cacheMapContent[$key])) {
                 $cacheMapContent[$key] = $filename;
-                $this->_tag_map_paths_cache_memory[$tag] = $cacheMapContent;
+                $this->files->tagMapPathsCacheMemory[$tag] = $cacheMapContent;
                 $cacheFile = $this->_getTagMapPathByName($tag);
                 @file_put_contents($cacheFile, json_encode($cacheMapContent));
                 // dd($tag,debug_backtrace(1),'_addKeyPathToTagMap');
@@ -523,6 +522,9 @@ class TaggableFileStore implements Store
             $mainCacheDir = $this->normalizePath($mainCacheDir);
 
             $deleted = $this->files->deleteDirectory($mainCacheDir);
+            if (!$deleted) {
+                throw new \Exception('Permission denied. Cant delete folder:' . $mainCacheDir);
+            }
         }
     }
 
