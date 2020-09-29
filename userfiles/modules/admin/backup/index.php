@@ -1,12 +1,9 @@
 <?php must_have_access(); ?>
-<script type="text/javascript">
+<script>
     mw.require("<?php print $config['url_to_module']; ?>backup.js");
     mw.require("files.js");
 </script>
 <style>
-    #mw_upsdfsdloader.disabled iframe {
-        top: -9999px;
-    }
 
     .back-up-nav-btns .mw-ui-btn {
         width: 170px;

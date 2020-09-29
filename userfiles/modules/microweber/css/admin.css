@@ -243,5 +243,15 @@ div.form-control {
     overflow: hidden;
     margin-bottom: 10px;
     align-items: center;
-    margin-bottom: 10px;
+ }
+
+#mw_uploader_loading .progress-bar{
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: visible;
+    color: #221d31;
+    text-shadow: 0px 0px 1px #ffffff;
 }
+#mw_uploader_loading{
+    margin: 10px 0;
+ }

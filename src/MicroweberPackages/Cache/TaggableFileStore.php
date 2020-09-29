@@ -52,23 +52,20 @@ class TaggableFileStore implements Store
      */
     protected $tags = array();
 
-
-    private $_cached_data_memory = array();
-    private $_tag_map_cache_memory = [];
-    private $_tag_map_paths_cache_memory = [];
-
     /**
      * Create a new file cache store instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  TaggableFilesystemManager $files
      * @param  string $directory
      * @param  array $options
      */
-    public function __construct(Filesystem $files, $directory, $options = [])
+    public function __construct(TaggableFilesystemManager $files, $directory, $options = [], $tags = [])
     {
         $this->files = $files;
-        $this->directory = $directory;
+        $this->options = $options;
+        $this->tags = $tags;
 
+        $this->directory = $directory;
         $this->directory = \Config::get('cache.stores.file.path') . '/' . app()->environment();
         $this->directory = $this->normalizePath($this->directory);
 
@@ -82,12 +79,11 @@ class TaggableFileStore implements Store
 
     public function has($key)
     {
-        if (isset($this->_cached_data_memory[$key])) {
+        if (isset($this->files->cachedDataMemory[$key])) {
             return true;
         }
 
         $findTagPath = $this->_findCachePathByKey($key);
-
         if (!$findTagPath) {
             return false;
         }
@@ -112,12 +108,14 @@ class TaggableFileStore implements Store
      */
     public function get($key)
     {
-        if (isset($this->_cached_data_memory[$key])) {
-            return $this->_cached_data_memory[$key];
+
+        $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
+
+        if (isset($this->files->cachedDataMemory[$cacheKey])) {
+            return $this->files->cachedDataMemory[$cacheKey];
         }
 
         $findTagPath = $this->_findCachePathByKey($key);
-
         if (!$findTagPath) {
             return;
         }
@@ -150,8 +148,7 @@ class TaggableFileStore implements Store
             return;
         }
 
-        $this->tags = [];
-        $this->_cached_data_memory[$key] = $data;
+        $this->files->cachedDataMemory[$cacheKey] = $data;
         return $data;
     }
 
@@ -182,18 +179,20 @@ class TaggableFileStore implements Store
      */
     public function put($key, $value, $seconds = false)
     {
-        if (isset($this->_cached_data_memory[$key]) and $this->_cached_data_memory[$key] !== $value) {
-            unset($this->_cached_data_memory[$key]);
+
+        $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
+
+        if (isset($this->files->cachedDataMemory[$cacheKey]) and $this->files->cachedDataMemory[$cacheKey] !== $value) {
+            unset($this->files->cachedDataMemory[$cacheKey]);
         }
 
-        if (!isset($this->_cached_data_memory[$key])) {
+        if (!isset($this->files->cachedDataMemory[$cacheKey])) {
 
             if (!$seconds) {
                 $seconds = now()->addYear(4);
             }
 
-           //
-            $this->_cached_data_memory[$key] = $value;
+            $this->files->cachedDataMemory[$cacheKey] = $value;
 
             $value = $this->expiration($seconds) . serialize($value);
 
@@ -207,6 +206,7 @@ class TaggableFileStore implements Store
 
             $path = $cachePath . DIRECTORY_SEPARATOR . $subPath . $filename;
             $path = $this->normalizePath($path, false);
+
             // Generate tag map files
             $this->_makeTagMapFiles();
 
@@ -214,13 +214,11 @@ class TaggableFileStore implements Store
             $this->_addKeyPathToTagMap($key, $subPath . $filename);
 
             // Save key value in file
-            $save = @file_put_contents($path, $value);
+            $save = file_put_contents($path, $value);
             if (!$save) {
                 throw new \Exception('Cant file put contents:' . $path);
-                }
+            }
         }
-            // Clear instance of tags
-            //    $this->tags = array();
     }
 
     public function putMany(array $values, $seconds)
@@ -267,9 +265,6 @@ class TaggableFileStore implements Store
      */
     public function tags($tags)
     {
-        // Clear cached tags
-        $this->tags = array();
-
         $prepareTags = array();
         if (is_string($tags)) {
             $prepareTags = explode(',', $tags);
@@ -278,14 +273,11 @@ class TaggableFileStore implements Store
             array_walk($prepareTags, 'trim');
         }
 
-        $this->tags = $prepareTags;
-
-        return $this;
+        return new TaggableFileStore($this->files, $this->directory, $this->options, $prepareTags);
     }
 
     /**
      * Save Tags for cache.
-     * @deprecated  do not use
      * @param string $path
      */
     private function _makeTagMapFiles()
@@ -302,15 +294,15 @@ class TaggableFileStore implements Store
         foreach ($this->tags as $tag) {
             $cacheFile = $this->_getTagMapPathByName($tag);
             if (!is_file($cacheFile)) {
-                @file_put_contents($cacheFile, json_encode([]));
+                file_put_contents($cacheFile, json_encode([]));
             }
         }
     }
 
     private function _getTagMapByName($tagName)
     {
-        if (isset($this->_tag_map_cache_memory[$tagName])) {
-            return $this->_tag_map_cache_memory[$tagName];
+        if (isset($this->files->tagMapCacheMemory[$tagName])) {
+            return $this->files->tagMapCacheMemory[$tagName];
         }
 
         $cacheFile = $this->_getTagMapPathByName($tagName);
@@ -320,14 +312,14 @@ class TaggableFileStore implements Store
         }
         $cacheMapContent = false;
         if (is_file($cacheFile)) {
-            $cacheMapContent = @file_get_contents($cacheFile);
-            $cacheMapContent = @json_decode($cacheMapContent, true);
+            $cacheMapContent = file_get_contents($cacheFile);
+            $cacheMapContent = json_decode($cacheMapContent, true);
         }
         if (!$cacheMapContent) {
-            $this->_tag_map_cache_memory[$tagName] = [];
+            $this->files->tagMapCacheMemory[$tagName] = [];
             return [];
         }
-        $this->_tag_map_cache_memory[$tagName] = $cacheMapContent;
+        $this->files->tagMapCacheMemory[$tagName] = $cacheMapContent;
         return $cacheMapContent;
     }
 
@@ -335,29 +327,27 @@ class TaggableFileStore implements Store
     {
         foreach ($this->tags as $tag) {
 
-            if (!isset($this->_tag_map_paths_cache_memory[$tag])) {
+            if (!isset($this->files->tagMapPathsCacheMemory[$tag])) {
                 $cacheFile = $this->_getTagMapPathByName($tag);
                 $cacheMapContent = false;
                 if (is_file($cacheFile)) {
-                    $cacheMapContent = @file_get_contents($cacheFile);
-                    $cacheMapContent = @json_decode($cacheMapContent, true);
+                    $cacheMapContent = file_get_contents($cacheFile);
+                    $cacheMapContent = json_decode($cacheMapContent, true);
                 }
                 if (!$cacheMapContent) {
                     $cacheMapContent = [];
                 }
 
             } else {
-                $cacheMapContent = $this->_tag_map_paths_cache_memory[$tag];
+                $cacheMapContent = $this->files->tagMapPathsCacheMemory[$tag];
             }
 
             if (!isset($cacheMapContent[$key])) {
                 $cacheMapContent[$key] = $filename;
-                $this->_tag_map_paths_cache_memory[$tag] = $cacheMapContent;
+                $this->files->tagMapPathsCacheMemory[$tag] = $cacheMapContent;
                 $cacheFile = $this->_getTagMapPathByName($tag);
-                @file_put_contents($cacheFile, json_encode($cacheMapContent));
-                // dd($tag,debug_backtrace(1),'_addKeyPathToTagMap');
-                //  dump('_addKeyPathToTagMap',$tag,$key,$cacheMapContent);
 
+                file_put_contents($cacheFile, json_encode($cacheMapContent));
             }
         }
 
@@ -365,7 +355,6 @@ class TaggableFileStore implements Store
 
     private function _getTagMapPathByName($tagName)
     {
-
         $cacheFile = $this->directoryTags . '\\' . $tagName . '.json';
         $cacheFile = $this->normalizePath($cacheFile, false);
 
@@ -387,10 +376,7 @@ class TaggableFileStore implements Store
         // otherwise we will execute the given Closure and cache the result
         // of that execution for the given number of seconds in storage.
         $value = $this->get($key);
-//        if (is_null($value) and $this->has($key)) {
-//
-//            return false;
-//        }
+
         if (!is_null($value)) {
             return $value;
         }
@@ -480,7 +466,7 @@ class TaggableFileStore implements Store
         $findTagPath = $this->getPath() . $findTagPath;
 
         if ($this->files->exists($findTagPath)) {
-            @$this->files->delete($findTagPath);
+            $this->files->delete($findTagPath);
         }
 
     }
@@ -525,7 +511,12 @@ class TaggableFileStore implements Store
             $mainCacheDir = $this->directory . '/' . $this->prefix;
             $mainCacheDir = $this->normalizePath($mainCacheDir);
 
-            $this->files->deleteDirectory($mainCacheDir);
+            if (!is_dir($mainCacheDir)) {
+                return false;
+            }
+
+            return $this->files->deleteDirectory($mainCacheDir);
+
         }
     }
 
@@ -580,14 +571,8 @@ class TaggableFileStore implements Store
 
     protected function generatePathFilename($key)
     {
-
-        $key = trim($key);
-
-        $tagsHash = md5(serialize($this->tags) . $key);
-
-        return $tagsHash . '.cache';
+        return md5(serialize($this->tags) . trim($key)) . '.cache';
     }
-
 
     /**
      * Get the expiration time based on the given seconds.

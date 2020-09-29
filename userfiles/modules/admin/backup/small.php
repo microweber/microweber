@@ -4,9 +4,7 @@
 	mw.require("files.js");
 </script>
 <style>
-#mw_upsdfsdloader.disabled iframe {
-	top:-9999px;
-}
+
 .back-up-nav-btns .mw-ui-btn {
 	margin-right: 12px;
 }

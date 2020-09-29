@@ -1,5 +1,8 @@
 <?php
+$product = [];
+$product['id'] = 0;
 $productPrice = 0;
+$contentData = \MicroweberPackages\Product\Product::$contentDataDefault;
 $customFields = \MicroweberPackages\Product\Product::$customFields;
 
 if ($data['id'] > 0) {

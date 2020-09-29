@@ -14,6 +14,7 @@
         overflow-y: scroll;
         background: #fff;
     }
+
     <?php endif; ?>
 
     .color-scheme-options input {
@@ -51,9 +52,11 @@
 
     if ($cookies) {
         foreach ($cookies as $key => $cookie) {
-            if ($key and strstr($key, '__var_')) {
-                $k = str_replace('__var_', '', $key);
-                $vars[$k] = $cookie;
+            if ($key != 'color_scheme') {
+                if ($key and strstr($key, '__var_')) {
+                    $k = str_replace('__var_', '', $key);
+                    $vars[$k] = $cookie;
+                }
             }
         }
     }
@@ -74,6 +77,14 @@
 
         function reload_main_css() {
             $('#main-css-style').attr("href", $('#main-css-style').attr("href") + "?id=" + new Date().getMilliseconds());
+
+            var current = window.parent.$('head').find('link[href*="css/main.php"]');
+            if (current.length == 0) {
+                var append = '<link rel="stylesheet" id="main-css-style" href="modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main.php">';
+                window.parent.$('head').append(append);
+            }
+
+            window.parent.$('#main-css-style').attr("href", $('#main-css-style').attr("href") + "?id=" + new Date().getMilliseconds());
         }
 
         function reset_main_css() {
@@ -109,24 +120,40 @@
         </select>
     </div>
 
-    <?php foreach ($vars as $k => $v) { ?>
-        <script>
-            $(document).ready(function () {
-                $('.color-picker-<?php echo $k; ?>').colorpicker();
-            });
-        </script>
+    <?php foreach ($vars as $k => $v) : ?>
+        <?php if ($k != 'color_scheme'): ?>
+            <script>
+                $(document).ready(function () {
+                    $('.color-picker-<?php echo $k; ?>').colorpicker();
+                });
+            </script>
 
-        <h6>$<?php print $k ?></h6>
+            <h6>$<?php print $k ?></h6>
 
-        <div class="input-group">
-            <input type="text" class="form-control js-color color-picker-<?php echo $k; ?>" name="<?php print $k ?>" value="<?php print $v ?>"/>
-            <span class="input-group-append">
+            <div class="input-group">
+                <input type="text" class="form-control js-color color-picker-<?php echo $k; ?>" name="<?php print $k ?>" value="<?php print $v ?>"/>
+                <span class="input-group-append">
                 <span class="input-group-text colorpicker-input-addon"><i style="background: <?php print $v ?>;"></i></span>
             </span>
-        </div>
-    <?php } ?>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
 
     <br>
 
-    <button onclick="reset_main_css()" class="btn btn-sm btn-danger">Reset</button>
+    <div class="d-flex justify-content-between">
+        <button onclick="reset_main_css()" class="btn btn-sm btn-danger">Reset</button>
+        <?php if (!is_file(__DIR__ . '/../grunt/plugins/ui/css/main_compiled.css')): ?>
+            <a href="?generate_styles" class="btn btn-sm btn-danger">Generate style file</a>
+        <?php endif; ?>
+    </div>
+
+    <?php
+    if (isset($_GET['generate_styles'])) {
+        if (!is_file(__DIR__ . '/../grunt/plugins/ui/css/main_compiled.css')) {
+            @file_put_contents(__DIR__ . '/../grunt/plugins/ui/css/main_compiled.css', '');
+        }
+    }
+    ?>
 </div>

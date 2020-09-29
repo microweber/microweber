@@ -1,4 +1,5 @@
 mw.require('tree.js');
+mw.require('link-editor.js');
 mw.require('tags.js');
 
 

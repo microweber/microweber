@@ -26,8 +26,7 @@
     var handleClientImg = function () {
         mw.fileWindow({
             types: 'images',
-            change: function (url, burl) {
-                console.log(this, url, burl)
+            change: function (url) {
                 if(!url) return;
                 url = url.toString();
                 mw.$("#client_picture").val(url).trigger('change');

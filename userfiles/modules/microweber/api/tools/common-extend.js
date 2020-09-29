@@ -170,7 +170,7 @@ mw.fileWindow = function (config) {
         iframe: null
     };
     if (config.mode === 'dialog') {
-        var modal = mw.top().dialogIframe({
+        var modal = mw/*.top()*/.dialogIframe({
             url: url,
             name: "mw_rte_image",
             width: 430,
@@ -185,9 +185,15 @@ mw.fileWindow = function (config) {
         toreturn.root = frame.parent()[0];
         toreturn.iframe = frame[0];
         frameWindow.onload = function () {
-
+            frameWindow.$('body').on('Result', function (e, url, m) {
+                console.log(91919, e, url, m)
+                if (config.change) {
+                    config.change.call(undefined, url);
+                    modal.remove();
+                }
+            });
             $(modal).on('Result', function (e, url, m) {
-                console.log(e, url, m)
+                console.log(9999)
                 if (config.change) {
                     config.change.call(undefined, url);
                     modal.remove();
@@ -209,9 +215,7 @@ mw.fileWindow = function (config) {
             $el.append(fr);
         }
         fr.onload = function () {
-            console.log(this.contentWindow.$('body')[0])
             this.contentWindow.$('body').on('change', function (e, url, m) {
-                console.log(e, url, m)
                 if (config.change) {
                     config.change.call(undefined, url);
                 }
