@@ -221,7 +221,6 @@ class TemplateMetaTagsRenderer
 
     private function _render_webmasters_tags()
     {
-
         $configs = [
             'google' => get_option('google-site-verification-code', 'website'),
             'bing' => get_option('bing-site-verification-code', 'website'),
