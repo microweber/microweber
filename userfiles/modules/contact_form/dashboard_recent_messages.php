@@ -21,6 +21,9 @@ $last_messages_count = mw()->forms_manager->get_entires('count=true');
     <div class="card-body">
         <?php
         $last_messages = mw()->forms_manager->get_entires('limit=5');
+        if (!is_array($last_messages)) {
+            $last_messages = [];
+        }
 
         $view = new \MicroweberPackages\View\View(__DIR__ . DIRECTORY_SEPARATOR . 'admin_messages_list.php');
         $view->assign('last_messages', $last_messages);

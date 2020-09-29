@@ -28,8 +28,7 @@ $(document).ready(function () {
 
 
     $(uploader).bind('progress', function (up, file) {
-        console.log(file.percent)
-        mw.$("#mw_uploader_loading").show();
+         mw.$("#mw_uploader_loading").show();
         $('#mw_uploader_loading .progress-bar').html('Uploading file...' + file.percent + "%");
          mw.$("#mw_uploader_loading .progress-bar").css({'width': file.percent + "%"});
     });

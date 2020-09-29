@@ -382,8 +382,6 @@ if (get_option('enable_comments', 'comments') == 'y') {
             $avatarPath = mw('format')->random_color();
         } else if (isset($comment_author['thumbnail']) and $comment_author['thumbnail'] != '') {
             $avatarPath = ($comment_author['thumbnail']);
-        } else {
-
         }
     }
     ?>
