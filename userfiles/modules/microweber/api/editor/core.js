@@ -119,15 +119,14 @@ MWEditor.core = {
         this.select.on('click', function (e){
             e.stopPropagation();
             var wrapper = mw.tools.firstParentWithClass(this.node, 'mw-editor-wrapper');
-            if(wrapper) {
+            if (wrapper) {
                 var edOff = wrapper.getBoundingClientRect();
                 var selOff = this.node.getBoundingClientRect();
                 this.valueHolder.css({
                     maxHeight: edOff.height - (selOff.top - edOff.top)
                 });
             }
-
-            this.toggleClass('active');
+            mw.element(this).toggleClass('active');
         });
         this.root.append(this.select);
     },
