@@ -2,7 +2,7 @@
 
 require_once dirname(__DIR__) . '/../../../vendor/autoload.php';
 
-$file = __DIR__ . '/main.scss';
+$file = __DIR__ . '/main_with_mw.scss';
 $scss = new \ScssPhp\ScssPhp\Compiler();
 $scss->setSourceMapOptions([
     // absolute path to write .map file
@@ -60,7 +60,7 @@ if (isset($vars['color_scheme']) and $vars['color_scheme']) {
 @import 'bootswatch/bootswatch';
  
 //UI
-@import '_ui';
+@import 'main_with_mw';
     ";
 
     $vars = false;
