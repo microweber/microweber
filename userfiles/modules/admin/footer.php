@@ -11,7 +11,6 @@
                 right: 0;
                 bottom: 0;
                 border: 1px solid silver;
-                padding: 10px;
             }
         </style>
         <iframe src="<?php echo modules_url() . 'microweber/api/libs/mw-ui/picker.php?full_width'; ?>" class="theme-color-picker-iframe"></iframe>

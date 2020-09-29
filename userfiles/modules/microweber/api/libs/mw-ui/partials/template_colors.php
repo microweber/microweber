@@ -13,7 +13,7 @@
         overflow-y: scroll;
     }
     <?php endif; ?>
-    
+
     .color-scheme-options {
         background: #fff;
         padding: 10px;
