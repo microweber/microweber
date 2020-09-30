@@ -1,6 +1,15 @@
 <?php
 
+api_expose('mw_admin_colors/reset_main_stylesheet', function ($params){
 
+    $option = array();
+    $option['option_value'] = '';
+     $option['option_key'] = 'admin_theme_name';
+    $option['option_group'] = 'admin';
+
+
+    save_option($option);
+} );
 
 api_expose('mw_admin_colors/get_main_stylesheet_url', function ($params){
 
