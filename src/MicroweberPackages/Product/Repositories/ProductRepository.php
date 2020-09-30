@@ -22,7 +22,7 @@ class ProductRepository extends BaseRepository
         event(new ProductWasCreated($product, $request));
 
 
-        return $product;
+        return $product->id;
     }
 
     public function update($product, $request)
@@ -33,7 +33,7 @@ class ProductRepository extends BaseRepository
 
         event(new ProductWasUpdated($product, $request));
 
-        return $product;
+        return $product->id;
     }
 
 
