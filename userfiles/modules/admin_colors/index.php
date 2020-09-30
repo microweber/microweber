@@ -41,6 +41,16 @@ $templates = $this->app->template->get_admin_supported_themes();
 
     }
 
+    function reset_admin_css() {
+
+        $.get("<?php print api_url('mw_admin_colors/reset_main_stylesheet'); ?>", function (data) {
+
+            reload_admin_css()
+
+        });
+
+    }
+
 </script>
 
 
@@ -52,3 +62,6 @@ $templates = $this->app->template->get_admin_supported_themes();
         <?php } ?>
     <?php } ?>
 </select>
+
+
+<button onclick="reset_admin_css()">Reset</button>
