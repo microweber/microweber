@@ -8,31 +8,22 @@
 
 namespace MicroweberPackages\Menu\Traits;
 
-use Illuminate\Database\Eloquent\Model;
-
 trait HasMenuItem
 {
-    protected static $saveToMenus = [];
+    public static $addContentToMenu = [];
 
-    public function save(array $options = [])
+    public function addToMenu($contentId)
     {
-        if (isset($this->add_content_to_menu)) {
-            if (is_array($this->add_content_to_menu)) {
-                self::$saveToMenus = $this->add_content_to_menu;
-            }
-            unset($this->add_content_to_menu);
-        }
-
-        parent::save($options);
+        self::$addContentToMenu[] = $contentId;
     }
 
     public static function bootHasMenuItem()
     {
         static::saved(function ($model) {
 
-            if (!empty(self::$saveToMenus) && is_array(self::$saveToMenus)) {
-                foreach (self::$saveToMenus as $menu_id) {
-                    mw()->content_manager->helpers->add_content_to_menu($model->id, $menu_id);
+            if (!empty(self::$addContentToMenu) && is_array(self::$addContentToMenu)) {
+                foreach (self::$addContentToMenu as $menuId) {
+                    mw()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
                 }
             }
 

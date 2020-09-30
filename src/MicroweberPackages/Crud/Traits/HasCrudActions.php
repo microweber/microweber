@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Crud\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 
 trait HasCrudActions
 {
@@ -48,8 +49,10 @@ trait HasCrudActions
     {
         $this->disableSearchSyncing();
 
+        $request = $this->getRequest('store')->all();
+
         $entity = $this->getModel()->create(
-            $this->getRequest('store')->all()
+            $request
         );
 
         $this->searchable($entity);

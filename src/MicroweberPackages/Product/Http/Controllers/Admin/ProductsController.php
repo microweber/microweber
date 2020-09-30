@@ -8,6 +8,7 @@
 
 namespace MicroweberPackages\Product\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Session;
 use MicroweberPackages\Crud\Traits\HasCrudActions;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
 use MicroweberPackages\Product\Product;
@@ -56,8 +57,17 @@ class ProductsController
                 ]
             );
         }
-
         $product->setContentData($contentDataFromPost);
+
+        if (isset($fromPost['categories'])) {
+            $categories = explode(',',$fromPost['categories']);
+            if (!empty($categories)) {
+                foreach ($categories as $category) {
+                    $product->addToCategory($category);
+                }
+            }
+        }
+
         $product->save();
 
         if (method_exists($this, 'redirectTo')) {
