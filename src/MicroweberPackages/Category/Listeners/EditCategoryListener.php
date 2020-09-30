@@ -15,14 +15,27 @@ class EditCategoryListener
             $categoryIds = explode(',', $categoryIds);
         }
 
+        if (empty($categoryIds)) {
+            return;
+        }
+
+        $entityCategories = CategoryItem::where('rel_id', $event->getEntity()->id)->get();
+        if ($entityCategories) {
+            foreach ($entityCategories as $entityCategory) {
+                if (!in_array($entityCategory->parent_id, $categoryIds)) {
+                    $entityCategory->delete();
+                }
+            }
+        }
+
         foreach($categoryIds as $categoryId) {
 
-            $categoryItem = CategoryItem::where('rel_id', $event->getProduct()->id)->where('parent_id', $categoryId)->first();
+            $categoryItem = CategoryItem::where('rel_id', $event->getEntity()->id)->where('parent_id', $categoryId)->first();
             if (!$categoryItem) {
                 $categoryItem = new CategoryItem();
             }
 
-            $categoryItem->rel_id = $event->getProduct()->id;
+            $categoryItem->rel_id = $event->getEntity()->id;
             $categoryItem->rel_type = 'content';
             $categoryItem->parent_id = $categoryId;
             $categoryItem->save();

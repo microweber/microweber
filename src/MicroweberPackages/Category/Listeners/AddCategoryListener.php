@@ -16,9 +16,13 @@ class AddCategoryListener
             $categoryIds = explode(',', $categoryIds);
         }
 
+        if (empty($categoryIds)) {
+            return;
+        }
+
         foreach($categoryIds as $categoryId) {
             $categoryItem = new CategoryItem();
-            $categoryItem->rel_id = $event->getProduct()->id;
+            $categoryItem->rel_id = $event->getEntity()->id;
             $categoryItem->rel_type = 'content';
             $categoryItem->parent_id = $categoryId;
             $categoryItem->save();
