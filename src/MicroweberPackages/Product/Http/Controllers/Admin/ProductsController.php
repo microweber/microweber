@@ -70,6 +70,8 @@ class ProductsController
 
         $product->save();
 
+
+
         if (method_exists($this, 'redirectTo')) {
             return $this->redirectTo($product);
         }

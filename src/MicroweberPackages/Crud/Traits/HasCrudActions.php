@@ -23,6 +23,8 @@ trait HasCrudActions
                 ->get();
         }
 
+
+
         return $this->getModel()->all();
     }
 
@@ -47,6 +49,7 @@ trait HasCrudActions
      */
     public function store()
     {
+
         $this->disableSearchSyncing();
 
         $request = $this->getRequest('store')->all();
