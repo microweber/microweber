@@ -8636,7 +8636,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     .card.not-collapsed-border:hover {
       border-color: #4592ff; }
   .card.bg-silver {
-    background: rgba(255, 255, 255, 0.1); }
+    background: rgba(245, 245, 245, 0.3); }
   .card.bg-silver:not(.collapsed) {
     background: transparent; }
   .card.not-collapsed-border:not(.collapsed), .card.not-collapsed-border.active {

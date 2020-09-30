@@ -940,7 +940,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   &.bg-silver {
     //background: #fafafa;
-    background: rgba(red($white), green($white), blue($white), .1);
+    background: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+    //background: darken($body-bg, 1%);
   }
 
   &.bg-silver:not(.collapsed) {
