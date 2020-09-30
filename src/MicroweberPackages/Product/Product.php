@@ -16,7 +16,6 @@ class Product extends Content
     use HasSlugTrait;
     use CustomFieldsTrait;
     use MediaTrait;
-    use CategoryTrait;
 
     protected $table = 'content';
     protected $attributes = [

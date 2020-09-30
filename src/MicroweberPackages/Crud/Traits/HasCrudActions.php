@@ -15,6 +15,10 @@ trait HasCrudActions
      */
     public function index(Request $request)
     {
+        if ($this->getRepository()) {
+            return $this->getRepository()->all();
+        }
+
         if ($request->has('query')) {
             return $this->getModel()
                 ->search($request->get('query'))
@@ -22,8 +26,6 @@ trait HasCrudActions
                 ->limit($request->get('limit', 10))
                 ->get();
         }
-
-
 
         return $this->getModel()->all();
     }
@@ -50,9 +52,13 @@ trait HasCrudActions
     public function store()
     {
 
-        $this->disableSearchSyncing();
-
         $request = $this->getRequest('store')->all();
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->create($request);
+        }
+
+        $this->disableSearchSyncing();
 
         $entity = $this->getModel()->create(
             $request
@@ -75,6 +81,11 @@ trait HasCrudActions
      */
     public function show($id)
     {
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->find($id);
+        }
+
         $entity = $this->getEntity($id);
 
         if (request()->wantsJson()) {
@@ -107,12 +118,18 @@ trait HasCrudActions
      */
     public function update($id)
     {
+
         $entity = $this->getEntity($id);
+        $request = $this->getRequest('update')->all();
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->update($entity, $request);
+        }
 
         $this->disableSearchSyncing();
 
         $entity->update(
-            $this->getRequest('update')->all()
+            $request
         );
 
         $this->searchable($entity);
@@ -126,7 +143,24 @@ trait HasCrudActions
      * @param string $ids
      * @return void
      */
-    public function destroy($ids)
+    public function destroy($id)
+    {
+        $entity = $this->getEntity($id);
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->destroy($entity);
+        }
+
+        $entity->delete();
+    }
+
+    /**
+     * Delete resources by given ids.
+     *
+     * @param string $ids
+     * @return void
+     */
+    public function delete($ids)
     {
         $this->getModel()
             ->withoutGlobalScope('active')
@@ -233,6 +267,21 @@ trait HasCrudActions
     {
         return new $this->model;
     }
+
+    /**
+     * Get a new instance of the model.
+     *
+     * @return void
+     */
+    protected function getRepository()
+    {
+        if (isset($this->repository) && class_exists($this->repository)) {
+            return new $this->repository;
+        }
+
+        return false;
+    }
+
 
     /**
      * Get request object

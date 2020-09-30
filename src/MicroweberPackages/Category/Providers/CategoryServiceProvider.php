@@ -9,12 +9,12 @@
  *
  */
 
-namespace MicroweberPackages\Category;
+namespace MicroweberPackages\Category\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Category\CategoryManager;
 
-
-class CategoryManagerServiceProvider extends ServiceProvider
+class CategoryServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.

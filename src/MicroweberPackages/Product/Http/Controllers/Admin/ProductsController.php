@@ -8,24 +8,22 @@
 
 namespace MicroweberPackages\Product\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Session;
 use MicroweberPackages\Crud\Traits\HasCrudActions;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
 use MicroweberPackages\Product\Product;
+use MicroweberPackages\Product\Repositories\ProductRepository;
 
 class ProductsController
 {
     use HasCrudActions;
 
     public $model = Product::class;
+    public $repository = ProductRepository::class;
     public $validator = ProductRequest::class;
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store()
+    /*
+
+    public function storeDEPRECATED()
     {
         $fromPost = $this->getRequest('store')->all();
         unset($fromPost['id']);
@@ -79,13 +77,7 @@ class ProductsController
         return $product->id;
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update()
+    public function updateDEPRECATED()
     {
         $fromPost = $this->getRequest('update')->all();
 
@@ -120,5 +112,5 @@ class ProductsController
         }
 
         return $product->id;
-    }
+    }*/
 }
