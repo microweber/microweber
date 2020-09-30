@@ -49,7 +49,7 @@ class CustomFieldTestModelTest extends TestCase
 //        }
     }
 
-    public function hhhhtestSetCustomFieldToModel()
+    public function testSetCustomFieldToModel()
     {
         $newProduct = new CustomFieldTestModel();
         $newProduct->title = 'Samo Levski2';
@@ -74,7 +74,7 @@ class CustomFieldTestModelTest extends TestCase
         }
     }
 
-    public function hhhtestGetCustomFieldModel()
+    public function testGetCustomFieldModel()
     {
         $newProduct = new CustomFieldTestModel();
         $newProduct->title = 'Samo Levski2';
