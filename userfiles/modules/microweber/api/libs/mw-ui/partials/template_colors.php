@@ -9,13 +9,20 @@
         bottom: 0;
         width: 300px;
         border: 1px solid silver;
-        padding: 10px;
         height: 40vh;
         overflow-y: scroll;
+    }
+    <?php endif; ?>
+
+    .color-scheme-options {
         background: #fff;
+        padding: 10px;
     }
 
-    <?php endif; ?>
+    .color-scheme-options h6,
+    .color-scheme-options label {
+        color: #000;
+    }
 
     .color-scheme-options input {
         background: #fff !important;
@@ -27,6 +34,11 @@
 
     .color-scheme-options .input-group {
         margin-bottom: 20px;
+
+    .color-scheme-options .btn-danger {
+        color: #fff !important;
+        background-color: #ff4f52 !important;
+        border-color: #ff4f52 !important;
     }
 </style>
 <div class="color-scheme-options d-none-x">
@@ -61,7 +73,10 @@
         }
     }
     ?>
-
+    <?php
+    $site_url_uri = explode('userfiles/', $_SERVER['REQUEST_URI']);
+    $site_url = "http://" . $_SERVER['SERVER_NAME'] . $site_url_uri[0];
+    ?>
     <script>
         $(document).ready(function () {
             $(".js-color").on("change", function () {
@@ -80,11 +95,11 @@
 
             var current = window.parent.$('head').find('link[href*="css/main.php"]');
             if (current.length == 0) {
-                var append = '<link rel="stylesheet" id="main-css-style" href="../userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main.php">';
+                var append = '<link rel="stylesheet" id="main-css-style" href="<?php echo $site_url; ?>userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main.php">';
                 window.parent.$('head').append(append);
             }
 
-            window.parent.$('#main-css-style').attr("href", '../userfiles/modules/microweber/api/libs/mw-ui/' + $('#main-css-style').attr("href") + "?id=" + new Date().getMilliseconds());
+            window.parent.$('#main-css-style').attr("href", '<?php echo $site_url; ?>userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main.php' + "?id=" + new Date().getMilliseconds());
         }
 
         function reset_main_css() {

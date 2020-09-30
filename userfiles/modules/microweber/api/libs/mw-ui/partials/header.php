@@ -8,9 +8,9 @@
     <?php if (is_file('grunt/plugins/ui/css/main_compiled.css')): ?>
         <link rel="stylesheet" id="main-css-style" href="grunt/plugins/ui/css/main.php">
     <?php elseif (is_file('assets/ui/plugins/css/main.css')): ?>
-        <link rel="stylesheet" href="assets/ui/plugins/css/main.css">
+        <link rel="stylesheet" href="assets/ui/plugins/css/main_with_mw.css">
     <?php else: ?>
-        <link rel="stylesheet" href="grunt/plugins/ui/css/main.css">
+        <link rel="stylesheet" href="grunt/plugins/ui/css/main_with_mw.css">
     <?php endif; ?>
 
     <!-- MW UI plugins CSS -->
@@ -19,9 +19,9 @@
     <!-- MW Admin CSS -->
     <?php if (!is_file('grunt/plugins/ui/css/main_compiled.css')): ?>
         <?php if (is_file('assets/ui/plugins/css/mw.css')): ?>
-            <link rel="stylesheet" href="assets/ui/plugins/css/mw.css">
+<!--            <link rel="stylesheet" href="assets/ui/plugins/css/mw.css">-->
         <?php else: ?>
-            <link rel="stylesheet" href="grunt/plugins/ui/css/mw.css">
+<!--            <link rel="stylesheet" href="grunt/plugins/ui/css/mw.css">-->
         <?php endif; ?>
     <?php endif; ?>
 
