@@ -1,4 +1,4 @@
-# Microweber: Drag-and-Drop CMS
+# Microweber: Drag-&-Drop CMS
 
 **Current version: 1.0 running on Laravel 5!**
 
