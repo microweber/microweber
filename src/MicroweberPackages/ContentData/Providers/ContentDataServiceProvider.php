@@ -1,9 +1,8 @@
 <?php
 
-namespace MicroweberPackages\ContentData;
+namespace MicroweberPackages\ContentData\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Product\Observers\ProductObserver;
 use MicroweberPackages\Database\Observers\CreatedByObserver;
 use MicroweberPackages\ContentData\Models\ContentData;
 
