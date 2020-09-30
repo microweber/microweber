@@ -15,8 +15,12 @@ use MicroweberPackages\Captcha\CaptchaManagerServiceProvider;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
-use MicroweberPackages\Customer\CustomerServiceProvider;
-use MicroweberPackages\Database\DatabaseManagerServiceProvider;
+ use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
+ use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
+ use MicroweberPackages\Customer\CustomerServiceProvider;
+ use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
+ use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
+ use MicroweberPackages\Database\DatabaseManagerServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\Form\FormsManagerServiceProvider;
@@ -39,8 +43,6 @@ use MicroweberPackages\Order\OrderManagerServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Product\ProductServiceProvider;
-use MicroweberPackages\ContentData\ContentDataServiceProvider;
-use MicroweberPackages\CustomField\CustomFieldServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
 use MicroweberPackages\Tax\TaxManagerServiceProvider;
@@ -189,7 +191,9 @@ if (! defined('MW_VERSION')) {
         $this->app->register(MenuManagerServiceProvider::class);
         $this->app->register(ProductServiceProvider::class);
         $this->app->register(ContentDataServiceProvider::class);
+        $this->app->register(ContentDataEventServiceProvider::class);
         $this->app->register(CustomFieldServiceProvider::class);
+        $this->app->register(CustomFieldEventServiceProvider::class);
 
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);
