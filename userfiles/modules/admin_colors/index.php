@@ -1,4 +1,9 @@
-<?php only_admin_access() ?>
+<?php
+
+if(!is_admin()){
+    return;
+}
+?>
 
 <?php
 $selected = get_option('admin_theme_name', 'admin');
