@@ -15,7 +15,7 @@ class ProductWasCreated
         $this->request = $request;
     }
 
-    public function getEntity()
+    public function getModel()
     {
         return $this->product;
     }

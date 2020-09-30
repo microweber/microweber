@@ -19,7 +19,7 @@ class EditCategoryListener
             return;
         }
 
-        $entityCategories = CategoryItem::where('rel_id', $event->getEntity()->id)->get();
+        $entityCategories = CategoryItem::where('rel_id', $event->getModel()->id)->get();
         if ($entityCategories) {
             foreach ($entityCategories as $entityCategory) {
                 if (!in_array($entityCategory->parent_id, $categoryIds)) {
@@ -30,12 +30,12 @@ class EditCategoryListener
 
         foreach($categoryIds as $categoryId) {
 
-            $categoryItem = CategoryItem::where('rel_id', $event->getEntity()->id)->where('parent_id', $categoryId)->first();
+            $categoryItem = CategoryItem::where('rel_id', $event->getModel()->id)->where('parent_id', $categoryId)->first();
             if (!$categoryItem) {
                 $categoryItem = new CategoryItem();
             }
 
-            $categoryItem->rel_id = $event->getEntity()->id;
+            $categoryItem->rel_id = $event->getModel()->id;
             $categoryItem->rel_type = 'content';
             $categoryItem->parent_id = $categoryId;
             $categoryItem->save();

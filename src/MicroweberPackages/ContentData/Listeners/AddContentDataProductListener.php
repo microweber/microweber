@@ -8,7 +8,7 @@ class AddContentDataProductListener
     public function handle($event)
     {
         $request = $event->getRequest();
-        $product = $event->getEntity();
+        $product = $event->getModel();
 
         $contentDataDefault = Product::$contentDataDefault;
         $contentDataFromPost = $contentDataDefault;

@@ -6,7 +6,7 @@ class AddCustomFieldProductListener
     public function handle($event)
     {
         $request = $event->getRequest();
-        $product = $event->getEntity();
+        $product = $event->getModel();
 
         $product->setCustomField(
             [
