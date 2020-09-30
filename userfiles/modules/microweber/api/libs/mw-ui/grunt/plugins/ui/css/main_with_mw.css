@@ -9,7 +9,6 @@ $border-radius-sm:            .2rem !default;*/
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-@import url(margins.css);
 :root {
   --blue: #4592ff;
   --indigo: #6610f2;
@@ -62,7 +61,7 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #f2f3f5; }
+  background-color: whitesmoke; }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important; }
@@ -398,7 +397,7 @@ mark,
 
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #f2f3f5;
+  background-color: whitesmoke;
   border: 1px solid #dee2e6;
   border-radius: 5px;
   max-width: 100%;
@@ -2971,11 +2970,11 @@ input[type="button"].btn-block {
   .custom-range:focus {
     outline: none; }
     .custom-range:focus::-webkit-slider-thumb {
-      box-shadow: 0 0 0 1px #f2f3f5, 0 0 0 0.2rem rgba(69, 146, 255, 0.25); }
+      box-shadow: 0 0 0 1px whitesmoke, 0 0 0 0.2rem rgba(69, 146, 255, 0.25); }
     .custom-range:focus::-moz-range-thumb {
-      box-shadow: 0 0 0 1px #f2f3f5, 0 0 0 0.2rem rgba(69, 146, 255, 0.25); }
+      box-shadow: 0 0 0 1px whitesmoke, 0 0 0 0.2rem rgba(69, 146, 255, 0.25); }
     .custom-range:focus::-ms-thumb {
-      box-shadow: 0 0 0 1px #f2f3f5, 0 0 0 0.2rem rgba(69, 146, 255, 0.25); }
+      box-shadow: 0 0 0 1px whitesmoke, 0 0 0 0.2rem rgba(69, 146, 255, 0.25); }
   .custom-range::-moz-focus-outer {
     border: 0; }
   .custom-range::-webkit-slider-thumb {
@@ -3107,8 +3106,8 @@ input[type="button"].btn-block {
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
     color: #2b2b2b;
-    background-color: #f2f3f5;
-    border-color: #dee2e6 #dee2e6 #f2f3f5; }
+    background-color: whitesmoke;
+    border-color: #dee2e6 #dee2e6 whitesmoke; }
   .nav-tabs .dropdown-menu {
     margin-top: -1px;
     border-top-left-radius: 0;
@@ -7803,6 +7802,246 @@ label {
   .card:not(.card-collapse) .card-header {
     overflow: unset !important; }
 
+.row-mx-1 {
+  margin-left: -1px !important;
+  margin-right: -1px !important; }
+
+.row-mx-2 {
+  margin-left: -2px !important;
+  margin-right: -2px !important; }
+
+.row-mx-3 {
+  margin-left: -3px !important;
+  margin-right: -3px !important; }
+
+.row-mx-4 {
+  margin-left: -4px !important;
+  margin-right: -4px !important; }
+
+.row-mx-5 {
+  margin-left: -5px !important;
+  margin-right: -5px !important; }
+
+.row-mx-6 {
+  margin-left: -6px !important;
+  margin-right: -6px !important; }
+
+.row-mx-7 {
+  margin-left: -7px !important;
+  margin-right: -7px !important; }
+
+.row-mx-8 {
+  margin-left: -8px !important;
+  margin-right: -8px !important; }
+
+.row-mx-9 {
+  margin-left: -9px !important;
+  margin-right: -9px !important; }
+
+.row-mx-10 {
+  margin-left: -10px !important;
+  margin-right: -10px !important; }
+
+.row-mx-11 {
+  margin-left: -11px !important;
+  margin-right: -11px !important; }
+
+.row-mx-12 {
+  margin-left: -12px !important;
+  margin-right: -12px !important; }
+
+.row-mx-13 {
+  margin-left: -13px !important;
+  margin-right: -13px !important; }
+
+.row-mx-14 {
+  margin-left: -14px !important;
+  margin-right: -14px !important; }
+
+.row-mx-15 {
+  margin-left: -15px !important;
+  margin-right: -15px !important; }
+
+.row-mx-16 {
+  margin-left: -16px !important;
+  margin-right: -16px !important; }
+
+.row-mx-17 {
+  margin-left: -17px !important;
+  margin-right: -17px !important; }
+
+.row-mx-18 {
+  margin-left: -18px !important;
+  margin-right: -18px !important; }
+
+.row-mx-19 {
+  margin-left: -19px !important;
+  margin-right: -19px !important; }
+
+.row-mx-20 {
+  margin-left: -20px !important;
+  margin-right: -20px !important; }
+
+.row-mx-21 {
+  margin-left: -21px !important;
+  margin-right: -21px !important; }
+
+.row-mx-22 {
+  margin-left: -22px !important;
+  margin-right: -22px !important; }
+
+.row-mx-23 {
+  margin-left: -23px !important;
+  margin-right: -23px !important; }
+
+.row-mx-24 {
+  margin-left: -24px !important;
+  margin-right: -24px !important; }
+
+.row-mx-25 {
+  margin-left: -25px !important;
+  margin-right: -25px !important; }
+
+.row-mx-26 {
+  margin-left: -26px !important;
+  margin-right: -26px !important; }
+
+.row-mx-27 {
+  margin-left: -27px !important;
+  margin-right: -27px !important; }
+
+.row-mx-28 {
+  margin-left: -28px !important;
+  margin-right: -28px !important; }
+
+.row-mx-29 {
+  margin-left: -29px !important;
+  margin-right: -29px !important; }
+
+.row-mx-30 {
+  margin-left: -30px !important;
+  margin-right: -30px !important; }
+
+.col-px-1 {
+  padding-left: 1px !important;
+  padding-right: 1px !important; }
+
+.col-px-2 {
+  padding-left: 2px !important;
+  padding-right: 2px !important; }
+
+.col-px-3 {
+  padding-left: 3px !important;
+  padding-right: 3px !important; }
+
+.col-px-4 {
+  padding-left: 4px !important;
+  padding-right: 4px !important; }
+
+.col-px-5 {
+  padding-left: 5px !important;
+  padding-right: 5px !important; }
+
+.col-px-6 {
+  padding-left: 6px !important;
+  padding-right: 6px !important; }
+
+.col-px-7 {
+  padding-left: 7px !important;
+  padding-right: 7px !important; }
+
+.col-px-8 {
+  padding-left: 8px !important;
+  padding-right: 8px !important; }
+
+.col-px-9 {
+  padding-left: 9px !important;
+  padding-right: 9px !important; }
+
+.col-px-10 {
+  padding-left: 10px !important;
+  padding-right: 10px !important; }
+
+.col-px-11 {
+  padding-left: 11px !important;
+  padding-right: 11px !important; }
+
+.col-px-12 {
+  padding-left: 12px !important;
+  padding-right: 12px !important; }
+
+.col-px-13 {
+  padding-left: 13px !important;
+  padding-right: 13px !important; }
+
+.col-px-14 {
+  padding-left: 14px !important;
+  padding-right: 14px !important; }
+
+.col-px-15 {
+  padding-left: 15px !important;
+  padding-right: 15px !important; }
+
+.col-px-16 {
+  padding-left: 16px !important;
+  padding-right: 16px !important; }
+
+.col-px-17 {
+  padding-left: 17px !important;
+  padding-right: 17px !important; }
+
+.col-px-18 {
+  padding-left: 18px !important;
+  padding-right: 18px !important; }
+
+.col-px-19 {
+  padding-left: 19px !important;
+  padding-right: 19px !important; }
+
+.col-px-20 {
+  padding-left: 20px !important;
+  padding-right: 20px !important; }
+
+.col-px-21 {
+  padding-left: 21px !important;
+  padding-right: 21px !important; }
+
+.col-px-22 {
+  padding-left: 22px !important;
+  padding-right: 22px !important; }
+
+.col-px-23 {
+  padding-left: 23px !important;
+  padding-right: 23px !important; }
+
+.col-px-24 {
+  padding-left: 24px !important;
+  padding-right: 24px !important; }
+
+.col-px-25 {
+  padding-left: 25px !important;
+  padding-right: 25px !important; }
+
+.col-px-26 {
+  padding-left: 26px !important;
+  padding-right: 26px !important; }
+
+.col-px-27 {
+  padding-left: 27px !important;
+  padding-right: 27px !important; }
+
+.col-px-28 {
+  padding-left: 28px !important;
+  padding-right: 28px !important; }
+
+.col-px-29 {
+  padding-left: 29px !important;
+  padding-right: 29px !important; }
+
+.col-px-30 {
+  padding-left: 30px !important;
+  padding-right: 30px !important; }
+
 textarea:not(.form-control) {
   background-color: #fafafa;
   -webkit-box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
@@ -8397,7 +8636,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     .card.not-collapsed-border:hover {
       border-color: #4592ff; }
   .card.bg-silver {
-    background: #fafafa; }
+    background: rgba(255, 255, 255, 0.1); }
   .card.bg-silver:not(.collapsed) {
     background: transparent; }
   .card.not-collapsed-border:not(.collapsed), .card.not-collapsed-border.active {
@@ -9057,7 +9296,7 @@ $border-radius-sm:            .2rem !default;*/
 /*$custom-file-padding-y:             $input-btn-padding-y !default;*/
 /*$custom-file-line-height:           1 !default;*/
 body {
-  background-color: #f2f3f5; }
+  background-color: whitesmoke; }
 
 .prevent-scroll {
   overflow: hidden;
@@ -10170,5 +10409,3 @@ header {
         visibility: visible;
         opacity: 1;
         display: block; }
-
-/*# sourceMappingURL=main_with_mw.css.map */
