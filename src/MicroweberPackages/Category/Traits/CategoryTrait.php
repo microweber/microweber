@@ -2,7 +2,11 @@
 
 namespace MicroweberPackages\Category\Traits;
 
-
+/**
+ * Trait CategoryTrait
+ * @package MicroweberPackages\Category\Traitsde
+ * @deprecated
+ */
 trait CategoryTrait {
 
     public $addContentToCategory = [];
