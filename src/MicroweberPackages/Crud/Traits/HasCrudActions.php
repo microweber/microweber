@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Crud\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 
 trait HasCrudActions
 {
@@ -14,6 +15,10 @@ trait HasCrudActions
      */
     public function index(Request $request)
     {
+        if ($this->getRepository()) {
+            return $this->getRepository()->all();
+        }
+
         if ($request->has('query')) {
             return $this->getModel()
                 ->search($request->get('query'))
@@ -46,10 +51,17 @@ trait HasCrudActions
      */
     public function store()
     {
+
+        $request = $this->getRequest('store')->all();
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->create($request);
+        }
+
         $this->disableSearchSyncing();
 
         $entity = $this->getModel()->create(
-            $this->getRequest('store')->all()
+            $request
         );
 
         $this->searchable($entity);
@@ -69,7 +81,12 @@ trait HasCrudActions
      */
     public function show($id)
     {
-        $entity = $this->getEntity($id);
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->find($id);
+        }
+
+        $entity = $this->getModel($id);
 
         if (request()->wantsJson()) {
             return $entity;
@@ -87,7 +104,7 @@ trait HasCrudActions
     public function edit($id)
     {
         $data = array_merge([
-            $this->getResourceName() => $this->getEntity($id),
+            $this->getResourceName() => $this->getModel($id),
         ], $this->getFormData('edit', $id));
 
         return $data;
@@ -101,12 +118,18 @@ trait HasCrudActions
      */
     public function update($id)
     {
-        $entity = $this->getEntity($id);
+
+        $entity = $this->getModel($id);
+        $request = $this->getRequest('update')->all();
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->update($entity, $request);
+        }
 
         $this->disableSearchSyncing();
 
         $entity->update(
-            $this->getRequest('update')->all()
+            $request
         );
 
         $this->searchable($entity);
@@ -120,7 +143,24 @@ trait HasCrudActions
      * @param string $ids
      * @return void
      */
-    public function destroy($ids)
+    public function destroy($id)
+    {
+        $entity = $this->getModel($id);
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->destroy($entity);
+        }
+
+        $entity->delete();
+    }
+
+    /**
+     * Delete resources by given ids.
+     *
+     * @param string $ids
+     * @return void
+     */
+    public function delete($ids)
     {
         $this->getModel()
             ->withoutGlobalScope('active')
@@ -134,9 +174,9 @@ trait HasCrudActions
      * @param int $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    protected function getEntity($id)
+    protected function getModel($id)
     {
-        return $this->getModel()
+        return $this->getModelInstance()
             ->with($this->relations())
             ->withoutGlobalScope('active')
             ->findOrFail($id);
@@ -223,10 +263,25 @@ trait HasCrudActions
      *
      * @return void
      */
-    protected function getModel()
+    protected function getModelInstance()
     {
         return new $this->model;
     }
+
+    /**
+     * Get a new instance of the model.
+     *
+     * @return void
+     */
+    protected function getRepository()
+    {
+        if (isset($this->repository) && class_exists($this->repository)) {
+            return new $this->repository;
+        }
+
+        return false;
+    }
+
 
     /**
      * Get request object

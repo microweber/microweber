@@ -34,7 +34,8 @@ label {
   }
 }
 
-@import 'margins.css';
+//@import 'margins.css';
+@import '_margins';
 
 textarea:not(.form-control) {
   background-color: #fafafa;
@@ -938,7 +939,9 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   }
 
   &.bg-silver {
-    background: #fafafa;
+    //background: #fafafa;
+    background: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+    //background: darken($body-bg, 1%);
   }
 
   &.bg-silver:not(.collapsed) {

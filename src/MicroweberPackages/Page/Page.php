@@ -31,8 +31,7 @@ class Page extends Model
         "created_by",
         "is_home",
         "is_shop",
-        "is_active",
-        "add_content_to_menu"
+        "is_active"
     ];
 
     public $translatable = ['title','description','content','content_body'];

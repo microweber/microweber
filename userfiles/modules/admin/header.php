@@ -28,7 +28,6 @@
         mw.require("liveadmin.js");
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
-        mw.require("<?php print mw_includes_url(); ?>css/admin-new.css");
         mw.require("wysiwyg.js");
         mw.require("url.js");
         mw.require("options.js");

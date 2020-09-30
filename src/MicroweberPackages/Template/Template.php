@@ -369,9 +369,147 @@ class Template
     public function get_default_system_ui_css_url()
     {
 
-        $url = mw_includes_url() . 'css/ui.css?mwv=' . MW_VERSION;
+        $url = mw_includes_url() . 'default.css';
 
         return $url;
+    }
+
+
+    public function get_admin_supported_themes()
+    {
+        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
+        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
+
+        $dirs = scandir($themes_dir);
+        $templates = [];
+        if($dirs){
+            foreach ($dirs as $dir){
+                if($dir != '.' and $dir != '..'){
+                    if(is_file($themes_dir.$dir.'/_bootswatch.scss')){
+                        $templates[] = $dir;
+                    }
+                }
+            }
+        }
+
+
+return $templates;
+    }
+     public function get_admin_system_ui_css_url()
+    {
+
+        $selected_theme = get_option('admin_theme_name', 'admin');
+
+
+        $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css';
+        $url_images_dir = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/img';
+        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
+        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
+
+        $compiled_output_path = userfiles_path() . 'css/admin-css/';
+        $compiled_output_url = userfiles_url() . 'css/admin-css/';
+        if (!is_dir($compiled_output_path)) {
+            mkdir_recursive($compiled_output_path);
+        }
+
+        $compiled_css_output_path_file_sass = normalize_path($compiled_output_path . '__compiled_main.scss', false);
+        $compiled_css_output_path_file_css = normalize_path($compiled_output_path . '__compiled_main.css', false);
+        $compiled_css_output_path_file_css_url = $compiled_output_url . '__compiled_main.css';
+
+        $compiled_css_map_output_path_file = normalize_path($compiled_output_path . '__compiled_main.scss.map', false);
+        $compiled_css_map_output_path_url = $compiled_output_url . '__compiled_main.scss.map';
+
+
+        $theme_file_rel_path = $selected_theme . '/_bootswatch.scss';
+        $theme_file_abs_path = normalize_path($themes_dir . $theme_file_rel_path, false);
+
+        $theme_file_vars_rel_path = $selected_theme . '/_variables.scss';
+        $theme_file_vars_abs_path = normalize_path($themes_dir . $theme_file_vars_rel_path, false);
+
+
+        if (!$selected_theme) {
+            return $url;
+        }
+
+
+        if (!is_file($theme_file_abs_path) or !is_file($theme_file_vars_abs_path)) {
+            return $url;
+        }
+
+        if(is_file($compiled_css_output_path_file_css)){
+            return $compiled_css_output_path_file_css_url;
+
+        }
+
+
+        $scss = new \ScssPhp\ScssPhp\Compiler();
+        $scss->setImportPaths([$ui_root_dir . 'grunt/plugins/ui/css/']);
+        $scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compact');
+
+        //  $scss->setVariables( array( 'asset-url' => '"http://my-site.com"' ) );
+
+
+        /*$scss->setSourceMapOptions([
+            // absolute path to write .map file
+            //'sourceMapWriteTo' => __DIR__ . '__compiled_main.scss.map',
+       'sourceMapWriteTo' =>$compiled_css_map_output_path_file,
+
+            // relative or full url to the above .map file
+           // 'sourceMapURL' => '__compiled_main.scss.map',
+        //   'sourceMapURL' => $compiled_css_map_output_path_url,
+
+            // (optional) relative or full url to the .css file
+            // 'sourceMapFilename' => 'grunt/plugins/ui/css/__compiled_main.css',
+
+            // partial path (server root) removed (normalized) to create a relative url
+          'sourceMapBasepath' => $ui_root_dir. 'grunt/plugins/ui/css/',
+
+            // (optional) prepended to 'source' field entries for relocating source files
+       'sourceRoot' => $ui_root_dir.'grunt/plugins/ui/css/',
+        ]);*/
+        $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_INLINE);
+
+
+        $scss->setSourceMapOptions([
+            'sourceMapWriteTo' => $compiled_css_map_output_path_file,
+            'sourceMapURL' => $compiled_css_map_output_path_url,
+//
+            'sourceMapBasepath' => $compiled_output_path,
+
+            'sourceRoot' => $ui_root_dir . 'grunt/plugins/ui/css/',
+        ]);
+
+
+        $cont = "
+            //Bootswatch variables
+         @import 'bootswatch/themes/{$theme_file_vars_rel_path}';
+         
+        //UI Variables
+      //  @import 'bootstrap_variables';
+        
+        //Bootstrap
+        @import '../../bootstrap/scss/bootstrap';
+        
+        //Bootswatch structure
+         @import 'bootswatch/themes/{$theme_file_rel_path}';
+         
+        //UI
+        @import 'main_with_mw';
+            ";
+
+
+        $vars = false;
+
+
+        if ($vars) {
+            $scss->setVariables($vars);
+        }
+
+        $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
+        $output = str_replace('../img', $url_images_dir, $output);
+
+        file_put_contents($compiled_css_output_path_file_css, $output);
+        return $compiled_css_output_path_file_css_url;
     }
 
     public function clear_cached_custom_css()
