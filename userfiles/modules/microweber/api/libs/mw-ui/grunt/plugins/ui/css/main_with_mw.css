@@ -8043,7 +8043,7 @@ label {
   padding-right: 30px !important; }
 
 textarea:not(.form-control) {
-  background-color: #fafafa;
+  background-color: rgba(245, 245, 245, 0.3);
   -webkit-box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
   -moz-box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
   box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
@@ -8587,7 +8587,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       font-weight: bold; }
 
 .card {
-  border-color: #eeeff1;
+  border-color: rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   overflow: hidden; }
   .card.card-success {
@@ -8717,13 +8717,13 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     -o-transform: rotate(29deg) skew(-35deg);
     -webkit-transform: rotate(29deg) skew(-35deg);
     width: 12px;
-    border-left: 1px solid #eeeff1;
-    border-bottom: 1px solid #eeeff1;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     border-top: 3px solid #fff;
     left: -6px; }
   .card-bubble.bg-silver.collapsed:after {
-    border-top-color: #fafafa;
-    background-color: #fafafa; }
+    border-top-color: rgba(245, 245, 245, 0.3);
+    background-color: rgba(245, 245, 245, 0.3); }
   .card-bubble.active:after, .card-bubble:not(.collapsed):after, .card-bubble:hover:after {
     border-left: 1px solid #4592ff;
     border-bottom: 1px solid #4592ff; }
@@ -8901,8 +8901,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   .muted-cards .card:not(:hover) h1, .muted-cards .card:not(:hover) h2, .muted-cards .card:not(:hover) h3, .muted-cards .card:not(:hover) h4, .muted-cards .card:not(:hover) h5, .muted-cards .card:not(:hover) h6 {
     color: #919191 !important; }
 .muted-cards .card:hover {
-  background: #fafafa;
-  border-color: #eeeff1;
+  background: rgba(245, 245, 245, 0.3);
+  border-color: rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11); }
@@ -8925,7 +8925,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     color: #919191 !important; }
 .muted-cards-2 .card:hover {
   background: #fcfcfc;
-  border-color: #eeeff1;
+  border-color: rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11); }
@@ -8933,8 +8933,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 .muted-cards-3 .card:not(:hover) .js-move {
   visibility: hidden; }
 .muted-cards-3 .card:hover {
-  background: #fafafa;
-  border-color: #eeeff1;
+  background: rgba(245, 245, 245, 0.3);
+  border-color: rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11); }
@@ -9442,7 +9442,7 @@ header {
             color: #4592ff; }
       .main aside > ul > li.nav-item.dropdown-no-js.show, .main aside > ul > li.nav-item.dropdown.show {
         background: #fff;
-        border: 1px solid #eeeff1;
+        border: 1px solid rgba(0, 0, 0, 0.1);
         max-width: 100%; }
         .main aside > ul > li.nav-item.dropdown-no-js.show > a, .main aside > ul > li.nav-item.dropdown.show > a {
           color: #2b2b2b;
@@ -10410,3 +10410,5 @@ header {
         visibility: visible;
         opacity: 1;
         display: block; }
+
+/*# sourceMappingURL=main_with_mw.css.map */

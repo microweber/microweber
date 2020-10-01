@@ -38,7 +38,7 @@ label {
 @import '_margins';
 
 textarea:not(.form-control) {
-  background-color: #fafafa;
+  background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
   -webkit-box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
   -moz-box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
   box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
@@ -855,7 +855,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 }
 
 .card {
-  border-color: #eeeff1;
+  border-color: rgba(red($black), green($black), blue($black), .1);
   border-radius: 10px;
   overflow: hidden;
 
@@ -1068,16 +1068,16 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     -o-transform: rotate(29deg) skew(-35deg);
     -webkit-transform: rotate(29deg) skew(-35deg);
     width: 12px;
-    border-left: 1px solid #eeeff1;
-    border-bottom: 1px solid #eeeff1;
+    border-left: 1px solid rgba(red($black), green($black), blue($black), .1);
+    border-bottom: 1px solid rgba(red($black), green($black), blue($black), .1);
     border-top: 3px solid #fff;
     left: -6px;
   }
 
   &.bg-silver.collapsed {
     &:after {
-      border-top-color: #fafafa;
-      background-color: #fafafa;
+      border-top-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+      background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
     }
   }
 
@@ -1341,8 +1341,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   }
 
   .card:hover {
-    background: #fafafa;
-    border-color: #eeeff1;
+    background: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+    border-color: rgba(red($black), green($black), blue($black), .1);
     -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
@@ -1377,7 +1377,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   .card:hover {
     background: #fcfcfc;
-    border-color: #eeeff1;
+    border-color: rgba(red($black), green($black), blue($black), .1);
     -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
@@ -1393,8 +1393,9 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   }
 
   .card:hover {
-    background: #fafafa;
-    border-color: #eeeff1;
+    background: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+    border-color: rgba(red($black), green($black), blue($black), .1);
+    //border-color: #eeeff1;
     -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);

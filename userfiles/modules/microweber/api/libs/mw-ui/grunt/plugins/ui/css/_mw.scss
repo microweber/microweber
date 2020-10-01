@@ -214,7 +214,7 @@ header {
         &.dropdown-no-js.show,
         &.dropdown.show {
           background: $white;
-          border: 1px solid #eeeff1;
+          border: 1px solid rgba(red($black), green($black), blue($black), .1);
           max-width: 100%;
           > a {
             color: $textDark;
