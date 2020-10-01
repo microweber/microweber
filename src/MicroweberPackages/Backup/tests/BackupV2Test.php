@@ -114,8 +114,7 @@ class BackupV2Test extends TestCase
 		}
 		
 		$this->assertTrue($importBool);
-		
-		$this->assertArrayHasKey('done', $import);
+ 		$this->assertArrayHasKey('done', $import);
 		$this->assertArrayHasKey('precentage', $import);
 	}
 	

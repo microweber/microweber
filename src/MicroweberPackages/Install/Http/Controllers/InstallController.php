@@ -153,7 +153,7 @@ class InstallController extends Controller
                     $input['db_name'] = str_replace(':.', '.', $input['db_name']);
                 }
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
-                if (!file_exists($input['db_name'])) {
+                if (isset($input['db_name']) and $input['db_name'] != ':memory:' and  !file_exists($input['db_name'])) {
                     touch($input['db_name']);
                 }
             }
