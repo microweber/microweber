@@ -8106,7 +8106,8 @@ textarea:not(.form-control) {
 .btn {
   display: inline-flex;
   padding-left: 15px;
-  padding-right: 15px; }
+  padding-right: 15px;
+  align-items: center; }
   .btn i {
     display: inline-block;
     font-size: 1rem;
