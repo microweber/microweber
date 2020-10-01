@@ -3,11 +3,11 @@ namespace MicroweberPackages\Page;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\PostScope;
-use MicroweberPackages\Menu\Traits\HasMenuItem;
+use MicroweberPackages\Database\Traits\HasSlugTrait;
 
 class Post extends Model
 {
-    use HasMenuItem;
+    use HasSlugTrait;
 
     protected $table = 'content';
     protected $primaryKey = 'id';
@@ -24,8 +24,7 @@ class Post extends Model
         'is_home',
         'is_shop',
         'is_deleted',
-        'status',
-        'add_content_to_menu'
+        'status'
     ];
 
     public $translatable = ['title','description','content','content_body'];
