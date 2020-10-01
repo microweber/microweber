@@ -22,6 +22,15 @@ class ProductControllerTest extends TestCase
             route('admin.products.store'),
             ['title' => 'Test Product']
         );
-        dump($response);
+
+        //dump($response);
+
+        //dump($this->response->getContent());
+
+    //    $this->assertResponseOk();
+
+       // $this->assertEquals('', $this->response->getContent());
+
+        //dump($response->getData());
     }
 }
