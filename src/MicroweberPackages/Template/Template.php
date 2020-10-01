@@ -457,7 +457,7 @@ class Template
              @import '../../bootstrap/scss/bootstrap';
             
              //Bootswatch structure
-             @import 'bootswatch/_bootswatch';
+             //@import 'bootswatch/_bootswatch';
              @import 'bootswatch/themes/{$theme_file_rel_path}';
              
              //UI
