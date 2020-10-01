@@ -337,7 +337,7 @@ textarea:not(.form-control) {
         color: $primary;
       }
 
-      color: $gray-700 !important;
+      color: $dark !important;
       //background-color: $gray-100;
       background-color: $secondary;
     }
@@ -347,7 +347,7 @@ textarea:not(.form-control) {
         color: $primary;
       }
 
-      color: $gray-700 !important;
+      color: $dark !important;
       background-color: transparent !important;
       border-bottom: 4px solid $primary !important;
     }
@@ -426,7 +426,7 @@ textarea:not(.form-control) {
 }
 
 .form-control {
-  color: $gray-700;
+  color: $dark;
   font-weight: 500;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -601,7 +601,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     border-color: $primary;
     padding: 0;
     .dropdown-item {
-      color: $gray-700;
+      color: $dark;
       font-weight: 500;
       border-top: 1px solid $gray-400;
       border-bottom: 1px solid transparent;
@@ -611,7 +611,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     .dropdown-item:hover,
     .dropdown-item.active, .dropdown-item:active {
       background-color: $info;
-      color: $gray-700;
+      color: $dark;
       border-top: 1px solid $primary;
       border-bottom: 1px solid $primary;
     }
@@ -830,7 +830,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   .info {
     width: calc(100% - 50px);
-    color: $gray-700;
+    color: $dark;
     padding-left: 10px;
     position: relative;
     white-space: nowrap;

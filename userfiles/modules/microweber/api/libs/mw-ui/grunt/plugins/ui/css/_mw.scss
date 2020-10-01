@@ -2,7 +2,7 @@
 
 @import 'bootstrap_variables';
 
-$textDark: $gray-700;
+$textDark: $dark;
 $textGray: #7e7e7e;
 $textLight: $white;
 
@@ -174,7 +174,7 @@ header {
           margin: 4px 0;
           color: $textGray;
           &:hover {
-            color: #2b2b2b;
+            color: $dark;
             > i {
               color: $primary;
             }
@@ -255,7 +255,7 @@ header {
 
             &:hover {
               background: rgba(red($white), green($white), blue($white), .5);
-              color: #2b2b2b;
+              color: $dark;
             }
 
             .add-new {
@@ -1220,11 +1220,11 @@ header {
   text-align: center;
   float: none;
   /* margin: 0 auto; */
-  color: #2b2b2b;
+  color: $dark;
 }
 
 .stats-view .mw-ui-btn-nav-tabs .mw-ui-btn.active {
-  background: #2b2b2b;
+  background: $dark;
   color: #999;
 }
 
