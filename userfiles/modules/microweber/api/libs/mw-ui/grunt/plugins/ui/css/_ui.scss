@@ -982,7 +982,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 }
 
 .card.style-1 {
-  border-color: #eeeff1;
+  border-color: darken($white, 6%);
   -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
