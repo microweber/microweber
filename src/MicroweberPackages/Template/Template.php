@@ -441,10 +441,11 @@ class Template
             'sourceMapBasepath' => $compiled_output_path,
             'sourceRoot' => $ui_root_dir . 'grunt/plugins/ui/css/',
         ]);
-
+        $cont = false;
         if ($selected_theme and !$vars) {
             $cont = "
             //Bootswatch variables
+            //@import 'bootswatch/_variables';
             @import 'bootswatch/themes/{$theme_file_vars_rel_path}';
          
             //UI Variables
@@ -455,6 +456,9 @@ class Template
             
             //Bootswatch structure
              @import 'bootswatch/themes/{$theme_file_rel_path}';
+             
+             //@import 'bootswatch/bootswatch';
+            //@import 'bootswatch/light/_bootswatch.scss';
              
             //UI
             @import 'main_with_mw';
