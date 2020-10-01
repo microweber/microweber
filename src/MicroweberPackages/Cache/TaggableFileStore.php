@@ -312,8 +312,8 @@ class TaggableFileStore implements Store
         }
         $cacheMapContent = false;
         if (is_file($cacheFile)) {
-            $cacheMapContent = file_get_contents($cacheFile);
-            $cacheMapContent = json_decode($cacheMapContent, true);
+            $cacheMapContent = @file_get_contents($cacheFile);
+            $cacheMapContent = @json_decode($cacheMapContent, true);
         }
         if (!$cacheMapContent) {
             $this->files->tagMapCacheMemory[$tagName] = [];
