@@ -1,9 +1,6 @@
 <?php
 
 use MicroweberPackages\Product\Product;
-use MicroweberPackages\CustomField\CustomField;
-use MicroweberPackages\CustomField\CustomFieldValue;
-
 
 
 Route::name('admin.')
@@ -12,7 +9,8 @@ Route::name('admin.')
     ->middleware(['xss', 'admin'])
     ->group(function () {
 
-        Route::resource('products', 'ProductsController');
+
+         Route::resource('products', 'ProductsController');
 
     });
 

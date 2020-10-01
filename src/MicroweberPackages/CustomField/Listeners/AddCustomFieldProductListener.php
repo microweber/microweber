@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\CustomField\Listeners;
 
 class AddCustomFieldProductListener
@@ -7,15 +8,16 @@ class AddCustomFieldProductListener
     {
         $request = $event->getRequest();
         $product = $event->getModel();
-
-        $product->setCustomField(
-            [
-                'type' => 'price',
-                'name' => 'Price',
-                'value' => [$request['price']]
-            ]
-        );
-        $product->save();
+        if (isset($request['price'])) {
+            $product->setCustomField(
+                [
+                    'type' => 'price',
+                    'name' => 'Price',
+                    'value' => [$request['price']]
+                ]
+            );
+            $product->save();
+        }
 
     }
 }

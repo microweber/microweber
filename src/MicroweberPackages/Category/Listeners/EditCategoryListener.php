@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Category\Listeners;
 
 use MicroweberPackages\Category\CategoryItem;
@@ -7,38 +8,41 @@ class EditCategoryListener
 {
     public function handle($event)
     {
-        $categoryIds = $event->getRequest()['categories'];
-        if (empty($categoryIds)) {
-            return;
-        }
-        if (is_string($categoryIds)) {
-            $categoryIds = explode(',', $categoryIds);
-        }
+        $request = $event->getRequest();
+        if (isset($request['categories'])) {
+            $categoryIds = $event->getRequest()['categories'];
+            if (empty($categoryIds)) {
+                return;
+            }
+            if (is_string($categoryIds)) {
+                $categoryIds = explode(',', $categoryIds);
+            }
 
-        if (empty($categoryIds)) {
-            return;
-        }
+            if (empty($categoryIds)) {
+                return;
+            }
 
-        $entityCategories = CategoryItem::where('rel_id', $event->getModel()->id)->get();
-        if ($entityCategories) {
-            foreach ($entityCategories as $entityCategory) {
-                if (!in_array($entityCategory->parent_id, $categoryIds)) {
-                    $entityCategory->delete();
+            $entityCategories = CategoryItem::where('rel_id', $event->getModel()->id)->get();
+            if ($entityCategories) {
+                foreach ($entityCategories as $entityCategory) {
+                    if (!in_array($entityCategory->parent_id, $categoryIds)) {
+                        $entityCategory->delete();
+                    }
                 }
             }
-        }
 
-        foreach($categoryIds as $categoryId) {
+            foreach ($categoryIds as $categoryId) {
 
-            $categoryItem = CategoryItem::where('rel_id', $event->getModel()->id)->where('parent_id', $categoryId)->first();
-            if (!$categoryItem) {
-                $categoryItem = new CategoryItem();
+                $categoryItem = CategoryItem::where('rel_id', $event->getModel()->id)->where('parent_id', $categoryId)->first();
+                if (!$categoryItem) {
+                    $categoryItem = new CategoryItem();
+                }
+
+                $categoryItem->rel_id = $event->getModel()->id;
+                $categoryItem->rel_type = 'content';
+                $categoryItem->parent_id = $categoryId;
+                $categoryItem->save();
             }
-
-            $categoryItem->rel_id = $event->getModel()->id;
-            $categoryItem->rel_type = 'content';
-            $categoryItem->parent_id = $categoryId;
-            $categoryItem->save();
         }
     }
 }

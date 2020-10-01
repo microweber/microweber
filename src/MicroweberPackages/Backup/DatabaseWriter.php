@@ -255,7 +255,13 @@ class DatabaseWriter
 	 */
 	public function runWriter()
 	{
-		/*
+
+
+        $this->step = 1;
+
+        $this->totalSteps= 1;
+
+	    /*
 		 //$importTables = array('users', 'categories', 'modules', 'comments', 'content', 'media', 'options', 'calendar', 'cart_orders');
 		 */
 		
