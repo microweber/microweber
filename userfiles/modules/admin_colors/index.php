@@ -92,6 +92,8 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
     }
 
     $(document).ready(function () {
+        $('.js-color').colorpicker();
+
         $('.js-color').on('change', function () {
             stopSaveSelectedColors();
             saveSelectedColors();
@@ -134,12 +136,6 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
 
     <?php foreach ($vars as $k => $v) : ?>
         <?php if ($k != 'color_scheme'): ?>
-            <script>
-                $(document).ready(function () {
-                    $('.color-picker-<?php echo $k; ?>').colorpicker();
-                });
-            </script>
-
             <h6>$<?php print $k ?></h6>
 
             <div class="input-group">
