@@ -59,7 +59,7 @@ $templates = $this->app->template->get_admin_supported_themes();
     <div class="form-group">
         <label class="control-label">Select a design</label>
         <select class="mw_option_field js-select-admin-theme selectpicker" data-title="Choose a design" data-width="100%" data-size="5" data-live-search="true" name="admin_theme_name" option-group="admin">
-            <option value="" onclick="reset_admin_css()">Microweber</option>
+            <option value="" onclick="reset_admin_css()">Default</option>
             <?php if ($templates) { ?>
                 <?php foreach ($templates as $template) { ?>
                     <option value="<?php print $template ?>" <?php if ($selected == $template): ?>selected="selected"<?php endif; ?>><?php print ucfirst($template) ?></option>

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Admin colors";
+$config['name'] = "Color Schemes";
 $config['ui'] = false;
 $config['ui_admin'] = true;
 $config['categories'] = "other";
