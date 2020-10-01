@@ -8801,7 +8801,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   display: flex;
   align-items: center; }
   .icon-title i {
-    color: #f2f3f5;
+    color: whitesmoke;
     font-size: 70px; }
   .icon-title h1, .icon-title h2, .icon-title h3, .icon-title h4, .icon-title h5, .icon-title h6 {
     display: inline;
@@ -9246,7 +9246,7 @@ small a {
   color: #000; }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background: #f2f3f5; }
+  background: whitesmoke; }
 
 .table thead th {
   font-weight: normal; }
@@ -9317,7 +9317,7 @@ body {
 
 header {
   padding: 10px 0;
-  border-bottom: 1px solid #f2f3f5; }
+  border-bottom: 1px solid whitesmoke; }
   @media screen and (max-width: 767px) {
     header {
       padding: 10px 10px; } }
@@ -9397,7 +9397,7 @@ header {
         float: none;
         padding-top: 95px;
         padding-right: 15px;
-        border-right: 1px solid #f2f3f5;
+        border-right: 1px solid whitesmoke;
         overflow-y: auto; }
         .main aside.opened {
           left: 0; } }
@@ -9802,7 +9802,7 @@ header {
 .page-settings .select-settings a {
   text-decoration: none; }
   .page-settings .select-settings a .icon-holder {
-    background: #f2f3f5;
+    background: whitesmoke;
     width: 40px;
     height: 40px;
     display: flex;
@@ -10356,7 +10356,7 @@ header {
   background: #adb5bd; }
 
 .bg-grey {
-  background: #f2f3f5; }
+  background: whitesmoke; }
 
 .js-anchorific .anchor {
   display: none; }

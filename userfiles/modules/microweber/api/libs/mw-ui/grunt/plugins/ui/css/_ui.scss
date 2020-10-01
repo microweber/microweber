@@ -1188,7 +1188,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   align-items: center;
 
   i {
-    color: #f2f3f5;
+    color: darken($white, 4%);
     font-size: 70px;
   }
 
@@ -1850,7 +1850,7 @@ small {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background: #f2f3f5;
+  background: darken($white, 4%);
 }
 
 .table thead th {

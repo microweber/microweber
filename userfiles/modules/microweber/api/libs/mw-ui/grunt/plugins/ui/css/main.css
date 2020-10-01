@@ -8801,7 +8801,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   display: flex;
   align-items: center; }
   .icon-title i {
-    color: #f2f3f5;
+    color: whitesmoke;
     font-size: 70px; }
   .icon-title h1, .icon-title h2, .icon-title h3, .icon-title h4, .icon-title h5, .icon-title h6 {
     display: inline;
@@ -9246,7 +9246,7 @@ small a {
   color: #000; }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background: #f2f3f5; }
+  background: whitesmoke; }
 
 .table thead th {
   font-weight: normal; }

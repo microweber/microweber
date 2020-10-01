@@ -34,7 +34,7 @@ header {
   @media screen and (max-width: 767px) {
     padding: 10px 10px;
   }
-  border-bottom: 1px solid #f2f3f5;
+  border-bottom: 1px solid darken($white, 4%);
 
   .container {
     @media screen and (max-width: 767px) {
@@ -143,7 +143,7 @@ header {
 
       padding-top: 95px;
       padding-right: 15px;
-      border-right: 1px solid #f2f3f5;
+      border-right: 1px solid darken($white, 4%);
       overflow-y: auto;
 
       &.opened {
@@ -798,7 +798,7 @@ header {
       text-decoration: none;
 
       .icon-holder {
-        background: #f2f3f5;
+        background: darken($white, 4%);
         width: 40px;
         height: 40px;
         display: flex;
@@ -1515,7 +1515,7 @@ header {
 }
 
 .bg-grey {
-  background: #f2f3f5;
+  background: darken($white, 4%);
 }
 
 .js-anchorific {
