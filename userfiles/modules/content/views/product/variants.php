@@ -30,7 +30,7 @@ $productVariantOptions[] = [
             '<td>\n' +
             '    <div class="input-group prepend-transparent m-0">\n' +
             '        <div class="input-group-prepend">\n' +
-            '            <span class="input-group-text text-muted">BGN</span>\n' +
+            '            <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>\n' +
             '        </div>\n' +
             '        <input type="text" class="form-control" value="0.00">\n' +
             '    </div>\n' +

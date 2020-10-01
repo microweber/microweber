@@ -6,7 +6,7 @@ use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
 class CustomField extends Model
 {
-    use MaxPositionTrait;
+    //use MaxPositionTrait;
 
     protected $fillable = [
         'value',

@@ -93,7 +93,7 @@ class Product extends Content
             if($customFieldRow->type == $name) {
                 if(isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
                     if ($returnAsObject) {
-                        return $customFieldRow->fieldValue[0];
+                        return $customFieldRow;
                     }
                     return $customFieldRow->fieldValue[0]->value;
                 }

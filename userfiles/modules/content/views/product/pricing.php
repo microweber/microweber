@@ -17,7 +17,7 @@
                 <label>Price</label>
                 <div class="input-group mb-3 prepend-transparent">
                     <div class="input-group-prepend">
-                        <span class="input-group-text text-muted">BGN</span>
+                        <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                     </div>
                     <input type="text" class="form-control js-product-price" name="price" value="<?php echo $productPrice; ?>">
                 </div>
@@ -42,7 +42,7 @@
 
                 <div class="input-group mb-3 prepend-transparent">
                     <div class="input-group-prepend">
-                        <span class="input-group-text text-muted">BGN</span>
+                        <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                     </div>
                     <input type="text" class="form-control" name="unit_price" value="0.00">
                 </div>
