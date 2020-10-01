@@ -56,7 +56,7 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
         background: #fff;
     }
 
-    .theme-color-picker label {
+    .theme-color-picker label.control-label {
         color: #000;
     }
 
@@ -136,7 +136,7 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
 
     <?php foreach ($vars as $k => $v) : ?>
         <?php if ($k != 'color_scheme'): ?>
-            <h6>$<?php print $k ?></h6>
+            <label class="control-label">$<?php print $k ?></label>
 
             <div class="input-group">
                 <input type="text" class="form-control js-color color-picker-<?php echo $k; ?>" name="<?php print $k ?>" value="<?php print $v ?>"/>
