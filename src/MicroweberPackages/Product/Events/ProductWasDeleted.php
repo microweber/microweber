@@ -2,14 +2,9 @@
 
 namespace MicroweberPackages\Product\Events;
 
-use MicroweberPackages\Product\Product;
+use MicroweberPackages\Core\Events\AbstractResourceWasDeleted;
 
-class ProductWasDeleted
+class ProductWasDeleted extends AbstractResourceWasDeleted
 {
-    private $product;
 
-    public function __construct(Product $product)
-    {
-        $this->product = $product;
-    }
 }
