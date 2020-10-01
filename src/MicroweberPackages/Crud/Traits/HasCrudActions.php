@@ -86,7 +86,7 @@ trait HasCrudActions
             return $this->getRepository()->find($id);
         }
 
-        $entity = $this->getModel($id);
+        $entity = $this->getEntity($id);
 
         if (request()->wantsJson()) {
             return $entity;
@@ -104,7 +104,7 @@ trait HasCrudActions
     public function edit($id)
     {
         $data = array_merge([
-            $this->getResourceName() => $this->getModel($id),
+            $this->getResourceName() => $this->getEntity($id),
         ], $this->getFormData('edit', $id));
 
         return $data;
@@ -119,7 +119,7 @@ trait HasCrudActions
     public function update($id)
     {
 
-        $entity = $this->getModel($id);
+        $entity = $this->getEntity($id);
         $request = $this->getRequest('update')->all();
 
         if ($this->getRepository()) {
@@ -145,7 +145,7 @@ trait HasCrudActions
      */
     public function destroy($id)
     {
-        $entity = $this->getModel($id);
+        $entity = $this->getEntity($id);
 
         if ($this->getRepository()) {
             return $this->getRepository()->destroy($entity);
@@ -174,9 +174,9 @@ trait HasCrudActions
      * @param int $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    protected function getModel($id)
+    protected function getEntity($id)
     {
-        return $this->getModelInstance()
+        return $this->getModel()
             ->with($this->relations())
             ->withoutGlobalScope('active')
             ->findOrFail($id);
@@ -263,7 +263,7 @@ trait HasCrudActions
      *
      * @return void
      */
-    protected function getModelInstance()
+    protected function getModel()
     {
         return new $this->model;
     }
