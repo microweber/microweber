@@ -29,8 +29,9 @@ use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
 use MicroweberPackages\Media\Media;
 use MicroweberPackages\Media\MediaManagerServiceProvider;
-use MicroweberPackages\Menu\MenuManagerServiceProvider;
-use MicroweberPackages\Module\ModuleServiceProvider;
+ use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
+ use MicroweberPackages\Menu\Providers\MenuServiceProvider;
+ use MicroweberPackages\Module\ModuleServiceProvider;
 
 use MicroweberPackages\Option\OptionManagerServiceProvider;
 use MicroweberPackages\Backup\BackupManagerServiceProvider;
@@ -188,7 +189,8 @@ if (! defined('MW_VERSION')) {
         $this->app->register(CategoryEventServiceProvider::class);
         $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
-        $this->app->register(MenuManagerServiceProvider::class);
+        $this->app->register(MenuServiceProvider::class);
+        $this->app->register(MenuEventServiceProvider::class);
         $this->app->register(ProductServiceProvider::class);
         $this->app->register(ContentDataServiceProvider::class);
         $this->app->register(ContentDataEventServiceProvider::class);
