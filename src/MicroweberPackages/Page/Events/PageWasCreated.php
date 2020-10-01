@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Page\Events;
+namespace MicroweberPackages\Page\Events;
 
 use MicroweberPackages\Core\Events\AbstractResourceWasCreated;
 
