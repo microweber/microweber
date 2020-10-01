@@ -53,6 +53,16 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
         border: 1px solid silver;
         padding: 10px;
         overflow: scroll;
+        background: #fff;
+    }
+
+    .theme-color-picker label {
+        color: #000;
+    }
+
+    .theme-color-picker input {
+        color: #000;
+        background: #fff;
     }
 </style>
 
@@ -64,7 +74,7 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
         });
 
         $(".js-select-admin-theme").on("change", function () {
-
+            $('#selected_colors_vars').val('').trigger('change');
         });
     });
 
@@ -75,6 +85,7 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
     }
 
     function reset_admin_css() {
+
         $.get("<?php print api_url('mw_admin_colors/reset_main_stylesheet'); ?>", function (data) {
             reload_admin_css()
         });

@@ -383,7 +383,8 @@ class Template
         $selected_theme = get_option('admin_theme_name', 'admin');
 
         $selected_vars = get_option('admin_theme_vars', 'admin');
-        $vars = [];
+
+         $vars = [];
         if ($selected_vars) {
             $vars = json_decode($selected_vars, true);
         }
