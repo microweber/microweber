@@ -128,6 +128,16 @@ function currency_format($amount, $curr = false)
     return mw()->shop_manager->currency_format($amount, $curr);
 }
 
+function get_currency_code() {
+
+    $curr = mw()->option_manager->get('currency', 'payments');
+    if (!$curr) {
+        $curr = 'USD';
+    }
+
+    return $curr;
+}
+
 function mw_shop_recover_shopping_cart($sid = false)
 {
     return mw()->cart_manager->recover_cart($sid);

@@ -9,11 +9,12 @@
  *
  */
 
-namespace MicroweberPackages\Menu;
+namespace MicroweberPackages\Menu\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Menu\MenuManager;
 
-class MenuManagerServiceProvider extends ServiceProvider
+class MenuServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.

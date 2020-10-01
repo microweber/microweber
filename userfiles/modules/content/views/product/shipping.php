@@ -56,7 +56,7 @@
                     <label>Fixed Cost</label>
                     <div class="input-group mb-3 prepend-transparent append-transparent input-group-quantity">
                         <div class="input-group-prepend">
-                            <span class="input-group-text text-muted">BGN</span>
+                            <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                         </div>
                         <input type="text" class="form-control" name="fixed_cost" value="<?php echo $contentData['fixed_cost']; ?>">
                         <div class="input-group-append">

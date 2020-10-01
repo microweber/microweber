@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\Product\Events;
 
-class ProductIsCreating
+use MicroweberPackages\Core\Events\AbstractResourceIsCreating;
+
+class ProductIsCreating extends AbstractResourceIsCreating
 {
 
 }

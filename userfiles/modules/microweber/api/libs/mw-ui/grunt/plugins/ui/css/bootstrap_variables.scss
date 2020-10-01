@@ -22,7 +22,7 @@ $green: #3dc47e !default;
 $teal: #20c997 !default;
 $cyan: #e1f1fd !default;
 
-$secondary-new-color: #eeefef;
+$secondary-new-color: darken($white, 6%);
 
 $primary: $blue !default;
 $secondary: $secondary-new-color !default;

@@ -77,17 +77,13 @@ class Template
 
     public function get_apijs_url()
     {
-
         return $this->js_adapter->get_apijs_url();
-
-
     }
 
 
     public function get_apijs_settings_url()
     {
         return $this->js_adapter->get_apijs_settings_url();
-
     }
 
 
@@ -104,15 +100,13 @@ class Template
 
     public function append_api_js_to_layout($layout)
     {
-
-
         $apijs_combined_loaded = $this->get_apijs_combined_url();
         $append_html = '';
-
 
         if (!stristr($layout, $apijs_combined_loaded)) {
             $append_html = $append_html . "\r\n" . '<script src="' . $apijs_combined_loaded . '"></script>' . "\r\n";
         }
+
         if ($append_html) {
             $rep = 0;
             $layout = str_ireplace('<head>', '<head>' . $append_html, $layout, $rep);
@@ -154,7 +148,6 @@ class Template
             $this->app->content_manager->define_constants();
         }
         return THIS_TEMPLATE_FOLDER_NAME;
-        //
     }
 
     public function dir($add = false)
@@ -165,7 +158,6 @@ class Template
         if (defined('TEMPLATE_DIR')) {
             $val = TEMPLATE_DIR;
         }
-
 
         if ($add != false) {
             $val = $val . $add;
@@ -178,8 +170,6 @@ class Template
 
     public function get_config($template = false)
     {
-
-
         if ($template == false) {
 
             $dir = template_dir();
@@ -189,7 +179,6 @@ class Template
             if (isset($this->template_config_cache[$file])) {
                 return $this->template_config_cache[$file];
             }
-
 
             if (is_file($file)) {
                 include $file;
@@ -208,16 +197,14 @@ class Template
         if (!defined('TEMPLATE_URL')) {
             $this->app->content_manager->define_constants();
         }
+
         if (defined('TEMPLATE_URL')) {
             $val = TEMPLATE_URL;
         }
 
-
         if ($add != false) {
             $val = $val . $add;
-
         }
-
 
         return $val;
     }
@@ -293,13 +280,10 @@ class Template
 
         }
 
-
         $static_files_delivery_method = get_option('static_files_delivery_method', 'website');
         $static_files_delivery_domain = get_option('static_files_delivery_method_domain', 'website');
 
         if ($static_files_delivery_method and $static_files_delivery_domain) {
-
-
             $should_replace = false;
 
             //check if site is fqdn
@@ -340,7 +324,6 @@ class Template
 
         }
 
-
         return $layout;
     }
 
@@ -368,9 +351,7 @@ class Template
 
     public function get_default_system_ui_css_url()
     {
-
         $url = mw_includes_url() . 'default.css';
-
         return $url;
     }
 
@@ -382,10 +363,10 @@ class Template
 
         $dirs = scandir($themes_dir);
         $templates = [];
-        if($dirs){
-            foreach ($dirs as $dir){
-                if($dir != '.' and $dir != '..'){
-                    if(is_file($themes_dir.$dir.'/_bootswatch.scss')){
+        if ($dirs) {
+            foreach ($dirs as $dir) {
+                if ($dir != '.' and $dir != '..') {
+                    if (is_file($themes_dir . $dir . '/_bootswatch.scss')) {
                         $templates[] = $dir;
                     }
                 }
@@ -393,13 +374,21 @@ class Template
         }
 
 
-return $templates;
+        return $templates;
     }
-     public function get_admin_system_ui_css_url()
+
+    public function get_admin_system_ui_css_url()
     {
 
         $selected_theme = get_option('admin_theme_name', 'admin');
+        $cont = false;
 
+        $selected_vars = get_option('admin_theme_vars', 'admin');
+
+        $vars = [];
+        if ($selected_vars) {
+            $vars = json_decode($selected_vars, true);
+        }
 
         $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css';
         $url_images_dir = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/img';
@@ -426,88 +415,72 @@ return $templates;
         $theme_file_vars_rel_path = $selected_theme . '/_variables.scss';
         $theme_file_vars_abs_path = normalize_path($themes_dir . $theme_file_vars_rel_path, false);
 
-
-        if (!$selected_theme) {
+        if (!$selected_theme and !$vars) {
             return $url;
         }
 
+        if ($selected_theme) {
+            if (!is_file($theme_file_abs_path) or !is_file($theme_file_vars_abs_path)) {
+                return $url;
+            }
 
-        if (!is_file($theme_file_abs_path) or !is_file($theme_file_vars_abs_path)) {
-            return $url;
+            if (is_file($compiled_css_output_path_file_css)) {
+                return $compiled_css_output_path_file_css_url;
+            }
         }
-
-        if(is_file($compiled_css_output_path_file_css)){
-            return $compiled_css_output_path_file_css_url;
-
-        }
-
 
         $scss = new \ScssPhp\ScssPhp\Compiler();
         $scss->setImportPaths([$ui_root_dir . 'grunt/plugins/ui/css/']);
         $scss->setFormatter('ScssPhp\ScssPhp\Formatter\Compact');
 
-        //  $scss->setVariables( array( 'asset-url' => '"http://my-site.com"' ) );
-
-
-        /*$scss->setSourceMapOptions([
-            // absolute path to write .map file
-            //'sourceMapWriteTo' => __DIR__ . '__compiled_main.scss.map',
-       'sourceMapWriteTo' =>$compiled_css_map_output_path_file,
-
-            // relative or full url to the above .map file
-           // 'sourceMapURL' => '__compiled_main.scss.map',
-        //   'sourceMapURL' => $compiled_css_map_output_path_url,
-
-            // (optional) relative or full url to the .css file
-            // 'sourceMapFilename' => 'grunt/plugins/ui/css/__compiled_main.css',
-
-            // partial path (server root) removed (normalized) to create a relative url
-          'sourceMapBasepath' => $ui_root_dir. 'grunt/plugins/ui/css/',
-
-            // (optional) prepended to 'source' field entries for relocating source files
-       'sourceRoot' => $ui_root_dir.'grunt/plugins/ui/css/',
-        ]);*/
         $scss->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_INLINE);
 
 
         $scss->setSourceMapOptions([
             'sourceMapWriteTo' => $compiled_css_map_output_path_file,
             'sourceMapURL' => $compiled_css_map_output_path_url,
-//
             'sourceMapBasepath' => $compiled_output_path,
-
             'sourceRoot' => $ui_root_dir . 'grunt/plugins/ui/css/',
         ]);
 
 
-        $cont = "
-            //Bootswatch variables
-         @import 'bootswatch/themes/{$theme_file_vars_rel_path}';
+        if ($selected_theme) {
+            $cont = "
+             //Bootswatch variables
+             //@import 'bootswatch/_variables';
+             @import 'bootswatch/themes/{$theme_file_vars_rel_path}';
          
-        //UI Variables
-      //  @import 'bootstrap_variables';
+             //UI Variables
+             @import 'bootstrap_variables';
         
-        //Bootstrap
-        @import '../../bootstrap/scss/bootstrap';
-        
-        //Bootswatch structure
-         @import 'bootswatch/themes/{$theme_file_rel_path}';
-         
-        //UI
-        @import 'main_with_mw';
+             //Bootstrap
+             @import '../../bootstrap/scss/bootstrap';
+            
+             //Bootswatch structure
+             //@import 'bootswatch/_bootswatch';
+             @import 'bootswatch/themes/{$theme_file_rel_path}';
+             
+             //UI
+             //@import '_ui';
+             //@import '_mw';
+             @import 'main_with_mw';
             ";
+        }
 
+        if (!$selected_theme and $vars) {
+            $cont = "@import 'main_with_mw';";
 
-        $vars = false;
-
-
-        if ($vars) {
-            $scss->setVariables($vars);
+            if ($vars) {
+                $scss->setVariables($vars);
+            }
         }
 
         $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
-        $output = str_replace('../img', $url_images_dir, $output);
+        if (!$output) {
+            return $url;
+        }
 
+        $output = str_replace('../img', $url_images_dir, $output);
         file_put_contents($compiled_css_output_path_file_css, $output);
         return $compiled_css_output_path_file_css_url;
     }
@@ -531,7 +504,6 @@ return $templates;
             }
         }
     }
-
 
     public function name()
     {

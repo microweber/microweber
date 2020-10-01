@@ -4,11 +4,9 @@ namespace MicroweberPackages\Page;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\PageScope;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
-use MicroweberPackages\Menu\Traits\HasMenuItem;
 
 class Page extends Model
 {
-    use HasMenuItem;
     use HasSlugTrait;
 
     protected $table = 'content';
