@@ -1,4 +1,4 @@
-<?php if (is_array($data) and ! empty($data)): ?>
+<?php if (is_array($data) and !empty($data)): ?>
     <script>
         $(document).ready(function () {
             $('body > #mw-admin-container > .main').addClass('show-sidebar-tree');
@@ -42,22 +42,21 @@
                                     </div>
 
                                     <div class="col manage-post-item-col-2" style="max-width: 120px;">
+                                        <?php
+                                        $type = $item['content_type'];
+                                        $type_icon = 'mdi-text';
+                                        if ($type == 'product') {
+                                            $type_icon = 'mdi-shopping';
+                                        } elseif ($type == 'post') {
+                                            $type_icon = 'mdi-text';
+                                        } elseif ($type == 'page') {
+                                            $type_icon = 'mdi-file-document';
+                                        }
+                                        ?>
+
                                         <?php if ($pic == true): ?>
                                             <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
-                                                <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
-                                                    <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
-                                                        <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Shop"></i>
-                                                    <?php else : ?>
-                                                        <i class="mdi mdi-post-outline mdi-18px" data-toggle="tooltip" title="Page"></i>
-                                                    <?php endif; ?>
-                                                <?php elseif (isset($item['content_type']) and ( $item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
-                                                    <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
-                                                        <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Product"></i>
-                                                    <?php else : ?>
-                                                        <i class="mdi mdi-text  mdi-18px" data-toggle="tooltip" title="Post"></i>
-                                                    <?php endif; ?>
-                                                <?php else : ?>
-                                                <?php endif; ?>
+                                                <i class="mdi <?php echo $type_icon; ?> mdi-18px" data-toggle="tooltip" title="<?php ucfirst($type); ?>"></i>
                                             </div>
                                         <?php endif; ?>
 
@@ -68,20 +67,7 @@
                                                 </a>
                                             <?php else : ?>
                                                 <a href="javascript:;" onclick="mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');return false;">
-                                                    <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
-                                                        <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
-                                                        <?php else : ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
-                                                        <?php endif; ?>
-                                                    <?php elseif (isset($item['content_type']) and ( $item['content_type'] == 'post' or $item['content_type'] == 'product')): ?>
-                                                        <?php if (isset($item['content_type']) and $item['content_type'] == 'product'): ?>
-                                                            <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
-                                                        <?php else : ?>
-                                                            <i class="mdi mdi-text mdi-48px text-muted text-opacity-5"></i>
-                                                        <?php endif; ?>
-                                                    <?php else : ?>
-                                                    <?php endif; ?>
+                                                    <i class="mdi <?php echo $type_icon; ?> mdi-48px text-muted text-opacity-5"></i>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
@@ -124,7 +110,7 @@
                                             if (user_can_access('module.content.edit')):
                                                 ?>
                                                 <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');
-                                                                            return false;">
+                                                        return false;">
                                                     <?php echo $edit_text; ?>
                                                 </a>
 
@@ -153,7 +139,7 @@
 
                                     <div class="col manage-post-item-col-5" style="max-width: 130px;">
                                         <?php if (isset($item['is_active']) AND $item['is_active'] == 1): ?>
-                                                <!--                                            <span class="badge badge-success">Published</span>-->
+                                            <!--                                            <span class="badge badge-success">Published</span>-->
                                         <?php else: ?>
                                             <span class="badge badge-warning font-weight-normal">Unpublished</span>
                                         <?php endif; ?>
@@ -231,7 +217,7 @@
         }
     }
 
-    if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or ( isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) :
+    if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) :
         ?>
         <div class="no-items-found products">
             <?php
@@ -263,7 +249,7 @@
             <script>
                 $(document).ready(function () {
                     $('.js-hide-when-no-items').hide();
-        //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+                    //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>
             <script>
@@ -306,7 +292,7 @@
             <script>
                 $(document).ready(function () {
                     $('.js-hide-when-no-items').hide()
-        //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
+                    //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
                 });
             </script>
 
