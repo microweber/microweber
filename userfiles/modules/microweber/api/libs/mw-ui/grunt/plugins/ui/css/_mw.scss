@@ -353,7 +353,8 @@ header {
     transition: all 0.5s ease;
     margin-left: 15px;
     padding: 15px 0;
-    background: #f2f3f5;
+    background: $body-bg;
+
 
     @media screen and (max-width: 991px) {
       z-index: 9;
