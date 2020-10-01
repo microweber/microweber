@@ -381,6 +381,7 @@ class Template
     {
 
         $selected_theme = get_option('admin_theme_name', 'admin');
+        $cont = false;
 
         $selected_vars = get_option('admin_theme_vars', 'admin');
 
@@ -442,9 +443,8 @@ class Template
             'sourceRoot' => $ui_root_dir . 'grunt/plugins/ui/css/',
         ]);
 
-        $cont = false;
 
-        if ($selected_theme and !$vars) {
+        if ($selected_theme) {
             $cont = "
              //Bootswatch variables
              //@import 'bootswatch/_variables';
@@ -469,15 +469,18 @@ class Template
 
         if (!$selected_theme and $vars) {
             $cont = "@import 'main_with_mw';";
-        }
 
-        if ($vars) {
-            $scss->setVariables($vars);
+            if ($vars) {
+                $scss->setVariables($vars);
+            }
         }
 
         $output = $scss->compile($cont, $compiled_css_output_path_file_sass);
-        $output = str_replace('../img', $url_images_dir, $output);
+        if (!$output) {
+            return $url;
+        }
 
+        $output = str_replace('../img', $url_images_dir, $output);
         file_put_contents($compiled_css_output_path_file_css, $output);
         return $compiled_css_output_path_file_css_url;
     }
