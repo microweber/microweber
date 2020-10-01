@@ -1,0 +1,53 @@
+$white: #fff !default;
+$gray-100: #fafafa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #cfcfcf !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #2b2b2b !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+$silver: #919191 !default;
+
+$blue: #4592ff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #ff4f52 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #3dc47e !default;
+$teal: #20c997 !default;
+$cyan: #e1f1fd !default;
+
+$secondary-new-color: #eeefef;
+
+$primary: $blue !default;
+$secondary: $secondary-new-color !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: #2b2b2b !default;
+
+//$body-bg: $white !default;
+//$body-bg: #f2f3f5 !default;
+$body-bg: darken($white, 4%) !default;
+$body-color: $gray-900 !default;
+
+$text-muted: $silver !default;
+
+$input-color: $gray-700 !default;
+$input-border-color: $gray-400 !default;
+$input-box-shadow: inset 0 1px 1px rgba($black, .075) !default;
+
+$input-placeholder-color: $gray-600 !default;
+$input-plaintext-color: $body-color !default;
+
+
+$textDark: $gray-700;
+$textGray: #7e7e7e;
+$textLight: $white;
