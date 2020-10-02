@@ -8516,7 +8516,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   margin-left: 34px;
   margin-right: 0px !important; }
 .bootstrap-select .btn.btn-primary, .bootstrap-select .btn.btn-info, .bootstrap-select .btn.btn-success, .bootstrap-select .btn.btn-warning, .bootstrap-select .btn.btn-danger {
-  color: #fff; }
+  color: #fff !important; }
   .bootstrap-select .btn.btn-primary:after, .bootstrap-select .btn.btn-info:after, .bootstrap-select .btn.btn-success:after, .bootstrap-select .btn.btn-warning:after, .bootstrap-select .btn.btn-danger:after {
     background-color: #fff; }
   .bootstrap-select .btn.btn-primary .filter-option-inner-inner, .bootstrap-select .btn.btn-info .filter-option-inner-inner, .bootstrap-select .btn.btn-success .filter-option-inner-inner, .bootstrap-select .btn.btn-warning .filter-option-inner-inner, .bootstrap-select .btn.btn-danger .filter-option-inner-inner {
@@ -9289,6 +9289,9 @@ textarea.form-control {
 
 .cursor-pointer {
   cursor: pointer; }
+
+.btn.btn-primary, .btn.btn-info, .btn.btn-success, .btn.btn-warning, .btn.btn-danger {
+  color: #fff !important; }
 
 /* MW */
 /*$border-radius:               .25rem !default;

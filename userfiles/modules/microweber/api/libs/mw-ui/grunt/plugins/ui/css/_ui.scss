@@ -298,7 +298,7 @@ textarea:not(.form-control) {
 .btn-hover-style-1 .btn-outline-secondary:not(:disabled):not(.disabled):active,
 .btn-hover-style-1 .btn-outline-secondary:not(:disabled):not(.disabled).active,
 .show > .btn-hover-style-1 .btn-outline-secondary.dropdown-toggle {
-  color: $dark;
+  color: $textDark;
   background-color: $info;
   border-color: $primary;
 }
@@ -315,7 +315,7 @@ textarea:not(.form-control) {
 .btn-hover-style-2 .btn-outline-secondary:not(:disabled):not(.disabled):active,
 .btn-hover-style-2 .btn-outline-secondary:not(:disabled):not(.disabled).active,
 .show > .btn-hover-style-2 .btn-outline-secondary.dropdown-toggle {
-  color: $dark;
+  color: $textDark;
   background-color: $info;
   border-color: $primary;
 }
@@ -341,7 +341,7 @@ textarea:not(.form-control) {
         color: $primary;
       }
 
-      color: $dark !important;
+      color: $textDark !important;
       //background-color: $gray-100;
       background-color: $secondary;
     }
@@ -351,7 +351,7 @@ textarea:not(.form-control) {
         color: $primary;
       }
 
-      color: $dark !important;
+      color: $textDark !important;
       background-color: transparent !important;
       border-bottom: 4px solid $primary !important;
     }
@@ -363,7 +363,7 @@ textarea:not(.form-control) {
 .btn-outline-warning:not(:disabled):not(.disabled):active,
 .btn-outline-warning:not(:disabled):not(.disabled).active,
 .show > .btn-outline-warning.dropdown-toggle {
-  color: $white;
+  color: $textLight;
 }
 
 .btn-warning,
@@ -374,7 +374,7 @@ textarea:not(.form-control) {
 .btn-warning.active,
 .btn-warning.disabled,
 .btn-warning:disabled {
-  color: $white;
+  color: $textLight;
 }
 
 .dropdown-toggle::after {
@@ -430,7 +430,7 @@ textarea:not(.form-control) {
 }
 
 .form-control {
-  color: $dark;
+  color: $textDark;
   font-weight: 500;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -731,7 +731,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     &.btn-success,
     &.btn-warning,
     &.btn-danger {
-      color: $textLight;
+      color: $textLight !important;
 
       &:after {
         background-color: $textLight;
@@ -1911,4 +1911,14 @@ textarea.form-control {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.btn {
+  &.btn-primary,
+  &.btn-info,
+  &.btn-success,
+  &.btn-warning,
+  &.btn-danger {
+    color: $textLight !important;
+  }
 }
