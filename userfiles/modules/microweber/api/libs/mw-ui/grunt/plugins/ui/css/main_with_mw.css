@@ -9464,7 +9464,7 @@ header {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          color: #373737;
+          color: #2b2b2b;
           border-left: 3px solid transparent;
           display: flex;
           align-items: center;
@@ -9772,9 +9772,9 @@ header {
   border: 0; }
 
 .card.bg-light {
-  background-color: #fafafa !important; }
+  background-color: rgba(245, 245, 245, 0.3) !important; }
   .card.bg-light > .card-header {
-    background-color: #fafafa !important; }
+    background-color: rgba(245, 245, 245, 0.3) !important; }
 
 .card.bg-none {
   background-color: transparent !important;

@@ -240,7 +240,7 @@ header {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: #373737;
+            color: $textDark;
             border-left: 3px solid transparent;
             display: flex;
             align-items: center;
@@ -746,9 +746,9 @@ header {
 }
 
 .card.bg-light {
-  background-color: $gray-100 !important;
+  background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
   > .card-header {
-    background-color: $gray-100 !important;
+    background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
   }
 }
 
