@@ -71,6 +71,8 @@ if ($load_module == true): ?>
     $upds = false;
     ?>
 
+    <script>mw.lib.require('mwui_init');</script>
+
     <style>
         .mw-module-installed-0 {
             opacity: 0.6;

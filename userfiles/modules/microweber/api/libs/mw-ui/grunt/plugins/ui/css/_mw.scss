@@ -1,5 +1,4 @@
 /* MW */
-
 @import 'bootstrap_variables';
 
 $textDark: $dark;
@@ -354,7 +353,6 @@ header {
     margin-left: 15px;
     padding: 15px 0;
     background: $body-bg;
-
 
     @media screen and (max-width: 991px) {
       z-index: 9;
@@ -1591,4 +1589,10 @@ header {
     }
   }
 
+}
+
+.module-img {
+  path {
+    fill: $dark;
+  }
 }
