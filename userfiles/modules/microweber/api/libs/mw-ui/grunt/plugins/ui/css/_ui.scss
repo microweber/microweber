@@ -1,3 +1,7 @@
+$textDark: $dark;
+$textGray: #7e7e7e;
+$textLight: $white;
+
 hr {
   border-top: 2px solid $gray-400;
 }
@@ -727,14 +731,14 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     &.btn-success,
     &.btn-warning,
     &.btn-danger {
-      color: $white;
+      color: $textLight;
 
       &:after {
-        background-color: $white;
+        background-color: $textLight;
       }
 
       .filter-option-inner-inner {
-        color: $white;
+        color: $textLight;
       }
     }
 
