@@ -3720,9 +3720,7 @@ body.dragStart .allow-drop {
     width: 300px;
 }
 
-.mw-live-edit-component-options {
-    display: none;
-}
+
 
 .js-module-settings-edit-item-group,
 .js-module-settings-edit-item-group-frame {
@@ -4659,11 +4657,11 @@ div.element {
     border-radius: 0 0 5px 5px;
 }
 
-.mw-icon-list-settings-icons .mw-ui-btn-nav select {
+.mwiconlist-settings-icons .mw-ui-btn-nav select {
     flex: 1;
 }
 
-.mw-icon-list-settings-icons .mw-ui-btn-nav {
+.mwiconlist-settings-icons .mw-ui-btn-nav {
     display: flex;
 }
 

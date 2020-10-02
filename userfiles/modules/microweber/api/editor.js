@@ -433,7 +433,7 @@ var MWEditor = function (options) {
         });
         icon.on('click', function () {
             MWEditor.core._preSelect(this.parentNode);
-            $(this.node).parent().toggleClass('active');
+            this.parentNode.classList.toggle('active');
         });
 
         groupel.on('click', function (){

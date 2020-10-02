@@ -65,25 +65,23 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 height: 300px;
             }
 
-            #icon-picker ul {
-                height: 220px;
-            }
-
-            #icon-picker li {
-                margin: 5px 0;
-                float: left;
-                width: 33.333%;
-                text-align: center;
-            }
-
-            #icon-picker .mw-ui-btn > *:first-child {
-                margin-right: 7px;
-            }
-
-            #icon-picker input,
             #icon-picker {
-                width: 250px;
+                width: 45px;
+                height: 45px;
+                background: #4592ff;
+                border-radius: 50px;
+
+                text-align: center;
+                display: inline-block;
+                vertical-align: middle;
+                border: none;
+                color: #fff;
             }
+            #icon-picker i{
+                font-size: 30px;
+                line-height: 45px;
+            }
+
         </style>
 
         <script>
@@ -230,17 +228,24 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <label class="control-label"><?php _e("Select Icon"); ?></label>
                     <script>
                         $(document).ready(function () {
-                            mw.iconSelector.iconDropdown("#icon-picker", {
-                                onchange: function (iconClass) {
-                                    $('[name="icon"]').val(iconClass).trigger('change')
-                                },
-                                mode: 'absolute',
-                                value: '<?php print $icon; ?>'
+                            mw.iconLoader().init();
+                            var picker = mw.iconPicker({iconOptions: false});
+                            picker.target = document.createElement('i');
+                            picker.on('select', function (data) {
+                                data.render();
+                                $('[name="icon"]').val(picker.target.outerHTML).trigger('change')
+                                document.querySelector('#icon-picker').innerHTML = (picker.target.outerHTML)
+                                picker.dialog('hide');
                             });
+
+                            document.querySelector('#icon-picker').onclick = function (){
+                                picker.dialog();
+                            }
+
                         })
                     </script>
                     <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
-                    <div id="icon-picker"></div>
+                    <span id="icon-picker"><?php print $icon ? $icon : '<i class="mw-icon mw-icon-mw"></i>'; ; ?></span>
                 </div>
 
                 <module type="admin/modules/templates" simple="true"/>

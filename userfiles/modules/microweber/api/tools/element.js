@@ -3,6 +3,7 @@
     var MWElement = function(options, root){
         var scope = this;
 
+
         this.toggle = function () {
             this.css('display', this.css('display') === 'none' ? 'block' : 'none');
         };
@@ -246,15 +247,13 @@
 
 
         this.parent = function () {
-            return  this._active().parentNode;
+            return mw.element(this._active().parentNode);
         };
         this.append = function (el) {
 
             if (el) {
-                el = this._asdom(el);
-
                 this.each(function (){
-                    this.append(el);
+                    this.append(scope._asdom(el));
                 });
             }
             return this;
@@ -263,7 +262,7 @@
         this.before = function (el) {
             if (el) {
                 this.each(function (){
-                    this.parentNode.insertBefore(scope._asdom(el), this)
+                    this.parentNode.insertBefore(scope._asdom(el), this);
                 });
             }
             return this;
@@ -271,18 +270,16 @@
 
         this.after = function (el) {
             if (el) {
-                el = this._asdom(el);
                 this.each(function (){
-                    this.parentNode.insertBefore(el, this.nextSibling);
+                    this.parentNode.insertBefore(scope._asdom(el), this.nextSibling);
                 });
             }
         };
 
         this.prepend = function (el) {
             if (el) {
-                el = this._asdom(el);
                 this.each(function (){
-                    this.prepend(el, this.node);
+                    this.prepend(scope._asdom(el));
                 });
             }
             return this;

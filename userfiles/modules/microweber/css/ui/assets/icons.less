@@ -1841,7 +1841,7 @@
 }
 
 
-.mw-icon-list-icon:hover{
+.mwiconlist-icon:hover{
     background-color: #efecec;
 }
 .mw-icon-list .mw-ui-btn-nav{
@@ -1857,56 +1857,68 @@
     padding-bottom: 5px;
     opacity: .6;
 }
-.mw-icon-list-section .mw-paging a{
+.mwiconlist-section .mw-paging a{
     display: none;
 }
-.mw-icon-list-section .mw-paging {
+.mwiconlist-section .mw-paging {
     margin-top: 15px;
 }
-.mw-icon-list-section .mw-paging a.mw-paging-visible-range{
+.mwiconlist-section .mw-paging a.mw-paging-visible-range{
     display: inline-block;
 }
-.mw-icon-list-section + h5{
+.mwiconlist-section + h5{
     padding-top: 16px;
 }
-.mw-icon-list-icon{
+.mwiconlist-icon{
     transition: opacity .3s, transform .3s;
-    width: 35px;
-    height: 30px;
+    padding: 10px;
     overflow: hidden;
     text-align: center;
     position: relative;
     z-index: 1;
-    font-size: 22px;
+    font-size: 22px !important;
     border-radius:3px;
     background-color: white;
-    padding: 3px 5px;
+
     color: #939393;
     display: inline-block;
     cursor: pointer;
     font-style: normal;
 }
 
-.mw-icon-list-settings-section-block-item .mw-field{
+.mwiconlist-settings-section-block-item .mw-field{
     width: 100%;
 }
-.mw-icon-list-settings-section-block-item{
+.mwiconlist-settings-section{
+    box-shadow: none;
+}
+.mwiconlist-settings-section-block-item{
     display: block;
 }
-.mw-icon-list-settings-section-block-item + .mw-icon-list-settings-section-block-item{
+.mwiconlist-settings-section-block-item + .mwiconlist-settings-section-block-item{
     padding-top: 16px;
     margin-top: 16px;
     border-top: 1px solid #efecec;
 }
-.mw-tooltip .mw-icon-list-section,
-.mw-icon-list-settings-section-block-item{
+.mwiconlist-settings-section-color-picker {
+    appearance: none;
+    -webkit-appearance: none;
+    display: block;
+    background: #ffffff;
+    border: none;
+    height: 35px;
+    width: 45px;
+    cursor: ;
+}
+.mw-tooltip .mwiconlist-section,
+.mwiconlist-settings-section-block-item{
     width: 360px;
 }
-.mw-icon-list-settings-section-block-item
-.mw-tooltip .mw-icon-list-section{
+.mwiconlist-settings-section-block-item
+.mw-tooltip .mwiconlist-section{
     max-width: 95%;
 }
-.mw-icon-list-icon-hidden{
+.mwiconlist-icon-hidden{
     opacity: 0;
     transform: translateY(-5px) scale(.5, .5);
     position: absolute;
@@ -1914,8 +1926,40 @@
     z-index: 0;
 }
 
-.mw-icon-list-section-wrapper{
+.mwiconlist-section-wrapper{
     clear: both;
     width: 100%;
     padding-top: 10px;
+}
+
+
+.mw-icon-selector-root .mw-ui-searchfield{
+    margin: 10px 0 0;
+}
+.mw-icon-selector-root .mw-ui-box{
+    border-width: 1px 0 0;
+}
+.mw-icon-selector-root .mw-ui-box,
+.mw-icon-selector-root .mw-accordion-item.active{
+    box-shadow: none !important;
+}
+.mw-icon-selector-root .mw-icon-selector-paging a{
+    display: none;
+}
+
+.mw-icon-selector-root .mw-icon-selector-paging a.mw-paging-visible-range{
+    display: inline-block;
+}
+
+.mw-icon-selector-root {
+    width: 400px;
+}
+.mw-icon-picker-icons-holder {
+    clear: both;
+    padding: 15px 0 0;
+}
+.mw-icon-selector-paging {
+    margin: 10px 0 0;
+    clear: both;
+    display: block;
 }

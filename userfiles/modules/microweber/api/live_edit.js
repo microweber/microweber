@@ -163,10 +163,7 @@ mw.live_edit.showSettings = function (a, opts) {
             mw.sidebarSettingsTabs.set(2);
         }
 
-        $('.mw-live-edit-component-options')
-            .hide()
-            .filter('#js-live-edit-module-settings-holder')
-            .show();
+
 
         data1.live_edit_sidebar = true;
 

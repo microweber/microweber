@@ -78,7 +78,7 @@ mw.liveedit.handleEvents = function() {
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
                 mw.$(mw.iconSelectorGUI).hide();
 
-                mw.iconSelector.hide();
+                mw.editorIconPicker.tooltip('hide')
                 try{
                     $(mw.liveedit.widgets._iconEditor.tooltip).hide();
                 }catch(e){

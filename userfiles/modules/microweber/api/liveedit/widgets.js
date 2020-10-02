@@ -24,38 +24,5 @@ mw.liveedit.widgets = {
             resize: true,
             draggable: true
         });
-    },
-    _iconEditor: null,
-    _iconEditorTarget: null,
-    iconEditor: function (target) {
-        if(!target) return;
-        this._iconEditorTarget = target;
-
-        if(!this._iconEditor) {
-            this._iconEditor = mw.icons.tooltip({element: mw.liveedit.widgets._iconEditorTarget, position: 'bottom-center', width:320}, true);
-
-            this._iconEditor.$e.on('Result', function(e, res){
-                res.render(res.icon, mw.liveedit.widgets._iconEditorTarget);
-                mw.wysiwyg.change(mw.liveedit.widgets._iconEditorTarget);
-            });
-            this._iconEditor.$e.on('sizeChange', function(e, size){
-                mw.liveedit.widgets._iconEditorTarget.style.fontSize = size ? size + 'px' : '';
-                mw.tools.tooltip.setPosition(mw.liveedit.widgets._iconEditor.tooltip, mw.liveedit.widgets._iconEditorTarget, 'bottom-center');
-                mw.wysiwyg.change(mw.liveedit.widgets._iconEditorTarget);
-            });
-            this._iconEditor.$e.on('colorChange', function(e, color){
-                mw.liveedit.widgets._iconEditorTarget.style.color = color;
-                mw.wysiwyg.change(mw.liveedit.widgets._iconEditorTarget);
-            });
-        }
-        target.style.fontSize = getComputedStyle(target).fontSize;
-        mw.$('.mw-field [type="number"]', mw.liveedit.widgets._iconEditor.content).val(parseFloat(target.style.fontSize))
-        $(mw.liveedit.widgets._iconEditor.tooltip).show();
-        mw.tools.tooltip.setPosition(this._iconEditor.tooltip, mw.liveedit.widgets._iconEditorTarget, 'bottom-center');
-        var $el = $(this._iconEditor.tooltip);
-
-        if(($el.offset().top + $el.height() + 10) > Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)){
-            this._iconEditor.tooltip.scrollIntoView()
-        }
-    },
+    }
 };
