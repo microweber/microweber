@@ -32,7 +32,11 @@ $vars = [
     'dark' => '#2b2b2b',
 
     'body-bg' => '#fff',
-    'body-color' => '#212529'
+    'body-color' => '#212529',
+
+    'textDark' => '#2B2B2B',
+    'textGray' => '#7e7e7e',
+    'textLight' => '#d1d1d1'
 ];
 
 if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($vars)) {
