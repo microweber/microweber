@@ -132,7 +132,11 @@ if ($selected_vars and is_array($selected_vars) and isset($vars) and is_array($v
             <option value="" onclick="reset_admin_css()">Default</option>
             <?php if ($templates) { ?>
                 <?php foreach ($templates as $template) { ?>
-                    <option value="<?php print $template ?>" <?php if ($selected == $template): ?>selected="selected"<?php endif; ?>><?php print ucfirst($template) ?></option>
+                    <?php
+                    $template_name = str_replace('-', ' ', $template);
+                    $template_name = ucfirst($template_name);
+                    ?>
+                    <option value="<?php print $template ?>" <?php if ($selected == $template): ?>selected="selected"<?php endif; ?>><?php print $template_name ?></option>
                 <?php } ?>
             <?php } ?>
         </select>
