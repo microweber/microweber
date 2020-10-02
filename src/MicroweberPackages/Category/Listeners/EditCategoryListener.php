@@ -9,6 +9,7 @@ class EditCategoryListener
     public function handle($event)
     {
         $request = $event->getRequest();
+
         if (isset($request['categories'])) {
             $categoryIds = $event->getRequest()['categories'];
             if (empty($categoryIds)) {
