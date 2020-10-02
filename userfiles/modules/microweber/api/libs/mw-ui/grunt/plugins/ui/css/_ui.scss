@@ -1243,6 +1243,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 }
 
 .input-group-text {
+  color: $textDark;
   line-height: 1;
   i {
     line-height: 0 !important;

@@ -8835,6 +8835,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   top: -10px; }
 
 .input-group-text {
+  color: #2b2b2b;
   line-height: 1; }
   .input-group-text i {
     line-height: 0 !important; }
