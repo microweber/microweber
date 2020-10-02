@@ -43,6 +43,7 @@ use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Order\OrderManagerServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentServiceProvider;
+use MicroweberPackages\Post\PostServiceProvider;
 use MicroweberPackages\Product\ProductServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
@@ -192,6 +193,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(MenuServiceProvider::class);
         $this->app->register(MenuEventServiceProvider::class);
         $this->app->register(ProductServiceProvider::class);
+        $this->app->register(PostServiceProvider::class);
         $this->app->register(ContentDataServiceProvider::class);
         $this->app->register(ContentDataEventServiceProvider::class);
         $this->app->register(CustomFieldServiceProvider::class);

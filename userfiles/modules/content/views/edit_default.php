@@ -54,6 +54,10 @@ if ($edit_page_info['is_shop'] == 1) {
     $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'product') {
     $type = 'Product';
+} elseif ($edit_page_info['content_type'] == 'post') {
+    $type = 'Post';
+} elseif ($edit_page_info['content_type'] == 'page') {
+    $type = 'Page';
 } else {
     $type = 'Page';
 }
@@ -163,6 +167,12 @@ if (isset($params['quick_edit'])) {
         $formActionUrl = route('admin.products.index');
         if ($data['id'] > 0) {
             $formActionUrl = route('admin.products.update', $data['id']);
+        }
+    }
+    if ($type == 'Post') {
+        $formActionUrl = route('admin.posts.index');
+        if ($data['id'] > 0) {
+            $formActionUrl = route('admin.posts.update', $data['id']);
         }
     }
     ?>

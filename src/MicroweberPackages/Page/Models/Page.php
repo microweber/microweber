@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Page;
+namespace MicroweberPackages\Page\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\PageScope;

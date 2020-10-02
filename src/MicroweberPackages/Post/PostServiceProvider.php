@@ -4,6 +4,7 @@ namespace MicroweberPackages\Post;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
+use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Post\Observers\PostObserver;
 
 class PostServiceProvider extends ServiceProvider

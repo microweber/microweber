@@ -3,12 +3,12 @@
 namespace MicroweberPackages\Post\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Post\Post;
 use MicroweberPackages\Post\Events\PostIsCreating;
 use MicroweberPackages\Post\Events\PostIsUpdating;
 use MicroweberPackages\Post\Events\PostWasCreated;
 use MicroweberPackages\Post\Events\PostWasDeleted;
 use MicroweberPackages\Post\Events\PostWasUpdated;
+use MicroweberPackages\Post\Models\Post;
 
 class PostRepository extends BaseRepository
 {

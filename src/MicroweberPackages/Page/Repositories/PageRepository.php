@@ -3,12 +3,12 @@
 namespace MicroweberPackages\Page\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Page\Page;
 use MicroweberPackages\Page\Events\PageIsCreating;
 use MicroweberPackages\Page\Events\PageIsUpdating;
 use MicroweberPackages\Page\Events\PageWasCreated;
 use MicroweberPackages\Page\Events\PageWasDeleted;
 use MicroweberPackages\Page\Events\PageWasUpdated;
+use MicroweberPackages\Page\Models\Page;
 
 class PageRepository extends BaseRepository
 {
