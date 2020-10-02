@@ -213,13 +213,15 @@ $user = get_user_by_id($user_id);
                         <a href="<?php print admin_url('view:dashboard'); ?>">
                             <h5 class="text-white mr-3 d-flex align-items-center h-100">
                                 <?php if (mw()->ui->admin_logo != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo ?>" style="height: 40px;"/>
+                                    <img src="<?php print mw()->ui->admin_logo ?>" class="logo svg" style="height: 40px;"/>
                                 <?php elseif (mw()->ui->admin_logo_login() != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" style="height: 40px;"/>
+                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" class="logo svg" style="height: 40px;"/>
                                 <?php else: ?>
-                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg" style="height: 40px;"/>
+                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg" class="logo svg" style="height: 40px;"/>
                                 <?php endif; ?>
                             </h5>
+                            <script>mw.lib.require('mwui_init')</script>
+                            <script>SVGtoCode();</script>
                         </a>
                     </li>
 

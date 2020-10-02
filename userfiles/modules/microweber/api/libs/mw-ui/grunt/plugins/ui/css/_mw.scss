@@ -1596,3 +1596,12 @@ header {
     fill: $dark;
   }
 }
+
+.logo.svg {
+  &.replaced-svg {
+    height: 40px;
+  }
+  path {
+    fill: $primary;
+  }
+}

@@ -10418,4 +10418,9 @@ header {
 .module-img path {
   fill: #2b2b2b; }
 
+.logo.svg.replaced-svg {
+  height: 40px; }
+.logo.svg path {
+  fill: #4592ff; }
+
 /*# sourceMappingURL=main_with_mw.css.map */
