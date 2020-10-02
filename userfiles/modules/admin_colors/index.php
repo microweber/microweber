@@ -18,7 +18,7 @@ $templates = $this->app->template->get_admin_supported_themes();
 
 <?php
 $vars = [
-    'white' => '#fff',
+    'white' => 'whitesmoke',
     'black' => '#000',
     'silver' => '#bcbfc2',
 
