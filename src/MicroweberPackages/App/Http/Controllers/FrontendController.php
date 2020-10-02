@@ -10,10 +10,9 @@ use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Cache;
-use Module;
 
-class DefaultController extends Controller
+
+class FrontendController extends Controller
 {
     /** @var \Microweber\Application */
     public $app;
