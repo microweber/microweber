@@ -1,3 +1,7 @@
+$textDark: $dark;
+$textGray: #7e7e7e;
+$textLight: $white;
+
 hr {
   border-top: 2px solid $gray-400;
 }
@@ -34,10 +38,11 @@ label {
   }
 }
 
-@import 'margins.css';
+//@import 'margins.css';
+@import '_margins';
 
 textarea:not(.form-control) {
-  background-color: #fafafa;
+  background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
   -webkit-box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
   -moz-box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
   box-shadow: inset 0px 0px 4px -1px rgba(0, 0, 0, 0.34);
@@ -123,6 +128,7 @@ textarea:not(.form-control) {
   //height: 40px; //bootswatch fix
   padding-left: 15px;
   padding-right: 15px;
+  align-items: center;
 
   i {
     display: inline-block;
@@ -292,7 +298,7 @@ textarea:not(.form-control) {
 .btn-hover-style-1 .btn-outline-secondary:not(:disabled):not(.disabled):active,
 .btn-hover-style-1 .btn-outline-secondary:not(:disabled):not(.disabled).active,
 .show > .btn-hover-style-1 .btn-outline-secondary.dropdown-toggle {
-  color: $dark;
+  color: $textDark;
   background-color: $info;
   border-color: $primary;
 }
@@ -309,7 +315,7 @@ textarea:not(.form-control) {
 .btn-hover-style-2 .btn-outline-secondary:not(:disabled):not(.disabled):active,
 .btn-hover-style-2 .btn-outline-secondary:not(:disabled):not(.disabled).active,
 .show > .btn-hover-style-2 .btn-outline-secondary.dropdown-toggle {
-  color: $dark;
+  color: $textDark;
   background-color: $info;
   border-color: $primary;
 }
@@ -335,7 +341,7 @@ textarea:not(.form-control) {
         color: $primary;
       }
 
-      color: $gray-700 !important;
+      color: $textDark !important;
       //background-color: $gray-100;
       background-color: $secondary;
     }
@@ -345,7 +351,7 @@ textarea:not(.form-control) {
         color: $primary;
       }
 
-      color: $gray-700 !important;
+      color: $textDark !important;
       background-color: transparent !important;
       border-bottom: 4px solid $primary !important;
     }
@@ -357,7 +363,7 @@ textarea:not(.form-control) {
 .btn-outline-warning:not(:disabled):not(.disabled):active,
 .btn-outline-warning:not(:disabled):not(.disabled).active,
 .show > .btn-outline-warning.dropdown-toggle {
-  color: $white;
+  color: $textLight;
 }
 
 .btn-warning,
@@ -368,7 +374,7 @@ textarea:not(.form-control) {
 .btn-warning.active,
 .btn-warning.disabled,
 .btn-warning:disabled {
-  color: $white;
+  color: $textLight;
 }
 
 .dropdown-toggle::after {
@@ -424,7 +430,7 @@ textarea:not(.form-control) {
 }
 
 .form-control {
-  color: $gray-700;
+  color: $textDark;
   font-weight: 500;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -599,7 +605,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     border-color: $primary;
     padding: 0;
     .dropdown-item {
-      color: $gray-700;
+      color: $dark;
       font-weight: 500;
       border-top: 1px solid $gray-400;
       border-bottom: 1px solid transparent;
@@ -609,7 +615,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     .dropdown-item:hover,
     .dropdown-item.active, .dropdown-item:active {
       background-color: $info;
-      color: $gray-700;
+      color: $dark;
       border-top: 1px solid $primary;
       border-bottom: 1px solid $primary;
     }
@@ -725,14 +731,14 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     &.btn-success,
     &.btn-warning,
     &.btn-danger {
-      color: $white;
+      color: $textLight !important;
 
       &:after {
-        background-color: $white;
+        background-color: $textLight;
       }
 
       .filter-option-inner-inner {
-        color: $white;
+        color: $textLight;
       }
     }
 
@@ -828,7 +834,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   .info {
     width: calc(100% - 50px);
-    color: $gray-700;
+    color: $dark;
     padding-left: 10px;
     position: relative;
     white-space: nowrap;
@@ -853,7 +859,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 }
 
 .card {
-  border-color: #eeeff1;
+  border-color: rgba(red($black), green($black), blue($black), .1);
   border-radius: 10px;
   overflow: hidden;
 
@@ -938,7 +944,9 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   }
 
   &.bg-silver {
-    background: #fafafa;
+    //background: #fafafa;
+    background: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+    //background: darken($body-bg, 1%);
   }
 
   &.bg-silver:not(.collapsed) {
@@ -978,7 +986,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 }
 
 .card.style-1 {
-  border-color: #eeeff1;
+  border-color: darken($white, 6%);
   -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
   box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
@@ -1064,16 +1072,16 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     -o-transform: rotate(29deg) skew(-35deg);
     -webkit-transform: rotate(29deg) skew(-35deg);
     width: 12px;
-    border-left: 1px solid #eeeff1;
-    border-bottom: 1px solid #eeeff1;
+    border-left: 1px solid rgba(red($black), green($black), blue($black), .1);
+    border-bottom: 1px solid rgba(red($black), green($black), blue($black), .1);
     border-top: 3px solid #fff;
     left: -6px;
   }
 
   &.bg-silver.collapsed {
     &:after {
-      border-top-color: #fafafa;
-      background-color: #fafafa;
+      border-top-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+      background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
     }
   }
 
@@ -1184,7 +1192,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   align-items: center;
 
   i {
-    color: #f2f3f5;
+    color: darken($white, 4%);
     font-size: 70px;
   }
 
@@ -1235,6 +1243,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 }
 
 .input-group-text {
+  color: $textDark;
   line-height: 1;
   i {
     line-height: 0 !important;
@@ -1337,8 +1346,8 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   }
 
   .card:hover {
-    background: #fafafa;
-    border-color: #eeeff1;
+    background: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+    border-color: rgba(red($black), green($black), blue($black), .1);
     -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
@@ -1373,7 +1382,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 
   .card:hover {
     background: #fcfcfc;
-    border-color: #eeeff1;
+    border-color: rgba(red($black), green($black), blue($black), .1);
     -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
@@ -1389,8 +1398,9 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
   }
 
   .card:hover {
-    background: #fafafa;
-    border-color: #eeeff1;
+    background: rgba(red($body-bg), green($body-bg), blue($body-bg), .3);
+    border-color: rgba(red($black), green($black), blue($black), .1);
+    //border-color: #eeeff1;
     -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
@@ -1846,7 +1856,7 @@ small {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background: #f2f3f5;
+  background: darken($white, 4%);
 }
 
 .table thead th {
@@ -1902,4 +1912,14 @@ textarea.form-control {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.btn {
+  &.btn-primary,
+  &.btn-info,
+  &.btn-success,
+  &.btn-warning,
+  &.btn-danger {
+    color: $textLight !important;
+  }
 }

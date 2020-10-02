@@ -37,6 +37,7 @@
     template_stack_add(mw_includes_url() . 'css/wysiwyg.css');
     template_stack_add(mw_includes_url() . 'api/options.js');
     ?>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?> "/>
 
     <?php if (isset($params['live_edit_sidebar'])): ?>
 

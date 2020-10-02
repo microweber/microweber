@@ -4,6 +4,7 @@ namespace MicroweberPackages\Page;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Page\Observers\PageObserver;
 
 class PageServiceProvider extends ServiceProvider

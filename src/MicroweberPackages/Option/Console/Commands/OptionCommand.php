@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Option\Console\Commands;
 
 use Illuminate\Console\Command;
-use MicroweberPackages\App\Http\Controllers\DefaultController;
+use MicroweberPackages\App\Http\Controllers\FrontendController;
 use Symfony\Component\Console\Input\InputArgument;
 
 class OptionCommand extends Command
@@ -12,7 +12,7 @@ class OptionCommand extends Command
     protected $description = 'Set Microweber option';
     protected $controller;
 
-    public function __construct(DefaultController $controller)
+    public function __construct(FrontendController $controller)
     {
         $this->controller = $controller;
         parent::__construct();

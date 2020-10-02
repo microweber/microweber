@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Crud\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 
 trait HasCrudActions
 {
@@ -14,9 +15,13 @@ trait HasCrudActions
      */
     public function index(Request $request)
     {
+        if ($this->getRepository()) {
+            return $this->getRepository()->all();
+        }
+
         if ($request->has('query')) {
             return $this->getModel()
-                ->search($request->get('query'))
+                //->search($request->get('query'))
                 ->query()
                 ->limit($request->get('limit', 10))
                 ->get();
@@ -34,7 +39,7 @@ trait HasCrudActions
     {
         $data = array_merge([
             $this->getResourceName() => $this->getModel(),
-        ], $this->getFormData('create'));
+        ]);
 
         return $data;
     }
@@ -46,13 +51,13 @@ trait HasCrudActions
      */
     public function store()
     {
-        $this->disableSearchSyncing();
+        $request = $this->getRequest('store')->all();
 
-        $entity = $this->getModel()->create(
-            $this->getRequest('store')->all()
-        );
+        if ($this->getRepository()) {
+            return $this->getRepository()->create($request);
+        }
 
-        $this->searchable($entity);
+        $entity = $this->getModel()->create($request);
 
         if (method_exists($this, 'redirectTo')) {
             return $this->redirectTo($entity);
@@ -69,6 +74,10 @@ trait HasCrudActions
      */
     public function show($id)
     {
+        if ($this->getRepository()) {
+            return $this->getRepository()->find($id);
+        }
+
         $entity = $this->getEntity($id);
 
         if (request()->wantsJson()) {
@@ -88,7 +97,7 @@ trait HasCrudActions
     {
         $data = array_merge([
             $this->getResourceName() => $this->getEntity($id),
-        ], $this->getFormData('edit', $id));
+        ]);
 
         return $data;
     }
@@ -102,14 +111,13 @@ trait HasCrudActions
     public function update($id)
     {
         $entity = $this->getEntity($id);
+        $request = $this->getRequest('update')->all();
 
-        $this->disableSearchSyncing();
+        if ($this->getRepository()) {
+            return $this->getRepository()->update($entity, $request);
+        }
 
-        $entity->update(
-            $this->getRequest('update')->all()
-        );
-
-        $this->searchable($entity);
+        $entity->update($request);
 
         return $entity->id;
     }
@@ -120,7 +128,24 @@ trait HasCrudActions
      * @param string $ids
      * @return void
      */
-    public function destroy($ids)
+    public function destroy($id)
+    {
+        $entity = $this->getEntity($id);
+
+        if ($this->getRepository()) {
+            return $this->getRepository()->destroy($entity);
+        }
+
+        $entity->delete();
+    }
+
+    /**
+     * Delete resources by given ids.
+     *
+     * @param string $ids
+     * @return void
+     */
+    public function delete($ids)
     {
         $this->getModel()
             ->withoutGlobalScope('active')
@@ -154,30 +179,6 @@ trait HasCrudActions
                 return $query->withoutGlobalScope('active');
             }];
         })->all();
-    }
-
-    /**
-     * Get form data for the given action.
-     *
-     * @param string $action
-     * @param mixed ...$args
-     * @return array
-     */
-    protected function getFormData($action, ...$args)
-    {
-        if (method_exists($this, 'formData')) {
-            return $this->formData(...$args);
-        }
-
-        if ($action === 'create' && method_exists($this, 'createFormData')) {
-            return $this->createFormData();
-        }
-
-        if ($action === 'edit' && method_exists($this, 'editFormData')) {
-            return $this->editFormData(...$args);
-        }
-
-        return [];
     }
 
     /**
@@ -229,6 +230,21 @@ trait HasCrudActions
     }
 
     /**
+     * Get a new instance of the model.
+     *
+     * @return void
+     */
+    protected function getRepository()
+    {
+        if (isset($this->repository) && class_exists($this->repository)) {
+            return new $this->repository;
+        }
+
+        return false;
+    }
+
+
+    /**
      * Get request object
      *
      * @param string $action
@@ -247,37 +263,4 @@ trait HasCrudActions
         return resolve($this->validation);
     }
 
-    /**
-     * Disable search syncing for the entity.
-     *
-     * @return void
-     */
-    protected function disableSearchSyncing()
-    {
-        if ($this->isSearchable()) {
-            $this->getModel()->disableSearchSyncing();
-        }
-    }
-
-    /**
-     * Determine if the entity is searchable.
-     *
-     * @return bool
-     */
-    protected function isSearchable()
-    {
-        return in_array(Searchable::class, class_uses_recursive($this->getModel()));
-    }
-
-    /**
-     * Make the given model instance searchable.
-     *
-     * @return void
-     */
-    protected function searchable($entity)
-    {
-        if ($this->isSearchable($entity)) {
-            $entity->searchable();
-        }
-    }
 }

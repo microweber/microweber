@@ -8,14 +8,15 @@
 
 namespace MicroweberPackages\Post\Observers;
 
-use MicroweberPackages\Post\Post;
+
+use MicroweberPackages\Post\Models\Post;
 
 class PostObserver
 {
     /**
      * Handle the Page "saving" event.
      *
-     * @param  \MicroweberPackages\Post\Post  $post
+     * @param  \MicroweberPackages\Post\Models\Post  $post
      * @return void
      */
     public function saving(Post $post)

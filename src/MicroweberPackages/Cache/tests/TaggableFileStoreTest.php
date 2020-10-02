@@ -55,7 +55,7 @@ class TaggableFileStoreTest extends BaseTest
         if (($after-$before) > 0.50) {
             $isSpeetTestOk = false;
         }
-        
+
         $this->assertEquals(true, $isSpeetTestOk);
     }
 

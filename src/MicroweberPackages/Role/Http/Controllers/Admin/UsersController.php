@@ -11,11 +11,6 @@ use App\Http\Controllers\Controller;
 
 class UsersController extends AdminController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Display a listing of User.
      *

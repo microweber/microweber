@@ -112,7 +112,7 @@ class TemplateMetaTagsRenderer
                     	// fetch sku, currency, price for product structured data
                     	$meta['product_currency'] = $this->app->option_manager->get('currency', 'payments');
                     	$product_price = $this->app->shop_manager->get_product_price($meta_content_id);
-                        $meta['product_price'] = number_format($product_price, 2);
+                        $meta['product_price'] = $product_price;
 			            $product_fields = $this->app->fields_manager->get('content', $meta_content_id, 1);
 			            $meta['product_sku'] = '';
 			            foreach($product_fields as $k => $field_data) {
@@ -221,7 +221,6 @@ class TemplateMetaTagsRenderer
 
     private function _render_webmasters_tags()
     {
-
         $configs = [
             'google' => get_option('google-site-verification-code', 'website'),
             'bing' => get_option('bing-site-verification-code', 'website'),

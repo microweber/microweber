@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Console\Commands;
 
 use Illuminate\Console\Command;
-use MicroweberPackages\App\Http\Controllers\DefaultController;
+use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\App\Providers\Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputArgument;
 use MicroweberPackages\Install\DbInstaller;
@@ -17,7 +17,7 @@ class ResetCommand extends Command
     protected $description = 'Reset Microweber';
     protected $controller;
 
-    public function __construct(DefaultController $controller)
+    public function __construct(FrontendController $controller)
     {
     	$this->controller = $controller;
     	parent::__construct();

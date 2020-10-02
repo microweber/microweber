@@ -105,7 +105,7 @@
                             <td>
                                 <div class="input-group prepend-transparent m-0">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text text-muted">BGN</span>
+                                        <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                                     </div>
                                     <input type="text" class="form-control" value="0.00">
                                 </div>
@@ -141,7 +141,7 @@
                             <td>
                                 <div class="input-group prepend-transparent m-0">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text text-muted">BGN</span>
+                                        <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                                     </div>
                                     <input type="text" class="form-control" value="0.00">
                                 </div>
@@ -177,7 +177,7 @@
                             <td>
                                 <div class="input-group prepend-transparent m-0">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text text-muted">BGN</span>
+                                        <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                                     </div>
                                     <input type="text" class="form-control" value="0.00">
                                 </div>

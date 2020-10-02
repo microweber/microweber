@@ -11,17 +11,6 @@ use JavaScript;
 class RolesController extends AdminController
 {
     /**
-     *
-     * allow admin only
-     *
-     */
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Display a listing of Role.
      *
      * @return \Illuminate\Http\Response

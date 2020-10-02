@@ -124,10 +124,10 @@ class TaggableFileStore implements Store
         if (!$this->files->exists($findTagPath)) {
             return;
         }
-
+        $contents = null;
         try {
             $expire = substr(
-                $contents = file_get_contents($findTagPath, true), 0, 10
+                $contents = @file_get_contents($findTagPath, true), 0, 10
             );
         } catch (\Exception $e) {
             return;
@@ -214,7 +214,7 @@ class TaggableFileStore implements Store
             $this->_addKeyPathToTagMap($key, $subPath . $filename);
 
             // Save key value in file
-            $save = file_put_contents($path, $value);
+            $save = @file_put_contents($path, $value);
             if (!$save) {
                 throw new \Exception('Cant file put contents:' . $path);
             }
@@ -294,7 +294,10 @@ class TaggableFileStore implements Store
         foreach ($this->tags as $tag) {
             $cacheFile = $this->_getTagMapPathByName($tag);
             if (!is_file($cacheFile)) {
-                file_put_contents($cacheFile, json_encode([]));
+                $save = file_put_contents($cacheFile, json_encode([]));
+                if (!$save) {
+                    @file_put_contents($cacheFile, json_encode([]));
+                }
             }
         }
     }
@@ -312,8 +315,8 @@ class TaggableFileStore implements Store
         }
         $cacheMapContent = false;
         if (is_file($cacheFile)) {
-            $cacheMapContent = file_get_contents($cacheFile);
-            $cacheMapContent = json_decode($cacheMapContent, true);
+            $cacheMapContent = @file_get_contents($cacheFile);
+            $cacheMapContent = @json_decode($cacheMapContent, true);
         }
         if (!$cacheMapContent) {
             $this->files->tagMapCacheMemory[$tagName] = [];
@@ -511,10 +514,12 @@ class TaggableFileStore implements Store
             $mainCacheDir = $this->directory . '/' . $this->prefix;
             $mainCacheDir = $this->normalizePath($mainCacheDir);
 
-            $deleted = $this->files->deleteDirectory($mainCacheDir);
-            if (!$deleted) {
-                throw new \Exception('Permission denied. Cant delete folder:' . $mainCacheDir);
+            if (!is_dir($mainCacheDir)) {
+                return false;
             }
+
+            return $this->files->deleteDirectory($mainCacheDir);
+
         }
     }
 

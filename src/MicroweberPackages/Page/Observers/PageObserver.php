@@ -8,7 +8,7 @@
 
 namespace MicroweberPackages\Page\Observers;
 
-use MicroweberPackages\Page\Page;
+use MicroweberPackages\Page\Models\Page;
 
 class PageObserver
 {

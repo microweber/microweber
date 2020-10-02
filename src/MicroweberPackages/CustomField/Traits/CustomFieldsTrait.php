@@ -73,7 +73,7 @@ trait  CustomFieldsTrait {
     {
         static::saved(function ($model)  {
             foreach($model->_newCustomFieldsToAssociate as $customField) {
-                $model->customField()->create($customField);
+                $model->customField()->updateOrCreate($customField);
             }
 
             $model->_newCustomFieldsToAssociate = []; //empty the array

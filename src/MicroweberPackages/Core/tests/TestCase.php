@@ -125,7 +125,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             'db_pass' => $db_pass,
             'db_name' => $db_name,
             'prefix' => $db_prefix,
-            // 'db_name' => ':memory:',
+           //  'db_name' => ':memory:',
             '--env' => $environment,
         );
 

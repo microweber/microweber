@@ -4,17 +4,15 @@ namespace MicroweberPackages\CustomField\Models;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
-
 class CustomField extends Model
 {
-    use MaxPositionTrait;
+    //use MaxPositionTrait;
 
     protected $fillable = [
         'value',
         'type',
         'options',
         'name',
-
         // 'edited_by',
         // 'created_by'
     ];
@@ -46,20 +44,8 @@ class CustomField extends Model
         $customFieldValueToSave = null;
         if (isset($this->value)) {
             $customFieldValueToSave = $this->value;
-
             unset($this->value);
         }
-
-//        if(!isset($this->id) && isset($this->rel_id) && isset($this->rel_type)) {
-//            //Create
-//            $position = CustomField::where([
-//                                    ['rel_id', '=', $this->rel_id],
-//                                    ['rel_type', '=', $this->rel_type]
-//                                    ])
-//                                    ->max('position');
-//
-//            $this->position = $position + 1;
-//        }
 
         if(isset($this->name)) {
             $this->name_key = \Str::slug($this->name, '-');
@@ -68,26 +54,27 @@ class CustomField extends Model
         $saved = parent::save($options);
 
         if (isset($customFieldValueToSave)) {
-            //@todo   try to update instead of delete
-            CustomFieldValue::where('custom_field_id', $this->id)->delete();
-
             if (is_array($customFieldValueToSave)) {
                 foreach ($customFieldValueToSave as $val) {
-                   $this->createCustomFieldValue($val);
+                   $this->createCustomFieldValue($this->id,$val);
                 }
             } else {
-                $this->createCustomFieldValue($customFieldValueToSave);
+                $this->createCustomFieldValue($this->id, $customFieldValueToSave);
             }
-
         }
 
         return $saved;
      }
 
-     private function createCustomFieldValue($val){
-         $findValue = new CustomFieldValue();
-         $findValue->value = $val;
-         $findValue->customField()->associate($this);
-         $findValue->save();
+     private function createCustomFieldValue($customFieldId, $val){
+
+        $findValue = CustomFieldValue::where('custom_field_id', $customFieldId)->first();
+        if (!$findValue) {
+            $findValue = new CustomFieldValue();
+        }
+
+        $findValue->custom_field_id = $customFieldId;
+        $findValue->value = $val;
+        $findValue->save();
      }
 }

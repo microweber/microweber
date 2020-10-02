@@ -1,19 +1,13 @@
 <?php
 
 use MicroweberPackages\Product\Product;
-use MicroweberPackages\CustomField\CustomField;
-use MicroweberPackages\CustomField\CustomFieldValue;
-
 
 
 Route::name('admin.')
     ->prefix('admin')
     ->namespace('\MicroweberPackages\Product\Http\Controllers\Admin')
-    ->middleware(['xss', 'admin'])
     ->group(function () {
-
-        Route::resource('products', 'ProductsController');
-
+         Route::resource('products', 'ProductsController');
     });
 
 /*
