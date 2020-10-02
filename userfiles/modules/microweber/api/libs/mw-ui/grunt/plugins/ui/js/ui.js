@@ -110,17 +110,17 @@ $(document).ready(function () {
         }
     });
 
-/*    $('button, a, input, textarea', '.collapse').on('click', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-    });*/
+    /*    $('button, a, input, textarea', '.collapse').on('click', function (e) {
+     e.stopPropagation();
+     e.preventDefault();
+     });*/
 
     $('body').on('click', '[data-toggle="collapse-mw"]', function (e) {
         var has = mw.tools.firstMatchesOnNodeOrParent(e.target, [
             'a', 'button', '.btn', '.mw-ui-btn', 'input', 'select', 'textarea', 'img', 'label', '.mdi'
         ]);
-        if(!has) {
-             var target = $(this).data('target');
+        if (!has) {
+            var target = $(this).data('target');
             $(target).toggleClass('show');
         }
     });
@@ -173,4 +173,38 @@ function theProductHasVariants(field) {
             theProductHasVariants($(this));
         });
     }
+}
+
+/**
+ * Replace all SVG images with inline SVG
+ */
+function SVGtoCode() {
+    $('img.svg[src*=".svg"]').each(function () {
+        var $img = $(this);
+        var imgID = $img.attr('id');
+        var imgClass = $img.attr('class');
+        var imgURL = $img.attr('src');
+
+        $.get(imgURL, function (data) {
+            // Get the SVG tag, ignore the rest
+            var $svg = $(data).find('svg');
+
+            // Add replaced image's ID to the new SVG
+            if (typeof imgID !== 'undefined') {
+                $svg = $svg.attr('id', imgID);
+            }
+            // Add replaced image's classes to the new SVG
+            if (typeof imgClass !== 'undefined') {
+                $svg = $svg.attr('class', imgClass + ' replaced-svg');
+            }
+
+            // Remove any invalid XML tags as per http://validator.w3.org
+            $svg = $svg.removeAttr('xmlns:a');
+
+            // Replace image with new SVG
+            $img.replaceWith($svg);
+
+        }, 'xml');
+
+    });
 }

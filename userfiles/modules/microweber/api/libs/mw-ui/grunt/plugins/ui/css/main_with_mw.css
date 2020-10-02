@@ -10411,4 +10411,7 @@ header {
         opacity: 1;
         display: block; }
 
+.module-img path {
+  fill: #2b2b2b; }
+
 /*# sourceMappingURL=main_with_mw.css.map */
