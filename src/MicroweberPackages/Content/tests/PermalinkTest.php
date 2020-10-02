@@ -251,7 +251,7 @@ class PermalinkTest extends TestCase
           mw()->url_manager->set_current($pageUrl);
 
           // Test default controller with post
-          $defaultController = new DefaultController();
+          $defaultController = new FrontendController();
           $pageHtml = $defaultController->frontend();
 
           $this->assertEquals(self::$pageId, PAGE_ID);
@@ -267,7 +267,7 @@ class PermalinkTest extends TestCase
         mw()->url_manager->set_current($postUrl);
 
         // Test default controller with post
-        $defaultController = new DefaultController();
+        $defaultController = new FrontendController();
         $postHtml = $defaultController->frontend();
 
 

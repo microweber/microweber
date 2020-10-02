@@ -34,8 +34,8 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
     Route::any('/apijs_combined', 'JsCompileController@apijs_combined');
     Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
 
-    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'DefaultController@api'))->where('all', '.*');
-    Route::any('/api_nosession', 'DefaultController@api');
+    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
+    Route::any('/api_nosession', 'FrontendController@api');
     Route::any('/favicon.ico', function () {
         return;
     });
@@ -44,10 +44,10 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
 
 Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
-    Route::any('/', 'DefaultController@index');
+    Route::any('/', 'FrontendController@index');
 
-    Route::any('/api', 'DefaultController@api');
-    Route::any('/api/{slug}', 'DefaultController@api');
+    Route::any('/api', 'FrontendController@api');
+    Route::any('/api/{slug}', 'FrontendController@api');
 
     $custom_admin_url = \Config::get('microweber.admin_url');
     $admin_url = 'admin';
@@ -61,20 +61,20 @@ Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], functi
     Route::any($admin_url.'/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
 
 
-    Route::any('api/{all}', array('as' => 'api', 'uses' => 'DefaultController@api'))->where('all', '.*');
-    Route::any('api_html/{all}', array('as' => 'api', 'uses' => 'DefaultController@api_html'))->where('all', '.*');
-    Route::any('/api_html', 'DefaultController@api_html');
+    Route::any('api/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
+    Route::any('api_html/{all}', array('as' => 'api', 'uses' => 'FrontendController@api_html'))->where('all', '.*');
+    Route::any('/api_html', 'FrontendController@api_html');
     //
-    Route::any('/editor_tools', 'DefaultController@editor_tools');
-    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'DefaultController@editor_tools'))->where('all', '.*');
+    Route::any('/editor_tools', 'FrontendController@editor_tools');
+    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'FrontendController@editor_tools'))->where('all', '.*');
 
-    Route::any('/module/', 'DefaultController@module');
-    Route::any('module/{all}', array('as' => 'module', 'uses' => 'DefaultController@module'))->where('all', '.*');
+    Route::any('/module/', 'FrontendController@module');
+    Route::any('module/{all}', array('as' => 'module', 'uses' => 'FrontendController@module'))->where('all', '.*');
 
-    Route::any('robots.txt', 'DefaultController@robotstxt');
-    Route::any('sitemap.xml', 'DefaultController@sitemapxml');
-    Route::any('rss', 'DefaultController@rss');
-    Route::any('{all}', array('as' => 'all', 'uses' => 'DefaultController@index'))->where('all', '.*');
+    Route::any('robots.txt', 'FrontendController@robotstxt');
+    Route::any('sitemap.xml', 'FrontendController@sitemapxml');
+    Route::any('rss', 'FrontendController@rss');
+    Route::any('{all}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
 
 });
 
