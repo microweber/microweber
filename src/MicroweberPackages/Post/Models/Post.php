@@ -4,10 +4,12 @@ namespace MicroweberPackages\Post\Models;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\PostScope;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
+use MicroweberPackages\Media\Traits\MediaTrait;
 
 class Post extends Model
 {
     use HasSlugTrait;
+    use MediaTrait;
 
     protected $table = 'content';
     protected $primaryKey = 'id';

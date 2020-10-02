@@ -4,10 +4,12 @@ namespace MicroweberPackages\Page\Models;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Scopes\PageScope;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
+use MicroweberPackages\Media\Traits\MediaTrait;
 
 class Page extends Model
 {
     use HasSlugTrait;
+    use MediaTrait;
 
     protected $table = 'content';
     protected $primaryKey = 'id';
