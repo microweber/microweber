@@ -7,13 +7,13 @@
  */
 namespace MicroweberPackages\Post\Http\Controllers\Admin;
 
-use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Crud\Traits\HasCrudActions;
 use MicroweberPackages\Post\Http\Requests\PostRequest;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Post\Repositories\PostRepository;
 
-class PostsController extends AdminController
+class PostsController extends AdminDefaultController
 {
     use HasCrudActions;
 
