@@ -8,12 +8,13 @@
 
 namespace MicroweberPackages\Product\Http\Controllers\Admin;
 
+use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Crud\Traits\HasCrudActions;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
 use MicroweberPackages\Product\Product;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
-class ProductsController
+class ProductsController extends AdminController
 {
     use HasCrudActions;
 

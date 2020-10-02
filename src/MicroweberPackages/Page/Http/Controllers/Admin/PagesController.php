@@ -7,12 +7,13 @@
  */
 namespace MicroweberPackages\Page\Http\Controllers\Admin;
 
+use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Crud\Traits\HasCrudActions;
 use MicroweberPackages\Page\Http\Requests\PageRequest;
 use MicroweberPackages\Page\Page;
 use MicroweberPackages\Page\Repositories\PageRepository;
 
-class PagesController
+class PagesController extends AdminController
 {
     use HasCrudActions;
 
