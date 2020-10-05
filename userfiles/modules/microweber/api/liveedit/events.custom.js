@@ -50,16 +50,16 @@ mw.liveedit.handleCustomEvents = function() {
         }
     });
     mw.on("IconElementClick", function(e, el) {
-        mw.liveedit.widgets.iconEditor(el);
+        mw.editorIconPicker.tooltip(el)
         setTimeout(function () {
             mw.wysiwyg.contentEditable(el, false);
-        })
+        });
     });
 
     mw.on("ComponentClick", function(e, node, type){
 
         if (type === 'icon'){
-            mw.liveedit.widgets.iconEditor(node);
+            mw.editorIconPicker.tooltip(node)
             return;
 
         }

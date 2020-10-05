@@ -377,16 +377,13 @@ mw.liveNodeSettings = {
         if (!this.__is_sidebar_opened()) {
             return;
         }
-        mw.$('.mw-live-edit-component-options')
-            .hide()
-            .filter('#js-live-edit-side-wysiwyg-editor-holder')
-            .show();
+
     },
     none: function (el) {
         if (!this.__is_sidebar_opened()) {
             return;
         }
-        mw.$('.mw-live-edit-component-options').hide();
+
     },
     module: function (el) {
         mw.live_edit.showSettings(undefined, {mode:"sidebar", liveedit:true})
@@ -400,20 +397,14 @@ mw.liveNodeSettings = {
             .contents()
             .find("#mwimagecurrent")
             .attr("src", el.src)
-        mw.$('.mw-live-edit-component-options')
-            .hide()
-            .filter('#js-live-edit-image-settings-holder')
-            .show()
+
     },
     initImage: function () {
         var url = mw.external_tool('imageeditor');
         mw.$("#js-live-edit-image-settings-holder").append('<iframe src="' + url + '" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
     },
     icon: function () {
-        mw.$('.mw-live-edit-component-options')
-            .hide()
-            .filter('#js-live-edit-icon-settings-holder')
-            .show();
+
     },
     __is_sidebar_opened: function () {
         if (mw.liveEditSettings  &&  mw.liveEditSettings.active) {

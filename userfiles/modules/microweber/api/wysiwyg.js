@@ -2597,11 +2597,11 @@ mw.wysiwyg.dropdowns = function () {
             } else if (val === 'icon') {
 
                 var icdiv = mw.wysiwyg.applier('i');
-                icdiv.className = "mw-icon mw-icon-noop";
+                icdiv.className = "mw-icon";
 
                 var mode = 3;
                 if(mode === 3) {
-                    mw.liveedit.widgets.iconEditor(icdiv);
+                    mw.editorIconPicker.tooltip(icdiv)
                 }
                 if(mode === 2) {
                     var dialog = mw.icons.dialog();
@@ -2612,12 +2612,9 @@ mw.wysiwyg.dropdowns = function () {
                 }
                 if(mode === 1) {
 
-                    mw.iconSelector.uiHTML();
-                    mw.iconSelector._activeElement = icdiv;
-                    mw.$(".mw-live-edit-component-options").hide();
+                    mw.editorIconPicker.tooltip(icdiv)
+
                     setTimeout(function () {
-                        mw.iconSelector.uiHTML();
-                        mw.iconSelector.settingsUI();
                         mw.sidebarSettingsTabs.set(2)
                     }, 10);
                 }
@@ -2646,6 +2643,34 @@ $(mwd).ready(function () {
     mw.wysiwyg.initClassApplier();
 
     mw.wysiwyg.dropdowns();
+
+    mw.editorIconPicker = mw.iconPicker({
+        iconOptions: { reset: true }
+    });
+
+
+    mw.editorIconPicker.on('select', function (data){
+        data.render();
+        mw.wysiwyg.change(mw.editorIconPicker.target)
+    });
+    mw.editorIconPicker.on('sizeChange', function (size){
+        mw.editorIconPicker.target.style.fontSize = size + 'px';
+        mw.tools.tooltip.setPosition(mw.editorIconPicker._tooltip, mw.editorIconPicker.target, 'bottom-center');
+        mw.wysiwyg.change(mw.editorIconPicker.target)
+    })
+    mw.editorIconPicker.on('colorChange', function (color){
+        mw.editorIconPicker.target.style.color = color;
+        mw.wysiwyg.change(mw.editorIconPicker.target)
+    });
+
+    mw.editorIconPicker.on('reset', function (color){
+        mw.editorIconPicker.target.style.color = '';
+        mw.editorIconPicker.target.style.fontSize = '';
+        mw.tools.tooltip.setPosition(mw.editorIconPicker._tooltip, mw.editorIconPicker.target, 'bottom-center');
+
+        mw.wysiwyg.change(mw.editorIconPicker.target)
+    });
+
 
     if (!mw.wysiwyg._fontcolorpicker) {
         mw.lib.require('colorpicker');

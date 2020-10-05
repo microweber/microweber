@@ -209,7 +209,7 @@
                     var tip_group_class = 'mw-tooltip-group-' + o.group;
                     var cur_tip = mw.$(tip)
                     if (!cur_tip.hasClass(tip_group_class)) {
-                        cur_tip.addClass(tip_group_class)
+                        cur_tip.addClass(tip_group_class);
                     }
                     var cur_tip_id = cur_tip.attr('id');
                     if (cur_tip_id) {

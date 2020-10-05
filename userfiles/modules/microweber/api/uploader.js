@@ -220,9 +220,10 @@
             $(scope).trigger('uploadStart', [data]);
 
             this.upload(data, function (res) {
+                var dataProgress;
                 if(chunks.length) {
                     scope.uploadFile(file, done, chunks, _all, _i);
-                    var dataProgress = {
+                    dataProgress = {
                         percent: ((100 * _i) / _all).toFixed()
                     };
                     $(scope).trigger('progress', [dataProgress, res]);
@@ -231,7 +232,7 @@
                     }
 
                 } else {
-                    var dataProgress = {
+                    dataProgress = {
                         percent: '100'
                     };
                     $(scope).trigger('progress', [dataProgress, res]);

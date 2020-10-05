@@ -690,25 +690,45 @@ mw.propEditor = {
             };
             this.id = config.id;
         },
-        icon:function(proto, config){
+        icon: function(proto, config){
             var holder = mw.propEditor.helpers.wrapper();
 
-            var selector = mw.iconSelector.iconDropdown(holder, {
+            var el = document.createElement('span');
+            el.className = "mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-outline";
+            var elTarget = document.createElement('i');
+
+/*            var selector = mw.iconSelector.iconDropdown(holder, {
                 onchange: function (ic) {
                     proto._valSchema[config.id] = ic;
                     $(proto).trigger('change', [config.id, ic]);
                 },
                 mode: 'relative',
                 value: ''
-            });
+            });*/
+
+            el.onclick = function () {
+                picker.dialog();
+            };
+            mw.iconLoader().init();
+            var picker = mw.iconPicker({iconOptions: false});
+            picker.target = elTarget;
+            picker.on('select', function (data) {
+                data.render();
+                proto._valSchema[config.id] = picker.target.outerHTML;
+                $(proto).trigger('change', [config.id, picker.target.outerHTML]);
+                picker.dialog('hide');
+             });
+
             var label = mw.propEditor.helpers.label(config.label);
 
+            $(el).prepend(elTarget);
+            $(holder).prepend(el);
             $(holder).prepend(label);
 
             this.node = holder;
             this.setValue = function(value){
-                if(selector && selector.value) {
-                    selector.value(value);
+                if(picker && picker.value) {
+                    picker.value(value);
 
                 }
                 proto._valSchema[config.id] = value;
