@@ -68,8 +68,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $this->sqlite_file = normalize_path(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
 
         if (is_file($this->sqlite_file)) {
-              @unlink($this->sqlite_file);
+            if (!defined('MW_UNIT_TEST_DB_FILE_CREATED')) {
+                @unlink($this->sqlite_file);
+                define('MW_UNIT_TEST_DB_FILE_CREATED', true);
+            }
         }
+
 
         $db_driver = env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite';
         $db_host = env('DB_HOST', '127.0.0.1');

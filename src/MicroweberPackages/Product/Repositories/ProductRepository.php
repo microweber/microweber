@@ -44,4 +44,10 @@ class ProductRepository extends BaseRepository
         return $product->delete();
     }
 
+
+    public function find($id)
+    {
+        return Product::find($id);
+    }
+
 }

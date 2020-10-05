@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\User;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -31,6 +32,10 @@ class UserManagerServiceProvider extends ServiceProvider
             return new UserManager();
         });
 
+
+        View::addNamespace('user', __DIR__.'/resources/views');
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
 
     }

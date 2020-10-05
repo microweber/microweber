@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\View as LaravelView;
 
 class AdminController extends Controller
 {
+
+    public $middleware = [
+        [
+            'middleware'=>'admin',
+            'options'=>[]
+        ],
+        [
+            'middleware'=>'xss',
+            'options'=>[]
+        ]
+    ];
+
     /** @var \Microweber\Application */
 
     public $app;

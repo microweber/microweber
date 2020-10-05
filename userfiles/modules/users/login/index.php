@@ -1,6 +1,7 @@
 <?php if (isset($_GET['reset_password_link'])): ?>
     <module type="users/forgot_password"/>
 <?php else: ?>
+
     <script type="text/javascript">
         mw.require('forms.js', true);
     </script>

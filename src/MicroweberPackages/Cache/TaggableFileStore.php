@@ -294,7 +294,7 @@ class TaggableFileStore implements Store
         foreach ($this->tags as $tag) {
             $cacheFile = $this->_getTagMapPathByName($tag);
             if (!is_file($cacheFile)) {
-                $save = file_put_contents($cacheFile, json_encode([]));
+                $save = @file_put_contents($cacheFile, json_encode([]));
                 if (!$save) {
                     @file_put_contents($cacheFile, json_encode([]));
                 }
