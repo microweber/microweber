@@ -18,7 +18,12 @@ class ProductsController extends AdminDefaultController
 {
     use HasCrudActions;
 
-    public $model = Product::class;
-    public $repository = ProductRepository::class;
+    public $repository;
     public $validator = ProductRequest::class;
+
+    public function __construct(ProductRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
 }

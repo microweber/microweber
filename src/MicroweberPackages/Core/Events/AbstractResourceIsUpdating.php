@@ -9,10 +9,11 @@ abstract class AbstractResourceIsUpdating
      */
     private $model;
 
-    public function __construct($model, array $request)
+    public function __construct($request, $model)
     {
-        $this->model = $model;
         $this->request = $request;
+        $this->model = $model;
+
     }
 
     /**

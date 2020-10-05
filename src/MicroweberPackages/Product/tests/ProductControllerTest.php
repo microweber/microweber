@@ -22,11 +22,12 @@ class ProductControllerTest extends TestCase
             route('admin.products.store'),
             ['title' => 'Test Product 1']
         );
-
+dd($response->getContent());
 
         $this->assertEquals(200, $response->status());
         $product_id = $response->getContent();
 
+        dd($product_id);
 
         $response = $this->call(
             'GET',

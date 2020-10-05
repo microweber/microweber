@@ -19,18 +19,18 @@ class PostRepository extends BaseRepository
 
         $post = Post::create($request);
 
-        event(new PostWasCreated($post, $request));
+        event(new PostWasCreated($request, $post));
 
         return $post->id;
     }
 
     public function update($post, $request)
     {
-        event($event = new PostIsUpdating($post, $request));
+        event($event = new PostIsUpdating($request, $post));
 
         $post->update($request);
 
-        event(new PostWasUpdated($post, $request));
+        event(new PostWasUpdated($request, $post));
 
         return $post->id;
     }

@@ -19,7 +19,7 @@ class ProductRepository extends BaseRepository
 
         $product = Product::create($request);
 
-        event(new ProductWasCreated($product, $request));
+        event(new ProductWasCreated($request, $product));
 
 
         return $product->id;
@@ -27,11 +27,11 @@ class ProductRepository extends BaseRepository
 
     public function update($product, $request)
     {
-        event($event = new ProductIsUpdating($product, $request));
+        event($event = new ProductIsUpdating($request, $product));
 
         $product->update($request);
 
-        event(new ProductWasUpdated($product, $request));
+        event(new ProductWasUpdated($request, $product));
 
         return $product->id;
     }

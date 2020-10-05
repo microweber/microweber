@@ -69,7 +69,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         if (is_file($this->sqlite_file)) {
             if (!defined('MW_UNIT_TEST_DB_FILE_CREATED')) {
-                @unlink($this->sqlite_file);
+             //   @unlink($this->sqlite_file);
                 define('MW_UNIT_TEST_DB_FILE_CREATED', true);
             }
         }

@@ -49,12 +49,14 @@ trait HasCrudActions
      *
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        $request = $this->getRequest('store')->all();
+        if ($this->getValidator()) {
+            $request->validate($this->getValidator()->rules());
+        }
 
         if ($this->getRepository()) {
-            return $this->getRepository()->create($request);
+            return $this->getRepository()->create($request->all());
         }
 
         $entity = $this->getModel()->create($request);
@@ -104,16 +106,20 @@ trait HasCrudActions
     /**
      * Update the specified resource in storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  string  $id
+     * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
+        if ($this->getValidator()) {
+            $request->validate($this->getValidator()->rules());
+        }
+
         $entity = $this->getEntity($id);
-        $request = $this->getRequest('update')->all();
 
         if ($this->getRepository()) {
-            return $this->getRepository()->update($entity, $request);
+            return $this->getRepository()->update($request->all(), $entity);
         }
 
         $entity->update($request);
@@ -235,13 +241,25 @@ trait HasCrudActions
      */
     protected function getRepository()
     {
-        if (isset($this->repository) && class_exists($this->repository)) {
-            return new $this->repository;
+        if (isset($this->repository)) {
+            if (!is_object($this->repository) && class_exists($this->repository)) {
+                return new $this->repository;
+            } else {
+                return $this->repository;
+            }
         }
 
         return false;
     }
 
+    protected function getValidator()
+    {
+        if (isset($this->validator) && class_exists($this->validator)) {
+            return new $this->validator;
+        }
+
+        return false;
+    }
 
     /**
      * Get request object

@@ -19,19 +19,19 @@ class PageRepository extends BaseRepository
 
         $page = Page::create($request);
 
-        event(new PageWasCreated($page, $request));
+        event(new PageWasCreated($request, $page));
 
 
         return $page->id;
     }
 
-    public function update($page, $request)
+    public function update($request, $page)
     {
-        event($event = new PageIsUpdating($page, $request));
+        event($event = new PageIsUpdating($request, $page));
 
         $page->update($request);
 
-        event(new PageWasUpdated($page, $request));
+        event(new PageWasUpdated($request, $page));
 
         return $page->id;
     }
