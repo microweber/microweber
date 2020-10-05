@@ -43,7 +43,7 @@ trait HasSlugTrait
                 $slug = date('Y-M-d-His');
             }
 
-            $this->url = $slug;/**/
+            $this->url = $slug;
         }
     }
 
