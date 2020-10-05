@@ -51,7 +51,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                         <img src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Logo" style="max-width: 70%;"/>
                     </a>
 
-                    <div class="card style-1 bg-light mb-3">
+                    <div class="card mb-3">
                         <div class="card-body py-4">
                             <?php if ($user != false): ?>
                                 <div><?php _e("Welcome") . ' ' . user_name(); ?></div>
