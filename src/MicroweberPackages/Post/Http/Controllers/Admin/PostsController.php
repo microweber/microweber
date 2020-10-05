@@ -17,8 +17,13 @@ class PostsController extends AdminDefaultController
 {
     use HasCrudActions;
 
-    public $repository = PostRepository::class;
+    public $repository;
     public $model = Post::class;
     public $validator = PostRequest::class;
 
+
+    public function __construct(PostRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 }

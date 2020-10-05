@@ -13,34 +13,35 @@ use MicroweberPackages\Post\Models\Post;
 class PostRepository extends BaseRepository
 {
 
-    public function create($request)
+    public function __construct(Post $model)
     {
-        event($event = new PostIsCreating($request));
+        $this->model = $model;
+    }
 
-        $post = Post::create($request);
+    public function create($data)
+    {
+        event($event = new PostIsCreating($data));
 
-        event(new PostWasCreated($request, $post));
+        $post = $this->model->create($data);
+
+        event(new PostWasCreated($post, $data));
 
         return $post->id;
     }
 
-    public function update($post, $request)
+    public function update($data, $id)
     {
-        event($event = new PostIsUpdating($request, $post));
+        $post = $this->model->find($id);
 
-        $post->update($request);
+        event($event = new PostIsUpdating($post, $data));
 
-        event(new PostWasUpdated($request, $post));
+        $post->update($data);
+
+        event(new PostWasUpdated($post, $data));
 
         return $post->id;
     }
 
 
-    public function destroy($post)
-    {
-        event(new PostWasDeleted($post));
-
-        return $post->delete();
-    }
 
 }

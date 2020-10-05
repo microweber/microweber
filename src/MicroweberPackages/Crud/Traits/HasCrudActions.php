@@ -132,14 +132,13 @@ trait HasCrudActions
      * @param string $ids
      * @return void
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        $entity = $this->getEntity($id);
-
         if ($this->getRepository()) {
-            return $this->getRepository()->destroy($entity);
+            return $this->getRepository()->delete($id);
         }
 
+        $entity = $this->getEntity($id);
         $entity->delete();
     }
 
@@ -149,8 +148,12 @@ trait HasCrudActions
      * @param string $ids
      * @return void
      */
-    public function delete($ids)
+    public function destroy($ids)
     {
+        if ($this->getRepository()) {
+            return $this->getRepository()->destroy($ids);
+        }
+
         $this->getModel()
             ->withoutGlobalScope('active')
             ->whereIn('id', explode(',', $ids))

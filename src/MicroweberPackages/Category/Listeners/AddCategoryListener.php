@@ -10,6 +10,7 @@ class AddCategoryListener
     public function handle($event)
     {
         $data = $event->getData();
+
         if (isset($data['categories'])) {
             $categoryIds = $data['categories'];
             if (empty($categoryIds)) {
