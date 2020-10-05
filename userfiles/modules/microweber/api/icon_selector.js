@@ -61,10 +61,132 @@
                 name: 'Material Icons',
                 load: mw.settings.libs_url + 'material_icons' + '/material_icons.css',
                 unload: function () {
-                    document.querySelector('link[href*="material_icons.css"]').remove();
+                    top.document.querySelector('link[href*="material_icons.css"]').remove();
                 },
                 version: 'mw'
-            }
+            },
+            'iconsMindLine': {
+                detect: function (target) {
+                    return target.className.includes('mw-micon-') && !target.className.includes('mw-micon-solid-');
+                },
+                render: function (icon, target) {
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    mw.tools.classNamespaceDelete(target, 'mw-micon-', undefined, undefined, []);
+                },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        var icons = mw.top().win.document.querySelector('link[href*="mw-icons-mind/line"]').sheet.cssRules;
+                        var l = icons.length, i = 0, mindIcons = [];
+                        for (; i < l; i++) {
+                            var sel = icons[i].selectorText;
+                            if (!!sel && sel.indexOf('.mw-micon-') === 0) {
+                                var cls = sel.replace(".", '').split(':')[0];
+                                mindIcons.push(cls);
+                            }
+                        }
+                        resolve(mindIcons)
+
+                    });
+                },
+                name: 'Icons Mind Line',
+                load:  mw.settings.modules_url + 'microweber/api/libs/mw-icons-mind/line/style.css',
+                unload: function () {
+                    document.querySelector('link[href*="mw-icons-mind/line/style"]').remove();
+                },
+                version: 'mw_local'
+            },
+            'iconsMindSolid': {
+                detect: function (target) {
+                    return target.className.includes('mw-micon-solid-');
+                },
+                render: function (icon, target) {
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    mw.tools.classNamespaceDelete(target, 'mw-micon-solid-', undefined, undefined, []);
+                },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        var icons = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]').sheet.cssRules;
+                        var l = icons.length, i = 0, mindIcons = [];
+                        for (; i < l; i++) {
+                            var sel = icons[i].selectorText;
+                            if (!!sel && sel.indexOf('.mw-micon-solid-') === 0) {
+                                var cls = sel.replace(".", '').split(':')[0];
+                                mindIcons.push(cls);
+                            }
+                        }
+                        resolve(mindIcons);
+
+                    });
+                },
+                name: 'Icons Mind Solid',
+                load:  mw.settings.modules_url + 'microweber/api/libs/mw-icons-mind/solid/style.css',
+                unload: function () {
+                    document.querySelector('link[href*="mw-icons-mind/solid/style"]').remove();
+                },
+                version: 'mw_local'
+            },
+            'materialDesignIcons': {
+                detect: function (target) {
+                    return target.classList.contains('mdi');
+                },
+                render: function (icon, target) {
+                    target.classList.add('mdi');
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    mw.tools.classNamespaceDelete(target, 'mdi-', undefined, undefined, []);
+                    target.classList.remove('mdi');
+                },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        var icons = mw.top().win.document.querySelector('link[href*="materialdesignicons"]').sheet.cssRules;
+                        var l = icons.length, i = 0, mdiIcons = [];
+                        for (; i < l; i++) {
+                            var sel = icons[i].selectorText;
+                            if (!!sel && sel.indexOf('.mdi-') === 0) {
+                                var cls = sel.replace(".", '').split(':')[0];
+                                mdiIcons.push(cls);
+                            }
+                        }
+                        resolve(mdiIcons);
+
+                    });
+                },
+                name: 'Material Design Icons',
+                load:  mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css',
+                unload: function () {
+                    document.querySelector('link[href*="materialdesignicons"]').remove();
+                },
+                version: 'mw_local'
+            },
+            'mwIcons': {
+                detect: function (target) {
+                    return target.className.includes('mw-icon-');
+                },
+                render: function (icon, target) {
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    mw.tools.classNamespaceDelete(target, 'mw-icon-', undefined, undefined, []);
+                },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        $.get(mw.settings.modules_url + 'microweber/api/microweber.icons.js',function (data) {
+                            resolve(JSON.parse(data));
+                        });
+                    });
+                },
+                name: 'Microweber Icons',
+                load:  mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css',
+                unload: function () {
+                    document.querySelector('link[href*="materialdesignicons"]').remove();
+                },
+                version: 'mw_local'
+            },
         };
 
         var storage = function () {
@@ -164,8 +286,8 @@
 
         this.settings = mw.object.extend(true, {}, defaults, options);
         var scope = this;
-        var tabAcordionBuilder = function (items) {
-            var res = {root: mw.element('<div class="mw-tab-accordion" data-options="size: medium" />'), items: []};
+        var tabAccordionBuilder = function (items) {
+            var res = {root: mw.element('<div class="mw-tab-accordion" data-options="tabsSize: medium" />'), items: []};
             items.forEach(function (item){
                 var el = mw.element('<div class="mw-accordion-item" />');
                 var content = mw.element('<div class="mw-accordion-content mw-ui-box mw-ui-box-content">' +(item.content || '') +'</div>');
@@ -194,7 +316,7 @@
             });
             var iconsBlockHolder, tabs, optionsHolder, iconsHolder;
             if(scope.settings.iconOptions) {
-                tabs = tabAcordionBuilder([
+                tabs = tabAccordionBuilder([
                     {title: 'Icons'},
                     {title: 'Options'},
                 ]);

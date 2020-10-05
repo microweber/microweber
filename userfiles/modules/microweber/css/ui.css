@@ -2822,7 +2822,7 @@ html.mw-loading:after {
   margin: 10px 0 0;
 }
 .mw-icon-selector-root .mw-ui-box {
-  border-width: 1px 0 0;
+  border-width: 1px;
 }
 .mw-icon-selector-root .mw-ui-box,
 .mw-icon-selector-root .mw-accordion-item.active {
