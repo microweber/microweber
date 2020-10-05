@@ -79,7 +79,6 @@ trait HasCrudActions
         }
 
         $entity = $this->getEntity($id);
-
         if (request()->wantsJson()) {
             return $entity;
         }
