@@ -8,10 +8,10 @@ class EditCategoryListener
 {
     public function handle($event)
     {
-        $request = $event->getRequest();
+        $data = $event->getData();
 
-        if (isset($request['categories'])) {
-            $categoryIds = $event->getRequest()['categories'];
+        if (isset($data['categories'])) {
+            $categoryIds = $data['categories'];
             if (empty($categoryIds)) {
                 return;
             }

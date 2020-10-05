@@ -12,36 +12,49 @@ use MicroweberPackages\Page\Models\Page;
 
 class PageRepository extends BaseRepository
 {
-
-    public function create($request)
+    public function __construct(Page $model)
     {
-        event($event = new PageIsCreating($request));
+        $this->model = $model;
+    }
 
-        $page = Page::create($request);
+    public function create($data)
+    {
+        event($event = new PageIsCreating($data));
 
-        event(new PageWasCreated($request, $page));
+        $page = $this->model->create($data);
 
+        event(new PageWasCreated($page, $data));
 
         return $page->id;
     }
 
-    public function update($request, $page)
+    public function update($data, $id)
     {
-        event($event = new PageIsUpdating($request, $page));
+        $page = $this->model->find($id);
 
-        $page->update($request);
+        event($event = new PageIsUpdating($page, $data));
 
-        event(new PageWasUpdated($request, $page));
+        $page->update($data);
+
+        event(new PageWasUpdated($page, $data));
 
         return $page->id;
     }
 
-
-    public function destroy($page)
+    public function delete($id)
     {
-        event(new PageWasDeleted($page));
+        $product = $this->model->find($id);
 
-        return $page->delete();
+        event(new PageWasDeleted($product));
+
+        return $product->delete();
     }
 
+
+    public function destroy($ids)
+    {
+        event(new PageWasDestroy($ids));
+
+        return $this->model->destroy($ids);
+    }
 }

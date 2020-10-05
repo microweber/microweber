@@ -6,15 +6,15 @@ trait ModifyCustomFieldProductTrait
 {
     public function handle($event)
     {
-        $request = $event->getRequest();
+        $data = $event->getData();
         $product = $event->getModel();
 
-        if (isset($request['price'])) {
+        if (isset($data['price'])) {
             $product->setCustomField(
                 [
                     'type' => 'price',
                     'name' => 'Price',
-                    'value' => [$request['price']]
+                    'value' => [$data['price']]
                 ]
             );
             $product->save();

@@ -17,8 +17,14 @@ class PagesController extends AdminDefaultController
 {
     use HasCrudActions;
 
-    public $repository = PageRepository::class;
+    public $repository;
     public $model = Page::class;
     public $validator = PageRequest::class;
+
+
+    public function __construct(PageRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 
 }

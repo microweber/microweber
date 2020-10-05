@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Core\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Interface CoreRepository
  * @package Modules\Core\Repositories

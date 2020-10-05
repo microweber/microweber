@@ -14,14 +14,14 @@ trait ModifyContentDataProductTrait
 {
     public function handle($event)
     {
-        $request = $event->getRequest();
+        $data = $event->getData();
         $product = $event->getModel();
 
         $contentDataDefault = Product::$contentDataDefault;
         $contentDataFromPost = $contentDataDefault;
-        foreach ($request as $keyPost=>$keyValue) {
-            if (isset($contentDataDefault[$keyPost])) {
-                $contentDataFromPost[$keyPost] = $keyValue;
+        foreach ($data as $dataKey=>$dataValue) {
+            if (isset($contentDataDefault[$dataKey])) {
+                $contentDataFromPost[$dataKey] = $dataValue;
             }
         }
 

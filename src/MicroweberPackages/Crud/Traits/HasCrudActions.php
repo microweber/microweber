@@ -246,11 +246,7 @@ trait HasCrudActions
     protected function getRepository()
     {
         if (isset($this->repository)) {
-            if (!is_object($this->repository) && class_exists($this->repository)) {
-                return new $this->repository;
-            } else {
-                return $this->repository;
-            }
+            return $this->repository;
         }
 
         return false;

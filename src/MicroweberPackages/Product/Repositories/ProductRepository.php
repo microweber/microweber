@@ -34,7 +34,7 @@ class ProductRepository extends BaseRepository
     {
         $product = $this->model->find($id);
 
-        event($event = new ProductIsUpdating($data, $product));
+        event($event = new ProductIsUpdating($product, $data));
 
         $product->update($data);
 
@@ -44,7 +44,7 @@ class ProductRepository extends BaseRepository
     }
 
 
-    public function destroy($ids)
+    public function delete($id)
     {
         $product = $this->model->find($id);
 
@@ -53,6 +53,13 @@ class ProductRepository extends BaseRepository
         return $product->delete();
     }
 
+
+    public function destroy($ids)
+    {
+        event(new ProductWasDestroy($ids));
+
+        return $this->model->destroy($ids);
+    }
 
     public function find($id)
     {
