@@ -52,7 +52,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                     </a>
 
                     <div class="card mb-3">
-                        <div class="card-body py-4">
+                        <div class="card-body py-4" id="admin_login">
                             <?php if ($user != false): ?>
                                 <div><?php _e("Welcome") . ' ' . user_name(); ?></div>
                                 <a href="<?php print site_url() ?>"><?php _e("Go to"); ?> &nbsp;
@@ -66,7 +66,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                                 <?php event_trigger('mw.ui.admin.login.form.before'); ?>
 
-                                <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>" action="<?php print api_link('user_login') ?>">
+                                <form  autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>" action="<?php print api_link('user_login') ?>">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group mb-3">
