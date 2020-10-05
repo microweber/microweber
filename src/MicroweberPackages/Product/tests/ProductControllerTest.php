@@ -20,9 +20,9 @@ class ProductControllerTest extends TestCase
         $response = $this->call(
             'POST',
             route('admin.products.store'),
-            ['title' => 'Test Product 1']
+            ['taaaitle' => 'Test 1112']
         );
-dd($response->getContent());
+dd($response->status(), $response->getContent());
 
         $this->assertEquals(200, $response->status());
         $product_id = $response->getContent();

@@ -8,12 +8,12 @@ abstract class AbstractResourceIsUpdating
      * @var Model
      */
     private $model;
+    private $data;
 
-    public function __construct($request, $model)
+    public function __construct($model, array $data)
     {
-        $this->request = $request;
         $this->model = $model;
-
+        $this->data = $data;
     }
 
     /**
@@ -25,10 +25,10 @@ abstract class AbstractResourceIsUpdating
     }
 
     /**
-     * @return Request
+     * @return data
      */
-    public function getRequest()
+    public function getData()
     {
-        return $this->request;
+        return $this->data;
     }
 }

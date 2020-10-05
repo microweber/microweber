@@ -13,32 +13,41 @@ use MicroweberPackages\Product\Product;
 class ProductRepository extends BaseRepository
 {
 
-    public function create($request)
+    public function __construct(Product $product)
     {
-        event($event = new ProductIsCreating($request));
+        $this->model = $product;
+    }
 
-        $product = Product::create($request);
+    public function create($data)
+    {
+        event($event = new ProductIsCreating($data));
 
-        event(new ProductWasCreated($request, $product));
+        $product = $this->model->create($data);
+
+        event(new ProductWasCreated($data, $product));
 
 
         return $product->id;
     }
 
-    public function update($product, $request)
+    public function update($data, $id)
     {
-        event($event = new ProductIsUpdating($request, $product));
+        $product = $this->model->find($id);
 
-        $product->update($request);
+        event($event = new ProductIsUpdating($data, $product));
 
-        event(new ProductWasUpdated($request, $product));
+        $product->update($data);
 
-        return $product->id;
+        event(new ProductWasUpdated($data, $product));
+
+        return $this->model->id;
     }
 
 
-    public function destroy($product)
+    public function destroy($ids)
     {
+        $product = $this->model->find($id);
+
         event(new ProductWasDeleted($product));
 
         return $product->delete();
@@ -47,7 +56,7 @@ class ProductRepository extends BaseRepository
 
     public function find($id)
     {
-        return Product::find($id);
+        return $this->model->find($id);
     }
 
 }

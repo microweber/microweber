@@ -6,56 +6,123 @@ namespace MicroweberPackages\Core\Repositories;
  * Interface CoreRepository
  * @package Modules\Core\Repositories
  */
-class BaseRepository
+class BaseRepository implements BaseRepositoryInterface
 {
     /**
-     * @param  int $id
-     * @return $model
+     *  Model property on class instances
+     *
+     * @var Model
      */
-    public function find($id)
-    {
+    protected $model;
 
+    /**
+     * Constructor to bind model to repo
+     *
+     * BaseRepository constructor.
+     * @param Model $model
+     */
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
     }
 
     /**
-     * Return a collection of all elements of the resource
-     * @return \Illuminate\Database\Eloquent\Collection
+     * Get all instances of model
+     *
+     * @return mixed
      */
     public function all()
     {
-        return [];
-    }
-
-
-    /**
-     * Create a resource
-     * @param  $data
-     * @return $model
-     */
-    public function create($data)
-    {
-        return 'create';
-    }
-
-
-    /**
-     * Update a resource
-     * @param  $model
-     * @param  array $data
-     * @return $model
-     */
-    public function update($model, $data)
-    {
-        return 'update';
+        return $this->model->all();
     }
 
     /**
-     * Destroy a resource
-     * @param  $model
-     * @return bool
+     * Create a new record in the database
+     *
+     * @param array $data
+     * @return mixed
      */
-    public function destroy($model)
+    public function create(array $data)
     {
-        return 'destroy';
+        return $this->model->create($data);
+    }
+
+    /**
+     * Update record in the database
+     *
+     * @param array $data
+     * @param $id
+     * @return mixed
+     */
+    public function update(array $data, $id)
+    {
+        $record = $this->find($id);
+        return $record->update($data);
+    }
+
+    /**
+     * Remove record from the database
+     *
+     * @param $id
+     * @return bool|null
+     */
+    public function delete($id)
+    {
+        $record = $this->find($id);
+        return $record->delete();
+    }
+
+    /**
+     * Remove records from the database
+     *
+     * @param array|\Illuminate\Support\Collection|int|string $ids
+     * @return int
+     */
+    public function destroy($ids)
+    {
+        return $this->model->destroy($ids);
+    }
+
+    /**
+     * Find the record with the given id
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function find($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    /**
+     * Get the associated model
+     *
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set the associated model
+     * @param $model
+     * @return $this
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+        return $this;
+    }
+
+    /**
+     * Eager load database relationships
+     *
+     * @param $relations
+     * @return mixed
+     */
+    public function with($relations)
+    {
+        return $this->model->with($relations);
     }
 }

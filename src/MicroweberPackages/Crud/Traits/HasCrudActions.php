@@ -116,12 +116,11 @@ trait HasCrudActions
             $request->validate($this->getValidator()->rules());
         }
 
-        $entity = $this->getEntity($id);
-
         if ($this->getRepository()) {
-            return $this->getRepository()->update($request->all(), $entity);
+            return $this->getRepository()->update($request->all(), $id);
         }
 
+        $entity = $this->getEntity($id);
         $entity->update($request);
 
         return $entity->id;
@@ -166,6 +165,7 @@ trait HasCrudActions
      */
     protected function getEntity($id)
     {
+
         return $this->getModel()
             ->with($this->relations())
             ->withoutGlobalScope('active')
@@ -231,7 +231,11 @@ trait HasCrudActions
      */
     protected function getModel()
     {
-        return new $this->model;
+        if (isset($this->model) && class_exists($this->model)) {
+            return new $this->model;
+        }
+
+        return false;
     }
 
     /**
