@@ -43,11 +43,11 @@ class PageRepository extends BaseRepository
 
     public function delete($id)
     {
-        $product = $this->model->find($id);
+        $page = $this->model->find($id);
 
-        event(new PageWasDeleted($product));
+        event(new PageWasDeleted($page));
 
-        return $product->delete();
+        return $page->delete();
     }
 
 
