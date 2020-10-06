@@ -92,7 +92,7 @@ class CategoriesController extends AdminDefaultController
      *      path="/admin/categories/{id}",
      *      operationId="deleteCategory",
      *      tags={"Categories"},
-     *      summary="Delete existing page",
+     *      summary="Delete existing category",
      *      description="Deletes a record and returns no content",
      *      @OA\Parameter(
      *          name="id",
