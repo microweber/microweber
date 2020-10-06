@@ -268,13 +268,24 @@ class TaggableFileStore implements Store
     {
         $prepareTags = array();
         if (is_string($tags)) {
-            $prepareTags = explode(',', $tags);
+            $prepareTags = explode(',', $prepareTags);
         } elseif (is_array($tags)) {
             $prepareTags = $tags;
             array_walk($prepareTags, 'trim');
         }
 
-        return new TaggableFileStore($this->files, $this->directory, $this->options, $prepareTags);
+        // Clear Tags
+        $clearTags = [];
+        foreach ($prepareTags as $tag) {
+            if (strpos($tag, '/')) {
+                $tags = explode('/', $tag);
+                $clearTags = array_merge($clearTags, $tags);
+                continue;
+            }
+            $clearTags[] = $tag;
+        }
+
+        return new TaggableFileStore($this->files, $this->directory, $this->options, $clearTags);
     }
 
     /**

@@ -69,8 +69,10 @@ class MenuManager
         if (!isset($data_to_save['id']) or $data_to_save['id'] == 0) {
             $data_to_save['is_active'] = 1;
         }
+      //  dump($data_to_save);
         $save = $this->app->database_manager->save($table, $data_to_save);
         $this->app->cache_manager->delete('menus/global');
+        $this->app->cache_manager->delete('menus');
 
         return $save;
     }
@@ -205,6 +207,7 @@ class MenuManager
         } else {
             if (!defined('MW_MENU_IS_ALREADY_MADE_ONCE')) {
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
+
                     $new_menu = $this->menu_create('title=' . $params['title']);
                     $params['id'] = $new_menu;
                     $menus = $this->app->database_manager->get($params);
