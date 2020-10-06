@@ -44,11 +44,6 @@ trait HasCrudActions
         return $data;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         if ($this->getValidator()) {

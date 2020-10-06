@@ -42,7 +42,6 @@ class AdminController extends Controller
         event_trigger('mw.init');
     }
 
-
     public function index(Request $request)
     {
         return $this->render();

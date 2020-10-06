@@ -26,4 +26,64 @@ class ProductsController extends AdminDefaultController
         $this->repository = $repository;
     }
 
+    /**
+     * @OA\Get(
+     *      path="/admin/products",
+     *      operationId="listProducts",
+     *      tags={"Products"},
+
+     *      summary="Get list of products",
+     *      description="Returns list of products",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     * @OA\Response(
+     *      response=400,
+     *      description="Bad Request"
+     *   ),
+     * @OA\Response(
+     *      response=404,
+     *      description="not found"
+     *   ),
+     *  )
+     */
+
+    /**
+     * @OA\Post(
+     * path="/admin/products/store",
+     * summary="Store product in database.",
+     * description="Title, price descriptions.",
+     * operationId="storeProduct",
+     * tags={"Products"},
+     * @OA\RequestBody(
+     *    required=true,
+     *    description="Set the title, description and price",
+     *    @OA\JsonContent(
+     *       required={"title","price"},
+     *       @OA\Property(property="title", type="string", format="text", example="Apple Mac"),
+     *       @OA\Property(property="price", type="string", format="text", example="1500")
+     *    ),
+     * ),
+     * @OA\Response(
+     *    response=200,
+     *    description="Success response",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="id", type="string", example="1234")
+     *        )
+     *     )
+     * )
+     */
+
 }

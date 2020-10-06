@@ -7,6 +7,20 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+/**
+ * @OA\Info(
+ *    title="Microweber ApplicationAPI",
+ *    version="1.0.0",
+ *    description="Drag & drop website builder.",
+ *     @OA\Contact(
+ *          email="support@microweber.org"
+ *      ),
+ *     @OA\License(
+ *         name="MIT License",
+ *         url="https://github.com/microweber/microweber/blob/master/LICENSE"
+ *     )
+ * )
+ */
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
