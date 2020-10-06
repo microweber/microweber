@@ -221,7 +221,8 @@ if (! defined('MW_VERSION')) {
         $this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
         $this->app->register(  \Barryvdh\DomPDF\ServiceProvider::class);
-        $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
+     //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
+        $this->app->register(  SwaggerServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 

@@ -12,6 +12,12 @@
         },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "__API_URL__",
+            "description": "L5 Swagger OpenApi Server"
+        }
+    ],
     "paths": {
         "/admin/categories": {
             "get": {
