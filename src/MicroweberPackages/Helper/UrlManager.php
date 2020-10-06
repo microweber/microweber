@@ -77,9 +77,14 @@ class UrlManager
 
     public function to_path($path)
     {
+        if (!is_string($path)) {
+            return false;
+        }
+
         if (trim($path) == '') {
             return false;
         }
+
         $path = str_ireplace($this->site_url(), MW_ROOTPATH, $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
