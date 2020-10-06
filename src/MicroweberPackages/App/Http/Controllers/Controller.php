@@ -7,6 +7,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+
+
 /**
  * @OA\Info(
  *    title="Microweber ApplicationAPI",
@@ -19,6 +21,13 @@ use Illuminate\Routing\Controller as BaseController;
  *         name="MIT License",
  *         url="https://github.com/microweber/microweber/blob/master/LICENSE"
  *     )
+ * )
+ *
+ */
+/**
+ *  @OA\Server(
+ *      url="__API_URL__",
+ *      description="L5 Swagger OpenApi Server"
  * )
  */
 class Controller extends BaseController

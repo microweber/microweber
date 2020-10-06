@@ -35,7 +35,7 @@ class ProductControllerTest extends TestCase
         );
 
 
-        dd('aaaaaaaaaaaaaa', json_decode($response->getContent(), 1));
+        //dd('aaaaaaaaaaaaaa', json_decode($response->getContent(), 1));
 //dd($product_id);
 
 //        $response

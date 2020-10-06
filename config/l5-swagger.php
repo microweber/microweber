@@ -1,5 +1,7 @@
 <?php
 
+
+
 return [
     'default' => 'default',
     'documentations' => [
@@ -77,7 +79,13 @@ return [
             /*
              * Edit to set the api's base path
             */
-            'base' => env('L5_SWAGGER_BASE_PATH', null),
+         'base' => env('L5_SWAGGER_BASE_PATH', null),
+             //'base' =>basename(dirname(__DIR__)),
+         //   'base' => site_url(),
+             //'base' => api_url(),
+             //'base' => api_url(),
+
+
 
             /*
              * Edit to set path where swagger ui assets should be stored
@@ -191,8 +199,9 @@ return [
         /*
          * Uncomment to add constants which can be used in annotations
          */
-        // 'constants' => [
-        // 'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
-        // ],
+//          'constants' => [
+//        // 'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
+//         'L5_SWAGGER_CONST_HOST' => api_url(),
+//          ],
     ],
 ];
