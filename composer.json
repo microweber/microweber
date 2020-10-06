@@ -59,7 +59,8 @@
         "laravel/socialite": "^6.0@dev",
         "arcanedev/seo-helper": "dev-master",
         "wikimedia/less.php": "dev-master",
-        "scssphp/scssphp": "dev-master"
+        "scssphp/scssphp": "dev-master",
+        "graham-campbell/security-core": "3.2.x-dev"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

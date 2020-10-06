@@ -35,6 +35,7 @@ class Product extends Content
         "content_meta_title",
         "content",
         "description",
+        "content_body",
         "content_meta_keywords",
         "original_link",
         "require_login",

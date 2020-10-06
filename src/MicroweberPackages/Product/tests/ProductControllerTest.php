@@ -20,14 +20,14 @@ class ProductControllerTest extends TestCase
         $response = $this->call(
             'POST',
             route('admin.products.store'),
-            ['taaaitle' => 'Test 1112']
+            ['title' => 'Test 1112', 'content_body' => '<b>Bold text</b>', 'content' => '<b onmouseover=alert(‘XSS testing!‘)>XSS</b>   <IMG SRC=j&#X41vascript:alert(\'test2\')>']
         );
-dd($response->status(), $response->getContent());
+//dd($response->status(), $response->getContent());
 
         $this->assertEquals(200, $response->status());
         $product_id = $response->getContent();
 
-        dd($product_id);
+        // dd($product_id);
 
         $response = $this->call(
             'GET',
@@ -35,8 +35,7 @@ dd($response->status(), $response->getContent());
         );
 
 
-
-dd('aaaaaaaaaaaaaa',$response->getContent());
+        dd('aaaaaaaaaaaaaa', json_decode($response->getContent(), 1));
 //dd($product_id);
 
 //        $response
@@ -46,7 +45,7 @@ dd('aaaaaaaaaaaaaa',$response->getContent());
 //        dd($response->status());
 //        dd($response->getContent());
 
-       // $this->assertEquals(200, $response->status());
+        // $this->assertEquals(200, $response->status());
 
 //
 //dd($this);
@@ -57,9 +56,9 @@ dd('aaaaaaaaaaaaaa',$response->getContent());
 
         //dump($this->response->getContent());
 
-    //    $this->assertResponseOk();
+        //    $this->assertResponseOk();
 
-       // $this->assertEquals('', $this->response->getContent());
+        // $this->assertEquals('', $this->response->getContent());
 
         //dump($response->getData());
     }
