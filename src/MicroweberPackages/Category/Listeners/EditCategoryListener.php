@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Category\Listeners;
 
-use MicroweberPackages\Category\CategoryItem;
+use MicroweberPackages\Category\Models\CategoryItem;
 
 class EditCategoryListener
 {
