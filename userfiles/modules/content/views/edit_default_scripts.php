@@ -211,11 +211,11 @@
             data.categories = '';
 
         }
-        console.log(data);
+     
 
         module.addClass('loading');
         mw.content.save(data, {
-            url: el.action,
+            url: el.getAttribute('action'),
             onSuccess: function (a) {
                 if (window.pagesTreeRefresh) {
                     pagesTreeRefresh()
