@@ -216,7 +216,8 @@ class TaggableFileStore implements Store
             // Save key value in file
             $save = @file_put_contents($path, $value);
             if (!$save) {
-                throw new \Exception('Cant file put contents:' . $path);
+                $save = @file_put_contents($path, $value);
+                // throw new \Exception('Cant file put contents:' . $path);
             }
         }
     }
@@ -350,7 +351,10 @@ class TaggableFileStore implements Store
                 $this->files->tagMapPathsCacheMemory[$tag] = $cacheMapContent;
                 $cacheFile = $this->_getTagMapPathByName($tag);
 
-                file_put_contents($cacheFile, json_encode($cacheMapContent));
+                $save = @file_put_contents($cacheFile, json_encode($cacheMapContent));
+                if (!$save) {
+                    $save = @file_put_contents($cacheFile, json_encode($cacheMapContent));
+                }
             }
         }
 
