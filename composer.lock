@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "820a12ae25502c9334b0c722f2bdbfe0",
+    "content-hash": "9041a3ca2fd8742f2fbeeca60e2f4fad",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -4368,25 +4368,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "4531e53afe2fc660403e76fb7644e95998bff7bf"
+                "reference": "66b428029cec9b7f52f47711253626982efe820b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/4531e53afe2fc660403e76fb7644e95998bff7bf",
-                "reference": "4531e53afe2fc660403e76fb7644e95998bff7bf",
+                "url": "https://api.github.com/repos/opis/closure/zipball/66b428029cec9b7f52f47711253626982efe820b",
+                "reference": "66b428029cec9b7f52f47711253626982efe820b",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.4 || ^7.0"
+                "php": "^5.4 || ^7.0 || ^8.0"
             },
             "require-dev": {
                 "jeremeamia/superclosure": "^2.0",
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.5.x-dev"
+                    "dev-master": "3.6.x-dev"
                 }
             },
             "autoload": {
@@ -4421,7 +4421,7 @@
                 "serialization",
                 "serialize"
             ],
-            "time": "2020-09-06T17:02:15+00:00"
+            "time": "2020-10-05T12:49:40+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -11512,7 +11512,8 @@
         "wikimedia/less.php": 20,
         "scssphp/scssphp": 20,
         "graham-campbell/security-core": 20,
-        "darkaonline/l5-swagger": 20
+        "darkaonline/l5-swagger": 20,
+        "opis/closure": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

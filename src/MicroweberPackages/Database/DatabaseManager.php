@@ -19,8 +19,9 @@ use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Traits\ExtendedSave;
 use MicroweberPackages\Media\Models\Media;
-use SuperClosure\SerializableClosure;
 
+use function Opis\Closure\serialize as serializeClosure;
+use function Opis\Closure\unserialize as unserializeClosure;
 
 class DatabaseManager extends DbUtils
 {
@@ -30,6 +31,7 @@ class DatabaseManager extends DbUtils
     public $app;
 
     use QueryFilter; //trait with db functions
+
     use ExtendedSave; //trait to save extended data, such as attributes, categories and images
 
     public function __construct($app = null)
@@ -206,9 +208,9 @@ class DatabaseManager extends DbUtils
         if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
             $use_cache = $this->use_cache = false;
         } else {
-            $use_cache = $this->use_cache  = true;
+            $use_cache = $this->use_cache = true;
         }
-       // $use_cache = false;
+        // $use_cache = false;
         // $this->use_cache = false;
         $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);
@@ -222,8 +224,8 @@ class DatabaseManager extends DbUtils
         $cache_key_closures = 'cache';
         foreach ($orig_params as $k => $v) {
             if (is_object($v) && $v instanceof \Closure) {
-                $serializable = new SerializableClosure($v);
-                $serialized = serialize($serializable);
+
+                $serialized = serializeClosure($v);
                 $cache_key_closures .= crc32($serialized);
             }
         }
@@ -283,7 +285,7 @@ class DatabaseManager extends DbUtils
         }
 
         if ($use_cache == false) {
-             $data = $query->get();
+            $data = $query->get();
         } else {
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
                 return $query->get();
@@ -436,15 +438,15 @@ class DatabaseManager extends DbUtils
             $allow_scripts = $data['allow_scripts'];
         }
 
-       /* if (isset($data['debug']) and $data['debug'] == true) {
-            $dbg = 1;
-            unset($data['debug']);
-        } else {
-            $dbg = false;
-        }
-        if ($dbg != false) {
-            var_dump($data);
-        }*/
+        /* if (isset($data['debug']) and $data['debug'] == true) {
+             $dbg = 1;
+             unset($data['debug']);
+         } else {
+             $dbg = false;
+         }
+         if ($dbg != false) {
+             var_dump($data);
+         }*/
 
         $data['user_ip'] = user_ip();
         if (isset($data['id']) == false or $data['id'] == 0) {
@@ -484,14 +486,14 @@ class DatabaseManager extends DbUtils
         $criteria = $this->map_array_to_table($table, $data);
 
         if ($allow_html == false) {
-           $criteria = $this->app->format->clean_html($criteria);
+            $criteria = $this->app->format->clean_html($criteria);
         } else {
             if ($allow_scripts == false) {
-				$criteria = $this->clean_input($criteria);
-               
-				$evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
+                $criteria = $this->clean_input($criteria);
 
-				$criteria =  $this->app->format->clean_xss($criteria, true,$evil, 'removeEvilAttributes');
+                $evil = ['(?<!\w)on\w*', 'xmlns', 'formaction', 'xlink:href', 'FSCommand', 'seekSegmentTime'];
+
+                $criteria = $this->app->format->clean_xss($criteria, true, $evil, 'removeEvilAttributes');
             }
 
         }
@@ -501,7 +503,6 @@ class DatabaseManager extends DbUtils
         if (is_array($data_to_save_options) and $data_to_save_options['use_this_field_for_id'] != false) {
             $criteria['id'] = $criteria_orig[$data_to_save_options['use_this_field_for_id']];
         }
-
 
 
         if (!isset($criteria['id'])) {
@@ -562,7 +563,7 @@ class DatabaseManager extends DbUtils
         }
 
         $criteria_overwrite['id'] = $id_to_return;
-        $this->app->event_manager->trigger('mw.database.'.$table.'.save.after', $criteria_overwrite);
+        $this->app->event_manager->trigger('mw.database.' . $table . '.save.after', $criteria_overwrite);
 
         return $id_to_return;
     }

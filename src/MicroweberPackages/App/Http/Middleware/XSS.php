@@ -13,7 +13,9 @@ class XSS
         $input = $request->all();
 
         array_walk_recursive($input, function (&$input) {
-            $input = Security::create()->clean($input);
+            if (is_string($input)) {
+                $input = Security::create()->clean($input);
+            }
         });
 
         $request->merge($input);

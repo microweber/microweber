@@ -29,6 +29,8 @@ class CategoryServiceProvider extends ServiceProvider
         $this->app->singleton('category_manager', function ($app) {
             return new CategoryManager();
         });
+
+        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
     }
 }
 
