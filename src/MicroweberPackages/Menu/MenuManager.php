@@ -209,9 +209,9 @@ class MenuManager
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
                     $check  = $this->app->database_manager->get('no_cache=1&title=' . $params['title']);
                     if(!$check){
-                    $new_menu = $this->menu_create('title=' . $params['title']);
-                    $params['id'] = $new_menu;
-                    $menus = $this->app->database_manager->get($params);
+                        $new_menu = $this->menu_create('title=' . $params['title']);
+                        $params['id'] = $new_menu;
+                        $menus = $this->app->database_manager->get($params);
                     }
                 }
                 define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
