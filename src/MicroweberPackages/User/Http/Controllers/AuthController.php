@@ -5,8 +5,9 @@ namespace MicroweberPackages\User\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Http\Controllers\AuthorizationController;
 
-class AuthController
+class AuthController  
 {
     /**
      * Display a listing of Role.
@@ -99,9 +100,7 @@ class AuthController
      *      path="/api/all-user",
      *      operationId="getUserList",
      *      tags={"Users"},
-     * security={
-     *  {"passport": {}},
-     *   },
+     *      security={{"bearer_token":{}}},
      *      summary="Get list of users",
      *      description="Returns list of users",
      *      @OA\Response(

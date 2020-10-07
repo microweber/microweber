@@ -132,6 +132,12 @@
             "merge-extra": true,
             "merge-extra-deep": true,
             "merge-scripts": true
+        },
+        "laravel": {
+            "dont-discover": [
+                "laravel/passport",
+                "laravel/sanctum"
+            ]
         }
     }
 }

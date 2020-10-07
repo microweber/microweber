@@ -11,11 +11,12 @@
 
 namespace MicroweberPackages\User;
 
+use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 
-class UserManagerServiceProvider extends ServiceProvider
+class UserManagerServiceProvider extends AuthServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -40,7 +41,8 @@ class UserManagerServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
 
 
-        Passport::routes(); // Add this
+      //  Passport::routes(); // Add this
+      //  Passport::enableImplicitGrant();
 
     }
 }
