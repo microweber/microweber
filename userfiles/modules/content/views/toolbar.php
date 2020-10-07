@@ -150,6 +150,11 @@ if ($last_page_front != false) {
             <h5>
                 <i class="mdi text-primary mr-2 <?php if ($type == 'shop'): ?>mdi-shopping<?php else: ?><?php print $type; ?><?php endif; ?>"></i>
                 <?php print ($page_info['title']) ?>
+
+                <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
+                    <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
+                    <a href="<?php print $edit_link; ?>" class="btn btn-outline-primary btn-sm" id="edit-content-btn"><?php _e("Edit page"); ?></a>
+                <?php endif; ?>
             </h5>
         <?php elseif (isset($params['category-id'])): ?>
             <div>
@@ -245,24 +250,10 @@ if ($last_page_front != false) {
                 </div>
             <?php endif; ?>
 
-            <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
-                <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
-            <?php endif; ?>
-
-            <?php if (isset($params['category-id'])): ?>
-                <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
-            <?php endif; ?>
-
-            <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
-                <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
-                <a href="<?php print $edit_link; ?>" class="btn btn-outline-primary btn-sm" id="edit-content-btn"><?php _e("Edit page"); ?></a>
-            <?php endif; ?>
-
             <?php if (isset($params['category-id'])): ?>
                 <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
                 <a href="<?php print $edit_link; ?>" class="btn btn-outline-primary btn-sm" id="edit-category-btn"><?php _e("Edit category"); ?></a>
             <?php endif; ?>
-
 
             <?php if (isset($content_types) and !empty($content_types)): ?>
                 <div>

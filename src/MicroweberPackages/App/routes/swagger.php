@@ -35,7 +35,7 @@ Route::group(['namespace' => 'L5Swagger'], function (Router $router) {
                 $router->get($config['routes']['api'], [
                     'as' => 'l5-swagger.'.$name.'.api',
                     'middleware' => $config['routes']['middleware']['api'] ?? [],
-                    'uses' => '\L5Swagger\Http\Controllers\SwaggerController@api',
+                    'uses' => '\MicroweberPackages\App\Http\Controllers\SwaggerController@api',
                 ]);
             }
 
@@ -43,7 +43,7 @@ Route::group(['namespace' => 'L5Swagger'], function (Router $router) {
                 $router->get($config['routes']['docs'].'/{jsonFile?}', [
                     'as' => 'l5-swagger.'.$name.'.docs',
                     'middleware' => $config['routes']['middleware']['docs'] ?? [],
-                    'uses' => '\L5Swagger\Http\Controllers\SwaggerController@docs',
+                    'uses' => '\MicroweberPackages\App\Http\Controllers\SwaggerController@docs',
                 ]);
 
                 $router->get($config['routes']['docs'].'/asset/{asset}', [

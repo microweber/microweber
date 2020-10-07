@@ -143,7 +143,7 @@ return [
                 ],
                 */
             ],
-            'security' => [
+            'xxxxxxsecurity' => [
                 /*
                  * Examples of Securities
                 */
@@ -158,6 +158,27 @@ return [
                     */
                 ],
             ],
+
+            'security' => [
+
+                // Open API 3.0 support
+                'passport' => [ // Unique name of security
+                    'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+                    'description' => 'Laravel passport oauth2 security.',
+                    'in' => 'header',
+                    'scheme' => 'https',
+                    'flows' => [
+                        "password" => [
+                            "authorizationUrl" => site_url() . 'oauth/authorize',
+                            "tokenUrl" => site_url(). 'oauth/token',
+                            "refreshUrl" => site_url() . 'token/refresh',
+                            "scopes" => []
+                        ],
+                    ],
+                ],
+            ],
+
+
         ],
 
         /*

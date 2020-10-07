@@ -6,12 +6,11 @@
  * Time: 4:09 PM
  */
 
-namespace MicroweberPackages\Product\Http\Controllers\Admin;
+namespace MicroweberPackages\Product\Http\Controllers\Api;
 
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Crud\Traits\HasCrudActions;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
-use MicroweberPackages\Product\Product;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
 class ProductsController extends AdminDefaultController
@@ -28,7 +27,7 @@ class ProductsController extends AdminDefaultController
 
     /**
      * @OA\Get(
-     *      path="/admin/products",
+     *      path="/api/products",
      *      operationId="listProducts",
      *      tags={"Products"},
 
@@ -62,7 +61,7 @@ class ProductsController extends AdminDefaultController
 
     /**
      * @OA\Post(
-     * path="/admin/products/store",
+     * path="/api/products",
      * summary="Store product in database.",
      * description="Title, price descriptions.",
      * operationId="storeProduct",
@@ -89,7 +88,7 @@ class ProductsController extends AdminDefaultController
 
     /**
      * @OA\Delete(
-     *      path="/admin/products/{id}",
+     *      path="/api/products/{id}",
      *      operationId="deleteProduct",
      *      tags={"Products"},
      *      summary="Delete existing product",

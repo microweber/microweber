@@ -95,6 +95,9 @@
         mw.load_module('admin/modules/manage', '#modules_admin_<?php print $params['id']; ?>', function () {
             $('#module_keyword').removeClass('loading');
 
+            if (typeof(SVGtoCode) != 'undefined') {
+                SVGtoCode();
+            }
             var el = $("#modules_admin_<?php print $params['id']; ?> .mw-modules-admin");
             // $( "#modules_admin_<?php print $params['id']; ?> .mw-modules-admin" ).sortable('destroy');
             el.sortable({
@@ -110,6 +113,8 @@
                     });
                 }
             });
+
+
         });
     }
 
@@ -224,9 +229,9 @@
             <div class="mb-3">
                 <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e("Filter"); ?></a>
 
-                <?php if (user_can_access('module.modules.edit')):?>
-                <a href="javascript:;" onclick="mw_reload_all_modules()" class="btn btn-primary reload-module-btn icon-left"><i class="mdi mdi-refresh icon-left"></i> <?php _e("Reload modules"); ?></a>
-                 <?php endif; ?>
+                <?php if (user_can_access('module.modules.edit')): ?>
+                    <a href="javascript:;" onclick="mw_reload_all_modules()" class="btn btn-primary reload-module-btn icon-left"><i class="mdi mdi-refresh icon-left"></i> <?php _e("Reload modules"); ?></a>
+                <?php endif; ?>
 
             </div>
         </div>

@@ -16,7 +16,7 @@ class ProductServiceProvider extends ServiceProvider
     {
         Product::observe(BaseModelObserver::class);
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 
 }

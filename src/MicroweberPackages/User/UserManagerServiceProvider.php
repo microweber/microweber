@@ -13,7 +13,7 @@ namespace MicroweberPackages\User;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-
+use Laravel\Passport\Passport;
 
 class UserManagerServiceProvider extends ServiceProvider
 {
@@ -35,8 +35,12 @@ class UserManagerServiceProvider extends ServiceProvider
 
         View::addNamespace('user', __DIR__.'/resources/views');
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+
+
+        Passport::routes(); // Add this
 
     }
 }
