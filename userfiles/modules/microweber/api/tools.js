@@ -28,6 +28,7 @@ echo "\n";
 mw.require('components.js');
 
 mw.confirm = mw.tools.confirm;
+mw.prompt = mw.tools.prompt;
 mw.tabs = mw.tools.tabGroup;
 mw.progress = mw.tools.progress;
 mw.external = function (o) {

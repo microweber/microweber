@@ -46,13 +46,13 @@ mw.Spinner = function(options){
     };
 
     this.show = function(){
-        this.$spinner.fadeIn();
+        this.$spinner.show();
         this.$element.addClass('has-mw-spinner');
         return this;
     };
 
     this.hide = function(){
-        this.$spinner.fadeOut();
+        this.$spinner.hide();
         this.$element.removeClass('has-mw-spinner');
         return this;
     };
