@@ -83,7 +83,7 @@ class AuthController
         $login = user_login($request->all());
 
         if (isset($login['success'])) {
-         //   $success['token'] = auth()->user()->createToken('authToken')->accessToken;
+            $success['token'] = auth()->user()->createToken('authToken')->accessToken;
             $success['user'] = auth()->user();
             return response()->json(['success' => $success])->setStatusCode(Response::HTTP_ACCEPTED);
         } else {
@@ -91,4 +91,41 @@ class AuthController
         }
     }
 
+
+
+    /**
+     * @OA\Get(
+     *      path="/api/all-user",
+     *      operationId="getUserList",
+     *      tags={"Users"},
+     * security={
+     *  {"passport": {}},
+     *   },
+     *      summary="Get list of users",
+     *      description="Returns list of users",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     * @OA\Response(
+     *      response=400,
+     *      description="Bad Request"
+     *   ),
+     * @OA\Response(
+     *      response=404,
+     *      description="not found"
+     *   ),
+     *  )
+     */
 }

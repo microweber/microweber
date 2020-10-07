@@ -5,6 +5,7 @@ namespace MicroweberPackages\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use MicroweberPackages\Invoice\Conversation;
 use MicroweberPackages\Invoice\Currency;
 use MicroweberPackages\Invoice\Customer;
@@ -18,7 +19,7 @@ use carbon\carbon;
 
 class User extends Authenticatable
 {
-    use HasRoles, Notifiable;
+    use HasRoles, Notifiable, HasApiTokens;
 
     // use the trait
     //  use RevisionableTrait;
