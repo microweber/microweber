@@ -25,11 +25,33 @@ mw.tools.alert = function (text) {
 };
 
 
+mw.tools.prompt = function (question, callback) {
+    if(!question) return ;
+    var id = mw.id('mw-prompt-input')
+    question = '<label class="mw-ui-label">'+question+'</label><input class="mw-ui-field w100" id="'+id+'">';
+    var dialog = mw.tools.confirm(question, function (){
+        callback.call(mw.$('#' + id).val());
+    });
+    setTimeout(function (){
+        mw.$('#' + id).focus().on('keydown', function (e) {
+            if (e.keyCode === 13 || e.keyCode === 32) {
+                callback.call(window, mw.$('#' + id).val());
+                dialog.remove();
+            }
+        });
+    }, 222)
+    return dialog;
+};
 mw.tools.confirm = function (question, callback) {
+    if(typeof question === 'function') {
+        callback = question;
+        question = 'Are you sure?';
+    }
+    question = question || 'Are you sure?';
         var html = ''
             + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'
             + '<tr>'
-            + '<td align="center" valign="middle"><div class="mw_alert_holder">' + question + '</div></td>'
+            + '<td valign="middle"><div class="mw_alert_holder">' + question + '</div></td>'
             + '</tr>'
             + '</table>';
 

@@ -32,47 +32,11 @@
 
     <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-header px-0">
-            <h5><i class="mdi mdi-file-cabinet text-primary mr-3"></i> <strong><?php _e("Files"); ?></strong></h5>
-            <div>
-
-            </div>
+            <h5 class="w100"><i class="mdi mdi-file-cabinet text-primary mr-3"></i> <strong><?php _e("Files"); ?></strong></h5>
         </div>
 
-        <div class="card-body pt-3 pb-0 px-0">
-            <div class="row">
-
-                <div class="col-md-12">
-                    <div class="card bg-light style-1 mb-1">
-                        <div class="card-body pt-3">
-                            <div class="row">
-                                <div class="col-12 d-flex justify-content-between">
-                                    <div>
-                                        <ol class="breadcrumb bg-transparent p-0 m-0">
-                                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                            <li class="breadcrumb-item active">Library</li>
-                                        </ol>
 
 
-                                    </div>
-                                    <div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                List
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">List</a>
-                                                <a class="dropdown-item" href="#">Grid</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -86,7 +50,7 @@
         }
 
         .file-preview-holder img {
-            max-width: 470px;
+            max-width: 100%;
             max-height: 330px;
             margin-bottom: 20px;
         }
@@ -100,7 +64,7 @@
             text-align: center;
         }
 
-        .mw-browser-list .mw-icon-category {
+        .mw-browser-list .mdi-folder {
             font-size: 37px;
         }
 
@@ -117,21 +81,22 @@
             align-content: center;
             margin: 0 auto;
         }
-
+        .mw-browser-list-big .as-image,
         .mw-browser-list-big .mw-fileico {
-            height: 150px;
+            height: 135px;
             text-align: center;
         }
 
+        .mw-browser-list-big .mw-fileico{
+            font-size: 24px;
+        }
         .mw-browser-list .mw-fileico > span {
             display: block;
             margin: 0 auto;
             text-transform: uppercase;
         }
 
-        .mw-browser-list-big .mw-fileico > span {
-            font-size: 22px;
-        }
+
 
         .posts-selector span:hover {
             text-decoration: underline
@@ -190,8 +155,9 @@
         /* /Live Edit */
 
         .browser-ctrl-bar {
-            overflow: hidden;
-            padding-bottom: 20px;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
         }
 
         .image-item {
@@ -232,6 +198,146 @@
             padding: 0px;
         }
 
+        #mw-browser-list-holder{
+            clear: both;
+        }
+
+        .mw-ui-btn.go-live:hover {
+            background: #D3EEFE;
+            border-color: #A1D1EF #589DC8 #4991C0;
+        }
+
+        .mw-file-browser .mw-ui-box-header a {
+            margin: 0 3px;
+        }
+
+        .mw-file-browser .mw-ui-box-content {
+            overflow-x: hidden;
+            overflow: auto;
+            clear: both;
+        }
+
+        .mw-file-browser .mw-ui-box-header {
+            margin-bottom: 0;
+        }
+
+        .mw-file-browser .mw-ui-box-header a:hover {
+            text-decoration: underline;
+        }
+
+        .mw-browser-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .mw-browser-list:after {
+            display: block;
+            clear: both;
+            content: '';
+        }
+
+        .mw-browser-list li {
+            list-style: none;
+            position: relative;
+            display: block;
+            width: 10%;
+            min-width: 80px;
+            padding: 0 5px;
+        }
+        .mw-browser-list-big li {
+            width: 20%;
+
+        }
+
+        .mw-browser-list-item{
+            position: relative;
+        }
+
+        @media (max-width:1150px) {
+            .mw-browser-list-big li {
+                width: 25%;
+            }
+        }
+        @media (max-width:700px) {
+            .mw-browser-list-big li {
+                width: 33.3333%;
+            }
+        }
+
+        @media (max-width:550px) {
+            .mw-browser-list-big li {
+                width: 50%;
+            }
+        }
+
+
+        .mw-browser-list li img{
+            transition: .3s;
+            position: relative;
+        }
+
+
+        .mw-browser-list a {
+            display: inline-block;
+            text-align: center;
+            font-size: 10px;
+            width: 100%;
+            text-decoration: none;
+            color: #434343;
+            border-radius: 3px;
+        }
+
+        .mw-browser-list a:hover {
+            text-decoration: underline;
+        }
+
+        .mw-browser-list a [class*='mw-icon-'] {
+            float: none;
+        }
+
+        .mw-browser-list a input[type='text'] {
+            font-size: 11px;
+            width: 95%;
+        }
+
+
+
+        .mw-browser-list-name {
+            display: block;
+            clear: both;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            white-space: nowrap;
+            padding: 3px 0 0;
+        }
+
+        .mw-browser-list li .mw-icon-category {
+            width: 100%;
+
+        }
+
+        .mw-browser-list-big .mw-file-item-check {
+            margin: -10px 0 0;
+        }
+        .mw-file-item-check {
+
+            padding:0px 0 10px;
+            overflow: hidden;
+
+        }
+
+        @media (max-width: 600px) {
+            .file_browser_sort_by, .browser-ctrl-bar .form-inline{
+                display: none !important;
+            }
+        }
+        @media (max-width: 800px) {
+            .file-browser-multiple-delete, .file-browser-multiple-download, .mw-browser-uploader-path{
+                display: none !important;
+            }
+        }
+
 
     </style>
 
@@ -239,10 +345,10 @@
     <script type="text/javascript">
         gchecked = function () {
             var l = mwd.querySelectorAll(".mw-browser-list input:checked").length;
-            if (l > 0) {
-                mw.$(".delete_item").removeClass("disabled");
+            if (l) {
+                mw.$(".delete_item,.file-browser-multiple-download").attr("disabled", false);
             } else {
-                mw.$(".delete_item").addClass("disabled");
+                mw.$(".delete_item,.file-browser-multiple-download").attr("disabled", true);
             }
         }
 
@@ -280,6 +386,7 @@
                 if (typeof callback === 'function') {
                     callback.call()
                 }
+                gchecked()
             }, {'extensions': '<?php print $exts ?>'});
         }
 
@@ -306,25 +413,22 @@
                 h = ""
                     + "<div class='file-preview-holder'>"
                     + "<img src='" + sourceUrl + "' />"
-                    + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='" + sourceUrl + "' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
-                    //   + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
-                    + "<span class='mw-ui-btn' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><?php _e("Copy"); ?></span></div></div>"
-                    + "</div>";
+                    + "<div class='input-group mb-3'><input type='text' class='form-control' value='" + sourceUrl + "' readonly>"
+                    + "<span class='input-group-append'><span class='btn btn-primary btn-icon tip' data-tip='<?php _e('Copy'); ?>'  onclick='mw.tools.copy(\"" + sourceUrl + "\")'><i class='mdi mdi-content-copy'></i></span></span>"
+                    + "</div></div>";
             } else if (type === 'media') {
                 h = ""
                     + "<div class='file-preview-holder'>"
                     + '<video autoplay="true" class="w100" src="' + sourceUrl + '" controls></video>'
-                    + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='" + sourceUrl + "' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
-                    //    + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
-                    + "<span class='mw-ui-btn' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><?php _e("Copy"); ?></span></div></div>"
+                    + "<div class='input-group mb-3'><input type='text' class='form-control' value='" + sourceUrl + "' readonly>"
+                     + "<span class='input-group-append'><span class='btn btn-primary btn-icon tip' data-tip='<?php _e('Copy'); ?>' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><i class='mdi mdi-content-copy'></i></span></span></div>"
                     + "</div>";
             } else if (type === 'pdf') {
                 h = ""
                     + "<div class='file-preview-holder'>"
-                    + '<iframe style="height:700px;width:100%;border:0px;" src="' + sourceUrl + '"></iframe>'
-                    + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='" + sourceUrl + "' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
-                    //    + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
-                    + "<span class='mw-ui-btn' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><?php _e("Copy"); ?></span></div></div>"
+                    + '<iframe style="height:70vh;width:100%;border:0px;" src="' + sourceUrl + '"></iframe><br><br>'
+                    + "<div class='input-group mb-3'><input type='text' class='form-control' value='" + sourceUrl + "' readonly>"
+                     + "<span class='input-group-append'><span class='btn btn-primary btn-icon tip' data-tip='<?php _e('Copy'); ?>' onclick='mw.tools.copy(\"" + sourceUrl + "\")'><i class='mdi mdi-content-copy'></i></span></span></div>"
                     + "</div>";
             } else if (type === 'nopreview') {
                 h = ""
@@ -343,13 +447,14 @@
         };
 
         deleteItem = function (url, name, frommodal) {
+            var obj, msg;
             if (typeof url === 'string') {
-                var obj = {path: [url]};
+                obj = {path: [url]};
                 name = name || 'this';
-                var msg = "<?php _ejs("Are you sure you want to delete"); ?> " + name + "?";
+                msg = "<?php _ejs("Are you sure you want to delete"); ?> " + name + "?";
             } else if (url.constructor === [].constructor) {
-                var obj = {path: url}
-                var msg = "<?php _ejs("Are you sure you want to delete these files"); ?>?";
+                obj = {path: url}
+                msg = "<?php _ejs("Are you sure you want to delete these files"); ?>?";
             } else {
                 return false;
             }
@@ -363,14 +468,16 @@
                     $(mwd.body).removeClass("loading");
                     _mw_admin_files_manage('all');
                     mw.notification.msg(a);
+
                 });
             })
         }
 
         if (self === parent) {
             mw.on.hashParam('select-file', function () {
-                if (this) {
-                    var type = this.split(".").pop();
+                var dialog;
+                if (this.valueOf()) {
+                    var type = this.valueOf().split(".").pop();
                     type = type.toLowerCase();
 
                     var is = function (a) {
@@ -393,7 +500,7 @@
 
                     if (isImage) {
                         if (mw.$("#prfile").length === 0) {
-                            var dialog = mw.dialog({
+                            dialog = mw.dialog({
                                 html: createPopHTML(this),
                                 width: 500,
                                 height: 'auto',
@@ -428,7 +535,7 @@
                         if (type === 'pdf') {
                             dialog = mw.dialog({
                                 html: createPopHTML(this, 'pdf'),
-                                width: 500,
+                                width: '80vw',
                                 height: 'auto',
                                 autoHeight: true,
                                 name: "prfile",
@@ -462,17 +569,23 @@
         }
 
         saveNewFolder = function (a) {
-            if (a != '') {
+            if (a) {
                 var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
                 var obj = {
                     path: path,
-                    name: a
+                    name: a,
+                    new_folder: 1
                 }
                 $.post(mw.settings.api_url + "create_media_dir", obj, function (data) {
-                    mw.notification.msg(data);
+                    if(data.error) {
+                        mw.notification.error(data.error);
+
+                    } else {
+                        mw.notification.success('Folder created');
+                    }
                     _mw_admin_files_manage('all', false, function () {
                         mw.$(".mw-browser-list span").each(function () {
-                            if (this.innerHTML == a) {
+                            if (this.innerHTML === a) {
                                 mw.tools.highlight(this.parentNode, "#CDE1FB");
                                 return false;
                             }
@@ -483,15 +596,9 @@
         }
 
         createFolder = function () {
-            var html = '<li><a href="javascript:;" style="background:#CDE1FB"><span class="mw-icon-category"></span><span><input type="text" autofocus placeholder="<?php _e("New Folder"); ?>" onblur="saveNewFolder(this.value)" onkeydown="event.keyCode === 13 ? saveNewFolder(this.value) : 1;" /></span></a> </li>';
-            if (mwd.querySelector(".mw-browser-list") !== null) {
-                $(mwd.querySelector(".mw-browser-list")).prepend(html).find("input:first").focus();
-            }
-            else {
-                var html = "<ul class='mw-browser-list'>" + html + "</ul>";
-                mw.$("#mw-browser-list-holder").prepend(html).find("input:first").focus()
-            }
-
+            mw.prompt('Folder name', function (val) {
+                saveNewFolder(val);
+            });
         }
 
 
@@ -590,14 +697,46 @@
             mw.on.hashParam('path', function () {
                 _mw_admin_files_manage('path', this);
 
+                /*
+
                 mw.postMsg(Uploader.contentWindow, {
                     path: this
                 });
+
+                */
+
+                Uploader.urlParam('path', this);
 
 
             });
 
         });
+
+        var downloadSelected = function () {
+            mw.$('.mw-browser-list-item').each(function () {
+                if(this.querySelector('[name="fileitem"]').checked){
+                    var item = this.querySelector('.mw-browser-list-file');
+                    if(item) {
+                        var a = $("<a>")
+                            .attr("href", item.href)
+                            .attr("download", item.href)
+                            .appendTo("body");
+                        a[0].click();
+                        a.remove();
+                    }
+
+                }
+
+            });
+
+        }
+        var search = function (event){
+            if(event && !mw.event.is.enter(event)) {
+                return;
+            }
+            var el = document.querySelector('[name="module_keyword"]');
+            mw.url.windowHashParam('search', el.value)
+        }
     </script>
     <?php
     $ui_order_control = 'dropdown';
@@ -613,44 +752,66 @@
 
 
     ?>
+
+
     <div class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
 
         <div class="admin-side-content">
             <div id="files_ctrl_holder">
                 <div class="modules-index-bar modules-index-bar-transparent">
-                    <div class="browser-ctrl-bar"> <span id="files_ctrl_holder_select_all_holder"
-                                                         class="mw-ui-link-nav posts-selector pull-left"> <span
-                                    onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');">
-          <?php _e("Select All"); ?>
-          </span> <span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');">
-          <?php _e("Unselect All"); ?>
-          </span> </span>
-                        <div class="btn-group">
-                            <span id="mw_uploader" class="btn btn-primary">
-                                <span class="mw-icon-upload"></span>&nbsp;
-                                <?php _e("Upload File"); ?>
-                            </span>
-                            <span class="btn btn-secondary">
-                                <?php _e("Delete selected files"); ?>
-                            </span>
-                            <span class="btn btn-secondary" onclick="createFolder()"> <?php _e("Create folder"); ?> </span>
+                    <div class="browser-ctrl-bar">
+
+                        <div>
+
+                            <div class="dropdown d-inline-block">
+                                <button class="btn btn-success icon-left dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-plus"></i> Add
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <span class="dropdown-item" id="mw_uploader"><?php _e("Upload File"); ?></span>
+                                    <span class="dropdown-item position-relative" onclick="createFolder()"><?php _e("Create folder"); ?></span>
+                                </div>
+                            </div>
+
+                            <button type="button" disabled class="btn btn-danger icon-left delete_item file-browser-multiple-delete"><i class="mdi mdi-trash-can-outline"></i> Delete</button>
+                            <button type="button" disabled class="btn btn-primary icon-left file-browser-multiple-download" onclick="downloadSelected()"><i class="mdi mdi-cloud-download"></i> Download</button>
 
                         </div>
-                        <input
-                                name="module_keyword"
-                                class="mw-ui-searchfield pull-right mw_files_admin_search"
-                                type="text" onclick="$(this).css('width','200px')" placeholder="<?php _e("Search"); ?>"
-                                onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"/>
+
+                        <div class="form-inline">
+                            <div class="form-group mr-1">
+
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="background-color: white"><i class="mdi mdi-magnify" style="font-size: 20px"></i></span>
+                                    </div>
+                                    <input
+                                        name="module_keyword"
+                                        onkeypress="search(event)"
+                                        class="form-control  mw_files_admin_search"
+                                        type="text" placeholder="<?php _e("Search"); ?>"
+                                    />
+
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary align-self-baseline" onclick="search()">Search</button>
+                        </div>
+
+
                     </div>
                     <div id="progressbar" style=""></div>
                 </div>
             </div>
+
+
             <div id="mw_files_admin"></div>
+
+
             <div id="mw_files_media_library" style="display: none" type="pictures/media_library"></div>
             <div id="mw_user_edit_admin"></div>
-            <span class="mw-ui-btn pull-right disabled delete_item">
-    <?php _e("Delete Selected"); ?>
-    </span>
+
         </div>
     </div>
+</div>
 </div>
