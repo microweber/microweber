@@ -199,6 +199,7 @@ class MenuManager
         //$table = MODULE_DB_SHOP_ORDERS;
         $params['table'] = $table;
         $params['item_type'] = 'menu';
+        $params['no_cache'] = 1; // If remove this we mess up menu auto creating
         //$params['debug'] = 'menu';
         $menus = $this->app->database_manager->get($params);
 
