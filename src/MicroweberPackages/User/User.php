@@ -2,24 +2,19 @@
 
 namespace MicroweberPackages\User;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
-use MicroweberPackages\Invoice\Conversation;
-use MicroweberPackages\Invoice\Currency;
-use MicroweberPackages\Invoice\Customer;
-use MicroweberPackages\Invoice\MemberLoan;
-use MicroweberPackages\Invoice\Payment;
-use MicroweberPackages\Invoice\Expense;
-use MicroweberPackages\Invoice\Notifications\MailResetPasswordNotification;
+use Laravel\Sanctum\HasApiTokens;
+
 use Spatie\Permission\Traits\HasRoles;
 
 use carbon\carbon;
 
 class User extends Authenticatable
 {
-    use HasRoles, Notifiable, HasApiTokens;
+    use HasFactory,HasRoles, Notifiable, HasApiTokens;
 
     // use the trait
     //  use RevisionableTrait;

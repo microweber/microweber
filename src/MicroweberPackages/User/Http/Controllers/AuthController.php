@@ -84,6 +84,7 @@ class AuthController
 
         if (isset($login['success'])) {
             $success['token'] = auth()->user()->createToken('authToken')->accessToken;
+
             $success['user'] = auth()->user();
             return response()->json(['success' => $success])->setStatusCode(Response::HTTP_ACCEPTED);
         } else {

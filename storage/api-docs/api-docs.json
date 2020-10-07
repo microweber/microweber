@@ -659,9 +659,9 @@
             "scheme": "https",
             "flows": {
                 "password": {
-                    "authorizationUrl": "http://DESKTOP-9U0M3G4/./oauth/authorize",
-                    "tokenUrl": "http://DESKTOP-9U0M3G4/./oauth/token",
-                    "refreshUrl": "http://DESKTOP-9U0M3G4/./token/refresh",
+                    "authorizationUrl": "http:/./oauth/authorize",
+                    "tokenUrl": "http:/./oauth/token",
+                    "refreshUrl": "http:/./token/refresh",
                     "scopes": []
                 }
             }
