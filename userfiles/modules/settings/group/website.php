@@ -66,13 +66,13 @@
                                     <div class="form-group mb-4">
                                         <label class="control-label"><?php _e("Website Name"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("This is very important for search engines.") . ' '; ?><?php _e("Your website will be categorized by many criteria and its name is one of them."); ?></small>
-                                        <input name="website_title" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option('website_title', 'website'); ?>"/>
+                                        <input  autocomplete="off" name="website_title" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option('website_title', 'website'); ?>"/>
                                     </div>
 
                                     <div class="form-group mb-4">
                                         <label class="control-label"><?php _e("Website Description"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Describe what your website is about"); ?>.</small>
-                                        <textarea name="website_description" class="mw_option_field form-control" rows="7" type="text" option-group="website"><?php print get_option('website_description', 'website'); ?></textarea>
+                                        <textarea autocomplete="off" name="website_description" class="mw_option_field form-control" rows="7" type="text" option-group="website"><?php print get_option('website_description', 'website'); ?></textarea>
                                     </div>
 
                                     <?php
@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Website Keywords"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?></small>
-                                        <input name="website_keywords" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
+                                        <input autocomplete="off" name="website_keywords" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
                                     </div>
 
                                     <div class="form-group js-permalink-edit-option-hook">
