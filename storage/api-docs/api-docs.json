@@ -419,9 +419,7 @@
                         "description": "not found"
                     }
                 }
-            }
-        },
-        "/api/products/store": {
+            },
             "post": {
                 "tags": [
                     "Products"
@@ -515,6 +513,53 @@
                     }
                 }
             }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -571,7 +616,20 @@
             }
         }
     },
-    "security": [
-        []
-    ]
+    "security": {
+        "passport": {
+            "type": "oauth2",
+            "description": "Laravel passport oauth2 security.",
+            "in": "header",
+            "scheme": "https",
+            "flows": {
+                "password": {
+                    "authorizationUrl": "http://DESKTOP-9U0M3G4/./oauth/authorize",
+                    "tokenUrl": "http://DESKTOP-9U0M3G4/./oauth/token",
+                    "refreshUrl": "http://DESKTOP-9U0M3G4/./token/refresh",
+                    "scopes": []
+                }
+            }
+        }
+    }
 }

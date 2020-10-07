@@ -61,7 +61,7 @@ class ProductsController extends AdminDefaultController
 
     /**
      * @OA\Post(
-     * path="/api/products/store",
+     * path="/api/products",
      * summary="Store product in database.",
      * description="Title, price descriptions.",
      * operationId="storeProduct",

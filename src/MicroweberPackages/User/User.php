@@ -9,10 +9,8 @@ use MicroweberPackages\Invoice\Conversation;
 use MicroweberPackages\Invoice\Currency;
 use MicroweberPackages\Invoice\Customer;
 use MicroweberPackages\Invoice\MemberLoan;
-use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Payment;
 use MicroweberPackages\Invoice\Expense;
-use MicroweberPackages\Invoice\Company;
 use MicroweberPackages\Invoice\Notifications\MailResetPasswordNotification;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -23,7 +21,7 @@ class User extends Authenticatable
     use HasRoles, Notifiable;
 
     // use the trait
-  //  use RevisionableTrait;
+    //  use RevisionableTrait;
 
     // Set revisionable whitelist - only changes to any
     // of these fields will be tracked during updates.
@@ -104,7 +102,7 @@ class User extends Authenticatable
     /**
      * Find the user instance for the given username.
      *
-     * @param  string  $username
+     * @param  string $username
      * @return \App\User
      */
     public function findForPassport($username)
@@ -148,15 +146,15 @@ class User extends Authenticatable
     {
         foreach (explode(' ', $search) as $term) {
             $query->where(function ($query) use ($term) {
-                $query->where('name', 'LIKE', '%'.$term.'%')
-                    ->orWhere('company_name', 'LIKE', '%'.$term.'%');
+                $query->where('name', 'LIKE', '%' . $term . '%')
+                    ->orWhere('company_name', 'LIKE', '%' . $term . '%');
             });
         }
     }
 
     public function scopeWhereContactName($query, $contactName)
     {
-        return $query->where('contact_name', 'LIKE', '%'.$contactName.'%');
+        return $query->where('contact_name', 'LIKE', '%' . $contactName . '%');
     }
 
     public function customer()
@@ -194,9 +192,9 @@ class User extends Authenticatable
     {
         $avatar = $this->getMedia('admin_avatar')->first();
         if ($avatar) {
-            return  asset($avatar->getUrl());
+            return asset($avatar->getUrl());
         }
-        return ;
+        return;
     }
 
     public function getValidatorMessages()
@@ -212,7 +210,7 @@ class User extends Authenticatable
         }
 
         $this->validator = \Validator::make($data, $this->rules);
-        if ($this->validator->fails()) { 
+        if ($this->validator->fails()) {
             return false;
         }
         $this->fill($data);
