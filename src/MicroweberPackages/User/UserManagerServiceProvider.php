@@ -15,6 +15,7 @@ use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use \Laravel\Sanctum\SanctumServiceProvider;
 
 class UserManagerServiceProvider extends AuthServiceProvider
 {
@@ -23,10 +24,16 @@ class UserManagerServiceProvider extends AuthServiceProvider
      *
      * @return void
      */
+    public function register()
+    {
+        parent::register();
+        $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
+    }
+
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\User\UserManager    $user_manager
+         * @property \MicroweberPackages\User\UserManager $user_manager
          */
 
         $this->app->singleton('user_manager', function ($app) {
@@ -34,15 +41,15 @@ class UserManagerServiceProvider extends AuthServiceProvider
         });
 
 
-        View::addNamespace('user', __DIR__.'/resources/views');
+        View::addNamespace('user', __DIR__ . '/resources/views');
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
 
 
-      //  Passport::routes(); // Add this
-      //  Passport::enableImplicitGrant();
+        //  Passport::routes(); // Add this
+        // Passport::enableImplicitGrant();
 
     }
 }

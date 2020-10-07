@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Http\Controllers\AuthorizationController;
 
-class AuthController  
+class AuthController
 {
     /**
      * Display a listing of Role.

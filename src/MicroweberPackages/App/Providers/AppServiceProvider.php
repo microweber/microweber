@@ -223,7 +223,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(  \Barryvdh\DomPDF\ServiceProvider::class);
      //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
         $this->app->register(  SwaggerServiceProvider::class);
-      //  $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
+     //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
