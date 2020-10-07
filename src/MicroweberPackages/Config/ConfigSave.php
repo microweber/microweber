@@ -68,14 +68,15 @@ class ConfigSave extends Repository
 
     public function set($key, $val = null)
     {
-        $this->changed_keys[$key] = $val;
-
+        if($key and $val ){
+            $this->changed_keys[$key] = $val;
+        }
         return parent::set($key, $val);
     }
 
     public function get($key, $val = null)
     {
-        if (isset($this->changed_keys[$key])) {
+        if ($key and isset($this->changed_keys[$key])) {
             //  return $this->changed_keys[$key];
         }
 
