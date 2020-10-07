@@ -185,8 +185,10 @@ function SVGtoCode() {
         var imgClass = $img.attr('class');
         var imgURL = $img.attr('src');
 
-        $.get(imgURL, function (data) {
-            // Get the SVG tag, ignore the rest
+        $.get({
+            url: imgURL,
+            cache: true
+        }).then(function (data) {
             var $svg = $(data).find('svg');
 
             // Add replaced image's ID to the new SVG
@@ -203,8 +205,6 @@ function SVGtoCode() {
 
             // Replace image with new SVG
             $img.replaceWith($svg);
-
-        }, 'xml');
-
+        });
     });
 }

@@ -1,220 +1,154 @@
-// Darkly 4.5.2
+// Pulse 4.5.2
 // Bootswatch
 
 
 // Variables ===================================================================
 
-$web-font-path: "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" !default;
-@import url($web-font-path);
-
-// Navbar ======================================================================
-
 // Buttons =====================================================================
 
-// Typography ==================================================================
+.btn {
 
-.blockquote {
-  &-footer {
-    color: $gray-600;
-  }
-}
-
-// Tables ======================================================================
-
-.table {
-
-  &-primary {
-    &, > th, > td {
-      background-color: $primary;
-    }
+  &:focus,
+  &:active,
+  &:active:focus,
+  &.active:focus {
+    outline: none;
   }
 
   &-secondary {
-    &, > th, > td {
-      background-color: $secondary;
-    }
-  }
+    background-color: $white;
+    border-color: #ccc;
+    color: $gray-900;
 
-  &-light {
-    &, > th, > td {
-      background-color: $light;
+    &:hover {
+      background-color: $gray-300;
+      border-color: $gray-500;
+      color: $gray-900;
     }
-  }
 
-  &-dark {
-    &, > th, > td {
-      background-color: $dark;
-    }
-  }
-
-  &-success {
-    &, > th, > td {
-      background-color: $success;
-    }
-  }
-
-  &-info {
-    &, > th, > td {
-      background-color: $info;
-    }
-  }
-
-  &-danger {
-    &, > th, > td {
-      background-color: $danger;
+    &.disabled {
+      background-color: $white;
+      border-color: lighten(#ccc, 5%);
+      color: lighten($gray-900, 5%);
     }
   }
 
   &-warning {
-    &, > th, > td {
-      background-color: $warning;
-    }
+    color: $white;
   }
 
-  &-active {
-    &, > th, > td {
-      background-color: $table-active-bg;
-    }
+  &-primary:focus {
+    box-shadow: 0 0 5px lighten($primary, 10%);
   }
 
-  &-hover {
-
-    .table-primary:hover {
-      &, > th, > td {
-        background-color: darken($primary, 5%);
-      }
-    }
-
-    .table-secondary:hover {
-      &, > th, > td {
-        background-color: darken($secondary, 5%);
-      }
-    }
-
-    .table-light:hover {
-      &, > th, > td {
-        background-color: darken($light, 5%);
-      }
-    }
-
-    .table-dark:hover {
-      &, > th, > td {
-        background-color: darken($dark, 5%);
-      }
-    }
-
-    .table-success:hover {
-      &, > th, > td {
-        background-color: darken($success, 5%);
-      }
-    }
-
-    .table-info:hover {
-      &, > th, > td {
-        background-color: darken($info, 5%);
-      }
-    }
-
-    .table-danger:hover {
-      &, > th, > td {
-        background-color: darken($danger, 5%);
-      }
-    }
-
-    .table-warning:hover {
-      &, > th, > td {
-        background-color: darken($warning, 5%);
-      }
-    }
-
-    .table-active:hover {
-      &, > th, > td {
-        background-color: $table-active-bg;
-      }
-    }
-
+  &-secondary:focus {
+    box-shadow: 0 0 5px $gray-400;
   }
+
+  &-success:focus {
+    box-shadow: 0 0 5px lighten($success, 10%);
+  }
+
+  &-info:focus {
+    box-shadow: 0 0 5px lighten($info, 10%);
+  }
+
+  &-warning:focus {
+    box-shadow: 0 0 5px lighten($warning, 10%);
+  }
+
+  &-danger:focus {
+    box-shadow: 0 0 5px lighten($danger, 10%);
+  }
+
+  &.disabled:focus {
+    box-shadow: none;
+  }
+
+}
+
+// Typography ==================================================================
+
+// Tables ======================================================================
+
+.table .thead-dark th {
+  background-color: $secondary;
+  border-color: $table-border-color;
 }
 
 // Forms =======================================================================
 
-.input-group-addon {
-  color: #fff;
+.form-control:focus {
+  box-shadow: 0 0 5px rgba(100,65,164,.4);
 }
 
 // Navs ========================================================================
 
-.nav-tabs,
-.nav-pills {
+.nav-tabs {
 
   .nav-link,
+  .nav-link.active, {
+    border-width: 0 0 1px 0;
+  }
+
+  .nav-link:hover,
   .nav-link.active,
-  .nav-link.active:focus,
   .nav-link.active:hover,
-  .nav-item.open .nav-link,
-  .nav-item.open .nav-link:focus,
-  .nav-item.open .nav-link:hover {
-    color: #fff;
+  .nav-link.active:focus {
+    border-bottom: 1px solid $primary;
+  }
+
+  .nav-item + .nav-item {
+    margin-left: 0;
   }
 }
 
-.breadcrumb a {
-  color: #fff;
-}
-
-.pagination {
-  a:hover {
-    text-decoration: none;
+.breadcrumb {
+  &-item.active {
+    color: $gray-700;
   }
 }
 
 // Indicators ==================================================================
 
-.close {
-  opacity: 0.4;
+.badge {
+  padding-bottom: 0.4em;
 
-  &:hover,
-  &:focus {
-    opacity: 1;
-  }
-}
-
-.alert {
-  border: none;
-  color: $white;
-
-  a,
-  .alert-link {
-    color: #fff;
-    text-decoration: underline;
-  }
-
-  @each $color, $value in $theme-colors {
-    &-#{$color} {
-      @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
-      } @else {
-        background-color: $value;
-      }
-    }
+  &-secondary,
+  &-warning {
+    color: $white;
   }
 }
 
 // Progress bars ===============================================================
 
+.progress {
+  height: 8px;
+}
+
 // Containers ==================================================================
 
+.list-group {
 
-.list-group-item-action {
-  color: #fff;
+  &-item {
+    color: rgba(255, 255, 255, 0.8);
 
-  &:hover,
-  &:focus {
-    background-color: $gray-700;
-    color: #fff;
-  }
+    &.active,
+    &:hover,
+    &:focus {
+      color: #fff;
+    }
 
-  .list-group-item-heading {
-    color: #fff;
+    &.active {
+      font-weight: bold;
+
+      &:hover {
+        background-color: $list-group-hover-bg;
+      }
+    }
+
+    &.disabled:hover {
+      color: $list-group-disabled-color;
+    }
   }
 }
