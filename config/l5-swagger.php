@@ -103,9 +103,9 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
-                'bearer_token' => [ // Unique name of security
+                'token' => [ // Unique name of security
                     'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
-                    'description' => 'Enter token in format (Bearer apiKey12345)',
+                    'description' => 'Enter token in format: (Bearer token12345)',
                     'name' => 'Authorization', // The name of the header or query parameter to be used.
                     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 ],

@@ -651,9 +651,9 @@
             }
         },
         "securitySchemes": {
-            "bearer_token": {
+            "token": {
                 "type": "apiKey",
-                "description": "Enter token in format (Bearer apiKey12345)",
+                "description": "Enter token in format: (Bearer token12345)",
                 "name": "Authorization",
                 "in": "header"
             }
