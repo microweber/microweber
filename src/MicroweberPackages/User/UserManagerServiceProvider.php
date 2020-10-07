@@ -24,17 +24,17 @@ class UserManagerServiceProvider extends AuthServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
-        parent::register();
-        $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
-    }
+//    public function register()
+//    {
+//        parent::register();
+//    }
 
     public function boot()
     {
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager
          */
+        $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
 
         $this->app->singleton('user_manager', function ($app) {
             return new UserManager();

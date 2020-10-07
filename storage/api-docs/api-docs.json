@@ -591,7 +591,9 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "token": [
+                            1234
+                        ]
                     }
                 ]
             }
@@ -649,21 +651,13 @@
                     "name": "Page"
                 }
             }
-        }
-    },
-    "security": {
-        "passport": {
-            "type": "oauth2",
-            "description": "Laravel passport oauth2 security.",
-            "in": "header",
-            "scheme": "https",
-            "flows": {
-                "password": {
-                    "authorizationUrl": "http:/./oauth/authorize",
-                    "tokenUrl": "http:/./oauth/token",
-                    "refreshUrl": "http:/./token/refresh",
-                    "scopes": []
-                }
+        },
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer apiKey12345)",
+                "name": "Authorization",
+                "in": "header"
             }
         }
     }

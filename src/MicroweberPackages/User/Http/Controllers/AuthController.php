@@ -100,7 +100,7 @@ class AuthController
      *      path="/api/all-user",
      *      operationId="getUserList",
      *      tags={"Users"},
-     *      security={{"bearer_token":{}}},
+     *      security={{"token":{1234}}},
      *      summary="Get list of users",
      *      description="Returns list of users",
      *      @OA\Response(
