@@ -2334,6 +2334,9 @@ body.dragStart .empty-element {
 .mw-toolbar-right-content {
     float: right;
     padding: 9px 3px 9px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #toolbar-dropdown-actions {

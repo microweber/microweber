@@ -127,5 +127,3 @@ if ($id != false) {
         </div>
     </div>
 <?php endif; ?>
-
-<script>SVGtoCode();</script>
