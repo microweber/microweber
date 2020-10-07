@@ -4,8 +4,8 @@ use MicroweberPackages\Product\Product;
 
 
 Route::name('admin.')
-    ->prefix('admin')
-    ->namespace('\MicroweberPackages\Product\Http\Controllers\Admin')
+    ->prefix('api')
+    ->namespace('\MicroweberPackages\Product\Http\Controllers\Api')
     ->group(function () {
          Route::resource('products', 'ProductsController');
     });

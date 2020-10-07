@@ -391,7 +391,7 @@
                 }
             }
         },
-        "/admin/products": {
+        "/api/products": {
             "get": {
                 "tags": [
                     "Products"
@@ -421,7 +421,7 @@
                 }
             }
         },
-        "/admin/products/store": {
+        "/api/products/store": {
             "post": {
                 "tags": [
                     "Products"
@@ -476,7 +476,7 @@
                 }
             }
         },
-        "/admin/products/{id}": {
+        "/api/products/{id}": {
             "delete": {
                 "tags": [
                     "Products"
