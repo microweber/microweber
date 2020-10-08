@@ -62,6 +62,10 @@ textarea:not(.form-control) {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+.dropdown-item{
+  color: $textDark;
+}
+
 .btn-rounded {
   border-radius: 40px;
 }
@@ -605,7 +609,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     border-color: $primary;
     padding: 0;
     .dropdown-item {
-      color: $dark;
+      color: $textDark;
       font-weight: 500;
       border-top: 1px solid $gray-400;
       border-bottom: 1px solid transparent;
@@ -615,7 +619,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     .dropdown-item:hover,
     .dropdown-item.active, .dropdown-item:active {
       background-color: $info;
-      color: $dark;
+      color: $textDark;
       border-top: 1px solid $primary;
       border-bottom: 1px solid $primary;
     }
