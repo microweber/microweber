@@ -62,7 +62,6 @@ class SwaggerController extends L5SwaggerController
     private function _setCustomData($all_json_data)
     {
 
-        $all_json_data['host'] = site_url();
 
         if (!isset($all_json_data['info'])) {
             $all_json_data['info'] = [];
@@ -72,6 +71,18 @@ class SwaggerController extends L5SwaggerController
         }
 
         $all_json_data['info']['title'] = 'Open Api';
+
+
+        $host = (parse_url(site_url()));
+
+
+        $all_json_data['host'] = $host['host'] ;
+        $all_json_data['basePath'] = $host['path'];
+
+        if(is_https()){
+             $all_json_data['schemes'] = ['https','http'] ;
+
+        }
 
 
         //     $routeCollection = \Route::getRoutes();
@@ -155,10 +166,16 @@ class SwaggerController extends L5SwaggerController
 
 //                            echo "<pre>"; print_r($try_params);
 //                            dump($comments_description_parsed);
-//                            dump($comments_annotations_parsed);
+                           // dump($comments_annotations_parsed);
 
+                            $params_from_comments = $this->_makeParametersFromAnnotations($comments_annotations_parsed);
 
-                            if ($comments_description_parsed) {
+                            if($params_from_comments){
+                              $stub['__URI__']['__HTTP_METHOD__']['parameters'] = $params_from_comments;
+
+                            }
+
+                             if ($comments_description_parsed) {
                                 $stub['__URI__']['__HTTP_METHOD__']['summary'] = $comments_description_parsed;
 
                             } else {
@@ -185,7 +202,7 @@ class SwaggerController extends L5SwaggerController
                     $stub['__URI__'][$http_method] = $stub['__URI__']['__HTTP_METHOD__'];
                     unset($stub['__URI__']['__HTTP_METHOD__']);
 
-                    $stub[$value->uri()] = $stub['__URI__'];
+                    $stub['/'.$value->uri()] = $stub['__URI__'];
                     unset($stub['__URI__']);
 
 
@@ -202,6 +219,49 @@ class SwaggerController extends L5SwaggerController
         return $all_json_data;
     }
 
+private function _makeParametersFromAnnotations($comments_annotations_parsed){
+        $ready = [];
+      //  $ready = $comments_annotations_parsed;
+
+        $stub = array(
+            'name' => 'petId',
+          //  'in' => 'path',
+          //  'description' => 'ID of pet to return',
+          //  'required' => true,
+            'type' => 'string'
+        );
+
+        if(isset($comments_annotations_parsed['param']) and $comments_annotations_parsed['param']){
+
+            $param_name_type = explode('$',$comments_annotations_parsed['param']);
+            $param_name_type= array_map('trim', $param_name_type);
+
+            if(isset($param_name_type[1]) and $param_name_type[1]){
+                $new_param = $stub;
+
+                if(!$param_name_type[0]){
+                    $param_name_type[0] = 'string';
+                }
+
+                $new_param['name'] = $param_name_type[1];
+                $new_param['type'] = $param_name_type[0];
+
+
+
+
+                $ready[] = $new_param;
+            }
+
+           // dump($param_name_type);
+           // dump($comments_annotations_parsed);
+
+        }
+
+
+
+
+        return $ready;
+}
 
     private $pathItemStub = array(
         '__URI__' =>
@@ -219,25 +279,22 @@ class SwaggerController extends L5SwaggerController
                             ),
                         'parameters' =>
                             array(
-                                0 =>
-                                    array(
-                                        'name' => 'petId',
-                                        'in' => 'path',
-                                        'description' => 'ID of pet to return',
-                                        'required' => true,
-                                        'type' => 'integer',
-                                        'format' => 'int64',
-                                    ),
+//                                0 =>
+//                                    array(
+//                                        'name' => 'petId',
+//                                        'in' => 'path',
+//                                        'description' => 'ID of pet to return',
+//                                        'required' => true,
+//                                        'type' => 'integer',
+//                                        'format' => 'int64',
+//                                    ),
                             ),
                         'responses' =>
                             array(
                                 200 =>
                                     array(
                                         'description' => 'successful operation',
-                                        'schema' =>
-                                            array(
-                                                '$ref' => '#/definitions/Pet',
-                                            ),
+
                                     ),
                                 400 =>
                                     array(
@@ -975,7 +1032,7 @@ class AnnotationParser
         preg_match_all(self::ANNOTATION_PATTERN, $text, $matches);
 
         foreach ($matches['tag'] as $index => $tag) {
-            $annotations[$tag] = $matches['value'][$index];
+            $annotations[$tag] = trim($matches['value'][$index]);
         }
 
         return $annotations;
