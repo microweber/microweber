@@ -3,25 +3,13 @@
 namespace MicroweberPackages\CustomField\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-
-use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
-
-
-class CustomFieldTestModel extends Model
-{
-    use CustomFieldsTrait;
-
-    protected $table = 'content';
-
-}
-
+use MicroweberPackages\Product\Product;
 
 class CustomFieldTestModelTest extends TestCase
 {
     public function testAddCustomFieldToModel()
     {
-        $newProduct = new CustomFieldTestModel();
+        $newProduct = new Product();
         $newProduct->title = 'Samo Levski3';
 
         $newProduct->addCustomField(
@@ -33,7 +21,7 @@ class CustomFieldTestModelTest extends TestCase
             ]
         );
 
-        $newProduct->addCustomField(
+      $newProduct->addCustomField(
             [
                 'type'=>'dropdown',
                 'name'=>'цена 2',
@@ -44,14 +32,12 @@ class CustomFieldTestModelTest extends TestCase
 
         $newProduct->save();
         $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
-//        foreach($newProduct->customField as $customField) {
-//            $this->assertEquals($customField->name, 'цена на едро');
-//        }
+        $this->assertEquals($newProduct->customField[1]->name, 'цена 2');
     }
 
     public function testSetCustomFieldToModel()
     {
-        $newProduct = new CustomFieldTestModel();
+        $newProduct = new Product();
         $newProduct->title = 'Samo Levski2';
 
         $newProduct->setCustomField(
@@ -76,7 +62,7 @@ class CustomFieldTestModelTest extends TestCase
 
     public function testGetCustomFieldModel()
     {
-        $newProduct = new CustomFieldTestModel();
+        $newProduct = new Product();
         $newProduct->title = 'Samo Levski2';
 
         $newProduct->setCustomField(
@@ -111,13 +97,9 @@ class CustomFieldTestModelTest extends TestCase
 
 
         $newProduct->save();
+        
 
-
-       // Article::withAnyTag(['Gardening','Cooking'])->get(); // fetch articles with any tag listed
-
-
-
-        $prod = CustomFieldTestModel::whereCustomField([
+        $prod = Product::whereCustomField([
          'цвят'=>'red',
             'size'=>'M',
             'material'=>'jeans',

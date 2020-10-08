@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Customer;
+namespace MicroweberPackages\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Currency\Currency;
-use MicroweberPackages\Invoice\Address;
+use MicroweberPackages\Customer\Models\Address;
 use MicroweberPackages\Invoice\Company;
 use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Payment\Payment;

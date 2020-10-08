@@ -4,14 +4,14 @@ namespace MicroweberPackages\Customer\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Invoice\Conversation;
-use MicroweberPackages\Customer\Customer;
-use MicroweberPackages\Invoice\Country;
+use MicroweberPackages\Customer\Models\Customer;
+use MicroweberPackages\Country\Models\Country;
 use MicroweberPackages\Invoice\Group;
 use MicroweberPackages\Customer\Http\Requests;
 use MicroweberPackages\Invoice\Notifications\CustomerAdded;
 use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\Currency\Currency;
-use MicroweberPackages\Invoice\Address;
+use MicroweberPackages\Customer\Models\Address;
 use Illuminate\Support\Facades\DB;
 
 class CustomersController extends AdminController
