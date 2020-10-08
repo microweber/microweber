@@ -119,7 +119,7 @@ class TemplateMetaTagsRenderer
                             foreach ($product_fields as $k => $field_data) {
                                 if ($field_data['name_key'] == 'sku' && !empty($field_data['value'])) {
                                     $meta['product_sku'] = $field_data['value'];
-                                    break; 
+                                    break;
                                 }
                             }
                         }
