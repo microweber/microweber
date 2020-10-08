@@ -42,7 +42,7 @@ class MailSender
 
     public function __construct()
     {
-        $views = MW_PATH . 'Views' . DS;
+        $views = normalize_path(dirname(MW_PATH) . '/View/');
 
         View::addNamespace('mw_email_send', $views);
 
