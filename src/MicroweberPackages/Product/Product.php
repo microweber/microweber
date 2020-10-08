@@ -45,7 +45,7 @@ class Product extends Content
         "is_active"
     ];
 
-    public $translatable = ['title','description','content','content_body'];
+    public $translatable = ['title','url','description','content','content_body'];
 
     public static $customFields = [
         [

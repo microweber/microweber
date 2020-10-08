@@ -116,7 +116,7 @@ class Page extends Model
         "is_active"
     ];
 
-    public $translatable = ['title','description','content','content_body'];
+    public $translatable = ['title','url','description','content','content_body'];
 
     /**
      * The "booted" method of the model.
