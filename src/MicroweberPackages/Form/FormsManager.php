@@ -674,7 +674,7 @@ class FormsManager
             }
         }
 
-        if (!empty($data)) {
+        if (!empty($data) && class_exists(Country::class)) {
             foreach ($data as $country) {
                 $findCountry = Country::where('code', $country[0])->where('name', $country[1])->first();
                 if (!$findCountry) {
