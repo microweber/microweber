@@ -31,6 +31,7 @@ class CustomFieldTestModelTest extends TestCase
         );
 
         $newProduct->save();
+
         $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
         $this->assertEquals($newProduct->customField[1]->name, 'цена 2');
     }
@@ -51,19 +52,13 @@ class CustomFieldTestModelTest extends TestCase
 
         $newProduct->save();
 
-        foreach($newProduct->customField as $customField) {
-            $this->assertEquals($customField->name, 'цена на едро');
-            $customFieldValue = $customField->fieldValue;
-
-            $this->assertEquals('цска', $customFieldValue[0]->value);
-            $this->assertEquals('цска 1948', $customFieldValue[1]->value);
-        }
+        $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
     }
 
     public function testGetCustomFieldModel()
     {
         $newProduct = new Product();
-        $newProduct->title = 'Samo Levski2';
+        $newProduct->title = 'Samo Levski3';
 
         $newProduct->setCustomField(
             [

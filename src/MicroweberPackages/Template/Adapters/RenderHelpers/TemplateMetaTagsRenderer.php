@@ -115,12 +115,14 @@ class TemplateMetaTagsRenderer
                         $meta['product_price'] = $product_price;
 			            $product_fields = $this->app->fields_manager->get('content', $meta_content_id, 1);
 			            $meta['product_sku'] = '';
-			            foreach($product_fields as $k => $field_data) {
-				            if($field_data['name_key'] == 'sku' && !empty($field_data['value'])){
-					            $meta['product_sku'] = $field_data['value'];
-					            break;
-				            }
-			            }
+			            if (empty(!$product_fields)) {
+                            foreach ($product_fields as $k => $field_data) {
+                                if ($field_data['name_key'] == 'sku' && !empty($field_data['value'])) {
+                                    $meta['product_sku'] = $field_data['value'];
+                                    break; 
+                                }
+                            }
+                        }
                     }
                     if ($meta['description'] != false and trim($meta['description']) != '') {
                         // $meta['description'] = $meta['description'];

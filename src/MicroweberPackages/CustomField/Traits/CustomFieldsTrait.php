@@ -72,13 +72,19 @@ trait  CustomFieldsTrait {
     public static function bootCustomFieldsTrait()
     {
         static::saved(function ($model)  {
+
             foreach($model->_newCustomFieldsToAssociate as $customField) {
-                $findCustomField = CustomField::where('type', $customField['type'])->where('name', $customField['name'])->first();
-                if ($findCustomField) {
-                    $model->customField()->update($customField);
-                } else {
-                    $model->customField()->create($customField);
+
+                $filterCustomField = [
+                    'type'=>$customField['type'],
+                    'name'=>$customField['name']
+                ];
+
+                if (isset($customField['options'])) {
+                    $filterCustomField['options'] = json_encode($customField['options']);
                 }
+
+                $model->customField()->updateOrCreate($filterCustomField);
             }
 
             $model->_newCustomFieldsToAssociate = []; //empty the array
