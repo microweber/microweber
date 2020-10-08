@@ -3,6 +3,8 @@
 
 function load_all_functions_files_for_modules($options = false)
 {
+
+
     $is_installed = mw_is_installed();
     if (!$is_installed) {
         return;
@@ -17,33 +19,34 @@ function load_all_functions_files_for_modules($options = false)
                     include_once $is_function;
                     $files[] = ($is_function);
                 }
-                $if_config = normalize_path(modules_path().$module['module'].DS.'config.php', false);
-
-
-                if (is_file($if_config)) {
-                    include_once $if_config;
-                    if (isset($config) && isset($config['service_provider'])) {
-                        $loadProviders = [];
-                        if (is_array($config['service_provider'])) {
-                            foreach ($config['service_provider'] as $serviceProvider) {
-                                $loadProviders[] = $serviceProvider;
-                            }
-                        } else {
-                            $loadProviders[] = $config['service_provider'];
-                        }
-                        foreach ($loadProviders as $loadProvider) {
-                            if (class_exists($loadProvider)) {
-                                app()->register($loadProvider);
-                            }
-                        }
-                    }
-                }
+//                $if_config = normalize_path(modules_path().$module['module'].DS.'config.php', false);
+//
+//
+//                if (is_file($if_config)) {
+//                    include_once $if_config;
+//                    if (isset($config) && isset($config['service_provider'])) {
+//                        $loadProviders = [];
+//                        if (is_array($config['service_provider'])) {
+//                            foreach ($config['service_provider'] as $serviceProvider) {
+//                                $loadProviders[] = $serviceProvider;
+//                            }
+//                        } else {
+//                            $loadProviders[] = $config['service_provider'];
+//                        }
+//                        foreach ($loadProviders as $loadProvider) {
+//                            if (class_exists($loadProvider)) {
+//                              //  app()->register($loadProvider);
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
 
         return $files;
     }
 }
+
 
 function module_info($module_name)
 {

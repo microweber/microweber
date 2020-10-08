@@ -529,7 +529,7 @@ if (!$chunks || $chunk == $chunks - 1) {
                 }
                 if (!$automatic_image_resize_on_upload_disabled and $automatic_image_resize_on_upload and $filesize > $auto_resize_treshold) {
                     $maxDim = 1980;
-                    @ini_set('memory_limit', '256M');
+                    //@ini_set('memory_limit', '256M');
 
                     list($width, $height, $type, $attr) = $size;
                     if ($width > $maxDim || $height > $maxDim) {

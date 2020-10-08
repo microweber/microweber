@@ -180,7 +180,7 @@ class MediaManager
 
 
         ini_set('upload_max_filesize', '2500M');
-        ini_set('memory_limit', '256M');
+       // ini_set('memory_limit', '256M');
         ini_set('max_execution_time', 0);
         ini_set('post_max_size', '2500M');
         ini_set('max_input_time', 9999999);
@@ -933,7 +933,7 @@ class MediaManager
     public function thumbnail_img($params)
     {
 
-        ini_set('memory_limit', '256M');
+       // ini_set('memory_limit', '256M');
 
         extract($params);
 

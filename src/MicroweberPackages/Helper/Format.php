@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Helper;
 
+use GrahamCampbell\SecurityCore\Security;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Crypt;
 
@@ -542,7 +543,7 @@ class Format
             if ($path) {
                 $config->set('Cache.SerializerPath', $path);
             }
-            $purifier = new \HTMLPurifier($config);
+           // $purifier = new \HTMLPurifier($config);
 
 //         Absolute path with no trailing slash to store serialized definitions in.
 //        Default is within the HTML Purifier library inside DefinitionCache/Serializer. This path must be writable by the webserver.
@@ -553,9 +554,15 @@ class Format
                 }
             }
 
-            //$purifier = new \HTMLPurifier();
+//            if (is_string($var)) {
+//                $var = Security::create()->clean($var);
+//            }
+
+
+
+            $purifier = new \HTMLPurifier($config);
             //Cache.SerializerPath
-            $var = $purifier->purify($var);
+             $var = $purifier->purify($var);
             // $var = htmlentities($var, ENT_QUOTES, 'UTF-8');
             $var = str_ireplace('<script>', '', $var);
             $var = str_ireplace('</script>', '', $var);

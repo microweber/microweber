@@ -283,13 +283,13 @@ class ModuleManager
             define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
         }
 
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-            ini_set('memory_limit', '160M');
-            ini_set('set_time_limit', 0);
-        }
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(600);
-        }
+//        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+//            ini_set('memory_limit', '160M');
+//            ini_set('set_time_limit', 0);
+//        }
+//        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+//            set_time_limit(600);
+//        }
 
         $dir = rglob($glob_patern, 0, $dir_name);
 

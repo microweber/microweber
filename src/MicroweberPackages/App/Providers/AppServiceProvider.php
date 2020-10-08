@@ -377,6 +377,41 @@ if (! defined('MW_VERSION')) {
 
             load_all_functions_files_for_modules();
 
+
+            // Register module service providers
+            $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999');
+            if($modules){
+                foreach ($modules as $module){
+                    if(isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']){
+
+                        $loadProviders = [];
+                        if (is_array( $module['settings']['service_provider'])) {
+                            foreach ( $module['settings']['service_provider'] as $serviceProvider) {
+                                $loadProviders[] = $serviceProvider;
+                            }
+                        } else {
+                            $loadProviders[] =  $module['settings']['service_provider'];
+                        }
+                        foreach ($loadProviders as $loadProvider) {
+                            if (class_exists($loadProvider)) {
+                                $this->app->register($loadProvider);
+//                               if(! app()->bound($loadProvider)){
+//
+//                               }
+//                                if (app()->getProvider($classname)) {
+//                                    // Do what you want when it exists.
+//                                }
+
+                               $this->app->register($loadProvider);
+                            }
+                        }
+
+
+//
+                    }
+                }
+            }
+
             $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
 
 

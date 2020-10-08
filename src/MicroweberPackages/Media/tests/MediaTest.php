@@ -40,7 +40,7 @@ class MediaTest extends TestCase
 
         $newPage->save();
 
-        dd('DONE');
+     //   dd('DONE');
     }
 
     public function testDeleteMediaToModel()
@@ -64,12 +64,12 @@ class MediaTest extends TestCase
         ]);
 
         $newPage->save();
-dd($newPage->media);
+//dd($newPage->media);
 //dd($newPage->media());
         $mediaToDel = $newPage->media[0];
         //dump($mediaToDel);
         $newPage->deleteMedia($mediaToDel);
-        dump('-----------------');
+        //dump('-----------------');
         dump($newPage->media);
     }
 }

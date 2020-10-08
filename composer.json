@@ -62,9 +62,11 @@
         "scssphp/scssphp": "dev-master",
         "graham-campbell/security-core": "3.2.x-dev",
         "darkaonline/l5-swagger": "dev-master",
+
         "opis/closure": "^3.6@dev",
         "laravel/passport": "^11.0@dev",
-        "laravel/sanctum": "^3.0@dev"
+        "laravel/sanctum": "^3.0@dev",
+        "cebe/php-openapi": "^1.4@dev"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

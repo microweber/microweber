@@ -10,7 +10,7 @@ class ContentExport
 
 	public function __construct($data = array()) {
 
-		ini_set('memory_limit', '512M');
+		//ini_set('memory_limit', '512M');
 		set_time_limit(0);
 
 		$this->exportContentTypes = $data;
