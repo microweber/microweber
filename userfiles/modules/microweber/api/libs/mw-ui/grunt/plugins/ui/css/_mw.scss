@@ -746,9 +746,14 @@ header {
 }
 
 .card.bg-light {
-  background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
+/*  background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
   > .card-header {
     background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
+  }*/
+
+  background-color: lighten($body-bg, 2%) !important;
+  > .card-header {
+    background-color: lighten($body-bg, 2%) !important;
   }
 }
 

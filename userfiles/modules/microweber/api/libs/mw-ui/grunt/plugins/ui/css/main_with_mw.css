@@ -9779,9 +9779,13 @@ header {
   border: 0; }
 
 .card.bg-light {
-  background-color: rgba(245, 245, 245, 0.3) !important; }
+  /*  background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
+    > .card-header {
+      background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
+    }*/
+  background-color: #fafafa !important; }
   .card.bg-light > .card-header {
-    background-color: rgba(245, 245, 245, 0.3) !important; }
+    background-color: #fafafa !important; }
 
 .card.bg-none {
   background-color: transparent !important;
