@@ -27,13 +27,13 @@ use MicroweberPackages\Form\FormsManagerServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
-use MicroweberPackages\Media\Media;
-use MicroweberPackages\Media\MediaManagerServiceProvider;
+ use MicroweberPackages\Media\MediaManagerServiceProvider;
  use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
  use MicroweberPackages\Menu\Providers\MenuServiceProvider;
  use MicroweberPackages\Module\ModuleServiceProvider;
 
-use MicroweberPackages\Option\OptionManagerServiceProvider;
+ use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
+ use MicroweberPackages\Option\OptionManagerServiceProvider;
 use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
 // Shop

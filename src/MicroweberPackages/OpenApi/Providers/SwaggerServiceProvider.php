@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\Providers;
+namespace MicroweberPackages\OpenApi\Providers;
 
 
 class SwaggerServiceProvider extends \L5Swagger\L5SwaggerServiceProvider
@@ -9,6 +9,8 @@ class SwaggerServiceProvider extends \L5Swagger\L5SwaggerServiceProvider
     {
         parent::boot();
         //Include routes
+
+
 
         $dir = dirname(__DIR__);
         $this->loadRoutesFrom($dir . '/routes/swagger.php');
