@@ -13,7 +13,7 @@ namespace MicroweberPackages\Order;
 
 use Illuminate\Support\ServiceProvider;
 
-class OrderManagerServiceProvider extends ServiceProvider
+class OrderServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.

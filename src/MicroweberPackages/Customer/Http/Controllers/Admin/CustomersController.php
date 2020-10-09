@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Customer\Models\Address;
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Order\Models\Order;
 
 class CustomersController extends AdminController
 {
@@ -151,10 +152,12 @@ class CustomersController extends AdminController
         $customer = Customer::with('billingAddress', 'shippingAddress')->findOrFail($id);
         $currency = $customer->currency;
         $currencies = Currency::all();
+        $orders = Order::where('customer_id', $customer->id)->get();
 
         return $this->view('customer::admin.customers.edit',[
             'countries'=>Country::all(),
             'customer' => $customer,
+            'orders' => $orders,
             'currencies' => $currencies,
             'currency' => $currency
         ]);

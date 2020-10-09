@@ -256,21 +256,32 @@
 
         <div class="card-body pt-3">
 
-            <div class="card style-1 mb-2 card-collapse" data-toggle="collapse" data-target="#order-item-5009">
-                <div class="card-header no-border">
-                    <h5><strong>Order #1</strong></h5>
-                    <div>
-                        <a href="#" class="btn btn-outline-primary btn-sm">Preview</a>
-                        <a href="#" class="btn btn-primary btn-sm">Go to order</a>
+            @if (count($orders) > 1)
+                @foreach ($orders as $order)
+                <div class="card style-1 mb-2 card-collapse" data-toggle="collapse" data-target="#order-item-{{ $order->id }}">
+                    <div class="card-header no-border">
+                        <h5><strong>Order #{{ $order->id }}</strong></h5>
+                        <div>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Preview</a>
+                            <a href="#" class="btn btn-primary btn-sm">Go to order</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card-body py-0">
-                    <div class="collapse" id="order-item-5009">
-                        dadsad
+                    <div class="card-body py-0">
+                        <div class="collapse" id="order-item-{{ $order->id }}">
+
+
+                            {{--{{ dump($order) }}--}}
+
+                            {{ $order->amount }}
+
+                        </div>
                     </div>
                 </div>
-            </div>
+                @endforeach
+            @else
+                No orders found for this customer.
+            @endif
 
         </div>
     </div>

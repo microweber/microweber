@@ -40,7 +40,7 @@ use MicroweberPackages\Backup\BackupManagerServiceProvider;
 use MicroweberPackages\Cart\CartManagerServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
-use MicroweberPackages\Order\OrderManagerServiceProvider;
+use MicroweberPackages\Order\OrderServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Post\PostServiceProvider;
@@ -202,7 +202,7 @@ if (! defined('MW_VERSION')) {
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);
         $this->app->register(TaxManagerServiceProvider::class);
-        $this->app->register(OrderManagerServiceProvider::class);
+        $this->app->register(OrderServiceProvider::class);
         $this->app->register(CurrencyServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
