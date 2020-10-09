@@ -67,7 +67,8 @@
         "laravel/passport": "^11.0@dev",
         "laravel/sanctum": "^3.0@dev",
         "cebe/php-openapi": "^1.4@dev",
-        "phpdocumentor/reflection-docblock": "^5.0@dev"
+        "phpdocumentor/reflection-docblock": "^5.0@dev",
+        "mtrajano/laravel-swagger": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

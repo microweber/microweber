@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Http\Controllers\AuthorizationController;
+use MicroweberPackages\User\Http\Requests\LoginRequest;
 
 class AuthController
 {
@@ -77,9 +78,11 @@ class AuthController
     /**
      * login api
      *
+     * @param \MicroweberPackages\User\Http\Requests\LoginRequest $request
+
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $login = user_login($request->all());
 
