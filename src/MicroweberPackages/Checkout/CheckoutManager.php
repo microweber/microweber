@@ -34,7 +34,7 @@ class CheckoutManager
 
         $tables['cart_shipping'] = 'cart_shipping';
 
-        $tables['cart_taxes'] = 'cart_taxes';
+        /*$tables['cart_taxes'] = 'cart_taxes';*/
 
         $this->tables = $tables;
     }
