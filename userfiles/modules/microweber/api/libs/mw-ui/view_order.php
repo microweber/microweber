@@ -122,7 +122,9 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
                     <h5 class="font-weight-bold">Client Information</h5>
+
                     <small>Edit client information <a href="#" class="btn btn-sm btn-outline-primary ml-2 text-dark">Edit</a></small>
+
                 </div>
 
                 <div class="info-table">
