@@ -12,13 +12,12 @@ use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
-class ProductsController extends AdminDefaultController
+class ProductsApiController extends AdminDefaultController
 {
     public $product;
 
     public function __construct(ProductRepository $product)
     {
-
         $this->product = $product;
     }
 
