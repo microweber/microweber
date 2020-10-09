@@ -18,12 +18,14 @@ class ProductsController extends AdminDefaultController
 
     public function __construct(ProductRepository $product)
     {
+
         $this->product = $product;
     }
 
     /**
-     * Display a listing of the product.
+     * Display a listing of the product.\
      *
+     * @param ProductRequest $request
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -70,7 +72,7 @@ class ProductsController extends AdminDefaultController
      *
      * @param string $ids
      * @return void
-     */
+      */
     public function delete($id)
     {
         return $this->product->delete($id);
