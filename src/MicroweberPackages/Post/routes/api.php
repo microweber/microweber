@@ -1,12 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Frontend Routes
-|--------------------------------------------------------------------------
-|
-*/
-
 Route::name('admin.')
     ->prefix('api')
     ->namespace('\MicroweberPackages\Post\Http\Controllers\Api')

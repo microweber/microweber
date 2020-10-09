@@ -8,10 +8,10 @@
 */
 
 Route::name('admin.')
-    ->prefix('admin')
-    ->namespace('\MicroweberPackages\Page\Http\Controllers\Admin')
+    ->prefix('api')
+    ->namespace('\MicroweberPackages\Page\Http\Controllers\Api')
     ->group(function () {
 
-        Route::resource('pages', 'PagesController');
+        Route::resource('page', 'PageApiController');
 
     });

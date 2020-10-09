@@ -19,7 +19,7 @@ class PageServiceProvider extends ServiceProvider
         Page::observe(BaseModelObserver::class);
         Page::observe(PageObserver::class);
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 
 }
