@@ -42,7 +42,6 @@ class CreateShopTable extends Migration
                 'description' => 'longText',
                 '$index' => ['rel_type', 'rel_id'],
             ],
-
             'cart_orders' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
@@ -105,19 +104,6 @@ class CreateShopTable extends Migration
                 'taxes_amount' => 'float',
                 '$index' => ['session_id'],
             ],
-
-            'cart_taxes' => [
-                'tax_name' => 'text',
-                'amount' => 'float',
-                'tax_modifier' => 'string',
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'created_by' => 'integer',
-                'edited_by' => 'integer',
-                'tax_rules_json' => 'longText',
-                'position' => 'integer',
-            ],
-
             'cart_shipping' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
@@ -136,8 +122,21 @@ class CreateShopTable extends Migration
                 'shipping_price_per_weight' => 'float',
                 'shipping_price_per_item' => 'float',
                 'shipping_price_custom' => 'float',
-            ],
+            ]
+        ];
 
+        /*
+         *  'cart_taxes' => [
+                'tax_name' => 'text',
+                'amount' => 'float',
+                'tax_modifier' => 'string',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+                'created_by' => 'integer',
+                'edited_by' => 'integer',
+                'tax_rules_json' => 'longText',
+                'position' => 'integer',
+            ],
             'cart_invoices' => [
                 'total' => 'float',
                 'amount' => 'float',
@@ -168,6 +167,6 @@ class CreateShopTable extends Migration
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
             ]
-        ];
+         */
     }
 }

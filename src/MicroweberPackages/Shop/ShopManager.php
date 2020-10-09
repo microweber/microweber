@@ -55,9 +55,10 @@ class ShopManager
         if (!isset($tables['cart_shipping'])) {
             $tables['cart_shipping'] = 'cart_shipping';
         }
+        /*
         if (!isset($tables['cart_taxes'])) {
             $tables['cart_taxes'] = 'cart_taxes';
-        }
+        }*/
         $this->tables = $tables;
     }
 
