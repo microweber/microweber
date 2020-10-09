@@ -56,8 +56,8 @@ class ProductsController extends AdminDefaultController
     /**
      * Update the specified resource in storage.
      *
-     * @param  ProductRequest  $request
-     * @param  string  $id
+     * @param  ProductRequest $request
+     * @param  string $id
      * @return Response
      */
     public function update(ProductRequest $request, $id)
