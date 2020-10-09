@@ -7,7 +7,7 @@ Route::name('admin.')
     ->prefix('api')
     ->namespace('\MicroweberPackages\Product\Http\Controllers\Api')
     ->group(function () {
-         Route::resource('products', 'ProductsController');
+         Route::apiResource('products', 'ProductsController');
     });
 
 /*
