@@ -5,41 +5,40 @@
  * Date: 8/19/2020
  * Time: 4:09 PM
  */
-
-namespace MicroweberPackages\Product\Http\Controllers\Api;
+namespace MicroweberPackages\Post\Http\Controllers\Api;
 
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Product\Http\Requests\ProductRequest;
-use MicroweberPackages\Product\Repositories\ProductRepository;
+use MicroweberPackages\Post\Http\Requests\PostRequest;
+use MicroweberPackages\Post\Repositories\PostRepository;
 
-class ProductsApiController extends AdminDefaultController
+class PostApiController extends AdminDefaultController
 {
-    public $product;
+    public $post;
 
-    public function __construct(ProductRepository $product)
+    public function __construct(PostRepository $post)
     {
-        $this->product = $product;
+        $this->post = $post;
     }
 
     /**
      * Display a listing of the product.\
      *
-     * @param ProductRequest $request
+     * @param PostRequest $request
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return $this->product->all();
+        return $this->post->all();
     }
 
     /**
      * Store product in database
-     * @param ProductRequest $request
+     * @param PostRequest $request
      * @return mixed
      */
-    public function store(ProductRequest $request)
+    public function store(PostRequest $request)
     {
-        return $this->product->create($request->all());
+        return $this->post->create($request->all());
     }
 
     /**
@@ -50,20 +49,20 @@ class ProductsApiController extends AdminDefaultController
      */
     public function show($id)
     {
-        return $this->product->find($id);
+        return $this->post->find($id);
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  ProductRequest $request
+     * @param  PostRequest $request
      * @param  string $id
      * @return Response
      */
-    public function update(ProductRequest $request, $id)
+    public function update(PostRequest $request, $id)
     {
-        return $this->product->update($request->all(), $id);
+        return $this->post->update($request->all(), $id);
     }
 
     /**
@@ -71,10 +70,10 @@ class ProductsApiController extends AdminDefaultController
      *
      * @param string $ids
      * @return void
-      */
+     */
     public function delete($id)
     {
-        return $this->product->delete($id);
+        return $this->post->delete($id);
     }
 
     /**
@@ -85,6 +84,7 @@ class ProductsApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return $this->product->destroy($ids);
+        return $this->post->destroy($ids);
     }
+
 }
