@@ -9,14 +9,14 @@
  *
  */
 
-namespace MicroweberPackages\Order;
+namespace MicroweberPackages\Order\Models;
 
-class Shipping extends Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
+
+class Order extends Model
 {
-    public $table = 'cart_shipping';
+    public $table = 'cart_orders';
 
-    public static function boot()
-    {
-        parent::boot();
-    }
+
+
 }

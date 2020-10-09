@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Customer\Models\Address;
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Order\Models\Order;
 
 class CustomersController extends AdminController
 {
@@ -35,10 +36,10 @@ class CustomersController extends AdminController
             ]))
             //->whereCompany($request->header('company'))
             ->select('customers.*',
-                DB::raw('sum(due_amount) as due_amount')
+              //  DB::raw('sum(due_amount) as due_amount')
             )
             ->groupBy('customers.id')
-            ->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
+            //->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
             ->paginate($limit);
 
         $siteData = [
@@ -95,12 +96,7 @@ class CustomersController extends AdminController
             }
         }
 
-        $customer = Customer::with('billingAddress', 'shippingAddress')->find($customer->id);
-
-        return response()->json([
-            'customer' => $customer,
-            'success' => true
-        ]);
+        return redirect(route('customers'));
     }
 
     /**
@@ -151,10 +147,12 @@ class CustomersController extends AdminController
         $customer = Customer::with('billingAddress', 'shippingAddress')->findOrFail($id);
         $currency = $customer->currency;
         $currencies = Currency::all();
+        $orders = Order::where('customer_id', $customer->id)->get();
 
         return $this->view('customer::admin.customers.edit',[
             'countries'=>Country::all(),
             'customer' => $customer,
+            'orders' => $orders,
             'currencies' => $currencies,
             'currency' => $currency
         ]);
@@ -234,11 +232,13 @@ class CustomersController extends AdminController
      */
     public function destroy($id)
     {
-        Customer::find($id)->delete();
 
-        return response()->json([
-            'success' => true
-        ]);
+        $findCustomer = Customer::where('id', $id)->first();
+        if ($findCustomer) {
+            $findCustomer->delete();
+        }
+
+        return redirect(route('customers.index'));
     }
 
 
@@ -251,11 +251,13 @@ class CustomersController extends AdminController
     public function delete(Request $request)
     {
         foreach ($request->id as $id) {
-            Customer::find($id)->delete();
+            try {
+                Customer::find($id)->delete();
+            } catch (\Exception $e) {
+                //
+            }
         }
 
-        return response()->json([
-            'success' => true
-        ]);
+        return redirect(route('customers.index'));
     }
 }

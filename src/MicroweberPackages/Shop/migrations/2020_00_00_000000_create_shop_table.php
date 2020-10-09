@@ -65,6 +65,7 @@ class CreateShopTable extends Migration
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'session_id' => 'string',
+                'customer_id' => 'integer',
                 'order_completed' => 'integer',
                 'is_paid' => 'integer',
                 'url' => 'text',

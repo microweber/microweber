@@ -24,11 +24,52 @@ use Symfony\Component\Finder\Finder;
 use OpenApi\Util;
 use \phpDocumentor\Reflection\DocBlock;
 use \phpDocumentor\Reflection\DocBlock\Tag;
+use Mtrajano\LaravelSwagger\Generator;
+use MicroweberPackages\OpenApi\Models\SwGen;
 
 
 class SwaggerController extends L5SwaggerController
 {
     public function docs(Request $request, string $file = null)
+    {
+
+        $host = (parse_url(site_url()));
+
+
+        $config = [];
+        $config['title'] = 'Api';
+        $config['description'] = 'Api';
+        $config['appVersion'] = '1.0';
+        $config['parseSecurity'] = true;
+        $config['host'] = $host['host'];
+        $config['basePath'] = $host['path'];
+        $config['schemes'] = ['http'];
+        $config['ignoredMethods'] = ['head','options','patch'];
+        $config['parseDocBlock'] = true;
+        if (is_https()) {
+            $config['schemes'] = ['https', 'http'];
+        }
+
+
+        $config['consumes'] = ['application/json' ];
+        $config['produces'] = ['application/json' ];
+
+
+
+
+
+        $gen = new SwGen($config);
+        $all_json_data = $gen->generate();
+
+         $json = json_encode($all_json_data, JSON_PRETTY_PRINT);
+        return ResponseFacade::make($json, 200, [
+            'Content-Type' => 'application/json',
+        ]);
+
+
+    }
+
+    public function docs2(Request $request, string $file = null)
     {
         // $directory = base_path() . '/src/MicroweberPackages/';
         $directory = dirname(dirname(dirname(__DIR__)));
@@ -85,31 +126,6 @@ class SwaggerController extends L5SwaggerController
         }
 
 
-        //     $routeCollection = \Route::getRoutes();
-        // $routeCollection = \Route::getRoutes()->get();
-
-        //  $routeCollection = $this->_filterRoutesCollection($routeCollection);
-        // $paths = $this->_makePathsFromRoutes($routeCollection);
-//        foreach ($routeCollection as $value) {
-//            dd($value);
-//            echo $value->getPath();
-//        }
-
-
-        //dd($paths, $routeCollection);
-        // dd($routeCollection);
-
-//        if($paths){
-//         foreach ($paths as $key => $path){
-//
-//
-//
-//
-//
-//
-//         }
-//
-//        }
         $routeCollection = \Route::getRoutes();
 
 
@@ -120,15 +136,10 @@ class SwaggerController extends L5SwaggerController
                 $error = false;
 
 
-//                if ($value->parameterNames) {
-//                    dump($value->parameterNames);
-//                }
-                //dump($value->getActionName());
-                //dump($value);
                 $name = strtolower($value->getName());
                 $tags = explode('.', $name);
                 $fruit = array_pop($tags);
-                $stub['__URI__']['__HTTP_METHOD__']['tags'] = $tags;
+                $stub['__URI__']['__HTTP_METHOD__']['tags'] = [implode('.', $tags)];
 
 
                 $action_name = $value->getActionName();
@@ -232,7 +243,7 @@ class SwaggerController extends L5SwaggerController
 
         $stub = array(
             'name' => '',
-            //  'in' => 'path',
+            'in' => 'body',
             //  'description' => 'ID of pet to return',
             //  'required' => true,
             'type' => 'string'
@@ -250,11 +261,62 @@ class SwaggerController extends L5SwaggerController
                     $param_name_type[0] = 'string';
                 }
 
-                $new_param['name'] = $param_name_type[1];
                 $new_param['type'] = $param_name_type[0];
+                $new_param['name'] = $param_name_type[1];
 
 
-                $ready[] = $new_param;
+                $error = false;
+                $rc = new \ReflectionClass($new_param['type']);
+                try {
+                    $comments = $rc->getMethod('rules')->getDocComment();
+
+                } catch (\ReflectionException $exception) {
+                    // Output expected ReflectionException.
+                    $error = true;
+                }
+                if (!$error) {
+
+                    if (class_exists($new_param['type'])) {
+                        $new_req = new $new_param['type']();
+
+                        if (method_exists($new_req, 'rules')) {
+
+
+                            $get_rules_from_req = $new_req->rules();
+
+                            if ($get_rules_from_req) {
+                                foreach ($get_rules_from_req as $qkey => $get_rules_from) {
+                                    $new_param_req = $new_param;
+                                    $new_param_req['name'] = $qkey;
+                                    $new_param_req['type'] = 'string';
+                                    $new_param_req['in'] = 'formData';
+
+
+                                    $get_rules_from_all = explode('|', $get_rules_from);
+                                    if (in_array('required', $get_rules_from_all)) {
+                                        $new_param_req['required'] = true;
+                                    }
+
+                                    if (in_array('required', $get_rules_from_all)) {
+                                        $new_param_req['required'] = true;
+                                    }
+
+                                    if (in_array('integer', $get_rules_from_all)) {
+                                        $new_param_req['type'] = 'integer';
+                                    }
+
+
+                                    $ready[] = $new_param_req;
+
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    $ready[] = $new_param;
+
+                }
+
             }
 
             // dump($param_name_type);

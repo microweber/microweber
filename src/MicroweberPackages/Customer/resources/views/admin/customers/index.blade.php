@@ -123,8 +123,12 @@
             <td>{{ $customer->city }}</td>
             <td>{{ number_format($customer->due_amount, 2) }}</td>
             <td class="text-center">
-                <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-outline-primary btn-sm"><?php _e('View'); ?></a>
-                <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-text btn-sm text-danger"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a>
+                <form action="{{ route('customers.destroy', $customer->id)}}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-outline-primary btn-sm"><?php _e('View'); ?></a>
+                    <button type="submit" class="btn btn-text btn-sm text-danger"><i class="mdi mdi-trash-can-outline mdi-20px"></i></button>
+                </form>
             </td>
         </tr>
         @endforeach
