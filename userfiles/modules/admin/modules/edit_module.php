@@ -25,9 +25,11 @@ if ($id != false) {
             });
 
             mw.$('#module_uninstall_<?php print $params['id']; ?>').unbind('click');
-            mw.$('#module_uninstall_<?php print $params['id']; ?>').click(function () {
-                var r = confirm("<?php _ejs('Are you sure you want to UNINSTALL this module?'); ?>");
-                if (r == true) {
+            mw.$('#module_uninstall_<?php print $params['id']; ?>').click(function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+
+                if (confirm("<?php _ejs('Are you sure you want to UNINSTALL this module?'); ?>")) {
                     var for_module = {}
                     for_module.id = $(this).attr('data-module-id');
                     $.post('<?php print site_url('api') ?>/uninstall_module/', for_module, function (data) {

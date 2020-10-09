@@ -177,7 +177,8 @@ mw.fileWindow = function (config) {
             height: 'auto',
             autoHeight: true,
             //template: 'mw_modal_basic',
-            overlay: true
+            overlay: true,
+            title: mw.lang('Select image')
         });
         var frame = mw.$('iframe', modal.main);
         frameWindow = frame[0].contentWindow;

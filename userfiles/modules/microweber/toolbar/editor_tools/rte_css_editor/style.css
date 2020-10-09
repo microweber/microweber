@@ -269,7 +269,7 @@ input,select{
         border-radius: 2px;
         border: 1px solid #eee;
         vertical-align: top;
-        background-size: contain;
+        background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
@@ -377,6 +377,10 @@ input,select{
     user-select: none;
 }
 
+#domtree .mw-domtree{
+    min-height: calc(100% - 30px);
+    min-height: -webkit-calc(100% - 30px);
+}
 .mw-domtree li.hover > span{
     background-color: #d1d1d1;
 }
@@ -445,6 +449,8 @@ input,select{
 .expand > .mw-domtree-item-opener:after{
     transform: rotate(90deg);
 }
+
+
 
 
 

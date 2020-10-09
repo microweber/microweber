@@ -4615,7 +4615,7 @@ div.element {
 }
 
 .plus-modules-list .mw-ui-searchfield {
-    width: 100%;
+    width: 100% !important;
     height: auto;
     border: 1px solid #E6E6E6;
     -webkit-appearance: textfield;

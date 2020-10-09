@@ -13,7 +13,7 @@
     $filetype = false;
 
     if (isset($params['filetype']) and $params['filetype'] == 'images') {
-        $exts = 'jpg,jpeg,png,gif,bmp,svg';
+        $exts = 'jpg,jpeg,png,gif,bmp,svg,webp';
     }
     ?>
     <script type="text/javascript">
@@ -393,8 +393,7 @@
         $(window).bind("load", function () {
 
             <?php if(isset($params['start_path']) and $params['start_path'] == 'media_host_base') { ?>
-            //mw.url.windowHashParam('path', "<?php print mw()->media_manager->relative_media_start_path(); ?>")
-            //mw.url.windowHashParam('path', "<?php print media_uploads_path(); ?>")
+
             _mw_admin_files_manage('all');
 
             <?php } else { ?>
@@ -488,7 +487,9 @@
                     var isImage = is('jpg')
                         || is('jpeg')
                         || is('png')
+                        || is('bmp')
                         || is('gif')
+                        || is('webp')
                         || this.indexOf('images.unsplash.com') !== -1;
 
                     var isText = is('txt')
@@ -569,6 +570,7 @@
         }
 
         saveNewFolder = function (a) {
+
             if (a) {
                 var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
                 var obj = {

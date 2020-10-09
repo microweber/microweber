@@ -110,7 +110,8 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 <script>
     $(document).ready(function () {
         var all = $(window);
-
+        var header = document.querySelector('#mw-admin-container header');
+        var postHeader = mw.element(document.querySelector('#content-title-field-row .card-header'));
         all.push(document)
         all.on('scroll load resize', function () {
             var stop = $(this).scrollTop(),
@@ -137,6 +138,11 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                 clearTimeout(fixinheaderTime)
 
             }
+            var isFixed = (stop > (postHeader.get(0).offsetHeight + header.offsetHeight + $(postHeader).offset().top));
+            console.log(postHeader.offsetHeight)
+            postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
+            postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
+
 
         });
     });
@@ -194,20 +200,22 @@ if (isset($params['quick_edit'])) {
         <div class="row">
             <div class="col-md-8 manage-content-body">
                 <div class="card style-1 mb-3" id="content-title-field-row">
-                    <div class="card-header">
-                        <?php
-                        $type_icon = 'mdi-text';
-                        if ($type == 'Product') {
-                            $type_icon = 'mdi-shopping';
-                        } elseif ($type == 'Post') {
+                    <div class="card-header-fix">
+                        <div class="card-header">
+                            <?php
                             $type_icon = 'mdi-text';
-                        } elseif ($type == 'Page') {
-                            $type_icon = 'mdi-file-document';
-                        }
-                        ?>
-                        <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php echo $action_text; ?></strong></h5>
-                        <div id="content-title-field-buttons">
-                            <button type="submit" class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php print _e('Save'); ?></span></button>
+                            if ($type == 'Product') {
+                                $type_icon = 'mdi-shopping';
+                            } elseif ($type == 'Post') {
+                                $type_icon = 'mdi-text';
+                            } elseif ($type == 'Page') {
+                                $type_icon = 'mdi-file-document';
+                            }
+                            ?>
+                            <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php echo $action_text; ?></strong></h5>
+                            <div id="content-title-field-buttons">
+                                <button type="submit" class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php print _e('Save'); ?></span></button>
+                            </div>
                         </div>
                     </div>
 
@@ -216,7 +224,7 @@ if (isset($params['quick_edit'])) {
                             <div class="form-group" id="slug-field-holder">
                                 <label class="control-label"><?php print $type ?> title</label>
                                 <input type="text" autocomplete="off" class="form-control" name="title" onkeyup="slugFromTitle();" id="content-title-field" value="<?php print ($title_for_input) ?>">
-                                <span>
+                                <div class="mw-admin-post-slug">
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i>
                                     <small>
                                             <?php
@@ -230,7 +238,7 @@ if (isset($params['quick_edit'])) {
                                         <span class="text-silver" id="slug-base-url"><?php print $site_prefix_url; ?></span>
                                         <span class="contenteditable js-slug-base-url" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
                                     </small>
-                                </span>
+                                </div>
 
                                 <div class="d-none">
                                     <input autocomplete="off" name="content_url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
@@ -246,6 +254,24 @@ if (isset($params['quick_edit'])) {
                                             }
                                         }
 
+                                        $('.js-slug-base-url').on('paste', function (e) {
+                                            e.preventDefault();
+                                            var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+                                            document.execCommand("insertHTML", false, text);
+                                            if(this.innerHTML.length > mw.slug.max) {
+                                                this.innerHTML = this.innerHTML.substring(0, mw.slug.max)
+                                            }
+                                        })
+                                        .on('keydown', function (e) {
+                                            var sel = getSelection();
+                                            var fn = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+                                            var collapsedIn = fn === this && sel.isCollapsed;
+                                            if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
+                                                if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
+                                                    e.preventDefault();
+                                                }
+                                            }
+                                        })
                                         $('body').on('blur', '.js-slug-base-url', function () {
                                             var slug = mw.slug.create($(this).text());
                                             $('.js-slug-base-url-changed').val(slug);

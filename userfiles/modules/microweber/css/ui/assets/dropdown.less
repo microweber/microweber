@@ -215,6 +215,7 @@
     position: relative;
     z-index: 20;
     display: inline-block;
+    max-width:100%;
     ::-webkit-scrollbar {
         width: 5px;
     }
@@ -295,7 +296,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: calc(100% - 35px);
+            width: -webkit-calc(100% - 35px);
             height: 100%;
             padding: 8px;
             &+.mw-select-display-value{
@@ -329,7 +331,8 @@
         top: 0;
         left: 0;
         z-index: 1;
-        width: 100%;
+        width: calc(100% - 35px);
+        width: -webkit-calc(100% - 35px);
         height: 100%;
         display: flex;
         align-items: center;

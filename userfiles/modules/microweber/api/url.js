@@ -148,9 +148,11 @@ mw.url = {
 };
 
 mw.slug = {
+  max: 60,
   normalize:function(string){
-      if(!string) return;
-    return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
+      if(!string) return '';
+      string = string.substring(0, mw.slug.max);
+      return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
   },
   removeSpecials:function(string){
     string = mw.slug.normalize(string);
@@ -170,9 +172,5 @@ mw.slug = {
     string = string || '';
     string = mw.slug.removeSpecials(string);
     return string.trim().toLowerCase().replace(/[-\s]+/g, '-');
-  },
-  autoCreateFromString: function (string, ) {
-
   }
-
 };

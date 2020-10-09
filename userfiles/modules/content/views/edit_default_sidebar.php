@@ -255,7 +255,7 @@
 
     <div class="card style-1 mb-3 d-none">
         <div class="card-body">
-            <div id="content-title-field-buttons">
+            <div id="content-title-field-buttons">2222
                 <?php if ($is_live_edit == false) : ?>
                     <button type="submit" class="btn btn-primary mw-live-edit-top-bar-button" onclick="mw.edit_content.handle_form_submit(true);" form="quickform-edit-content"><i class="mai-eye2"></i> <span><?php _e("Live Edit"); ?></span></button>
                 <?php else: ?>

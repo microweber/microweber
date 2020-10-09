@@ -32,7 +32,11 @@
 
 .mw-filepicker-component-section {
     /*max-height: 70vh;*/
-    overflow: auto;
+    overflow: hidden;
+}
+
+.bootstrap-select .dropdown-menu li{
+    overflow: hidden;
 }
 .mw-filepicker-component-section,
 .mw-filepicker-component-section iframe{

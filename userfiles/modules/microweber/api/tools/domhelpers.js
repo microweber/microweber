@@ -658,7 +658,10 @@ var domHelp = {
             }
         }
         var filter = function(item) {
-            return item !== 'changed' && item !== 'module-over' && item !== 'element-current';
+            return item !== 'changed'
+                && item !== 'module-over'
+                && item !== 'mw-bg-mask'
+                && item !== 'element-current';
         };
         var _final = node.className.trim() ? '.' + node.className.trim().split(' ').filter(filter).join('.') : node.nodeName.toLocaleLowerCase();
 

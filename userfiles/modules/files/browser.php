@@ -82,7 +82,19 @@ if (isset($params['viewsize'])) {
 ?>
 <script>
 
-    PreviousFolder = [];
+    back = function () {
+        var curr = decodeURIComponent(mw.url.windowHashParam('path') || '')
+            .replace(/\\|\//g, '•')
+            .split('•')
+        .filter(function (item){ return !!item; });
+        if(!curr.length) {
+            location.href = '<?php print admin_url(); ?>view:modules';
+            return;
+        }
+        curr.pop();
+
+        mw.url.windowHashParam('path', encodeURIComponent(curr.join('\\')))
+    }
 
 
 </script>
@@ -174,7 +186,7 @@ if (isset($params['viewsize'])) {
         opacity: .33;
         transition: .2s;
     }
-    
+
 
 
 </style>
@@ -195,9 +207,9 @@ if (isset($params['viewsize'])) {
                                 <div class="mw-file-browser-header">
                                     <div>
 
-                                        <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);"
+                                        <a href="javascript:;" onclick="back()"
                                            class="btn btn-outline-primary icon-left btn-sm">
-                                            <i class="mdi mdi-keyboard-backspace"></i>
+                                            <i class="mdi mdi-keyboard-backspace" style="margin-top: -4px;"></i>
                                             <?php _e("Back"); ?>
                                         </a>
 
@@ -222,8 +234,7 @@ if (isset($params['viewsize'])) {
                                                         }
                                                         if (strlen($item) > 0):
                                                             ?>
-                                                            <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script>
-                                                            <li class="breadcrumb-item"><a href="#path=<?php print urlencode($path_nav_pop) ?>"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a></li>
+                                                             <li class="breadcrumb-item"><a href="#path=<?php print urlencode($path_nav_pop) ?>"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a></li>
 
                                                         <?php endif; endforeach; ?>
                                                 <?php endif; ?>
@@ -299,10 +310,7 @@ if (isset($params['viewsize'])) {
 
      </div>
                                 <?php // } ?>
-                                <script>
-                                    PreviousFolder.length > 1 ? PreviousFolder.pop() : '';
-                                    PreviousFolder = PreviousFolder.length > 1 ? PreviousFolder[PreviousFolder.length - 1] : PreviousFolder[0];
-                                </script>
+
                                 <div id="mw-browser-list-holder">
                                     <?php if (isset($data['dirs'])): ?>
                                         <ul class="<?php print $browser_list_holder_class ?>">
@@ -336,7 +344,7 @@ if (isset($params['viewsize'])) {
                                                        href="<?php print mw()->url_manager->link_to_file($item) ?>"
                                                        onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                                                         <?php $ext = strtolower(get_file_extension($item)); ?>
-                                                        <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp'): ?>
+                                                        <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp' or $ext == 'webp'): ?>
                                                             <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size, true); ?>"
                                                                   class="<?php print basename($item) ?> as-image image-item-not-ready"></span>
                                                         <?php else: ?>
