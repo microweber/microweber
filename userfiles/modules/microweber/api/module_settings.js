@@ -41,9 +41,13 @@ mw.moduleSettings = function(options){
 
         }
     };
-    this.headerAnalize = function(i, header){
-        mw.$("[data-action='remove']", header).on('click', function(){
-            scope.remove(i);
+    this.headerAnalize = function(header){
+        mw.$("[data-action='remove']", header).on('click', function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            $(mw.tools.firstParentOrCurrentWithAnyOfClasses(this, ['mw-module-settings-box'])).remove();
+            scope.refactorDomPosition();
+            scope.autoSave();
         });
     };
     this.createItemHolder = function(i){
@@ -70,7 +74,17 @@ mw.moduleSettings = function(options){
         method = method || 'new';
         pos = pos || 0;
         var _new;
-        _new = mw.tools.cloneObject(JSON.parse(JSON.stringify(this.value[0])));
+
+        var val = this.value[0];
+
+        if(val) {
+            _new = mw.tools.cloneObject(JSON.parse(JSON.stringify(this.value[0])));
+
+        } else {
+            _new = {};
+        }
+
+
         if(_new.title) {
             _new.title += ' - new';
         } else if(_new.name) {
@@ -85,17 +99,18 @@ mw.moduleSettings = function(options){
                         _new[this.id] = this.value;
                     }
                 }
-            })
+            });
         }
 
         this.value.splice(pos, 0, _new);
         this.createItem(_new, pos);
     };
+
     this.remove = function(pos){
         if(typeof pos === 'undefined') return;
         this.value.splice(pos, 1);
         this.items.splice(pos, 1);
-        mw.$(this.options.element).children().eq(pos).slideUp(function(){
+        mw.$(this.options.element).children().eq(pos).animate({opacity: 0, height: 0}, function(){
             mw.$(this).remove();
         });
         mw.$(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
@@ -109,7 +124,7 @@ mw.moduleSettings = function(options){
             element: box.querySelector('.mw-ui-box-content')
         });
         mw.$(box).prepend(header);
-        this.headerAnalize(i, header);
+        this.headerAnalize(header);
         this.items.push(item);
         item.options.element._prop = item;
         item.setValue(curr);
@@ -173,7 +188,7 @@ mw.moduleSettings = function(options){
                     setTimeout(function(){
                         scope.refactorDomPosition();
                         scope.autoSave();
-                    }, 10)
+                    }, 10);
                 },
                 handle:this.options.header ? '.mw-ui-box-header' : undefined,
                 axis:'y'

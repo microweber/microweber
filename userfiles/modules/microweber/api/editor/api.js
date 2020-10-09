@@ -376,16 +376,16 @@ MWEditor.api = function (scope) {
             }
         },
         execCommand: function (cmd, def, val) {
-            scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
+             scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
             var sel = scope.getSelection();
             try {  // 0x80004005
-                if (scope.actionWindow.document.queryCommandSupported(a) && scope.api.isSelectionEditable()) {
-                    def = def || false;
+                 if (scope.actionWindow.document.queryCommandSupported(cmd) && scope.api.isSelectionEditable()) {
+                     def = def || false;
                     val = val || false;
                     if (sel.rangeCount > 0) {
-                        var node = scope.api.elementNode(sel.focusNode);
+                         var node = scope.api.elementNode(sel.focusNode);
                         scope.api.action(mw.tools.firstBlockLevel(node), function () {
-                            scope.actionWindow.document.execCommand(cmd, def, val);
+                             scope.actionWindow.document.execCommand(cmd, def, val);
                             mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                             mw.$(scope).trigger('execCommand');
                         });

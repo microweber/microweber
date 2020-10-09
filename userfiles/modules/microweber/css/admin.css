@@ -255,3 +255,43 @@ div.form-control {
 #mw_uploader_loading{
     margin: 10px 0;
  }
+
+.mw-admin-post-slug{
+    white-space: nowrap;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mw-admin-post-slug .contenteditable{
+    position: relative;
+}
+.mw-admin-post-slug .contenteditable:after{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+}
+.mw-admin-post-slug .contenteditable:focus{
+    padding: 0;
+}
+.mw-admin-post-slug > *:last-child{
+    flex: 1;
+}
+
+.card-header-fix .card-header{
+    top: -100px;
+    transition: top .3s;
+    position: static;
+}
+.card.style-1 .card-header-fix .card-header{
+    position: static;
+}
+.card-header-fix .card-header.fixed{
+    position: fixed !important;
+    top: 69px;
+    z-index: 10;
+}
+.card-header-fix{
+    height: 55px;
+}

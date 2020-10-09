@@ -27,19 +27,19 @@ mw.tools.alert = function (text) {
 
 mw.tools.prompt = function (question, callback) {
     if(!question) return ;
-    var id = mw.id('mw-prompt-input')
+    var id = mw.id('mw-prompt-input');
     question = '<label class="mw-ui-label">'+question+'</label><input class="mw-ui-field w100" id="'+id+'">';
     var dialog = mw.tools.confirm(question, function (){
-        callback.call(mw.$('#' + id).val());
+        callback.call(window, mw.$('#' + id).val());
     });
     setTimeout(function (){
         mw.$('#' + id).focus().on('keydown', function (e) {
-            if (e.keyCode === 13 || e.keyCode === 32) {
+            if (mw.event.is.enter(e)) {
                 callback.call(window, mw.$('#' + id).val());
                 dialog.remove();
             }
         });
-    }, 222)
+    }, 222);
     return dialog;
 };
 mw.tools.confirm = function (question, callback) {

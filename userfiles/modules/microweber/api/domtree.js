@@ -70,6 +70,7 @@ mw.DomTree = function (options) {
 
 
     this._get = function (nodeOrTreeNode) {
+        console.log(nodeOrTreeNode)
         return nodeOrTreeNode._value ? nodeOrTreeNode : this.findElementInTree(nodeOrTreeNode);
     };
 

@@ -246,6 +246,20 @@
         };
 
 
+        this.width = function (val) {
+            if(val) {
+                return this.css('width', val);
+            }
+            return this._active().offsetWidth;
+        };
+
+        this.height = function (val) {
+            if(val) {
+                return this.css('height', val);
+            }
+            return this._active().offsetHeight;
+        };
+
         this.parent = function () {
             return mw.element(this._active().parentNode);
         };

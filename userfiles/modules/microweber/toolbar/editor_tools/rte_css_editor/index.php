@@ -379,7 +379,7 @@ var init = function(){
         output('backgroundImage', 'none')
     });
     $("#background-select-item").on("click", function () {
-        mw.fileWindow({
+        mw.top().fileWindow({
             types: 'images',
             change: function (url) {
                 if(!url) return;
@@ -494,6 +494,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             include "rtl.css";
         }
     ?>
+
 </style>
 <div id="css-editor-root">
 
@@ -677,8 +678,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Image"); ?></label>
             <div class="s-field-content">
-                <span class="background-preview"></span>
-                <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item"><?php _e("Image"); ?></span>
+
+                <span class="mw-ui-btn mw-ui-btn-small" id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
                 <span id="background-remove"><span class="mw-icon-close"></span></span>
             </div>
         </div>
