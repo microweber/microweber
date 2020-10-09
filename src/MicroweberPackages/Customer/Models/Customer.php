@@ -4,9 +4,6 @@ namespace MicroweberPackages\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Currency\Currency;
-use MicroweberPackages\Customer\Models\Address;
-use MicroweberPackages\Invoice\Company;
-use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Payment\Payment;
 
 class Customer extends Model
@@ -26,11 +23,6 @@ class Customer extends Model
     public function scopeInactive($query)
     {
         return $query->where('active', 0);
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
     }
 
     public function addresses()
@@ -61,11 +53,6 @@ class Customer extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
-    }
-
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class);
     }
 
     public function user()
@@ -120,13 +107,8 @@ class Customer extends Model
         ];
     }
 
-    public function delete()
+   /* public function delete()
     {
-
-        if ($this->invoices()->exists()) {
-            $this->invoices()->delete();
-        }
-
         if ($this->payments()->exists()) {
             $this->payments()->delete();
         }
@@ -138,5 +120,5 @@ class Customer extends Model
         $this->delete();
 
         return true;
-    }
+    }*/
 }

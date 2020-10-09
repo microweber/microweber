@@ -17,6 +17,7 @@ use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
  use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
  use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
+ use MicroweberPackages\Country\CountryServiceProvider;
  use MicroweberPackages\Customer\CustomerServiceProvider;
  use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
  use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
@@ -224,6 +225,7 @@ if (! defined('MW_VERSION')) {
      //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
         $this->app->register(  SwaggerServiceProvider::class);
      //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
+        $this->app->register(  CountryServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 

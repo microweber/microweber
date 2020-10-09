@@ -247,6 +247,7 @@
 @endsection
 
 @section('order_content')
+    @if (isset($orders))
     <div class="card style-1 bg-light mb-3">
         <div class="card-header">
             <h5>
@@ -285,4 +286,5 @@
 
         </div>
     </div>
+    @endif
 @endsection
