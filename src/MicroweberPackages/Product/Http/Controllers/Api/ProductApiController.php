@@ -12,7 +12,7 @@ use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
-class ProductsApiController extends AdminDefaultController
+class ProductApiController extends AdminDefaultController
 {
     public $product;
 
