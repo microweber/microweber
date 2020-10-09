@@ -166,6 +166,14 @@ class SwGen
 
         $parameters = (new Parameters\PathParameterGenerator($this->route->originalUri()))->getParameters();
 
+        $name = strtolower(($this->route->getRoute()->getName()));
+
+
+        $tags = explode('.', $name);
+        $remove_last = array_pop($tags);
+
+
+
         if (!empty($rules)) {
             $parameterGenerator = $this->getParameterGenerator($rules);
 
@@ -175,53 +183,48 @@ class SwGen
         if (!empty($parameters)) {
 
             $action_name = $this->route->getRoute()->getActionName();
-
-            $error = false;
-            $comments = false;
-
-            $try_get_summary = explode('@', $action_name);
-
-
-        if (isset($try_get_summary[0]) and $try_get_summary[0]) {
-                if (isset($try_get_summary[1]) and $try_get_summary[1]) {
-                    try {
-                        $rc = new \ReflectionClass($try_get_summary[0]);
-                        $comments = $rc->getMethod($try_get_summary[1])->getDocComment();
-
-                    } catch (\ReflectionException $exception) {
-                        $error = true;
-                    }
-
-
-                    if (!$error and $comments) {
-                        $dbp = new AnnotationParser();
-                        $comments_annotations_parsed = $dbp->getAnnotations($comments);
-
-                        if($comments_annotations_parsed and isset($comments_annotations_parsed['param'])){
-                            $parsed_from_a = $this->_makeParametersFromAnnotations($comments_annotations_parsed['param']);
-                            if($parsed_from_a){
-                              //  $parameters = array_merge($parameters, $parsed_from_a);
-                            }
-                        }
-
-                    }
-                }
-            }
-
-
-            $name = strtolower(($this->route->getRoute()->getName()));
-
-
-            $tags = explode('.', $name);
-            $remove_last = array_pop($tags);
+///*
+//            $error = false;
+//            $comments = false;
+//
+//            $try_get_summary = explode('@', $action_name);
+//
+//
+//        if (isset($try_get_summary[0]) and $try_get_summary[0]) {
+//                if (isset($try_get_summary[1]) and $try_get_summary[1]) {
+//                    try {
+//                        $rc = new \ReflectionClass($try_get_summary[0]);
+//                        $comments = $rc->getMethod($try_get_summary[1])->getDocComment();
+//
+//                    } catch (\ReflectionException $exception) {
+//                        $error = true;
+//                    }
+//
+//
+//                    if (!$error and $comments) {
+//                        $dbp = new AnnotationParser();
+//                        $comments_annotations_parsed = $dbp->getAnnotations($comments);
+//
+//                        if($comments_annotations_parsed and isset($comments_annotations_parsed['param'])){
+//                            $parsed_from_a = $this->_makeParametersFromAnnotations($comments_annotations_parsed['param']);
+//                            if($parsed_from_a){
+//                              //  $parameters = array_merge($parameters, $parsed_from_a);
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }*/
 
 
             $this->docs['paths'][$this->route->uri()][$this->method]['parameters'] = $parameters;
-            $this->docs['paths'][$this->route->uri()][$this->method]['description'] = $this->route->action();
-            $this->docs['paths'][$this->route->uri()][$this->method]['tags'] = [implode('.', $tags)];
+
 
 
         }
+
+        $this->docs['paths'][$this->route->uri()][$this->method]['description'] = $this->route->action();
+        $this->docs['paths'][$this->route->uri()][$this->method]['tags'] = [implode('.', $tags)];
     }
 
     protected function addActionScopes()

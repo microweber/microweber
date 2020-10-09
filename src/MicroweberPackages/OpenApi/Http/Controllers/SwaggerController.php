@@ -44,7 +44,9 @@ class SwaggerController extends L5SwaggerController
         $config['host'] = $host['host'];
         $config['basePath'] = $host['path'];
         $config['schemes'] = ['http'];
+
         $config['ignoredMethods'] = ['head','options','patch'];
+     //   $config['ignoredMethods'] = [ ];
         $config['parseDocBlock'] = true;
         if (is_https()) {
             $config['schemes'] = ['https', 'http'];
