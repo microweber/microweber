@@ -64,7 +64,7 @@ trait HasCrudActions
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.show
      *
      * @param int $id
      * @return \Illuminate\Http\Response
