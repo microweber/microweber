@@ -12,6 +12,6 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\Category\Http\Controllers\Api')
     ->group(function () {
 
-        Route::resource('category', 'CategoryApiController');
+        Route::apiResource('category', 'CategoryApiController');
 
     });
