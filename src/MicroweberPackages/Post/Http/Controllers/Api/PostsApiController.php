@@ -8,6 +8,7 @@
 namespace MicroweberPackages\Post\Http\Controllers\Api;
 
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
+use MicroweberPackages\Post\Http\Requests\PostRequest;
 use MicroweberPackages\Post\Repositories\PostRepository;
 
 class PostsApiController extends AdminDefaultController
