@@ -17,6 +17,7 @@ use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
  use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
  use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
+ use MicroweberPackages\Country\CountryServiceProvider;
  use MicroweberPackages\Customer\CustomerServiceProvider;
  use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
  use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
@@ -40,7 +41,7 @@ use MicroweberPackages\Backup\BackupManagerServiceProvider;
 use MicroweberPackages\Cart\CartManagerServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
-use MicroweberPackages\Order\OrderManagerServiceProvider;
+use MicroweberPackages\Order\OrderServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Post\PostServiceProvider;
@@ -202,7 +203,7 @@ if (! defined('MW_VERSION')) {
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);
         $this->app->register(TaxManagerServiceProvider::class);
-        $this->app->register(OrderManagerServiceProvider::class);
+        $this->app->register(OrderServiceProvider::class);
         $this->app->register(CurrencyServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
@@ -224,6 +225,7 @@ if (! defined('MW_VERSION')) {
      //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
         $this->app->register(  SwaggerServiceProvider::class);
      //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
+        $this->app->register(  CountryServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
