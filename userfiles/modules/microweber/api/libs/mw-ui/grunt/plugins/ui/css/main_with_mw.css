@@ -9500,7 +9500,8 @@ header {
               text-align: center; }
               .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i:before {
                 margin: 0;
-                font-size: 12px !important; }
+                font-size: 12px !important;
+                line-height: 13px !important; }
           .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.dropdown-item:not(:hover) .add-new {
             background-color: #bcbfc2;
             border-color: #bcbfc2; }
