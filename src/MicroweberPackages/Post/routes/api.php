@@ -1,6 +1,6 @@
 <?php
 
-Route::name('admin.')
+Route::name('api.')
     ->prefix('api')
     ->namespace('\MicroweberPackages\Post\Http\Controllers\Api')
     ->group(function () {

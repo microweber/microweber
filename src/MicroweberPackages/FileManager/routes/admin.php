@@ -6,13 +6,13 @@
  * Time: 2:56 PM
  */
 
-Route::name('admin.')
-    ->prefix('admin')
-    ->namespace('\MicroweberPackages\FileManager\Http\Controllers\Admin')
+Route::name('api.')
+    ->prefix('api')
+    ->namespace('\MicroweberPackages\FileManager\Http\Controllers\Api')
     ->middleware(['xss','admin'])
     ->group(function () {
 
-    Route::get('file-manager/list', 'FileManager@listFiles');
+    Route::get('file-manager/list', 'FileManagerApiController@listFiles');
 
 
 });

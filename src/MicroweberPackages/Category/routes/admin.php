@@ -7,11 +7,11 @@
 |
 */
 
-Route::name('admin.')
-    ->prefix('admin')
-    ->namespace('\MicroweberPackages\Category\Http\Controllers\Admin')
+Route::name('api.')
+    ->prefix('api')
+    ->namespace('\MicroweberPackages\Category\Http\Controllers\Api')
     ->group(function () {
 
-        Route::resource('categories', 'CategoriesController');
+        Route::resource('category', 'CategoryApiController');
 
     });
