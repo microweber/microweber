@@ -166,13 +166,17 @@ class SwGen
     {
         $model = $this->__getDefinitionForModel();
         if ($model) {
-//dump($model);
+            //dump($model);
             $name = (get_class($model));
             $this->docs['definitions'][$name] = [];
             $this->docs['definitions'][$name]['type'] = 'object';
             $this->docs['definitions'][$name]['properties'] = [];
+
+
             if (method_exists($model, 'getFillable')) {
 
+
+                //   dd($maybe_relations);
 
                 $fillables = $model->getFillable();
                 if ($fillables) {
@@ -183,7 +187,40 @@ class SwGen
 
                     }
                 }
-             }
+
+
+            }
+
+            $base_methods = get_class_methods('Illuminate\Database\Eloquent\Model');
+            $model_methods = get_class_methods(get_class($model));
+
+            $maybe_relations = array_diff($model_methods, $base_methods);
+            if ($maybe_relations) {
+                foreach ($maybe_relations as $fillable) {
+
+
+                    $this->docs['definitions'][$name]['properties'][$fillable] = [];
+                    $this->docs['definitions'][$name]['properties'][$fillable]['type'] = 'object';
+
+                    $parsedComment = '';
+                    try {
+                        $docBlock = $this->__getReflectionMethodReflection($model, $fillable);
+                        $parsedComment = $this->docParser->create($docBlock);
+                    } catch (\Exception $e) {
+
+                    }
+                    if ($parsedComment and $parsedComment->getSummary()) {
+                         $this->docs['definitions']['properties'] [$name][$fillable]['type'] = 'object';
+                         $this->docs['definitions']['properties'] [$name][$fillable]['summary'] = $parsedComment->getSummary();
+                    //    $this->docs['definitions'][$name. $fillable]['properties'][$fillable]['$ref'] = '#/definitions/'. $name. $fillable;
+
+
+                    }
+
+
+
+                }
+            }
 
         }
 
@@ -251,12 +288,12 @@ class SwGen
 
             $model = $this->__getDefinitionForModel();
             if ($model and $parameters) {
-                foreach ($parameters as $key => $parameter){
+                foreach ($parameters as $key => $parameter) {
                     $name = (get_class($model));
-                    $parameter['schema']['$ref'] ='#/definitions/'.$name;
+                    $parameter['schema']['$ref'] = '#/definitions/' . $name;
                     $parameters[$key] = $parameter;
                 }
-             }
+            }
 
             $this->docs['paths'][$this->route->uri()][$this->method]['parameters'] = $parameters;
 
@@ -478,6 +515,22 @@ class SwGen
         }
 
         return $rc;
+
+    }
+
+    private function __getReflectionMethodReflection($class, $method): ?ReflectionMethod
+    {
+
+        // return new ReflectionMethod($class, $method);
+        try {
+            $rc = new ReflectionMethod($class, $method);;
+
+            return $rc;
+        } catch (\ReflectionException $exception) {
+            return null;
+
+        }
+
 
     }
 
