@@ -27,6 +27,7 @@ use MicroweberPackages\Form\FormsManagerServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
+use MicroweberPackages\Invoice\InvoicesManagerServiceProvider;
 use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuServiceProvider;
