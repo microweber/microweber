@@ -411,8 +411,10 @@ function breadcrumb($params = false)
 
 function helper_body_classes()
 {
+    $template = template_name();
 
     $classes = array();
+
     if (page_id()) {
         $classes[] = 'page-id-' . page_id();
     }
@@ -431,6 +433,9 @@ function helper_body_classes()
         $classes[] = 'page-' . $seg;
     }
 
+    if ($template) {
+        $classes[] = $template;
+    }
 
     return implode(' ', $classes);
 }
