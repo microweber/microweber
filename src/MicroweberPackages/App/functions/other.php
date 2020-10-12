@@ -224,7 +224,13 @@ function mw_post_update()
 {
     $a = is_admin();
     if ($a != false) {
-        return mw()->update->post_update();
+        $update = mw()->update->post_update();
+
+        if (isset($_GET['redirect_to'])) {
+            return redirect($_GET['redirect_to']);
+        }
+
+        return $update;
     }
 }
 
