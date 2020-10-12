@@ -233,7 +233,15 @@ function mw_post_update()
         return $update;
     }
 }
+api_expose_admin('mw_reload_modules');
+function mw_reload_modules()
+{
+    mw()->module_manager->scan(['reload_modules'=>1,'scan'=>1]);
 
+    if (isset($_GET['redirect_to'])) {
+        return redirect($_GET['redirect_to']);
+    }
+}
 
 /* DEPRECATED */
 /* DEPRECATED */

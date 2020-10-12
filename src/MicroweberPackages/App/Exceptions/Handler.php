@@ -91,11 +91,10 @@ class Handler extends ExceptionHandler
                 <h3>Try to fix it by yourself using following buttons.</h3>
                 <br />
                  <a href="' . api_url('mw_post_update') . '?redirect_to='.url_current().'" class="btn">Reload database</a>
-                 <a href="' . api_url('mw_post_update') . '?redirect_to='.url_current().'" class="btn">Reload modules</a>
+                 <a href="' . api_url('mw_reload_modules') . '?redirect_to='.url_current().'" class="btn">Reload modules</a>
                  <a href="' . api_url('clearcache') . '?redirect_to='.url_current().'" class="btn">Clear cache</a>
                  
                  <a href="" class="btn">Refresh</a>
-
             </div>
         </div>
         ';
