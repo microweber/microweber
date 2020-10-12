@@ -6323,6 +6323,9 @@ textarea:not(.form-control) {
   border-radius: 5px;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
 
+.dropdown-item {
+  color: #2B2B2B; }
+
 .btn-rounded {
   border-radius: 40px; }
 
@@ -6377,8 +6380,7 @@ textarea:not(.form-control) {
     position: relative; }
     .btn i:before {
       font-size: 1.3em;
-      float: left;
-      margin: 3px 3px 0 3px; }
+      float: left; }
   .btn.btn-sm, .btn-group-sm > .btn {
     padding-left: 10px;
     padding-right: 10px; }
@@ -7711,7 +7713,8 @@ header .mobile-toggle button {
           text-align: center; }
           .main aside > ul > li.nav-item .dropdown-menu .dropdown-item .add-new i:before {
             margin: 0;
-            font-size: 12px !important; }
+            font-size: 12px !important;
+            line-height: 13px !important; }
       .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.dropdown-item:not(:hover) .add-new {
         background-color: #bcbfc2;
         border-color: #bcbfc2; }
@@ -7980,9 +7983,13 @@ header .mobile-toggle button {
   border: 0; }
 
 .card.bg-light {
-  background-color: rgba(255, 255, 255, 0.3) !important; }
+  /*  background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
+   > .card-header {
+   background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
+   }*/
+  background-color: white !important; }
   .card.bg-light > .card-header {
-    background-color: rgba(255, 255, 255, 0.3) !important; }
+    background-color: white !important; }
 
 .card.bg-none {
   background-color: transparent !important;
