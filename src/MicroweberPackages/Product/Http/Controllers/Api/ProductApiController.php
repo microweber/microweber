@@ -8,8 +8,12 @@
 
 namespace MicroweberPackages\Product\Http\Controllers\Api;
 
+
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
+use MicroweberPackages\Product\Http\Requests\ProductCreateRequest;
+use MicroweberPackages\Product\Http\Requests\ProductUpdateRequest;
+use MicroweberPackages\Product\Http\Resources\ProductJsonResource;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
 class ProductApiController extends AdminDefaultController
@@ -25,32 +29,38 @@ class ProductApiController extends AdminDefaultController
      * Display a listing of the product.\
      *
      * @param ProductRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return $this->product->all();
+        $result = $this->product->create($this->product->all());
+
+        return (new ProductJsonResource($result))->response();
+
     }
 
     /**
      * Store product in database
-     * @param ProductRequest $request
-     * @return mixed
+     * @param ProductCreateRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ProductRequest $request)
+    public function store(ProductCreateRequest $request)
     {
-        return $this->product->create($request->all());
+        $result = $this->product->create($request->all());
+        return (new ProductJsonResource($result))->response();
     }
 
     /**
      * Display the specified resource.show
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        return $this->product->find($id);
+        $result = $this->product->find($id);
+
+        return (new ProductJsonResource($result))->response();
     }
 
 
@@ -58,12 +68,14 @@ class ProductApiController extends AdminDefaultController
      * Update the specified resource in storage.
      *
      * @param  ProductRequest $request
-     * @param  string $id
-     * @return Response
+     * @param  string $product
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductRequest $request, $id)
+    public function update(ProductUpdateRequest $request, $product)
     {
-        return $this->product->update($request->all(), $id);
+
+        $result = $this->product->update($request->all(), $product);
+        return (new ProductJsonResource($result))->response();
     }
 
     /**
@@ -71,7 +83,7 @@ class ProductApiController extends AdminDefaultController
      *
      * @param string $ids
      * @return void
-      */
+     */
     public function delete($id)
     {
         return $this->product->delete($id);

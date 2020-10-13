@@ -12,9 +12,9 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontReport = [
-        //
-    ];
+//    protected $dontReport = [
+//        //
+//    ];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -50,9 +50,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+
+//      var_dump(  $exception->redirectTo );
+//      exit;
         $html = parent::render($request, $exception);
-        $html .= $this->getMicroweberErrorBarHtml();
-        $html = substr($html, strpos($html, "<!doctype html>"));
+//        $html .= $this->getMicroweberErrorBarHtml();
+//        $html = substr($html, strpos($html, "<!doctype html>"));
 
         return $html;
     }

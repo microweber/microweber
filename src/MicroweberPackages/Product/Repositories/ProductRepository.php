@@ -20,17 +20,21 @@ class ProductRepository extends BaseRepository
 
     public function create($data)
     {
+
         event($event = new ProductIsCreating($data));
 
         $product = $this->model->create($data);
 
         event(new ProductWasCreated($product, $data));
 
-        return $product->id;
+        return $product;
     }
 
     public function update($data, $id)
     {
+
+
+
         $product = $this->model->find($id);
 
         event($event = new ProductIsUpdating($product, $data));
@@ -39,7 +43,7 @@ class ProductRepository extends BaseRepository
 
         event(new ProductWasUpdated($product, $data));
 
-        return $product->id;
+        return $product;
     }
 
 
