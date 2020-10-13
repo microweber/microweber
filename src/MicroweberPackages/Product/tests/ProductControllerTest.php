@@ -75,5 +75,17 @@ class ProductControllerTest extends TestCase
 
         $this->assertEquals($product_data->data->title, $title2);
 
+
+
+        $response = $this->call(
+            'GET',
+            route('api.product.index',
+                [
+                ])
+        );
+
+        $product_data = $response->getData();
+        $this->assertEquals(true,!empty($product_data->data));
+
     }
 }
