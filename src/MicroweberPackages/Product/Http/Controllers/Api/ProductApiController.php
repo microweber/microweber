@@ -23,23 +23,26 @@ class ProductApiController extends AdminDefaultController
     public function __construct(ProductRepository $product)
     {
         $this->product = $product;
+
     }
 
+
     /**
-     * Display a listing of the product.\
+    /**
+     * Display a listing of the product.
      *
      * @param ProductRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(ProductRequest $request)
     {
-
         return (new ProductJsonResource($this->product->all()))->response();
 
     }
 
     /**
      * Store product in database
+     *
      * @param ProductCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
