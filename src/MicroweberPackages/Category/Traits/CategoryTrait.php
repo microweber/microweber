@@ -22,7 +22,7 @@ trait CategoryTrait {
 
     public function category()
     {
-        return $this->morphMany(CategoryItem::class, 'rel');
+        return $this->hasMany(CategoryItem::class, 'rel_id');
     }
 
     public function getCategoryAttribute()
