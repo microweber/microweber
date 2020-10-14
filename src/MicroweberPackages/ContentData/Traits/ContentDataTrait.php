@@ -59,7 +59,7 @@ trait ContentDataTrait
     public function deleteContentData(array $values)
     {
 
-        foreach ($this->data as $key => $contentDataInstance) {
+        foreach ($this->contentData as $key => $contentDataInstance) {
             if (in_array($contentDataInstance->field_name, $values)) {
                 $contentDataInstance->delete();
                 $this->refresh();
@@ -77,7 +77,7 @@ trait ContentDataTrait
 
     public function scopeWhereContentData($query, $whereArr)
     {
-        $query->whereHas('data', function($query) use ($whereArr){
+        $query->whereHas('contentData', function($query) use ($whereArr){
             foreach($whereArr as $fieldName => $fieldValue) {
                 $query->where('field_name', $fieldName)->where('field_value', $fieldValue);
             }
