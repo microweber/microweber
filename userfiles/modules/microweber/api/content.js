@@ -124,6 +124,9 @@ mw.content = mw.content || {
             datatype: "json",
             async: true,
             success: function (data) {
+                if(data.data) {
+                    data = data.data;
+                }
                 mw.$(mwd.body).removeClass("loading");
                 if (typeof data === 'object' && typeof data.error != 'undefined') {
                     if (typeof e.onError === 'function') {
@@ -140,7 +143,7 @@ mw.content = mw.content || {
             error: function (data) {
                 mw.$(mwd.body).removeClass("loading");
                 if (typeof e.onError === 'function') {
-                    e.onError.call(data);
+                    e.onError.call(data.data || data);
                 }
             },
             complete: function () {
