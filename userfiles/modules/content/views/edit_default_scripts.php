@@ -211,7 +211,7 @@
             data.categories = '';
 
         }
-     
+
 
         module.addClass('loading');
         mw.content.save(data, {
@@ -270,8 +270,9 @@
                     });
                 }
                 else {
-                    $.get('<?php print site_url('api/content/get_link_admin/?id=') ?>' + this, function (data) {
-
+                    var nid = typeof this === "number" ? this : this.id;
+                     $.get('<?php print site_url('api/content/get_link_admin/?id=') ?>' + nid, function (data) {
+                         
                         if (data == null) {
                             return false;
                         }
@@ -283,14 +284,14 @@
                         mw.$("a.quick-post-done-link").attr("href",  data.url + '?editmode=y');
                         mw.$("a.quick-post-done-link").html(data.url);
                     });
-                    mw.$("#<?php print $module_id ?>").attr("content-id", this);
+                    mw.$("#<?php print $module_id ?>").attr("content-id", nid);
                     <?php if($is_quick != false) : ?>
                     //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
                     <?php else: ?>
                     //if (self === parent) {
                     if (self === parent) {
                         //var type =  el['subtype'];
-                        mw.url.windowHashParam("action", "editpage:" + this);
+                        mw.url.windowHashParam("action", "editpage:" + nid);
                     }
                     <?php endif; ?>
                     mw.edit_content.after_save(this);
