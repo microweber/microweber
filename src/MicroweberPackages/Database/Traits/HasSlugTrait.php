@@ -8,6 +8,8 @@
 
 namespace MicroweberPackages\Database\Traits;
 
+use MicroweberPackages\Content\Content;
+
 trait HasSlugTrait
 {
     protected static function bootHasSlugTrait()
@@ -21,6 +23,21 @@ trait HasSlugTrait
         });
     }
 
+    protected function checkSlugExists($slug) {
+
+        $checkCatWithSlug = mw()->category_manager->get_by_url($slug);
+        if($checkCatWithSlug){
+           return true;
+        }
+
+        $checkContentSlugExists = Content::where('url', $slug)->first();
+        if($checkContentSlugExists){
+            return true;
+        }
+
+        return false;
+    }
+
     protected function generateSlugOnCreate()
     {
         if (!empty($this->title)) {
@@ -28,6 +45,10 @@ trait HasSlugTrait
             $slug = mw()->url_manager->slug($this->title);
             if ($slug == '') {
                 $slug = date('Y-M-d-His');
+            }
+
+            if ($this->checkSlugExists($slug)) {
+                $slug = $slug . date('YmdHis');
             }
 
             $this->url = $slug;
@@ -41,6 +62,10 @@ trait HasSlugTrait
             $slug = mw()->url_manager->slug($this->title);
             if ($slug == '') {
                 $slug = date('Y-M-d-His');
+            }
+
+            if ($this->checkSlugExists($slug)) {
+                $slug = $slug . date('YmdHis');
             }
 
             $this->url = $slug;
