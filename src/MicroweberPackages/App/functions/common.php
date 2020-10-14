@@ -459,6 +459,11 @@ function clearcache()
     if (!is_dir($empty_folder)) {
         mkdir_recursive($empty_folder);
     }
+
+    if (isset($_GET['redirect_to'])) {
+        return redirect($_GET['redirect_to']);
+    }
+
     return true;
 }
 

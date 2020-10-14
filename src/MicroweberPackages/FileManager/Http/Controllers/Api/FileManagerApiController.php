@@ -1,10 +1,10 @@
 <?php
-namespace MicroweberPackages\FileManager\Http\Controllers\Admin;
+namespace MicroweberPackages\FileManager\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\Controller;
 
-class FileManager extends Controller {
+class FileManagerApiController extends Controller {
 
     public function listFiles(Request $request) {
 

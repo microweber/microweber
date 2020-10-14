@@ -98,6 +98,7 @@ class SwGen
         }
 
         $baseInfo['paths'] = [];
+        $baseInfo['definitions'] = [];
 
         return $baseInfo;
     }
@@ -153,11 +154,76 @@ class SwGen
             ],
         ];
 
+        $this->addDefinitions();
         $this->addActionParameters();
 
         if ($this->hasSecurityDefinitions) {
             $this->addActionScopes();
         }
+    }
+
+    protected function addDefinitions()
+    {
+        $model = $this->__getDefinitionForModel();
+        if ($model) {
+            //dump($model);
+            $name = (get_class($model));
+            $this->docs['definitions'][$name] = [];
+            $this->docs['definitions'][$name]['type'] = 'object';
+            $this->docs['definitions'][$name]['properties'] = [];
+
+
+            if (method_exists($model, 'getFillable')) {
+
+
+                //   dd($maybe_relations);
+
+                $fillables = $model->getFillable();
+                if ($fillables) {
+                    foreach ($fillables as $fillable) {
+                        //dump($fillable);
+                        $this->docs['definitions'][$name]['properties'][$fillable] = [];
+                        $this->docs['definitions'][$name]['properties'][$fillable]['type'] = 'string';
+
+                    }
+                }
+
+
+            }
+
+            $base_methods = get_class_methods('Illuminate\Database\Eloquent\Model');
+            $model_methods = get_class_methods(get_class($model));
+
+            $maybe_relations = array_diff($model_methods, $base_methods);
+            if ($maybe_relations) {
+                foreach ($maybe_relations as $fillable) {
+
+
+                    $this->docs['definitions'][$name]['properties'][$fillable] = [];
+                    $this->docs['definitions'][$name]['properties'][$fillable]['type'] = 'object';
+
+                    $parsedComment = '';
+                    try {
+                        $docBlock = $this->__getReflectionMethodReflection($model, $fillable);
+                        $parsedComment = $this->docParser->create($docBlock);
+                    } catch (\Exception $e) {
+
+                    }
+                    if ($parsedComment and $parsedComment->getSummary()) {
+                         $this->docs['definitions']['properties'] [$name][$fillable]['type'] = 'object';
+                         $this->docs['definitions']['properties'] [$name][$fillable]['summary'] = $parsedComment->getSummary();
+                    //    $this->docs['definitions'][$name. $fillable]['properties'][$fillable]['$ref'] = '#/definitions/'. $name. $fillable;
+
+
+                    }
+
+
+
+                }
+            }
+
+        }
+
     }
 
     protected function addActionParameters()
@@ -166,10 +232,18 @@ class SwGen
 
         $parameters = (new Parameters\PathParameterGenerator($this->route->originalUri()))->getParameters();
 
+        $name = strtolower(($this->route->getRoute()->getName()));
+
+
+        $tags = explode('.', $name);
+        $remove_last = array_pop($tags);
+
+
         if (!empty($rules)) {
             $parameterGenerator = $this->getParameterGenerator($rules);
 
             $parameters = array_merge($parameters, $parameterGenerator->getParameters());
+            //dump($parameters);
         }
 
         if (!empty($parameters)) {
@@ -182,46 +256,74 @@ class SwGen
             $try_get_summary = explode('@', $action_name);
 
 
-        if (isset($try_get_summary[0]) and $try_get_summary[0]) {
-                if (isset($try_get_summary[1]) and $try_get_summary[1]) {
-                    try {
-                        $rc = new \ReflectionClass($try_get_summary[0]);
-                        $comments = $rc->getMethod($try_get_summary[1])->getDocComment();
-
-                    } catch (\ReflectionException $exception) {
-                        $error = true;
-                    }
+            /* if (isset($try_get_summary[0]) and $try_get_summary[0]) {
+                     if (isset($try_get_summary[1]) and $try_get_summary[1]) {
+                         try {
+                             $rc = new \ReflectionClass($try_get_summary[0]);
+                             $comments = $rc->getMethod($try_get_summary[1])->getDocComment();
 
 
-                    if (!$error and $comments) {
-                        $dbp = new AnnotationParser();
-                        $comments_annotations_parsed = $dbp->getAnnotations($comments);
 
-                        if($comments_annotations_parsed and isset($comments_annotations_parsed['param'])){
-                            $parsed_from_a = $this->_makeParametersFromAnnotations($comments_annotations_parsed['param']);
-                            if($parsed_from_a){
-                              //  $parameters = array_merge($parameters, $parsed_from_a);
-                            }
-                        }
 
-                    }
+                         } catch (\ReflectionException $exception) {
+                             $error = true;
+                         }
+
+     //
+     //                    if (!$error and $comments) {
+     //                        $dbp = new AnnotationParser();
+     //                        $comments_annotations_parsed = $dbp->getAnnotations($comments);
+     //
+     //                        if($comments_annotations_parsed and isset($comments_annotations_parsed['param'])){
+     //                            $parsed_from_a = $this->_makeParametersFromAnnotations($comments_annotations_parsed['param']);
+     //                            if($parsed_from_a){
+     //                              //  $parameters = array_merge($parameters, $parsed_from_a);
+     //                            }
+     //                        }
+     //
+     //                    }
+                     }
+                 }*/
+
+
+            $model = $this->__getDefinitionForModel();
+            if ($model and $parameters) {
+                foreach ($parameters as $key => $parameter) {
+                    $name = (get_class($model));
+                    $parameter['schema']['$ref'] = '#/definitions/' . $name;
+                    $parameters[$key] = $parameter;
                 }
             }
 
-
-            $name = strtolower(($this->route->getRoute()->getName()));
-
-
-            $tags = explode('.', $name);
-            $remove_last = array_pop($tags);
-
-
             $this->docs['paths'][$this->route->uri()][$this->method]['parameters'] = $parameters;
-            $this->docs['paths'][$this->route->uri()][$this->method]['description'] = $this->route->action();
-            $this->docs['paths'][$this->route->uri()][$this->method]['tags'] = [implode('.', $tags)];
-
 
         }
+
+
+        //$this->docs['paths'][$this->route->uri()][$this->method]['description'] = $this->__formatDescription();
+        $this->docs['paths'][$this->route->uri()][$this->method]['description'] = $this->route->action();
+        $this->docs['paths'][$this->route->uri()][$this->method]['tags'] = [implode('.', $tags)];
+    }
+
+    private function __formatDescription()
+    {
+
+        $render = [];
+
+
+        $name = $this->route->action();
+        $action_name = $this->route->getRoute()->getActionName();
+
+
+        $render['name'] = $name;
+        $render['action_name'] = $action_name;
+
+
+        // dump($this->route );
+        // dd($render);
+
+
+        return 1;
     }
 
     protected function addActionScopes()
@@ -235,15 +337,87 @@ class SwGen
         }
     }
 
+
+    private $_map_models_to_action_names = [];
+
+    protected function __getDefinitionForModel()
+    {
+        $defs = [];
+
+        $action_name = $this->route->getRoute()->getActionName();
+
+        $error = false;
+        $comments = false;
+
+        $try_get_summary = explode('@', $action_name);
+
+        if (isset($try_get_summary[0]) and $try_get_summary[0]) {
+            if (isset($try_get_summary[1]) and $try_get_summary[1]) {
+                try {
+                    $rc = new \ReflectionClass($try_get_summary[0]);
+                    //   $comments = $rc->getMethod($try_get_summary[1])->getDocComment();
+                    $constructor = $rc->getConstructor();
+
+                    if ($constructor) {
+                        $constructor_params = $constructor->getParameters();
+                        if ($constructor_params) {
+                            foreach ($constructor_params as $constructor_param) {
+                                $constructor_param_type = $constructor_param->getType();
+                                //  dump($constructor_param->getType());
+                                if ($constructor_param_type) {
+                                    $rc_type_param_class = new \ReflectionClass($constructor_param_type->getName());
+                                    if ($rc_type_param_class->hasMethod('getModel')) {
+                                        $class_name = $constructor_param_type->getName();
+
+                                        $getModel = app()->make($class_name)->getModel();
+                                        $this->_map_models_to_action_names[$action_name] = $getModel;
+                                        return $getModel;
+                                        //dump($class_name);
+                                        // dump($rc_type_param_class);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                } catch (\ReflectionException $exception) {
+                    $error = true;
+                }
+
+                //
+                //                    if (!$error and $comments) {
+                //                        $dbp = new AnnotationParser();
+                //                        $comments_annotations_parsed = $dbp->getAnnotations($comments);
+                //
+                //                        if($comments_annotations_parsed and isset($comments_annotations_parsed['param'])){
+                //                            $parsed_from_a = $this->_makeParametersFromAnnotations($comments_annotations_parsed['param']);
+                //                            if($parsed_from_a){
+                //                              //  $parameters = array_merge($parameters, $parsed_from_a);
+                //                            }
+                //                        }
+                //
+                //                    }
+            }
+        }
+
+        return;
+
+    }
+
     protected function getFormRules(): array
     {
+        $all_rules = [];
+
         $action_instance = $this->getActionClassInstance();
 
         if (!$action_instance) {
             return [];
         }
 
+
         $parameters = $action_instance->getParameters();
+
 
         foreach ($parameters as $parameter) {
             try {
@@ -257,9 +431,12 @@ class SwGen
             if (!$class) {
                 continue;
             }
+
+
             $error = false;
             $class_name = $class->getName();
             $rc = new \ReflectionClass($class_name);
+
             try {
                 $comments = $rc->getMethod('rules')->getDocComment();
 
@@ -274,9 +451,26 @@ class SwGen
                 if (!$rules) {
                     $rules = [];
                 }
-                return $rules;
+                // return $rules;
+                $all_rules = array_merge($all_rules, $rules);
 
             }
+
+
+//            $model = $this->__getDefinitionForModel();
+//            if ($model) {
+//                $name = (get_class($model));
+//                dump($model);
+////                if (method_exists($model, 'getFillable')) {
+////                    $fillables = $model->getFillable();
+////                    if ($fillables) {
+////                        foreach ($fillables as $fillable) {
+////                            //dump($fillable);
+////                            //$fillable
+////                        }
+////                    }
+////                }
+//            }
 
             // if (is_subclass_of($class_name, FormRequest::class)) {
             // }
@@ -284,7 +478,7 @@ class SwGen
 
         }
 
-        return [];
+        return $all_rules;
     }
 
     protected function getParameterGenerator($rules)
@@ -314,12 +508,29 @@ class SwGen
         try {
             $rc = new ReflectionMethod($class, $method);;
 
+
         } catch (\ReflectionException $exception) {
             return null;
 
         }
 
         return $rc;
+
+    }
+
+    private function __getReflectionMethodReflection($class, $method): ?ReflectionMethod
+    {
+
+        // return new ReflectionMethod($class, $method);
+        try {
+            $rc = new ReflectionMethod($class, $method);;
+
+            return $rc;
+        } catch (\ReflectionException $exception) {
+            return null;
+
+        }
+
 
     }
 
@@ -403,14 +614,10 @@ class SwGen
     }
 
 
-
-
-
     private function _makeParametersFromAnnotations($comments_annotations_param)
     {
         $ready = [];
         //  $ready = $comments_annotations_parsed;
-
 
 
         if (isset($comments_annotations_param) and $comments_annotations_param) {
@@ -500,5 +707,7 @@ class SwGen
 
 
         return $ready;
+
+
     }
 }

@@ -1,16 +1,11 @@
 <?php
 namespace MicroweberPackages\Post\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\Scopes\PostScope;
-use MicroweberPackages\Database\Traits\HasSlugTrait;
-use MicroweberPackages\Media\Traits\MediaTrait;
 
-class Post extends Model
+class Post extends Content
 {
-    use HasSlugTrait;
-    use MediaTrait;
-
     protected $table = 'content';
     protected $primaryKey = 'id';
 

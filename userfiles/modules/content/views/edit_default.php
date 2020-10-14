@@ -164,21 +164,21 @@ if (isset($params['quick_edit'])) {
     $data['id'] = intval($data['id']);
     $formActionUrl = site_url() . 'api/save_content_admin';
     if ($type == 'Page') {
-        $formActionUrl = route('admin.pages.index');
+        $formActionUrl = route('api.page.index');
         if ($data['id'] > 0) {
-            $formActionUrl = route('admin.pages.update', $data['id']);
+            $formActionUrl = route('api.page.update', $data['id']);
         }
     }
     if ($type == 'Product') {
-        $formActionUrl = route('admin.products.index');
+        $formActionUrl = route('api.product.index');
         if ($data['id'] > 0) {
-            $formActionUrl = route('admin.products.update', $data['id']);
+            $formActionUrl = route('api.product.update', $data['id']);
         }
     }
     if ($type == 'Post') {
-        $formActionUrl = route('admin.posts.index');
+        $formActionUrl = route('api.post.index');
         if ($data['id'] > 0) {
-            $formActionUrl = route('admin.posts.update', $data['id']);
+            $formActionUrl = route('api.post.update', $data['id']);
         }
     }
     ?>

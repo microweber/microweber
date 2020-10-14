@@ -12,9 +12,9 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontReport = [
-        //
-    ];
+//    protected $dontReport = [
+//        //
+//    ];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -50,6 +50,56 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+
+//      var_dump(  $exception->redirectTo );
+//      exit;
+        $html = parent::render($request, $exception);
+//        $html .= $this->getMicroweberErrorBarHtml();
+//        $html = substr($html, strpos($html, "<!doctype html>"));
+
+        return $html;
+    }
+
+    private function getMicroweberErrorBarHtml()
+    {
+        return '
+        <style>
+        h2 {
+            font-size:25px;
+            font-weight: bold;
+        }
+         #mw-error-clear-cache-form-holder{
+            width:100%;
+            background: #fff;
+            border-top: 1px solid #d7d5e6;
+            position: fixed;
+            bottom: 5px;
+            padding: 15px;
+            z-index: 1000;
+         }
+         #mw-error-clear-cache-forms{
+            margin:10px;
+         }
+         .btn {
+            border: 1px solid #4b476d;
+            background: #342d59;
+            color: #fff;
+            padding: 5px 37px;
+
+         }
+        </style>
+        <div id="mw-error-clear-cache-form-holder">
+            <div id="mw-error-clear-cache-forms">
+                <h2>OOPS! There is some error...</h2>
+                <h3>Try to fix it by yourself using following buttons.</h3>
+                <br />
+                 <a href="' . api_url('mw_post_update') . '?redirect_to='.url_current().'" class="btn">Reload database</a>
+                 <a href="' . api_url('mw_reload_modules') . '?redirect_to='.url_current().'" class="btn">Reload modules</a>
+                 <a href="' . api_url('clearcache') . '?redirect_to='.url_current().'" class="btn">Clear cache</a>
+                 
+                 <a href="" class="btn">Refresh</a>
+            </div>
+        </div>
+        ';
     }
 }

@@ -472,12 +472,10 @@ $user = get_user_by_id($user_id);
                                 </a>
                             <?php endif; ?>
 
-                            <?php if (user_can_view_module(['module' => 'shop.invoices'])): ?>
-                                <?php if (class_exists(\MicroweberPackages\Invoice\Invoice::class)): ?>
-                                    <a href="<?php echo route('invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
+                            <?php if (user_can_view_module(['module' => 'invoices']) && Route::has('admin.invoices.index') && mw()->module_manager->is_installed('invoice')): ?>
+                                    <a href="<?php echo route('admin.invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
                                         <?php _e("Invoices"); ?>
                                     </a>
-                                <?php endif; ?>
                             <?php endif; ?>
 
                             <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">

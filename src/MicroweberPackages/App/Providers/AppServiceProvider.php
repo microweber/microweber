@@ -2,39 +2,39 @@
 
 namespace MicroweberPackages\App\Providers;
 
- use Illuminate\Foundation\AliasLoader;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
-use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\Captcha\CaptchaManagerServiceProvider;
- use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
- use MicroweberPackages\Category\Providers\CategoryServiceProvider;
- use MicroweberPackages\Config\ConfigSave;
+use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
+use MicroweberPackages\Category\Providers\CategoryServiceProvider;
+use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
- use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
- use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
- use MicroweberPackages\Country\CountryServiceProvider;
- use MicroweberPackages\Customer\CustomerServiceProvider;
- use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
- use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
- use MicroweberPackages\Database\DatabaseManagerServiceProvider;
+use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
+use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
+use MicroweberPackages\Country\CountryServiceProvider;
+use MicroweberPackages\Customer\CustomerServiceProvider;
+use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
+use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
+use MicroweberPackages\Database\DatabaseManagerServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\Form\FormsManagerServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
- use MicroweberPackages\Media\MediaManagerServiceProvider;
- use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
- use MicroweberPackages\Menu\Providers\MenuServiceProvider;
- use MicroweberPackages\Module\ModuleServiceProvider;
+use MicroweberPackages\Invoice\InvoicesManagerServiceProvider;
+use MicroweberPackages\Media\MediaManagerServiceProvider;
+use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
+use MicroweberPackages\Menu\Providers\MenuServiceProvider;
+use MicroweberPackages\Module\ModuleServiceProvider;
 
- use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
- use MicroweberPackages\Option\OptionManagerServiceProvider;
+use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
+use MicroweberPackages\Option\OptionManagerServiceProvider;
 use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
 // Shop
@@ -164,8 +164,6 @@ if (! defined('MW_VERSION')) {
 
     public function register() {
 
-
-
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
         $this->setEnvironmentDetection();
@@ -178,7 +176,6 @@ if (! defined('MW_VERSION')) {
         $this->app->instance('config', new ConfigSave($this->app));
 
      //   $this->app->register(TaggableFileCacheServiceProvider::class);
-
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');

@@ -19,7 +19,7 @@ class PostServiceProvider extends ServiceProvider
         Post::observe(BaseModelObserver::class);
         Post::observe(PostObserver::class);
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 
 }

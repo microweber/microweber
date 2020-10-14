@@ -3,7 +3,7 @@ namespace MicroweberPackages\Product\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class ProductCreateRequest extends FormRequest
 {
 
     /**
@@ -14,7 +14,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         $rules = [
-          //  'title' => 'required',
+             'title' => 'required',
         ];
 
         return $rules;

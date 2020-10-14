@@ -27,6 +27,16 @@ trait MediaTrait {
         $this->refresh();
     }
 
+    public function getMediaAttribute()
+    {
+        return $this->media()->get();
+    }
+
+    public function initializeMediaTrait()
+    {
+        $this->appends[] = 'media';
+    }
+
     public static function bootMediaTrait()
     {
         static::saved(function ($model)  {

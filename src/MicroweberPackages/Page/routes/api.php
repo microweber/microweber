@@ -7,11 +7,11 @@
 |
 */
 
-Route::name('admin.')
-    ->prefix('admin')
-    ->namespace('\MicroweberPackages\Post\Http\Controllers\Admin')
+Route::name('api.')
+    ->prefix('api')
+    ->namespace('\MicroweberPackages\Page\Http\Controllers\Api')
     ->group(function () {
 
-        Route::resource('posts', 'PostsController');
+        Route::apiResource('page', 'PageApiController');
 
-});
+    });

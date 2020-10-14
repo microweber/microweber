@@ -1,33 +1,5 @@
 <?php
 
-/*
-Route::get('xaxaxa',function (){
-
-    foreach (get_posts() as $post) {
-
-       $link =  content_link($post['id']);
-
-       var_dump($link);
-    }
-
-});*/
-
-/*
-Route::get('/ebahgo', function() {
-
-    $getMenus = mw()->database_manager->get('menus',[]);
-
-
-    var_dump($getMenus);
-    die(
-    mw()->database_manager->delete_by_id('menus', 149);
-    $getMenusSecond = mw()->database_manager->get('menus',[]);
-
-    dd($getMenus, $getMenusSecond);
-
-});*/
-
-
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
     Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
