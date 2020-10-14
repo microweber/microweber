@@ -8,27 +8,33 @@ trait CategoryTrait {
 
     private $_addContentToCategory = [];
 
-    public function addToCategory($contentId)
+    public function initializeCategoryTrait()
+    {
+        $this->appends[] = 'categories';
+        $this->fillable[] = 'category_ids';
+    }
+
+   /* public function addToCategory($contentId)
     {
         $this->_addContentToCategory[] = $contentId;
-    }
+    }*/
 
     public static function bootCategoryTrait()
     {
         static::saving(function ($model)  {
             // append content to categories
-            $model->_addContentToCategory = $model->categories;
-            unset($model->categories);
+            $model->_addContentToCategory = $model->category_ids;
+            unset($model->category_ids);
         });
 
         static::saved(function($model) {
-            $model->setCategories($model->_addContentToCategory);
+            $model->_setCategories($model->_addContentToCategory);
         });
     }
 
-    public function setCategories($categoryIds) {
+    private function _setCategories($categoryIds) {
 
-        if (is_string($categoryIds)) {
+        if (!is_array($categoryIds)) {
             $categoryIds = explode(',', $categoryIds);
         }
 
@@ -58,20 +64,22 @@ trait CategoryTrait {
 
     }
 
-    public function categories()
+    public function categoryItems()
     {
         return $this->hasMany(CategoryItem::class, 'rel_id');
     }
 
     public function getCategoriesAttribute()
     {
-        return $this->categories()->get();
+        $categories = [];
+
+        foreach($this->categoryItems()->with('parent')->get() as $category) {
+            $categories[] = $category->parent;
+        }
+
+        return collect($categories);
     }
 
-    public function initializeCategoryTrait()
-    {
-        $this->appends[] = 'categories';
-        $this->fillable[] = 'categories';
-    }
+    
 
 }

@@ -40,7 +40,6 @@ class MediaTest extends TestCase
 
         $newPage->save();
 
-        dd($newPage->media()->get());
 
      //   dd('DONE');
     }

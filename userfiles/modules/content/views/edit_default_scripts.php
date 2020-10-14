@@ -206,9 +206,9 @@
 
 
         if (categories.length) {
-            data.categories = categories.join(',')
+            data.category_ids  = categories.join(',')
         } else {
-            data.categories = '';
+            data.category_ids = '';
 
         }
 
