@@ -5,6 +5,11 @@ namespace MicroweberPackages\Category\Listeners;
 
 use MicroweberPackages\Category\Models\CategoryItem;
 
+/**
+ * Class AddCategoryListener
+ * @package MicroweberPackages\Category\Listeners
+ * @deprecated
+ */
 class AddCategoryListener
 {
     public function handle($event)

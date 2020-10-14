@@ -21,7 +21,11 @@ use MicroweberPackages\Product\Events\ContentWasUpdated;
 
 class CategoryEventServiceProvider extends EventServiceProvider
 {
-    protected $listen = [
+
+    /**
+     * @deprecated
+
+        protected $listen = [
         ContentWasCreated::class => [
             AddCategoryListener::class
         ],
@@ -34,7 +38,7 @@ class CategoryEventServiceProvider extends EventServiceProvider
         PostWasUpdated::class => [
             EditCategoryListener::class
         ],
-    ];
+    ];*/
 
 }
 
