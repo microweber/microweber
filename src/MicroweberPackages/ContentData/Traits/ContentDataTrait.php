@@ -7,19 +7,27 @@ use MicroweberPackages\ContentData\Models\ContentData;
 
 trait ContentDataTrait
 {
-    public $contentData = [];
+    public $contentDataToSave = [];
 
+    public function initializeContentDataTrait()
+    {
+        $this->appends[] = 'contentData';
+    }
 
-    public function data()
+    public function getContentDataAttribute()
+    {
+        return $this->contentData()->get();
+    }
+
+    public function contentData()
     {
         return $this->morphMany(ContentData::class, 'rel');
     }
 
-
     public function setContentData($values)
     {
         foreach ($values as $key => $val) {
-                $this->data()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
+                $this->contentData()->where('field_name',$key)->updateOrCreate([ 'field_name' => $key],
                     ['field_name' => $key, 'field_value' => $val]);
         }
     }
@@ -27,15 +35,15 @@ trait ContentDataTrait
     public function getContentData($values = [])
     {
         $res = [];
-        $arrData = !empty($this->data) ? $this->data->toArray() : [];
+        $arrData = !empty($this->contentData) ? $this->contentData->toArray() : [];
 
         if (empty($values)) {
-           return $this->data->pluck('field_value', 'field_name')->toArray();
+           return $this->contentData->pluck('field_value', 'field_name')->toArray();
         }
 
         foreach ($values as $value) {
-            if (array_key_exists($value, $this->contentData)) {
-                $res[$value] = $this->contentData[$value];
+            if (array_key_exists($value, $this->contentDataToSave)) {
+                $res[$value] = $this->contentDataToSave[$value];
             } else {
                 foreach ($arrData as $key => $val) {
                     if ($val['field_name'] == $value) {
@@ -57,10 +65,10 @@ trait ContentDataTrait
                 $this->refresh();
             }
         }
-        foreach ($this->contentData as $key => $value) {
+        foreach ($this->contentDataToSave as $key => $value) {
             foreach ($values as $del_key => $del_value) {
-                if (isset($this->contentData[$del_key])) {
-                    unset($this->contentData[$del_key]);
+                if (isset($this->contentDataToSave[$del_key])) {
+                    unset($this->contentDataToSave[$del_key]);
                 }
             }
         }

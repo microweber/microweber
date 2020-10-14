@@ -23,6 +23,8 @@ class Product extends Content
         'subtype' => 'product'
     ];
 
+    protected $appends = ['price','qty'];
+
     public $fillable = [
         "subtype",
         "subtype_value",
@@ -106,7 +108,7 @@ class Product extends Content
 
     private function fetchSingleContentDataByName($name)
     {
-        foreach($this->data as $contentDataRow) {
+        foreach($this->contentData as $contentDataRow) {
             if($contentDataRow->field_name == $name) {
                 return $contentDataRow->field_value;
             }
