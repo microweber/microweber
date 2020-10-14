@@ -39,6 +39,12 @@ trait MediaTrait {
 
     public static function bootMediaTrait()
     {
+        static::saving(function ($model)  {
+            // append content to categories
+            $this->_newMediaToAssociate[] = $model->medias;
+            unset($model->medias);
+        });
+
         static::saved(function ($model)  {
 
             Media::where('session_id', Session::getId())->where('rel_id', 0)->update(['rel_id'=> $model->id]);

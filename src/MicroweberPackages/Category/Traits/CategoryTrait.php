@@ -6,11 +6,11 @@ use MicroweberPackages\Category\Models\CategoryItem;
 
 trait CategoryTrait {
 
-    public $addContentToCategory = [];
+    private $_addContentToCategory = [];
 
     public function addToCategory($contentId)
     {
-        $this->addContentToCategory[] = $contentId;
+        $this->_addContentToCategory[] = $contentId;
     }
 
     public static function bootCategoryTrait()
@@ -22,7 +22,7 @@ trait CategoryTrait {
         });
 
         static::saved(function($model) {
-            $model->setCategories($model->addContentToCategory);
+            $model->setCategories($model->_addContentToCategory);
         });
     }
 
@@ -58,19 +58,19 @@ trait CategoryTrait {
 
     }
 
-    public function category()
+    public function categories()
     {
         return $this->hasMany(CategoryItem::class, 'rel_id');
     }
 
-    public function getCategoryAttribute()
+    public function getCategoriesAttribute()
     {
-        return $this->category()->get();
+        return $this->categories()->get();
     }
 
     public function initializeCategoryTrait()
     {
-        $this->appends[] = 'category';
+        $this->appends[] = 'categories';
         $this->fillable[] = 'categories';
     }
 
