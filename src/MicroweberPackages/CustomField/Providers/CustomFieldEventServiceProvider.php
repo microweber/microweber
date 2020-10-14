@@ -14,16 +14,16 @@ namespace MicroweberPackages\CustomField\Providers;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use MicroweberPackages\CustomField\Listeners\AddCustomFieldProductListener;
 use MicroweberPackages\CustomField\Listeners\EditCustomFieldProductListener;
-use MicroweberPackages\Product\Events\ProductWasCreated;
-use MicroweberPackages\Product\Events\ProductWasUpdated;
+use MicroweberPackages\Product\Events\ContentWasCreated;
+use MicroweberPackages\Product\Events\ContentWasUpdated;
 
 class CustomFieldEventServiceProvider extends EventServiceProvider
 {
     protected $listen = [
-        ProductWasCreated::class => [
+        ContentWasCreated::class => [
             AddCustomFieldProductListener::class
         ],
-        ProductWasUpdated::class => [
+        ContentWasUpdated::class => [
             EditCustomFieldProductListener::class
         ]
     ];

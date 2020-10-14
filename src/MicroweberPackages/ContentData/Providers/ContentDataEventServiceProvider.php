@@ -14,16 +14,16 @@ namespace MicroweberPackages\ContentData\Providers;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use MicroweberPackages\ContentData\Listeners\AddContentDataProductListener;
 use MicroweberPackages\ContentData\Listeners\EditContentDataProductListener;
-use MicroweberPackages\Product\Events\ProductWasCreated;
-use MicroweberPackages\Product\Events\ProductWasUpdated;
+use MicroweberPackages\Product\Events\ContentWasCreated;
+use MicroweberPackages\Product\Events\ContentWasUpdated;
 
 class ContentDataEventServiceProvider extends EventServiceProvider
 {
     protected $listen = [
-        ProductWasCreated::class => [
+        ContentWasCreated::class => [
             AddContentDataProductListener::class
         ],
-        ProductWasUpdated::class => [
+        ContentWasUpdated::class => [
             EditContentDataProductListener::class
         ]
     ];

@@ -1,21 +1,21 @@
 <?php
 
-namespace MicroweberPackages\Product\Repositories;
+namespace MicroweberPackages\Content\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Product\Events\ContentIsCreating;
-use MicroweberPackages\Product\Events\ContentIsUpdating;
-use MicroweberPackages\Product\Events\ContentWasCreated;
-use MicroweberPackages\Product\Events\ContentWasDeleted;
-use MicroweberPackages\Product\Events\ContentWasUpdated;
-use MicroweberPackages\Product\Product;
+use MicroweberPackages\Content\Events\ContentIsCreating;
+use MicroweberPackages\Content\Events\ContentIsUpdating;
+use MicroweberPackages\Content\Events\ContentWasCreated;
+use MicroweberPackages\Content\Events\ContentWasDeleted;
+use MicroweberPackages\Content\Events\ContentWasUpdated;
 
-class ProductRepository extends BaseRepository
+class ContentRepository extends BaseRepository
 {
 
-    public function __construct(Product $product)
+    public function __construct(Model $model)
     {
-        $this->model = $product;
+        $this->model = $model;
     }
 
     public function create($data)
@@ -55,7 +55,7 @@ class ProductRepository extends BaseRepository
 
     public function destroy($ids)
     {
-        event(new ProductWasDestroy($ids));
+        event(new ContentWasDestroy($ids));
 
         return $this->model->destroy($ids);
     }
