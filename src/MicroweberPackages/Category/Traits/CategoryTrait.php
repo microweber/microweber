@@ -2,29 +2,36 @@
 
 namespace MicroweberPackages\Category\Traits;
 
-/**
- * Trait CategoryTrait
- * @package MicroweberPackages\Category\Traitsde
- * @deprecated
- */
+use MicroweberPackages\Category\Models\CategoryItem;
+
 trait CategoryTrait {
 
-    public $addContentToCategory = [];
+  /*  public $addContentToCategory = [];
 
     public function addToCategory($contentId)
     {
         $this->addContentToCategory[] = $contentId;
     }
 
-
     public static function bootCategoryTrait()
     {
         static::saved(function ($model)  {
             // append content to categories
-
-
         });
+    }*/
+
+    public function category()
+    {
+        return $this->morphMany(CategoryItem::class, 'rel');
     }
 
+    public function getCategoryAttribute()
+    {
+        return $this->category()->get();
+    }
 
+    public function initializeCategoryTrait()
+    {
+        $this->appends[] = 'category';
+    }
 }

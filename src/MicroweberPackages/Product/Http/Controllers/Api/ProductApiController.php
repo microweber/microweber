@@ -14,13 +14,13 @@ use MicroweberPackages\Product\Http\Requests\ProductRequest;
 use MicroweberPackages\Product\Http\Requests\ProductCreateRequest;
 use MicroweberPackages\Product\Http\Requests\ProductUpdateRequest;
 use MicroweberPackages\Product\Http\Resources\ProductJsonResource;
-use MicroweberPackages\Product\Repositories\ContentRepository;
+use MicroweberPackages\Product\Repositories\ProductRepository;
 
 class ProductApiController extends AdminDefaultController
 {
     public $product;
 
-    public function __construct(ContentRepository $product)
+    public function __construct(ProductRepository $product)
     {
         $this->product = $product;
 

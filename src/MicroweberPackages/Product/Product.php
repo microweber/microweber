@@ -1,22 +1,12 @@
 <?php
 namespace MicroweberPackages\Product;
 
-use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\CustomField\CustomField;
-use MicroweberPackages\ContentData\Models\ContentData;
-use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
-use MicroweberPackages\Database\Traits\HasSlugTrait;
-use MicroweberPackages\Media\Traits\MediaTrait;
 
 class Product extends Content
 {
-    use HasSlugTrait;
-    use CustomFieldsTrait;
-    use MediaTrait;
-
     protected $table = 'content';
     protected $attributes = [
         'content_type' => 'product',

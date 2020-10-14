@@ -3,11 +3,11 @@
 namespace MicroweberPackages\Product\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Product\Events\ContentIsCreating;
-use MicroweberPackages\Product\Events\ContentIsUpdating;
-use MicroweberPackages\Product\Events\ContentWasCreated;
-use MicroweberPackages\Product\Events\ContentWasDeleted;
-use MicroweberPackages\Product\Events\ContentWasUpdated;
+use MicroweberPackages\Product\Events\ProductIsCreating;
+use MicroweberPackages\Product\Events\ProductIsUpdating;
+use MicroweberPackages\Product\Events\ProductWasCreated;
+use MicroweberPackages\Product\Events\ProductWasDeleted;
+use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Product\Product;
 
 class ProductRepository extends BaseRepository
@@ -20,11 +20,11 @@ class ProductRepository extends BaseRepository
 
     public function create($data)
     {
-        event($event = new ContentIsCreating($data));
+        event($event = new ProductIsCreating($data));
 
         $product = $this->model->create($data);
 
-        event(new ContentWasCreated($product, $data));
+        event(new ProductWasCreated($product, $data));
 
         return $product;
     }
@@ -33,11 +33,11 @@ class ProductRepository extends BaseRepository
     {
         $product = $this->model->find($id);
 
-        event($event = new ContentIsUpdating($product, $data));
+        event($event = new ProductIsUpdating($product, $data));
 
         $product->update($data);
 
-        event(new ContentWasUpdated($product, $data));
+        event(new ProductWasUpdated($product, $data));
 
         return $product;
     }
@@ -47,7 +47,7 @@ class ProductRepository extends BaseRepository
     {
         $product = $this->model->find($id);
 
-        event(new ContentWasDeleted($product));
+        event(new ProductWasDeleted($product));
 
         return $product->delete();
     }
