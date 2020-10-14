@@ -14,7 +14,7 @@
         mw_admin_edit_settings_load_module = mw.dialog({
             content: '<div id="mw_admin_edit_settings_load_module"></div>',
             title: title,
-            id: 'mw_admin_edit_settings_load_module_popup'
+            id: 'mw_admin_edit_settings_load_module_popup',
         });
         var params = {}
         mw.load_module(module, '#mw_admin_edit_settings_load_module', null, params);

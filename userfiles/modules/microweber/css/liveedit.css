@@ -2777,8 +2777,9 @@ div[id*='SSDIVEL'] {
     left: 100px;
 }
 
-.mw-tooltip-insert-module .mw-tooltip-content {
+.mw-tooltip-insert-module .mw-tooltip-content .plus-modules-list-box{
     max-height: 330px;
+    overflow: auto;
 }
 
 .mw-tooltip-insert-module {

@@ -217,7 +217,7 @@ var _prepare = {
         units = [];
         $('.unit').each(function(){
             // var select = $('<select style="width: 60px"/>');
-            var select = $('<span class="mw-ui-btn mw-ui-btn-medium tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mw-icon-refresh"></i></span>');
+            var select = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-link tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
                 var prev = $(this).parent().prev();
                 output( prev.attr('data-prop'), '');
@@ -566,10 +566,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Text align"); ?></label>
             <div class="s-field-content">
                 <div class="text-align">
-                    <span class="ta-left" data-value="left"><i></i><i></i><i></i></span>
-                    <span class="ta-center" data-value="center"><i></i><i></i><i></i></span>
-                    <span class="ta-right" data-value="right"><i></i><i></i><i></i></span>
-                    <span class="ta-justify" data-value="justify"><i></i><i></i><i></i></span>
+                    <span class="ta-left" data-value="left"><span class="mdi mdi-format-align-left"></span></span>
+                    <span class="ta-center" data-value="center"><span class="mdi mdi-format-align-center"></span></span>
+                    <span class="ta-right" data-value="right"><span class="mdi mdi-format-align-right"></span></span>
+                    <span class="ta-justify" data-value="justify"><span class="mdi mdi-format-align-justify"></span></span>
                 </div>
             </div>
         </div>

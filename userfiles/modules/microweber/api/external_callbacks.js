@@ -3,10 +3,14 @@ mw.iframecallbacks = {
 
     },
     insert_link: function (url, target, link_content) {
-        if(url.callee){
+        if(url.length){
             target = url[1];
             link_content = url[2];
             url = url[0];
+        } else if(url.url ) {
+            url= url.url;
+            target = target || url.target || '_self';
+            link_content = link_content || url.text || '_self';
         }
         url = url.trim();
         var contains = false;

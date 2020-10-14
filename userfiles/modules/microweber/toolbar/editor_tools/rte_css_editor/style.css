@@ -143,6 +143,9 @@ input,select{
         display: none !important;
     }
 
+    #classtags{
+        height: auto;
+    }
     #classtags .disabled{
         pointer-events: none;
     }
@@ -167,21 +170,15 @@ input,select{
     }
 
     .text-align{
-        font-size: 0;
         display: block;
         border: 1px solid #cfcfcf;
         height: 30px;
+        font-size: 0;
     }
-    .text-align i{
-        display: block;
-        height: 1px;
-        width: 12px;
-        background-color: #5f5f5f;
-        margin-top: 2px;
-        clear: both;
-    }
+
     .text-align .active{
         background-color: #0e80e5;
+        color: #fff;
     }
     .text-align > .active:before{
         display: none;
@@ -189,23 +186,7 @@ input,select{
     .text-align .active i{
         background-color: #fff;
     }
-    .ta-left i:nth-child(2),
-    .ta-left i:nth-child(3),
-    .ta-right i:nth-child(2),
-    .ta-right i:nth-child(3),
-    .ta-center i:nth-child(2),
-    .ta-center i:nth-child(3){
-        width: 6px;
-    }
-    .ta-center i:nth-child(2),
-    .ta-center i:nth-child(3){
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .ta-right i:nth-child(2),
-    .ta-right i:nth-child(3){
-        float: right;
-    }
+
 
     .text-align > *{
         display: inline-block;
@@ -213,17 +194,10 @@ input,select{
         height: 28px;
         position: relative;
         cursor: pointer;
-        padding: 7px 12px;
+        padding: 1px 0;
+        text-align: center;
+        font-size: 17px;
     }
-    .text-align > * + *:before{
-        position: absolute;
-        content: '';
-        width: 1px;
-        height: 12px;
-        top: 8px;
-        left: 0;
-        background-color: #e5e5e5;
-     }
 
     #shadow > .mw-ui-field-holder.prop-ui-field-holder{
         float: none;

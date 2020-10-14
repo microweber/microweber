@@ -51,8 +51,6 @@
     };
 
 
-
-
     mw.dialogIframe = function (options, cres) {
         options.pauseInit = true;
         var attr = 'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen';

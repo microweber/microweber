@@ -1769,10 +1769,7 @@ mw.wysiwyg = {
                 url: url || ''
             }
         }
-        /*new mw.LinkEditor().promise().then(function(data) {
-            mw.wysiwyg.restore_selection();
-            mw.iframecallbacks.insert_link(data.url, (data.target ? '_blank' : '_self') , data.text);
-        });*/
+
 
         var dialog = mw.dialogIframe({
             width: 600,
@@ -1783,7 +1780,7 @@ mw.wysiwyg = {
         });
         $(dialog).on('Result', function(e, result){
             mw.wysiwyg.restore_selection();
-            mw.iframecallbacks.insert_link(result.url, (result.target ? '_blank' : '_self') , result.text);
+            mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
         });
         dialog.iframe.onload = function (){
             if(val) {

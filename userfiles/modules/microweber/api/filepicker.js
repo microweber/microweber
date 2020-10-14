@@ -86,10 +86,8 @@ mw.filePicker = function (options) {
             $input.before('<label>Insert file url</label>');
             $input.on('input', function () {
                 var val = this.value.trim();
-                if(!mw.dialog.get(this)) {
-                    scope.setSectionValue(val || null);
-                    scope.result();
-                }
+                scope.setSectionValue(val || null);
+                scope.result();
             });
             return $wrap[0];
         },
@@ -407,7 +405,9 @@ mw.filePicker = function (options) {
     };
 
     this.setSectionValue = function (val) {
+        console.log(val)
         var activeSection = this.activeSection();
+        console.log(activeSection)
         if(activeSection) {
             activeSection._filePickerValue = val;
         }
