@@ -41,7 +41,10 @@ trait MediaTrait {
     {
         static::saving(function ($model)  {
             // append content to categories
-            $this->_newMediaToAssociate[] = $model->medias;
+            if (empty($model->medias)) {
+                return;
+            }
+            $model->_newMediaToAssociate[] = $model->medias;
             unset($model->medias);
         });
 

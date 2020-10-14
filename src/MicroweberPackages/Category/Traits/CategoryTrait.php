@@ -17,7 +17,7 @@ trait CategoryTrait {
     {
         static::saving(function ($model)  {
             // append content to categories
-            $model->addContentToCategory = $model->categories;
+            $model->_addContentToCategory = $model->categories;
             unset($model->categories);
         });
 
