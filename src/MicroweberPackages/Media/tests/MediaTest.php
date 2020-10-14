@@ -18,7 +18,7 @@ class ContentTestModel extends Model
 
 class MediaTest extends TestCase
 {
-    public function asdasdasdtestAddMediaToModel()
+    public function testAddMediaToModel()
     {
         $newPage = new ContentTestModel();
         $newPage->title = 'Pictures from Sofia';
@@ -39,6 +39,8 @@ class MediaTest extends TestCase
 //        ]);
 
         $newPage->save();
+
+        dd($newPage->media()->get());
 
      //   dd('DONE');
     }
