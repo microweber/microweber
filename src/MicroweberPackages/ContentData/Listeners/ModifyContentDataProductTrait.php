@@ -8,7 +8,7 @@
 
 namespace MicroweberPackages\ContentData\Listeners;
 
-use MicroweberPackages\Product\Product;
+use MicroweberPackages\Product\Models\Product;
 
 trait ModifyContentDataProductTrait
 {

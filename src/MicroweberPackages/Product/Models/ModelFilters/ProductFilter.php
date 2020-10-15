@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Product\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductFilter extends ModelFilter
 {
@@ -24,6 +25,9 @@ class ProductFilter extends ModelFilter
 
     public function qty($qty)
     {
-        return $this->where('qty', 'LIKE', "$qty%");
+       return $this->whereHas('contentData', function (Builder $query) use ($qty) {
+            $query->where('field_name', '=', 'qty');
+            $query->where('field_value', '=', $qty);
+        });
     }
 }
