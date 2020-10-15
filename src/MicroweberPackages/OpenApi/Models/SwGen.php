@@ -210,13 +210,12 @@ class SwGen
 
                     }
                     if ($parsedComment and $parsedComment->getSummary()) {
-                         $this->docs['definitions']['properties'] [$name][$fillable]['type'] = 'object';
-                         $this->docs['definitions']['properties'] [$name][$fillable]['summary'] = $parsedComment->getSummary();
-                    //    $this->docs['definitions'][$name. $fillable]['properties'][$fillable]['$ref'] = '#/definitions/'. $name. $fillable;
+                        $this->docs['definitions']['properties'] [$name][$fillable]['type'] = 'object';
+                        $this->docs['definitions']['properties'] [$name][$fillable]['summary'] = $parsedComment->getSummary();
+                        //    $this->docs['definitions'][$name. $fillable]['properties'][$fillable]['$ref'] = '#/definitions/'. $name. $fillable;
 
 
                     }
-
 
 
                 }
@@ -245,15 +244,17 @@ class SwGen
             $parameters = array_merge($parameters, $parameterGenerator->getParameters());
             //dump($parameters);
         }
-
+        $model = $this->__getDefinitionForModel();
+        $action_name = $this->route->getRoute()->getActionName();
+        $try_get_summary = explode('@', $action_name);
+     //   dump($try_get_summary);
         if (!empty($parameters)) {
 
-            $action_name = $this->route->getRoute()->getActionName();
 
             $error = false;
             $comments = false;
 
-            $try_get_summary = explode('@', $action_name);
+
 
 
             /* if (isset($try_get_summary[0]) and $try_get_summary[0]) {
@@ -286,19 +287,75 @@ class SwGen
                  }*/
 
 
-            $model = $this->__getDefinitionForModel();
             if ($model and $parameters) {
                 foreach ($parameters as $key => $parameter) {
                     $name = (get_class($model));
                     $parameter['schema']['$ref'] = '#/definitions/' . $name;
                     $parameters[$key] = $parameter;
                 }
+
+
             }
 
-            $this->docs['paths'][$this->route->uri()][$this->method]['parameters'] = $parameters;
 
         }
 
+        if (isset($try_get_summary[0]) and isset($try_get_summary[1])  and $try_get_summary[1] == 'index') {
+            if ($this->method == 'get' and $model and method_exists($model, 'getModel')) {
+
+                $model = $model->getModel();
+                if ($this->method == 'get' and $model and method_exists($model, 'modelFilter')) {
+                    $model_filter_class_name = $model->modelFilter();
+                    if ($model_filter_class_name) {
+                        if (class_exists($model_filter_class_name)) {
+
+                            $base_methods = get_class_methods('Illuminate\Database\Eloquent\Model');
+                            $base_filters = get_class_methods('EloquentFilter\ModelFilter');
+                            $model_methods = get_class_methods($model_filter_class_name);
+
+                            $class_methods = array_diff($model_methods, $base_methods, $base_filters);
+                            if ($class_methods) {
+
+                                foreach ($class_methods as $class_method) {
+                                    $parsedComment = '';
+                                    $summary = '';
+                                    $description = '';
+                                    try {
+                                        $docBlock = $this->__getReflectionMethodReflection($model_filter_class_name, $class_method);
+                                        $parsedComment = $this->docParser->create($docBlock);
+                                        $summary = $parsedComment->getSummary();
+                                        $description = (string)$parsedComment->getDescription();
+
+
+                                    } catch (\Exception $e) {
+
+                                    }
+
+                                    $stub = array(
+                                        'name' => $class_method,
+                                        'in' => 'path',
+                                        //  'description' => 'ID of pet to return',
+                                        //  'required' => true,
+                                        'type' => 'string'
+                                    );
+                                    if($parsedComment){
+                                        $stub['description'] = $summary;
+                                        $stub['summary'] = $description;
+                                    }
+                                    $parameters[] = $stub;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($parameters)) {
+            $this->docs['paths'][$this->route->uri()][$this->method]['parameters'] = $parameters;
+
+        }
 
         //$this->docs['paths'][$this->route->uri()][$this->method]['description'] = $this->__formatDescription();
         $this->docs['paths'][$this->route->uri()][$this->method]['description'] = $this->route->action();
@@ -317,10 +374,6 @@ class SwGen
 
         $render['name'] = $name;
         $render['action_name'] = $action_name;
-
-
-        // dump($this->route );
-        // dd($render);
 
 
         return 1;
@@ -363,18 +416,20 @@ class SwGen
                         if ($constructor_params) {
                             foreach ($constructor_params as $constructor_param) {
                                 $constructor_param_type = $constructor_param->getType();
-                                //  dump($constructor_param->getType());
                                 if ($constructor_param_type) {
                                     $rc_type_param_class = new \ReflectionClass($constructor_param_type->getName());
-                                    if ($rc_type_param_class->hasMethod('getModel')) {
-                                        $class_name = $constructor_param_type->getName();
+                                    $class_name = $constructor_param_type->getName();
 
-                                        $getModel = app()->make($class_name)->getModel();
+
+                                    if ($rc_type_param_class->hasMethod('getModel')) {
+                                        $getModel = app()->make($class_name);
+
+                                        $getModel->getModel();
                                         $this->_map_models_to_action_names[$action_name] = $getModel;
                                         return $getModel;
-                                        //dump($class_name);
-                                        // dump($rc_type_param_class);
+
                                     }
+
                                 }
                             }
                         }
