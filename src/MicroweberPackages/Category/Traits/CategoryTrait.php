@@ -10,7 +10,8 @@ trait CategoryTrait {
 
     public function initializeCategoryTrait()
     {
-    	$this->with[] = 'categoryItems';
+    	$this->appends[] = 'categories';
+    //	$this->with[] = 'categoryItems';
         $this->fillable[] = 'category_ids';
     }
 
