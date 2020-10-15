@@ -11,7 +11,7 @@ trait ContentDataTrait
 
     public function initializeContentDataTrait()
     {
-        $this->appends[] = 'contentData';
+       // $this->appends[] = 'contentData';
     }
 
     public function getContentDataAttribute()
