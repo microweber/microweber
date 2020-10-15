@@ -25,7 +25,7 @@ class PageRepository extends BaseRepository
 
         event(new PageWasCreated($page, $data));
 
-        return $page->id;
+        return $page;
     }
 
     public function update($data, $id)
@@ -38,7 +38,7 @@ class PageRepository extends BaseRepository
 
         event(new PageWasUpdated($page, $data));
 
-        return $page->id;
+        return $page;
     }
 
     public function delete($id)

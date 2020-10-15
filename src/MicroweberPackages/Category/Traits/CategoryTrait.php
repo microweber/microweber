@@ -80,6 +80,4 @@ trait CategoryTrait {
         return collect($categories);
     }
 
-    
-
 }
