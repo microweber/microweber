@@ -36,7 +36,7 @@ class ProductApiController extends AdminDefaultController
      */
     public function index(ProductRequest $request)
     {
-        return (new ProductJsonResource($this->product->all()))->response();
+        return (new ProductJsonResource($this->product->filter($request->all())->get()))->response();
 
     }
 

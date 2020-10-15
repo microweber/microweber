@@ -1,12 +1,16 @@
 <?php
-namespace MicroweberPackages\Product;
+namespace MicroweberPackages\Product\Models;
 
+use EloquentFilter\Filterable;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\CustomField\CustomField;
+use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 
 class Product extends Content
 {
+    use Filterable;
+
     protected $table = 'content';
     protected $attributes = [
         'content_type' => 'product',
@@ -78,6 +82,12 @@ class Product extends Content
     protected static function booted()
     {
         static::addGlobalScope(new ProductScope());
+    }
+
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(ProductFilter::class);
     }
 
     private function fetchSingleAttributeByName($name, $returnAsObject = false)

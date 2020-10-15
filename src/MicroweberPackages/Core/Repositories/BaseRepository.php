@@ -39,6 +39,10 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->all();
     }
 
+    public function filter($request) {
+        return $this->model->filter($request);
+    }
+
     /**
      * Create a new record in the database
      *

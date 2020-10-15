@@ -223,6 +223,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(  SwaggerServiceProvider::class);
      //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
         $this->app->register(  CountryServiceProvider::class);
+        $this->app->register(  \EloquentFilter\ServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 

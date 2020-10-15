@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93c7e9bf7a176c551e3e1625a7f96eaa",
+    "content-hash": "d0efcd14072e0db79c3ca0a58b573ede",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -9611,6 +9611,67 @@
             "time": "2020-07-13T06:12:54+00:00"
         },
         {
+            "name": "tucker-eric/eloquentfilter",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Tucker-Eric/EloquentFilter.git",
+                "reference": "e2e9f8a07ba040cd291b31c4b5d86e56d3e7e5c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Tucker-Eric/EloquentFilter/zipball/e2e9f8a07ba040cd291b31c4b5d86e56d3e7e5c9",
+                "reference": "e2e9f8a07ba040cd291b31c4b5d86e56d3e7e5c9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5.0|~6.0|~7.0|~8.0",
+                "illuminate/console": "~5.0|~6.0|~7.0|~8.0",
+                "illuminate/database": "~5.0|~6.0|~7.0|~8.0",
+                "illuminate/filesystem": "~5.0|~6.0|~7.0|~8.0",
+                "illuminate/pagination": "~5.0|~6.0|~7.0|~8.0",
+                "illuminate/support": "~5.0|~6.0|~7.0|~8.0",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.1",
+                "phpunit/phpunit": "~5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "EloquentFilter\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "EloquentFilter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric Tucker",
+                    "email": "tucker.ericm@gmail.com"
+                }
+            ],
+            "description": "An Eloquent way to filter Eloquent Models",
+            "keywords": [
+                "eloquent",
+                "filter",
+                "laravel",
+                "model",
+                "query",
+                "search"
+            ],
+            "time": "2020-10-02T04:09:35+00:00"
+        },
+        {
             "name": "twig/twig",
             "version": "3.x-dev",
             "source": {
@@ -12262,7 +12323,8 @@
         "laravel/passport": 20,
         "laravel/sanctum": 20,
         "phpdocumentor/reflection-docblock": 20,
-        "mtrajano/laravel-swagger": 20
+        "mtrajano/laravel-swagger": 20,
+        "tucker-eric/eloquentfilter": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
