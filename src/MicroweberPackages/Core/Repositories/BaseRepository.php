@@ -105,7 +105,6 @@ class BaseRepository implements BaseRepositoryInterface
      */
     public function show($id)
     {
-        
         return $this->model->find($id);
     }
 
