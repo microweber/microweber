@@ -60,7 +60,7 @@ class ProductApiController extends AdminDefaultController
      */
     public function show($id)
     {
-        $result = $this->product->find($id);
+        $result = $this->product->show($id);
 
         return (new ProductJsonResource($result))->response();
     }

@@ -50,7 +50,7 @@ class PageApiController extends AdminDefaultController
      */
     public function show($id)
     {
-        return (new JsonResource($this->page->find($id)));
+        return (new JsonResource($this->page->show($id)));
     }
 
 

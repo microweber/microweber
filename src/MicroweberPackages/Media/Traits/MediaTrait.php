@@ -35,9 +35,8 @@ trait MediaTrait {
 
     public function initializeMediaTrait()
     {
-        $this->appends[] = 'media';
+    	$this->with[] = 'media';
         $this->fillable[] = 'media_ids';
-
     }
 
     public static function bootMediaTrait()

@@ -50,7 +50,7 @@ class PostApiController extends AdminDefaultController
      */
     public function show($id)
     {
-        return (new JsonResource($this->post->find($id)));
+        return (new JsonResource($this->post->show($id)));
     }
 
 

@@ -780,14 +780,14 @@ class DatabaseManager extends DbUtils
 
     public function table($table)
     {
-
-        // @todo move this to external resolver class or array
+  /* @todo move this to external resolver class or array
         if ($table == 'content') {
             return Content::query();
         }
         if ($table == 'media') {
             return Media::query();
         }
+*/
 
         return DB::table($table);
     }
