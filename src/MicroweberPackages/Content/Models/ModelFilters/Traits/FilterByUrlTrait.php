@@ -12,7 +12,7 @@ trait FilterByUrlTrait{
 
     public function url($url)
     {
-        return $this->where('url', $url);
+        return $this->query->where('url', $url);
     }
 
 }

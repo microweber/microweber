@@ -14,9 +14,11 @@ use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPriceTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByQtyTrait;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
 
 class ProductFilter extends ModelFilter
 {
+    use OrderByTrait;
     use FilterByTitleTrait;
     use FilterByQtyTrait;
     use FilterByUrlTrait;

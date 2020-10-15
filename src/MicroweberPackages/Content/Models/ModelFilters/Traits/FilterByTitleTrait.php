@@ -13,7 +13,7 @@ trait FilterByTitleTrait {
 
     public function title($title)
     {
-        return $this->where('title', 'LIKE', "%$title%");
+        return $this->query->where('title', 'LIKE', "%$title%");
     }
 
 }

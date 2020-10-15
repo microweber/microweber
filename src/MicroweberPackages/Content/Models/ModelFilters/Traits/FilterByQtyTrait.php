@@ -14,7 +14,7 @@ trait FilterByQtyTrait {
 
     public function qty($qty)
     {
-        return $this->whereHas('contentData', function (Builder $query) use ($qty) {
+        return $this->query->whereHas('contentData', function (Builder $query) use ($qty) {
             $query->where('field_name', '=', 'qty');
             $query->where('field_value', '=', $qty);
         });
