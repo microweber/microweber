@@ -1,0 +1,23 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Bojidar
+ * Date: 10/15/2020
+ * Time: 3:42 PM
+ */
+
+namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
+use Illuminate\Database\Eloquent\Builder;
+
+trait FilterByQtyTrait {
+
+
+    public function qty($qty)
+    {
+        return $this->whereHas('contentData', function (Builder $query) use ($qty) {
+            $query->where('field_name', '=', 'qty');
+            $query->where('field_value', '=', $qty);
+        });
+    }
+
+}
