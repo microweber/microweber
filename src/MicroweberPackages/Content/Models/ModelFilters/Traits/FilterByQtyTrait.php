@@ -11,7 +11,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait FilterByQtyTrait {
 
-
+    /**
+     * Filter by qty
+     *
+     * @param $qty
+     * @return mixed
+     */
     public function qty($qty)
     {
         return $this->query->whereHas('contentData', function (Builder $query) use ($qty) {

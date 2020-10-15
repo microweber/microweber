@@ -333,7 +333,7 @@ class SwGen
 
                                     $stub = array(
                                         'name' => $class_method,
-                                        'in' => 'path',
+                                        'in' => 'query',
                                         //  'description' => 'ID of pet to return',
                                         //  'required' => true,
                                         'type' => 'string'
