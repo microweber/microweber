@@ -7,6 +7,7 @@
  */
 namespace MicroweberPackages\Post\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Post\Http\Requests\PostRequest;
@@ -27,9 +28,15 @@ class PostApiController extends AdminDefaultController
      * @param PostRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return (new JsonResource($this->post->all()));
+        return (new JsonResource(
+            $this->post
+                ->filter($request->all())
+                ->paginate($request->get('limit', 30))
+                ->appends($request->except('page'))
+
+        ))->response();
     }
 
     /**

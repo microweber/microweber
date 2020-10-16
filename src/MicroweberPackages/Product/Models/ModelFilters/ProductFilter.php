@@ -10,6 +10,7 @@ namespace MicroweberPackages\Product\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use Illuminate\Database\Eloquent\Builder;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPriceTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
@@ -23,5 +24,6 @@ class ProductFilter extends ModelFilter
     use FilterByQtyTrait;
     use FilterByUrlTrait;
     use FilterByPriceTrait;
+    use FilterByKeywordTrait;
 
 }

@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Product\Http\Controllers\Api;
 
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
@@ -34,7 +35,7 @@ class ProductApiController extends AdminDefaultController
      * @param ProductRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ProductRequest $request)
+    public function index(Request $request)
     {
         return (new JsonResource(
             $this->product
