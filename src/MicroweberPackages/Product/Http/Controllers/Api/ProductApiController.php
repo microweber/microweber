@@ -9,11 +9,11 @@
 namespace MicroweberPackages\Product\Http\Controllers\Api;
 
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
 use MicroweberPackages\Product\Http\Requests\ProductCreateRequest;
 use MicroweberPackages\Product\Http\Requests\ProductUpdateRequest;
-use MicroweberPackages\Product\Http\Resources\ProductJsonResource;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
 class ProductApiController extends AdminDefaultController
@@ -36,7 +36,13 @@ class ProductApiController extends AdminDefaultController
      */
     public function index(ProductRequest $request)
     {
-        return (new ProductJsonResource($this->product->filter($request->all())->get()))->response();
+        return (new JsonResource(
+            $this->product
+                ->filter($request->all())
+                ->paginate($request->get('limit', 30))
+                ->appends($request->except('page'))
+
+        ))->response();
 
     }
 
@@ -49,7 +55,7 @@ class ProductApiController extends AdminDefaultController
     public function store(ProductCreateRequest $request)
     {
         $result = $this->product->create($request->all());
-        return (new ProductJsonResource($result))->response();
+        return (new JsonResource($result))->response();
     }
 
     /**
@@ -62,7 +68,7 @@ class ProductApiController extends AdminDefaultController
     {
         $result = $this->product->show($id);
 
-        return (new ProductJsonResource($result))->response();
+        return (new JsonResource($result))->response();
     }
 
 
@@ -77,7 +83,7 @@ class ProductApiController extends AdminDefaultController
     {
 
         $result = $this->product->update($request->all(), $product);
-        return (new ProductJsonResource($result))->response();
+        return (new JsonResource($result))->response();
     }
 
     /**
