@@ -22,9 +22,9 @@ trait MediaTrait {
         return $this;
     }
 
-    public function deleteMedia($media)
+    public function deleteMediaById($id)
     {
-        $media->delete();
+        $this->media()->find($id)->delete();
         $this->refresh();
     }
 

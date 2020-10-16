@@ -65,12 +65,13 @@ class MediaTest extends TestCase
         ]);
 
         $newPage->save();
-//dd($newPage->media);
-//dd($newPage->media());
-        $mediaToDel = $newPage->media[0];
-        //dump($mediaToDel);
-        $newPage->deleteMedia($mediaToDel);
-        //dump('-----------------');
-        dump($newPage->media);
+
+        $newPage->deleteMediaById($newPage->media[0]->id);
+
+        foreach ($newPage->media as $media) {
+            $media->delete();
+        }
+
+        $this->assertEmpty($newPage->media->toArray());
     }
 }
