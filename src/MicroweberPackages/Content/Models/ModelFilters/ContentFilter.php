@@ -18,4 +18,32 @@ class ContentFilter extends ModelFilter
     use OrderByTrait;
     use FilterByTitleTrait;
     use FilterByUrlTrait;
+
+
+    public function fields($fields)
+    {
+        $table = $this->getModel()->getTable();
+
+        $this->query->without('media,categories');
+
+        if (isset($fields) and $fields != false) {
+            $is_fields = $fields;
+            if (!is_array($is_fields)) {
+                $is_fields = explode(',', $is_fields);
+            }
+            if (is_array($is_fields) and !empty($is_fields)) {
+                foreach ($is_fields as $is_field) {
+                    if (is_string($is_field)) {
+                        $is_field = trim($is_field);
+                        if ($is_field != '') {
+                            $this->query->select($table . '.' . $is_field);
+                        }
+                        $this->query->select($table . '.*');
+                    }
+                }
+            }
+        } else {
+            $this->query->select($table . '.*');
+        }
+    }
 }

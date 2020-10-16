@@ -65,7 +65,6 @@ trait QueryFilter
             }
         } else {
             $query = $query->select($table . '.*');
-
         }
 
         if (isset($params['require_table_to_have_any_of_columns']) and $params['require_table_to_have_any_of_columns'] != false) {

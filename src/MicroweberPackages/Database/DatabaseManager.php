@@ -285,10 +285,29 @@ class DatabaseManager extends DbUtils
         }
 
         if ($use_cache == false) {
+
             $data = $query->get();
+
+            if (isset($orig_params['fields']) and $orig_params['fields'] != false) {
+                if (method_exists($query, 'getModel')) {
+                    $builderModel = $query->getModel();
+                    $data->makeHidden(array_keys($builderModel->attributesToArray()));
+                }
+            }
+
         } else {
-            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
-                return $query->get();
+            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query,$orig_params) {
+
+               $queryResponse = $query->get();
+
+                if (isset($orig_params['fields']) and $orig_params['fields'] != false) {
+                    if (method_exists($query, 'getModel')) {
+                        $builderModel = $query->getModel();
+                        $queryResponse->makeHidden(array_keys($builderModel->attributesToArray()));
+                    }
+                }
+
+                return $queryResponse;
             });
         }
 
@@ -784,7 +803,7 @@ class DatabaseManager extends DbUtils
         if ($table == 'content') {
             $model = app()->make(Content::class);
             if ($params && method_exists($model, 'modelFilter')) {
-                return $model->filter($params)->query();
+                return $model->filter($params);
             } else {
                 return $model->query();
             }

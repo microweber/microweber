@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Core\DatabaseManager\tests;
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class DbTest extends TestCase
@@ -190,6 +191,7 @@ class DbTest extends TestCase
     public function testSelectOnlyFields()
     {
         $content = db_get('content', 'limit=2&fields=id,position&order_by=id desc');
+
         foreach ($content as $item) {
             $this->assertTrue(count($item) == 2);
             $this->assertTrue(isset($item['id']));
