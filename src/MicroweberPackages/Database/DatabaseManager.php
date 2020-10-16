@@ -137,7 +137,7 @@ class DatabaseManager extends DbUtils
         }
 
         if ($use_connection == false) {
-            $query = $this->table($table);
+            $query = $this->table($table,$params);
         } else {
             $query = DB::connection($use_connection)->table($table);
         }
@@ -778,11 +778,16 @@ class DatabaseManager extends DbUtils
         return $data;
     }
 
-    public function table($table)
+    public function table($table, $params = false)
     {
-    //@todo move this to external resolver class or array
+        //@todo move this to external resolver class or array
         if ($table == 'content') {
-            return Content::query();
+            $model = app()->make(Content::class);
+            if ($params && method_exists($model, 'modelFilter')) {
+                return $model->filter($params)->query();
+            } else {
+                return $model->query();
+            }
         }
         if ($table == 'media') {
             return Media::query();

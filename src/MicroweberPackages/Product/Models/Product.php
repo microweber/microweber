@@ -1,7 +1,6 @@
 <?php
 namespace MicroweberPackages\Product\Models;
 
-use EloquentFilter\Filterable;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\CustomField\CustomField;
@@ -9,8 +8,6 @@ use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 
 class Product extends Content
 {
-    use Filterable;
-
     protected $table = 'content';
     protected $attributes = [
         'content_type' => 'product',
