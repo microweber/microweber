@@ -46,9 +46,12 @@ class TaggableFileStoreTest extends BaseTest
         $before = microtime(true);
 
         for ($i = 1; $i <= 1000; $i++) {
-            $this->assertEquals('Peter', Cache::tags('people')->get('firstName'));
-            $this->assertEquals('Peter', Cache::tags('artists')->get('firstName'));
-            $this->assertEquals(NULL, Cache::tags('wrongTag')->get('firstName'));
+            Cache::tags('people')->get('firstName');
+            Cache::tags('artists')->get('firstName');
+            Cache::tags('wrongTag')->get('firstName');
+          //  $this->assertEquals('Peter', Cache::tags('people')->get('firstName'));
+           // $this->assertEquals('Peter', Cache::tags('artists')->get('firstName'));
+           // $this->assertEquals(NULL, Cache::tags('wrongTag')->get('firstName'));
         }
 
         $after = microtime(true);
