@@ -201,9 +201,6 @@ class User extends Authenticatable
 
     public function validateAndFill($data)
     {
-
-        var_dump($data);
-
         if (!empty($data['password']) && !empty($data['verify_password'])) {
             $this->rules['password'] = 'required|min:4';
             $this->rules['verify_password'] = 'required|same:password';
@@ -214,24 +211,7 @@ class User extends Authenticatable
             $requireUsername = true;
         }
 
-        /*
-
-        if ($requireUsername) {
-         //   $this->rules['username'][] ='require';57
-        }
-        $this->rules['username'] = [
-            'require',
-            'min:3',
-            //Rule::unique('users', 'username')->ignore($data['id'], 'id'),
-        ];
-
-        $this->rules['email'] = [
-            Rule::unique('users', 'email')->ignore($data['id'], 'id'),
-        ];*/
-
-        $requireUsername = true;
-
-        if ($requireUsername) {
+        if ($requireUsername && isset($data['id']) && $data['id'] > 0) {
             $this->rules['username'] = [
                 'required',
                 'min:6',

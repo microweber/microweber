@@ -9,6 +9,7 @@
 namespace MicroweberPackages\User\Validators;
 
 use Illuminate\Validation\Validator;
+use MicroweberPackages\User\TosManager;
 
 class TermsValidator {
 
@@ -19,23 +20,17 @@ class TermsValidator {
 
         if (!isset($inputs['email']) || empty($inputs['email'])) {
             return false;
-
         }
-        return false;
 
-        /* if(is_array($parameters)) {
+        $checks = [];
+        if(is_array($parameters)) {
             foreach ($parameters as $parameter) {
                 $tos = new TosManager();
-                return $tos->terms_check($parameter, $user_id_or_email);
+                $checks[$parameter] = $tos->terms_check($parameter, $inputs['email']);
             }
         }
-        */
 
-       var_dump($parameters);
-
-        var_dump($validator->getData());
-
-       // die();
+        var_dump($checks);
 
     }
 }

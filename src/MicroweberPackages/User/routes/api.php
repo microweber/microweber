@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Route;
 /**
  * @deprecated
  */
-Route::name('api.deprecated')->prefix('api')->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+/*Route::name('api.deprecated')->prefix('api')->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
     Route::post('user_register', 'AuthController@register');
-});
-
+});*/
+ 
 
 Route::name('api.user.')->prefix('api/user')->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
     Route::post('login', 'AuthController@login')->name('login');

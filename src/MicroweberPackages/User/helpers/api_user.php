@@ -9,6 +9,8 @@ api_expose_user('save_user');
 
 api_expose_admin('delete_user');
 
+api_expose('user_register');
+
 api_expose('social_login_process');
 
 api_expose('user_reset_password_from_link');
