@@ -93,4 +93,15 @@ class TaggableFileStoreTest extends BaseTest
         $this->assertEquals(NULL, Cache::tags('artists')->get('firstName'));
     }
 
+    public function testIncDec()
+    {
+        Cache::put('someinc', 1, now()->addMinutes(6));
+        $this->assertEquals(1, Cache::get('someinc'));
+        Cache::increment('someinc');
+        $this->assertEquals(2, Cache::get('someinc'));
+        Cache::decrement('someinc');
+        $this->assertEquals(1, Cache::get('someinc'));
+
+    }
+
 }
