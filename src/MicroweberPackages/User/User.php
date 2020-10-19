@@ -9,12 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Validation\Rule;
 
 use carbon\carbon;
 
 class User extends Authenticatable
 {
-    use HasFactory,HasRoles, Notifiable, HasApiTokens;
+    use HasFactory, HasRoles, Notifiable, HasApiTokens;
 
     // use the trait
     //  use RevisionableTrait;
@@ -203,6 +204,33 @@ class User extends Authenticatable
         if (!empty($data['password']) && !empty($data['verify_password'])) {
             $this->rules['password'] = 'required|min:4';
             $this->rules['verify_password'] = 'required|same:password';
+        }
+
+        $requireUsername = false;
+        if ((!isset($data['username']) || empty($data['username'])) && (!isset($data['email']) || empty($data['email']))) {
+            $requireUsername = true;
+        }
+
+        /*
+
+        if ($requireUsername) {
+         //   $this->rules['username'][] ='require';57
+        }
+        $this->rules['username'] = [
+            'require',
+            'min:3',
+            //Rule::unique('users', 'username')->ignore($data['id'], 'id'),
+        ];
+
+        $this->rules['email'] = [
+            Rule::unique('users', 'email')->ignore($data['id'], 'id'),
+        ];*/
+
+        if ($requireUsername) {
+            $this->rules['username'] = [
+                'min:1',
+                Rule::unique('users', 'username')->ignore($data['id'], 'id')
+            ];
         }
 
         $this->validator = \Validator::make($data, $this->rules);

@@ -38,6 +38,7 @@ class CreateUserTable extends Migration
                 'first_name' => 'string',
                 'middle_name' => 'string',
                 'last_name' => 'string',
+                'phone' => 'string',
                 'thumbnail' => 'string',
                 'parent_id' => 'integer',
                 'api_key' => 'string',
