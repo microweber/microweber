@@ -40,6 +40,15 @@ class UserTest extends TestCase
         $data['option_key'] = 'enable_user_registration';
         $data['option_group'] = 'users';
         $save = save_option($data);
+
+    }
+
+    private function _disableUserRegistrationWithDisposableEmail()
+    {
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'disable_registration_with_temporary_email';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
     }
 
     private function _disableRegistrationApproval()
@@ -243,6 +252,27 @@ class UserTest extends TestCase
         $registerStatus = $userManager->register($newUser);
 
         $this->assertArrayHasKey('error', $registerStatus);
+    }
+
+
+    public function testDisableUserRegistrationWithDisposableEmail()
+    {
+        $this->_disableUserRegistrationWithDisposableEmail();
+
+        $randomInt = rand(1111, 9999);
+        $password = md5($randomInt);
+
+        // Test simple user registration
+        $newUser = array();
+        $newUser['username'] = 'bobi_' . $randomInt;
+        $newUser['email'] = $newUser['username'] . '@mailinator.com';
+        $newUser['password'] = $password;
+        $newUser['password_confirm'] = $password;
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+         $this->assertArrayHasKey('error', $registerStatus);
+         $this->assertTrue(strpos($registerStatus['error'],'mailinator.com') == true);
     }
 
     public function testUserApprovalRegistration()
