@@ -22,7 +22,6 @@ class CreateTaxTypesTable extends Migration
             $table->tinyInteger('collective_tax')->default(0);
             $table->text('description')->nullable();
             $table->integer('company_id')->unsigned()->nullable();
-            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
     }

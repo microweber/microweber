@@ -20,16 +20,6 @@ class CreateRoleHasPermissionsTable extends Migration
                 $table->unsignedInteger('permission_id');
                 $table->unsignedInteger('role_id');
 
-                $table->foreign('permission_id')
-                    ->references('id')
-                    ->on($tableNames['permissions'])
-                    ->onDelete('cascade');
-
-                $table->foreign('role_id')
-                    ->references('id')
-                    ->on($tableNames['roles'])
-                    ->onDelete('cascade');
-
                 $table->primary(['permission_id', 'role_id']);
 
                 app('cache')->forget('spatie.permission.cache');
