@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('api.')->prefix('api/user')->middleware(['throttle:6,1'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
     Route::post('login', 'AuthController@login');
-  //  Route::post('register', 'AuthController@register');
 });
 
 Route::name('api.')->prefix('api/user')->middleware(['auth:sanctum'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
