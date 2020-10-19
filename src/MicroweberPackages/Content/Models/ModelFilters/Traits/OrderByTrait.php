@@ -16,6 +16,8 @@ trait OrderByTrait
         $orderColumn = $orderBy;
         $orderDirection = 'desc';
 
+        $orderBy = str_replace(' ', ',', $orderBy);
+
         if (strpos($orderBy, ',') !== false) {
             $orderBy = explode(',', $orderBy);
             $orderColumn = $orderBy[0];
