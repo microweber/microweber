@@ -26,7 +26,7 @@ class ContentFilter extends ModelFilter
     {
         $table = $this->getModel()->getTable();
 
-        $this->query->without('media,categories');
+     //   $this->query->without('media,categories');
 
         if (isset($fields) and $fields != false) {
             $is_fields = $fields;
