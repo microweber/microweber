@@ -12,10 +12,9 @@ Route::name('api.')->prefix('api/user')->middleware(['throttle:6,1'])->namespace
   //  Route::post('register', 'AuthController@register');
 });
 
-
 Route::name('api.')->prefix('api/user')->middleware(['auth:sanctum'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
 
-    Route::get('all-user', function() {
+    Route::get('all', function() {
         return json_encode(['drenki_she_poluchish'=>true]);
     });
 
