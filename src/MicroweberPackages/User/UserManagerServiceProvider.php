@@ -12,10 +12,12 @@
 namespace MicroweberPackages\User;
 
 use Illuminate\Auth\AuthServiceProvider;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use \Laravel\Sanctum\SanctumServiceProvider;
+
 
 class UserManagerServiceProvider extends AuthServiceProvider
 {
@@ -50,6 +52,10 @@ class UserManagerServiceProvider extends AuthServiceProvider
 
         //  Passport::routes(); // Add this
         // Passport::enableImplicitGrant();
+
+        // Register Validators
+       // Validator::extendImplicit('username_email', 'UsernameEmailValidator@validate');
+        Validator::extendImplicit('terms', 'MicroweberPackages\User\Validators\TermsValidator@validate');
 
     }
 }

@@ -4,12 +4,22 @@ namespace MicroweberPackages\User\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Http\Controllers\AuthorizationController;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
+use MicroweberPackages\User\Http\Requests\RegisterRequest;
+use MicroweberPackages\User\User;
 
-class AuthController
+class AuthController extends Controller
 {
+    public $middleware = [
+        [
+            'middleware'=>'throttle:130,1',
+            'options'=>[]
+        ]
+    ];
+
     /**
      * Display a listing of Role.
      *
@@ -48,4 +58,19 @@ class AuthController
         }
     }
 
+    /**
+     * register api
+     *
+     * @param \MicroweberPackages\User\Http\Requests\RegisterRequest $request
+
+     * @return \Illuminate\Http\Response
+     */
+    public function register(RegisterRequest $request)
+    {
+
+        $registred = User::create($request->all());
+
+
+        return $registred;
+    }
 }

@@ -148,7 +148,8 @@ class UserManager
 
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
-            $decoded_username = @base64_decode($params['username_encoded']);
+            $decoded_username = @base64_decode($params['
+            ']);
             if (!empty($decoded_username)) {
                 $params['username'] = $decoded_username;
             } else {
