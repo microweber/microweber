@@ -9,6 +9,7 @@ use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
@@ -605,7 +606,7 @@ class UserManager
         $no_captcha = get_option('captcha_disabled', 'users') == 'y';
         $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users') == 'y';
         if ($email != false and $disable_registration_with_temporary_email) {
-            $checker = new \MicroweberPackages\Utils\lib\DisposableEmailChecker();
+            $checker = new DisposableEmailChecker();
             $is_temp_email = $checker->check($email);
             if ($is_temp_email) {
                 $domain = substr(strrchr($email, "@"), 1);
