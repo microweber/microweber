@@ -21,7 +21,7 @@ class CustomFieldsTest extends TestCase
         for ($i = 1; $i <= 10; $i++) {
 
             $rel = 'module';
-            $rel_id = 'layouts-'.rand(1111,9999).'-contact-form';
+            $rel_id = 'layouts-'.rand(1111,9999).$i.'-contact-form';
             $fields_csv_str = 'PersonName[type=text,field_size=6,show_placeholder=true],';
             $fields_csv_str .= 'PersonTelephone[type=phone,field_size=6,show_placeholder=true],';
             $fields_csv_str .= 'PersonMessage[type=textarea,field_size=12,show_placeholder=true]';

@@ -26,7 +26,7 @@ class PostRepository extends BaseRepository
 
         event(new PostWasCreated($post, $data));
 
-        return $post->id;
+        return $post;
     }
 
     public function update($data, $id)
@@ -39,7 +39,7 @@ class PostRepository extends BaseRepository
 
         event(new PostWasUpdated($post, $data));
 
-        return $post->id;
+        return $post;
     }
 
 

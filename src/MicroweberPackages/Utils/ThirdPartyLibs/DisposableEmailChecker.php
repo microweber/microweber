@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\ThirdPartyLibs;
+namespace MicroweberPackages\Utils\ThirdPartyLibs;
 
 
 class DisposableEmailChecker

@@ -1244,6 +1244,9 @@ class ContentManager
                                 }
                             }
                             foreach ($item as $item_k => $item_v) {
+                                if (!is_string($item_k) || !is_string($item_v)) {
+                                    continue;
+                                }
                                 $to_print = str_replace('{' . $item_k . '}', $item_v, $to_print);
                             }
                             ++$res_count;

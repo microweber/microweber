@@ -46,9 +46,12 @@ class TaggableFileStoreTest extends BaseTest
         $before = microtime(true);
 
         for ($i = 1; $i <= 1000; $i++) {
-            $this->assertEquals('Peter', Cache::tags('people')->get('firstName'));
-            $this->assertEquals('Peter', Cache::tags('artists')->get('firstName'));
-            $this->assertEquals(NULL, Cache::tags('wrongTag')->get('firstName'));
+            Cache::tags('people')->get('firstName');
+            Cache::tags('artists')->get('firstName');
+            Cache::tags('wrongTag')->get('firstName');
+          //  $this->assertEquals('Peter', Cache::tags('people')->get('firstName'));
+           // $this->assertEquals('Peter', Cache::tags('artists')->get('firstName'));
+           // $this->assertEquals(NULL, Cache::tags('wrongTag')->get('firstName'));
         }
 
         $after = microtime(true);
@@ -88,6 +91,17 @@ class TaggableFileStoreTest extends BaseTest
         // The caches from this tags must be null
         $this->assertEquals(NULL, Cache::tags('people')->get('firstName'));
         $this->assertEquals(NULL, Cache::tags('artists')->get('firstName'));
+    }
+
+    public function testIncDec()
+    {
+        Cache::put('someinc', 1, now()->addMinutes(6));
+        $this->assertEquals(1, Cache::get('someinc'));
+        Cache::increment('someinc');
+        $this->assertEquals(2, Cache::get('someinc'));
+        Cache::decrement('someinc');
+        $this->assertEquals(1, Cache::get('someinc'));
+
     }
 
 }

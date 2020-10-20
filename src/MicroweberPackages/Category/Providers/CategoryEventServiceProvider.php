@@ -16,16 +16,20 @@ use MicroweberPackages\Category\Listeners\AddCategoryListener;
 use MicroweberPackages\Category\Listeners\EditCategoryListener;
 use MicroweberPackages\Post\Events\PostWasCreated;
 use MicroweberPackages\Post\Events\PostWasUpdated;
-use MicroweberPackages\Product\Events\ProductWasCreated;
-use MicroweberPackages\Product\Events\ProductWasUpdated;
+use MicroweberPackages\Product\Events\ContentWasCreated;
+use MicroweberPackages\Product\Events\ContentWasUpdated;
 
 class CategoryEventServiceProvider extends EventServiceProvider
 {
-    protected $listen = [
-        ProductWasCreated::class => [
+
+    /**
+     * @deprecated
+
+        protected $listen = [
+        ContentWasCreated::class => [
             AddCategoryListener::class
         ],
-        ProductWasUpdated::class => [
+        ContentWasUpdated::class => [
             EditCategoryListener::class
         ],
         PostWasCreated::class => [
@@ -34,6 +38,7 @@ class CategoryEventServiceProvider extends EventServiceProvider
         PostWasUpdated::class => [
             EditCategoryListener::class
         ],
-    ];
+    ];*/
+
 }
 

@@ -335,4 +335,24 @@ class ContentManagerTest extends TestCase
         $this->assertEquals($saved_id, $cont['id']);
     }
 
+    public function testContentSearch()
+    {
+        $title = 'Search By title '. uniqid('kw');
+        app()->database_manager->extended_save_set_permission(true);
+        $params = array(
+            'title' => $title,
+            'content_type' => 'post',
+            'is_active' => 1
+        );
+
+        $saved_id = save_content($params);
+
+        $get = get_content('keyword='.$title);
+
+        $this->assertEquals($title, $get[0]['title']);
+        $this->assertEquals($saved_id, $get[0]['id']);
+
+
+    }
+
 }

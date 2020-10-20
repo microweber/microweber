@@ -7,6 +7,8 @@
  */
 namespace MicroweberPackages\Post\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Post\Http\Requests\PostRequest;
 use MicroweberPackages\Post\Repositories\PostRepository;
@@ -26,9 +28,15 @@ class PostApiController extends AdminDefaultController
      * @param PostRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->post->all();
+        return (new JsonResource(
+            $this->post
+                ->filter($request->all())
+                ->paginate($request->get('limit', 30))
+                ->appends($request->except('page'))
+
+        ))->response();
     }
 
     /**
@@ -38,7 +46,7 @@ class PostApiController extends AdminDefaultController
      */
     public function store(PostRequest $request)
     {
-        return $this->post->create($request->all());
+        return (new JsonResource($this->post->create($request->all())));
     }
 
     /**
@@ -49,7 +57,7 @@ class PostApiController extends AdminDefaultController
      */
     public function show($id)
     {
-        return $this->post->find($id);
+        return (new JsonResource($this->post->show($id)));
     }
 
 
@@ -62,7 +70,7 @@ class PostApiController extends AdminDefaultController
      */
     public function update(PostRequest $request, $id)
     {
-        return $this->post->update($request->all(), $id);
+        return (new JsonResource($this->post->update($request->all(), $id)));
     }
 
     /**
@@ -73,7 +81,7 @@ class PostApiController extends AdminDefaultController
      */
     public function delete($id)
     {
-        return $this->post->delete($id);
+        return (new JsonResource($this->post->delete($id)));
     }
 
     /**
@@ -84,7 +92,7 @@ class PostApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return $this->post->destroy($ids);
+        return (new JsonResource($this->post->destroy($ids)));
     }
 
 }

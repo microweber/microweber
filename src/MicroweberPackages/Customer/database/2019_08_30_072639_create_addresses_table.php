@@ -21,17 +21,13 @@ class CreateAddressesTable extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->integer('country_id')->unsigned()->nullable();
-            $table->foreign('country_id')->references('id')->on('countries');
             $table->string('zip')->nullable();
             $table->string('phone')->nullable();
             $table->string('fax')->nullable();
             $table->string('type')->nullable();
 
             $table->integer('customer_id')->unsigned()->nullable();
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-
             $table->integer('company_id')->unsigned()->nullable();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
             $table->timestamps();
         });

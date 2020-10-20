@@ -4,12 +4,22 @@ namespace MicroweberPackages\User\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Http\Controllers\AuthorizationController;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
+use MicroweberPackages\User\Http\Requests\RegisterRequest;
+use MicroweberPackages\User\User;
 
-class AuthController
+class AuthController extends Controller
 {
+    /*  public $middleware = [
+          [
+              'middleware'=>'throttle:130,1',
+              'options'=>[]
+          ]
+      ];*/
+
     /**
      * Display a listing of Role.
      *
@@ -28,58 +38,9 @@ class AuthController
     }
 
     /**
-     * @OA\Post(
-     ** path="/api/login",
-     *   tags={"Login"},
-     *   summary="Login",
-     *   operationId="login",
-     *
-     *   @OA\Parameter(
-     *      name="username",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *          type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=200,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
-    /**
      * login api
      *
      * @param \MicroweberPackages\User\Http\Requests\LoginRequest $request
-
      * @return \Illuminate\Http\Response
      */
     public function login(LoginRequest $request)
@@ -96,39 +57,16 @@ class AuthController
         }
     }
 
-
-
     /**
-     * @OA\Get(
-     *      path="/api/all-user",
-     *      operationId="getUserList",
-     *      tags={"Users"},
-     *      security={{"token": {}}},
-     *      summary="Get list of users",
-     *      description="Returns list of users",
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     * @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     * @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *  )
+     * register api
+     *
+     * @param \MicroweberPackages\User\Http\Requests\RegisterRequest $request
+     * @return \Illuminate\Http\Response
      */
+    public function register(RegisterRequest $request)
+    {
+        $registred = User::create($request->all());
+
+        return $registred;
+    }
 }

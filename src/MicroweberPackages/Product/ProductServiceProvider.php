@@ -4,6 +4,7 @@ namespace MicroweberPackages\Product;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
+use MicroweberPackages\Product\Models\Product;
 
 class ProductServiceProvider extends ServiceProvider
 {

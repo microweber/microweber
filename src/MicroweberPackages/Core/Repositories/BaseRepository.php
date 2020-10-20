@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Content\Content;
 
 /**
  * Interface CoreRepository
@@ -36,6 +37,10 @@ class BaseRepository implements BaseRepositoryInterface
     public function all()
     {
         return $this->model->all();
+    }
+
+    public function filter($request) {
+        return $this->model->filter($request);
     }
 
     /**
@@ -94,6 +99,17 @@ class BaseRepository implements BaseRepositoryInterface
     public function find($id)
     {
         return $this->model->findOrFail($id);
+    }
+
+    /**
+     * Show the record with the given id and relations
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function show($id)
+    {
+        return $this->model->find($id);
     }
 
     /**

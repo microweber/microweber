@@ -19,12 +19,6 @@ class CreateModelHasRolesTable extends Migration
             Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames) {
                 $table->unsignedInteger('role_id');
                 $table->morphs('model');
-
-                $table->foreign('role_id')
-                    ->references('id')
-                    ->on($tableNames['roles'])
-                    ->onDelete('cascade');
-
                 $table->primary(['role_id', 'model_id', 'model_type']);
             });
         }
@@ -33,16 +27,6 @@ class CreateModelHasRolesTable extends Migration
             Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
                 $table->unsignedInteger('permission_id');
                 $table->unsignedInteger('role_id');
-
-                $table->foreign('permission_id')
-                    ->references('id')
-                    ->on($tableNames['permissions'])
-                    ->onDelete('cascade');
-
-                $table->foreign('role_id')
-                    ->references('id')
-                    ->on($tableNames['roles'])
-                    ->onDelete('cascade');
 
                 $table->primary(['permission_id', 'role_id']);
 

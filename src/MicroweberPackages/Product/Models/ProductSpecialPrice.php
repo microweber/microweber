@@ -1,6 +1,9 @@
 <?php
-namespace MicroweberPackages\Product;
+namespace MicroweberPackages\Product\Models;
 
+/**
+ * @deprecated
+ */
 
 use MicroweberPackages\CustomField\CustomField;
 use MicroweberPackages\Product\Scopes\SpecialPriceScope;

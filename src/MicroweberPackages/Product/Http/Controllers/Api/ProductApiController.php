@@ -9,11 +9,12 @@
 namespace MicroweberPackages\Product\Http\Controllers\Api;
 
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Product\Http\Requests\ProductRequest;
 use MicroweberPackages\Product\Http\Requests\ProductCreateRequest;
 use MicroweberPackages\Product\Http\Requests\ProductUpdateRequest;
-use MicroweberPackages\Product\Http\Resources\ProductJsonResource;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
 class ProductApiController extends AdminDefaultController
@@ -34,9 +35,15 @@ class ProductApiController extends AdminDefaultController
      * @param ProductRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ProductRequest $request)
+    public function index(Request $request)
     {
-        return (new ProductJsonResource($this->product->all()))->response();
+        return (new JsonResource(
+            $this->product
+                ->filter($request->all())
+                ->paginate($request->get('limit', 30))
+                ->appends($request->except('page'))
+
+        ))->response();
 
     }
 
@@ -49,7 +56,7 @@ class ProductApiController extends AdminDefaultController
     public function store(ProductCreateRequest $request)
     {
         $result = $this->product->create($request->all());
-        return (new ProductJsonResource($result))->response();
+        return (new JsonResource($result))->response();
     }
 
     /**
@@ -60,9 +67,9 @@ class ProductApiController extends AdminDefaultController
      */
     public function show($id)
     {
-        $result = $this->product->find($id);
+        $result = $this->product->show($id);
 
-        return (new ProductJsonResource($result))->response();
+        return (new JsonResource($result))->response();
     }
 
 
@@ -77,7 +84,7 @@ class ProductApiController extends AdminDefaultController
     {
 
         $result = $this->product->update($request->all(), $product);
-        return (new ProductJsonResource($result))->response();
+        return (new JsonResource($result))->response();
     }
 
     /**

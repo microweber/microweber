@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
-use MicroweberPackages\Captcha\CaptchaManagerServiceProvider;
+use MicroweberPackages\Utils\Captcha\CaptchaManagerServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
@@ -27,8 +27,7 @@ use MicroweberPackages\Form\FormsManagerServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
-use MicroweberPackages\Invoice\InvoicesManagerServiceProvider;
-use MicroweberPackages\Media\MediaManagerServiceProvider;
+ use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
@@ -223,6 +222,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(  SwaggerServiceProvider::class);
      //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
         $this->app->register(  CountryServiceProvider::class);
+        $this->app->register(  \EloquentFilter\ServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 

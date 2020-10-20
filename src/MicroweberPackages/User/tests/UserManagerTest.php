@@ -1,8 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Users\tests;
+namespace MicroweberPackages\User\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\User\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 
@@ -11,60 +12,9 @@ use MicroweberPackages\Utils\Mail\MailSender;
  * @author Bobi Slaveykvo Microweber
  * @command php phpunit.phar --filter UserTest
  */
-class UserTest extends TestCase
+class UserManagerTest extends TestCase
 {
-    private static $_username = false;
-    private static $_password = false;
-    private static $_email = false;
-
-    private function _disableCaptcha()
-    {
-        $data['option_value'] = 'y';
-        $data['option_key'] = 'captcha_disabled';
-        $data['option_group'] = 'users';
-        $save = save_option($data);
-
-    }
-
-    private function _enableUserRegistration()
-    {
-        $data['option_value'] = 'y';
-        $data['option_key'] = 'enable_user_registration';
-        $data['option_group'] = 'users';
-        $save = save_option($data);
-    }
-
-    private function _disableUserRegistration()
-    {
-        $data['option_value'] = 'n';
-        $data['option_key'] = 'enable_user_registration';
-        $data['option_group'] = 'users';
-        $save = save_option($data);
-    }
-
-    private function _disableRegistrationApproval()
-    {
-        $data['option_value'] = 'n';
-        $data['option_key'] = 'registration_approval_required';
-        $data['option_group'] = 'users';
-        $save = save_option($data);
-    }
-
-    private function _enableRegistrationApproval()
-    {
-        $data['option_value'] = 'y';
-        $data['option_key'] = 'registration_approval_required';
-        $data['option_group'] = 'users';
-        $save = save_option($data);
-    }
-
-    private function _enableRegisterEmail()
-    {
-        $data['option_value'] = 'y';
-        $data['option_key'] = 'register_email_enabled';
-        $data['option_group'] = 'users';
-        $save = save_option($data);
-    }
+    use UserTestHelperTrait;
 
     public function testRegistration()
     {
@@ -243,6 +193,32 @@ class UserTest extends TestCase
         $registerStatus = $userManager->register($newUser);
 
         $this->assertArrayHasKey('error', $registerStatus);
+    }
+
+
+    public function testDisableUserRegistrationWithDisposableEmail()
+    {
+        $this->_disableUserRegistrationWithDisposableEmail();
+        $this->_disableCaptcha();
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApproval();
+
+        $randomInt = rand(1111, 9999);
+        $password = md5($randomInt);
+
+        // Test simple user registration
+        $newUser = array();
+        $newUser['username'] = 'anon' . $randomInt;
+        $newUser['email'] = $newUser['username'] . '@mailinator.com';
+        $newUser['password'] = $password;
+        $newUser['password_confirm'] = $password;
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+        $this->assertArrayHasKey('error', $registerStatus);
+
+
+        $this->assertTrue(strpos($registerStatus['error'],'mailinator.com') == true);
     }
 
     public function testUserApprovalRegistration()

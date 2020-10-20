@@ -9,6 +9,7 @@ use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
@@ -147,7 +148,8 @@ class UserManager
 
         // So we use second parameter
         if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
-            $decoded_username = @base64_decode($params['username_encoded']);
+            $decoded_username = @base64_decode($params['
+            ']);
             if (!empty($decoded_username)) {
                 $params['username'] = $decoded_username;
             } else {
@@ -172,7 +174,7 @@ class UserManager
         if (is_array($override)) {
             foreach ($override as $resp) {
                 if (isset($resp['error']) or isset($resp['success'])) {
-                    if (isset($resp['success']) and isset($resp['redirect']) ) {
+                    if (isset($resp['success']) and isset($resp['redirect'])) {
                         $redirect_after = $resp['redirect'];
                     }
                     $return_resp = $resp;
@@ -256,8 +258,8 @@ class UserManager
 
             $this->app->event_manager->trigger('mw.user.login', $user_data);
             if ($ok && $redirect_after) {
-                if(is_ajax()){
-                    return ['success' => 'You are logged in!', 'redirect'=>$redirect_after];
+                if (is_ajax()) {
+                    return ['success' => 'You are logged in!', 'redirect' => $redirect_after];
                 }
                 return $this->app->url_manager->redirect($redirect_after);
             } elseif ($ok) {
@@ -605,7 +607,7 @@ class UserManager
         $no_captcha = get_option('captcha_disabled', 'users') == 'y';
         $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users') == 'y';
         if ($email != false and $disable_registration_with_temporary_email) {
-            $checker = new \MicroweberPackages\Utils\lib\DisposableEmailChecker();
+            $checker = new DisposableEmailChecker();
             $is_temp_email = $checker->check($email);
             if ($is_temp_email) {
                 $domain = substr(strrchr($email, "@"), 1);
@@ -1129,10 +1131,14 @@ class UserManager
                 }
             }
 
-            if ($params['roles'][0] == 'Super Admin') {
-                $user->is_admin = 1;
-            } else {
-                $user->assignRole($params['roles']);
+            if ($this->is_admin()) {
+                if (isset($params['roles'][0])) {
+                    if ($params['roles'][0] == 'Super Admin') {
+                        $user->is_admin = 1;
+                    } else {
+                        $user->assignRole($params['roles']);
+                    }
+                }
             }
 
             try {
@@ -1167,7 +1173,7 @@ class UserManager
         } else {
             $errorMessages = '';
             foreach ($getValidatorMessages as $validatorInputs) {
-                foreach($validatorInputs as $validatorInput) {
+                foreach ($validatorInputs as $validatorInput) {
                     $errorMessages .= $validatorInput . '<br />';
                 }
             }

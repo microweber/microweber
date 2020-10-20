@@ -436,7 +436,12 @@ class TaggableFileStore implements Store
      */
     public function increment($key, $value = 1)
     {
-        throw new \LogicException('Not supported by this driver.');
+        $oldValue = (int) $this->get($key);
+        $newValue = $oldValue + $value;
+
+        $this->put($key, $newValue);
+
+        return $newValue;
     }
 
     /**
@@ -449,7 +454,12 @@ class TaggableFileStore implements Store
      */
     public function decrement($key, $value = 1)
     {
-        throw new \LogicException('Not supported by this driver.');
+        $oldValue = (int) $this->get($key);
+        $newValue = $oldValue - $value;
+
+        $this->put($key, $newValue);
+
+        return $newValue;
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Captcha;
+namespace MicroweberPackages\Utils\Captcha;
 
-use MicroweberPackages\Captcha\Adapters\GoogleRecaptchaV2;
-use MicroweberPackages\Captcha\Adapters\GoogleRecaptchaV3;
-use MicroweberPackages\Captcha\Adapters\MicroweberCaptcha;
+use MicroweberPackages\Utils\Captcha\Adapters\GoogleRecaptchaV2;
+use MicroweberPackages\Utils\Captcha\Adapters\GoogleRecaptchaV3;
+use MicroweberPackages\Utils\Captcha\Adapters\MicroweberCaptcha;
 
 /**
  * Cache class.
@@ -61,6 +61,12 @@ class CaptchaManager
     public function render($params = array())
     {
         return $this->adapter->render($params);
+    }
+
+
+    public function setAdapter($adapter)
+    {
+        return $this->adapter = $adapter;
     }
 
 }

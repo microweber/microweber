@@ -7,6 +7,7 @@
  */
 namespace MicroweberPackages\Page\Http\Controllers\Api;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Page\Http\Requests\PageRequest;
 use MicroweberPackages\Page\Repositories\PageRepository;
@@ -28,7 +29,7 @@ class PageApiController extends AdminDefaultController
      */
     public function index()
     {
-        return $this->page->all();
+        return (new JsonResource($this->page->all()))->response();
     }
 
     /**
@@ -38,7 +39,7 @@ class PageApiController extends AdminDefaultController
      */
     public function store(PageRequest $request)
     {
-        return $this->page->create($request->all());
+        return (new JsonResource($this->page->create($request->all())));
     }
 
     /**
@@ -49,7 +50,7 @@ class PageApiController extends AdminDefaultController
      */
     public function show($id)
     {
-        return $this->page->find($id);
+        return (new JsonResource($this->page->show($id)));
     }
 
 
@@ -62,7 +63,7 @@ class PageApiController extends AdminDefaultController
      */
     public function update(PageRequest $request, $id)
     {
-        return $this->page->update($request->all(), $id);
+        return (new JsonResource($this->page->update($request->all(), $id)));
     }
 
     /**
@@ -73,7 +74,7 @@ class PageApiController extends AdminDefaultController
      */
     public function delete($id)
     {
-        return $this->page->delete($id);
+        return (new JsonResource($this->page->delete($id)));
     }
 
     /**
@@ -84,6 +85,6 @@ class PageApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return $this->page->destroy($ids);
+        return (new JsonResource($this->page->destroy($ids)));
     }
 }

@@ -4,6 +4,11 @@ namespace MicroweberPackages\Category\Listeners;
 
 use MicroweberPackages\Category\Models\CategoryItem;
 
+/**
+ * Class EditCategoryListener
+ * @package MicroweberPackages\Category\Listeners
+ * @deprecated
+ */
 class EditCategoryListener
 {
     public function handle($event)

@@ -1,22 +1,13 @@
 <?php
-namespace MicroweberPackages\Product;
+namespace MicroweberPackages\Product\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\CustomField\CustomField;
-use MicroweberPackages\ContentData\Models\ContentData;
-use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
-use MicroweberPackages\Database\Traits\HasSlugTrait;
-use MicroweberPackages\Media\Traits\MediaTrait;
+use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 
 class Product extends Content
 {
-    use HasSlugTrait;
-    use CustomFieldsTrait;
-    use MediaTrait;
-
     protected $table = 'content';
     protected $attributes = [
         'content_type' => 'product',
@@ -88,6 +79,12 @@ class Product extends Content
     protected static function booted()
     {
         static::addGlobalScope(new ProductScope());
+    }
+
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(ProductFilter::class);
     }
 
     private function fetchSingleAttributeByName($name, $returnAsObject = false)

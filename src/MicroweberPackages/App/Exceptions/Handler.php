@@ -51,13 +51,19 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
 
-//      var_dump(  $exception->redirectTo );
-//      exit;
-        $html = parent::render($request, $exception);
-//        $html .= $this->getMicroweberErrorBarHtml();
-//        $html = substr($html, strpos($html, "<!doctype html>"));
+        $exceptionRenderer = parent::render($request, $exception);
 
-        return $html;
+        if (is_admin()) {
+            $exceptionContent = $exceptionRenderer->getContent();
+            if (is_string($exceptionContent)) {
+                if (strpos($exceptionContent, 'Ignition.start();') !== false) {
+                    $exceptionContent .= $this->getMicroweberErrorBarHtml();
+                    return $exceptionContent;
+                }
+            }
+        }
+
+        return $exceptionRenderer;
     }
 
     private function getMicroweberErrorBarHtml()

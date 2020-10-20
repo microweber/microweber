@@ -367,7 +367,7 @@ class MailSender
             return true;
         } catch (\Exception $e) {
 
-            $exceptionMessage  = 'C aught exception: ' . $e->getMessage() . "\n";
+            $exceptionMessage  = 'Caught exception: ' . $e->getMessage() . "\n";
             $exceptionMessage .= 'File: ' . $e->getFile() . "\n";
             $exceptionMessage .= 'Line: ' . $e->getLine() . "\n";
 
@@ -376,6 +376,9 @@ class MailSender
             if ($this->silent_exceptions) {
                 return false;
             } else {
+                if (defined('MW_UNIT_TEST')) {
+                    return false;
+                }
                 echo $exceptionMessage;
                 return false;
             }

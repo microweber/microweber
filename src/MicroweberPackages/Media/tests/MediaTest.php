@@ -18,7 +18,7 @@ class ContentTestModel extends Model
 
 class MediaTest extends TestCase
 {
-    public function asdasdasdtestAddMediaToModel()
+    public function testAddMediaToModel()
     {
         $newPage = new ContentTestModel();
         $newPage->title = 'Pictures from Sofia';
@@ -39,6 +39,7 @@ class MediaTest extends TestCase
 //        ]);
 
         $newPage->save();
+
 
      //   dd('DONE');
     }
@@ -64,12 +65,13 @@ class MediaTest extends TestCase
         ]);
 
         $newPage->save();
-//dd($newPage->media);
-//dd($newPage->media());
-        $mediaToDel = $newPage->media[0];
-        //dump($mediaToDel);
-        $newPage->deleteMedia($mediaToDel);
-        //dump('-----------------');
-        dump($newPage->media);
+
+        $newPage->deleteMediaById($newPage->media[0]->id);
+
+        foreach ($newPage->media as $media) {
+            $media->delete();
+        }
+
+        $this->assertEmpty($newPage->media->toArray());
     }
 }

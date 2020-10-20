@@ -17,7 +17,7 @@ class BaseModel extends Eloquent
 {
 
     protected $guarded = array();
-
+    public $relationships = array();
     protected $rules = array();
     private $validator;
 
