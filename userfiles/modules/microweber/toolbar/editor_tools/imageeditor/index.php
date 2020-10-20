@@ -10,8 +10,19 @@
             position: relative;
             text-align: center;
             max-width: 100%;
-            max-height: 300px;
+            height: 200px;
             direction: ltr !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            background-image:
+                linear-gradient(45deg, #ccc 25%, transparent 25%),
+                linear-gradient(-45deg, #ccc 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #ccc 75%),
+                linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size:20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
 
         #mwimagecurrentoverlay{
@@ -28,7 +39,7 @@
 
         #the-image-holder img {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 100%;
             box-shadow: 0 0 4px -2px #000;
             -webkit-box-shadow: 0 0 4px -1px #000;
         }
@@ -101,18 +112,19 @@
                 <div class="mw-ui-btn-nav pull-left" style="margin-right:12px">
 
 
-                  <span class="mw-ui-btn" onclick="createCropTool();">
-                    <span class="mw-icon-crop"></span> &nbsp;<?php _e('Crop') ?>
+                  <span class="mw-ui-btn tip" data-tip="<?php _e('Crop') ?>" onclick="createCropTool();">
+                    <span class="mdi mdi-crop"></span>
                   </span>
-                  <span class="mw-ui-btn mw-ui-btn-icon"
+                  <span class="mw-ui-btn mw-ui-btn-icon tip"
+                        data-tip="<?php _e('Rotate'); ?>"
                         onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
-                    <span class="mw-icon-app-refresh-empty"></span> &nbsp; <?php _e('Rotate'); ?>
+                    <span class="mdi mdi-refresh"></span>
                   </span>
 
                 </div>
 
 
-                <div class="mw-dropdown mw-dropdown-default pull-left" id="" style="width: 140px;">
+                <div class="mw-dropdown mw-dropdown-default pull-left">
                     <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val"><?php _e("Effects"); ?></span>
                     <div class="mw-dropdown-content" style="display: none;">
                         <ul>

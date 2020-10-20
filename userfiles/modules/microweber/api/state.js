@@ -230,12 +230,17 @@
             mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
-            if(!data.active || !data.active.target) {
+
+
+
+            if(!data.active || (!data.active.target && !data.active.action)) {
                 mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
                 mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
                 return;
             }
-            if(document.body.contains(data.active.target)) {
+            if(data.active.action) {
+                data.active.action();
+            } else if(document.body.contains(data.active.target)) {
                 mw.$(data.active.target).html(data.active.value);
             } else{
                 if(data.active.target.id) {
@@ -252,6 +257,21 @@
 
         mw.$('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
         mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);
+
+
+
+
+
+        mw.element(document.body).on('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'z') {
+                e.preventDefault();
+                mw.liveEditState.undo();
+            } else if (e.ctrlKey && e.key === 'y') {
+                e.preventDefault();
+                mw.liveEditState.redo();
+            }
+        });
+
     });
 
 })();

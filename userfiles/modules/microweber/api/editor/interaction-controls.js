@@ -71,8 +71,11 @@ MWEditor.interactionControls = {
             });
             var changeButton = mw.element({
                 props: {
-                    innerHTML: rootScope.lang('Change'),
-                    className: 'mw-ui-btn mw-ui-btn-medium'
+                    innerHTML: '<i class="mdi mdi-folder-multiple-image"></i>',
+                    className: 'mw-ui-btn mw-ui-btn-medium tip',
+                    dataset: {
+                        tip: rootScope.lang('Change image')
+                    }
                 }
             });
             changeButton.on('click', function () {
@@ -92,10 +95,16 @@ MWEditor.interactionControls = {
                     }
                 }
             });
-            el.append(changeButton);
-            el.append(editButton);
+            var nav = mw.element({
+                props: {
+                    className: 'mw-ui-btn-nav'
+                }
+            });
+            nav.append(changeButton);
+            el.append(nav);
+            // nav.append(editButton);
             this.nodes.push(el.node, changeButton.node, editButton.node);
-            el.hide()
+            el.hide();
             return el;
         };
         this.interact = function (data) {

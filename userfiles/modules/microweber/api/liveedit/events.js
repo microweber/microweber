@@ -1,8 +1,10 @@
 mw.liveedit.handleEvents = function() {
-    mw.$(document.body).on('touchmove mousemove', function(){
+    mw.$(document.body).on('touchmove mousemove', function(e){
         if(mw.liveEditSelector.interactors.active) {
-            if( !mw.liveedit.data.get('move', 'hasModuleOrElement') ){
-                mw.liveEditSelector.hideItem(mw.liveEditSelector.interactors);
+            if( !mw.liveedit.data.get('move', 'hasModuleOrElement')){
+                if(e.target !== mw.drag.plusTop && e.target !== mw.drag.plusBottom) {
+                    mw.liveEditSelector.hideItem(mw.liveEditSelector.interactors);
+                }
             }
         }
     });

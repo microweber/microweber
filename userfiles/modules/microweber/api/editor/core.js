@@ -36,8 +36,9 @@ MWEditor.core = {
         input.on('input', function (){
             clearTimeout(time);
             time = setTimeout(function (el, node){
+                console.log(node.value)
                 el.trigger('change', node.value);
-            }, 210, el, this.node);
+            }, 210, el, this);
         });
         el.append(input);
         return el;

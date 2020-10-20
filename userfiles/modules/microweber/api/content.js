@@ -107,10 +107,10 @@ mw.content = mw.content || {
             }
             return false;
         }
-        if (typeof data.content_type === "undefined" || data.content_type == "") {
+        if (!data.content_type) {
             data.content_type = "post";
         }
-        if (typeof data.id === "undefined" || data.id == "") {
+        if (!data.id) {
             data.id = 0;
         }
         master.title = data.title;

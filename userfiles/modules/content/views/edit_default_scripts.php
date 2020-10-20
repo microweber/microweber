@@ -272,7 +272,7 @@
                 else {
                     var nid = typeof this === "number" ? this : this.id;
                      $.get('<?php print site_url('api/content/get_link_admin/?id=') ?>' + nid, function (data) {
-                         
+
                         if (data == null) {
                             return false;
                         }

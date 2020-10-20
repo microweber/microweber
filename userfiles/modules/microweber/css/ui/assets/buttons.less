@@ -92,8 +92,38 @@
 }
 
 .mw-ui-link {
-  border: 0 !important;
-  background: none;
+    border: 0 !important;
+    background: none;
+}
+
+.mw-ui-btn-tab {
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+    border-bottom-color: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 1.308rem;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    text-decoration: none;
+    font-size: @normalFontSize;
+    height: @normalHeight;
+    color: @defaultTextColor;
+    outline: none;
+    transition: .3s;
+    white-space: nowrap;
+    vertical-align: middle;
+    &:hover{
+        background-color: #f0f0f0;
+    }
+    &.active{
+        border-bottom-color: #4592ff;
+    }
 }
 
 input.mw-ui-btn {
@@ -235,14 +265,14 @@ input.mw-ui-btn {
 .mw-ui-size-large,
 .mw-ui-btn-large,
 .mw-ui-btn-big {
-  font-size: 1.385rem;
+  font-size: @largeFontSize;
   height: @largeHeight;
   padding: 0 1.538rem;
 }
 
 .mw-ui-size-medium,
 .mw-ui-btn-medium {
-  font-size: 1rem;
+  font-size: @mediumFontSize;
   height: @mediumHeight;
   padding: 0px 1rem;
 }
@@ -253,7 +283,7 @@ input.mw-ui-btn {
 .mw-ui-btn-small,
 .mw-ui-btn-mini,
 .mw-ui-btn-tiny {
-  font-size: 0.8462rem;
+  font-size: @smallFontSize;
   height: @smallHeight;
   padding: 0 0.7692rem;
 }

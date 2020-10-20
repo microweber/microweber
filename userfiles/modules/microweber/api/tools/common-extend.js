@@ -173,7 +173,7 @@ mw.fileWindow = function (config) {
         var modal = mw/*.top()*/.dialogIframe({
             url: url,
             name: "mw_rte_image",
-            width: 430,
+            width: 530,
             height: 'auto',
             autoHeight: true,
             //template: 'mw_modal_basic',
@@ -187,8 +187,7 @@ mw.fileWindow = function (config) {
         toreturn.iframe = frame[0];
         frameWindow.onload = function () {
             frameWindow.$('body').on('Result', function (e, url, m) {
-                console.log(91919, e, url, m)
-                if (config.change) {
+                 if (config.change) {
                     config.change.call(undefined, url);
                     modal.remove();
                 }

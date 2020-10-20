@@ -312,11 +312,16 @@
         this.trigger = function(event, data){
             data = data || {};
             this.each(function (){
-                this.dispatchEvent(new CustomEvent(event, {
+                /*this.dispatchEvent(new CustomEvent(event, {
                     detail: data,
                     cancelable: true,
                     bubbles: true
-                }));
+                }));*/
+                if(scope._on[event]) {
+                    scope._on[event].forEach(function(cb){
+                        cb.call(this, event, data);
+                    });
+                }
             });
             return this;
         };
@@ -325,9 +330,12 @@
             return this.nodes[i];
         };
 
+        this._on = {};
         this.on = function(events, cb){
             events = events.trim().split(' ');
             events.forEach(function (ev) {
+                if(!scope._on[ev]) {  scope._on[ev] = []; }
+                scope._on[ev].push(cb);
                 scope.each(function (){
                     /*this.addEventListener(ev, function(e) {
                         cb.call(scope, e, e.detail, this);

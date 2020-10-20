@@ -524,6 +524,7 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
+                console.log(val)
                 api.execCommand('foreColor', false, val);
             });
             return el;
@@ -541,6 +542,7 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
+                console.log(e, val)
                 api.execCommand('backcolor', false, val);
             });
             return el;
