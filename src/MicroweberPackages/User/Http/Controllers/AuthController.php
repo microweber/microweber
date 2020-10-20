@@ -13,12 +13,12 @@ use MicroweberPackages\User\User;
 
 class AuthController extends Controller
 {
-  /*  public $middleware = [
-        [
-            'middleware'=>'throttle:130,1',
-            'options'=>[]
-        ]
-    ];*/
+    /*  public $middleware = [
+          [
+              'middleware'=>'throttle:130,1',
+              'options'=>[]
+          ]
+      ];*/
 
     /**
      * Display a listing of Role.
@@ -41,7 +41,6 @@ class AuthController extends Controller
      * login api
      *
      * @param \MicroweberPackages\User\Http\Requests\LoginRequest $request
-
      * @return \Illuminate\Http\Response
      */
     public function login(LoginRequest $request)
@@ -62,19 +61,11 @@ class AuthController extends Controller
      * register api
      *
      * @param \MicroweberPackages\User\Http\Requests\RegisterRequest $request
-
      * @return \Illuminate\Http\Response
      */
     public function register(RegisterRequest $request)
     {
-
-
-
-        echo 1;
-        die();
-
         $registred = User::create($request->all());
-
 
         return $registred;
     }

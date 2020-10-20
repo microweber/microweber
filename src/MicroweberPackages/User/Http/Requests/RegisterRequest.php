@@ -12,6 +12,15 @@ class RegisterRequest extends FormRequest
      */
     public function authorize()
     {
+
+        $enable_user_gesitration = get_option('enable_user_registration', 'users');
+        if ($enable_user_gesitration == 'n') {
+            return false;
+           // return array('error' => 'User registration is disabled.');
+        }
+
+
+
         return true;
     }
 
@@ -23,7 +32,6 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         $this->_registerRules['password'] = 'required|min:1' ;
-        $this->_registerRules['confirm_password'] = 'required|min:1|same:password' ;
 
         return $this->_registerRules;
     }
@@ -33,10 +41,13 @@ class RegisterRequest extends FormRequest
      */
     public function validationData()
     {
+        $validateConfirmPassword = false;
         $validateEmail = false;
         $validateUsername = false;
 
         $inputs = $this->query->all();
+        $inputsRequest = $this->request->all();
+        $inputs = array_merge($inputs, $inputsRequest);
 
         if (!isset($inputs['username']) || !isset($inputs['email'])) {
             $validateUsername = true;
@@ -51,13 +62,21 @@ class RegisterRequest extends FormRequest
             $validateUsername = true;
             $validateEmail = true;
         }
-        
+
         if ($validateEmail) {
             $this->_registerRules['email'] = 'required|string|max:255|unique:users';
         }
 
+        if (isset($inputs['confirm_password'])) {
+            $validateConfirmPassword = true;
+        }
+
         if ($validateUsername) {
             $this->_registerRules['username'] = 'required|string|max:255|unique:users';
+        }
+
+        if ($validateConfirmPassword) {
+            $this->_registerRules['confirm_password'] = 'required|min:1|same:password';
         }
 
         // 'terms' => 'terms:terms_user,terms_newsletter',
