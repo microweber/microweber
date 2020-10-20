@@ -51,6 +51,14 @@ class User extends Authenticatable
         'updated_at',
     ];
 
+    protected $hidden = [
+        'api_key',
+        'remember_token',
+        'oauth_token',
+        'oauth_token_secret',
+        'password',
+    ];
+
     //protected $hidden = array('password', 'remember_token');
     protected $fillable = array(
         'updated_at',

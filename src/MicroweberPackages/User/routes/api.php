@@ -14,14 +14,21 @@ use Illuminate\Support\Facades\Route;
 /*Route::name('api.deprecated')->prefix('api')->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
     Route::post('user_register', 'AuthController@register');
 });*/
- 
+Route::get('user/login', function(){
 
-Route::name('api.user.')->prefix('api/user')->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+    echo 'login public';
+
+})->name('user.login');
+
+
+Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('register', 'AuthController@register')->name('register');
+
 });
 
-Route::name('api.user.')->prefix('api/user')->middleware(['auth:sanctum'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+Route::name('api.user.')->prefix('api/user')->middleware(['api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
 
     Route::get('all', function() {
         return json_encode(['drenki_she_poluchish'=>true]);

@@ -9,6 +9,7 @@
 
 Route::name('api.')
     ->prefix('api')
+    ->middleware(['api'])
     ->namespace('\MicroweberPackages\Page\Http\Controllers\Api')
     ->group(function () {
 
