@@ -16,11 +16,8 @@ class RegisterRequest extends FormRequest
         $enable_user_gesitration = get_option('enable_user_registration', 'users');
         if ($enable_user_gesitration == 'n') {
             return false;
-           // return array('error' => 'User registration is disabled.');
         }
 
-
-        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
 
         return true;
     }
@@ -78,6 +75,11 @@ class RegisterRequest extends FormRequest
 
         if ($validateConfirmPassword) {
             $this->_registerRules['confirm_password'] = 'required|min:1|same:password';
+        }
+
+        $captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
+        if (!$captcha_disabled) {
+            $this->_registerRules['captcha'] = 'required|min:1|captcha';
         }
 
         // 'terms' => 'terms:terms_user,terms_newsletter',

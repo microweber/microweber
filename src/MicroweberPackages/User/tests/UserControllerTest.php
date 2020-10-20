@@ -15,6 +15,7 @@ class UserControllerTest extends TestCase
     public function testUserRegisterWithUsername()
     {
         $this->_enableUserRegistration();
+        $this->_disableCaptcha();
 
         $username = 'testuser_' . uniqid();
 
@@ -41,8 +42,9 @@ class UserControllerTest extends TestCase
     public function testUserRegisterWithEmail()
     {
         $this->_enableUserRegistration();
+        $this->_disableCaptcha();
 
-        $email = 'testuser_' . uniqid().'@mail.test';
+        $email = 'testuser_' . uniqid() . '@mail.test';
 
         $response = $this->json(
             'POST',
@@ -68,9 +70,10 @@ class UserControllerTest extends TestCase
     public function testUserRegisterWithUserAndEmail()
     {
         $this->_enableUserRegistration();
+        $this->_disableCaptcha();
 
         $username = 'testuser_' . uniqid();
-        $email = 'testuser_' . uniqid().'@mail.test';
+        $email = 'testuser_' . uniqid() . '@mail.test';
 
         $response = $this->json(
             'POST',
@@ -97,6 +100,7 @@ class UserControllerTest extends TestCase
     public function testUserRegisterWithMissingRequiredParams()
     {
         $this->_enableUserRegistration();
+        $this->_disableCaptcha();
 
         $response = $this->json(
             'POST',
@@ -115,9 +119,10 @@ class UserControllerTest extends TestCase
     public function testUserRegisteWhenDisabled()
     {
         $this->_disableUserRegistration();
+        $this->_disableCaptcha();
 
         $username = 'testuser_' . uniqid();
-        $email = 'testuser_' . uniqid().'@mail.test';
+        $email = 'testuser_' . uniqid() . '@mail.test';
 
         $response = $this->json(
             'POST',
@@ -132,5 +137,59 @@ class UserControllerTest extends TestCase
         $this->_enableUserRegistration();
 
     }
+
+    public function testUserRegisterWithCaptcha()
+    {
+        $this->_enableCaptcha();
+        $username = 'testuser_' . uniqid();
+        $email = 'testuser_' . uniqid() . '@mail.test';
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'email' => $email,
+                'username' => $username,
+                'password' => $email,
+            ]
+        );
+
+
+        $captchaAnswer = uniqid();
+        $captchaWrongAnswer = $captchaAnswer.uniqid();
+
+        $userData = $response->getData();
+        $this->assertEquals(422, $response->status());
+
+        $fakeCaptcha = new \MicroweberPackages\Utils\Captcha\tests\Fakers\FakeCaptcha();
+        $fakeCaptcha->setAnswer($captchaAnswer);
+        app()->captcha_manager->setAdapter($fakeCaptcha);
+
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'captcha' =>$captchaWrongAnswer,
+                'username' => $username,
+                'password' => $email,
+            ]
+        );
+
+
+        $this->assertEquals(422, $response->status());
+
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'captcha' =>$captchaAnswer,
+                'username' => $username,
+                'password' => $email,
+            ]
+        );
+        $this->assertEquals(201, $response->status());
+
+    }
+
+
 
 }

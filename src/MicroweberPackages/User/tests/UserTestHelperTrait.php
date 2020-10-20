@@ -24,6 +24,14 @@ trait UserTestHelperTrait {
         $save = save_option($data);
 
     }
+    private function _enableCaptcha()
+    {
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'captcha_disabled';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+
+    }
 
     private function _enableUserRegistration()
     {
