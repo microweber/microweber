@@ -11,7 +11,7 @@ use MicroweberPackages\Utils\Mail\MailSender;
  * @author Bobi Slaveykvo Microweber
  * @command php phpunit.phar --filter UserTest
  */
-class UserTest extends TestCase
+class UserManagerTest extends TestCase
 {
     private static $_username = false;
     private static $_password = false;
@@ -258,21 +258,26 @@ class UserTest extends TestCase
     public function testDisableUserRegistrationWithDisposableEmail()
     {
         $this->_disableUserRegistrationWithDisposableEmail();
+        $this->_disableCaptcha();
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApproval();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
 
         // Test simple user registration
         $newUser = array();
-        $newUser['username'] = 'bobi_' . $randomInt;
+        $newUser['username'] = 'anon' . $randomInt;
         $newUser['email'] = $newUser['username'] . '@mailinator.com';
         $newUser['password'] = $password;
         $newUser['password_confirm'] = $password;
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-         $this->assertArrayHasKey('error', $registerStatus);
-         $this->assertTrue(strpos($registerStatus['error'],'mailinator.com') == true);
+        $this->assertArrayHasKey('error', $registerStatus);
+
+
+        $this->assertTrue(strpos($registerStatus['error'],'mailinator.com') == true);
     }
 
     public function testUserApprovalRegistration()
