@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
  */
 /*Route::name('api.deprecated')->prefix('api')->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
     Route::post('user_register', 'AuthController@register');
-});*/
+});
+*/
+
 Route::get('user/login', function(){
-
     echo 'login public';
-
 })->name('user.login');
 
 
