@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
-            'auth:sanctum',
+            'auth:sanctum', 
            // 'auth',
            // EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
