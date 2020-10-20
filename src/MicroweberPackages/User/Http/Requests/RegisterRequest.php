@@ -27,17 +27,32 @@ class RegisterRequest extends FormRequest
 
     public function validationData()
     {
+        $validateEmail = false;
+        $validateUsername = false;
+
         $inputs = $this->query->all();
 
         if (!isset($inputs['username']) || !isset($inputs['email'])) {
-            $inputs['username'] = '';
+            // beton
+            $validateUsername = true;
         }
 
-        if (isset($inputs['email'])) {
+        if (isset($inputs['email']) && !isset($inputs['username'])) {
+            $validateUsername = false;
+            $validateEmail = true;
+        }
+
+        if (isset($inputs['email']) && isset($inputs['username'])) {
+            $validateUsername = true;
+            $validateEmail = true;
+        }
+
+
+        if ($validateEmail) {
             $this->_registerRules['email'] = 'required|string|max:255|unique:users';
         }
 
-        if (isset($inputs['username'])) {
+        if ($validateUsername) {
             $this->_registerRules['username'] = 'required|string|max:255|unique:users';
         }
 
