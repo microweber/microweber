@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Users\tests;
+namespace MicroweberPackages\User\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\UserManager;
@@ -9,10 +9,13 @@ use MicroweberPackages\Utils\Mail\MailSender;
 
 class UserControllerTest extends TestCase
 {
+    use UserTestHelperTrait;
 
 
     public function testUserRegisterWithUsername()
     {
+        $this->_enableUserRegistration();
+
         $username = 'testuser_' . uniqid();
 
         $response = $this->json(
@@ -37,6 +40,8 @@ class UserControllerTest extends TestCase
 
     public function testUserRegisterWithEmail()
     {
+        $this->_enableUserRegistration();
+
         $email = 'testuser_' . uniqid().'@mail.test';
 
         $response = $this->json(
@@ -62,6 +67,8 @@ class UserControllerTest extends TestCase
 
     public function testUserRegisterWithUserAndEmail()
     {
+        $this->_enableUserRegistration();
+
         $username = 'testuser_' . uniqid();
         $email = 'testuser_' . uniqid().'@mail.test';
 
@@ -89,6 +96,7 @@ class UserControllerTest extends TestCase
 
     public function testUserRegisterWithMissingRequiredParams()
     {
+        $this->_enableUserRegistration();
 
         $response = $this->json(
             'POST',
@@ -101,6 +109,27 @@ class UserControllerTest extends TestCase
         $userData = $response->getData();
 
         $this->assertEquals(422, $response->status());
+
+    }
+
+    public function testUserRegisteWhenDisabled()
+    {
+        $this->_disableUserRegistration();
+
+        $username = 'testuser_' . uniqid();
+        $email = 'testuser_' . uniqid().'@mail.test';
+
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'email' => $email,
+                'username' => $username,
+                'password' => $email,
+            ]
+        );
+        $this->assertEquals(403, $response->status());
+        $this->_enableUserRegistration();
 
     }
 

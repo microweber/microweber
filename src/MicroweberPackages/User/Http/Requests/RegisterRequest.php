@@ -20,6 +20,7 @@ class RegisterRequest extends FormRequest
         }
 
 
+        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
 
         return true;
     }
