@@ -7,6 +7,9 @@ class RegisterRequest extends FormRequest
 {
     private $_registerRules = [];
 
+    /**
+     * @return bool
+     */
     public function authorize()
     {
         return true;
@@ -25,6 +28,9 @@ class RegisterRequest extends FormRequest
         return $this->_registerRules;
     }
 
+    /**
+     * @return array
+     */
     public function validationData()
     {
         $validateEmail = false;
@@ -33,7 +39,6 @@ class RegisterRequest extends FormRequest
         $inputs = $this->query->all();
 
         if (!isset($inputs['username']) || !isset($inputs['email'])) {
-            // beton
             $validateUsername = true;
         }
 
@@ -46,8 +51,7 @@ class RegisterRequest extends FormRequest
             $validateUsername = true;
             $validateEmail = true;
         }
-
-
+        
         if ($validateEmail) {
             $this->_registerRules['email'] = 'required|string|max:255|unique:users';
         }
