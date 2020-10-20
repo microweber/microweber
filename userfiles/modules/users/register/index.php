@@ -48,7 +48,7 @@
 
     $form_show_address = get_option('form_show_address', 'users') == 'y';
 
-    $captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
+    $disable_captcha = get_option('disable_captcha', 'users') == 'y';
 
 
     # Login Providers

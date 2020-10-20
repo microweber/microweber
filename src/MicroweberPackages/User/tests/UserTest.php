@@ -20,7 +20,7 @@ class UserTest extends TestCase
     private function _disableCaptcha()
     {
         $data['option_value'] = 'y';
-        $data['option_key'] = 'captcha_disabled';
+        $data['option_key'] = 'disable_captcha';
         $data['option_group'] = 'users';
         $save = save_option($data);
 
@@ -105,7 +105,7 @@ class UserTest extends TestCase
         public function testEmailWrongRegistration()
         {
             $data['option_value'] = 'y';
-            $data['option_key'] = 'captcha_disabled';
+            $data['option_key'] = 'disable_captcha';
             $data['option_group'] = 'users';
             $save = save_option($data);
 

@@ -247,8 +247,11 @@ class UserManager
             if ($user_data['is_active'] == 0) {
                 $this->logout();
                 $registration_approval_required = get_option('registration_approval_required', 'users');
+                $register_email_verify = get_option('register_email_verify', 'users');
                 if ($registration_approval_required == 'y') {
                     return array('error' => 'Your account is awaiting approval');
+                } elseif($user_data['is_verified'] !=1 && $register_email_verify == 'y'){
+                    return array('error' => 'Please verify your email address. Please check your inbox for your account activation email');
                 } else {
                     return array('error' => 'Your account has been disabled');
                 }
@@ -581,7 +584,7 @@ class UserManager
     {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){
-            if ($this->is_admin() == false) {
+            if ($this->is_admin() == false && get_option('disable_captcha', 'users') != 'y') {
                 $validate_token = $this->csrf_validate($params);
                 if ($validate_token == false) {
                     return array('error' => 'Invalid token!');
@@ -590,8 +593,8 @@ class UserManager
             //}
         }
 
-        $enable_user_gesitration = get_option('enable_user_registration', 'users');
-        if ($enable_user_gesitration == 'n') {
+        $enable_user_registration = get_option('enable_user_registration', 'users');
+        if ($enable_user_registration == 'n') {
             return array('error' => 'User registration is disabled.');
         }
 
@@ -604,7 +607,7 @@ class UserManager
         $middle_name = isset($params['middle_name']) ? $params['middle_name'] : false;
         $confirm_password = isset($params['confirm_password']) ? $params['confirm_password'] : false;
 
-        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
+        $no_captcha = get_option('disable_captcha', 'users') == 'y';
         $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users') == 'y';
         if ($email != false and $disable_registration_with_temporary_email) {
             $checker = new DisposableEmailChecker();
@@ -744,7 +747,8 @@ class UserManager
                     $reg['password'] = $pass2;
 
                     $registration_approval_required = get_option('registration_approval_required', 'users');
-                    if ($registration_approval_required == 'y') {
+                    $register_email_verify = get_option('register_email_verify', 'users');
+                    if($registration_approval_required == 'y' || $register_email_verify == 'y'){
                         $reg['is_active'] = 0;
                     } else {
                         $reg['is_active'] = 1;
@@ -821,11 +825,15 @@ class UserManager
                         $params['password2'] = $pass2;
                     }
 
-                    if ($registration_approval_required != 'y') {
+                    if($registration_approval_required == 'y'){
+                        return array('success' => 'You have registered successfully, your account is awaiting approval.');
+                    } elseif($register_email_verify == 'y'){
+                            return array('success' => 'Please check your inbox for your account activation email');
+                    } else {
                         $this->make_logged($params['id']);
+                        return array('success' => 'You have registered successfully');
                     }
 
-                    return array('success' => 'You have registered successfully');
                 } else {
                     $try_login = $this->login($params);
                     if (isset($try_login['success'])) {
@@ -1000,7 +1008,7 @@ class UserManager
         }
         if ($force == false) {
 
-            if (!is_cli()) {
+            if (!is_cli() && get_option('disable_captcha', 'users') != 'y') {
                 $validate_token = mw()->user_manager->csrf_validate($params);
 
                 if ($validate_token == false) {
@@ -1400,7 +1408,7 @@ class UserManager
 
     public function send_forgot_password($params)
     {
-        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
+        $no_captcha = get_option('disable_captcha', 'users') == 'y';
         if (!$no_captcha) {
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
@@ -1449,7 +1457,7 @@ class UserManager
                 $data_res = $data[0];
             }
             if (!is_array($data_res)) {
-                return array('error' => 'Enter right username or email!');
+                return array('error' => 'Please enter correct username or email!');
             } else {
                 $to = $data_res['email'];
                 if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
