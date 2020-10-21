@@ -3,20 +3,14 @@
 namespace MicroweberPackages\App\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\Sanctum;
+use MicroweberPackages\User\User;
 
 class ApiAuth
 {
-    /**
-     * The routes that should be excluded from verification.
-     *
-     * @var array
-     */
-    protected $except = [
-
-    ];
-
     /**
      * Handle an incoming request.
      *
@@ -24,36 +18,34 @@ class ApiAuth
      * @param \Closure $next
      * @return \Illuminate\Http\Response
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $guard = null)
     {
         if (Auth::check() &&  Auth::user()->is_admin == 1) {
             return $next($request);
         }
 
-        if ($this->inExceptArray($request) || Auth::check()) {
-            return $next($request);
+        $expiration = config('sanctum.expiration');
+
+        $token = $request->bearerToken();
+        if (!$token){
+            return $this->_returnError($request);
         }
 
-        throw new \Exception('Api unauthorized');
+        $model = Sanctum::$personalAccessTokenModel;
+        $accessToken = $model::findToken($token);
+
+        if (! $accessToken || ($expiration && $accessToken->created_at->lte(now()->subMinutes($expiration)))) {
+            return $this->_returnError($request);
+        }
+
+        return $next($request);
     }
 
 
-    /**
-     * Determine if the request URI is in except array.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return bool
-     */
-    protected function inExceptArray($request)
-    {
-        foreach ($this->except as $except) {
-            $routeName = optional($request->route())->getName();
-
-            if (preg_match("/{$except}/", $routeName)) {
-                return true;
-            }
+    private function _returnError($request){
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Api unauthorized'], 401);
         }
-
-        return false;
+        return abort(403, 'Api unauthorized');
     }
 }
