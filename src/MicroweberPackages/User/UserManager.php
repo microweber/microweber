@@ -250,8 +250,11 @@ class UserManager
             if ($user_data['is_active'] == 0) {
                 $this->logout();
                 $registration_approval_required = get_option('registration_approval_required', 'users');
+                $register_email_verify = get_option('register_email_verify', 'users');
                 if ($registration_approval_required == 'y') {
                     return array('error' => 'Your account is awaiting approval');
+                } elseif($user_data['is_verified'] !=1 && $register_email_verify == 'y'){
+                    return array('error' => 'Please verify your email address. Please check your inbox for your account activation email');
                 } else {
                     return array('error' => 'Your account has been disabled');
                 }
@@ -603,8 +606,8 @@ class UserManager
             //}
         }
 
-        $enable_user_gesitration = get_option('enable_user_registration', 'users');
-        if ($enable_user_gesitration == 'n') {
+        $enable_user_registration = get_option('enable_user_registration', 'users');
+        if ($enable_user_registration == 'n') {
             return array('error' => 'User registration is disabled.');
         }
 
@@ -757,7 +760,8 @@ class UserManager
                     $reg['password'] = $pass2;
 
                     $registration_approval_required = get_option('registration_approval_required', 'users');
-                    if ($registration_approval_required == 'y') {
+                    $register_email_verify = get_option('register_email_verify', 'users');
+                    if($registration_approval_required == 'y' || $register_email_verify == 'y'){
                         $reg['is_active'] = 0;
                     } else {
                         $reg['is_active'] = 1;
@@ -834,11 +838,15 @@ class UserManager
                         $params['password2'] = $pass2;
                     }
 
-                    if ($registration_approval_required != 'y') {
+                    if($registration_approval_required == 'y'){
+                        return array('success' => 'You have registered successfully, your account is awaiting approval.');
+                    } elseif($register_email_verify == 'y'){
+                            return array('success' => 'Please check your inbox for your account activation email');
+                    } else {
                         $this->make_logged($params['id']);
+                        return array('success' => 'You have registered successfully');
                     }
 
-                    return array('success' => 'You have registered successfully');
                 } else {
                     $try_login = $this->login($params);
                     if (isset($try_login['success'])) {
@@ -1462,7 +1470,7 @@ class UserManager
                 $data_res = $data[0];
             }
             if (!is_array($data_res)) {
-                return array('error' => 'Enter right username or email!');
+                return array('error' => 'Please enter correct username or email!');
             } else {
                 $to = $data_res['email'];
                 if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
