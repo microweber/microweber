@@ -23,6 +23,18 @@ class RegisterRequest extends FormRequest
     }
 
     /**
+     * @param array $errors
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function response(array $errors) {
+        
+        return response()->json([
+            'error'  => true,
+            'errors' => $errors
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.s
      *
      * @return array
