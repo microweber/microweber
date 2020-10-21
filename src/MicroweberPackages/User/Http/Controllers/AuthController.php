@@ -6,10 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\Http\Controllers\AuthorizationController;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
-use MicroweberPackages\User\Http\Requests\RegisterRequest;
-use MicroweberPackages\User\Repositories\UserRepository;
 use MicroweberPackages\User\User;
 
 class AuthController extends Controller
@@ -21,12 +18,6 @@ class AuthController extends Controller
           ]
       ];*/
 
-    public $user;
-
-    public function __construct(UserRepository $user)
-    {
-        $this->user = $user;
-    }
 
     /**
      * Display a listing of Role.
@@ -68,11 +59,62 @@ class AuthController extends Controller
     /**
      * register api
      *
-     * @param \MicroweberPackages\User\Http\Requests\RegisterRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
-        return $this->user->register($request->all());
+        $validator = \Validator::make($request->all(), $this->_rules($request->all()));
+        $validator->validate();
+
+        return User::create($request->all());
+    }
+
+    private function _rules($inputs)
+    {
+        $rules = [];
+
+        $validateConfirmPassword = false;
+        $validateEmail = false;
+        $validateUsername = false;
+
+        if (!isset($inputs['username']) || !isset($inputs['email'])) {
+            $validateUsername = true;
+        }
+
+        if (isset($inputs['email']) && !isset($inputs['username'])) {
+            $validateUsername = false;
+            $validateEmail = true;
+        }
+
+        if (isset($inputs['email']) && isset($inputs['username'])) {
+            $validateUsername = true;
+            $validateEmail = true;
+        }
+
+        if ($validateEmail) {
+            $rules['email'] = 'required|string|max:255|unique:users';
+        }
+
+        if (isset($inputs['confirm_password'])) {
+            $validateConfirmPassword = true;
+        }
+
+        if ($validateUsername) {
+            $rules['username'] = 'required|string|max:255|unique:users';
+        }
+
+        if ($validateConfirmPassword) {
+            $rules['confirm_password'] = 'required|min:1|same:password';
+        }
+
+        $captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
+        if (!$captcha_disabled) {
+            $rules['captcha'] = 'required|min:1|captcha';
+        }
+
+        $rules['password'] = 'required|min:1';
+
+        return $rules;
     }
 }

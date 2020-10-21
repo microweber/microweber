@@ -18,8 +18,6 @@ class RegisterRequest extends FormRequest
 
 
 
-    private $_registerRules = [];
-
     /**
      * @return bool
      */
@@ -36,18 +34,6 @@ class RegisterRequest extends FormRequest
     }
 
     /**
-     * @param array $errors
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function response(array $errors) {
-
-        return response()->json([
-            'error'  => true,
-            'errors' => $errors
-        ]);
-    }
-
-    /**
      * Get the validation rules that apply to the request.s
      *
      * @return array
@@ -55,14 +41,11 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         $this->_registerRules['password'] = 'required|min:1' ;
-        $this->validationData();
 
+        $this->validationData();
 
         return $this->_registerRules;
     }
-
-
-
 
     /**
      * @return array

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User;
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
@@ -584,11 +585,37 @@ class UserManager
     }
 
 
-    //@todo
-    public function new__register($params)
+    public function register($params)
     {
-        $user = new UserRepository();
-        return $user->register($params);
+        try {
+            $request = new Request();
+            $request->merge($params);
+            $resp = app(AuthController::class)->register($request);
+        }catch (\Exception $e) {
+            
+            $messages = $e->validator->messages();
+
+            $errors = [];
+            $errors['error'] = $messages->first();
+            $errors = array_merge($errors, $messages->toArray());
+
+            if (isset($errors['captcha'])) {
+                $errors['captcha_error'] = true;
+                $errors['form_data_required'] = 'captcha';
+                $errors['form_data_module'] = 'captcha';
+            }
+
+            if (isset($errors['terms'])) {
+                $errors['error'] = _e('You must agree to terms and conditions', true);
+                $errors['terms_error'] = true;
+                $errors['form_data_required'] = 'terms';
+                $errors['form_data_module'] = 'users/terms';
+            }
+
+            return $errors;
+        }
+
+        return $resp;
 
     }
 
@@ -598,7 +625,7 @@ class UserManager
      * @param $params
      * @return array|bool
      */
-    public function register($params)
+    public function  __register($params)
     {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){
