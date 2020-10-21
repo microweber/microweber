@@ -38,6 +38,8 @@ class ApiAuth
             return $this->_returnError($request);
         }
 
+        tap($accessToken->forceFill(['last_used_at' => now()]))->save();
+
         return $next($request);
     }
 
