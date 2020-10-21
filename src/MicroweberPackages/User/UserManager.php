@@ -218,7 +218,7 @@ class UserManager
             return;
         }
         if ($ok) {
-            if (defined('MW_USER_IP') and intval(Auth::user()->is_admin) == 1) {
+            if (function_exists('user_ip') and (Auth::user()->is_admin) == 1) {
                 $allowed_ips = config('microweber.admin_allowed_ips');
                 if ($allowed_ips) {
                     $allowed_ips = explode(',', $allowed_ips);
@@ -226,7 +226,7 @@ class UserManager
                     if (!empty($allowed_ips)) {
                         $is_allowed = false;
                         foreach ($allowed_ips as $allowed_ip) {
-                            $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(MW_USER_IP, $allowed_ip);
+                            $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(user_ip(), $allowed_ip);
                             if ($is) {
                                 $is_allowed = $is;
                             }
