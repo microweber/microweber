@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Captcha;
+namespace MicroweberPackages\Utils\Captcha;
 
 use Illuminate\Support\Facades\Facade;
 

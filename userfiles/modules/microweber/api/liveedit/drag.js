@@ -648,7 +648,7 @@ mw.drag = {
         setTimeout(function() {
             mw.$(".edit .mw-col" + more_selectors).each(function() {
                 var el = mw.$(this);
-                if (el.children().length == 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
+                if (el.children().length === 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
                     el.height('auto');
                     if (el.height() < el.parent().height()) {
                         el.height(el.parent().height());

@@ -9,7 +9,7 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
-use MicroweberPackages\Captcha\CaptchaManager;
+use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Cart\CartManager;
 use MicroweberPackages\Category\CategoryManager;
 use MicroweberPackages\Checkout\CheckoutManager;

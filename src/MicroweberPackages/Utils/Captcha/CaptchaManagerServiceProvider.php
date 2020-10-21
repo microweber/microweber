@@ -9,9 +9,10 @@
  *
  */
 
-namespace MicroweberPackages\Captcha;
+namespace MicroweberPackages\Utils\Captcha;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 
 class CaptchaManagerServiceProvider extends ServiceProvider
@@ -24,11 +25,13 @@ class CaptchaManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Captcha\CaptchaManager    $captcha_manager
+         * @property \MicroweberPackages\Utils\Captcha\CaptchaManager $captcha_manager
          */
         $this->app->singleton('captcha_manager', function ($app) {
             return new CaptchaManager();
         });
+
+        Validator::extendImplicit('captcha', 'MicroweberPackages\Utils\Captcha\Validators\CaptchaValidator@validate', __('Invalid captcha answer!'));
 
     }
 }

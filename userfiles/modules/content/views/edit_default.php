@@ -226,7 +226,7 @@ if (isset($params['quick_edit'])) {
                                 <input type="text" autocomplete="off" class="form-control" name="title" onkeyup="slugFromTitle();" id="content-title-field" value="<?php print ($title_for_input) ?>">
                                 <div class="mw-admin-post-slug">
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i>
-                                    <small>
+                                    <span class="mw-admin-post-slug-text">
                                             <?php
                                             if (isset($data['slug_prefix_url'])) {
                                                 $site_prefix_url = $data['slug_prefix_url'];
@@ -237,7 +237,7 @@ if (isset($params['quick_edit'])) {
 
                                         <span class="text-silver" id="slug-base-url"><?php print $site_prefix_url; ?></span>
                                         <span class="contenteditable js-slug-base-url" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
-                                    </small>
+                                    </span>
                                 </div>
 
                                 <div class="d-none">

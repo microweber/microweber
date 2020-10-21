@@ -379,6 +379,12 @@
                                 icon: 'mdi mdi-format-bold',
                                 controls: ['bold', 'italic', 'fontSize']
                             }
+                        },
+                        {
+                            group: {
+                                controller: 'bold',
+                                controls: ['italic', 'fontSize']
+                            }
                         }
                     ],
                     [

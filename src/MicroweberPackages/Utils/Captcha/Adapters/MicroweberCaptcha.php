@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Captcha\Adapters;
+namespace MicroweberPackages\Utils\Captcha\Adapters;
 
 class MicroweberCaptcha
 {

@@ -288,19 +288,39 @@ body.bup.dragStart.state-element {
   }
 }
 
-  .mw-selector{
-   width:1px;
-   height: 1px;
-   position: absolute;
-   z-index: 100;
-   background: #0899E6;
-   pointer-events: none;
-   top: -20px;
-   left: -20px;
-   z-index: 1;
-
+.mw-selector {
+    width: 1px;
+    height: 1px;
+    transition: .2s cubic-bezier(0,1.04,.05,.95);
+    position: absolute;
+    background: #0899E6;
+    pointer-events: none;
+    top: -20px;
+    left: -20px;
+    z-index: 10;
 }
 
+.body-mw-layout-plus-hover .mw-selector,
+.body-mw-module-plus-hover .mw-selector{
+    width: 2px;
+    height: 2px;
+}
+
+
+/*.mw-selector-bottom:after,
+.mw-selector-bottom:before,
+.mw-selector-top:after,
+.mw-selector-top:before{
+    display: block;
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border: 1px solid #0899E6;
+    position: absolute;
+    border-radius: 10px;
+    z-index: 1002;
+}*/
 
 .mw-selector-bottom:after,
 .mw-selector-bottom:before,
@@ -310,22 +330,28 @@ body.bup.dragStart.state-element {
     content: '';
     width: 5px;
     height: 5px;
-    background: #0899E6;
+
     position: absolute;
+    border-radius: 3px;
+    z-index: 1002;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, .3);
 }
 
-.mw-interactor:after,
-.mw-interactor:before,
 .mw-interactor{
    background: #C4D6E8;
    z-index: 1001;
 }
 
-.mw-selector-top:before{top:-2px;left:-2px;}
-.mw-selector-top:after{top:-2px;right:-2px;}
+.mw-selector-bottom,
+.mw-selector-top{
+    z-index: 1002;
+}
 
-.mw-selector-bottom:before{bottom:-2px;left:-2px;}
-.mw-selector-bottom:after{bottom:-2px;right:-2px;}
+.mw-selector-top:before{top:-0px;left:-0px;}
+.mw-selector-top:after{top:-0px;right:-0px;}
+
+.mw-selector-bottom:before{bottom:-0px;left:-0px;}
+.mw-selector-bottom:after{bottom:-0px;right:-0px;}
 
 
 

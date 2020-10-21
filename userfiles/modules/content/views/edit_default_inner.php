@@ -58,8 +58,8 @@ if (isset($data['content-id'])) {
                         'undoRedo', '|', 'image', '|',
                         {
                             group: {
-                                icon: 'mdi mdi-format-bold',
-                                controls: ['bold', 'italic', 'underline', 'strikeThrough']
+                                controller: 'bold',
+                                controls: ['italic', 'underline', 'strikeThrough']
                             }
                         },
                         '|',

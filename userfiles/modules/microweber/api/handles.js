@@ -317,8 +317,8 @@ mw._initHandles = {
     elements: function(){
         mw.handleElement = new mw.Handle({
             id: 'mw-handle-item-element',
-            className:'mw-handle-type-element',
-            menu:[
+            className: 'mw-handle-type-element',
+            menu: [
                 {
                     title: 'Edit HTML',
                     icon: 'mw-icon-code',
@@ -430,7 +430,7 @@ mw._initHandles = {
 
             var icon = '<span class="mw-handle-element-title-icon '+(isSafe ? 'tip' : '')+'"  '+(isSafe ? ' data-tip="Current element is protected \n  from accidental deletion" data-tipposition="top-left"' : '')+' >'+ _icon +'</span>';
 
-            var title = '';
+            var title = 'Settings';
 
             mw.handleElement.setTitle(icon, title);
 

@@ -14,7 +14,7 @@
         -moz-transition: all 0.3s;
         transition: all 0.3s;
         opacity: .7;
-        z-index: 10;
+        z-index: 5;
         text-shadow: 0 0 2px rgba(0, 0, 0, .5);
     }
 

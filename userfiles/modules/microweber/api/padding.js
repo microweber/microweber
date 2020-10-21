@@ -167,7 +167,8 @@ mw.require('tempcss.js');
         };
 
         this.selectors = [
-            '.mw-padding-gui-element'
+            '.mw-padding-gui-element',
+            '.mw-padding-control-element',
         ];
 
         this.prepareSelectors = function(){

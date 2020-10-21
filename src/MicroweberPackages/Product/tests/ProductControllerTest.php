@@ -16,7 +16,6 @@ class ProductControllerTest extends TestCase
         $user = User::firstOrCreate(array('username' => 'admin', 'password' => 'admin', 'is_admin' => '1'));
         Auth::login($user);
 
-
         $title = 'Test add product from api ' . rand();
         $title2 = 'Test update product from api ' . rand();
 
