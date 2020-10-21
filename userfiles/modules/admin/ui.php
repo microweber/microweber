@@ -348,6 +348,24 @@
                     <div class="mw-ui-box-content" style="display: none">About - Lorem Ipsum</div>
                     <div class="mw-ui-box-content" style="display: none">Contact - Lorem Ipsum</div>
                 </div>
+
+
+            </div>
+
+
+            <div class="demobox" id="demotabsnav2">
+                <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+                    <a href="javascript:;" class="mw-ui-btn-tab active">Home</a>
+                    <a href="javascript:;" class="mw-ui-btn-tab">About</a>
+                    <a href="javascript:;" class="mw-ui-btn-tab">Contact</a>
+                </div>
+                <div class="mw-ui-box">
+                    <div class="mw-ui-box-content">Home - Lorem Ipsum</div>
+                    <div class="mw-ui-box-content" style="display: none">About - Lorem Ipsum</div>
+                    <div class="mw-ui-box-content" style="display: none">Contact - Lorem Ipsum</div>
+                </div>
+
+
             </div>
 
 
@@ -356,6 +374,10 @@
                     mw.tabs({
                         nav: '#demotabsnav .mw-ui-btn-nav-tabs a',
                         tabs: '#demotabsnav .mw-ui-box-content'
+                    });
+                    mw.tabs({
+                        nav: '#demotabsnav2 .mw-ui-btn-nav-tabs a',
+                        tabs: '#demotabsnav2 .mw-ui-box-content'
                     });
                 });
             </script>

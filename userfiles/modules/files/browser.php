@@ -88,7 +88,9 @@ if (isset($params['viewsize'])) {
             .split('•')
         .filter(function (item){ return !!item; });
         if(!curr.length) {
-            location.href = '<?php print admin_url(); ?>view:modules';
+            if (self === top ) {
+                location.href = '<?php print admin_url(); ?>view:modules';
+            }
             return;
         }
         curr.pop();

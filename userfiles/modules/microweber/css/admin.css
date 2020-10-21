@@ -263,6 +263,12 @@ div.form-control {
     justify-content: space-between;
     align-items: center;
 }
+.mw-admin-post-slug-text{
+    font-size: 0;
+}
+.mw-admin-post-slug-text > span{
+    font-size: .75rem;
+}
 .mw-admin-post-slug .contenteditable{
     position: relative;
 }

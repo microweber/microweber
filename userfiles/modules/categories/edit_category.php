@@ -29,7 +29,7 @@ if (isset($params['live_edit'])) {
 }
 ?>
 <style>
-    .mw-filepicker-component-section {
+    #backend_image_uploader .mw-filepicker-component-section {
         width: 125px;
     }
 

@@ -21,9 +21,14 @@ mw.drag.plus = {
 
             if (mw.drag.plus.locked === false && mw.isDrag === false) {
                 if (e.pageY % 2 === 0 && mw.tools.isEditable(e)) {
-                    var node = mw.drag.plus.selectNode(e.target);
+                    var whichPlus;
 
-                    mw.drag.plus.set(node);
+                    var node = mw.drag.plus.selectNode(e.target);
+                    if(node && e.type === 'mousemove') {
+                        var off = $(node).offset();
+                        whichPlus = (e.pageY - off.top) > ((off.top + node.offsetHeight) - e.pageY) ? 'top' : 'bottom';
+                    }
+                    mw.drag.plus.set(node, whichPlus);
                     mw.$(mwd.body).removeClass('editorKeyup');
                 }
             }
@@ -33,7 +38,7 @@ mw.drag.plus = {
             }
         });
         mw.$(holder).on('mouseleave', function (e) {
-            if (mw.drag.plus.locked === false) {
+            if (mw.drag.plus.locked === false && (e.target !== mw.drag.plusTop && e.target !== mw.drag.plusBottom) ) {
                 mw.drag.plus.set(undefined);
             }
         });
@@ -59,10 +64,7 @@ mw.drag.plus = {
             return undefined;
         }
     },
-    set: function (node) {
-
-        setTimeout(function () {
-
+    set: function (node, whichPlus) {
             if (typeof node === 'undefined') {
                 return;
             }
@@ -79,11 +81,16 @@ mw.drag.plus = {
             mw.drag.plusTop.currentNode = node;
             mw.drag.plusBottom.style.top = (off.top + node.offsetHeight) + 'px';
             mw.drag.plusBottom.style.left = oleft + ($node.width()/2) + 'px';
+            if(whichPlus) {
+                if(whichPlus === 'top') {
+                    mw.drag.plusTop.style.top = -9999 + 'px';
+
+                } else {
+                     mw.drag.plusBottom.style.top = -9999 + 'px';
+                }
+            }
             mw.drag.plusBottom.currentNode = node;
             mw.tools.removeClass([mw.drag.plusTop, mw.drag.plusBottom], 'active');
-
-
-        }, 100);
 
     },
     tipPosition: function (node) {
@@ -102,7 +109,15 @@ mw.drag.plus = {
     },
     action: function () {
         var pls = [mw.drag.plusTop, mw.drag.plusBottom];
-        mw.$(pls).click(function () {
+        var $pls = mw.$(pls);
+        $pls.on('mouseenter', function () {
+            mw.tools.addClass(document.body, 'body-mw-module-plus-hover');
+            mw.liveEditSelector.select(mw.drag.plusTop.currentNode);
+        });
+        $pls.on('mouseleave', function () {
+            mw.tools.removeClass(document.body, 'body-mw-module-plus-hover')
+        });
+        $pls.on('click', function () {
             var other = this === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
             if (!mw.tools.hasClass(this, 'active')) {
                 mw.tools.addClass(this, 'active');
@@ -117,6 +132,9 @@ mw.drag.plus = {
                     template: 'mw-tooltip-default mw-tooltip-insert-module',
                     id: 'mw-plus-tooltip-selector'
                 });
+                setTimeout(function (){
+                    $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
+                }, 10)
                 mw.tabs({
                     nav: tip.querySelectorAll('.mw-ui-btn'),
                     tabs: tip.querySelectorAll('.module-bubble-tab'),
@@ -186,16 +204,17 @@ InsertModule = function (module, cls) {
     }
     mw.$(mw.drag.plusBottom.currentNode)[action](el);
 
-    var el = $('#' + id).parent()[0];
-    mw.load_module(module, '#' + id, function () {
-        var node = document.getElementById(id)
+     mw.load_module(module, '#' + id, function () {
+        var node = document.getElementById(id);
+
         mw.wysiwyg.change(node);
 
         mw.drag.plus.locked = false;
         mw.drag.fixes();
-        setTimeout(function () {
+         setTimeout(function () {
             mw.drag.fix_placeholders();
         }, 40);
+
         mw.dropable.hide();
     }, cls);
     mw.$('.mw-tooltip').hide();

@@ -125,12 +125,8 @@ body.mw-live-edit .plain-text {
 [class*='mw-plus-'] {
     position: absolute;
     visibility: visible;
-    z-index: 997;
+    z-index: 1003;
     display: block;
-    width: 16px;
-    height: 16px;
-    border-radius: 30px;
-    background-color: #e0e0e0;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
@@ -162,14 +158,7 @@ body.mw-live-edit .plain-text {
     margin-top: -10px;
 }
 
-[class*='mw-plus-'].active,
-[class*='mw-plus-']:hover {
-    background-color: #0086db;
-}
 
-[class*='mw-plus-']:active {
-    box-shadow: inset 0 0 3px #000;
-}
 
 .editorKeyup [class*='mw-plus-'] {
     opacity: 0;
@@ -199,6 +188,17 @@ body.mw-live-edit .plain-text {
 .modules-list,
 .modules-list li {
     list-style: none !important;
+}
+
+#mw-plus-tooltip-selector{
+    transform: scale(0.8);
+    opacity: .7;
+    transition: transform .1s, opacity .1s ;
+    transform-origin: left center;
+}
+#mw-plus-tooltip-selector.active{
+    transform: scale(1);
+    opacity: 1;
 }
 
 /****************************
@@ -1766,6 +1766,8 @@ img[_moz_resizing], table[_moz_resizing] {
 }
 
 .isTyping .mw-padding-ctrl,
+.isTyping .mw-layout-plus,
+.isTyping .mw-handle-item,
 .isTyping .mw-selector {
     display: none;
 }
@@ -2602,7 +2604,7 @@ div[id*='SSDIVEL'] {
 
 #image-edit-nav .mw-ui-btn {
     margin: 0 5px;
-    box-shadow: 0 0 10px -1px #fff;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     border-radius: 25px;
     height: 40px;
     width: 40px;
@@ -3331,9 +3333,11 @@ body {
     z-index: 1101;
     margin: 0;
     background: #2b2b2b;
-    border-radius: 30px;
-    padding: 2px;
+    border-radius: 3px;
+    padding: 0;
     margin-top: -16px;
+    font-size: 0;
+    box-shadow: 0 2px 1px #0000005c;
 }
 
 .mw-module-near-cloneable.mw-cloneable-control {
@@ -3341,30 +3345,22 @@ body {
 }
 
 .mw-cloneable-control-item {
-    line-height: 16px;
-    width: 16px;
-    height: 16px;
-    border-radius: 40px;
+    line-height: 24px;
+    width: 24px;
     background: #2b2b2b;
     color: white;
-    font-family: Arial;
     text-align: center;
     cursor: pointer;
     display: block;
     float: left;
     margin: 0 2px;
-    /*opacity: 0.8;*/
-    font-size: 13px;
+    font-size: 18px;
     z-index: 1;
     position: relative;
 }
 
-.mw-cloneable-control-item.mw-cloneable-control-minus {
-    font-size: 10px;
-}
-
 .mw-cloneable-control-item:hover {
-    background: #fff;
+    background: #f3f2f2;
     color: #000;
 }
 
@@ -3373,27 +3369,27 @@ body.isTyping .mw-cloneable-control {
 }
 
 .mw-cloneable-control-plus:after {
-    content: '\002b';
-    font-family: Microweber !important;
+    content: "\F0191";
+    font-family: "Material Design Icons";
     text-transform: none !important;
 }
 
 .mw-cloneable-control-minus:after {
-    font-family: Microweber !important;
+    content: "\F01B4";
     text-transform: none !important;
-    content: "\f2f4";
+    font-family: "Material Design Icons";
 }
 
 .mw-cloneable-control-prev:after {
-    font-family: Microweber !important;
+    font-family: "Material Design Icons";
     text-transform: none !important;
-    content: "\0137";
+    content: "\F004D";
 }
 
 .mw-cloneable-control-next:after {
-    font-family: Microweber !important;
+    font-family: "Material Design Icons";
     text-transform: none !important;
-    content: "\0138";
+    content: "\F0054";
 }
 
 .mw_modal_container iframe {
@@ -4232,6 +4228,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     font-size: 17px;
 }
 
+
 .mw-handle-type-element .mw-icon-drag:before {
     width: 14px;
     height: 15px;
@@ -4250,7 +4247,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     cursor: -webkit-grab;
     cursor: grab;
     display: inline-block;
-    border-radius: 20px;
+    border-radius: 20px 0 0 20px;
     transition: .1s;
     background-color: white;
     z-index: 2;
@@ -4258,31 +4255,18 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-handle-type-element .mw-handle-handler-title {
-    width: 22px;
     height: 20px;
     display: inline-block;
     position: absolute;
-    left: 0;
+    left: 100%;
     top: 0;
     border-radius: 0 20px 20px 0;
     background-color: #d3dce4;
     text-align: center;
     transition: .3s;
     cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-}
+    padding: 0 0 0 5px;
 
-.mw-handle-type-element:hover .mw-handle-handler-title,
-.mw-handle-type-element.active .mw-handle-handler-title {
-    opacity: 1;
-    visibility: visible;
-    left: 100%;
-}
-
-.mw-handle-type-element.active .mw-handle-handler-icon,
-.mw-handle-type-element:hover .mw-handle-handler-icon {
-    border-radius: 20px 0 0 20px;
 }
 
 .mw-handle-type-element .mw-handle-handler-title:after {
@@ -4621,6 +4605,10 @@ div.element {
     border: 1px solid #E6E6E6;
     -webkit-appearance: textfield;
     appearance: textfield;
+    background-color: #fff !important;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 .plus-modules-list .mw-ui-searchfield:focus {
@@ -4638,10 +4626,9 @@ div.element {
     display: block;
     position: absolute;
     z-index: 10;
-    width: 20px;
-    height: 20px;
+
     text-align: center;
-    background-color: #e0e0e0;
+
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
@@ -4649,16 +4636,26 @@ div.element {
     cursor: pointer;
 }
 
-.mw-layout-plus:hover {
-    background-color: #0086db;
+[class*='mw-plus-'], .mw-layout-plus {
+    background-color: #2b2b2b;
+    width: 20px;
+    height: 20px;
+    border-radius: 25px;
+    border: 2px solid rgba(179, 179, 179, 0.23);
+    background-size: 10px 10px;
 }
 
-.mw-layout-plus-top {
-    border-radius: 5px 5px 0 0;
+
+.mw-layout-plus {
+    background-image: none;
+    width: auto;
+    padding: 0 7px;
+    color: #fff;
+    transform: translateX(-50%);
 }
 
-.mw-layout-plus-bottom {
-    border-radius: 0 0 5px 5px;
+.mw-layout-plus:hover, [class*='mw-plus-']:hover {
+    background-color: #4592ff;
 }
 
 .mwiconlist-settings-icons .mw-ui-btn-nav select {
@@ -4671,4 +4668,12 @@ div.element {
 
 #liveedit_wysiwyg .mw-dropdown {
     float: none;
+}
+
+[data-mwtoappear]{
+    opacity: 0;
+    transition: .25s;
+}
+[data-mwtoappear][data-mwdoappear]{
+    opacity: 1;
 }

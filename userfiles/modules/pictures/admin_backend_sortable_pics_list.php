@@ -106,8 +106,8 @@ $rand = 'pic-sorter-' . uniqid();
             .on('changed.bs.select', function () {
                 mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
                 setTimeout(function () {
-                    $(this).selectpicker('val', null);
-                }, 200)
+                    mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
+                }, 10)
 
             })
             .on('show.bs.select', function () {

@@ -266,135 +266,68 @@ mw.cart = {
 mw.cart.modal = {}
 
 mw.cart.modal.init = function (root_node) {
-
-
     mw.cart.modal.bindStepButtons(root_node);
 
-
+/*
     var inner_cart_module = $(root_node).find('[parent-module-id="js-ajax-cart-checkout-process"]')[0];
+*/
     var inner_cart_module = $(root_node).find('[id="cart_checkout_js-ajax-cart-checkout-process"]')[0];
-
     if(inner_cart_module ){
-        // mw.log(inner_cart_module.innerHTML);
         var check  = $(document).find('[id="'+inner_cart_module.id+'"]').length
-
-
-        //mw.log(check);
-
-        mw.on.moduleReload(inner_cart_module.id, function () {
-            //alert('Module was reloaded')
-        });
+        mw.on.moduleReload(inner_cart_module.id);
     }
-
-
-
-
-
-
-    //
-    // mw.on('mw.cart.after_modify', function () {
-    //
-    // });
-
-
-    // var inner_cart_module = $(root_node).find('[data-type="shop/cart"]');
-    // if(inner_cart_module.length > 0){
-    //     if(!inner_cart_module.hasClass('cart-modal-module-events-binded')){
-    //         var inner_cart_module_id = inner_cart_module.attr('id')
-    //
-    //         inner_cart_module.addClass('cart-modal-module-events-binded')
-    //
-    //
-    //
-    //         mw.on.moduleReload($('[data-type="shop/cart"]')[0], function () {
-    //             alert('Module was reloaded')
-    //         });
-    //
-    //     }
-    //
-    // }
-
-
-
-}
+};
 
 mw.cart.modal.bindStepButtons = function (root_node) {
+    if(typeof root_node === 'string') {
+        root_node = mw.$(root_node);
+    }
 
-    $( root_node).off( "click",'.js-show-step');
-    $( root_node).on( "click",'.js-show-step', function( event ) {
+    if(root_node[0]._bindStepButtons) {
+        return;
+    }
+    root_node[0]._bindStepButtons = true;
 
-
-
+    root_node.find('.js-show-step').on( "mousedown touchstart" , function(  ) {
 
         var has_error = false;
-        var step = mw.$(this).data('step');
-        var holder = mw.tools.firstParentWithClass(this, 'js-step-content');
+
+        var form = mw.tools.firstParentWithTag(this, 'form');
+        var prevStep = mw.$('.js-show-step.active', form).data('step');
+        var step = this.dataset.step;
+
+        if(prevStep === step) return;
 
 
+        var prevHolder = form.querySelector('.js-' + prevStep);
 
 
-
-        if (step == 'checkout-complete') {
+        if (step === 'checkout-complete') {
             return;
         }
-
-
-
-
-
-
-        mw.$('input,textarea,select', holder).each(function () {
+        mw.$('input,textarea,select', prevHolder).each(function () {
             if (!this.checkValidity()) {
-                mw.$(this).addClass('is-invalid');
-                // mw.$(this).addClass('error');
+                 mw.$(this).addClass('is-invalid');
                 has_error = 1;
             } else {
                 mw.$(this).removeClass('is-invalid');
-                // mw.$(this).removeClass('error');
             }
-
         });
-
-
-
-
-
-        if (step == 'payment-method'  || step == 'preview') {
+        if (step === 'payment-method'  || step === 'preview') {
             if (has_error) {
-                step = 'delivery-address'
+                step = 'delivery-address';
             }
         }
-
-
-
-
         mw.$('.js-show-step').removeClass('active');
-
         mw.$('[data-step]').removeClass('active');
         mw.$('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
         mw.$(this).addClass('active');
-        step1 = '.js-' + step;
+        var step1 = '.js-' + step;
         mw.$('.js-step-content').hide();
         mw.$(step1).show();
-
-        if (!has_error) {
-
-        }
-
         if (has_error) {
             mw.notification.warning('Please fill the required fields');
         }
-
     });
-
-
-    /*
-        mw.$('.js-show-step').off('click');
-        mw.$('.js-show-step').on('click', function () {
-
-
-
-        });*/
-
 
 }

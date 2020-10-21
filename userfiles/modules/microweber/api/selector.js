@@ -10,6 +10,7 @@ mw.Selector = function(options) {
     var defaults = {
         autoSelect: true,
         document: document,
+        toggleSelect: false, // second click unselects element
         strict: false // only match elements that have id
     };
 
@@ -166,7 +167,7 @@ mw.Selector = function(options) {
             return this.setItem(target.parentNode, item, select, extend);
         }
         if(select){
-            if(this.isSelected(target)){
+            if(this.options.toggleSelect && this.isSelected(target)){
                 this.unsetItem(target);
                 return false;
             }

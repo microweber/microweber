@@ -268,7 +268,6 @@
 })();
 
 
-
 (function (){
 
     var IconPicker = function (options) {

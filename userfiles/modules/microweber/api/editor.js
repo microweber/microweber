@@ -428,13 +428,30 @@ var MWEditor = function (options) {
             tag:'span',
             props: {
                 className: ' mw-editor-group-button',
-                innerHTML: '<span class="' + group.icon + ' mw-editor-group-button-icon"></span><span class="mw-editor-group-button-caret"></span>'
+                innerHTML: '<span class="mw-editor-group-button-caret"></span>'
             }
         });
-        icon.on('click', function () {
-            MWEditor.core._preSelect(this.parentNode);
-            this.parentNode.classList.toggle('active');
-        });
+        if(group.icon) {
+            icon.prepend('<span class="' + group.icon + ' mw-editor-group-button-icon"></span>');
+            icon.on('click', function () {
+                MWEditor.core._preSelect(this.parentNode);
+                this.parentNode.classList.toggle('active');
+            });
+
+        } else if(group.controller) {
+            if(scope.controllers[group.controller]){
+                var ctrl = new scope.controllers[group.controller](scope, scope.api, scope);
+                scope.controls.push(ctrl);
+                icon.prepend(ctrl.element);
+                mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('click', function () {
+                    MWEditor.core._preSelect(this.parentNode.parentNode);
+                    this.parentNode.parentNode.classList.toggle('active');
+                });
+            } else if(scope.controllersHelpers[group.controller]){
+                groupel.append(this.controllersHelpers[group.controller]());
+            }
+        }
+        el.append(icon);
 
         groupel.on('click', function (){
             MWEditor.core._preSelect();
@@ -452,7 +469,7 @@ var MWEditor = function (options) {
         }
 
 
-        el.append(icon);
+
         el.append(groupel);
         row = typeof row !== 'undefined' ? row :  this.settings.controls.length - 1;
         group.controls.forEach(function (name) {

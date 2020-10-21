@@ -555,10 +555,10 @@
             element.querySelector('.mw-tree-item-content').appendChild(this.contextMenu(element));
 
             if(this.options.sortable){
-                this.sortable()
+                this.sortable();
             }
             if(this.options.nestedSortable){
-                this.nestedSortable()
+                this.nestedSortable();
             }
 
         };
@@ -808,7 +808,7 @@
         if(parent) {
             return parent._tree;
         }
-
     }
+
 
 })();
