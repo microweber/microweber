@@ -17,7 +17,6 @@ class UserRepository {
     {
         $registerRequest = new RegisterRequest();
         $registerRequest->merge($data);
-        $registerRequest->validationData();
         $registerRequest->validate($registerRequest->rules());
 
         return User::create($data);

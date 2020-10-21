@@ -584,38 +584,21 @@ class UserManager
     }
 
 
-    public function register($params)
+    //@todo
+    public function new__register($params)
     {
         $user = new UserRepository();
         return $user->register($params);
 
-       //  $request = \Request::create(route('api.user.register'), 'POST', $params);
-      //    $response = \Route::dispatch($request);
-      //  dd($response);
-        //return $response;
     }
 
-    public function xxxregister($params)
-    {
-        $user = new UserRepository();
-        return $user->register($params);
-    }
-
-    public function xxregister($params)
-    {
-        //Route::post('register', 'AuthController@register')->name('register');
-
-        $request = new RegisterRequest($params);
-        $request->merge($params);
-        return app()->make(AuthController::class)->register($request);
-    }
 
     /**
      * @deprecated
      * @param $params
      * @return array|bool
      */
-    public function xxxrecgister($params)
+    public function register($params)
     {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){

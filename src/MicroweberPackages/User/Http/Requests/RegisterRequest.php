@@ -3,8 +3,21 @@ namespace MicroweberPackages\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Contracts\Validation\ValidatesWhenResolved;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Validation\ValidatesWhenResolvedTrait;
+use Illuminate\Validation\ValidationException;
+
 class RegisterRequest extends FormRequest
 {
+
+
+
     private $_registerRules = [];
 
     /**
@@ -42,9 +55,14 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         $this->_registerRules['password'] = 'required|min:1' ;
+        $this->validationData();
+
 
         return $this->_registerRules;
     }
+
+
+
 
     /**
      * @return array
@@ -99,4 +117,6 @@ class RegisterRequest extends FormRequest
 
         return parent::validationData();
     }
+
+
 }
