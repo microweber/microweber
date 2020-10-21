@@ -583,17 +583,39 @@ class UserManager
         }
     }
 
+
     public function register($params)
     {
         $user = new UserRepository();
         return $user->register($params);
+
+       //  $request = \Request::create(route('api.user.register'), 'POST', $params);
+      //    $response = \Route::dispatch($request);
+      //  dd($response);
+        //return $response;
     }
+
+    public function xxxregister($params)
+    {
+        $user = new UserRepository();
+        return $user->register($params);
+    }
+
+    public function xxregister($params)
+    {
+        //Route::post('register', 'AuthController@register')->name('register');
+
+        $request = new RegisterRequest($params);
+        $request->merge($params);
+        return app()->make(AuthController::class)->register($request);
+    }
+
     /**
      * @deprecated
      * @param $params
      * @return array|bool
      */
-    public function xxxregister($params)
+    public function xxxrecgister($params)
     {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){
@@ -606,8 +628,8 @@ class UserManager
             //}
         }
 
-        $enable_user_registration = get_option('enable_user_registration', 'users');
-        if ($enable_user_registration == 'n') {
+        $enable_user_gesitration = get_option('enable_user_registration', 'users');
+        if ($enable_user_gesitration == 'n') {
             return array('error' => 'User registration is disabled.');
         }
 
@@ -760,8 +782,7 @@ class UserManager
                     $reg['password'] = $pass2;
 
                     $registration_approval_required = get_option('registration_approval_required', 'users');
-                    $register_email_verify = get_option('register_email_verify', 'users');
-                    if($registration_approval_required == 'y' || $register_email_verify == 'y'){
+                    if ($registration_approval_required == 'y') {
                         $reg['is_active'] = 0;
                     } else {
                         $reg['is_active'] = 1;
@@ -838,15 +859,11 @@ class UserManager
                         $params['password2'] = $pass2;
                     }
 
-                    if($registration_approval_required == 'y'){
-                        return array('success' => 'You have registered successfully, your account is awaiting approval.');
-                    } elseif($register_email_verify == 'y'){
-                            return array('success' => 'Please check your inbox for your account activation email');
-                    } else {
+                    if ($registration_approval_required != 'y') {
                         $this->make_logged($params['id']);
-                        return array('success' => 'You have registered successfully');
                     }
 
+                    return array('success' => 'You have registered successfully');
                 } else {
                     $try_login = $this->login($params);
                     if (isset($try_login['success'])) {

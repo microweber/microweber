@@ -16,10 +16,10 @@ class UserRepository {
     {
         $request = new RegisterRequest();
 
-        $validate = \Validator::make($data, $request->rules());
-        if ($validate->fails()) {
-            return $validate->errors();
-        }
+        $rules = $request->rules();
+
+        $validate = \Validator::make($data, $rules);
+        $validate->validate();
 
         return User::create($data);
     }
