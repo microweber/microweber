@@ -9,17 +9,16 @@
 namespace MicroweberPackages\User\Repositories;
 
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
+use MicroweberPackages\User\User;
 
 class UserRepository {
 
     public function register($data)
     {
-        $request = new RegisterRequest();
-
-        $rules = $request->rules();
-
-        $validate = \Validator::make($data, $rules);
-        $validate->validate();
+        $registerRequest = new RegisterRequest();
+        $registerRequest->merge($data);
+        $registerRequest->validationData();
+        $registerRequest->validate($registerRequest->rules());
 
         return User::create($data);
     }
