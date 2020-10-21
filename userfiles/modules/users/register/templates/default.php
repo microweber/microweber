@@ -17,13 +17,23 @@ description: Default register template
     mw.require('url.js', true);
     $(document).ready(function () {
         mw.$('#user_registration_form_holder').submit(function () {
+            $('.alert').remove();
             mw.form.post(mw.$('#user_registration_form_holder'), '<?php print site_url('api') ?>/user_register', function () {
                 mw.response('#register_form_holder', this);
                 if (typeof this.success !== 'undefined') {
+                   <?php
+                   if(get_option('register_email_verify', 'users') == 'y'){
+        // needs extending for custom login url
+                   ?>
+                   window.location.href = "<?php print site_url() . 'login?verify_email'; ?>";
+                   <?php
+                   } else {
+                   ?>
                     mw.form.post(mw.$('#user_registration_form_holder'), '<?php print site_url('api') ?>/user_login', function () {
                         mw.load_module('users/login', '#<?php print $params['id'] ?>');
-                        window.location.href = window.location.href;
+			            window.location.href = "<?php print site_url() . 'profile'; ?>";
                     });
+                   <?php } ?>
                 }
             });
             return false;
@@ -94,7 +104,7 @@ description: Default register template
                 <module type="users/terms" data-for="registration" />
             <?php endif; ?>
 
-			<?php if (get_option('disable_captcha', $params['id']) != 'y'): ?>
+			<?php if ($captcha_disabled != 'y'): ?>
             <div class="mw-ui-row vertical-middle captcha-row">
                 <div class="mw-ui-col">
                     <module type="captcha"/>

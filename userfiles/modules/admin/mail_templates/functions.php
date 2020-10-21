@@ -60,23 +60,23 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_order' || $type == 'order_change_status' || $type == 'receive_payment') {
 
         $fields = array();
-        $fields[] = array('tag' => '{{id}}', 'name' => 'Order Id');
-        $fields[] = array('tag' => '{{date}}', 'name' => 'Date');
-        $fields[] = array('tag' => '{{cart_items}}', 'name' => 'Cart items');
-        $fields[] = array('tag' => '{{amount}}', 'name' => 'Amount');
-        $fields[] = array('tag' => '{{order_status}}', 'name' => 'Order Status');
-        $fields[] = array('tag' => '{{currency}}', 'name' => 'Currency');
-        $fields[] = array('tag' => '{{first_name}}', 'name' => 'First Name');
-        $fields[] = array('tag' => '{{last_name}}', 'name' => 'Last Name');
-        $fields[] = array('tag' => '{{email}}', 'name' => 'Email');
-        $fields[] = array('tag' => '{{country}}', 'name' => 'Country');
-        $fields[] = array('tag' => '{{city}}', 'name' => 'City');
-        $fields[] = array('tag' => '{{state}}', 'name' => 'State');
-        $fields[] = array('tag' => '{{zip}}', 'name' => 'Zip');
-        $fields[] = array('tag' => '{{address}}', 'name' => 'Address');
-        $fields[] = array('tag' => '{{phone}}', 'name' => 'Phone');
-        $fields[] = array('tag' => '{{transaction_id}}', 'name' => 'Transaction Id');
-        $fields[] = array('tag' => '{{order_id}}', 'name' => 'Order Id');
+        $fields[] = array('tag' => '{id}', 'name' => 'Order Id');
+        $fields[] = array('tag' => '{date}', 'name' => 'Date');
+        $fields[] = array('tag' => '{cart_items}', 'name' => 'Cart items');
+        $fields[] = array('tag' => '{amount}', 'name' => 'Amount');
+        $fields[] = array('tag' => '{order_status}', 'name' => 'Order Status');
+        $fields[] = array('tag' => '{currency}', 'name' => 'Currency');
+        $fields[] = array('tag' => '{first_name}', 'name' => 'First Name');
+        $fields[] = array('tag' => '{last_name}', 'name' => 'Last Name');
+        $fields[] = array('tag' => '{email}', 'name' => 'Email');
+        $fields[] = array('tag' => '{country}', 'name' => 'Country');
+        $fields[] = array('tag' => '{city}', 'name' => 'City');
+        $fields[] = array('tag' => '{state}', 'name' => 'State');
+        $fields[] = array('tag' => '{zip}', 'name' => 'Zip');
+        $fields[] = array('tag' => '{address}', 'name' => 'Address');
+        $fields[] = array('tag' => '{phone}', 'name' => 'Phone');
+        $fields[] = array('tag' => '{transaction_id}', 'name' => 'Transaction Id');
+        $fields[] = array('tag' => '{order_id}', 'name' => 'Order Id');
 
         return $fields;
     }
@@ -84,9 +84,9 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_comment_reply') {
 
         $fields = array();
-        $fields[] = array('tag' => '{{comment_author}}', 'name' => 'Comment Author');
-        $fields[] = array('tag' => '{{comment_reply_author}}', 'name' => 'Comment Reply Author');
-        $fields[] = array('tag' => '{{post_url}}', 'name' => 'Post Url');
+        $fields[] = array('tag' => '{comment_author}', 'name' => 'Comment Author');
+        $fields[] = array('tag' => '{comment_reply_author}', 'name' => 'Comment Reply Author');
+        $fields[] = array('tag' => '{post_url}', 'name' => 'Post Url');
 
         return $fields;
     }
@@ -94,13 +94,13 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_user_registration') {
 
         $fields = array();
-        $fields[] = array('tag' => '{{id}}', 'name' => 'User Id');
-        $fields[] = array('tag' => '{{username}}', 'name' => 'Username');
-        $fields[] = array('tag' => '{{email}}', 'name' => 'Email');
-        $fields[] = array('tag' => '{{first_name}}', 'name' => 'First Name');
-        $fields[] = array('tag' => '{{last_name}}', 'name' => 'Last Name');
-        $fields[] = array('tag' => '{{created_at}}', 'name' => 'Date of registration');
-        $fields[] = array('tag' => '{{verify_email_link}}', 'name' => 'Verify email link');
+        $fields[] = array('tag' => '{id}', 'name' => 'User Id');
+        $fields[] = array('tag' => '{username}', 'name' => 'Username');
+        $fields[] = array('tag' => '{email}', 'name' => 'Email');
+        $fields[] = array('tag' => '{first_name}', 'name' => 'First Name');
+        $fields[] = array('tag' => '{last_name}', 'name' => 'Last Name');
+        $fields[] = array('tag' => '{created_at}', 'name' => 'Date of registration');
+        $fields[] = array('tag' => '{verify_email_link}', 'name' => 'Verify email link');
 
         return $fields;
     }
@@ -108,14 +108,14 @@ function get_mail_template_fields($type = '')
     if ($type == 'forgot_password') {
 
         $fields = array();
-        $fields[] = array('tag' => '{{id}}', 'name' => 'User Id');
-        $fields[] = array('tag' => '{{username}}', 'name' => 'Username');
-        $fields[] = array('tag' => '{{email}}', 'name' => 'Email');
-        $fields[] = array('tag' => '{{first_name}}', 'name' => 'First Name');
-        $fields[] = array('tag' => '{{last_name}}', 'name' => 'Last Name');
-        $fields[] = array('tag' => '{{created_at}}', 'name' => 'Date of registration');
-        $fields[] = array('tag' => '{{reset_password_link}}', 'name' => 'Reset password link');
-        $fields[] = array('tag' => '{{ip}}', 'name' => 'IP address');
+        $fields[] = array('tag' => '{id}', 'name' => 'User Id');
+        $fields[] = array('tag' => '{username}', 'name' => 'Username');
+        $fields[] = array('tag' => '{email}', 'name' => 'Email');
+        $fields[] = array('tag' => '{first_name}', 'name' => 'First Name');
+        $fields[] = array('tag' => '{last_name}', 'name' => 'Last Name');
+        $fields[] = array('tag' => '{created_at}', 'name' => 'Date of registration');
+        $fields[] = array('tag' => '{reset_password_link}', 'name' => 'Reset password link');
+        $fields[] = array('tag' => '{ip}', 'name' => 'IP address');
 
         return $fields;
     }

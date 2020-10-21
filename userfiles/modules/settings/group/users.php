@@ -123,7 +123,7 @@ if ($registration_approval_required == false) {
                                 <div class="col-12">
                                     <div class="form-group mb-3">
                                         <label class="control-label"><?php _e("Enable user registration"); ?></label>
-                                        <small class="text-muted d-block mb-2">Do you allow users to register on your website? If you choose “yes”, they will do that with their email.</small>
+                                        <small class="text-muted d-block mb-2">Do you allow users to register on your website? If you choose "yes", they will do that with their email.</small>
                                     </div>
 
                                     <div class="form-group mb-4">
@@ -163,7 +163,7 @@ if ($registration_approval_required == false) {
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold">Register form settings</h5>
-                    <small class="text-muted">Customize your registration form in the best way by specifying the fields you want are required and you want Captcha certification.</small>
+                    <small class="text-muted">Customize your registration form by selecting the fields you require and whether you want Captcha certification.</small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -249,7 +249,7 @@ if ($registration_approval_required == false) {
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold">Login form settings</h5>
-                    <small class="text-muted">Customize your registration form in the best way by specifying the fields you want are required and you want Captcha certification</small>
+                    <small class="text-muted">Customize your registration form by selecting the fields you require and whether you want Captcha certification</small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -503,6 +503,19 @@ if ($registration_approval_required == false) {
                                                 <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                                 <label class="custom-control-label" for="register_email_enabled"><?php _e("Yes"); ?></label>
                                             </div>
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label class="control-label"><?php _e("Require e-mail verification on new user registration"); ?></label>
+                                            <small class="text-muted d-block mb-2">Do you want users to verify their e-mail address when registering?</small>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+	                                        <div class="custom-control custom-switch pl-0">
+	                                            <label class="d-inline-block mr-5" for="register_email_verify"><?php _e("No"); ?></label>
+		                                        <input name="register_email_verify" id="register_email_verify" class="mw_option_field custom-control-input" data-option-group="users" value="y" type="checkbox" <?php if (get_option('register_email_verify', 'users') == 'y'): ?> checked <?php endif; ?>>
+		                                        <label class="custom-control-label" for="register_email_verify"><?php _e("Yes"); ?></label>
+		                                    </div>
                                         </div>
 
                                         <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration" class="mb-4"/>
