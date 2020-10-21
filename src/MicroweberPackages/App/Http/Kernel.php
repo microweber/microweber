@@ -42,16 +42,12 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
-            'auth:sanctum',
-           // 'auth',
-           // EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'throttle:160,1',
+            'api_auth'
         ],
-
         'public.api' => [
             'throttle:110,1',
-            EnsureFrontendRequestsAreStateful::class,
+          //  EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -76,5 +72,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'xss' => \MicroweberPackages\App\Http\Middleware\XSS::class,
         'admin' => \MicroweberPackages\App\Http\Middleware\Admin::class,
+        'api_auth' => \MicroweberPackages\App\Http\Middleware\ApiAuth::class,
     ];
 }
