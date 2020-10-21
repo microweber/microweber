@@ -213,10 +213,10 @@ if ($registration_approval_required == false) {
                                     </div>
 
                                     <div class="form-group mb-4">
-                                        <?php $disable_captcha = get_option('disable_captcha', 'users'); ?>
+                                        <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="disable_captcha" id="disable_captcha" <?php if ($disable_captcha == 'y'): ?> checked <?php endif; ?> value="y">
-                                            <label class="custom-control-label" for="disable_captcha"><?php _e('Disable Captcha?'); ?></label>
+                                            <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="captcha_disabled" id="captcha_disabled" <?php if ($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
+                                            <label class="custom-control-label" for="captcha_disabled"><?php _e('Disable Captcha?'); ?></label>
                                         </div>
                                     </div>
 
@@ -503,19 +503,6 @@ if ($registration_approval_required == false) {
                                                 <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                                 <label class="custom-control-label" for="register_email_enabled"><?php _e("Yes"); ?></label>
                                             </div>
-                                        </div>
-
-                                        <div class="form-group mb-3">
-                                            <label class="control-label"><?php _e("Require e-mail verification on new user registration"); ?></label>
-                                            <small class="text-muted d-block mb-2">Do you want users to verify their e-mail address when registering?</small>
-                                        </div>
-
-                                        <div class="form-group mb-4">
-	                                        <div class="custom-control custom-switch pl-0">
-	                                            <label class="d-inline-block mr-5" for="register_email_verify"><?php _e("No"); ?></label>
-		                                        <input name="register_email_verify" id="register_email_verify" class="mw_option_field custom-control-input" data-option-group="users" value="y" type="checkbox" <?php if (get_option('register_email_verify', 'users') == 'y'): ?> checked <?php endif; ?>>
-		                                        <label class="custom-control-label" for="register_email_verify"><?php _e("Yes"); ?></label>
-		                                    </div>
                                         </div>
 
                                         <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration" class="mb-4"/>
