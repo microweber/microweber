@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Http\Controllers\AuthorizationController;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
+use MicroweberPackages\User\Repositories\UserRepository;
 use MicroweberPackages\User\User;
 
 class AuthController extends Controller
@@ -19,6 +20,13 @@ class AuthController extends Controller
               'options'=>[]
           ]
       ];*/
+
+    public $user;
+
+    public function __construct(UserRepository $user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * Display a listing of Role.
@@ -65,8 +73,6 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $registred = User::create($request->all());
-
-        return $registred;
+        return $this->user->register($request->all());
     }
 }

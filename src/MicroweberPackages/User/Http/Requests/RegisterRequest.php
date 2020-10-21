@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
      * @return \Illuminate\Http\JsonResponse
      */
     public function response(array $errors) {
-        
+
         return response()->json([
             'error'  => true,
             'errors' => $errors

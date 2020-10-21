@@ -9,6 +9,9 @@ use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Http\Controllers\AuthController;
+use MicroweberPackages\User\Http\Requests\RegisterRequest;
+use MicroweberPackages\User\Repositories\UserRepository;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 use MicroweberPackages\Utils\Mail\MailSender;
 
@@ -578,6 +581,16 @@ class UserManager
     }
 
     public function register($params)
+    {
+        $user = new UserRepository();
+        return $user->register($params);
+    }
+    /**
+     * @deprecated
+     * @param $params
+     * @return array|bool
+     */
+    public function xxxregister($params)
     {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){
