@@ -588,7 +588,7 @@ class UserManager
     {
 
 
-        $request = Request::create(route('api.user.register'), 'POST', $params);
+        $request = Request::create(route('api.user.register'), 'POST', $params,[],[],['HTTP_ACCEPT'=>'application/json']);
       //  $request->setFormat('json', ['application/json']);
         $response = app()->handle($request);
         dd($response->status(),$response->getContent());
