@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\User;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
@@ -40,34 +41,21 @@ class UserRegisterController extends Controller
         $validator->validate();
 
         $inputs = $request->all();
-        $ready_input = [];
+        $userData = [];
         if ($inputs) {
             foreach ($inputs as $input_key => $input) {
                 if (in_array($input_key, $this->fillable)) {
-                    $ready_input[$input_key] = $input;
+                    $userData[$input_key] = $input;
                 }
             }
         }
 
-//
-//        if (get_option('registration_approval_required', 'users') === 'y') {
-//            $ready_input['is_active'] = 0;
-//        }
-//        if (get_option('register_email_verify', 'users') === 'y') {
-//            $ready_input['is_verified'] = 0;
-//        }
-//
-//        if (isset($ready_input['is_admin']) and is_admin() == false) {
-//            unset($ready_input['is_admin']);
-//        }
-//
-//        if (isset($ready_input['is_verified']) and is_admin() == false) {
-//            unset($ready_input['is_verified']);
-//        }
+        $created = User::create($userData);
+        if ($created) {
+            event(new UserWasRegistered($created, $request->all()));
+        }
 
-
-        return User::create($ready_input);
-
+        return $created;
     }
 
     private function rules($inputs)

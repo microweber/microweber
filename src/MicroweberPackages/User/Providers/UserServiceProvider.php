@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\User;
+namespace MicroweberPackages\User\Providers;
 
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Validator;
@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use \Laravel\Sanctum\SanctumServiceProvider;
+use MicroweberPackages\User\UserManager;
 
 
-class UserManagerServiceProvider extends AuthServiceProvider
+class UserServiceProvider extends AuthServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -45,9 +46,9 @@ class UserManagerServiceProvider extends AuthServiceProvider
 
         View::addNamespace('user', __DIR__ . '/resources/views');
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
 
         // Register Validators
