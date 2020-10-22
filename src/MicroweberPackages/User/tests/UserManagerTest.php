@@ -217,8 +217,6 @@ class UserManagerTest extends TestCase
         $registerStatus = $userManager->register($newUser);
         $this->assertArrayHasKey('error', $registerStatus);
 
-
-        $this->assertTrue(strpos($registerStatus['error'],'mailinator.com') == true);
     }
 
     public function testUserApprovalRegistration()
@@ -239,7 +237,6 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-
         $this->assertArrayHasKey('success', $registerStatus);
 
         $loginDetails = array();

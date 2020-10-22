@@ -17,6 +17,15 @@ class User extends Authenticatable
 {
     use HasFactory, HasRoles, Notifiable, HasApiTokens;
 
+    protected $attributes = [
+        'is_active' => 1,
+        'is_admin' =>0,
+        'is_verified' =>0,
+
+    ];
+
+
+
     // use the trait
     //  use RevisionableTrait;
 
@@ -57,6 +66,7 @@ class User extends Authenticatable
         'oauth_token',
         'oauth_token_secret',
         'password',
+        'is_admin',
     ];
 
     //protected $hidden = array('password', 'remember_token');
@@ -80,7 +90,7 @@ class User extends Authenticatable
         'last_name',
         'thumbnail',
         'parent_id',
-        'api_key',
+
         'user_information',
         'subscr_id',
         'role',

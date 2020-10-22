@@ -4,7 +4,8 @@ namespace MicroweberPackages\App\Http;
 
 use Illuminate\Http\Request;
 
-class RequestRoute extends Request {
+class RequestRoute extends Request
+{
 
     /**
      * Creates a POST JSON Request based on a given URI and configuration.
@@ -12,29 +13,35 @@ class RequestRoute extends Request {
      * The information contained in the URI always take precedence
      * over the other information (server and parameters).
      *
-     * @param string               $uri        The URI
-     * @param string               $method     The HTTP method
-     * @param array                $parameters The query (GET) or request (POST) parameters
-     * @param array                $cookies    The request cookies ($_COOKIE)
-     * @param array                $files      The request files ($_FILES)
-     * @param array                $server     The server parameters ($_SERVER)
-     * @param string|resource|null $content    The raw body data
+     * @param string $uri The URI
+     * @param string $method The HTTP method
+     * @param array $parameters The query (GET) or request (POST) parameters
+     * @param array $cookies The request cookies ($_COOKIE)
+     * @param array $files The request files ($_FILES)
+     * @param array $server The server parameters ($_SERVER)
+     * @param string|resource|null $content The raw body data
      *
      * @return static
      */
     public static function postJson($route, $params)
     {
-        $createRequest = self::create($route, 'POST', $params,[],[],$_SERVER);
+        $createRequest = self::create($route, 'POST', $params, [], [], $_SERVER);
         $createRequest->headers->set('accept', 'application/json');
 
         $response = app()->handle($createRequest);
-        $responseBody = json_decode($response->getContent(), true);
 
-        return self::formatFrontendResponse($responseBody);
+        return self::formatFrontendResponse($response);
     }
 
-    public static function formatFrontendResponse($messages)
+    public static function formatFrontendResponse($response)
     {
+        $messages = json_decode($response->getContent(), true);
+
+        if (!isset($messages['success'])) {
+            if ($response->status() >= 200 || $response->status() < 300) {
+                $messages['success'] = true;
+            }
+        }
         $errors = [];
         if (isset($messages['errors']['captcha'])) {
             $errors['captcha_error'] = true;
@@ -51,7 +58,7 @@ class RequestRoute extends Request {
         }
 
         if (!isset($errors['error']) && isset($messages['errors'])) {
-           $errors['error'] = reset($messages['errors']);
+            $errors['error'] = reset($messages['errors']);
         }
 
         $messages = array_merge($errors, $messages);

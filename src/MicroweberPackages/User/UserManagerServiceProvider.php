@@ -51,8 +51,14 @@ class UserManagerServiceProvider extends AuthServiceProvider
 
 
         // Register Validators
-        Validator::extendImplicit('terms', 'MicroweberPackages\User\Validators\TermsValidator@validate', 'Terms are not accepted');
-        Validator::extendImplicit('temporary_email_check', 'MicroweberPackages\User\Validators\TemporaryEmailCheckValidator@validate', 'You cannot register with email from this domain.');
+        Validator::extendImplicit(
+            'terms',
+            'MicroweberPackages\User\Validators\TermsValidator@validate',
+            'Terms are not accepted');
+        Validator::extendImplicit(
+            'temporary_email_check',
+            'MicroweberPackages\User\Validators\TemporaryEmailCheckValidator@validate',
+            'You cannot register with email from this domain.');
 
     }
 }

@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User\Http\Controllers;
 
+use _HumbugBox58fd4d9e2a25\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -14,10 +15,14 @@ class UserRegisterController extends Controller
 {
     public $middleware = [
         [
-            'middleware'=>'xss',
-            'options'=>[]
+            'middleware' => 'xss',
+            'options' => []
         ]
     ];
+
+    public $fillable = ['username', 'password', 'email', 'basic_mode', 'first_name', 'last_name', 'thumbnail',
+        'parent_id', 'user_information', 'subscr_id', 'profile_url', 'website_url', 'phone'];
+
 
     /**
      * register api
@@ -34,7 +39,35 @@ class UserRegisterController extends Controller
         $validator = \Validator::make($request->all(), $this->rules($request->all()));
         $validator->validate();
 
-        return User::create($request->all());
+        $inputs = $request->all();
+        $ready_input = [];
+        if ($inputs) {
+            foreach ($inputs as $input_key => $input) {
+                if (in_array($input_key, $this->fillable)) {
+                    $ready_input[$input_key] = $input;
+                }
+            }
+        }
+
+//
+//        if (get_option('registration_approval_required', 'users') === 'y') {
+//            $ready_input['is_active'] = 0;
+//        }
+//        if (get_option('register_email_verify', 'users') === 'y') {
+//            $ready_input['is_verified'] = 0;
+//        }
+//
+//        if (isset($ready_input['is_admin']) and is_admin() == false) {
+//            unset($ready_input['is_admin']);
+//        }
+//
+//        if (isset($ready_input['is_verified']) and is_admin() == false) {
+//            unset($ready_input['is_verified']);
+//        }
+
+
+        return User::create($ready_input);
+
     }
 
     private function rules($inputs)
@@ -61,7 +94,7 @@ class UserRegisterController extends Controller
         if ($validateEmail) {
             $rules['email'] = 'required|string|max:255|unique:users';
         }
-        
+
         if ($validateUsername) {
             $rules['username'] = 'required|string|max:255|unique:users';
         }
@@ -70,25 +103,20 @@ class UserRegisterController extends Controller
             $rules['confirm_password'] = 'required|min:1|same:password';
         }
 
-        // Captcha disabled
         if (get_option('captcha_disabled', 'users') !== 'y') {
             $rules['captcha'] = 'required|min:1|captcha';
         }
 
-        // Check temporary email
         if ($inputs['email'] != false && ((get_option('disable_registration_with_temporary_email', 'users') == 'y'))) {
             $rules['email'] = $rules['email'] . '|temporary_email_check';
         }
 
-        // Check terms is activated
         if (get_option('require_terms', 'users') == 'y') {
             $rules['terms'] = 'terms:terms_user';
             if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
                 $rules['terms'] = $rules['terms'] . ', terms_newsletter';
             }
         }
-
-        // Default requirements
         $rules['password'] = 'required|min:1';
 
         return $rules;
