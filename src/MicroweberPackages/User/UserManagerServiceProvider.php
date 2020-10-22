@@ -50,12 +50,9 @@ class UserManagerServiceProvider extends AuthServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
 
 
-        //  Passport::routes(); // Add this
-        // Passport::enableImplicitGrant();
-
         // Register Validators
-       // Validator::extendImplicit('username_email', 'UsernameEmailValidator@validate');
-        Validator::extendImplicit('terms', 'MicroweberPackages\User\Validators\TermsValidator@validate');
+        Validator::extendImplicit('terms', 'MicroweberPackages\User\Validators\TermsValidator@validate', 'Terms are not accepted');
+        Validator::extendImplicit('temporary_email_check', 'MicroweberPackages\User\Validators\TemporaryEmailCheckValidator@validate', 'You cannot register with email from this domain.');
 
     }
 }

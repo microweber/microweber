@@ -33,8 +33,8 @@ class RequestRoute extends Request {
         return self::formatFrontendResponse($responseBody);
     }
 
-    public static function formatFrontendResponse($messages){
-
+    public static function formatFrontendResponse($messages)
+    {
         $errors = [];
         if (isset($messages['errors']['captcha'])) {
             $errors['captcha_error'] = true;
