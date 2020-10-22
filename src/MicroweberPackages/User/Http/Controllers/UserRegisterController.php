@@ -41,7 +41,6 @@ class UserRegisterController extends Controller
     {
         $rules = [];
 
-        $validateConfirmPassword = false;
         $validateEmail = false;
         $validateUsername = false;
 
@@ -62,27 +61,26 @@ class UserRegisterController extends Controller
         if ($validateEmail) {
             $rules['email'] = 'required|string|max:255|unique:users';
         }
-
-        if (isset($inputs['confirm_password'])) {
-            $validateConfirmPassword = true;
-        }
-
+        
         if ($validateUsername) {
             $rules['username'] = 'required|string|max:255|unique:users';
         }
 
-        if ($validateConfirmPassword) {
+        if (isset($inputs['confirm_password'])) {
             $rules['confirm_password'] = 'required|min:1|same:password';
         }
 
+        // Captcha disabled
         if (get_option('captcha_disabled', 'users') !== 'y') {
             $rules['captcha'] = 'required|min:1|captcha';
         }
 
+        // Check temporary email
         if ($inputs['email'] != false && ((get_option('disable_registration_with_temporary_email', 'users') == 'y'))) {
             $rules['email'] = $rules['email'] . '|temporary_email_check';
         }
 
+        // Check terms is activated
         if (get_option('require_terms', 'users') == 'y') {
             $rules['terms'] = 'terms:terms_user';
             if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
@@ -90,6 +88,7 @@ class UserRegisterController extends Controller
             }
         }
 
+        // Default requirements
         $rules['password'] = 'required|min:1';
 
         return $rules;
