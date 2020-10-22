@@ -21,6 +21,11 @@ Route::get('user/login', function(){
 })->name('user.login');
 
 
+Route::get('user/test', function(){
+    return mw_var('tyka li sam');
+})->name('user.test');
+
+
 Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
 
     Route::post('login', 'AuthController@login')->name('login');

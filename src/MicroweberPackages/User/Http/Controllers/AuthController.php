@@ -11,12 +11,12 @@ use MicroweberPackages\User\User;
 
 class AuthController extends Controller
 {
-    /*  public $middleware = [
+      public $middleware = [
           [
-              'middleware'=>'throttle:130,1',
+              'middleware'=>'xss',
               'options'=>[]
           ]
-      ];*/
+      ]; 
 
 
     /**

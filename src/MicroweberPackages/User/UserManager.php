@@ -254,7 +254,7 @@ class UserManager
                 $register_email_verify = get_option('register_email_verify', 'users');
                 if ($registration_approval_required == 'y') {
                     return array('error' => 'Your account is awaiting approval');
-                } elseif($user_data['is_verified'] !=1 && $register_email_verify == 'y'){
+                } elseif ($user_data['is_verified'] != 1 && $register_email_verify == 'y') {
                     return array('error' => 'Please verify your email address. Please check your inbox for your account activation email');
                 } else {
                     return array('error' => 'Your account has been disabled');
@@ -584,15 +584,27 @@ class UserManager
         }
     }
 
-
     public function register($params)
+    {
+
+
+        $request = Request::create(route('api.user.register'), 'POST', $params);
+      //  $request->setFormat('json', ['application/json']);
+        $response = app()->handle($request);
+        dd($response->status(),$response->getContent());
+        $responseBody = json_decode($response->getContent(), true);
+        return $responseBody;
+
+    }
+
+    public function new_register3($params)
     {
         try {
             $request = new Request();
             $request->merge($params);
             $resp = app(AuthController::class)->register($request);
-        }catch (\Exception $e) {
-            
+        } catch (\Exception $e) {
+
             $messages = $e->validator->messages();
 
             $errors = [];
@@ -625,7 +637,7 @@ class UserManager
      * @param $params
      * @return array|bool
      */
-    public function  __register($params)
+    public function register4($params)
     {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){
@@ -860,8 +872,8 @@ class UserManager
                     $this->app->cache_manager->delete('users/global');
                     $this->session_del('captcha');
 
-
                     $this->after_register($next);
+                    var_dump($data);
 
                     $params = $data;
                     $params['id'] = $next;
@@ -872,6 +884,7 @@ class UserManager
                     if ($registration_approval_required != 'y') {
                         $this->make_logged($params['id']);
                     }
+                    var_dump($params);
 
                     return array('success' => 'You have registered successfully');
                 } else {
@@ -889,13 +902,15 @@ class UserManager
     public function after_register($user_id, $suppress_output = true)
     {
         if ($suppress_output == true) {
-            ob_start();
+            //ob_start();
         }
         $data = $this->get_by_id($user_id);
         if (!$data) {
             return;
         }
 
+        var_dump($data);
+        return;
         $notif = array();
         $notif['module'] = 'users';
         $notif['rel_type'] = 'users';
