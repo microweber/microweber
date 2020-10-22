@@ -6,20 +6,43 @@ use Illuminate\Http\Request;
 
 class RequestRoute extends Request {
 
+    /**
+     * Creates a POST JSON Request based on a given URI and configuration.
+     *
+     * The information contained in the URI always take precedence
+     * over the other information (server and parameters).
+     *
+     * @param string               $uri        The URI
+     * @param string               $method     The HTTP method
+     * @param array                $parameters The query (GET) or request (POST) parameters
+     * @param array                $cookies    The request cookies ($_COOKIE)
+     * @param array                $files      The request files ($_FILES)
+     * @param array                $server     The server parameters ($_SERVER)
+     * @param string|resource|null $content    The raw body data
+     *
+     * @return static
+     */
     public static function postJson($route, $params)
     {
-        $createRequest = self::create($route, 'POST', $params,[],[],['HTTP_ACCEPT'=>'application/json']);
+        $createRequest = self::create($route, 'POST', $params,[],[],$_SERVER);
+        $createRequest->headers->set('accept', 'application/json');
+
         $response = app()->handle($createRequest);
         $responseBody = json_decode($response->getContent(), true);
 
-        return $responseBody;
+        return self::formatFrontendResponse($responseBody);
     }
 
-    public function formatFrontendResponse($messages){
+    public static function formatFrontendResponse($messages){
 
         $errors = [];
-        $errors['error'] = $messages->first();
-        $errors = array_merge($errors, $messages->toArray());
+
+        if (isset($messages['errors'])) {
+            $errors = $messages['errors'];
+        }
+
+        $errors['error'] = '';
+        $errors = array_merge($errors, $messages);
 
         if (isset($errors['captcha'])) {
             $errors['captcha_error'] = true;
