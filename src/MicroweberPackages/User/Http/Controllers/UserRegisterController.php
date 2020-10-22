@@ -85,6 +85,9 @@ class UserRegisterController extends Controller
 
         if (get_option('require_terms', 'users') == 'y') {
             $rules['terms'] = 'terms:terms_user';
+            if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
+                $rules['terms'] = $rules['terms'] . ', terms_newsletter';
+            }
         }
 
         $rules['password'] = 'required|min:1';
