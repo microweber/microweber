@@ -36,28 +36,27 @@ class RequestRoute extends Request {
     public static function formatFrontendResponse($messages){
 
         $errors = [];
-
-        if (isset($messages['errors'])) {
-            $errors = $messages['errors'];
-        }
-
-        $errors['error'] = '';
-        $errors = array_merge($errors, $messages);
-
-        if (isset($errors['captcha'])) {
+        if (isset($messages['errors']['captcha'])) {
             $errors['captcha_error'] = true;
             $errors['form_data_required'] = 'captcha';
             $errors['form_data_module'] = 'captcha';
+            $errors['error'] = _e('Invalid captcha answer!', true);
         }
 
-        if (isset($errors['terms'])) {
+        if (isset($messages['errors']['terms'])) {
             $errors['error'] = _e('You must agree to terms and conditions', true);
             $errors['terms_error'] = true;
             $errors['form_data_required'] = 'terms';
             $errors['form_data_module'] = 'users/terms';
         }
 
-        return $errors;
+        if (!isset($errors['error']) && isset($messages['errors'])) {
+           $errors['error'] = reset($messages['errors']);
+        }
+
+        $messages = array_merge($errors, $messages);
+
+        return $messages;
     }
 
 }

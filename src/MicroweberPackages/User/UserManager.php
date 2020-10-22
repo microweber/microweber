@@ -590,41 +590,6 @@ class UserManager
         return RequestRoute::postJson(route('api.user.register'), $params);
     }
 
-    public function new_register3($params)
-    {
-        try {
-            $request = new Request();
-            $request->merge($params);
-            $resp = app(AuthController::class)->register($request);
-        } catch (\Exception $e) {
-
-            $messages = $e->validator->messages();
-
-            $errors = [];
-            $errors['error'] = $messages->first();
-            $errors = array_merge($errors, $messages->toArray());
-
-            if (isset($errors['captcha'])) {
-                $errors['captcha_error'] = true;
-                $errors['form_data_required'] = 'captcha';
-                $errors['form_data_module'] = 'captcha';
-            }
-
-            if (isset($errors['terms'])) {
-                $errors['error'] = _e('You must agree to terms and conditions', true);
-                $errors['terms_error'] = true;
-                $errors['form_data_required'] = 'terms';
-                $errors['form_data_module'] = 'users/terms';
-            }
-
-            return $errors;
-        }
-
-        return $resp;
-
-    }
-
-
     /**
      * @deprecated
      * @param $params

@@ -42,11 +42,11 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:16,1',
+            'throttle:111116,1',
             'api_auth'
         ],
         'public.api' => [
-            'throttle:16,1',
+            'throttle:161111,1',
           //  EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
