@@ -95,7 +95,7 @@ class UserRegisterController extends Controller
             $rules['captcha'] = 'required|min:1|captcha';
         }
 
-        if ($inputs['email'] != false && ((get_option('disable_registration_with_temporary_email', 'users') == 'y'))) {
+        if (isset($inputs['email']) && $inputs['email'] != false && ((get_option('disable_registration_with_temporary_email', 'users') == 'y'))) {
             $rules['email'] = $rules['email'] . '|temporary_email_check';
         }
 
