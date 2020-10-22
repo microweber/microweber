@@ -133,6 +133,11 @@ class UserControllerTest extends TestCase
                 'password' => $email,
             ]
         );
+
+
+
+
+ 
         $this->assertEquals(403, $response->status());
         $this->_enableUserRegistration();
 

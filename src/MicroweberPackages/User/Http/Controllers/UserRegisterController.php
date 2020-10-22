@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
+use MicroweberPackages\User\Http\Requests\RegisterRequest;
 use MicroweberPackages\User\User;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 
@@ -31,12 +32,8 @@ class UserRegisterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        if (get_option('enable_user_registration', 'users') !== 'y') {
-            return array('error' => 'User registration is disabled.');
-        }
-
         $validator = \Validator::make($request->all(), $this->rules($request->all()));
         $validator->validate();
 
