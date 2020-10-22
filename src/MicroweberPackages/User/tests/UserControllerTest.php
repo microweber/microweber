@@ -29,8 +29,7 @@ class UserControllerTest extends TestCase
         );
 
         $userData = $response->getData();
-
-        $this->assertEquals($username, $userData->username);
+         $this->assertEquals($username, $userData->username);
         $this->assertNotEmpty($userData->id);
 
         $this->assertTrue(($userData->id > 0));
@@ -137,7 +136,7 @@ class UserControllerTest extends TestCase
 
 
 
- 
+
         $this->assertEquals(403, $response->status());
         $this->_enableUserRegistration();
 

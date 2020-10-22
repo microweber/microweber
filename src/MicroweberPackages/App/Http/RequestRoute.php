@@ -42,6 +42,12 @@ class RequestRoute extends Request
                 $messages['success'] = true;
             }
         }
+
+        if ($response->status() >= 400 || $response->status() <= 500) {
+            $messages['error'] = true;
+        }
+
+
         $errors = [];
         if (isset($messages['errors']['captcha'])) {
             $errors['captcha_error'] = true;
