@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
+use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
 use MicroweberPackages\User\Http\Controllers\AuthController;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
@@ -586,15 +587,7 @@ class UserManager
 
     public function register($params)
     {
-
-
-        $request = Request::create(route('api.user.register'), 'POST', $params,[],[],['HTTP_ACCEPT'=>'application/json']);
-      //  $request->setFormat('json', ['application/json']);
-        $response = app()->handle($request);
-        dd($response->status(),$response->getContent());
-        $responseBody = json_decode($response->getContent(), true);
-        return $responseBody;
-
+        return RequestRoute::postJson(route('api.user.register'), $params);
     }
 
     public function new_register3($params)
