@@ -44,7 +44,7 @@ class UserServiceProvider extends AuthServiceProvider
         });
 
 
-        View::addNamespace('user', __DIR__ . '/resources/views');
+        View::addNamespace('user', __DIR__ . '/../resources/views');
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
