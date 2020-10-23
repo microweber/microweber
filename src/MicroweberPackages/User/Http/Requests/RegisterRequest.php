@@ -21,12 +21,10 @@ class RegisterRequest extends FormRequest
      */
     public function authorize()
     {
-
         $enable_user_gesitration = get_option('enable_user_registration', 'users');
         if ($enable_user_gesitration == 'n') {
             return false;
         }
-
         return true;
     }
 

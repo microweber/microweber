@@ -246,7 +246,6 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
-
         $this->assertArrayHasKey('error', $loginStatus);
 
         if (strpos($loginStatus['error'], 'awaiting approval') !== false) {
