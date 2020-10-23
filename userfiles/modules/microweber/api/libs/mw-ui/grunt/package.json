@@ -27,6 +27,6 @@
     "lightbox2": "2.11.1"
   },
   "dependencies": {
-    "@mdi/font": "^5.0.45"
+    "@mdi/font": "^5.4.55"
   }
 }
