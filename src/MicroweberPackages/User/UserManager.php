@@ -2,15 +2,15 @@
 
 namespace MicroweberPackages\User;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
 use Illuminate\Support\Facades\Session;
 use Auth;
+use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
-use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class UserManager
@@ -218,7 +218,7 @@ class UserManager
             return;
         }
         if ($ok) {
-            if (defined('MW_USER_IP') and intval(Auth::user()->is_admin) == 1) {
+            if (function_exists('user_ip') and (Auth::user()->is_admin) == 1) {
                 $allowed_ips = config('microweber.admin_allowed_ips');
                 if ($allowed_ips) {
                     $allowed_ips = explode(',', $allowed_ips);
@@ -226,7 +226,7 @@ class UserManager
                     if (!empty($allowed_ips)) {
                         $is_allowed = false;
                         foreach ($allowed_ips as $allowed_ip) {
-                            $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(MW_USER_IP, $allowed_ip);
+                            $is = \Symfony\Component\HttpFoundation\IpUtils::checkIp(user_ip(), $allowed_ip);
                             if ($is) {
                                 $is_allowed = $is;
                             }
@@ -247,8 +247,11 @@ class UserManager
             if ($user_data['is_active'] == 0) {
                 $this->logout();
                 $registration_approval_required = get_option('registration_approval_required', 'users');
+                $register_email_verify = get_option('register_email_verify', 'users');
                 if ($registration_approval_required == 'y') {
                     return array('error' => 'Your account is awaiting approval');
+                } elseif ($user_data['is_verified'] != 1 && $register_email_verify == 'y') {
+                    return array('error' => 'Please verify your email address. Please check your inbox for your account activation email');
                 } else {
                     return array('error' => 'Your account has been disabled');
                 }
@@ -579,6 +582,16 @@ class UserManager
 
     public function register($params)
     {
+        return RequestRoute::postJson(route('api.user.register'), $params);
+    }
+
+    /**
+     * @deprecated
+     * @param $params
+     * @return array|bool
+     */
+    public function register4($params)
+    {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){
             if ($this->is_admin() == false) {
@@ -812,8 +825,8 @@ class UserManager
                     $this->app->cache_manager->delete('users/global');
                     $this->session_del('captcha');
 
-
                     $this->after_register($next);
+                    var_dump($data);
 
                     $params = $data;
                     $params['id'] = $next;
@@ -824,6 +837,7 @@ class UserManager
                     if ($registration_approval_required != 'y') {
                         $this->make_logged($params['id']);
                     }
+                    var_dump($params);
 
                     return array('success' => 'You have registered successfully');
                 } else {
@@ -841,13 +855,15 @@ class UserManager
     public function after_register($user_id, $suppress_output = true)
     {
         if ($suppress_output == true) {
-            ob_start();
+            //ob_start();
         }
         $data = $this->get_by_id($user_id);
         if (!$data) {
             return;
         }
 
+        var_dump($data);
+        return;
         $notif = array();
         $notif['module'] = 'users';
         $notif['rel_type'] = 'users';
@@ -1449,7 +1465,7 @@ class UserManager
                 $data_res = $data[0];
             }
             if (!is_array($data_res)) {
-                return array('error' => 'Enter right username or email!');
+                return array('error' => 'Please enter correct username or email!');
             } else {
                 $to = $data_res['email'];
                 if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {

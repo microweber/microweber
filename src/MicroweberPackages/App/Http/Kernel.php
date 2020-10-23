@@ -42,16 +42,14 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
-            'auth:sanctum',
-           // 'auth',
-           // EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'xss',
+            'throttle:111116,1',
+            'api_auth'
         ],
-
         'public.api' => [
-            'throttle:110,1',
-            EnsureFrontendRequestsAreStateful::class,
+            'xss',
+            'throttle:161111,1',
+          //  EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -72,9 +70,11 @@ class Kernel extends HttpKernel
         'guest' => \MicroweberPackages\App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+       // 'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'throttle' => \MicroweberPackages\App\Http\Middleware\ThrottleExternalRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'xss' => \MicroweberPackages\App\Http\Middleware\XSS::class,
         'admin' => \MicroweberPackages\App\Http\Middleware\Admin::class,
+        'api_auth' => \MicroweberPackages\App\Http\Middleware\ApiAuth::class,
     ];
 }

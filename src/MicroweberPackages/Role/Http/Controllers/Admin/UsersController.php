@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Role\Http\Controllers\Admin;
 
 use MicroweberPackages\App\Http\Controllers\AdminController;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;

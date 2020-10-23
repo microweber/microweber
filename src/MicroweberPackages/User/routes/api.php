@@ -8,30 +8,15 @@
 
 use Illuminate\Support\Facades\Route;
 
-/**
- * @deprecated
- */
-/*Route::name('api.deprecated')->prefix('api')->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-    Route::post('user_register', 'AuthController@register');
-});
-*/
-
-Route::get('user/login', function(){
-    echo 'login public';
-})->name('user.login');
-
-
 Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-
     Route::post('login', 'AuthController@login')->name('login');
-    Route::post('register', 'AuthController@register')->name('register');
-
+    Route::post('register', 'UserRegisterController@register')->name('register');
 });
 
-Route::name('api.user.')->prefix('api/user')->middleware(['api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-
-    Route::get('all', function() {
-        return json_encode(['drenki_she_poluchish'=>true]);
+Route::name('api.')
+    ->prefix('api')
+    ->middleware(['api'])
+    ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
+    ->group(function () {
+        Route::apiResource('user', 'UserApiController');
     });
-
-});

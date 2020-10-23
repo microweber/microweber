@@ -3,7 +3,6 @@
 namespace MicroweberPackages\User\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
@@ -29,8 +28,7 @@ class UserControllerTest extends TestCase
         );
 
         $userData = $response->getData();
-
-        $this->assertEquals($username, $userData->username);
+         $this->assertEquals($username, $userData->username);
         $this->assertNotEmpty($userData->id);
 
         $this->assertTrue(($userData->id > 0));
@@ -133,6 +131,11 @@ class UserControllerTest extends TestCase
                 'password' => $email,
             ]
         );
+
+
+
+
+
         $this->assertEquals(403, $response->status());
         $this->_enableUserRegistration();
 

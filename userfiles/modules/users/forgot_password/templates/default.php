@@ -24,9 +24,11 @@
                     <input type="text" class="large-field form-control" name="username" placeholder="<?php _e("Email or Username"); ?>">
                 </div>
             </div>
+            <?php if ($captcha_disabled != 'y'): ?>
             <div class="mw-ui-row vertical-middle captcha-row">
                 <module type="captcha"/>
             </div>
+            <?php endif; ?>
             <br>
             <button type="submit" class="btn btn-default pull-right"><?php print $form_btn_title; ?></button>
         </form>

@@ -6,19 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Passport\Http\Controllers\AuthorizationController;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
-use MicroweberPackages\User\Http\Requests\RegisterRequest;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 
 class AuthController extends Controller
 {
-    /*  public $middleware = [
+      public $middleware = [
           [
-              'middleware'=>'throttle:130,1',
+              'middleware'=>'xss',
               'options'=>[]
           ]
-      ];*/
+      ]; 
+
 
     /**
      * Display a listing of Role.
@@ -55,18 +54,5 @@ class AuthController extends Controller
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }
-    }
-
-    /**
-     * register api
-     *
-     * @param \MicroweberPackages\User\Http\Requests\RegisterRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function register(RegisterRequest $request)
-    {
-        $registred = User::create($request->all());
-
-        return $registred;
     }
 }

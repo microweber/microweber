@@ -94,5 +94,20 @@ description: Login default
 
             </form>
         </div>
+
+          <?php
+          if(get_option('register_email_verify', 'users') == 'y'){
+              if(isset($_GET['verify_email'])) {
+          ?>
+          <div class="pull-left alert alert-warning"><?php _e("Please check your inbox for your account activation email"); ?></div>
+          <?php
+              } elseif(isset($_GET['email_verified'])) {
+          ?>
+          <div class="pull-left alert alert-success"><?php _e("Success! Your email has been verified and account activated. You can now login."); ?></div>
+          <?php
+              }
+          }
+          ?>
+
     <?php endif; ?>
 </div>

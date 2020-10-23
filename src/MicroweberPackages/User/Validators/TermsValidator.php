@@ -15,22 +15,39 @@ class TermsValidator {
 
     public function validate($attribute, $value, $parameters, Validator $validator) {
 
-        $isOk = true;
         $inputs = $validator->getData();
 
         if (!isset($inputs['email']) || empty($inputs['email'])) {
             return false;
         }
 
-        $checks = [];
+        $isOk = true;
+        $checksDb = [];
         if(is_array($parameters)) {
             foreach ($parameters as $parameter) {
                 $tos = new TosManager();
-                $checks[$parameter] = $tos->terms_check($parameter, $inputs['email']);
+                $checksDb[$parameter] = $tos->terms_check($parameter, $inputs['email']);
+                if (!$checksDb[$parameter]) {
+                    $isOk = false;
+                }
             }
         }
 
-        var_dump($checks);
+        if ($isOk) {
+            return true;
+        }
 
+        if (!isset($inputs['terms'])) {
+            return false;
+        }
+
+        if (isset($inputs['terms']) && $inputs['terms'] == '1') {
+            foreach ($checksDb as $checkTermName=>$checkTermData) {
+                $tos = new TosManager();
+                $tos->terms_accept($checkTermName, $inputs['email']);
+            }
+        }
+
+        return true;
     }
 }

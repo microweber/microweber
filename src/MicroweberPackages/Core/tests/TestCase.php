@@ -10,6 +10,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     public function createApplication()
     {
+
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
@@ -43,16 +44,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             }
         }
 
-        file_put_contents($mw_file, "<?php return array (
-            'is_installed' => 0, 
-            'compile_assets' => 0,
-            'install_default_template' => 'default',
-            'install_default_template_content' => 1,
-            );"
-        );
-        $mw_file = realpath($mw_file);
-
-
         $app = require __DIR__ . '/../../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
         //  $app['env'] = $testing_env_name;
@@ -67,12 +58,29 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $environment = $app->environment();
         $this->sqlite_file = normalize_path(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
 
-        if (is_file($this->sqlite_file)) {
-            if (!defined('MW_UNIT_TEST_DB_FILE_CREATED')) {
-             //   @unlink($this->sqlite_file);
-                define('MW_UNIT_TEST_DB_FILE_CREATED', true);
+
+
+        if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
+            file_put_contents($mw_file, "<?php return array (
+            'is_installed' => 0, 
+            'compile_assets' => 0,
+            'install_default_template' => 'default',
+            'install_default_template_content' => 1,
+            );"
+            );
+            define('MW_UNIT_TEST_CONF_FILE_CREATED', true);
+
+            if (is_file($this->sqlite_file)) {
+                @unlink($this->sqlite_file);
+
             }
+
         }
+
+
+
+
+
 
 
         $db_driver = env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite';
@@ -120,20 +128,22 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         // make fresh install
         $install_params = array(
-            'username' => 'test',
+            'username' =>   'test',
             'password' => 'test',
-            'email' => 'test@example.com',
+            'email' =>  'test@example.com',
             'db_driver' => $db_driver,
             'db_host' => $db_host,
             'db_user' => $db_user,
             'db_pass' => $db_pass,
             'db_name' => $db_name,
             'prefix' => $db_prefix,
-           //  'db_name' => ':memory:',
+            //  'db_name' => ':memory:',
             '--env' => $environment,
         );
 
         $is_installed = mw_is_installed();
+
+
         if (!$is_installed) {
 
             $install = \Artisan::call('microweber:install', $install_params);
@@ -179,7 +189,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 $prop->setValue($this, null);
             }
         }
-       //echo 'post reduce memory usage: '.sprintf('%.2fM', memory_get_usage(true)/1024/1024);
+        //echo 'post reduce memory usage: '.sprintf('%.2fM', memory_get_usage(true)/1024/1024);
 
         parent::tearDown();
     }

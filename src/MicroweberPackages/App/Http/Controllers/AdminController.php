@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Auth;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\View\View as MicroweberView;
 use Illuminate\Support\Facades\View as LaravelView;
 

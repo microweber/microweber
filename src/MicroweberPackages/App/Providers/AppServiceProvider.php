@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
+use MicroweberPackages\Notification\Providers\NotificationEventServiceProvider;
+use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
+use MicroweberPackages\User\Providers\UserEventServiceProvider;
+use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Utils\Captcha\CaptchaManagerServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryServiceProvider;
@@ -51,7 +55,6 @@ use MicroweberPackages\Tax\TaxManagerServiceProvider;
 
 use MicroweberPackages\Tag\TagsManagerServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
-use MicroweberPackages\User\UserManagerServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use Spatie\Permission\PermissionServiceProvider;
@@ -207,7 +210,8 @@ if (! defined('MW_VERSION')) {
         $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(FormsManagerServiceProvider::class);
-        $this->app->register(UserManagerServiceProvider::class);
+        $this->app->register(UserServiceProvider::class);
+        $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionManagerServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
@@ -223,6 +227,8 @@ if (! defined('MW_VERSION')) {
      //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
         $this->app->register(  CountryServiceProvider::class);
         $this->app->register(  \EloquentFilter\ServiceProvider::class);
+        $this->app->register(  NotificationServiceProvider::class);
+        $this->app->register(  NotificationEventServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 

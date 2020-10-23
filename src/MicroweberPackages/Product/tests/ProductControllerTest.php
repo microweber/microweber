@@ -5,7 +5,7 @@ namespace MicroweberPackages\Product\tests;
 
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ProductControllerTest extends TestCase
@@ -15,7 +15,6 @@ class ProductControllerTest extends TestCase
 
         $user = User::firstOrCreate(array('username' => 'admin', 'password' => 'admin', 'is_admin' => '1'));
         Auth::login($user);
-
 
         $title = 'Test add product from api ' . rand();
         $title2 = 'Test update product from api ' . rand();
