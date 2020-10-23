@@ -2308,28 +2308,38 @@ class FrontendController extends Controller
 
     public function sitemapxml()
     {
-        $sm_file = mw_cache_path() . 'sitemap.xml';
+        $sm_file = mw_cache_path() . mw()->url_manager->hostname() . '_sitemap.xml';
 
-        $skip = false;
+        $updateSitemap = false;
         if (is_file($sm_file)) {
             $filelastmodified = filemtime($sm_file);
-
-            if (($filelastmodified - time()) > 3 * 3600) {
-                $skip = 1;
+            // The file is old
+            if ((time() - $filelastmodified) > 3 * 3600) {
+                $updateSitemap = true;
             }
         }
 
-        if ($skip == false) {
-            $map = new \MicroweberPackages\Utils\Sitemap($sm_file);
-            $map->file = mw_cache_path() . 'sitemap.xml';
+        if ($updateSitemap) {
+            $map = new \Microweber\Utils\Sitemap($sm_file);
+            $map->file = $sm_file;
 
-            $cont = get_content('is_active=1&is_deleted=0&limit=2500&fields=id,updated_at&orderby=updated_at desc');
+            // >>> Add categories
+            $categories = get_categories('no_limit=1');
+            foreach($categories as $category) {
+                $link = category_link($category['id']);
+                $map->addPage($link, 'daily', 1, $category['updated_at']);
+            }
+            // <<< Add categories
+            $cont = get_content('is_active=1&is_deleted=0&limit=2500&fields=id,content_type,url,updated_at&orderby=updated_at desc');
 
             if (!empty($cont)) {
                 foreach ($cont as $item) {
-                    $map->addPage($this->app->content_manager->link($item['id']), 'daily', 1, $item['updated_at']);
+                    if(!empty($item['content_type']) && !empty($item['url']) && in_array($item['content_type'], ['page', 'product', 'post'])) {
+                        $map->addPage($this->app->content_manager->link($item['id']), 'daily', 1, $item['updated_at']);
+                    }
                 }
             }
+
             $map = $map->create();
         }
         $map = $sm_file;

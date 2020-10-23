@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 
 

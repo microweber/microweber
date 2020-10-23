@@ -74,8 +74,11 @@ class CartTest extends TestCase
     public function testPaymentMethodsGet()
     {
         $get = payment_options();
-        $this->assertEquals(!empty($get), true);
-        $this->assertEquals(isset($get[0]['id']), true);
-        $this->assertEquals(isset($get[0]['gw_file']), true);
+
+        if (is_module('shop')) {
+            $this->assertEquals(!empty($get), true);
+            $this->assertEquals(isset($get[0]['id']), true);
+            $this->assertEquals(isset($get[0]['gw_file']), true);
+        }
     }
 }
