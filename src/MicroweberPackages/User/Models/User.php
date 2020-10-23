@@ -1,7 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Models\User;
+namespace MicroweberPackages\User\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +17,7 @@ use carbon\carbon;
 
 class User extends Authenticatable
 {
-    use HasFactory, HasRoles, Notifiable, HasApiTokens;
+    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable;
 
     protected $attributes = [
         'is_active' => 1,

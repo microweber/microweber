@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Package\ComposerUpdate;
 use MicroweberPackages\View\View;

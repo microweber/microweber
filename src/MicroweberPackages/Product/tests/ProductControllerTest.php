@@ -5,7 +5,7 @@ namespace MicroweberPackages\Product\tests;
 
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ProductControllerTest extends TestCase

@@ -3,12 +3,12 @@
 namespace MicroweberPackages\User\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Models\User\User;
 use MicroweberPackages\User\Events\UserIsCreating;
 use MicroweberPackages\User\Events\UserIsUpdating;
 use MicroweberPackages\User\Events\UserWasCreated;
 use MicroweberPackages\User\Events\UserWasDeleted;
 use MicroweberPackages\User\Events\UserWasUpdated;
+use MicroweberPackages\User\Models\User;
 
 class UserRepository extends BaseRepository
 {

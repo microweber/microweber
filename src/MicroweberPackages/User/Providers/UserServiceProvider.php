@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use \Laravel\Sanctum\SanctumServiceProvider;
-use MicroweberPackages\User\UserManager;
+use MicroweberPackages\User\Models\UserManager;
 
 
 class UserServiceProvider extends AuthServiceProvider
@@ -35,7 +35,7 @@ class UserServiceProvider extends AuthServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\User\UserManager $user_manager
+         * @property \MicroweberPackages\User\Models\UserManager $user_manager
          */
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
 

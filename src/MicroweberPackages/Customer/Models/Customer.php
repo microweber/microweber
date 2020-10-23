@@ -57,7 +57,7 @@ class Customer extends Model
 
     public function user()
     {
-        return $this->belongsTo(\MicroweberPackages\User\User::class);
+        return $this->belongsTo(\MicroweberPackages\User\Models\User::class);
     }
 
     public function scopeWhereDisplayName($query, $displayName)
