@@ -14,10 +14,7 @@ namespace MicroweberPackages\User\Providers;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
-use Laravel\Passport\Passport;
-use \Laravel\Sanctum\SanctumServiceProvider;
-use MicroweberPackages\User\Models\UserManager;
+use MicroweberPackages\User\UserManager;
 
 
 class UserServiceProvider extends AuthServiceProvider

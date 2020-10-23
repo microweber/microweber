@@ -2,8 +2,6 @@
 
 namespace MicroweberPackages\User;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
@@ -11,11 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
-use MicroweberPackages\User\Http\Controllers\AuthController;
-use MicroweberPackages\User\Http\Requests\RegisterRequest;
-use MicroweberPackages\User\Repositories\UserRepository;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
-use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class UserManager
