@@ -33,7 +33,6 @@ class UserRegisterController extends Controller
         'phone'
     ];
 
-
     /**
      * register api
      *
