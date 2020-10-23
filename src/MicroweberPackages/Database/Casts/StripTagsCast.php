@@ -8,8 +8,7 @@ class StripTagsCast implements CastsAttributes
 {
     public function get($model, $key, $value, $attributes)
     {
-dump($value);
-dump( strip_tags($value));
+ 
 
         return  strip_tags($value);
     }
