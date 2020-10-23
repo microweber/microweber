@@ -275,8 +275,9 @@ class UserManagerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableRegistrationApproval();
         $this->_enableRegisterEmail();
+        $this->_disableCaptcha();
 
-        $unamnexss = '<a href="Boom"><font color=a"onmouseover=alert(document.cookie);"> XSxxxS-Try ME</span></font>';
+        $unamnexss = '<a href="Boom"><font color=a"onmouseover=alert(document.cookie);"> XSxxxS-Try ME</span></font>'.uniqid();
 
         $newUser = array();
         $newUser['username'] =$unamnexss;
@@ -285,7 +286,11 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-var_dump($registerStatus);
+
+        $this->assertEquals(true, isset($registerStatus['username']));
+        $this->assertFalse(strpos($registerStatus['username'],'document.cookie'));
+        $this->assertFalse(strpos($registerStatus['username'],'onmouseover'));
+
 
     }
 

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use MicroweberPackages\Database\Casts\StripTagsCast;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Validation\Rule;
@@ -18,6 +19,10 @@ use carbon\carbon;
 class User extends Authenticatable
 {
     use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable;
+
+    protected $casts = [
+        'username' => StripTagsCast::class,
+    ];
 
     protected $attributes = [
         'is_active' => 1,
