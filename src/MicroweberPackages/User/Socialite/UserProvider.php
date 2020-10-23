@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\User\Socialite;
 
-use MicroweberPackages\User\UserData;
+use MicroweberPackages\User\Models\UserData;
 
 class UserProvider
 {

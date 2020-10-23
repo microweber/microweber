@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\Sanctum;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 
 class ApiAuth
 {

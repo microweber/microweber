@@ -35,7 +35,7 @@ use MicroweberPackages\Tax\TaxManager;
 use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\Template;
 use MicroweberPackages\Template\TemplateManager;
-use MicroweberPackages\User\UserManager;
+use MicroweberPackages\User\Models\UserManager;
 use MicroweberPackages\Utils\Http\Http;
 
 /**

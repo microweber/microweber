@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 
 class AuthController extends Controller
 {
