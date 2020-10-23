@@ -42,10 +42,12 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            'xss',
             'throttle:111116,1',
             'api_auth'
         ],
         'public.api' => [
+            'xss',
             'throttle:161111,1',
           //  EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,

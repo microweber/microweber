@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
@@ -245,7 +246,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
- 
+
         $this->assertArrayHasKey('error', $loginStatus);
 
         if (strpos($loginStatus['error'], 'awaiting approval') !== false) {
@@ -277,19 +278,21 @@ class UserManagerTest extends TestCase
         $this->_enableRegisterEmail();
         $this->_disableCaptcha();
 
-        $unamnexss = '<a href="Boom"><font color=a"onmouseover=alert(document.cookie);"> XSxxxS-Try ME</span></font>'.uniqid();
-
+        $unamnexss = '<a href="Boom"><font color=a"onmouseover=alert(document.cookie);"> XSxxxS-Try ME</span></font>' . uniqid();
+        $registerStatus = '';
         $newUser = array();
-        $newUser['username'] =$unamnexss;
-      //  $newUser['email'] =  uniqid().'@mail.test';
+        $newUser['username'] = $unamnexss;
+        $newUser['email'] = uniqid() . '@mail.test';
         $newUser['password'] = uniqid();
+
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-
-        $this->assertEquals(true, isset($registerStatus['username']));
-        $this->assertFalse(strpos($registerStatus['username'],'document.cookie'));
-        $this->assertFalse(strpos($registerStatus['username'],'onmouseover'));
+        $this->assertArrayHasKey('errors', $registerStatus);
+        $this->assertArrayHasKey('username', $registerStatus['errors']);
+//        $this->assertEquals(true, isset($registerStatus['username']));
+//        $this->assertFalse(strpos($registerStatus['username'],'document.cookie'));
+//        $this->assertFalse(strpos($registerStatus['username'],'onmouseover'));
 
 
     }

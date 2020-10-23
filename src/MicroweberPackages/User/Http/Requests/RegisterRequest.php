@@ -54,13 +54,12 @@ class RegisterRequest extends FormRequest
         }
 
         if ($validateEmail) {
-            $rules['email'] = 'required|string|max:255|unique:users';
+            $rules['email'] = 'email|string|min:3|required|string|max:255|unique:users';
         }
 
         if ($validateUsername) {
-            $rules['username'] = 'required|string|max:255|unique:users';
+            $rules['username'] = 'alpha_dash|string|min:1|required|string|max:255|unique:users';
         }
-
         if (isset($inputs['confirm_password'])) {
             $rules['confirm_password'] = 'required|min:1|same:password';
         }
@@ -80,6 +79,7 @@ class RegisterRequest extends FormRequest
             }
         }
         $rules['password'] = 'required|min:1';
+
 
         return $rules;
     }
