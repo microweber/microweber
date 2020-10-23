@@ -32,7 +32,7 @@ class UserServiceProvider extends AuthServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\User\Models\UserManager $user_manager
+         * @property \MicroweberPackages\User\UserManager $user_manager
          */
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
 
