@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\User;
+namespace MicroweberPackages\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use MicroweberPackages\User\Models\ModelFilters\UserFilter;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Validation\Rule;
 
@@ -21,10 +22,7 @@ class User extends Authenticatable
         'is_active' => 1,
         'is_admin' =>0,
         'is_verified' =>0,
-
     ];
-
-
 
     // use the trait
     //  use RevisionableTrait;
@@ -108,6 +106,12 @@ class User extends Authenticatable
     ];
 
     private $validator;
+
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(UserFilter::class);
+    }
 
     public function setPasswordAttribute($pass)
     {

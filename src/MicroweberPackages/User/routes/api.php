@@ -13,10 +13,10 @@ Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namesp
     Route::post('register', 'UserRegisterController@register')->name('register');
 });
 
-Route::name('api.user.')->prefix('api/user')->middleware(['api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-
-    Route::get('all', function() {
-        return json_encode(['drenki_she_poluchish'=>true]);
+Route::name('api.')
+    ->prefix('api')
+    ->middleware(['api'])
+    ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
+    ->group(function () {
+        Route::apiResource('user', 'UserApiController');
     });
-
-});

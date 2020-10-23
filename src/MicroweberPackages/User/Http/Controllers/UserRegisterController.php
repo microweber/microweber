@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
-use MicroweberPackages\User\User;
+use MicroweberPackages\User\Models\User;
 
 class UserRegisterController extends Controller
 {
