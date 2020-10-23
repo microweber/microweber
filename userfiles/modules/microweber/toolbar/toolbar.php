@@ -242,7 +242,7 @@ if (isset($_COOKIE['mw_exp'])) {
         $(window).on("load", function () {
             mw.liveEditSettings = new mw.controlBox({
                 content: '<div class="module" type="admin/modules/sidebar_live_edit"></div>',
-                position: 'right',
+                position: !mw.tools.isRtl() ? 'right' : 'right',
                 id: 'live_edit_side_holder',
                 closeButton: true
             });
@@ -328,7 +328,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 <span class="mw-icon-dropdown"></span>
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
-                                <div class="mw-dropdown-list-search">
+                                <div class="mw-dropdown-list-search">12121212121
                                     <input type="mwautocomplete" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
                                 </div>
                                 <?php
@@ -685,6 +685,7 @@ if (isset($_COOKIE['mw_exp'])) {
 <span class="mw-plus-bottom mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
 
 <div style="display: none" id="plus-modules-list">
+    <h3>Select module</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
         <div class="plus-modules-list-box">
@@ -694,6 +695,7 @@ if (isset($_COOKIE['mw_exp'])) {
 </div>
 
 <div style="display: none" id="plus-layouts-list">
+    <h3>Select layout</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
         <div class="plus-modules-list-box">

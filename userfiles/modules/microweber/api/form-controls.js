@@ -32,7 +32,7 @@ mw.controlFields = {
     _label: function (conf){
         var id = conf.id || this._id();
         var label = document.createElement('label');
-        label.className = conf.className || '';
+        label.className = conf.className || 'mw-ui-label';
         label.innerHTML = conf.label || conf.content || '';
         label.htmlFor = id;
         return label;
@@ -41,13 +41,13 @@ mw.controlFields = {
         var id = conf.id || this._id();
         var button = document.createElement('button');
         button.type = conf.type || 'button';
-        button.className = 'btn btn-' + conf.size + ' btn-' + conf.color;
+        button.className = 'mw-ui-btn btn-' + conf.size + ' btn-' + conf.color;
         button.innerHTML = (conf.label || conf.content);
         return button;
     },
     _wrap: function () {
         var el =  document.createElement('div');
-        el.className = 'form-group';
+        el.className = 'mw-ui-field-holder';
         [].forEach.call(arguments, function (content) {
             if (typeof content === 'string') {
                 el.innerHTML += content;
@@ -73,7 +73,7 @@ mw.controlFields = {
         return this._wrap(
             this._label(conf),
             this._description(conf),
-            '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control">'
+            '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="mw-ui-field w100">'
         );
     },
     checkbox: function (conf) {
@@ -85,10 +85,10 @@ mw.controlFields = {
         var name = conf.name ? ('name="' + conf.name + '"') : '';
         var required = conf.required ? ('required') : '';
         return  this._wrap(
-            '<div class="custom-control custom-checkbox">' +
-            '<input type="checkbox" ' + id + ' ' + name + ' ' + required + ' class="custom-control-input">' +
-            this._label(mw.object.extend({}, conf, {className: 'custom-control-label'})).outerHTML +
-            '</div>');
+            '<label class="mw-ui-check">' +
+            '<input type="checkbox" ' + id + ' ' + name + ' ' + required + '>' +
+            '<span></span><span>' + (conf.label || conf.content || '') + '</span>' +
+            '</label>');
     },
     radio: function (conf) {
         conf = conf || {};
@@ -97,12 +97,11 @@ mw.controlFields = {
         var value =  (' value="' + conf.value + '" ');
         var name = conf.name ? ('name="' + conf.name + '"') : '';
         var required = conf.required ? ('required') : '';
-
         return  this._wrap(
-            '<div class="custom-control custom-radio">' +
-            '<input type="radio" ' + id + ' ' + name + ' ' + required + ' ' + value + ' class="custom-control-input">' +
-            this._label(mw.object.extend({}, conf, {className: 'custom-control-label'})) .outerHTML+
-            '</div>');
+            '<label class="mw-ui-check">' +
+            '<input type="radio" ' + id + ' ' + name + ' ' + required + ' ' + value + '>' +
+                '<span></span><span>' + (conf.label || conf.content || '') + '</span>' +
+            '</label>');
     },
     select: function (conf) {
         conf = conf || {};

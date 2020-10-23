@@ -354,4 +354,115 @@ body.bup.dragStart.state-element {
 .mw-selector-bottom:after{bottom:-0px;right:-0px;}
 
 
+.mw-ac-editor-nav{
+    position: relative;
+    vertical-align: middle;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    align-items: center;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #cfcfcf;
+    width: 100%;
+    & > .mw-ui-btn-tab:not(.active){
+        color: #adb5bd ;
+    }
+    & > .mw-ui-btn-tab.active{
+        color: @info;
+    }
+}
+
+
+.mw-file-drop-zone{
+    border: 2px dashed @infoBorderColor;
+    width: 100%;
+    background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_bg.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    position: relative;
+
+    &:hover {
+        border-color: @borderColor;
+        background-color: rgba(red(@borderColor), green(@borderColor), blue(@borderColor), .1);
+    }
+
+    .mw-file-drop-zone-holder {
+        padding: 40px;
+        width: 100%;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: space-between;
+
+        .mw-file-drop-zone-img {
+            background-image: url('../../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg');
+            width: 70px;
+            height: 55px;
+            background-size: contain;
+            margin-bottom: 20px;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        .mw-file-drop-zone-img {
+            background-image: url('../../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_media.svg');
+        }
+        .mw-file-drop-zone-progress {
+            max-width: 100%;
+            width: 180px;
+            height: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mw-ui-btn {
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: @infoTextColor;
+            margin-bottom: 0;
+        }
+    }
+
+    &.mw-file-drop-zone-small {
+        background-image: unset;
+        width: auto;
+        display: inline-block;
+
+        .mw-file-drop-zone-holder {
+            padding: 10px;
+
+            .mw-ui-btn {
+                margin-bottom: 0;
+            }
+            text-align: center;
+        }
+    }
+
+    &.mw-file-drop-square-zone {
+        &.mw-file-drop-small-zone {
+            min-width: 115px;
+        }
+
+        &:after {
+            content: "";
+            display: block;
+            padding-bottom: 100%;
+        }
+        .mw-file-drop-zone-holder {
+            justify-content: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+        }
+    }
+}
+
+
 

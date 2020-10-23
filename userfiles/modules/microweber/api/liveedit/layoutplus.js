@@ -73,7 +73,7 @@ mw.layoutPlus = {
             scope.pause = false;
         });
     },
-    mode: 'Dialog',
+    mode: 'tooltip', //'Dialog',
     initSelector: function () {
         var scope = this;
         this._top.on('click', function () {
@@ -81,28 +81,31 @@ mw.layoutPlus = {
             var tip = new mw[mw.layoutPlus.mode]({
                 content: mwd.getElementById('plus-layouts-list').innerHTML,
                 element: this,
-                position: 'top-center',
+                position: 'right-center',
                 template: 'mw-tooltip-default mw-tooltip-insert-module',
                 id: 'mw-plus-tooltip-selector',
                 title: mw.lang('Select layout'),
                 width: 400
             });
             scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'before');
-            $('#mw-plus-tooltip-selector input').focus()
+            $('#mw-plus-tooltip-selector input').focus();
+            $('#mw-plus-tooltip-selector').addClass('active');
+
         });
         this._bottom.on('click', function () {
             scope.pause = true;
             var tip = new mw[mw.layoutPlus.mode]({
                 content: mwd.getElementById('plus-layouts-list').innerHTML,
                 element: this,
-                position: 'bottom-center',
+                position: 'right-center',
                 template: 'mw-tooltip-default mw-tooltip-insert-module',
                 id: 'mw-plus-tooltip-selector',
                 title: mw.lang('Select layout'),
                 width: 400
             });
             scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'after');
-            $('#mw-plus-tooltip-selector input').focus()
+            $('#mw-plus-tooltip-selector input').focus();
+            $('#mw-plus-tooltip-selector').addClass('active');
         });
 
     },

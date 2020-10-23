@@ -106,15 +106,10 @@ if (array_key_exists('title', $_GET)) {
 
     $(document).ready(function () {
 
-        /*
-         mw.$(".body.browser-liveedit .mw-browser-list-file").click(function(){
-
-         });  */
-
 
         mw.on.hashParam('select-file', function () {
 
-            if (hash == 'fileWindow') {
+            if (hash === 'fileWindow') {
                 $('body').trigger('change', [this]);
                 return false;
             }
@@ -122,7 +117,7 @@ if (array_key_exists('title', $_GET)) {
             var type = mw.url.type(this);
             GlobalEmbed = mw.embed.generate(type, this);
             if (typeof parent.mw.iframecallbacks[hash] === 'function') {
-                if (hash == 'editimage') {
+                if (hash === 'editimage') {
 
 
                     parent.mw.iframecallbacks[hash](this);
@@ -182,10 +177,10 @@ if (array_key_exists('title', $_GET)) {
             if (filetypes.indexOf('images') !== -1) {
                 afterMediaIsInserted(url, '', "FileUploaded");
             }
-            else if (filetypes == 'videos' || filetypes == 'media') {
+            else if (filetypes === 'videos' || filetypes === 'media') {
                 afterMediaIsInserted(url, 'video', "FileUploaded");
             }
-            else if (filetypes == 'files') {
+            else if (filetypes === 'files') {
                 if (item.src.contains("base64")) {
                     afterMediaIsInserted(url, '', "FileUploaded");
                 } else {
@@ -229,10 +224,10 @@ if (array_key_exists('title', $_GET)) {
                 if (filetypes.indexOf('images') !== -1) {
                     afterMediaIsInserted(item.src, '', "FileUploaded");
                 }
-                else if (filetypes == 'videos' || filetypes == 'media') {
+                else if (filetypes === 'videos' || filetypes === 'media') {
                     afterMediaIsInserted(item.src, 'video', "FileUploaded");
                 }
-                else if (filetypes == 'files') {
+                else if (filetypes === 'files') {
                     if (item.src.contains("base64")) {
                         afterMediaIsInserted(item.src, '', "FileUploaded");
                     } else {
@@ -273,13 +268,13 @@ if (array_key_exists('title', $_GET)) {
 
         urlSearcher.bind('keyup paste', function (e) {
             GlobalEmbed = false;
-            if (e.type == 'keyup') {
+            if (e.type === 'keyup') {
                 mw.on.stopWriting(urlSearcher[0], function () {
                     var val = urlSearcher.val();
                     var type = mw.url.type(val);
                     if (status[0]) {
                         status[0].className = type;
-                        if (type != 'image') {
+                        if (type !== 'image') {
                             status.empty();
                         } else {
                             status.html('<img class="image_status_preview_image" src="' + val + '" />');
@@ -394,8 +389,7 @@ if (array_key_exists('title', $_GET)) {
                 }
 
             } else {
-                mw.parent().tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 430, 230, true);
-            }
+             }
             if(window.thismodal){
                 if(this.selectedIndex === ($(selector).length - 1)){
                     thismodal.resize(800)
@@ -557,84 +551,6 @@ if (array_key_exists('title', $_GET)) {
 
 </style>
 <div class="module-live-edit-settings">
-    <!--<div id="image_tabs">
-        <div class="image-tabs-header">
-            <div>
-                <h6><strong><?php /*print $title; */?></strong></h6>
-            </div>
-            <div>
-                <select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto">
-                    <option selected><?php /*_e("My Computer"); */?></option>
-                    <option><?php /*_e("URL"); */?></option>
-                    <?php /*if (is_admin()): */?>
-                        <option id="browseTab"><?php /*_e("Uploaded"); */?></option>
-                    <?php /*endif; */?>
-                    <?php /*if (is_admin()): */?>
-                        <option id="unslashImagesTab"><?php /*_e("Media Library"); */?></option>
-                    <?php /*endif; */?>
-                </select>
-            </div>
-        </div>
-
-
-
-
-
-
-         <div class="tab" id="drag_files_here" style="display: block">
-
-                    <div >
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="dropable-zone">
-                                    <div class="holder">
-                                        <div class="dropable-zone-img"></div>
-
-                                        <div class="progress progress-silver">
-                                            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                        <button type="button" class="btn btn-primary btn-rounded">Add file</button>
-                                        <p>or drop files to upload</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="drag_files_label" style="display: none;"><?php /*_e("Drag your files here"); */?></div>
-
-            </div>
-            <div class="tab" id="get_image_from_url">
-
-
-                <div id="media-search-holder" style="margin: 35px 0;">
-                    <div class="mw-ui-row-nodrop">
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <input type="text" id="media_search_field" placeholder="<?php /*_e("URL"); */?>" class="mw-ui-field" name="get_image_by_url" onfocus="event.preventDefault()"/>
-                            </div>
-                        </div>
-                        <div class="mw-ui-col">
-                            <div class="mw-ui-col-container">
-                                <button type="button" class="mw-ui-btn" id="btn_insert"><?php /*_e("Insert"); */?></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="tab" id="tabfilebrowser">
-                <div id="file_module_live_edit_adm"></div>
-                <?php /*event_trigger('live_edit_toolbar_image_search'); */?>
-
-            </div>
-            <div class="tab">
-            	<module type="pictures/media_library" />
-            </div>
-
-
-    </div>-->
 
 
     <div class="mw-ui-progress" id="mw-upload-progress" style="display: none">

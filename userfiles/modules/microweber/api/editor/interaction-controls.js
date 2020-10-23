@@ -50,7 +50,7 @@ MWEditor.interactionControls = {
                 this.element.hide();
                 return;
             }
-            var $target = $(data.target);
+            var $target = mw.element(data.target);
             this.$target = $target;
             var css = $target.offset();
             css.top += $target.outerHeight();
@@ -79,12 +79,26 @@ MWEditor.interactionControls = {
                 }
             });
             changeButton.on('click', function () {
-                mw.top().fileWindow({
+                var dialog;
+                var picker = new mw.filePicker({
                     type: 'images',
-                    change: function (url) {
+                    label: false,
+                    autoSelect: false,
+                    footer: true,
+                    onResult: function (res) {
+                        var url = res.src ? res.src : res;
+                        if(!url) return;
+                        url = url.toString();
                         scope.$target.attr('src', url);
+                        dialog.remove();
                     }
                 });
+                dialog = mw.top().dialog({
+                    content: picker.root,
+                    title: mw.lang('Select image'),
+                    footer: false
+                })
+
             });
             var editButton = mw.element({
                 props: {

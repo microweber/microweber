@@ -177,7 +177,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     var pickUrl = function () {
 
 
-                        var linkEditor = new mw.LinkEditor({
+                        var linkEditor = new (mw.top()).LinkEditor({
                             mode: 'dialog',
                             controllers: [
                                 { type: 'url', config: {target: false, text: false}},

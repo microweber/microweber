@@ -140,6 +140,17 @@
             this.each(function (){
                 this.dataset[prop] = val;
             });
+            return this;
+        };
+
+        this.attr = function(prop, val){
+            if(typeof val === 'undefined') {
+                return this._active()[prop];
+            }
+            this.each(function (){
+                this.setAttribute(prop, val);
+            });
+            return this;
         };
 
         this.prop = function(prop, val){

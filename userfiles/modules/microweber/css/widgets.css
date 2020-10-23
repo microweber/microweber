@@ -14,13 +14,15 @@
 
 
 .mw-ui-form-controller-root .mw-autocomplete-list.mw-ui-navigation li a {
-    border-top: 1px solid #cfcfcf ;
     border-bottom: none;
 }
 .mw-ui-form-controller-root .mw-autocomplete .mw-autocomplete-list{
     position: relative;
     border: none;
-    box-shadow: none !important;
+    top: 0;
+    left: -5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 .mw-ui-form-controller-root > div:first-of-type {
     padding-top: 15px;
@@ -44,6 +46,7 @@
     right: 0;
     border: 1px solid #4592ff;
     background-color: white;
+    z-index: 1;
 }
 .mw-link-editor-nav-drop-box > span i{
     display: inline-block;

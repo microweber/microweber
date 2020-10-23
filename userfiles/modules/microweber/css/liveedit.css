@@ -2600,6 +2600,9 @@ div[id*='SSDIVEL'] {
 
 #image-edit-nav .mw-ui-btn span {
     opacity: 1;
+    margin: 0;
+    margin-inline: unset;
+    pointer-events: none;
 }
 
 #image-edit-nav .mw-ui-btn {
@@ -2780,7 +2783,7 @@ div[id*='SSDIVEL'] {
 }
 
 .mw-tooltip-insert-module .mw-tooltip-content .plus-modules-list-box{
-    max-height: 330px;
+    height: 330px;
     overflow: auto;
 }
 
@@ -2796,6 +2799,11 @@ div[id*='SSDIVEL'] {
 .mw-tooltip-insert-module .mw-ui-searchfield {
     border-radius: 3px 3px 0 0;
     border-bottom-width: 0;
+}
+.mw-tooltip-insert-module h3{
+    font-size: 14px;
+    padding: 0 0 10px;
+    font-weight: 600;
 }
 
 .module-bubble-tab {
@@ -3312,8 +3320,8 @@ body {
     transition: margin-right .3s;
 }
 
-.has-opened-sidebar {
-    margin-right: 360px;
+body.has-opened-sidebar {
+    margin-inline-end: 360px;
 
 }
 
@@ -3904,8 +3912,9 @@ body.dragStart .allow-drop {
     width: 50px;
     height: 100%;
     background-color: #F5F5F5;
-    box-shadow: -1px 0 2px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 2px rgba(0, 0, 0, .2);
     cursor: pointer;
+    z-index: unset;
 }
 
 .mw-control-box-left .mw-live-edit-sidebar-tabs-wrapper {
@@ -3917,6 +3926,7 @@ body.dragStart .allow-drop {
     left: -50px;
     top: 0;
 }
+
 
 .mw-live-edit-sidebar-tabs {
 
