@@ -33,6 +33,54 @@ class RegisterRequest extends FormRequest
 
     public function rules()
     {
-        return[];
+        $rules = [];
+        $inputs = $this->all();
+
+        $validateEmail = false;
+        $validateUsername = false;
+
+        if (!isset($inputs['username']) || !isset($inputs['email'])) {
+            $validateUsername = true;
+        }
+
+        if (isset($inputs['email']) && !isset($inputs['username'])) {
+            $validateUsername = false;
+            $validateEmail = true;
+        }
+
+        if (isset($inputs['email']) && isset($inputs['username'])) {
+            $validateUsername = true;
+            $validateEmail = true;
+        }
+
+        if ($validateEmail) {
+            $rules['email'] = 'required|string|max:255|unique:users';
+        }
+
+        if ($validateUsername) {
+            $rules['username'] = 'required|string|max:255|unique:users';
+        }
+
+        if (isset($inputs['confirm_password'])) {
+            $rules['confirm_password'] = 'required|min:1|same:password';
+        }
+
+        if (get_option('captcha_disabled', 'users') !== 'y') {
+            $rules['captcha'] = 'required|min:1|captcha';
+        }
+
+        if (isset($inputs['email']) && $inputs['email'] != false && ((get_option('disable_registration_with_temporary_email', 'users') == 'y'))) {
+            $rules['email'] = $rules['email'] . '|temporary_email_check';
+        }
+
+        if (get_option('require_terms', 'users') == 'y') {
+            $rules['terms'] = 'terms:terms_user';
+            if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
+                $rules['terms'] = $rules['terms'] . ', terms_newsletter';
+            }
+        }
+        $rules['password'] = 'required|min:1';
+
+        return $rules;
     }
 }
