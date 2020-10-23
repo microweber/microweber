@@ -25,6 +25,14 @@ class RequestRoute extends Request
      */
     public static function postJson($route, $params)
     {
+
+
+        $requestFactory = function(array $query, array $request, array $attributes, array $cookies, array $files, array $server, $content) {
+            $server['x-no-throttle'] = true;
+            return new RequestRoute($query, $request, $attributes, $cookies, $files, $server, $content);
+        };
+
+        self::setFactory($requestFactory);
         $createRequest = self::create($route, 'POST', $params, [], [], $_SERVER);
         $createRequest->headers->set('accept', 'application/json');
 
