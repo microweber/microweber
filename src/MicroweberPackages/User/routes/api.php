@@ -20,3 +20,4 @@ Route::name('api.')
     ->group(function () {
         Route::apiResource('user', 'UserApiController');
     });
+
