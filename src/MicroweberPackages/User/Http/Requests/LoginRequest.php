@@ -11,12 +11,43 @@ class LoginRequest extends FormRequest
      *
      * @return array
      */
+
     public function rules()
     {
-        $rules = [
-            'username' => 'required|string',
-            'password' => 'required|string',
-         ];
+        $rules = [];
+        $inputs = $this->all();
+
+        $validateEmail = false;
+        $validateUsername = false;
+
+        if (!isset($inputs['username']) || !isset($inputs['email'])) {
+            $validateUsername = true;
+        }
+
+        if (isset($inputs['email']) && !isset($inputs['username'])) {
+            $validateUsername = false;
+            $validateEmail = true;
+        }
+
+        if (isset($inputs['email']) && isset($inputs['username'])) {
+            $validateUsername = true;
+            $validateEmail = true;
+        }
+
+        if ($validateEmail) {
+            $rules['email'] = 'email|string|min:3|required|string|max:255';
+        }
+
+        if ($validateUsername) {
+            $rules['username'] = 'alpha_dash|string|min:1|required|string|max:255';
+        }
+
+
+        if (get_option('captcha_disabled', 'users') !== 'y') {
+            $rules['captcha'] = 'required|min:1|captcha';
+        }
+
+        $rules['password'] = 'required|min:1';
 
         return $rules;
     }

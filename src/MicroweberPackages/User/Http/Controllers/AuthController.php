@@ -57,17 +57,64 @@ class AuthController extends Controller
             return response()->json($success, 200);
         }
 
-        $login = Auth::attempt($request->all());
+        $login = Auth::attempt([
+            $this->loginFields($request->all())
+        ]);
         if ($login) {
+
+
+
+
+
+
             $success = [];
             if (Auth::user()->is_admin == 1) {
                 $success['token'] = auth()->user()->createToken('authToken');
             }
             $success['user'] = auth()->user();
             return response()->json(['success' => $success])->setStatusCode(Response::HTTP_ACCEPTED);
-        } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
         }
+
+        return response()->json(['error' => 'Unauthorised'], 401);
+    }
+
+    public function loginFields($params)
+    {
+        $returnFields = [];
+
+        if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
+            $decoded_username = @base64_decode($params['username_encoded']);
+            if (!empty($decoded_username)) {
+                $returnFields['username'] = $decoded_username;
+            } else {
+                $returnFields['username'] = @base62_decode($params['username_encoded']);
+            }
+        }
+
+        if (!isset($params['email']) and isset($params['email_encoded']) and $params['email_encoded']) {
+            $decoded_email = @base64_decode($params['email_encoded']);
+            if (!empty($decoded_email)) {
+                $returnFields['email'] = $decoded_email;
+            } else {
+                $returnFields['email'] = @base62_decode($params['email_encoded']);
+            }
+        }
+
+        if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
+            $decoded_password = @base64_decode($params['password_encoded']);
+            if (!empty($decoded_password)) {
+                $returnFields['password'] = $decoded_password;
+            } else {
+                $returnFields['password'] = @base62_decode($params['password_encoded']);
+            }
+        }
+
+        if ($params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
+            $returnFields['email'] = $params['username'];
+            unset($returnFields['username']);
+        }
+
+        return $returnFields;
     }
 
     public function logout()
