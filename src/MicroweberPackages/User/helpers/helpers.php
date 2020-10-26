@@ -370,3 +370,43 @@ function user_can_view_module($module)
     return false;
 
 }
+
+
+
+function detect_user_id_from_params($params){
+
+    if (!empty($params)) {
+        if (isset($params['username']) || isset($params['email'])) {
+
+            if (isset($params['username']) && $params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
+                $params['email'] = $params['username'];
+            }
+
+            $findUserId = false;
+            $findByUsername = false;
+
+            if (isset($params['username'])) {
+                $findByUsername = \MicroweberPackages\User\Models\User::where('username', $params['username'])->first();
+            }
+
+            if ($findByUsername) {
+                $findUserId = $findByUsername->id;
+            } else {
+                if (isset($params['email'])) {
+                    $findByEmail = \MicroweberPackages\User\Models\User::where('email', $params['email'])->first();
+                    if ($findByEmail) {
+                        $findUserId = $findByEmail->id;
+                    }
+                }
+            }
+
+            if (!$findUserId) {
+                return false;
+            }
+
+            return $findUserId;
+        }
+    }
+
+    return false;
+}

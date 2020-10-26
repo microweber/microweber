@@ -12,6 +12,7 @@
 namespace MicroweberPackages\User\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
+use MicroweberPackages\User\Listeners\RecordAuthenticatedLoginListener;
 use MicroweberPackages\User\Listeners\RecordFailedLoginAttemptListener;
 use MicroweberPackages\User\Listeners\UserRegisteredListener;
 use MicroweberPackages\User\Events\UserWasRegistered;
@@ -26,5 +27,8 @@ class UserEventServiceProvider extends EventServiceProvider
         \Illuminate\Auth\Events\Failed::class => [
             RecordFailedLoginAttemptListener::class,
         ],
+        \Illuminate\Auth\Events\Authenticated::class => [
+            RecordAuthenticatedLoginListener::class,
+        ]
     ];
 }

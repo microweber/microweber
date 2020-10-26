@@ -2,10 +2,9 @@
 
 namespace MicroweberPackages\User\Listeners;
 
-class RecordFailedLoginAttemptListener
+class RecordAuthenticatedLoginListener
 {
-    protected $success = 0;
+    protected $success = 1;
 
     use LoginListenerTrait;
-
 }
