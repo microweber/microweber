@@ -70,7 +70,7 @@ class AuthController extends Controller
 
             $redirectParams = $request->only('redirect', 'where_to');
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
-                if ($redirectParams['where_to'] == 'admin_content') {
+                if (Auth::user()->is_admin == 1 && $redirectParams['where_to'] == 'admin_content') {
                     $redirectParams['redirect'] = admin_url();
                 } else {
                     $redirectParams['redirect'] = site_url();
