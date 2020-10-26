@@ -45,18 +45,19 @@ class RequestRoute extends Request
     {
         $messages = json_decode($response->getContent(), true);
 
+        $errors = [];
+
         if (!isset($messages['success'])) {
-            if ($response->status() >= 200 || $response->status() < 300) {
-                $messages['success'] = true;
+            if ($response->status() == 200 || $response->status() == 201) {
+                $errors['success'] = true;
             }
         }
 
-        if ($response->status() >= 400 || $response->status() <= 500) {
-            $messages['error'] = true;
+        if ($response->status() == 400) {
+            $errors['error'] = true;
+            $errors['success'] = false;
         }
 
-
-        $errors = [];
         if (isset($messages['errors']['captcha'])) {
             $errors['captcha_error'] = true;
             $errors['form_data_required'] = 'captcha';
@@ -69,6 +70,10 @@ class RequestRoute extends Request
             $errors['terms_error'] = true;
             $errors['form_data_required'] = 'terms';
             $errors['form_data_module'] = 'users/terms';
+        }
+
+        if (isset($messages['error'])) {
+            $errors['error'] = $messages['error'];
         }
 
         if (!isset($errors['error']) && isset($messages['errors'])) {

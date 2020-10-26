@@ -11,12 +11,12 @@ use MicroweberPackages\User\Models\User;
 
 class AuthController extends Controller
 {
-      public $middleware = [
-          [
-              'middleware'=>'xss',
-              'options'=>[]
-          ]
-      ]; 
+    public $middleware = [
+        [
+            'middleware' => 'xss',
+            'options' => []
+        ]
+    ];
 
 
     /**
@@ -57,64 +57,71 @@ class AuthController extends Controller
             return response()->json($success, 200);
         }
 
-        $login = Auth::attempt([
-            $this->loginFields($request->all())
-        ]);
+        $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')));
         if ($login) {
 
-
-
-
-
-
-            $success = [];
+            $response = [];
             if (Auth::user()->is_admin == 1) {
-                $success['token'] = auth()->user()->createToken('authToken');
+                $response['token'] = auth()->user()->createToken('authToken');
             }
-            $success['user'] = auth()->user();
-            return response()->json(['success' => $success])->setStatusCode(Response::HTTP_ACCEPTED);
+
+            $response['user'] = auth()->user();
+            $response['success']= _e('You are logged in', 1);
+
+            $redirectParams = $request->only('redirect', 'where_to');
+            if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
+                if ($redirectParams['where_to'] == 'admin_content') {
+                    $redirectParams['redirect'] = admin_url();
+                } else {
+                    $redirectParams['redirect'] = site_url();
+                }
+            }
+
+            if (isset($redirectParams['redirect'])) {
+                $response['redirect'] = $redirectParams['redirect'];
+            }
+
+            return response()->json($response)->setStatusCode(Response::HTTP_ACCEPTED);
         }
 
-        return response()->json(['error' => 'Unauthorised'], 401);
+        return response()->json(['error' => 'Unauthorised request'], 401);
     }
 
-    public function loginFields($params)
+    public function loginFields($request)
     {
-        $returnFields = [];
-
-        if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
-            $decoded_username = @base64_decode($params['username_encoded']);
-            if (!empty($decoded_username)) {
-                $returnFields['username'] = $decoded_username;
+        if (!isset($request['username']) and isset($request['username_encoded']) and $request['username_encoded']) {
+            $decodedUsername = @base64_decode($request['username_encoded']);
+            if (!empty($decodedUsername)) {
+                $request['username'] = $decodedUsername;
             } else {
-                $returnFields['username'] = @base62_decode($params['username_encoded']);
+                $request['username'] = @base62_decode($request['username_encoded']);
             }
         }
 
-        if (!isset($params['email']) and isset($params['email_encoded']) and $params['email_encoded']) {
-            $decoded_email = @base64_decode($params['email_encoded']);
-            if (!empty($decoded_email)) {
-                $returnFields['email'] = $decoded_email;
+        if (!isset($request['email']) and isset($request['email_encoded']) and $request['email_encoded']) {
+            $decodedEmail = @base64_decode($request['email_encoded']);
+            if (!empty($decodedEmail)) {
+                $request['email'] = $decodedEmail;
             } else {
-                $returnFields['email'] = @base62_decode($params['email_encoded']);
+                $request['email'] = @base62_decode($request['email_encoded']);
             }
         }
 
-        if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
-            $decoded_password = @base64_decode($params['password_encoded']);
-            if (!empty($decoded_password)) {
-                $returnFields['password'] = $decoded_password;
+        if (!isset($params['password']) and isset($request['password_encoded']) and $request['password_encoded']) {
+            $decodedPassword = @base64_decode($request['password_encoded']);
+            if (!empty($decodedPassword)) {
+                $request['password'] = $decodedPassword;
             } else {
-                $returnFields['password'] = @base62_decode($params['password_encoded']);
+                $request['password'] = @base62_decode($request['password_encoded']);
             }
         }
 
-        if ($params['username'] != false and filter_var($params['username'], FILTER_VALIDATE_EMAIL)) {
-            $returnFields['email'] = $params['username'];
-            unset($returnFields['username']);
+        if ($request['username'] != false and filter_var($request['username'], FILTER_VALIDATE_EMAIL)) {
+            $request['email'] = $request['username'];
+            unset($request['username']);
         }
 
-        return $returnFields;
+        return $request;
     }
 
     public function logout()
