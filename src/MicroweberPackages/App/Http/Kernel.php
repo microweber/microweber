@@ -74,6 +74,7 @@ class Kernel extends HttpKernel
         'throttle' => \MicroweberPackages\App\Http\Middleware\ThrottleExternalRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'xss' => \MicroweberPackages\App\Http\Middleware\XSS::class,
+        'remove_html' => \MicroweberPackages\App\Http\Middleware\RemoveHtml::class,
         'admin' => \MicroweberPackages\App\Http\Middleware\Admin::class,
         'api_auth' => \MicroweberPackages\App\Http\Middleware\ApiAuth::class,
         'allowed_ips' => \MicroweberPackages\App\Http\Middleware\AllowedIps::class,
