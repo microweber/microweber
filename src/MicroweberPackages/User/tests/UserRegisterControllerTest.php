@@ -6,7 +6,7 @@ use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
-class UserControllerTest extends TestCase
+class UserRegisterControllerTest extends TestCase
 {
     use UserTestHelperTrait;
 

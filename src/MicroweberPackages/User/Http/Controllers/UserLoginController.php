@@ -7,9 +7,8 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
-use MicroweberPackages\User\Models\User;
 
-class AuthController extends Controller
+class UserLoginController extends Controller
 {
     public $middleware = [
         [
@@ -60,13 +59,13 @@ class AuthController extends Controller
         $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')));
         if ($login) {
 
-            $response = [];
+            $userData = auth()->user();
+
             if (Auth::user()->is_admin == 1) {
-                $response['token'] = auth()->user()->createToken('authToken');
+                $userData->token = auth()->user()->createToken('authToken');
             }
 
-            $response['user'] = auth()->user();
-            $response['success']= _e('You are logged in', 1);
+         /*   $response['success']= _e('You are logged in', 1);
 
             $redirectParams = $request->only('redirect', 'where_to');
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
@@ -79,9 +78,9 @@ class AuthController extends Controller
 
             if (isset($redirectParams['redirect'])) {
                 $response['redirect'] = $redirectParams['redirect'];
-            }
+            }*/
 
-            return response()->json($response)->setStatusCode(Response::HTTP_ACCEPTED);
+            return $userData;
         }
 
         return response()->json(['error' => 'Unauthorised request'], 401);

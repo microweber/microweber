@@ -9,8 +9,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::name('api.user.')->prefix('api/user')->middleware(['public.api'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-    Route::post('login', 'AuthController@login')->name('login')->middleware(['allowed_ips']);
-    Route::post('logout', 'AuthController@logout')->name('logout');
+    Route::post('login', 'UserLoginController@login')->name('login')->middleware(['allowed_ips']);
+    Route::post('logout', 'UserLoginController@logout')->name('logout');
     Route::post('register', 'UserRegisterController@register')->name('register')->middleware(['allowed_ips']);
 });
 

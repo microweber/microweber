@@ -10,6 +10,8 @@ namespace MicroweberPackages\User\tests;
 
 
 
+use MicroweberPackages\User\Models\User;
+
 trait UserTestHelperTrait {
 
     private static $_username = false;
@@ -80,6 +82,16 @@ trait UserTestHelperTrait {
         $data['option_key'] = 'register_email_enabled';
         $data['option_group'] = 'users';
         $save = save_option($data);
+    }
+
+
+    private function _registerUserWithEmail($email, $password) {
+        return User::firstOrCreate(['email'=>$email,'password'=>$password]);
+    }
+
+
+    private function _registerUserWithUsername($username, $password) {
+        return User::firstOrCreate(['username'=>$username,'password'=>$password]);
     }
 
 }
