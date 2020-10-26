@@ -76,5 +76,6 @@ class Kernel extends HttpKernel
         'xss' => \MicroweberPackages\App\Http\Middleware\XSS::class,
         'admin' => \MicroweberPackages\App\Http\Middleware\Admin::class,
         'api_auth' => \MicroweberPackages\App\Http\Middleware\ApiAuth::class,
+        'allowed_ips' => \MicroweberPackages\App\Http\Middleware\AllowedIps::class,
     ];
 }
