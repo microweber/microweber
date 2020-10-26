@@ -1243,7 +1243,7 @@ class UserManager
 
                 $loginAttempt->user_id = $findUserId;
                 $loginAttempt->time = time();
-                $loginAttempt->ip = MW_USER_IP;
+                $loginAttempt->ip = user_ip();
                 $loginAttempt->success = $params['success'];
                 $loginAttempt->save();
             }
