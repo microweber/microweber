@@ -113,7 +113,16 @@ class UserManager
      *
      * @see      _table() For the database table fields
      */
+
+
+
     public function login($params)
+    {
+        return RequestRoute::postJson(route('api.user.login'), $params);
+    }
+
+
+    public function loginOLD($params)
     {
         if (is_string($params)) {
             $params = parse_params($params);
@@ -590,7 +599,7 @@ class UserManager
      * @param $params
      * @return array|bool
      */
-    public function register4($params)
+    public function registerOLD($params)
     {
         if (defined('MW_API_CALL')) {
             //	if (isset($params['token'])){

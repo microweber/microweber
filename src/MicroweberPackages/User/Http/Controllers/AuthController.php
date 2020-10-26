@@ -44,15 +44,34 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $login = user_login($request->all());
+        if (Auth::check()) {
 
-        if (isset($login['success'])) {
-            $success['token'] = auth()->user()->createToken('authToken');
+            $success = [];
+            if (Auth::user()->is_admin == 1) {
+                $success['token'] = auth()->user()->createToken('authToken');
+            }
 
+            $success['user'] = auth()->user();
+            $success['success'] = 'You are logged in';
+
+            return response()->json($success, 200);
+        }
+
+        $login = Auth::attempt($request->all());
+        if ($login) {
+            $success = [];
+            if (Auth::user()->is_admin == 1) {
+                $success['token'] = auth()->user()->createToken('authToken');
+            }
             $success['user'] = auth()->user();
             return response()->json(['success' => $success])->setStatusCode(Response::HTTP_ACCEPTED);
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }
+    }
+
+    public function logout()
+    {
+        return Auth::logout();
     }
 }

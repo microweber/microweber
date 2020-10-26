@@ -27,7 +27,7 @@ class UserEventServiceProvider extends EventServiceProvider
         \Illuminate\Auth\Events\Failed::class => [
             RecordFailedLoginAttemptListener::class,
         ],
-        \Illuminate\Auth\Events\Authenticated::class => [
+        \Illuminate\Auth\Events\Login::class => [
             RecordAuthenticatedLoginListener::class,
         ]
     ];
