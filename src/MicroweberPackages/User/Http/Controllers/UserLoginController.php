@@ -43,7 +43,7 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        if (Auth::check()) {
+      /*  if (Auth::check()) {
 
             $success = [];
             if (Auth::user()->is_admin == 1) {
@@ -54,7 +54,7 @@ class UserLoginController extends Controller
             $success['success'] = 'You are logged in';
 
             return response()->json($success, 200);
-        }
+        }*/
 
         $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')));
         if ($login) {
