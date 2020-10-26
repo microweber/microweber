@@ -186,7 +186,6 @@
                 autoHeight: true
             };
             return mw.top().dialogIframe(settings);
-           // return mw.top().tools.modal.frame(settings);
 
         } else {
             delete settings.skin;

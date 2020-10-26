@@ -1771,22 +1771,24 @@ mw.wysiwyg = {
         }
 
 
-        var dialog = mw.dialogIframe({
+        /*var dialog = mw.dialogIframe({
             width: 600,
             url: mw.external_tool('link_editor_v3'),
             height: 'auto',
             autoHeight: true,
             title: '<i class="mdi mdi-link" style="font-size: 23px;margin:0 12px 0;"></i> Link settings'
-        });
-        $(dialog).on('Result', function(e, result){
+        });*/
+        new mw.LinkEditor({
+            mode: 'dialog'
+        })
+        .setValue(val)
+        .promise()
+        .then(function (result){
             mw.wysiwyg.restore_selection();
             mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
         });
-        dialog.iframe.onload = function (){
-            if(val) {
-                this.contentWindow.linkEditor.setValue(val)
-            }
-        }
+
+
 
     },
 
@@ -1893,22 +1895,59 @@ mw.wysiwyg = {
 
         });
     },
-    media: function (hash) {
+    media: function (action) {
+
         if (mw.settings.liveEdit && typeof mw.target.item === 'undefined') return false;
-        var hash = hash || '#insert_html';
-        if ($("#mw_rte_image").length > 0) {
-            mw.$("#mw_rte_image").remove();
+        action = action || 'insert_html';
+        action = action.replace(/#/g, '');
+
+        if (mw.wysiwyg.isSelectionEditable() || mw.$(mw.target.item).hasClass("image_change") || mw.$(mw.target.item.parentNode).hasClass("image_change") || mw.target.item === mw.image_resizer) {
+            mw.wysiwyg.save_selection();
+            var dialog;
+            var picker = new mw.filePicker({
+                type: 'images',
+                label: false,
+                autoSelect: false,
+                footer: true,
+                onResult: function (res) {
+                    var url = res.src ? res.src : res;
+                    if(action === 'editimage') {
+                        if(mw.image.currentResizing) {
+                            if (mw.image.currentResizing[0].nodeName === 'IMG') {
+                                mw.image.currentResizing.attr("src", url);
+                                mw.image.currentResizing.css('height', 'auto');
+                            }
+                            else {
+                                mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
+                                if(parent.mw.image.currentResizing) {
+                                    mw.wysiwyg.bgQuotesFix(parent.mw.image.currentResizing[0])
+                                }
+                            }
+                            if(mw.image.currentResizing) {
+                                mw.wysiwyg.change(mw.image.currentResizing[0]);
+                            }
+                            mw.image.currentResizing.load(function () {
+                                mw.image.resize.resizerSet(this);
+                            });
+                        }
+                    }
+                    else {
+                        mw.wysiwyg.insertMedia(url);
+                    }
+                    dialog.remove()
+                },
+                cancel: function () {
+                    dialog.remove()
+                }
+            });
+            dialog = mw.dialog({
+                content: picker.root,
+                title: mw.lang('Select image'),
+                footer: false
+            })
+
         }
-        else {
-            if (mw.wysiwyg.isSelectionEditable() || mw.$(mw.target.item).hasClass("image_change") || mw.$(mw.target.item.parentNode).hasClass("image_change") || mw.target.item === mw.image_resizer) {
-                mw.wysiwyg.save_selection();
-                mw.wysiwyg.request_media(hash);
-                mw.$(".mw_overlay").on('mousedown touchstart', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                })
-            }
-        }
+
     },
     request_bg_image: function () {
         mw.wysiwyg.request_media('#set_bg_image');

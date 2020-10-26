@@ -25,14 +25,14 @@
     font-size: 9px;
     position: relative;
     display: inline-block;
+    vertical-align: middle;
     max-width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding: 3px 0 0 6px;
-    float: left;
+    padding: 0 0 0 6px;
     z-index: 2;
 }
 
@@ -44,6 +44,7 @@
     position: relative;
     display: inline-block;
     z-index: 2;
+    vertical-align: middle;
 }
 
 /* Small progressbar */
@@ -55,6 +56,9 @@
     position: relative;
     border-radius: 5px;
     max-width: 100%;
+}
+.mw-ui-progress-small .mw-ui-progress-bar{
+    height: 100%;
 }
 
 .mw-ui-progress-small {

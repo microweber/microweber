@@ -139,14 +139,26 @@ MWEditor.controllers = {
                 }
             });
             el.on('click', function (e) {
-                mw.fileWindow({
-                    types: 'images',
-                    change: function (url) {
+                var dialog;
+                var picker = new mw.filePicker({
+                    type: 'images',
+                    label: false,
+                    autoSelect: false,
+                    footer: true,
+                    onResult: function (res) {
+                        var url = res.src ? res.src : res;
                         if(!url) return;
                         url = url.toString();
                         api.insertImage(url);
+                        dialog.remove();
                     }
                 });
+                dialog = mw.top().dialog({
+                    content: picker.root,
+                    title: mw.lang('Select image'),
+                    footer: false
+                })
+
             });
             return el;
         };

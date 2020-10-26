@@ -68,27 +68,30 @@
 }
 
 .mw-ui-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 0 1.308rem;
-  cursor: pointer;
-  text-align: center;
-  position: relative;
-  text-decoration: none;
-  font-size: 1.154rem;
-  height: @normalHeight;
-  border-radius: @radius;
-  color: @defaultTextColor;
-  background-color: @default;
-  border: 1px solid @defaultBorderColor;
-  outline: none;
-  transition: .3s;
-  white-space: nowrap;
-  vertical-align: middle;
+    font-weight: 400;
+    text-align: center;
+    user-select: none;
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 1.308rem;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    font-size: @normalFontSize;
+    height: @normalHeight;
+    border-radius: @radius;
+    color: @defaultTextColor;
+    background-color: @default;
+    border: 1px solid @defaultBorderColor;
+    outline: none;
+    transition: .3s;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 .mw-ui-link {
@@ -106,7 +109,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 0 1.308rem;
+    padding: 0 1rem;
     cursor: pointer;
     text-align: center;
     position: relative;
@@ -120,9 +123,21 @@
     vertical-align: middle;
     &:hover{
         background-color: #f0f0f0;
+        text-decoration: none;
     }
     &.active{
         border-bottom-color: #4592ff;
+        text-decoration: none;
+    }
+}
+
+.mw-ui-btn,
+.mw-ui-btn-tab {
+    .mdi, .fa{
+        font-size: 1rem;
+        line-height: 0.5em;
+        position: relative;
+        margin-inline-end: 6px;
     }
 }
 

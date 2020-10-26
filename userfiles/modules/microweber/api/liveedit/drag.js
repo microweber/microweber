@@ -841,7 +841,7 @@ mw.drag = {
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
 
         if (type === 'modal') {
-            var modal = mw.top().tools.modal.frame({
+            var modal = mw.top().dialogIframe({
                 url: src,
                 width: 532,
                 height: 150,

@@ -44,7 +44,7 @@ mw.require('form-controls.js');
                 }).controller.setValue(data);
             }
 
-
+            return this;
         };
 
 
@@ -53,7 +53,7 @@ mw.require('form-controls.js');
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
                 this.nav = document.createElement('nav');
-                this.nav.className = 'nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3';
+                 this.nav.className = 'mw-ac-editor-nav';
 
                 var nav = scope.controllers.slice(0, 4);
                 var dropdown = scope.controllers.slice(4);
@@ -72,7 +72,7 @@ mw.require('form-controls.js');
 
                 var createA = function (ctrl, index) {
                     var a =  document.createElement('a');
-                    a.className = 'btn btn-outline-secondary justify-content-center' + (index === 0 ? ' active' : '');
+                    a.className = 'mw-ui-btn-tab' + (index === 0 ? ' active' : '');
                     a.innerHTML = ('<i class="'+ctrl.controller.settings.icon+'"></i> '+ctrl.controller.settings.title);
                     a.__for = ctrl;
                     a.onclick = function (){
@@ -89,13 +89,13 @@ mw.require('form-controls.js');
                 this.root.prepend(this.nav);
 
                 if(dropdown.length) {
-                    var dropdownElBtn =  document.createElement('span');
+                    var dropdownElBtn =  document.createElement('div');
                     var dropdownEl =  document.createElement('div');
-                      dropdownElBtn.className = 'btn dropdown-toggle bs-placeholder mw-link-editor-more-button';
+                      dropdownElBtn.className = 'mw-ui-btn-tab mw-link-editor-more-button';
                       dropdownEl.className = 'mw-link-editor-nav-drop-box';
                       dropdownEl.style.display = 'none';
 
-                    dropdownElBtn.innerHTML = mw.lang('More');
+                    dropdownElBtn.innerHTML = mw.lang('More') + '<i class="mdi mdi-chevron-down"></i>';
                     dropdown.forEach(function (ctrl, index){
 
                         mw.element(dropdownEl)
