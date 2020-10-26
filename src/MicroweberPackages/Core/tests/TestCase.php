@@ -128,9 +128,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         // make fresh install
         $install_params = array(
-            'username' =>   'test',
+            'username' =>   'test'.uniqid(),
             'password' => 'test',
-            'email' =>  'test@example.com',
+            'email' =>  'test'.uniqid().'@example.com',
             'db_driver' => $db_driver,
             'db_host' => $db_host,
             'db_user' => $db_user,

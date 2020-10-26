@@ -84,14 +84,31 @@ trait UserTestHelperTrait {
         $save = save_option($data);
     }
 
-
     private function _registerUserWithEmail($email, $password) {
-        return User::firstOrCreate(['email'=>$email,'password'=>$password]);
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'email' => $email,
+                'password' => $password,
+            ]
+        );
+
+        return $response->getData();
     }
 
 
     private function _registerUserWithUsername($username, $password) {
-        return User::firstOrCreate(['username'=>$username,'password'=>$password]);
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'username' => $username,
+                'password' => $password,
+            ]
+        );
+
+        return $response->getData();
     }
 
 }

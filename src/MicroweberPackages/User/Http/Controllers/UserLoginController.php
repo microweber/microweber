@@ -115,7 +115,7 @@ class UserLoginController extends Controller
             }
         }
 
-        if ($request['username'] != false and filter_var($request['username'], FILTER_VALIDATE_EMAIL)) {
+        if (isset($request['username']) && $request['username'] != false and filter_var($request['username'], FILTER_VALIDATE_EMAIL)) {
             $request['email'] = $request['username'];
             unset($request['username']);
         }

@@ -39,7 +39,7 @@ class LoginRequest extends FormRequest
         }
 
         if ($validateUsername) {
-            $rules['username'] = 'alpha_dash|string|min:1|required|string|max:255';
+            $rules['username'] = 'string|min:1|required|string|max:255';
         }
 
 
