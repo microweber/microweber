@@ -12,7 +12,6 @@
 
 namespace MicroweberPackages\Option;
 
-use MicroweberPackages\Option\Option;
 use DB;
 use Cache;
 

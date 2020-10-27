@@ -37,7 +37,7 @@ use MicroweberPackages\Menu\Providers\MenuServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
 
 use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
-use MicroweberPackages\Option\OptionManagerServiceProvider;
+use MicroweberPackages\Option\Providers\OptionServiceProvider;
 use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
 // Shop
@@ -213,7 +213,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(UserServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);
-        $this->app->register(OptionManagerServiceProvider::class);
+        $this->app->register(OptionServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
         $this->app->register(BackupManagerServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);

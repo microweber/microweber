@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Backup\BackupManager;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Menu\Menu;
-use MicroweberPackages\Option\Option;
+use MicroweberPackages\Option\Models\Option;
 
 class TemplateInstaller
 {

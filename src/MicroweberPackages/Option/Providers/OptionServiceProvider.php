@@ -9,12 +9,16 @@
  *
  */
 
-namespace MicroweberPackages\Option;
+namespace MicroweberPackages\Option\Providers;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Option\Facades\OptionFacade;
+use MicroweberPackages\Option\Models\Option;
+use MicroweberPackages\Option\OptionManager;
 
 
-class OptionManagerServiceProvider extends ServiceProvider
+class OptionServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -30,6 +34,15 @@ class OptionManagerServiceProvider extends ServiceProvider
             return new OptionManager();
         });
 
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+
+        $this->app->bind('option',function(){
+            return new Option();
+        });
+
+
+        $aliasLoader = AliasLoader::getInstance();
+        $aliasLoader->alias('Option', OptionFacade::class);
+
     }
 }

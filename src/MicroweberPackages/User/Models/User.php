@@ -114,6 +114,17 @@ class User extends Authenticatable
     private $validator;
 
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+
+           $model->is_active = 0;
+           $model->is_verified = 0;
+        });
+    }
+
     public function modelFilter()
     {
         return $this->provideFilter(UserFilter::class);

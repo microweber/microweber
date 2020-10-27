@@ -43,27 +43,55 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-      /*  if (Auth::check()) {
+       if (Auth::check()) {
 
-            $success = [];
+           $message = [];
             if (Auth::user()->is_admin == 1) {
-                $success['token'] = auth()->user()->createToken('authToken');
+                $message['token'] = auth()->user()->createToken('authToken');
             }
 
-            $success['user'] = auth()->user();
-            $success['success'] = 'You are logged in';
-
-            return response()->json($success, 200);
-        }*/
+           $message['user'] = auth()->user();
+           $message['success'] = 'You are logged in';
+            return response()->json($message, 200);
+        }
 
         $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')));
         if ($login) {
 
             $userData = auth()->user();
 
+            $isVerfiedEmailRequired = \Option::get('register_email_verify', 'users');
+            if ($isVerfiedEmailRequired) {
+
+                if (!$userData->is_verfied) {
+                     $message = [];
+                     $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
+                     return response()->json($message, 403);
+                 }
+            }
+            $isApprovalRequired = \Option::get('registration_approval_required', 'users');
+
+            if ($isApprovalRequired) {
+
+                if (!$userData->is_active) {
+                    dump($isApprovalRequired,$userData);
+
+                    $message = [];
+                    $message['error'] = 'Your account is awaiting approval';
+                    return response()->json($message, 403);
+                }
+            }
+
+
+
             if (Auth::user()->is_admin == 1) {
                 $userData->token = auth()->user()->createToken('authToken');
             }
+
+
+
+
+
 
          /*   $response['success']= _e('You are logged in', 1);
 
@@ -126,5 +154,45 @@ class UserLoginController extends Controller
     public function logout()
     {
         return Auth::logout();
+    }
+
+    private function _isApprovalRequired(){
+
+
+
+        // return false;
+// @todo
+
+//        $register_email_verify = get_option('register_email_verify', 'users');
+//        $registration_approval_required = get_option('registration_approval_required', 'users');
+//
+//
+//        $found = false;
+//        $inputs = $this->all();
+//        if ($inputs and isset($inputs['username']) and $inputs['username']) {
+//            $found = User::where('username', $inputs['username'])->first();
+//        } else if ($inputs and isset($inputs['email']) and $inputs['email']) {
+//            $found = User::where('email', $inputs['username'])->first();
+//        }
+
+        //  throw new AuthorizationException('This action is unauthorized.');
+
+
+        //   $user =
+
+
+//            if ($user_data['is_active'] == 0) {
+//
+//                $registration_approval_required = get_option('registration_approval_required', 'users');
+//                $register_email_verify = get_option('register_email_verify', 'users');
+//                if ($registration_approval_required == 'y') {
+//                    return array('error' => 'Your account is awaiting approval');
+//                } elseif ($user_data['is_verified'] != 1 && $register_email_verify == 'y') {
+//                    return array('error' => 'Please verify your email address. Please check your inbox for your account activation email');
+//                } else {
+//                    return array('error' => 'Your account has been disabled');
+//                }
+//            }
+
     }
 }
