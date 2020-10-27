@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
 
 class UserLoginController extends Controller
@@ -60,16 +61,16 @@ class UserLoginController extends Controller
 
             $userData = auth()->user();
 
-            $isVerfiedEmailRequired = \Option::get('register_email_verify', 'users');
+            $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
             if ($isVerfiedEmailRequired) {
 
                 if (!$userData->is_verfied) {
                      $message = [];
                      $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
-                     return response()->json($message, 403);
+                     return response()->json($message, 401);
                  }
             }
-            $isApprovalRequired = \Option::get('registration_approval_required', 'users');
+            $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
 
             if ($isApprovalRequired) {
 
@@ -78,7 +79,7 @@ class UserLoginController extends Controller
 
                     $message = [];
                     $message['error'] = 'Your account is awaiting approval';
-                    return response()->json($message, 403);
+                    return response()->json($message, 401);
                 }
             }
 

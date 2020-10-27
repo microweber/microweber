@@ -53,7 +53,7 @@ class CreateUserTable extends Migration
                 'profile_url' => 'string',
                 'website_url' => 'string',
                 'password_reset_hash' => 'string',
-                '$index' => ['username', 'email'],
+                 '$index' => ['username', 'email'],
             ],
 
             'users_oauth' => [

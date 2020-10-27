@@ -225,6 +225,7 @@ class UserManagerTest extends TestCase
         $this->_enableRegistrationApproval();
         $this->_enableRegisterEmail();
         $this->_disableCaptcha();
+        $this->_disableEmailVerify();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -248,7 +249,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
-        dump($loginStatus);
+
         $this->assertArrayHasKey('error', $loginStatus);
 
         if (strpos($loginStatus['error'], 'awaiting approval') !== false) {
@@ -259,6 +260,9 @@ class UserManagerTest extends TestCase
 
         $checkEmailContent = MailSender::$last_send['content'];
 
+
+        var_dump(MailSender::$last_send);
+        die();
         $findVerifyEmailLink = false;
         if (strpos($checkEmailContent, 'verify_email_link?key=') !== false) {
             $findVerifyEmailLink = true;

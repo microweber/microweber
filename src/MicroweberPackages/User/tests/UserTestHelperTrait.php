@@ -9,10 +9,10 @@
 namespace MicroweberPackages\User\tests;
 
 
-
 use MicroweberPackages\User\Models\User;
 
-trait UserTestHelperTrait {
+trait UserTestHelperTrait
+{
 
     private static $_username = false;
     private static $_password = false;
@@ -26,6 +26,25 @@ trait UserTestHelperTrait {
         $save = save_option($data);
 
     }
+
+    private function _disableEmailVerify()
+    {
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'register_email_verify';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+
+    }
+
+    private function _enableEmailVerify()
+    {
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'register_email_verify';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+
+    }
+
     private function _enableCaptcha()
     {
         $data['option_value'] = 'n';
@@ -84,7 +103,8 @@ trait UserTestHelperTrait {
         $save = save_option($data);
     }
 
-    private function _registerUserWithEmail($email, $password) {
+    private function _registerUserWithEmail($email, $password)
+    {
         $response = $this->json(
             'POST',
             route('api.user.register'),
@@ -98,7 +118,8 @@ trait UserTestHelperTrait {
     }
 
 
-    private function _registerUserWithUsername($username, $password) {
+    private function _registerUserWithUsername($username, $password)
+    {
         $response = $this->json(
             'POST',
             route('api.user.register'),

@@ -835,7 +835,6 @@ class UserManager
                     $this->session_del('captcha');
 
                     $this->after_register($next);
-                    var_dump($data);
 
                     $params = $data;
                     $params['id'] = $next;
@@ -871,8 +870,6 @@ class UserManager
             return;
         }
 
-        var_dump($data);
-        return;
         $notif = array();
         $notif['module'] = 'users';
         $notif['rel_type'] = 'users';
