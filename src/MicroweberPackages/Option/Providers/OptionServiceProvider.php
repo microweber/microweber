@@ -44,10 +44,6 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function boot()
     {
-        /**
-         * @property \MicroweberPackages\Option\OptionManager    $option_manager
-         */
-
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
         $aliasLoader = AliasLoader::getInstance();
