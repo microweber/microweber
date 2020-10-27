@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\User\Notifications;
 
-use Illuminate\Auth\Notifications\VerifyEmail;
 
 trait MustVerifyEmailTrait
 {
@@ -36,7 +35,7 @@ trait MustVerifyEmailTrait
      */
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmail);
+        $this->notify(new VerifyEmail());
     }
 
     /**

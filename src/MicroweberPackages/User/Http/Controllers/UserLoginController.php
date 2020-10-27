@@ -36,6 +36,13 @@ class UserLoginController extends Controller
         return app()->parser->process($parsed);
     }
 
+    public function loginForm()
+    {
+        $parsed = view('user::admin.auth.index');
+
+        return app()->parser->process($parsed);
+    }
+
     /**
      * login api
      *
