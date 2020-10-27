@@ -19,7 +19,7 @@ class OptionsTest extends TestCase
         $get = get_option('a_test', 'test');
         $this->assertEquals($now, $get);
 
-        $options = Option::get('a_test', 'test');
+        $options = Option::getValue('a_test', 'test');
         $this->assertEquals($now, $options);
     }
 

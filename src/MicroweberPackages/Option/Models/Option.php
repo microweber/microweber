@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Option extends Model
 {
-    public function get($key, $group = false)
+    public function getValue($key, $group = false)
     {
         if ($group) {
             $value = get_option($key, $group);
