@@ -21,6 +21,22 @@ use MicroweberPackages\Option\OptionManager;
 class OptionServiceProvider extends ServiceProvider
 {
     /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('option_manager', function ($app) {
+            return new OptionManager();
+        });
+
+        $this->app->bind('option',function(){
+            return new OptionModel();
+        });
+    }
+
+    /**
      * Bootstrap the application services.
      *
      * @return void
@@ -30,16 +46,8 @@ class OptionServiceProvider extends ServiceProvider
         /**
          * @property \MicroweberPackages\Option\OptionManager    $option_manager
          */
-        $this->app->singleton('option_manager', function ($app) {
-            return new OptionManager();
-        });
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
-
-        $this->app->bind('option',function(){
-            return new OptionModel();
-        });
-
 
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('Option', Option::class);
