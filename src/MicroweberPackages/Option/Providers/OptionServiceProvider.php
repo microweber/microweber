@@ -13,12 +13,13 @@ namespace MicroweberPackages\Option\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\Option\Models\Option as OptionModel;
 use MicroweberPackages\Option\OptionManager;
 
 
-class OptionServiceProvider extends ServiceProvider
+class OptionServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register any application services.
@@ -43,14 +44,20 @@ class OptionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
-         * @property \MicroweberPackages\Option\OptionManager    $option_manager
-         */
-
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('Option', Option::class);
 
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['option_manager', 'option'];
     }
 }
