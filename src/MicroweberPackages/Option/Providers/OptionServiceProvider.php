@@ -13,8 +13,8 @@ namespace MicroweberPackages\Option\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Option\Facades\OptionFacade;
-use MicroweberPackages\Option\Models\Option;
+use MicroweberPackages\Option\Facades\Option;
+use MicroweberPackages\Option\Models\Option as OptionModel;
 use MicroweberPackages\Option\OptionManager;
 
 
@@ -37,12 +37,12 @@ class OptionServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
         $this->app->bind('option',function(){
-            return new Option();
+            return new OptionModel();
         });
 
 
         $aliasLoader = AliasLoader::getInstance();
-        $aliasLoader->alias('Option', OptionFacade::class);
+        $aliasLoader->alias('Option', Option::class);
 
     }
 }
