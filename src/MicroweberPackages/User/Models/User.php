@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User\Models;
 
 use EloquentFilter\Filterable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,14 +12,15 @@ use Laravel\Sanctum\HasApiTokens;
 
 use MicroweberPackages\Database\Casts\StripTagsCast;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
+use MicroweberPackages\User\Notifications\MustVerifyEmailTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Validation\Rule;
 
 use carbon\carbon;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable;
+    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable, MustVerifyEmailTrait;
 
     protected $casts = [
         'username' => StripTagsCast::class,

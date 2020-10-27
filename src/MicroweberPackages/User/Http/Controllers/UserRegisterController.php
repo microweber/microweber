@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use MicroweberPackages\User\Events\UserWasRegistered;
@@ -53,7 +54,8 @@ class UserRegisterController extends Controller
 
         $created = User::create($userData);
         if ($created) {
-            event(new UserWasRegistered($created, $request->all()));
+            event(new Registered($created));
+           // event(new UserWasRegistered($created, $request->all()));
         }
 
         return $created;

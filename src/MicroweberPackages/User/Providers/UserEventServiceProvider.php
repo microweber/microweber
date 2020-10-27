@@ -11,17 +11,19 @@
 
 namespace MicroweberPackages\User\Providers;
 
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use MicroweberPackages\User\Listeners\RecordAuthenticatedLoginListener;
 use MicroweberPackages\User\Listeners\RecordFailedLoginAttemptListener;
 use MicroweberPackages\User\Listeners\UserRegisteredListener;
-use MicroweberPackages\User\Events\UserWasRegistered;
 
 class UserEventServiceProvider extends EventServiceProvider
 {
 
     protected $listen = [
-        UserWasRegistered::class => [
+        Registered::class => [
+            SendEmailVerificationNotification::class,
             UserRegisteredListener::class
         ],
         \Illuminate\Auth\Events\Failed::class => [
