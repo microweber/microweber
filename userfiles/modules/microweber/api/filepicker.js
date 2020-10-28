@@ -71,7 +71,14 @@ mw.filePicker = function (options) {
         _setdesktopType: function () {
             var $zone;
             if(scope.settings.uploaderType === 'big') {
-                $zone = $('<div class="mw-file-drop-zone"> <div class="mw-file-drop-zone-holder"> <div class="mw-file-drop-zone-img"></div><div class="progress progress-silver"></div><span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">Add file</span> <p>or drop files to upload</p></div></div>');
+                $zone = $('<div class="mw-file-drop-zone">' +
+                    '<div class="mw-file-drop-zone-holder">' +
+                    '<div class="mw-file-drop-zone-img"></div>' +
+                    '<div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>' +
+                    '<span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">'+mw.lang('Add file')+'</span> ' +
+                    '<p>'+mw.lang('or drop files to upload')+'</p>' +
+                    '</div>' +
+                    '</div>');
             } else if(scope.settings.uploaderType === 'small') {
                 $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">Add file</span> <p>or drop file to upload</p> </div> </div>')
             }
@@ -92,8 +99,12 @@ mw.filePicker = function (options) {
                 multiple: scope.settings.multiple,
                 accept: scope.settings.accept,
                 on: {
+                    progress: function (prg) {
+                        scope.uploaderHolder.find('.mw-ui-progress-bar').stop().animate({width: prg.percent + '%'}, 'fast');
+                    },
                     fileAdded: function (file) {
                         $(scope).trigger('FileAdded', [file]);
+                        scope.uploaderHolder.find('.mw-ui-progress-bar').width('1%');
                     },
                     fileUploaded: function (file) {
                         scope.setSectionValue(file);
@@ -102,6 +113,10 @@ mw.filePicker = function (options) {
                         if (scope.settings.autoSelect) {
                             scope.result();
                         }
+                        if (scope.settings.fileUploaded) {
+                            scope.settings.fileUploaded(file);
+                        }
+                        // scope.uploaderHolder.find('.mw-file-drop-zone-img').css('backgroundImage', 'url('+file.src+')');
                     }
                 }
             });
@@ -113,17 +128,15 @@ mw.filePicker = function (options) {
 
             }, {'filetype':'images'});*/
 
-            if(self === top) {
-                $wrap.css({
-                    maxHeight: '60vh',
-                    overflow: 'auto'
-                });
-            }
             $(scope).on('$firstOpen', function (e, el, type) {
                 var comp = scope._getComponentObject('server');
                 if (type === 'server') {
                     mw.tools.loading(el, true);
                     var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
+                    if(scope.settings._frameMaxHeight) {
+                        fr.style.maxHeight = '60vh';
+                        fr.scrolling = 'yes';
+                    }
                     $wrap.append(fr);
                     fr.onload = function () {
                         mw.tools.loading(el, false);
@@ -148,6 +161,10 @@ mw.filePicker = function (options) {
                     mw.tools.loading(el, true);
                     var fr = mw.tools.moduleFrame('pictures/media_library');
                     $wrap.append(fr);
+                    if(scope.settings._frameMaxHeight) {
+                        fr.style.maxHeight = '60vh';
+                        fr.scrolling = 'yes';
+                    }
                     fr.onload = function () {
                         mw.tools.loading(el, false);
                         this.contentWindow.mw.on.hashParam('select-file', function () {

@@ -65,21 +65,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 height: 300px;
             }
 
-            #icon-picker {
-                width: 45px;
-                height: 45px;
-                background: #4592ff;
-                border-radius: 50px;
 
-                text-align: center;
-                display: inline-block;
-                vertical-align: middle;
-                border: none;
-                color: #fff;
-            }
             #icon-picker i{
                 font-size: 30px;
                 line-height: 45px;
+                margin-inline-start: -10px;
+                margin-inline-end: 8px;
             }
 
         </style>
@@ -153,24 +144,30 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <?php endif; ?>
 
                 <?php if (!$onclick): ?>
-                    <div class="form-group">
+
                         <div id="btn_url_holder">
-                            <div class="mw-ui-btn-nav">
-                                <input type="text" readonly="readonly" disabled="disabled" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field" style="min-width: 350px"/> <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
+                            <div class="form-group">
+                                <label class="control-label"><?php _e("Edit url"); ?></label>
+                                <br>
+
+                                <input type="hidden" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field" />
+
+                                <span class="mdi mdi-pencil"></span>
+                                <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
+
                                 <input type="hidden" name="url" id="btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="url_blank" value="y" class="mw_option_field custom-control-input" <?php if ($url_blank == 'y'): ?>checked<?php endif; ?> id="url_blank">
+                                    <label class="custom-control-label" for="url_blank"><?php _e("Open in new window"); ?></label>
+                                </div>
+                            </div>
+
                     </div>
                 <?php endif; ?>
 
-                <?php if (!$onclick): ?>
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="url_blank" value="y" class="mw_option_field custom-control-input" <?php if ($url_blank == 'y'): ?>checked<?php endif; ?> id="url_blank">
-                            <label class="custom-control-label" for="url_blank"><?php _e("Open in new window"); ?></label>
-                        </div>
-                    </div>
-                <?php endif; ?>
+
 
                 <script>
                     mw.top().require('instruments.js');
@@ -188,7 +185,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
 
                         linkEditor.setValue({
-                            url: mw.$('#btn-default_url-show').find('[name="url"]').val() || ''
+                            url: mw.$('#btn-default_url-show').val() || ''
                         })
 
                         linkEditor.promise().then(function (ldata){
@@ -212,20 +209,25 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             }
                             mw.$('#btn-default_url').val(url).trigger('change');
                             mw.$('#btn-default_url-show').val(url_display);
+                            mw.$('#display-url').html(url_display);
                         })
 
                     };
 
                     $(window).on('load', function () {
-                         mw.$('#btn_url_holder').on('click', function () {
+                        var btnUrl = mw.$('#display-url')
+                        btnUrl.on('click', function () {
                             pickUrl();
                         });
+                        if(!btnUrl.html()) {
+                            btnUrl.html(parent.location.href.split('?')[0])
+                        }
                     })
 
                 </script>
 
                 <div class="form-group">
-                    <label class="control-label"><?php _e("Select Icon"); ?></label>
+                    <div class="mw-ui-btn">
                     <script>
                         $(document).ready(function () {
                             mw.iconLoader().init();
@@ -238,14 +240,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 picker.dialog('hide');
                             });
 
-                            document.querySelector('#icon-picker').onclick = function (){
+                            document.querySelector('#icon-picker').parentNode.onclick = function (){
                                 picker.dialog();
                             }
 
                         })
                     </script>
                     <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
-                    <span id="icon-picker"><?php print $icon ? $icon : '<i class="mw-icon mw-icon-mw"></i>'; ; ?></span>
+                    <span id="icon-picker"><?php print $icon ? $icon : ''; ; ?></span> <?php _e("Select Icon"); ?></div>
                 </div>
 
                 <module type="admin/modules/templates" simple="true"/>

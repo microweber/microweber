@@ -1091,7 +1091,6 @@ mw.emitter = {
                 title: 'URL'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
-            console.log(options)
             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;

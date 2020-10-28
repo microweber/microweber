@@ -12,6 +12,7 @@
 
         var common = {
             'fontAwesome': {
+                cssSelector: '.fa',
                 detect: function (target) {
                     return target.classList.contains('fa');
                 },
@@ -40,6 +41,7 @@
                 version: '4.7.0'
             },
             'materialIcons': {
+                cssSelector: '.material-icons',
                 detect: function (target) {
                     return target.classList.contains('material-icons');
                 },
@@ -66,6 +68,7 @@
                 version: 'mw'
             },
             'iconsMindLine': {
+                cssSelector: '[class*="mw-micon-"]:not([class*="mw-micon-solid-"])',
                 detect: function (target) {
                     return target.className.includes('mw-micon-') && !target.className.includes('mw-micon-solid-');
                 },
@@ -98,6 +101,7 @@
                 version: 'mw_local'
             },
             'iconsMindSolid': {
+                cssSelector: '[class*="mw-micon-solid-"]',
                 detect: function (target) {
                     return target.className.includes('mw-micon-solid-');
                 },
@@ -129,7 +133,9 @@
                 },
                 version: 'mw_local'
             },
+
             'materialDesignIcons': {
+                cssSelector: '.mdi',
                 detect: function (target) {
                     return target.classList.contains('mdi');
                 },
@@ -164,6 +170,7 @@
                 version: 'mw_local'
             },
             'mwIcons': {
+                cssSelector: '[class*="mw-icon-"]',
                 detect: function (target) {
                     return target.className.includes('mw-icon-');
                 },

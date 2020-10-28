@@ -145,6 +145,7 @@ MWEditor.controllers = {
                     label: false,
                     autoSelect: false,
                     footer: true,
+                    _frameMaxHeight: true,
                     onResult: function (res) {
                         var url = res.src ? res.src : res;
                         if(!url) return;

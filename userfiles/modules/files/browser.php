@@ -68,6 +68,11 @@ $browser_list_holder_class = 'mw-browser-list';
 
 $viewsize_param = '';
 
+
+
+if (!isset($params['viewsize'])) {
+    $params['viewsize'] = 'big';
+}
 if (isset($params['viewsize'])) {
     $viewsize_param = $params['viewsize'];
 
@@ -82,7 +87,7 @@ if (isset($params['viewsize'])) {
 ?>
 <script>
 
-    back = function () {
+    var back = function () {
         var curr = decodeURIComponent(mw.url.windowHashParam('path') || '')
             .replace(/\\|\//g, '•')
             .split('•')
@@ -98,12 +103,38 @@ if (isset($params['viewsize'])) {
         mw.url.windowHashParam('path', encodeURIComponent(curr.join('\\')))
     }
 
+    var select = function (node, p) {
+        mw.element('.file-selected').removeClass('file-selected');
+        mw.element(node).addClass('file-selected');
+        mw.url.windowHashParam('select-file', p);
+    }
+
 
 </script>
 
 <style>
 
+    .file-selected{
+        position: relative;
 
+    }
+
+    .file-selected:after{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 135px;
+        content: "\F012C";
+        font-family: 'Material Design Icons';
+        color: #3dc47e;
+        background-color: rgba(0, 0, 0, .33);
+        font-weight: bold;
+        font-size: 40px;
+    }
     .mw-file-browser-header .dropdown, .mw-browser-uploader-path{
         display: inline-block;
         margin-left: 7px;
@@ -247,7 +278,7 @@ if (isset($params['viewsize'])) {
                                     </div>
                                     <div>
 
-                                        <div class="dropdown">
+                                        <!--<div class="dropdown">
                                             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Thumbnail size
                                             </button>
@@ -255,7 +286,7 @@ if (isset($params['viewsize'])) {
                                                 <a class="dropdown-item" onclick="mw.url.windowHashParam('viewsize', '');">Small</a>
                                                 <a class="dropdown-item" onclick="mw.url.windowHashParam('viewsize', 'big');">Big</a>
                                             </div>
-                                        </div>
+                                        </div>-->
 
                                         <?php
                                         $sortby_param = '';
@@ -344,7 +375,7 @@ if (isset($params['viewsize'])) {
                                                     <a title="<?php print basename($item); ?>"
                                                        class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item, '.'), 1); ?>"
                                                        href="<?php print mw()->url_manager->link_to_file($item) ?>"
-                                                       onclick="mw.url.windowHashParam('select-file', '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
+                                                       onclick="select(this, '<?php print mw()->url_manager->link_to_file($item) ?>'); return false;">
                                                         <?php $ext = strtolower(get_file_extension($item)); ?>
                                                         <?php if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp' or $ext == 'webp'): ?>
                                                             <span data-src="<?php print thumbnail(mw()->url_manager->link_to_file($item), $tn_size, $tn_size, true); ?>"
