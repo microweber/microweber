@@ -4,6 +4,7 @@ namespace MicroweberPackages\User\Notifications;
 
 use \Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailLaravel;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 
 class VerifyEmail extends VerifyEmailLaravel
@@ -21,8 +22,6 @@ class VerifyEmail extends VerifyEmailLaravel
         if (static::$toMailCallback) {
             return call_user_func(static::$toMailCallback, $notifiable, $verificationUrl);
         }
-
-        var_dump($verificationUrl);
 
         try {
             return (new MailMessage())

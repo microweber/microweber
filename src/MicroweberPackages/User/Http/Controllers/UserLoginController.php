@@ -97,7 +97,7 @@ class UserLoginController extends Controller
             }
 
 
-         /* $response['success']= _e('You are logged in', 1);
+           $response['success']= _e('You are logged in', 1);
 
             $redirectParams = $request->only('redirect', 'where_to');
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
@@ -110,7 +110,7 @@ class UserLoginController extends Controller
 
             if (isset($redirectParams['redirect'])) {
                 $response['redirect'] = $redirectParams['redirect'];
-            }*/
+            }
 
             return $userData;
         }

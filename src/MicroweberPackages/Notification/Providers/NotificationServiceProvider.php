@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
 use MicroweberPackages\Option\Facades\Option;
-use MicroweberPackages\Utils\ThirdPartyLibs\Mail\Swift_MailTransport;
 
 class NotificationServiceProvider extends ServiceProvider
 {
@@ -29,6 +28,13 @@ class NotificationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->_configMailSender();
+
+        $this->app->singleton('mail', function($app) {
+
+            dd($app);
+
+        });
+
     }
 
 

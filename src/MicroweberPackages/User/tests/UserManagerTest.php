@@ -35,6 +35,10 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
+
+
+        var_dump($registerStatus);
+
         $this->assertArrayHasKey('success', $registerStatus);
 
         self::$_username = $newUser['username'];
@@ -250,6 +254,12 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
 
+
+        var_dump($loginStatus);
+        die();
+
+
+
         $this->assertArrayHasKey('error', $loginStatus);
 
         if (strpos($loginStatus['error'], 'awaiting approval') !== false) {
@@ -258,11 +268,6 @@ class UserManagerTest extends TestCase
             $this->assertEquals(true, false);
         }
 
-        $checkEmailContent = MailSender::$last_send['content'];
-
-
-        var_dump(MailSender::$last_send);
-        die();
         $findVerifyEmailLink = false;
         if (strpos($checkEmailContent, 'verify_email_link?key=') !== false) {
             $findVerifyEmailLink = true;
