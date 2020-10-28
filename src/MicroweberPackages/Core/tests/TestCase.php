@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Core\tests;
 
+use Illuminate\Support\Facades\Notification;
+
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
 
@@ -57,6 +59,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $environment = $app->environment();
         $this->sqlite_file = normalize_path(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
+
 
 
 
@@ -158,6 +161,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $is_installed = mw_is_installed();
             $this->assertEquals(1, $is_installed);
         }
+
+
+        \Config::set('mail.driver','array');
+
+        \Mail::fake();
+        Notification::fake();
 
         return $app;
     }

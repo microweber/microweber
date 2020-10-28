@@ -2,8 +2,17 @@
 
 namespace MicroweberPackages\User\tests;
 
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Mail\Mailable;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Testing\Fakes\MailFake;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
+use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\User\Notifications\VerifyEmail;
 use MicroweberPackages\User\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
@@ -35,9 +44,6 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-
-
-        var_dump($registerStatus);
 
         $this->assertArrayHasKey('success', $registerStatus);
 
@@ -225,11 +231,14 @@ class UserManagerTest extends TestCase
 
     public function testUserApprovalRegistration()
     {
-        $this->_enableUserRegistration();
+
+        $fakeNotify = Notification::fake();
+
+       $this->_enableUserRegistration();
         $this->_enableRegistrationApproval();
-        $this->_enableRegisterEmail();
+        $this->_enableEmailVerify();
+         $this->_enableRegisterEmail();
         $this->_disableCaptcha();
-        $this->_disableEmailVerify();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -255,9 +264,12 @@ class UserManagerTest extends TestCase
         $loginStatus = $userManager->login($loginDetails);
 
 
-        var_dump($loginStatus);
-        die();
+        $user = User::find($registerStatus['id'])->first();
 
+        $fakeNotify->send([$user], new VerifyEmail());
+
+        $fakeNotify->assertSentTo([$user], VerifyEmail::class);
+        
 
 
         $this->assertArrayHasKey('error', $loginStatus);
