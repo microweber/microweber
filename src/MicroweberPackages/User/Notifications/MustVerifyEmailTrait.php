@@ -3,6 +3,8 @@
 namespace MicroweberPackages\User\Notifications;
 
 
+use Illuminate\Support\Facades\Log;
+
 trait MustVerifyEmailTrait
 {
     /**
@@ -38,7 +40,11 @@ trait MustVerifyEmailTrait
      */
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmail());
+        try {
+            $this->notify(new VerifyEmail());
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
     }
 
     /**

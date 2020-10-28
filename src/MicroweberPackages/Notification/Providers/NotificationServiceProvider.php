@@ -28,13 +28,6 @@ class NotificationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->_configMailSender();
-
-        $this->app->singleton('mail', function($app) {
-
-            dd($app);
-
-        });
-
     }
 
 
@@ -96,6 +89,8 @@ class NotificationServiceProvider extends ServiceProvider
             Config::set('mail.port', 25);
             Config::set('mail.encryption', 'tls');
         }
+
+        Config::set('mail.transport', $emailTransport);
     }
 }
 
