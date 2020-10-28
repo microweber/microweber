@@ -18,8 +18,20 @@ class VerifyEmail extends VerifyEmailLaravel
     {
         $verificationUrl = $this->verificationUrl($notifiable);
 
-        var_dump($notifiable->getModel());
+        if (static::$toMailCallback) {
+            return call_user_func(static::$toMailCallback, $notifiable, $verificationUrl);
+        }
+
         var_dump($verificationUrl);
-        die();
+
+        try {
+            return (new MailMessage())
+                ->subject(Lang::get('Verify Email Address'))
+                ->line(Lang::get('Please click the button below to verify your email address.'))
+                ->action(Lang::get('Verify Email Address'), $verificationUrl)
+                ->line(Lang::get('If you did not create an account, no further action is required.'));
+        } catch (\Exception $e) {
+            //
+        }
     }
 }
