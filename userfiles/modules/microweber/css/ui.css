@@ -5619,23 +5619,24 @@ li:hover > .show-on-hover {
   overflow: hidden;
   white-space: nowrap;
   background-color: #EEEEEE;
-  border-radius: 2px;
+  border: 1px solid #919191;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
 }
 .mw-ui-progress .mw-ui-progress-bar {
   max-width: 100%;
   height: 100%;
-  background-color: #575757;
+  background-color: #4592ff;
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 5px;
 }
 .mw-ui-progress-info {
   color: rgba(255, 255, 255, 0.43);
   font-size: 9px;
   position: relative;
   display: inline-block;
-  vertical-align: middle;
   max-width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -5653,7 +5654,6 @@ li:hover > .show-on-hover {
   position: relative;
   display: inline-block;
   z-index: 2;
-  vertical-align: middle;
 }
 /* Small progressbar */
 .mw-ui-progress-small,
@@ -5661,17 +5661,18 @@ li:hover > .show-on-hover {
   height: 8px;
   overflow: hidden;
   position: relative;
-  border-radius: 5px;
   max-width: 100%;
 }
 .mw-ui-progress-small .mw-ui-progress-bar {
   height: 100%;
 }
 .mw-ui-progress-small {
-  background-color: #EEEEEE;
+  background-color: #e9ecef;
+  border: 1px solid #919191;
+  border-radius: 10px;
 }
 .mw-ui-progress-small .mw-ui-progress-bar {
-  background-color: #575757;
+  background-color: #4592ff;
 }
 .mw-ui-progress-small .mw-ui-progress-info,
 .mw-ui-progress-small .mw-ui-progress-percent {
@@ -7118,7 +7119,6 @@ body.bup.dragStart.state-element .edit .element:empty {
   position: absolute;
   border-radius: 3px;
   z-index: 1002;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
 }
 .mw-interactor {
   background: #C4D6E8;
@@ -7186,7 +7186,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   justify-content: space-between;
 }
 .mw-file-drop-zone .mw-file-drop-zone-holder .mw-file-drop-zone-img {
-  background-image: url('../../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg');
+  background-image: url('../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg');
   width: 70px;
   height: 55px;
   background-size: contain;
@@ -7194,13 +7194,9 @@ body.bup.dragStart.state-element .edit .element:empty {
   background-repeat: no-repeat;
   background-position: center center;
 }
-.mw-file-drop-zone .mw-file-drop-zone-holder .mw-file-drop-zone-img {
-  background-image: url('../../api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_media.svg');
-}
-.mw-file-drop-zone .mw-file-drop-zone-holder .mw-file-drop-zone-progress {
+.mw-file-drop-zone .mw-file-drop-zone-holder .mw-ui-progress-small {
   max-width: 100%;
   width: 180px;
-  height: 10px;
   margin-bottom: 20px;
 }
 .mw-file-drop-zone .mw-file-drop-zone-holder .mw-ui-btn {

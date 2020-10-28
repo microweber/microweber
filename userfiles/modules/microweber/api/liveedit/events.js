@@ -78,7 +78,6 @@ mw.liveedit.handleEvents = function() {
         if (e.type === 'mousedown' || e.type === 'touchstart') {
             if (!mw.wysiwyg.elementHasFontIconClass(e.target)
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
-                mw.$(mw.iconSelectorGUI).hide();
 
                 mw.editorIconPicker.tooltip('hide')
                 try{

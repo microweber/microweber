@@ -244,11 +244,10 @@ if (isset($params['quick_edit'])) {
                                     <input autocomplete="off" name="content_url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
 
                                     <script>
-                                        var slugEdited = false;
+                                        var slugEdited = !mw.url.windowHashParam('action').includes('new:');
                                         slugFromTitle = function () {
                                             if (slugEdited === false) {
                                                 var slug = mw.slug.create($('#content-title-field').val());
-
                                                 $('.js-slug-base-url-changed').val(slug);
                                                 $('.js-slug-base-url').text(slug);
                                             }
@@ -261,11 +260,13 @@ if (isset($params['quick_edit'])) {
                                             if(this.innerHTML.length > mw.slug.max) {
                                                 this.innerHTML = this.innerHTML.substring(0, mw.slug.max)
                                             }
+                                            slugEdited = true;
                                         })
                                         .on('keydown', function (e) {
                                             var sel = getSelection();
                                             var fn = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
                                             var collapsedIn = fn === this && sel.isCollapsed;
+                                            slugEdited = true;
                                             if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
                                                 if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
                                                     e.preventDefault();

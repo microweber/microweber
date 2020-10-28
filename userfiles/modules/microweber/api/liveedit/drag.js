@@ -496,17 +496,11 @@ mw.drag = {
                         }
                     }
 
-                    if (fonttarget && !mw.tools.hasAnyOfClasses(target, ['element','module'])) {
-                        if ((fonttarget.tagName === 'I' || fonttarget.tagName === 'SPAN') && mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
-                            if (!mw.tools.hasParentsWithClass(fonttarget, 'module')) {
+                    if (fonttarget && !mw.tools.hasAnyOfClasses(target, ['element', 'module'])) {
+                        if ((fonttarget.tagName === 'I' || fonttarget.tagName === 'SPAN') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
+                            if(mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(fonttarget, ['edit', 'module'])) {
                                 mw.trigger("IconElementClick", fonttarget);
                                 mw.trigger("ComponentClick", [fonttarget, 'icon']);
-                            }
-                            else {
-                                if (mw.wysiwyg.editInsideModule(fonttarget)) {
-                                    mw.trigger("IconElementClick", fonttarget);
-                                    mw.trigger("ComponentClick", [fonttarget, 'icon']);
-                                }
                             }
                         }
                     }

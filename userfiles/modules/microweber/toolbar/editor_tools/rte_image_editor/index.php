@@ -171,6 +171,8 @@ if (array_key_exists('title', $_GET)) {
             label: null
         });
 
+
+
         $(picker).on('Result', function (e, res) {
             var filetypes = '<?php print join(",", $types);; ?>';
             var url = res.src ? res.src : res;

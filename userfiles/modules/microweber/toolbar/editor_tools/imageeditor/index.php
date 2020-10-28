@@ -339,6 +339,7 @@
     var createCropTool = function () {
         mw.$('#cropmenu').show();
         mw.$('#editmenu').hide();
+        mw.$('.nav-actions').hide();
         cropImage = $('#mwimagecurrent');
         cropImage.cropper({
             crop: function (data) {
@@ -368,6 +369,7 @@
         mw.image.current = newimg;
         mw.$('#cropmenu').hide();
         mw.$('#editmenu').show();
+        mw.$('.nav-actions').show();
 
         $('.mw-ui-btn-nav.nav-actions').show();
         $('#edititems').show()

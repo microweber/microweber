@@ -27,7 +27,7 @@ mw.tools.progress = function (obj) {
     var options = {
         progress: progress,
         show: function () {
-            this.progress.style.display = 'block';
+            this.progress.style.display = '';
         },
         hide: function () {
             this.progress.style.display = 'none';
@@ -46,13 +46,14 @@ mw.tools.progress = function (obj) {
             action = action || this.progress.progressInfo.action;
             mw.$('.mw-ui-progress-bar', this.progress).css('width', v + '%');
             mw.$('.mw-ui-progress-percent', this.progress).html(v + '%');
-            progress.progressInfo.element.progressOptions.show()
+            progress.progressInfo.element.progressOptions.show();
         }
     };
     progress.progressOptions = obj.element.progressOptions = options;
     obj.element.appendChild(progress);
     return options;
-}
+};
+
 mw.tools.loading = function (element, progress, speed) {
     /*
 

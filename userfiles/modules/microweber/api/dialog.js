@@ -70,7 +70,7 @@
         return dialog;
     };
 
-    // obsolate
+    /** @deprecated */
     mw.modal = mw.dialog;
     mw.modalFrame = mw.dialogIframe;
 
