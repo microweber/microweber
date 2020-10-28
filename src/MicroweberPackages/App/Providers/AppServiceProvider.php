@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
@@ -228,6 +229,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(  CountryServiceProvider::class);
         $this->app->register(  \EloquentFilter\ServiceProvider::class);
         $this->app->register(  NotificationServiceProvider::class);
+        $this->app->register(  NotificationEventServiceProvider::class);
         $this->app->register(  NotificationEventServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
