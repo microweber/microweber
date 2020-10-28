@@ -77,8 +77,8 @@ class UserLoginController extends Controller
                      return response()->json($message, 401);
                  }
             }
-            $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
 
+            $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
             if ($isApprovalRequired) {
 
                 if (!$userData->is_active) {
@@ -97,11 +97,7 @@ class UserLoginController extends Controller
             }
 
 
-
-
-
-
-         /*   $response['success']= _e('You are logged in', 1);
+         /* $response['success']= _e('You are logged in', 1);
 
             $redirectParams = $request->only('redirect', 'where_to');
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {

@@ -28,6 +28,10 @@ class Option extends Model
             $value = intval($value);
         }
 
+        if (is_string($value)) {
+            $value = trim($value);
+        }
+
         return $value;
     }
 

@@ -87,7 +87,7 @@ class MailSender
         Config::set('mail.username', $this->smtp_username);
         Config::set('mail.password', $this->smtp_password);
 
-        if ($this->transport == '' or $this->transport == 'php') {
+       /* if ($this->transport == '' or $this->transport == 'php') {
             Config::set('mail.driver', 'mail');
 
             $disabled_functions = @ini_get('disable_functions');
@@ -100,7 +100,7 @@ class MailSender
                 \Mail::setSwiftMailer(new \Swift_Mailer($transport));
             }
 
-        }
+        }*/
 
 
         if ($this->transport == 'gmail') {
