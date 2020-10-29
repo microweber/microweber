@@ -158,7 +158,7 @@ class NotificationsManager
      */
     public function get_unread_count()
     {
-        return [];
+        return 0;
         return $this->get('is_read=0&count=1');
     }
 
