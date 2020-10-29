@@ -28,6 +28,11 @@ class NotificationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->_configMailSender();
+
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+
+
+
     }
 
 

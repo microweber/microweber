@@ -12,39 +12,39 @@ class JobsQueue extends Migration
 {
 
 
-    public function get()
-    {
-
-
-        if (DbSchema::hasTable('jobs')) {
-            if (!DbSchema::hasColumn('jobs', 'mw_processed')) {
-                DbSchema::dropIfExists('jobs');
-                DbSchema::dropIfExists('failed_jobs');
-            }
-        }
-
-        return [
-            'jobs' => [
-                'queue' => 'text',
-                'payload' => 'longText',
-                'attempts' => 'integer',
-                'reserved' => 'integer',
-                'reserved_at' => 'integer',
-                'available_at' => 'integer',
-                'created_at' => 'integer',
-                'updated_at' => 'dateTime',
-                'mw_processed' => 'integer',
-                'job_hash' => 'text',
-            ], 'failed_jobs' => [
-                'connection' => 'text',
-                'queue' => 'longText',
-                'payload' => 'longText',
-                'created_at' => 'dateTime',
-                'job_hash' => 'text',
-
-            ],
-        ];
-    }
+//    public function get()
+//    {
+//
+//
+//        if (DbSchema::hasTable('jobs')) {
+//            if (!DbSchema::hasColumn('jobs', 'mw_processed')) {
+//                DbSchema::dropIfExists('jobs');
+//                DbSchema::dropIfExists('failed_jobs');
+//            }
+//        }
+//
+//        return [
+//            'jobs' => [
+//                'queue' => 'text',
+//                'payload' => 'longText',
+//                'attempts' => 'integer',
+//                'reserved' => 'integer',
+//                'reserved_at' => 'integer',
+//                'available_at' => 'integer',
+//                'created_at' => 'integer',
+//                'updated_at' => 'dateTime',
+//                'mw_processed' => 'integer',
+//                'job_hash' => 'text',
+//            ], 'failed_jobs' => [
+//                'connection' => 'text',
+//                'queue' => 'longText',
+//                'payload' => 'longText',
+//                'created_at' => 'dateTime',
+//                'job_hash' => 'text',
+//
+//            ],
+//        ];
+//    }
 
 
 
