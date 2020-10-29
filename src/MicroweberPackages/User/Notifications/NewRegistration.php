@@ -6,11 +6,15 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 
-class NewRegistration extends Notification
+
+class NewRegistration extends Notification implements ShouldQueue
 {
     use Queueable;
+    use InteractsWithQueue, SerializesModels;
 
     /**
      * Create a new notification instance.
