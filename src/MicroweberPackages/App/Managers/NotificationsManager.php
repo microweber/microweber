@@ -24,8 +24,14 @@ class NotificationsManager
         }
     }
 
+    /**
+     * @deprecated
+     *
+     */
     public function read($id)
     {
+       return [];
+
         if (defined('MW_API_CALL')) {
             $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
@@ -55,9 +61,12 @@ class NotificationsManager
 
         return $get;
     }
-
+    /**
+     * @deprecated
+     *
+     */
     public function read_selected($params) {
-
+        return [];
     	$ids = explode(',', $params['ids']);
 
     	if (!empty($ids)) {
@@ -67,9 +76,13 @@ class NotificationsManager
     	}
 
     }
-
+    /**
+     * @deprecated
+     *
+     */
     public function mark_as_read($module)
     {
+        return [];
         if (($module) != false and $module != '') {
             $table = $this->table;
             $get_params = array();
@@ -96,9 +109,13 @@ class NotificationsManager
             return $data;
         }
     }
-
+    /**
+     * @deprecated
+     *
+     */
     public function reset($id = false)
     {
+        return [];
     	if ($id) {
     		$data = $this->get('is_read=1&no_cache=true&id=' . $id);
     	} else {
@@ -120,9 +137,12 @@ class NotificationsManager
 
     	return $data;
     }
-
+    /**
+     * @deprecated
+     *
+     */
     public function reset_selected($params) {
-
+        return [];
     	$ids = explode(',', $params['ids']);
 
     	if (!empty($ids)) {
@@ -132,14 +152,23 @@ class NotificationsManager
     	}
 
     }
-
+    /**
+     * @deprecated
+     *
+     */
     public function get_unread_count()
     {
+        return [];
         return $this->get('is_read=0&count=1');
     }
 
+    /**
+     * @deprecated
+     *
+     */
     public function mark_all_as_read($params = false)
     {
+        return [];
         $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
@@ -170,9 +199,13 @@ class NotificationsManager
         return true;
     }
 
+    /**
+     * @deprecated
+     *
+     */
     public function delete($id)
     {
-
+        return [];
         $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => 'You must be logged in as admin to perform: ' . __CLASS__ . '->' . __FUNCTION__);
@@ -193,9 +226,12 @@ class NotificationsManager
 
         return true;
     }
-
+    /**
+     * @deprecated
+     *
+     */
     public function delete_selected($params) {
-
+        return [];
     	$ids = explode(',', $params['ids']);
 
     	if (!empty($ids)) {
@@ -205,9 +241,13 @@ class NotificationsManager
     	}
 
     }
-
+    /**
+     * @deprecated
+     *
+     */
     public function delete_for_module($module)
     {
+        return [];
         if (($module) != false and $module != '') {
             $table = $this->table;
             $get_params = array();
@@ -227,8 +267,15 @@ class NotificationsManager
         }
     }
 
+
+    /**
+     * @deprecated
+     *
+     */
+
     public function save($params)
     {
+        return [];
         $params = parse_params($params);
 
         $table = $table_orig = $this->table;
@@ -272,8 +319,14 @@ class NotificationsManager
         return $data;
     }
 
+    /**
+     * @deprecated
+     *
+     */
     public function get_by_id($id)
     {
+        return [];
+
         $params = array();
 
         if ($id != false) {
