@@ -80,22 +80,27 @@ class NotificationServiceProvider extends ServiceProvider
         Config::set('mail.host', $smtpHost);
         Config::set('mail.port', $smtpPort);
         Config::set('mail.encryption', $smtpAuth);
-
+        Config::set('mail.transport', $emailTransport);
         if ($emailTransport == 'gmail') {
             Config::set('mail.host', 'smtp.gmail.com');
             Config::set('mail.port', 587);
             Config::set('mail.encryption', 'tls');
+            Config::set('mail.transport', 'smtp');
         }
         if ($emailTransport == 'cpanel') {
             Config::set('mail.port', 587);
             Config::set('mail.encryption', 'tls');
+            Config::set('mail.transport', 'smtp');
+
         }
         if ($emailTransport == 'plesk') {
             Config::set('mail.port', 25);
             Config::set('mail.encryption', 'tls');
+            Config::set('mail.transport', 'smtp');
+
         }
 
-        Config::set('mail.transport', $emailTransport);
+
     }
 }
 

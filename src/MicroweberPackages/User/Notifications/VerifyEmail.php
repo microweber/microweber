@@ -6,9 +6,23 @@ use \Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailLaravel;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
 
 class VerifyEmail extends VerifyEmailLaravel
 {
+
+
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return [ AppMailChannel::class]; //return [AppMailChannel::class];
+    }
+
     /**
      * Build the mail representation of the notification.
      *
