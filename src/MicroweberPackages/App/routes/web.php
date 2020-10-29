@@ -45,7 +45,7 @@ Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], functi
     Route::any('module/{all}', array('as' => 'module', 'uses' => 'FrontendController@module'))->where('all', '.*');
 
     Route::any('robots.txt', 'FrontendController@robotstxt');
-    Route::any('sitemap.xml', 'FrontendController@sitemapxml');
+    Route::get('sitemap.xml', 'SitemapController@index');
     Route::any('rss', 'FrontendController@rss');
     Route::any('{all}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
 

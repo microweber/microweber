@@ -10,6 +10,7 @@ use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Notification\Providers\NotificationEventServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
+use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
@@ -232,6 +233,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(  NotificationServiceProvider::class);
         $this->app->register(  NotificationEventServiceProvider::class);
         $this->app->register(  QueueServiceProvider::class);
+        $this->app->register(  QueueEventServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
