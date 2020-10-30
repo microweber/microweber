@@ -1,0 +1,17 @@
+{
+  "name": "microweber-modules/rating",
+  "description": "Rating",
+  "license": "MIT",
+  "homepage": "https://microweber.org/modules/microweber-modules/rating",
+  "authors": [
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "keywords": [
+    "rating"
+  ],
+  "type": "microweber-module",
+  "target-dir": "rating"
+}
