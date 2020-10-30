@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\App\Managers;
 
+use MicroweberPackages\Notification\Models\Notification;
+use MicroweberPackages\User\Models\User;
 use Notifications;
 
 class NotificationsManager
@@ -152,14 +154,10 @@ class NotificationsManager
     	}
 
     }
-    /**
-     * @deprecated
-     *
-     */
+
     public function get_unread_count()
     {
-        return 0;
-        return $this->get('is_read=0&count=1');
+        return Notification::count();
     }
 
     /**
@@ -342,6 +340,31 @@ class NotificationsManager
     public function get($params = false)
     {
         $params = parse_params($params);
+        if (isset($params['count'])) {
+           return $this->get_unread_count($params);
+        }
+
+
+        $readyNotifications = [];
+
+        $notifications = Notification::all();
+
+        foreach ($notifications as $notification) {
+            $readyNotifications[] = [
+                'id' => $notification->id,
+                'module' => 'comments',
+                'rel_type' => 'content',
+                'content' => 'fwafafwafaw',
+                'created_at' => $notification->created_at,
+                'updated_at' => $notification->updated_at,
+                'notification_data' => ['fwafwafaw']
+            ];
+        }
+
+        return $readyNotifications;
+
+/*
+
 
         $return = array();
         $is_sys_log = false;
@@ -389,6 +412,6 @@ class NotificationsManager
         }
 
 
-        return $return;
+        return $return;*/
     }
 }

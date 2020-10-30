@@ -355,6 +355,7 @@ if (isset($notif_params['quick'])) {
                 </div>
 
                 <?php foreach ($data as $item): ?>
+
                     <div class="row timeline-event mw-ui-admin-notif-item-<?php print $item['id'] ?>">
                         <?php
                         $load_module_modal_on_click = 'class="mw-load-module-modal-link" onClick="load_module_modal(' . "'" . module_name_encode($item['module']) . "'" . ', ' . $item['id'] . ')";';
@@ -390,6 +391,9 @@ if (isset($notif_params['quick'])) {
                             <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'content' AND isset($item['module']) AND $item['module'] == 'comments'): ?>
                                 <?php include('notif_comment.php'); ?>
                             <?php else: ?>
+
+                            Petko dizaini go!
+
                             <?php endif; ?>
                         </div>
                     </div>
