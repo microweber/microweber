@@ -41,7 +41,7 @@ trait MustVerifyEmailTrait
     {
 
         try {
-            $this->notify(new VerifyEmail());
+            $this->notifyNow(new VerifyEmail());
         } catch (\Exception $e) {
             Log::error($e);
         }

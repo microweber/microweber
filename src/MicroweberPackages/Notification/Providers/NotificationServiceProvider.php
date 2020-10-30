@@ -25,19 +25,20 @@ class NotificationServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        $this->_configMailSender();
+    public function boot() {
+
+        if (mw_is_installed()) {
+            $this->_configMailSender();
+        }
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
-
        // $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
     }
 
 
     private function _configMailSender(){
-        
+
         // SMTP SETTINGS
         $smtpHost = Option::getValue('smtp_host', 'email');
         $smtpPort = Option::getValue('smtp_port', 'email');
