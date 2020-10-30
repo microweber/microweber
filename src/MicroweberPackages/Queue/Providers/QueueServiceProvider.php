@@ -11,15 +11,16 @@
 
 namespace MicroweberPackages\Queue\Providers;
 
-use Illuminate\Mail\SendQueuedMailable;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
-use MicroweberPackages\Option\Facades\Option;
 
 class QueueServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+    }
+
     /**
      * Bootstrap the application services.
      *
@@ -27,9 +28,15 @@ class QueueServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+        /*
+        app()->terminating(function () {
+            $scheduler = new Event();
+            $scheduler->registerShutdownEvent(function () {
+                app()->make("\MicroweberPackages\Queue\Http\Controllers\ProcessQueueController")->handle();
+            });
+        });*/
+
     }
 }
 
