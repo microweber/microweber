@@ -58,7 +58,7 @@ class LoginRequest extends FormRequest
         }
 
 
-        if (get_option('captcha_disabled', 'users') !== 'y') {
+        if (is_module('captcha') and get_option('captcha_disabled', 'users') !== 'y') {
             $rules['captcha'] = 'required|min:1|captcha';
         }
 

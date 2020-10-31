@@ -53,8 +53,7 @@ class RequestRoute extends Request
             }
         }
 
-
-        if ($response->status() == 400 || $response->status() == 403) {
+        if ($response->status() == 400 || $response->status() == 403|| $response->status() == 422) {
             $errors['error'] = true;
             $errors['success'] = false;
         }
