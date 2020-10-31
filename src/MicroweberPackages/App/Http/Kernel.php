@@ -52,6 +52,10 @@ class Kernel extends HttpKernel
           //  EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+        'static.api' => [
+           \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
+           \Illuminate\Http\Middleware\CheckResponseForModifications::class
+        ]
     ];
 
     /**

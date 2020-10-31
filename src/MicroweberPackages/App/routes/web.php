@@ -7,6 +7,10 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
     Route::any('/apijs_combined', 'JsCompileController@apijs_combined');
     Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
 
+
+
+
+
     Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
     Route::any('/api_nosession', 'FrontendController@api');
     Route::any('/favicon.ico', function () {
@@ -14,6 +18,14 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
     });
 
 });
+
+
+Route::group(['middleware' => 'static.api', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+
+Route::any('/userfiles/{path}', [ 'uses' => '\MicroweberPackages\App\Http\Controllers\ServeStaticFileContoller@serveFromUserfiles' ])->where('path', '.*');
+
+});
+
 
 Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
