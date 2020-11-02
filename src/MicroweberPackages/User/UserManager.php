@@ -62,6 +62,10 @@ class UserManager
 
     public function id()
     {
+        if (!mw_is_installed()) {
+            return false;
+        }
+
         if (Auth::check()) {
             return Auth::user()->id;
         }

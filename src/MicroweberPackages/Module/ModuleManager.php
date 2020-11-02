@@ -559,6 +559,10 @@ class ModuleManager
 
     public function get($params = false)
     {
+        if (!mw_is_installed()) {
+            return false;
+        }
+
         $table = $this->tables['modules'];
         if (is_string($params)) {
             $params = parse_str($params, $params2);
@@ -625,6 +629,10 @@ class ModuleManager
     public function exists($module_name)
     {
         if (!is_string($module_name)) {
+            return false;
+        }
+
+        if (!mw_is_installed()) {
             return false;
         }
         if (trim($module_name) == '') {

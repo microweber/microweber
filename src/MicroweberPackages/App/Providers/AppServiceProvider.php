@@ -366,7 +366,7 @@ if (! defined('MW_VERSION')) {
             return new Lang($app);
         });
 
-        \App::instance('path.public', base_path());
+    \App::instance('path.public', base_path());
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);

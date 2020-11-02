@@ -64,6 +64,13 @@ class ServeStaticFileContoller extends Controller
             $server->get('HTTP_IF_NONE_MATCH') === $headerEtag) {
             return response(null, 304);
         }
+/*
+        $target = normalize_path(public_path().DS.userfiles_folder_name().DS.$request->path, false);
+        $target_dir = dirname($target);
+        mkdir_recursive($target_dir);
+
+      //  dd($target);
+        $copy = File::copy($path,$target );*/
 
         return response(
             file_get_contents($path),

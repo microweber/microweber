@@ -15,7 +15,9 @@ function userfiles_path()
 
     return $folder;
 }
-
+function userfiles_folder_name(){
+    return MW_USERFILES_FOLDER_NAME;
+}
 
 
 function userfiles_url()
