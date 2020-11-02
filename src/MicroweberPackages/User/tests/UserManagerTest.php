@@ -242,6 +242,13 @@ class UserManagerTest extends TestCase
         $this->_enableRegisterEmail();
         $this->_disableCaptcha();
 
+
+
+
+
+
+
+
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
 
@@ -258,21 +265,14 @@ class UserManagerTest extends TestCase
 
         $this->assertArrayHasKey('success', $registerStatus);
 
-        $user = User::find($registerStatus['id'])->first();
-
-        $user->sendEmailVerificationNotification();
 
 
-        $fakeNotify->assertSentTo($user,  NewRegistration::class);
-
-        //Mail::assertSent($user, NewRegistration::class);
 
 
-        /*  Notification::assertSentTo($user, VerifyEmail::class, function ($notification, $channels) {
 
-            var_dump($notification, $channels);
 
-        });*/
+
+
         die();
         $loginDetails = array();
         $loginDetails['username'] = $newUser['username'];
