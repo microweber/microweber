@@ -6,12 +6,16 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Testing\Fakes\MailFake;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
 use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\User\Notifications\NewRegistration;
 use MicroweberPackages\User\Notifications\VerifyEmail;
 use MicroweberPackages\User\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
@@ -82,6 +86,7 @@ class UserManagerTest extends TestCase
     {
         $this->_disableCaptcha();
         $this->_disableRegistrationApproval();
+        $this->_disableEmailVerify();
 
         $loginDetails = array();
         $loginDetails['username'] = self::$_username;
@@ -231,19 +236,17 @@ class UserManagerTest extends TestCase
 
     public function testUserApprovalRegistration()
     {
-
-        $fakeNotify = Notification::fake();
-
-       $this->_enableUserRegistration();
+        $this->_enableUserRegistration();
         $this->_enableRegistrationApproval();
         $this->_enableEmailVerify();
-         $this->_enableRegisterEmail();
+        $this->_enableRegisterEmail();
         $this->_disableCaptcha();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
 
         // Test simple user registration
+        $fakeNotify = Notification::fake();
         $newUser = array();
         $newUser['username'] = 'bobi_' . $randomInt;
         $newUser['email'] = $newUser['username'] . '@microweber.com';
@@ -253,9 +256,24 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
 
-
         $this->assertArrayHasKey('success', $registerStatus);
 
+        $user = User::find($registerStatus['id'])->first();
+
+        $user->sendEmailVerificationNotification();
+
+
+        $fakeNotify->assertSentTo($user,  NewRegistration::class);
+
+        //Mail::assertSent($user, NewRegistration::class);
+
+
+        /*  Notification::assertSentTo($user, VerifyEmail::class, function ($notification, $channels) {
+
+            var_dump($notification, $channels);
+
+        });*/
+        die();
         $loginDetails = array();
         $loginDetails['username'] = $newUser['username'];
         $loginDetails['password'] = $newUser['password'];
@@ -264,12 +282,19 @@ class UserManagerTest extends TestCase
         $loginStatus = $userManager->login($loginDetails);
 
 
-        $user = User::find($registerStatus['id'])->first();
 
-        $fakeNotify->send([$user], new VerifyEmail());
+
+        /*
+                dd($user);
+                die();
+
+                $fakeNotify->send([$user], new VerifyEmail());*/
 
         $fakeNotify->assertSentTo([$user], VerifyEmail::class);
-        
+
+
+        echo 1;
+        die();
 
 
         $this->assertArrayHasKey('error', $loginStatus);

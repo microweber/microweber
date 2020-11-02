@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Core\tests;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
@@ -16,7 +17,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
-
 
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
@@ -164,9 +164,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
 
         \Config::set('mail.driver','array');
-
-        \Mail::fake();
-        Notification::fake();
+        \Config::set('queue.driver','sync');
 
         return $app;
     }
