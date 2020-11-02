@@ -1,4 +1,26 @@
 <?php must_have_access(); ?>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        mw.options.form('.<?php print $config['module_class'] ?> .js-holder-email-server-settings', function () {
+            mw.notification.success("<?php _ejs("Email settings are saved"); ?>.");
+            mw.reload_module("<?php print $config['module'] ?>");
+        });
+
+
+        $("input, select, textarea", '.js-holder-email-names-settings').on('input', function () {
+            mw.on.stopWriting(this, function () {
+                 mw.options.save(this, function () {
+                     mw.notification.success("<?php _ejs("Email settings are saved"); ?>." );
+                 });
+            });
+        });
+
+    });
+</script>
+
+
+
 <script type="text/javascript">
 
     function saveEmailOptions(notification) {
@@ -21,9 +43,10 @@
     }
 
     $(document).ready(function () {
-        $('.js-email-transport-select').change(function () {
-            saveEmailOptions();
-        });
+        //$('.js-email-transport-select').change(function () {
+        //    saveEmailOptions();
+        //    mw.reload_module("<?php //print $config['module'] ?>//");
+        //});
     });
 
 
@@ -59,7 +82,7 @@
 </script>
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card bg-none style-1 mb-0 card-settings">
+    <div class="card bg-none style-1 mb-0 card-settings  js-holder-email-names-settings">
         <div class="card-header px-0">
             <h5><i class="mdi mdi-email-outline text-primary mr-3"></i> <strong><?php _e("E-mail"); ?></strong></h5>
             <div>
@@ -98,7 +121,7 @@
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0 card-settings">
+    <div class="card bg-none style-1 mb-0 card-settings js-holder-email-server-settings">
         <div class="card-body pt-3 px-0">
             <div class="row">
                 <div class="col-md-3">
@@ -119,7 +142,7 @@
                                             $email_transport = 'php';
                                         }
                                         ?>
-                                        <select name="email_transport" class="mw_option_field selectpicker js-email-transport-select" data-width="100%" type="text" option-group="email" data-refresh="settings/group/email">
+                                        <select name="email_transport"  autocomplete="off" class="mw_option_field selectpicker js-email-transport-select" data-width="100%" type="text" option-group="email" data-refresh="settings/group/email">
                                             <option value="php" <?php if ($email_transport == 'php'): ?> selected="selected" <?php endif; ?>><?php _e("PHP mail function"); ?></option>
                                             <option value="gmail" <?php if ($email_transport == 'gmail'): ?> selected="selected" <?php endif; ?>><?php _e("GMail"); ?></option>
                                             <?php /* <option value="yahoo" <?php if($email_transport == 'yahoo'): ?> selected="selected" <?php endif; ?>>
@@ -161,7 +184,7 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="control-label"><?php print titlelize($email_transport) . ' ' . _e("Password", true); ?></label>
-                                                    <input name="smtp_password" class="mw_option_field form-control" type="password" option-group="email" value="<?php print get_option('smtp_password', 'email'); ?>"/>
+                                                    <input name="smtp_password" class="mw_option_field form-control" autocomplete="one-time-code" type="password" option-group="email" value="<?php print get_option('smtp_password', 'email'); ?>"/>
                                                 </div>
                                             </div>
                                         <?php endif; ?>
@@ -170,7 +193,7 @@
                                             <div class="<?php if ($email_transport == 'smtp'): ?>col-12<?php else: ?>col-12<?php endif; ?>">
                                                 <div class="form-group">
                                                     <label class="control-label"><?php _e("Smtp Email Host"); ?></label>
-                                                    <input name="smtp_host" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('smtp_host', 'email'); ?>" placeholder="<?php _e("example"); ?>: smtp.gmail.com"/>
+                                                    <input name="smtp_host" class="mw_option_field form-control" autocomplete="off" type="text" option-group="email" value="<?php print get_option('smtp_host', 'email'); ?>" placeholder="<?php _e("example"); ?>: smtp.gmail.com"/>
                                                 </div>
                                             </div>
                                         <?php endif; ?>
@@ -179,7 +202,7 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="control-label"><?php _e("Smtp Email Port"); ?></label>
-                                                    <input name="smtp_port" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('smtp_port', 'email'); ?>" placeholder="<?php _e("example"); ?>: 587 or 995, 465, 110, 25"/>
+                                                    <input name="smtp_port" class="mw_option_field form-control"  autocomplete="off" type="text" option-group="email" value="<?php print get_option('smtp_port', 'email'); ?>" placeholder="<?php _e("example"); ?>: 587 or 995, 465, 110, 25"/>
                                                 </div>
                                             </div>
 
@@ -188,7 +211,7 @@
                                                     <label class="control-label"><?php _e("Enable SMTP authentication"); ?></label>
                                                     <?php $email_smtp_auth = get_option('smtp_auth', 'email'); ?>
 
-                                                    <select name="smtp_auth" class="form-control mw_option_field" type="text" option-group="email" data-refresh="settings/group/email">
+                                                    <select  autocomplete="off" name="smtp_auth" class="form-control mw_option_field" type="text" option-group="email" data-refresh="settings/group/email">
                                                         <option value="ssl" <?php if ($email_smtp_auth == 'ssl'): ?> selected="selected" <?php endif; ?>>ssl</option>
                                                         <option value="tls" <?php if ($email_smtp_auth == 'tls'): ?> selected="selected" <?php endif; ?>>tls</option>
                                                         <option value="" <?php if ($email_smtp_auth == ''): ?> selected="selected" <?php endif; ?>>none</option>
@@ -201,7 +224,7 @@
                                                     <label class="control-label"><?php _e("Enable SMTP Secure Method"); ?></label>
                                                     <?php $email_smtp_secure = get_option('smtp_secure', 'email'); ?>
 
-                                                    <select name="smtp_secure" class="form-control mw_option_field" type="text" option-group="email" data-refresh="settings/group/email">
+                                                    <select  autocomplete="off" name="smtp_secure" class="form-control mw_option_field" type="text" option-group="email" data-refresh="settings/group/email">
                                                         <option value="0" <?php if ($email_smtp_secure == ''): ?> selected="selected" <?php endif; ?>><?php _e("None"); ?></option>
                                                         <option value="1" <?php if ($email_smtp_secure == '1'): ?> selected="selected" <?php endif; ?>><?php _e("SSL"); ?></option>
                                                         <option value="2" <?php if ($email_smtp_secure == '2'): ?> selected="selected" <?php endif; ?>><?php _e("TLS"); ?></option>
