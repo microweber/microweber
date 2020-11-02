@@ -26,6 +26,10 @@ class UserVerifyController extends Controller
             throw new AuthorizationException();
         }
 
+        if ($user->hasVerifiedEmail()) {
+            return redirect(site_url());
+        }
+
         if (!hash_equals((string)$request->route('hash'), sha1($user->getEmailForVerification()))) {
             throw new AuthorizationException();
         }
@@ -37,4 +41,50 @@ class UserVerifyController extends Controller
         return redirect(site_url());
     }
 
+    public function showResendForm(Request $request)
+    {
+
+
+        $user = User::find($request->route('id'));
+
+        if (!$user) {
+            throw new AuthorizationException();
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return redirect(site_url());
+        }
+
+        if (!hash_equals((string)$request->route('hash'), sha1($user->getEmailForVerification()))) {
+            throw new AuthorizationException();
+        }
+
+
+        return view('user::email.resend',[
+            'id'=>$request->id,
+            'hash'=>$request->hash,
+        ]);
+
+     }
+
+    public function sendVerifyEmail(Request $request)
+    {
+
+        $user = User::find($request->route('id'));
+
+        if (!$user) {
+            throw new AuthorizationException();
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return redirect(site_url());
+        }
+
+        if (!hash_equals((string)$request->route('hash'), sha1($user->getEmailForVerification()))) {
+            throw new AuthorizationException();
+        }
+
+        $user->sendEmailVerificationNotification();
+        return redirect(site_url());
+    }
 }

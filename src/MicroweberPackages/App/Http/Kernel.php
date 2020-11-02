@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use MicroweberPackages\User\Http\Middleware\UserValidateEmailSignature;
 
 class Kernel extends HttpKernel
 {
@@ -74,6 +75,7 @@ class Kernel extends HttpKernel
         'guest' => \MicroweberPackages\App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+
        // 'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'throttle' => \MicroweberPackages\App\Http\Middleware\ThrottleExternalRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
