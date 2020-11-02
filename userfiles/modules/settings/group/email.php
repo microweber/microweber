@@ -2,16 +2,45 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        mw.options.form('.<?php print $config['module_class'] ?> .js-holder-email-server-settings', function () {
-            mw.notification.success("<?php _ejs("Email settings are saved"); ?>.");
-            mw.reload_module("<?php print $config['module'] ?>");
+        //mw.options.form('.<?php print $config['module_class'] ?> .js-holder-email-server-settings', function () {
+        //mw.options.form('.<?php //print $config['module_class'] ?>// .js-holder-email-server-settings', function () {
+        //    mw.notification.success("<?php //_ejs("Email settings are saved"); ?>//.",undefined,'email');
+        //    mw.reload_module("<?php //print $config['module'] ?>//");
+        //});
+
+
+
+
+
+
+
+        $("select.js-email-transport-select").on('change', function () {
+                mw.options.save(this, function () {
+
+
+                    mw.notification.success("<?php _ejs("Email settings are saved"); ?>.",undefined,'email');
+                    mw.reload_module("<?php print $config['module'] ?>");
+
+                });
+
         });
+     
+
+
+
 
 
         $("input, select, textarea", '.js-holder-email-names-settings').on('input', function () {
             mw.on.stopWriting(this, function () {
                  mw.options.save(this, function () {
-                     mw.notification.success("<?php _ejs("Email settings are saved"); ?>." );
+                     mw.notification.success("<?php _ejs("Email settings are saved"); ?>.",undefined,'email');
+                 });
+            });
+        });
+ $("input, select, textarea", '.js-email-transport-select-user-pass').on('input', function () {
+            mw.on.stopWriting(this, function () {
+                 mw.options.save(this, function () {
+                     mw.notification.success("<?php _ejs("Email settings are saved"); ?>.",undefined,'email');
                  });
             });
         });
@@ -36,7 +65,7 @@
         });
 
         if (notification) {
-            mw.notification.success("<?php _ejs("Email settings are saved"); ?>.");
+            mw.notification.success("<?php _ejs("Email settings are saved"); ?>.",undefined,'email');
         }
 
         mw.reload_module("<?php print $config['module'] ?>");
@@ -131,6 +160,7 @@
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body pt-3">
+
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
@@ -142,7 +172,7 @@
                                             $email_transport = 'php';
                                         }
                                         ?>
-                                        <select name="email_transport"  autocomplete="off" class="mw_option_field selectpicker js-email-transport-select" data-width="100%" type="text" option-group="email" data-refresh="settings/group/email">
+                                        <select name="email_transport"  autocomplete="off" class="xxxmw_option_field selectpicker js-email-transport-select" data-width="100%" type="text" option-group="email" data-refresh="settings/group/email">
                                             <option value="php" <?php if ($email_transport == 'php'): ?> selected="selected" <?php endif; ?>><?php _e("PHP mail function"); ?></option>
                                             <option value="gmail" <?php if ($email_transport == 'gmail'): ?> selected="selected" <?php endif; ?>><?php _e("GMail"); ?></option>
                                             <?php /* <option value="yahoo" <?php if($email_transport == 'yahoo'): ?> selected="selected" <?php endif; ?>>
@@ -157,6 +187,10 @@
                                         </select>
                                     </div>
                                 </div>
+
+                            </div>
+                            <div class="row js-email-transport-select-user-pass">
+
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-12">
