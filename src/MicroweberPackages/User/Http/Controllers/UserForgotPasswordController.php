@@ -14,13 +14,13 @@ class UserForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('throttle:10,1');
+       //$this->middleware('throttle:10,1');
     }
 
 
     public function showForgotForm()
     {
-        return view('auth.forgot-password');
+        return view('user::auth.forgot-password');
     }
 
     public function send(Request $request)
@@ -38,7 +38,7 @@ class UserForgotPasswordController extends Controller
 
     public function showResetForm($token)
     {
-        return view('auth.reset-password', ['token' => $token]);
+        return view('user::auth.reset-password', ['token' => $token]);
     }
 
     public function update(Request $request)

@@ -20,7 +20,7 @@ Route::name('user.')->namespace('\MicroweberPackages\User\Http\Controllers')->gr
 
 });
 
-Route::namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
 
     Route::get('email/verify/{id}/{hash}', 'UserVerifyController@verify')->name('verification.verify')
         ->middleware([\MicroweberPackages\User\Http\Middleware\UserValidateEmailSignature::class]);
