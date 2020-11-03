@@ -40,15 +40,11 @@ trait MustVerifyEmailTrait
      */
     public function sendEmailVerificationNotification()
     {
-        echo 'wow';
-
-        $this->notify(new VerifyEmail());
-
-        /*try {
+        try {
             $this->notifyNow(new VerifyEmail());
         } catch (\Exception $e) {
             Log::error($e);
-        }*/
+        }
     }
 
     /**

@@ -236,24 +236,19 @@ class UserManagerTest extends TestCase
 
     public function testUserApprovalRegistration()
     {
+
+        $fakeNotify = Notification::fake();
+
         $this->_enableUserRegistration();
         $this->_enableRegistrationApproval();
         $this->_enableEmailVerify();
         $this->_enableRegisterEmail();
         $this->_disableCaptcha();
 
-
-
-
-
-
-
-
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
 
         // Test simple user registration
-        $fakeNotify = Notification::fake();
         $newUser = array();
         $newUser['username'] = 'bobi_' . $randomInt;
         $newUser['email'] = $newUser['username'] . '@microweber.com';
@@ -266,14 +261,6 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('success', $registerStatus);
 
 
-
-
-
-
-
-
-
-        die();
         $loginDetails = array();
         $loginDetails['username'] = $newUser['username'];
         $loginDetails['password'] = $newUser['password'];
@@ -281,42 +268,17 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
 
-
-
-
-        /*
-                dd($user);
-                die();
-
-                $fakeNotify->send([$user], new VerifyEmail());*/
-
-        $fakeNotify->assertSentTo([$user], VerifyEmail::class);
-
-
-        echo 1;
-        die();
-
-
         $this->assertArrayHasKey('error', $loginStatus);
+        $this->assertContains('verify', $loginStatus['error']);
 
-        if (strpos($loginStatus['error'], 'awaiting approval') !== false) {
-            $this->assertEquals(true, true);
-        } else {
-            $this->assertEquals(true, false);
-        }
+        $user = User::find($registerStatus['id']);
 
-        $findVerifyEmailLink = false;
-        if (strpos($checkEmailContent, 'verify_email_link?key=') !== false) {
-            $findVerifyEmailLink = true;
-        }
+        $this->assertEquals('0', $user->is_active);
+        $this->assertEquals('0', $user->is_admin);
+        $this->assertEquals('0', $user->is_verified);
 
-        $findUsername = false;
-        if (strpos($checkEmailContent, $loginDetails['username']) !== false) {
-            $findUsername = true;
-        }
-
-        $this->assertEquals(true, $findVerifyEmailLink);
-        $this->assertEquals(true, $findUsername);
+        $fakeNotify->assertSentTo([$user], NewRegistration::class);
+        $fakeNotify->assertSentTo([$user], VerifyEmail::class);
     }
 
     public function testUserRegistrationWithXSS()
@@ -336,11 +298,11 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
+
+
+        $this->assertTrue($registerStatus['error']);
         $this->assertArrayHasKey('errors', $registerStatus);
         $this->assertArrayHasKey('username', $registerStatus['errors']);
-//        $this->assertEquals(true, isset($registerStatus['username']));
-//        $this->assertFalse(strpos($registerStatus['username'],'document.cookie'));
-//        $this->assertFalse(strpos($registerStatus['username'],'onmouseover'));
 
 
     }

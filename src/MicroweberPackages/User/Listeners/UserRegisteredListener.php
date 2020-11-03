@@ -10,6 +10,7 @@ class UserRegisteredListener
     public function handle($event)
     {
         $event->user->notifyNow(new NewRegistration());
+
 //        try {
 //            $event->user->notify(new NewRegistration());
 //        } catch (\Exception $e) {
