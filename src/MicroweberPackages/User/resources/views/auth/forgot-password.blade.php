@@ -31,7 +31,7 @@
 
             <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
                 <h1>Password Reset</h1>
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                     @if ($errors->has('email'))

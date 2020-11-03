@@ -2,9 +2,12 @@
 
 namespace MicroweberPackages\User\Http\Controllers;
 
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class UserForgotPasswordController extends Controller
 {
@@ -36,9 +39,12 @@ class UserForgotPasswordController extends Controller
             : back()->withErrors(['email' => __($status)]);
     }
 
-    public function showResetForm($token)
+    public function showResetForm(Request $request)
     {
-        return view('user::auth.reset-password', ['token' => $token]);
+        return view('user::auth.reset-password', [
+            'email' => $request->email,
+            'token' => $request->token,
+        ]);
     }
 
     public function update(Request $request)
@@ -46,7 +52,7 @@ class UserForgotPasswordController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:1|confirmed',
         ]);
 
         $status = Password::reset(
@@ -63,7 +69,7 @@ class UserForgotPasswordController extends Controller
         );
 
         return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->route('user.login')->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
     }
 }

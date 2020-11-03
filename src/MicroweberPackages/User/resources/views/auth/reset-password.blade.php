@@ -34,19 +34,15 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                <form role="form" method="POST" action="{{ route('password.reset') }}">
+                <form role="form" method="POST" action="{{ route('password.update') }}">
                     <h3>Reset Password</h3>
 
-                    {{ csrf_field() }}
+                    @csrf
 
                     <input type="hidden" name="token" value="{{ $token }}">
+                    <input type="hidden" name="email" value="{{ $email }}">
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        @if ($errors->has('email'))
-                            <span class="help-block"><strong>{{ $errors->first('email') }}</strong></span>
-                        @endif
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Email"/>
-                    </div>
+                    Email: {{$email}}
 
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                         @if ($errors->has('password'))
@@ -59,7 +55,7 @@
                         @if ($errors->has('password_confirmation'))
                             <span class="help-block"><strong>{{ $errors->first('password_confirmation') }}</strong></span>
                         @endif
-                        <input type="password_confirmation" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password"/>
+                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password"/>
                     </div>
 
                     <div>
