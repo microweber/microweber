@@ -49,11 +49,12 @@ class UserForgotPasswordController extends Controller
             ->where('email', '=', $request->email)
             ->first();
 
+        if (!$check) {
+            return abort(response("Password reset link is expired", 401));
+        }
         if ($check) {
             if (Carbon::parse($check->created_at) > Carbon::now()->subHours(1)) {
-
-               // $check->delete();
-                die('Password reset link is expired');
+                return abort(response("Password reset link is expired", 401));
             }
         }
 
