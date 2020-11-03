@@ -2,9 +2,12 @@
 
 namespace MicroweberPackages\User\Http\Controllers;
 
+use _HumbugBox58fd4d9e2a25\Exception;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -17,11 +20,12 @@ class UserForgotPasswordController extends Controller
      */
     public function __construct()
     {
-       //$this->middleware('throttle:10,1');
+        //$this->middleware('throttle:10,1');
     }
 
     public function showForgotForm()
     {
+
         return view('user::auth.forgot-password');
     }
 
@@ -40,6 +44,19 @@ class UserForgotPasswordController extends Controller
 
     public function showResetForm(Request $request)
     {
+
+         $check = DB::table('password_resets')
+            ->where('email', '=', $request->email)
+            ->first();
+
+        if ($check) {
+            if (Carbon::parse($check->created_at) > Carbon::now()->subHours(1)) {
+
+               // $check->delete();
+                die('Password reset link is expired');
+            }
+        }
+
         return view('user::auth.reset-password', [
             'email' => $request->email,
             'token' => $request->token,

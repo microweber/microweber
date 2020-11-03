@@ -67,7 +67,7 @@
                             <div class="text-danger"><strong>{{ $errors->first('password') }}</strong></div>
                         @endif
 
-                        
+
 
                     </form>
 

@@ -4,7 +4,6 @@ namespace MicroweberPackages\App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
-use MicroweberPackages\User\Http\Middleware\UserValidateEmailSignature;
 
 class Kernel extends HttpKernel
 {
@@ -35,7 +34,7 @@ class Kernel extends HttpKernel
         'web' => [
             \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-           // \Illuminate\Session\Middleware\StartSession::class, IF THIS IS ADDED IT WILL BROKE THE FORM SESSION MESSAGES
+            \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
@@ -50,12 +49,12 @@ class Kernel extends HttpKernel
         'public.api' => [
             'xss',
             'throttle:161111,1',
-          //  EnsureFrontendRequestsAreStateful::class,
+            //  EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         'static.api' => [
-           \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
-           \Illuminate\Http\Middleware\CheckResponseForModifications::class
+            \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
+            \Illuminate\Http\Middleware\CheckResponseForModifications::class
         ]
     ];
 
@@ -75,8 +74,7 @@ class Kernel extends HttpKernel
         'guest' => \MicroweberPackages\App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-
-       // 'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        // 'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'throttle' => \MicroweberPackages\App\Http\Middleware\ThrottleExternalRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'xss' => \MicroweberPackages\App\Http\Middleware\XSS::class,
