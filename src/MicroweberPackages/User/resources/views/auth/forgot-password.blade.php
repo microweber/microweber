@@ -17,54 +17,65 @@
 
 <body>
 
+<main class="w-100 h-100vh ">
+    <div class="row my-5 d-flex align-items-center ">
+        <div class="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 mx-auto">
 
-<div class="container">
-    <div class="row clearfix mt-20">
-        <div class="col-md-6 col-md-offset-3 column">
+
+            <div class="card">
+                <div class="card-body py-4">
 
 
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
-                <h1>Password Reset</h1>
-                @csrf
-
-                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    @if ($errors->has('email'))
-                        <span class="help-block"><strong>{{ $errors->first('email') }}</strong></span>
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
                     @endif
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Email"/>
+
+                    <form class="form-horizontal" role="form" method="POST"
+                          action="{{ route('password.email') }}">
+                        <h2>Password Reset</h2>
+                        @csrf
+
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+
+
+                            <label class="control-label">Enter your email</label>
+
+                            <input type="text" class="form-control" id="email" name="email"
+                                   placeholder="Email"/>
+
+
+                            @if ($errors->has('email'))
+
+                                <div class="help-block text-danger"><strong>{{ $errors->first('email') }}</strong></div>
+
+                            @endif
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <a class="btn btn-link" class="reset_pass" href="{{route('user.login')}}">Login</a>
+
+                            <button type="submit" class="btn btn-primary submit">Send Password
+                                Reset Link
+                            </button>
+
+
+                        </div>
+
+                        <div class="clearfix"></div>
+
+
+                    </form>
+
                 </div>
-
-                <div>
-                    <button type="submit" class="btn btn-default submit">Send Password Reset Link</button>
-                    <a class="reset_pass" href="{{route('user.login')}}">Login</a>
-                </div>
-
-                <div class="clearfix"></div>
-
-                <div class="separator">
-
-                    <div class="clearfix"></div>
-                    <br />
-
-
-                </div>
-            </form>
-
+            </div>
 
         </div>
     </div>
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-        </div>
-    </div>
-</div>
 
 
+</main>
 </body>
 </html>

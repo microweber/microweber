@@ -20,7 +20,6 @@ class UserForgotPasswordController extends Controller
        //$this->middleware('throttle:10,1');
     }
 
-
     public function showForgotForm()
     {
         return view('user::auth.forgot-password');
@@ -57,9 +56,11 @@ class UserForgotPasswordController extends Controller
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
+
             function ($user, $password) use ($request) {
+
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => $password
                 ])->save();
 
                 $user->setRememberToken(Str::random(60));
