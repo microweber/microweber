@@ -2,16 +2,21 @@
 
 namespace MicroweberPackages\User\tests;
 
+use function _HumbugBox58fd4d9e2a25\KevinGH\Box\unique_id;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Testing\Fakes\MailFake;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
 use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\User\Notifications\NewRegistration;
 use MicroweberPackages\User\Notifications\VerifyEmail;
 use MicroweberPackages\User\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
@@ -30,7 +35,7 @@ class UserManagerTest extends TestCase
     {
         $this->_disableCaptcha();
         $this->_enableUserRegistration();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -81,7 +86,8 @@ class UserManagerTest extends TestCase
     public function testLogin()
     {
         $this->_disableCaptcha();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_disableEmailVerify();
 
         $loginDetails = array();
         $loginDetails['username'] = self::$_username;
@@ -97,7 +103,7 @@ class UserManagerTest extends TestCase
     public function testWrongPasswordLogin()
     {
         $this->_disableCaptcha();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
         $loginDetails['username'] = self::$_username;
@@ -113,7 +119,7 @@ class UserManagerTest extends TestCase
     public function testWrongUsernameLogin()
     {
         $this->_disableCaptcha();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
         $loginDetails['username'] = 'microweber-some-user';
@@ -129,7 +135,7 @@ class UserManagerTest extends TestCase
     public function testWrongEmailLogin()
     {
         $this->_disableCaptcha();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
         $loginDetails['email'] = 'microweber-some-email';
@@ -211,7 +217,7 @@ class UserManagerTest extends TestCase
         $this->_disableUserRegistrationWithDisposableEmail();
         $this->_disableCaptcha();
         $this->_enableUserRegistration();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -234,10 +240,10 @@ class UserManagerTest extends TestCase
 
         $fakeNotify = Notification::fake();
 
-       $this->_enableUserRegistration();
-        $this->_enableRegistrationApproval();
+        $this->_enableUserRegistration();
+        $this->_enableRegistrationApprovalByAdmin();
         $this->_enableEmailVerify();
-         $this->_enableRegisterEmail();
+        $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
 
         $randomInt = rand(1111, 9999);
@@ -253,8 +259,8 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
 
-
         $this->assertArrayHasKey('success', $registerStatus);
+
 
         $loginDetails = array();
         $loginDetails['username'] = $newUser['username'];
@@ -263,42 +269,24 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
 
-
-        $user = User::find($registerStatus['id'])->first();
-
-        $fakeNotify->send([$user], new VerifyEmail());
-
-        $fakeNotify->assertSentTo([$user], VerifyEmail::class);
-        
-
-
         $this->assertArrayHasKey('error', $loginStatus);
+        $this->assertContains('verify', $loginStatus['error']);
 
-        if (strpos($loginStatus['error'], 'awaiting approval') !== false) {
-            $this->assertEquals(true, true);
-        } else {
-            $this->assertEquals(true, false);
-        }
+        $user = User::find($registerStatus['id']);
 
-        $findVerifyEmailLink = false;
-        if (strpos($checkEmailContent, 'verify_email_link?key=') !== false) {
-            $findVerifyEmailLink = true;
-        }
+        $this->assertEquals('0', $user->is_active);
+        $this->assertEquals('0', $user->is_admin);
+        $this->assertEquals('0', $user->is_verified);
 
-        $findUsername = false;
-        if (strpos($checkEmailContent, $loginDetails['username']) !== false) {
-            $findUsername = true;
-        }
-
-        $this->assertEquals(true, $findVerifyEmailLink);
-        $this->assertEquals(true, $findUsername);
+        $fakeNotify->assertSentTo([$user], NewRegistration::class);
+        $fakeNotify->assertSentTo([$user], VerifyEmail::class);
     }
 
     public function testUserRegistrationWithXSS()
     {
         $this->_enableUserRegistration();
-        $this->_disableRegistrationApproval();
-        $this->_enableRegisterEmail();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
 
         $unamnexss = '<a href="Boom"><font color=a"onmouseover=alert(document.cookie);"> XSxxxS-Try ME</span></font>' . uniqid();
@@ -311,12 +299,38 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
+
+
+        $this->assertTrue($registerStatus['error']);
         $this->assertArrayHasKey('errors', $registerStatus);
         $this->assertArrayHasKey('username', $registerStatus['errors']);
-//        $this->assertEquals(true, isset($registerStatus['username']));
-//        $this->assertFalse(strpos($registerStatus['username'],'document.cookie'));
-//        $this->assertFalse(strpos($registerStatus['username'],'onmouseover'));
 
+
+    }
+
+
+    public function testUserRegistrationForgotPasswordEmail()
+    {
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_enableRegisterWelcomeEmail();
+        $this->_disableCaptcha();
+
+        $newUser = array();
+        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['email'] = uniqid() . '@mail.test';
+        $newUser['password'] = uniqid();
+
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+
+
+
+
+
+        var_dump($registerStatus);
+        die();
 
     }
 

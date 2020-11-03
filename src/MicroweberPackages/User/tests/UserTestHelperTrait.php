@@ -79,7 +79,7 @@ trait UserTestHelperTrait
         $save = save_option($data);
     }
 
-    private function _disableRegistrationApproval()
+    private function _disableRegistrationApprovalByAdmin()
     {
         $data['option_value'] = 'n';
         $data['option_key'] = 'registration_approval_required';
@@ -87,7 +87,7 @@ trait UserTestHelperTrait
         $save = save_option($data);
     }
 
-    private function _enableRegistrationApproval()
+    private function _enableRegistrationApprovalByAdmin()
     {
         $data['option_value'] = 'y';
         $data['option_key'] = 'registration_approval_required';
@@ -95,7 +95,7 @@ trait UserTestHelperTrait
         $save = save_option($data);
     }
 
-    private function _enableRegisterEmail()
+    private function _enableRegisterWelcomeEmail()
     {
         $data['option_value'] = 'y';
         $data['option_key'] = 'register_email_enabled';

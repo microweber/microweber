@@ -20,13 +20,19 @@ Route::name('user.')->namespace('\MicroweberPackages\User\Http\Controllers')->gr
 
 });
 
-Route::namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-
+Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
 
     Route::get('email/verify/{id}/{hash}', 'UserVerifyController@verify')->name('verification.verify')
         ->middleware([\MicroweberPackages\User\Http\Middleware\UserValidateEmailSignature::class]);
 
     Route::get('email/verify-resend/{id}/{hash}', 'UserVerifyController@showResendForm')->name('verification.resend');
-
     Route::post('email/verify-resend/{id}/{hash}', 'UserVerifyController@sendVerifyEmail')->name('verification.send');
+
+    Route::get('/forgot-password', 'UserForgotPasswordController@showForgotForm')->middleware(['guest'])->name('password.request');
+    Route::post('/forgot-password', 'UserForgotPasswordController@send')->middleware(['guest'])->name('password.email');
+
+    Route::get('/reset-password/{token}', 'UserForgotPasswordController@showResetForm')->middleware(['guest'])->name('password.reset');
+    Route::post('/reset-password', 'UserForgotPasswordController@update')->middleware(['guest'])->name('password.update');
 });
+
+
