@@ -1426,6 +1426,12 @@ class UserManager
 
     public function send_forgot_password($params)
     {
+        return RequestRoute::postJson(route('api.user.forgot_password'), $params);
+
+    }
+
+    public function send_forgot_password_OLD($params)
+    {
         $no_captcha = get_option('captcha_disabled', 'users') == 'y';
         if (!$no_captcha) {
             if (!isset($params['captcha'])) {

@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User\tests;
 
+use function _HumbugBox58fd4d9e2a25\KevinGH\Box\unique_id;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Mail\Mailable;
@@ -34,7 +35,7 @@ class UserManagerTest extends TestCase
     {
         $this->_disableCaptcha();
         $this->_enableUserRegistration();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -85,7 +86,7 @@ class UserManagerTest extends TestCase
     public function testLogin()
     {
         $this->_disableCaptcha();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
         $this->_disableEmailVerify();
 
         $loginDetails = array();
@@ -102,7 +103,7 @@ class UserManagerTest extends TestCase
     public function testWrongPasswordLogin()
     {
         $this->_disableCaptcha();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
         $loginDetails['username'] = self::$_username;
@@ -118,7 +119,7 @@ class UserManagerTest extends TestCase
     public function testWrongUsernameLogin()
     {
         $this->_disableCaptcha();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
         $loginDetails['username'] = 'microweber-some-user';
@@ -134,7 +135,7 @@ class UserManagerTest extends TestCase
     public function testWrongEmailLogin()
     {
         $this->_disableCaptcha();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
         $loginDetails['email'] = 'microweber-some-email';
@@ -216,7 +217,7 @@ class UserManagerTest extends TestCase
         $this->_disableUserRegistrationWithDisposableEmail();
         $this->_disableCaptcha();
         $this->_enableUserRegistration();
-        $this->_disableRegistrationApproval();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -240,9 +241,9 @@ class UserManagerTest extends TestCase
         $fakeNotify = Notification::fake();
 
         $this->_enableUserRegistration();
-        $this->_enableRegistrationApproval();
+        $this->_enableRegistrationApprovalByAdmin();
         $this->_enableEmailVerify();
-        $this->_enableRegisterEmail();
+        $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
 
         $randomInt = rand(1111, 9999);
@@ -284,8 +285,8 @@ class UserManagerTest extends TestCase
     public function testUserRegistrationWithXSS()
     {
         $this->_enableUserRegistration();
-        $this->_disableRegistrationApproval();
-        $this->_enableRegisterEmail();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
 
         $unamnexss = '<a href="Boom"><font color=a"onmouseover=alert(document.cookie);"> XSxxxS-Try ME</span></font>' . uniqid();
@@ -304,6 +305,32 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('errors', $registerStatus);
         $this->assertArrayHasKey('username', $registerStatus['errors']);
 
+
+    }
+
+
+    public function testUserRegistrationForgotPasswordEmail()
+    {
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_enableRegisterWelcomeEmail();
+        $this->_disableCaptcha();
+
+        $newUser = array();
+        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['email'] = uniqid() . '@mail.test';
+        $newUser['password'] = uniqid();
+
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+
+
+
+
+
+        var_dump($registerStatus);
+        die();
 
     }
 
