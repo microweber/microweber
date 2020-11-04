@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User\Models;
 
 use EloquentFilter\Filterable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use MicroweberPackages\Database\Casts\StripTagsCast;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
+use MicroweberPackages\User\Notifications\MailResetPasswordNotification;
 use MicroweberPackages\User\Notifications\MustVerifyEmailTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Validation\Rule;
@@ -20,7 +22,7 @@ use carbon\carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable, MustVerifyEmailTrait;
+    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable, MustVerifyEmailTrait, CanResetPassword;
 
     protected $casts = [
         'username' => StripTagsCast::class,
@@ -268,4 +270,5 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return true;
     }
+
 }

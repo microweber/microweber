@@ -2,9 +2,15 @@
 
 namespace MicroweberPackages\User\Http\Controllers;
 
+use _HumbugBox58fd4d9e2a25\Exception;
+use Carbon\Carbon;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class UserForgotPasswordController extends Controller
 {
@@ -14,12 +20,12 @@ class UserForgotPasswordController extends Controller
      */
     public function __construct()
     {
-       //$this->middleware('throttle:10,1');
+        //$this->middleware('throttle:10,1');
     }
-
 
     public function showForgotForm()
     {
+
         return view('user::auth.forgot-password');
     }
 
@@ -36,9 +42,26 @@ class UserForgotPasswordController extends Controller
             : back()->withErrors(['email' => __($status)]);
     }
 
-    public function showResetForm($token)
+    public function showResetForm(Request $request)
     {
-        return view('user::auth.reset-password', ['token' => $token]);
+
+         $check = DB::table('password_resets')
+            ->where('email', '=', $request->email)
+            ->first();
+
+        if (!$check) {
+            return abort(response("Password reset link is expired", 401));
+        }
+        if ($check) {
+            if (Carbon::parse($check->created_at) > Carbon::now()->subHours(1)) {
+                return abort(response("Password reset link is expired", 401));
+            }
+        }
+
+        return view('user::auth.reset-password', [
+            'email' => $request->email,
+            'token' => $request->token,
+        ]);
     }
 
     public function update(Request $request)
@@ -46,14 +69,16 @@ class UserForgotPasswordController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:1|confirmed',
         ]);
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
+
             function ($user, $password) use ($request) {
+
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => $password
                 ])->save();
 
                 $user->setRememberToken(Str::random(60));
@@ -63,7 +88,7 @@ class UserForgotPasswordController extends Controller
         );
 
         return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->route('user.login')->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
     }
 }
