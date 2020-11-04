@@ -7,10 +7,12 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Testing\Fakes\MailFake;
+use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
@@ -21,7 +23,8 @@ use MicroweberPackages\User\Notifications\VerifyEmail;
 use MicroweberPackages\User\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 /**
  * Run test
  * @author Bobi Slaveykvo Microweber
@@ -158,26 +161,21 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
+
         $this->assertArrayHasKey('success', $requestStatus);
+        $this->assertTrue($requestStatus['success']);
+        $this->assertContains('reset link', $requestStatus['message']);
 
-        $checkEmailContent = MailSender::$last_send['content'];
+        $userDetails['email'] = 'wrong@gmail.com';
 
-        $findPasswordResetLink = false;
-        if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
-            $findPasswordResetLink = true;
-        }
-        $findUsername = false;
-        if (strpos($checkEmailContent, $userDetails['username']) !== false) {
-            $findUsername = true;
-        }
-        $findIpAddress = false;
-        if (strpos($checkEmailContent, MW_USER_IP) !== false) {
-            $findIpAddress = true;
-        }
+        $userManager = new UserManager();
+        $requestStatus = $userManager->send_forgot_password($userDetails);
 
-        $this->assertEquals(true, $findPasswordResetLink);
-        $this->assertEquals(true, $findUsername);
-        $this->assertEquals(true, $findIpAddress);
+        $this->assertArrayHasKey('error', $requestStatus);
+        $this->assertTrue($requestStatus['error']);
+        $this->assertContains('user with that e-mail address', $requestStatus['message']);
+
+
 
     }
 
@@ -324,14 +322,54 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
+        $this->assertArrayHasKey('success', $registerStatus);
+        $user = User::find($registerStatus['id']);
 
 
+        $userManager = new UserManager();
+        $forgotPass = $userManager->send_forgot_password($newUser);
+        $this->assertArrayHasKey('success', $forgotPass);
+        $this->assertTrue( $forgotPass['success']);
+        $this->assertContains('reset link sent', $forgotPass['message']);
+
+        $check = DB::table('password_resets')
+            ->where('email', '=', $newUser['email'])
+            ->first();
+
+        $this->assertEquals($check->email, $newUser['email']);
 
 
+        // Lets change the password
+        $token = Password::getRepository()->create($user);
+        $update_pass_request = [
+            'token' =>$token,
+            'email' =>$newUser['email'],
+            'password' => '1234',
+            'password_confirmation' => '1234'
+        ];
+        $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
+        $this->assertArrayHasKey('success', $updatePasswordWithToken);
+        $this->assertTrue( $updatePasswordWithToken['success']);
+        $this->assertContains('has been reset', $updatePasswordWithToken['message']);
 
-        var_dump($registerStatus);
-        die();
 
+        // Lets expire email token
+        $token = Password::getRepository()->create($user);
+        DB::table('password_resets')->where('email','=',$check->email)->update([
+            'created_at'=>'1997'
+        ]);
+        $update_pass_request = [
+            'token' =>$token,
+            'email' =>$newUser['email'],
+            'password' => '1234',
+            'password_confirmation' => '1234'
+        ];
+        $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
+        $this->assertArrayHasKey('error', $updatePasswordWithToken);
+        $this->assertTrue( $updatePasswordWithToken['error']);
+        $this->assertContains('token is invalid', $updatePasswordWithToken['message']);
+
+    
     }
 
 

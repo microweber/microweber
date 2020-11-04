@@ -37,6 +37,14 @@ class UserForgotPasswordController extends Controller
             $request->only('email')
         );
 
+        if ($request->expectsJson()) {
+            if ($status === Password::RESET_LINK_SENT) {
+                return response()->json(['message' => __($status)], 200);
+            } else {
+                return response()->json(['message' => __($status)], 422);
+            }
+        }
+
         return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
             : back()->withErrors(['email' => __($status)]);
@@ -86,6 +94,15 @@ class UserForgotPasswordController extends Controller
                 event(new PasswordReset($user));
             }
         );
+
+
+        if ($request->expectsJson()) {
+            if ($status === Password::PASSWORD_RESET) {
+                return response()->json(['message' => __($status)], 200);
+            } else {
+                return response()->json(['message' => __($status)], 422);
+            }
+        }
 
         return $status == Password::PASSWORD_RESET
             ? redirect()->route('user.login')->with('status', __($status))
