@@ -43,15 +43,15 @@ class MailResetPasswordNotification extends ResetPassword {
             ], false));
         }
 
-        $mailMessage = new MailMessage();
+        $mail = new MailMessage();
 
         $templateId = Option::getValue('forgot_password_mail_template', 'users');
-        $emailTemplate = get_mail_template_by_id($templateId, 'forgot_password');
+        $template = get_mail_template_by_id($templateId, 'forgot_password');
 
-        if ($emailTemplate) {
+        if ($template) {
 
             $loader = new \Twig\Loader\ArrayLoader([
-                'mailResetPassword' => $emailTemplate['message'],
+                'mailResetPassword' => $template['message'],
             ]);
             $twig = new \Twig\Environment($loader);
             $parsedEmail = $twig->render('mailResetPassword', [
@@ -61,20 +61,20 @@ class MailResetPasswordNotification extends ResetPassword {
                     'created_at'=>date('Y-m-d H:i:s')
                 ]
             );
-            $mailMessage->subject($emailTemplate['subject']);
-            $mailMessage->action($emailTemplate['subject'], $url);
-            $mailMessage->view('app::email.simple', ['content'=>$parsedEmail]);
+            $mail->subject($template['subject']);
+            $mail->action($template['subject'], $url);
+            $mail->view('app::email.simple', ['content'=>$parsedEmail]);
 
         } else {
-            $mailMessage = new MailMessage();
-            $mailMessage->subject(Lang::get('Reset Password Notification'));
-            $mailMessage->line(Lang::get('You are receiving this email because we received a password reset request for your account.'));
-            $mailMessage->action(Lang::get('Reset Password'), $url);
-            $mailMessage->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]));
-            $mailMessage->line(Lang::get('If you did not request a password reset, no further action is required.'));
+            $mail = new MailMessage();
+            $mail->subject(Lang::get('Reset Password Notification'));
+            $mail->line(Lang::get('You are receiving this email because we received a password reset request for your account.'));
+            $mail->action(Lang::get('Reset Password'), $url);
+            $mail->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]));
+            $mail->line(Lang::get('If you did not request a password reset, no further action is required.'));
         }
 
-        return $mailMessage;
+        return $mail;
     }
 
 

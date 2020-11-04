@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
+use MicroweberPackages\Option\Facades\Option;
 
 
 class NewRegistration extends Notification implements ShouldQueue
@@ -45,10 +46,32 @@ class NewRegistration extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+        $mail = new MailMessage();
+
+        $templateId = Option::getValue('new_user_registration_mail_template', 'users');
+        $template = get_mail_template_by_id($templateId, 'new_user_registration');
+
+        if ($template) {
+
+            $loader = new \Twig\Loader\ArrayLoader([
+                'mailNewRegistration' => $template['message'],
+            ]);
+            $twig = new \Twig\Environment($loader);
+            $parsedEmail = $twig->render('mailNewRegistration', [
+                    'email' => $notifiable->getEmailForPasswordReset(),
+                    'username' => $notifiable->username,
+                    'url' => url('/'),
+                    'created_at' => date('Y-m-d H:i:s')
+                ]
+            );
+            $mail->subject($template['subject']);
+            $mail->view('app::email.simple', ['content' => $parsedEmail]);
+        } else {
+            $mail->line('Thank you for your registration.');
+            $mail->action('Visit our website', url('/'));
+        }
+
+        return $mail;
     }
 
     /**
