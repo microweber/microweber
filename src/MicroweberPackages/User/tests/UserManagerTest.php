@@ -406,7 +406,6 @@ class UserManagerTest extends TestCase
             'message'=> '{{username}}--unit-testingRESET_passwordlink-{{reset_password_link}}'
         ]);
         Option::setValue('forgot_password_mail_template', $templateId, 'users');
-        $emailTemplate = get_mail_template_by_id($templateId, 'forgot_password');
 
         $findUnitTestingText = false;
         $checkMailIsFound = false;
@@ -436,4 +435,56 @@ class UserManagerTest extends TestCase
     }
 
 
+    public function testUserRegistrationWelcomeCustomEmailTemplate()
+    {
+        \Config::set('mail.transport', 'array');
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_enableRegisterWelcomeEmail();
+        $this->_disableCaptcha();
+
+        $newUser = array();
+        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['email'] = uniqid() . '@mail.test';
+        $newUser['password'] = uniqid();
+
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+        $this->assertArrayHasKey('success', $registerStatus);
+        $user = User::find($registerStatus['id']);
+
+        // Save custom mail template and test it
+        $templateId = save_mail_template([
+            'type'=>'new_user_registration',
+            'message'=> '{{username}}--unit-testing-welcome-{{email}}'
+        ]);
+        Option::setValue('new_user_registration_mail_template', $templateId, 'users');
+
+        $findUnitTestingText = false;
+        $checkMailIsFound = false;
+        $findUsername = false;
+        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        foreach ($emails as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+
+            if ($subject == 'New Registration') {
+                $checkMailIsFound = true;
+                if (strpos($body, '--unit-testing-welcome-') !== false) {
+                    $findUnitTestingText = true;
+                }
+
+                if (strpos($body, $newUser['email']) !== false) {
+                    $findUsername = true;
+                }
+            }
+
+        }
+
+        $this->assertTrue($findUsername);
+        $this->assertTrue($findUnitTestingText);
+        $this->assertTrue($checkMailIsFound);
+    }
 }
