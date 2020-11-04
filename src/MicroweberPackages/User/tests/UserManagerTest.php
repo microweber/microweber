@@ -369,7 +369,6 @@ class UserManagerTest extends TestCase
         $this->assertTrue( $updatePasswordWithToken['error']);
         $this->assertContains('token is invalid', $updatePasswordWithToken['message']);
 
-    
     }
 
 
