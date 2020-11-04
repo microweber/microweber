@@ -14,6 +14,7 @@ class UserLoginControllerTest extends TestCase
     {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
+        $this->_disableEmailVerify();
 
         $username = 'testuser_' . uniqid();
         $password = 'pass__' . uniqid();
@@ -24,14 +25,13 @@ class UserLoginControllerTest extends TestCase
             'POST',
             route('api.user.login'),
             [
-                'username' => $user->username,
+                'username' => $username,
                 'password' => $password,
             ]
         );
 
         $userData = $response->getData();
-
-        $this->assertEquals($username, $userData->username);
+         $this->assertEquals($username, $userData->username);
         $this->assertNotEmpty($userData->id);
 
         $this->assertTrue(($userData->id > 0));
