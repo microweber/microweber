@@ -16,10 +16,10 @@ class AppMailChannel extends MailChannel
      */
     public function send($notifiable, Notification $notification)
     {
-
         if (!\Config::get('mail.transport')) {
             return;
         }
+
         try {
             return parent::send($notifiable, $notification);
         } catch (\Exception $e) {
