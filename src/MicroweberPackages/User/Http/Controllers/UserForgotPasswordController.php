@@ -25,13 +25,19 @@ class UserForgotPasswordController extends Controller
 
     public function showForgotForm()
     {
-
-        return view('user::auth.forgot-password');
+        return app()->parser->process(view('user::auth.forgot-password')); 
     }
 
     public function send(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        $rules = [];
+        $rules['email'] = 'required|email';
+
+        if (get_option('captcha_disabled', 'users') !== 'y') {
+            $rules['captcha'] = 'required|min:1|captcha';
+        }
+
+        $request->validate($rules);
 
         $status = Password::sendResetLink(
             $request->only('email')
@@ -52,7 +58,6 @@ class UserForgotPasswordController extends Controller
 
     public function showResetForm(Request $request)
     {
-
          $check = DB::table('password_resets')
             ->where('email', '=', $request->email)
             ->first();

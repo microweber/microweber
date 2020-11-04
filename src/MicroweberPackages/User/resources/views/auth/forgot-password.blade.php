@@ -51,6 +51,25 @@
                                 <div class="help-block text-danger"><strong>{{ $errors->first('email') }}</strong></div>
 
                             @endif
+
+
+                            @if (get_option('captcha_disabled', 'users') !== 'y')
+
+
+                                @if ($errors->has('captcha'))
+
+                                    <div class="help-block text-danger"><strong>{{ $errors->first('captcha') }}</strong></div>
+
+                                @endif
+
+                            <module type="captcha" />
+
+                            @endif
+
+
+
+
+
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center">
