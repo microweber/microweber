@@ -124,9 +124,7 @@ function get_mail_template_fields($type = '')
 api_expose_admin('save_mail_template');
 function save_mail_template($data)
 {
-    if (!is_admin()) {
-        return;
-    }
+
 
     $data['allow_html'] = '1';
 

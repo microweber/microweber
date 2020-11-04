@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User\tests;
 
 use function _HumbugBox58fd4d9e2a25\KevinGH\Box\unique_id;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Mail\Mailable;
@@ -16,6 +17,7 @@ use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
+use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Notifications\NewRegistration;
@@ -369,6 +371,68 @@ class UserManagerTest extends TestCase
         $this->assertTrue( $updatePasswordWithToken['error']);
         $this->assertContains('token is invalid', $updatePasswordWithToken['message']);
 
+
+    }
+
+    public function testUserRegistrationForgotPasswordCustomEmailTemplate()
+    {
+        \Config::set('mail.transport', 'array');
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_enableRegisterWelcomeEmail();
+        $this->_disableCaptcha();
+
+        $newUser = array();
+        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['email'] = uniqid() . '@mail.test';
+        $newUser['password'] = uniqid();
+
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+        $this->assertArrayHasKey('success', $registerStatus);
+        $user = User::find($registerStatus['id']);
+
+
+        $userManager = new UserManager();
+        $forgotPass = $userManager->send_forgot_password($newUser);
+        $this->assertArrayHasKey('success', $forgotPass);
+        $this->assertTrue( $forgotPass['success']);
+        $this->assertContains('reset link sent', $forgotPass['message']);
+
+        // Save custom mail template and test it
+        $templateId = save_mail_template([
+            'type'=>'forgot_password',
+            'message'=> '{{username}}--unit-testingRESET_passwordlink-{{reset_password_link}}'
+        ]);
+        Option::setValue('forgot_password_mail_template', $templateId, 'users');
+        $emailTemplate = get_mail_template_by_id($templateId, 'forgot_password');
+
+        $findUnitTestingText = false;
+        $checkMailIsFound = false;
+        $findResetPasswordLink = false;
+        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        foreach ($emails as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+
+            if ($subject == 'Mail Reset Password Notification') {
+                $checkMailIsFound = true;
+                if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
+                    $findUnitTestingText = true;
+                }
+
+                if (strpos($body, '?email=') !== false) {
+                    $findResetPasswordLink = true;
+                }
+            }
+
+        }
+
+        $this->assertTrue($findResetPasswordLink);
+        $this->assertTrue($findUnitTestingText);
+        $this->assertTrue($checkMailIsFound);
     }
 
 
