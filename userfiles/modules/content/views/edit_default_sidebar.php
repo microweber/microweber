@@ -84,7 +84,7 @@
                 <?php else: ?>
                     <div class="col-12">
                         <strong><?php _e('Categories'); ?></strong>
-                        <a onclick="mw.tools.open_global_module_settings_modal('categories/admin', 'categories-admin');return false;" href="<?php echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0">Manage</a>
+                        <a onclick="mw.tools.open_global_module_settings_modal('categories/manage', 'categories-admin');return false;" href="<?php echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0">Manage</a>
                     </div>
                 <?php endif; ?>
             </div>
