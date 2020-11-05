@@ -58,6 +58,11 @@ class UserRegisterController extends Controller
            // event(new UserWasRegistered($created, $request->all()));
         }
 
-        return $created;
+
+        return new \MicroweberPackages\User\Http\Resources\UserResource($created);
+
+
+
+
     }
 }

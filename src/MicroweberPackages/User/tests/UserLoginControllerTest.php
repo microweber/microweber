@@ -31,10 +31,10 @@ class UserLoginControllerTest extends TestCase
         );
 
         $userData = $response->getData();
-         $this->assertEquals($username, $userData->username);
-        $this->assertNotEmpty($userData->id);
+         $this->assertEquals($username, $userData->data->username);
+        $this->assertNotEmpty($userData->data->id);
 
-        $this->assertTrue(($userData->id > 0));
+        $this->assertTrue(($userData->data->id > 0));
 
         $this->assertEquals(200, $response->status());
 
@@ -54,17 +54,17 @@ class UserLoginControllerTest extends TestCase
             'POST',
             route('api.user.login'),
             [
-                'email' => $user->email,
+                'email' =>$email,
                 'password' => $password,
             ]
         );
 
         $userData = $response->getData();
 
-        $this->assertEquals($email, $userData->email);
-        $this->assertNotEmpty($userData->id);
+        $this->assertEquals($email, $userData->data->email);
+        $this->assertNotEmpty($userData->data->id);
 
-        $this->assertTrue(($userData->id > 0));
+        $this->assertTrue(($userData->data->id > 0));
 
         $this->assertEquals(200, $response->status());
 
@@ -74,6 +74,7 @@ class UserLoginControllerTest extends TestCase
     {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
+        $this->_disableEmailVerify();
 
         $email = 'testusexXr_' . uniqid().'@aa.bb';
         $password = 'pass__' . uniqid();
@@ -84,20 +85,53 @@ class UserLoginControllerTest extends TestCase
             'POST',
             route('api.user.login'),
             [
-                'username' => $user->email,
+                'username' => $email,
                 'password' => $password,
             ]
         );
 
         $userData = $response->getData();
 
-        $this->assertEquals($email, $userData->email);
-        $this->assertNotEmpty($userData->id);
+        $this->assertEquals($email, $userData->data->email);
+        $this->assertNotEmpty($userData->data->id);
 
-        $this->assertTrue(($userData->id > 0));
+        $this->assertTrue(($userData->data->id > 0));
 
         $this->assertEquals(200, $response->status());
 
     }
+
+
+    public function testUserLoginWithRedirect()
+    {
+        $this->_enableUserRegistration();
+        $this->_disableCaptcha();
+        $this->_disableEmailVerify();
+
+
+        $email = 'testusexXr_' . uniqid().'@aa.bb';
+        $password = 'pass__' . uniqid();
+
+        $user = $this->_registerUserWithEmail($email,$password);
+
+        $response = $this->json(
+            'POST',
+            route('api.user.login'),
+            [
+                'username' => $email,
+                'password' => $password,
+                'where_to' => 'home',
+            ]
+        );
+
+        $userData = $response->getData(true);
+
+        $this->assertArrayHasKey("redirect", $userData);
+        $this->assertArrayHasKey("success", $userData);
+
+
+
+    }
+
 
 }

@@ -271,7 +271,7 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('error', $loginStatus);
         $this->assertContains('verify', $loginStatus['error']);
 
-        $user = User::find($registerStatus['id']);
+        $user = User::find($registerStatus['data']['id']);
 
         $this->assertEquals('0', $user->is_active);
         $this->assertEquals('0', $user->is_admin);
@@ -324,7 +324,7 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
         $this->assertArrayHasKey('success', $registerStatus);
-        $user = User::find($registerStatus['id']);
+        $user = User::find($registerStatus['data']['id']);
 
 
         $userManager = new UserManager();
@@ -390,7 +390,7 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
         $this->assertArrayHasKey('success', $registerStatus);
-        $user = User::find($registerStatus['id']);
+        $user = User::find($registerStatus['data']['id']);
 
 
 
@@ -466,7 +466,7 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
         $this->assertArrayHasKey('success', $registerStatus);
-        $user = User::find($registerStatus['id']);
+        $user = User::find($registerStatus['data']['id']);
 
 
 

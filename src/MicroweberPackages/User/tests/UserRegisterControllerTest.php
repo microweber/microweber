@@ -28,10 +28,10 @@ class UserRegisterControllerTest extends TestCase
         );
 
         $userData = $response->getData();
-         $this->assertEquals($username, $userData->username);
-        $this->assertNotEmpty($userData->id);
+         $this->assertEquals($username, $userData->data->username);
+        $this->assertNotEmpty($userData->data->id);
 
-        $this->assertTrue(($userData->id > 0));
+        $this->assertTrue(($userData->data->id > 0));
 
         $this->assertEquals(201, $response->status());
 
@@ -55,10 +55,10 @@ class UserRegisterControllerTest extends TestCase
 
         $userData = $response->getData();
 
-        $this->assertEquals($email, $userData->email);
-        $this->assertNotEmpty($userData->id);
+        $this->assertEquals($email, $userData->data->email);
+        $this->assertNotEmpty($userData->data->id);
 
-        $this->assertTrue(($userData->id > 0));
+        $this->assertTrue(($userData->data->id > 0));
 
         $this->assertEquals(201, $response->status());
 
@@ -85,11 +85,11 @@ class UserRegisterControllerTest extends TestCase
 
         $userData = $response->getData();
 
-        $this->assertEquals($username, $userData->username);
-        $this->assertEquals($email, $userData->email);
-        $this->assertNotEmpty($userData->id);
+        $this->assertEquals($username, $userData->data->username);
+        $this->assertEquals($email, $userData->data->email);
+        $this->assertNotEmpty($userData->data->id);
 
-        $this->assertTrue(($userData->id > 0));
+        $this->assertTrue(($userData->data->id > 0));
 
         $this->assertEquals(201, $response->status());
 

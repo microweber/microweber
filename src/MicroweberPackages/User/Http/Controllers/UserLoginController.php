@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User\Http\Controllers;
 
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -51,15 +52,16 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-       if (Auth::check()) {
 
-           $message = [];
+        if (Auth::check()) {
+
+            $message = [];
             if (Auth::user()->is_admin == 1) {
                 $message['token'] = auth()->user()->createToken('authToken');
             }
 
-           $message['user'] = auth()->user();
-           $message['success'] = 'You are logged in';
+            $message['user'] = auth()->user();
+            $message['success'] = 'You are logged in';
             return response()->json($message, 200);
         }
 
@@ -72,17 +74,17 @@ class UserLoginController extends Controller
             if ($isVerfiedEmailRequired) {
 
                 if (!$userData->is_verfied) {
-                     $message = [];
-                     $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
-                     return response()->json($message, 401);
-                 }
+                    $message = [];
+                    $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
+                    return response()->json($message, 401);
+                }
             }
 
             $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
             if ($isApprovalRequired) {
 
                 if (!$userData->is_active) {
-                    dump($isApprovalRequired,$userData);
+
 
                     $message = [];
                     $message['error'] = 'Your account is awaiting approval';
@@ -91,15 +93,15 @@ class UserLoginController extends Controller
             }
 
 
-
             if (Auth::user()->is_admin == 1) {
                 $userData->token = auth()->user()->createToken('authToken');
             }
 
 
-           $response['success']= _e('You are logged in', 1);
+            $response['success'] = _e('You are logged in', 1);
 
             $redirectParams = $request->only('redirect', 'where_to');
+
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
                 if (Auth::user()->is_admin == 1 && $redirectParams['where_to'] == 'admin_content') {
                     $redirectParams['redirect'] = admin_url();
@@ -111,8 +113,10 @@ class UserLoginController extends Controller
             if (isset($redirectParams['redirect'])) {
                 $response['redirect'] = $redirectParams['redirect'];
             }
+            $response['data'] = auth()->user();
+            return new \MicroweberPackages\User\Http\Resources\UserResource($response);
 
-            return $userData;
+
         }
 
         return response()->json(['error' => 'Unauthorised request'], 401);
@@ -160,8 +164,8 @@ class UserLoginController extends Controller
         return Auth::logout();
     }
 
-    private function _isApprovalRequired(){
-
+    private function _isApprovalRequired()
+    {
 
 
         // return false;
