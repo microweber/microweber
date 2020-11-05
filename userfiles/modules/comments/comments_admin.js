@@ -4,13 +4,13 @@ alert('mw.adminComments is deprecated');
 
 mw.adminComments = {
     action: function (form, val) {
-        var form = $(form);
+        form = $(form);
         var field = form.find('.comment_state');
         var connected_id = mw.$('[name="connected_id"]', form[0]).val();
         field.val(val);
         var conf = true;
-        if (val == 'delete') {
-            var conf = confirm(mw.msg.to_delete_comment);
+        if (val === 'delete') {
+            conf = confirm(mw.msg.to_delete_comment);
         }
         if (conf) {
             var id = form.attr('id');
@@ -32,11 +32,11 @@ mw.adminComments = {
         mw.event.cancel(e);
         var _new = mw.tools.firstParentWithClass(el, 'comment-post').querySelector('.new-comments');
         var _old = mw.tools.firstParentWithClass(el, 'comment-post').querySelector('.old-comments');
-        if (what == 'all') {
+        if (what === 'all') {
             $(_new).show();
             $(_old).show();
         }
-        else if (what == 'new') {
+        else if (what === 'new') {
             $(_new).show();
             $(_old).hide();
         }
@@ -45,7 +45,7 @@ mw.adminComments = {
         if (master === null) {
             return false;
         }
-        if (e != undefined) {
+        if (e) {
             mw.event.cancel(e);
         }
         var _new = master.parentNode.querySelector('.new-comments');

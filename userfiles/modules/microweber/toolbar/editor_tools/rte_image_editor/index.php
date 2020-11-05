@@ -74,7 +74,7 @@ if (array_key_exists('title', $_GET)) {
                     UpdateImage(url);
                     if(parent.mw.image.currentResizing){
                         parent.mw.wysiwyg.change(parent.mw.image.currentResizing[0])
-                        parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+                        parent.mw.imageResize.resizerSet(parent.mw.image.currentResizing[0]);
                         parent.mw.trigger('imageSrcChanged', [parent.mw.image.currentResizing[0], url])
                     }
                 } else if (hash === 'set_bg_image') {
@@ -122,7 +122,7 @@ if (array_key_exists('title', $_GET)) {
 
                     parent.mw.iframecallbacks[hash](this);
                     if(parent.mw.image.currentResizing && parent.mw.image.currentResizing){
-                        parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+                        parent.mw.imageResize.resizerSet(parent.mw.image.currentResizing[0]);
 
                     }
 

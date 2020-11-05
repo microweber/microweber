@@ -32,8 +32,7 @@
 
     template_stack_add(mw_includes_url() . 'api/admin.js');
     template_stack_add(mw_includes_url() . 'api/dialog.js');
-    template_stack_add(mw_includes_url() . 'api/liveadmin.js');
-    template_stack_add(mw_includes_url() . 'api/wysiwyg.js');
+     template_stack_add(mw_includes_url() . 'api/wysiwyg.js');
     template_stack_add(mw_includes_url() . 'css/wysiwyg.css');
     template_stack_add(mw_includes_url() . 'api/options.js');
     ?>

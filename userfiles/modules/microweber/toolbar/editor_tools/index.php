@@ -16,7 +16,6 @@
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/popup.css"/>
 
-      <script>mw.require('<?php print mw_includes_url(); ?>api/editor_externals.js');</script>
 
       <script>
         window.RegisterChange = function(){
@@ -24,6 +23,9 @@
              parent.$(parent.document.getElementsByName(this.name)).trigger('change', arguments);
           }
         }
+        mw.$(window).load(function(){
+            mw.$(mwd.body).removeClass('mw-external-loading');
+        });
       </script>
   </head>
   <body class="mw-external-loading">

@@ -21,17 +21,13 @@ mw.cookie = {
         document.cookie = name + "=" + escape(value) + ( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + ( ( path ) ? ";path=" + path : ";path=/" ) + ( ( domain ) ? ";domain=" + domain : "" ) + ( ( secure ) ? ";secure" : "" );
     },
     setEncoded: function (name, value, expires, path, domain, secure) {
-        // value = encodeURIComponent(value);
-        // value = escape(value);
-        // value = mw.tools.base64.encode( unescape( encodeURIComponent( value ) ) )
+
         value = mw.tools.base64.encode(value);
         return this.set(name, value, expires, path, domain, secure);
     },
     getEncoded: function (name) {
         var value = this.get(name);
-        // value = decodeURIComponent(value);
-        // value = unescape(value);
-        // value = decodeURIComponent( escape( mw.tools.base64.decode( value ) ) )
+
         value = mw.tools.base64.decode(value);
         return value;
     },

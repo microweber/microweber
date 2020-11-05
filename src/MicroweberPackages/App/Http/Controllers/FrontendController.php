@@ -2532,9 +2532,7 @@ class FrontendController extends Controller
         if ($tool == 'rte_image_editor') {
             $standalone_edit = true;
         }
-        if ($tool == 'editor_toolbar') {
-            $standalone_edit = true;
-        }
+
 
         if ($tool == 'wysiwyg') {
             $standalone_edit = false;

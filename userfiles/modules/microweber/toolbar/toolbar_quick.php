@@ -1,8 +1,7 @@
 <?php if (!isset($_GET['preview'])){ ?>
 <script type="text/javascript">
         mw.settings.liveEdit = true;
-        mw.require("liveadmin.js");
-        mw.lib.require("jqueryui");
+         mw.lib.require("jqueryui");
         mw.require("events.js");
         mw.require("url.js");
         mw.require("wysiwyg.js");

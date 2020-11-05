@@ -33,10 +33,6 @@
 
 
 
-<script>mw.require('filemanager.js')</script>
-
-
-
 <script>
     mw.FileManager({element:'#fm', selectable: false})
 </script>

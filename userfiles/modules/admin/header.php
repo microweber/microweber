@@ -25,17 +25,14 @@
     <script type="text/javascript">
         mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
-        mw.require("liveadmin.js");
-        mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
+         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
         mw.require("wysiwyg.js");
         mw.require("url.js");
         mw.require("options.js");
         mw.require("events.js");
         mw.require("admin.js");
-        mw.require("editor_externals.js");
-        mw.require("keys.js");
-        mw.require("css_parser.js");
+         mw.require("css_parser.js");
         mw.require("custom_fields.js");
         mw.require("session.js");
         mw.require("content.js");
@@ -47,8 +44,6 @@
         mw.lib.require('flag_icons', true);
         mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
-        <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
-        mw.require("helpinfo.js");*/ ?>
         <?php if(_lang_is_rtl()){ ?>
         mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
         <?php } ?>
@@ -75,7 +70,8 @@
             // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
             mw.require("fonts.js");
 
-            $(window).load(function () {
+            $(window).on('load', function () {
+                mw.$(mwd.body).removeClass('mw-external-loading');
                 if ($(".bootstrap3ns").size() > 0) {
                     mw.lib.require("bootstrap3ns");
                 }

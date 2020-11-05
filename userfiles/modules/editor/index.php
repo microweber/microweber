@@ -5,18 +5,14 @@ if(user_id() == 0){
 }
 ?>
 <script type="text/javascript">
-//mw.require('forms.js', true);
-//mw.require('jquery-ui.js', true);
 
-//mw.require("wysiwyg.js") ;
 
 
   mw.settings.liveEdit = true;
 
   mw.lib.require("jqueryui");
 
-  mw.require("liveadmin.js");
-  mw.require("events.js");
+   mw.require("events.js");
   mw.require("url.js");
   mw.require("wysiwyg.js");
   mw.require("css_parser.js");

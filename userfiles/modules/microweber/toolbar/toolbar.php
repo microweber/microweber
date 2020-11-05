@@ -22,8 +22,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
     <script type="text/javascript">
         mw.settings.liveEdit = true;
-        mw.require("liveadmin.js");
-     //   mw.require("events.js");
+      //   mw.require("events.js");
         mw.require("url.js");
         //mw.require("tools.js");
         mw.require("wysiwyg.js");
@@ -328,7 +327,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 <span class="mw-icon-dropdown"></span>
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
-                                <div class="mw-dropdown-list-search">12121212121
+                                <div class="mw-dropdown-list-search">
                                     <input type="mwautocomplete" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
                                 </div>
                                 <?php

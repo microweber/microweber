@@ -211,19 +211,7 @@
             return fields.test(t);
         },
 
-        toggleCheckbox: function (node) {
-            if (node === null || node === undefined) return false;
-            node.checked = !node.checked;
-            return node.checked;
-        },
-        jQueryFields: function (root) {
-            if (typeof root === 'string') {
-                root = mwd.querySelector(root);
-            }
-            if (typeof root === 'undefined' || root === null) return false;
-            var allFields = "textarea, select, input[type='checkbox']:checked, input[type='color'], input[type='date'], input[type='datetime'], input[type='datetime-local'], input[type='email'], input[type='file'], input[type='hidden'], input[type='month'], input[type='number'], input[type='password'], input[type='radio']:checked, input[type='range'], input[type='search'], input[type='tel'], input[type='text'], input[type='time'], input[type='url'], input[type='week']";
-            return mw.$(allFields, fields).not(':disabled');
-        },
+
         toggle: function (who, toggler, callback) {
             who = mw.$(who);
             who.toggle();
@@ -408,16 +396,6 @@
                 });
             }
             return mw.tools.ajaxIsSearching;
-        },
-        getPostById: function (id, callback) {
-            var config = {
-                limit: 10,
-                keyword: '',
-                order_by: 'updated_at desc',
-                search_in_fields: 'id',
-                id: id
-            };
-            return this.ajaxSearch(config, callback);
         },
         iframeLinksToParent: function (iframe) {
             mw.$(iframe).contents().find('a').each(function () {

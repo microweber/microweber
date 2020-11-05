@@ -29,7 +29,7 @@ mw.require('components.js');
 
 mw.confirm = mw.tools.confirm;
 mw.prompt = mw.tools.prompt;
-mw.tabs = mw.tools.tabGroup;
+
 mw.progress = mw.tools.progress;
 mw.external = function (o) {
     return mw.tools._external(o);
@@ -37,7 +37,7 @@ mw.external = function (o) {
 
 mw.gallery = function (arr, start, modal) {
 
-    return mw.tools.gallery.init(arr, start, modal)
+    return mw.gallery(arr, start, modal)
 
 };
 
@@ -47,7 +47,7 @@ mw.tooltip = function (config) {
 };
 
 mw.gallery = function (arr, start, modal) {
-    return mw.tools.gallery.init(arr, start, modal)
+    return mw.gallery(arr, start, modal)
 };
 
 

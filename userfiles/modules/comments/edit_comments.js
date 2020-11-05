@@ -7,7 +7,7 @@ mw.edit_comments = {
         var url = mw.settings.api_url + 'post_comment';
 
         mw.form.post(form_id, url)
-        mw.notification.success('Comment saved')
+        mw.notification.success(mw.lang('Comment saved'))
     },
 
     mark_as_spam: function (comment_id) {

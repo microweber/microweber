@@ -47,9 +47,6 @@ if (!window.jQuery) {
 }
 
 var _jqxhr = jQuery.ajax;
-mw.jqxhr = _jqxhr;
-
-
 
 jQuery.ajax = function(url, options){
     options = options || {};
@@ -83,19 +80,7 @@ jQuery.ajax = function(url, options){
     return xhr;
 };
 
-mw.safeCallCache = {};
 
-mw.safeCall = function(hash, call){
-    if(!mw.safeCallCache[hash]){
-        mw.safeCallCache[hash] = true;
-        call.call();
-        (function(hash){
-            setTimeout(function(){
-                delete mw.safeCallCache[hash];
-            });
-        })(hash);
-    }
-};
 
 $.ajaxSetup({
     cache: false,
@@ -738,169 +723,42 @@ mw.getScripts = function (array, callback) {
     }
   };
 
-  mw.get = function(action, params, callback){
-      var obj;
-    var url = mw.settings.api_url + action;
-    var type = typeof params;
-    if(type === 'string'){
-        obj = mw.serializeFields(params);
-    }
-    else if(type.constructor === {}.constructor ){
-        obj = params;
-    }
-    else{
-      obj = {};
-    }
-    $.post(url, obj)
-        .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data;   })
-        .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
-  }
-
-  get_content = function(params, callback){
-    var obj = mw.url.getUrlParams("?"+params);
-    if(typeof callback!='function'){
-       mw.get('get_content_admin', obj);
-    }
-    else{
-       mw.get('get_content_admin', obj, function(){callback.call(this)});
-    }
-  }
-
-  mw.get_content = get_content
-
-  mw.serializeFields =  function(id, ignorenopost){
-        var ignorenopost = ignorenopost || false;
-        var el = mw.$(id);
-        var fields = "input[type='text'], input[type='email'], input[type='number'], input[type='tel'], "
-                    + "input[type='color'], input[type='url'], input[type='week'], input[type='search'], input[type='range'], "
-                    + "input[type='datetime-local'], input[type='month'], "
-                    + "input[type='password'], input[type='hidden'], input[type='datetime'], input[type='date'], input[type='time'], "
-                    +"input[type='email'],  textarea, select, input[type='checkbox']:checked, input[type='radio']:checked, "
-                    +"input[type='checkbox'][data-value-checked][data-value-unchecked]";
-        var data = {};
-        $(fields, el).each(function(){
-            if(!this.name){
-                console.warn('Name attribute missing on ' + this.outerHTML);
-            }
-            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name && typeof this.name != 'undefined'){
-              var el = this, _el = $(el);
-              var val = _el.val();
-              var name = el.name;
-              if(el.name.contains("[]")){
-                  data[name] = data[name] || []
-                  data[name].push(val);
-              }
-              else if(el.type === 'checkbox' && el.getAttribute('data-value-checked') ){
-                  data[name] = el.checked ? el.getAttribute('data-value-checked') : el.getAttribute('data-value-unchecked');
-              }
-              else{
-                data[name] = val;
-              }
-            }
-        });
-        return data;
-   }
-
-mw.response = function(form, data, messages_at_the_bottom){
-     messages_at_the_bottom = messages_at_the_bottom || false;
-    if(data == null  ||  typeof data == 'undefined' ){
-      return false;
-    }
-
-    data = mw.tools.toJSON(data);
-    if(typeof data === 'undefined'){
-          return false;
-      }
-
-    if(typeof data.error !== 'undefined'){
-        mw._response.error(form, data, messages_at_the_bottom);
-        return false;
-    }
-    else if(typeof data.success !== 'undefined'){
-        mw._response.success(form, data, messages_at_the_bottom);
-        return true;
-    }
-    else if(typeof data.warning !== 'undefined'){
-        mw._response.warning(form, data, messages_at_the_bottom);
-        return false;
-    }
-    else{
-        return false;
-    }
-};
-
-mw._response = {
-  error:function(form, data, _msg){
-    form = mw.$(form);
-    var err_holder = mw._response.msgHolder(form, 'error');
-    mw._response.createHTML(data.error, err_holder);
-  },
-  success:function(form, data, _msg){
-    form = mw.$(form);
-    var err_holder = mw._response.msgHolder(form, 'success');
-    mw._response.createHTML(data.success, err_holder);
-  },
-  warning:function(form, data, _msg){
-    form = mw.$(form);
-    var err_holder = mw._response.msgHolder(form, 'warning');
-    mw._response.createHTML(data.warning, err_holder);
-  },
-  msgHolder : function(form, type, method){
-    method = method || 'append';
-    var err_holder = form.find(".mw-checkout-response:first");
-    var err_holder2 = form.find(".alert:first");
-    if(err_holder.length === 0){
-        err_holder = err_holder2;
-    }
-    if(err_holder.length === 0){
-        err_holder = mwd.createElement('div');
-        form[method](err_holder);
-    }
-
-    var bootrap_error_type = 'default';
-    if(type === 'error'){
-        bootrap_error_type = 'danger';
-    } else if(type === 'done'){
-        bootrap_error_type = 'info';
-    }
 
 
-    $(err_holder).empty().attr("class", 'alert alert-' + type + ' alert-' + bootrap_error_type + ' ');
-    return err_holder;
-  },
-  createHTML:function(data, holder){
-    var i, html = "";
 
-
-    if(typeof data === 'string'){
-        html+= data.toString();
-    }
-    else{
-      for( i in data){
-          if(typeof data[i] === 'string'){
-              html+='<li>'+data[i]+'</li>';
+mw.serializeFields =  function(id, ignorenopost){
+    var ignorenopost = ignorenopost || false;
+    var el = mw.$(id);
+    var fields = "input[type='text'], input[type='email'], input[type='number'], input[type='tel'], "
+                + "input[type='color'], input[type='url'], input[type='week'], input[type='search'], input[type='range'], "
+                + "input[type='datetime-local'], input[type='month'], "
+                + "input[type='password'], input[type='hidden'], input[type='datetime'], input[type='date'], input[type='time'], "
+                +"input[type='email'],  textarea, select, input[type='checkbox']:checked, input[type='radio']:checked, "
+                +"input[type='checkbox'][data-value-checked][data-value-unchecked]";
+    var data = {};
+    $(fields, el).each(function(){
+        if(!this.name){
+            console.warn('Name attribute missing on ' + this.outerHTML);
+        }
+        if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name && typeof this.name != 'undefined'){
+          var el = this, _el = $(el);
+          var val = _el.val();
+          var name = el.name;
+          if(el.name.contains("[]")){
+              data[name] = data[name] || []
+              data[name].push(val);
           }
-          else if(typeof data[i] === 'object'){
-            $.each(data[i], function(){
-                html+='<li>'+this+'</li>';
-            })
+          else if(el.type === 'checkbox' && el.getAttribute('data-value-checked') ){
+              data[name] = el.checked ? el.getAttribute('data-value-checked') : el.getAttribute('data-value-unchecked');
           }
-      }
-    }
-    mw.$(holder).eq(0).append('<ul class="mw-error-list">'+html+'</ul>');
-    mw.$(holder).eq(0).show();
-  }
+          else{
+            data[name] = val;
+          }
+        }
+    });
+    return data;
 }
 
-
-mw.user = {
-  isLogged:function(callback){
-    $.post(mw.settings.api_url + 'is_logged', function(data){
-        var isLogged =  (data === 'true');
-        callback.call(isLogged, isLogged);
-    });
-  }
-};
 
 mw.parent = function(){
     if(window === top){

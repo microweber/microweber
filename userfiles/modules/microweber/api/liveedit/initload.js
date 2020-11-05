@@ -42,7 +42,7 @@ mw.liveedit.initLoad = function() {
 
     mw.wysiwyg.prepareContentEditable();
 
-    mw.image.resize.init(".element-image");
+    mw.imageResize.init(".element-image");
     mw.$(mwd.body).on('mousedown touchstart', function(event) {
 
 

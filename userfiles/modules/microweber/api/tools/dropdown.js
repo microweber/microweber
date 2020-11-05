@@ -31,7 +31,7 @@ mw.tools.dropdown = function (root) {
                 }
             }
         }
-        mw.$(el).off("click");
+
         mw.$(el).on("click", function (event) {
             if ($(this).hasClass("disabled")) {
                 return false;

@@ -118,7 +118,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     form.submit(function () {
                         var url = "<?php print api_url() ?>save_white_label_config"; // the script where you handle the form input.
 
-                        console.log(mw.serializeFields(this));
 
                         $.ajax({
                             type: "POST",

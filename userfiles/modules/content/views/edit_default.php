@@ -244,10 +244,37 @@ if (isset($params['quick_edit'])) {
                                     <input autocomplete="off" name="content_url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
 
                                     <script>
+                                        var slug = {
+                                            max: 60,
+                                            normalize:function(string){
+                                                if(!string) return '';
+                                                string = string.substring(0, slug.max);
+                                                return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
+                                            },
+                                            removeSpecials:function(string){
+                                                string = slug.normalize(string);
+                                                if(!string) return string;
+                                                var special = 'àáäãâèéëêìíïîòóöôõùúüûñç·=,:;',
+                                                    normal =  'aaaaaeeeeiiiiooooouuuunc------',
+                                                    len = special.length,
+                                                    i = 0;
+                                                for ( ; i<len; i++) {
+                                                    var bad = special[i];
+                                                    var good = normal[i];
+                                                    string = string.replace(new RegExp(bad, 'g'), good);
+                                                }
+                                                return string;
+                                            },
+                                            create:function(string){
+                                                string = string || '';
+                                                string = slug.removeSpecials(string);
+                                                return string.trim().toLowerCase().replace(/[-\s]+/g, '-');
+                                            }
+                                        };
                                         var slugEdited = !mw.url.windowHashParam('action').includes('new:');
                                         slugFromTitle = function () {
                                             if (slugEdited === false) {
-                                                var slug = mw.slug.create($('#content-title-field').val());
+                                                var slug = slug.create($('#content-title-field').val());
                                                 $('.js-slug-base-url-changed').val(slug);
                                                 $('.js-slug-base-url').text(slug);
                                             }
@@ -257,8 +284,8 @@ if (isset($params['quick_edit'])) {
                                             e.preventDefault();
                                             var text = (e.originalEvent || e).clipboardData.getData('text/plain');
                                             document.execCommand("insertHTML", false, text);
-                                            if(this.innerHTML.length > mw.slug.max) {
-                                                this.innerHTML = this.innerHTML.substring(0, mw.slug.max)
+                                            if(this.innerHTML.length > slug.max) {
+                                                this.innerHTML = this.innerHTML.substring(0, slug.max)
                                             }
                                             slugEdited = true;
                                         })
@@ -268,13 +295,13 @@ if (isset($params['quick_edit'])) {
                                             var collapsedIn = fn === this && sel.isCollapsed;
                                             slugEdited = true;
                                             if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
-                                                if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
+                                                if ($('.js-slug-base-url').html().length >= slug.max && collapsedIn) {
                                                     e.preventDefault();
                                                 }
                                             }
                                         })
                                         $('body').on('blur', '.js-slug-base-url', function () {
-                                            var slug = mw.slug.create($(this).text());
+                                            var slug = slug.create($(this).text());
                                             $('.js-slug-base-url-changed').val(slug);
                                             $('.js-slug-base-url').text(slug);
                                         });
