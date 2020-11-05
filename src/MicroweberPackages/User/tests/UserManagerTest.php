@@ -38,6 +38,7 @@ class UserManagerTest extends TestCase
     public function testRegistration()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_enableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
 
@@ -90,6 +91,7 @@ class UserManagerTest extends TestCase
     public function testLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
         $this->_disableEmailVerify();
 
@@ -107,6 +109,7 @@ class UserManagerTest extends TestCase
     public function testWrongPasswordLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
@@ -123,6 +126,7 @@ class UserManagerTest extends TestCase
     public function testWrongUsernameLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
@@ -139,6 +143,7 @@ class UserManagerTest extends TestCase
     public function testWrongEmailLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
@@ -155,6 +160,8 @@ class UserManagerTest extends TestCase
     public function testForgotPassword()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
 
         $userDetails = array();
         $userDetails['username'] = self::$_username;
@@ -215,6 +222,7 @@ class UserManagerTest extends TestCase
     {
         $this->_disableUserRegistrationWithDisposableEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_enableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
 
@@ -244,6 +252,9 @@ class UserManagerTest extends TestCase
         $this->_enableEmailVerify();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
+
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -287,6 +298,8 @@ class UserManagerTest extends TestCase
         $this->_disableRegistrationApprovalByAdmin();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
 
         $unamnexss = '<a href="Boom"><font color=a"onmouseover=alert(document.cookie);"> XSxxxS-Try ME</span></font>' . uniqid();
         $registerStatus = '';
@@ -314,6 +327,8 @@ class UserManagerTest extends TestCase
         $this->_disableRegistrationApprovalByAdmin();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
 
         $newUser = array();
         $newUser['username'] = 'xxx'.uniqid();
@@ -380,6 +395,7 @@ class UserManagerTest extends TestCase
         $this->_disableRegistrationApprovalByAdmin();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
 
         $newUser = array();
         $newUser['username'] = 'xxx'.uniqid();
@@ -448,6 +464,7 @@ class UserManagerTest extends TestCase
         $this->_disableRegistrationApprovalByAdmin();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
 
         $newUser = array();
         $newUser['username'] = 'xxx'.uniqid();

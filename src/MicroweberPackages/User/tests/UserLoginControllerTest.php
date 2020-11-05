@@ -15,6 +15,7 @@ class UserLoginControllerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
+        $this->_disableLoginCaptcha();
 
         $username = 'testuser_' . uniqid();
         $password = 'pass__' . uniqid();
@@ -44,6 +45,7 @@ class UserLoginControllerTest extends TestCase
     {
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
 
         $email = 'testusexXr_' . uniqid().'@aa.bb';
         $password = 'pass__' . uniqid();
@@ -75,6 +77,7 @@ class UserLoginControllerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
+        $this->_disableLoginCaptcha();
 
         $email = 'testusexXr_' . uniqid().'@aa.bb';
         $password = 'pass__' . uniqid();
@@ -107,6 +110,7 @@ class UserLoginControllerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
+        $this->_disableLoginCaptcha();
 
 
         $email = 'testusexXr_' . uniqid().'@aa.bb';
@@ -132,6 +136,43 @@ class UserLoginControllerTest extends TestCase
 
 
     }
+
+    public function testUserLoginRequiresCaptcha()
+    {
+        $this->_enableUserRegistration();
+        $this->_disableCaptcha();
+        $this->_disableEmailVerify();
+        $this->_enableLoginCaptcha();
+
+
+
+
+
+        $email = 'testusexXr_' . uniqid().'@aa.bb';
+        $password = 'pass__' . uniqid();
+
+        $user = $this->_registerUserWithEmail($email,$password);
+
+        $response = $this->json(
+            'POST',
+            route('api.user.login'),
+            [
+                'username' => $email,
+                'password' => $password,
+                'where_to' => 'home',
+            ]
+        );
+
+        $userData = $response->getData(true);
+ 
+        $this->assertArrayHasKey("errors", $userData);
+        $this->assertNotEmpty($userData['errors']['captcha']);
+
+
+
+
+    }
+
 
 
 }
