@@ -13,7 +13,7 @@ class ProductControllerTest extends TestCase
     public function testSaveProductFromController()
     {
 
-        $user = User::firstOrCreate(array('username' => 'admin', 'password' => 'admin', 'is_admin' => '1'));
+        $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
         $title = 'Test add product from api ' . rand();

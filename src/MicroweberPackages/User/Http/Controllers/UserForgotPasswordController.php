@@ -25,17 +25,31 @@ class UserForgotPasswordController extends Controller
 
     public function showForgotForm()
     {
-
-        return view('user::auth.forgot-password');
+        return app()->parser->process(view('user::auth.forgot-password')); 
     }
 
     public function send(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        $rules = [];
+        $rules['email'] = 'required|email';
+
+        if (get_option('captcha_disabled', 'users') !== 'y') {
+            $rules['captcha'] = 'required|min:1|captcha';
+        }
+
+        $request->validate($rules);
 
         $status = Password::sendResetLink(
             $request->only('email')
         );
+
+        if ($request->expectsJson()) {
+            if ($status === Password::RESET_LINK_SENT) {
+                return response()->json(['message' => __($status)], 200);
+            } else {
+                return response()->json(['message' => __($status)], 422);
+            }
+        }
 
         return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
@@ -44,7 +58,6 @@ class UserForgotPasswordController extends Controller
 
     public function showResetForm(Request $request)
     {
-
          $check = DB::table('password_resets')
             ->where('email', '=', $request->email)
             ->first();
@@ -86,6 +99,15 @@ class UserForgotPasswordController extends Controller
                 event(new PasswordReset($user));
             }
         );
+
+
+        if ($request->expectsJson()) {
+            if ($status === Password::PASSWORD_RESET) {
+                return response()->json(['message' => __($status)], 200);
+            } else {
+                return response()->json(['message' => __($status)], 422);
+            }
+        }
 
         return $status == Password::PASSWORD_RESET
             ? redirect()->route('user.login')->with('status', __($status))

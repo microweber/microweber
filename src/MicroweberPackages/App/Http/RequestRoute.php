@@ -82,6 +82,14 @@ class RequestRoute extends Request
 
         $messages = array_merge($errors, $messages);
 
+        if (isset($messages['error']) and $messages['error'] == true and isset($messages['success'])) {
+            unset($messages['success']);
+        }
+
+        if (isset($messages['success']) and isset($messages['error']) and $messages['success'] == true) {
+            unset($messages['error']);
+        }
+
         return $messages;
     }
 

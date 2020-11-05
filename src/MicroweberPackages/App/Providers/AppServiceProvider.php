@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -362,6 +363,9 @@ if (! defined('MW_VERSION')) {
 
     public function boot()
     {
+
+        View::addNamespace('app', __DIR__ . '/../resources/views');
+
         $this->app->singleton('lang_helper', function ($app) {
             return new Lang($app);
         });

@@ -140,6 +140,7 @@
     border-radius: 4px;
     margin-top: 15px;
     margin-bottom: 15px;
+    overflow-y: scroll;
 }
 
 .js-export-log:empty {
