@@ -8,7 +8,7 @@
     <meta name="robots" content="noindex">
 
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?> "/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?>"/>
 
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
