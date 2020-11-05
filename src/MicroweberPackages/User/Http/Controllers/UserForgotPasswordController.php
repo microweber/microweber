@@ -31,11 +31,13 @@ class UserForgotPasswordController extends Controller
     public function send(Request $request)
     {
         $rules = [];
-        $rules['email'] = 'required|email';
-
         if (get_option('captcha_disabled', 'users') !== 'y') {
             $rules['captcha'] = 'required|min:1|captcha';
         }
+
+        $rules['email'] = 'required|email';
+
+
 
         $request->validate($rules);
 

@@ -164,7 +164,7 @@ class UserLoginControllerTest extends TestCase
         );
 
         $userData = $response->getData(true);
- 
+
         $this->assertArrayHasKey("errors", $userData);
         $this->assertNotEmpty($userData['errors']['captcha']);
 
