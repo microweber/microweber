@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'timezone' =>  (bool) getenv('APP_TIMEZONE') ?: date_default_timezone_get() ,
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
