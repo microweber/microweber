@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\User\tests;
 
-use function _HumbugBox58fd4d9e2a25\KevinGH\Box\unique_id;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -394,18 +393,25 @@ class UserManagerTest extends TestCase
         $user = User::find($registerStatus['id']);
 
 
-        $userManager = new UserManager();
-        $forgotPass = $userManager->send_forgot_password($newUser);
-        $this->assertArrayHasKey('success', $forgotPass);
-        $this->assertTrue( $forgotPass['success']);
-        $this->assertContains('reset link sent', $forgotPass['message']);
+
+
 
         // Save custom mail template and test it
         $templateId = save_mail_template([
             'type'=>'forgot_password',
             'message'=> '{{username}}--unit-testingRESET_passwordlink-{{reset_password_link}}'
         ]);
+
         Option::setValue('forgot_password_mail_template', $templateId, 'users');
+
+
+
+        $userManager = new UserManager();
+        $forgotPass = $userManager->send_forgot_password($newUser);
+        $this->assertArrayHasKey('success', $forgotPass);
+        $this->assertTrue( $forgotPass['success']);
+        $this->assertContains('reset link sent', $forgotPass['message']);
+
 
         $findUnitTestingText = false;
         $checkMailIsFound = false;
@@ -449,17 +455,20 @@ class UserManagerTest extends TestCase
         $newUser['password'] = uniqid();
 
 
-        $userManager = new UserManager();
-        $registerStatus = $userManager->register($newUser);
-        $this->assertArrayHasKey('success', $registerStatus);
-        $user = User::find($registerStatus['id']);
-
         // Save custom mail template and test it
         $templateId = save_mail_template([
             'type'=>'new_user_registration',
             'message'=> '{{username}}--unit-testing-welcome-{{email}}'
         ]);
         Option::setValue('new_user_registration_mail_template', $templateId, 'users');
+
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+        $this->assertArrayHasKey('success', $registerStatus);
+        $user = User::find($registerStatus['id']);
+
+
 
         $findUnitTestingText = false;
         $checkMailIsFound = false;
