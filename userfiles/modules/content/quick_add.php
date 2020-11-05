@@ -263,7 +263,7 @@ $safe_name =  str_replace('\\','___',$safe_name);
 						<?php endif; ?>
 						</div>
 
-						<h4><a href="javascript:void(0);" onclick="mw_add_content_with_template('<?php print $template['dir_name'] ?>', '<?php print $safe_name ?>' );"><?php print $item['name'] ?></a></h4>
+						<h4><a href="javascript:;" onclick="mw_add_content_with_template('<?php print $template['dir_name'] ?>', '<?php print $safe_name ?>' );"><?php print $item['name'] ?></a></h4>
 					</div>
 					<?php endforeach; ?>
 					<?php endif; ?>
