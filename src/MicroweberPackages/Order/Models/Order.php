@@ -12,11 +12,14 @@
 namespace MicroweberPackages\Order\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Order extends Model
 {
-    public $table = 'cart_orders';
 
+    use Notifiable;
+
+    public $table = 'cart_orders';
 
 
 }

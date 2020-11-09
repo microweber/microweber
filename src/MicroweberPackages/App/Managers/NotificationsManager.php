@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Managers;
 
 use MicroweberPackages\Notification\Models\Notification;
+use MicroweberPackages\Notification\Notifications\LegacyNotification;
 use MicroweberPackages\User\Models\User;
 use Notifications;
 
@@ -273,6 +274,15 @@ class NotificationsManager
 
     public function save($params)
     {
+        $notifyAdmin = User::where('is_admin', 1)->first();
+        if ($notifyAdmin) {
+
+
+            \Illuminate\Support\Facades\Notification::send($notifyAdmin, new LegacyNotification($params));
+        }
+
+
+
         return [];
         $params = parse_params($params);
 
