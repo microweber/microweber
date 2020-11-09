@@ -109,39 +109,55 @@ $data = get_testimonials(); ?>
 
     <?php foreach ($data as $project): ?>
         <?php
-        if (!$project['project_name']) {
-            $project['project_name'] = 'All projects';
+        if (get_option('show_testimonials_per_project') == $project['project_name']) {
+            if (!$project['project_name']) {
+                $project['project_name'] = 'All projects';
+            }
+            $projects[$project['project_name']][] = $project;
         }
-        $projects[$project['project_name']][] = $project;
+        ?>
+    <?php endforeach; ?>
+
+    <?php foreach ($data as $project): ?>
+        <?php
+
+        if (get_option('show_testimonials_per_project') != $project['project_name']) {
+            if (!$project['project_name']) {
+                $project['project_name'] = 'All projects';
+            }
+            $projects[$project['project_name']][] = $project;
+        }
         ?>
     <?php endforeach; ?>
 
     <div class="muted-cards-3">
-        <?php foreach ($projects as $key=>$project): ?>
-            <strong class="mb-2 d-block"><?php echo $key; ?></strong>
-            <?php foreach ($project as $item): ?>
-                <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
-                    <div class="card-body mt-3">
-                        <div class="row">
-                            <div class="col-auto d-flex flex-column align-items-center">
-                                <div class="img-circle-holder img-absolute">
-                                    <img src="<?php print thumbnail($item['client_picture'], 75, 75) ?>"/>
+        <?php foreach ($projects as $key => $project): ?>
+            <div class="" <?php if (get_option('show_testimonials_per_project') != $key): ?>style="opacity: 0.3; background: #fff;" <?php endif; ?>>
+                <strong class="mb-2 d-block"><?php echo $key; ?></strong>
+                <?php foreach ($project as $item): ?>
+                    <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
+                        <div class="card-body mt-3">
+                            <div class="row">
+                                <div class="col-auto d-flex flex-column align-items-center">
+                                    <div class="img-circle-holder img-absolute">
+                                        <img src="<?php print thumbnail($item['client_picture'], 75, 75) ?>"/>
+                                    </div>
+
+                                    <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');">Edit</a>
                                 </div>
 
-                                <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');">Edit</a>
-                            </div>
+                                <div class="col">
+                                    <a href="javascript:delete_testimonial('<?php print $item['id'] ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
 
-                            <div class="col">
-                                <a href="javascript:delete_testimonial('<?php print $item['id'] ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
+                                    <h6 class="font-weight-bold"><?php print $item['name'] ?> </h6>
 
-                                <h6 class="font-weight-bold"><?php print $item['name'] ?> </h6>
-
-                                <p><?php print character_limiter($item['content'], 400); ?></p>
+                                    <p><?php print character_limiter($item['content'], 400); ?></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         <?php endforeach; ?>
     </div>
 <?php else: ?>
