@@ -58,16 +58,14 @@
 
                                 @if ($errors->has('captcha'))
 
-                                    <div class="help-block text-danger"><strong>{{ $errors->first('captcha') }}</strong></div>
+                                    <div class="help-block text-danger"><strong>{{ $errors->first('captcha') }}</strong>
+                                    </div>
 
                                 @endif
 
-                            <module type="captcha" />
+                                <module type="captcha"/>
 
                             @endif
-
-
-
 
 
                         </div>

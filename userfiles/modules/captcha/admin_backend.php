@@ -5,7 +5,7 @@ $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
 }
-?>
+ ?>
 
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
@@ -30,8 +30,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     display: none;
                 }
             </style>
-
-            <script type="text/javascript">
+             <script type="text/javascript">
                 $(document).ready(function () {
                     mw.options.form('.<?php print $config['module_class'] ?>', function () {
                         mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
@@ -42,12 +41,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     $('.js-select-captcha-provider').on('change', function () {
                         var captcha_provider = $(this).val();
                         captchaSettingsPreview(captcha_provider);
+
                     });
                 });
 
                 function captchaSettingsPreview(captcha_provider) {
-                    $('.js-recaptcha-v2').hide();
-                    $('.js-recaptcha-v3').hide();
+
+                    alert(captcha_provider);
+
+                    $('.js-recaptcha-v2').show();
+                    $('.js-recaptcha-v3').show();
 
                     if (captcha_provider == 'google_recaptcha_v2') {
                         $('.js-recaptcha-v3').hide();

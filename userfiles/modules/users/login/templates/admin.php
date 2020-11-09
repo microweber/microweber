@@ -81,7 +81,8 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         </div>
 
                                         <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
-                                            <div class="col-12">
+                                           <?php
+                                            /* <div class="col-12">
                                                 <div class="form-group mb-3">
                                                     <label class="text-muted" for="captcha-field-<?php print $params['id']; ?>">Captcha:</label>
 
@@ -95,9 +96,11 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                                         <input name="captcha" type="text" required class="form-control" placeholder="<?php _e("Security code"); ?>" id="captcha-field-<?php print $params['id']; ?>"/>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <?php endif; ?>
+                                            </div>*/
 
+                                            ?>
+                                            <module type="captcha" />
+                                        <?php endif; ?>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="text-muted"><?php _e("Language"); ?>:</label>
