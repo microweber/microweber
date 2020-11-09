@@ -12,7 +12,7 @@ class GoogleRecaptchaV2
         $key = false;
 
         if (empty($key) && !empty(Request::post('g-recaptcha-response'))) {
-            $key = Request::post('g-recaptcha-response'); 
+            $key = Request::post('g-recaptcha-response');
         }
 
         $secretKey = get_option('recaptcha_v2_secret_key', 'captcha');
