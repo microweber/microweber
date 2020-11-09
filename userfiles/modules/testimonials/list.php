@@ -125,6 +125,16 @@
         <?php endforeach; ?>
     </div>
 <?php else: ?>
-    <h2 class="text-center"><?php _e('You have no testimonials'); ?></h2>
-    <div class="text-center"><a href="javascript:;" onclick="add_new_testimonial()" class="mw-ui-btn"><?php _e('Create new'); ?></a></div>
+    <script>
+        $(document).ready(function () {
+            $('.js-hide-on-no-data').hide();
+        });
+    </script>
+    <div class="text-center">
+        <div class="icon-title d-inline-flex">
+            <i class="mdi mdi-comment-quote"></i> <h5 class="mb-0"><?php _e('You have no testimonials'); ?></h5>
+        </div>
+    </div>
+
+    <div class="text-center"><a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded"><?php _e('Create new'); ?></a></div>
 <?php endif; ?>
