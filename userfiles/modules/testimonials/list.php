@@ -99,6 +99,10 @@
 
 <?php
 $projects = [];
+$selected_project = get_option('show_testimonials_per_project', $params['parent-module-id']);
+if ($selected_project == NULL) {
+    $selected_project = 'All projects';
+}
 $data = get_testimonials(); ?>
 <?php if ($data): ?>
     <script>
@@ -109,7 +113,7 @@ $data = get_testimonials(); ?>
 
     <?php foreach ($data as $project): ?>
         <?php
-        if (get_option('show_testimonials_per_project') == $project['project_name']) {
+        if ($selected_project == $project['project_name']) {
             if (!$project['project_name']) {
                 $project['project_name'] = 'All projects';
             }
@@ -120,8 +124,7 @@ $data = get_testimonials(); ?>
 
     <?php foreach ($data as $project): ?>
         <?php
-
-        if (get_option('show_testimonials_per_project') != $project['project_name']) {
+        if ($selected_project != $project['project_name']) {
             if (!$project['project_name']) {
                 $project['project_name'] = 'All projects';
             }
@@ -132,7 +135,7 @@ $data = get_testimonials(); ?>
 
     <div class="muted-cards-3">
         <?php foreach ($projects as $key => $project): ?>
-            <div class="" <?php if (get_option('show_testimonials_per_project') != $key): ?>style="opacity: 0.3; background: #fff;" <?php endif; ?>>
+            <div class="" <?php if ($selected_project != $key): ?>style="opacity: 0.3; background: #fff;" <?php endif; ?>>
                 <strong class="mb-2 d-block"><?php echo $key; ?></strong>
                 <?php foreach ($project as $item): ?>
                     <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
