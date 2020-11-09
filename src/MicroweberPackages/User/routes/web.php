@@ -14,10 +14,8 @@ Route::prefix('admin')->middleware(['admin'])->namespace('\MicroweberPackages\Us
 });
 
 // Public user
-Route::name('user.')->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-
+Route::namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
     Route::get('login', 'UserLoginController@loginForm')->name('login');
-
 });
 
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {

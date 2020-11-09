@@ -79,7 +79,7 @@ class UserLoginController extends Controller
 
 
 
-        $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')));
+        $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')),$remember = true);
        // dd($login);
        // dd($request->all());
 

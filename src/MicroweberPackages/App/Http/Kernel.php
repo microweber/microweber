@@ -18,7 +18,7 @@ class Kernel extends HttpKernel
         // \MicroweberPackages\App\Http\Middleware\TrustHosts::class,
         \MicroweberPackages\App\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
-        \Illuminate\Session\Middleware\AuthenticateSession::class,
+      //  \Illuminate\Session\Middleware\AuthenticateSession::class,
         \MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \MicroweberPackages\App\Http\Middleware\TrimStrings::class,
@@ -40,6 +40,10 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+        'public.web' => [
+            'xss',
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
         ],
 
         'api' => [
