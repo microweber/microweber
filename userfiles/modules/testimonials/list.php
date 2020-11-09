@@ -99,10 +99,12 @@
 
 <?php
 $projects = [];
+$all_projects_name = 'All projects';
 $selected_project = get_option('show_testimonials_per_project', $params['parent-module-id']);
 if ($selected_project == NULL) {
     $selected_project = 'All projects';
 }
+
 $data = get_testimonials(); ?>
 <?php if ($data): ?>
     <script>
@@ -113,7 +115,7 @@ $data = get_testimonials(); ?>
 
     <?php foreach ($data as $project): ?>
         <?php
-        if ($selected_project == $project['project_name']) {
+        if ($selected_project == $project['project_name'] OR ($project['project_name'] == null AND $selected_project == $all_projects_name)) {
             if (!$project['project_name']) {
                 $project['project_name'] = 'All projects';
             }
