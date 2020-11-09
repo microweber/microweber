@@ -105,8 +105,18 @@
         });
     </script>
 
+    <?php foreach ($data as $item): ?>
+        <?php
+        if (!$item['project_name']) {
+            $item['project_name'] = 'All projects';
+        }
+        $newData[$item['project_name']] = $item;
+        ?>
+    <?php endforeach; ?>
+
     <div class="muted-cards-3">
-        <?php foreach ($data as $item): ?>
+        <?php foreach ($newData as $item): ?>
+            <?php echo $item['project_name']; ?>
             <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
                 <div class="card-body">
                     <div class="row">
