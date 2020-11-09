@@ -46,9 +46,6 @@ class NewOrder extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-
-        echo 'prashtame checkout mail';
-
         $mail = new MailMessage();
 
       /*  $templateId = Option::getValue('new_user_registration_mail_template', 'users');
