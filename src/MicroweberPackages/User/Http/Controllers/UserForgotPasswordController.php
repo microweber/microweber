@@ -75,14 +75,12 @@ class UserForgotPasswordController extends Controller
 
         $expiredText = "Password reset link is expired";
 
-        $findResetPassword = DB::table('password_resets')->where('email', $request->email)->first();
-        if (!$findResetPassword) {
-            return abort(response($expiredText, 401));
-        }
-
         $check = DB::table('password_resets')
             ->where('email', '=', $request->email)
             ->first();
+        if (!$check) {
+            return abort(response($expiredText, 401));
+        }
 
         $abort = false;
 
