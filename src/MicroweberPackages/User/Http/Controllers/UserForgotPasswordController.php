@@ -72,6 +72,14 @@ class UserForgotPasswordController extends Controller
 
     public function showResetForm(Request $request)
     {
+
+        $expiredText = "Password reset link is expired";
+
+        $findResetPassword = DB::table('password_resets')->where('email', $request->email)->first();
+        if (!$findResetPassword) {
+            return abort(response($expiredText, 401));
+        }
+
         $check = DB::table('password_resets')
             ->where('email', '=', $request->email)
             ->first();
@@ -99,7 +107,7 @@ class UserForgotPasswordController extends Controller
                 ->where('email', '=', $request->email)
                 ->delete();
 
-            return abort(response("Password reset link is expired", 401));
+            return abort(response($expiredText, 401));
         }
 
         return view('user::auth.reset-password', [
@@ -121,17 +129,10 @@ class UserForgotPasswordController extends Controller
 
             function ($user, $password) use ($request) {
 
-//                $user->forceFill([
-//                    'password' => $password
-//                ])->save();
-
-
                 Auth::loginUsingId($user->id);
                 $user->setRememberToken(Str::random(60));
 
                 app()->auth->logoutOtherDevices($password);
-
-
 
                 event(new PasswordReset($user));
             }
