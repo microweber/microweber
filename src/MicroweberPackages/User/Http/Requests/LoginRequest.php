@@ -59,7 +59,7 @@ class LoginRequest extends FormRequest
 
 
         if (is_module('captcha') and get_option('login_captcha_enabled', 'users') === 'y') {
-            $rules['captcha'] = 'required|min:1|captcha';
+            $rules['captcha'] = 'captcha';
         }
 
         $rules['password'] = 'required|min:1';

@@ -35,7 +35,7 @@ class UserForgotPasswordController extends Controller
     {
         $rules = [];
         if (get_option('captcha_disabled', 'users') !== 'y') {
-            $rules['captcha'] = 'required|min:1|captcha';
+            $rules['captcha'] = 'captcha';
         }
 
 
