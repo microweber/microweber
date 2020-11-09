@@ -374,7 +374,6 @@ if (! defined('MW_VERSION')) {
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
-
         // If installed load module functions and set locale
         if (mw_is_installed()) {
 

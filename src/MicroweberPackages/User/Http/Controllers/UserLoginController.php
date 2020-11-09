@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
+use MicroweberPackages\User\Models\User;
 
 class UserLoginController extends Controller
 {
@@ -52,7 +53,6 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-
         if (Auth::check()) {
 
             $message = [];
@@ -65,7 +65,24 @@ class UserLoginController extends Controller
             return response()->json($message, 200);
         }
 
+
+        if (!isset($request['email']) and isset($request['username'])) {
+            $user_id = detect_user_id_from_params($request);
+            if($user_id){
+                $email_user = User::where('id',$user_id)->first();
+                if($email_user){
+                    $request->merge(['email' => $email_user->email]);
+                    $request->offsetUnset('username');
+                }
+            }
+        }
+
+
+
         $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')));
+       // dd($login);
+       // dd($request->all());
+
         if ($login) {
 
             $userData = auth()->user();

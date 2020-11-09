@@ -121,13 +121,13 @@ class UserForgotPasswordController extends Controller
 
             function ($user, $password) use ($request) {
 
-                $user->forceFill([
-                    'password' => $password
-                ])->save();
+//                $user->forceFill([
+//                    'password' => $password
+//                ])->save();
 
-                    $user->setRememberToken(Str::random(60));
 
                 Auth::loginUsingId($user->id);
+                $user->setRememberToken(Str::random(60));
 
                 app()->auth->logoutOtherDevices($password);
 

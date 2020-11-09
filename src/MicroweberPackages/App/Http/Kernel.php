@@ -18,6 +18,7 @@ class Kernel extends HttpKernel
         // \MicroweberPackages\App\Http\Middleware\TrustHosts::class,
         \MicroweberPackages\App\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
         \MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \MicroweberPackages\App\Http\Middleware\TrimStrings::class,
@@ -50,7 +51,7 @@ class Kernel extends HttpKernel
             'xss',
             'throttle:161111,1',
             //  EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            //\Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         'static.api' => [
             \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
