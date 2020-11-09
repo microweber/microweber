@@ -137,7 +137,7 @@ $data = get_testimonials(); ?>
 
     <div class="muted-cards-3">
         <?php foreach ($projects as $key => $project): ?>
-            <div class="" <?php if ($selected_project != $key): ?>style="opacity: 0.3; background: #fff;" <?php endif; ?>>
+            <div class="" <?php if ($selected_project != $key AND $selected_project != $all_projects_name): ?>style="opacity: 0.3; background: #fff;" <?php endif; ?>>
                 <strong class="mb-2 d-block"><?php echo $key; ?></strong>
                 <?php foreach ($project as $item): ?>
                     <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
