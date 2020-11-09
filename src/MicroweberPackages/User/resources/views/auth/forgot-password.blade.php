@@ -74,7 +74,7 @@
 
                         <div class="d-flex justify-content-between align-items-center">
 
-                            <a class="btn btn-link" class="reset_pass" href="{{route('user.login')}}">Login</a>
+                            <a class="btn btn-link" class="reset_pass" href="{{route('login')}}">Login</a>
 
                             <button type="submit" class="btn btn-primary submit">Send Password
                                 Reset Link
