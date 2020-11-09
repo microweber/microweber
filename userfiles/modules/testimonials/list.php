@@ -99,6 +99,12 @@
 
 <?php $data = get_testimonials(); ?>
 <?php if ($data): ?>
+    <script>
+        $(document).ready(function () {
+            $('.js-hide-on-no-data').show();
+        });
+    </script>
+
     <div class="muted-cards-3">
         <?php foreach ($data as $item): ?>
             <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
