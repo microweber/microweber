@@ -116,9 +116,8 @@
 
     <div class="muted-cards-3">
         <?php foreach ($newData as $item): ?>
-            <strong class="mb-2 d-block"><?php echo $item['project_name']; ?></strong>
             <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
-                <div class="card-body">
+                <div class="card-body mt-3">
                     <div class="row">
                         <div class="col-auto d-flex flex-column align-items-center">
                             <div class="img-circle-holder img-absolute">
@@ -137,6 +136,7 @@
                         </div>
                     </div>
                 </div>
+                <small class="mb-2 d-block text-muted my-1 mx-2 text-right"><?php echo $item['project_name']; ?></small>
             </div>
         <?php endforeach; ?>
     </div>
