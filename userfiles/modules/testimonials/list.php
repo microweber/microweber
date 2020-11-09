@@ -132,7 +132,7 @@
     </script>
     <div class="text-center">
         <div class="icon-title d-inline-flex">
-            <i class="mdi mdi-comment-quote"></i> <h5 class="mb-0"><?php _e('You have no testimonials'); ?></h5>
+            <i class="mdi mdi-comment-quote text-muted text-opacity-5"></i> <h5 class="mb-0"><?php _e('You have no testimonials'); ?></h5>
         </div>
     </div>
 
