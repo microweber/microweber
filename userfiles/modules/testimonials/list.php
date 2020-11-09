@@ -97,34 +97,64 @@
     }
 </style>
 
-<?php $data = get_testimonials(); ?>
+<?php
+$projects = [];
+$data = get_testimonials(); ?>
 <?php if ($data): ?>
+    <script>
+        $(document).ready(function () {
+            $('.js-hide-on-no-data').show();
+        });
+    </script>
+
+    <?php foreach ($data as $project): ?>
+        <?php
+        if (!$project['project_name']) {
+            $project['project_name'] = 'All projects';
+        }
+        $projects[$project['project_name']][] = $project;
+        ?>
+    <?php endforeach; ?>
+
     <div class="muted-cards-3">
-        <?php foreach ($data as $item): ?>
-            <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-auto d-flex flex-column align-items-center">
-                            <div class="img-circle-holder img-absolute">
-                                <img src="<?php print thumbnail($item['client_picture'], 75, 75) ?>"/>
+        <?php foreach ($projects as $key=>$project): ?>
+            <strong class="mb-2 d-block"><?php echo $key; ?></strong>
+            <?php foreach ($project as $item): ?>
+                <div class="card style-1 testimonial-holder mb-3" data-id="<?php print $item['id'] ?>">
+                    <div class="card-body mt-3">
+                        <div class="row">
+                            <div class="col-auto d-flex flex-column align-items-center">
+                                <div class="img-circle-holder img-absolute">
+                                    <img src="<?php print thumbnail($item['client_picture'], 75, 75) ?>"/>
+                                </div>
+
+                                <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');">Edit</a>
                             </div>
 
-                            <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');">Edit</a>
-                        </div>
+                            <div class="col">
+                                <a href="javascript:delete_testimonial('<?php print $item['id'] ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
 
-                        <div class="col">
-                            <a href="javascript:delete_testimonial('<?php print $item['id'] ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
+                                <h6 class="font-weight-bold"><?php print $item['name'] ?> </h6>
 
-                            <h6 class="font-weight-bold"><?php print $item['name'] ?> </h6>
-
-                            <p><?php print character_limiter($item['content'], 400); ?></p>
+                                <p><?php print character_limiter($item['content'], 400); ?></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
         <?php endforeach; ?>
     </div>
 <?php else: ?>
-    <h2 class="text-center"><?php _e('You have no testimonials'); ?></h2>
-    <div class="text-center"><a href="javascript:;" onclick="add_new_testimonial()" class="mw-ui-btn"><?php _e('Create new'); ?></a></div>
+    <script>
+        $(document).ready(function () {
+            $('.js-hide-on-no-data').hide();
+        });
+    </script>
+    <div class="text-center">
+        <div class="icon-title d-inline-flex">
+            <i class="mdi mdi-comment-quote text-muted text-opacity-5"></i> <h5 class="mb-0"><?php _e('You have no testimonials'); ?></h5>
+        </div>
+    </div>
+
+    <div class="text-center"><a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded"><?php _e('Create new'); ?></a></div>
 <?php endif; ?>
