@@ -62,7 +62,9 @@ class NewOrder extends Notification
             $loader = new \Twig\Loader\ArrayLoader([
                 'twig_mail_template' => $template['message'],
             ]);
-            $twig = new \Twig\Environment($loader);
+            $twig = new \Twig\Environment($loader,[
+                'autoescape'=>false
+            ]);
             $parsedEmail = $twig->render('twig_mail_template', [
                     'cart_items' => $carItems,
                     'order_status' => $this->order->order_status,
