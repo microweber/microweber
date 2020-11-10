@@ -6,6 +6,92 @@
     </script>
 <?php endif; ?>
 
+<script>
+
+    var loadCategoriesTree = function () {
+        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (tdata) {
+
+            var selectedPages = [ <?php print $data['parent']; ?>];
+            var selectedCategories = [ <?php print $categories_active_ids; ?>];
+
+
+
+            var tags = mw.element();
+            var tree = mw.element();
+
+            mw.element('.post-category-tags').empty().append(tags)
+            mw.element('#quick-parent-selector-tree').empty().append(tree)
+
+
+
+            window.categorySelector = new mw.treeTags({
+                data: tdata,
+                selectable: true,
+                multiPageSelect: false,
+                tagsHolder: tags.get(0),
+                treeHolder: tree.get(0),
+                color: 'primary',
+                size: 'sm',
+                outline: true,
+                saveState: false
+            });
+
+            $(categorySelector.tree).on('ready', function () {
+                if (window.pagesTree && pagesTree.selectedData.length) {
+                    $.each(pagesTree.selectedData, function () {
+                        categorySelector.tree.select(this)
+                    })
+                } else {
+                    $.each(selectedPages, function () {
+                        categorySelector.tree.select(this, 'page')
+                    });
+                    $.each(selectedCategories, function () {
+                        categorySelector.tree.select(this, 'category')
+                    });
+                }
+
+                var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder="Search"> </div>');
+
+                tree.before(atcmplt);
+
+                atcmplt.find('input').on('input', function () {
+                    var val = this.value.toLowerCase().trim();
+                    if (!val) {
+                        categorySelector.tree.showAll();
+                    }
+                    else {
+                        categorySelector.tree.options.data.forEach(function (item) {
+
+                            if (item.title.toLowerCase().indexOf(val) === -1) {
+                                categorySelector.tree.hide(item);
+                            }
+                            else {
+                                categorySelector.tree.show(item);
+                            }
+                        });
+                    }
+                })
+            });
+
+            $(categorySelector.tags).on("tagClick", function (e, data) {
+                $(".mw-tree-selector").show();
+                mw.tools.highlight(categorySelector.tree.get(data))
+            });
+        })
+    }
+    var catManager;
+    var addCategory = function () {
+        if(!catManager) {
+            catManager = new mw.CategoryManager();
+        }
+        catManager.addNew().then(function (data){
+            loadCategoriesTree()
+        })
+    }
+
+
+</script>
+
 <div class="col-md-4 manage-content-sidebar">
     <div class="card style-1 mb-3">
         <div class="card-body pt-3 pb-0">
@@ -84,7 +170,8 @@
                 <?php else: ?>
                     <div class="col-12">
                         <strong><?php _e('Categories'); ?></strong>
-                        <a onclick="mw.tools.open_global_module_settings_modal('categories/manage', 'categories-admin');return false;" href="<?php echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0">Manage</a>
+                        <!--<a onclick="mw.tools.open_global_module_settings_modal('categories/admin_backend', 'categories-admin');void(0);return false;" href="<?php /*echo admin_url(); */?>view:content/action:categories" class="btn btn-link float-right py-1 px-0">-->Manage</a>
+                        <a onclick="addCategory();return false;" href="<?php echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"><?php _e('Create category') ?></a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -143,65 +230,7 @@
                                         <?php if ($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
                                             <script>
                                                 $(document).ready(function () {
-                                                    $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (tdata) {
-
-                                                        var selectedPages = [ <?php print $data['parent']; ?>];
-                                                        var selectedCategories = [ <?php print $categories_active_ids; ?>];
-
-                                                        window.categorySelector = new mw.treeTags({
-                                                            data: tdata,
-                                                            selectable: true,
-                                                            multiPageSelect: false,
-                                                            tagsHolder: '.post-category-tags',
-                                                            treeHolder: '#quick-parent-selector-tree',
-                                                            color: 'primary',
-                                                            size: 'sm',
-                                                            outline: true,
-                                                            saveState: false
-                                                        });
-
-                                                        $(categorySelector.tree).on('ready', function () {
-                                                            if (window.pagesTree && pagesTree.selectedData.length) {
-                                                                $.each(pagesTree.selectedData, function () {
-                                                                    categorySelector.tree.select(this)
-                                                                })
-                                                            } else {
-                                                                $.each(selectedPages, function () {
-                                                                    categorySelector.tree.select(this, 'page')
-                                                                });
-                                                                $.each(selectedCategories, function () {
-                                                                    categorySelector.tree.select(this, 'category')
-                                                                });
-                                                            }
-
-                                                            var atcmplt = $('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder="Search"> </div>');
-
-                                                            $("#quick-parent-selector-tree").before(atcmplt);
-
-                                                            atcmplt.find('input').on('input', function () {
-                                                                var val = this.value.toLowerCase().trim();
-                                                                if (!val) {
-                                                                    categorySelector.tree.showAll();
-                                                                }
-                                                                else {
-                                                                    categorySelector.tree.options.data.forEach(function (item) {
-
-                                                                        if (item.title.toLowerCase().indexOf(val) === -1) {
-                                                                            categorySelector.tree.hide(item);
-                                                                        }
-                                                                        else {
-                                                                            categorySelector.tree.show(item);
-                                                                        }
-                                                                    });
-                                                                }
-                                                            })
-                                                        });
-
-                                                        $(categorySelector.tags).on("tagClick", function (e, data) {
-                                                            $(".mw-tree-selector").show();
-                                                            mw.tools.highlight(categorySelector.tree.get(data))
-                                                        });
-                                                    });
+                                                    loadCategoriesTree();
                                                 });
                                             </script>
 

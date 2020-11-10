@@ -76,11 +76,11 @@ if (isset($_COOKIE['mw_exp'])) {
         $(window).bind('load', function () {
 
 
-            $(window).bind('saveStart', function () {
-                mw.$("#main-save-btn").html('<?php _e("Saving"); ?>...');
+            $(window).on('saveStart adminSaveStart', function () {
+                mw.$("#main-save-btn,.btn-save").html('<?php _e("Saving"); ?>...');
             });
-            $(window).bind('saveEnd', function () {
-                mw.$("#main-save-btn").html('<?php _e("Save"); ?>');
+            $(window).on('saveEnd adminSaveEnd', function () {
+                mw.$("#main-save-btn,.btn-save").html('<?php _e("Save"); ?>');
                 mw.notification.success('<?php _ejs("All changes are saved"); ?>.')
             });
 

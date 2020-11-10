@@ -1,4 +1,9 @@
-
+.btn[disabled]{
+    cursor: default !important;
+}
+.btn-save[disabled] {
+    filter: grayscale(.7);
+}
 .nav {
     align-items: center;
 }

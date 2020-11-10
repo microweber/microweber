@@ -139,12 +139,16 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
             }
             var isFixed = (stop > (postHeader.get(0).offsetHeight + header.offsetHeight + $(postHeader).offset().top));
-            console.log(postHeader.offsetHeight)
             postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
             postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
 
 
         });
+
+        $('[name]').on('change input', function (){
+            document.querySelector('.btn-save').disabled = false;
+            mw.askusertostay = true;
+        })
     });
 </script>
 
@@ -214,7 +218,7 @@ if (isset($params['quick_edit'])) {
                             ?>
                             <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php echo $action_text; ?></strong></h5>
                             <div id="content-title-field-buttons">
-                                <button type="submit" class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php print _e('Save'); ?></span></button>
+                                <button type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php print _e('Save'); ?></span></button>
                             </div>
                         </div>
                     </div>

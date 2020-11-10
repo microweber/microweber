@@ -84,12 +84,10 @@ mw.content = mw.content || {
     save: function (data, e) {
         var master = {};
         var calc = {};
-        var e = e || {};
-        //   data.subtype === 'category'
-        if (data.content == "" || typeof data.content === 'undefined') {
-            // calc.content = false;
-        }
-        else {
+        e = e || {};
+         if (!data.content) {
+
+         } else {
             var doc = mw.tools.parseHtml(data.content);
             var all = doc.querySelectorAll('[contenteditable]'), l = all.length, i = 0;
             for (; i < l; i++) {
@@ -123,32 +121,35 @@ mw.content = mw.content || {
             data: data,
             datatype: "json",
             async: true,
-            success: function (data) {
-                if(data.data) {
-                    data = data.data;
-                }
-                mw.$(mwd.body).removeClass("loading");
-                if (typeof data === 'object' && typeof data.error != 'undefined') {
-                    if (typeof e.onError === 'function') {
-                        e.onError.call(data);
-                    }
-                }
-                else {
-                    if (typeof e.onSuccess === 'function') {
-                        e.onSuccess.call(data);
-                        mw.trigger('adminSaveEnd');
-                    }
-                }
-            },
+
             error: function (data) {
                 mw.$(mwd.body).removeClass("loading");
                 if (typeof e.onError === 'function') {
                     e.onError.call(data.data || data);
                 }
             },
-            complete: function () {
-                mw.$(mwd.body).removeClass("loading");
+            complete: function (a,b,c) {
+                 mw.$(mwd.body).removeClass("loading");
+                mw.trigger('adminSaveEnd');
             }
+        }).done(function (data) {
+            if(data.data) {
+                data = data.data;
+            }
+            mw.$(mwd.body).removeClass("loading");
+            if (typeof data === 'object' && typeof data.error != 'undefined') {
+                if (typeof e.onError === 'function') {
+                    e.onError.call(data);
+                }
+            }
+            else {
+                if (typeof e.onSuccess === 'function') {
+                    e.onSuccess.call(data);
+                }
+
+            }
+            document.querySelector('.btn-save').disabled = true;
+            mw.askusertostay = false;
         });
     }
 };

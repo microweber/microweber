@@ -153,6 +153,16 @@
             return this;
         };
 
+        this.val = function(val){
+            if(typeof val === 'undefined') {
+                return this._active().value;
+            }
+            this.each(function (){
+                this.value = val;
+            });
+            return this;
+        };
+
         this.prop = function(prop, val){
             var active = this._active();
             if(typeof val === 'undefined') {
