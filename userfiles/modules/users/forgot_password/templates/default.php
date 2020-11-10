@@ -25,9 +25,9 @@
                 </div>
             </div>
             <?php if ($captcha_disabled != 'y'): ?>
-            <div class="mw-ui-row vertical-middle captcha-row">
-                <module type="captcha"/>
-            </div>
+                <div class="mw-ui-row vertical-middle captcha-row">
+                    <module type="captcha" template="admin"/>
+                </div>
             <?php endif; ?>
             <br>
             <button type="submit" class="btn btn-default pull-right"><?php print $form_btn_title; ?></button>
