@@ -559,7 +559,8 @@ class Parser
 
 
                                         if (!defined('CONTENT_ID')) {
-                                            $mod_id = $mod_id . '-uid-fixme-' . uniqid();
+                                         //   $mod_id = $mod_id . '-uid-fixme-' . uniqid();
+                                            $mod_id = $mod_id . '-'.url_string(true);
 
                                         }
 
