@@ -693,22 +693,12 @@ class CheckoutManager
             return array('error' => _e('Invalid order ID'));
         }
 
-        $order = Order::find($orderId)->first();
+        $order = Order::find($orderId);
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
 
-        $fullNames = '';
-        $notifyEmail = $order->email;
-
-        if (!empty($order->first_name)) {
-            $fullNames = $order->first_name;
-        }
-        if (!empty($order->first_name) && !empty($order->last_name)) {
-            $fullNames = $order->first_name . ''. $order->last_name;
-        }
-
-        // is logged
+        // Ss logged
         $notifiable = false;
         if (isset($order->created_by) && $order->created_by > 0) {
             $customer = User::where('id', $order->created_by)->first();
@@ -720,31 +710,12 @@ class CheckoutManager
         }
 
         if (!$notifiable) {
-            $notifiable = OrderAnonymousClient::where('id', $orderId)->first();
+            $notifiable = OrderAnonymousClient::find($orderId);
         }
 
         if ($notifiable) {
             $notifiable->notifyNow(new NewOrder($order));
         }
-
-        /*
-        $notification = array();
-        $notification['module'] = 'shop';
-        $notification['rel_type'] = 'cart_orders';
-        $notification['rel_id'] = $ord;
-        $notification['title'] = _e('You have new order', true);
-        $notification['description'] = _e('New order is placed from ', true) . $this->app->url_manager->current(1);
-        $notification['content'] = _e('New order in the online shop. Order id: ', true) . $ord;
-        $this->app->notifications_manager->save($notification);
-        $this->app->log_manager->save($notification);
-        $this->confirm_email_send($order_id);
-        */
-
-        //$user->notify(new NewOrder($invoice));
-
-//        if ($suppress_output == true) {
-//            ob_end_clean();
-//        }
     }
 
     public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)

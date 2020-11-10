@@ -1616,9 +1616,7 @@ class UserManager
             } else {
                 if (is_array($data)) {
 
-                    $user = User::find($user_id)->firstOrFail();
-
-
+                    $user = User::find($user_id);
 
                     $user_session = array();
                     $user_session['is_logged'] = 'yes';
