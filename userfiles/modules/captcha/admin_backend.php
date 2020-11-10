@@ -47,10 +47,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 function captchaSettingsPreview(captcha_provider) {
 
-                    alert(captcha_provider);
-
-                    $('.js-recaptcha-v2').show();
-                    $('.js-recaptcha-v3').show();
+                    if(typeof captcha_provider == 'undefined'){
+                        captcha_provider = $('.js-select-captcha-provider option:selected').val();
+                    }
+                    if (captcha_provider == 'microweber') {
+                        $('.js-recaptcha-v3').hide();
+                        $('.js-recaptcha-v2').hide();
+                    }
 
                     if (captcha_provider == 'google_recaptcha_v2') {
                         $('.js-recaptcha-v3').hide();
