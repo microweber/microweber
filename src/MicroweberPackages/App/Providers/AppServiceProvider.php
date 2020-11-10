@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Notification\Providers\NotificationEventServiceProvider;
@@ -235,6 +236,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(  NotificationEventServiceProvider::class);
         $this->app->register(  QueueServiceProvider::class);
         $this->app->register(  QueueEventServiceProvider::class);
+        $this->app->register(  AdminServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 

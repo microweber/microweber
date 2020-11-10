@@ -24,7 +24,7 @@ class NewRegistration extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user = false)
     {
         $this->user = $user;
     }
@@ -89,13 +89,19 @@ class NewRegistration extends Notification implements ShouldQueue
 
     public function message()
     {
+
+        return view('user::admin.notifications.new_user_registration', $this->user);
+
         $notif = array();
         $notif['module'] = 'users';
         $notif['rel_type'] = 'users';
         $notif['title'] = 'New user registration';
         $notif['description'] = 'You have new user registration';
-        $notif['content'] = 'You have new user registered with the username [{{username}}] and id [{{user_id}}]';
-
+        if($this->user['username']){
+        $notif['content'] = 'You have new user registered with the username ['.$this->user['username'].'] and id ['.$this->user['id'].']';
+        } else {
+        $notif['content'] = 'You have new user registered with the email ['.$this->user['email'].'] and id ['.$this->user['id'].']';
+        }
         return $notif;
     }
 }

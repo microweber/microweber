@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\App\Managers;
 
+use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\Admin\Models\AdminUser;
+use MicroweberPackages\App\Http\Middleware\Admin;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\Notification\Notifications\LegacyNotification;
 use MicroweberPackages\User\Models\User;
@@ -357,18 +360,21 @@ class NotificationsManager
 
         $readyNotifications = [];
 
-        $notifications = Notification::all();
+        $admin = AdminUser::find(Auth::user()->id);
 
-        foreach ($notifications as $notification) {
-            $readyNotifications[] = [
-                'id' => $notification->id,
-                'module' => 'comments',
-                'rel_type' => 'content',
-                'content' => 'fwafafwafaw',
-                'created_at' => $notification->created_at,
-                'updated_at' => $notification->updated_at,
-                'notification_data' => ['fwafwafaw']
-            ];
+        foreach ($admin->unreadNotifications as $notification) {
+
+            if (!class_exists($notification->type)) {
+                continue;
+            }
+
+            $messageType = new $notification->type($notification->data);
+
+            if (!method_exists($messageType, 'message')) {
+                continue;
+            }
+
+            $readyNotifications[] = $messageType->message();
         }
 
         return $readyNotifications;
