@@ -374,7 +374,11 @@ class NotificationsManager
                 continue;
             }
 
-            $readyNotifications[] = $messageType->message();
+            if (method_exists($messageType, 'setNotification')) {
+                $messageType->setNotification($notification);
+            }
+
+            $readyNotifications[] = $messageType->message($notification);
         }
 
         return $readyNotifications;

@@ -18,6 +18,7 @@ class NewRegistration extends Notification implements ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     public $user;
+    public $notification;
 
     /**
      * Create a new notification instance.
@@ -32,7 +33,7 @@ class NewRegistration extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -43,7 +44,7 @@ class NewRegistration extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
@@ -79,7 +80,7 @@ class NewRegistration extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)
@@ -87,21 +88,54 @@ class NewRegistration extends Notification implements ShouldQueue
         return $this->user;
     }
 
+    public function setNotification($noification)
+    {
+        $this->notification = $noification;
+    }
+
     public function message()
     {
 
-        return view('user::admin.notifications.new_user_registration', $this->user);
-
-        $notif = array();
-        $notif['module'] = 'users';
-        $notif['rel_type'] = 'users';
-        $notif['title'] = 'New user registration';
-        $notif['description'] = 'You have new user registration';
-        if($this->user['username']){
-        $notif['content'] = 'You have new user registered with the username ['.$this->user['username'].'] and id ['.$this->user['id'].']';
-        } else {
-        $notif['content'] = 'You have new user registered with the email ['.$this->user['email'].'] and id ['.$this->user['id'].']';
+        $toView = [];
+        $toView['id'] = $this->notification->id;
+        $toView['user_id'] = $this->notification->data['id'];
+        $toView['display_name'] = '';
+        if (isset($this->notification->data['first_name']) && !empty($this->notification->data['first_name'])) {
+            $toView['display_name'] = $this->notification->data['first_name'];
         }
-        return $notif;
+        if (isset($this->notification->data['last_name']) && !empty($this->notification->data['last_name'])) {
+            $toView['display_name'] .= ' ' . $this->notification->data['last_name'];
+        }
+
+        $toView['display_email'] = '';
+        if (isset($this->notification->data['email']) && !empty($this->notification->data['email'])) {
+            $toView['display_email'] .= ' ' . $this->notification->data['email'];
+        } else if (isset($this->notification->data['username']) && !empty($this->notification->data['username'])) {
+            $toView['display_email'] = $this->notification->data['username'];
+        }
+         if (empty($toView['display_name'])) {
+            if (isset($this->notification->data['username']) && !empty($this->notification->data['username'])) {
+                $toView['display_name'] = $this->notification->data['username'];
+            } else if (isset($this->notification->data['email']) && !empty($this->notification->data['email'])) {
+                $toView['display_name'] .= ' ' . $this->notification->data['email'];
+            }
+        }
+
+        $toView['created_at'] = $this->notification->data['created_at'];
+        $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
+
+        return view('user::admin.notifications.new_user_registration', $toView);
+
+        /*   $notif = array();
+           $notif['module'] = 'users';
+           $notif['rel_type'] = 'users';
+           $notif['title'] = 'New user registration';
+           $notif['description'] = 'You have new user registration';
+           if($this->user['username']){
+           $notif['content'] = 'You have new user registered with the username ['.$this->user['username'].'] and id ['.$this->user['id'].']';
+           } else {
+           $notif['content'] = 'You have new user registered with the email ['.$this->user['email'].'] and id ['.$this->user['id'].']';
+           }
+           return $notif;*/
     }
 }

@@ -29,7 +29,11 @@ class NotificationController extends AdminController {
                 continue;
             }
 
-            $messageType = new $notification->type($notification->data);
+            $messageType = new $notification->type();
+
+            if (method_exists($messageType, 'setNotification')) {
+                $messageType->setNotification($notification);
+            }
 
             if (!method_exists($messageType, 'message')) {
                 continue;
