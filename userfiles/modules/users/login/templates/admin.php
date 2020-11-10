@@ -66,7 +66,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                                 <?php event_trigger('mw.ui.admin.login.form.before'); ?>
 
-                                <form  autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>" action="<?php print api_link('user_login') ?>">
+                                <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>" action="<?php print api_link('user_login') ?>">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group mb-3">
@@ -81,7 +81,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         </div>
 
                                         <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
-                                           <?php
+                                            <?php
                                             /* <div class="col-12">
                                                 <div class="form-group mb-3">
                                                     <label class="text-muted" for="captcha-field-<?php print $params['id']; ?>">Captcha:</label>
@@ -99,12 +99,14 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                             </div>*/
 
                                             ?>
-                                            <module type="captcha" template="admin" />
+                                            <div class="col-12">
+                                                <module type="captcha" template="admin"/>
+                                            </div>
                                         <?php endif; ?>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="text-muted"><?php _e("Language"); ?>:</label>
-                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" id="lang_selector" data-value="" data-width="100%" data-title="<?php if ($current_lang != 'en' AND $current_lang != 'undefined'): ?><?php print strtoupper($current_lang); ?><?php else: ?>EN<?php endif; ?>">
+                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" id="lang_selector" data-value="" data-width="100%" data-title="<?php if ($current_lang != 'en' and $current_lang != 'undefined'): ?><?php print strtoupper($current_lang); ?><?php else: ?>EN<?php endif; ?>">
                                                     <?php
                                                     $langs = get_available_languages(); ?>
                                                     <?php foreach ($langs as $lang): ?>
