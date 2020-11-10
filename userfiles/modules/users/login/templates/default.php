@@ -37,7 +37,7 @@ description: Login default
                     <input class="large-field form-control" name="password" <?php if (isset($input['password']) != false): ?> value="<?php print $input['password'] ?>"  <?php endif;  ?> type="password" placeholder="<?php _e("Password"); ?>"/>
                 </div>
                 <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
-                    <module type="captcha" />
+                    <module type="captcha" template="admin" />
                 <?php endif; ?>
                 <a class="reset-password-link" href="<?php print forgot_password_url(); ?>">
                     <?php _e("Forgot password"); ?>

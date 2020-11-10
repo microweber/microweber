@@ -107,7 +107,7 @@ description: Default register template
 			<?php if ($captcha_disabled != 'y'): ?>
             <div class="mw-ui-row vertical-middle captcha-row">
                 <div class="mw-ui-col">
-                    <module type="captcha"/>
+                    <module type="captcha" template="admin"/>
                 </div>
             </div>
 			<?php endif; ?>

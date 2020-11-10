@@ -99,7 +99,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                             </div>*/
 
                                             ?>
-                                            <module type="captcha" />
+                                            <module type="captcha" template="admin" />
                                         <?php endif; ?>
                                         <div class="col-sm-6">
                                             <div class="form-group">
