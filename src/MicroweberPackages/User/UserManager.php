@@ -884,6 +884,8 @@ class UserManager
         $notif['content'] = 'You have new user registered with the username [' . $data['username'] . '] and id [' . $user_id . ']';
         $this->app->notifications_manager->save($notif);
 
+
+
         $this->app->log_manager->save($notif);
         $this->register_email_send($user_id);
 
