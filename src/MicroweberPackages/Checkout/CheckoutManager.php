@@ -3,11 +3,18 @@
 namespace MicroweberPackages\Checkout;
 
 use Carbon\Carbon;
+use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Notification;
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+use MicroweberPackages\Checkout\Notifications\NewOrder;
 use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Invoice;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
+use MicroweberPackages\Order\Models\Order;
+use MicroweberPackages\Order\Models\OrderAnonymousClient;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -680,32 +687,34 @@ class CheckoutManager
         }
     }
 
-    public function after_checkout($order_id, $suppress_output = true)
+    public function after_checkout($orderId)
     {
-        if ($suppress_output == true) {
-            ob_start();
-        }
-        if ($order_id == false or trim($order_id) == '') {
+        if ($orderId == false or trim($orderId) == '') {
             return array('error' => _e('Invalid order ID'));
         }
 
-        $ord_data = $this->app->shop_manager->get_orders('one=1&id=' . $order_id);
-
-        if (is_array($ord_data)) {
-            $ord = $order_id;
-            $notification = array();
-            $notification['module'] = 'shop';
-            $notification['rel_type'] = 'cart_orders';
-            $notification['rel_id'] = $ord;
-            $notification['title'] = _e('You have new order', true);
-            $notification['description'] = _e('New order is placed from ', true) . $this->app->url_manager->current(1);
-            $notification['content'] = _e('New order in the online shop. Order id: ', true) . $ord;
-            $this->app->notifications_manager->save($notification);
-            $this->app->log_manager->save($notification);
-            $this->confirm_email_send($order_id);
+        $order = Order::find($orderId);
+        if (!$order) {
+            return array('error' => _e('Order not found'));
         }
-        if ($suppress_output == true) {
-            ob_end_clean();
+
+        // Ss logged
+        $notifiable = false;
+        if (isset($order->created_by) && $order->created_by > 0) {
+            $customer = User::where('id', $order->created_by)->first();
+            if ($customer) {
+                if (empty($order->email)) {
+                    $notifiable = $customer;
+                 }
+            }
+        }
+
+        if (!$notifiable) {
+            $notifiable = OrderAnonymousClient::find($orderId);
+        }
+
+        if ($notifiable) {
+            $notifiable->notifyNow(new NewOrder($order));
         }
     }
 

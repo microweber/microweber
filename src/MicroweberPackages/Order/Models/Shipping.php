@@ -11,8 +11,13 @@
 
 namespace MicroweberPackages\Order\Models;
 
+use Illuminate\Notifications\Notifiable;
+
 class Shipping extends Illuminate\Database\Eloquent\Model
 {
+
+    use Notifiable;
+
     public $table = 'cart_shipping';
 
     public static function boot()

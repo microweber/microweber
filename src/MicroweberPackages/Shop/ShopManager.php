@@ -12,7 +12,11 @@
 namespace MicroweberPackages\Shop;
 
 use DB;
+use Illuminate\Support\Facades\Notification;
+use MicroweberPackages\Admin\Models\AdminUser;
 use MicroweberPackages\Currency\Currency;
+use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Product\Notifications\ProductOutOfStockNotification;
 use MicroweberPackages\Utils\Http\Http;
 
 /**
@@ -178,12 +182,13 @@ class ShopManager
             $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
             $res = true;
             if ($notify) {
-                $notification = array();
-                $notification['rel_type'] = 'content';
-                $notification['rel_id'] = $item['rel_id'];
-                $notification['title'] = 'Your item is out of stock!';
-                $notification['description'] = 'You sold all items you had in stock. Please update your quantity';
-                $this->app->notifications_manager->save($notification);
+                $notifiables = AdminUser::all();
+                if($notifiables){
+                    $product = Product::find($item['rel_id']);
+                    if ($product) {
+                        Notification::send($notifiables, new ProductOutOfStockNotification($product));
+                    }
+                }
             }
         }
 

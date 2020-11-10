@@ -14,9 +14,6 @@ class CaptchaValidator {
 
     public function validate($attribute, $value, $parameters, Validator $validator) {
 
-
-
-
         return app()->captcha_manager->validate($value);
     }
 

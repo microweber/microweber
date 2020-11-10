@@ -63,7 +63,7 @@ class RegisterRequest extends FormRequest
         }
 
         if (get_option('captcha_disabled', 'users') !== 'y') {
-            $rules['captcha'] = 'required|min:1|captcha';
+            $rules['captcha'] = 'captcha';
         }
 
         if (isset($inputs['email']) && $inputs['email'] != false && ((get_option('disable_registration_with_temporary_email', 'users') == 'y'))) {

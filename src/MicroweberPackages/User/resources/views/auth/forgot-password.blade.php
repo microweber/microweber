@@ -9,7 +9,7 @@
 
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
     <link type="text/css" rel="stylesheet" media="all"
-          href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?> "/>
+          href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?>"/>
 
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
@@ -58,23 +58,21 @@
 
                                 @if ($errors->has('captcha'))
 
-                                    <div class="help-block text-danger"><strong>{{ $errors->first('captcha') }}</strong></div>
+                                    <div class="help-block text-danger"><strong>{{ $errors->first('captcha') }}</strong>
+                                    </div>
 
                                 @endif
 
-                            <module type="captcha" />
+                                <module type="captcha"/>
 
                             @endif
-
-
-
 
 
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center">
 
-                            <a class="btn btn-link" class="reset_pass" href="{{route('user.login')}}">Login</a>
+                            <a class="btn btn-link" class="reset_pass" href="{{route('login')}}">Login</a>
 
                             <button type="submit" class="btn btn-primary submit">Send Password
                                 Reset Link

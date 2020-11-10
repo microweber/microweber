@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use MicroweberPackages\User\Models\User;
+use Auth;
+
 
 class UserForgotPasswordController extends Controller
 {
@@ -25,19 +28,28 @@ class UserForgotPasswordController extends Controller
 
     public function showForgotForm()
     {
-        return app()->parser->process(view('user::auth.forgot-password')); 
+        return app()->parser->process(view('user::auth.forgot-password'));
     }
 
     public function send(Request $request)
     {
         $rules = [];
         if (get_option('captcha_disabled', 'users') !== 'y') {
-            $rules['captcha'] = 'required|min:1|captcha';
+            $rules['captcha'] = 'captcha';
         }
 
-        $rules['email'] = 'required|email';
 
+        if (!isset($request['email']) and isset($request['username'])) {
+            $user_id = detect_user_id_from_params($request);
+            if($user_id){
+                $email_user = User::where('id',$user_id)->first();
+                if($email_user){
+                    $request->merge(['email' => $email_user->email]);
+                }
+            }
+        }
 
+         $rules['email'] = 'required|email';
 
         $request->validate($rules);
 
@@ -60,17 +72,40 @@ class UserForgotPasswordController extends Controller
 
     public function showResetForm(Request $request)
     {
-         $check = DB::table('password_resets')
+
+        $expiredText = "Password reset link is expired";
+
+        $check = DB::table('password_resets')
             ->where('email', '=', $request->email)
             ->first();
+        if (!$check) {
+            return abort(response($expiredText, 401));
+        }
+
+        $abort = false;
+
+        $createdAt = Carbon::parse($check->created_at);
+        $now = Carbon::now();
+
+        $diffInHours = $createdAt->diffInHours($now);
+
 
         if (!$check) {
-            return abort(response("Password reset link is expired", 401));
+            $abort = true;
         }
+
         if ($check) {
-            if (Carbon::parse($check->created_at) > Carbon::now()->subHours(1)) {
-                return abort(response("Password reset link is expired", 401));
+            if ($diffInHours > 1) {
+                $abort = true;
             }
+        }
+
+        if($abort){
+               DB::table('password_resets')
+                ->where('email', '=', $request->email)
+                ->delete();
+
+            return abort(response($expiredText, 401));
         }
 
         return view('user::auth.reset-password', [
@@ -92,11 +127,10 @@ class UserForgotPasswordController extends Controller
 
             function ($user, $password) use ($request) {
 
-                $user->forceFill([
-                    'password' => $password
-                ])->save();
-
+                Auth::loginUsingId($user->id);
                 $user->setRememberToken(Str::random(60));
+
+                app()->auth->logoutOtherDevices($password);
 
                 event(new PasswordReset($user));
             }
@@ -112,7 +146,7 @@ class UserForgotPasswordController extends Controller
         }
 
         return $status == Password::PASSWORD_RESET
-            ? redirect()->route('user.login')->with('status', __($status))
+            ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
     }
 }

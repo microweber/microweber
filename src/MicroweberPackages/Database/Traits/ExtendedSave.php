@@ -26,6 +26,7 @@ trait ExtendedSave
         }
 
         $ext_params = $params;
+        $ext_params = $params;
 
         $saved_id = $this->save($params);
 

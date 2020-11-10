@@ -543,7 +543,7 @@ class TaggableFileStore implements Store
                 return false;
             }
 
-            return $this->files->deleteDirectory($mainCacheDir);
+            return @$this->files->deleteDirectory($mainCacheDir);
 
         }
     }

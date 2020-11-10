@@ -14,12 +14,23 @@ namespace MicroweberPackages\Order\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Order extends Model
+class OrderAnonymousClient extends Model
 {
 
     use Notifiable;
 
     public $table = 'cart_orders';
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'first_name' => '',
+        'last_name' => '',
+        'email' => '',
+        'phone' => ''
+    ];
 
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Http\Resources\UserResource;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 
@@ -883,12 +884,15 @@ class UserManager
         $notif['content'] = 'You have new user registered with the username [' . $data['username'] . '] and id [' . $user_id . ']';
         $this->app->notifications_manager->save($notif);
 
+
+
         $this->app->log_manager->save($notif);
         $this->register_email_send($user_id);
 
         $this->app->event_manager->trigger('mw.user.after_register', $data);
         if ($suppress_output == true) {
-            ob_end_clean();
+            if (ob_get_length()) {ob_end_clean();}
+
         }
     }
 
@@ -1604,12 +1608,18 @@ class UserManager
                 $user_id = $user_id['id'];
             }
         }
+
+
+
         if (intval($user_id) > 0) {
             $data = $this->get_by_id($user_id);
             if ($data == false) {
                 return false;
             } else {
                 if (is_array($data)) {
+
+                    $user = User::find($user_id);
+
                     $user_session = array();
                     $user_session['is_logged'] = 'yes';
                     $user_session['user_id'] = $data['id'];
@@ -1637,7 +1647,6 @@ class UserManager
 
                     $this->update_last_login_time();
                     $user_session['success'] = _e('You are logged in!', true);
-
                     return $user_session;
                 }
             }
@@ -1703,7 +1712,7 @@ class UserManager
 
         try {
             // $this->socialite_config($auth_provider);
-            $user = $this->socialite->driver($auth_provider)->user();
+            $user = $this->socialite->driver($auth_provider)->stateless()->user();
 
             $email = $user->getEmail();
 
@@ -1750,7 +1759,14 @@ class UserManager
                 }
                 $this->make_logged($existing['id']);
             } else {
-                $new_user = $this->save($save);
+
+
+                $user = new User;
+                $user->fill($save);
+                 $user->save($save);
+               // $new_user = $this->save($save);
+                 $new_user = $user->id;
+
                 $this->after_register($new_user);
 
                 $this->make_logged($new_user);

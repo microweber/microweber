@@ -6,10 +6,13 @@ class MicroweberCaptcha
 {
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
+
         if ($key == false) {
             return false;
         }
         $key = trim($key);
+
+
         $old_array = app()->user_manager->session_get('captcha_recent');
         if (is_array($old_array)) {
             $old_array = array_map(function ($piece) {
@@ -17,23 +20,29 @@ class MicroweberCaptcha
             }, $old_array);
         }
         $existing = app()->user_manager->session_get('captcha');
-        if (is_array($old_array) and in_array($key, $old_array)) {
+
+         if (is_array($old_array) and in_array($key, $old_array)) {
             $found_key = array_search($key, $old_array);
-            if ($found_key !== false) {
+
+             if ($found_key !== false) {
                 if ($unset_if_found) {
                     unset($old_array[$found_key]);
                 }
                 app()->user_manager->session_set('captcha_recent', $old_array);
+                return true;
             }
 
-            return true;
+
         }
         if ($captcha_id == false) {
             $existing = app()->user_manager->session_get('captcha');
         } else {
             $existing = app()->user_manager->session_get('captcha_' . $captcha_id);
         }
-        if ($existing == $key) {
+        $existing = app()->user_manager->session_get('captcha');
+        $existing = app()->user_manager->session_get('captcha_' . $captcha_id);
+
+         if ($existing == $key) {
             return true;
         } else {
             $existing = app()->user_manager->session_get('captcha');
@@ -81,6 +90,7 @@ class MicroweberCaptcha
             $captcha_sid = 'captcha_' . $_GET['id'];
         }
 
+        $captcha_sid = 'captcha';
 
         $image = @imagecreate($x, $y) or die('Unable to render a CAPTCHA picture!');
 
@@ -124,8 +134,9 @@ class MicroweberCaptcha
         app()->user_manager->session_set('captcha_recent', $old_array);
 
         //dd($old_array);
+       // dd($old_array);
         $sess = app()->user_manager->session_set($captcha_sid, $answ);
-
+     //   dd($captcha_sid,$old_array);
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);
         $col1z11 = rand(150, 242);

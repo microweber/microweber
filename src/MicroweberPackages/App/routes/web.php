@@ -27,7 +27,10 @@ Route::any('/userfiles/{path}', [ 'uses' => '\MicroweberPackages\App\Http\Contro
 });
 
 
-Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+
+
+// 'middleware' => 'web',
+Route::group([ 'middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
     Route::any('/', 'FrontendController@index');
 

@@ -621,6 +621,9 @@ class UpdateManager
         }
 
         if ($count > 0) {
+
+
+
             $notif = array();
             $notif['replace'] = true;
             $notif['module'] = 'updates';
