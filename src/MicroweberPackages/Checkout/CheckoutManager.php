@@ -13,6 +13,7 @@ use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Order\Models\Order;
+use MicroweberPackages\Order\Models\OrderAnonymousClient;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
@@ -686,16 +687,13 @@ class CheckoutManager
         }
     }
 
-    public function after_checkout($order_id, $suppress_output = true)
+    public function after_checkout($orderId)
     {
-        if ($suppress_output == true) {
-            ob_start();
-        }
-        if ($order_id == false or trim($order_id) == '') {
+        if ($orderId == false or trim($orderId) == '') {
             return array('error' => _e('Invalid order ID'));
         }
 
-        $order = Order::find($order_id)->first();
+        $order = Order::find($orderId)->first();
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
@@ -716,21 +714,18 @@ class CheckoutManager
             $customer = User::where('id', $order->created_by)->first();
             if ($customer) {
                 if (empty($order->email)) {
-                    $notifyEmail = $customer->email;
-                }
-                $notifiable = $customer;
+                    $notifiable = $customer;
+                 }
             }
         }
 
         if (!$notifiable) {
-            $notifiable = new AnonymousNotifiable();
-            $notifiable->route(AppMailChannel::class, [$notifyEmail=>$fullNames]);
+            $notifiable = OrderAnonymousClient::where('id', $orderId)->first();
         }
 
-        $notifiable->notify(new NewOrder());
-
-
-
+        if ($notifiable) {
+            $notifiable->notifyNow(new NewOrder($order));
+        }
 
         /*
         $notification = array();

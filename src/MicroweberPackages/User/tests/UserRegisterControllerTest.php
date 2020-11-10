@@ -133,9 +133,6 @@ class UserRegisterControllerTest extends TestCase
         );
 
 
-
-
-
         $this->assertEquals(403, $response->status());
         $this->_enableUserRegistration();
 

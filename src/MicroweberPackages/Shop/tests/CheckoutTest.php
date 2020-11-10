@@ -50,6 +50,9 @@ class CheckoutTest extends TestCase
 
     public function testCheckout()
     {
+
+      //  \Config::set('mail.transport', 'array');
+
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
         $this->_addProductToCart('Product 3');
@@ -81,7 +84,17 @@ class CheckoutTest extends TestCase
         $this->assertArrayHasKey('currency', $checkoutStatus);
         $this->assertArrayHasKey('order_status', $checkoutStatus);
 
-        $checkEmailContent = MailSender::$last_send['content'];
+        $checkEmailContent = '';
+        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        foreach ($emails as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+
+            if (strpos($body, 'Order') !==false) {
+                $checkEmailContent = $body;
+            }
+        }
 
         $findFirstName = false;
         if (strpos($checkEmailContent, $checkoutDetails['first_name']) !== false) {
