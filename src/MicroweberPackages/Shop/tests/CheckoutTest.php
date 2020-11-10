@@ -15,7 +15,8 @@ class CheckoutTest extends TestCase
 {
     public static $content_id = 1;
 
-    private function _addProductToCart($title) {
+    private function _addProductToCart($title)
+    {
 
         $productPrice = rand(1, 4444);
 
@@ -51,7 +52,7 @@ class CheckoutTest extends TestCase
     public function testCheckout()
     {
 
-      //  \Config::set('mail.transport', 'array');
+        //  \Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
@@ -91,7 +92,7 @@ class CheckoutTest extends TestCase
             $subject = $email->getSubject();
             $body = $email->getBody();
 
-            if (strpos($body, 'Order') !==false) {
+            if (strpos($body, 'Order') !== false) {
                 $checkEmailContent = $body;
             }
         }
@@ -152,4 +153,62 @@ class CheckoutTest extends TestCase
         $this->assertEquals(true, $findAddress);
 
     }
+
+    public function testCheckoutQtyUpdate()
+    {
+        mw()->database_manager->extended_save_set_permission(true);
+
+
+        $productPrice = rand(1, 9999);
+        $title = 'test QTY prod ' . $productPrice;
+        $params = array(
+            'title' => $title,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'custom_fields' => array(
+                array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
+                array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
+
+            ),
+            'data_fields_qty' => 1,
+            'is_active' => 1,);
+
+
+        $saved_id = save_content($params);
+        $get = get_content_by_id($saved_id);
+
+
+        $add_to_cart = array(
+            'content_id' => $saved_id,
+            'price' => $productPrice,
+        );
+        $cart_add = update_cart($add_to_cart);
+
+
+        $checkoutDetails = array();
+        $checkoutDetails['email'] = 'client@microweber.com';
+        $checkoutDetails['first_name'] = 'Client';
+        $checkoutDetails['last_name'] = 'Microweber';
+        $checkoutDetails['phone'] = '08812345678';
+        $checkoutDetails['address'] = 'Business Park, Mladost 4';
+        $checkoutDetails['city'] = 'Sofia';
+        $checkoutDetails['state'] = 'Sofia City';
+        $checkoutDetails['country'] = 'Bulgaria';
+        $checkoutDetails['zip'] = '1000';
+        $checkoutDetails['is_paid'] = 1;
+        $checkoutDetails['order_completed'] = 1;
+
+
+        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+
+        $content_data_after_order = content_data($saved_id);
+        $this->assertEquals(0, $content_data_after_order['qty']);
+
+
+
+
+
+    }
+
+
 }

@@ -134,7 +134,6 @@ class OrderManager
 //
 //            }
 //        }
-
         DB::transaction(function () use ($sid, $ord, $place_order) {
 
             DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
@@ -154,7 +153,7 @@ class OrderManager
                 if (!empty($place_order['promo_code']) and is_module('shop/coupons') ) {
                 	\CouponClass::log($place_order['promo_code'], $place_order['email']);
                 }
-                
+
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                     $this->app->shop_manager->update_quantities($ord);
                 }
