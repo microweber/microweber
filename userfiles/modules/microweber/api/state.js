@@ -201,7 +201,7 @@
                 edits[i].addEventListener('keydown', function (e) {
                     var sel = getSelection();
                     var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
-                    if(!target.__initialRecord) {
+                    if(target && !target.__initialRecord) {
                         target.__initialRecord = true;
 
                         mw.liveEditState.record({
@@ -215,6 +215,7 @@
                     editstime = setTimeout(function () {
                         var sel = getSelection();
                         var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+                        if(!target) return;
                         mw.liveEditState.record({
                             target: target,
                             value: target.innerHTML

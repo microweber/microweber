@@ -79,8 +79,9 @@
                     mw.tools.classNamespaceDelete(target, 'mw-micon-', undefined, undefined, []);
                 },
                 icons: function () {
-                    return new Promise(function (resolve) {
-                        var icons = mw.top().win.document.querySelector('link[href*="mw-icons-mind/line"]').sheet.cssRules;
+                    var scope = this;
+                    var parse = function (cssLink) {
+                        var icons = cssLink.sheet.cssRules;
                         var l = icons.length, i = 0, mindIcons = [];
                         for (; i < l; i++) {
                             var sel = icons[i].selectorText;
@@ -89,8 +90,26 @@
                                 mindIcons.push(cls);
                             }
                         }
-                        resolve(mindIcons)
-
+                    };
+                    var load = function (cb) {
+                        var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/line"]');
+                        if(cssLink) {
+                            cb.call(undefined, cssLink);
+                        }  else {
+                            $.get(scope.load, function (data) {
+                                cssLink = document.createElement('link');
+                                cssLink.type = 'text/css';
+                                cssLink.rel = 'stylesheet';
+                                cssLink.href = scope.load;
+                                $(document.head).append(cssLink);
+                                cb.call(undefined, cssLink);
+                            });
+                        }
+                    };
+                    return new Promise(function (resolve) {
+                        load(function (link) {
+                            resolve(parse(link));
+                        });
                     });
                 },
                 name: 'Icons Mind Line',
@@ -112,8 +131,9 @@
                     mw.tools.classNamespaceDelete(target, 'mw-micon-solid-', undefined, undefined, []);
                 },
                 icons: function () {
-                    return new Promise(function (resolve) {
-                        var icons = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]').sheet.cssRules;
+                    var scope = this;
+                    var parse = function (cssLink) {
+                        var icons = cssLink.sheet.cssRules;
                         var l = icons.length, i = 0, mindIcons = [];
                         for (; i < l; i++) {
                             var sel = icons[i].selectorText;
@@ -122,8 +142,26 @@
                                 mindIcons.push(cls);
                             }
                         }
-                        resolve(mindIcons);
-
+                    };
+                    var load = function (cb) {
+                        var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]');
+                        if(cssLink) {
+                            cb.call(undefined, cssLink);
+                        }  else {
+                            $.get(scope.load, function (data) {
+                                cssLink = document.createElement('link');
+                                cssLink.type = 'text/css';
+                                cssLink.rel = 'stylesheet';
+                                cssLink.href = scope.load;
+                                $(document.head).append(cssLink);
+                                cb.call(undefined, cssLink);
+                            });
+                        }
+                    };
+                    return new Promise(function (resolve) {
+                        load(function (link) {
+                            resolve(parse(link));
+                        });
                     });
                 },
                 name: 'Icons Mind Solid',
@@ -148,18 +186,35 @@
                     target.classList.remove('mdi');
                 },
                 icons: function () {
-                    return new Promise(function (resolve) {
-                        var icons = mw.top().win.document.querySelector('link[href*="materialdesignicons"]').sheet.cssRules;
-                        var l = icons.length, i = 0, mdiIcons = [];
-                        for (; i < l; i++) {
-                            var sel = icons[i].selectorText;
-                            if (!!sel && sel.indexOf('.mdi-') === 0) {
-                                var cls = sel.replace(".", '').split(':')[0];
-                                mdiIcons.push(cls);
-                            }
+                    var scope = this;
+                    var load = function (cb) {
+                        var cssLink = mw.top().win.document.querySelector('link[href*="materialdesignicons"]');
+                        if(cssLink) {
+                            cb.call(undefined, cssLink);
+                        }  else {
+                            $.get(scope.load, function (data) {
+                                cssLink = document.createElement('link');
+                                cssLink.type = 'text/css';
+                                cssLink.rel = 'stylesheet';
+                                cssLink.href = scope.load;
+                                $(document.head).append(cssLink);
+                                cb.call(undefined, cssLink);
+                            });
                         }
-                        resolve(mdiIcons);
-
+                    };
+                    return new Promise(function (resolve) {
+                        load(function (link){
+                            var icons = link.sheet.cssRules;
+                            var l = icons.length, i = 0, mdiIcons = [];
+                            for (; i < l; i++) {
+                                var sel = icons[i].selectorText;
+                                if (!!sel && sel.indexOf('.mdi-') === 0) {
+                                    var cls = sel.replace(".", '').split(':')[0];
+                                    mdiIcons.push(cls);
+                                }
+                            }
+                            resolve(mdiIcons);
+                        });
                     });
                 },
                 name: 'Material Design Icons',
@@ -513,6 +568,10 @@
             conf.page = conf.page || 1;
             conf.term = (conf.term || '').trim().toLowerCase();
 
+            if (!conf.set._iconsLists) {
+                return;
+            }
+
             var all = conf.set._iconsLists.filter(function (f){ return f.toLowerCase().indexOf(conf.term) !== -1; });
 
             var off = scope.settings.iconsPerPage * (conf.page - 1);
@@ -530,6 +589,7 @@
 
         var renderSearchResults = function (conf) {
             var res = search(conf);
+            if(!res) return;
             var pg = createPaging(res.all.length, res.page);
             var root = mw.element();
             res.data.forEach(function (iconItem){

@@ -55,7 +55,7 @@
                                         ?>
 
                                         <?php if ($pic == true): ?>
-                                            <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
+                                            <div class="position-absolute text-muted" style="z-index: 1; right: -5px; top: -10px;">
                                                 <i class="mdi <?php echo $type_icon; ?> mdi-18px" data-toggle="tooltip" title="<?php ucfirst($type); ?>"></i>
                                             </div>
                                         <?php endif; ?>

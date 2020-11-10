@@ -150,7 +150,7 @@ $rand = 'pic-sorter-' . uniqid();
         });
 
         setInterval(function () {
-            $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder').each(function () {
+            $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder, .mw-filepicker-desktop-type-small .mw-uploader-type-holder').each(function () {
                 $(this).height($(this).width())
             })
         }, 78)

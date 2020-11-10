@@ -7203,12 +7203,12 @@ body.bup.dragStart.state-element .edit .element:empty {
   margin-bottom: 20px;
 }
 .mw-file-drop-zone .mw-file-drop-zone-holder p {
-  color: #fff;
+  color: #919191;
   margin-bottom: 0;
 }
 .mw-file-drop-zone.mw-file-drop-zone-small {
   background-image: unset;
-  width: auto;
+  /*width: auto;*/
   display: inline-block;
 }
 .mw-file-drop-zone.mw-file-drop-zone-small .mw-file-drop-zone-holder {
@@ -7567,6 +7567,12 @@ body.bup.dragStart.state-element .edit .element:empty {
   padding: 5px;
   min-height: 100px;
   overflow: auto;
+}
+.mw-editor-frame-area ul:not([class]),
+.mw-editor-area ul:not([class]),
+.mw-editor-frame-area ol:not([class]),
+.mw-editor-area ol:not([class]) {
+  padding-left: 1.4em;
 }
 .mw-editor-wrapper.mw-editor-wrapper-document-mode {
   position: fixed;
