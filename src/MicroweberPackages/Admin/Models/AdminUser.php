@@ -12,8 +12,9 @@ namespace MicroweberPackages\Admin\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
+use MicroweberPackages\User\Models\User;
 
-class AdminUser extends Model
+class AdminUser extends User
 {
     use Notifiable;
 
@@ -25,5 +26,4 @@ class AdminUser extends Model
     }
 
 }
-
 

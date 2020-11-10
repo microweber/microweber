@@ -17,14 +17,16 @@ class NewRegistration extends Notification implements ShouldQueue
     use Queueable;
     use InteractsWithQueue, SerializesModels;
 
+    public $user;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -82,7 +84,7 @@ class NewRegistration extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
-        return $notifiable->toArray();
+        return $this->user;
     }
 
     public function message()

@@ -39,6 +39,7 @@ if ($filter_by) {
 
 $data = mw()->notifications_manager->get($notif_params);
 
+dump($data);
 $wrapper_id = "admin_notifications";
 if (isset($notif_params['wrapper-id'])) {
     $wrapper_id = $notif_params['wrapper-id'];
