@@ -54,6 +54,10 @@ class NewFormEntryAutorespond extends Notification
         $form_id = $this->formEntry->rel_id;
 
         $emailAutorespond = Option::getValue('email_autorespond', $form_id);
+
+        if (!$emailAutorespond) {
+            $emailAutorespond = Option::getValue('email_autorespond', 'contact_form_default');
+        }
         if (!$emailAutorespond) {
             $emailAutorespond = Option::getValue('email_autorespond', 'email');
         }
@@ -63,6 +67,9 @@ class NewFormEntryAutorespond extends Notification
         }
 
         $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $form_id);
+        if (!$emailAutorespondSubject) {
+            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'contact_form_default');
+        }
         if (!$emailAutorespondSubject) {
             $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
         }
