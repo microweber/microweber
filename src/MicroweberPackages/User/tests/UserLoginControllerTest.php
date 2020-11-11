@@ -20,7 +20,7 @@ class UserLoginControllerTest extends TestCase
         $username = 'testuser_' . uniqid();
         $password = 'pass__' . uniqid();
 
-        $user = $this->_registerUserWithUsername($username,$password);
+        $user = $this->_registerUserWithUsername($username, $password);
 
         $response = $this->json(
             'POST',
@@ -31,8 +31,10 @@ class UserLoginControllerTest extends TestCase
             ]
         );
 
+
         $userData = $response->getData();
-         $this->assertEquals($username, $userData->data->username);
+        
+        $this->assertEquals($username, $userData->data->username);
         $this->assertNotEmpty($userData->data->id);
 
         $this->assertTrue(($userData->data->id > 0));
@@ -47,16 +49,16 @@ class UserLoginControllerTest extends TestCase
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
 
-        $email = 'testusexXr_' . uniqid().'@aa.bb';
+        $email = 'testusexXr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
-        $user = $this->_registerUserWithEmail($email,$password);
+        $user = $this->_registerUserWithEmail($email, $password);
 
         $response = $this->json(
             'POST',
             route('api.user.login'),
             [
-                'email' =>$email,
+                'email' => $email,
                 'password' => $password,
             ]
         );
@@ -79,10 +81,10 @@ class UserLoginControllerTest extends TestCase
         $this->_disableEmailVerify();
         $this->_disableLoginCaptcha();
 
-        $email = 'testusexXr_' . uniqid().'@aa.bb';
+        $email = 'testusexXr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
-        $user = $this->_registerUserWithEmail($email,$password);
+        $user = $this->_registerUserWithEmail($email, $password);
 
         $response = $this->json(
             'POST',
@@ -113,10 +115,10 @@ class UserLoginControllerTest extends TestCase
         $this->_disableLoginCaptcha();
 
 
-        $email = 'testusexXr_' . uniqid().'@aa.bb';
+        $email = 'testusexXr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
-        $user = $this->_registerUserWithEmail($email,$password);
+        $user = $this->_registerUserWithEmail($email, $password);
 
         $response = $this->json(
             'POST',
@@ -134,7 +136,6 @@ class UserLoginControllerTest extends TestCase
         $this->assertArrayHasKey("success", $userData);
 
 
-
     }
 
     public function testUserLoginRequiresCaptcha()
@@ -145,13 +146,10 @@ class UserLoginControllerTest extends TestCase
         $this->_enableLoginCaptcha();
 
 
-
-
-
-        $email = 'testusexXr_' . uniqid().'@aa.bb';
+        $email = 'testusexXr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
-        $user = $this->_registerUserWithEmail($email,$password);
+        $user = $this->_registerUserWithEmail($email, $password);
 
         $response = $this->json(
             'POST',
@@ -169,10 +167,7 @@ class UserLoginControllerTest extends TestCase
         $this->assertNotEmpty($userData['errors']['captcha']);
 
 
-
-
     }
-
 
 
 }
