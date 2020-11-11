@@ -49,10 +49,13 @@ class NewFormEntry extends Notification
      */
     public function toMail($notifiable)
     {
-        $mail = new MailMessage();
+        $hostname = mw()->url_manager->hostname();
 
-        $mail->line('New entry form');
-        $mail->action('Visit our website', url('/'));
+
+
+        $mail = new MailMessage();
+        $mail->subject('['.$hostname.'] '.'New form entry');
+        $mail->view('app::email.simple', ['content' => app()->format->array_to_ul($this->formEntry->form_values)]);
 
         return $mail;
     }

@@ -16,7 +16,6 @@ class AppMailChannel extends MailChannel
      */
     public function send($notifiable, Notification $notification)
     {
-        return parent::send($notifiable, $notification);
 
 
         if (!\Config::get('mail.transport')) {
@@ -25,8 +24,12 @@ class AppMailChannel extends MailChannel
 
         try {
             return parent::send($notifiable, $notification);
-        } catch (\Exception $e) {
-            \Log::error($e);
+        } catch (\Swift_RfcComplianceException $e) {
+
         }
+
+//        catch (\Exception $e) {
+//            \Log::error($e);
+//        }
     }
 }

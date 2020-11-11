@@ -60,7 +60,11 @@ class ContactFormTest extends TestCase
             'option_key' => 'email_autorespond',
             'option_value' => 'thank you'
         ));
-
+        save_option(array(
+            'option_group' => 'email',
+            'option_key' => 'email_autorespond_subject',
+            'option_value' => 'email_autorespond_subject test 1134'
+        ));
 
 
         $params = array();
@@ -69,14 +73,17 @@ class ContactFormTest extends TestCase
         $params['message'] = 'test';
         $params['module_name'] = 'contact_form';
 
-
-
         $response = mw()->forms_manager->post($params);
 
         $this->assertArrayHasKey('success', $response);
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        foreach ($emails as $email) {
 
-        dd($emails);
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+            dump($subject);
+// dump($body);
+        }
 
 
     }

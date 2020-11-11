@@ -49,8 +49,33 @@ class NewFormEntryAutorespond extends Notification
      */
     public function toMail($notifiable)
     {
+        $mail = new MailMessage();
 
+        $emailAutorespond = Option::getValue('email_autorespond', 'email');
+        if ($emailAutorespond) {
+            $emailAutorespond = _e('Thank you!', true);
+        }
 
+        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
+        if ($emailAutorespondSubject) {
+            $emailAutorespondSubject = _e('Thank you for your message.', true);
+        }
+
+        $mail->line($emailAutorespondSubject);
+
+        $loader = new \Twig\Loader\ArrayLoader([
+            'mailAutoRespond' => $emailAutorespond,
+        ]);
+        $twig = new \Twig\Environment($loader);
+        $parsedEmail = $twig->render('mailAutoRespond', [
+                'url' => url('/'),
+                'created_at' => date('Y-m-d H:i:s')
+            ]
+        );
+        $mail->subject($emailAutorespondSubject);
+        $mail->view('app::email.simple', ['content' => $parsedEmail]);
+
+        return $mail;
     }
 
     /**

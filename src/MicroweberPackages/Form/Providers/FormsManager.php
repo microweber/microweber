@@ -611,6 +611,8 @@ class FormsManager
                         //  var_dump($user_mails);
 
                         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
+
+                      //  dd($user_mails);
                         if ($user_mails) {
                             foreach ($user_mails as $user_mail) {
                                 $notifiable_user = new AnonymousNotifiable();
