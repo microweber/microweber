@@ -38,13 +38,24 @@ class NewFormEntry extends Notification
      */
     public function via($notifiable)
     {
+        $rel_id = ($this->formEntry->rel_id);
+        
+        $skip_saving_emails = false;
         $channels = [];
 
         $default_mod_id = 'contact_form_default';
-        $skip_saving_emails = app()->option_manager->get('skip_saving_emails', $default_mod_id) == 'y';
+
+        if ($rel_id) {
+            $skip_saving_emails = app()->option_manager->get('skip_saving_emails', $rel_id) == 'y';
+        }
+        if (!$skip_saving_emails) {
+            $skip_saving_emails = app()->option_manager->get('skip_saving_emails', $default_mod_id) == 'y';
+        }
+
         if (!$skip_saving_emails) {
             $channels[] = 'database';
         }
+
         $channels[] = AppMailChannel::class;
 
         return $channels;
