@@ -39,7 +39,7 @@ class NewFormEntry extends Notification
     public function via($notifiable)
     {
         $rel_id = ($this->formEntry->rel_id);
-        
+
         $skip_saving_emails = false;
         $channels = [];
 
