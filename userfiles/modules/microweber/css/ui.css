@@ -7562,7 +7562,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(255, 255, 255, 0.22);
 }
 .mw-spinner-decorate .mw-spinner {
   position: absolute;

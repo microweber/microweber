@@ -1,0 +1,110 @@
+/* Payments - Template - Payments 1 */
+.mw-shipping-and-payment .methods ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+.mw-shipping-and-payment .methods ul li {
+    color: #AAAAAA;
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    width: 47%;
+    margin: 0px 5px;
+    text-align: center;
+}
+
+.mw-shipping-and-payment .methods ul li input[type=radio] {
+    position: absolute;
+    visibility: hidden;
+}
+
+.mw-shipping-and-payment .methods ul li label {
+    display: block;
+    position: relative;
+    font-weight: 300;
+    font-size: 14px;
+    text-transform: uppercase;
+    z-index: 9;
+    cursor: pointer;
+    -webkit-transition: all 0.25s linear;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.mw-shipping-and-payment .methods ul li .wrap-valign {
+    text-align: center;
+    vertical-align: middle;
+    display: table;
+    height: 75px;
+    width: 100%;
+}
+
+.mw-shipping-and-payment .methods ul li .wrap-valign-inner {
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.mw-shipping-and-payment .methods ul li:hover label {
+    color: #FFFFFF;
+}
+
+.mw-shipping-and-payment .methods ul li .check {
+    display: block;
+    position: absolute;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: #e4e4e4;
+    height: 70px;
+    width: 100%;
+    top: 0px;
+    z-index: 5;
+    transition: border .25s linear;
+    -webkit-transition: border .25s linear;
+    color: #000;
+}
+
+.mw-shipping-and-payment .methods ul li:hover .check,
+.mw-shipping-and-payment .methods input[type=radio]:checked ~ .check {
+    background: #000;
+    color: #fff;
+}
+
+.mw-shipping-and-payment .methods input[type=radio]:checked ~ label {
+    color: #fff;
+}
+
+.mw-shipping-and-payment .methods .alert.alert-warning,
+.mw-shipping-and-payment .methods .alert.alert-info {
+    border: 0;
+    background: none;
+    color: #636363;
+    font-size: 16px;
+}
+
+.mw-shipping-and-payment .methods label {
+    padding: 0 !important;
+}
+
+.mw-shipping-and-payment .methods .form-group {
+    padding: 5px 0 !important;
+}
+
+@media screen and (max-width: 560px) {
+    .mw-shipping-and-payment .methods ul li {
+        width: 100%;
+    }
+
+}
+
+@media screen and (min-width: 991px) and (max-width: 1199px) {
+    .mw-shipping-and-payment .methods ul li {
+        width: 100%;
+    }
+
+}

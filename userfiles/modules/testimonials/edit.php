@@ -9,7 +9,7 @@
             mw.spinner({
                 element: form,
                 decorate: true
-            })
+            }).show()
             var data = $(this).serialize();
             var url = "<?php print api_url('save_testimonial'); ?>";
             var post = $.post(url, data);
@@ -79,6 +79,12 @@
     .js-img-holder:hover .js-add-image .add-the-image {
         display: flex;
     }
+    .edit-testimonial-top-nav{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 20px;
+        align-items: flex-start;
+    }
 </style>
 
 <script>mw.lib.require('font_awesome5')</script>
@@ -132,8 +138,10 @@ if (!isset($data['client_company'])) {
     <?php if (($data['id']) == 0): ?>
         <h6 class="font-weight-bold"><?php _e('Add new testimonial'); ?></h6>
     <?php else: ?>
-        <a href="javascript:;" onclick="list_testimonial()" class="btn btn-link text-primary px-0 pt-0 mb-1"><i class="mdi mdi-arrow-left"></i> Back</a>
-
+        <div class="edit-testimonial-top-nav">
+            <a href="javascript:;" onclick="list_testimonial()" class="btn-link"><i class="mdi mdi-arrow-left"></i> Back</a>
+            <a href="javascript:;" onclick="add_new_testimonial()" class="btn-link"><?php _e('Create new'); ?></a>
+        </div>
         <h6 class="font-weight-bold"><?php _e('Edit testimonial'); ?></h6>
     <?php endif; ?>
     <br/>

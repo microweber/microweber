@@ -934,6 +934,7 @@ mw.drag = {
             this.html = mw.drag.grammarlyFix(this.html)
         });
         mw.drag.saving = true;
+        console.log(data)
 
         /************  START base64  ************/
         data = JSON.stringify(data);

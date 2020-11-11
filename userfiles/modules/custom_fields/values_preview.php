@@ -77,8 +77,9 @@ if (isset($params['field-id'])) {
     <span class="btn-create-custom-field-value btn btn-primary btn-sm py-2 px-0 d-inline-flex align-items-center justify-content-center show-on-hover" data-id="<?php print $field['id']; ?>">
         <i class="mdi mdi-plus mdi-16px"></i>
     </span>
+
 <?php elseif (isset($field['type']) and ($field['type'] == 'text' or $field['type'] == 'message' or $field['type'] == 'textarea' or $field['type'] == 'title')): ?>
-    <textarea class="mw-admin-custom-field-value-edit-text form-control bg-secondary-opacity-8 border-0 border-radius-0" style=" width:100%; overflow:hidden;" data-id="<?php print $field['id']; ?>"><?php print $field['value']; ?></textarea>
+    <textarea class="mw-admin-custom-field-value-edit-text form-control bg-secondary-opacity-8 border-0 border-radius-0" style=" width:100%; overflow:hidden;height: 33px;min-height: 33px;" data-id="<?php print $field['id']; ?>"><?php print $field['value']; ?></textarea>
 <?php elseif (isset($field['type']) and (($field['type'] == 'address') or $field['type'] == 'upload')): ?>
     <div style="width:100%; display:block; min-height:20px;" onclick="mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);"><?php print $field['values_plain']; ?></div>
 

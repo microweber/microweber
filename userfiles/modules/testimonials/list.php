@@ -23,6 +23,8 @@
     }
 
     add_new_testimonial = function () {
+        $("#edit-testimonials").attr("edit-id", 0);
+        mw.reload_module("#edit-testimonials");
         $('.js-add-new-testimonials').trigger('click');
     }
 
