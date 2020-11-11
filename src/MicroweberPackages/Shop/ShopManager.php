@@ -182,7 +182,7 @@ class ShopManager
             $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
             $res = true;
             if ($notify) {
-                $notifiables = AdminUser::all();
+                $notifiables = User::whereIsAdmin(1)->get();
                 if($notifiables){
                     $product = Product::find($item['rel_id']);
                     if ($product) {

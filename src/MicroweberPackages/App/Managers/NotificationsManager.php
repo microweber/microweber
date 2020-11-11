@@ -360,7 +360,7 @@ class NotificationsManager
 
         $readyNotifications = [];
 
-        $admin = AdminUser::find(Auth::user()->id);
+        $admin = Auth::user();
 
         foreach ($admin->unreadNotifications as $notification) {
 

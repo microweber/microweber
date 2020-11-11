@@ -11,7 +11,7 @@
 Route::name('admin.')
     ->prefix('admin')
     ->middleware(['admin'])
-    ->namespace('\MicroweberPackages\Admin\Http\Controllers')
+    ->namespace('\MicroweberPackages\Notification\Http\Controllers\Admin')
     ->group(function () {
         Route::get('notification', 'NotificationController@index')->name('notification.index');
     });

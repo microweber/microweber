@@ -15,7 +15,11 @@ class UserRegisteredListener
             $newRegEvent = new NewRegistration($event->user);
 
             $event->user->notifyNow($newRegEvent);
-            Notification::send(AdminUser::all(), $newRegEvent);
+
+            $userAdmins = User::whereIsAdmin(1);
+            if ($userAdmins) {
+                Notification::send($userAdmins, $newRegEvent);
+            }
 
         } catch (\Exception $e) {
 

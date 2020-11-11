@@ -239,7 +239,10 @@
         <div class="toolbar row mb-3">
             <div class="col-12 text-center text-sm-left">
                 <h5><strong>All Activities</strong></h5>
-                <p>List of all notifications of your website. <a href="javascript:;" onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');" class="d-block d-sm-block float-sm-right"><?php _e("Show system log"); ?></a></p>
+                <p>List of all notifications of your website. <a href="javascript:;"
+                                                                 onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');"
+                                                                 class="d-block d-sm-block float-sm-right"><?php _e("Show system log"); ?></a>
+                </p>
             </div>
             <div class="col-12 d-sm-flex align-items-center justify-content-between">
                 <div class="text-center text-md-left my-2">
@@ -250,16 +253,28 @@
 
                     <div class="d-inline-flex">
                         <div class="js-show-options" style="display: none;">
-                            <a href="javascript:mw.notif_read_selected();" class="btn btn-outline-success btn-sm mr-1 mr-lg-2 btn-lg-only-icon  notif-read-selected"><i class="mdi mdi-email-open"></i> <span class="d-none d-xl-block"><?php _e("Mark as read"); ?></span></a>
-                            <a href="javascript:mw.notif_reset_selected();" class="btn btn-outline-warning btn-sm mr-1 mr-lg-2 btn-lg-only-icon notif-unread-selected"><i class="mdi mdi-email"></i> <span class="d-none d-xl-block"><?php _e("Mark as unread"); ?></span></a>
-                            <a href="javascript:mw.notif_delete_selected();" class="btn btn-outline-danger btn-sm mr-1 mr-lg-2 btn-lg-only-icon notif-delete-selected"><i class="mdi mdi-delete"></i> <span class="d-none d-xl-block"><?php _e("Delete selected"); ?></span></a>
+                            <a href="javascript:mw.notif_read_selected();"
+                               class="btn btn-outline-success btn-sm mr-1 mr-lg-2 btn-lg-only-icon  notif-read-selected"><i
+                                        class="mdi mdi-email-open"></i> <span
+                                        class="d-none d-xl-block"><?php _e("Mark as read"); ?></span></a>
+                            <a href="javascript:mw.notif_reset_selected();"
+                               class="btn btn-outline-warning btn-sm mr-1 mr-lg-2 btn-lg-only-icon notif-unread-selected"><i
+                                        class="mdi mdi-email"></i> <span
+                                        class="d-none d-xl-block"><?php _e("Mark as unread"); ?></span></a>
+                            <a href="javascript:mw.notif_delete_selected();"
+                               class="btn btn-outline-danger btn-sm mr-1 mr-lg-2 btn-lg-only-icon notif-delete-selected"><i
+                                        class="mdi mdi-delete"></i> <span
+                                        class="d-none d-xl-block"><?php _e("Delete selected"); ?></span></a>
 
 
                             <div>
                                 <?php if ($is_quick == true): ?>
-                                <a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a> /
-                                <a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a> /
-                                <a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
+                                <a href="javascript:mw.notif_mark_all_as_read();"
+                                   class="mw-ui-link"><?php _e("Read all"); ?></a> /
+                                <a href="javascript:mw.notif_reset_all();"
+                                   class="mw-ui-link"><?php _e("Unread all"); ?></a> /
+                                <a href="javascript:mw.notif_item_delete('all');"
+                                   class="mw-ui-link"><?php _e("Delete all"); ?></a>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -283,10 +298,22 @@
 
                     <select class="selectpicker js-show-notif" data-style="btn-sm" data-width="auto">
                         <option value="?">All notifications</option>
-                        <option value="?filter_by=comments" <?php if (isset($filter_by) AND $filter_by == 'comments'): ?>selected<?php endif; ?>>Comments</option>
-                        <option value="?filter_by=orders" <?php if (isset($filter_by) AND $filter_by == 'orders'): ?>selected<?php endif; ?>>Orders</option>
-                        <option value="?filter_by=form_entries" <?php if (isset($filter_by) AND $filter_by == 'form_entries'): ?>selected<?php endif; ?>>Form Entries</option>
-                        <option value="?filter_by=new_user_registrations" <?php if (isset($filter_by) AND $filter_by == 'new_user_registrations'): ?>selected<?php endif; ?>>New User Registrations</option>
+                        <option value="?filter_by=comments"
+                                <?php if (isset($filter_by) AND $filter_by == 'comments'): ?>selected<?php endif; ?>>
+                            Comments
+                        </option>
+                        <option value="?filter_by=orders"
+                                <?php if (isset($filter_by) AND $filter_by == 'orders'): ?>selected<?php endif; ?>>
+                            Orders
+                        </option>
+                        <option value="?filter_by=form_entries"
+                                <?php if (isset($filter_by) AND $filter_by == 'form_entries'): ?>selected<?php endif; ?>>
+                            Form Entries
+                        </option>
+                        <option value="?filter_by=new_user_registrations"
+                                <?php if (isset($filter_by) AND $filter_by == 'new_user_registrations'): ?>selected<?php endif; ?>>
+                            New User Registrations
+                        </option>
                     </select>
                 </div>
             </div>
@@ -298,10 +325,38 @@
                     <button type="button" class="btn btn-primary btn-rounded btn-sm">Past hour</button>
                 </div>
             </div>
+
+            <style>
+                .timeline-event .row.align-items-center {
+                    margin-top: -10px;
+                }
+
+                .timeline-event .row.align-items-center .item-image {
+                    max-width: 55px;
+                }
+
+            </style>
             <?php foreach ($notifications as $notification): ?>
-               <?php echo $notification;?>
-            <?php endforeach; ?>
+
+            <div class="row timeline-event mw-ui-admin-notif-item-{{$notification->id}}">
+                <div class="col pr-0 timeline-line">
+                    <div class="custom-control custom-checkbox d-inline-block">
+                        <input type="checkbox" class="custom-control-input js-checked-checkbox"
+                               id="notif-{{$notification->id}}" value="{{$notification->id}}"
+                               name="checked[{{$notification->id}}]">
+                        <label class="custom-control-label" for="notif-{{$notification->id}}"></label>
+                    </div>
+
+                    <span class="dot btn btn-primary"></span>
+                </div>
+                <div class="col">
+                    <?php echo $notification;?>
+                </div>
             </div>
+
+
+            <?php endforeach; ?>
+        </div>
 
 
         <?php if ($is_quick == false): ?>
@@ -316,11 +371,13 @@
         <?php if ($filter_by): ?>
         <div class="row">
             <div class="col-12">
-                <div class="no-items-box no-notifications" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
+                <div class="no-items-box no-notifications"
+                     style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
                     <h4><?php _e("No notifications for this filter"); ?></h4>
                     <p>Here you will be able to see notifications <br/> about orders, comments, email and others.</p>
                     <br/>
-                    <a href="?" class="btn btn-outline-primary btn-sm icon-left"><i class="mdi mdi-arrow-left"></i> <span class="">Back</span></a>
+                    <a href="?" class="btn btn-outline-primary btn-sm icon-left"><i class="mdi mdi-arrow-left"></i>
+                        <span class="">Back</span></a>
                 </div>
             </div>
         </div>
@@ -328,11 +385,13 @@
         <?php if ($is_quick == false): ?>
         <div class="row">
             <div class="col-12">
-                <div class="no-items-box no-notifications" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
+                <div class="no-items-box no-notifications"
+                     style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
                     <h4>You don't have any notifications</h4>
                     <p>Here you will be able to see notifications <br/> about orders, comments, email and others.</p>
                     <br/>
-                    <a href="<?php print admin_url() ?>view:dashboard" class="btn btn-outline-primary btn-sm icon-left"><i class="mdi mdi-arrow-left"></i> <span class="">Back</span></a>
+                    <a href="<?php print admin_url() ?>view:dashboard" class="btn btn-outline-primary btn-sm icon-left"><i
+                                class="mdi mdi-arrow-left"></i> <span class="">Back</span></a>
                 </div>
             </div>
         </div>

@@ -698,6 +698,8 @@ class CheckoutManager
             return array('error' => _e('Order not found'));
         }
 
+        $newOrderEvent = new NewOrder($order);
+
         // Ss logged
         $notifiable = false;
         if (isset($order->created_by) && $order->created_by > 0) {
@@ -714,7 +716,11 @@ class CheckoutManager
         }
 
         if ($notifiable) {
-            $notifiable->notifyNow(new NewOrder($order));
+            $notifiable->notifyNow($newOrderEvent);
+        }
+        $userAdmins = User::whereIsAdmin(1);
+        if ($userAdmins) {
+            Notification::send($userAdmins, $newOrderEvent);
         }
     }
 
