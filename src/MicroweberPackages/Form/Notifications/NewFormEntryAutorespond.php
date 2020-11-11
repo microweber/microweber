@@ -33,7 +33,7 @@ class NewFormEntryAutorespond extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -44,22 +44,32 @@ class NewFormEntryAutorespond extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         $mail = new MailMessage();
 
-        $emailAutorespond = Option::getValue('email_autorespond', 'email');
-        if ($emailAutorespond) {
+        $form_id = $this->formEntry->rel_id;
+
+        $emailAutorespond = Option::getValue('email_autorespond', $form_id);
+        if (!$emailAutorespond) {
+            $emailAutorespond = Option::getValue('email_autorespond', 'email');
+        }
+
+        if (!$emailAutorespond) {
             $emailAutorespond = _e('Thank you!', true);
         }
 
-        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
+        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $form_id);
+        if (!$emailAutorespondSubject) {
+            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
+        }
         if ($emailAutorespondSubject) {
             $emailAutorespondSubject = _e('Thank you for your message.', true);
         }
+
 
         $mail->line($emailAutorespondSubject);
 
@@ -81,7 +91,7 @@ class NewFormEntryAutorespond extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

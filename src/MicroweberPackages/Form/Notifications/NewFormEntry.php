@@ -51,8 +51,6 @@ class NewFormEntry extends Notification
     {
         $hostname = mw()->url_manager->hostname();
 
-
-
         $mail = new MailMessage();
         $mail->subject('['.$hostname.'] '.'New form entry');
         $mail->view('app::email.simple', ['content' => app()->format->array_to_ul($this->formEntry->form_values)]);

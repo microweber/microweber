@@ -566,10 +566,11 @@ class FormsManager
                         }
                     }
 
-                    $user_mails[] = $email_to;
-                    if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
-                        $user_mails[] = $email_bcc;
-                    }
+//@todo
+//                    $user_mails[] = $email_to;
+//                    if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
+//                        $user_mails[] = $email_bcc;
+//                    }
 
                     // $email_from = false;
                     if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
@@ -612,15 +613,22 @@ class FormsManager
 
                         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
-                      //  dd($user_mails);
-                        if ($user_mails) {
+                         if ($user_mails) {
                             foreach ($user_mails as $user_mail) {
+                                try {
+                                    Notification::route('mail', $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
+                                } catch (\Exception $e) {
+
+                                }
+
+                                /*
                                 $notifiable_user = new AnonymousNotifiable();
 
-                                $notifiable_user->route(AppMailChannel::class, $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
+                                $notifiable_user->route(AppMailChannel::class, $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));*/
 
                             }
                         }
+                        //     dd($user_mails);
                         //  dd($user_mails);
 
                         //TODO

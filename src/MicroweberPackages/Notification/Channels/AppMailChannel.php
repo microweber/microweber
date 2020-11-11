@@ -17,8 +17,7 @@ class AppMailChannel extends MailChannel
     public function send($notifiable, Notification $notification)
     {
 
-
-        if (!\Config::get('mail.transport')) {
+         if (!\Config::get('mail.transport')) {
             return;
         }
 
