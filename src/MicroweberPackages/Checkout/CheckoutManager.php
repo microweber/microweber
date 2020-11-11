@@ -718,10 +718,8 @@ class CheckoutManager
         if ($notifiable) {
             $notifiable->notifyNow($newOrderEvent);
         }
-        $userAdmins = User::whereIsAdmin(1);
-        if ($userAdmins) {
-            Notification::send($userAdmins, $newOrderEvent);
-        }
+
+        Notification::send(User::whereIsAdmin(1)->get(), $newOrderEvent);
     }
 
     public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)

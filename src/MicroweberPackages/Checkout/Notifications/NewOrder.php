@@ -24,7 +24,7 @@ class NewOrder extends Notification
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct($order = false)
     {
         $this->order = $order;
     }
@@ -141,4 +141,6 @@ class NewOrder extends Notification
     {
         return $this->order;
     }
+
+
 }

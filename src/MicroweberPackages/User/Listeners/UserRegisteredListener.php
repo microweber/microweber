@@ -4,7 +4,8 @@ namespace MicroweberPackages\User\Listeners;
 
 
 use Illuminate\Support\Facades\Notification;
-use MicroweberPackages\Admin\Models\AdminUser;
+
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Notifications\NewRegistration;
 
 class UserRegisteredListener
@@ -16,10 +17,7 @@ class UserRegisteredListener
 
             $event->user->notifyNow($newRegEvent);
 
-            $userAdmins = User::whereIsAdmin(1);
-            if ($userAdmins) {
-                Notification::send($userAdmins, $newRegEvent);
-            }
+            Notification::send(User::whereIsAdmin(1)->get(), $newRegEvent);
 
         } catch (\Exception $e) {
 
