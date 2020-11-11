@@ -42,7 +42,7 @@ $(document).ready(function(){
     var uploader = mw.upload({
         multiple:false,
         name:'<?php echo $data["name"]; ?>',
-        autostart:true,
+        autostart: true,
         element: mwd.getElementById('upload_button_<?php echo($rand); ?>'),
         filetypes:'<?php if ($settings['options']['file_types']): ?><?php echo implode(",",$settings['options']['file_types']); ?> <?php endif ?>'
     })

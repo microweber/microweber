@@ -139,7 +139,7 @@
                         return;
                     }
                 }
-                $(scope).trigger('FilesAdded', files);
+                $(scope).trigger('FilesAdded', [files]);
                 if(this.settings.autostart) {
                     this.uploadFiles();
                 }
@@ -346,6 +346,7 @@
     };
 
     mw.upload = function (options) {
+        console.log(options)
         return new Uploader(options);
     };
 
