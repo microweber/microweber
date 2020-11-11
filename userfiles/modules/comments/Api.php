@@ -162,6 +162,13 @@ class Api extends Crud
             $notif['content'] = mw('format')->limit($data['comment_body'], 800);
             mw()->notifications_manager->save($notif);
 
+
+
+
+
+
+
+
             $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
             $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
 

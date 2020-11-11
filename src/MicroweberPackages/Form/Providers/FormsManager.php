@@ -2,12 +2,15 @@
 
 namespace MicroweberPackages\Form\Providers;
 
+use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use League\Csv\Writer;
 use Microweber\Utils\MailProvider;
 use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
+use MicroweberPackages\Form\Notifications\NewFormEntryAutorespond;
 use MicroweberPackages\Invoice\Country;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 
@@ -511,32 +514,32 @@ class FormsManager
         */
 
             if (isset($save) and $save) {
-                $form_model = Form::find($save);
-                $newFormEntry = new NewFormEntry($form_model);
 
-                Notification::send(User::whereIsAdmin(1)->get(), $newFormEntry);
+
+                $form_model = Form::find($save);
+                Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($form_model));
+
 
                 if ($email_to == false) {
                     $email_to = $this->app->option_manager->get('email_from', 'email');
                 }
 
 
-                $admin_user_mails = array();
+                /* $admin_user_mails = array();
 
-                if ($email_to == false) {
-                    $admins = $this->app->user_manager->get_all('is_admin=1');
-                    if (is_array($admins) and !empty($admins)) {
-                        foreach ($admins as $admin) {
-                            if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
-                                $admin_user_mails[] = $admin['email'];
-                                $email_to = $admin['email'];
-                                $user_mails[] = $admin['email'];
-                            }
-                        }
-                    }
+                 if ($email_to == false) {
+                     $admins = $this->app->user_manager->get_all('is_admin=1');
+                     if (is_array($admins) and !empty($admins)) {
+                         foreach ($admins as $admin) {
+                             if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
+                                 $admin_user_mails[] = $admin['email'];
+                                 $email_to = $admin['email'];
+                                 $user_mails[] = $admin['email'];
+                             }
+                         }
+                     }
 
-                }
-
+                 }*/
                 if (is_array($params) and !empty($params)) {
                     foreach ($params as $param) {
                         if (is_string($param) and (filter_var($param, FILTER_VALIDATE_EMAIL))) {
@@ -608,6 +611,15 @@ class FormsManager
                         //  var_dump($user_mails);
 
                         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
+                        if ($user_mails) {
+                            foreach ($user_mails as $user_mail) {
+                                $notifiable_user = new AnonymousNotifiable();
+
+                                $notifiable_user->route(AppMailChannel::class, $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
+
+                            }
+                        }
+                        //  dd($user_mails);
 
                         //TODO
                         //STARIQMAILSENDER

@@ -12,7 +12,7 @@ use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
 
 
-class NewFormEntry extends Notification
+class NewFormEntryAutorespond extends Notification
 {
     use Queueable;
     use InteractsWithQueue, SerializesModels;
@@ -49,12 +49,8 @@ class NewFormEntry extends Notification
      */
     public function toMail($notifiable)
     {
-        $mail = new MailMessage();
 
-        $mail->line('New entry form');
-        $mail->action('Visit our website', url('/'));
 
-        return $mail;
     }
 
     /**
