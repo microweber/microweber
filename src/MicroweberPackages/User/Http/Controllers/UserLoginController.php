@@ -87,28 +87,29 @@ class UserLoginController extends Controller
 
             $userData = auth()->user();
 
-            $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
-            if ($isVerfiedEmailRequired) {
+            if (Auth::user()->is_admin == 0) {
+                $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
+                if ($isVerfiedEmailRequired) {
 
-                if (!$userData->is_verfied) {
-                    $message = [];
-                    $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
-                    return response()->json($message, 401);
+                    if (!$userData->is_verfied) {
+                        $message = [];
+                        $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
+                        return response()->json($message, 401);
+                    }
+                }
+
+                $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
+                if ($isApprovalRequired) {
+
+                    if (!$userData->is_active) {
+
+
+                        $message = [];
+                        $message['error'] = 'Your account is awaiting approval';
+                        return response()->json($message, 401);
+                    }
                 }
             }
-
-            $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
-            if ($isApprovalRequired) {
-
-                if (!$userData->is_active) {
-
-
-                    $message = [];
-                    $message['error'] = 'Your account is awaiting approval';
-                    return response()->json($message, 401);
-                }
-            }
-
 
             if (Auth::user()->is_admin == 1) {
                 $userData->token = auth()->user()->createToken('authToken');
