@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Form;
+namespace MicroweberPackages\Form\Providers;
 
 use Illuminate\Support\Facades\Facade;
 

@@ -9,8 +9,9 @@
  *
  */
 
-namespace MicroweberPackages\Form;
+namespace MicroweberPackages\Form\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\CustomField\FieldsManager;
 
@@ -38,6 +39,11 @@ class FormsManagerServiceProvider extends ServiceProvider
             return new FieldsManager();
         });
 
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+
+        View::addNamespace('form', __DIR__ . '/../resources/views');
+
+
+
     }
 }

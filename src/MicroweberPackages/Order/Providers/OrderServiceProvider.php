@@ -9,9 +9,11 @@
  *
  */
 
-namespace MicroweberPackages\Order;
+namespace MicroweberPackages\Order\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Order\OrderManager;
 
 class OrderServiceProvider extends ServiceProvider
 {
@@ -28,5 +30,8 @@ class OrderServiceProvider extends ServiceProvider
         $this->app->singleton('order_manager', function ($app) {
             return new OrderManager();
         });
+
+        View::addNamespace('order', __DIR__ . '/../resources/views');
+
     }
 }

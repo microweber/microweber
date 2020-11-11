@@ -338,19 +338,19 @@
             </style>
             <?php foreach ($notifications as $notification): ?>
 
-            <div class="row timeline-event mw-ui-admin-notif-item-{{$notification->id}}">
+            <div class="row timeline-event mw-ui-admin-notif-item-{{$notification['id']}}">
                 <div class="col pr-0 timeline-line">
                     <div class="custom-control custom-checkbox d-inline-block">
                         <input type="checkbox" class="custom-control-input js-checked-checkbox"
-                               id="notif-{{$notification->id}}" value="{{$notification->id}}"
-                               name="checked[{{$notification->id}}]">
-                        <label class="custom-control-label" for="notif-{{$notification->id}}"></label>
+                               id="notif-{{$notification['id']}}" value="{{$notification['id']}}"
+                               name="checked[{{$notification['id']}}]">
+                        <label class="custom-control-label" for="notif-{{$notification['id']}}"></label>
                     </div>
 
                     <span class="dot btn btn-primary"></span>
                 </div>
                 <div class="col">
-                    <?php echo $notification;?>
+                    <?php echo $notification['message'];?>
                 </div>
             </div>
 

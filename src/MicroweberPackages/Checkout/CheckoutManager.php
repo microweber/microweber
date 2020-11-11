@@ -7,13 +7,13 @@ use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
-use MicroweberPackages\Checkout\Notifications\NewOrder;
 use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Order\Models\OrderAnonymousClient;
+use MicroweberPackages\Order\Notifications\NewFormEntry;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
@@ -698,7 +698,7 @@ class CheckoutManager
             return array('error' => _e('Order not found'));
         }
 
-        $newOrderEvent = new NewOrder($order);
+        $newOrderEvent = new NewFormEntry($order);
 
         // Ss logged
         $notifiable = false;

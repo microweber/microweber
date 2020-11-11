@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Checkout\Notifications;
+namespace MicroweberPackages\Order\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,6 +17,7 @@ class NewOrder extends Notification
     use Queueable;
     use InteractsWithQueue, SerializesModels;
 
+    public $notification;
     public $order;
 
     /**
@@ -142,5 +143,17 @@ class NewOrder extends Notification
         return $this->order;
     }
 
+    public function setNotification($noification)
+    {
+        $this->notification = $noification;
+    }
+
+    public function message()
+    {
+        $toView = $this->notification->data;
+        $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
+
+        return view('order::admin.notifications.new_order', $toView);
+    }
 
 }
