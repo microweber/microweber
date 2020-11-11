@@ -33,18 +33,38 @@ class NewFormEntry extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
     {
-        return ['database', AppMailChannel::class];
+        $rel_id = ($this->formEntry->rel_id);
+
+        $skip_saving_emails = false;
+        $channels = [];
+
+        $default_mod_id = 'contact_form_default';
+
+        if ($rel_id) {
+            $skip_saving_emails = app()->option_manager->get('skip_saving_emails', $rel_id) == 'y';
+        }
+        if (!$skip_saving_emails) {
+            $skip_saving_emails = app()->option_manager->get('skip_saving_emails', $default_mod_id) == 'y';
+        }
+
+        if (!$skip_saving_emails) {
+            $channels[] = 'database';
+        }
+
+        $channels[] = AppMailChannel::class;
+
+        return $channels;
     }
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
@@ -52,7 +72,7 @@ class NewFormEntry extends Notification
         $hostname = mw()->url_manager->hostname();
 
         $mail = new MailMessage();
-        $mail->subject('['.$hostname.'] '.'New form entry');
+        $mail->subject('[' . $hostname . '] ' . 'New form entry');
         $mail->view('app::email.simple', ['content' => app()->format->array_to_ul($this->formEntry->form_values)]);
 
         return $mail;
@@ -61,7 +81,7 @@ class NewFormEntry extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

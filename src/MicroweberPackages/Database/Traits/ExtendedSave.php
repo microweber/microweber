@@ -268,7 +268,10 @@ trait ExtendedSave
                     $data_to_save['categories'] = explode(',', $data_to_save['categories']);
                 }
                 $categories = $data_to_save['categories'];
+                if (is_array($categories) and empty($categories)) {
+                   return;
 
+                }
                 if (is_array($categories)) {
                     $save_cat_item = array();
                     $save_cat_item['rel_type'] = $data_to_save['table'];
@@ -285,6 +288,10 @@ trait ExtendedSave
                     $cats_modified = true;
                     foreach ($categories as $category) {
 
+                        if(!$category){
+                            return;
+                        }
+
                     	$cat_id = false;
 
                         if ((is_string($category) or is_int($category)) and intval($category) != 0) {
@@ -299,14 +306,14 @@ trait ExtendedSave
                                 $this->app->category_manager->save_item($save_cat_item);
                             }
                         } elseif(is_string($category)) {
-
+                        	
                         	$save_cat_item = array();
                         	$save_cat_item['single'] = true;
                         	$save_cat_item['rel_type'] = $data_to_save['table'];
                         	$save_cat_item['title'] = $category;
+							
 
-
-
+							
                         	$check = $this->app->category_manager->get($save_cat_item);
                         	if (!$check) {
                                 if (isset($data_to_save['parent'])) {
@@ -318,7 +325,7 @@ trait ExtendedSave
                         	} else {
                         		$cat_id = $check['id'];
                         	}
-
+                         
                         }  elseif (is_array($category)) {
                             if (isset($category['title']) and isset($data_to_save['id'])) {
                                 $save_cat_item = array();
@@ -343,9 +350,9 @@ trait ExtendedSave
                                 }
                             }
                         }
-
+                        
                         if ($cat_id != false) {
-
+                        	
 							$save_cat_item = array();
 							$save_cat_item['rel_type'] = $data_to_save['table'];
 							$save_cat_item['rel_id'] = $data_to_save['id'];
@@ -354,13 +361,13 @@ trait ExtendedSave
 							} elseif($cat_id) {
 								$save_cat_item['parent_id'] = $cat_id;
 							}
-
+                            
 							$check = $this->app->category_manager->get_items($save_cat_item);
 							if ($check == false) {
 								$save_item = $this->app->category_manager->save_item($save_cat_item);
 							}
 						}
-
+                        
                     }
                 }
             } else if (isset($data_to_save['categories']) and !$data_to_save['categories']) {
