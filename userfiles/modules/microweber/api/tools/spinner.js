@@ -48,12 +48,18 @@ mw.Spinner = function(options){
     this.show = function(){
         this.$spinner.show();
         this.$element.addClass('has-mw-spinner');
+        if(this.options.decorate) {
+            this.$element.addClass('mw-spinner-decorate');
+        }
         return this;
     };
 
     this.hide = function(){
         this.$spinner.hide();
         this.$element.removeClass('has-mw-spinner');
+        if(this.options.decorate) {
+            this.$element.removeClass('mw-spinner-decorate');
+        }
         return this;
     };
 

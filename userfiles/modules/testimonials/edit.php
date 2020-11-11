@@ -3,7 +3,13 @@
 <script>
     $(document).ready(function () {
         $("#add-testimonial-form").submit(function (event) {
+            var isNew = $('[name="id"]', this).val() === '0';
             event.preventDefault();
+            var form = this;
+            mw.spinner({
+                element: form,
+                decorate: true
+            })
             var data = $(this).serialize();
             var url = "<?php print api_url('save_testimonial'); ?>";
             var post = $.post(url, data);
@@ -12,13 +18,21 @@
                 mw.reload_module("testimonials/list");
                 mw.reload_module("#project-select-testimonials");
 
-                $("#add-testimonial-form").find("input[type=text], textarea").val("");
+                mw.notification.success('Saved');
+                mw.spinner({
+                    element: form,
+                    decorate: true
+                }).hide()
 
                 $('.js-add-new-button').hide();
-                $("#edit-testimonials").attr("edit-id", "0");
-                mw.reload_module("#edit-testimonials");
 
-                $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
+                if(isNew) {
+                    $("#edit-testimonials").attr("edit-id", data);
+                    mw.reload_module("#edit-testimonials");
+
+                    $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
+                }
+
             });
         });
     });
@@ -37,6 +51,12 @@
 </script>
 
 <style>
+
+    #add-testimonial-form{
+        position: relative;
+    }
+
+
     .js-img-holder:hover img {
         display: none;
     }
