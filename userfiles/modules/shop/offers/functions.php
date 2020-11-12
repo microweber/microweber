@@ -1,6 +1,10 @@
 <?php
 autoload_add_namespace(__DIR__.'/src/', 'MicroweberPackages\\Shop\\Offers\\');
 
+
+
+echo 111;
+die();
 api_expose_admin('offer_save');
 function offer_save($offerData = array())
 {
