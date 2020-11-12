@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
+use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationEventServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
@@ -43,7 +44,6 @@ use MicroweberPackages\Module\ModuleServiceProvider;
 
 use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
-use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
 // Shop
 use MicroweberPackages\Cart\CartManagerServiceProvider;
@@ -220,7 +220,7 @@ if (! defined('MW_VERSION')) {
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
-        $this->app->register(BackupManagerServiceProvider::class);
+        $this->app->register(BackupServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);

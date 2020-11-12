@@ -1,17 +1,19 @@
 <?php
 
-namespace MicroweberPackages\Utils\Geo;
+namespace MicroweberPackages\Backup\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use MicroweberPackages\Backup\Exporters\SpreadsheetHelper;
 
-api_expose_admin('Microweber/Utils/Language/export');
-api_expose_admin('Microweber/Utils/Language/upload');
-
-class Language
+class LanguageController
 {
-	public function upload($params) {
+	public function upload(Request $request) {
 
-		$localFielapth = url2dir($params['src']);
+        $src = $request->get('src');
+        $namespace = $request->get('namespace', false);
+        $language = $request->get('language', false);
+
+		$localFielapth = url2dir($src);
 
 		$rows = SpreadsheetHelper::newSpreadsheet($localFielapth)->getRows();
 
@@ -23,12 +25,12 @@ class Language
 			$readyData[$row[0]] = $row[1];
 		}
 
-		if (isset($params['namespace'])) {
-			$readyData['___namespace'] = $params['namespace'];
+		if ($namespace) {
+			$readyData['___namespace'] = $namespace;
 		}
 
-		if (isset($params['language'])) {
-			$readyData['___lang'] = $params['language'];
+		if ($language) {
+			$readyData['___lang'] = $language;
 		}
 
 		$save = mw()->lang_helper->save_language_file_content($readyData);
@@ -36,24 +38,25 @@ class Language
 		return $save;
 	}
 
-	public function export($params) {
+	public function export(Request $request) {
 
-		$content = array();
+	    $namespace = $request->get('namespace');
+        $language = $request->get('language', false);
 
-		$filename = $params['namespace'];
+		$filename = $namespace;
 		$filename = str_replace('/', '-', $filename);
 		$filename = str_replace('\\', '-', $filename);
 
-		if (isset($params['language']) && !empty($params['language'])) {
-			$filename = $params['language'] .'-' . $filename;
+		if (!empty($language)) {
+			$filename = $language .'-' . $filename;
 		}
 
 		$exportFilename = userfiles_path() .'/'. $filename . '.xlsx';
 
-		if ($params['namespace'] == 'global') {
+		if ($namespace == 'global') {
 			$content = mw()->lang_helper->get_language_file_content();
 		} else {
-			$content = mw()->lang_helper->get_language_file_content($params['namespace']);
+			$content = mw()->lang_helper->get_language_file_content($namespace);
 		}
 
 		$rows = array();

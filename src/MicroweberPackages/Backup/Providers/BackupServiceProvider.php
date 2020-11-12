@@ -9,11 +9,12 @@
  *
  */
 
-namespace MicroweberPackages\Backup;
+namespace MicroweberPackages\Backup\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Backup\BackupManager;
 
-class BackupManagerServiceProvider extends ServiceProvider
+class BackupServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -29,5 +30,6 @@ class BackupManagerServiceProvider extends ServiceProvider
             return new BackupManager();
         });
 
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
     }
 }
