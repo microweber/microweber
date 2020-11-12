@@ -349,6 +349,27 @@ class Template
     }
 
 
+    public function add_csrf_token_meta_tags($layout)
+    {
+        $one = 1;
+        $add = ' <meta name="csrf-token" content="'.csrf_token().'" />
+        <script>
+        $.ajaxSetup({
+            headers: {
+                \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
+            }
+        });
+        </script>';
+
+        $layout = str_ireplace('</head>', $add . '</head>', $layout, $one);
+
+
+
+
+        return $layout;
+
+    }
+
     public function get_default_system_ui_css_url()
     {
         $url = mw_includes_url() . 'default.css';

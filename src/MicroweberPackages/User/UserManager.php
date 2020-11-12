@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User;
 
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
@@ -960,10 +961,11 @@ class UserManager
 
     public function csrf_validate(&$data)
     {
+        $data['_token_header'] = request()->header('X-CSRF-TOKEN');
         $session_token = Session::token();
         if (is_array($data) and $this->session_id()) {
             foreach ($data as $k => $v) {
-                if ($k == 'token' or $k == '_token') {
+                if ($k == 'token' or $k == '_token' or $k == '_token_header') {
                     if ($session_token === $v) {
                         unset($data[$k]);
 

@@ -2221,6 +2221,12 @@ class FrontendController extends Controller
             }
 
 
+
+
+
+
+
+
             $l = $this->app->parser->replace_url_placeholders($l);
 
 
@@ -2230,6 +2236,9 @@ class FrontendController extends Controller
             $l = execute_document_ready($l);
 
             event_trigger('frontend');
+
+
+            $l = mw()->template->add_csrf_token_meta_tags($l);
 
             $is_embed = $this->app->url_manager->param('embed');
 
@@ -2749,6 +2758,8 @@ class FrontendController extends Controller
 
 
         $layout = $this->app->parser->process($layout, $options = false);
+
+        $layout = mw()->template->add_csrf_token_meta_tags($layout);
 
         $layout = execute_document_ready($layout);
 

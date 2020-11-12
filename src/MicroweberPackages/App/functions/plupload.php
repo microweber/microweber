@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 
 $files_utils = new \MicroweberPackages\Utils\System\Files();
 $dangerous = $files_utils->get_dangerous_files_extentions();
@@ -9,6 +10,8 @@ if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == f
 }
 $validate_token = false;
 if (!isset($_SERVER['HTTP_REFERER'])) {
+    header("HTTP/1.1 401 Unauthorized");
+
     die('{"jsonrpc" : "2.0", "error" : {"code":97, "message": "You are not allowed to upload"}}');
 } elseif (!stristr($_SERVER['HTTP_REFERER'], site_url())) {
     //    if (!is_logged()){
@@ -19,11 +22,13 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
 if (!is_admin()) {
     $validate_token = mw()->user_manager->csrf_validate($_GET);
     if ($validate_token == false) {
+        header("HTTP/1.1 401 Unauthorized");
         die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
     }
 
     $is_ajax = mw()->url_manager->is_ajax();
-    if ($is_ajax != false) {
+    if (!$is_ajax) {
+        header("HTTP/1.1 401 Unauthorized");
         die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
     }
 }
@@ -45,6 +50,8 @@ $is_ext = strtolower($is_ext);
 $is_dangerous_file = $files_utils->is_dangerous_file($fileName_ext);
 
 if ($is_dangerous_file) {
+    header("HTTP/1.1 401 Unauthorized");
+
     die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
 }
 
@@ -99,18 +106,26 @@ if ($allowed_to_upload == false) {
 
         if ($cfid != false and isset($cfid['custom_field_type'])) {
             if ($cfid['custom_field_type'] != 'upload') {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Custom field is not file upload type"}}');
             }
             if ($cfid != false and (!isset($cfid['options']) or !isset($cfid['options']['file_types']))) {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "File types is not set."}}');
             }
             if ($cfid != false and isset($cfid['file_types']) and empty($cfid['file_types'])) {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "File types cannot by empty."}}');
             }
 
             if ($cfid != false and isset($cfid['options']) and isset($cfid['options']['file_types'])) {
                 $alloled_ft = array_values(($cfid['options']['file_types']));
                 if (empty($alloled_ft)) {
+                    header("HTTP/1.1 401 Unauthorized");
+
                     die('{"jsonrpc" : "2.0", "error" : {"code": 104, "message": "File types cannot by empty."}}');
                 } else {
                     $are_allowed = '';
@@ -204,19 +219,27 @@ if ($allowed_to_upload == false) {
                                 }
                             }
                             if ($pass_type_check == false) {
+                                header("HTTP/1.1 401 Unauthorized");
+
                                 die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload ' . $are_allowed . ' files."}}');
                             } else {
                                 if (!isset($_REQUEST['captcha'])) {
                                     if (!$validate_token) {
+                                        header("HTTP/1.1 401 Unauthorized");
+
                                         die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
                                     }
                                 } else {
                                     $cap = mw()->user_manager->session_get('captcha');
                                     if ($cap == false) {
+                                        header("HTTP/1.1 401 Unauthorized");
+
                                         die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
                                     }
                                     $validate_captcha = $this->app->captcha_manager->validate($_REQUEST['captcha']);
                                     if (!$validate_captcha) {
+                                        header("HTTP/1.1 401 Unauthorized");
+
                                         die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
                                     } else {
                                         if (!isset($_REQUEST['path'])) {
@@ -233,6 +256,8 @@ if ($allowed_to_upload == false) {
             }
         }
     } else {
+        header("HTTP/1.1 401 Unauthorized");
+
         die('{"jsonrpc" : "2.0", "error" : {"code": 110, "message": "Only admin can upload."}, "id" : "id"}');
     }
 }
@@ -401,6 +426,8 @@ if ($engine == 'plupload') {
                         fwrite($out, $buff);
                     }
                 } else {
+                    header("HTTP/1.1 401 Unauthorized");
+
                     die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
                 }
                 fclose($in);
@@ -408,9 +435,13 @@ if ($engine == 'plupload') {
 
                 @unlink($_FILES['file']['tmp_name']);
             } else {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
             }
         } else {
+            header("HTTP/1.1 401 Unauthorized");
+
             die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
         }
     } else {
@@ -425,12 +456,16 @@ if ($engine == 'plupload') {
                     fwrite($out, $buff);
                 }
             } else {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
             }
 
             fclose($in);
             fclose($out);
         } else {
+            header("HTTP/1.1 401 Unauthorized");
+
             die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
         }
     }

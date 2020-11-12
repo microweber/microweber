@@ -142,6 +142,7 @@ class AdminController extends Controller
         $layout = mw()->parser->process($layout);
         event_trigger('on_load');
 
+        $layout = mw()->template->add_csrf_token_meta_tags($layout);
         $layout = execute_document_ready($layout);
 
         event_trigger('mw.admin.header');
