@@ -8,6 +8,18 @@ use MicroweberPackages\Payment\Payment;
 
 class Customer extends Model
 {
+    public $fillable = [
+        'name',
+        'first_name',
+        'last_name',
+        'phone',
+        'email',
+        'active',
+        'user_id',
+        'currency_id',
+        'company_id'
+    ];
+
     public $translatable = ['first_name','last_name'];
 
     public function getActiveAttribute($attribute)
@@ -33,11 +45,6 @@ class Customer extends Model
     public function currency()
     {
         return $this->belongsTo(Currency::class);
-    }
-
-    public function expenses()
-    {
-        return $this->hasMany(Expense::class);
     }
 
     public function billingAddress()

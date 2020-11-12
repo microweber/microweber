@@ -1,7 +1,7 @@
 <?php must_have_access(); ?>
 
 <?php
-if (!isset($params['product_id'])) {
+if (!isset($params['product_id']) or !function_exists('offers_get_by_product_id')) {
     return;
 }
 

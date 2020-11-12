@@ -242,6 +242,8 @@ if (isset($params['quick_edit'])) {
                                         <span class="text-silver" id="slug-base-url"><?php print $site_prefix_url; ?></span>
                                         <span class="contenteditable js-slug-base-url" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
                                     </span>
+                                    <span class="btn btn-outline-primary btn-sm pull-right" style="width:150px;" onclick="copy_url_of_page();"><i class="fa fa-copy"></i> <?php _e("Copy"); ?></span>
+PETKO STILNI GO
                                 </div>
 
                                 <div class="d-none">
@@ -282,6 +284,15 @@ if (isset($params['quick_edit'])) {
                                             $('.js-slug-base-url-changed').val(slug);
                                             $('.js-slug-base-url').text(slug);
                                         });
+
+
+                                         copy_url_of_page =function(){
+                                            var site_url =  $('#slug-base-url').html();
+                                            var slug_base_url =  $('.js-slug-base-url').html();
+                                            var url = site_url + slug_base_url ;
+                                            mw.tools.copy(url);
+                                        }
+
                                     </script>
                                 </div>
                             </div>
