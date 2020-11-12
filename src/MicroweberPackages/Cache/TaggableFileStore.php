@@ -490,6 +490,8 @@ class TaggableFileStore implements Store
      */
     public function forget($key)
     {
+
+        $this->files->cachedDataMemory = [];
         $findTagPath = $this->_findCachePathByKey($key);
         $findTagPath = $this->getPath() . $findTagPath;
 
@@ -511,6 +513,7 @@ class TaggableFileStore implements Store
      */
     public function flush($all = false)
     {
+        $this->files->cachedDataMemory = [];
         if (!empty($this->tags)) {
             foreach ($this->tags as $tag) {
                 $tagDetails = $this->_getTagMapByName($tag);

@@ -836,7 +836,7 @@ class UserManager
 
 
                     $this->force_save = false;
-                    $this->app->cache_manager->delete('users/global');
+                    $this->app->cache_manager->delete('users');
                     $this->session_del('captcha');
 
                     $this->after_register($next);

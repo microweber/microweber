@@ -256,12 +256,12 @@ class CartManager extends Crud
     public function get($params = false)
     {
         $time = time();
-//        $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
+//        $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart');
 //
 //        if ($clear_carts_cache == false or ($clear_carts_cache < ($time - 600))) {
 //            // clears cache for old carts
-//            $this->app->cache_manager->delete('cart/global');
-//            $this->app->cache_manager->save($time, 'clear_cache', 'cart/global');
+//            $this->app->cache_manager->delete('cart');
+//            $this->app->cache_manager->save($time, 'clear_cache', 'cart');
 //        }
 
         $params2 = array();
@@ -496,7 +496,7 @@ class CartManager extends Crud
         Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
         $this->no_cache = true;
         $this->app->cache_manager->delete('cart');
-        $this->app->cache_manager->delete('cart_orders/global');
+        $this->app->cache_manager->delete('cart_orders');
 
         $cart_sum = $this->sum(true);
         $cart_qty = $this->sum(false);
@@ -828,7 +828,7 @@ class CartManager extends Crud
 
             $cart_saved_id = $this->app->database_manager->save($table, $cart);
             $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders/global');
+            $this->app->cache_manager->delete('cart_orders');
 
             if (isset($cart['rel_type']) and isset($cart['rel_id']) and $cart['rel_type'] == 'content') {
                 $cart_return['image'] = $this->app->media_manager->get_picture($cart['rel_id']);
@@ -907,7 +907,7 @@ class CartManager extends Crud
                 if ($will_add == true) {
                     $this->app->cache_manager->delete('cart');
 
-                    $this->app->cache_manager->delete('cart_orders/global');
+                    $this->app->cache_manager->delete('cart_orders');
                 }
             }
         }

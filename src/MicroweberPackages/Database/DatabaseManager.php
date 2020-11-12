@@ -575,7 +575,7 @@ class DatabaseManager extends DbUtils
 
         if ($skip_cache == false) {
             $cache_group = $this->assoc_table_name($table);
-            $this->app->cache_manager->delete($cache_group . '/global');
+            $this->app->cache_manager->delete($cache_group . '');
             $this->app->cache_manager->delete('content/global/full_page_cache');
             $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
             if (isset($criteria['parent_id'])) {
@@ -662,7 +662,7 @@ class DatabaseManager extends DbUtils
      *  //make plain query to the db
      * $table = $this->table_prefix.'content';
      *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_at DESC LIMIT 0,1 ";
-     *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
+     *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content');
      *
      * </code>
      */

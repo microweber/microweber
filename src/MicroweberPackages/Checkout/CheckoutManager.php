@@ -988,8 +988,8 @@ class CheckoutManager
 
             }
             if ($ord > 0) {
-                $this->app->cache_manager->delete('cart/global');
-                $this->app->cache_manager->delete('cart_orders/global');
+                $this->app->cache_manager->delete('cart');
+                $this->app->cache_manager->delete('cart_orders');
                 //return true;
             }
 

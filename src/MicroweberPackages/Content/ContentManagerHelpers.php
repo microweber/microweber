@@ -107,7 +107,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
             }
 
-            $this->app->cache_manager->delete('menus/global');
+            $this->app->cache_manager->delete('menus');
             $this->app->cache_manager->delete('menus');
         }
 
@@ -214,8 +214,8 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
         $this->app->cache_manager->delete('menus');
         $this->app->cache_manager->delete('content');
-        $this->app->cache_manager->delete('categories/global');
-        $this->app->cache_manager->delete('content/global');
+        $this->app->cache_manager->delete('categories');
+        $this->app->cache_manager->delete('content');
 
         return $del_ids;
     }
@@ -1237,7 +1237,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $this->app->cache_manager->delete('content_fields/' . $fld);
             $this->app->cache_manager->delete('content_fields/global/' . $fld);
         }
-        $this->app->cache_manager->delete('content_fields/global');
+        $this->app->cache_manager->delete('content_fields');
         if (isset($data['rel_type']) and isset($data['rel_id'])) {
             $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
@@ -1253,7 +1253,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (isset($data['field'])) {
             $this->app->cache_manager->delete('content_fields/' . $data['field']);
         }
-        $this->app->cache_manager->delete('content_fields/global');
+        $this->app->cache_manager->delete('content_fields');
         $data['table'] = $table;
         $data['allow_html'] = 1;
 

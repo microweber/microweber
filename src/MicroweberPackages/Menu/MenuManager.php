@@ -71,7 +71,7 @@ class MenuManager
         }
       //  dump($data_to_save);
         $save = $this->app->database_manager->save($table, $data_to_save);
-        $this->app->cache_manager->delete('menus/global');
+        $this->app->cache_manager->delete('menus');
         $this->app->cache_manager->delete('menus');
 
         return $save;
@@ -161,7 +161,7 @@ class MenuManager
         $this->app->event_manager->trigger('menu.after.save', $data_to_save);
         */
 
-        $this->app->cache_manager->delete('menus/global');
+        $this->app->cache_manager->delete('menus');
 
         return $save;
     }
@@ -920,7 +920,7 @@ class MenuManager
 
         $this->app->database_manager->delete_by_id($table, trim($id), $field_name = 'id');
 
-        $this->app->cache_manager->delete('menus/global');
+        $this->app->cache_manager->delete('menus');
 
         return true;
     }
@@ -943,7 +943,7 @@ class MenuManager
         }
         $table = $this->tables['menus'];
         $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
-        $this->app->cache_manager->delete('menus/global');
+        $this->app->cache_manager->delete('menus');
 
         return true;
     }
@@ -981,7 +981,7 @@ class MenuManager
                 $return_res = $indx;
             }
         }
-        $this->app->cache_manager->delete('menus/global');
+        $this->app->cache_manager->delete('menus');
 
         $this->app->cache_manager->delete('menus');
 

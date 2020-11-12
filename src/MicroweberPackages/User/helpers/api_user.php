@@ -99,7 +99,7 @@ api_expose('users/verify_email_link', function ($params) {
                 $adminUser = \User::findOrFail($decoded);
                 $adminUser->is_verified = 1;
                 $adminUser->save();
-                mw()->cache_manager->delete('users/global');
+                mw()->cache_manager->delete('users');
                 mw()->cache_manager->delete('users/' . $decoded);
                 $params['user_id'] = $decoded;
                 mw()->event_manager->trigger('mw.user.verify_email_link', $params);

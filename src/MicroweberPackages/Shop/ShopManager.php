@@ -380,7 +380,7 @@ class ShopManager
         if (isset($data['email'])) {
             $c_id = $this->app->database_manager->escape_string($data['email']);
             $res = $this->app->database_manager->delete_by_id($table, $c_id, 'email');
-            $this->app->cache_manager->delete('cart_orders/global');
+            $this->app->cache_manager->delete('cart_orders');
 
             return $res;
         }
@@ -652,7 +652,7 @@ class ShopManager
             }
         }
         if ($changes==true){
-            $this->app->cache_manager->delete('options/global');
+            $this->app->cache_manager->delete('options');
         }
         $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group = 'db');
 

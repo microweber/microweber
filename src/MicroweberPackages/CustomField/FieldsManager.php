@@ -269,7 +269,7 @@ class FieldsManager
 
                 $this->app->option_manager->save($option);
                 if ($pos > 0) {
-                    $this->app->cache_manager->delete('custom_fields/global');
+                    $this->app->cache_manager->delete('custom_fields');
                 }
             }
         }
@@ -652,7 +652,7 @@ class FieldsManager
         if (empty($params)) {
             return false;
         }
-
+        
         $q = $this->app->database_manager->get($params);
 
         if (!empty($q)) {
@@ -1396,7 +1396,7 @@ class FieldsManager
 
         $cache_id = __FUNCTION__ . '_' . $crc;
 
-        $results = $this->app->database_manager->query($q, $cache_id, 'custom_fields/global');
+        $results = $this->app->database_manager->query($q, $cache_id, 'custom_fields');
 
         if (is_array($results)) {
             return $results;
