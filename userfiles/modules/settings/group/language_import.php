@@ -24,7 +24,7 @@ $(document).ready(function () {
     	postData.language = "<?php echo $params['language']; ?>";
 
 		$.post("<?php echo route('admin.backup.language.upload'); ?>", postData,
-			function(msg) { 
+			function(msg) {
 				if (msg.success) {
 			    	mw.reload_module('settings/group/language_edit');
 			    }
