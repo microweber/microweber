@@ -315,17 +315,26 @@
                 }
             }
 
-            return $.ajax({
+            var xhrOptions = {
                 url: this.getUrl(),
                 type: 'post',
                 processData: false,
                 contentType: false,
                 data: pdata,
-                success: function (res) {
-                    scope.removeFile(data.file);
-                    if(done) {
-                        done.call(res, res);
+                success: function (data, statusText, xhrReq) {
+
+                    if(xhrReq.status === 200) {
+                        if (data && (data.form_data_required || data.form_data_module)) {
+                            mw.extradataForm(xhrOptions, data, mw.jqxhr);
+                        }
+                        else {
+                            scope.removeFile(data.file);
+                            if(done) {
+                                done.call(res, res);
+                            }
+                        }
                     }
+
                 },
                 dataType: 'json',
                 xhr: function () {
@@ -341,7 +350,9 @@
                     });
                     return xhr;
                 }
-            });
+            };
+
+            return mw.jqxhr(xhrOptions);
         };
     };
 
