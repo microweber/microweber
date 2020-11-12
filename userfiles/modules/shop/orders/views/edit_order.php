@@ -67,7 +67,15 @@
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
                 <h5 class="font-weight-bold"><?php _e("Client Information"); ?></h5>
-                <small>Edit client information <a href="<?php print admin_url(); ?>view:shop/action:clients#?clientorder=<?php print $ord['id'] ?>" class="btn btn-sm btn-outline-primary ml-2 text-dark"><?php _e("Edit"); ?></a></small>
+                <?php
+                if (isset($ord['customer_id']) && $ord['customer_id'] > 0):
+                ?><small>
+                    Edit client information
+                    <a href="<?php echo route('customers.edit', $ord['customer_id']) ?>" class="btn btn-sm btn-outline-primary ml-2 text-dark">
+                        <?php _e("Edit"); ?>
+                    </a>
+                </small>
+                <?php endif;?>
             </div>
 
             <div class="info-table">

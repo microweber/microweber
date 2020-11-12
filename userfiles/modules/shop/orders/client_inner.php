@@ -1,3 +1,4 @@
+<?php return;// DEPRECATED ?>
 <?php must_have_access(); ?>
 
 <?php if (isset($params['order-id']) == true): ?>
@@ -79,7 +80,10 @@
                     });
                 </script>
                 <div class='pull-right m-b-20'>
-                    <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline edit-client-info" onclick="mw.client_edit.enable(this);"><span class="mw-icon-pen"></span> <?php _e("Edit client information"); ?></button>
+
+                    <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline edit-client-info" onclick="mw.client_edit.enable(this);"><span class="mw-icon-pen"></span>
+                        <?php _e("Edit client information"); ?>
+                    </button>
 
                     <button class="mw-ui-btn mw-ui-btn-info m-l-10 edit-client-save" style="display: none;" onclick="mw.client_edit.save();"><?php _e("Save"); ?></button>
                 </div>
