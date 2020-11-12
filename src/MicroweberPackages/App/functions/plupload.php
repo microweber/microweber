@@ -8,6 +8,9 @@ $dangerous = $files_utils->get_dangerous_files_extentions();
 if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
     // //session_start();
 }
+
+
+
 $validate_token = false;
 if (!isset($_SERVER['HTTP_REFERER'])) {
     header("HTTP/1.1 401 Unauthorized");
@@ -98,6 +101,10 @@ if ($allowed_to_upload == false) {
             if (($_REQUEST['rel_id']) != $cfid['rel_id']) {
                 $rel_error = true;
             }
+
+
+
+
 
             if ($rel_error) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 91, "message": "You are not allowed to upload"}}');
@@ -260,6 +267,19 @@ if ($allowed_to_upload == false) {
 
         die('{"jsonrpc" : "2.0", "error" : {"code": 110, "message": "Only admin can upload."}, "id" : "id"}');
     }
+}
+
+
+if(!is_admin()){
+//    /var_dump($_REQUEST);
+
+    return response(array(
+        'error' => _e('Please enter captcha answer!', true),
+        'captcha_error' => true,
+        'form_data_required' => 'captcha',
+        'form_data_required_params' => array('captcha_parent_for_id' => $_REQUEST['rel_id']),
+        'form_data_module' => 'captcha'
+    ));
 }
 
 
@@ -493,7 +513,6 @@ if (!$chunks || $chunk == $chunks - 1) {
 
     $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
     $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
-
 
     if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
         $ext = get_file_extension($filePath);
