@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\CustomField;
 
+use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
+use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\View\View;
 
 api_expose_admin('fields/reorder');
@@ -924,9 +926,7 @@ class FieldsManager
         $this->app->database_manager->delete_by_id($custom_field_table_values, $id, 'custom_field_id');
         $this->app->cache_manager->delete('custom_fields');
 
-		if(is_module('shop/offers') and mw()->module_manager->is_installed('shop/offers')){
-			$this->app->database_manager->delete_by_id('offers', $id, 'price_id');
-		}
+        event(new CustomFieldWasDeleted($id));
 
         return $id;
     }
