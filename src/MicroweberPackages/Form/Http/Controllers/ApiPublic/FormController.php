@@ -13,14 +13,12 @@ use Illuminate\Http\Request;
 class FormController
 {
 
-    public function post(Request $request) {
+    public function post(Request $request)
+    {
 
-
-        var_dump(1111111);
         var_dump($_FILES);
         var_dump($_POST);
-        var_dump($_REQUEST);
- return;
+        return;
 
 
         return mw()->forms_manager->post($request->all());

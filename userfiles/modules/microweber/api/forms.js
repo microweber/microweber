@@ -115,10 +115,16 @@ mw.form = {
                 }
 
                 if (form.getAttribute('enctype') === "multipart/form-data") {
+
                     var form_data = new FormData();
+                    $.each(req.data, function (k,v) {
+                        form_data.append(k,v);
+                    });
+
                     $('[type="file"]', form).each(function () {
-                        form_data.append(this.name, this.files[0]);
+                        form_data.set(this.name, this.files[0]);
                     })
+
                     req.data = form_data;
                     req.processData = false;
                     req.contentType = false;
