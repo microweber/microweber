@@ -33,7 +33,7 @@ use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\Database\DatabaseManagerServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
-use MicroweberPackages\Form\Providers\FormsManagerServiceProvider;
+use MicroweberPackages\Form\Providers\FormServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
@@ -214,7 +214,7 @@ if (! defined('MW_VERSION')) {
 
         $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
-        $this->app->register(FormsManagerServiceProvider::class);
+        $this->app->register(FormServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);

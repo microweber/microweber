@@ -14,9 +14,10 @@ namespace MicroweberPackages\Form\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\CustomField\FieldsManager;
+use MicroweberPackages\Form\FormsManager;
 
 
-class FormsManagerServiceProvider extends ServiceProvider
+class FormServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -40,6 +41,7 @@ class FormsManagerServiceProvider extends ServiceProvider
         });
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api_public.php');
 
         View::addNamespace('form', __DIR__ . '/../resources/views');
 

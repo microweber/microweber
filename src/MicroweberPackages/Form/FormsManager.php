@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Form\Providers;
+namespace MicroweberPackages\Form;
 
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
