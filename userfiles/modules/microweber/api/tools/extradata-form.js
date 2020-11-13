@@ -60,9 +60,6 @@ mw.extradataForm = function (options, data, func) {
         if(data.form_data_required) {
             mw.$(form).on('submit', function (e) {
 
-
-
-
                 e.preventDefault();
                 var exdata = mw.serializeFields(this);
 

@@ -49,6 +49,7 @@ $rand = 'pic-sorter-' . uniqid();
         width: 18%;
         height: 110px;
         margin: 0 1% 1%;
+        overflow: hidden;
     }
 
     .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone button {

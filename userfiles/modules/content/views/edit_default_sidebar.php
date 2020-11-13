@@ -33,7 +33,13 @@
                 color: 'primary',
                 size: 'sm',
                 outline: true,
-                saveState: false
+                saveState: false,
+                on: {
+                    selectionChange: function () {
+                        document.querySelector('.btn-save').disabled = false;
+                        mw.askusertostay = true;
+                    }
+                }
             });
 
             $(categorySelector.tree).on('ready', function () {

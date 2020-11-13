@@ -374,6 +374,43 @@ if (isset($params['live_edit'])) {
                                     })
                                 })
                             });
+
+
+
+
+                            var dropdownUploader;
+
+                            mw.$('#mw-admin-post-media-type')
+                                .selectpicker()
+                                .on('changed.bs.select', function () {
+                                    mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
+                                    setTimeout(function () {
+                                        mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
+                                    }, 10)
+
+                                })
+                                .on('show.bs.select', function () {
+                                    if (!!dropdownUploader) return;
+                                    var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
+                                    dropdownUploader = mw.upload({
+                                        element: item,
+                                        accept: 'image/*',
+                                        multiple: true
+                                    });
+                                    $(dropdownUploader).on('FileAdded', function (e, res) {
+                                        mw._postsImageUploader._thumbpreload()
+                                    })
+                                    $(dropdownUploader).on('FileUploaded', function (e, res) {
+                                        console.log(e,res)
+                                        var url = res.src ? res.src : res;
+                                        if (window.after_upld) {
+
+                                            mw._postsImageUploader.hide()
+                                        }
+                                    });
+                                })
+
+
                         </script>
                         <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 

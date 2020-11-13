@@ -237,6 +237,7 @@ mw.tags = mw.chips = function(options){
 
 mw.treeTags = mw.treeChips = function(options){
     this.options = options;
+    this.options.on = this.options.on || {};
     var scope = this;
 
     var tagsHolder = options.tagsHolder || mw.$('<div class="mw-tree-tag-tags-holder"></div>');
@@ -257,6 +258,9 @@ mw.treeTags = mw.treeChips = function(options){
      });
      mw.$(this.tree).on('selectionChange', function(event, selectedData){
         scope.tags.setData(selectedData);
+        if (scope.options.on.selectionChange) {
+            scope.options.on.selectionChange(selectedData)
+        }
     });
 
 };

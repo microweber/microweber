@@ -330,7 +330,7 @@
                         else {
                             scope.removeFile(data.file);
                             if(done) {
-                                done.call(res, res);
+                                done.call(data, data);
                             }
                         }
                     }
@@ -357,7 +357,6 @@
     };
 
     mw.upload = function (options) {
-        console.log(options)
         return new Uploader(options);
     };
 
