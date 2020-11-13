@@ -1396,10 +1396,13 @@ class FrontendController extends Controller
 
                 $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
-                $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
+                $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group);
+
                 if ($output_cache_content != false) {
+
                     return \Response::make($output_cache_content);;
                 }
+
             }
         }
         $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
@@ -2261,8 +2264,8 @@ class FrontendController extends Controller
 
             if ($enable_full_page_cache and $output_cache_timeout != false) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
+                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
 
-                    $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
                     $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group, $output_cache_timeout);
                 }
             }

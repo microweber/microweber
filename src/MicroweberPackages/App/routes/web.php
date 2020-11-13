@@ -27,6 +27,11 @@ Route::any('/userfiles/{path}', [ 'uses' => '\MicroweberPackages\App\Http\Contro
 });
 
 
+Route::get('/csrf', function (){
+    return response()->json(['token' => csrf_token()], 200);
+
+
+})->name('csrf');
 
 
 // 'middleware' => 'web',

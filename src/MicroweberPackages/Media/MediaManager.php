@@ -918,7 +918,7 @@ class MediaManager
 
 
             if (!defined('MW_NO_OUTPUT_CACHE')) {
-                define('MW_NO_OUTPUT_CACHE', true);
+            //    define('MW_NO_OUTPUT_CACHE', true);
             }
 
             $cache_id_data['cache_path'] = $cache_path;

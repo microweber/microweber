@@ -351,19 +351,24 @@ class Template
 
     public function add_csrf_token_meta_tags($layout)
     {
+        $ajax = '<script>
+        $( document ).ready(function() {
+                    $.get( "' . route('csrf') . '", function( data ) {
+                    $(\'meta[name="csrf-token"]\').attr(\'content\',data.token)
+                     $.ajaxSetup({
+                        headers: {
+                            \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
+                        }
+                    });
+              })
+         });
+        </script> 
+       ';
+        $ajax = $ajax .  ' <meta name="csrf-token" content="" />';
+
         $one = 1;
-        $add = ' <meta name="csrf-token" content="'.csrf_token().'" />
-        <script>
-        $.ajaxSetup({
-            headers: {
-                \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
-            }
-        });
-        </script>';
-
-        $layout = str_ireplace('</head>', $add . '</head>', $layout, $one);
-
-
+        //   $layout = str_ireplace('</head>', $add . '</head>', $layout, $one);
+        $layout = str_ireplace('</head>', $ajax . '</head>', $layout, $one);
 
 
         return $layout;
