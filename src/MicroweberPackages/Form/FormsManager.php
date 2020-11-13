@@ -522,7 +522,6 @@ class FormsManager
                 Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($form_model));
 
                 $files_utils = new \MicroweberPackages\Utils\System\Files();
-                $dangerous = $files_utils->get_dangerous_files_extentions();
 
                 $uploadFilesValidation = [];
                 foreach ($more as $field) {
@@ -555,6 +554,8 @@ class FormsManager
                         $fieldRules[] = 'required';
                     }
 
+                    $fieldRules[] = 'valid_image';
+
                     if (!empty($fieldRules)) {
                         $uploadFilesValidation[$field['name_key']] = $fieldRules;
                     }
@@ -569,6 +570,11 @@ class FormsManager
                     return array(
                         'error' => _e($validatorMessages, true)
                     );
+                }
+
+                // Validation is ok
+                if (isset($_FILES) && !empty($_FILES)) {
+                    // 
                 }
 
                 if ($email_to == false) {

@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Form\Providers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\CustomField\FieldsManager;
@@ -39,6 +40,8 @@ class FormServiceProvider extends ServiceProvider
         $this->app->singleton('fields_manager', function ($app) {
             return new FieldsManager();
         });
+
+        Validator::extendImplicit('valid_image', 'MicroweberPackages\Form\Validators\ImageValidator@validate', __('Invalid image file'));
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api_public.php');
