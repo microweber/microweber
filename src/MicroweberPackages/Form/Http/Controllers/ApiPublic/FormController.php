@@ -15,8 +15,13 @@ class FormController
 
     public function post(Request $request) {
 
-        dd($request->files());
- 
+
+        var_dump(1111111);
+        var_dump($_FILES);
+        var_dump($_POST);
+        var_dump($_REQUEST);
+ return;
+
 
         return mw()->forms_manager->post($request->all());
 

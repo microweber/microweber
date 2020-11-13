@@ -78,20 +78,26 @@ mw.form = {
 
 	}
 
- // var is_form_valid = true;
-
 
     if(is_form_valid){
 
         var form = mw.$(selector)[0];
+
+        if(form._isSubmitting){
+            return;
+        }
+        form._isSubmitting = true;
+
+
         var when = form.$beforepost ? form.$beforepost : function () {};
         $.when(when()).then(function() {
             setTimeout(function () {
                 var obj = mw.form.serialize(selector, ignorenopost);
-                var xhr = $.ajax({
+                var req = {
                     url: url_to_post,
                     data: before_send ? before_send(obj) : obj,
                     method: 'post',
+
                     success: function(data){
                         mw.session.checkPause = false;
                         if(typeof callback === 'function'){
@@ -100,11 +106,28 @@ mw.form = {
                             return data;
                         }
                     },
+
                     onExternalDataDialogClose: function() {
                         if(callback_user_cancel) {
                             callback_user_cancel.call();
                         }
                     }
+                }
+
+                if (form.getAttribute('enctype') === "multipart/form-data") {
+                    var form_data = new FormData();
+                    $('[type="file"]', form).each(function () {
+                        form_data.append(this.name, this.files[0]);
+                    })
+                    req.data = form_data;
+                    req.processData = false;
+                    req.contentType = false;
+                    req.mimeType = 'multipart/form-data';
+                }
+
+                var xhr = $.ajax(req);
+                xhr.always(function(jqXHR, textStatus) {
+                    form._isSubmitting = false;
                 });
                 xhr.fail(function(a,b) {
                     mw.session.checkPause = false;
@@ -112,7 +135,7 @@ mw.form = {
                         callback_error.call(a,b);
                     }
                 });
-            }, 78)
+            }, 78);
         });
 
 
