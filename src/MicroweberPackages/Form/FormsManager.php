@@ -524,49 +524,51 @@ class FormsManager
                 $files_utils = new \MicroweberPackages\Utils\System\Files();
                 $dangerous = $files_utils->get_dangerous_files_extentions();
 
-                if (!empty($_FILES)) {
+                $uploadFilesValidation = [];
+                foreach ($more as $field) {
 
-                    $uploadFilesValidation = [];
-                    foreach ($more as $field) {
+                    $mimeTypes = [];
 
-                        $mimeTypes = [];
-
-                        $fieldRules = [];
-                        if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
-                            foreach($field['options']['file_types'] as $optionFileTypes) {
-                                if (!empty($optionFileTypes)) {
-                                    $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
-                                    $mimeTypesArray = explode(',', $mimeTypesString);
-                                    $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
-                                }
+                    $fieldRules = [];
+                    if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
+                        foreach ($field['options']['file_types'] as $optionFileTypes) {
+                            if (!empty($optionFileTypes)) {
+                                $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                                $mimeTypesArray = explode(',', $mimeTypesString);
+                                $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
                             }
                         }
-
-                        if (empty($mimeTypes)) {
-                            $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
-
-                        }
-
-                        if (!empty($mimeTypes) && is_array($mimeTypes)) {
-                            $mimeTypes = implode(',', $mimeTypes);
-                        }
-
-                        $fieldRules[] = 'mimes:'. $mimeTypes;;
-
-                        if (isset($field['options']['required']) && $field['options']['required'] == 1) {
-                            $fieldRules[] = 'required';
-                        }
-
-                        if (!empty($fieldRules)) {
-                            $uploadFilesValidation[$field['name_key']] = $fieldRules;
-                        }
                     }
 
-                    $validator = Validator::make($params, $uploadFilesValidation);
-                    if($validator->fails()){
-                        return response($validator->messages(), 200);
+                    if (empty($mimeTypes)) {
+                        $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
+
                     }
 
+                    if (!empty($mimeTypes) && is_array($mimeTypes)) {
+                        $mimeTypes = implode(',', $mimeTypes);
+                    }
+
+                    $fieldRules[] = 'mimes:' . $mimeTypes;;
+
+                    if (isset($field['options']['required']) && $field['options']['required'] == 1) {
+                        $fieldRules[] = 'required';
+                    }
+
+                    if (!empty($fieldRules)) {
+                        $uploadFilesValidation[$field['name_key']] = $fieldRules;
+                    }
+                }
+
+                $validator = Validator::make($params, $uploadFilesValidation);
+                if ($validator->fails()){
+                    $validatorMessages = false;
+                    foreach ($validator->messages()->toArray() as $inputFieldErros){
+                        $validatorMessages = reset($inputFieldErros);
+                    }
+                    return array(
+                        'error' => _e($validatorMessages, true)
+                    );
                 }
 
                 if ($email_to == false) {

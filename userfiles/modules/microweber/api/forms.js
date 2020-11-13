@@ -97,8 +97,14 @@ mw.form = {
                     url: url_to_post,
                     data: before_send ? before_send(obj) : obj,
                     method: 'post',
+                    dataType: "json",
 
                     success: function(data){
+/*
+                       if(typeof (data.error) != 'undefined' && data.error){
+                           mw.notification.error(data.error);
+                       }*/
+
                         mw.session.checkPause = false;
                         if(typeof callback === 'function'){
                             callback.call(data, mw.$(selector)[0]);
