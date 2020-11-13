@@ -4,6 +4,7 @@ namespace MicroweberPackages\Form;
 
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 use League\Csv\Writer;
 use Microweber\Utils\MailProvider;
 use MicroweberPackages\Form\Models\Form;
@@ -517,8 +518,56 @@ class FormsManager
 
 
                 $form_model = Form::find($save);
+
                 Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($form_model));
 
+                $files_utils = new \MicroweberPackages\Utils\System\Files();
+                $dangerous = $files_utils->get_dangerous_files_extentions();
+
+                if (!empty($_FILES)) {
+
+                    $uploadFilesValidation = [];
+                    foreach ($more as $field) {
+
+                        $mimeTypes = [];
+
+                        $fieldRules = [];
+                        if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
+                            foreach($field['options']['file_types'] as $optionFileTypes) {
+                                if (!empty($optionFileTypes)) {
+                                    $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                                    $mimeTypesArray = explode(',', $mimeTypesString);
+                                    $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
+                                }
+                            }
+                        }
+
+                        if (empty($mimeTypes)) {
+                            $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
+
+                        }
+
+                        if (!empty($mimeTypes) && is_array($mimeTypes)) {
+                            $mimeTypes = implode(',', $mimeTypes);
+                        }
+
+                        $fieldRules[] = 'mimes:'. $mimeTypes;;
+
+                        if (isset($field['options']['required']) && $field['options']['required'] == 1) {
+                            $fieldRules[] = 'required';
+                        }
+
+                        if (!empty($fieldRules)) {
+                            $uploadFilesValidation[$field['name_key']] = $fieldRules;
+                        }
+                    }
+
+                    $validator = Validator::make($params, $uploadFilesValidation);
+                    if($validator->fails()){
+                        return response($validator->messages(), 200);
+                    }
+
+                }
 
                 if ($email_to == false) {
                     $email_to = $this->app->option_manager->get('email_from', 'email');
@@ -620,39 +669,8 @@ class FormsManager
                                 } catch (\Exception $e) {
 
                                 }
-
-                                /*
-                                $notifiable_user = new AnonymousNotifiable();
-
-                                $notifiable_user->route(AppMailChannel::class, $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));*/
-
                             }
                         }
-                        //     dd($user_mails);
-                        //  dd($user_mails);
-
-                        //TODO
-                        //STARIQMAILSENDER
-                        /*
-                                            $sender = new \MicroweberPackages\Utils\Mail\MailSender();
-                                            $sender->silent_exceptions = true;
-                                            foreach ($user_mails as $value) {
-                                                if ($value == $email_to || $value == $email_bcc) {
-                                                    $msg = $notif['content'];
-                                                    $subj = $notif['description'];
-                                                    $from = $email_from;
-
-                                                    $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_reply, $append_files_ready);
-                                                } else {
-
-                                                    $msg = $mail_autoresp;
-                                                    $subj = $email_autorespond_subject ?: 'Thank you!';
-                                                    $from = false;
-                                                    $sender->send($value, $subj, $msg, $from, false, false, false, false, $email_reply, $append_files_ready);
-                                                }
-
-
-                                            }*/
                     }
                 }
             }

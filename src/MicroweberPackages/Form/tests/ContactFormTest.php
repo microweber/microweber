@@ -81,9 +81,18 @@ class ContactFormTest extends TestCase
 
             $subject = $email->getSubject();
             $body = $email->getBody();
+            dump(__FILE__);
             dump($subject);
 // dump($body);
         }
+
+
+    }
+    public function testFormSubmitWithUpload()
+    {
+
+
+
 
 
     }

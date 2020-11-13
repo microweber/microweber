@@ -172,41 +172,8 @@ if ($allowed_to_upload == false) {
 
                             }
 
-                            switch ($allowed_file_type_item) {
+                            $are_allowed = $files_utils->get_allowed_files_extensions_for_upload($allowed_file_type_item);
 
-                                case 'img':
-                                case 'image':
-                                case 'images':
-                                    $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,svg';
-                                    break;
-                                case 'video':
-                                case 'videos':
-                                    $are_allowed .= ',avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
-                                    break;
-                                case 'file':
-                                case 'files':
-                                    $are_allowed .= ',doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv,7z';
-                                    break;
-                                case 'documents':
-                                case 'doc':
-                                    $are_allowed .= ',doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
-                                    break;
-                                case 'archives':
-                                case 'arc':
-                                case 'arch':
-                                    $are_allowed .= ',zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
-                                    break;
-                                case 'all':
-                                    $are_allowed .= ',*';
-                                    break;
-                                case '*':
-                                    $are_allowed .= ',*';
-                                    break;
-                                default:
-
-                                    $are_allowed .= ',' . $allowed_file_type_item;
-
-                            }
                             $pass_type_check = false;
                             if ($are_allowed != false) {
                                 $are_allowed_a = explode(',', $are_allowed);

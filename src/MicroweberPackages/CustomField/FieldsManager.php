@@ -1069,6 +1069,7 @@ class FieldsManager
 
         $field_data = array();
         $field_data['name'] = false;
+        $field_data['name_key'] = false;
         $field_data['type'] = false;
         $field_data['id'] = 0;
         $field_data['placeholder'] = false;
@@ -1107,6 +1108,10 @@ class FieldsManager
 
         if (isset($data['name'])) {
             $field_data['name'] = $data['name'];
+        }
+
+        if (isset($data['name_key'])) {
+            $field_data['name_key'] = $data['name_key'];
         }
 
         if (isset($data['type'])) {

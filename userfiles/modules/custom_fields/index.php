@@ -50,7 +50,7 @@ $data = mw()->fields_manager->get($for, $for_id, 1);
 $formHasUpload = false;
 $fields_group = array();
 $group_i = 0;
-if (!empty($data)) {
+if (!empty($data)){
     foreach ($data as $field) {
 
         if ($field['type'] == 'breakline') {
