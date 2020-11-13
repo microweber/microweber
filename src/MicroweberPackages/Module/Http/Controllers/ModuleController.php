@@ -542,8 +542,8 @@ class ModuleController extends Controller
     {
         $this->app->content_manager->define_constants();
         $f = MW_PATH.'functions'.DIRECTORY_SEPARATOR.'plupload.php';
-        require $f;
-        exit();
+        return require $f;
+       // exit();
     }
 
     public function editor_tools()

@@ -12,6 +12,9 @@
 namespace MicroweberPackages\Order;
 
 use DB;
+use MicroweberPackages\Order\Events\OrderIsCreating;
+use MicroweberPackages\Order\Events\OrderWasCreated;
+use MicroweberPackages\Order\Models\Order;
 
 class OrderManager
 {
@@ -119,9 +122,13 @@ class OrderManager
             return $sid;
         }
 
+        event($event = new OrderIsCreating($place_order));
+
         $place_order = array_filter($place_order);
         $ord = $this->app->database_manager->save($this->table, $place_order);
         $place_order['id'] = $ord;
+
+        event($event = new OrderWasCreated(Order::find($ord), $place_order));
 
         //get client
 
@@ -156,6 +163,8 @@ class OrderManager
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                     $this->app->shop_manager->update_quantities($ord);
+
+                    event($event = new OrderWasPaid(Order::find($ord)));
                 }
                 $this->app->shop_manager->after_checkout($ord);
             }

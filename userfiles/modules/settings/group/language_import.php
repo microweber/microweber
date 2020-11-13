@@ -23,7 +23,7 @@ $(document).ready(function () {
     	postData.namespace = "<?php echo $params['namespace']; ?>";
     	postData.language = "<?php echo $params['language']; ?>";
 
-		$.post(mw.settings.api_url+'Microweber/Utils/Language/upload', postData,
+		$.post("<?php echo route('admin.backup.language.upload'); ?>", postData,
 			function(msg) {
 				if (msg.success) {
 			    	mw.reload_module('settings/group/language_edit');

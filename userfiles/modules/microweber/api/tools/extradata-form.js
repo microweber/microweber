@@ -22,7 +22,7 @@ mw.getExtradataFormData = function (data, call) {
     }
 }
 
-mw.extradataForm = function (options, data) {
+mw.extradataForm = function (options, data, func) {
     if (options._success) {
         options.success = options._success;
         delete options._success;
@@ -74,16 +74,24 @@ mw.extradataForm = function (options, data) {
                     });
                     options.data = params;
                 }
-                for (var i in exdata) {
-                    options.data[i] = exdata[i];
-                }
+                var isFormData = options.data.constructor.name === 'FormData';
+                if(isFormData) {
+                    for (var i in exdata) {
+                        options.data.set(i, exdata[i]);
+                    }
 
-                if(options.data.captcha){
-                   // mw.top().
-                   // ('data-captcha-value')
+                } else {
+                    for (var i in exdata) {
+                        options.data[i] = exdata[i];
+                    }
                 }
+                if(func) {
+                    func(options);
 
-                mw.ajax(options);
+                } else {
+                    mw.ajax(options);
+
+                }
                 form.__modal.remove();
             });
         }

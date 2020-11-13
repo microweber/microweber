@@ -229,7 +229,7 @@ if (isset($params['quick_edit'])) {
                                 <label class="control-label"><?php print $type ?> title</label>
                                 <input type="text" autocomplete="off" class="form-control" name="title" onkeyup="slugFromTitle();" id="content-title-field" value="<?php print ($title_for_input) ?>">
                                 <div class="mw-admin-post-slug">
-                                    <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i>
+                                    <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left" title="Copy link"  onclick="copy_url_of_page();" style="cursor: copy"></i>
                                     <span class="mw-admin-post-slug-text">
                                             <?php
                                             if (isset($data['slug_prefix_url'])) {
@@ -239,10 +239,10 @@ if (isset($params['quick_edit'])) {
                                             }
                                             ?>
 
-                                        <span class="text-silver" id="slug-base-url"><?php print $site_prefix_url; ?></span>
+                                        <span class="text-silver" id="slug-base-url" ><?php print $site_prefix_url; ?></span>
                                         <span class="contenteditable js-slug-base-url" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
                                     </span>
-                                </div>
+                                  </div>
 
                                 <div class="d-none">
                                     <input autocomplete="off" name="content_url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
@@ -282,6 +282,15 @@ if (isset($params['quick_edit'])) {
                                             $('.js-slug-base-url-changed').val(slug);
                                             $('.js-slug-base-url').text(slug);
                                         });
+
+
+                                         copy_url_of_page =function(){
+                                            var site_url =  $('#slug-base-url').html();
+                                            var slug_base_url =  $('.js-slug-base-url').html();
+                                            var url = site_url + slug_base_url ;
+                                            mw.tools.copy(url);
+                                        }
+
                                     </script>
                                 </div>
                             </div>

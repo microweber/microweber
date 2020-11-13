@@ -12,8 +12,9 @@
 namespace MicroweberPackages\Order\Models;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-class Shipping extends Illuminate\Database\Eloquent\Model
+class Shipping extends Model
 {
 
     use Notifiable;

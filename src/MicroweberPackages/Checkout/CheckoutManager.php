@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Notification;
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
 use MicroweberPackages\Customer\Customer;
+use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Order\Models\OrderAnonymousClient;
-use MicroweberPackages\Order\Notifications\NewFormEntry;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
@@ -515,47 +515,7 @@ class CheckoutManager
                 }
 
 
-              /*  $findCustomer = false;
-                $findCustomerByEmail = Customer::where('email', $data['email'])->first();
-                if ($findCustomerByEmail) {
-                    $findCustomer =  $findCustomerByEmail;
-                }
-
-                if (!$findCustomer) {
-                    $findCustomerByPhone = Customer::where('phone', $data['phone'])->first();
-                    if ($findCustomerByPhone) {
-                        $findCustomer = $findCustomerByPhone;
-                    }
-                }
-
-                if (!$findCustomer)  {
-                    $createNewCustomer = Customer::create([
-                        'name'=>$data['first_name'],
-                        'first_name'=>$data['first_name'],
-                        'last_name'=>$data['last_name'],
-                        'email'=>$data['email'],
-                        'phone'=>$data['phone']
-                    ]);
-                    $findCustomer = $createNewCustomer;
-                }
-
-                $findCustomerAddressByCustomerId = Address::where('customer_id', $findCustomer->id)
-                    ->where('city', $data['city'])
-                    ->where('address_street_1',$data['address'])
-                    ->first();
-                if (!$findCustomerAddressByCustomerId) {
-                    Address::create([
-                        'name'=> '',
-                        'type'=> 'shipping',
-                        'customer_id'=>$findCustomer->id,
-                        'city'=>$data['city'],
-                        'phone'=>$data['phone'],
-                        'address_street_1'=>$data['address'],
-                        'state'=>$data['state'],
-                        'zip'=>$data['zip']
-                    ]);
-                }
-
+           /*
                 $invoicePrefix = 'INV';
                 $nextInvoiceNumber = Invoice::getNextInvoiceNumber($invoicePrefix);
                 $invoiceDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
@@ -593,8 +553,7 @@ class CheckoutManager
                         'price'=>($cartItem['price'] * 100),
                         'quantity'=>$cartItem['qty'],
                     ]);
-                }
-              */
+                }*/
 
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;

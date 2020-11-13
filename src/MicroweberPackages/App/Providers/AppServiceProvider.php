@@ -10,7 +10,9 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
-use MicroweberPackages\Notification\Providers\NotificationEventServiceProvider;
+use MicroweberPackages\Backup\Providers\BackupServiceProvider;
+use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
+use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
@@ -26,7 +28,6 @@ use MicroweberPackages\Content\ContentServiceProvider;
 use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
 use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
 use MicroweberPackages\Country\CountryServiceProvider;
-use MicroweberPackages\Customer\CustomerServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\Database\DatabaseManagerServiceProvider;
@@ -43,7 +44,6 @@ use MicroweberPackages\Module\ModuleServiceProvider;
 
 use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
-use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
 // Shop
 use MicroweberPackages\Cart\CartManagerServiceProvider;
@@ -220,9 +220,10 @@ if (! defined('MW_VERSION')) {
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
-        $this->app->register(BackupManagerServiceProvider::class);
+        $this->app->register(BackupServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
+        $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         $this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
@@ -233,7 +234,6 @@ if (! defined('MW_VERSION')) {
         $this->app->register(  CountryServiceProvider::class);
         $this->app->register(  \EloquentFilter\ServiceProvider::class);
         $this->app->register(  NotificationServiceProvider::class);
-        $this->app->register(  NotificationEventServiceProvider::class);
         $this->app->register(  QueueServiceProvider::class);
         $this->app->register(  QueueEventServiceProvider::class);
         $this->app->register(  AdminServiceProvider::class);
