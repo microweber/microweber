@@ -18,6 +18,10 @@ class ImageValidator {
         $files_utils = new \MicroweberPackages\Utils\System\Files();
         $dangerous = $files_utils->get_dangerous_files_extentions();
 
+        if (!method_exists($value,'clientExtension')) {
+            return false;
+        }
+
         $ext = ($value->clientExtension());
 
         $filePath =$value->getPathname();
