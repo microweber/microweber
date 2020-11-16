@@ -22,6 +22,10 @@
         {
             "type": "composer",
             "url": "https://packages-satis.microweberapi.com/"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/microweber-deps/composer-merge-plugin.git"
         }
     ],
     "require": {
@@ -63,6 +67,7 @@
         "graham-campbell/security-core": "3.2.x-dev",
         "darkaonline/l5-swagger": "dev-master",
 
+        "wikimedia/composer-merge-plugin": "dev-composer-2-fix",
         "opis/closure": "^3.6@dev",
         "laravel/passport": "^11.0@dev",
         "laravel/sanctum": "^3.0@dev",
