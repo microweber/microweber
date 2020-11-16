@@ -238,7 +238,8 @@ if ($allowed_to_upload == false) {
 
 
 if(!is_admin()){
-//    /var_dump($_REQUEST);
+
+    die('{"jsonrpc" : "2.0", "error" : {"code": 111, "message": "Only admin can upload."}, "id" : "id"}');
 
     return response(array(
         'error' => _e('Please enter captcha answer!', true),
