@@ -574,7 +574,10 @@ class FormsManager
 
                 // Validation is ok
                 if (isset($_FILES) && !empty($_FILES)) {
-                    // 
+
+
+                    //var_dump($_FILES);
+                   // die();
                 }
 
                 if ($email_to == false) {
