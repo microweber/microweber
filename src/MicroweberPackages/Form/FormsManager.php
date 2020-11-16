@@ -526,6 +526,10 @@ class FormsManager
                 $uploadFilesValidation = [];
                 foreach ($more as $field) {
 
+                    if ($field['type'] != 'upload') {
+                        continue;
+                    }
+
                     $mimeTypes = [];
 
                     $fieldRules = [];
