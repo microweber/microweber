@@ -42,7 +42,7 @@
         "twig/twig": "3.x-dev",
         "phpoffice/phpspreadsheet": "*",
         "halaxa/json-machine": "dev-master",
-        "wikimedia/composer-merge-plugin": "^1.5@dev",
+
         "jeremeamia/superclosure": "*",
         "microweber-templates/dream": "dev-master",
         "microweber-templates/new-world": "dev-master",
@@ -68,7 +68,7 @@
         "laravel/sanctum": "^3.0@dev",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "mtrajano/laravel-swagger": "dev-master",
-        "tucker-eric/eloquentfilter": "dev-master" 
+        "tucker-eric/eloquentfilter": "dev-master"
         
     },
     "require-dev": {
