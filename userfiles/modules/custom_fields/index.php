@@ -82,7 +82,6 @@ if (!empty($data)){
     }
 }
 
-
 $prined_items_count = false;
 $ready_fields_group = array();
 foreach ($fields_group as $field_group_key => $fields) {
@@ -132,6 +131,7 @@ foreach ($fields_group as $field_group_key => $fields) {
 
     $ready_fields_group[$field_group_key] = $ready_fields;
 }
+
 $fields_group = $ready_fields_group;
 
 $template_file = get_option('data-template', $params['id']);

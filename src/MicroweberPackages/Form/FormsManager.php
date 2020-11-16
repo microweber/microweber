@@ -455,22 +455,37 @@ class FormsManager
             // Save Atachments
             $files_utils = new \MicroweberPackages\Utils\System\Files();
 
-            $foundedFieldsForUpload = false;
+            $allowedFilesForSave = [];
             $uploadFilesValidation = [];
             foreach ($more as $field) {
+
+                $fieldRules = [];
 
                 if ($field['type'] != 'upload') {
                     continue;
                 }
-                $foundedFieldsForUpload = true;
 
+                if (!isset($_FILES[$field['name_key']]) && isset($field['options']['required']) && $field['options']['required'] == 1) {
+                    $fieldRules[] = 'required';
+                    $_FILES[$field['name_key']] = true;
+                }
+
+                if (!isset($_FILES[$field['name_key']])) {
+                    continue;
+                }
+
+                $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
                 $mimeTypes = [];
 
-                $fieldRules = [];
                 if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
                     foreach ($field['options']['file_types'] as $optionFileTypes) {
                         if (!empty($optionFileTypes)) {
+
+                            if ($optionFileTypes == 'images') {
+                                $fieldRules[] = 'valid_image';
+                            }
+
                             $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
                             $mimeTypesArray = explode(',', $mimeTypesString);
                             $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
@@ -480,39 +495,35 @@ class FormsManager
 
                 if (empty($mimeTypes)) {
                     $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
-
                 }
 
                 if (!empty($mimeTypes) && is_array($mimeTypes)) {
                     $mimeTypes = implode(',', $mimeTypes);
                 }
 
-                $fieldRules[] = 'mimes:' . $mimeTypes;;
-
-                if (isset($field['options']['required']) && $field['options']['required'] == 1) {
-                    $fieldRules[] = 'required';
-                }
-
-                $fieldRules[] = 'valid_image';
+                $fieldRules[] = 'mimes:' . $mimeTypes;
 
                 if (!empty($fieldRules)) {
                     $uploadFilesValidation[$field['name_key']] = $fieldRules;
                 }
             }
 
-            $validator = Validator::make($params, $uploadFilesValidation);
-            if ($validator->fails()) {
-                $validatorMessages = false;
-                foreach ($validator->messages()->toArray() as $inputFieldErros) {
-                    $validatorMessages = reset($inputFieldErros);
-                }
-                return array(
-                    'error' => _e($validatorMessages, true)
-                );
-            }
-
             // Validation is ok
-            if (isset($_FILES) && !empty($_FILES) && $foundedFieldsForUpload) {
+            if (isset($allowedFilesForSave) && !empty($allowedFilesForSave)) {
+
+                $validator = Validator::make($params, $uploadFilesValidation);
+                if ($validator->fails()) {
+                    $validatorMessages = false;
+
+                    return $validator->messages()->toArray();
+
+                    foreach ($validator->messages()->toArray() as $inputFieldErros) {
+                        $validatorMessages = reset($inputFieldErros);
+                    }
+                    return array(
+                        'error' => _e($validatorMessages, true)
+                    );
+                }
 
                 if (isset($params['module_name'])) {
                     $target_path_name = '/' . $params['module_name'];
@@ -526,8 +537,8 @@ class FormsManager
                 if (!is_dir($target_path)) {
                     mkdir_recursive($target_path);
                 }
-                if ($_FILES and !empty($_FILES)) {
-                    foreach ($_FILES as $fieldName => $file) {
+                if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
+                    foreach ($allowedFilesForSave as $fieldName => $file) {
 
                         $targetFileName = $target_path_name . '/' . $file['name'];
 
