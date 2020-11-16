@@ -503,7 +503,7 @@ class FormsManager
             $validator = Validator::make($params, $uploadFilesValidation);
             if ($validator->fails()) {
                 $validatorMessages = false;
-                foreach ($validator->messages()->toArray() as $inputFieldErros){
+                foreach ($validator->messages()->toArray() as $inputFieldErros) {
                     $validatorMessages = reset($inputFieldErros);
                 }
                 return array(
@@ -526,38 +526,39 @@ class FormsManager
                 if (!is_dir($target_path)) {
                     mkdir_recursive($target_path);
                 }
+                if ($_FILES and !empty($_FILES)) {
+                    foreach ($_FILES as $fieldName => $file) {
 
-                foreach ($_FILES as $fieldName=>$file) {
+                        $targetFileName = $target_path_name . '/' . $file['name'];
 
-                    $targetFileName = $target_path_name . '/' . $file['name'];
+                        if (is_file($target_path . '/' . $file['name'])) {
+                            $targetFileName = $target_path_name . '/' . date('Ymd-His') . $file['name'];
+                        }
 
-                    if (is_file($target_path .'/'. $file['name'])) {
-                        $targetFileName = $target_path_name . '/' .date('Ymd-His'). $file['name'];
-                    }
+                        $fileContent = @file_get_contents($file['tmp_name']);
+                        if ($fileContent) {
 
-                    $fileContent = @file_get_contents($file['tmp_name']);
-                    if ($fileContent) {
+                            $file_mime = \Illuminate\Support\Facades\File::mimeType($file['tmp_name']);
+                            $file_extension = \Illuminate\Support\Facades\File::extension($file['tmp_name']);
+                            $file_size = \Illuminate\Support\Facades\File::size($file['tmp_name']);
 
-                        $file_mime = \Illuminate\Support\Facades\File::mimeType($file['tmp_name']);
-                        $file_extension = \Illuminate\Support\Facades\File::extension($file['tmp_name']);
-                        $file_size = \Illuminate\Support\Facades\File::size($file['tmp_name']);
+                            Storage::disk('media')->put($targetFileName, $fileContent);
+                            $mediaFileUrl = Storage::disk('media')->url($targetFileName);
+                            $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
+                            $fields_data[$fieldName] = [
+                                'type' => 'upload',
+                                'url' => $mediaFileUrl,
+                                'file_name' => $file['name'],
+                                'file_extension' => $file_extension,
+                                'file_mime' => $file_mime,
+                                'file_size' => $file_size,
+                            ];
 
-                        Storage::disk('media')->put($targetFileName, $fileContent);
-                        $mediaFileUrl = Storage::disk('media')->url($targetFileName);
-                        $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
-                        $fields_data[$fieldName] = [
-                            'type'=>'upload',
-                            'url'=>$mediaFileUrl,
-                            'file_name'=>$file['name'],
-                            'file_extension'=>$file_extension,
-                            'file_mime'=>$file_mime,
-                            'file_size'=>$file_size,
-                        ];
-
-                    } else {
-                        return array(
-                            'error' => _e('Invalid file.', true)
-                        );
+                        } else {
+                            return array(
+                                'error' => _e('Invalid file.', true)
+                            );
+                        }
                     }
                 }
             }
@@ -720,7 +721,7 @@ class FormsManager
 
                         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
-                         if ($user_mails) {
+                        if ($user_mails) {
                             foreach ($user_mails as $user_mail) {
                                 try {
                                     Notification::route('mail', $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
