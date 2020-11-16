@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Media;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class MediaManagerServiceProvider extends ServiceProvider
@@ -28,5 +29,13 @@ class MediaManagerServiceProvider extends ServiceProvider
         $this->app->singleton('media_manager', function ($app) {
             return new MediaManager();
         });
+
+
+        Config::set('filesystems.disks.media', [
+            'driver' => 'local',
+            'root' => media_uploads_path(),
+            'url' => media_uploads_url(),
+            'visibility' => 'public',
+        ]);
     }
 }

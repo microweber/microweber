@@ -2,18 +2,14 @@
 
 namespace MicroweberPackages\Form;
 
-use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use League\Csv\Writer;
-use Microweber\Utils\MailProvider;
 use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Form\Notifications\NewFormEntryAutorespond;
-use MicroweberPackages\Invoice\Country;
-use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\User\Models\User;
-use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class FormsManager
@@ -516,19 +512,21 @@ class FormsManager
 
             if (isset($save) and $save) {
 
-
                 $form_model = Form::find($save);
 
                 Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($form_model));
 
                 $files_utils = new \MicroweberPackages\Utils\System\Files();
 
+                $foundedFieldsForUpload = false;
                 $uploadFilesValidation = [];
                 foreach ($more as $field) {
 
                     if ($field['type'] != 'upload') {
                         continue;
                     }
+                    $foundedFieldsForUpload = true;
+
 
                     $mimeTypes = [];
 
@@ -566,7 +564,7 @@ class FormsManager
                 }
 
                 $validator = Validator::make($params, $uploadFilesValidation);
-                if ($validator->fails()){
+                if ($validator->fails()) {
                     $validatorMessages = false;
                     foreach ($validator->messages()->toArray() as $inputFieldErros){
                         $validatorMessages = reset($inputFieldErros);
@@ -577,11 +575,40 @@ class FormsManager
                 }
 
                 // Validation is ok
-                if (isset($_FILES) && !empty($_FILES)) {
+                if (isset($_FILES) && !empty($_FILES) && $foundedFieldsForUpload) {
 
+                    if (isset($params['module_name'])) {
+                        $target_path_name = '/' . $params['module_name'];
+                    } else {
+                        $target_path_name = '/attachments';
+                    }
 
-                    //var_dump($_FILES);
-                   // die();
+                    $target_path = media_uploads_path();
+                    $target_path .= $target_path_name;
+                    $target_path = normalize_path($target_path, 0);
+                    if (!is_dir($target_path)) {
+                        mkdir_recursive($target_path);
+                    }
+
+                    $uploadedFileLinks = [];
+                    foreach ($_FILES as $fieldName=>$file) {
+
+                        $targetFileName = $target_path_name . '/' . $file['name'];
+
+                        if (is_file($target_path .'/'. $file['name'])) {
+                            $targetFileName = $target_path_name . '/' .date('Ymd-His'). $file['name'];
+                        }
+
+                        $fileContent = @file_get_contents($file['tmp_name']);
+                        if ($fileContent) {
+                            Storage::disk('media')->put($targetFileName, $fileContent);
+                            $uploadedFileLinks[$fieldName] = Storage::disk('media')->url($targetFileName);
+                        } else {
+                            return array(
+                                'error' => _e('Invalid file.', true)
+                            );
+                        }
+                    }
                 }
 
                 if ($email_to == false) {
