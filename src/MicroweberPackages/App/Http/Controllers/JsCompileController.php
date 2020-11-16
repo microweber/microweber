@@ -33,6 +33,8 @@ class JsCompileController extends Controller
         } else {
             $this->_should_compile_assets = \Config::get('microweber.compile_assets');;
         }
+
+        $this->_should_compile_assets = false; //@todo remove before release 1.2
      }
 
 
