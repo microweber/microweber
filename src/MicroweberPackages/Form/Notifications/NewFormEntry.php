@@ -96,12 +96,11 @@ class NewFormEntry extends Notification
 
     public function message()
     {
-        $toView = $this->notification->data;
+        $data = $this->notification->data;
+        $data['ago'] = app()->format->ago($data['created_at']);
+        $data['vals']= collect($data['form_values']); //cast them to collection in order to be able to use ->split
 
-
-        $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
-
-        return view('form::admin.notifications.new_form_entry', $toView);
+        return view('form::admin.notifications.new_form_entry', $data);
     }
 
 }
