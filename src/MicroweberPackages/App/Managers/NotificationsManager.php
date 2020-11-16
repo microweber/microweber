@@ -2,7 +2,11 @@
 
 namespace MicroweberPackages\App\Managers;
 
+use Illuminate\Support\Facades\Auth;
+
+use MicroweberPackages\App\Http\Middleware\Admin;
 use MicroweberPackages\Notification\Models\Notification;
+use MicroweberPackages\Notification\Notifications\LegacyNotification;
 use MicroweberPackages\User\Models\User;
 use Notifications;
 
@@ -273,6 +277,15 @@ class NotificationsManager
 
     public function save($params)
     {
+        $notifyAdmin = User::where('is_admin', 1)->first();
+        if ($notifyAdmin) {
+
+
+            \Illuminate\Support\Facades\Notification::send($notifyAdmin, new LegacyNotification($params));
+        }
+
+
+
         return [];
         $params = parse_params($params);
 
@@ -347,18 +360,25 @@ class NotificationsManager
 
         $readyNotifications = [];
 
-        $notifications = Notification::all();
+        $admin = Auth::user();
 
-        foreach ($notifications as $notification) {
-            $readyNotifications[] = [
-                'id' => $notification->id,
-                'module' => 'comments',
-                'rel_type' => 'content',
-                'content' => 'fwafafwafaw',
-                'created_at' => $notification->created_at,
-                'updated_at' => $notification->updated_at,
-                'notification_data' => ['fwafwafaw']
-            ];
+        foreach ($admin->unreadNotifications as $notification) {
+
+            if (!class_exists($notification->type)) {
+                continue;
+            }
+
+            $messageType = new $notification->type($notification->data);
+
+            if (!method_exists($messageType, 'message')) {
+                continue;
+            }
+
+            if (method_exists($messageType, 'setNotification')) {
+                $messageType->setNotification($notification);
+            }
+
+            $readyNotifications[] = $messageType->message($notification);
         }
 
         return $readyNotifications;

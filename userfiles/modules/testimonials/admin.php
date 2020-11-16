@@ -139,7 +139,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <div id="mw-modules-tabs" class="tab-content py-3">
                 <div class="js-list-testimonials tab-pane fade show active" id="list">
-                    <div>
+                    <div class="js-hide-on-no-data">
                         <a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded mb-3"><i class="mdi mdi-plus"></i> &nbsp;<?php _e('New testimonial'); ?></a>
                     </div>
 

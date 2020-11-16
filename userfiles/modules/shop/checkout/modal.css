@@ -1,0 +1,227 @@
+
+
+/* Start of .checkout-modal */
+/* Start of .checkout-modal */
+/* Start of .checkout-modal */
+/* Start of .checkout-modal */
+
+
+
+
+
+.checkout-modal .modal-content {
+    border: 1px solid #c3c3c3 !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    background: #f5f5f5;
+    color: #505050
+}
+
+.checkout-modal .modal-header {
+    padding-bottom: 0;
+    border-color: #c3c3c3
+}
+
+.checkout-modal .modal-header .close {
+    margin-top: -25px;
+    margin-right: -10px;
+    background: #f5f5f5;
+    opacity: 1;
+    color: #505050;
+    padding: 1px 5px;
+    border: 1px solid #c3c3c3;
+    border-radius: 100%;
+    right: 0;
+    position: absolute
+}
+
+.checkout-modal .step-button {
+    text-align: center;
+    padding: 0
+}
+
+.checkout-modal .step-button a {
+    text-decoration: none;
+    display: block;
+    height: 100%
+}
+
+.checkout-modal .step-button.muted a {
+    opacity: .4
+}
+
+.checkout-modal .step-button .active {
+    border-bottom: 2px solid #00f
+}
+
+.checkout-modal .step-button i {
+    font-size: 24px;
+    color: #505050
+}
+
+.checkout-modal .step-button span {
+    display: block;
+    font-size: 14px;
+    color: #505050;
+    font-weight: 700;
+    padding-bottom: 10px
+}
+
+.checkout-modal .js-step-content {
+    display: none
+}
+
+.checkout-modal .js-step-content .btn {
+    border-radius: 2px
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item {
+    font-size: 14px;
+    border-bottom: 1px solid #c3c3c3;
+    padding: 10px 0;
+    align-items: center;
+    justify-content: center;
+
+}
+
+@media screen and (max-width: 767px) {
+    .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item img {
+        max-width: 200px;
+        margin: 0 auto;
+        display: block
+    }
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item:hover {
+    background: #fff
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action {
+    padding-left: 0;
+    padding-right: 0
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action a {
+    color: #282627;
+    opacity: 1;
+    display: inline-block
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-qty {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-qty select {
+    margin-top: 25px
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action .tooltip {
+    margin-top: 5px
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
+    /*padding-top: 35px;*/
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price {
+    text-align: center
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder, .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder {
+    /*padding-top: 35px*/
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder .form-control {
+    font-size: 14px;
+    font-style: italic
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder p, .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder p {
+    margin-bottom: 20px
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder .btn {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder .form-control {
+    margin: 0
+}
+
+.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder, .checkout-modal .js-step-content {
+    font-size: 16px
+}
+
+
+.checkout-modal .checkout-modal-total-price {
+    font-weight: bold;
+}
+
+.checkout-modal .js-step-content .form-control {
+    border: 0;
+    margin-bottom: 10px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: 14px
+}
+
+.checkout-modal .js-step-content .row .field-holder {
+    margin-bottom: 0
+}
+
+.checkout-modal .js-step-content .row .field-holder .bootstrap-select, .checkout-modal .js-step-content .row .field-holder .form-control {
+    width: 100% !important
+}
+
+.checkout-modal .js-step-content .row .field-holder .bootstrap-select .btn {
+    margin-bottom: 10px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    border: 0
+}
+
+.checkout-modal .js-step-content .row:after {
+    display: block;
+    clear: both;
+    content: ''
+}
+
+.checkout-modal .js-step-content .row.x2, .checkout-modal .js-step-content .row.x3 {
+    margin: 0 -5px
+}
+
+.checkout-modal .js-step-content .row.x2 .field-holder {
+    float: left;
+    width: 50%;
+    padding: 0 5px
+}
+
+.checkout-modal .js-step-content .row.x3 .field-holder {
+    float: left;
+    width: 33.3%;
+    padding: 0 5px
+}
+
+@media screen and (max-width: 767px) {
+    .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
+        text-align: center
+    }
+}
+
+@media (min-width: 1450px) {
+    .checkout-modal .modal-dialog {
+        width: 700px
+    }
+}
+
+
+/* End of .checkout-modal */

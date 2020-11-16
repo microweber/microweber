@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User;
 
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\SocialiteManager;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Auth;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Http\Resources\UserResource;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 
@@ -835,7 +837,7 @@ class UserManager
 
 
                     $this->force_save = false;
-                    $this->app->cache_manager->delete('users/global');
+                    $this->app->cache_manager->delete('users');
                     $this->session_del('captcha');
 
                     $this->after_register($next);
@@ -883,12 +885,15 @@ class UserManager
         $notif['content'] = 'You have new user registered with the username [' . $data['username'] . '] and id [' . $user_id . ']';
         $this->app->notifications_manager->save($notif);
 
+
+
         $this->app->log_manager->save($notif);
         $this->register_email_send($user_id);
 
         $this->app->event_manager->trigger('mw.user.after_register', $data);
         if ($suppress_output == true) {
-            ob_end_clean();
+            if (ob_get_length()) {ob_end_clean();}
+
         }
     }
 
@@ -956,10 +961,11 @@ class UserManager
 
     public function csrf_validate(&$data)
     {
+        $data['_token_header'] = request()->header('X-CSRF-TOKEN');
         $session_token = Session::token();
         if (is_array($data) and $this->session_id()) {
             foreach ($data as $k => $v) {
-                if ($k == 'token' or $k == '_token') {
+                if ($k == 'token' or $k == '_token' or $k == '_token_header') {
                     if ($session_token === $v) {
                         unset($data[$k]);
 
@@ -1426,7 +1432,7 @@ class UserManager
 
     public function send_forgot_password($params)
     {
-        return RequestRoute::postJson(route('api.user.forgot_password'), $params);
+        return RequestRoute::postJson(route('api.user.password.email'), $params);
 
     }
 
@@ -1604,12 +1610,18 @@ class UserManager
                 $user_id = $user_id['id'];
             }
         }
+
+
+
         if (intval($user_id) > 0) {
             $data = $this->get_by_id($user_id);
             if ($data == false) {
                 return false;
             } else {
                 if (is_array($data)) {
+
+                    $user = User::find($user_id);
+
                     $user_session = array();
                     $user_session['is_logged'] = 'yes';
                     $user_session['user_id'] = $data['id'];
@@ -1637,7 +1649,6 @@ class UserManager
 
                     $this->update_last_login_time();
                     $user_session['success'] = _e('You are logged in!', true);
-
                     return $user_session;
                 }
             }
@@ -1703,7 +1714,7 @@ class UserManager
 
         try {
             // $this->socialite_config($auth_provider);
-            $user = $this->socialite->driver($auth_provider)->user();
+            $user = $this->socialite->driver($auth_provider)->stateless()->user();
 
             $email = $user->getEmail();
 
@@ -1750,7 +1761,14 @@ class UserManager
                 }
                 $this->make_logged($existing['id']);
             } else {
-                $new_user = $this->save($save);
+
+
+                $user = new User;
+                $user->fill($save);
+                 $user->save($save);
+               // $new_user = $this->save($save);
+                 $new_user = $user->id;
+
                 $this->after_register($new_user);
 
                 $this->make_logged($new_user);

@@ -349,6 +349,32 @@ class Template
     }
 
 
+    public function add_csrf_token_meta_tags($layout)
+    {
+        $ajax = '<script>
+        $( document ).ready(function() {
+                    $.get( "' . route('csrf') . '", function( data ) {
+                    $(\'meta[name="csrf-token"]\').attr(\'content\',data.token)
+                     $.ajaxSetup({
+                        headers: {
+                            \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
+                        }
+                    });
+              })
+         });
+        </script> 
+       ';
+        $ajax = $ajax .  ' <meta name="csrf-token" content="" />';
+
+        $one = 1;
+        //   $layout = str_ireplace('</head>', $add . '</head>', $layout, $one);
+        $layout = str_ireplace('</head>', $ajax . '</head>', $layout, $one);
+
+
+        return $layout;
+
+    }
+
     public function get_default_system_ui_css_url()
     {
         $url = mw_includes_url() . 'default.css';

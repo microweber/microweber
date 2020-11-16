@@ -12,7 +12,12 @@
 namespace MicroweberPackages\Shop;
 
 use DB;
+use Illuminate\Support\Facades\Notification;
+
 use MicroweberPackages\Currency\Currency;
+use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Product\Notifications\ProductOutOfStockNotification;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
 
 /**
@@ -178,12 +183,13 @@ class ShopManager
             $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
             $res = true;
             if ($notify) {
-                $notification = array();
-                $notification['rel_type'] = 'content';
-                $notification['rel_id'] = $item['rel_id'];
-                $notification['title'] = 'Your item is out of stock!';
-                $notification['description'] = 'You sold all items you had in stock. Please update your quantity';
-                $this->app->notifications_manager->save($notification);
+                $notifiables = User::whereIsAdmin(1)->get();
+                if($notifiables){
+                    $product = Product::find($item['rel_id']);
+                    if ($product) {
+                        Notification::send($notifiables, new ProductOutOfStockNotification($product));
+                    }
+                }
             }
         }
 
@@ -374,7 +380,7 @@ class ShopManager
         if (isset($data['email'])) {
             $c_id = $this->app->database_manager->escape_string($data['email']);
             $res = $this->app->database_manager->delete_by_id($table, $c_id, 'email');
-            $this->app->cache_manager->delete('cart_orders/global');
+            $this->app->cache_manager->delete('cart_orders');
 
             return $res;
         }
@@ -646,7 +652,7 @@ class ShopManager
             }
         }
         if ($changes==true){
-            $this->app->cache_manager->delete('options/global');
+            $this->app->cache_manager->delete('options');
         }
         $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group = 'db');
 

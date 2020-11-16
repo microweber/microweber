@@ -3,7 +3,13 @@
 <script>
     $(document).ready(function () {
         $("#add-testimonial-form").submit(function (event) {
+            var isNew = $('[name="id"]', this).val() === '0';
             event.preventDefault();
+            var form = this;
+            mw.spinner({
+                element: form,
+                decorate: true
+            }).show()
             var data = $(this).serialize();
             var url = "<?php print api_url('save_testimonial'); ?>";
             var post = $.post(url, data);
@@ -12,13 +18,21 @@
                 mw.reload_module("testimonials/list");
                 mw.reload_module("#project-select-testimonials");
 
-                $("#add-testimonial-form").find("input[type=text], textarea").val("");
+                mw.notification.success('Saved');
+                mw.spinner({
+                    element: form,
+                    decorate: true
+                }).hide()
 
                 $('.js-add-new-button').hide();
-                $("#edit-testimonials").attr("edit-id", "0");
-                mw.reload_module("#edit-testimonials");
 
-                $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
+                if(isNew) {
+                    $("#edit-testimonials").attr("edit-id", data);
+                    mw.reload_module("#edit-testimonials");
+
+                    $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
+                }
+
             });
         });
     });
@@ -37,6 +51,12 @@
 </script>
 
 <style>
+
+    #add-testimonial-form{
+        position: relative;
+    }
+
+
     .js-img-holder:hover img {
         display: none;
     }
@@ -58,6 +78,12 @@
 
     .js-img-holder:hover .js-add-image .add-the-image {
         display: flex;
+    }
+    .edit-testimonial-top-nav{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 20px;
+        align-items: flex-start;
     }
 </style>
 
@@ -112,8 +138,10 @@ if (!isset($data['client_company'])) {
     <?php if (($data['id']) == 0): ?>
         <h6 class="font-weight-bold"><?php _e('Add new testimonial'); ?></h6>
     <?php else: ?>
-        <a href="javascript:;" onclick="list_testimonial()" class="btn btn-link text-primary px-0 pt-0 mb-1"><i class="mdi mdi-arrow-left"></i> Back</a>
-
+        <div class="edit-testimonial-top-nav">
+            <a href="javascript:;" onclick="list_testimonial()" class="btn-link"><i class="mdi mdi-arrow-left"></i> Back</a>
+            <a href="javascript:;" onclick="add_new_testimonial()" class="btn-link"><?php _e('Create new'); ?></a>
+        </div>
         <h6 class="font-weight-bold"><?php _e('Edit testimonial'); ?></h6>
     <?php endif; ?>
     <br/>

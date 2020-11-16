@@ -17,4 +17,4 @@
     }
 </script>
 
-<a href="#" onclick="openModalHelpReadmeMd('<?php echo $params['for_module']; ?>');"><i class="fa fa-info-circle"></i> <?php _e('Help'); ?></a>
+<a href="javascript:;" onclick="openModalHelpReadmeMd('<?php echo $params['for_module']; ?>');"><i class="fa fa-info-circle"></i> <?php _e('Help'); ?></a>

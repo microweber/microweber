@@ -552,13 +552,13 @@ class UpdateManager
         //   $skip_cache = true;
         $c_id = __FUNCTION__ . date('ymdh');
         if ($skip_cache == false) {
-            $cache_content = $this->app->cache_manager->get($c_id, 'update/global');
+            $cache_content = $this->app->cache_manager->get($c_id, 'update');
             if (($cache_content) != false) {
                 return $cache_content;
             }
         } else {
             $this->skip_cache = true;
-            $this->app->cache_manager->delete('update/global');
+            $this->app->cache_manager->delete('update');
         }
 
 
@@ -566,7 +566,7 @@ class UpdateManager
 
 
 //        $update_check_folder_checksum_cache_id = 'update_check_folder_checksum___' . MW_VERSION;
-//        $cache_checksum = $this->app->cache_manager->get($update_check_folder_checksum_cache_id, 'update/global');
+//        $cache_checksum = $this->app->cache_manager->get($update_check_folder_checksum_cache_id, 'update');
 //
 //        if (!$cache_checksum) {
 //            $checksum = array();
@@ -593,7 +593,7 @@ class UpdateManager
 //
 //            }
 //            $cache_checksum = $checksum;
-//            $this->app->cache_manager->save($checksum, $update_check_folder_checksum_cache_id, 'update/global');
+//            $this->app->cache_manager->save($checksum, $update_check_folder_checksum_cache_id, 'update');
 //        }
 //
 //        if ($cache_checksum) {
@@ -621,6 +621,9 @@ class UpdateManager
         }
 
         if ($count > 0) {
+
+
+
             $notif = array();
             $notif['replace'] = true;
             $notif['module'] = 'updates';
@@ -638,9 +641,9 @@ class UpdateManager
         }
 
         if ($result != false) {
-            $this->app->cache_manager->save($result, $c_id, 'update/global');
+            $this->app->cache_manager->save($result, $c_id, 'update');
         } else {
-            $this->app->cache_manager->save($result, false, 'update/global');
+            $this->app->cache_manager->save($result, false, 'update');
         }
 
         return $result;
@@ -722,11 +725,11 @@ class UpdateManager
             $this->_set_time_limit();
 
             mw()->cache_manager->delete('db');
-            mw()->cache_manager->delete('update/global');
-            mw()->cache_manager->delete('elements/global');
+            mw()->cache_manager->delete('update');
+            mw()->cache_manager->delete('elements');
 
             mw()->cache_manager->delete('templates');
-            mw()->cache_manager->delete('modules/global');
+            mw()->cache_manager->delete('modules');
             mw()->cache_manager->clear();
             scan_for_modules();
             scan_for_elements();
@@ -897,7 +900,7 @@ class UpdateManager
             $params['skip_cache'] = true;
 
             $data = $this->app->module_manager->get($params);
-            $this->app->cache_manager->delete('update/global');
+            $this->app->cache_manager->delete('update');
             $this->app->cache_manager->delete('db');
             $this->app->cache_manager->delete('modules');
 

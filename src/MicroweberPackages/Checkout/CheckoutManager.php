@@ -3,11 +3,18 @@
 namespace MicroweberPackages\Checkout;
 
 use Carbon\Carbon;
+use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Notification;
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
 use MicroweberPackages\Customer\Customer;
+use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Invoice\Address;
 use MicroweberPackages\Invoice\Invoice;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
+use MicroweberPackages\Order\Models\Order;
+use MicroweberPackages\Order\Models\OrderAnonymousClient;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -508,47 +515,7 @@ class CheckoutManager
                 }
 
 
-              /*  $findCustomer = false;
-                $findCustomerByEmail = Customer::where('email', $data['email'])->first();
-                if ($findCustomerByEmail) {
-                    $findCustomer =  $findCustomerByEmail;
-                }
-
-                if (!$findCustomer) {
-                    $findCustomerByPhone = Customer::where('phone', $data['phone'])->first();
-                    if ($findCustomerByPhone) {
-                        $findCustomer = $findCustomerByPhone;
-                    }
-                }
-
-                if (!$findCustomer)  {
-                    $createNewCustomer = Customer::create([
-                        'name'=>$data['first_name'],
-                        'first_name'=>$data['first_name'],
-                        'last_name'=>$data['last_name'],
-                        'email'=>$data['email'],
-                        'phone'=>$data['phone']
-                    ]);
-                    $findCustomer = $createNewCustomer;
-                }
-
-                $findCustomerAddressByCustomerId = Address::where('customer_id', $findCustomer->id)
-                    ->where('city', $data['city'])
-                    ->where('address_street_1',$data['address'])
-                    ->first();
-                if (!$findCustomerAddressByCustomerId) {
-                    Address::create([
-                        'name'=> '',
-                        'type'=> 'shipping',
-                        'customer_id'=>$findCustomer->id,
-                        'city'=>$data['city'],
-                        'phone'=>$data['phone'],
-                        'address_street_1'=>$data['address'],
-                        'state'=>$data['state'],
-                        'zip'=>$data['zip']
-                    ]);
-                }
-
+           /*
                 $invoicePrefix = 'INV';
                 $nextInvoiceNumber = Invoice::getNextInvoiceNumber($invoicePrefix);
                 $invoiceDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
@@ -586,8 +553,7 @@ class CheckoutManager
                         'price'=>($cartItem['price'] * 100),
                         'quantity'=>$cartItem['qty'],
                     ]);
-                }
-              */
+                }*/
 
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
@@ -680,33 +646,39 @@ class CheckoutManager
         }
     }
 
-    public function after_checkout($order_id, $suppress_output = true)
+    public function after_checkout($orderId)
     {
-        if ($suppress_output == true) {
-            ob_start();
-        }
-        if ($order_id == false or trim($order_id) == '') {
+        if ($orderId == false or trim($orderId) == '') {
             return array('error' => _e('Invalid order ID'));
         }
 
-        $ord_data = $this->app->shop_manager->get_orders('one=1&id=' . $order_id);
+        $order = Order::find($orderId);
+        if (!$order) {
+            return array('error' => _e('Order not found'));
+        }
 
-        if (is_array($ord_data)) {
-            $ord = $order_id;
-            $notification = array();
-            $notification['module'] = 'shop';
-            $notification['rel_type'] = 'cart_orders';
-            $notification['rel_id'] = $ord;
-            $notification['title'] = _e('You have new order', true);
-            $notification['description'] = _e('New order is placed from ', true) . $this->app->url_manager->current(1);
-            $notification['content'] = _e('New order in the online shop. Order id: ', true) . $ord;
-            $this->app->notifications_manager->save($notification);
-            $this->app->log_manager->save($notification);
-            $this->confirm_email_send($order_id);
+        $newOrderEvent = new NewFormEntry($order);
+
+        // Ss logged
+        $notifiable = false;
+        if (isset($order->created_by) && $order->created_by > 0) {
+            $customer = User::where('id', $order->created_by)->first();
+            if ($customer) {
+                if (empty($order->email)) {
+                    $notifiable = $customer;
+                 }
+            }
         }
-        if ($suppress_output == true) {
-            ob_end_clean();
+
+        if (!$notifiable) {
+            $notifiable = OrderAnonymousClient::find($orderId);
         }
+
+        if ($notifiable) {
+            $notifiable->notifyNow($newOrderEvent);
+        }
+
+        Notification::send(User::whereIsAdmin(1)->get(), $newOrderEvent);
     }
 
     public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
@@ -975,8 +947,8 @@ class CheckoutManager
 
             }
             if ($ord > 0) {
-                $this->app->cache_manager->delete('cart/global');
-                $this->app->cache_manager->delete('cart_orders/global');
+                $this->app->cache_manager->delete('cart');
+                $this->app->cache_manager->delete('cart_orders');
                 //return true;
             }
 

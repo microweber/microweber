@@ -182,12 +182,6 @@ function get_form_lists($params)
     return mw()->forms_manager->get_lists($params);
 }
 
-api_expose('post_form');
-function post_form($params)
-{
-    return mw()->forms_manager->post($params);
-}
-
 //event_bind('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
 
 function mw_print_admin_backup_settings_link()

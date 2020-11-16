@@ -82,14 +82,19 @@ class Unzip
             }
 
         } else if (function_exists('gzinflate')) {
+
             if (!$files = $this->_list_files()) {
                 $this->set_error('ZIP folder was empty.');
-
                 return false;
             }
 
             $file_locations = array();
             foreach ($files as $file => $trash) {
+
+                if (strpos($file,'..') !== false) {
+                    continue;
+                }
+
                 $dirname = pathinfo($file, PATHINFO_DIRNAME);
                 $extension = (pathinfo($file, PATHINFO_EXTENSION));
 
@@ -205,12 +210,17 @@ class Unzip
                 $name = dirname($name);
                 $is_dir_there = $target_dir . $name;
 
+                if (strpos($is_dir_there,'..') !== false) {
+                   continue;
+                }
+
                 if ($name != '.') {
                     $dirs_tree[] = $is_dir_there;
 
                 }
 
             }
+
             $dirs_tree = array_unique($dirs_tree);
 
             foreach ($dirs_tree as $item) {
@@ -238,6 +248,11 @@ class Unzip
                     $size = zip_entry_filesize($entry);
                     $name = zip_entry_name($entry);
                     $target_file_to_save = normalize_path($target_dir . $name, false);
+
+                    if (strpos($target_file_to_save,'..') !== false) {
+                        continue;
+                    }
+
                     $target_file_to_save_dir = dirname($target_file_to_save);
                     if(!is_dir($target_file_to_save_dir)){
                         mkdir_recursive($target_file_to_save_dir);
@@ -263,8 +278,9 @@ class Unzip
                 }
                 zip_close($archive);
             }
-
-            return $file_locations;
+            if (!empty($file_locations)) {
+                $file_locations = array_unique($file_locations);
+            }
         }
 
         return $file_locations;
@@ -569,6 +585,14 @@ class Unzip
      */
     private function _extract_file($compressed_file_name, $target_file_name = false, $underscore_case = false)
     {
+        if (strpos($target_file_name,'..') !== false) {
+            return false;
+        }
+
+        if (strpos($compressed_file_name,'..') !== false) {
+            return false;
+        }
+
         if (!sizeof($this->compressed_list)) {
             $this->set_debug('Trying to unzip before loading file list... Loading it!');
             $this->_list_files(false, $compressed_file_name);

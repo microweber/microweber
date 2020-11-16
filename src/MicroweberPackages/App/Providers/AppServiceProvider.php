@@ -5,10 +5,14 @@ namespace MicroweberPackages\App\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
-use MicroweberPackages\Notification\Providers\NotificationEventServiceProvider;
+use MicroweberPackages\Backup\Providers\BackupServiceProvider;
+use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
+use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
@@ -24,13 +28,12 @@ use MicroweberPackages\Content\ContentServiceProvider;
 use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
 use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
 use MicroweberPackages\Country\CountryServiceProvider;
-use MicroweberPackages\Customer\CustomerServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\Database\DatabaseManagerServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
-use MicroweberPackages\Form\FormsManagerServiceProvider;
+use MicroweberPackages\Form\Providers\FormServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
@@ -41,13 +44,12 @@ use MicroweberPackages\Module\ModuleServiceProvider;
 
 use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
-use MicroweberPackages\Backup\BackupManagerServiceProvider;
 
 // Shop
 use MicroweberPackages\Cart\CartManagerServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
-use MicroweberPackages\Order\OrderServiceProvider;
+use MicroweberPackages\Order\Providers\OrderServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Post\PostServiceProvider;
@@ -212,15 +214,16 @@ if (! defined('MW_VERSION')) {
 
         $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
-        $this->app->register(FormsManagerServiceProvider::class);
+        $this->app->register(FormServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
-        $this->app->register(BackupManagerServiceProvider::class);
+        $this->app->register(BackupServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
+        $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         $this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
@@ -231,9 +234,9 @@ if (! defined('MW_VERSION')) {
         $this->app->register(  CountryServiceProvider::class);
         $this->app->register(  \EloquentFilter\ServiceProvider::class);
         $this->app->register(  NotificationServiceProvider::class);
-        $this->app->register(  NotificationEventServiceProvider::class);
         $this->app->register(  QueueServiceProvider::class);
         $this->app->register(  QueueEventServiceProvider::class);
+        $this->app->register(  AdminServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
@@ -362,6 +365,9 @@ if (! defined('MW_VERSION')) {
 
     public function boot()
     {
+
+        View::addNamespace('app', __DIR__ . '/../resources/views');
+
         $this->app->singleton('lang_helper', function ($app) {
             return new Lang($app);
         });
@@ -370,7 +376,6 @@ if (! defined('MW_VERSION')) {
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
-
         // If installed load module functions and set locale
         if (mw_is_installed()) {
 

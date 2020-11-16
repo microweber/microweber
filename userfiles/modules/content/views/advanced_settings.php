@@ -127,6 +127,31 @@ if (isset($data['created_by']) and $data['created_by']) {
             $('.mw-admin-edit-post-change-updated-at-value').removeAttr('disabled').show();
             $('.mw-admin-edit-post-display-updated-at-value').remove();
         }
+
+        $(document).ready(function (){
+            $(".collapse").each(function(){
+                var key = 'collapse' + this.id;
+                var isStored = mw.storage.get(key);
+
+                var el = $(this);
+
+                el.on('show.bs.collapse', function (){
+                    mw.storage.set(key, true);
+                    $('[data-target="#'+this.id+'"] .collapse-action-label').html('<?php _e('Hide'); ?>');
+                })
+                el.on('hide.bs.collapse', function (){
+                    mw.storage.set(key, false);
+                    $('[data-target="#'+this.id+'"] .collapse-action-label').html('<?php _e('Show'); ?>');
+                })
+
+                if( isStored ) {
+                    el.collapse( 'show' );
+                } else {
+                    el.collapse( 'hide' );
+                }
+
+            });
+        })
     </script>
 
 <?php event_trigger('mw.admin.content.edit.advanced_settings', $data); ?>
@@ -139,7 +164,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong>Search engine</strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings">Show SEO setttings</a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
         </div>
 
         <div class="card-body py-0">
@@ -155,7 +180,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 <label><?php _e("Meta title"); ?>
                                     <small data-toggle="tooltip" title="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small>
                                 </label>
-                                <span class="text-muted"><span class="js-typed-letters">0</span> of 70 characters used</span>
+
                             </div>
                             <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
                             <input type="text" class="form-control" name="content_meta_title" placeholder="" value="<?php if (isset($data['content_meta_title']) and $data['content_meta_title'] != '') print ($data['content_meta_title']) ?>"/>
@@ -168,8 +193,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 <label><?php _e("Meta description"); ?>
                                     <small data-toggle="tooltip" title="Short description for yor content.">(?)</small>
                                 </label>
-                                <span class="text-muted"><span class="js-typed-letters">0</span> of 70 characters used</span>
-                            </div>
+                             </div>
                             <textarea class="form-control" name="description" placeholder=""><?php if ($data['description'] != '') print ($data['description']) ?></textarea>
                             <small class="text-muted"><?php _e("Describe your page in short"); ?></small>
                         </div>
@@ -205,7 +229,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong>Advanced settings</strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advenced-settings">Show advanced setttings</a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advenced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; advanced setttings</a>
         </div>
 
         <div class="card-body py-0">

@@ -48,3 +48,4 @@ node_modules/
 /phpunit-5.7.27.phar
 /bootstrap/cache/services.php
 /bootstrap/cache/packages.php
+/webpack/dist/

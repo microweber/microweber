@@ -2,9 +2,17 @@
 
 namespace MicroweberPackages\Form;
 
+use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 use League\Csv\Writer;
 use Microweber\Utils\MailProvider;
+use MicroweberPackages\Form\Models\Form;
+use MicroweberPackages\Form\Notifications\NewFormEntry;
+use MicroweberPackages\Form\Notifications\NewFormEntryAutorespond;
 use MicroweberPackages\Invoice\Country;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
+use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 
 
@@ -177,12 +185,12 @@ class FormsManager
 
         $email_from = $this->app->option_manager->get('email_from', $for_id);
         if (!$email_from) {
-        	$email_from = $this->app->option_manager->get('email_from', $default_mod_id);
+            $email_from = $this->app->option_manager->get('email_from', $default_mod_id);
         }
 
         $from_name = $this->app->option_manager->get('email_from_name', $for_id);
         if (!$from_name) {
-        	$from_name = $this->app->option_manager->get('email_from_name', $default_mod_id);
+            $from_name = $this->app->option_manager->get('email_from_name', $default_mod_id);
         }
 
         $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $for_id) == 'y';
@@ -243,7 +251,6 @@ class FormsManager
         }
 
 
-
         if (isset($params['captcha'])) {
             $dis_cap = false;
         }
@@ -253,7 +260,7 @@ class FormsManager
                 return array(
                     'error' => _e('Please enter the captcha answer!', true),
                     'form_data_required' => 'captcha',
-                    'form_data_required_params' => array('captcha_parent_for_id'=>$for_id),
+                    'form_data_required_params' => array('captcha_parent_for_id' => $for_id),
                     'form_data_module' => 'captcha'
                 );
 
@@ -275,7 +282,7 @@ class FormsManager
                         'error' => _e('Invalid captcha answer!', true),
                         'captcha_error' => true,
                         'form_data_required' => 'captcha',
-                        'form_data_required_params' => array('captcha_parent_for_id'=>$for_id),
+                        'form_data_required_params' => array('captcha_parent_for_id' => $for_id),
                         'form_data_module' => 'captcha'
                     );
 
@@ -297,7 +304,6 @@ class FormsManager
         if (isset($params['id'])) {
             unset($params['id']);
         }
-
 
 
         $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
@@ -373,12 +379,12 @@ class FormsManager
 
                 foreach ($params as $param_k => $param_v) {
                     if (!$name and is_string($param_v) and is_string($param_k)) {
-                        if(stristr($param_k,'name')){
+                        if (stristr($param_k, 'name')) {
                             $name = $param_v;
                         }
                     }
                 }
-                if($name){
+                if ($name) {
                     $subscriber_data['name'] = $name;
                 }
                 $this->app->database_manager->save('newsletter_subscribers', $subscriber_data);
@@ -497,126 +503,182 @@ class FormsManager
             }
             $user_mails = array();
 
-            $notif = array();
-            $notif['module'] = $params['module_name'];
-            $notif['rel_type'] = 'forms_data';
-            $notif['rel_id'] = $save;
-            $notif['title'] = 'New form entry';
-            $notif['description'] = $email_notification_subject ?: 'You have new form entry';
-            $notif['content'] = 'You have new form entry from ' . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
-            $this->app->notifications_manager->save($notif);
+            /*        $notif = array();
+                    $notif['module'] = $params['module_name'];
+                    $notif['rel_type'] = 'forms_data';
+                    $notif['rel_id'] = $save;
+                    $notif['title'] = 'New form entry';
+                    $notif['description'] = $email_notification_subject ?: 'You have new form entry';
+                    $notif['content'] = 'You have new form entry from ' . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
+                    $this->app->notifications_manager->save($notif);
 
-            if ($email_to == false) {
-                $email_to = $this->app->option_manager->get('email_from', 'email');
-            }
+        */
+
+            if (isset($save) and $save) {
 
 
-            $admin_user_mails = array();
+                $form_model = Form::find($save);
 
-            if ($email_to == false) {
-                $admins = $this->app->user_manager->get_all('is_admin=1');
-                if (is_array($admins) and !empty($admins)) {
-                    foreach ($admins as $admin) {
-                        if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
-                            $admin_user_mails[] = $admin['email'];
-                            $email_to = $admin['email'];
-                            $user_mails[] = $admin['email'];
+                Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($form_model));
+
+                $files_utils = new \MicroweberPackages\Utils\System\Files();
+
+                $uploadFilesValidation = [];
+                foreach ($more as $field) {
+
+                    $mimeTypes = [];
+
+                    $fieldRules = [];
+                    if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
+                        foreach ($field['options']['file_types'] as $optionFileTypes) {
+                            if (!empty($optionFileTypes)) {
+                                $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                                $mimeTypesArray = explode(',', $mimeTypesString);
+                                $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
+                            }
                         }
                     }
-                }
 
-            }
+                    if (empty($mimeTypes)) {
+                        $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
 
-            if (is_array($params) and !empty($params)) {
-                foreach ($params as $param) {
-                     if (is_string($param) and (filter_var($param, FILTER_VALIDATE_EMAIL))) {
-                        $user_mails[] = $param;
+                    }
+
+                    if (!empty($mimeTypes) && is_array($mimeTypes)) {
+                        $mimeTypes = implode(',', $mimeTypes);
+                    }
+
+                    $fieldRules[] = 'mimes:' . $mimeTypes;;
+
+                    if (isset($field['options']['required']) && $field['options']['required'] == 1) {
+                        $fieldRules[] = 'required';
+                    }
+
+                    $fieldRules[] = 'valid_image';
+
+                    if (!empty($fieldRules)) {
+                        $uploadFilesValidation[$field['name_key']] = $fieldRules;
                     }
                 }
 
-            }
-
-
-            if ($email_to != false) {
-                $mail_autoresp = 'Thank you for your request!';
-
-                if ($email_autorespond != false) {
-                    $mail_autoresp = $email_autorespond;
+                $validator = Validator::make($params, $uploadFilesValidation);
+                if ($validator->fails()){
+                    $validatorMessages = false;
+                    foreach ($validator->messages()->toArray() as $inputFieldErros){
+                        $validatorMessages = reset($inputFieldErros);
+                    }
+                    return array(
+                        'error' => _e($validatorMessages, true)
+                    );
                 }
 
-                if ($mail_autoresp) {
-                    foreach ($params as $k => $v) {
-                        if (is_string($v) and !is_array($k)) {
-                            $rk = '{' . $k . '}';
-                            $mail_autoresp = str_replace($rk, $v, $mail_autoresp);
+                // Validation is ok
+                if (isset($_FILES) && !empty($_FILES)) {
+                    // 
+                }
+
+                if ($email_to == false) {
+                    $email_to = $this->app->option_manager->get('email_from', 'email');
+                }
+
+
+                /* $admin_user_mails = array();
+
+                 if ($email_to == false) {
+                     $admins = $this->app->user_manager->get_all('is_admin=1');
+                     if (is_array($admins) and !empty($admins)) {
+                         foreach ($admins as $admin) {
+                             if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
+                                 $admin_user_mails[] = $admin['email'];
+                                 $email_to = $admin['email'];
+                                 $user_mails[] = $admin['email'];
+                             }
+                         }
+                     }
+
+                 }*/
+                if (is_array($params) and !empty($params)) {
+                    foreach ($params as $param) {
+                        if (is_string($param) and (filter_var($param, FILTER_VALIDATE_EMAIL))) {
+                            $user_mails[] = $param;
                         }
                     }
-                }
 
-                $user_mails[] = $email_to;
-                if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
-                    $user_mails[] = $email_bcc;
-                }
-
-                // $email_from = false;
-                if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
-                    foreach ($cf_to_save as $value) {
-                        if (is_array($value) and isset($value['value'])) {
-                            $to = $value['value'];
-                        } else {
-                            $to = $value;
-                        }
-
-                        if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                            $user_mails[] = $to;
-                            $email_from = $to;
-                        }
-                    }
                 }
 
 
-               //  $from_name = $email_from;
-                if (isset($params['name']) and $params['name']) {
-                    $from_name = $params['name'];
-                }
-                if (isset($params['from_name']) and $params['from_name']) {
-                    $from_name = $params['from_name'];
-                }
+                if ($email_to != false) {
+                    $mail_autoresp = 'Thank you for your request!';
 
-                if (!empty($user_mails)) {
-                    array_unique($user_mails);
-
-                    $append_files = $this->app->option_manager->get('append_files', $for_id);
-                    if (!$append_files) {
-                        $append_files = $this->app->option_manager->get('append_files', $default_mod_id);
+                    if ($email_autorespond != false) {
+                        $mail_autoresp = $email_autorespond;
                     }
 
-                    $append_files_ready = array();
-                    if (!empty($append_files)) {
-                        $append_files_ready = explode(",", $append_files);
+                    if ($mail_autoresp) {
+                        foreach ($params as $k => $v) {
+                            if (is_string($v) and !is_array($k)) {
+                                $rk = '{' . $k . '}';
+                                $mail_autoresp = str_replace($rk, $v, $mail_autoresp);
+                            }
+                        }
                     }
-                  //  var_dump($user_mails);
 
-                    $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
+//@todo
+//                    $user_mails[] = $email_to;
+//                    if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
+//                        $user_mails[] = $email_bcc;
+//                    }
 
-                    $sender = new \MicroweberPackages\Utils\Mail\MailSender();
-                    $sender->silent_exceptions = true;
-                    foreach ($user_mails as $value) {
-                        if ($value == $email_to || $value == $email_bcc) {
-                            $msg = $notif['content'];
-                            $subj = $notif['description'];
-                            $from = $email_from;
+                    // $email_from = false;
+                    if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
+                        foreach ($cf_to_save as $value) {
+                            if (is_array($value) and isset($value['value'])) {
+                                $to = $value['value'];
+                            } else {
+                                $to = $value;
+                            }
 
-                            $sender->send($value, $subj, $msg, $from, false, false, $email_from, $from_name, $email_reply, $append_files_ready);
-                        } else {
+                            if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+                                $user_mails[] = $to;
+                                $email_from = $to;
+                            }
+                        }
+                    }
 
-                            $msg = $mail_autoresp;
-                            $subj = $email_autorespond_subject ?: 'Thank you!';
-                            $from = false;
-                            $sender->send($value, $subj, $msg, $from, false, false, false, false, $email_reply, $append_files_ready);
+
+                    //  $from_name = $email_from;
+                    if (isset($params['name']) and $params['name']) {
+                        $from_name = $params['name'];
+                    }
+                    if (isset($params['from_name']) and $params['from_name']) {
+                        $from_name = $params['from_name'];
+                    }
+
+                    if (!empty($user_mails)) {
+                        array_unique($user_mails);
+
+                        $append_files = $this->app->option_manager->get('append_files', $for_id);
+                        if (!$append_files) {
+                            $append_files = $this->app->option_manager->get('append_files', $default_mod_id);
                         }
 
+                        $append_files_ready = array();
+                        if (!empty($append_files)) {
+                            $append_files_ready = explode(",", $append_files);
+                        }
+                        //  var_dump($user_mails);
 
+                        $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
+
+                         if ($user_mails) {
+                            foreach ($user_mails as $user_mail) {
+                                try {
+                                    Notification::route('mail', $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
+                                } catch (\Exception $e) {
+
+                                }
+                            }
+                        }
                     }
                 }
             }

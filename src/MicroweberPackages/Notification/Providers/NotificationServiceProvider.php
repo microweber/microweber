@@ -14,6 +14,7 @@ namespace MicroweberPackages\Notification\Providers;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
 use MicroweberPackages\Option\Facades\Option;
@@ -31,8 +32,10 @@ class NotificationServiceProvider extends ServiceProvider
             $this->_configMailSender();
         }
 
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
-       // $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+      View::addNamespace('notification', __DIR__.'/../resources/views');
+
+       $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+       $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
 
     }
 

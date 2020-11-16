@@ -26,6 +26,7 @@ trait ExtendedSave
         }
 
         $ext_params = $params;
+        $ext_params = $params;
 
         $saved_id = $this->save($params);
 
@@ -267,7 +268,10 @@ trait ExtendedSave
                     $data_to_save['categories'] = explode(',', $data_to_save['categories']);
                 }
                 $categories = $data_to_save['categories'];
+                if (is_array($categories) and empty($categories)) {
+                   return;
 
+                }
                 if (is_array($categories)) {
                     $save_cat_item = array();
                     $save_cat_item['rel_type'] = $data_to_save['table'];
@@ -283,7 +287,11 @@ trait ExtendedSave
                     }
                     $cats_modified = true;
                     foreach ($categories as $category) {
-                    	
+
+                        if(!$category){
+                            return;
+                        }
+
                     	$cat_id = false;
 
                         if ((is_string($category) or is_int($category)) and intval($category) != 0) {

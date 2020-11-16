@@ -944,7 +944,7 @@ class ContentManagerCrud extends Crud
         $this->app->event_manager->trigger('content.after.save', $after_save);
         $this->app->cache_manager->delete('content/' . $save);
 
-        $this->app->cache_manager->delete('content_fields/global');
+        $this->app->cache_manager->delete('content_fields');
         if ($url_changed != false) {
             $this->app->cache_manager->delete('menus');
             $this->app->cache_manager->delete('categories');
@@ -1016,7 +1016,7 @@ class ContentManagerCrud extends Crud
 
         $this->app->cache_manager->delete('custom_fields');
         $this->app->cache_manager->delete('custom_fields_values');
-        $this->app->cache_manager->delete('media/global');
+        $this->app->cache_manager->delete('media');
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
             $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
@@ -1026,10 +1026,10 @@ class ContentManagerCrud extends Crud
         }
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
-        $this->app->cache_manager->delete('content_fields/global');
+        $this->app->cache_manager->delete('content_fields');
         $this->app->cache_manager->delete('content');
-        $this->app->cache_manager->delete('categories/global');
-        $this->app->cache_manager->delete('categories_items/global');
+        $this->app->cache_manager->delete('categories');
+        $this->app->cache_manager->delete('categories_items');
         if ($cats_modified != false) {
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
@@ -1077,8 +1077,8 @@ class ContentManagerCrud extends Crud
             ++$i;
         }
 
-        $this->app->cache_manager->delete('content/global');
-        $this->app->cache_manager->delete('categories/global');
+        $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('categories');
 
         return true;
     }
@@ -1269,7 +1269,7 @@ class ContentManagerCrud extends Crud
         if ((isset($data['rel_type']) and isset($data['rel_id']))) {
             $data['cache_group'] = ('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
         } else {
-            $data['cache_group'] = ('content_fields/global');
+            $data['cache_group'] = ('content_fields');
         }
         if (!isset($data['all'])) {
             $data['one'] = 1;

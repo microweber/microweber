@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 
 $files_utils = new \MicroweberPackages\Utils\System\Files();
 $dangerous = $files_utils->get_dangerous_files_extentions();
@@ -7,8 +8,13 @@ $dangerous = $files_utils->get_dangerous_files_extentions();
 if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
     // //session_start();
 }
+
+
+
 $validate_token = false;
 if (!isset($_SERVER['HTTP_REFERER'])) {
+    header("HTTP/1.1 401 Unauthorized");
+
     die('{"jsonrpc" : "2.0", "error" : {"code":97, "message": "You are not allowed to upload"}}');
 } elseif (!stristr($_SERVER['HTTP_REFERER'], site_url())) {
     //    if (!is_logged()){
@@ -19,11 +25,13 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
 if (!is_admin()) {
     $validate_token = mw()->user_manager->csrf_validate($_GET);
     if ($validate_token == false) {
+        header("HTTP/1.1 401 Unauthorized");
         die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
     }
 
     $is_ajax = mw()->url_manager->is_ajax();
-    if ($is_ajax != false) {
+    if (!$is_ajax) {
+        header("HTTP/1.1 401 Unauthorized");
         die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
     }
 }
@@ -45,6 +53,8 @@ $is_ext = strtolower($is_ext);
 $is_dangerous_file = $files_utils->is_dangerous_file($fileName_ext);
 
 if ($is_dangerous_file) {
+    header("HTTP/1.1 401 Unauthorized");
+
     die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
 }
 
@@ -92,6 +102,10 @@ if ($allowed_to_upload == false) {
                 $rel_error = true;
             }
 
+
+
+
+
             if ($rel_error) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 91, "message": "You are not allowed to upload"}}');
             }
@@ -99,18 +113,26 @@ if ($allowed_to_upload == false) {
 
         if ($cfid != false and isset($cfid['custom_field_type'])) {
             if ($cfid['custom_field_type'] != 'upload') {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Custom field is not file upload type"}}');
             }
             if ($cfid != false and (!isset($cfid['options']) or !isset($cfid['options']['file_types']))) {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "File types is not set."}}');
             }
             if ($cfid != false and isset($cfid['file_types']) and empty($cfid['file_types'])) {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "File types cannot by empty."}}');
             }
 
             if ($cfid != false and isset($cfid['options']) and isset($cfid['options']['file_types'])) {
                 $alloled_ft = array_values(($cfid['options']['file_types']));
                 if (empty($alloled_ft)) {
+                    header("HTTP/1.1 401 Unauthorized");
+
                     die('{"jsonrpc" : "2.0", "error" : {"code": 104, "message": "File types cannot by empty."}}');
                 } else {
                     $are_allowed = '';
@@ -150,41 +172,8 @@ if ($allowed_to_upload == false) {
 
                             }
 
-                            switch ($allowed_file_type_item) {
+                            $are_allowed = $files_utils->get_allowed_files_extensions_for_upload($allowed_file_type_item);
 
-                                case 'img':
-                                case 'image':
-                                case 'images':
-                                    $are_allowed .= ',png,gif,jpg,jpeg,tiff,bmp,svg';
-                                    break;
-                                case 'video':
-                                case 'videos':
-                                    $are_allowed .= ',avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
-                                    break;
-                                case 'file':
-                                case 'files':
-                                    $are_allowed .= ',doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv,7z';
-                                    break;
-                                case 'documents':
-                                case 'doc':
-                                    $are_allowed .= ',doc,docx,log,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
-                                    break;
-                                case 'archives':
-                                case 'arc':
-                                case 'arch':
-                                    $are_allowed .= ',zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
-                                    break;
-                                case 'all':
-                                    $are_allowed .= ',*';
-                                    break;
-                                case '*':
-                                    $are_allowed .= ',*';
-                                    break;
-                                default:
-
-                                    $are_allowed .= ',' . $allowed_file_type_item;
-
-                            }
                             $pass_type_check = false;
                             if ($are_allowed != false) {
                                 $are_allowed_a = explode(',', $are_allowed);
@@ -204,19 +193,27 @@ if ($allowed_to_upload == false) {
                                 }
                             }
                             if ($pass_type_check == false) {
+                                header("HTTP/1.1 401 Unauthorized");
+
                                 die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload ' . $are_allowed . ' files."}}');
                             } else {
                                 if (!isset($_REQUEST['captcha'])) {
                                     if (!$validate_token) {
+                                        header("HTTP/1.1 401 Unauthorized");
+
                                         die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
                                     }
                                 } else {
                                     $cap = mw()->user_manager->session_get('captcha');
                                     if ($cap == false) {
+                                        header("HTTP/1.1 401 Unauthorized");
+
                                         die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
                                     }
                                     $validate_captcha = $this->app->captcha_manager->validate($_REQUEST['captcha']);
                                     if (!$validate_captcha) {
+                                        header("HTTP/1.1 401 Unauthorized");
+
                                         die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
                                     } else {
                                         if (!isset($_REQUEST['path'])) {
@@ -233,8 +230,23 @@ if ($allowed_to_upload == false) {
             }
         }
     } else {
+        header("HTTP/1.1 401 Unauthorized");
+
         die('{"jsonrpc" : "2.0", "error" : {"code": 110, "message": "Only admin can upload."}, "id" : "id"}');
     }
+}
+
+
+if(!is_admin()){
+//    /var_dump($_REQUEST);
+
+    return response(array(
+        'error' => _e('Please enter captcha answer!', true),
+        'captcha_error' => true,
+        'form_data_required' => 'captcha',
+        'form_data_required_params' => array('captcha_parent_for_id' => $_REQUEST['rel_id']),
+        'form_data_module' => 'captcha'
+    ));
 }
 
 
@@ -401,6 +413,8 @@ if ($engine == 'plupload') {
                         fwrite($out, $buff);
                     }
                 } else {
+                    header("HTTP/1.1 401 Unauthorized");
+
                     die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
                 }
                 fclose($in);
@@ -408,9 +422,13 @@ if ($engine == 'plupload') {
 
                 @unlink($_FILES['file']['tmp_name']);
             } else {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
             }
         } else {
+            header("HTTP/1.1 401 Unauthorized");
+
             die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
         }
     } else {
@@ -425,12 +443,16 @@ if ($engine == 'plupload') {
                     fwrite($out, $buff);
                 }
             } else {
+                header("HTTP/1.1 401 Unauthorized");
+
                 die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
             }
 
             fclose($in);
             fclose($out);
         } else {
+            header("HTTP/1.1 401 Unauthorized");
+
             die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
         }
     }
@@ -458,7 +480,6 @@ if (!$chunks || $chunk == $chunks - 1) {
 
     $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website') == 'y';
     $automatic_image_resize_on_upload_disabled = get_option('automatic_image_resize_on_upload', 'website') == 'd';
-
 
     if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
         $ext = get_file_extension($filePath);

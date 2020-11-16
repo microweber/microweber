@@ -2,18 +2,21 @@
 
 namespace MicroweberPackages\User\tests;
 
-use function _HumbugBox58fd4d9e2a25\KevinGH\Box\unique_id;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Testing\Fakes\MailFake;
+use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
+use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Notifications\NewRegistration;
@@ -21,7 +24,8 @@ use MicroweberPackages\User\Notifications\VerifyEmail;
 use MicroweberPackages\User\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 /**
  * Run test
  * @author Bobi Slaveykvo Microweber
@@ -34,6 +38,7 @@ class UserManagerTest extends TestCase
     public function testRegistration()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_enableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
 
@@ -86,6 +91,7 @@ class UserManagerTest extends TestCase
     public function testLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
         $this->_disableEmailVerify();
 
@@ -103,6 +109,7 @@ class UserManagerTest extends TestCase
     public function testWrongPasswordLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
@@ -119,6 +126,7 @@ class UserManagerTest extends TestCase
     public function testWrongUsernameLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
@@ -135,6 +143,7 @@ class UserManagerTest extends TestCase
     public function testWrongEmailLogin()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
 
         $loginDetails = array();
@@ -151,6 +160,8 @@ class UserManagerTest extends TestCase
     public function testForgotPassword()
     {
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
 
         $userDetails = array();
         $userDetails['username'] = self::$_username;
@@ -158,26 +169,21 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
+
         $this->assertArrayHasKey('success', $requestStatus);
+        $this->assertTrue($requestStatus['success']);
+        $this->assertContains('reset link', $requestStatus['message']);
 
-        $checkEmailContent = MailSender::$last_send['content'];
+        $userDetails['email'] = 'wrong@gmail.com';
 
-        $findPasswordResetLink = false;
-        if (strpos($checkEmailContent, 'reset_password_link=') !== false) {
-            $findPasswordResetLink = true;
-        }
-        $findUsername = false;
-        if (strpos($checkEmailContent, $userDetails['username']) !== false) {
-            $findUsername = true;
-        }
-        $findIpAddress = false;
-        if (strpos($checkEmailContent, MW_USER_IP) !== false) {
-            $findIpAddress = true;
-        }
+        $userManager = new UserManager();
+        $requestStatus = $userManager->send_forgot_password($userDetails);
 
-        $this->assertEquals(true, $findPasswordResetLink);
-        $this->assertEquals(true, $findUsername);
-        $this->assertEquals(true, $findIpAddress);
+        $this->assertArrayHasKey('error', $requestStatus);
+        $this->assertTrue($requestStatus['error']);
+        $this->assertContains('user with that e-mail address', $requestStatus['message']);
+
+
 
     }
 
@@ -216,6 +222,7 @@ class UserManagerTest extends TestCase
     {
         $this->_disableUserRegistrationWithDisposableEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
         $this->_enableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
 
@@ -245,6 +252,9 @@ class UserManagerTest extends TestCase
         $this->_enableEmailVerify();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
+
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -272,7 +282,7 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('error', $loginStatus);
         $this->assertContains('verify', $loginStatus['error']);
 
-        $user = User::find($registerStatus['id']);
+        $user = User::find($registerStatus['data']['id']);
 
         $this->assertEquals('0', $user->is_active);
         $this->assertEquals('0', $user->is_admin);
@@ -288,6 +298,8 @@ class UserManagerTest extends TestCase
         $this->_disableRegistrationApprovalByAdmin();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
 
         $unamnexss = '<a href="Boom"><font color=a"onmouseover=alert(document.cookie);"> XSxxxS-Try ME</span></font>' . uniqid();
         $registerStatus = '';
@@ -315,6 +327,8 @@ class UserManagerTest extends TestCase
         $this->_disableRegistrationApprovalByAdmin();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
 
         $newUser = array();
         $newUser['username'] = 'xxx'.uniqid();
@@ -324,15 +338,179 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
+        $this->assertArrayHasKey('success', $registerStatus);
+        $user = User::find($registerStatus['data']['id']);
 
 
+        $userManager = new UserManager();
+        $forgotPass = $userManager->send_forgot_password($newUser);
+        $this->assertArrayHasKey('success', $forgotPass);
+        $this->assertTrue( $forgotPass['success']);
+        $this->assertContains('reset link sent', $forgotPass['message']);
+
+        $check = DB::table('password_resets')
+            ->where('email', '=', $newUser['email'])
+            ->first();
+
+        $this->assertEquals($check->email, $newUser['email']);
 
 
+        // Lets change the password
+        $token = Password::getRepository()->create($user);
+        $update_pass_request = [
+            'token' =>$token,
+            'email' =>$newUser['email'],
+            'password' => '1234',
+            'password_confirmation' => '1234'
+        ];
+        $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
+        $this->assertArrayHasKey('success', $updatePasswordWithToken);
+        $this->assertTrue( $updatePasswordWithToken['success']);
+        $this->assertContains('has been reset', $updatePasswordWithToken['message']);
 
-        var_dump($registerStatus);
-        die();
+
+        // Lets expire email token
+        $token = Password::getRepository()->create($user);
+        DB::table('password_resets')->where('email','=',$check->email)->update([
+            'created_at'=>'1997'
+        ]);
+        $update_pass_request = [
+            'token' =>$token,
+            'email' =>$newUser['email'],
+            'password' => '1234',
+            'password_confirmation' => '1234'
+        ];
+        $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
+        $this->assertArrayHasKey('error', $updatePasswordWithToken);
+        $this->assertTrue( $updatePasswordWithToken['error']);
+        $this->assertContains('token is invalid', $updatePasswordWithToken['message']);
+
 
     }
 
+    public function testUserRegistrationForgotPasswordCustomEmailTemplate()
+    {
+        \Config::set('mail.transport', 'array');
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_enableRegisterWelcomeEmail();
+        $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
 
+        $newUser = array();
+        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['email'] = uniqid() . '@mail.test';
+        $newUser['password'] = uniqid();
+
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+        $this->assertArrayHasKey('success', $registerStatus);
+        $user = User::find($registerStatus['data']['id']);
+
+
+
+
+
+        // Save custom mail template and test it
+        $templateId = save_mail_template([
+            'type'=>'forgot_password',
+            'message'=> '{{username}}--unit-testingRESET_passwordlink-{{reset_password_link}}'
+        ]);
+
+        Option::setValue('forgot_password_mail_template', $templateId, 'users');
+
+
+
+        $userManager = new UserManager();
+        $forgotPass = $userManager->send_forgot_password($newUser);
+        $this->assertArrayHasKey('success', $forgotPass);
+        $this->assertTrue( $forgotPass['success']);
+        $this->assertContains('reset link sent', $forgotPass['message']);
+
+
+        $findUnitTestingText = false;
+        $checkMailIsFound = false;
+        $findResetPasswordLink = false;
+        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        foreach ($emails as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+
+            if ($subject == 'Mail Reset Password Notification') {
+                $checkMailIsFound = true;
+                if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
+                    $findUnitTestingText = true;
+                }
+
+                if (strpos($body, '?email=') !== false) {
+                    $findResetPasswordLink = true;
+                }
+            }
+
+        }
+
+        $this->assertTrue($findResetPasswordLink);
+        $this->assertTrue($findUnitTestingText);
+        $this->assertTrue($checkMailIsFound);
+    }
+
+
+    public function testUserRegistrationWelcomeCustomEmailTemplate()
+    {
+        \Config::set('mail.transport', 'array');
+        $this->_enableUserRegistration();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_enableRegisterWelcomeEmail();
+        $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+
+        $newUser = array();
+        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['email'] = uniqid() . '@mail.test';
+        $newUser['password'] = uniqid();
+
+
+        // Save custom mail template and test it
+        $templateId = save_mail_template([
+            'type'=>'new_user_registration',
+            'message'=> '{{username}}--unit-testing-welcome-{{email}}'
+        ]);
+        Option::setValue('new_user_registration_mail_template', $templateId, 'users');
+
+
+        $userManager = new UserManager();
+        $registerStatus = $userManager->register($newUser);
+        $this->assertArrayHasKey('success', $registerStatus);
+        $user = User::find($registerStatus['data']['id']);
+
+
+
+        $findUnitTestingText = false;
+        $checkMailIsFound = false;
+        $findUsername = false;
+        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        foreach ($emails as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+
+            if ($subject == 'New Registration') {
+                $checkMailIsFound = true;
+                if (strpos($body, '--unit-testing-welcome-') !== false) {
+                    $findUnitTestingText = true;
+                }
+
+                if (strpos($body, $newUser['email']) !== false) {
+                    $findUsername = true;
+                }
+            }
+
+        }
+
+        $this->assertTrue($findUsername);
+        $this->assertTrue($findUnitTestingText);
+        $this->assertTrue($checkMailIsFound);
+    }
 }

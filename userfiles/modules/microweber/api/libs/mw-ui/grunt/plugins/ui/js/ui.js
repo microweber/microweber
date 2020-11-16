@@ -134,15 +134,15 @@ $(document).ready(function () {
 
     //Custom checkboxes and radios in .collapse fix
     $('.collapse .custom-control-label').on('click', function () {
-        var checkBox = $(this).prev('input');
-
-        if ($(checkBox).attr('checked')) {
-            $(checkBox).removeAttr('checked');
-        } else {
-            $(checkBox).attr('checked', 'checked');
-        }
-        $(checkBox).trigger('change');
-        return false;
+        // var checkBox = $(this).prev('input');
+        //
+        // if ($(checkBox).attr('checked')) {
+        //     $(checkBox).removeAttr('checked');
+        // } else {
+        //     $(checkBox).attr('checked', 'checked');
+        // }
+        // $(checkBox).trigger('change');
+        // return;
     });
 
     $('input, textarea', '.js-count-letters').on('keyup', function () {

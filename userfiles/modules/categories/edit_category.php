@@ -29,7 +29,7 @@ if (isset($params['live_edit'])) {
 }
 ?>
 <style>
-    #backend_image_uploader .mw-filepicker-component-section {
+     .mw-filepicker-component-section {
         width: 125px;
     }
 
@@ -108,6 +108,11 @@ if (isset($params['live_edit'])) {
                 $('.mw-cat-save-submit').addClass('disabled');
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
                 mw.form.post(mw.$('#admin_edit_category_form'), '<?php print api_link('category/save') ?>', function (val) {
+                    //todo: move method to separate service
+                    var dialog = mw.dialog.get(mw.$('#admin_edit_category_form'));
+                    if(dialog) {
+                        dialog.result(this.toString())
+                    }
                     if (typeof(this.error) != "undefined") {
                         mw.notification.msg(this);
                         mw.category_is_saving = false;
@@ -134,7 +139,6 @@ if (isset($params['live_edit'])) {
                     <?php if(intval($data['id']) == 0): ?>
                     mw.url.windowHashParam("new_content", "true");
 
-                    //	mw.url.windowHashParam("action", "editcategory:" + this);
 
                     <?php endif; ?>
                     mw.reload_module('#<?php print $params['id'] ?>');
@@ -251,7 +255,7 @@ if (isset($params['live_edit'])) {
                                                 <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
                                             </div>
                                         <?php endif; ?>
-                                        <input class="form-control" id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0): ?>placeholder<?php else: ?>value<?php endif ?>="<?php print ($data['title']); ?>"/>
+                                        <input class="form-control" autofocus id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0): ?>placeholder<?php else: ?>value<?php endif ?>="<?php print ($data['title']); ?>"/>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -263,7 +267,7 @@ if (isset($params['live_edit'])) {
                                     <label class="control-label"><?php print _e('Choose a parent'); ?>:</label>
                                     <small class="text-muted d-block mb-2">Choose a parent page or category</small>
 
-                                    <span class="btn dropdown-toggle btn-light" onclick="$('.mw-tree-selector').stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
+                                    <span class="btn dropdown-toggle btn-light" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
                                     <?php $is_shop = ''; ?>
                                     <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par">
                                         <?php /*
@@ -370,6 +374,43 @@ if (isset($params['live_edit'])) {
                                     })
                                 })
                             });
+
+
+
+
+                            var dropdownUploader;
+
+                            mw.$('#mw-admin-post-media-type')
+                                .selectpicker()
+                                .on('changed.bs.select', function () {
+                                    mw._postsImageUploader.displayControllerByType($(this).selectpicker('val'))
+                                    setTimeout(function () {
+                                        mw.$('#mw-admin-post-media-type').val('0').selectpicker('refresh');
+                                    }, 10)
+
+                                })
+                                .on('show.bs.select', function () {
+                                    if (!!dropdownUploader) return;
+                                    var item = mw.$('#mw-admin-post-media-type').parent().find('li:last');
+                                    dropdownUploader = mw.upload({
+                                        element: item,
+                                        accept: 'image/*',
+                                        multiple: true
+                                    });
+                                    $(dropdownUploader).on('FileAdded', function (e, res) {
+                                        mw._postsImageUploader._thumbpreload()
+                                    })
+                                    $(dropdownUploader).on('FileUploaded', function (e, res) {
+                                        console.log(e,res)
+                                        var url = res.src ? res.src : res;
+                                        if (window.after_upld) {
+
+                                            mw._postsImageUploader.hide()
+                                        }
+                                    });
+                                })
+
+
                         </script>
                         <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 

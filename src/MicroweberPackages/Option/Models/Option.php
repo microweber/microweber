@@ -35,4 +35,17 @@ class Option extends Model
         return $value;
     }
 
+    public function setValue($key, $value, $group = false)
+    {
+        $saveOption = [];
+        $saveOption['option_key'] = $key;
+        $saveOption['option_value'] = $value;
+
+        if ($group) {
+            $saveOption['option_group'] = $group;
+        }
+
+        return save_option($saveOption);
+    }
+
 }

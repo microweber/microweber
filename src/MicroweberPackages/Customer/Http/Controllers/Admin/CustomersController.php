@@ -80,6 +80,11 @@ class CustomersController extends AdminController
 
         if ($request->addresses) {
             foreach ($request->addresses as $address) {
+
+                if (!isset($address["country_id"])) {
+                    $address["country_id"] = 0;
+                }
+
                 $newAddress = new Address();
                 $newAddress->name = $address["name"];
                 $newAddress->address_street_1 = $address["address_street_1"];

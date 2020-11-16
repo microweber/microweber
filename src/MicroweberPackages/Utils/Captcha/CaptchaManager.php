@@ -50,12 +50,11 @@ class CaptchaManager
             $this->adapter = new MicroweberCaptcha($app);
         }
 
-
-    }
+     }
 
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
-        return $this->adapter->validate($key, $captcha_id, $unset_if_found);
+         return $this->adapter->validate($key, $captcha_id, $unset_if_found);
     }
 
     public function render($params = array())

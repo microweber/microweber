@@ -41,7 +41,7 @@
     formHasUploader = true;
 
     $(document).ready(function () {
-        <?php echo $up; ?> = mw.files.uploader({
+        var uploader = mw.files.uploader({
             multiple: false,
             name: '<?php echo $data["name"]; ?>',
             autostart: true,
@@ -52,20 +52,20 @@
         var local_id = '<?php echo($rand); ?>';
 
 
-        $(<?php echo $up; ?>).on('FilesAdded', function (frame, file) {
+        $(uploader).on('FilesAdded', function (frame, file) {
 
             mwd.getElementById('file_name<?php echo $data["name"]; ?>').value = file[0].name;
 
         });
 
-        $(<?php echo $up; ?>).on('progress', function (frame, file) {
+        $(uploader).on('progress', function (frame, file) {
             mw.$("#upload_progress_" + local_id + " .bar").width(file.percent + '%')
             mw.$("#upload_progress_" + local_id).show();
 
             mw.log(file)
         });
 
-        $(<?php echo $up; ?>).on('FileUploaded', function (frame, file) {
+        $(uploader).on('FileUploaded', function (frame, file) {
             mw.$("#uploaded_file_src<?php echo($rand); ?>").val(file.src);
             mw.$("#upload_<?php echo($rand); ?> input[type='text']").val(file.src);
             mw.$("#upload_progress_" + local_id).hide();
@@ -75,7 +75,7 @@
         });
 
 
-        $(<?php echo $up; ?>).on('error', function (frame, file) {
+        $(uploader).on('error', function (frame, file) {
 
             mw.$("#upload_progress_" + local_id).hide();
             mw.$("#upload_err" + local_id).show().html("<strong>" + file.name + "</strong> - Invalid filetype!");
@@ -85,7 +85,7 @@
         });
 
 
-        $(<?php echo $up; ?>).on('responseError', function (frame, json) {
+        $(uploader).on('responseError', function (frame, json) {
 
             mw.$("#upload_progress_" + local_id).hide();
             mw.$("#upload_err" + local_id).show().html("<strong>Error " + json.error.code + "</strong> - " + json.error.message);
@@ -97,16 +97,11 @@
 
 
         <?php if (($settings['rel_type'] == 'module' || $settings['rel_type'] == 'modules') && $settings['rel_id']) : ?>
-        <?php echo $up; ?>.
-        contentWindow.onload = function () {
-            mw.postMsg(<?php echo $up; ?>.contentWindow, {
-                rel: "<?php echo($settings['rel_type']); ?>",
-                custom_field_id: "<?php echo($data['id']); ?>",
-                rel_id: "<?php echo($settings['rel_id']); ?>"
-            }
-            )
-            ;
-        }
+        uploader.urlParams({
+            rel:"<?php echo($settings['rel_type']); ?>",
+            custom_field_id:"<?php echo($data['id']); ?>",
+            rel_id:"<?php echo($settings['rel_id']); ?>"
+        });
         <?php endif; ?>
 
     });

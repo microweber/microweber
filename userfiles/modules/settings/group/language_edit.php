@@ -21,7 +21,7 @@
     function export_language_by_namespace(namespace, language) {
         $.ajax({
             type: "POST",
-            url: mw.settings.api_url + "Microweber/Utils/Language/export",
+            url: "<?php echo route('admin.backup.language.export'); ?>",
             data: "namespace=" + namespace + "&language=" + language,
             success: function (data) {
                 window.location = data;
@@ -53,6 +53,7 @@
             data: {lines: JSON.stringify(formArray)},
             dataType: "json",
             success: function (msg) {
+
                 mw.notification.msg(msg);
             }
         });

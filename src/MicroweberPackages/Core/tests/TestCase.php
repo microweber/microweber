@@ -80,12 +80,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         }
 
-
-
-
-
-
-
         $db_driver = env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite';
         $db_host = env('DB_HOST', '127.0.0.1');
         $db_port = env('DB_PORT', '');
@@ -165,6 +159,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         \Config::set('mail.driver','array');
         \Config::set('queue.driver','sync');
+        \Config::set('mail.transport', 'array');
 
         return $app;
     }

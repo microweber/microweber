@@ -49,6 +49,7 @@ $rand = 'pic-sorter-' . uniqid();
         width: 18%;
         height: 110px;
         margin: 0 1% 1%;
+        overflow: hidden;
     }
 
     .admin-thumb-item-uploader-holder:hover .dropable-zone.small-zone button {
@@ -150,7 +151,7 @@ $rand = 'pic-sorter-' . uniqid();
         });
 
         setInterval(function () {
-            $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder').each(function () {
+            $('.admin-thumb-item, .admin-thumb-item-placeholder, .admin-thumb-item-uploader-holder, .mw-filepicker-desktop-type-small .mw-uploader-type-holder').each(function () {
                 $(this).height($(this).width())
             })
         }, 78)

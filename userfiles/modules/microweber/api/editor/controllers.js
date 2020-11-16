@@ -431,7 +431,23 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('insertUnorderedList');
+                var sel = api.getSelection();
+                var node = api.elementNode(sel.focusNode);
+                var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
+                if(paragraph) {
+                    scope.api.action(paragraph.parentNode, function () {
+                        var ul = scope.actionWindow.document.createElement('ul');
+                        var li = scope.actionWindow.document.createElement('li');
+                        ul.appendChild(li);
+                        while (paragraph.firstChild) {
+                            li.appendChild(node.firstChild);
+                        }
+                        paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
+                        paragraph.remove();
+                    });
+                } else {
+                    api.execCommand('insertUnorderedList');
+                }
             });
             return el;
         };
@@ -449,7 +465,23 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('insertOrderedList');
+                var sel = api.getSelection();
+                var node = api.elementNode(sel.focusNode);
+                var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
+                if(paragraph) {
+                    scope.api.action(paragraph.parentNode, function () {
+                        var ul = scope.actionWindow.document.createElement('ol');
+                        var li = scope.actionWindow.document.createElement('li');
+                        ul.appendChild(li);
+                        while (paragraph.firstChild) {
+                            li.appendChild(node.firstChild);
+                        }
+                        paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
+                        paragraph.remove();
+                    });
+                } else {
+                    api.execCommand('insertOrderedList');
+                }
             });
             return el;
         };

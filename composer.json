@@ -68,7 +68,8 @@
         "laravel/sanctum": "^3.0@dev",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "mtrajano/laravel-swagger": "dev-master",
-        "tucker-eric/eloquentfilter": "dev-master"
+        "tucker-eric/eloquentfilter": "dev-master" 
+        
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

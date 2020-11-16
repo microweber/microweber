@@ -1,0 +1,25 @@
+.js-edit-coupon-form .mw-ui-field {
+	width: 100%;
+}
+
+.js-danger-alert {
+	background: #fb3f3f;
+	color: #fff;
+	padding: 11px;
+	border-radius: 4px;
+	border: 1px solid #0000001a;
+	text-shadow: #a1a1a1 2px 0px 8px;
+}
+
+.js-danger-text {
+	padding-top: 5px;
+	color: #c21f1f;
+}
+
+.js-table-active {
+
+}
+
+.js-table-inactive {
+	background:#fff2f2
+}

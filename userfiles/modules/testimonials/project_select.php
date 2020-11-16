@@ -6,12 +6,14 @@ if (!isset($params['option-group'])) {
 $data = get_testimonials("group_by=project_name");
 $selected = get_option('show_testimonials_per_project', $params['option-group']);
 ?>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            mw.options.form('#<?php print $params['id'] ?>');
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        mw.options.form('#<?php print $params['id'] ?>', function () {
+            mw.notification.success("<?php _ejs("Saved"); ?>.");
+            mw.reload_module("testimonials/admin");
         });
-    </script>
+    });
+</script>
 <?php if (!empty($data)): ?>
     <select class="form-control mw_option_field" name="show_testimonials_per_project" option-group="<?php print $params['option-group'] ?>">
         <option value=""><?php _e('All projects'); ?></option>

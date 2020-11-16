@@ -713,6 +713,7 @@ mw.emitter = {
             };
 
             this.setValue = function (val) {
+                val = val || {};
                 if(textField) textField.value = val.text;
                 if(targetField) targetField.checked = !!val.target;
                 return val;

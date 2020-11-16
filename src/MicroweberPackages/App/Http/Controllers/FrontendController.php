@@ -827,7 +827,6 @@ class FrontendController extends Controller
             $url = $this->app->format->replace_once('module/', '', $url);
             $url = $this->app->format->replace_once('module_api/', '', $url);
             $url = $this->app->format->replace_once('m/', '', $url);
-
             if (is_module($url)) {
                 $request_data['module'] = $url;
                 $mod_from_url = $url;
@@ -1396,10 +1395,13 @@ class FrontendController extends Controller
 
                 $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
-                $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
+                $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group);
+
                 if ($output_cache_content != false) {
+
                     return \Response::make($output_cache_content);;
                 }
+
             }
         }
         $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
@@ -1645,6 +1647,16 @@ class FrontendController extends Controller
                                     $page['url'] = $this->app->url_manager->string();
                                     $page['active_site_template'] = $the_active_site_template;
 
+                                    $file_for_module = 'module.php';
+                                    $render_file_for_module = $td_base . $file_for_module;
+                                    if(is_file($render_file_for_module)){
+                                        $file_for_module = 'module.php';
+                                    } else if(is_file($render_file_for_module)){
+                                        $file_for_module = 'clean.php';
+                                    }
+
+
+
                                     template_var('no_edit', 1);
 
                                     $mod_params = '';
@@ -1655,10 +1667,12 @@ class FrontendController extends Controller
                                         $mod_params = $mod_params . " id='{$preview_module_id}' ";
                                     }
                                     $found_mod = $page_url;
-                                    $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
+                                    $page['simply_a_file'] =$file_for_module;
+                                    $page['layout_file'] = $file_for_module;
+                                    $page['content'] = '<module type="' . $page_url . '" ' . $mod_params . '  />';
 
                                     //  $page['simply_a_file'] = 'clean.php';
-                                    $page['layout_file'] = 'clean.php';
+                                    $page['layout_file'] = $file_for_module;
                                     template_var('content', $page['content']);
 
                                     template_var('new_page', $page);
@@ -1668,6 +1682,7 @@ class FrontendController extends Controller
 
 
                         } elseif (is_array($page_url_segment_3)) {
+
                             foreach ($page_url_segment_3 as $mvalue) {
                                 if ($found_mod == false and $this->app->module_manager->is_installed($mvalue)) {
                                     $found_mod = true;
@@ -1688,6 +1703,7 @@ class FrontendController extends Controller
                             }
                         }
                     } else {
+
                         if (!is_array($page)) {
                             $page = array();
                         }
@@ -1837,6 +1853,7 @@ class FrontendController extends Controller
         if (isset($overwrite[0])) {
             $content = $overwrite[0];
         }
+
 //        $override = $this->app->event_manager->trigger('content.link.after', $link);
 //        if (is_array($override) && isset($override[0])) {
 //            $link = $override[0];
@@ -1880,6 +1897,7 @@ class FrontendController extends Controller
         }
 
         if ($render_file) {
+
             $render_params = array();
             if ($show_404_to_non_admin) {
 
@@ -2221,6 +2239,12 @@ class FrontendController extends Controller
             }
 
 
+
+
+
+
+
+
             $l = $this->app->parser->replace_url_placeholders($l);
 
 
@@ -2230,6 +2254,9 @@ class FrontendController extends Controller
             $l = execute_document_ready($l);
 
             event_trigger('frontend');
+
+
+            $l = mw()->template->add_csrf_token_meta_tags($l);
 
             $is_embed = $this->app->url_manager->param('embed');
 
@@ -2252,8 +2279,8 @@ class FrontendController extends Controller
 
             if ($enable_full_page_cache and $output_cache_timeout != false) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
+                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
 
-                    $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
                     $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group, $output_cache_timeout);
                 }
             }
@@ -2749,6 +2776,8 @@ class FrontendController extends Controller
 
 
         $layout = $this->app->parser->process($layout, $options = false);
+
+        $layout = mw()->template->add_csrf_token_meta_tags($layout);
 
         $layout = execute_document_ready($layout);
 

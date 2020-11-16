@@ -27,7 +27,15 @@ Route::any('/userfiles/{path}', [ 'uses' => '\MicroweberPackages\App\Http\Contro
 });
 
 
-Route::group(['namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+Route::get('/csrf', function (){
+    return response()->json(['token' => csrf_token()], 200);
+
+
+})->name('csrf');
+
+
+// 'middleware' => 'web',
+Route::group([ 'middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
     Route::any('/', 'FrontendController@index');
 

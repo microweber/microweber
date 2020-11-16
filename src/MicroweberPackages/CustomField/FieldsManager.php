@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\CustomField;
 
+use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
+use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\View\View;
 
 api_expose_admin('fields/reorder');
@@ -269,7 +271,7 @@ class FieldsManager
 
                 $this->app->option_manager->save($option);
                 if ($pos > 0) {
-                    $this->app->cache_manager->delete('custom_fields/global');
+                    $this->app->cache_manager->delete('custom_fields');
                 }
             }
         }
@@ -652,7 +654,7 @@ class FieldsManager
         if (empty($params)) {
             return false;
         }
-
+        
         $q = $this->app->database_manager->get($params);
 
         if (!empty($q)) {
@@ -924,9 +926,7 @@ class FieldsManager
         $this->app->database_manager->delete_by_id($custom_field_table_values, $id, 'custom_field_id');
         $this->app->cache_manager->delete('custom_fields');
 
-		if(mw()->module_manager->is_installed('shop/offers')){
-			$this->app->database_manager->delete_by_id('offers', $id, 'price_id');
-		}
+        event(new CustomFieldWasDeleted($id));
 
         return $id;
     }
@@ -1069,6 +1069,7 @@ class FieldsManager
 
         $field_data = array();
         $field_data['name'] = false;
+        $field_data['name_key'] = false;
         $field_data['type'] = false;
         $field_data['id'] = 0;
         $field_data['placeholder'] = false;
@@ -1107,6 +1108,10 @@ class FieldsManager
 
         if (isset($data['name'])) {
             $field_data['name'] = $data['name'];
+        }
+
+        if (isset($data['name_key'])) {
+            $field_data['name_key'] = $data['name_key'];
         }
 
         if (isset($data['type'])) {
@@ -1396,7 +1401,7 @@ class FieldsManager
 
         $cache_id = __FUNCTION__ . '_' . $crc;
 
-        $results = $this->app->database_manager->query($q, $cache_id, 'custom_fields/global');
+        $results = $this->app->database_manager->query($q, $cache_id, 'custom_fields');
 
         if (is_array($results)) {
             return $results;

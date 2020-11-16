@@ -314,7 +314,7 @@ $user = get_user_by_id($user_id);
 
                     <?php if ($notif_count != ''): ?>
                         <li class="mx-1">
-                            <a href="<?php print admin_url(); ?>view:admin__notifications" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                            <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $notif_html; ?>
                                 <i class="mdi mdi-newspaper-variant-multiple text-muted"></i>&nbsp;
                                 <span class="notif-label">

@@ -96,7 +96,7 @@ if ($registration_approval_required == false) {
         });
 
         var params = {}
-        mw.load_module('captcha/admin_backend', '#captcha_settings', null, params);
+        mw.load_module('captcha/admin', '#captcha_settings', null, params);
     }
 </script>
 

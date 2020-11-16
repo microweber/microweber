@@ -27,6 +27,25 @@ trait UserTestHelperTrait
 
     }
 
+
+    private function _disableLoginCaptcha()
+    {
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'login_captcha_enabled';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+
+    }
+    private function _enableLoginCaptcha()
+    {
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'login_captcha_enabled';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+
+    }
+
+
     private function _disableEmailVerify()
     {
         $data['option_value'] = 'n';
