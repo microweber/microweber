@@ -157,7 +157,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function __construct($app)
     {
-        $this->loadPackagesComposerJson();
+        //$this->loadPackagesComposerJson();
 
         ClassLoader::addDirectories([
             base_path() . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules',
@@ -470,6 +470,11 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
+
+
+    /**
+     * @deprecated
+     */
     public function loadPackagesComposerJson()
     {
         $dir = dirname(dirname(__DIR__));
