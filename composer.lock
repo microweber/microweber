@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb39f5594873054eb2bb7e4ac7baf279",
+    "content-hash": "a87ad010fbd9462592388656bfec3622",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -11318,16 +11318,16 @@
         },
         {
             "name": "wikimedia/composer-merge-plugin",
-            "version": "dev-composer-2-fix",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-deps/composer-merge-plugin.git",
-                "reference": "35bac390965a47344d711f1aa13d0d2bf000ebcb"
+                "reference": "07122bd5d0fc76b1c2441a039bd638ea82a9d465"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-deps/composer-merge-plugin/zipball/35bac390965a47344d711f1aa13d0d2bf000ebcb",
-                "reference": "35bac390965a47344d711f1aa13d0d2bf000ebcb",
+                "url": "https://api.github.com/repos/microweber-deps/composer-merge-plugin/zipball/07122bd5d0fc76b1c2441a039bd638ea82a9d465",
+                "reference": "07122bd5d0fc76b1c2441a039bd638ea82a9d465",
                 "shasum": ""
             },
             "require": {
@@ -11340,6 +11340,7 @@
                 "phpunit/phpunit": "^8.5||^9.0",
                 "squizlabs/php_codesniffer": "~3.5.4"
             },
+            "default-branch": true,
             "type": "composer-plugin",
             "extra": {
                 "branch-alias": {
@@ -11371,9 +11372,9 @@
             ],
             "description": "Composer plugin to merge multiple composer.json files",
             "support": {
-                "source": "https://github.com/microweber-deps/composer-merge-plugin/tree/composer-2-fix"
+                "source": "https://github.com/microweber-deps/composer-merge-plugin/tree/composer-2-fix-fix"
             },
-            "time": "2020-11-12T00:52:19+00:00"
+            "time": "2020-11-16T20:19:36+00:00"
         },
         {
             "name": "wikimedia/less.php",
