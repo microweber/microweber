@@ -98,6 +98,26 @@ class NewFormEntry extends Notification
     {
         $data = $this->notification->data;
         $data['ago'] = app()->format->ago($data['created_at']);
+
+        // >>> Move files in separate key
+        if(!empty($data['form_values']) && is_array($data['form_values'])) {
+            $formValuesArrCopy = $data['form_values']; //make copy in order not to edit the variable in iteration
+            $uploads = [];
+
+            foreach($formValuesArrCopy as $key => $val) {
+                if(isset($val['type']) && $val['type'] == 'upload') {
+                    //Add to uploads arr
+                    $uploads[] = [$key => $val];
+
+                    //Remove from form_values in order no to iterate them as normal key value pair in the view
+                    unset($data['form_values'][$key]);
+                }
+            }
+
+            $data['form_values']['uploads'] = $uploads;
+        }
+        // <<< Move files in separate key
+
         $data['vals']= collect($data['form_values']); //cast them to collection in order to be able to use ->split
 
         return view('form::admin.notifications.new_form_entry', $data);

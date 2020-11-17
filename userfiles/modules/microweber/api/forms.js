@@ -128,7 +128,9 @@ mw.form = {
                     });
 
                     $('[type="file"]', form).each(function () {
-                        form_data.set(this.name, this.files[0]);
+                        if(typeof this.files[0] !== 'undefined') {
+                            form_data.set(this.name, this.files[0]);
+                        }
                     })
 
                     req.data = form_data;

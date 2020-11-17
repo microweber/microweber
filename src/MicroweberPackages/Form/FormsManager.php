@@ -515,8 +515,6 @@ class FormsManager
                 if ($validator->fails()) {
                     $validatorMessages = false;
 
-                    return $validator->messages()->toArray();
-
                     foreach ($validator->messages()->toArray() as $inputFieldErros) {
                         $validatorMessages = reset($inputFieldErros);
                     }
@@ -548,22 +546,26 @@ class FormsManager
 
                         $fileContent = @file_get_contents($file['tmp_name']);
                         if ($fileContent) {
+                            $save = Storage::disk('media')->put($targetFileName, $fileContent);
+                            if ($save) {
 
-                            $file_mime = \Illuminate\Support\Facades\File::mimeType($file['tmp_name']);
-                            $file_extension = \Illuminate\Support\Facades\File::extension($file['tmp_name']);
-                            $file_size = \Illuminate\Support\Facades\File::size($file['tmp_name']);
+                                $realPath = Storage::disk('media')->path($targetFileName);
 
-                            Storage::disk('media')->put($targetFileName, $fileContent);
-                            $mediaFileUrl = Storage::disk('media')->url($targetFileName);
-                            $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
-                            $fields_data[$fieldName] = [
-                                'type' => 'upload',
-                                'url' => $mediaFileUrl,
-                                'file_name' => $file['name'],
-                                'file_extension' => $file_extension,
-                                'file_mime' => $file_mime,
-                                'file_size' => $file_size,
-                            ];
+                                $file_mime = \Illuminate\Support\Facades\File::mimeType($realPath);
+                                $file_extension = \Illuminate\Support\Facades\File::extension($realPath);
+                                $file_size = \Illuminate\Support\Facades\File::size($realPath);
+
+                                $mediaFileUrl = Storage::disk('media')->url($targetFileName);
+                                $mediaFileUrl = str_replace(site_url(), '{SITE_URL}', $mediaFileUrl);
+                                $fields_data[$fieldName] = [
+                                    'type' => 'upload',
+                                    'url' => $mediaFileUrl,
+                                    'file_name' => $file['name'],
+                                    'file_extension' => $file_extension,
+                                    'file_mime' => $file_mime,
+                                    'file_size' => $file_size,
+                                ];
+                            }
 
                         } else {
                             return array(
@@ -574,7 +576,6 @@ class FormsManager
                 }
             }
             // End of attachments
-
             if (!empty($fields_data)) {
                 $to_save['form_values'] = json_encode($fields_data);
             } else {

@@ -28,29 +28,30 @@
         <div class="collapse" id="notif-entry-item-{{$id}}">
             <hr class="thin"/>
             <div class="row">
-            @php
-                $columns = floor($vals->count()/2);
-            @endphp
-            @foreach($vals->split($columns) as $row)
-                <div class="col-md-6">
-                    <h6>{!! $loop->iteration == 1 ? '<strong>Fields</strong>' : '' !!}</h6>
-                    @if(!empty($row))
-                        @foreach($row as $key => $val)
-                            @if(!is_array($val))
-                                <div>
-                                    <small class="text-muted">{{ str_replace('_', ' ', $key) }}:</small>
-                                    <p>{{ $val }}</p>
-                                </div>
-                            @else
-                                <small class="text-muted">{{ str_replace('_', ' ', $key) }}:</small>
-                                @foreach ($val as $valInner)
-                                    <p>{{ $valInner }} <br /> </p>
-                                @endforeach
-                            @endif
-                        @endforeach
-                    @endif
-                </div>
-            @endforeach
+                @foreach($vals->split(2) as $row)
+                    <div class="col-md-6">
+                        <h6>{!! $loop->iteration == 1 ? '<strong>Fields</strong>' : '' !!}</h6>
+                        @if(!empty($row))
+                            @foreach($row as $key => $val)
+                                @if(!is_array($val))
+                                    <div>
+                                        <small class="text-muted">{{ str_replace('_', ' ', $key) }}:</small>
+                                        <p>{{ $val }}</p>
+                                    </div>
+                                @else
+                                    @if($key == 'uploads')
+                                        @include('form::admin.notifications.uploads_listing_partial', $val)
+                                    @else
+                                        <small class="text-muted">{{ str_replace('_', ' ', $key) }}:</small>
+                                        @foreach ($val as $valInner)
+                                            <p>{{ $valInner }} <br /> </p>
+                                        @endforeach
+                                    @endif
+                                @endif
+                            @endforeach
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
