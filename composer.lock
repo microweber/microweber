@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a87ad010fbd9462592388656bfec3622",
+    "content-hash": "495d1eef6bf1ee05a13f434d4bef3f13",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3286,12 +3286,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0942a1302b9bfab0de47ee1f24e53672ed0a3409"
+                "reference": "f41c5da7c6b8db9959e16af10411cdbcba1d520a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0942a1302b9bfab0de47ee1f24e53672ed0a3409",
-                "reference": "0942a1302b9bfab0de47ee1f24e53672ed0a3409",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f41c5da7c6b8db9959e16af10411cdbcba1d520a",
+                "reference": "f41c5da7c6b8db9959e16af10411cdbcba1d520a",
                 "shasum": ""
             },
             "require": {
@@ -3446,7 +3446,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-11-16T17:44:49+00:00"
+            "time": "2020-11-17T02:41:43+00:00"
         },
         {
             "name": "laravel/passport",
@@ -7158,12 +7158,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "b083052f5ae0c5596f2474a9ebe2a0003c143c9d"
+                "reference": "04a1cfac72b67a34d4c9312ca0faa290cb0029cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/b083052f5ae0c5596f2474a9ebe2a0003c143c9d",
-                "reference": "b083052f5ae0c5596f2474a9ebe2a0003c143c9d",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/04a1cfac72b67a34d4c9312ca0faa290cb0029cb",
+                "reference": "04a1cfac72b67a34d4c9312ca0faa290cb0029cb",
                 "shasum": ""
             },
             "require": {
@@ -7218,7 +7218,7 @@
                 "issues": "https://github.com/scssphp/scssphp/issues",
                 "source": "https://github.com/scssphp/scssphp/tree/master"
             },
-            "time": "2020-11-11T09:25:55+00:00"
+            "time": "2020-11-17T09:43:53+00:00"
         },
         {
             "name": "seld/jsonlint",
@@ -11657,12 +11657,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "3b3403f18bbdc0aeadf1ffaddf11a1588b12ec7a"
+                "reference": "08668034beb185fa2ac6f09b1034eaa440952ace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/3b3403f18bbdc0aeadf1ffaddf11a1588b12ec7a",
-                "reference": "3b3403f18bbdc0aeadf1ffaddf11a1588b12ec7a",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/08668034beb185fa2ac6f09b1034eaa440952ace",
+                "reference": "08668034beb185fa2ac6f09b1034eaa440952ace",
                 "shasum": ""
             },
             "require": {
@@ -11727,7 +11727,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2020-11-13T13:36:24+00:00"
+            "time": "2020-11-17T09:18:51+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -13912,7 +13912,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "composer/installers": 20,
         "knplabs/knp-menu": 20,
         "jenssegers/agent": 20,
         "geoip2/geoip2": 20,
