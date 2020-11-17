@@ -35,4 +35,9 @@ class Content extends Model
     {
         return $this->provideFilter(ContentFilter::class);
     }
+
+    public function getMorphClass()
+    {
+        return 'content';
+    }
 }

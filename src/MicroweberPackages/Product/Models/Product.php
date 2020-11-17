@@ -66,10 +66,7 @@ class Product extends Content
         'depth'=>'0'
     ];
 
-    public function getMorphClass()
-    {
-        return 'content';
-    }
+
 
     /**
      * The "booted" method of the model.

@@ -13,6 +13,9 @@ namespace MicroweberPackages\Category\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Category\CategoryManager;
+use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Database\Observers\BaseModelObserver;
 
 class CategoryServiceProvider extends ServiceProvider
 {
@@ -29,6 +32,9 @@ class CategoryServiceProvider extends ServiceProvider
         $this->app->singleton('category_manager', function ($app) {
             return new CategoryManager();
         });
+
+        Category::observe(BaseModelObserver::class);
+        CategoryItem::observe(BaseModelObserver::class);
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
     }
