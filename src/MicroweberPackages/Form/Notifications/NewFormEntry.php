@@ -118,7 +118,7 @@ class NewFormEntry extends Notification
         }
         // <<< Move files in separate key
 
-        $data['vals']= collect($data['form_values']); //cast them to collection in order to be able to use ->split
+        $data['vals']= !empty($data['form_values']) ? collect($data['form_values']) : []; //cast them to collection in order to be able to use ->split
 
         return view('form::admin.notifications.new_form_entry', $data);
     }
