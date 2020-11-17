@@ -185,6 +185,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
+        $this->app->register(ModuleServiceProvider::class);
 
         //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
@@ -225,7 +226,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
-        $this->app->register(ModuleServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);

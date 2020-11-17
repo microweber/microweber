@@ -2,7 +2,6 @@
 namespace MicroweberPackages\App\Http\Middleware;
 
 use Illuminate\Session\Middleware\AuthenticateSession;
-use phpDocumentor\Reflection\Types\Parent_;
 
 
 class AuthenticateSessionForUser extends AuthenticateSession
