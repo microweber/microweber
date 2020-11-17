@@ -70,7 +70,8 @@ class Manager
         if (isset($params['is_shop']) and $params['is_shop'] == 1) {
             $posts_mod['content_type'] = 'product';
         } else if (isset($params['is_shop']) and $params['is_shop'] == 0) {
-            $posts_mod['subtype'] = 'post';
+          //  $posts_mod['subtype'] = 'post';
+            $posts_mod['content_type'] = 'post';
         }
 
         if (isset($params['content_type']) and $params['content_type'] == 'product') {
@@ -171,12 +172,17 @@ class Manager
 
         }
 
+        $posts_mod['no_cache'] = 1;
+        $posts_mod['limit'] = 10000;
         $data = $this->provider->get($posts_mod);
-        if (empty($data) and isset($posts_mod['page'])) {
+
+         if (empty($data) and isset($posts_mod['page'])) {
             if (isset($posts_mod['paging_param'])) {
                 $posts_mod[$posts_mod['paging_param']] = 1;
             }
             unset($posts_mod['page']);
+
+
             $data = $this->provider->get($posts_mod);
         }
 
@@ -185,7 +191,6 @@ class Manager
 
 
         $pages = $this->provider->get($post_params_paging);
-
 
 
         $this->event_manager->trigger('module.content.manager', $posts_mod);
@@ -238,6 +243,7 @@ class Manager
                 }
             }
         }
+
 
         $view = new View($post_list_view);
         $view->assign('params', $params);
