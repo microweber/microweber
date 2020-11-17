@@ -40,13 +40,14 @@
                 }
 
                 if (user_can_access('module.categories.edit')) {
-                    $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span>Edit</span></span></span>";
+                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'><span>Edit</span>  </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>Delete</span></span>";
                 } else {
                     $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
                 ?>
 
                 <?php
+                $founded_cats = false;
                 $pages_with_cats = get_pages('no_limit=true');
                 if ($pages_with_cats): ?>
                     <?php foreach ($pages_with_cats as $page):
@@ -60,6 +61,7 @@
                         if (empty($categoryTree)) {
                             continue;
                         }
+                        $founded_cats = true;
                         ?>
                         <div class="card border-0">
                             <div class="card-header pl-0">
@@ -72,7 +74,9 @@
                         </div>
 
                     <?php endforeach; ?>
-                <?php else: ?>
+                <?php endif; ?>
+
+                <?php if (!$founded_cats): ?>
                     <div class="no-items-found categories py-5">
                         <div class="row">
                             <div class="col-12">
@@ -165,6 +169,23 @@
                     mw.url.windowHashParam('action', 'editcategory:' + id)
                 }
 
+                mw.quick_cat_delete = function (id) {
+                    mw.tools.confirm("Are you sure you want to delete this category?", function () {
+                        $.ajax({
+                            url: "<?php echo api_url('category/'); ?>" + id,
+                            type: 'DELETE',
+                            data: {
+                                "id": id
+                            },
+                            success: function () {
+                                mw.reload_module_everywhere('categories');
+                                mw.reload_module_everywhere('content/manager');
+                            }
+                        });
+                    });
+                }
+
+
                 mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
                         return mw.quick_cat_edit(id);
                     }
@@ -175,6 +196,7 @@
                 })
             </script>
 
+
             <script type="text/javascript">
                 mw.on.moduleReload("<?php print $params['id'] ?>", function () {
                     mw.manage_cat_sort();
@@ -182,11 +204,16 @@
                 });
 
                 mw.manage_cat_sort = function () {
-                    mw.$("#<?php print $params['id'] ?>").sortable({
-                        items: '.category_element',
+
+
+
+                    mw.$("#<?php print $params['id'] ?> .mw-ui-category-tree").sortable({
+                        items: '.sub-nav',
                         axis: 'y',
-                        handle: 'a',
+                        handle: '.mw-ui-category-tree-row',
                         update: function () {
+
+
                             var obj = {ids: []}
                             $(this).find('.category_element').each(function () {
                                 var id = this.attributes['value'].nodeValue;
@@ -206,7 +233,7 @@
                         scroll: false
                     });
                 }
-                //mw.manage_cat_sort();
+                 mw.manage_cat_sort();
 
             </script>
         </div>
