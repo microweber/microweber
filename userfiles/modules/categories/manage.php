@@ -40,13 +40,14 @@
                 }
 
                 if (user_can_access('module.categories.edit')) {
-                    $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row' onclick='mw.quick_cat_edit({id})'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"><span>Edit</span></span></span>";
+                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'><span>Edit</span>  </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>Delete</span></span>";
                 } else {
                     $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
                 ?>
 
                 <?php
+                $founded_cats = false;
                 $pages_with_cats = get_pages('no_limit=true');
                 if ($pages_with_cats): ?>
                     <?php foreach ($pages_with_cats as $page):
@@ -60,6 +61,7 @@
                         if (empty($categoryTree)) {
                             continue;
                         }
+                        $founded_cats = true;
                         ?>
                         <div class="card border-0">
                             <div class="card-header pl-0">
@@ -72,7 +74,9 @@
                         </div>
 
                     <?php endforeach; ?>
-                <?php else: ?>
+                <?php endif; ?>
+
+                <?php if (!$founded_cats): ?>
                     <div class="no-items-found categories py-5">
                         <div class="row">
                             <div class="col-12">
@@ -141,6 +145,14 @@
 
                     });
                 }
+
+                mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
+
+                    mw.url.windowHashParam('action', 'editcategory:' + id)
+
+                }
+
+
                 mw.quick_cat_edit = function (id) {
                     if (!!id) {
                         var modalTitle = '<?php _e('Edit category'); ?>';
@@ -162,18 +174,104 @@
 
                     // mw.categoryEditor.moduleEdit('categories/edit_category', params)
 
+
+                    // if(typeof mw_select_category_for_editing  == 'undefined'){
+                    //
+                    //
+                    //
+                    //     mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
+                    //     mw.$(".category_element.active-bg").removeClass('active-bg');
+                    //
+                    //
+                    //     mw.$('#pages_edit_container').removeAttr('parent_id');
+                    //     mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
+                    //     cat_edit_load_from_modal('categories/edit_category');
+                    //
+                    //
+                    //
+                    //
+                    // } else {
+                    //
+                    //
+                    //
+                    // }
+
+
                     mw.url.windowHashParam('action', 'editcategory:' + id)
+
                 }
 
-                mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
-                        return mw.quick_cat_edit(id);
-                    }
+                mw.quick_cat_delete = function (id) {
+                    mw.tools.confirm("Are you sure you want to delete this category?", function () {
+                        $.ajax({
+                            url: "<?php echo api_url('category/'); ?>" + id,
+                            type: 'DELETE',
+                            data: {
+                                "id": id
+                            },
+                            success: function () {
+                                mw.reload_module_everywhere('categories');
+                                mw.reload_module_everywhere('content/manager');
+                            }
+                        });
+                    });
+                }
+
+
+
                 $(document).ready(function () {
                     mw.categoryEditor = new mw.blockEdit({
                         element: '#edit-content-row'
                     })
+
+
+                    if(typeof mw_select_category_for_editing  == 'undefined'){
+
+
+                       /* mw.quick_cat_edit = mw_select_category_for_editing_from_modal;
+                        mw.quick_cat_delete =   function (id, callback) {
+                            mw.tools.confirm('Are you sure you want to delete this?', function () {
+                                $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
+                                    mw.notification.success('Category deleted');
+                                    if (callback) {
+                                        callback.call(data, data);
+                                    }
+
+
+
+                                    mw.reload_module_everywhere('content/manager');
+                                    mw.reload_module_everywhere('categories/manage');
+                                    mw.reload_module_everywhere('categories/admin_backend');
+                                    mw.url.windowDeleteHashParam('action');
+
+                                });
+                            });
+                        };
+                        mw.on.hashParam("action", function () {
+
+
+                            if (this == false) {
+
+                                cat_edit_load_from_modal('categories/admin_backend');
+                                return false;
+                            } else {
+
+
+                            var arr = this.split(":");
+
+                            if (arr[0] === 'editcategory') {
+                                mw_select_category_for_editing_from_modal(arr[1])
+                            }if (arr[0] === 'addsubcategory') {
+                                mw_select_add_sub_category(arr[1]);
+                            }
+                            }
+
+
+                        });*/
+                    }
                 })
             </script>
+
 
             <script type="text/javascript">
                 mw.on.moduleReload("<?php print $params['id'] ?>", function () {
@@ -182,11 +280,16 @@
                 });
 
                 mw.manage_cat_sort = function () {
-                    mw.$("#<?php print $params['id'] ?>").sortable({
-                        items: '.category_element',
+
+
+
+                    mw.$("#<?php print $params['id'] ?> .mw-ui-category-tree").sortable({
+                        items: '.sub-nav',
                         axis: 'y',
-                        handle: 'a',
+                        handle: '.mw-ui-category-tree-row',
                         update: function () {
+
+
                             var obj = {ids: []}
                             $(this).find('.category_element').each(function () {
                                 var id = this.attributes['value'].nodeValue;
@@ -196,6 +299,8 @@
                                 if (self !== parent && !!parent.mw) {
                                     parent.mw.reload_module('categories');
                                 }
+                                mw.parent().trigger('pagesTreeRefresh')
+
                             });
                         },
                         start: function (a, ui) {
@@ -206,7 +311,67 @@
                         scroll: false
                     });
                 }
-                //mw.manage_cat_sort();
+                 mw.manage_cat_sort();
+
+
+                /*function mw_select_category_for_editing_from_modal($p_id) {
+
+
+                    mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
+                    mw.$(".category_element.active-bg").removeClass('active-bg');
+
+
+                    mw.$('#categories-admin').removeAttr('parent_id');
+                    mw.$('#categories-admin').removeAttr('data-parent-category-id');
+
+                     mw.$('#categories-admin').attr('data-category-id', $p_id);
+
+
+
+                    mw.$(".mw_edit_page_right").css("overflow", "hidden");
+                    cat_edit_load_from_modal('categories/edit_category');
+                }
+
+
+                function mw_select_add_sub_category($p_id) {
+
+
+
+                    mw.$('#categories-admin').removeAttr('parent_id');
+                    mw.$('#categories-admin').attr('data-category-id', 0);
+                    mw.$('#categories-admin').attr('data-parent-category-id', $p_id);
+                    mw.$(".mw_edit_page_right").css("overflow", "hidden");
+                    cat_edit_load_from_modal('categories/edit_category');
+                }
+
+
+
+                cat_edit_load_from_modal = function (module, callback) {
+
+
+                    var action = mw.url.windowHashParam('action');
+                    var holder = $('#categories-admin');
+
+                    var time = !action ? 300 : 0;
+                    if (!action) {
+                        mw.$('.fade-window').removeClass('active');
+                    }
+                    setTimeout(function () {
+                        mw.load_module(module, holder, function () {
+
+                            mw.$('.fade-window').addClass('active')
+                            if (callback) callback.call();
+
+                        });
+                    }, time)
+
+
+                }
+
+
+
+                    */
+
 
             </script>
         </div>

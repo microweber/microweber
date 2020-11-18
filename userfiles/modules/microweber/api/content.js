@@ -18,6 +18,8 @@ mw.content = mw.content || {
                     callback.call(data, data);
                 }
                 mw.reload_module_everywhere('content/manager');
+                mw.url.windowDeleteHashParam('action');
+
             });
         });
     },

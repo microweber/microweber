@@ -14,7 +14,7 @@ namespace MicroweberPackages\Option\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use MicroweberPackages\Option\Facades\Option;
+use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\Models\Option as OptionModel;
 use MicroweberPackages\Option\OptionManager;
 
@@ -35,6 +35,7 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
         $this->app->bind('option',function(){
             return new OptionModel();
         });
+
     }
 
     /**
@@ -47,7 +48,7 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
         $aliasLoader = AliasLoader::getInstance();
-        $aliasLoader->alias('Option', Option::class);
+        $aliasLoader->alias('Option', OptionFacade::class);
 
     }
 

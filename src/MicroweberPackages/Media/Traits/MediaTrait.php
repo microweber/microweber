@@ -75,9 +75,9 @@ trait MediaTrait {
 
                 $model->_newMediaToAssociate = []; //empty the array
                 $model->refresh();
-            }
 
-            $model->setMedias($model->_newMediaToAssociateIds);
+                $model->setMedias($model->_newMediaToAssociateIds);
+            }
 
         });
     }

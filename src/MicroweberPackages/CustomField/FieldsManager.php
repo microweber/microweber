@@ -718,7 +718,9 @@ class FieldsManager
                 $to_ret = array();
                 $i = 1;
                 foreach ($q as $it) {
+
                     $it = $this->decode_array_vals($it);
+
                     //  $it['type'] = $it['type'];
                     $it['position'] = $i;
                     if (isset($it['options']) and is_string($it['options'])) {
@@ -1055,6 +1057,7 @@ class FieldsManager
 
         $data = $this->app->url_manager->replace_site_url_back($data);
 
+
         $template_files = $this->get_template_files($data);
 
         if ($settings || isset($data['settings'])) {
@@ -1143,6 +1146,7 @@ class FieldsManager
 
         if (isset($data['options']['required'])) {
             $field_settings['required'] = true;
+            $field_settings['options']['required'] = true;
         }
 
         if (isset($data['show_label'])) {

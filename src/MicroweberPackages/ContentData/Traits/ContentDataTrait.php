@@ -7,11 +7,26 @@ use MicroweberPackages\ContentData\Models\ContentData;
 
 trait ContentDataTrait
 {
-    public $contentDataToSave = [];
+    private $_addContentData = [];
 
     public function initializeContentDataTrait()
     {
        $this->appends[] = 'contentData';
+       $this->fillable[] = 'content_data';
+    }
+
+    public static function bootContentDataTrait()
+    {
+        static::saving(function ($model)  {
+            if (isset($model->attributes['content_data'])) {
+                $model->_addContentData = $model->attributes['content_data'];
+                unset($model->attributes['content_data']);
+            }
+        });
+
+        static::saved(function($model) {
+            $model->setContentData($model->_addContentData);
+        });
     }
 
     public function getContentDataAttribute()
@@ -42,13 +57,9 @@ trait ContentDataTrait
         }
 
         foreach ($values as $value) {
-            if (array_key_exists($value, $this->contentDataToSave)) {
-                $res[$value] = $this->contentDataToSave[$value];
-            } else {
-                foreach ($arrData as $key => $val) {
-                    if ($val['field_name'] == $value) {
-                        $res[$value] = $val['field_value'];
-                    }
+            foreach ($arrData as $key => $val) {
+                if ($val['field_name'] == $value) {
+                    $res[$value] = $val['field_value'];
                 }
             }
         }
@@ -58,21 +69,12 @@ trait ContentDataTrait
 
     public function deleteContentData(array $values)
     {
-
         foreach ($this->contentData as $key => $contentDataInstance) {
             if (in_array($contentDataInstance->field_name, $values)) {
                 $contentDataInstance->delete();
                 $this->refresh();
             }
         }
-        foreach ($this->contentDataToSave as $key => $value) {
-            foreach ($values as $del_key => $del_value) {
-                if (isset($this->contentDataToSave[$del_key])) {
-                    unset($this->contentDataToSave[$del_key]);
-                }
-            }
-        }
-
     }
 
     public function scopeWhereContentData($query, $whereArr)

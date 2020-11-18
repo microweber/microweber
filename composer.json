@@ -22,6 +22,10 @@
         {
             "type": "composer",
             "url": "https://packages-satis.microweberapi.com/"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/microweber-deps/composer-merge-plugin.git"
         }
     ],
     "require": {
@@ -33,7 +37,7 @@
         "symfony/translation": "5.0",
         "doctrine/dbal": "2.5.3",
         "composer/composer": "1.10",
-        "composer/installers": "^1.0@dev",
+        "composer/installers": "1.9.0",
         "symplify/monorepo-builder": "^8.1",
         "ezyang/htmlpurifier": "*",
         "knplabs/knp-menu": "^3.2@dev",
@@ -42,7 +46,7 @@
         "twig/twig": "3.x-dev",
         "phpoffice/phpspreadsheet": "*",
         "halaxa/json-machine": "dev-master",
-        "wikimedia/composer-merge-plugin": "^1.5@dev",
+
         "jeremeamia/superclosure": "*",
         "microweber-templates/dream": "dev-master",
         "microweber-templates/new-world": "dev-master",
@@ -63,12 +67,21 @@
         "graham-campbell/security-core": "3.2.x-dev",
         "darkaonline/l5-swagger": "dev-master",
 
+        "wikimedia/composer-merge-plugin": "dev-master",
         "opis/closure": "^3.6@dev",
         "laravel/passport": "^11.0@dev",
         "laravel/sanctum": "^3.0@dev",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "mtrajano/laravel-swagger": "dev-master",
-        "tucker-eric/eloquentfilter": "dev-master" 
+        "tucker-eric/eloquentfilter": "dev-master",
+        "league/omnipay": "3.1.x-dev",
+        "omnipay/paypal": "3.0.x-dev",
+        "omnipay/stripe": "3.1.x-dev",
+        "omnipay/mollie": "^5.2",
+        "omnipay/authorizenet": "^3.3",
+        "ticketswap/omnipay-przelewy24": "^2.0",
+        "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
+        "finlet/flexmail": "dev-master"
         
     },
     "require-dev": {

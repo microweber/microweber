@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 
 class Kernel extends HttpKernel
 {
@@ -36,14 +37,17 @@ class Kernel extends HttpKernel
             \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             //\Illuminate\Session\Middleware\StartSession::class,
-             \Illuminate\Session\Middleware\AuthenticateSession::class,
+           //  \Illuminate\Session\Middleware\AuthenticateSession::class,
+            AuthenticateSessionForUser::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         'public.web' => [
             'xss',
-            \Illuminate\Session\Middleware\AuthenticateSession::class,
+         //   \Illuminate\Session\Middleware\AuthenticateSession::class,
+            AuthenticateSessionForUser::class,
+
         ],
 
         'api' => [

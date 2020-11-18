@@ -17,4 +17,13 @@ class Module extends Model
     {
         return $this->morphMany('Notifications', 'rel');
     }
+
+
+    public function register($module)
+    {
+        return app()->module_manager->register('order/list','MicroweberPackages\Order\Http\Controllers\AdminOrdersController');;
+    }
+
+
+
 }

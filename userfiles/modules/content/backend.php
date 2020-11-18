@@ -197,8 +197,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
 
 
-
-
         mw.$(".js-top-save").hide();
 
 

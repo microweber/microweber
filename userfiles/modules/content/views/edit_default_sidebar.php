@@ -176,8 +176,8 @@
                 <?php else: ?>
                     <div class="col-12">
                         <strong><?php _e('Categories'); ?></strong>
-                        <!--<a onclick="mw.tools.open_global_module_settings_modal('categories/admin_backend', 'categories-admin');void(0);return false;" href="<?php /*echo admin_url(); */?>view:content/action:categories" class="btn btn-link float-right py-1 px-0">-->Manage</a>
-                        <a onclick="addCategory();return false;" href="<?php echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"><?php _e('Create category') ?></a>
+                      <a onclick="mw.tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin');void(0);return false;" href="<?php /*echo admin_url(); */?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> Manage</a>
+
                     </div>
                 <?php endif; ?>
             </div>
@@ -237,6 +237,10 @@
                                             <script>
                                                 $(document).ready(function () {
                                                     loadCategoriesTree();
+                                                });
+
+                                               mw.on('pagesTreeRefresh', function () {
+                                                     loadCategoriesTree();
                                                 });
                                             </script>
 

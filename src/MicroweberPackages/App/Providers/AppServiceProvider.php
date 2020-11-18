@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\App\Providers;
 
+use Hamcrest\Core\Is;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,7 @@ use MicroweberPackages\Form\Providers\FormServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
- use MicroweberPackages\Media\MediaManagerServiceProvider;
+use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
@@ -64,11 +65,12 @@ use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use Spatie\Permission\PermissionServiceProvider;
 
-if (! defined('MW_VERSION')) {
+if (!defined('MW_VERSION')) {
     include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 }
 
- class AppServiceProvider extends ServiceProvider {
+class AppServiceProvider extends ServiceProvider
+{
 
     protected $aliasInstance;
 
@@ -78,7 +80,7 @@ if (! defined('MW_VERSION')) {
     public $laravel_providers = [
 
         \Illuminate\Session\SessionServiceProvider::class,
-      //  \Illuminate\Filesystem\FilesystemServiceProvider::class,
+        //  \Illuminate\Filesystem\FilesystemServiceProvider::class,
         \Illuminate\Auth\AuthServiceProvider::class,
         \Illuminate\Broadcasting\BroadcastServiceProvider::class,
         \Illuminate\Bus\BusServiceProvider::class,
@@ -128,7 +130,7 @@ if (! defined('MW_VERSION')) {
         'DB' => \Illuminate\Support\Facades\DB::class,
         'Eloquent' => \Illuminate\Database\Eloquent\Model::class,
         'Event' => \Illuminate\Support\Facades\Event::class,
-      //  'File' => \Illuminate\Support\Facades\File::class,
+        //  'File' => \Illuminate\Support\Facades\File::class,
         'Gate' => \Illuminate\Support\Facades\Gate::class,
         'Hash' => \Illuminate\Support\Facades\Hash::class,
         'Http' => \Illuminate\Support\Facades\Http::class,
@@ -144,7 +146,7 @@ if (! defined('MW_VERSION')) {
         'Response' => \Illuminate\Support\Facades\Response::class,
         'Route' => \Illuminate\Support\Facades\Route::class,
         'Schema' => \Illuminate\Support\Facades\Schema::class,
-      //  'Session' => \Illuminate\Support\Facades\Session::class,
+        //  'Session' => \Illuminate\Support\Facades\Session::class,
         'Storage' => \Illuminate\Support\Facades\Storage::class,
         'Str' => \Illuminate\Support\Str::class,
         'URL' => \Illuminate\Support\Facades\URL::class,
@@ -155,6 +157,8 @@ if (! defined('MW_VERSION')) {
 
     public function __construct($app)
     {
+        //$this->loadPackagesComposerJson();
+
         ClassLoader::addDirectories([
             base_path() . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules',
             __DIR__,
@@ -169,8 +173,8 @@ if (! defined('MW_VERSION')) {
         parent::__construct($app);
     }
 
-    public function register() {
-
+    public function register()
+    {
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
         $this->setEnvironmentDetection();
@@ -181,14 +185,15 @@ if (! defined('MW_VERSION')) {
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
+        $this->app->register(ModuleServiceProvider::class);
 
-     //   $this->app->register(TaggableFileCacheServiceProvider::class);
+        //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
-        $this->app->register(  PageServiceProvider::class);
+        $this->app->register(PageServiceProvider::class);
         $this->app->register(ContentServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
         $this->app->register(CategoryServiceProvider::class);
@@ -221,22 +226,21 @@ if (! defined('MW_VERSION')) {
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
-        $this->app->register(ModuleServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         $this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
-        $this->app->register(  \Barryvdh\DomPDF\ServiceProvider::class);
-     //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
-        $this->app->register(  SwaggerServiceProvider::class);
-     //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
-        $this->app->register(  CountryServiceProvider::class);
-        $this->app->register(  \EloquentFilter\ServiceProvider::class);
-        $this->app->register(  NotificationServiceProvider::class);
-        $this->app->register(  QueueServiceProvider::class);
-        $this->app->register(  QueueEventServiceProvider::class);
-        $this->app->register(  AdminServiceProvider::class);
+        $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
+        //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
+        $this->app->register(SwaggerServiceProvider::class);
+        //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
+        $this->app->register(CountryServiceProvider::class);
+        $this->app->register(\EloquentFilter\ServiceProvider::class);
+        $this->app->register(NotificationServiceProvider::class);
+        $this->app->register(QueueServiceProvider::class);
+        $this->app->register(QueueEventServiceProvider::class);
+        $this->app->register(AdminServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
@@ -271,10 +275,10 @@ if (! defined('MW_VERSION')) {
 
     protected function setEnvironmentDetection()
     {
-        if (! is_cli()) {
-            if(isset($_SERVER['HTTP_HOST'])){
+        if (!is_cli()) {
+            if (isset($_SERVER['HTTP_HOST'])) {
                 $domain = $_SERVER['HTTP_HOST'];
-            } else if(isset($_SERVER['SERVER_NAME'])){
+            } else if (isset($_SERVER['SERVER_NAME'])) {
                 $domain = $_SERVER['SERVER_NAME'];
             }
 
@@ -297,7 +301,7 @@ if (! defined('MW_VERSION')) {
 
         if (defined('MW_UNIT_TEST')) {
             $this->app->detectEnvironment(function () {
-                if (! defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
+                if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
                     return 'testing';
                 }
 
@@ -372,7 +376,7 @@ if (! defined('MW_VERSION')) {
             return new Lang($app);
         });
 
-    \App::instance('path.public', base_path());
+        \App::instance('path.public', base_path());
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
@@ -395,17 +399,17 @@ if (! defined('MW_VERSION')) {
 
             // Register module service providers
             $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999');
-            if($modules){
-                foreach ($modules as $module){
-                    if(isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']){
+            if ($modules) {
+                foreach ($modules as $module) {
+                    if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
 
                         $loadProviders = [];
-                        if (is_array( $module['settings']['service_provider'])) {
-                            foreach ( $module['settings']['service_provider'] as $serviceProvider) {
+                        if (is_array($module['settings']['service_provider'])) {
+                            foreach ($module['settings']['service_provider'] as $serviceProvider) {
                                 $loadProviders[] = $serviceProvider;
                             }
                         } else {
-                            $loadProviders[] =  $module['settings']['service_provider'];
+                            $loadProviders[] = $module['settings']['service_provider'];
                         }
                         foreach ($loadProviders as $loadProvider) {
                             if (class_exists($loadProvider)) {
@@ -417,7 +421,7 @@ if (! defined('MW_VERSION')) {
 //                                    // Do what you want when it exists.
 //                                }
 
-                               $this->app->register($loadProvider);
+                                $this->app->register($loadProvider);
                             }
                         }
 
@@ -430,11 +434,11 @@ if (! defined('MW_VERSION')) {
             $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
 
 
-          /*  $language = get_option('language', 'website');
+            /*  $language = get_option('language', 'website');
 
-            if ($language != false) {
-                set_current_lang($language);
-            }*/
+              if ($language != false) {
+                  set_current_lang($language);
+              }*/
 
             if (is_cli()) {
 
@@ -463,6 +467,61 @@ if (! defined('MW_VERSION')) {
 
         if (!class_exists($className, false) && is_file($filename)) {
             require_once $filename;
+        }
+    }
+
+
+
+    /**
+     * @deprecated
+     */
+    public function loadPackagesComposerJson()
+    {
+        $dir = dirname(dirname(__DIR__));
+
+        $cached = base_path('bootstrap/cache/microweber_packages.json');
+        if (is_file($cached) and (time() - filemtime($cached) >= 15 * 60)) { // 30 minutes ago
+            $cache_content = json_decode(file_get_contents($cached), TRUE);
+            if (is_array($cache_content) && !empty($cache_content)) {
+                foreach ($cache_content as $file) {
+                    $file_path_inlude = $dir . $file;
+                    if (is_file($file_path_inlude)) {
+                        require_once($file_path_inlude);
+                    }
+                }
+                return;
+            }
+        }
+
+        $files_map = [];
+        $packages = glob("$dir/*/composer.json");
+
+        //find a php file in each folder and get its realpath
+        foreach ($packages as $filename) {
+
+            $phpfile = realpath($filename);
+            $cont = @json_decode(@file_get_contents($phpfile), 1);
+
+            if (isset($cont['autoload'])) {
+                if (isset($cont['autoload']['files']) and is_array($cont['autoload']['files']) and !empty($cont['autoload']['files'])) {
+                    foreach ($cont['autoload']['files'] as $file) {
+                        $package_dir = dirname($phpfile) . DS;
+                        $file_path = $package_dir . $file;
+                        if (is_file($file_path)) {
+                            $file_path_save = $file_path;
+                            $file_path_save = str_replace($dir, '', $file_path_save);
+                            $files_map[] = $file_path_save;
+
+                            require_once($file_path);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        if (!empty($files_map)) {
+            file_put_contents($cached, json_encode($files_map));
         }
     }
 

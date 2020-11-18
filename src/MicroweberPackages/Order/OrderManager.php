@@ -14,6 +14,7 @@ namespace MicroweberPackages\Order;
 use DB;
 use MicroweberPackages\Order\Events\OrderIsCreating;
 use MicroweberPackages\Order\Events\OrderWasCreated;
+use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Models\Order;
 
 class OrderManager
@@ -164,7 +165,7 @@ class OrderManager
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                     $this->app->shop_manager->update_quantities($ord);
 
-                    event($event = new OrderWasPaid(Order::find($ord)));
+                    event($event = new OrderWasPaid(Order::find($ord), $place_order));
                 }
                 $this->app->shop_manager->after_checkout($ord);
             }

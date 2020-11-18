@@ -3,8 +3,8 @@
 namespace MicroweberPackages\Option\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Option\Facades\Option;
-
+use MicroweberPackages\Option\Facades\Option as OptionFacade;
+use MicroweberPackages\Option\Models\Option;
 
 class OptionsTest extends TestCase
 {
@@ -19,7 +19,11 @@ class OptionsTest extends TestCase
         $get = get_option('a_test', 'test');
         $this->assertEquals($now, $get);
 
-        $options = Option::getValue('a_test', 'test');
+        $options = OptionFacade::getValue('a_test', 'test'); // static
+        $this->assertEquals($now, $options);
+
+        $option  = new Option();
+        $options = $option->getValue('a_test', 'test'); //instance
         $this->assertEquals($now, $options);
     }
 

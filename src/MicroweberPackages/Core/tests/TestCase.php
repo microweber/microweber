@@ -32,7 +32,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         $mw_file = $config_folder . 'microweber.php';
-        $mw_file = normalize_path($mw_file, false);
+        $mw_file =  $this->normalizePath($mw_file, false);
 
         $test_env_from_conf = env('APP_ENV_TEST_FROM_CONFIG');
         if ($test_env_from_conf) {
@@ -58,9 +58,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         });
 
         $environment = $app->environment();
-        $this->sqlite_file = normalize_path(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
-
-
+        $this->sqlite_file = $this->normalizePath(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
 
 
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
@@ -125,9 +123,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         // make fresh install
         $install_params = array(
-            'username' =>   'test'.uniqid(),
+            'username' => 'test' . uniqid(),
             'password' => 'test',
-            'email' =>  'test'.uniqid().'@example.com',
+            'email' => 'test' . uniqid() . '@example.com',
             'db_driver' => $db_driver,
             'db_host' => $db_host,
             'db_user' => $db_user,
@@ -157,8 +155,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
 
-        \Config::set('mail.driver','array');
-        \Config::set('queue.driver','sync');
+        \Config::set('mail.driver', 'array');
+        \Config::set('queue.driver', 'sync');
         \Config::set('mail.transport', 'array');
 
         return $app;
@@ -202,6 +200,47 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         ini_set('memory_limit', '-1');
 
         parent::setUp();
+    }
+
+
+    private function normalizePath($path, $slash_it = true)
+    {
+        $path_original = $path;
+        $s = DIRECTORY_SEPARATOR;
+        $path = preg_replace('/[\/\\\]/', $s, $path);
+        $path = str_replace($s . $s, $s, $path);
+        if (strval($path) == '') {
+            $path = $path_original;
+        }
+        if ($slash_it == false) {
+            $path = rtrim($path, DIRECTORY_SEPARATOR);
+        } else {
+            $path .= DIRECTORY_SEPARATOR;
+            $path = rtrim($path, DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+        }
+        if (strval(trim($path)) == '' or strval(trim($path)) == '/') {
+            $path = $path_original;
+        }
+        if ($slash_it == false) {
+        } else {
+            $path = $path . DIRECTORY_SEPARATOR;
+            $path = $this->reduce_double_slashes($path);
+        }
+
+        return $path;
+
+    }
+
+    /**
+     * Removes double slashes from sting.
+     *
+     * @param $str
+     *
+     * @return string
+     */
+private function reduce_double_slashes($str)
+    {
+        return preg_replace('#([^:])//+#', '\\1/', $str);
     }
 
 

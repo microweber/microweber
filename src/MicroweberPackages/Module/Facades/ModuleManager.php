@@ -9,11 +9,11 @@
  *
  */
 
-namespace MicroweberPackages\Media;
+namespace MicroweberPackages\Module\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class MediaManagerFacade extends Facade
+class ModuleManager extends Facade
 {
 
     /**
@@ -23,6 +23,6 @@ class MediaManagerFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'media_manager';
+        return 'module_manager';
     }
 }

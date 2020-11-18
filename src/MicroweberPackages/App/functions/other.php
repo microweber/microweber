@@ -230,6 +230,10 @@ function mw_post_update()
 api_expose_admin('mw_reload_modules');
 function mw_reload_modules()
 {
+
+    $bootstrap_cached_folder = base_path('bootstrap/cache/');
+    rmdir_recursive($bootstrap_cached_folder);
+
     mw()->module_manager->scan(['reload_modules'=>1,'scan'=>1]);
 
     if (isset($_GET['redirect_to'])) {

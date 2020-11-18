@@ -75,9 +75,9 @@ trait CategoryTrait {
         $categories = [];
 
         foreach($this->categoryItems()->with('parent')->get() as $category) {
-            $categories[] = $category->parent;
+            $categories[] = $category;
         }
-
+        
         return collect($categories);
     }
 

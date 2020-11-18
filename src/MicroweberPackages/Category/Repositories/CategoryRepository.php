@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Category\Repositories;
 
+use MicroweberPackages\Category\Events\CategoryWasDestroyed;
 use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Category\Events\CategoryIsCreating;
 use MicroweberPackages\Category\Events\CategoryIsUpdating;
@@ -53,7 +54,8 @@ class CategoryRepository extends BaseRepository
 
     public function destroy($ids)
     {
-        event(new CategoryWasDestroy($ids));
+
+        event(new CategoryWasDestroyed($ids));
 
         return $this->model->destroy($ids);
     }

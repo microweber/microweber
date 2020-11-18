@@ -111,21 +111,27 @@ class ModuleManager
 
     private $modules_register = [];
 
-    public function register($config)
+    public function register($module_type,$controller_action)
     {
+        $this->_register_module_callback_controller($module_type, $controller_action);
+        $config = [];
+        $config['module'] = $module_type;
+        $this->modules_register[] = $config;
 
-        if (isset($config['type']) and $config['type']) {
-            $type = $config['type'];
-
-            $this->modules_register[] = $config;
-
-            //Register controllers
-            if (isset($config['controllers']) and $config['controllers'] and is_array($config['controllers'])) {
-                foreach ($config['controllers'] as $controller_key => $controller) {
-                    $this->_register_module_callback_controller($type . '/' . $controller_key, $controller);
-                }
-            }
-        }
+//        $config = [];
+//
+//        if (isset($config['type']) and $config['type']) {
+//            $type = $config['type'];
+//
+//            $this->modules_register[] = $config;
+//
+//            //Register controllers
+//            if (isset($config['controllers']) and $config['controllers'] and is_array($config['controllers'])) {
+//                foreach ($config['controllers'] as $controller_key => $controller) {
+//                    $this->_register_module_callback_controller($type . '/' . $controller_key, $controller);
+//                }
+//            }
+//        }
 
 
     }

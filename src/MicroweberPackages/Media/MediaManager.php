@@ -410,10 +410,12 @@ class MediaManager
 //d($params);
         $data = $this->app->database_manager->get($params);
         if (isset($params['single'])) {
+            if (isset($data['image_options']) and !is_array($data['image_options'])) {
+                $data['image_options'] = @json_decode($data['image_options'], true);
+            }
             return $data;
         }
-
-        if (media_base_url()) {
+        // if (media_base_url()) {
             if (!empty($data)) {
                 $return = array();
                 foreach ($data as $item) {
@@ -433,16 +435,17 @@ class MediaManager
                         $item['title'] = $this->app->format->clean_html($item['title']);
                     }
 
-                    if (isset($item['image_options'])) {
+                    if (isset($item['image_options']) and !is_array($item['image_options'])) {
                         $item['image_options'] = @json_decode($item['image_options'], true);
                     }
 
 
                     $return[] = $item;
                 }
+
                 $data = $return;
             }
-        }
+       // }
 
         return $data;
     }
@@ -918,7 +921,7 @@ class MediaManager
 
 
             if (!defined('MW_NO_OUTPUT_CACHE')) {
-            //    define('MW_NO_OUTPUT_CACHE', true);
+               define('MW_NO_OUTPUT_CACHE', true);
             }
 
             $cache_id_data['cache_path'] = $cache_path;

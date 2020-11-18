@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Module;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -27,6 +28,13 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->singleton('module_manager', function ($app) {
             return new ModuleManager();
         });
+
+        $this->app->bind('module',function(){
+            return new Module();
+        });
+
+        $aliasLoader = AliasLoader::getInstance();
+        $aliasLoader->alias('ModuleManager', \MicroweberPackages\Module\Facades\ModuleManager::class);
 
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
     }

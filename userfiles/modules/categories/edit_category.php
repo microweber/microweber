@@ -108,6 +108,9 @@ if (isset($params['live_edit'])) {
                 $('.mw-cat-save-submit').addClass('disabled');
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
                 mw.form.post(mw.$('#admin_edit_category_form'), '<?php print api_link('category/save') ?>', function (val) {
+
+
+
                     //todo: move method to separate service
                     var dialog = mw.dialog.get(mw.$('#admin_edit_category_form'));
                     if(dialog) {
@@ -131,22 +134,35 @@ if (isset($params['live_edit'])) {
                     mw.reload_module('categories/manage');
                     mw.reload_module('content/manager');
 
+
+                    mw.parent().trigger('pagesTreeRefresh')
+
                     if (window.pagesTreeRefresh) {
                         pagesTreeRefresh()
                     }
 
 
-                    <?php if(intval($data['id']) == 0): ?>
-                    mw.url.windowHashParam("new_content", "true");
+
+
+
+
+                <?php if(intval($data['id']) == 0): ?>
+                   // mw.url.windowHashParam("new_content", "true");
 
 
                     <?php endif; ?>
-                    mw.reload_module('#<?php print $params['id'] ?>');
+                   // mw.reload_module('#<?php print $params['id'] ?>');
 
                     var module = mw.tools.firstParentWithClass(form, 'module');
                     mw.tools.removeClass(module, 'loading');
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
+
+
+
+                    mw.url.windowHashParam('action', 'editcategory:' + this)
+
+
                 });
 
                 return false;
@@ -216,8 +232,26 @@ if (isset($params['live_edit'])) {
                             }
                         </script>
 
-<!--                        <a href='javascript:mw.quick_cat_edit_create(0)' class="btn btn-sm btn-success"><i class="mw-icon-plus"></i>&nbsp; --><?php //_e("New category"); ?><!--</a> &nbsp;-->
-                        <a href="<?php print admin_url(); ?>view:content#action=addsubcategory:<?php print $data['id'] ?>" target="_top" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+                    <?php if (isset($params['parent-module']) and $params['parent-module']  == 'categories/admin_backend_modal' ): ?>
+
+                        <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
+
+
+
+                    <?php endif; ?>
+
+
+
+
+
+
+
+
+
+                         <a href="#action=addsubcategory:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+
+
+
                     <?php endif; ?>
                 </div>
             </div>

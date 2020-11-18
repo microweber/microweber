@@ -717,6 +717,11 @@ class UpdateManager
     {
 
         if (mw_is_installed()) {
+
+            $bootstrap_cached_folder = base_path('bootstrap/cache/');
+            rmdir_recursive($bootstrap_cached_folder);
+
+
             $this->log_msg('Applying post update actions');
             $system_refresh = new \MicroweberPackages\Install\DbInstaller();
             $system_refresh->createSchema();
