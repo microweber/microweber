@@ -77,7 +77,11 @@
         "league/omnipay": "3.1.x-dev",
         "omnipay/paypal": "3.0.x-dev",
         "omnipay/stripe": "3.1.x-dev",
-        "omnipay/mollie": "^5.2"
+        "omnipay/mollie": "^5.2",
+        "omnipay/authorizenet": "^3.3",
+        "ticketswap/omnipay-przelewy24": "^2.0",
+        "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
+        "finlet/flexmail": "dev-master"
         
     },
     "require-dev": {
