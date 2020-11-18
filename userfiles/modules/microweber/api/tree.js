@@ -38,6 +38,14 @@
                 skin:'default',
                 multiPageSelect:true,
                 saveState:true,
+                stateStorage: {
+                    get: function (id) {
+                        return mw.storage.get( id);
+                    },
+                    save: function (id, dataToSave) {
+                        mw.storage.set(id, dataToSave);
+                    }
+                },
                 sortable:false,
                 nestedSortable:false,
                 singleSelect:false,
@@ -55,6 +63,7 @@
                 filterRemoteKey: 'keyword',
             };
 
+
             var options = $.extend({}, defaults, config);
 
 
@@ -65,6 +74,8 @@
             this.options = options;
             this.document = options.document;
             this._selectionChangeDisable = false;
+
+            this.stateStorage = this.options.stateStorage;
 
             if(this.options.selectedData){
                 this.selectedData = this.options.selectedData;
@@ -257,12 +268,12 @@
                 }
             });
 
-            mw.storage.set(this.options.id, data);
+            this.stateStorage.set(this.options.id, data);
         };
 
         this.restoreState = function(){
             if(!this.options.saveState) return;
-            var data = mw.storage.get(this.options.id);
+            var data = this.stateStorage.get(this.options.id);
             if(!data) return;
             try{
                 $.each(data, function(){
