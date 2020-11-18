@@ -1,6 +1,10 @@
 mw.require('tree.js');
 mw.require('link-editor.js');
 mw.require('tags.js');
+mw.require('tags.js');
+mw.require(mw.settings.modules_url + '/categories/categories.js');
+
+
 
 
 mw.admin = {
@@ -189,6 +193,7 @@ mw.contactForm = function () {
 
 $(mwd).ready(function () {
 
+
     mw.$(mwd.body).on('keydown', function (e) {
         if (mw.event.key(e, 8) && (e.target.nodeName === 'DIV' || e.target === mwd.body)) {
             if (!e.target.isContentEditable) {
@@ -203,7 +208,15 @@ $(mwd).ready(function () {
     mw.$(document.body).on('click', '[data-href]', function(e){
         e.preventDefault();
         e.stopPropagation();
-        location.href = $(this).attr('data-href');
+        if (mw.askusertostay) {
+            mw.confirm(mw.lang("Continue without saving") + '?', function (res) {
+                if(res) {
+                    location.href = $(this).attr('data-href');
+                }
+            });
+        } else {
+            location.href = $(this).attr('data-href');
+        }
     });
 });
 
@@ -227,12 +240,12 @@ $(mww).on('load', function () {
         });
     }
 
-    mw.on('adminSaveStart', function () {
+    mw.on('adminSaveStart saveStart', function () {
         var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.saving + '...';
     });
-    mw.$(window).on('adminSaveEnd', function () {
-        var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
+    mw.on('adminSaveEnd saveEnd', function () {
+         var btn = mwd.querySelector('#content-title-field-buttons .btn-save span');
         btn.innerHTML = mw.msg.save;
     });
 
