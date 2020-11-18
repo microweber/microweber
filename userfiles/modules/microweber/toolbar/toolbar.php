@@ -328,7 +328,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 <span class="mw-icon-dropdown"></span>
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
-                                <div class="mw-dropdown-list-search">12121212121
+                                <div class="mw-dropdown-list-search">
                                     <input type="mwautocomplete" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
                                 </div>
                                 <?php

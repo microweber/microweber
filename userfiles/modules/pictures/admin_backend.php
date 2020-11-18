@@ -19,8 +19,10 @@
     }
 
     .image-settings.remove-image {
-        left: 20px;
-        display: none;
+        right: 1px;
+        bottom: 0;
+        top: auto;
+        opacity: 1;
     }
 
     .admin-thumb-item:hover .image-settings {

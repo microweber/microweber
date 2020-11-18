@@ -126,14 +126,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox d-flex align-items-center">
-                                <input type="checkbox" class="mw_option_field custom-control-input" name="googleplus_enabled" id="googleplus_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>>
-                                <label class="custom-control-label mr-2 d-flex" for="googleplus_enabled"><i class="mdi mdi-google-plus mdi-20px lh-1_0 mr-2"></i> plus.google.com/</label>
-                                <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="googleplus_url" value="<?php print $googleplus_url; ?>"/>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox d-flex align-items-center">
                                 <input type="checkbox" class="mw_option_field custom-control-input" name="linkedin_enabled" id="linkedin_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="linkedin_enabled"><i class="mdi mdi-linkedin mdi-20px lh-1_0 mr-2"></i> linkedin.com/</label>
                                 <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="linkedin_url" value="<?php print $linkedin_url; ?>"/>

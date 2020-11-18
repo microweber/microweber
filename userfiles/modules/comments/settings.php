@@ -63,6 +63,20 @@
             padding-top: 5px;
         }
 
+        #avatar_uploader  .mw-uploader-input{
+            width: calc(100% - 30px);
+            height: 30px;
+            left: 30px;
+            top: -6px;
+            appearance: none;
+        }
+        #avatar_uploader {
+            height: 30px;
+            overflow: hidden;
+            position: relative;
+            overflow: hidden;
+        }
+
     </style>
 
     <script>mw.require("files.js");</script>
@@ -75,12 +89,13 @@
     </script>
 
     <script type="text/javascript">
-        var uploader = mw.files.uploader({
-            filetypes: "images",
-            element: mw.$("#avatar_uploader")
-        });
+
 
         $(document).ready(function () {
+            var uploader = mw.files.uploader({
+                filetypes: "images",
+                element: mw.$("#avatar_uploader")
+            });
             mw.options.form('.<?php print $config['module_class'] ?>', function () {
                 mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
             });
@@ -107,7 +122,7 @@
                 mw.$(".avatartype-randomcolor").css("backgroundColor", mw.color.random());
             });
 
-            $(uploader).bind("FileUploaded", function (e, a) {
+            $(uploader).on("FileUploaded", function (e, a) {
 
                 mw.$(".avatartype-upload").css("backgroundImage", "url(" + a.src + ")");
                 mw.$("[name='avatartype_custom']").val(a.src).trigger("change");

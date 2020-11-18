@@ -181,7 +181,7 @@ $rand = 'pic-sorter-' . uniqid();
                 <?php endif; ?>
                 <span class="mdi mdi-cog image-settings tip" data-tip="Image Settings"
                       onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
-                <span class="mw-icon-close image-settings remove-image tip" data-tip="Delete Image"
+                <span class="mdi mdi-delete image-settings remove-image tip" data-tip="Delete Image"
                       onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></span>
                 <label class="mw-ui-check">
                     <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"

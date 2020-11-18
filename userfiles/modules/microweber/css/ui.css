@@ -2967,6 +2967,15 @@ html.mw-loading:after {
   line-height: 31px;
   font-size: 9px;
   font-family: "Material Design Icons";
+  /*      margin: 0 -7px 0 -17px;
+      margin: 0 -3px 0 -23px;*/
+}
+.mw-tree-nav-skin-default > li > .mw-tree-item-content-root .mw-tree-toggler {
+  margin: 0 -7px 0 -17px;
+  margin: 0 -3px 0 -23px;
+}
+.mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw-tree-toggler {
+  margin: 3px 14px 0px -39px;
 }
 .mw-tree-nav-skin-default .mw-tree-toggler:after {
   content: "\F0536";
@@ -7081,7 +7090,9 @@ body.bup.dragStart.state-element .edit .element:empty {
 .mw-selector {
   width: 1px;
   height: 1px;
-  transition: 0.2s cubic-bezier(0, 1.04, 0.05, 0.95);
+  /*
+    transition: .2s cubic-bezier(0,1.04,.05,.95);
+    */
   position: absolute;
   background: #0899E6;
   pointer-events: none;

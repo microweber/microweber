@@ -666,7 +666,7 @@ if ($action == 'posts') {
                                     pagesTree = new mw.tree({
                                         data: data,
                                         element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
-                                        sortable: true,
+                                        sortable: false,
                                         selectable: false,
                                         id: 'admin-main-tree',
                                         append: treeTail,

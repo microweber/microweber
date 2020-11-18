@@ -127,7 +127,21 @@
     line-height: 31px;
     font-size: 9px;
     font-family: "Material Design Icons";
+/*      margin: 0 -7px 0 -17px;
+      margin: 0 -3px 0 -23px;*/
   }
+
+    & > li > .mw-tree-item-content-root {
+        .mw-tree-toggler{
+            margin: 0 -7px 0 -17px;
+            margin: 0 -3px 0 -23px;
+        }
+    }
+    & > li li .mw-tree-item-content-root {
+        .mw-tree-toggler{
+            margin: 3px 14px 0px -39px;
+        }
+    }
   .mw-tree-toggler:after {
     content: "\F0536";
     transition: .3s;

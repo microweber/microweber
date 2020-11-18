@@ -226,7 +226,7 @@
                     <div class="col-12">
                         <small class="text-muted">Want to add the <?php echo $data['content_type']; ?> in more categories?</small>
                         <br/>
-                        <button type="button" class="btn btn-outline-primary btn-sm text-dark my-3" data-toggle="collapse" data-target="#show-categories-tree">Add to category</button>
+                        <button type="button" class="btn btn-outline-primary btn-sm text-dark my-3" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
                         <br/>
 
                         <div id="show-categories-tree" class="collapse">

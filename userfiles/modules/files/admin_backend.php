@@ -645,13 +645,6 @@
 
             var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
 
-
-            // mw.postMsg(Uploader.contentWindow, {
-            //     path: this
-            // });
-            //
-
-
             Uploader = mw.files.uploader({
                 filetypes: "*",
                 path: path,
@@ -699,13 +692,7 @@
             mw.on.hashParam('path', function () {
                 _mw_admin_files_manage('path', this);
 
-                /*
 
-                mw.postMsg(Uploader.contentWindow, {
-                    path: this
-                });
-
-                */
 
                 Uploader.urlParam('path', this);
 

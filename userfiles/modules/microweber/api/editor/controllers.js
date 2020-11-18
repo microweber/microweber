@@ -624,13 +624,17 @@ MWEditor.controllers = {
             el.on('mousedown touchstart', function (e) {
                 api.saveSelection();
                 var dialog;
-                var ok = MWEditor.core.button({
+                var ok = MWEditor.core.element({
+                    tag: 'span',
                     props: {
+                        className: 'mw-ui-btn mw-ui-btn-info',
                         innerHTML: rootScope.lang('OK')
                     }
                 });
-                var cancel = MWEditor.core.button({
+                var cancel = MWEditor.core.element({
+                    tag: 'span',
                     props: {
+                        className: 'mw-ui-btn',
                         innerHTML: rootScope.lang('Cancel')
                     }
                 });
