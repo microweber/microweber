@@ -79,6 +79,8 @@
                     if (self !== parent && !!parent.mw) {
                         parent.mw.reload_module('categories');
                     }
+                    mw.parent().trigger('pagesTreeRefresh')
+
                 });
             },
             start: function (a, ui) {

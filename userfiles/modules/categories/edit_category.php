@@ -134,6 +134,9 @@ if (isset($params['live_edit'])) {
                     mw.reload_module('categories/manage');
                     mw.reload_module('content/manager');
 
+
+                    mw.parent().trigger('pagesTreeRefresh')
+
                     if (window.pagesTreeRefresh) {
                         pagesTreeRefresh()
                     }

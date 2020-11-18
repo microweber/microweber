@@ -238,6 +238,10 @@
                                                 $(document).ready(function () {
                                                     loadCategoriesTree();
                                                 });
+
+                                               mw.on('pagesTreeRefresh', function () {
+                                                     loadCategoriesTree();
+                                                });
                                             </script>
 
                                             <div id="quick-parent-selector-tree"></div>
