@@ -229,8 +229,23 @@ if (isset($params['live_edit'])) {
                             }
                         </script>
 
-                        <a href="#" onclick="mw.url.windowDeleteHashParam('action');" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
-                        <a href="#action=addsubcategory:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
+                    <?php if (isset($params['parent-module']) and $params['parent-module']  == 'categories/admin_backend_modal' ): ?>
+
+                        <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
+
+
+
+                    <?php endif; ?>
+
+
+
+
+
+
+
+
+
+                         <a href="#action=addsubcategory:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
 
 
 

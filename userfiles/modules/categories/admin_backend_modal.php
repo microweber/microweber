@@ -5,7 +5,20 @@
  </script>
 <script>
 
-
+    function mw_clear_edit_module_attrs() {
+        var container = mw.$('#categories-admin');
+        container
+            .removeAttr('content_type')
+            .removeAttr('subtype')
+            .removeAttr('data-parent-category-id')
+            .removeAttr('data-category-id')
+            .removeAttr('data-category-id')
+            .removeAttr('data-category-id')
+            .removeAttr('content-id')
+            .removeAttr('data-page-id')
+            .removeAttr('content_type_filter')
+            .removeAttr('subtype_filter');
+    }
     mw.content.deleteCategory = function (id, callback) {
         mw.tools.confirm('Are you sure you want to delete this?', function () {
             $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
@@ -34,8 +47,7 @@
 
     function mw_select_category_for_editing_from_modal($p_id) {
 
-
-        mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
+         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
 
 
@@ -52,7 +64,6 @@
 
 
     function mw_select_add_sub_category($p_id) {
-
 
 
         mw.$('#categories-admin').removeAttr('parent_id');
@@ -111,7 +122,7 @@
 
 
         mw.on.hashParam("action", function () {
-
+            //mw_clear_edit_module_attrs()
 
             if (this == false) {
 
@@ -122,9 +133,11 @@
 
                 var arr = this.split(":");
 
+                if (arr[0] === 'managecats' ) {
+                   // alert(2222)
+                    cat_edit_load_from_modal('categories/admin_backend_modal');
 
-                mw.log(arr)
-
+                }
                 if ((arr[0] === 'new' && arr[1] === 'category') || arr[0] === 'editcategory') {
                     mw_select_category_for_editing_from_modal(arr[1])
                 }if (arr[0] === 'addsubcategory') {
