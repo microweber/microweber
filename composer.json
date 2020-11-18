@@ -73,7 +73,11 @@
         "laravel/sanctum": "^3.0@dev",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "mtrajano/laravel-swagger": "dev-master",
-        "tucker-eric/eloquentfilter": "dev-master"
+        "tucker-eric/eloquentfilter": "dev-master",
+        "league/omnipay": "3.1.x-dev",
+        "omnipay/paypal": "3.0.x-dev",
+        "omnipay/stripe": "3.1.x-dev",
+        "omnipay/mollie": "^5.2"
         
     },
     "require-dev": {

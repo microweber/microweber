@@ -35,6 +35,7 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
         $this->app->bind('option',function(){
             return new OptionModel();
         });
+
     }
 
     /**

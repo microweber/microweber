@@ -41,7 +41,7 @@
                                         </div>
                                     @else
                                         @if($key == 'uploads')
-                                            @include('form::admin.notifications.uploads_listing_partial', $val)
+                                        @include('form::admin.notifications.uploads_listing_partial', $val)
                                         @else
                                             <small class="text-muted">{{ str_replace('_', ' ', $key) }}:</small>
                                             @foreach ($val as $valInner)
