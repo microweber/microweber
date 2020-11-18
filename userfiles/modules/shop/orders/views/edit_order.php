@@ -217,6 +217,7 @@
         </div>
     </div>
 
+<!--
     <div class="card bg-light style-1 mb-3">
         <div class="card-body">
 
@@ -254,11 +255,11 @@
                     <small>Edit shipment information <a href="#" class="btn btn-sm btn-outline-primary ml-2 text-dark">Edit</a></small>
                     <br/>
                     <br/>
-                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/shipping_EcontExpress.jpg"/>
+                    <img src="<?php /*print modules_url(); */?>microweber/api/libs/mw-ui/assets/img/shipping_EcontExpress.jpg"/>
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="card bg-light style-1 mb-3">
         <div class="card-body">
@@ -351,7 +352,7 @@
         </div>
     </div>
 
-    <div class="card bg-light style-1 mb-3">
+  <!--  <div class="card bg-light style-1 mb-3">
         <div class="card-body">
             <h5 class="mb-3 font-weight-bold">Invoices</h5>
 
@@ -373,8 +374,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>  
+    </div>-->
 
     <div>
         <?php event_trigger('mw.ui.admin.shop.order.edit.status.after', $ord); ?>
