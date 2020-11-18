@@ -55,6 +55,7 @@ class NewFormEntryAutorespond extends Notification
 
         $emailAutorespond = Option::getValue('email_autorespond', $form_id);
 
+
         if (!$emailAutorespond) {
             $emailAutorespond = Option::getValue('email_autorespond', 'contact_form_default');
         }
@@ -76,7 +77,28 @@ class NewFormEntryAutorespond extends Notification
         if ($emailAutorespondSubject) {
             $emailAutorespondSubject = _e('Thank you for your message.', true);
         }
+        $appendFiles = Option::getValue('append_files', $form_id);
 
+        if (!$appendFiles) {
+            $appendFiles = Option::getValue('append_files', 'email');
+        }
+
+
+        if ($appendFiles) {
+            $appendFilesAll = explode(',', $appendFiles);
+
+            if ($appendFilesAll) {
+                foreach ($appendFilesAll as $appendFile) {
+                    $appendFile_path = url2dir($appendFile);
+
+                    $file_extension = \Illuminate\Support\Facades\File::extension($appendFile_path);
+                    $mail->attach($appendFile_path, [
+                        'as' => basename($appendFile_path),
+                        'mime' => $file_extension,
+                    ]);
+                }
+            }
+        }
 
         $mail->line($emailAutorespondSubject);
 
