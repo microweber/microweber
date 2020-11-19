@@ -87,7 +87,7 @@ class Product extends Content
     private function fetchSingleAttributeByName($name, $returnAsObject = false)
     {
         foreach($this->customField as $customFieldRow) {
-            if($customFieldRow->type == $name) {
+            if($customFieldRow->name_key == $name) {
                 if(isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
                     if ($returnAsObject) {
                         return $customFieldRow;

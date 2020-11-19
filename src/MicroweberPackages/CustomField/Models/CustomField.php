@@ -13,6 +13,7 @@ class CustomField extends Model
         'type',
         'options',
         'name',
+        'name_key',
         // 'edited_by',
         // 'created_by'
     ];
@@ -56,7 +57,7 @@ class CustomField extends Model
         if (isset($customFieldValueToSave)) {
             if (is_array($customFieldValueToSave)) {
                 foreach ($customFieldValueToSave as $val) {
-                   $this->createCustomFieldValue($this->id,$val);
+                    $this->createCustomFieldValue($this->id, $val);
                 }
             } else {
                 $this->createCustomFieldValue($this->id, $customFieldValueToSave);
