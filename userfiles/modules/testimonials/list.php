@@ -118,10 +118,9 @@ $data = get_testimonials(); ?>
     <?php foreach ($data as $project): ?>
         <?php
         if ($selected_project == $project['project_name'] OR ($project['project_name'] == null AND $selected_project == $all_projects_name)) {
-            if (!$project['project_name']) {
-                $project['project_name'] = 'All projects';
+            if ($project['project_name']) {
+                $projects[$project['project_name']][] = $project;
             }
-            $projects[$project['project_name']][] = $project;
         }
         ?>
     <?php endforeach; ?>
@@ -139,7 +138,6 @@ $data = get_testimonials(); ?>
 
     <div class="muted-cards-3">
         <?php foreach ($projects as $key => $project): ?>
-        <?php d($project); ?>
             <div class="" <?php if ($selected_project != $key AND $selected_project != $all_projects_name): ?>style="opacity: 0.3; background: #fff;" <?php endif; ?>>
                 <strong class="mb-2 d-block"><?php echo $key; ?></strong>
                 <?php foreach ($project as $item): ?>
