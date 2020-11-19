@@ -10,9 +10,47 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductControllerTest extends TestCase
 {
+
+    public function testAddProductFull()
+    {
+        $user = User::where('is_admin','=', '1')->first();
+        Auth::login($user);
+
+        $title = 'Iphone and spire 4ever! - '. rand();
+        $contentBody = 'This is my cool product descriotion.';
+
+        $price = rand();
+        $qty = rand();
+        $sku = rand();
+        $contentData = [
+          'price'=>$price,
+          'qty'=>$qty,
+          'sku'=>$sku
+        ];
+
+        $response = $this->call(
+            'POST',
+            route('api.product.store'),
+            [
+                'title' => $title,
+                'content_body' => $contentBody,
+                'content' => '',
+                'content_data'=>$contentData
+            ]
+        );
+
+        $productDataSaved = $response->getData()->data;
+
+        $this->assertEquals($productDataSaved->price, $price);
+        $this->assertEquals($productDataSaved->qty, $qty);
+        $this->assertEquals($productDataSaved->sku, $sku);
+
+        //var_dump($productDataSaved);
+
+    }
+
     public function testSaveProductFromController()
     {
-
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
 
@@ -87,4 +125,5 @@ class ProductControllerTest extends TestCase
         $this->assertEquals(true,!empty($product_data->data));
 
     }
+
 }
