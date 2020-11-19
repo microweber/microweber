@@ -28,6 +28,10 @@ class ProductControllerTest extends TestCase
           'sku'=>$sku
         ];
 
+        $customFields = [
+          'price'=>$price
+        ];
+
         $response = $this->call(
             'POST',
             route('api.product.store'),
@@ -35,6 +39,7 @@ class ProductControllerTest extends TestCase
                 'title' => $title,
                 'content_body' => $contentBody,
                 'content' => '',
+                'custom_fields'=>$customFields,
                 'content_data'=>$contentData
             ]
         );
@@ -44,8 +49,6 @@ class ProductControllerTest extends TestCase
         $this->assertEquals($productDataSaved->price, $price);
         $this->assertEquals($productDataSaved->qty, $qty);
         $this->assertEquals($productDataSaved->sku, $sku);
-
-        //var_dump($productDataSaved);
 
     }
 
