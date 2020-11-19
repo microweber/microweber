@@ -19,7 +19,9 @@ class ContentDataTest extends TestCase
         $product->setContentData(['phone' => 'nokia', 'sku' => 5]);
         $product->save();
 
-
+        $content_data  = content_data($prod_id);
+        $this->assertEquals($content_data['sku'],   5);
+        $this->assertEquals($content_data['phone'],   'nokia');
 
 
         $product = Product::find($prod_id);
@@ -42,6 +44,11 @@ class ContentDataTest extends TestCase
 
         $product = Product::whereContentData(['sku' => '5'])->first();
         $this->assertEquals($product['title'],   'Test product with content data');
+
+
+
+
+
 
 
     }
