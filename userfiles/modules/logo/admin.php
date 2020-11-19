@@ -215,8 +215,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         if ("<?php print $size; ?>" == 'auto') {
                             $imagesizeval.html('auto');
                             $("#auto_scale_logo").attr("checked", true);
-                        }
-                        else {
+                        } else {
                             $imagesizeval.html($size_slider.val());
                             $("#auto_scale_logo").attr("checked", false);
                         }
@@ -232,8 +231,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         $("#auto_scale_logo").on('change', function () {
                             if (this.checked) {
                                 setAuto();
-                            }
-                            else {
+                            } else {
                                 var val1 = $size_slider.val();
                                 $size.val(val1).trigger('change');
                                 $imagesizeval.html(val1 + 'px');
@@ -306,6 +304,19 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div class="the-image-holder">
                                 <img style="display: none;" src="<?php print $logoimage ?>" id="logo-image-edit">
                                 <img src="<?php if ($logoimage): ?><?php echo thumbnail($logoimage, 200); ?><?php endif; ?>" class="the-image" alt="" <?php if ($logoimage != '' and $logoimage != false): ?><?php else: ?>style="display:block;"<?php endif; ?> />
+
+                                <div class="js-remove-logo-btn <?php if ($logoimage == ''): ?>d-none<?php endif; ?>">
+                                    <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-logoimage"><i class="mdi mdi-trash-can-outline"></i> Remove the logo</button>
+
+                                    <script>
+                                        $('.js-remove-logoimage').on('click', function () {
+                                            $('#logoimage').val('');
+                                            $("#logoimage").trigger('change');
+                                            $('img.the-image').attr('src', '');
+                                            $(this).parent().addClass('d-none');
+                                        });
+                                    </script>
+                                </div>
                             </div>
 
                             <div>
