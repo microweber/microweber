@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Product\tests;
 
 
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,21 @@ class ProductControllerTest extends TestCase
 
     public function testAddProductFull()
     {
+        $categoryIds = [];
+
         $user = User::where('is_admin','=', '1')->first();
         Auth::login($user);
+
+
+        $category = new Category();
+        $category->title = 'New cat for my custom model'. rand();
+        $category->save();
+        $categoryIds[] = $category->id;
+
+        $category = new Category();
+        $category->title = 'New cat for my custom model'. rand();
+        $category->save();
+        $categoryIds[] = $category->id;
 
         $title = 'Iphone and spire 4ever! - '. rand();
         $contentBody = 'This is my cool product descriotion.';
@@ -38,6 +52,7 @@ class ProductControllerTest extends TestCase
             route('api.product.store'),
             [
                 'title' => $title,
+                'category_ids'=>implode(',', $categoryIds),
                 'content_body' => $contentBody,
                 'content' => '',
                 'custom_fields'=>$customFields,
