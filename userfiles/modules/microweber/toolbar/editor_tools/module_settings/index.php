@@ -236,7 +236,7 @@
 
 
                     //   mw.top().win.module_settings_modal_reference = thismodal;
-                    <?php if(is_array($module_info)): ?>
+                    <?php if(is_array($module_info) and isset($module_info['module'])): ?>
 
                     <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
 
