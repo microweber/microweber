@@ -23,6 +23,7 @@ class ProductControllerTest extends TestCase
         $qty = rand();
         $sku = rand();
         $contentData = [
+          'fanta'=>'cocacolla',
           'price'=>$price,
           'qty'=>$qty,
           'sku'=>$sku
