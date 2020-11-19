@@ -173,7 +173,8 @@ class Manager
         }
 
         $posts_mod['no_cache'] = 1;
-        $posts_mod['limit'] = 10000;
+        $posts_mod['limit'] = 20;
+        
         $data = $this->provider->get($posts_mod);
 
          if (empty($data) and isset($posts_mod['page'])) {
