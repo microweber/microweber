@@ -2,19 +2,32 @@
 
 namespace MicroweberPackages\CustomField\Traits;
 
-
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 
-
 trait  CustomFieldsTrait {
 
-//    public function customFields()
-//    {
-//        return $this->hasMany(CustomField::class, 'rel_id');
-//    }
+    private $_addCustomFields = [];
 
-    private $_newCustomFieldsToAssociate = []; //When enter in bootHasCustomFieldsTrait
+    public function initializeCustomFieldsTrait()
+    {
+        //$this->appends[] = 'customField';
+        $this->fillable[] = 'custom_fields';
+    }
+
+    public static function bootCustomFieldsTrait()
+    {
+        static::saving(function ($model)  {
+            if (isset($model->attributes['custom_fields'])) {
+                $model->_addCustomFields = $model->attributes['custom_fields'];
+                unset($model->attributes['custom_fields']);
+            }
+        });
+
+        static::saved(function($model) {
+            $model->setCustomFields($model->_addCustomFields);
+        });
+    }
 
     public function customFieldsValues()
     {
@@ -45,50 +58,30 @@ trait  CustomFieldsTrait {
         return $query;
     }
 
-    public function addCustomField($customFieldArr)
+    public function setCustomFields($customFields)
     {
-        $this->_newCustomFieldsToAssociate[] = $customFieldArr;
-        return $this;
-    }
+        foreach ($customFields as $key=>$value) {
+            if (empty($key) || empty($value)) {
+                continue;
+            }
+            $findCustomField = $this->customField()->where('name_key', \Str::slug($key, '-'))->first();
+            if ($findCustomField) {
+                $findCustomField->value = $value;
+                $findCustomField->save();
+            } else {
+                $this->customField()->create([
+                    'value'=>$value,
+                    'name_key' => \Str::slug($key, '-'),
+                ]);
+            }
 
-    public function setCustomField($customFieldArr)
-    {
-        $this->_newCustomFieldsToAssociate[] = $this->customField()->where('name_key', \Str::slug($customFieldArr['name'], '-'))
-            ->updateOrCreate(
-                ['name_key' => \Str::slug($customFieldArr['name'])],
-                $customFieldArr
-            )->toArray();
-
-        return $this;
+            return $this;
+        }
     }
 
     public function customField()
     {
-      //  return $this->hasMany(CustomField::class, 'rel_id');
         return $this->morphMany(CustomField::class, 'rel');
-
     }
 
-    public static function bootCustomFieldsTrait()
-    {
-        static::saved(function ($model)  {
-
-            foreach($model->_newCustomFieldsToAssociate as $customField) {
-
-                $filterCustomField = [
-                    'type'=>$customField['type'],
-                    'name'=>$customField['name']
-                ];
-
-                if (isset($customField['options'])) {
-                    $filterCustomField['options'] = json_encode($customField['options']);
-                }
-
-                $model->customField()->updateOrCreate($filterCustomField);
-            }
-
-            $model->_newCustomFieldsToAssociate = []; //empty the array
-            $model->refresh();
-        });
-    }
 }
