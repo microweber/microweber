@@ -118,10 +118,9 @@ $data = get_testimonials(); ?>
     <?php foreach ($data as $project): ?>
         <?php
         if ($selected_project == $project['project_name'] OR ($project['project_name'] == null AND $selected_project == $all_projects_name)) {
-            if (!$project['project_name']) {
-                $project['project_name'] = 'All projects';
+            if ($project['project_name']) {
+                $projects[$project['project_name']][] = $project;
             }
-            $projects[$project['project_name']][] = $project;
         }
         ?>
     <?php endforeach; ?>
