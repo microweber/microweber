@@ -22,10 +22,19 @@ trait FilterByContentData
             $params = parse_params($params);
 
         }
+
         foreach ($params as $key => $value) {
             $this->query->whereHas('contentData', function (Builder $query) use ($key, $value) {
                 $query->where('field_name', '=', $key);
-                $query->where('field_value', '=', $value);
+                if (is_array($value)) {
+                    $query->where(function ($query) use ($value) {
+                        foreach ($value as $v){
+                              $query->orWhere('field_value', '=', $v);
+                        }
+                    });
+                } else {
+                    $query->where('field_value', '=', $value);
+                }
             });
         }
         return $this->query;
