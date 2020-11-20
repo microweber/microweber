@@ -815,6 +815,7 @@ class DatabaseManager extends DbUtils
                         $params['filter'] = html_entity_decode($params['filter'], null, 'UTF-8');
                         $params['filter'] = urldecode($params['filter']);
                         $filterParams = parse_params($params['filter']);
+
                     } else if (is_array($params['filter'])) {
                         $filterParams = $params['filter'];
                     }
