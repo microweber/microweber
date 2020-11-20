@@ -14,7 +14,7 @@ class Product extends Content
         'subtype' => 'product'
     ];
 
-    protected $appends = ['price','qty'];
+    protected $appends = ['price','qty','sku'];
 
     public $fillable = [
         "subtype",
@@ -124,6 +124,11 @@ class Product extends Content
     public function getQtyAttribute()
     {
         return $this->fetchSingleContentDataByName('qty');
+    }
+
+    public function getSkuAttribute()
+    {
+        return $this->fetchSingleContentDataByName('sku');
     }
 
     public function getContentData($values = [])

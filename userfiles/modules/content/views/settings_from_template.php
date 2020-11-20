@@ -4,6 +4,7 @@ if (!isset($params['content-type'])) {
     return;
 }
 
+
 $template_config = mw()->template->get_config();
 $data_fields_conf = false;
 $data_fields_values = false;
@@ -15,6 +16,8 @@ if (!empty($template_config)) {
 
             if (isset($params['content-id'])) {
                 $data_fields_values = content_data($params['content-id']);
+
+
             } else if (isset($params['category-id'])) {
                 $data_fields_values = mw()->data_fields_manager->get_values('rel_type=categories&rel_id=' . $params['category-id']);
             }
@@ -53,11 +56,11 @@ if (!empty($template_config)) {
                         <div class="form-group">
                             <label class="control-label"> <?php print $title; ?> </label>
                             <?php if ($type == 'textarea') { ?>
-                                <textarea name="data_<?php print $name; ?>" class="form-control" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
+                                <textarea name="content_data[<?php print $name; ?>]" class="form-control" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
                             <?php } else if ($type == 'color') { ?>
-                            <input name="data_<?php print $name; ?>" class="form-control mw-ui-color-picker w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+                            <input name="content_data[<?php print $name; ?>]" class="form-control mw-ui-color-picker w100" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
                             <?php } else if ($type == 'select') { ?>
-                                <select name="data_<?php print $name; ?>" class="form-control" placeholder="<?php print $default_value ?>">
+                                <select name="content_data[<?php print $name; ?>]" class="form-control" placeholder="<?php print $default_value ?>">
                                     <?php if ($select_options): ?>
                                         <?php foreach ($select_options as $key => $option): ?>
                                             <option value="<?php echo $key; ?>" <?php if ($value == $key): ?>selected<?php endif; ?>><?php echo $option; ?></option>
@@ -65,7 +68,7 @@ if (!empty($template_config)) {
                                     <?php endif; ?>
                                 </select>
                             <?php } else if ($type == 'upload') { ?>
-                            <input name="data_<?php print $name; ?>" class="form-control" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+                            <input name="content_data[<?php print $name; ?>]" class="form-control" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
 
                                 <script type="text/javascript">
 
@@ -99,7 +102,7 @@ if (!empty($template_config)) {
                                 </script>
                                 <span id="data_<?php print $name; ?>" class="mw-ui-btn"><span class="ico iupload"></span><span>Upload file<span id="data_<?php print $name; ?>_upload_info"></span></span></span>
                             <?php } else { ?>
-                            <input name="data_<?php print $name; ?>" class="form-control" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
+                            <input name="content_data[<?php print $name; ?>]" class="form-control" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
                             <?php } ?>
                         </div>
                     <?php endforeach; ?>
