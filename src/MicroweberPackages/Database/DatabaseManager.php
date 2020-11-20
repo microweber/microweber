@@ -283,6 +283,7 @@ class DatabaseManager extends DbUtils
 
             return $query;
         }
+ 
 
         if ($use_cache == false) {
 
@@ -805,7 +806,15 @@ class DatabaseManager extends DbUtils
         if ($table == 'content') {
             $model = app()->make(Content::class);
             if ($params && method_exists($model, 'modelFilter')) {
-                return $model->filter($params);
+                $filterParams = $params;
+                if(!empty($params['filter'])){
+                    $params['filter'] = html_entity_decode($params['filter'],null,'UTF-8');
+                    $params['filter'] = urldecode($params['filter']);
+                    $filterParams = parse_params($params['filter']);
+                    unset($params['filter']);
+                 }
+
+                return $model->filter($filterParams);
             } else {
                 return $model->query();
             }

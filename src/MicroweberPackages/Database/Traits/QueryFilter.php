@@ -391,6 +391,7 @@ trait QueryFilter
                         }
                     }
                     break;
+ 
                 case 'category':
                 case 'categories':
 

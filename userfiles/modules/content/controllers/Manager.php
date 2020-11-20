@@ -172,6 +172,13 @@ class Manager
 
         }
 
+
+
+        if (!empty($params['filter'])) {
+            $posts_mod['filter'] = $params['filter'];
+
+        }
+
         $posts_mod['no_cache'] = 1;
         $posts_mod['limit'] = 20;
         

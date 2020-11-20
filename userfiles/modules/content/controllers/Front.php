@@ -260,6 +260,12 @@ class Front
             }
         }
 
+
+        if (!empty($params['filter'])) {
+            $post_params['filter'] = $params['filter'];
+        }
+
+
         if (isset($post_params['most_ordered'])) {
             $str0 = 'table=cart&limit=30&rel_type=content&fields=rel_id&order_by=id desc';
             $orders = db_get($str0);
