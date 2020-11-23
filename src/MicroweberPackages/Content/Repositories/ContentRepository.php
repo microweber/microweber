@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Content\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Content\Events\ContentIsCreating;
 use MicroweberPackages\Content\Events\ContentIsUpdating;
@@ -13,7 +14,7 @@ use MicroweberPackages\Content\Events\ContentWasUpdated;
 class ContentRepository extends BaseRepository
 {
 
-    public function __construct(Model $model)
+    public function __construct(Content $model)
     {
         $this->model = $model;
     }
