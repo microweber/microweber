@@ -417,13 +417,13 @@ function cache_get($cache_id, $cache_group = 'global', $expiration = false)
  *                                      retrieve the cached content.
  * @param string $cache_group
  *                                      (default is 'global') - this is the subfolder in the cache dir.
- * @param int $expiration_in_minutes
+ * @param int $expiration_in_seconds
  *
  * @return bool
  */
-function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expiration_in_minutes = false)
+function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expiration_in_seconds = false)
 {
-    return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration_in_minutes);
+    return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration_in_seconds);
 }
 
 api_expose_admin('clearcache');
