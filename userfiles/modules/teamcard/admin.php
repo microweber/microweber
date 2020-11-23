@@ -149,6 +149,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             .remove-question {
                 color: #f12b1c;
             }
+            .teamcard-file-up{
+                overflow: hidden;
+            }
         </style>
 
         <div class="mw-modules-tabs">
