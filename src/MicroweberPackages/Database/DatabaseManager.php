@@ -137,7 +137,7 @@ class DatabaseManager extends DbUtils
         }
 
         if ($use_connection == false) {
-            $query = $this->table($table,$params);
+            $query = $this->table($table, $params);
         } else {
             $query = DB::connection($use_connection)->table($table);
         }
@@ -212,7 +212,10 @@ class DatabaseManager extends DbUtils
         }
         // $use_cache = false;
         // $this->use_cache = false;
-        $query = $this->map_filters($query, $params, $table);
+
+        if (!isset($params['filter'])) {
+            $query = $this->map_filters($query, $params, $table);
+        }
         $params = $this->map_array_to_table($table, $params);
         $query = $this->map_values_to_query($query, $params);
 
@@ -284,6 +287,7 @@ class DatabaseManager extends DbUtils
             return $query;
         }
 
+
         if ($use_cache == false) {
 
             $data = $query->get();
@@ -296,9 +300,9 @@ class DatabaseManager extends DbUtils
             }
 
         } else {
-            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query,$orig_params) {
+            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query, $orig_params) {
 
-               $queryResponse = $query->get();
+                $queryResponse = $query->get();
 
                 if (isset($orig_params['fields']) and $orig_params['fields'] != false) {
                     if (method_exists($query, 'getModel')) {
@@ -467,8 +471,8 @@ class DatabaseManager extends DbUtils
              var_dump($data);
          }*/
 
-        if(!isset($data['user_ip'])){
-        $data['user_ip'] = user_ip();
+        if (!isset($data['user_ip'])) {
+            $data['user_ip'] = user_ip();
         }
         if (isset($data['id']) == false or $data['id'] == 0) {
             $data['id'] = 0;
@@ -805,7 +809,23 @@ class DatabaseManager extends DbUtils
         if ($table == 'content') {
             $model = app()->make(Content::class);
             if ($params && method_exists($model, 'modelFilter')) {
-                return $model->filter($params);
+                $filterParams = $params;
+                if (!empty($params['filter'])) {
+                    if (is_string($params['filter'])) {
+                        $params['filter'] = html_entity_decode($params['filter'], null, 'UTF-8');
+                        $params['filter'] = urldecode($params['filter']);
+                        $filterParams = parse_params($params['filter']);
+
+                    } else if (is_array($params['filter'])) {
+                        $filterParams = $params['filter'];
+                    }
+                }
+                if ($filterParams) {
+                    return $model->filter($filterParams);
+                } else {
+                    return $model->query();
+
+                }
             } else {
                 return $model->query();
             }

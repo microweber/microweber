@@ -10,6 +10,7 @@ use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
+use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Tag\Tag;
 
 class Content extends Model
@@ -33,7 +34,8 @@ class Content extends Model
 
     public function modelFilter()
     {
-        return $this->provideFilter(ContentFilter::class);
+        //return $this->provideFilter(ContentFilter::class);
+        return $this->provideFilter(ProductFilter::class);
     }
 
     public function getMorphClass()

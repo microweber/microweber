@@ -29,6 +29,7 @@ trait FilterByPriceTrait
 
     public function priceBetween($price)
     {
+
         $minPrice = $price;
         $maxPrice = false;
 

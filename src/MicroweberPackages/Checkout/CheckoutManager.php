@@ -14,6 +14,7 @@ use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Order\Models\OrderAnonymousClient;
+use MicroweberPackages\Order\Notifications\NewOrder;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
@@ -657,7 +658,7 @@ class CheckoutManager
             return array('error' => _e('Order not found'));
         }
 
-        $newOrderEvent = new NewFormEntry($order);
+        $newOrderEvent = new NewOrder($order);
 
         // Ss logged
         $notifiable = false;

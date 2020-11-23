@@ -11,8 +11,8 @@ trait  CustomFieldsTrait {
 
     public function initializeCustomFieldsTrait()
     {
-        //$this->appends[] = 'customField';
-        $this->fillable[] = 'custom_fields';
+      //  $this->appends[] = 'customField';
+        $this->fillable[] = 'custom_fields'; // related with boot custom fields trait
     }
 
     public static function bootCustomFieldsTrait()
@@ -60,6 +60,7 @@ trait  CustomFieldsTrait {
 
     public function setCustomFields($customFields)
     {
+
         foreach ($customFields as $key=>$value) {
             if (empty($key) || empty($value)) {
                 continue;
@@ -69,10 +70,14 @@ trait  CustomFieldsTrait {
                 $findCustomField->value = $value;
                 $findCustomField->save();
             } else {
+
                 $this->customField()->create([
                     'value'=>$value,
-                    'name_key' => \Str::slug($key, '-'),
+                    'name'=>$key,
+                    'name_key' => \Str::slug($key, '-')
                 ]);
+
+                $this->save();
             }
 
             return $this;

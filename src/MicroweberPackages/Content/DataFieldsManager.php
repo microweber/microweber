@@ -22,6 +22,13 @@ class DataFieldsManager extends Crud
 
     public function get_values($params)
     {
+
+        if (isset($params['content_id'])) {
+            $params['rel_type'] = 'content';
+            $params['rel_id'] = $params['content_id'];
+            unset($params['content_id']);
+        }
+
         $get = $this->get($params);
 
         if (!empty($get)) {
