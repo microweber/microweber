@@ -178,19 +178,19 @@ if (!is_logged()) {
 $order_notif_html = false;
 $new_orders_count = mw()->order_manager->get_count_of_new_orders();
 if ($new_orders_count) {
-    $order_notif_html = '<span class="badge badge-success badge-pill mr-2 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
+    $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
 }
 
 $comments_notif_html = false;
 $new_comments_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
 if ($new_comments_count) {
-    $comments_notif_html = '<span class="badge badge-success badge-pill mr-2 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
+    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
 }
 
 $notif_html = '';
 $notif_count = mw()->notifications_manager->get_unread_count();
 if ($notif_count > 0) {
-    $notif_html = '<span class="badge badge-success badge-pill mr-2 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
+    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
 }
 ?>
 
@@ -281,10 +281,10 @@ $user = get_user_by_id($user_id);
                     </li>
 
                     <?php if ($new_orders_count != ''): ?>
-                        <li class="mx-1">
+                        <li class="mx-2">
                             <a href="<?php print admin_url(); ?>view:shop/action:orders" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>
-                                <i class="mdi mdi-shopping text-muted"></i>
+                                <i class="mdi mdi-shopping text-muted m-0"></i>
                                 <span class="d-none d-md-block">
                                     <?php if ($new_orders_count == 1): ?>
                                         <?php _e("New order"); ?>
@@ -297,10 +297,10 @@ $user = get_user_by_id($user_id);
                     <?php endif; ?>
 
                     <?php if ($comments_notif_html != ''): ?>
-                        <li class="mx-1">
+                        <li class="mx-2">
                             <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $comments_notif_html; ?>&nbsp;
-                                <i class="mdi mdi-comment-account text-muted"></i>
+                                <i class="mdi mdi-comment-account text-muted m-0"></i>
                                 <span class="d-none d-md-block">
                                     <?php if ($new_comments_count == 1): ?>
                                         <?php _e("New comment"); ?>
@@ -313,10 +313,10 @@ $user = get_user_by_id($user_id);
                     <?php endif; ?>
 
                     <?php if ($notif_count != ''): ?>
-                        <li class="mx-1">
+                        <li class="mx-2">
                             <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $notif_html; ?>
-                                <i class="mdi mdi-newspaper-variant-multiple text-muted"></i>
+                                <i class="mdi mdi-newspaper-variant-multiple text-muted m-0"></i>
                                 <span class="notif-label">
                                     <?php if ($notif_count == 1): ?>
                                         <?php _e("New notification"); ?>
