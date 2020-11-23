@@ -25,6 +25,7 @@ class Kernel extends HttpKernel
         \MicroweberPackages\App\Http\Middleware\TrimStrings::class,
         \Illuminate\Session\Middleware\StartSession::class, //TODO our routers must be added on web middleware
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class, // petko fix
     ];
 
     /**
@@ -35,7 +36,6 @@ class Kernel extends HttpKernel
     protected $middlewareGroups = [
         'web' => [
             \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             //\Illuminate\Session\Middleware\StartSession::class,
            //  \Illuminate\Session\Middleware\AuthenticateSession::class,
             AuthenticateSessionForUser::class,
