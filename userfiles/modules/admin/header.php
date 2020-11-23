@@ -284,7 +284,7 @@ $user = get_user_by_id($user_id);
                         <li class="mx-1">
                             <a href="<?php print admin_url(); ?>view:shop/action:orders" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>
-                                <i class="mdi mdi-shopping text-muted"></i> &nbsp;
+                                <i class="mdi mdi-shopping text-muted"></i>
                                 <span class="d-none d-md-block">
                                     <?php if ($new_orders_count == 1): ?>
                                         <?php _e("New order"); ?>
@@ -316,7 +316,7 @@ $user = get_user_by_id($user_id);
                         <li class="mx-1">
                             <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $notif_html; ?>
-                                <i class="mdi mdi-newspaper-variant-multiple text-muted"></i>&nbsp;
+                                <i class="mdi mdi-newspaper-variant-multiple text-muted"></i>
                                 <span class="notif-label">
                                     <?php if ($notif_count == 1): ?>
                                         <?php _e("New notification"); ?>
