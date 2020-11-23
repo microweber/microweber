@@ -24,5 +24,6 @@ class ContentServiceProvider extends ServiceProvider
         Content::observe(CreatedByObserver::class);
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 }
