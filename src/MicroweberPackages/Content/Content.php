@@ -27,6 +27,13 @@ class Content extends Model
     protected $content_type = 'content';
     public $additionalData = [];
 
+    protected $attributes = [
+        'is_active' => '1',
+        'is_deleted' => '0',
+        'is_shop' => '0',
+        'is_home' => '0',
+    ];
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
@@ -34,8 +41,7 @@ class Content extends Model
 
     public function modelFilter()
     {
-        //return $this->provideFilter(ContentFilter::class);
-        return $this->provideFilter(ProductFilter::class);
+        return $this->provideFilter(ContentFilter::class);
     }
 
     public function getMorphClass()
