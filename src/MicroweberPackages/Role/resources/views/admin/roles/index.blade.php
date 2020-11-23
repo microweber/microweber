@@ -1,4 +1,4 @@
-@extends('invoice::admin.layout')
+@extends('admin::layout')
 
 @section('title', 'Manage roles')
 
