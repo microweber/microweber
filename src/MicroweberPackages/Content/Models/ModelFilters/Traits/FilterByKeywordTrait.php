@@ -14,10 +14,11 @@ trait FilterByKeywordTrait
 {
     public function keyword($keyword)
     {
+        $table = $this->getModel()->getTable();
         $model = $this->getModel();
         $searchInFields = $model->getFillable();
         $guardedFields = $model->getGuarded();
-        $tableFields = $model->getConnection()->getSchemaBuilder()->getColumnListing($this->getModel()->getTable());
+        $tableFields = $model->getConnection()->getSchemaBuilder()->getColumnListing($table);
 
         if (isset($this->input['searchInFields'])) {
             if (strpos($this->input['searchInFields'], ',') !== false) {
@@ -34,10 +35,10 @@ trait FilterByKeywordTrait
             $searchInFields = array_diff($searchInFields, $guardedFields);
         }
 
-        return $this->query->where(function ($query) use ($searchInFields, $keyword) {
+        return $this->query->where(function ($query) use ($table, $searchInFields, $keyword) {
             if ($searchInFields) {
                 foreach ($searchInFields as $field) {
-                    $query->orWhere($field, 'LIKE', '%' . $keyword . '%');
+                    $query->orWhere($table .'.'. $field, 'LIKE', '%' . $keyword . '%');
                 }
             }
         });
