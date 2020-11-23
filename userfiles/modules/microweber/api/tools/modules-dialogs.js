@@ -149,7 +149,7 @@
         var settings = $.extend({}, defaultOpts, modalOptions);
 
         // return mw.dialogIframe(settings);
-        return mw.dialogIframe(settings);
+        return mw.top().dialogIframe(settings);
     },
     open_module_modal: function (module_type, params, modalOptions) {
 

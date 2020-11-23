@@ -32,6 +32,9 @@ if (isset($params['live_edit'])) {
      .mw-filepicker-component-section {
         width: 125px;
     }
+     .mw-dialog-container >  .mw-filepicker-component-section {
+         width: 100%;
+     }
 
     #post-media-card-header {
         padding: 15px;
@@ -435,7 +438,6 @@ if (isset($params['live_edit'])) {
                                         mw._postsImageUploader._thumbpreload()
                                     })
                                     $(dropdownUploader).on('FileUploaded', function (e, res) {
-                                        console.log(e,res)
                                         var url = res.src ? res.src : res;
                                         if (window.after_upld) {
 

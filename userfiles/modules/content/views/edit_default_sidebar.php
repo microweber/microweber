@@ -6,6 +6,16 @@
     </script>
 <?php endif; ?>
 
+<style>
+    #quick-parent-selector-tree .mw-tree-nav{
+        padding: 12px 30px;
+        border: 1px solid #cfcfcf;
+        margin: 20px 0;
+        border-radius: 3px;
+
+    }
+</style>
+
 <script>
 
     var loadCategoriesTree = function () {

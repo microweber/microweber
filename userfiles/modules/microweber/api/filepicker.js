@@ -159,7 +159,7 @@ mw.filePicker = function (options) {
                 var comp = scope._getComponentObject('library');
                 if (type === 'library') {
                     mw.tools.loading(el, true);
-                    var fr = mw.tools.moduleFrame('pictures/media_library');
+                    var fr = mw.top().tools.moduleFrame('pictures/media_library');
                     $wrap.append(fr);
                     if(scope.settings._frameMaxHeight) {
                         fr.style.maxHeight = '60vh';
@@ -283,7 +283,7 @@ mw.filePicker = function (options) {
                         });
                     }
 
-                    scope.__pickDialog = mw.dialog({
+                    scope.__pickDialog = mw.top().dialog({
                         overlay: true,
                         content: item,
                         beforeRemove: function () {

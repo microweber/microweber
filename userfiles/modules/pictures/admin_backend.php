@@ -230,7 +230,7 @@ if (!isset($data["thumbnail"])) {
         imageConfigDialogInstance = null;
         imageConfigDialog = function (id) {
             var el = mw.$('#admin-thumb-item-' + id + ' .image-options');
-            imageConfigDialogInstance = mw.dialog({
+            imageConfigDialogInstance = mw.top().dialog({
                 overlay: true,
                 content: el.html(),
                 template: 'default',
