@@ -37,6 +37,14 @@ class Page extends Content
 
     public $translatable = ['title','url','description','content','content_body'];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->attributes['content_type'] = 'page';
+        $this->attributes['subtype'] = 'static';
+    }
+
     /**
      * The "booted" method of the model.
      *

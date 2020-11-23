@@ -9,10 +9,6 @@ use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 class Product extends Content
 {
     protected $table = 'content';
-    protected $attributes = [
-        'content_type' => 'product',
-        'subtype' => 'product'
-    ];
 
     protected $appends = ['price','qty','sku'];
 
@@ -66,6 +62,14 @@ class Product extends Content
         'depth'=>'0'
     ];
 
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->attributes['content_type'] = 'product';
+        $this->attributes['subtype'] = 'product';
+    }
 
 
     /**
