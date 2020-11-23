@@ -26,6 +26,14 @@ class Post extends Content
 
     public $translatable = ['title','url','description','content','content_body'];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->attributes['content_type'] = 'post';
+        $this->attributes['subtype'] = 'post';
+    }
+
     /**
      * The "booted" method of the model.
      *

@@ -1,14 +1,13 @@
 <?php
 namespace MicroweberPackages\Page\Models;
 
-use EloquentFilter\Filterable;
-use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\Scopes\PageScope;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 
 
-class Page extends Model
+class Page extends Content
 {
     use HasSlugTrait;
     use MediaTrait;
@@ -37,6 +36,14 @@ class Page extends Model
     ];
 
     public $translatable = ['title','url','description','content','content_body'];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->attributes['content_type'] = 'page';
+        $this->attributes['subtype'] = 'static';
+    }
 
     /**
      * The "booted" method of the model.
