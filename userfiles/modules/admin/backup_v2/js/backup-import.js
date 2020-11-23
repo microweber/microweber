@@ -129,18 +129,6 @@ mw.backup_import = {
 
 		$('.button-start').addClass('disabled');
 
-	//	mw.spinner({element: ".button-start", size: 30, color: 'white'}).show()
-
-
-
-        //$('.button-start').hide();
-
-
-
-
-
-
-
 		$('.backup-import-modal-log-progress').show();
 
         var import_by_type = $('input[name="import_by_type"]:checked').val();

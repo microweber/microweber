@@ -329,7 +329,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
                                 <div class="mw-dropdown-list-search">
-                                    <input type="mwautocomplete" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
+                                    <input type="text" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
                                 </div>
                                 <?php
                                 $pt_opts = array();
@@ -605,35 +605,21 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
             mw.$(".create-content-dropdown").hover(function () {
-
                 if (typeof mw.wysiwyg.hide_drag_handles == 'function') {
                     mw.wysiwyg.hide_drag_handles();
                 }
-
-
                 var el = $(this);
 
                 if (typeof(el[0]) == 'undefined') {
                     return;
                 }
-
-                var list = mw.$(".create-content-dropdown-list", el[0]);
-
-                el.addClass("over");
-                setTimeout(function () {
-                    mw.$(".create-content-dropdown-list").not(list).hide();
-                    if (el.hasClass("over")) {
-                        list.stop().show().css("opacity", 1);
-                    }
-                }, 222);
-
+                 el.addClass("over");
             }, function () {
                 var el = $(this);
                 el.removeClass("over");
                 setTimeout(function () {
                     if (!el.hasClass("over")) {
-                        mw.$(".create-content-dropdown-list", el[0]).stop().fadeOut(322);
-                        if (typeof mw.wysiwyg.show_drag_handles == 'function') {
+                         if (typeof mw.wysiwyg.show_drag_handles == 'function') {
                             mw.wysiwyg.show_drag_handles();
                         }
                     }

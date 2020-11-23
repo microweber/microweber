@@ -138,7 +138,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
                 clearTimeout(fixinheaderTime)
 
             }
-            var isFixed = (stop > (postHeader.get(0).offsetHeight + header.offsetHeight + $(postHeader).offset().top));
+            var isFixed = (stop > (postHeader.get(0).offsetHeight + (header ? header.offsetHeight : 0) + $(postHeader).offset().top));
             postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
             postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
 
@@ -248,7 +248,7 @@ if (isset($params['quick_edit'])) {
                                     <input autocomplete="off" name="content_url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
 
                                     <script>
-                                        var slugEdited = !mw.url.windowHashParam('action').includes('new:');
+                                        var slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
                                         slugFromTitle = function () {
                                             if (slugEdited === false) {
                                                 var slug = mw.slug.create($('#content-title-field').val());

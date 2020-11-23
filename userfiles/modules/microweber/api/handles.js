@@ -707,11 +707,12 @@ mw._initHandles = {
 
             if(topPos<minTop){
                 topPos = minTop;
+                marginTop = 0
             }
             var ws = mw.$(window).scrollTop();
             if(topPos<(ws+minTop)){
                 topPos=(ws+minTop);
-                marginTop =  -15;
+                // marginTop =  -15;
                 if(el[0].offsetHeight <100){
                     topPos = o.top+el[0].offsetHeight;
                     marginTop =  0;

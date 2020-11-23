@@ -402,6 +402,17 @@ MWEditor.api = function (scope) {
             }).css('font-size', size + unit).prop('outerHTML');
             scope.api.execCommand('insertHTML', false, fontSize);
         },
+        lineHeight: function (size) {
+
+            if (scope.api.isSelectionEditable()) {
+                var sel = scope.getSelection();
+                var el = scope.api.elementNode(sel.focusNode)
+                scope.api.action(mw.tools.firstBlockLevel(el), function () {
+                     el.style.lineHeight = size
+                });
+            }
+
+        },
         fontSize: function (size) {
             var sel = scope.getSelection();
             if (sel.isCollapsed) {

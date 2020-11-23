@@ -256,6 +256,43 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+    lineHeight: function (scope, api, rootScope) {
+        this.checkSelection = function (opt) {
+            var css = opt.css;
+            var font = css.font();
+            var size = font.height;
+            opt.controller.element.displayValue(size);
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
+        this.render = function () {
+            var dropdown = new MWEditor.core.dropdown({
+                icon: 'format-line-spacing',
+                data: [
+                    { label: 'normal', value: 'normal' },
+                    { label: '14px', value:'14px' },
+                    { label: '16px', value:'16px' },
+                    { label: '19px', value:'19px' },
+                    { label: '21px', value:'21px' },
+                    { label: '24px', value:'24px' },
+                    { label: '25px', value:'25px' },
+                    { label: '27px', value:'27px' },
+                    { label: '30px', value:'30px' },
+                    { label: '35px', value:'35px' },
+                    { label: '40px', value:'40px' },
+                    { label: '45px', value:'45px' },
+                    { label: '50px', value:'50px' },
+                    { label: '55px', value:'55px' },
+                    { label: '60px', value:'60px' },
+                ],
+                placeholder: rootScope.lang('Line height')
+            });
+            dropdown.select.on('change', function (e, val) {
+                api.lineHeight(val.value);
+            });
+            return dropdown.root;
+        };
+        this.element = this.render();
+    },
     format: function (scope, api, rootScope) {
 
         this._availableTags = [

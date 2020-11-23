@@ -1390,12 +1390,24 @@ body.has-opened-sidebar #live_edit_toolbar {
     box-shadow: 0px 1px 2px -2px #111;
 }
 
+.create-content-dropdown.focus .create-content-dropdown-list,
+.create-content-dropdown:hover .create-content-dropdown-list,
+.create-content-dropdown.over .create-content-dropdown-list {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
 .create-content-dropdown-list {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(.9);
+    transition: .2s;
+    transform-origin: center top;
     border-radius: 0px 0px 3px 3px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 5px -2px;
+    box-shadow: 0 4px 50px rgba(0,0,0,.1);
     overflow: hidden;
-    top: 54px;
+    top: 53px;
+    z-index: 3;
 }
 
 .create-content-dropdown-list ul {

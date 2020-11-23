@@ -77,12 +77,13 @@ MWEditor.core = {
         this.root = MWEditor.core.element();
         this.select = MWEditor.core.element({
             props: {
-                className: 'mw-editor-controller-component mw-editor-controller-component-select'
+                className: 'mw-editor-controller-component mw-editor-controller-component-select',
+                tooltip: options.placeholder || null
             }
         });
         var displayValNode = MWEditor.core.button({
             props: {
-                className: 'mw-editor-select-display-value',
+                className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
                 innerHTML: options.placeholder || ''
             }
         });

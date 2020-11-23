@@ -117,6 +117,7 @@
         pointer-events: none;
         transition: .2s cubic-bezier(0.4, 0.0, 0.2, 1);
         line-height: normal;
+        white-space: nowrap;
     }
     .mw-editor-controller-component[data-tooltip]:hover:after,
     .mw-editor-controller-component[data-tooltip]:focus:after{
@@ -261,10 +262,21 @@
 }
 
 .mw-editor-controller-component-select {
+.mw-editor-controller-button{
+
+}
 
     .mw-editor-select-display-value{
         text-align: left;
         font-size: 12px;
+        &[class*="mdi-"] {
+            &:before{
+                font-size: 19px;
+                margin: 0px 6px 0 0;
+                position: relative;
+                top: 3px;
+            }
+        }
     }
     .mw-editor-select-display-value:after{
         content: "\F0140";

@@ -101,7 +101,6 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
             e.stopPropagation();
             var commentID = $(this).data('id');
             mw.edit_comments.save_form('#comment-form-' + commentID)
-            mw.reload_module('#<?php print $params['id'] ?>');
         });
 
 

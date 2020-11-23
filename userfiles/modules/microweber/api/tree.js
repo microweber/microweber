@@ -42,7 +42,7 @@
                     get: function (id) {
                         return mw.storage.get( id);
                     },
-                    save: function (id, dataToSave) {
+                    set: function (id, dataToSave) {
                         mw.storage.set(id, dataToSave);
                     }
                 },

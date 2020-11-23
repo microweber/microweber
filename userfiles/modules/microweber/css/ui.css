@@ -7681,6 +7681,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   pointer-events: none;
   transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   line-height: normal;
+  white-space: nowrap;
 }
 .mw-small-editor-skin-default .mw-editor-controller-component[data-tooltip]:hover:after,
 .mw-editor-default .mw-editor-controller-component[data-tooltip]:hover:after,
@@ -7842,6 +7843,12 @@ body.bup.dragStart.state-element .edit .element:empty {
 .mw-editor-controller-component-select .mw-editor-select-display-value {
   text-align: left;
   font-size: 12px;
+}
+.mw-editor-controller-component-select .mw-editor-select-display-value[class*="mdi-"]:before {
+  font-size: 19px;
+  margin: 0px 6px 0 0;
+  position: relative;
+  top: 3px;
 }
 .mw-editor-controller-component-select .mw-editor-select-display-value:after {
   content: "\F0140";
