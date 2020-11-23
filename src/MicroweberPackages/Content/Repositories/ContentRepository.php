@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Content\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Content\Events\ContentIsCreating;
