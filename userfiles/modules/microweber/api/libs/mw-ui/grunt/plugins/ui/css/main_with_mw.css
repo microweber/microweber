@@ -10429,6 +10429,7 @@ header {
 .logo.svg.replaced-svg {
   height: 40px; }
 .logo.svg path {
-  fill: #4592ff; }
+  fill: #4592ff;
+  display: block !important; }
 
 /*# sourceMappingURL=main_with_mw.css.map */
