@@ -267,8 +267,7 @@ class OrderManager
 
         // $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
         $csv = \League\Csv\Writer::createFromPath($filename_path_full, 'w'); //to work make sure you have the write permission
-        $csv->setEncodingFrom('UTF-8'); // this probably is not needed?
-
+ 
         $csv->setOutputBOM(\League\Csv\Writer::BOM_UTF8); //adding the BOM sequence on output
 
         //we insert the CSV header
