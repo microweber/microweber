@@ -95,7 +95,6 @@ class NewRegistration extends Notification implements ShouldQueue
 
     public function message()
     {
-
         $toView = [];
         $toView['id'] = $this->notification->id;
         $toView['user_id'] = $this->notification->data['id'];
@@ -126,16 +125,5 @@ class NewRegistration extends Notification implements ShouldQueue
 
         return view('user::admin.notifications.new_user_registration', $toView);
 
-        /*   $notif = array();
-           $notif['module'] = 'users';
-           $notif['rel_type'] = 'users';
-           $notif['title'] = 'New user registration';
-           $notif['description'] = 'You have new user registration';
-           if($this->user['username']){
-           $notif['content'] = 'You have new user registered with the username ['.$this->user['username'].'] and id ['.$this->user['id'].']';
-           } else {
-           $notif['content'] = 'You have new user registered with the email ['.$this->user['email'].'] and id ['.$this->user['id'].']';
-           }
-           return $notif;*/
     }
 }

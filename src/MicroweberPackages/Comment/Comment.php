@@ -1,7 +1,9 @@
 <?php
 namespace MicroweberPackages\Comment;
 
-class Comment extends BaseModel
+use Illuminate\Database\Eloquent\Model;
+
+class Comment extends Model
 {
     public $table = 'comments';
 }
