@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80e84df178da89318763d48afc20d4cf",
+    "content-hash": "09f1427fb0644fd9f2ef4a474b92c685",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3732,6 +3732,78 @@
                 "source": "https://github.com/thephpleague/commonmark"
             },
             "time": "2020-11-01T18:48:42+00:00"
+        },
+        {
+            "name": "league/csv",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "e3ce7379e7c4a977e10e5dceb3a7c6b377803862"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/e3ce7379e7c4a977e10e5dceb3a7c6b377803862",
+                "reference": "e3ce7379e7c4a977e10e5dceb3a7c6b377803862",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.2.5 || ^8.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.0",
+                "phpstan/phpstan-phpunit": "^0.12.0",
+                "phpstan/phpstan-strict-rules": "^0.12.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "suggest": {
+                "ext-dom": "Required to use the XMLConverter and or the HTMLConverter classes",
+                "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CSV data manipulation made easy in PHP",
+            "homepage": "http://csv.thephpleague.com",
+            "keywords": [
+                "convert",
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "transform",
+                "write"
+            ],
+            "time": "2020-11-06T20:47:38+00:00"
         },
         {
             "name": "league/event",
@@ -13685,7 +13757,8 @@
         "omnipay/paypal": 20,
         "omnipay/stripe": 20,
         "mailerlite/mailerlite-api-v2-php-sdk": 20,
-        "finlet/flexmail": 20
+        "finlet/flexmail": 20,
+        "league/csv": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

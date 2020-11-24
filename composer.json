@@ -81,7 +81,8 @@
         "omnipay/authorizenet": "^3.3",
         "ticketswap/omnipay-przelewy24": "^2.0",
         "mailerlite/mailerlite-api-v2-php-sdk": "dev-master",
-        "finlet/flexmail": "dev-master"
+        "finlet/flexmail": "dev-master",
+        "league/csv": "^9.0@dev"
         
     },
     "require-dev": {
