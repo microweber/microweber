@@ -81,7 +81,7 @@ class NewCommentNotification extends Notification implements ShouldQueue
         if (isset($notification['created_by'])) {
             $created_by = get_user_by_id($notification['created_by']);
             $created_by_username = $created_by['username'];
-            $user_picture = user_picture($created_by);
+            $user_picture = user_picture($notification['created_by']);
         }
 
         $toView = [];
