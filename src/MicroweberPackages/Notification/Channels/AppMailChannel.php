@@ -24,7 +24,9 @@ class AppMailChannel extends MailChannel
         try {
             return parent::send($notifiable, $notification);
         } catch (\Swift_RfcComplianceException $e) {
-
+            \Log::error($e);
+        } catch (\Swift_TransportException $e) {
+            \Log::error($e);
         }
 
 //        catch (\Exception $e) {

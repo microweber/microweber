@@ -41,8 +41,14 @@ class NotificationController extends AdminController
                 continue;
             }
 
+            $icon = '<i class="mdi mdi-email-check"></i>';
+            if (method_exists($messageType, 'icon')) {
+                $icon = $messageType->icon();
+            }
+
             $readyNotifications[] = [
                 'id' => $notification->id,
+                'icon' => $icon,
                 'message' => $messageType->message()
             ];
         }

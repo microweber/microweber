@@ -61,7 +61,6 @@ class CheckoutManager
         $mw_process_payment = true;
         $mw_process_payment_success = false;
         $mw_process_payment_failed = false;
-
         if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
 
             $update_order = $update_order_orig = $this->app->order_manager->get_by_id($sess_order_id);
@@ -160,13 +159,14 @@ class CheckoutManager
         $check_cart = $this->app->shop_manager->get_cart($cart);
 
         if (empty($data['first_name'])) {
-            $checkout_errors['cart_empty'] = 'First name is empty';
+            $checkout_errors['first_name'] = 'First name is empty';
+            $checkout_errors['address_error'] = true;
         }
 
         if (empty($data['last_name'])) {
-            $checkout_errors['cart_empty'] = 'First name is empty';
+            $checkout_errors['last_name'] = 'First name is empty';
+            $checkout_errors['address_error'] = true;
         }
-
 
         if (!is_array($check_cart)) {
             $checkout_errors['cart_empty'] = 'Your cart is empty';
@@ -185,6 +185,7 @@ class CheckoutManager
 
                     if (!$user_id_or_email) {
                         $checkout_errors['cart_needs_email'] = _e('You must provide email address', true);
+                        $checkout_errors['address_error'] = true;
                     } else {
                         $terms_and_conditions_name = 'terms_shop';
 

@@ -14,7 +14,7 @@ description: Checkout
 ?>
 <script type="text/javascript">
     mw.require("<?php print modules_url(); ?>shop/checkout/styles.css", true);
-</script>
+ </script>
 
 <div class="checkout-modal" id="checkout_modal_<?php print $params['id'] ?>">
     <div>
@@ -57,7 +57,7 @@ description: Checkout
 
                         <div class="row w-100">
                             <div class="col-3 step-button">
-                                <a href="#" class="js-show-step" data-step="shopping-cart">
+                                <a href="#" class="js-show-step js-show-step-shopping-cart" data-step="shopping-cart">
                                     <i class="material-icons">shopping_cart</i>
 
 
@@ -67,7 +67,7 @@ description: Checkout
                                  </a>
                             </div>
                             <div class="col-3 step-button muted">
-                                <a href="#" class="js-show-step" data-step="delivery-address">
+                                <a href="#" class="js-show-step js-show-step-delivery-address" data-step="delivery-address">
                                     <i class="material-icons">local_shipping</i>
                                      <span><?php _e("Delivery Address"); ?> </span>
 
@@ -76,13 +76,13 @@ description: Checkout
                                  </a>
                             </div>
                             <div class="col-3 step-button muted">
-                                <a href="#" class="js-show-step" data-step="payment-method">
+                                <a href="#" class="js-show-step js-show-step-payment-method" data-step="payment-method">
                                     <i class="material-icons">payment</i>
                                     <span><?php _e("Payment Method"); ?> </span>
                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
-                                <a href="#" class="js-show-step" data-step="checkout-complete">
+                                <a href="#" class="js-show-step js-show-step-checkout-complete" data-step="checkout-complete">
                                     <i class="material-icons">remove_red_eye</i>
                                     <span><?php _e("Complete"); ?></span>
                                 </a>
@@ -118,7 +118,7 @@ description: Checkout
                                 <div class="col-6">
 
                                     <div class="field-holder">
-                                        <input name="first_name" class="form-control input-lg" type="text" value=""
+                                        <input required name="first_name" class="form-control input-lg" type="text" value=""
                                                placeholder="<?php _e("First Name"); ?>"/>
                                     </div>
 
@@ -226,7 +226,6 @@ description: Checkout
 
 
         setTimeout(function () {
-
 
             $('.step-button:nth-child(1) .js-show-step', '#checkout_modal_<?php print $params['id'] ?>').addClass('active');
             $('.js-step-content:nth-child(1)', '#checkout_modal_<?php print $params['id'] ?>').show();

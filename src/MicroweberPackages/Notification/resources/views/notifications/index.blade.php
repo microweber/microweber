@@ -334,7 +334,6 @@
                 .timeline-event .row.align-items-center .item-image {
                     max-width: 55px;
                 }
-
             </style>
             <?php foreach ($notifications as $notification): ?>
 
@@ -346,8 +345,9 @@
                                name="checked[{{$notification['id']}}]">
                         <label class="custom-control-label" for="notif-{{$notification['id']}}"></label>
                     </div>
-
-                    <span class="dot btn btn-primary"></span>
+                    <button type="button" class="btn btn-outline-primary btn-rounded btn-icon">
+                        {!! $notification['icon'] !!}
+                    </button>
                 </div>
                 <div class="col">
                     <?php echo $notification['message'];?>

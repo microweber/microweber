@@ -53,6 +53,11 @@ class NewCommentNotification extends Notification implements ShouldQueue
         $this->notification = $noification;
     }
 
+    public function icon()
+    {
+        return '<i class="mdi mdi-comment-account"></i>';
+    }
+
     public function message()
     {
         $notification = $this->notification->data;

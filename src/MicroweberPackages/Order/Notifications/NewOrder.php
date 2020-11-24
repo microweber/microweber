@@ -41,6 +41,11 @@ class NewOrder extends Notification
         return ['database', AppMailChannel::class];
     }
 
+    public function icon()
+    {
+        return '<i class="mdi mdi-shopping"></i>';
+    }
+
     /**
      * Get the mail representation of the notification.
      *

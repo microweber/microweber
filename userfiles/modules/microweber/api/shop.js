@@ -206,6 +206,17 @@ mw.cart = {
 
                     if (typeof(data2.error) != 'undefined') {
                         mw.$(selector + ' .mw-cart-data-holder').show();
+                        if (typeof(data2.error.address_error) != 'undefined') {
+                            var form_with_err = form;
+                           var isModalForm = $(form_with_err).attr('is-modal-form')
+
+                          if(isModalForm){
+                              mw.cart.modal.showStep(form_with_err, 'delivery-address');
+                          }
+                          mw.notification.error('Please fill your address details');
+
+                        }
+
                         mw.response(selector, data2);
                     } else if (typeof(data2.success) != 'undefined') {
 
@@ -278,7 +289,91 @@ mw.cart.modal.init = function (root_node) {
     }
 };
 
+
 mw.cart.modal.bindStepButtons = function (root_node) {
+    if(typeof root_node === 'string') {
+        root_node = mw.$(root_node);
+    }
+
+    if(root_node[0]._bindStepButtons) {
+        return;
+    }
+    root_node[0]._bindStepButtons = true;
+
+     var checkout_form = $(root_node).find('form').first();
+
+    // $('body').on("mousedown touchstart", '.js-show-step-shopping-cart', function () {
+    //     mw.cart.modal.showStep(checkout_form, 'shopping-cart');
+    // });
+    // $('body').on("mousedown touchstart", '.js-show-step-delivery-address', function () {
+    //     mw.cart.modal.showStep(checkout_form, 'delivery-address');
+    // });
+    // $('body').on("mousedown touchstart", '.js-show-step-payment-method', function () {
+    //     mw.cart.modal.showStep(checkout_form, 'payment-method');
+    // });
+    // $('body').on("mousedown touchstart", '.js-show-step-checkout-complete', function () {
+    //     mw.cart.modal.showStep(checkout_form, 'checkout-complete');
+    // });
+
+
+    $('body').on("mousedown touchstart", '.js-show-step', function () {
+        var step = $(this).attr('data-step');
+
+        mw.cart.modal.showStep(checkout_form, step);
+
+
+
+    });
+};
+
+mw.cart.modal.showStep = function (form, step) {
+
+    var has_error = false;
+
+
+ //   mw.log(form);
+
+    var prevStep = mw.$('.js-show-step.active', form).data('step');
+
+    if(prevStep === step) return;
+
+
+    //var prevHolder = form.querySelector('.js-' + prevStep);
+    var prevHolder =  $(form).find('.js-' + prevStep).first();
+
+    $(form).attr('is-modal-form',true)
+
+    if (step === 'checkout-complete') {
+        return;
+    }
+    mw.$('input,textarea,select', prevHolder).each(function () {
+        if (!this.checkValidity()) {
+            mw.$(this).addClass('is-invalid');
+            has_error = 1;
+        } else {
+            mw.$(this).removeClass('is-invalid');
+        }
+    });
+    if (step === 'payment-method'  || step === 'preview') {
+        if (has_error) {
+            step = 'delivery-address';
+        }
+    }
+    mw.$('.js-show-step').removeClass('active');
+    mw.$('[data-step]').removeClass('active');
+    mw.$('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
+    mw.$(this).addClass('active');
+    var step1 = '.js-' + step;
+    mw.$('.js-step-content').hide();
+    mw.$(step1).show();
+    if (has_error) {
+        mw.notification.warning('Please fill the required fields');
+    }
+
+};
+
+
+mw.cart.modal.bindStepButtons__old = function (root_node) {
     if(typeof root_node === 'string') {
         root_node = mw.$(root_node);
     }

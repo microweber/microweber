@@ -33,6 +33,8 @@ class OrderServiceProvider extends ServiceProvider
             return new OrderManager();
         });
 
+        View::addNamespace('order', __DIR__ . '/../resources/views');
+
         //ModuleManager::register('shop/orders/manage','MicroweberPackages\Order\Http\Controllers\AdminOrdersController@index');
 
 
