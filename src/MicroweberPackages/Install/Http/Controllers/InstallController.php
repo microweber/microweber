@@ -320,16 +320,23 @@ class InstallController extends Controller
                             $input['admin_email'] = 'noreply@localhost';
                         }
 
-                        $this->log('Adding admin user');
 
-                        $adminUser = new User();
-                        $adminUser->username = $input['admin_username'];
-                        $adminUser->email = $input['admin_email'];
-                        $adminUser->password = $input['admin_password'];
-                        $adminUser->is_admin = 1;
-                        $adminUser->is_active = 1;
-                        $adminUser->save();
-                        $admin_user_id = $adminUser->id;
+                        $check_if_has_admin = (new User())->where('is_admin',1)->first();
+
+                        if(!$check_if_has_admin) {
+                            $this->log('Adding admin user');
+
+                            $adminUser = new User();
+                            $adminUser->username = $input['admin_username'];
+                            $adminUser->email = $input['admin_email'];
+                            $adminUser->password = $input['admin_password'];
+                            $adminUser->is_admin = 1;
+                            $adminUser->is_active = 1;
+                            $adminUser->save();
+                            $admin_user_id = $adminUser->id;
+                        } else {
+                            $admin_user_id = $check_if_has_admin->id;
+                        }
                         Config::set('microweber.has_admin', 1);
                     }
                 }
