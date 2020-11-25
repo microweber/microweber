@@ -6,7 +6,7 @@
  * and also a zip file with userfiles directory.
  */
 
-namespace MicroweberPackages\Backup;
+namespace MicroweberPackages\LegacyBackup;
 
 use JsonStreamingParser\Listener\IdleListener;
 use JsonStreamingParser\Listener\InMemoryListener;
