@@ -52,8 +52,8 @@ if (isset($user['role'])) {
                <div class="d-none">
                    <h6 class="font-weight-bold mb-1">Set and manage user roles</h6>
                    <small class="text-muted d-block mb-2">Create and manage users roles</small>
-                   <a href="<?php echo route('roles.create');?>" class="btn btn-success btn-sm"><i class="mdi mdi-book-account"></i> Add new role</a>
-                   <a href="<?php echo route('roles.index');?>" class="btn btn-outline-success btn-sm"><i class="mdi mdi-format-list-checks"></i> Manage roles</a>
+                   <a href="<?php echo route('admin.role.create');?>" class="btn btn-success btn-sm"><i class="mdi mdi-book-account"></i> Add new role</a>
+                   <a href="<?php echo route('admin.role.index');?>" class="btn btn-outline-success btn-sm"><i class="mdi mdi-format-list-checks"></i> Manage roles</a>
                </div>
                 <?php endif; ?>
 
