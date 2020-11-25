@@ -180,6 +180,11 @@ mw.cart = {
 
     checkout: function (selector, callback) {
         var form = mw.$(selector);
+        $( document ).trigger( "checkoutBeforeProcess", form );
+
+
+
+
 
 
         var state = form.dataset("loading");
@@ -188,7 +193,14 @@ mw.cart = {
         form.find('.mw-checkout-btn').attr('disabled', 'disabled');
         form.find('.mw-checkout-btn').hide();
         mw.tools.loading(form,true)
-        var obj = mw.form.serialize(selector);
+
+        setTimeout(function(){
+
+            var form = mw.$(selector);
+        var obj = mw.form.serialize(form);
+
+
+
         $.ajax({
             type: "POST",
             url: mw.settings.api_url + 'checkout',
@@ -271,6 +283,8 @@ mw.cart = {
                 form.find('.mw-checkout-btn').show();
                 mw.trigger('mw.cart.checkout', [data]);
             });
+
+        }, 1500);
     }
 }
 
