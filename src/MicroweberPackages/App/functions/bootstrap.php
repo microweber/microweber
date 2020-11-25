@@ -27,9 +27,6 @@ if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', base_path().DS);
 }
 
-
-
-
 if (!defined('MW_USERFILES_FOLDER_NAME')) {
 //    if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
 //        define('MW_USERFILES_FOLDER_NAME', ''); //relative to public dir

@@ -9,7 +9,7 @@
 use Illuminate\Support\Facades\Route;
 
 // Admin web
-Route::prefix('admin')->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+Route::prefix(ADMIN_PREFIX)->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
     Route::get('login', 'UserLoginController@index')->name('admin.login')->middleware(['allowed_ips']);
 });
 

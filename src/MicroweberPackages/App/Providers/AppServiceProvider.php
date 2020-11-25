@@ -187,7 +187,12 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
+
         $this->app->register(ModuleServiceProvider::class);
+
+        if (!defined('ADMIN_PREFIX')) {
+            define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
+        }
 
         //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);

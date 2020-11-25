@@ -9,7 +9,7 @@
 
 
 Route::name('admin.')
-    ->prefix('admin')
+    ->prefix(ADMIN_PREFIX)
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Notification\Http\Controllers\Admin')
     ->group(function () {

@@ -8,7 +8,7 @@
 */
 
 
-Route::prefix('admin')->namespace('\MicroweberPackages\Payment\Http\Controllers\Admin')->group(function () {
+Route::prefix(ADMIN_PREFIX)->namespace('\MicroweberPackages\Payment\Http\Controllers\Admin')->group(function () {
 
     Route::post('/payments/delete', [
         'as' => 'payments.delete',
