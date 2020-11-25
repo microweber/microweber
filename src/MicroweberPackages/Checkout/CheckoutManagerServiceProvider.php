@@ -28,5 +28,8 @@ class CheckoutManagerServiceProvider extends ServiceProvider
         $this->app->singleton('checkout_manager', function ($app) {
             return new CheckoutManager();
         });
+
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 }
