@@ -3,10 +3,13 @@
 namespace MicroweberPackages\Checkout;
 
 use Carbon\Carbon;
+use Illuminate\Encryption\MissingAppKeyException;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use Microweber\App\Providers\Illuminate\Support\Facades\Config;
 use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
 use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Invoice\Address;
@@ -153,6 +156,15 @@ class CheckoutManager
                     }
                 }
             }
+        }
+
+        $validator = app()->make(CheckoutController::class);
+
+        $request = new Request();
+        $request->merge($data);
+        $is_valid = $validator->validate($request);
+        if ($is_valid['errors']) {
+            return $is_valid;
         }
 
         $checkout_errors = array();
