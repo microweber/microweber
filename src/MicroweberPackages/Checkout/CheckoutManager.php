@@ -170,20 +170,9 @@ class CheckoutManager
         $checkout_errors = array();
         $check_cart = $this->app->shop_manager->get_cart($cart);
 
-        if (empty($data['first_name'])) {
-            $checkout_errors['first_name'] = 'First name is empty';
-            $checkout_errors['address_error'] = true;
-        }
-
-        if (empty($data['last_name'])) {
-            $checkout_errors['last_name'] = 'First name is empty';
-            $checkout_errors['address_error'] = true;
-        }
-
         if (!is_array($check_cart)) {
             $checkout_errors['cart_empty'] = 'Your cart is empty';
         } else {
-
 
             if (!is_admin()) {
                 $shop_require_terms = $this->app->option_manager->get('shop_require_terms', 'website');
@@ -197,7 +186,6 @@ class CheckoutManager
 
                     if (!$user_id_or_email) {
                         $checkout_errors['cart_needs_email'] = _e('You must provide email address', true);
-                        $checkout_errors['address_error'] = true;
                     } else {
                         $terms_and_conditions_name = 'terms_shop';
 

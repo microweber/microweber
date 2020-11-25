@@ -16,15 +16,53 @@ class CheckoutController extends Controller {
     public function validate(Request $request)
     {
 
-        $validator = \Validator::make($request->all(), [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'shipping_gw' => 'required',
-            'payment_gw' => 'required',
-            'city' => 'required',
-            'address' => 'required',
-        ]);
+        $rules = [];
+
+        if (get_option('shop_require_first_name', 'website') == 1) {
+            $rules['first_name'] = 'required';
+        }
+
+        if (get_option('shop_require_last_name', 'website') == 1) {
+            $rules['last_name'] = 'required';
+        }
+
+        if (get_option('shop_require_email', 'website') == 1) {
+            $rules['email'] = 'required|email';
+        }
+
+        if (get_option('shop_require_state', 'website') == 1) {
+            $rules['state'] = 'required';
+        }
+
+        if (get_option('shop_require_country', 'website') == 1) {
+            $rules['country'] = 'required';
+        }
+
+        if (get_option('shop_require_phone', 'website') == 1) {
+            $rules['phone'] = 'required';
+        }
+
+        if (get_option('shop_require_address', 'website') == 1) {
+            $rules['address'] = 'required';
+        }
+
+        if (get_option('shop_require_city', 'website') == 1) {
+            $rules['city'] = 'required';
+        }
+
+        if (get_option('shop_require_zip', 'website') == 1) {
+            $rules['zip'] = 'required';
+        }
+
+        if (get_option('shop_require_state', 'website') == 1) {
+            $rules['state'] = 'required';
+        }
+
+        if (empty($rules)) {
+            return ['valid'=>true];
+        }
+
+        $validator = \Validator::make($request->all(), $rules);
 
         session_set('checkout', [
             'first_name'=> $request->get('first_name'),
