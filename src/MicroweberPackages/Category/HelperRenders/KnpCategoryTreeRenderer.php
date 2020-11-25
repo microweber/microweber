@@ -297,6 +297,7 @@ class KnpCategoryTreeRenderer
 
             $nest_level = 0;
             if (isset($params['nest_level'])) {
+                $params['nest_level']++;
                 $nest_level = intval($params['nest_level']);
             }
             // $level = $this->level + $nest_level;
@@ -311,14 +312,14 @@ class KnpCategoryTreeRenderer
             }
 
 
+         //   $level = $options['__process_nodes_level'] + $nest_level;
             $level = $options['__process_nodes_level'] + $nest_level;
             if ($has_children) {
                 // $level++;
             }
 
             if (isset($params['max_level'])) {
-
-                if ($level > 0 and (intval($params['max_level']) >= $level)) {
+                 if ($level > 0 and (intval($params['max_level']) == $level)) {
                     return;
                 }
             }
