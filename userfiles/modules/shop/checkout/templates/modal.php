@@ -93,7 +93,6 @@ description: Checkout
                         <div class="js-step-content js-shopping-cart">
 
 
-
                             <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
                             <?php if ($cart_show_enanbled != 'n'): ?>
                                 <br/>
@@ -106,6 +105,9 @@ description: Checkout
                         </div>
                         <div class="js-step-content js-delivery-address">
 
+                            <?php
+                            $checkout_session = session_get('checkout');
+                            ?>
 
                             <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
                                  rel_id="<?php print $params['id'] ?>">
@@ -118,14 +120,14 @@ description: Checkout
                                 <div class="col-6">
 
                                     <div class="field-holder">
-                                        <input required name="first_name" class="form-control input-lg" type="text" value=""
+                                        <input required name="first_name" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>"
                                                placeholder="<?php _e("First Name"); ?>"/>
                                     </div>
 
                                 </div>
                                 <div class="col-6">
                                     <div class="field-holder">
-                                        <input name="last_name" class="form-control input-lg" type="text" value=""
+                                        <input name="last_name" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['first_name']; ?>"
                                                placeholder="<?php _e("Last Name"); ?>"/>
                                     </div>
                                 </div>
@@ -137,14 +139,14 @@ description: Checkout
                                 <div class="col-6">
 
                                     <div class="field-holder">
-                                        <input name="email" class="form-control input-lg" type="text" value=""
+                                        <input name="email" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['first_name']; ?>"
                                                placeholder="<?php _e("Email"); ?>" required/>
                                     </div>
 
                                 </div>
                                 <div class="col-6">
                                     <div class="field-holder">
-                                        <input name="phone" class="form-control input-lg" type="text" value=""
+                                        <input name="phone" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['first_name']; ?>"
                                                placeholder="<?php _e("Phone"); ?>"/>
                                     </div>
                                 </div>
