@@ -192,7 +192,6 @@ mw.cart = {
         form.dataset("loading", 'true');
         form.find('.mw-checkout-btn').attr('disabled', 'disabled');
         form.find('.mw-checkout-btn').hide();
-        mw.tools.loading(form,true)
 
         setTimeout(function(){
 
@@ -208,8 +207,7 @@ mw.cart = {
         })
             .done(function (data) {
                 mw.trigger('checkoutDone', data);
-                mw.tools.loading(form,false)
-
+ 
 
                 var data2 = data;
 
