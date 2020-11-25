@@ -285,7 +285,10 @@ if (isset($data[0]) == false) {
                             <div class="form-group mt-4 mb-4">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="send_new_user_email" checked="">
-                                    <label class="custom-control-label" for="send_new_user_email">Send the new user an email about their account. <br/><a href="#">Edit e-mail template.</a></label>
+                                    <label class="custom-control-label" for="send_new_user_email">Send the new user an email about their account. <br/>
+                                    </label>
+                                    <br />
+                                    <a href="<?php echo admin_url();?>/view:content/action:settings?group=login#email-notifications" target="_blank">Edit e-mail template.</a>
                                 </div>
                             </div>
 
@@ -299,7 +302,7 @@ if (isset($data[0]) == false) {
 
                                 <div class="form-group">
                                     <label class="control-label mb-1">Role of the user</label>
-                                    <small class="text-muted d-block mb-1">Choose the current role of the user. <a href="#">Manage user roles</a></small>
+                                    <small class="text-muted d-block mb-1">Choose the current role of the user. <a href="<?php echo route('admin.role.index');?>">Manage user roles</a></small>
                                     <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]">
                                         <?php
                                         $roles = \MicroweberPackages\Role\Repositories\Role::all();

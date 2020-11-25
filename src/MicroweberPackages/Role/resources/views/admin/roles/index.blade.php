@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-md-6 text-right">
-            <a href="{{route('roles.create')}}" class="btn btn-success btn-sm"><i class="mdi mdi-book-account"></i> Add New role</a>
+            <a href="{{route('admin.role.create')}}" class="btn btn-success btn-sm"><i class="mdi mdi-book-account"></i> Add New role</a>
         </div>
     </div>
 
