@@ -9,8 +9,8 @@
 namespace MicroweberPackages\Content\Http\Controllers\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Request;
 use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Content\Http\Requests\ContentRequest;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 
 class ContentApiController extends AdminDefaultController
@@ -38,7 +38,7 @@ class ContentApiController extends AdminDefaultController
      * @param ContentRequest $request
      * @return mixed
      */
-    public function store(ContentRequest $request)
+    public function store(Request $request)
     {
         return (new JsonResource($this->content->create($request->all())));
     }
@@ -62,7 +62,7 @@ class ContentApiController extends AdminDefaultController
      * @param  string $id
      * @return Response
      */
-    public function update(PageRequest $request, $id)
+    public function update(Request $request, $id)
     {
         return (new JsonResource($this->content->update($request->all(), $id)));
     }
@@ -71,7 +71,6 @@ class ContentApiController extends AdminDefaultController
      * Destroy resources by given ids.
      *
      * @param string $ids
-     * @return void
      */
     public function delete($id)
     {
@@ -82,10 +81,15 @@ class ContentApiController extends AdminDefaultController
      * Delete resources by given ids.
      *
      * @param string $ids
-     * @return void
      */
     public function destroy($ids)
     {
         return (new JsonResource($this->content->destroy($ids)));
+    }
+
+
+    public function get_admin_js_tree_json($params = [])
+    {
+        return app()->category_manager->get_admin_js_tree_json($params);
     }
 }
