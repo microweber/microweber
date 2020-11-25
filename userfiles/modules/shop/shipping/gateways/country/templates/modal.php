@@ -30,6 +30,11 @@ description: Default
     <?php $selected_country = mw()->user_manager->session_get('shipping_country'); ?>
 
 
+    <?php
+    $checkout_session = session_get('checkout');
+    ?>
+
+
     <div class="m-t-20 edit nodrop" field="checkout_shipping_information_title" rel="global"
          rel_id="<?php print $params['id'] ?>">
         <div class="pull-right red">* All fields are required</div>
@@ -58,7 +63,7 @@ description: Default
 
         <div class="col-6">
             <div class="field-holder">
-                <input name="Address[city]" class="form-control input-lg" required type="text" value=""
+                <input name="Address[city]" class="form-control input-lg" required type="text" value="<?php if (!empty($checkout_session['city'])) echo $checkout_session['city']; ?>"
                        placeholder="<?php _e("Town / City"); ?>"/>
             </div>
         </div>
@@ -69,7 +74,7 @@ description: Default
         <div class="col-6">
 
             <div class="field-holder">
-                <input name="Address[zip]" class="form-control input-lg" type="text" value=""
+                <input name="Address[zip]" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['zip'])) echo $checkout_session['zip']; ?>"
                        placeholder="<?php _e("ZIP / Postal Code"); ?>"/>
             </div>
 
@@ -79,7 +84,7 @@ description: Default
         <div class="col-6">
 
             <div class="field-holder">
-                <input name="Address[state]" class="form-control input-lg" type="text" value=""
+                <input name="Address[state]" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['state'])) echo $checkout_session['state']; ?>"
                        placeholder="<?php _e("State / Province"); ?>"/>
             </div>
         </div>
@@ -92,7 +97,7 @@ description: Default
 
         <div class="col-6">
             <div class="field-holder">
-                <input name="Address[address]" class="form-control input-lg" required type="text" value=""
+                <input name="Address[address]" class="form-control input-lg" required type="text" value="<?php if (!empty($checkout_session['address'])) echo $checkout_session['address']; ?>"
                        placeholder="<?php _e("Address / Street address, Floor, Apartment, etc..."); ?>"/>
             </div>
 
@@ -101,7 +106,7 @@ description: Default
         <div class="col-6">
 
             <div class="field-holder">
-                <input name="other_info" class="form-control input-lg" type="text" value=""
+                <input name="other_info" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['other_info'])) echo $checkout_session['other_info']; ?>"
                        placeholder="Additional Information ( Special notes for delivery - Optional )"/>
             </div>
         </div>
