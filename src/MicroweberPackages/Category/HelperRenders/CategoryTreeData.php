@@ -274,7 +274,9 @@ class CategoryTreeData
                         $only_with_content,
                         $visible_on_frontend,
                         $depth_level_counter = 0,
-                        $max_level
+                        $max_level,
+                        $only_ids= false,
+                        $params
                     );
 
 //                    if (isset($tree[0]) and $tree[0]['id'] == $cat['id']) {
@@ -302,7 +304,7 @@ class CategoryTreeData
                                            $visible_on_frontend = false,
                                            $depth_level_counter = 0,
                                            $max_level = false,
-                                           $only_ids = false)
+                                           $only_ids = false, $params = false)
     {
 
 
@@ -313,8 +315,7 @@ class CategoryTreeData
             }
         }
 
-
-        $db_t_content = $this->app->category_manager->tables['content'];
+         $db_t_content = $this->app->category_manager->tables['content'];
 
         $table = $db_categories = $this->app->category_manager->tables['categories'];
         $parent = intval($parent);
@@ -360,8 +361,10 @@ class CategoryTreeData
         $cat_get_params['table'] = $table;
 
         $cat_get_params['parent_id'] = $parent;
+        if(isset($params['filter'])){
+            $cat_get_params['filter'] = $params['filter'];
 
-
+        }
         $cat_get_params['loop_fix_q'] = function ($query) use ($table, $parent) {
             // there is bug on postgres:  Invalid text representation: 7 ERROR: invalid input syntax for integer: "categories.parent_id"
             // $query = $query->where($table . '.id', '!=', $table . '.parent_id');
