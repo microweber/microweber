@@ -63,7 +63,7 @@
                     <div class="form-group">
                         <label>Available</label>
                         <div class="input-group mb-1 append-transparent input-group-quantity">
-                            <input type="text" class="form-control" name="content_data[quantity]" value="<?php echo $contentData['quantity']; ?>" />
+                            <input type="text" class="form-control" name="content_data[qty]" value="<?php echo $contentData['qty']; ?>" />
                             <div class="input-group-append">
                                 <div class="input-group-text plus-minus-holder">
                                     <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>
