@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Category\HelperRenders;
 
 use Knp\Menu\MenuFactory;
-use Microweber\Providers\Categories\Helpers\CategoryTreeData;
 use MicroweberPackages\Category\HelperRenders\KnpCustomListRenderer as ListRenderer;
 
 
