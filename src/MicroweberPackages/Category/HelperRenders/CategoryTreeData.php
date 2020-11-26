@@ -130,8 +130,7 @@ class CategoryTreeData
         if (isset($params['subtype_value']) and $params['subtype_value'] != false) {
             $parent = $params['subtype_value'];
         }
-
-        $skip123 = false;
+         $skip123 = false;
         $fors = array();
         if (isset($params['parent']) and $params['parent'] != false) {
             $parent = intval($params['parent']);
@@ -154,6 +153,9 @@ class CategoryTreeData
                 $cat_get_params['parent_id'] = 0;
                 $cat_get_params['table'] = $table;
                 $cat_get_params['rel_type'] = $table_assoc_name;
+                if(isset($params['filter'])){
+                $cat_get_params['filter'] = $params['filter'];
+                }
                 if ($users_can_create_content != false) {
                     $cat_get_params['users_can_create_content'] = $users_can_create_content;
                 }
@@ -226,6 +228,9 @@ class CategoryTreeData
             $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
             $cat_get_params['rel_type'] = $table_assoc_name;
+            if(isset($params['filter'])){
+                $cat_get_params['filter'] = $params['filter'];
+            }
             if (isset($parent) and $parent != false) {
                 $page_for_parent = $this->app->category_manager->get_page($parent);
                 $cats_for_content = $this->app->category_manager->get_for_content($params['rel_id']);
@@ -244,6 +249,7 @@ class CategoryTreeData
             if ($users_can_create_content != false) {
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
+
             $fors = $this->app->database_manager->get($cat_get_params);
 
         }
@@ -349,7 +355,7 @@ class CategoryTreeData
 
         $cat_get_params = array();
         $cat_get_params['is_deleted'] = 0;
-        $cat_get_params['order_by'] = "{$orderby [0]}  {$orderby [1]}";
+        $cat_get_params['order_by'] = "{$orderby [0]} {$orderby [1]}";// blank spaces are important here !!!
         $cat_get_params['limit'] = '1000';
         $cat_get_params['table'] = $table;
 

@@ -1,10 +1,15 @@
 <?php
 namespace MicroweberPackages\Category\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
 
 class Category extends Model
 {
+
+    use Filterable;
+
     protected $table = 'categories';
 
     /**
@@ -21,6 +26,16 @@ class Category extends Model
     public function link($id)
     {
         return category_link($id);
+    }
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(CategoryFilter::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(CategoryItem::class, 'parent_id');
     }
 
 //    public static function getLinks()

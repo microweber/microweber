@@ -14,6 +14,7 @@ namespace MicroweberPackages\Database;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\Database\Traits\QueryFilter;
@@ -806,8 +807,14 @@ class DatabaseManager extends DbUtils
     public function table($table, $params = false)
     {
         //@todo move this to external resolver class or array
-        if ($table == 'content') {
-            $model = app()->make(Content::class);
+        if ($table == 'content' || $table == 'categories') {
+
+            if ($table == 'content') {
+                $model = app()->make(Content::class);
+            } else if ($table == 'categories') {
+                $model = app()->make(Category::class);
+            }
+
             if ($params && method_exists($model, 'modelFilter')) {
                 $filterParams = $params;
                 if (!empty($params['filter'])) {
@@ -820,6 +827,7 @@ class DatabaseManager extends DbUtils
                         $filterParams = $params['filter'];
                     }
                 }
+
                 if ($filterParams) {
                     return $model->filter($filterParams);
                 } else {
