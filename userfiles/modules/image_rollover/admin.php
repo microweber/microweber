@@ -115,15 +115,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 mw.$(".the-image-rollover").show().attr('src', s);
             }
 
-            var mw_admin_image_rollover_upload_browse_existing = function (rollover=false) {
+            var imageRolloverUploadBrowseExisting = function (rollover) {
 
-                var mw_admin_image_rollover_upload_browse_existing_modal = mw.top().dialogIframe({
+                var dialog = mw.top().dialogIframe({
                     url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_image_rollover_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
                     title: "Browse pictures",
                     id: 'mw_admin_image_rollover_upload_browse_existing_modal<?php print $params['id'] ?>',
                     onload: function () {
                         this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
-                            mw_admin_image_rollover_upload_browse_existing_modal.hide();
+                            dialog.remove();
                             mw.notification.success('<?php _ejs('Image selected') ?>');
                             if (rollover) {
                                 setNewImageRollover(this);
@@ -133,16 +133,19 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         })
                         this.iframe.contentWindow.document.body.style.padding = '15px';
                     },
-                    height: 400
+                    height: 'auto'
                 })
 
             }
 
             $(function () {
+                var sizeAutoCheckBox = document.querySelector("#size_auto");
                 $("#sizeslider").slider({
                     change: function (event, ui) {
                         $('#size').val(ui.value).trigger('change');
-                        $("#size_auto").attr("checked", false);
+                        if(sizeAutoCheckBox.checked) {
+                            sizeAutoCheckBox.checked = false;
+                        }
                     },
                     slide: function (event, ui) {
                         $("#imagesizeval").html(ui.value + "px");
@@ -200,7 +203,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <br>
                             <div class="d-block d-md-flex justify-content-between align-items-center p-1">
                                 <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
-                                <a href="javascript:mw_admin_image_rollover_upload_browse_existing()" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _e('Browse uploaded'); ?></a>
+                                <a href="javascript:imageRolloverUploadBrowseExisting()" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _e('Browse uploaded'); ?></a>
                             </div>
                         </div>
 
@@ -210,7 +213,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <br>
                             <div class="d-block d-md-flex justify-content-between align-items-center p-1">
                                 <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image-rollover"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
-                                <a href="javascript:mw_admin_image_rollover_upload_browse_existing(true)" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _e('Browse uploaded'); ?></a>
+                                <a href="javascript:imageRolloverUploadBrowseExisting(true)" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _e('Browse uploaded'); ?></a>
                             </div>
                         </div>
                     </div>

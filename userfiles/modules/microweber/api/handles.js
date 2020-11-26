@@ -124,6 +124,7 @@ mw.Handle = function(options) {
     this.create = function() {
         this.createWrapper();
         this.createHandler();
+
         this.createMenu();
     };
 
@@ -153,6 +154,7 @@ mw.Handle = function(options) {
         this.handleTitle.className = 'mw-handle-handler-title';
 
         this.handle.appendChild(this.handleIcon);
+        this.createButtons();
         this.handle.appendChild(this.handleTitle);
         this.wrapper.appendChild(this.handle);
 
@@ -188,6 +190,7 @@ mw.Handle = function(options) {
             btn.onclick = function (e) {
                 e.preventDefault();
                 data.action.call(scope, e, this, data);
+                scope.hide()
             };
         }
         return btn;
@@ -217,6 +220,28 @@ mw.Handle = function(options) {
             }
         }
         this.wrapper.appendChild(this.menu);
+    };
+    this.createButton = function(obj){
+        var btn = mwd.createElement('span');
+        btn.className = 'tip mdi ' + obj.icon;
+        btn.dataset.tip = obj.title;
+        btn.onclick = function () {
+            mw.tools.removeClass(this, 'active')
+            obj.action(this);
+            scope.hide();
+        };
+        return btn;
+    };
+
+    this.createButtons = function(){
+        this.buttonsHolder = mwd.createElement('div');
+        this.buttonsHolder.className = 'mw-handle-buttons';
+        if (this.options.buttons) {
+            for (var i = 0; i < this.options.buttons.length; i++) {
+                this.buttonsHolder.appendChild(this.createButton(this.options.buttons[i])) ;
+            }
+        }
+         this.handle.appendChild(this.buttonsHolder);
     };
     this.create();
     this.hide();
@@ -317,7 +342,16 @@ mw._initHandles = {
     elements: function(){
         mw.handleElement = new mw.Handle({
             id: 'mw-handle-item-element',
-            className: 'mw-handle-type-element',
+            className: 'mw-handle-type-default',
+            buttons: [
+                {
+                    title: mw.lang('Insert module'),
+                    icon: 'mdi-plus-circle',
+                    action: function (node) {
+                        mw.drag.plus.rendModules(node)
+                    }
+                },
+            ],
             menu: [
                 {
                     title: 'Edit HTML',
@@ -426,11 +460,11 @@ mw._initHandles = {
             }
             //todo: another icon
             var isSafe = false; // mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['safe-mode', 'regular-mode']);
-            var _icon = isSafe ? '<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.03 440" height="17" class="safe-element-svg"><path fill="green" d="M252,2.89C178.7,2.89,102.4,19.44,102.4,19.44A31.85,31.85,0,0,0,76.76,50.69v95.59c0,165.67,159.7,234.88,159.7,234.88A31.65,31.65,0,0,0,252,385.27a32.05,32.05,0,0,0,15.56-4.11c.06,0,159.69-69.21,159.69-234.88V50.69a31.82,31.82,0,0,0-25.64-31.25S325.33,2.89,252,2.89Zm95.59,95.59a15.94,15.94,0,0,1,11.26,27.2L238.45,246.11a16,16,0,0,1-11.33,4.73,15.61,15.61,0,0,1-11.2-4.73l-55-55a15.93,15.93,0,0,1,22.53-22.53l43.69,43.82L336.34,103.15a16,16,0,0,1,11.27-4.67Zm0,0"/></svg>' : '<span class="mw-icon-drag"></span>';
+            var _icon = isSafe ? '<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504.03 440" height="17" class="safe-element-svg"><path fill="green" d="M252,2.89C178.7,2.89,102.4,19.44,102.4,19.44A31.85,31.85,0,0,0,76.76,50.69v95.59c0,165.67,159.7,234.88,159.7,234.88A31.65,31.65,0,0,0,252,385.27a32.05,32.05,0,0,0,15.56-4.11c.06,0,159.69-69.21,159.69-234.88V50.69a31.82,31.82,0,0,0-25.64-31.25S325.33,2.89,252,2.89Zm95.59,95.59a15.94,15.94,0,0,1,11.26,27.2L238.45,246.11a16,16,0,0,1-11.33,4.73,15.61,15.61,0,0,1-11.2-4.73l-55-55a15.93,15.93,0,0,1,22.53-22.53l43.69,43.82L336.34,103.15a16,16,0,0,1,11.27-4.67Zm0,0"/></svg>' : '<span class="mdi mdi-drag tip" data-tip="' + mw.lang('') + '"></span>';
 
             var icon = '<span class="mw-handle-element-title-icon '+(isSafe ? 'tip' : '')+'"  '+(isSafe ? ' data-tip="Current element is protected \n  from accidental deletion" data-tipposition="top-left"' : '')+' >'+ _icon +'</span>';
 
-            var title = 'Settings';
+            var title = '<i class="mdi mdi-cog mw-handle-handler-settings-icon"></i>';
 
             mw.handleElement.setTitle(icon, title);
 
@@ -461,10 +495,27 @@ mw._initHandles = {
 
         var handlesModuleConfig = {
             id: 'mw-handle-item-module',
+            buttons:[
+                {
+                    title: mw.lang('Edit'),
+                    icon: 'mdi-pencil',
+                    action: function () {
+                        mw.drag.module_settings(mw._activeModuleOver,"admin");
+                        mw.handleModule.hide();
+                    }
+                },
+                {
+                    title: mw.lang('Insert'),
+                    icon: 'mdi-plus-circle',
+                    action: function (node) {
+                        mw.drag.plus.rendModules(node)
+                    }
+                },
+            ],
             menu:[
                 {
-                    title: 'Settings',
-                    icon: 'mw-icon-gear',
+                    title: mw.lang('Edit'),
+                    icon: 'mdi-pencil',
                     action: function () {
                         mw.drag.module_settings(mw._activeModuleOver,"admin");
                         mw.handleModule.hide();
@@ -521,6 +572,16 @@ mw._initHandles = {
         };
         var handlesModuleConfigActive = {
             id: 'mw-handle-item-module-active',
+            buttons:[
+                {
+                    title: mw.lang('Edit'),
+                    icon: 'mdi-pencil',
+                    action: function () {
+                        mw.drag.module_settings(mw._activeModuleOver,"admin");
+                        mw.handleModule.hide();
+                    }
+                },
+            ],
             menu:[
                 {
                     title: 'Settings',

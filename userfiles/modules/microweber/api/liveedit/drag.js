@@ -601,7 +601,9 @@ mw.drag = {
                             mw.drag.fix_placeholders();
                             mw.ea.afterAction();
                             if(mw.liveEditDomTree) {
-                                mw.liveEditDomTree.refresh(mw.ea.data.target.parentNode)
+                                if(mw.ea.data.target) {
+                                    mw.liveEditDomTree.refresh(mw.ea.data.target.parentNode)
+                                }
                             }
                         }, 40);
                         mw.dropable.hide();
@@ -611,7 +613,7 @@ mw.drag = {
 
                     setTimeout(function () {
 
-                        if (mw.have_new_items == true) {
+                        if (mw.have_new_items) {
                             mw.drag.load_new_modules();
                         }
                     }, 120)

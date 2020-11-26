@@ -79,6 +79,7 @@
     };
 
     mw.dialog.get = function (selector) {
+        selector = selector || '.mw-dialog';
         var $el = mw.$(selector);
         var el = $el[0];
 

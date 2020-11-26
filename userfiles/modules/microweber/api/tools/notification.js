@@ -27,16 +27,17 @@ mw.notification = {
         return div;
     },
     append: function (type, text, timeout, name) {
+
         if(typeof type === 'object') {
             text = type.text;
             timeout = type.timeout;
             name = type.name;
             type = type.type;
         }
-        name = name || mw.id();
+        name = name || 'default';
         name = 'mw-notification-id-' + name;
         if(document.getElementById(name)) {
-            return;
+            document.getElementById(name).remove();
         }
         timeout = timeout || 1000;
         var div = mw.notification.build(type, text, name);

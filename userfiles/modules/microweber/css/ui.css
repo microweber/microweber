@@ -2848,7 +2848,7 @@ html.mw-loading:after {
   display: block;
 }
 .mw-tree .mw-tree-nav-skin-default {
-  padding: 10px 0 20px;
+  padding: 10px 20px 20px;
 }
 .mw-tree * {
   vertical-align: middle;

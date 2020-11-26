@@ -2859,6 +2859,7 @@ div[id*='SSDIVEL'] {
     position: absolute;
     z-index: 1101;
     margin: 20px 0 0;
+    display: none !important;
 }
 
 .mwInaccessibleModulesMenu .mw-ui-btn {
@@ -3101,8 +3102,9 @@ div[id*='SSDIVEL'] {
     color-stop(.5, transparent), to(transparent));
 }
 
+.module-item{ cursor: grab;}
+body.dragStart .module-item{ cursor: grabbing;}
 .module-item-layout {
-    cursor: pointer;
     margin-bottom: 25px;
 
 }
@@ -3797,8 +3799,8 @@ body.dragStart .allow-drop {
     position: relative;
     width: 14px;
     height: 14px;
-    margin: 8px 0 0px 0px;
-    filter: brightness(0) invert(1);
+    margin: 8px 0 0px 4px;
+    filter: grayscale(100);
 }
 
 #js-live-edit-module-settings-items .mw_module_settings_sidebar_icon {
@@ -4042,25 +4044,29 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-type-default .mw-handle-handler {
     height: 30px;
-    border-radius: 33px;
-    background-color: #0a0a0a;
-    color: white;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #687868;
     line-height: 30px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
 
+.mw-handle-type-default .mw-handle-handler-title .mw-handle-handler-settings-icon{
+    font-size: 17px;
+    opacity: .8;
+    vertical-align: middle;
+    float: left;
+}
 .mw-handle-type-default .mw-handle-handler-title:after {
     content: "\0138";
     display: inline-block;
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
+    border-radius: 5px;
     font-family: Microweber;
     text-align: center;
     transition: none;
-    line-height: 16px;
     margin-left: 7px;
     transform-origin: center;
-    font-size: 8px;
+    font-size: 9px;
 }
 
 .mw-handle-type-default .mw-handle-item.active .mw-handle-handler-title:after {
@@ -4165,9 +4171,9 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-handle-type-default .mw-handle-handler-icon {
-    padding: 0 5px 0 10px;
+    padding: 0 5px 0 5px;
     margin: 0;
-    border-right: 1px solid #333333;
+    border-right: 1px solid #dbdbdb;
     display: inline-block;
     cursor: -webkit-grab;
     cursor: grab;
@@ -4175,6 +4181,22 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     vertical-align: top;
     min-width: 30px;
     text-align: center;
+}
+
+.mw-handle-buttons span + span {
+    border-left: 1px solid #dbdbdb;
+
+}
+.mw-handle-buttons span{
+    font-size: 17px;
+    display: inline-block;
+    padding: 0 8px;
+    cursor: pointer;
+}
+.mw-handle-buttons{
+    display: inline-block;
+    font-size: 17px;
+    border-right: 1px solid #dbdbdb;
 }
 
 .mw-handle-item-mouse-down .mw-handle-handler-icon {
@@ -4191,17 +4213,13 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     vertical-align: top;
     cursor: pointer;
     padding-left: 5px;
-    border-radius: 0 33px 33px 0;
+
 }
 
-.mw-handle-type-default .mw-handle-handler-title:hover {
-    background-color: #505050;
-}
 
 .mw-handle-type-default .mw-handle-element-title-icon {
-    font-weight: bold;
-    font-size: 10px;
-    color: #ffffff70;
+    font-size: 22px;
+    color: #687868;
 }
 
 .mw-handle-type-default .mw-handle-columns-icon {
@@ -4699,3 +4717,5 @@ div.element {
 [data-mwtoappear][data-mwdoappear]{
     opacity: 1;
 }
+
+

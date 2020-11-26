@@ -74,7 +74,9 @@ if (isset($params['field-id'])) {
         <?php endforeach; ?>
     </span>
 
-    <span class="btn-create-custom-field-value btn btn-primary btn-sm py-2 px-0 d-inline-flex align-items-center justify-content-center show-on-hover" data-id="<?php print $field['id']; ?>">
+    <span data-tip="<?php _e('Add option'); ?>"
+          class="tip btn-create-custom-field-value btn btn-primary btn-sm py-2 px-0 d-inline-flex align-items-center justify-content-center xshow-on-hover"
+          data-id="<?php print $field['id']; ?>">
         <i class="mdi mdi-plus mdi-16px"></i>
     </span>
 

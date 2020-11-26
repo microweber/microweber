@@ -68,7 +68,7 @@
         #settings-container {
             overflow: hidden;
             position: relative;
-            min-height: 200px;
+            min-height: 300px;
         }
 
         #settings-container:after {

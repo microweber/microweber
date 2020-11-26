@@ -1,7 +1,7 @@
 mw.drag = mw.drag || {};
 mw.drag.plus = {
     locked: false,
-    disabled: false,
+    disabled: true,
    // mouse_moved: false,
     init: function (holder) {
 
@@ -107,6 +107,40 @@ mw.drag.plus = {
             return 'right-top';
         }
     },
+    rendModules: function (el) {
+        var other = el === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
+        if (!mw.tools.hasClass(el, 'active')) {
+            mw.tools.addClass(el, 'active');
+            mw.tools.removeClass(other, 'active');
+            mw.drag.plus.locked = true;
+            mw.$('.mw-tooltip-insert-module').remove();
+            mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
+            var tip = new mw.tooltip({
+                content: mwd.getElementById('plus-modules-list').innerHTML,
+                element: el,
+                position: mw.drag.plus.tipPosition(this.currentNode),
+                template: 'mw-tooltip-default mw-tooltip-insert-module',
+                id: 'mw-plus-tooltip-selector'
+            });
+            setTimeout(function (){
+                $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
+            }, 10)
+            mw.tabs({
+                nav: tip.querySelectorAll('.mw-ui-btn'),
+                tabs: tip.querySelectorAll('.module-bubble-tab'),
+            });
+
+            mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
+                var resultsLength = mw.drag.plus.search(this.value, tip);
+                if (resultsLength === 0) {
+                    mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
+                }
+                else {
+                    mw.$(".module-bubble-tab-not-found-message").hide();
+                }
+            });
+        }
+    },
     action: function () {
         var pls = [mw.drag.plusTop, mw.drag.plusBottom];
         var $pls = mw.$(pls);
@@ -118,38 +152,7 @@ mw.drag.plus = {
             mw.tools.removeClass(document.body, 'body-mw-module-plus-hover')
         });
         $pls.on('click', function () {
-            var other = this === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
-            if (!mw.tools.hasClass(this, 'active')) {
-                mw.tools.addClass(this, 'active');
-                mw.tools.removeClass(other, 'active');
-                mw.drag.plus.locked = true;
-                mw.$('.mw-tooltip-insert-module').remove();
-                mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
-                var tip = new mw.tooltip({
-                    content: mwd.getElementById('plus-modules-list').innerHTML,
-                    element: this,
-                    position: mw.drag.plus.tipPosition(this.currentNode),
-                    template: 'mw-tooltip-default mw-tooltip-insert-module',
-                    id: 'mw-plus-tooltip-selector'
-                });
-                setTimeout(function (){
-                    $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
-                }, 10)
-                mw.tabs({
-                    nav: tip.querySelectorAll('.mw-ui-btn'),
-                    tabs: tip.querySelectorAll('.module-bubble-tab'),
-                });
-
-                mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
-                    var resultsLength = mw.drag.plus.search(this.value, tip);
-                    if (resultsLength === 0) {
-                        mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
-                    }
-                    else {
-                        mw.$(".module-bubble-tab-not-found-message").hide();
-                    }
-                });
-            }
+            mw.drag.plus.rendModules(this)
         });
         mw.$('#plus-modules-list li').each(function () {
             var name = mw.$(this).attr('data-module-name');

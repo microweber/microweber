@@ -29,7 +29,7 @@
     }
 </style>
  <div class="custom-field-settings-name">
-               
+
 
   <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
     <?php _e('Title'); ?>
@@ -37,15 +37,15 @@
 
     <input type="text" onkeyup="" class="mw-ui-field mw-full-width" value="<?php echo $data['name']; ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
-    <br />
-    <br />
 
+
+
+</div>
+
+<div class="mw-ui-field-holder">
     <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option mw-full-width" name="options[as_text_area]"  <?php if($settings["as_text_area"]): ?> checked="checked" <?php endif; ?> value="1" id="mw-custom-fields-text-switch"><span></span><span><?php _e("Use as Text Area"); ?></span></label>
-    <br />
-    <br />
-     
+    &nbsp;
     <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option mw-full-width" name="options[required]"  <?php if ($settings["required"]) : ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-
 </div>
 
 
@@ -69,7 +69,7 @@
 
 
        <?php print $savebtn; ?>
-    
+
     </div>
 
     <?php include('settings_footer.php'); ?>

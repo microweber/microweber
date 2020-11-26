@@ -73,3 +73,30 @@
     color: #bcbfc2;
     font-size: 17px;
 }
+
+
+.mw-custom-field-group{
+    padding-bottom: 15px;
+}
+.mw-admin-custom-field-value-edit-inline{
+    min-width: 60px;
+    padding: 6px;
+}
+.mw-admin-custom-field-value-edit-inline,
+.mw-live-edit-input{
+
+    line-height: 17px;
+
+}
+
+.btn-create-custom-field-value i{
+    margin-inline-end: 0px !important;
+}
+.btn-create-custom-field-value{
+    width: 30px;
+    text-emphasis: #ce8483;
+}
+
+.mw-custom-field-form-controls{
+    padding: 5px 0;
+}
