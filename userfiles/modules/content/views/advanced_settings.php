@@ -94,6 +94,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
                     mw.notification.warning("<?php _ejs('Content was sent to Trash'); ?>");
                     typeof callback === 'function' ? callback.call(data) : '';
+                    window.location.href = window.location.href;
                 });
             });
         }
@@ -315,13 +316,14 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <!-- More Advanced Settings -->
                 <?php if (isset($data['id']) and $data['id'] > 0): ?>
                     <div class="row d-flex align-items-center">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="control-label my-2"><?php print _e('More options'); ?>:</label>
                         </div>
 
-                        <div class="col-md-6 text-center text-md-right">
+                        <div class="col-md-8 text-center text-md-right">
                             <a class="btn btn-info btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
-                            <a class="btn btn-danger btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
+                            <a class="btn btn-danger btn-sm" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
+                            <a class="btn btn-warning btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
                         </div>
                     </div>
                 <?php endif; ?>
