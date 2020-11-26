@@ -29,5 +29,7 @@ class MenuServiceProvider extends ServiceProvider
         $this->app->singleton('menu_manager', function ($app) {
             return new MenuManager();
         });
+
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
     }
 }
