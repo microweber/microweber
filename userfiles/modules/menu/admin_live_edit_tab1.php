@@ -17,9 +17,9 @@
         var linkEditor = new mw.LinkEditor({
             mode: 'dialog',
             controllers: [
-                { type: 'url', config: {target: false}},
                 { type: 'page', config: {target: false} },
                 { type: 'post', config: {target: false}},
+                { type: 'url', config: {target: false}},
                 { type: 'layout', config: {target: false} }
             ]
         });
@@ -57,14 +57,14 @@ if (!isset($rand)) {
     mw.menu_add_new = function () {
         var obj = {};
         obj.title = $('#new_menu_name').val();
-        $.post("<?php print api_link('content/menu_create') ?>", obj, function (data) {
+        $.post("<?php echo route('api.menu.create'); ?>", obj, function (data) {
             window.location.href = window.location.href;
         });
     };
 
     mw.menu_save = function ($selector) {
         var obj = mw.form.serialize($selector);
-        $.post("<?php print api_link('content/menu_create') ?>", obj, function (data) {
+        $.post("<?php echo route('api.menu.create'); ?>", obj, function (data) {
             window.location.href = window.location.href;
         });
     };
@@ -82,7 +82,7 @@ if (!isset($rand)) {
         var data = {};
         data.id = $id
         if (confirm('<?php _e('Are you sure you want to delete this menu?'); ?>') === true) {
-            $.post("<?php print api_link('menu_delete') ?>", data, function (resp) {
+            $.post("<?php echo route('api.menu.delete'); ?>", data, function (resp) {
                 window.location.href = window.location.href;
             });
         }
@@ -115,7 +115,7 @@ if (!isset($rand)) {
 
                 data.parent_id = $("#add-custom-link-parent-id").val();
                 requestLink();
-                $.post("<?php print api_link('content/menu_item_save'); ?>", data, function (msg) {
+                $.post("<?php print route('api.menu.item.save'); ?>", data, function (msg) {
                     mw.top().reload_module('menu');
                     mw.reload_module('menu/edit_items');
                 });
@@ -135,7 +135,7 @@ if (!isset($rand)) {
                 }
             }
 
-            mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', _onReady, undefined, undefined, undefined, function (postData) {
+            mw.form.post(selector, '<?php print route('api.menu.item.save'); ?>', _onReady, undefined, undefined, undefined, function (postData) {
                 var data = $.extend({}, postData);
                 if (!!data.categories_id && data.categories_id !== '0') {
                     data.url = '';
