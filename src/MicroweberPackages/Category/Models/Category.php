@@ -38,6 +38,11 @@ class Category extends Model
         return $this->hasMany(CategoryItem::class, 'parent_id');
     }
 
+    public function categoryChildren()
+    {
+         return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
+
 //    public static function getLinks()
 //    {
 //        $allCategories =  self::all();

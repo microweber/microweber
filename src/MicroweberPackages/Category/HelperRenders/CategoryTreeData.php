@@ -155,6 +155,7 @@ class CategoryTreeData
                 $cat_get_params['rel_type'] = $table_assoc_name;
                 if(isset($params['filter'])){
                 $cat_get_params['filter'] = $params['filter'];
+
                 }
                 if ($users_can_create_content != false) {
                     $cat_get_params['users_can_create_content'] = $users_can_create_content;
@@ -391,8 +392,7 @@ class CategoryTreeData
                 return $query;
             };
         }
-
-
+//dump($cat_get_params);
         $result = $this->app->database_manager->get($cat_get_params);
 
         $output = '';
@@ -417,7 +417,7 @@ class CategoryTreeData
                 $id = intval($item['id']);
                 $remove_ids[] = $id;
 
-                $item['children'] = $this->_build_children_array($id, $remove_ids, $add_ids, $include_first = false, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids);
+                $item['children'] = $this->_build_children_array($id, $remove_ids, $add_ids, $include_first = false, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids,$params);
                 $return[] = $item;
             }
             return $return;
