@@ -65,23 +65,22 @@ class UserLoginController extends Controller
             return response()->json($message, 200);
         }
 
-
         if (!isset($request['email']) and isset($request['username'])) {
-            $user_id = detect_user_id_from_params($request);
-            if($user_id){
-                $email_user = User::where('id',$user_id)->first();
-                if($email_user){
-                    $request->merge(['email' => $email_user->email]);
+            $userId = detect_user_id_from_params($request);
+            if($userId){
+                $userFind = User::where('id',$userId)->first();
+                if(!empty($userFind->email)){
+                    $request->merge(['email' => $userFind->email]);
                     $request->offsetUnset('username');
+                }
+                if(!empty($userFind->username)){
+                    $request->merge(['username' => $userFind->username]);
+                    $request->offsetUnset('email');
                 }
             }
         }
 
-
-
         $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')),$remember = true);
-
-       // dd($request->all());
 
         if ($login) {
 
