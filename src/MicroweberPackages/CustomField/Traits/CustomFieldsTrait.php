@@ -19,13 +19,47 @@ trait  CustomFieldsTrait {
     {
         static::saving(function ($model)  {
             if (isset($model->attributes['custom_fields'])) {
-                $model->_addCustomFields = $model->attributes['custom_fields'];
+
+                foreach ($model->attributes['custom_fields'] as $key=>$value) {
+                    $model->_addCustomFields[] = [
+                        'name' => $key,
+                        'name_key' => $key,
+                        'value' => [$value]
+                    ];
+                }
+
                 unset($model->attributes['custom_fields']);
             }
         });
 
         static::saved(function($model) {
-            $model->setCustomFields($model->_addCustomFields);
+
+            if (!empty($model->_addCustomFields)) {
+                foreach ($model->_addCustomFields as $customField) {
+
+                    if (empty($customField['name_key'])) {
+                        $customField['name_key'] = \Str::slug($customField['name'], '-');
+                    } else {
+                        $customField['name_key'] = \Str::slug($customField['name_key'], '-');
+                    }
+
+                    $findCustomField = $model->customField()->where('name_key', $customField['name_key'])->first();
+
+                    if ($findCustomField) {
+                        $findCustomField->value = $customField['value'];
+                        $findCustomField->save();
+                    } else {
+
+                        $model->customField()->create([
+                            'value' => $customField['value'],
+                            'name' => $customField['name'],
+                            'name_key' => $customField['name_key']
+                        ]);
+                    }
+                }
+                $model->refresh();
+            }
+
         });
     }
 
@@ -60,28 +94,16 @@ trait  CustomFieldsTrait {
 
     public function setCustomFields($customFields)
     {
+        $this->_addCustomFields = $customFields;
 
-        foreach ($customFields as $key=>$value) {
-            if (empty($key) || empty($value)) {
-                continue;
-            }
-            $findCustomField = $this->customField()->where('name_key', \Str::slug($key, '-'))->first();
-            if ($findCustomField) {
-                $findCustomField->value = $value;
-                $findCustomField->save();
-            } else {
+        return $this;
+    }
 
-                $this->customField()->create([
-                    'value'=>$value,
-                    'name'=>$key,
-                    'name_key' => \Str::slug($key, '-')
-                ]);
+    public function setCustomField($customField)
+    {
+        $this->_addCustomFields[] = $customField;
 
-                $this->save();
-            }
-
-            return $this;
-        }
+        return $this;
     }
 
     public function customField()
