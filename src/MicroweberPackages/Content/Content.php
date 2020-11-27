@@ -9,6 +9,7 @@ use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
+use MicroweberPackages\Database\Traits\HasTimestampsTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Tag\Tag;
@@ -22,6 +23,7 @@ class Content extends Model
     use HasSlugTrait;
     use MediaTrait;
     use Filterable;
+    use HasTimestampsTrait;
 
     protected $table = 'content';
     protected $content_type = 'content';

@@ -12,6 +12,8 @@ class Product extends Content
 
     protected $appends = ['price','qty','sku'];
 
+    public $timestamps = false;
+
     public $fillable = [
         "subtype",
         "subtype_value",
@@ -31,7 +33,9 @@ class Product extends Content
         "created_by",
         "is_home",
         "is_shop",
-        "is_active"
+        "is_active",
+        "updated_at",
+        "created_at",
     ];
 
     public $translatable = ['title','url','description','content','content_body'];
