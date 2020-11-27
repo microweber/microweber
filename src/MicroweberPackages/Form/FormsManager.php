@@ -457,54 +457,57 @@ class FormsManager
 
             $allowedFilesForSave = [];
             $uploadFilesValidation = [];
-            foreach ($more as $field) {
 
-                $fieldRules = [];
+            if (is_array($more)) {
+                foreach ($more as $field) {
 
-                if ($field['type'] != 'upload') {
-                    continue;
-                }
+                    $fieldRules = [];
 
-                if (!isset($_FILES[$field['name_key']]) && isset($field['options']['required']) && $field['options']['required'] == 1) {
-                    $fieldRules[] = 'required';
-                    $_FILES[$field['name_key']] = true;
-                }
+                    if ($field['type'] != 'upload') {
+                        continue;
+                    }
 
-                if (!isset($_FILES[$field['name_key']])) {
-                    continue;
-                }
+                    if (!isset($_FILES[$field['name_key']]) && isset($field['options']['required']) && $field['options']['required'] == 1) {
+                        $fieldRules[] = 'required';
+                        $_FILES[$field['name_key']] = true;
+                    }
 
-                $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
+                    if (!isset($_FILES[$field['name_key']])) {
+                        continue;
+                    }
 
-                $mimeTypes = [];
+                    $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
-                if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
-                    foreach ($field['options']['file_types'] as $optionFileTypes) {
-                        if (!empty($optionFileTypes)) {
+                    $mimeTypes = [];
 
-                            if ($optionFileTypes == 'images') {
-                                $fieldRules[] = 'valid_image';
+                    if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
+                        foreach ($field['options']['file_types'] as $optionFileTypes) {
+                            if (!empty($optionFileTypes)) {
+
+                                if ($optionFileTypes == 'images') {
+                                    $fieldRules[] = 'valid_image';
+                                }
+
+                                $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
+                                $mimeTypesArray = explode(',', $mimeTypesString);
+                                $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
                             }
-
-                            $mimeTypesString = $files_utils->get_allowed_files_extensions_for_upload($optionFileTypes);
-                            $mimeTypesArray = explode(',', $mimeTypesString);
-                            $mimeTypes = array_merge($mimeTypes, $mimeTypesArray);
                         }
                     }
-                }
 
-                if (empty($mimeTypes)) {
-                    $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
-                }
+                    if (empty($mimeTypes)) {
+                        $mimeTypes = $files_utils->get_allowed_files_extensions_for_upload('images');
+                    }
 
-                if (!empty($mimeTypes) && is_array($mimeTypes)) {
-                    $mimeTypes = implode(',', $mimeTypes);
-                }
+                    if (!empty($mimeTypes) && is_array($mimeTypes)) {
+                        $mimeTypes = implode(',', $mimeTypes);
+                    }
 
-                $fieldRules[] = 'mimes:' . $mimeTypes;
+                    $fieldRules[] = 'mimes:' . $mimeTypes;
 
-                if (!empty($fieldRules)) {
-                    $uploadFilesValidation[$field['name_key']] = $fieldRules;
+                    if (!empty($fieldRules)) {
+                        $uploadFilesValidation[$field['name_key']] = $fieldRules;
+                    }
                 }
             }
 
