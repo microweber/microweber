@@ -12,21 +12,20 @@ class CustomFieldTestModelTest extends TestCase
         $newProduct = new Product();
         $newProduct->title = 'Samo Levski3';
 
-        $newProduct->addCustomField(
+        $newProduct->setCustomFields(
             [
-                'type'=>'price',
-                'name'=>'цена на едро',
-                'value'=>['цска', 'цска 1948'],
-                'options'=>['team1' => 'levski', 'team2' => 'cska'],
-            ]
-        );
-
-      $newProduct->addCustomField(
-            [
-                'type'=>'dropdown',
-                'name'=>'цена 2',
-                'value'=>['цска2', 'цска2 1948'],
-                'options'=>['team1' => 'levski', 'team2' => 'cska'],
+                [
+                    'type'=>'price',
+                    'name'=>'цена на едро',
+                    'value'=>['цска', 'цска 1948'],
+                    'options'=>['team1' => 'levski', 'team2' => 'cska'],
+                ],
+                [
+                    'type'=>'dropdown',
+                    'name'=>'цена 2',
+                    'value'=>['цска2', 'цска2 1948'],
+                    'options'=>['team1' => 'levski', 'team2' => 'cska'],
+                ]
             ]
         );
 
