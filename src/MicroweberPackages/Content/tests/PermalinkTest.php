@@ -26,7 +26,6 @@ class PermalinkTest extends TestCase
     public static $categorySlug;
     public static $subCategorySlug;
 
-
     public function testPageCategoryPost()
     {
         mw()->database_manager->extended_save_set_permission(true);
