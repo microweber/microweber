@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Category\HelperRenders;
 
 use MicroweberPackages\Category\Models\Category;
+use function Opis\Closure\serialize as serializeClosure;
 
 class CategoryTreeData
 {
@@ -38,9 +39,9 @@ class CategoryTreeData
             $parent = 0;
         }
 
-        asort($params);
+        //asort($params);
         $function_cache_id = false;
-        $function_cache_id = __FUNCTION__ . crc32(serialize($params));
+        $function_cache_id = __FUNCTION__ . crc32(serializeClosure($params));
 
         $active_cat = false;
         if (defined('CATEGORY_ID')) {

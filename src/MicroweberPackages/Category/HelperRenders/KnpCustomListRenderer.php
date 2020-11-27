@@ -193,7 +193,14 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
 
         // opening li tag
         $html = $this->format('<' . $options['leaf_tag'] . $this->renderHtmlAttributes($attributes) . '>', 'li', $item->getLevel(), $options);
-        if (isset($options['custom_link_html']) and $options['custom_link_html']) {
+        if (isset($options['custom_link_html']) and is_callable($options['custom_link_html'])) {
+            $custom_html = call_user_func_array($options['custom_link_html'],  (array)$item);
+
+
+            $html .= $custom_html;
+
+
+        } else if (isset($options['custom_link_html']) and $options['custom_link_html']) {
             $custom_html   = $options['custom_link_html'];
             $replaces = array();
             if($attributes and !empty($attributes)){
