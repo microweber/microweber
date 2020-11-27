@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Category\HelperRenders;
 
+use MicroweberPackages\Category\Models\Category;
+
 class CategoryTreeData
 {
 
@@ -291,8 +293,56 @@ class CategoryTreeData
             }
         }
 
+        if(isset($params['in_stock'])){
+            $tree_data = $this->inStock($tree_data, $params['in_stock']);
+        }
+
         return $tree_data;
     }
+
+    private function inStock($treeData, $onlyCategoriesWithAviableProducts)
+    {
+        $originalTree = $treeData;
+
+        foreach($treeData as $key => $category) {
+           $categoryModelWithAviableProducts = Category::where('id',$category['id'])->filter(['hasProductsInStock'=>true])->first();
+
+           if(empty($categoryModelWithAviableProducts) && empty($category['children'])) {
+             unset($originalTree[$key]);
+           } else if(!empty($category['children'])) {
+                foreach($category['children'] as $index => $cat) {
+                    $childrenHasAviableProds = $this->childCategoriesHasAviableProducts($cat);
+                    if($childrenHasAviableProds == false) {
+                        unset($originalTree[$key]);
+                        break;
+                    }
+                }
+           }
+        }
+
+        if($onlyCategoriesWithAviableProducts) {
+            return $originalTree;
+        } else {
+            return array_recursive_diff($treeData, $originalTree);
+        }
+    }
+
+    private function childCategoriesHasAviableProducts($categoryData)
+    {
+        $categoryModelWithAviableProducts = Category::where('id', $categoryData['id'])->filter(['hasProductsInStock'=>true])->first();
+
+        if(!empty($categoryModelWithAviableProducts)) {
+            return true;
+        } else if(!empty($categoryData['children'])) {
+             foreach($categoryData['children'] as $index => $cat) {
+                return $this->childCategoriesHasAviableProducts($cat);
+             }
+        } else {
+            return false;
+        }
+    }
+
+
 
 
     private function _build_children_array($parent,
