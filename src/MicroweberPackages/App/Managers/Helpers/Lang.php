@@ -17,19 +17,13 @@ $mw_all_langs = array();
 
 class Lang
 {
-    /** @var \Microweber\Application */
-    public $app;
-    public $is_enabled = null;
+     public $is_enabled = null;
     private $__default_lang_option = false;
 
 
-    public function __construct($app = null)
+    public function __construct()
     {
-        if (is_object($app)) {
-            $this->app = $app;
-        } else {
-            $this->app = mw();
-        }
+        
 
 
         if (mw_is_installed()) {
@@ -52,7 +46,7 @@ class Lang
 
 
         //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
-        return $this->app->setLocale($lang);
+        return app()->setLocale($lang);
     }
 
     /**
@@ -67,13 +61,13 @@ class Lang
      */
     function current_lang()
     {
-        $app_locale = $this->app->getLocale();
+        $app_locale = app()->getLocale();
 
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
             $lang = $_COOKIE['lang'];
             if ($lang != $app_locale) {
                 set_current_lang($lang);
-                $app_locale = $this->app->getLocale();
+                $app_locale = app()->getLocale();
             }
         }
 
@@ -83,9 +77,14 @@ class Lang
 
     function default_lang()
     {
+        $lang = $this->current_lang();
         if ($this->is_enabled) {
-            return get_option('language', 'website');
+            $lang_opt = get_option('language', 'website');
+            if($lang_opt){
+                $lang = $lang_opt;
+            }
         }
+        return $lang;
     }
 
     function __store_lang_file_ns($lang = false)
@@ -615,7 +614,7 @@ class Lang
     function lang_is_rtl($lang = false)
     {
         if (!$lang) {
-            $lang = $this->app->getLocale();
+            $lang = app()->getLocale();
         }
         /*
         ar	Arabic	rtl	العربية
