@@ -392,6 +392,12 @@ class ContentManagerCrud extends Crud
             return array('error' => 'You are not logged in as admin to save content!');
         }
 
+
+        // clear the cache because the url can change on saving
+        self::$precached_links = [];
+
+
+
         $cats_modified = false;
 
         if (!empty($data)) {
@@ -575,7 +581,7 @@ class ContentManagerCrud extends Crud
                 $data['url'] = $this->app->url_manager->slug($data['title']);
             }
 
-            $data['url'] = $this->app->database_manager->escape_string($data['url']);
+             $data['url'] = $this->app->database_manager->escape_string($data['url']);
 
 
             $date123 = date('YmdHis');

@@ -311,6 +311,25 @@ class ContentTest extends TestCase
 
     }
 
+    public function testSaveWithSameSlug()
+    {
+        $params = array(
+            'title' => 'some post test slug',
+            'content_type' => 'post',
+            'is_active' => 1,);
+        //saving content with wrong date
+        $save_post1 = save_content($params);
+        $save_post2 = save_content($params);
+        $save_post_data1 = get_content_by_id($save_post1);
+        $save_post_data2 = get_content_by_id($save_post2);
+
+         $this->assertNotEquals($save_post_data1['id'], $save_post_data2['id']);
+        $this->assertNotEquals($save_post_data1['url'], $save_post_data2['url']);
+
+
+
+    }
+
 
 
 
