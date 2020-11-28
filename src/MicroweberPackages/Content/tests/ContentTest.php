@@ -290,6 +290,31 @@ class ContentTest extends TestCase
         $this->assertEquals(true, is_array($next));
     }
 
+    public function testSaveContentUpdateTime()
+    {
+        $params = array(
+            'title' => 'some timestamp post',
+            'content_type' => 'post',
+            'created_at' => 'some date',
+            'updated_at' => 'another date',
+
+            'is_active' => 1,);
+        //saving content with wrong date
+        $save_post1 = save_content($params);
+        $save_post_data = get_content_by_id($save_post1);
+
+
+
+        $this->assertEquals(true, !empty($save_post_data['created_at']));
+        $this->assertEquals(true,  !empty($save_post_data['updated_at']));
+
+
+    }
+
+
+
+
+
    /* public function testCrudFilter()
     {
 

@@ -12,7 +12,7 @@ class Product extends Content
 
     protected $appends = ['price','qty','sku'];
 
-    public $timestamps = false;
+  //  public $timestamps = false;
 
     public $fillable = [
         "subtype",

@@ -4,17 +4,15 @@ namespace MicroweberPackages\Category\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
-use MicroweberPackages\Database\Traits\HasTimestampsTrait;
 
 class Category extends Model
 {
 
     use Filterable;
-    use HasTimestampsTrait;
 
     protected $table = 'categories';
 
-    public $timestamps = false;
+  //  public $timestamps = false;
 
     /**
      * The model's default values for attributes.

@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Database;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
@@ -425,6 +426,18 @@ class DatabaseManager extends DbUtils
             }
         }*/
 
+
+        if (isset($data['updated_at'])) {
+            try {
+                $carbonUpdatedAt = Carbon::parse($data['updated_at']);
+                $data['updated_at'] = $carbonUpdatedAt->format('Y-m-d H:i:s');
+            } catch (\Exception $e) {
+                $data['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+            }
+        }
+
+
+
         if ($is_quick == false) {
             if (isset($data['updated_at']) == false) {
                 $data['updated_at'] = date('Y-m-d H:i:s');
@@ -486,9 +499,22 @@ class DatabaseManager extends DbUtils
             $the_user_id = 0;
         }
         if (intval($data['id']) == 0) {
-            if (isset($data['created_at']) == false) {
-                $data['created_at'] = date('Y-m-d H:i:s');
+
+            if (isset($data['created_at'])) {
+                try {
+                    $carbonUpdatedAt = Carbon::parse($data['created_at']);
+                    $data['created_at'] = $carbonUpdatedAt->format('Y-m-d H:i:s');
+                } catch (\Exception $e) {
+                    $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+                }
+            } else {
+                $data['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
             }
+
+
+//            if (isset($data['created_at']) == false) {
+//                $data['created_at'] = date('Y-m-d H:i:s');
+//            }
             if ($the_user_id) {
                 $data['created_by'] = $the_user_id;
             }
@@ -815,7 +841,7 @@ class DatabaseManager extends DbUtils
                 $model = app()->make(Category::class);
             }
 
-            if ($params && method_exists($model, 'modelFilter')) {
+            if ($params and isset($params['filter']) and method_exists($model, 'modelFilter')) {
                 $filterParams = $params;
                 if (!empty($params['filter'])) {
                     if (is_string($params['filter'])) {
