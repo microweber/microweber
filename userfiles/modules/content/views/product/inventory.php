@@ -1,17 +1,50 @@
 <style>
-    <?php if ($contentData['track_quantity']==0):?>
     .js-track-quantity {
         display: none;
     }
-    <?php endif; ?>
+
 </style>
 
 <script>
     $(document).ready(function () {
         $('.js-track-quantity-check').click(function () {
-            $('.js-track-quantity').toggle();
+            mw.toggle_inventory_forms_fields();
         });
+
+        <?php if ($contentData['track_quantity'] != 0):?>
+        mw.toggle_inventory_forms_fields();
+        enableTrackQuantityFields();
+        <?php else: ?>
+        disableTrackQuantityFields();
+        <?php endif; ?>
+
     });
+
+
+    mw.toggle_inventory_forms_fields = function(){
+
+        $('.js-track-quantity').toggle();
+
+        if ($('.js-track-quantity-check').prop('checked')) {
+            enableTrackQuantityFields();
+        } else {
+            disableTrackQuantityFields();
+        }
+    }
+
+    function disableTrackQuantityFields() {
+        $("input",'.js-track-quantity').prop("disabled", true);
+    }
+
+    function enableTrackQuantityFields() {
+        $("input",'.js-track-quantity').prop("disabled", false);
+    }
+
+    function contentDataQtyChange(instance) {
+        if ($(instance).val()== '') {
+            $(instance).val('nolimit');
+        }
+    }
 </script>
 
 <div class="card style-1 mb-3">
@@ -63,7 +96,7 @@
                     <div class="form-group">
                         <label>Available</label>
                         <div class="input-group mb-1 append-transparent input-group-quantity">
-                            <input type="text" class="form-control" name="content_data[qty]" value="<?php echo $contentData['qty']; ?>" />
+                            <input type="text" class="form-control" name="content_data[qty]" onchange="contentDataQtyChange(this)" value="<?php echo $contentData['qty']; ?>" />
                             <div class="input-group-append">
                                 <div class="input-group-text plus-minus-holder">
                                     <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>
