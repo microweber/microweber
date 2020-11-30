@@ -155,6 +155,7 @@ class NewOrder extends Notification
 
     public function message()
     {
+
         $toView = $this->notification->data;
         $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
 

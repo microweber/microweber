@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\User\Models\User;
 
 class NotificationController extends AdminController
@@ -25,7 +26,12 @@ class NotificationController extends AdminController
 
         $admin = Auth::user();
 
-        foreach ($admin->unreadNotifications as $notification) {
+        $notifications = Notification::filter($request->all())
+            ->where('notifiable_id', $admin->id)
+            ->paginate($request->get('limit', 3))
+            ->appends($request->except('page'));
+
+        foreach ($notifications as $notification) {
 
             if (!class_exists($notification->type)) {
                 continue;
@@ -56,7 +62,8 @@ class NotificationController extends AdminController
 
         return $this->view('notification::notifications.index', [
             'is_quick' => 1,
-            'filter_by' => 1,
+            'type' => $request->get('type'),
+            'notifications_model' => $notifications,
             'notifications' => $readyNotifications
         ]);
     }
