@@ -31,11 +31,13 @@
     }
 
     function disablePhysicalProductFields() {
-        $("input",'.js-physical-product').prop("disabled", true);
+        $("input,select",'.js-physical-product').prop("disabled", true);
+        $("input,select",'.js-physical-product').attr("readonly", 'readonly');
     }
 
     function enablePhysicalProductFields() {
-        $("input",'.js-physical-product').prop("disabled", false);
+        $("input,select",'.js-physical-product').prop("disabled", false);
+        $("input,select",'.js-physical-product').removeAttr("readonly");
     }
 </script>
 

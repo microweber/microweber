@@ -33,11 +33,16 @@
     }
 
     function disableTrackQuantityFields() {
-        $("input",'.js-track-quantity').prop("disabled", true);
+        $("input,select",'.js-track-quantity').prop("disabled", true);
+        $("input,select",'.js-track-quantity').attr("readonly",'readonly');
+
     }
 
     function enableTrackQuantityFields() {
-        $("input",'.js-track-quantity').prop("disabled", false);
+        $("input,select",'.js-track-quantity').prop("disabled", false);
+        $("input,select",'.js-track-quantity').removeAttr("readonly");
+
+
     }
 
     function contentDataQtyChange(instance) {
