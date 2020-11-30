@@ -21,7 +21,7 @@ class ModuleCommand extends Command
         parent::__construct();
     }
 
-    public function fire()
+    public function handle()
     {
         $input = array(
             'module' => $this->argument('module'),

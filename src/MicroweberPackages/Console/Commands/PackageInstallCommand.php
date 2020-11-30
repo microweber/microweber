@@ -18,7 +18,7 @@ class PackageInstallCommand extends Command
         parent::__construct();
     }
 
-    public function fire()
+    public function handle()
     {
         $package = trim($this->argument('package'));
 

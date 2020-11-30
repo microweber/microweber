@@ -217,7 +217,7 @@ api_expose_admin('mw_post_update');
 function mw_post_update()
 {
     $a = is_admin();
-    if ($a != false) {
+    if ($a != false or is_cli()) {
         $update = mw()->update->post_update();
 
         if (isset($_GET['redirect_to'])) {

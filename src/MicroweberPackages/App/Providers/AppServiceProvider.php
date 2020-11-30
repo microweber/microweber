@@ -441,7 +441,6 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 
-            $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
 
 
             /*  $language = get_option('language', 'website');
@@ -451,10 +450,11 @@ class AppServiceProvider extends ServiceProvider
               }*/
 
             if (is_cli()) {
-
+                $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
                 $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
                 $this->commands('MicroweberPackages\Console\Commands\UpdateCommand');
                 $this->commands('MicroweberPackages\Console\Commands\ModuleCommand');
+                $this->commands('MicroweberPackages\Console\Commands\ReloadDatabaseCommand');
                 $this->commands('MicroweberPackages\Console\Commands\PackageInstallCommand');
 
             }

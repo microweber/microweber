@@ -23,7 +23,7 @@ class ResetCommand extends Command
     	parent::__construct();
     }
 
-    public function fire()
+    public function handle()
     {
     	if($this->argument('only-content')) {
     		$truncateTables = '

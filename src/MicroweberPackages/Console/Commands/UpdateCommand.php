@@ -18,7 +18,7 @@ class UpdateCommand extends Command
         parent::__construct();
     }
 
-    public function fire()
+    public function handle()
     {
         $this->info('Sorry, This command is disabled, do no use it for now...');
 //        $this->info('Checking for update...');
