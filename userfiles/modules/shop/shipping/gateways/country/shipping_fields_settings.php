@@ -35,13 +35,34 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
     </div>
 </div>
 
+<div class="d-none" id="custom-fields-wrapper">
+    <module type="custom_fields/admin" for-id="shipping"  for-id="shipping"  default-fields="message"   />
+</div>
+
+
 <script type="text/javascript">
     $(document).ready(function () {
+        toggleShippingFieldsVisibility();
+
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _ejs("Saved"); ?>.");
 
             mw.reload_module_everywhere('shop/shipping');
+
+            toggleShippingFieldsVisibility();
         });
+
+        function toggleShippingFieldsVisibility() {
+
+            var cucstomFieldsEl = $('#custom-fields-wrapper');
+            var isEnableShippindFields = $('input[name=enable_custom_shipping_fields]:checked').val();
+
+            if(isEnableShippindFields == 1) {
+                cucstomFieldsEl.removeClass('d-none');
+            } else {
+                cucstomFieldsEl.addClass('d-none');
+            }
+        }
     });
 </script>
 

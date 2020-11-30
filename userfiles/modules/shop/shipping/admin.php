@@ -22,6 +22,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Shipping to country'); ?></a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Unit settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#tab_shipping_fields_settings"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Fields settings'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -95,6 +96,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <div class="tab-pane fade" id="settings">
                 <module type="shop/shipping/set_units"/>
+            </div>
+
+
+            <div class="tab-pane fade" id="tab_shipping_fields_settings">
+                <module type="shop/shipping/gateways/country/shipping_fields_settings" id="shipping_fields_settings"/>
             </div>
         </div>
     </div>
