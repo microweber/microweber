@@ -32,17 +32,30 @@ if (!isset($offer['price']['offer_price'])) {
         data.offer_id = offer_id;
         editModal = mw.tools.open_module_modal('shop/offers/edit_offer', data, {overlay: true, skin: 'simple', title: mTitle})
     }
+    
+    function toggleOfferPrice() {
+        $('.js-offer-price-form-group').toggle();
+    }
 </script>
 
+<div class="col-md-12">
 
 <div class="form-group">
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" name="" class="custom-control-input"  id="customCheck322" onchange="toggleOfferPrice()" value="1" />
+        <label class="custom-control-label" for="customCheck322"><?php _e('Make offer price for product'); ?></label>
+    </div>
+</div>
+
+
+<div class="form-group js-offer-price-form-group" style="display: none">
 	<label><?php _e('Offer Price'); ?></label>
 	<div class="input-group mb-3 prepend-transparent append-transparent">
 		<div class="input-group-prepend">
 			<span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
 		</div>
         
-		<input type="text" class="form-control js-product-special-price" name="special_price" value="<?php echo $offer['price']['offer_price'];?>">
+		<input type="text" class="form-control js-product-special-price" name="content_data[special_price]" value="<?php echo $offer['price']['offer_price'];?>">
 
         <?php if (isset($offer['price']['offer_id'])): ?>
             <div class="input-group-append">
@@ -56,4 +69,6 @@ if (!isset($offer['price']['offer_price'])) {
         <?php endif; ?>
 
 	</div>
+</div>
+
 </div>

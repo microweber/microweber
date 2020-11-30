@@ -233,15 +233,15 @@
     </div>
 
     <div class="card-body" id="">
-        <?php if (!empty($notifications)): ?>
+
         <?php $periods = array("Today", "Yesterday", "This week", "This mount, Older"); ?>
         <?php $periods_printed = array(); ?>
         <div class="toolbar row mb-3">
             <div class="col-12 text-center text-sm-left">
                 <h5><strong>All Activities</strong></h5>
-                <p>List of all notifications of your website. <a href="javascript:;"
+                <p>List of all notifications of your website.{{-- <a href="javascript:;"
                                                                  onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');"
-                                                                 class="d-block d-sm-block float-sm-right"><?php _e("Show system log"); ?></a>
+                                                                 class="d-block d-sm-block float-sm-right"><?php _e("Show system log"); ?></a>--}}
                 </p>
             </div>
             <div class="col-12 d-sm-flex align-items-center justify-content-between">
@@ -297,28 +297,22 @@
                     </script>
 
                     <select class="selectpicker js-show-notif" data-style="btn-sm" data-width="auto">
+
                         <option value="?">All notifications</option>
-                        <option value="?filter_by=comments"
-                                <?php if (isset($filter_by) AND $filter_by == 'comments'): ?>selected<?php endif; ?>>
-                            Comments
-                        </option>
-                        <option value="?filter_by=orders"
-                                <?php if (isset($filter_by) AND $filter_by == 'orders'): ?>selected<?php endif; ?>>
-                            Orders
-                        </option>
-                        <option value="?filter_by=form_entries"
-                                <?php if (isset($filter_by) AND $filter_by == 'form_entries'): ?>selected<?php endif; ?>>
-                            Form Entries
-                        </option>
-                        <option value="?filter_by=new_user_registrations"
-                                <?php if (isset($filter_by) AND $filter_by == 'new_user_registrations'): ?>selected<?php endif; ?>>
-                            New User Registrations
-                        </option>
+
+                        <option value="?type=Comment"<?php if ($type == 'Comment'): ?> selected="selected" <?php endif; ?>> Comments</option>
+                        <option value="?type=Order"<?php if ($type == 'Order'): ?> selected="selected" <?php endif; ?>> Orders</option>
+                        <option value="?type=Product"<?php if ($type == 'Product'): ?> selected="selected" <?php endif; ?>> Products</option>
+                        <option value="?type=NewRegistration"<?php if ($type == 'NewRegistration'): ?> selected="selected" <?php endif; ?>> New Registrations</option>
+                        <option value="?type=Customer"<?php if ($type == 'Customer'): ?> selected="selected" <?php endif; ?>> Customers</option>
+
                     </select>
                 </div>
             </div>
         </div>
 
+
+        <?php if (!empty($notifications)): ?>
         <div class="timeline js-all-notifications">
             <div class="row timeline-event">
                 <div class="col pr-0 timeline-line datetime-indicator">
@@ -354,8 +348,13 @@
                 </div>
             </div>
 
-
             <?php endforeach; ?>
+
+
+            <div class="text-center mt-3">
+            {{ $notifications_model->withQueryString()->links() }}
+            </div>
+
         </div>
 
 
@@ -368,7 +367,7 @@
         <?php endif; ?>
 
         <?php else : ?>
-        <?php if ($filter_by): ?>
+        <?php if ($type): ?>
         <div class="row">
             <div class="col-12">
                 <div class="no-items-box no-notifications"
@@ -398,5 +397,6 @@
         <?php endif; ?>
         <?php endif; ?>
         <?php endif; ?>
+
     </div>
 </div>

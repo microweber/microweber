@@ -6,14 +6,7 @@
     <div class="card-body pt-3">
         <div class="row">
 
-            <?php
-            $col_size = 12;
-            if (is_module('shop/offers')) {
-                $col_size = 6;
-            }
-            ?>
-
-            <div class="col-md-<?php echo $col_size; ?>">
+            <div class="col-md-12">
                 <label>Price</label>
                 <div class="input-group mb-3 prepend-transparent">
                     <div class="input-group-prepend">
@@ -26,9 +19,7 @@
             <?php
             if (is_module('shop/offers')):
             ?>
-            <div class="col-md-<?php echo $col_size; ?>">
                 <module type="shop/offers/special_price_field" product_id="<?php echo $product['id'];?>" />
-            </div>
             <?php endif; ?>
 
         </div>

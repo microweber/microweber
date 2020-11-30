@@ -20,7 +20,7 @@ trait ModifySpecialPriceProductTrait {
             return;
         }
 
-        if (isset($data['special_price'])) {
+        if (isset($data['content_data']['special_price'])) {
 
             $productId = $product->id;
             $priceId = $product->priceModel->id;
@@ -33,11 +33,11 @@ trait ModifySpecialPriceProductTrait {
             }
             $saveOffer['is_active'] = 'on';
             $saveOffer['product_id_with_price_id'] = $productId . '|'.$priceId;
-            $saveOffer['offer_price'] = $data['special_price'];
+            $saveOffer['offer_price'] = $data['content_data']['special_price'];
 
             $save = offer_save($saveOffer);
-
         }
+
         clearcache();
     }
 }
