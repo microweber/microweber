@@ -104,6 +104,10 @@ class NotificationServiceProvider extends ServiceProvider
 
         }
 
+        if ($emailTransport == 'php') {
+            Config::set('mail.transport', 'mail');
+        }
+
 
     }
 }
