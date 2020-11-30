@@ -8617,4 +8617,5 @@ header .mobile-toggle button {
 .logo.svg.replaced-svg {
   height: 40px; }
 .logo.svg path {
-  fill: #4592FF; }
+  fill: #4592FF;
+  display: block !important; }

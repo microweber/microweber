@@ -329,6 +329,7 @@
                     max-width: 55px;
                 }
             </style>
+
             <?php foreach ($notifications as $notification): ?>
 
             <div class="row timeline-event mw-ui-admin-notif-item-{{$notification['id']}}">
