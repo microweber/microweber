@@ -13,15 +13,19 @@ function media_uploads_path()
     return $folder;
 }
 
-function media_base_url()
-{
-    static $folder;
-    if (!$folder) {
-        $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
-    }
+if (!function_exists('media_base_url')) {
+    function media_base_url()
+    {
+        static $folder;
 
-    return $folder;
+        if (!$folder) {
+            $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
+        }
+
+        return $folder;
+    }
 }
+
 
 function media_base_path()
 {
