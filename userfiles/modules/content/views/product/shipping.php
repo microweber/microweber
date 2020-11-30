@@ -1,17 +1,44 @@
 <style>
-    <?php if ($contentData['physical_product']==0):?>
     .js-physical-product {
         display: none;
     }
-    <?php endif; ?>
 </style>
 
 <script>
     $(document).ready(function () {
+
         $('.js-physical-product-check').click(function () {
-            $('.js-physical-product').toggle();
+            mw.toggle_physical_product_fields();
         });
+
+        <?php if ($contentData['physical_product']!=0):?>
+        mw.toggle_physical_product_fields();
+        enablePhysicalProductFields();
+        <?php else: ?>
+        disablePhysicalProductFields();
+        <?php endif; ?>
+
     });
+
+    mw.toggle_physical_product_fields = function () {
+        $('.js-physical-product').toggle();
+
+        if ($('.js-physical-product-check').prop('checked')) {
+            enablePhysicalProductFields();
+        } else {
+            disablePhysicalProductFields();
+        }
+    }
+
+    function disablePhysicalProductFields() {
+        $("input,select",'.js-physical-product').prop("disabled", true);
+        $("input,select",'.js-physical-product').attr("readonly", 'readonly');
+    }
+
+    function enablePhysicalProductFields() {
+        $("input,select",'.js-physical-product').prop("disabled", false);
+        $("input,select",'.js-physical-product').removeAttr("readonly");
+    }
 </script>
 
 <div class="card style-1 mb-3">

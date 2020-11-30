@@ -344,7 +344,8 @@ class AppServiceProvider extends ServiceProvider
             'notifications_manager' => 'NotificationsManager',
             'log_manager' => 'LogManager',
             'permalink_manager' => 'PermalinkManager',
-            'layouts_manager' => 'LayoutsManager'
+            'layouts_manager' => 'LayoutsManager',
+            'lang_helper' => 'Helpers\\Lang'
         ];
 
         foreach ($providers as $alias => $class) {
@@ -381,9 +382,9 @@ class AppServiceProvider extends ServiceProvider
 
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
-        $this->app->singleton('lang_helper', function ($app) {
-            return new Lang($app);
-        });
+//        $this->app->singleton('lang_helper', function ($app) {
+//            return new Lang($app);
+//        });
 
         \App::instance('path.public', base_path());
 

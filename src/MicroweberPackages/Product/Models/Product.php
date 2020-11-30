@@ -12,7 +12,7 @@ class Product extends Content
 
     protected $appends = ['price','qty','sku'];
 
-    public $timestamps = false;
+  //  public $timestamps = false;
 
     public $fillable = [
         "subtype",
@@ -52,18 +52,18 @@ class Product extends Content
         'sku'=>'',
         'barcode'=>'',
         'qty'=>'1',
-        'track_quantity'=>'0',
-        'max_quantity_per_order'=>'0',
-        'sell_oos'=>'0',
-        'physical_product'=>'0',
-        'free_shipping'=>'0',
-        'fixed_cost'=>'0.00',
+        'track_quantity'=>'',
+        'max_quantity_per_order'=>'',
+        'sell_oos'=>'',
+        'physical_product'=>'',
+        'free_shipping'=>'',
+        'fixed_cost'=>'',
         'weight_type'=>'kg',
         'params_in_checkout'=>0,
-        'weight'=>'0',
-        'width'=>'0',
-        'height'=>'0',
-        'depth'=>'0'
+        'weight'=>'',
+        'width'=>'',
+        'height'=>'',
+        'depth'=>''
     ];
 
 

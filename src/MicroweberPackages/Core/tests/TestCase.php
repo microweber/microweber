@@ -174,7 +174,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     }
 
-    protected function tearDown(): void
+    protected function xxxtearDown(): void
     {
         //echo 'pre reduce memory usage: '.sprintf('%.2fM', memory_get_usage(true)/1024/1024);
         // reduce memory usage
