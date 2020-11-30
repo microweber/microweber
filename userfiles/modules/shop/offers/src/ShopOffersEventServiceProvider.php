@@ -9,8 +9,8 @@
 namespace MicroweberPackages\Shop\Offers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
-use MicroweberPackages\Product\Events\OrderWasCreated;
-use MicroweberPackages\Product\Events\OrderWasUpdated;
+use MicroweberPackages\Product\Events\ProductWasCreated;
+use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Shop\Offers\Listeners\AddSpecialPriceProductListener;
 use MicroweberPackages\Shop\Offers\Listeners\EditSpecialPriceProductListener;
 
@@ -18,10 +18,10 @@ use MicroweberPackages\Shop\Offers\Listeners\EditSpecialPriceProductListener;
 class ShopOffersEventServiceProvider extends EventServiceProvider
 {
     protected $listen = [
-        OrderWasCreated::class => [
+        ProductWasCreated::class => [
             AddSpecialPriceProductListener::class
         ],
-        OrderWasUpdated::class => [
+        ProductWasUpdated::class => [
             EditSpecialPriceProductListener::class
         ]
     ];
