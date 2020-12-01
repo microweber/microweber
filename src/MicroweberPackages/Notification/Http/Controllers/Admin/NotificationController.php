@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Utils\Mail\MailSender;
 
 class NotificationController extends AdminController
 {
@@ -119,4 +120,11 @@ class NotificationController extends AdminController
             Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
         }
     }
+
+    public function testMail(Request $request)
+    {
+        $send = new MailSender();
+        return $send->test($request->all());
+    }
+
 }
