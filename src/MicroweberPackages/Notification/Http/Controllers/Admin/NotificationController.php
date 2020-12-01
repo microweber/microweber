@@ -17,8 +17,6 @@ use MicroweberPackages\User\Models\User;
 
 class NotificationController extends AdminController
 {
-
-
     public function index(Request $request)
     {
 
@@ -37,6 +35,7 @@ class NotificationController extends AdminController
             if (!class_exists($notification->type)) {
                 continue;
             }
+
 
             $messageType = new $notification->type();
 
@@ -75,5 +74,45 @@ class NotificationController extends AdminController
         ]);
     }
 
+    public function read(Request $request)
+    {
+        $ids = $request->post('ids');
 
+        $admin = Auth::user();
+
+        foreach ($ids as $id) {
+            $notify = Notification::where('notifiable_id', $admin->id)->where('id', $id)->first();
+            $notify->read_at = date('Y-m-d H:i:s');
+            $notify->save();
+        }
+
+    }
+
+    public function reset(Request $request)
+    {
+        $ids = $request->post('ids');
+
+        $admin = Auth::user();
+
+        if (empty($ids)) {
+            Notification::where('notifiable_id', $admin->id)->update(['read_at' => '']);
+        }
+
+        foreach ($ids as $id) {
+            $notify = Notification::where('id', $id)->first();
+            $notify->read_at = '';
+            $notify->save();
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        $ids = $request->post('ids');
+
+        $admin = Auth::user();
+
+        foreach ($ids as $id) {
+            Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
+        }
+    }
 }

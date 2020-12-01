@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Module\Module;
+use MicroweberPackages\Module\ModuleManager;
+use MicroweberPackages\Notification\Http\Controllers\Admin\NotificationController;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
 use MicroweberPackages\Option\Facades\Option;
 
@@ -36,7 +39,6 @@ class NotificationServiceProvider extends ServiceProvider
 
        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
-
     }
 
 

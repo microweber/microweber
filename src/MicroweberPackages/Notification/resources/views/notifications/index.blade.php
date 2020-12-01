@@ -26,22 +26,26 @@
     });
 
     mw.notif_item_read = function ($item_id) {
-        $.post("<?php print api_link('notifications_manager/read'); ?>?id=" + $item_id, function () {
-            mw.reload_module('admin/notifications');
+        $.post("<?php echo route('admin.notification.read') ?>", {ids:$item_id}, function () {
+
+            $('.mw-ui-admin-notif-item-' + $item_id).find('.card').removeClass('card-success');
+
         });
     }
 
     mw.notif_item_reset = function ($item_id) {
-        $.post("<?php print api_link('notifications_manager/reset_selected'); ?>?ids=" + $item_id, function () {
-            mw.reload_module('admin/notifications');
+        $.post("<?php echo route('admin.notification.reset') ?>", {ids:$item_id}, function () {
+            $('.mw-ui-admin-notif-item-' + $item_id).find('.card').addClass('card-success').removeClass('bg-silver');
         });
     }
 
     mw.notif_item_delete = function ($item_id) {
         mw.tools.confirm(mw.msg.del, function () {
-            $.post("<?php print api_link('notifications_manager/delete'); ?>?id=" + $item_id, function () {
+            $.post("<?php echo route('admin.notification.delete') ?>", {ids:$item_id}, function () {
                 //mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
-                mw.reload_module('admin/notifications');
+               // mw.reload_module('admin/notifications');
+                $('.mw-ui-admin-notif-item-' + $item_id).find('.card').addClass('card-danger');
+                $('.mw-ui-admin-notif-item-' + $item_id).effect( "blind", "slow" );
             });
         });
     }
@@ -67,8 +71,13 @@
         var selectedNotificationIds = mw.notif_get_selected();
 
         mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
-            $.post("<?php print api_link('notifications_manager/delete_selected'); ?>?ids=" + selectedNotificationIds, function () {
-                mw.reload_module('admin/notifications');
+            $.post("<?php echo route('admin.notification.delete') ?>", {ids: selectedNotificationIds}, function () {
+
+                $.each(selectedNotificationIds, function (k,notifid) {
+                    $('.mw-ui-admin-notif-item-' + notifid).find('.card').addClass('card-danger');
+                    $('.mw-ui-admin-notif-item-' + notifid).effect( "blind", "slow" );
+                });
+
             });
         });
     }
@@ -77,15 +86,19 @@
         var selectedNotificationIds = mw.notif_get_selected();
 
         mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
-            $.post("<?php print api_link('notifications_manager/read_selected'); ?>?ids=" + selectedNotificationIds, function () {
-                mw.reload_module('admin/notifications');
+            $.post("<?php echo route('admin.notification.read') ?>", {ids: selectedNotificationIds}, function () {
+
+                $.each(selectedNotificationIds, function (k,notifid) {
+                    $('.mw-ui-admin-notif-item-' + notifid).find('.card').removeClass('card-success');
+                });
+
             });
         });
     }
 
     mw.notif_reset_all = function () {
-        $.post("<?php print api_link('notifications_manager/reset'); ?>", function () {
-            mw.reload_module('admin/notifications');
+        $.post("<?php echo route('admin.notification.reset','') ?>", function () {
+            window.location.href = window.location.href;
         });
     }
 
@@ -94,15 +107,19 @@
         var selectedNotificationIds = mw.notif_get_selected();
 
         mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
-            $.post("<?php print api_link('notifications_manager/reset_selected'); ?>?ids=" + selectedNotificationIds, function () {
-                mw.reload_module('admin/notifications');
+            $.post("<?php echo route('admin.notification.reset') ?>", {ids: selectedNotificationIds}, function () {
+
+                $.each(selectedNotificationIds, function (k,notifid) {
+                    $('.mw-ui-admin-notif-item-' + notifid).find('.card').addClass('card-success').removeClass('bg-silver');
+                });
+
             });
         });
     }
 
     mw.notif_mark_all_as_read = function () {
-        $.post("<?php print api_link('notifications_manager/mark_all_as_read'); ?>", function () {
-            mw.reload_module('admin/notifications');
+        $.post("<?php echo route('admin.notification.mark_all_as_read') ?>", function () {
+            window.location.href = window.location.href;
         });
     }
 

@@ -8,11 +8,14 @@ use MicroweberPackages\Notification\Models\ModelFilters\NotificationFilter;
 class Notification extends Model
 {
     protected $casts = [
-        'data' => 'array'
+        'data' => 'json',
+        'id' => 'string'
+
     ];
 
-    use Filterable;
 
+
+    use Filterable;
 
     public function modelFilter()
     {
