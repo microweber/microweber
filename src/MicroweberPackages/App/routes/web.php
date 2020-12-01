@@ -60,8 +60,14 @@ Route::group([ 'middleware' => 'public.web', 'namespace' => '\MicroweberPackages
     Route::any('/editor_tools', 'FrontendController@editor_tools');
     Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'FrontendController@editor_tools'))->where('all', '.*');
 
-    Route::any('/module/', 'FrontendController@module');
-    Route::any('module/{all}', array('as' => 'module', 'uses' => 'FrontendController@module'))->where('all', '.*');
+    //>>> Exlude in order to be able to reaload module after successfull register
+    Route::group([
+        'excluded_middleware' => ['public.web'],
+    ], function () {
+        Route::any('/module/', 'FrontendController@module');
+        Route::any('module/{all}', array('as' => 'module', 'uses' => 'FrontendController@module'))->where('all', '.*');
+    });
+    //<<< Exlude in order to be able to reaload module after successfull register
 
     Route::any('robots.txt', 'FrontendController@robotstxt');
     Route::get('sitemap.xml', 'SitemapController@index');

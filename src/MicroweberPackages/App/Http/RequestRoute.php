@@ -46,7 +46,6 @@ class RequestRoute extends Request
         $messages = json_decode($response->getContent(), true);
 
         $errors = [];
-
         if (!isset($messages['success'])) {
             if ($response->status() == 200 || $response->status() == 201) {
                 $errors['success'] = true;
@@ -76,11 +75,19 @@ class RequestRoute extends Request
             $errors['error'] = $messages['error'];
         }
 
-        if (!isset($errors['error']) && isset($messages['errors'])) {
-            $errors['error'] = reset($messages['errors']);
+        if (isset($messages['errors'])) {
+            //$errors['error'] = reset($messages['errors']);
+            $allErrorsMsg = [];
+            foreach($messages['errors'] as $key => $val) {
+                foreach($val as $message) {
+                    $allErrorsMsg[] =  $message ;
+                }
+            }
+            $errors['message'] = implode("\n", $allErrorsMsg);
         }
 
-        $messages = array_merge($errors, $messages);
+        //$messages = array_merge($errors, $messages);
+        $messages = array_merge($messages, $errors);
 
         if (isset($messages['error']) and $messages['error'] == true and isset($messages['success'])) {
             unset($messages['success']);

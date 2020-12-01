@@ -123,14 +123,14 @@ if ($registration_approval_required == false) {
                                 <div class="col-12">
                                     <div class="form-group mb-3">
                                         <label class="control-label"><?php _e("Enable user registration"); ?></label>
-                                        <small class="text-muted d-block mb-2">Do you allow users to register on your website? If you choose "yes", they will do that with their email.</small>
+                                        <small class="text-muted d-block mb-2"> Do you allow users to register on your website? If you choose "yes", they will do that with their email.</small>
                                     </div>
 
                                     <div class="form-group mb-4">
-                                        <?php $curent_val = get_option('enable_user_registration', 'users'); ?>
+                                        <?php  $curent_val = get_option('enable_user_registration', 'users'); ?>
                                         <div class="custom-control custom-switch pl-0">
                                             <label class="d-inline-block mr-5" for="enable_user_registration">No</label>
-                                            <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_registration" option-group="users" id="enable_user_registration" value="y" <?php if ($curent_val == 'y'): ?>checked<?php endif; ?>>
+                                            <input type="checkbox"  data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_user_registration" option-group="users" id="enable_user_registration" value="y" <?php if ($curent_val !== 'n'): ?>checked<?php endif; ?>>
                                             <label class="custom-control-label" for="enable_user_registration">Yes</label>
                                         </div>
                                     </div>

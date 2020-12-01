@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Validation\ValidatesWhenResolvedTrait;
 use Illuminate\Validation\ValidationException;
+use Auth;
 
 class RegisterRequest extends FormRequest
 {
@@ -22,7 +23,7 @@ class RegisterRequest extends FormRequest
     public function authorize()
     {
         $enable_user_gesitration = get_option('enable_user_registration', 'users');
-        if ($enable_user_gesitration == 'n') {
+        if ($enable_user_gesitration === 'n') {
             return false;
         }
         return true;
@@ -36,6 +37,8 @@ class RegisterRequest extends FormRequest
 
         $validateEmail = false;
         $validateUsername = false;
+
+
 
         if (!isset($inputs['username']) || !isset($inputs['email'])) {
             $validateUsername = true;
