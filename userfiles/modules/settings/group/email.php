@@ -99,13 +99,18 @@
         email_to.to = $('#test_email_to').val();
         email_to.subject = $('#test_email_subject').val();
 
-        $.post("<?php print site_url('api_html/Microweber/Utils/MailSender/test'); ?>", email_to, function (msg) {
-
-            mw.dialog({
-
-                html: "<pre>" + msg + "</pre>",
-                title: "Email send results..."
-            });
+        $.post("<?php print route('admin.notification.test_mail'); ?>", email_to, function (msg) {
+            if(msg.success) {
+                mw.dialog({
+                    html: "<pre>Success</pre>",
+                    title: "Email send results..."
+                });
+            } else {
+                mw.dialog({
+                    html: "<pre>Fail</pre>",
+                    title: "Email send failed..."
+                });
+            }
         });
     }
 </script>

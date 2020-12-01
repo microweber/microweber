@@ -2,8 +2,7 @@
 
 namespace MicroweberPackages\Utils\Mail;
 
-$_mw_email_transport_object = false;
-api_expose_admin('Microweber/Utils/MailSender/test');
+ //api_expose_admin('Microweber/Utils/MailSender/test');
 
 use Config;
 use View;

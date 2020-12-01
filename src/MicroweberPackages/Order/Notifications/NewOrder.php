@@ -159,8 +159,10 @@ class NewOrder extends Notification
         $toView = $this->notification->data;
         $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
 
-        $toView['is_order'] = 1;
-        $toView['is_read'] = 0;
+        $toView['is_read'] = false;
+        if ($this->notification->read_at > 0) {
+            $toView['is_read'] = true;
+        }
 
         return view('order::admin.notifications.new_order', $toView);
     }

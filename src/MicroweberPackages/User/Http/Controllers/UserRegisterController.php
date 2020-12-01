@@ -45,6 +45,16 @@ class UserRegisterController extends Controller
     {
         $userData = [];
         $inputs = $request->all();
+
+        $enable_user_gesitration = get_option('enable_user_registration', 'users');
+        if ($enable_user_gesitration === 'n' || $enable_user_gesitration === 0) {
+            $resp = [
+                'error' => true,
+                'message' => 'User registration is disabled.',
+            ];
+            return $resp;
+        }
+
         if ($inputs) {
             foreach ($inputs as $input_key => $input) {
                 if (in_array($input_key, $this->fillable)) {
@@ -53,11 +63,18 @@ class UserRegisterController extends Controller
             }
         }
 
+        $registration_approval_required = get_option('registration_approval_required', 'users');
 
+        if ($registration_approval_required === 'y' || $registration_approval_required === 1) {
+            $userData['is_active'] = 0;
+        } else {
+            $userData['is_active'] = 1;
+        }
 
         $created = User::create($userData);
         if ($created) {
             event(new Registered($created));
+            app()->user_manager->make_logged($created->id);
            // event(new UserWasRegistered($created, $request->all()));
         }
 

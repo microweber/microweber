@@ -14,11 +14,10 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Utils\Mail\MailSender;
 
 class NotificationController extends AdminController
 {
-
-
     public function index(Request $request)
     {
 
@@ -53,9 +52,10 @@ class NotificationController extends AdminController
                 $icon = $messageType->icon();
             }
 
-            $read = false;
-            if ($notification->read_at) {
 
+            $read = false;
+            if ($notification->read_at > 0) {
+                $read = true;
             }
 
             $readyNotifications[] = [
@@ -75,5 +75,87 @@ class NotificationController extends AdminController
         ]);
     }
 
+    public function read(Request $request)
+    {
+        $idsPost = $request->post('ids');
+        $admin = Auth::user();
+
+        if (empty($idsPost)) {
+            Notification::where('notifiable_id', $admin->id)->update(['read_at' => date('Y-m-d H:i:s')]);
+        } else {
+
+            if (is_string($idsPost)) {
+                $ids = array();
+                $ids[] = $idsPost;
+            } else {
+                $ids = $idsPost;
+            }
+
+            foreach ($ids as $id) {
+                $notify = Notification::where('notifiable_id', $admin->id)->where('id', $id)->first();
+                if ($notify) {
+                    $notify->read_at = date('Y-m-d H:i:s');
+                    $notify->save();
+                }
+            }
+        }
+
+    }
+
+    public function reset(Request $request)
+    {
+        $idsPost = $request->post('ids');
+
+        $admin = Auth::user();
+
+        if (empty($idsPost)) {
+            Notification::where('notifiable_id', $admin->id)->update(['read_at' => null]);
+        } else {
+
+            if (is_string($idsPost)) {
+                $ids = array();
+                $ids[] = $idsPost;
+            } else {
+                $ids = $idsPost;
+            }
+
+            foreach ($ids as $id) {
+                $notify = Notification::where('id', $id)->first();
+                if ($notify) {
+                    $notify->read_at = null;
+                    $notify->save();
+                }
+            }
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        $idsPost = $request->post('ids');
+
+        $admin = Auth::user();
+
+        if (empty($idsPost)) {
+            Notification::where('notifiable_id', $admin->id)->delete();
+        } else {
+
+            if (is_string($idsPost)) {
+                $ids = array();
+                $ids[] = $idsPost;
+            } else {
+                $ids = $idsPost;
+            }
+
+            foreach ($ids as $id) {
+                Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
+            }
+        }
+    }
+
+    public function testMail(Request $request)
+    {
+        $send = new MailSender();
+        return $send->test($request->all());
+    }
 
 }

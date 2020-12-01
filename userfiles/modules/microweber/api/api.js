@@ -833,17 +833,20 @@ mw._response = {
   error:function(form, data, _msg){
     form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'error');
-    mw._response.createHTML(data.error, err_holder);
+    var msg = typeof data.message !== 'undefined' ? data.message : data.error;
+    mw._response.createHTML(msg, err_holder);
   },
   success:function(form, data, _msg){
     form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'success');
-    mw._response.createHTML(data.success, err_holder);
+    var msg = typeof data.message !== 'undefined' ? data.message : data.success;
+    mw._response.createHTML(msg, err_holder);
   },
   warning:function(form, data, _msg){
     form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'warning');
-    mw._response.createHTML(data.warning, err_holder);
+    var msg = typeof data.message !== 'undefined' ? data.message : data.warning;
+    mw._response.createHTML(msg, err_holder);
   },
   msgHolder : function(form, type, method){
     method = method || 'append';
