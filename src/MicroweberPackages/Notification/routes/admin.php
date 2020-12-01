@@ -18,7 +18,6 @@ Route::name('admin.')
         Route::post('notification/reset', 'NotificationController@reset')->name('notification.reset');
 
         Route::post('notification/delete', 'NotificationController@delete')->name('notification.delete');
-        Route::post('notification/mark_all_as_read', 'NotificationController@markAllAsRead')->name('notification.mark_all_as_read');
         Route::post('notification/test_mail', 'NotificationController@testMail')->name('notification.test_mail');
 
 
