@@ -17,11 +17,11 @@ if (!function_exists('json_encode')) {
     exit('Error: JSON PHP extension is required to run Microweber');
 }
 
-if (!extension_loaded('pdo') ) {
+if (!class_exists('PDO') ) {
     exit('Error: PDO PHP extension is required to run Microweber');
 }
 
-if (!extension_loaded('xml') ) {
+if (!class_exists('XMLReader') ) {
     exit('Error: XML PHP extension is required to run Microweber');
 }
 
