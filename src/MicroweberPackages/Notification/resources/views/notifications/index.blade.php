@@ -356,7 +356,7 @@
 
             <?php foreach ($notifications as $notification): ?>
 
-            <div class="row timeline-event mw-ui-admin-notif-item-{{$notification['id']}}">
+            <div class="row timeline-event mw-ui-admin-notif-item-{{$notification['id']}}" onclick="mw.notif_item_read('{{$notification['id']}}')">
                 <div class="col pr-0 timeline-line">
                     <div class="custom-control custom-checkbox d-inline-block">
                         <input type="checkbox" class="custom-control-input js-checked-checkbox"
