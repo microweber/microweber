@@ -46,6 +46,9 @@
                // mw.reload_module('admin/notifications');
                 $('.mw-ui-admin-notif-item-' + $item_id).find('.card').addClass('card-danger');
                 $('.mw-ui-admin-notif-item-' + $item_id).effect( "blind", "slow" );
+                setTimeout(function () {
+                    $('.mw-ui-admin-notif-item-' + $item_id).remove();
+                },300);
             });
         });
     }
@@ -76,6 +79,10 @@
                 $.each(selectedNotificationIds, function (k,notifid) {
                     $('.mw-ui-admin-notif-item-' + notifid).find('.card').addClass('card-danger');
                     $('.mw-ui-admin-notif-item-' + notifid).effect( "blind", "slow" );
+                    setTimeout(function () {
+                        $('.mw-ui-admin-notif-item-' + notifid).remove();
+                    },300);
+
                 });
 
             });

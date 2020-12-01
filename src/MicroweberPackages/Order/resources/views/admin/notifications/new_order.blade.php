@@ -23,7 +23,7 @@ if (isset($item['created_by'])) {
 
 ?>
 
-<div class="card mb-3 not-collapsed-border collapsed <?php if ($is_order): ?>card-bubble<?php endif; ?> card-order-holder <?php if (!$is_read): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>"
+<div class="card mb-3 not-collapsed-border collapsed card-order-holder card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>"
      data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false"
      aria-controls="collapseExample">
     <div class="card-body py-2">

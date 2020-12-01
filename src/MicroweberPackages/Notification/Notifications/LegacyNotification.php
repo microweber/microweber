@@ -20,7 +20,7 @@ class LegacyNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data = false)
     {
         $this->data = $data;
     }

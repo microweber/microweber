@@ -37,7 +37,6 @@ class NotificationController extends AdminController
                 continue;
             }
 
-
             $messageType = new $notification->type();
 
             if (method_exists($messageType, 'setNotification')) {
@@ -86,8 +85,10 @@ class NotificationController extends AdminController
         } else {
             foreach ($ids as $id) {
                 $notify = Notification::where('notifiable_id', $admin->id)->where('id', $id)->first();
-                $notify->read_at = date('Y-m-d H:i:s');
-                $notify->save();
+                if ($notify) {
+                    $notify->read_at = date('Y-m-d H:i:s');
+                    $notify->save();
+                }
             }
         }
 
@@ -100,12 +101,14 @@ class NotificationController extends AdminController
         $admin = Auth::user();
 
         if (empty($ids)) {
-            Notification::where('notifiable_id', $admin->id)->update(['read_at' => '']);
+            Notification::where('notifiable_id', $admin->id)->update(['read_at' => null]);
         } else {
             foreach ($ids as $id) {
                 $notify = Notification::where('id', $id)->first();
-                $notify->read_at = '';
-                $notify->save();
+                if ($notify) {
+                    $notify->read_at = null;
+                    $notify->save();
+                }
             }
         }
     }
