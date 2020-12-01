@@ -104,13 +104,21 @@ class NotificationController extends AdminController
 
     public function reset(Request $request)
     {
-        $ids = $request->post('ids');
+        $idsPost = $request->post('ids');
 
         $admin = Auth::user();
 
-        if (empty($ids)) {
+        if (empty($idsPost)) {
             Notification::where('notifiable_id', $admin->id)->update(['read_at' => null]);
         } else {
+
+            if (is_string($idsPost)) {
+                $ids = array();
+                $ids[] = $idsPost;
+            } else {
+                $ids = $idsPost;
+            }
+
             foreach ($ids as $id) {
                 $notify = Notification::where('id', $id)->first();
                 if ($notify) {
@@ -123,13 +131,21 @@ class NotificationController extends AdminController
 
     public function delete(Request $request)
     {
-        $ids = $request->post('ids');
+        $idsPost = $request->post('ids');
 
         $admin = Auth::user();
 
-        if (empty($ids)) {
+        if (empty($idsPost)) {
             Notification::where('notifiable_id', $admin->id)->delete();
         } else {
+
+            if (is_string($idsPost)) {
+                $ids = array();
+                $ids[] = $idsPost;
+            } else {
+                $ids = $idsPost;
+            }
+
             foreach ($ids as $id) {
                 Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
             }
