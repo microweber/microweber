@@ -116,8 +116,12 @@ class NotificationController extends AdminController
 
         $admin = Auth::user();
 
-        foreach ($ids as $id) {
-            Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
+        if (empty($ids)) {
+            Notification::where('notifiable_id', $admin->id)->delete();
+        } else {
+            foreach ($ids as $id) {
+                Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
+            }
         }
     }
 

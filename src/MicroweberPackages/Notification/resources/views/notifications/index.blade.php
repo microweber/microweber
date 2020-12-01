@@ -118,7 +118,7 @@
     }
 
     mw.notif_mark_all_as_read = function () {
-        $.post("<?php echo route('admin.notification.mark_all_as_read') ?>", function () {
+        $.post("<?php echo route('admin.notification.read') ?>", function () {
             window.location.href = window.location.href;
         });
     }
