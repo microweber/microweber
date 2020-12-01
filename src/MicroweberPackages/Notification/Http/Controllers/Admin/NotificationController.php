@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\AdminController;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Utils\Mail\MailSender;
 
 class NotificationController extends AdminController
 {
@@ -80,10 +81,14 @@ class NotificationController extends AdminController
 
         $admin = Auth::user();
 
-        foreach ($ids as $id) {
-            $notify = Notification::where('notifiable_id', $admin->id)->where('id', $id)->first();
-            $notify->read_at = date('Y-m-d H:i:s');
-            $notify->save();
+        if (empty($ids)) {
+            Notification::where('notifiable_id', $admin->id)->update(['read_at' => date('Y-m-d H:i:s')]);
+        } else {
+            foreach ($ids as $id) {
+                $notify = Notification::where('notifiable_id', $admin->id)->where('id', $id)->first();
+                $notify->read_at = date('Y-m-d H:i:s');
+                $notify->save();
+            }
         }
 
     }
@@ -96,12 +101,12 @@ class NotificationController extends AdminController
 
         if (empty($ids)) {
             Notification::where('notifiable_id', $admin->id)->update(['read_at' => '']);
-        }
-
-        foreach ($ids as $id) {
-            $notify = Notification::where('id', $id)->first();
-            $notify->read_at = '';
-            $notify->save();
+        } else {
+            foreach ($ids as $id) {
+                $notify = Notification::where('id', $id)->first();
+                $notify->read_at = '';
+                $notify->save();
+            }
         }
     }
 
@@ -115,4 +120,11 @@ class NotificationController extends AdminController
             Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
         }
     }
+
+    public function testMail(Request $request)
+    {
+        $send = new MailSender();
+        return $send->test($request->all());
+    }
+
 }
