@@ -99,6 +99,11 @@ class NewCommentNotification extends Notification implements ShouldQueue
         $toView['created_by'] = $created_by;
         $toView['created_by_username'] = $created_by_username;
 
+        $toView['is_read'] = false;
+        if ($this->notification->read_at > 0) {
+            $toView['is_read'] = true;
+        }
+
         return view('comment::admin.notifications.new_comment',$toView);
     }
 }

@@ -46,6 +46,9 @@
                // mw.reload_module('admin/notifications');
                 $('.mw-ui-admin-notif-item-' + $item_id).find('.card').addClass('card-danger');
                 $('.mw-ui-admin-notif-item-' + $item_id).effect( "blind", "slow" );
+                setTimeout(function () {
+                    $('.mw-ui-admin-notif-item-' + $item_id).remove();
+                },300);
             });
         });
     }
@@ -76,6 +79,10 @@
                 $.each(selectedNotificationIds, function (k,notifid) {
                     $('.mw-ui-admin-notif-item-' + notifid).find('.card').addClass('card-danger');
                     $('.mw-ui-admin-notif-item-' + notifid).effect( "blind", "slow" );
+                    setTimeout(function () {
+                        $('.mw-ui-admin-notif-item-' + notifid).remove();
+                    },300);
+
                 });
 
             });
@@ -349,7 +356,7 @@
 
             <?php foreach ($notifications as $notification): ?>
 
-            <div class="row timeline-event mw-ui-admin-notif-item-{{$notification['id']}}">
+            <div class="row timeline-event mw-ui-admin-notif-item-{{$notification['id']}}" onclick="mw.notif_item_read('{{$notification['id']}}')">
                 <div class="col pr-0 timeline-line">
                     <div class="custom-control custom-checkbox d-inline-block">
                         <input type="checkbox" class="custom-control-input js-checked-checkbox"

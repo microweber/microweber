@@ -37,7 +37,6 @@ class NotificationController extends AdminController
                 continue;
             }
 
-
             $messageType = new $notification->type();
 
             if (method_exists($messageType, 'setNotification')) {
@@ -53,9 +52,10 @@ class NotificationController extends AdminController
                 $icon = $messageType->icon();
             }
 
-            $read = false;
-            if ($notification->read_at) {
 
+            $read = false;
+            if ($notification->read_at > 0) {
+                $read = true;
             }
 
             $readyNotifications[] = [
@@ -77,17 +77,26 @@ class NotificationController extends AdminController
 
     public function read(Request $request)
     {
-        $ids = $request->post('ids');
-
+        $idsPost = $request->post('ids');
         $admin = Auth::user();
 
-        if (empty($ids)) {
+        if (empty($idsPost)) {
             Notification::where('notifiable_id', $admin->id)->update(['read_at' => date('Y-m-d H:i:s')]);
         } else {
+
+            if (is_string($idsPost)) {
+                $ids = array();
+                $ids[] = $idsPost;
+            } else {
+                $ids = $idsPost;
+            }
+
             foreach ($ids as $id) {
                 $notify = Notification::where('notifiable_id', $admin->id)->where('id', $id)->first();
-                $notify->read_at = date('Y-m-d H:i:s');
-                $notify->save();
+                if ($notify) {
+                    $notify->read_at = date('Y-m-d H:i:s');
+                    $notify->save();
+                }
             }
         }
 
@@ -95,30 +104,48 @@ class NotificationController extends AdminController
 
     public function reset(Request $request)
     {
-        $ids = $request->post('ids');
+        $idsPost = $request->post('ids');
 
         $admin = Auth::user();
 
-        if (empty($ids)) {
-            Notification::where('notifiable_id', $admin->id)->update(['read_at' => '']);
+        if (empty($idsPost)) {
+            Notification::where('notifiable_id', $admin->id)->update(['read_at' => null]);
         } else {
+
+            if (is_string($idsPost)) {
+                $ids = array();
+                $ids[] = $idsPost;
+            } else {
+                $ids = $idsPost;
+            }
+
             foreach ($ids as $id) {
                 $notify = Notification::where('id', $id)->first();
-                $notify->read_at = '';
-                $notify->save();
+                if ($notify) {
+                    $notify->read_at = null;
+                    $notify->save();
+                }
             }
         }
     }
 
     public function delete(Request $request)
     {
-        $ids = $request->post('ids');
+        $idsPost = $request->post('ids');
 
         $admin = Auth::user();
 
-        if (empty($ids)) {
+        if (empty($idsPost)) {
             Notification::where('notifiable_id', $admin->id)->delete();
         } else {
+
+            if (is_string($idsPost)) {
+                $ids = array();
+                $ids[] = $idsPost;
+            } else {
+                $ids = $idsPost;
+            }
+
             foreach ($ids as $id) {
                 Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
             }
