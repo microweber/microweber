@@ -28,6 +28,7 @@ class NotificationController extends AdminController
 
         $notifications = Notification::filter($request->all())
             ->where('notifiable_id', $admin->id)
+            ->where('id', '>', 0)
             ->paginate($request->get('limit', 3))
             ->appends($request->except('page'));
 
@@ -52,8 +53,14 @@ class NotificationController extends AdminController
                 $icon = $messageType->icon();
             }
 
+            $read = false;
+            if ($notification->read_at) {
+
+            }
+
             $readyNotifications[] = [
                 'id' => $notification->id,
+                'read' => $read,
                 'icon' => $icon,
                 'message' => $messageType->message()
             ];
