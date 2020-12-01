@@ -56,8 +56,13 @@ if (isset($params_get_files['directory']) and !is_dir($params_get_files['directo
 if (isset($params['extensions']) and $params['extensions']) {
     $params_get_files['extensions'] = $params['extensions'];
 }
+$params_get_files['hide_files'] = ['index.html','index.php'];
 
-$data = mw('MicroweberPackages\Utils\System\Files')->get($params_get_files);
+
+$data = app()->make(\MicroweberPackages\Utils\System\Files::class)->get($params_get_files);
+
+
+
 
 $path_nav = explode(DS, $path);
 

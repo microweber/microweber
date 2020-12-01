@@ -36,6 +36,7 @@ class FileManagerApiController extends Controller {
         $fileFilter = [];
         $fileFilter['directory'] = $pathRestirct . $path;
         $fileFilter['restrict_path'] = $pathRestirct;
+        $fileFilter['hide_files'] = ['index.html','index.php'];
 
         if (!empty($keyword)) {
             $fileFilter['search'] = $keyword;
@@ -45,7 +46,7 @@ class FileManagerApiController extends Controller {
         $fileFilter['sort_by'] = $orderBy;
 
         $data = [];
-        $getData = mw('MicroweberPackages\Utils\System\Files')->get($fileFilter);
+        $getData = app()->make(\MicroweberPackages\Utils\System\Files::class)->get($fileFilter);
 
         // Append dirs
         if (isset($getData['dirs']) && is_array($getData['dirs'])) {
