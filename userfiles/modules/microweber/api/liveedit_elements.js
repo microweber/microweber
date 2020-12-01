@@ -240,7 +240,7 @@ mw.dropables = {
     _elementRegister:null,
     element: function(ev) {
         var element = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'element');
-        if(element && this._elementRegister !== element) {
+        if(element /*&& this._elementRegister !== element*/) {
             this._elementRegister = element;
             if (!mw.tools.hasClass(element, 'module')
                 && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['edit', 'module'])
@@ -260,7 +260,7 @@ mw.dropables = {
         }
         if (mw.mm_target === mw.image_resizer && this._elementRegister !== mw.image.currentResizing[0]) {
             this._elementRegister = mw.image.currentResizing[0];
-            mw.trigger("ElementOver", mw.image.currentResizing[0]);
+            mw.trigger("ElementOver", [mw.image.currentResizing[0], ev]);
         }
     },
     _layoutRegister:null,
@@ -295,7 +295,7 @@ mw.dropables = {
      }
  };
  mw.liveEditHandlers = function(event){
-    if ( /*mw.emouse.x % 2 === 0 && */ mw.drag.columns.resizing === false ) {
+    if (mw.drag.columns.resizing === false ) {
         mw.triggerLiveEditHandlers.cloneable(event);
         mw.triggerLiveEditHandlers.layout(event);
         mw.triggerLiveEditHandlers.element(event);

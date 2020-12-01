@@ -172,8 +172,12 @@ mw.Handle = function(options) {
         var btn = mwd.createElement('span');
         btn.className = 'mw-handle-menu-item';
         if(data.icon) {
+            var iconClass = data.icon;
+            if (iconClass.indexOf('mdi-') === 0) {
+                iconClass = 'mdi ' + iconClass
+            }
             var icon = mwd.createElement('span');
-            icon.className = data.icon + ' mw-handle-menu-item-icon';
+            icon.className = iconClass + ' mw-handle-menu-item-icon';
             btn.appendChild(icon);
         }
         btn.appendChild(mwd.createTextNode(data.title));
@@ -345,10 +349,11 @@ mw._initHandles = {
             className: 'mw-handle-type-default',
             buttons: [
                 {
-                    title: mw.lang('Insert module'),
+                    title: mw.lang('Insert'),
                     icon: 'mdi-plus-circle',
                     action: function (node) {
-                        mw.drag.plus.rendModules(node)
+                        console.log(node)
+                        mw.drag.plus.rendModules(node);
                     }
                 },
             ],
@@ -424,8 +429,7 @@ mw._initHandles = {
             }
         });
 
-        mw.$(mw.handleElement.wrapper).mouseenter(function() {
-        }).click(function() {
+        mw.$(mw.handleElement.wrapper).on('click', function() {
             if (!$(mw._activeElementOver).hasClass("element-current")) {
                 mw.$(".element-current").removeClass("element-current");
 
@@ -439,7 +443,7 @@ mw._initHandles = {
 
         });
 
-        mw.on("ElementOver", function(a, element) {
+        mw.on("ElementOver", function(a, element, originalEvent) {
             mw._activeElementOver = element;
             mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             if (!mw.ea.canDrop(element)) {
@@ -454,7 +458,9 @@ mw._initHandles = {
             var left_spacing = o.left;
             if (mw.tools.hasClass(element, 'jumbotron')) {
                 left_spacing = left_spacing + pleft;
+
             }
+            // Centered: left_spacing += (el.width()/2 - mw.handleElement.wrapper.offsetWidth/2);
             if(left_spacing<0){
                 left_spacing = 0;
             }
@@ -473,10 +479,16 @@ mw._initHandles = {
             } else{
                 mw.handleElement.show();
             }
-
+            mw.handleElement.positionedAt = 'top';
+            var posTop = o.top - 30;
+            var elHeight = el.height();
+            if (originalEvent.pageY > (o.top + elHeight/2)) {
+                posTop = o.top + elHeight;
+                mw.handleElement.positionedAt = 'bottom';
+            }
 
             mw.$(mw.handleElement.wrapper).css({
-                top: o.top - 10,
+                top: posTop,
                 left: left_spacing
             }).removeClass('active');
 
@@ -502,13 +514,19 @@ mw._initHandles = {
                     action: function () {
                         mw.drag.module_settings(mw._activeModuleOver,"admin");
                         mw.handleModule.hide();
+
                     }
                 },
                 {
                     title: mw.lang('Insert'),
                     icon: 'mdi-plus-circle',
                     action: function (node) {
-                        mw.drag.plus.rendModules(node)
+                        if(mw.handleModule.isLayout) {
+                            mw.layoutPlus.showSelectorUI(node);
+                        } else {
+                            mw.drag.plus.rendModules(node);
+                        }
+
                     }
                 },
             ],
@@ -579,6 +597,17 @@ mw._initHandles = {
                     action: function () {
                         mw.drag.module_settings(mw._activeModuleOver,"admin");
                         mw.handleModule.hide();
+                    }
+                },
+                {
+                    title: mw.lang('Insert'),
+                    icon: 'mdi-plus-circle',
+                    action: function (node) {
+                        if(mw.handleModuleActive.isLayout) {
+                            mw.layoutPlus.showSelectorUI(node);
+                        } else {
+                            mw.drag.plus.rendModules(node);
+                        }
                     }
                 },
             ],
@@ -735,7 +764,11 @@ mw._initHandles = {
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
             var $el, hasedit;
-            if(element && element.getAttribute('data-type') === 'layouts'){
+            const isLayout = element && element.getAttribute('data-type') === 'layouts';
+            handle.isLayout = isLayout;
+            handle.handle.classList[isLayout ? 'add' : 'remove']('mw-handle-target-layout');
+            if(isLayout){
+
                 $el = mw.$(element);
                 hasedit = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0].parentNode,['edit', 'module']);
 
@@ -1064,8 +1097,6 @@ mw._initHandles = {
             mw._activeRowOver = element;
             var el = mw.$(element);
             var o = el.offset();
-            var width = el.width();
-            var pleft = parseFloat(el.css("paddingLeft"));
             var htop = o.top - 35;
             var left = o.left;
 
@@ -1075,7 +1106,6 @@ mw._initHandles = {
             }
             if (htop < 0 && mwd.getElementById('live_edit_toolbar') === null) {
                 htop = 0;
-                //   var left = left-50;
             }
 
 

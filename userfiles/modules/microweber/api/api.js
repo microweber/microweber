@@ -329,7 +329,7 @@ mw.getScripts = function (array, callback) {
  */
 
   mw.load_module = function(name, selector, callback, attributes) {
-     var attributes = attributes || {};
+     attributes = attributes || {};
      attributes.module = name;
      return mw._({
         selector: selector,
