@@ -12,6 +12,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
+    public function __construct($resource, $attribute)
+    {
+        $this->resource = $resource;
+        $this->attribute = $attribute;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -37,15 +42,20 @@ class UserResource extends JsonResource
             $resp['id'] = $this->id;
         }
 
-        return [
+        $all_resp= [
             'success' => true,
-            'data' => [
-                'email' => $this->email,
-                'is_verified' => $this->is_verified,
-                'is_active' => $this->is_active,
-                'id' => $this->id,
-            ],
-            'message' => 'You have registered successfully'
+            'data' => $resp,
         ];
+
+
+        if(!empty($this->attribute['redirect'])){
+            $all_resp['redirect'] = $this->attribute['redirect'];
+        }
+
+        if(!empty($this->attribute['success'])){
+            $all_resp['message'] = $this->attribute['success'];
+        }
+
+        return $all_resp;
     }
 }
