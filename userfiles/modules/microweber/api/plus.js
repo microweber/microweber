@@ -1,7 +1,7 @@
 mw.drag = mw.drag || {};
 mw.drag.plus = {
     locked: false,
-    disabled: true,
+    disabled: false,
    // mouse_moved: false,
     init: function (holder) {
 
@@ -94,6 +94,7 @@ mw.drag.plus = {
 
     },
     tipPosition: function (node) {
+        return 'right-center';
         var off = mw.$(node).offset();
         if (off.top > 130) {
             if ((off.top + node.offsetHeight) < ($(mwd.body).height() - 130)) {
@@ -139,6 +140,16 @@ mw.drag.plus = {
                     mw.$(".module-bubble-tab-not-found-message").hide();
                 }
             });
+            mw.$('#plus-modules-list li').each(function () {
+                var name = mw.$(this).attr('data-module-name');
+                if(name === 'layout'){
+                    var template = mw.$(this).attr('template');
+                    mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className, template:"'+template+'"})');
+                } else {
+                    mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className})');
+                }
+            });
+
         }
     },
     action: function () {
@@ -154,15 +165,7 @@ mw.drag.plus = {
         $pls.on('click', function () {
             mw.drag.plus.rendModules(this)
         });
-        mw.$('#plus-modules-list li').each(function () {
-            var name = mw.$(this).attr('data-module-name');
-            if(name === 'layout'){
-                var template = mw.$(this).attr('template');
-                mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className, template:"'+template+'"})');
-            } else {
-                mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className})');
-            }
-        });
+
     },
     search: function (val, root) {
         var all = root.querySelectorAll('.module_name'),
@@ -191,36 +194,43 @@ mw.drag.plus = {
     }
 };
 
-InsertModule = function (module, cls) {
-    var id = 'mwemodule-' + mw.random(), el = '<div id="' + id + '"></div>', action;
-    if (mw.drag.plusActive === 'top') {
-        action = 'before';
-        if(mw.tools.hasClass(mw.drag.plusTop.currentNode, 'allow-drop')) {
-            action = 'prepend';
+
+var insertModule = function (target, module, config, pos) {
+    return new Promise(function (resolve) {
+        pos = pos || 'bottom';
+        var action;
+        var id = mw.id('mw-module-'), el = '<div id="' + id + '"></div>';
+        if (pos === 'top') {
+            action = 'before';
+            if(mw.tools.hasClass(target, 'allow-drop')) {
+                action = 'prepend';
+            }
+        } else if (pos === 'bottom') {
+            action = 'after';
+            if(mw.tools.hasClass(target, 'allow-drop')) {
+                action = 'append';
+            }
         }
-    }
-    else if (mw.drag.plusActive === 'bottom') {
-        action = 'after';
-        if(mw.tools.hasClass(mw.drag.plusTop.currentNode, 'allow-drop')) {
-            action = 'append';
-        }
-    }
-    mw.$(mw.drag.plusBottom.currentNode)[action](el);
+        mw.$(mw.drag.plusBottom.currentNode)[action](el);
+        mw.load_module(module, '#' + id, function () {
+            resolve(this);
+        }, config);
+    });
+};
 
-     mw.load_module(module, '#' + id, function () {
-        var node = document.getElementById(id);
+InsertModule = function (module, cls, action) {
 
-        mw.wysiwyg.change(node);
+    var position = mw.drag.plusActive === 'top' ? 'top' : 'bottom';
 
+    insertModule(mw.drag.plusTop.currentNode, module, cls, position).then(function (el) {
+        mw.wysiwyg.change(el);
         mw.drag.plus.locked = false;
         mw.drag.fixes();
-         setTimeout(function () {
-            mw.drag.fix_placeholders();
-        }, 40);
-
+        setTimeout(function () { mw.drag.fix_placeholders(); }, 40);
         mw.dropable.hide();
-    }, cls);
+    });
     mw.$('.mw-tooltip').hide();
+
 };
 
 

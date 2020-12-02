@@ -73,39 +73,31 @@ mw.layoutPlus = {
             scope.pause = false;
         });
     },
-    mode: 'tooltip', //'Dialog',
+    mode: 'Dialog', //'tooltip', 'Dialog',
+    showSelectorUI: function (el) {
+        var scope = this;
+        scope.pause = true;
+        var tip = new mw[mw.layoutPlus.mode]({
+            content: mwd.getElementById('plus-layouts-list').innerHTML,
+            element: this,
+            position: 'right-center',
+            template: 'mw-tooltip-default mw-tooltip-insert-module',
+            id: 'mw-plus-tooltip-selector',
+            title: mw.lang('Select layout'),
+            width: 800,
+            overlay: false
+        });
+        scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'before');
+        $('#mw-plus-tooltip-selector input').focus();
+        $('#mw-plus-tooltip-selector').addClass('active');
+    },
     initSelector: function () {
         var scope = this;
         this._top.on('click', function () {
-            scope.pause = true;
-            var tip = new mw[mw.layoutPlus.mode]({
-                content: mwd.getElementById('plus-layouts-list').innerHTML,
-                element: this,
-                position: 'right-center',
-                template: 'mw-tooltip-default mw-tooltip-insert-module',
-                id: 'mw-plus-tooltip-selector',
-                title: mw.lang('Select layout'),
-                width: 400
-            });
-            scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'before');
-            $('#mw-plus-tooltip-selector input').focus();
-            $('#mw-plus-tooltip-selector').addClass('active');
-
+            scope.showSelectorUI(this);
         });
         this._bottom.on('click', function () {
-            scope.pause = true;
-            var tip = new mw[mw.layoutPlus.mode]({
-                content: mwd.getElementById('plus-layouts-list').innerHTML,
-                element: this,
-                position: 'right-center',
-                template: 'mw-tooltip-default mw-tooltip-insert-module',
-                id: 'mw-plus-tooltip-selector',
-                title: mw.lang('Select layout'),
-                width: 400
-            });
-            scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'after');
-            $('#mw-plus-tooltip-selector input').focus();
-            $('#mw-plus-tooltip-selector').addClass('active');
+            scope.showSelectorUI(this);
         });
 
     },

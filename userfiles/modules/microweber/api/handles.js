@@ -1,5 +1,23 @@
 mw.require('selector.js');
 
+var _handleInsertTargetDisplay;
+var handleInsertTargetDisplay = function (target, pos) {
+    if(!_handleInsertTargetDisplay) {
+        _handleInsertTargetDisplay = mw.element('<div class="mw-handle-insert-target-display" />');
+        mw.element(document.body).append(_handleInsertTargetDisplay)
+    }
+    var off = mw.element(target).offset();
+    var css = { left: off.left };
+    if(pos === 'top') {
+        css.top = off.top;
+    } else if(pos === 'bottom') {
+        css.top = off.bottom ;
+    }
+    _handleInsertTargetDisplay.css({
+
+    });
+}
+
 var dynamicModulesMenuTime = null;
 var dynamicModulesMenu = function(e, el) {
     if(!mw.inaccessibleModules){
@@ -172,8 +190,12 @@ mw.Handle = function(options) {
         var btn = mwd.createElement('span');
         btn.className = 'mw-handle-menu-item';
         if(data.icon) {
+            var iconClass = data.icon;
+            if (iconClass.indexOf('mdi-') === 0) {
+                iconClass = 'mdi ' + iconClass
+            }
             var icon = mwd.createElement('span');
-            icon.className = data.icon + ' mw-handle-menu-item-icon';
+            icon.className = iconClass + ' mw-handle-menu-item-icon';
             btn.appendChild(icon);
         }
         btn.appendChild(mwd.createTextNode(data.title));
@@ -223,8 +245,12 @@ mw.Handle = function(options) {
     };
     this.createButton = function(obj){
         var btn = mwd.createElement('span');
-        btn.className = 'tip mdi ' + obj.icon;
+        btn.className = 'tip mdi ' + obj.icon + (obj.className ? ' ' + obj.className : '');
         btn.dataset.tip = obj.title;
+        if (obj.hover) {
+            btn.addEventListener('mouseenter', obj.hover[0] , false);
+            btn.addEventListener('mouseleave', obj.hover[1] , false);
+        }
         btn.onclick = function () {
             mw.tools.removeClass(this, 'active')
             obj.action(this);
@@ -344,13 +370,54 @@ mw._initHandles = {
             id: 'mw-handle-item-element',
             className: 'mw-handle-type-default',
             buttons: [
-                {
-                    title: mw.lang('Insert module'),
-                    icon: 'mdi-plus-circle',
-                    action: function (node) {
-                        mw.drag.plus.rendModules(node)
+                    {
+                        title: mw.lang('Insert'),
+                        icon: 'mdi-plus-circle',
+                        className: 'mw-handle-insert-button',
+                        hover: [ function (e){    }],
+                        action: function (el) {
+                             if (!mw.tools.hasClass(el, 'active')) {
+                                mw.tools.addClass(el, 'active');
+                                 mw.drag.plus.locked = true;
+                                mw.$('.mw-tooltip-insert-module').remove();
+                                mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
+                                var tip = new mw.tooltip({
+                                    content: mwd.getElementById('plus-modules-list').innerHTML,
+                                    element: el,
+                                    position: mw.drag.plus.tipPosition(this.currentNode),
+                                    template: 'mw-tooltip-default mw-tooltip-insert-module',
+                                    id: 'mw-plus-tooltip-selector'
+                                });
+                                setTimeout(function (){
+                                    $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
+                                }, 10)
+                                mw.tabs({
+                                    nav: tip.querySelectorAll('.mw-ui-btn'),
+                                    tabs: tip.querySelectorAll('.module-bubble-tab'),
+                                });
+
+                                mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
+                                    var resultsLength = mw.drag.plus.search(this.value, tip);
+                                    if (resultsLength === 0) {
+                                        mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
+                                    }
+                                    else {
+                                        mw.$(".module-bubble-tab-not-found-message").hide();
+                                    }
+                                });
+                                mw.$('#mw-plus-tooltip-selector li').each(function () {
+                                    this.onclick = function () {
+                                        var name = mw.$(this).attr('data-module-name');
+                                        var conf = { class: this.className };
+                                        if(name === 'layout') {
+                                            conf.template = mw.$(this).attr('template');
+                                        }
+                                        mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
+                                    };
+                                });
+                        }
                     }
-                },
+                }
             ],
             menu: [
                 {
@@ -424,8 +491,7 @@ mw._initHandles = {
             }
         });
 
-        mw.$(mw.handleElement.wrapper).mouseenter(function() {
-        }).click(function() {
+        mw.$(mw.handleElement.wrapper).on('click', function() {
             if (!$(mw._activeElementOver).hasClass("element-current")) {
                 mw.$(".element-current").removeClass("element-current");
 
@@ -439,7 +505,7 @@ mw._initHandles = {
 
         });
 
-        mw.on("ElementOver", function(a, element) {
+        mw.on("ElementOver", function(a, element, originalEvent) {
             mw._activeElementOver = element;
             mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             if (!mw.ea.canDrop(element)) {
@@ -454,7 +520,9 @@ mw._initHandles = {
             var left_spacing = o.left;
             if (mw.tools.hasClass(element, 'jumbotron')) {
                 left_spacing = left_spacing + pleft;
+
             }
+            // Centered: left_spacing += (el.width()/2 - mw.handleElement.wrapper.offsetWidth/2);
             if(left_spacing<0){
                 left_spacing = 0;
             }
@@ -473,10 +541,16 @@ mw._initHandles = {
             } else{
                 mw.handleElement.show();
             }
-
+            mw.handleElement.positionedAt = 'top';
+            var posTop = o.top - 30;
+            var elHeight = el.height();
+            if (originalEvent.pageY > (o.top + elHeight/2)) {
+                posTop = o.top + elHeight;
+                mw.handleElement.positionedAt = 'bottom';
+            }
 
             mw.$(mw.handleElement.wrapper).css({
-                top: o.top - 10,
+                top: posTop,
                 left: left_spacing
             }).removeClass('active');
 
@@ -502,13 +576,20 @@ mw._initHandles = {
                     action: function () {
                         mw.drag.module_settings(mw._activeModuleOver,"admin");
                         mw.handleModule.hide();
+
                     }
                 },
                 {
                     title: mw.lang('Insert'),
+                    className: 'mw-handle-insert-button',
                     icon: 'mdi-plus-circle',
                     action: function (node) {
-                        mw.drag.plus.rendModules(node)
+                        if(mw.handleModule.isLayout) {
+                            mw.layoutPlus.showSelectorUI(node);
+                        } else {
+                            mw.drag.plus.rendModules(node);
+                        }
+
                     }
                 },
             ],
@@ -579,6 +660,18 @@ mw._initHandles = {
                     action: function () {
                         mw.drag.module_settings(mw._activeModuleOver,"admin");
                         mw.handleModule.hide();
+                    }
+                },
+                {
+                    title: mw.lang('Insert'),
+                    className: 'mw-handle-insert-button',
+                    icon: 'mdi-plus-circle',
+                    action: function (node) {
+                        if(mw.handleModuleActive.isLayout) {
+                            mw.layoutPlus.showSelectorUI(node);
+                        } else {
+                            mw.drag.plus.rendModules(node);
+                        }
                     }
                 },
             ],
@@ -735,7 +828,11 @@ mw._initHandles = {
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
             var $el, hasedit;
-            if(element && element.getAttribute('data-type') === 'layouts'){
+            const isLayout = element && element.getAttribute('data-type') === 'layouts';
+            handle.isLayout = isLayout;
+            handle.handle.classList[isLayout ? 'add' : 'remove']('mw-handle-target-layout');
+            if(isLayout){
+
                 $el = mw.$(element);
                 hasedit = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0].parentNode,['edit', 'module']);
 
@@ -820,7 +917,7 @@ mw._initHandles = {
             } else {
                 mw.$(handle.wrapper).addClass('mw-handle-no-drag');
             }
-            if(typeof(el) == 'undefined'){
+            if ( !el ) {
                 return;
             }
             var title = el.dataset("mw-title");
@@ -1064,8 +1161,6 @@ mw._initHandles = {
             mw._activeRowOver = element;
             var el = mw.$(element);
             var o = el.offset();
-            var width = el.width();
-            var pleft = parseFloat(el.css("paddingLeft"));
             var htop = o.top - 35;
             var left = o.left;
 
@@ -1075,7 +1170,6 @@ mw._initHandles = {
             }
             if (htop < 0 && mwd.getElementById('live_edit_toolbar') === null) {
                 htop = 0;
-                //   var left = left-50;
             }
 
 

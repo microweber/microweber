@@ -3,13 +3,16 @@
 namespace MicroweberPackages\User\Http\Controllers;
 
 use App\Http\Resources\User\UserResource;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\Event\Event;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Models\User;
+use Illuminate\Support\Facades\Session;
 
 class UserLoginController extends Controller
 {
@@ -79,6 +82,8 @@ class UserLoginController extends Controller
                 }
             }
         }
+
+        Session::flash('old_sid', Session::getId());
 
         $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')),$remember = true);
 
