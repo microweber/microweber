@@ -28,7 +28,6 @@ class CommentController
         $rules['rel_type'] = 'required';
         $rules['comment_body'] = 'required';
 
-
         if (!empty($inputs['comment_email'])) {
             $inputs['email'] = $inputs['comment_email'];
         }
@@ -51,15 +50,22 @@ class CommentController
             return ['errors'=>$validator->messages()->toArray()];
         }
 
+        $saveComment = $request->all();
 
-        $save_req = $request->all();
-        if (!empty($save_req['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
-
-            $save_req['comment_body'] = Markdown::convertToHtml($save_req['comment_body']);
-
+        $requireModeration = Option::getValue('require_moderation', 'comments');
+        if ($requireModeration) {
+            $saveComment['is_moderated'] = 1;
         }
 
-        $save = Comment::create($save_req);
+        if (!empty($saveComment['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
+            $saveComment['comment_body'] = Markdown::convertToHtml($saveComment['comment_body']);
+        }
+
+        $save = Comment::create($saveComment);
+
+        event(new NewComment($save));
+
+        Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($save));
 
         return (new JsonResource($save))->response();
     }
