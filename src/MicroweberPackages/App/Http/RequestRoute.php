@@ -33,7 +33,7 @@ class RequestRoute extends Request
         };
 
         self::setFactory($requestFactory);
-        $createRequest = self::create($route, 'POST', $params, [], [], $_SERVER);
+        $createRequest = self::create($route, 'POST', $params, $_COOKIE, $_FILES, $_SERVER);
         $createRequest->headers->set('accept', 'application/json');
 
         $response = app()->handle($createRequest);

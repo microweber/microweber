@@ -20,6 +20,7 @@ use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
+use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Utils\Captcha\CaptchaManagerServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
@@ -229,6 +230,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(FormServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
+        $this->app->register(CartEventServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(DatabaseManagerServiceProvider::class);
