@@ -266,6 +266,10 @@
             }
         };
 
+        this.offset = function () {
+            return this._active().getBoundingClientRect();
+        };
+
 
         this.width = function (val) {
             if(val) {

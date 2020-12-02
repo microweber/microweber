@@ -1,5 +1,23 @@
 mw.require('selector.js');
 
+var _handleInsertTargetDisplay;
+var handleInsertTargetDisplay = function (target, pos) {
+    if(!_handleInsertTargetDisplay) {
+        _handleInsertTargetDisplay = mw.element('<div class="mw-handle-insert-target-display" />');
+        mw.element(document.body).append(_handleInsertTargetDisplay)
+    }
+    var off = mw.element(target).offset();
+    var css = { left: off.left };
+    if(pos === 'top') {
+        css.top = off.top;
+    } else if(pos === 'bottom') {
+        css.top = off.bottom ;
+    }
+    _handleInsertTargetDisplay.css({
+
+    });
+}
+
 var dynamicModulesMenuTime = null;
 var dynamicModulesMenu = function(e, el) {
     if(!mw.inaccessibleModules){
@@ -227,8 +245,12 @@ mw.Handle = function(options) {
     };
     this.createButton = function(obj){
         var btn = mwd.createElement('span');
-        btn.className = 'tip mdi ' + obj.icon;
+        btn.className = 'tip mdi ' + obj.icon + (obj.className ? ' ' + obj.className : '');
         btn.dataset.tip = obj.title;
+        if (obj.hover) {
+            btn.addEventListener('mouseenter', obj.hover[0] , false);
+            btn.addEventListener('mouseleave', obj.hover[1] , false);
+        }
         btn.onclick = function () {
             mw.tools.removeClass(this, 'active')
             obj.action(this);
@@ -348,14 +370,54 @@ mw._initHandles = {
             id: 'mw-handle-item-element',
             className: 'mw-handle-type-default',
             buttons: [
-                {
-                    title: mw.lang('Insert'),
-                    icon: 'mdi-plus-circle',
-                    action: function (node) {
-                        console.log(node)
-                        mw.drag.plus.rendModules(node);
+                    {
+                        title: mw.lang('Insert'),
+                        icon: 'mdi-plus-circle',
+                        className: 'mw-handle-insert-button',
+                        hover: [ function (e){    }],
+                        action: function (el) {
+                             if (!mw.tools.hasClass(el, 'active')) {
+                                mw.tools.addClass(el, 'active');
+                                 mw.drag.plus.locked = true;
+                                mw.$('.mw-tooltip-insert-module').remove();
+                                mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
+                                var tip = new mw.tooltip({
+                                    content: mwd.getElementById('plus-modules-list').innerHTML,
+                                    element: el,
+                                    position: mw.drag.plus.tipPosition(this.currentNode),
+                                    template: 'mw-tooltip-default mw-tooltip-insert-module',
+                                    id: 'mw-plus-tooltip-selector'
+                                });
+                                setTimeout(function (){
+                                    $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
+                                }, 10)
+                                mw.tabs({
+                                    nav: tip.querySelectorAll('.mw-ui-btn'),
+                                    tabs: tip.querySelectorAll('.module-bubble-tab'),
+                                });
+
+                                mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
+                                    var resultsLength = mw.drag.plus.search(this.value, tip);
+                                    if (resultsLength === 0) {
+                                        mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
+                                    }
+                                    else {
+                                        mw.$(".module-bubble-tab-not-found-message").hide();
+                                    }
+                                });
+                                mw.$('#mw-plus-tooltip-selector li').each(function () {
+                                    this.onclick = function () {
+                                        var name = mw.$(this).attr('data-module-name');
+                                        var conf = { class: this.className };
+                                        if(name === 'layout') {
+                                            conf.template = mw.$(this).attr('template');
+                                        }
+                                        mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
+                                    };
+                                });
+                        }
                     }
-                },
+                }
             ],
             menu: [
                 {
@@ -519,6 +581,7 @@ mw._initHandles = {
                 },
                 {
                     title: mw.lang('Insert'),
+                    className: 'mw-handle-insert-button',
                     icon: 'mdi-plus-circle',
                     action: function (node) {
                         if(mw.handleModule.isLayout) {
@@ -601,6 +664,7 @@ mw._initHandles = {
                 },
                 {
                     title: mw.lang('Insert'),
+                    className: 'mw-handle-insert-button',
                     icon: 'mdi-plus-circle',
                     action: function (node) {
                         if(mw.handleModuleActive.isLayout) {
@@ -853,7 +917,7 @@ mw._initHandles = {
             } else {
                 mw.$(handle.wrapper).addClass('mw-handle-no-drag');
             }
-            if(typeof(el) == 'undefined'){
+            if ( !el ) {
                 return;
             }
             var title = el.dataset("mw-title");

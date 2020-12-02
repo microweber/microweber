@@ -4250,6 +4250,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     pointer-events: none;
 }
 
+.mw-handle-no-drag .mw-handle-insert-button,
 .mw-handle-no-drag .mw-handle-remove {
     display: none;
 }
