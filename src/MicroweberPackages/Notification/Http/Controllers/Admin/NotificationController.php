@@ -27,7 +27,6 @@ class NotificationController extends AdminController
 
         $notifications = Notification::filter($request->all())
             ->where('notifiable_id', $admin->id)
-            ->where('id', '>', 0)
             ->paginate($request->get('limit', 30))
             ->appends($request->except('page'));
 
