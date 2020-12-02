@@ -1,6 +1,8 @@
 <?php
+
 namespace MicroweberPackages\Helper\tests;
 
+use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Core\tests\TestCase;
 
 class CommentsTest extends TestCase
@@ -8,6 +10,7 @@ class CommentsTest extends TestCase
     public function testPostComment()
     {
         $this->_setDisableTerms();
+        $this->_setDisableCaptcha();
 
 
         $params = array(
@@ -21,8 +24,8 @@ class CommentsTest extends TestCase
             'POST',
             route('api.comment.post'),
             [
-                'rel_id'=>$save_post1,
-                'rel_type'=>'content',
+                'rel_id' => $save_post1,
+                'rel_type' => 'content',
                 'comment_name' => 'Bozhidar',
                 'comment_email' => 'selfworksbg@gmail.com',
                 'comment_website' => 'credocart.bg',
@@ -47,9 +50,11 @@ class CommentsTest extends TestCase
 
 
     }
+
     public function testPostCommentWithXss()
     {
         $this->_setDisableTerms();
+        $this->_setDisableCaptcha();
 
 
         $params = array(
@@ -63,8 +68,8 @@ class CommentsTest extends TestCase
             'POST',
             route('api.comment.post'),
             [
-                'rel_id'=>$save_post1,
-                'rel_type'=>'content',
+                'rel_id' => $save_post1,
+                'rel_type' => 'content',
                 'comment_name' => 'Hacker',
                 'comment_email' => 'hackker@hak.com',
                 'comment_website' => 'haker.com',
@@ -95,9 +100,7 @@ class CommentsTest extends TestCase
     {
 
         $this->_setEnableTerms();
-
-
-
+        $this->_setDisableCaptcha();
 
         $params = array(
             'title' => 'some post test for comments3',
@@ -106,27 +109,124 @@ class CommentsTest extends TestCase
 
         $save_post1 = save_content($params);
 
+        $req = [
+            'rel_id' => $save_post1,
+            'rel_type' => 'content',
+            'comment_name' => 'User for terms',
+            'comment_email' => 'html' . now() . rand() . '@user.com',
+            'comment_body' => 'Hello',
+        ];
+
+
+        $commentData = RequestRoute::postJson(
+            route('api.comment.post'),
+            $req
+        );
+
+
+        $this->assertNotEmpty($commentData['error']);
+        $this->assertNotEmpty($commentData['terms_error']);
+        $this->assertEquals("terms", $commentData['form_data_required']);
+
+
+        $req['terms'] = 1;
+        $commentData = RequestRoute::postJson(
+            route('api.comment.post'),
+            $req
+        );
+        $this->assertEquals(true, $commentData['success']);
+
+    }
+
+    public function testPostCommentWithCaptcha()
+    {
+
+        $this->_setEnableTerms();
+        $this->_setEnableCaptcha();
+
+        $params = array(
+            'title' => 'some post test for comments3',
+            'content_type' => 'post',
+            'is_active' => 1,);
+
+        $save_post1 = save_content($params);
+
+        $captchaAnswer = uniqid();
+        $captchaWrongAnswer = $captchaAnswer . uniqid();
+
+        $fakeCaptcha = new \MicroweberPackages\Utils\Captcha\tests\Fakers\FakeCaptcha();
+        $fakeCaptcha->setAnswer($captchaAnswer);
+        app()->captcha_manager->setAdapter($fakeCaptcha);
+
+
+        $req = [
+            'terms' => 1,
+            'captcha' => $captchaWrongAnswer,
+            'rel_id' => $save_post1,
+            'rel_type' => 'content',
+            'comment_name' => 'User for terms',
+            'comment_email' => 'html' . now() . rand() . '@user.com',
+            'comment_body' => 'Hello',
+        ];
+
+
+        $commentData = RequestRoute::postJson(
+            route('api.comment.post'),
+            $req
+        );
+
+
+        $this->assertEquals("captcha", $commentData['form_data_required']);
+
+        $req['captcha'] = $captchaAnswer;
+
+        $commentData = RequestRoute::postJson(
+            route('api.comment.post'),
+            $req
+        );
+
+        $this->assertNotEmpty($commentData['data']);
+    }
+
+
+
+    public function testPostCommentWithMarkDown()
+    {
+
+        $this->_setDisableTerms();
+        $this->_setDisableCaptcha();
+
+
+        $params = array(
+            'title' => 'some post test for comments markwodn',
+            'content_type' => 'post',
+            'is_active' => 1,);
+
+        $save_post1 = save_content($params);
 
         $response = $this->json(
             'POST',
             route('api.comment.post'),
             [
-                'rel_id'=>$save_post1,
-                'rel_type'=>'content',
-                'comment_name' => 'User for terms',
-                'comment_body' => 'Hello',
+                'rel_id' => $save_post1,
+                'rel_type' => 'content',
+                'comment_name' => 'Markdown',
+                'comment_email' => 'Markdown@Markdown.com',
+                'comment_website' => 'Markdown.com',
+                'comment_body' => ' # Hello  this is h1',
             ]
         );
 
         $commentData = $response->getData();
 
-
-        var_dump($commentData);
+        $this->assertEquals( "<h1>Hello  this is h1</h1>\n", $commentData->data->comment_body);
 
 
     }
 
-    private function _setEnableTerms(){
+
+    private function _setEnableTerms()
+    {
 
         $data['option_value'] = 'y';
         $data['option_key'] = 'require_terms';
@@ -135,10 +235,32 @@ class CommentsTest extends TestCase
 
     }
 
-    private function _setDisableTerms(){
+    private function _setDisableTerms()
+    {
 
         $data['option_value'] = 'n';
         $data['option_key'] = 'require_terms';
+        $data['option_group'] = 'comments';
+        $save = save_option($data);
+
+    }
+
+
+    private function _setEnableCaptcha()
+    {
+
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'disable_captcha';
+        $data['option_group'] = 'comments';
+        $save = save_option($data);
+
+    }
+
+    private function _setDisableCaptcha()
+    {
+
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'disable_captcha';
         $data['option_group'] = 'comments';
         $save = save_option($data);
 

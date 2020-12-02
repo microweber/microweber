@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Comment\Comment;
+use MicroweberPackages\Option\Facades\Option;
 
 class CommentController
 {
@@ -26,14 +27,25 @@ class CommentController
         $rules['rel_type'] = 'required';
         $rules['comment_body'] = 'required';
 
+
+        if (!empty($inputs['comment_email'])) {
+            $inputs['email'] = $inputs['comment_email'];
+        }
+
         if (get_option('require_terms', 'comments') == 'y') {
             $rules['terms'] = 'terms:terms_comments';
             if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
                 $rules['terms'] = $rules['terms'] . ', terms_newsletter';
             }
+            $rules['comment_email'] = 'required';
         }
 
-        $validator = \Validator::make($request->all(), $rules);
+        $rules['captcha'] = 'captcha';
+         if (is_module('captcha') && Option::getValue('disable_captcha', 'comments')) {
+            unset($rules['captcha']);
+        }
+
+        $validator = \Validator::make($inputs, $rules);
         if ($validator->fails()) {
             return ['errors'=>$validator->messages()->toArray()];
         }
