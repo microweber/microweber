@@ -16,6 +16,7 @@ class UserLoginControllerTest extends TestCase
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
         $this->_disableLoginCaptcha();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $username = 'testuser_' . uniqid();
         $password = 'pass__' . uniqid();
@@ -31,9 +32,8 @@ class UserLoginControllerTest extends TestCase
             ]
         );
 
-
         $userData = $response->getData();
-        
+
         $this->assertEquals($username, $userData->data->username);
         $this->assertNotEmpty($userData->data->id);
 

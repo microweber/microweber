@@ -16,7 +16,7 @@ class UserRegisterControllerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
 
-        $username = 'testuser_' . uniqid();
+        $username = 'testuser_' .uniqid();
 
         $response = $this->json(
             'POST',
@@ -28,6 +28,7 @@ class UserRegisterControllerTest extends TestCase
         );
 
         $userData = $response->getData();
+
          $this->assertEquals($username, $userData->data->username);
         $this->assertNotEmpty($userData->data->id);
 

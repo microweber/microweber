@@ -170,8 +170,8 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
 
+
         $this->assertArrayHasKey('success', $requestStatus);
-        $this->assertTrue($requestStatus['success']);
         $this->assertContains('reset link', $requestStatus['message']);
 
         $userDetails['email'] = 'wrong@gmail.com';
@@ -180,7 +180,7 @@ class UserManagerTest extends TestCase
         $requestStatus = $userManager->send_forgot_password($userDetails);
 
         $this->assertArrayHasKey('error', $requestStatus);
-        $this->assertTrue($requestStatus['error']);
+
         $this->assertContains('user with that e-mail address', $requestStatus['message']);
 
 
@@ -201,6 +201,7 @@ class UserManagerTest extends TestCase
     public function testDisableUserRegistration()
     {
         $this->_disableUserRegistration();
+        $this->_disableRegistrationApprovalByAdmin();
 
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
@@ -214,6 +215,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
+
         $this->assertArrayHasKey('error', $registerStatus);
     }
 
@@ -268,8 +270,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-
-        $this->assertArrayHasKey('success', $registerStatus);
+         $this->assertArrayHasKey('success', $registerStatus);
 
 
         $loginDetails = array();
@@ -278,7 +279,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $loginStatus = $userManager->login($loginDetails);
-
+//dump($loginStatus);
         $this->assertArrayHasKey('error', $loginStatus);
         $this->assertContains('verify', $loginStatus['error']);
 
@@ -345,7 +346,8 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $forgotPass = $userManager->send_forgot_password($newUser);
         $this->assertArrayHasKey('success', $forgotPass);
-        $this->assertTrue( $forgotPass['success']);
+
+
         $this->assertContains('reset link sent', $forgotPass['message']);
 
         $check = DB::table('password_resets')
@@ -365,7 +367,7 @@ class UserManagerTest extends TestCase
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
         $this->assertArrayHasKey('success', $updatePasswordWithToken);
-        $this->assertTrue( $updatePasswordWithToken['success']);
+
         $this->assertContains('has been reset', $updatePasswordWithToken['message']);
 
 
@@ -425,7 +427,7 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $forgotPass = $userManager->send_forgot_password($newUser);
         $this->assertArrayHasKey('success', $forgotPass);
-        $this->assertTrue( $forgotPass['success']);
+        
         $this->assertContains('reset link sent', $forgotPass['message']);
 
 
