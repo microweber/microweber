@@ -9,17 +9,29 @@
 namespace MicroweberPackages\Comment\Http\Controllers;
 
 use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Comment\Comment;
+use MicroweberPackages\Comment\Events\NewComment;
+use MicroweberPackages\Comment\Notifications\NewCommentNotification;
 use MicroweberPackages\Option\Facades\Option;
+use MicroweberPackages\User\Models\User;
 
 class CommentController
 {
     public function postComment(Request $request)
     {
+        if (empty(Auth::user()->id)) {
+            $mustBeLogged = Option::getValue('user_must_be_logged', 'comments');
+            if ($mustBeLogged) {
+                return ['errors'=>'Must be logged'];
+            }
+        }
+
 
         $rules = [];
         $inputs = $request->all();
@@ -32,7 +44,7 @@ class CommentController
             $inputs['email'] = $inputs['comment_email'];
         }
 
-        if (get_option('require_terms', 'comments') == 'y') {
+        if (Option::getValue('require_terms', 'comments')) {
             $rules['terms'] = 'terms:terms_comments';
             if (isset($inputs['newsletter_subscribe']) and $inputs['newsletter_subscribe']) {
                 $rules['terms'] = $rules['terms'] . ', terms_newsletter';

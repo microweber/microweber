@@ -211,40 +211,40 @@
                             </div>
                         </div>
 
-                        <hr class="thin">
+                    <!--    <hr class="thin">
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group email-on-new-comment-setting">
-                                    <label class="control-label d-block"><?php _e("Send email me on"); ?></label>
+                                    <label class="control-label d-block"><?php /*_e("Send email me on"); */?></label>
 
                                     <div class="email-on-new-comment-holder">
                                         <label class="mw-ui-check">
-                                            <?php $email_enabled = get_option('email_on_new_comment', 'comments') == 'y'; ?>
-                                            <input type="checkbox" name="email_on_new_comment" value="y" parent-reload="true" class="mw_option_field" option-group="comments"<?php if ($email_enabled): ?>   checked="checked"  <?php endif; ?>/>
-                                            <span></span><span><?php _e("New comment"); ?></span>
+                                            <?php /*$email_enabled = get_option('email_on_new_comment', 'comments') == 'y'; */?>
+                                            <input type="checkbox" name="email_on_new_comment" value="y" parent-reload="true" class="mw_option_field" option-group="comments"<?php /*if ($email_enabled): */?>   checked="checked"  <?php /*endif; */?>/>
+                                            <span></span><span><?php /*_e("New comment"); */?></span>
                                         </label>
 
-                                        <div class="<?php if ($email_enabled == false): ?>deactivated<?php endif; ?> mb-3" id="receive_email_holder">
-                                            <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="<?php _e("Type email here"); ?>" parent-reload="true" class="mw_option_field form-control" value="<?php print get_option('email_on_new_comment_value', 'comments'); ?>"/>
+                                        <div class="<?php /*if ($email_enabled == false): */?>deactivated<?php /*endif; */?> mb-3" id="receive_email_holder">
+                                            <input type="text" name="email_on_new_comment_value" option-group="comments" placeholder="<?php /*_e("Type email here"); */?>" parent-reload="true" class="mw_option_field form-control" value="<?php /*print get_option('email_on_new_comment_value', 'comments'); */?>"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group email-on-new-comment-setting email-on-reply-comment-setting">
-                                    <label class="control-label d-block"><?php _e("Send email to user on"); ?></label>
+                                    <label class="control-label d-block"><?php /*_e("Send email to user on"); */?></label>
 
                                     <div class="email-on-new-comment-holder">
                                         <label class="mw-ui-check">
-                                            <?php $email_enabled = get_option('email_user_on_new_comment_reply', 'comments') == 'y'; ?>
-                                            <input type="checkbox" name="email_user_on_new_comment_reply" value="y" parent-reload="true" class="mw_option_field" option-group="comments"<?php if ($email_enabled): ?>   checked="checked"  <?php endif; ?>/>
-                                            <span></span><span><?php _e("New comment reply"); ?></span>
+                                            <?php /*$email_enabled = get_option('email_user_on_new_comment_reply', 'comments') == 'y'; */?>
+                                            <input type="checkbox" name="email_user_on_new_comment_reply" value="y" parent-reload="true" class="mw_option_field" option-group="comments"<?php /*if ($email_enabled): */?>   checked="checked"  <?php /*endif; */?>/>
+                                            <span></span><span><?php /*_e("New comment reply"); */?></span>
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <hr class="thin">
 
