@@ -3,13 +3,17 @@
      imageConfigDialogInstance = null;
     imageConfigDialog = function (id) {
         var el = mw.$('#admin-thumb-item-' + id + ' .image-options');
-        imageConfigDialogInstance = mw.dialog({
+        imageConfigDialogInstance = mw.top().dialog({
             overlay: true,
             content: el.html(),
             template: 'default',
             height: 'auto',
 
-            title: '<?php print _e('Image Settings'); ?>'
+            title: '<?php print _e('Image Settings'); ?>',
+            onResult: function (id) {
+                saveOptions(id);
+                imageConfigDialogInstance.remove()
+            }
         })
     }
 

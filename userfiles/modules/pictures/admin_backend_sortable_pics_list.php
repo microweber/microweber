@@ -210,7 +210,7 @@ $rand = 'pic-sorter-' . uniqid();
 
                                 <div class="d-flex justify-content-between">
                                 <button type="button" class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()">Cancel</button>
-                                <button type="button" class="btn btn-success btn-sm" onclick="saveOptions(<?php print $item['id'] ?>);mw.dialog.get(this).remove()">Update</button>
+                                <button type="button" class="btn btn-success btn-sm" onclick="mw.dialog.get(this).result(<?php print $item['id'] ?>)">Update</button>
                                 </div>
                             </div>
                         </div>
