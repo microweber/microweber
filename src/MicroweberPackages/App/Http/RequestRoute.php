@@ -84,10 +84,16 @@ class RequestRoute extends Request
                 }
             }
             $errors['message'] = implode("\n", $allErrorsMsg);
+
         }
 
         //$messages = array_merge($errors, $messages);
         $messages = array_merge($messages, $errors);
+
+        if (isset($messages['success']) and $messages['success'] == true and isset($messages['message'])) {
+             $messages['success'] = $messages['message'];
+        }
+
 
         if (isset($messages['error']) and $messages['error'] == true and isset($messages['success'])) {
             unset($messages['success']);
