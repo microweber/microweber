@@ -130,10 +130,9 @@ class UserLoginController extends Controller
             if (isset($redirectParams['redirect'])) {
                 $response['redirect'] = $redirectParams['redirect'];
             }
+
             $response['data'] = auth()->user();
-            return new \MicroweberPackages\User\Http\Resources\UserResource($response);
-
-
+            return new \MicroweberPackages\User\Http\Resources\UserResource($request, $response);
         }
 
         return response()->json(['error' => 'Unauthorised request'], 401);
