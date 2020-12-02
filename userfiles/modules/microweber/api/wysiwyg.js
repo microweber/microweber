@@ -1135,6 +1135,7 @@ mw.wysiwyg = {
             }
         });
 
+
         mw.$(mwd.body).on('keyup', function (e) {
             mw.smallEditorCanceled = true;
             mw.smallEditor.css({
@@ -1311,17 +1312,7 @@ mw.wysiwyg = {
 
     },
     rfapplier: function (tag, classname, style_object) {
-        // var el = mw.wysiwyg.applier('div', 'element', {width: "100%"});
         var parent, fnode = getSelection().focusNode;
-        /*if(mw.wysiwyg.isSafeMode(mw.wysiwyg.validateCommonAncestorContainer(fnode))) {
-            parent = mw.tools.firstParentWithClass(fnode, 'safe-mode');
-            console.log(parent)
-            if(parent){
-                mw.wysiwyg.contentEditable(parent, true);
-                $('[contenteditable]', parent).removeAttr('contenteditable')
-            }
-
-        }*/
         var id = mw.id('mw-applier-element-');
         this.execCommand("insertHTML", false, '<'+tag+' '+(classname ? 'class="' + classname + '"' : '')+' id="'+id+'">'+ getSelection()+'</'+tag+'>');
         var $el = mw.$('#' + id);
@@ -1686,12 +1677,7 @@ mw.wysiwyg = {
             mw.wysiwyg.started_checking = true;
 
             var selection = window.getSelection();
-            //if (selection.rangeCount > 1) {
-            //    var started_typing = mw.tools.hasAnyOfClasses(mwd.body, ['isTyping']);
-            //    if(!started_typing){
-            //        mw.tools.addClass(mwd.body, 'isTyping');
-            //    }
-            //}
+
             if (selection.rangeCount > 0) {
                 mw.wysiwyg.resetActiveButtons();
                 var range = selection.getRangeAt(0);

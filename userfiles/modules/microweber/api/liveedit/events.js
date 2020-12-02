@@ -79,10 +79,10 @@ mw.liveedit.handleEvents = function() {
             if (!mw.wysiwyg.elementHasFontIconClass(e.target)
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
 
-                mw.editorIconPicker.tooltip('hide')
-                try{
+                mw.editorIconPicker.tooltip('hide');
+                try {
                     $(mw.liveedit.widgets._iconEditor.tooltip).hide();
-                }catch(e){
+                } catch(e) {
 
                 }
 

@@ -301,16 +301,26 @@ mw.drag = {
 
                 mw.emouse = mw.event.page(event);
 
+                /*var targetNode;
+                targetNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+                if (targetNode && targetNode.isContentEditable) {
+                    mw.tools.addClass(this, 'isTyping');
+                    return;
+                }*/
+
                 mw.mm_target = event.target;
                 mw.$mm_target = mw.$(mw.mm_target);
 
                 if (!mw.isDrag) {
                     if (mw.liveEditSelectMode === 'element') {
-                        if(mw.tools.distance(mw.handlerMouse.x, mw.handlerMouse.y, mw.emouse.x, mw.emouse.y) > 20) {
+                        //if(mw.tools.distance(mw.handlerMouse.x, mw.handlerMouse.y, mw.emouse.x, mw.emouse.y) > 20) {
+
                             mw.tools.removeClass(this, 'isTyping');
                             mw.handlerMouse = Object.assign({}, mw.emouse);
-                            mw.liveEditHandlers(event)
-                        }
+                            mw.liveEditHandlers(event);
+
+
+                        //}
                     }
                 } else {
                     var sidebar = document.getElementById('live_edit_side_holder');
