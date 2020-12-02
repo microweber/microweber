@@ -67,7 +67,7 @@ if (isset($params['quick-add'])) {
     $quick_add = $params['quick-add'];
 }
 
-
+$rand = uniqid();
 ?>
 
 
@@ -116,6 +116,8 @@ if (isset($params['quick-add'])) {
         });
     });
 </script>
+
+
 <div class="pictures-admin-container">
 
 
