@@ -308,7 +308,9 @@
         this.before = function (el) {
             if (el) {
                 this.each(function (){
-                    this.parentNode.insertBefore(scope._asdom(el), this);
+                    if(this.parentNode){
+                        this.parentNode.insertBefore(scope._asdom(el), this);
+                    }
                 });
             }
             return this;
@@ -317,7 +319,9 @@
         this.after = function (el) {
             if (el) {
                 this.each(function (){
-                    this.parentNode.insertBefore(scope._asdom(el), this.nextSibling);
+                    if(this.parentNode) {
+                        this.parentNode.insertBefore(scope._asdom(el), this.nextSibling);
+                    }
                 });
             }
         };
