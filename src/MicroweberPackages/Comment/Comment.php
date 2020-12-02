@@ -18,7 +18,7 @@ class Comment extends Model
         'comment_body',
     ];
 
-    protected $casts = [
-        'comment_body'=>MarkdownCast::class
-    ];
+//    protected $casts = [
+//        'comment_body'=>MarkdownCast::class
+//    ];
 }

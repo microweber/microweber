@@ -8,6 +8,7 @@
 
 namespace MicroweberPackages\Comment\Http\Controllers;
 
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
@@ -50,7 +51,15 @@ class CommentController
             return ['errors'=>$validator->messages()->toArray()];
         }
 
-        $save = Comment::create($request->all());
+
+        $save_req = $request->all();
+        if (!empty($save_req['comment_body']) and !empty($inputs['format']) and $inputs['format'] == 'markdown') {
+
+            $save_req['comment_body'] = Markdown::convertToHtml($save_req['comment_body']);
+
+        }
+
+        $save = Comment::create($save_req);
 
         return (new JsonResource($save))->response();
     }

@@ -213,6 +213,7 @@ class CommentsTest extends TestCase
                 'comment_name' => 'Markdown',
                 'comment_email' => 'Markdown@Markdown.com',
                 'comment_website' => 'Markdown.com',
+                'format' => 'markdown',
                 'comment_body' => ' # Hello  this is h1',
             ]
         );
