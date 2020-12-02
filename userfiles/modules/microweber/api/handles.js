@@ -4,18 +4,23 @@ var _handleInsertTargetDisplay;
 var handleInsertTargetDisplay = function (target, pos) {
     if(!_handleInsertTargetDisplay) {
         _handleInsertTargetDisplay = mw.element('<div class="mw-handle-insert-target-display" />');
-        mw.element(document.body).append(_handleInsertTargetDisplay)
+        mw.element(document.body).append(_handleInsertTargetDisplay);
     }
-    var off = mw.element(target).offset();
-    var css = { left: off.left };
-    if(pos === 'top') {
-        css.top = off.top;
-    } else if(pos === 'bottom') {
-        css.top = off.bottom ;
+    if (target === 'hide'){
+       _handleInsertTargetDisplay.hide();
+       return
+    }   else {
+        _handleInsertTargetDisplay.show()
     }
-    _handleInsertTargetDisplay.css({
 
-    });
+    var off = mw.element(target).offset();
+    var css = { left: off.left, width: off.width};
+    if(pos === 'top') {
+        css.top = off.offsetTop;
+    } else if(pos === 'bottom') {
+        css.top = off.offsetBottom;
+    }
+    _handleInsertTargetDisplay.css(css);
 }
 
 var dynamicModulesMenuTime = null;
@@ -374,7 +379,10 @@ mw._initHandles = {
                         title: mw.lang('Insert'),
                         icon: 'mdi-plus-circle',
                         className: 'mw-handle-insert-button',
-                        hover: [ function (e){    }],
+                        hover: [
+                            function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
+                            function (e){  handleInsertTargetDisplay('hide')  }
+                        ],
                         action: function (el) {
                              if (!mw.tools.hasClass(el, 'active')) {
                                 mw.tools.addClass(el, 'active');
@@ -413,6 +421,7 @@ mw._initHandles = {
                                             conf.template = mw.$(this).attr('template');
                                         }
                                         mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
+                                        tip.remove()
                                     };
                                 });
                         }
@@ -569,7 +578,7 @@ mw._initHandles = {
 
         var handlesModuleConfig = {
             id: 'mw-handle-item-module',
-            buttons:[
+            buttons: [
                 {
                     title: mw.lang('Edit'),
                     icon: 'mdi-pencil',
@@ -583,6 +592,10 @@ mw._initHandles = {
                     title: mw.lang('Insert'),
                     className: 'mw-handle-insert-button',
                     icon: 'mdi-plus-circle',
+                    hover: [
+                        function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
+                        function (e){  handleInsertTargetDisplay('hide')  }
+                    ],
                     action: function (node) {
                         if(mw.handleModule.isLayout) {
                             mw.layoutPlus.showSelectorUI(node);
@@ -665,6 +678,10 @@ mw._initHandles = {
                 {
                     title: mw.lang('Insert'),
                     className: 'mw-handle-insert-button',
+                    hover: [
+                        function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
+                        function (e){  handleInsertTargetDisplay('hide')  }
+                    ],
                     icon: 'mdi-plus-circle',
                     action: function (node) {
                         if(mw.handleModuleActive.isLayout) {
