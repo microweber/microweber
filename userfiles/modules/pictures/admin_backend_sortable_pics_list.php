@@ -41,6 +41,8 @@ $rand = 'pic-sorter-' . uniqid();
 
 ?>
 
+<?php include (__DIR__.'/admin_backend_scripts.php')?>
+
 <style>
     .admin-thumb-item-uploader-holder {
         display: block;
