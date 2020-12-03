@@ -50,26 +50,29 @@ class ProductObserver
      */
     public function saved(Product $product)
     {
-        if (isset(self::$fieldsToSave['price'])) {
-            $price = ProductPrice::where('rel_id', $product->id)->first();
-            if (!$price) {
-                $price = new ProductPrice();
-            }
-
-            $priceInputVal = trim(self::$fieldsToSave['price']);
-            if(is_numeric($priceInputVal)) {
-                $price->value = $priceInputVal;
-            } else {
-                $price->value = intval($priceInputVal);
-            }
-
-            $price->rel_id = $product->id;
-            $price->save();
-        }
+//        if (isset(self::$fieldsToSave['price'])) {
+//            $price = ProductPrice::where('rel_id', $product->id)->where('rel_type',$product->getMorphClass())->first();
+//
+//            if (!$price) {
+//                $price = new ProductPrice();
+//            }
+//
+//            $priceInputVal = trim(self::$fieldsToSave['price']);
+//            if(is_numeric($priceInputVal)) {
+//                $price->value = $priceInputVal;
+//            } else {
+//                $price->value = intval($priceInputVal);
+//            }
+//
+//            $price->rel_id = $product->id;
+//            $price->save();
+//
+//
+//        }
 
         if (isset(self::$fieldsToSave['special_price'])) {
 
-            $specialPrice = ProductSpecialPrice::where('rel_id', $product->id)->first();
+            $specialPrice = ProductSpecialPrice::where('rel_id', $product->id)->where('rel_type',$product->getMorphClass())->first();
             if (!$specialPrice) {
                 $specialPrice = new ProductSpecialPrice();
             }

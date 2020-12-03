@@ -75,7 +75,7 @@ trait ExtendedSave
             }
 
             if (isset($ext_params['custom_fields'])) {
-                $this->extended_save_custom_fields($ext_params);
+             //   $this->extended_save_custom_fields($ext_params);
             }
 
 //            if (isset($ext_params['tags'])) {

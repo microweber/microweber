@@ -28,6 +28,6 @@ class ProductPrice extends CustomField
         $this->name = 'price';
         $this->name_key = 'price';
 
-        return parent::save($options);
+       return parent::save($options);
     }
 }
