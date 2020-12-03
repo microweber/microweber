@@ -664,6 +664,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
                 $pd = $guess_page_data->index();
+                if(isset($pd['id'])){
+                    $pd1 = DB::table('content')->where('id',$pd['id'])->first();
+                    $pd = (array) $pd1 ;
+                }
+
                 $ustr = $this->app->url_manager->string(1);
                 $is_module = false;
                 $pd['url'] = $ustr;
@@ -699,9 +704,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if ($title == 'editor_tools/wysiwyg' or $title == 'api/module' or $title == 'admin/view:content') {
                             return false;
                         }
-
-                        $save_page['title'] = $title;
-                        if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url_manager->site()) {
+                        if(!isset($save_page['title'])){
+                             $save_page['title'] = $title;
+                        }
+                         if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url_manager->site()) {
                             $save_page['url'] = 'home';
                             $home_exists = $this->app->content_manager->homepage();
                             if ($home_exists == false) {
@@ -745,7 +751,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $page_id = $save_page['id'];
                         } else {
                             if (!$save_as_draft) {
-                                $page_id = $this->app->content_manager->save_content_admin($save_page);
+                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
                                 if ($ref_page_url != $new_content_link) {
                                     $json_print['new_page_url'] = content_link($page_id);

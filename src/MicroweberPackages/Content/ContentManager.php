@@ -2258,12 +2258,14 @@ class ContentManager
         if (is_string($data)) {
             $data = parse_params($data);
         }
+
+
         $adm = $this->app->user_manager->is_admin();
         $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
         $stop = false;
         $data = $this->app->format->strip_unsafe($data);
-        if ($adm == false) {
+         if ($adm == false) {
             $stop = true;
             $author_id = user_id();
 
@@ -2274,7 +2276,6 @@ class ContentManager
             if (isset($data['updated_at'])) {
                 unset($data['updated_at']);
             }
-
             if (isset($data['id']) and $data['id'] != 0 and $author_id != 0) {
                 $page_data_to_check_author = $this->get_by_id($data['id']);
 
@@ -2355,8 +2356,7 @@ class ContentManager
         if ($stop == true) {
             return array('error' => 'You don\'t have permissions to save content here!');
         }
-
-        return $this->save_content($data, $delete_the_cache);
+         return $this->save_content($data, $delete_the_cache);
     }
 
     public function save_content($data, $delete_the_cache = true)

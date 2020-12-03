@@ -4,42 +4,49 @@ namespace MicroweberPackages\Category\Traits;
 
 use MicroweberPackages\Category\Models\CategoryItem;
 
-trait CategoryTrait {
+trait CategoryTrait
+{
 
-    private $_addContentToCategory = [];
+    private $_addContentToCategory = null;
 
     public function initializeCategoryTrait()
     {
-    	$this->appends[] = 'categories';
-    //	$this->with[] = 'categoryItems';
+        $this->appends[] = 'categories';
+        //	$this->with[] = 'categoryItems';
         $this->fillable[] = 'category_ids';
     }
 
-   /* public function addToCategory($contentId)
-    {
-        $this->_addContentToCategory[] = $contentId;
-    }*/
+    /* public function addToCategory($contentId)
+     {
+         $this->_addContentToCategory[] = $contentId;
+     }*/
 
     public static function bootCategoryTrait()
     {
-        static::saving(function ($model)  {
-            // append content to categories
-            $model->_addContentToCategory = $model->category_ids;
+        static::saving(function ($model) {
+             // append content to categories
+            if (isset($model->category_ids)) {
+                $model->_addContentToCategory = $model->category_ids;
+
+            }
             unset($model->category_ids);
         });
 
-        static::saved(function($model) {
-            $model->_setCategories($model->_addContentToCategory);
+        static::saved(function ($model) {
+            if (isset($model->_addContentToCategory)) {
+                $model->_setCategories($model->_addContentToCategory);
+            }
         });
     }
 
-    private function _setCategories($categoryIds) {
+    private function _setCategories($categoryIds)
+    {
 
         if (!is_array($categoryIds)) {
             $categoryIds = explode(',', $categoryIds);
         }
 
-        $entityCategories = CategoryItem::where('rel_id', $this->id)->where('rel_type',$this->getMorphClass())->get();
+        $entityCategories = CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();
         if ($entityCategories) {
             foreach ($entityCategories as $entityCategory) {
                 if (!in_array($entityCategory->parent_id, $categoryIds)) {
@@ -51,7 +58,7 @@ trait CategoryTrait {
         if (!empty($categoryIds)) {
             foreach ($categoryIds as $categoryId) {
 
-                $categoryItem = CategoryItem::where('rel_id', $this->id)->where('rel_type',$this->getMorphClass())->where('parent_id', $categoryId)->first();
+                $categoryItem = CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->where('parent_id', $categoryId)->first();
                 if (!$categoryItem) {
                     $categoryItem = new CategoryItem();
                 }
@@ -74,10 +81,10 @@ trait CategoryTrait {
     {
         $categories = [];
 
-        foreach($this->categoryItems()->with('parent')->get() as $category) {
+        foreach ($this->categoryItems()->with('parent')->get() as $category) {
             $categories[] = $category;
         }
-        
+
         return collect($categories);
     }
 
