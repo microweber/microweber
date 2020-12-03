@@ -57,12 +57,14 @@ class CreatedByObserver
 
     public function saved($model)
     {
+
         $this->addCreatedEditedSession($model, true);
         //$model->created_by = auth()->id();
     }
 
     public function saving($model)
     {
+
         $this->addCreatedEditedSession($model, true);
         //$model->created_by = auth()->id();
     }

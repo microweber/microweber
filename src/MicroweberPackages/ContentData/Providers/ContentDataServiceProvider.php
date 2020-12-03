@@ -15,7 +15,7 @@ class ContentDataServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        ContentData::observe(CreatedByObserver::class);
+       // ContentData::observe(CreatedByObserver::class);
     }
 
 }
