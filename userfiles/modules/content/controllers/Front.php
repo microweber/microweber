@@ -238,6 +238,12 @@ class Front
             $posts_list_show_sub_pages = true;
         }
 
+         if ($posts_parent_category_cfg == 'current_category') {
+
+            if (defined('CATEGORY_ID') and CATEGORY_ID > 0) {
+                $posts_parent_category = CATEGORY_ID;
+            }
+        }
         if ($posts_parent_category == false and ($cfg_page_id == 'current_page')) {
             if (defined('PAGE_ID') and PAGE_ID > 0) {
                 $cfg_page_id = PAGE_ID;
@@ -632,8 +638,10 @@ class Front
             unset($post_params['category']);
         }
 
+       // dd($post_params,$posts_parent_category);
 
         $content = get_content($post_params);
+
         if ($is_search) {
             //dd(DB::getQueryLog(), $content);
         }
