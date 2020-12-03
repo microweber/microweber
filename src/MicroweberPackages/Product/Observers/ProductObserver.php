@@ -56,7 +56,13 @@ class ProductObserver
                 $price = new ProductPrice();
             }
 
-            $price->value = self::$fieldsToSave['price'];
+            $priceInputVal = trim(self::$fieldsToSave['price']);
+            if(is_numeric($priceInputVal)) {
+                $price->value = $priceInputVal;
+            } else {
+                $price->value = intval($priceInputVal);
+            }
+
             $price->rel_id = $product->id;
             $price->save();
         }
@@ -68,7 +74,13 @@ class ProductObserver
                 $specialPrice = new ProductSpecialPrice();
             }
 
-            $specialPrice->value = self::$fieldsToSave['special_price'];
+            $specialPriceInputVal = trim(self::$fieldsToSave['special_price']);
+            if(is_numeric($specialPriceInputVal )) {
+                $specialPrice->value = $specialPriceInputVal ;
+            } else {
+                $specialPrice->value = intval($specialPriceInputVal );
+            }
+
             $specialPrice->rel_id = $product->id;
             $specialPrice->save();
         }
