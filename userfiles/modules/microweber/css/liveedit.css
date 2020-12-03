@@ -4049,7 +4049,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     height: 30px;
     border-radius: 4px;
     background-color: #fff;
-    color: #687868;
+    color: #2b2b2b;
     line-height: 30px;
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
@@ -4059,7 +4059,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-type-default .mw-handle-handler-title .mw-handle-handler-settings-icon{
     font-size: 17px;
-    opacity: .8;
     vertical-align: middle;
     float: left;
 }
@@ -4757,5 +4756,18 @@ div.element {
 
 .mw-layout-plus,
 .mw-wyswyg-plus-element{
-    display: none;
+    display: none !important;
+}
+
+.mw-handle-insert-target-display {
+    display: block;
+    height: 3px;
+    background-color: #2b2b2b;
+
+    box-shadow: 0 0 4px rgba(0,0,0,.12);
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    z-index: 99;
+
 }

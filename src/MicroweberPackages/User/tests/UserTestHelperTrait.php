@@ -130,6 +130,7 @@ trait UserTestHelperTrait
             [
                 'email' => $email,
                 'password' => $password,
+                'login' => false,
             ]
         );
 
@@ -145,6 +146,7 @@ trait UserTestHelperTrait
             [
                 'username' => $username,
                 'password' => $password,
+                'login' => false
             ]
         );
 

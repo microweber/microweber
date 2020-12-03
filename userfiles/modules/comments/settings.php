@@ -172,11 +172,27 @@
                                 </label>
                             </div>
 
+
+                            <?php
+
+                            /*
+
+
+
                             <div class="form-group">
                                 <label class="mw-ui-check">
                                     <input type="checkbox" parent-reload="true" name="disable_comments_reply_notifications" data-reload="comments/comments_for_post" value="y" class="mw_option_field" option-group="comments" <?php if (get_option('disable_comments_reply_notifications', 'comments') == 'y'): ?>checked<?php endif; ?>/>
                                     <span></span><span><?php _e("Disable comments reply email notifications"); ?></span> </label>
                             </div>
+
+
+
+                             * */
+
+                            ?>
+
+
+
 
                             <hr class="thin">
 
@@ -211,9 +227,19 @@
                             </div>
                         </div>
 
+
+
+
                         <hr class="thin">
 
-                        <div class="row">
+
+
+                        <?php
+
+                        /*
+
+
+                        <div class="row d-none">
                             <div class="col-md-6">
                                 <div class="form-group email-on-new-comment-setting">
                                     <label class="control-label d-block"><?php _e("Send email me on"); ?></label>
@@ -253,6 +279,13 @@
 
                             <module type="admin/mail_templates/select_template" option_group="comments" mail_template_type="new_comment_reply"/>
                         </div>
+
+
+                        */
+
+                        ?>
+
+
                     </div>
 
                     <div class="col-lg-6">

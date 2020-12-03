@@ -854,7 +854,7 @@ class UserManager
                     if ($registration_approval_required != 'y') {
                         $this->make_logged($params['id']);
                     }
-                    var_dump($params);
+
 
                     return array('success' => 'You have registered successfully');
                 } else {

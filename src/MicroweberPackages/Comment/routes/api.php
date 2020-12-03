@@ -14,3 +14,16 @@ Route::name('api.comment.')
     ->group(function () {
         Route::post('post', 'CommentController@postComment')->name('post');
     });
+
+
+
+
+Route::name('admin.')
+    ->prefix(ADMIN_PREFIX)
+    ->middleware(['admin'])
+    ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')
+    ->group(function () {
+
+        Route::resource('comment', 'AdminCommentController');
+
+    });

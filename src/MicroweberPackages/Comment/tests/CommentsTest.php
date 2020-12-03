@@ -11,7 +11,7 @@ class CommentsTest extends TestCase
     {
         $this->_setDisableTerms();
         $this->_setDisableCaptcha();
-
+        $this->_setDisableMustBeLogged();
 
         $params = array(
             'title' => 'some post test for comments',
@@ -55,7 +55,7 @@ class CommentsTest extends TestCase
     {
         $this->_setDisableTerms();
         $this->_setDisableCaptcha();
-
+        $this->_setDisableMustBeLogged();
 
         $params = array(
             'title' => 'some post test for comments2',
@@ -101,6 +101,7 @@ class CommentsTest extends TestCase
 
         $this->_setEnableTerms();
         $this->_setDisableCaptcha();
+        $this->_setDisableMustBeLogged();
 
         $params = array(
             'title' => 'some post test for comments3',
@@ -143,6 +144,7 @@ class CommentsTest extends TestCase
 
         $this->_setEnableTerms();
         $this->_setEnableCaptcha();
+        $this->_setDisableMustBeLogged();
 
         $params = array(
             'title' => 'some post test for comments3',
@@ -195,7 +197,7 @@ class CommentsTest extends TestCase
 
         $this->_setDisableTerms();
         $this->_setDisableCaptcha();
-
+        $this->_setDisableMustBeLogged();
 
         $params = array(
             'title' => 'some post test for comments markwodn',
@@ -222,9 +224,63 @@ class CommentsTest extends TestCase
 
         $this->assertEquals( "<h1>Hello  this is h1</h1>\n", $commentData->data->comment_body);
 
+    }
+
+
+    public function testCommentNotLoggedUser()
+    {
+        $this->_setEnableMustBeLogged();
+
+        $this->_setDisableTerms();
+        $this->_setDisableCaptcha();
+
+
+        $params = array(
+            'title' => 'some post test for comments markwodn',
+            'content_type' => 'post',
+            'is_active' => 1,);
+
+        $save_post1 = save_content($params);
+
+        $response = $this->json(
+            'POST',
+            route('api.comment.post'),
+            [
+                'rel_id' => $save_post1,
+                'rel_type' => 'content',
+                'comment_name' => 'Markdown',
+                'comment_email' => 'Markdown@Markdown.com',
+                'comment_website' => 'Markdown.com',
+                'format' => 'markdown',
+                'comment_body' => ' # Hello  this is h1',
+            ]
+        );
+
+        $commentData = $response->getData();
+
+        $this->assertEquals($commentData->errors, 'Must be logged');
 
     }
 
+    private function _setDisableMustBeLogged()
+    {
+
+        $data['option_value'] = 'n';
+        $data['option_key'] = 'user_must_be_logged';
+        $data['option_group'] = 'comments';
+        $save = save_option($data);
+
+    }
+
+    private function _setEnableMustBeLogged()
+    {
+
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'user_must_be_logged';
+        $data['option_group'] = 'comments';
+        $save = save_option($data);
+
+    }
 
     private function _setEnableTerms()
     {

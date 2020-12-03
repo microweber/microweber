@@ -184,7 +184,7 @@ if ($new_orders_count) {
 $comments_notif_html = false;
 $new_comments_count = Auth::user()->unreadNotifications()->where('type', 'like', '%Comment%')->count();
 if ($new_comments_count) {
-    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>'; 
+    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
 }
 
 $notif_html = '';
@@ -296,37 +296,37 @@ $user = get_user_by_id($user_id);
                         </li>
                     <?php endif; ?>
 
-                    <?php if ($comments_notif_html != ''): ?>
-                        <li class="mx-2">
-                            <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
-                                <?php print $comments_notif_html; ?>&nbsp;
-                                <i class="mdi mdi-comment-account text-muted m-0"></i>
-                                <span class="d-none d-md-block">
-                                    <?php if ($new_comments_count == 1): ?>
-                                        <?php _e("New comment"); ?>
-                                    <?php elseif ($new_comments_count > 1): ?>
-                                        <?php _e("New comments"); ?>
-                                    <?php endif; ?>
-                                </span>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+                    <li class="mx-2">
+                        <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                            <?php print $comments_notif_html; ?>&nbsp;
+                            <i class="mdi mdi-comment-account text-muted m-0"></i>
+                            <span class="d-none d-md-block">
+                                <?php if ($new_comments_count == 1): ?>
+                                    <?php _e("New comment"); ?>
+                                <?php elseif ($new_comments_count > 1): ?>
+                                    <?php _e("New comments"); ?>
+                                <?php else: ?>
+                                    <?php _e("Comments"); ?>
+                                <?php endif; ?>
+                            </span>
+                        </a>
+                    </li>
 
-                    <?php if ($notif_count != ''): ?>
-                        <li class="mx-2">
-                            <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
-                                <?php print $notif_html; ?>
-                                <i class="mdi mdi-newspaper-variant-multiple text-muted m-0"></i>
-                                <span class="notif-label">
-                                    <?php if ($notif_count == 1): ?>
-                                        <?php _e("New notification"); ?>
-                                    <?php elseif ($notif_count > 1): ?>
-                                        <?php _e("New notifications"); ?>
-                                    <?php endif; ?>
-                                </span>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+                    <li class="mx-2">
+                        <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                            <?php print $notif_html; ?>
+                            <i class="mdi mdi-newspaper-variant-multiple text-muted m-0"></i>
+                            <span class="notif-label">
+                                <?php if ($notif_count == 1): ?>
+                                    <?php _e("New notification"); ?>
+                                <?php elseif ($notif_count > 1): ?>
+                                    <?php _e("New notifications"); ?>
+                                <?php else: ?>
+                                    <?php _e("Notifications"); ?>
+                                <?php endif; ?>
+                            </span>
+                        </a>
+                    </li>
                 </ul>
 
                 <?php event_trigger('mw.admin.header.toolbar'); ?>

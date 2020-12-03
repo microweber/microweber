@@ -5,6 +5,7 @@ namespace MicroweberPackages\User\Http\Controllers;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -57,13 +58,12 @@ class UserLoginController extends Controller
     public function login(LoginRequest $request)
     {
         if (Auth::check()) {
-
             $message = [];
             if (Auth::user()->is_admin == 1) {
                 $message['token'] = auth()->user()->createToken('authToken');
             }
 
-            $message['user'] = auth()->user();
+            $message['data'] = auth()->user();
             $message['success'] = 'You are logged in';
             return response()->json($message, 200);
         }
@@ -86,31 +86,31 @@ class UserLoginController extends Controller
         Session::flash('old_sid', Session::getId());
 
         $login = Auth::attempt($this->loginFields($request->only('username', 'email', 'password')),$remember = true);
-
         if ($login) {
 
             $userData = auth()->user();
 
             if (Auth::user()->is_admin == 0) {
                 $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
+
                 if ($isVerfiedEmailRequired) {
 
                     if (!$userData->is_verfied) {
                         $message = [];
                         $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
-                        return response()->json($message, 401);
+                        Auth::logout();
+                        return response()->json($message, 200);
                     }
                 }
 
                 $isApprovalRequired = Option::getValue('registration_approval_required', 'users');
-                if ($isApprovalRequired) {
+                 if ($isApprovalRequired) {
 
                     if (!$userData->is_active) {
-
-
                         $message = [];
                         $message['error'] = 'Your account is awaiting approval';
-                        return response()->json($message, 401);
+                        Auth::logout();
+                        return response()->json($message, 200);
                     }
                 }
             }
@@ -137,7 +137,7 @@ class UserLoginController extends Controller
             }
 
             $response['data'] = auth()->user();
-            return new \MicroweberPackages\User\Http\Resources\UserResource($request, $response);
+            return new  JsonResource($response);
         }
 
         return response()->json(['error' => 'Unauthorised request'], 401);

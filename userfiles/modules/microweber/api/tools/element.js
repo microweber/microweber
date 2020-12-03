@@ -127,7 +127,10 @@
             }
             if(typeof css === 'object') {
                 for (var i in css) {
-                    this.node.style[i] = this._normalizeCSSValue(i, css[i]);
+
+                    this.each(function (){
+                        this.style[i] = scope._normalizeCSSValue(i, css[i]);
+                    });
                 }
             }
             return this;
@@ -267,7 +270,11 @@
         };
 
         this.offset = function () {
-            return this._active().getBoundingClientRect();
+            var rect = this._active().getBoundingClientRect();
+            rect.offsetTop = rect.top + pageYOffset;
+            rect.offsetBottom = rect.bottom + pageYOffset;
+            rect.offsetLeft = rect.left + pageXOffset;
+            return rect;
         };
 
 
@@ -301,7 +308,9 @@
         this.before = function (el) {
             if (el) {
                 this.each(function (){
-                    this.parentNode.insertBefore(scope._asdom(el), this);
+                    if(this.parentNode){
+                        this.parentNode.insertBefore(scope._asdom(el), this);
+                    }
                 });
             }
             return this;
@@ -310,7 +319,9 @@
         this.after = function (el) {
             if (el) {
                 this.each(function (){
-                    this.parentNode.insertBefore(scope._asdom(el), this.nextSibling);
+                    if(this.parentNode) {
+                        this.parentNode.insertBefore(scope._asdom(el), this.nextSibling);
+                    }
                 });
             }
         };
