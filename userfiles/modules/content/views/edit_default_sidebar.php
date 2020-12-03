@@ -214,7 +214,7 @@
                                     }
                                 });
 
-                                var all = [{type: 'page', id: <?php print $data['parent']; ?>}];
+                                var all = [{type: 'page', id: <?php print !empty($data['parent']) ? $data['parent'] : 'null' ?>}];
                                 var cats = [<?php print $categories_active_ids; ?>];
 
                                 $.each(cats, function () {

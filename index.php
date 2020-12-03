@@ -17,6 +17,10 @@ if (!function_exists('json_encode')) {
     exit('Error: JSON PHP extension is required to run Microweber');
 }
 
+if (!function_exists('gd_info')) {
+    exit('Error: GD PHP extension is required to run Microweber');
+}
+
 if (!class_exists('PDO') ) {
     exit('Error: PDO PHP extension is required to run Microweber');
 }

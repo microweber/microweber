@@ -152,6 +152,13 @@ class Files
             $filter_extensions = explode(',', $params['extensions']);
         }
 
+        $hide_files = false;
+
+        if (isset($params['hide_files']) and is_string($params['hide_files'])) {
+            $hide_files = explode(',', $params['hide_files']);
+        } else if (isset($params['hide_files']) and is_array($params['hide_files'])) {
+            $hide_files = $params['hide_files'];
+        }
         $restrict_path = false;
 
         if (isset($params['restrict_path']) and is_string($params['restrict_path'])) {
@@ -177,7 +184,14 @@ class Files
             $arrayItems_search = array();
             $myDirectory = opendir($directory . DS);
 
+
+
             while ($entryName = readdir($myDirectory)) {
+
+                if(!empty($hide_files) && in_array($entryName,$hide_files)){
+                    continue;
+                }
+
                 if ($entryName != '..' and $entryName != '.') {
                     $arrayItems_search[] = $entryName;
                 }

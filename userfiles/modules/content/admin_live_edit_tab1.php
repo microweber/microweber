@@ -115,6 +115,7 @@ $rand = uniqid(); ?>
                 <option value='0' <?php if ((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>-- <?php _e("All"); ?></option>
                 <option value='related' <?php if (('related' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>-- <?php _e("Related"); ?></option>
                 <option value='sub_pages' <?php if (('sub_pages' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>-- <?php _e("Sub Pages"); ?></option>
+                <option value='current_category' <?php if (('current_category' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>-- <?php _e("Current category"); ?></option>
             </select>
         </div>
     <?php endif; ?>

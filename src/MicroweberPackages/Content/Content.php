@@ -8,20 +8,24 @@ use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
+use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Tag\Tag;
+use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {
-    use Taggable;
+   // use Taggable;
+    use TaggableTrait;
     use ContentDataTrait;
     use CustomFieldsTrait;
     use CategoryTrait;
     use HasSlugTrait;
     use MediaTrait;
     use Filterable;
+    use HasCreatedByFieldsTrait;
 
 
     protected $table = 'content';

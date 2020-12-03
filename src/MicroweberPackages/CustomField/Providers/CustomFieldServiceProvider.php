@@ -15,6 +15,6 @@ class CustomFieldServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        CustomField::observe(CreatedByObserver::class);
+       // CustomField::observe(CreatedByObserver::class);
     }
 }
