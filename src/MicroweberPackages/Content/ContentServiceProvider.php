@@ -21,7 +21,7 @@ class ContentServiceProvider extends ServiceProvider
     public function boot()
     {
         Content::observe(BaseModelObserver::class);
-        Content::observe(CreatedByObserver::class);
+      //  Content::observe(CreatedByObserver::class);
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');

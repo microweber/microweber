@@ -4,14 +4,17 @@
 namespace MicroweberPackages\ContentData\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 
 
 class ContentData extends Model
 {
+    use HasCreatedByFieldsTrait;
+
     protected $table = 'content_data';
 
     public $timestamps = true;
+
 
     protected $fillable = [
         'rel_type',
