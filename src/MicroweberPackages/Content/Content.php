@@ -12,10 +12,12 @@ use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Tag\Tag;
+use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {
-    use Taggable;
+   // use Taggable;
+    use TaggableTrait;
     use ContentDataTrait;
     use CustomFieldsTrait;
     use CategoryTrait;
