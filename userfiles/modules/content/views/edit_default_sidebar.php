@@ -19,81 +19,89 @@
 <script>
 
     var loadCategoriesTree = function () {
-        $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (tdata) {
+        var request = new XMLHttpRequest();
+        request.open('GET', '<?php print api_url('content/get_admin_js_tree_json'); ?>', true);
+        request.send();
+        request.onload = function() {
+            if (request.status >= 200 && request.status < 400) {
+                var tdata = JSON.parse(request.responseText);
 
-            var selectedPages = [ <?php print $data['parent']; ?>];
-            var selectedCategories = [ <?php print $categories_active_ids; ?>];
-
-
-
-            var tags = mw.element();
-            var tree = mw.element();
-
-            mw.element('.post-category-tags').empty().append(tags)
-            mw.element('#quick-parent-selector-tree').empty().append(tree)
+                    var selectedPages = [ <?php print $data['parent']; ?>];
+                    var selectedCategories = [ <?php print $categories_active_ids; ?>];
 
 
 
-            window.categorySelector = new mw.treeTags({
-                data: tdata,
-                selectable: true,
-                multiPageSelect: false,
-                tagsHolder: tags.get(0),
-                treeHolder: tree.get(0),
-                color: 'primary',
-                size: 'sm',
-                outline: true,
-                saveState: false,
-                on: {
-                    selectionChange: function () {
-                        document.querySelector('.btn-save').disabled = false;
-                        mw.askusertostay = true;
-                    }
-                }
-            });
+                    var tags = mw.element();
+                    var tree = mw.element();
 
-            $(categorySelector.tree).on('ready', function () {
-                if (window.pagesTree && pagesTree.selectedData.length) {
-                    $.each(pagesTree.selectedData, function () {
-                        categorySelector.tree.select(this)
-                    })
-                } else {
-                    $.each(selectedPages, function () {
-                        categorySelector.tree.select(this, 'page')
+                    mw.element('.post-category-tags').empty().append(tags)
+                    mw.element('#quick-parent-selector-tree').empty().append(tree)
+
+
+
+                    window.categorySelector = new mw.treeTags({
+                        data: tdata,
+                        selectable: true,
+                        multiPageSelect: false,
+                        tagsHolder: tags.get(0),
+                        treeHolder: tree.get(0),
+                        color: 'primary',
+                        size: 'sm',
+                        outline: true,
+                        saveState: false,
+                        on: {
+                            selectionChange: function () {
+                                document.querySelector('.btn-save').disabled = false;
+                                mw.askusertostay = true;
+                            }
+                        }
                     });
-                    $.each(selectedCategories, function () {
-                        categorySelector.tree.select(this, 'category')
-                    });
-                }
 
-                var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder="Search"> </div>');
+                    $(categorySelector.tree).on('ready', function () {
+                        if (window.pagesTree && pagesTree.selectedData.length) {
+                            $.each(pagesTree.selectedData, function () {
+                                categorySelector.tree.select(this)
+                            })
+                        } else {
+                            $.each(selectedPages, function () {
+                                categorySelector.tree.select(this, 'page')
+                            });
+                            $.each(selectedCategories, function () {
+                                categorySelector.tree.select(this, 'category')
+                            });
+                        }
 
-                tree.before(atcmplt);
+                        var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder="Search"> </div>');
 
-                atcmplt.find('input').on('input', function () {
-                    var val = this.value.toLowerCase().trim();
-                    if (!val) {
-                        categorySelector.tree.showAll();
-                    }
-                    else {
-                        categorySelector.tree.options.data.forEach(function (item) {
+                        tree.before(atcmplt);
 
-                            if (item.title.toLowerCase().indexOf(val) === -1) {
-                                categorySelector.tree.hide(item);
+                        atcmplt.find('input').on('input', function () {
+                            var val = this.value.toLowerCase().trim();
+                            if (!val) {
+                                categorySelector.tree.showAll();
                             }
                             else {
-                                categorySelector.tree.show(item);
-                            }
-                        });
-                    }
-                })
-            });
+                                categorySelector.tree.options.data.forEach(function (item) {
 
-            $(categorySelector.tags).on("tagClick", function (e, data) {
-                $(".mw-tree-selector").show();
-                mw.tools.highlight(categorySelector.tree.get(data))
-            });
-        })
+                                    if (item.title.toLowerCase().indexOf(val) === -1) {
+                                        categorySelector.tree.hide(item);
+                                    }
+                                    else {
+                                        categorySelector.tree.show(item);
+                                    }
+                                });
+                            }
+                        })
+                    });
+
+                    $(categorySelector.tags).on("tagClick", function (e, data) {
+                        $(".mw-tree-selector").show();
+                        mw.tools.highlight(categorySelector.tree.get(data))
+                    });
+
+            }
+        }
+
     }
     var catManager;
     var addCategory = function () {

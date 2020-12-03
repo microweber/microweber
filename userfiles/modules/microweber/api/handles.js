@@ -2,23 +2,24 @@ mw.require('selector.js');
 
 var _handleInsertTargetDisplay;
 var handleInsertTargetDisplay = function (target, pos) {
-    if(!_handleInsertTargetDisplay) {
+     if(!_handleInsertTargetDisplay) {
         _handleInsertTargetDisplay = mw.element('<div class="mw-handle-insert-target-display" />');
         mw.element(document.body).append(_handleInsertTargetDisplay);
     }
     if (target === 'hide'){
        _handleInsertTargetDisplay.hide();
-       return
+       return;
     }   else {
-        _handleInsertTargetDisplay.show()
+        _handleInsertTargetDisplay.show();
     }
 
-    var off = mw.element(target).offset();
-    var css = { left: off.left, width: off.width};
-    if(pos === 'top') {
-        css.top = off.offsetTop;
+    var $el = $(target);
+    var off = $el.offset();
+    var css = { left: off.left, width: $el.outerWidth()};
+     if(pos === 'top') {
+        css.top = off.top;
     } else if(pos === 'bottom') {
-        css.top = off.offsetBottom;
+        css.top = off.top + $el.outerHeight();
     }
     _handleInsertTargetDisplay.css(css);
 }
@@ -135,6 +136,9 @@ mw.Handle = function(options) {
         this.wrapper.id = this.options.id || ('mw-handle-' + mw.random());
         this.wrapper.className = 'mw-defaults mw-handle-item ' + (this.options.className || 'mw-handle-type-default');
         this.wrapper.contenteditable = false;
+        this.wrapper.onmouseenter = function() {
+            mw.liveEditSelector.select()
+        }
         mw.$(this.wrapper).on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
         });
@@ -593,8 +597,12 @@ mw._initHandles = {
                     className: 'mw-handle-insert-button',
                     icon: 'mdi-plus-circle',
                     hover: [
-                        function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
-                        function (e){  handleInsertTargetDisplay('hide')  }
+                        function (e) {
+                            handleInsertTargetDisplay(mw._activeModuleOver, mw.handleModule.positionedAt);
+                        },
+                        function (e) {
+                            handleInsertTargetDisplay('hide');
+                        }
                     ],
                     action: function (node) {
                         if(mw.handleModule.isLayout) {
@@ -671,7 +679,7 @@ mw._initHandles = {
                     title: mw.lang('Edit'),
                     icon: 'mdi-pencil',
                     action: function () {
-                        mw.drag.module_settings(mw._activeModuleOver,"admin");
+                        mw.drag.module_settings(getActiveDragCurrent(),"admin");
                         mw.handleModule.hide();
                     }
                 },
@@ -679,8 +687,12 @@ mw._initHandles = {
                     title: mw.lang('Insert'),
                     className: 'mw-handle-insert-button',
                     hover: [
-                        function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
-                        function (e){  handleInsertTargetDisplay('hide')  }
+                        function (e) {
+                            handleInsertTargetDisplay(getActiveDragCurrent(), mw.handleModuleActive.positionedAt);
+                        },
+                        function (e) {
+                            handleInsertTargetDisplay('hide');
+                        }
                     ],
                     icon: 'mdi-plus-circle',
                     action: function (node) {
@@ -825,7 +837,7 @@ mw._initHandles = {
             });
 
 
-        var positionModuleHandle = function(e, pelement, handle){
+        var positionModuleHandle = function(e, pelement, handle, event){
 
 
             var element ;
@@ -899,7 +911,7 @@ mw._initHandles = {
                 handleLeft = 0;
             }
 
-            var topPosFinal = topPos + marginTop;
+            var topPosFinal = topPos //+ marginTop;
             var $lebar = mw.$(lebar), $leoff = $lebar.offset();
 
             var outheight = el.outerHeight();
@@ -911,6 +923,13 @@ mw._initHandles = {
             if(el.attr('data-type') === 'layouts') {
                 topPosFinal = o.top + 10;
                 handleLeft = handleLeft + 10;
+            }
+            var elHeight = el.height();
+
+            handle.positionedAt = 'top';
+            if (event.pageY > (o.top + elHeight/2)) {
+                topPosFinal += elHeight;
+                handle.positionedAt = 'bottom';
             }
 
             clearTimeout(handle._hideTime);
@@ -1011,12 +1030,12 @@ mw._initHandles = {
             mw._initHandles.manageCollision();
         };
 
-        mw.on('ModuleClick', function(e, pelement){
-            positionModuleHandle(e, pelement, mw.handleModuleActive);
+        mw.on('ModuleClick', function(e, pelement, event){
+            positionModuleHandle(e, pelement, mw.handleModuleActive, event);
         });
 
-        mw.on('moduleOver', function (e, pelement) {
-            positionModuleHandle(e, pelement, mw.handleModule);
+        mw.on('moduleOver', function (e, pelement, event) {
+            positionModuleHandle(e, pelement, mw.handleModule, event);
             if(mw._activeModuleOver === mw.handleModuleActive._target) {
                 mw.handleModule.hide();
             }

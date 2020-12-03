@@ -650,137 +650,151 @@ if ($action == 'posts') {
                             var pagesTree;
 
                             var pagesTreeRefresh = function () {
-                                $.get("<?php print $tree_url_endpoint; ?>", function (data) {
-                                    var treeTail = [
-                                        {
-                                            title: '<?php _lang("Trash") ?>',
-                                            icon: 'mdi mdi-delete',
-                                            action: function () {
-                                                mw.url.windowHashParam('action', 'trash');
-                                            }
-                                        }
-                                    ];
 
-                                    pagesTree = new mw.tree({
-                                        data: data,
-                                        element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
-                                        sortable: false,
-                                        selectable: false,
-                                        id: 'admin-main-tree',
-                                        append: treeTail,
-                                        contextMenu: [
-                                            {
-                                                title: 'Edit',
-                                                icon: 'mdi mdi-pencil',
-                                                action: function (element, data, menuitem) {
-                                                    mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
-                                                }
-                                            },
-                                            {
-                                                title: 'Move to trash',
-                                                icon: 'mdi mdi-close',
-                                                action: function (element, data, menuitem) {
-                                                    if (data.type === 'category') {
-                                                        mw.content.deleteCategory(data.id, function () {
+                                var request = new XMLHttpRequest();
+                                request.open('GET', '<?php print $tree_url_endpoint; ?>', true);
+                                request.send();
+                                request.onload = function() {
+                                    if (request.status >= 200 && request.status < 400) {
 
-                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function () {
-                                                                if (window.pagesTreeRefresh) {
-                                                                    pagesTreeRefresh()
-                                                                }
-                                                                ;
-                                                            })
-                                                        });
-                                                    }
-                                                    else {
-                                                        mw.content.deleteContent(data.id, function () {
-                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function () {
-                                                                if (window.pagesTreeRefresh) {
-                                                                    pagesTreeRefresh()
-                                                                }
-                                                                ;
-                                                            })
-                                                        });
+                                        var data = JSON.parse(request.responseText);
+
+                                            var treeTail = [
+                                                {
+                                                    title: '<?php _lang("Trash") ?>',
+                                                    icon: 'mdi mdi-delete',
+                                                    action: function () {
+                                                        mw.url.windowHashParam('action', 'trash');
                                                     }
                                                 }
-                                            }
-                                        ]
-                                    });
-                                    mw.adminPagesTree = pagesTree;
+                                            ];
 
-                                    $(pagesTree).on("orderChange", function (e, item, data, old, local) {
-                                        var obj = {ids: local};
-                                        var url;
-                                        if (item.type === 'category') {
-                                            url = "<?php print api_link('category/reorder'); ?>";
-                                        }
-                                        else {
-                                            url = "<?php print api_link('content/reorder'); ?>";
-                                        }
-                                        $.post(url, obj, function () {
-                                            mw.reload_module('#mw_page_layout_preview');
-                                            mw.notification.success('<?php _ejs("Changes are saved"); ?>')
-                                        });
-                                    });
-                                    $(pagesTree).on("ready", function () {
-                                        $('#main-tree-search').on('input', function () {
-                                            var val = this.value.toLowerCase().trim();
-                                            if (!val) {
-                                                pagesTree.showAll();
-                                            }
-                                            else {
-                                                pagesTree.options.data.forEach(function (item) {
-                                                    if (item.title.toLowerCase().indexOf(val) === -1) {
-                                                        pagesTree.hide(item);
-                                                    }
-                                                    else {
-                                                        pagesTree.show(item);
-                                                    }
-                                                });
-                                            }
-                                        })
+                                            pagesTree = new mw.tree({
+                                                data: data,
+                                                element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                                sortable: false,
+                                                selectable: false,
+                                                id: 'admin-main-tree',
+                                                append: treeTail,
+                                                contextMenu: [
+                                                    {
+                                                        title: 'Edit',
+                                                        icon: 'mdi mdi-pencil',
+                                                        action: function (element, data, menuitem) {
+                                                            mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
+                                                        }
+                                                    },
+                                                    {
+                                                        title: 'Move to trash',
+                                                        icon: 'mdi mdi-close',
+                                                        action: function (element, data, menuitem) {
+                                                            if (data.type === 'category') {
+                                                                mw.content.deleteCategory(data.id, function () {
 
-                                        $('.mw-tree-item-title', pagesTree.list).on('click', function () {
-                                            $('li.selected', pagesTree.list).each(function () {
-                                                pagesTree.unselect(this)
+                                                                    $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function () {
+                                                                        if (window.pagesTreeRefresh) {
+                                                                            pagesTreeRefresh()
+                                                                        }
+                                                                        ;
+                                                                    })
+                                                                });
+                                                            }
+                                                            else {
+                                                                mw.content.deleteContent(data.id, function () {
+                                                                    $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function () {
+                                                                        if (window.pagesTreeRefresh) {
+                                                                            pagesTreeRefresh()
+                                                                        }
+                                                                        ;
+                                                                    })
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                ]
                                             });
-                                            var li = mw.tools.firstParentWithTag(this, 'li'),
-                                                data = li._data,
-                                                action;
-                                            if (!$(li).hasClass('mw-tree-additional-item')) {
-                                                if (data.type === 'page') {
-                                                    action = 'editpage';
+                                            mw.adminPagesTree = pagesTree;
+
+                                            $(pagesTree).on("orderChange", function (e, item, data, old, local) {
+                                                var obj = {ids: local};
+                                                var url;
+                                                if (item.type === 'category') {
+                                                    url = "<?php print api_link('category/reorder'); ?>";
                                                 }
-                                                if (data.subtype === 'dynamic' || data.subtype == 'shop') {
-                                                    action = 'showposts';
+                                                else {
+                                                    url = "<?php print api_link('content/reorder'); ?>";
                                                 }
-                                                if (data.type === 'category') {
-                                                    action = 'showpostscat';
-                                                }
-                                                mw.url.windowHashParam("action", action + ":" + data.id);
-                                            }
+                                                $.post(url, obj, function () {
+                                                    mw.reload_module('#mw_page_layout_preview');
+                                                    mw.notification.success('<?php _ejs("Changes are saved"); ?>')
+                                                });
+                                            });
+                                            $(pagesTree).on("ready", function () {
+                                                $('#main-tree-search').on('input', function () {
+                                                    var val = this.value.toLowerCase().trim();
+                                                    if (!val) {
+                                                        pagesTree.showAll();
+                                                    }
+                                                    else {
+                                                        pagesTree.options.data.forEach(function (item) {
+                                                            if (item.title.toLowerCase().indexOf(val) === -1) {
+                                                                pagesTree.hide(item);
+                                                            }
+                                                            else {
+                                                                pagesTree.show(item);
+                                                            }
+                                                        });
+                                                    }
+                                                })
+
+                                                $('.mw-tree-item-title', pagesTree.list).on('click', function () {
+                                                    $('li.selected', pagesTree.list).each(function () {
+                                                        pagesTree.unselect(this)
+                                                    });
+                                                    var li = mw.tools.firstParentWithTag(this, 'li'),
+                                                        data = li._data,
+                                                        action;
+                                                    if (!$(li).hasClass('mw-tree-additional-item')) {
+                                                        if (data.type === 'page') {
+                                                            action = 'editpage';
+                                                        }
+                                                        if (data.subtype === 'dynamic' || data.subtype == 'shop') {
+                                                            action = 'showposts';
+                                                        }
+                                                        if (data.type === 'category') {
+                                                            action = 'showpostscat';
+                                                        }
+                                                        mw.url.windowHashParam("action", action + ":" + data.id);
+                                                    }
 
 
-                                        });
-                                        mainTreeSetActiveItems()
+                                                });
+                                                mainTreeSetActiveItems()
 
-                                        $("#edit-content-row .tree-column").resizable({
-                                            handles: "e",
-                                            resize: function (e, ui) {
-                                                var root = mw.$(ui.element);
-                                                mw.$('.fixed-side-column', root).width(root.width())
-                                            },
-                                            minWidth: 200
-                                        })
+                                                $("#edit-content-row .tree-column").resizable({
+                                                    handles: "e",
+                                                    resize: function (e, ui) {
+                                                        var root = mw.$(ui.element);
+                                                        mw.$('.fixed-side-column', root).width(root.width())
+                                                    },
+                                                    minWidth: 200
+                                                })
 
-                                    })
+                                            })
 
-                                });
+
+                                    }
+                                };
+
+
+
+
                             };
 
                             if (window.pagesTreeRefresh) {
                                 pagesTreeRefresh()
                             }
-                            ;
+
 
                         </script>
 

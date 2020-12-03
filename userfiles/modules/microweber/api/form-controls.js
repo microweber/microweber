@@ -876,6 +876,7 @@ mw.emitter = {
             };
 
             this.setValue = function (val) {
+                val = val || {};
                 if(textField) textField.value = val.text;
                 if(targetField) targetField.checked = val.target;
                 return val;
@@ -1015,6 +1016,7 @@ mw.emitter = {
             };
 
             this.setValue = function (val) {
+                val = val || {};
                 if(textField) textField.value = val.text;
                 if(targetField) targetField.checked = !!val.target;
                 return val;
@@ -1155,6 +1157,7 @@ mw.emitter = {
             var footer = UIFormControllers.footer();
 
             this.setValue = function (val) {
+                val = val || {};
                 if(textField) textField.value = val.text;
                 if(urlField) urlField.value = val.url  ;
                 if(targetField) targetField.checked = val.target  ;

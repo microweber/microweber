@@ -204,6 +204,10 @@
                     };
                     return new Promise(function (resolve) {
                         load(function (link){
+                            if(!link || !link.sheet) {
+                                resolve([]);
+                                return;
+                            }
                             var icons = link.sheet.cssRules;
                             var l = icons.length, i = 0, mdiIcons = [];
                             for (; i < l; i++) {

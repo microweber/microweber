@@ -50,13 +50,13 @@ MWEditor.interactionControls = {
                 this.element.hide();
                 return;
             }
-            var $target = mw.element(data.target);
+            var $target = $(data.target);
             this.$target = $target;
             var css = $target.offset();
-            css.top += $target.outerHeight();
+            css.top += $target.height();
             this.element.urlElement.html(data.target.href);
             this.element.urlElement.prop('href', data.target.href);
-            this.element.$node.css(css).show();
+            this.element.css(css).show();
         };
         this.element = this.render();
     },
@@ -136,9 +136,9 @@ MWEditor.interactionControls = {
                 var css = $target.offset();
                 css.width = $target.outerWidth();
                 css.height = $target.outerHeight();
-                this.element.$node.css(css).show();
+                this.element.css(css).show();
             } else {
-                this.element.$node.hide();
+                this.element.hide();
             }
         };
         this.element = this.render();

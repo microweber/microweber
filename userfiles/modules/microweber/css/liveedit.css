@@ -4091,7 +4091,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     background-color: #fff;
     overflow: hidden;
     border-radius: 0 0 4px 4px;
-    color: #687868;
+    color: #2b2b2b;
     box-shadow: 0 10px 10px rgba(0,0,0,.2);
     min-width: 100%;
     border-top: 1px solid #eee;

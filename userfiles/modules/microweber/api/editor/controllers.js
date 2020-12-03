@@ -684,7 +684,11 @@ MWEditor.controllers = {
                         }
                     }
                 });
+
                 var footer = mw.element();
+                cancel.on('click', function (){
+                    dialog.remove();
+                })
                 ok.on('click', function (){
                     var content = cleanEl.html().trim();
                     dialog.remove();

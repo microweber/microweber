@@ -2912,7 +2912,7 @@ mw.linkTip = {
             new mw.LinkEditor({
                 mode: 'dialog'
             })
-                .setValue({url: node.href, text: node.innerHTML})
+                .setValue({url: node.href, text: node.innerHTML, target: node.target === '_blank'})
                 .promise()
                 .then(function (result){
                     node.href = result.url;

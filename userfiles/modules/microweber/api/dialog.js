@@ -349,7 +349,6 @@
                     $(this.$scope).trigger('closedByUser');
                 }
             });
-
             return this;
         };
 
