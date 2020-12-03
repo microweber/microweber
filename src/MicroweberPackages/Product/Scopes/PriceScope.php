@@ -17,9 +17,9 @@ class PriceScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('rel_type', '=', 'content');
+    //    $builder->where('rel_type', '=', 'content');
         $builder->where('type', '=', 'price');
-        $builder->where('name', '=', 'price');
-        $builder->where('name_key', '=', 'price');
+     //   $builder->where('name', '=', 'price');
+     //   $builder->where('name_key', '=', 'price');
     }
 }

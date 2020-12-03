@@ -6,7 +6,7 @@ namespace MicroweberPackages\Product\Models;
  */
 
 
-use MicroweberPackages\CustomField\CustomField;
+use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Product\Scopes\PriceScope;
 
 class ProductPrice extends CustomField
@@ -28,6 +28,6 @@ class ProductPrice extends CustomField
         $this->name = 'price';
         $this->name_key = 'price';
 
-        return parent::save($options);
+       return parent::save($options);
     }
 }
