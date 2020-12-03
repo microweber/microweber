@@ -247,7 +247,7 @@
                                 <div class="input-group mb-3 append-transparent">
                                     <input type="text" class="form-control" value="3.0">
                                     <div class="input-group-append">
-                                        <span style="width:70px;">   
+                                        <span style="width:70px;">
                                             <select class="selectpicker" data-width="100%">
                                                 <option>kg</option>
                                                 <option>lb</option>

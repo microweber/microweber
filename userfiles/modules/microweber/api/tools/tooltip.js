@@ -189,22 +189,41 @@
                     element: o.element,
                     skin: o.template || o.skin,
                     position: o.position,
+                    overlay: o.overlay,
                     content: o.content,
                     group: o.group
                 }
             },
             init: function (o, wl) {
+            console.log(o)
 
                 var orig_options = o;
                 o = mw.tools.tooltip.prepare(o);
                 if (o === false) return false;
+                var tip;
                 if (o.id && mw.$('#' + o.id).length > 0) {
-                    var tip = mw.$('#' + o.id)[0];
+                    tip = mw.$('#' + o.id)[0];
                 } else {
-                    var tip = mw.tools.tooltip.source(o.content, o.skin, o.position, o.id);
+                    tip = mw.tools.tooltip.source(o.content, o.skin, o.position, o.id);
+                }
+                console.log(11111111, o)
+                if(o.overlay) {
+
+
+                    var overlay = $('<div class="mw-tooltip-overlay"></div>');
+                    tip.remove = function () {
+                        overlay.remove();
+                        tip[0].remove()
+                    }
+                    overlay.on('click', function () {
+
+                        tip.remove()
+                    });
+
+                    $('body').append(overlay)
                 }
                 tip.tooltipData = o;
-                var wl = wl || true;
+                wl = wl || true;
                 if (o.group) {
                     var tip_group_class = 'mw-tooltip-group-' + o.group;
                     var cur_tip = mw.$(tip)
@@ -224,13 +243,7 @@
                     }
                 }
                 if (wl && $.contains(self.document, tip)) {
-                    /*
-                     //position bug: resize fires in modal frame
-                     mw.$(self).bind('resize scroll', function (e) {
-                     if (self.document.contains(tip)) {
-                     self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
-                     }
-                     });*/
+
                     if (o.group && typeof orig_options.close_on_click_outside !== 'undefined' && orig_options.close_on_click_outside) {
                         mw.$(self).bind('click', function (e, target) {
                             mw.$("." + tip_group_class).hide();

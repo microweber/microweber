@@ -458,6 +458,7 @@ if ($last_page_front != false) {
                 $('.js-bulk-actions').show();
             }
         });
+
     });
 </script>
 
@@ -513,8 +514,6 @@ if ($last_page_front != false) {
         obj.el.attributes['data-state'] === undefined ? obj.el.setAttribute('data-state', 0) : '';
         var state = obj.el.attributes['data-state'].nodeValue;
 
-
-        console.log(state);
         var jQueryEl = $(obj.el);
 
         var tosend = {}

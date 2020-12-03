@@ -3795,6 +3795,12 @@ body.dragStart .allow-drop {
     display: block;
 }
 
+.mw-handle-handler  .mw_module_settings_sidebar_icon:after{
+    content: "\F01DB";
+    display: inline-block;
+    font: normal normal normal 24px/1 "Material Design Icons";
+}
+
 .mw_module_settings_sidebar_icon {
     background-position: center;
     background-repeat: no-repeat;
@@ -3802,8 +3808,14 @@ body.dragStart .allow-drop {
     position: relative;
     width: 14px;
     height: 14px;
-    margin: 8px 0 0px 4px;
-    filter: grayscale(100);
+    margin: 8px 0 0 4px;
+
+
+}
+
+.mw-handle-handler .mw_module_settings_sidebar_icon {
+    margin: 3px 0 0 4px;
+    background-image: none !important;
 }
 
 #js-live-edit-module-settings-items .mw_module_settings_sidebar_icon {
@@ -4219,7 +4231,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-type-default .mw-handle-element-title-icon {
     font-size: 22px;
-    color: #687868;
 }
 
 .mw-handle-type-default .mw-handle-columns-icon {

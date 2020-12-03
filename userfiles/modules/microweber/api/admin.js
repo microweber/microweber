@@ -208,14 +208,14 @@ $(mwd).ready(function () {
     mw.$(document.body).on('click', '[data-href]', function(e){
         e.preventDefault();
         e.stopPropagation();
+        var loc = $(this).attr('data-href');
         if (mw.askusertostay) {
-            mw.confirm(mw.lang("Continue without saving") + '?', function (res) {
-                if(res) {
-                    location.href = $(this).attr('data-href');
-                }
+            mw.confirm(mw.lang("Continue without saving") + '?', function () {
+                mw.askusertostay = false;
+                location.href = loc;
             });
         } else {
-            location.href = $(this).attr('data-href');
+            location.href = loc;
         }
     });
 });

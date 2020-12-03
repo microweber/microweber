@@ -5693,6 +5693,14 @@ li:hover > .show-on-hover {
   left: -9999px;
   top: -9999px;
 }
+.mw-tooltip-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
 .mw-tooltip-content {
   position: relative;
   line-height: normal;

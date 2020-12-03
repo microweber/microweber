@@ -364,6 +364,7 @@ if (isset($params['quick_edit'])) {
                                                     type: 'page'
                                                 })
                                             }
+                                            mw.askusertostay = false
                                         }, 100);
                                     });
                                 </script>

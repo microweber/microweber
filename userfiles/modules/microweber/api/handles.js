@@ -95,7 +95,7 @@ var dynamicModulesMenu = function(e, el) {
     if(modules.length > 0){
         var off = mw.$(el).offset();
         if(mw.tools.collision(el, mw.handleModule.wrapper)){
-            off.top = parseFloat(mw.handleModule.wrapper.style.top) + 30;
+            off.top = parseFloat(mw.handleModule.wrapper.style.top);
             off.left = parseFloat(mw.handleModule.wrapper.style.left);
         }
         mw.inaccessibleModules.style.top = off.top + 'px';
@@ -137,7 +137,7 @@ mw.Handle = function(options) {
         this.wrapper.className = 'mw-defaults mw-handle-item ' + (this.options.className || 'mw-handle-type-default');
         this.wrapper.contenteditable = false;
         this.wrapper.onmouseenter = function() {
-            mw.liveEditSelector.select()
+            mw.liveEditSelector.select();
         }
         mw.$(this.wrapper).on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
@@ -398,11 +398,12 @@ mw._initHandles = {
                                     element: el,
                                     position: mw.drag.plus.tipPosition(this.currentNode),
                                     template: 'mw-tooltip-default mw-tooltip-insert-module',
-                                    id: 'mw-plus-tooltip-selector'
+                                    id: 'mw-plus-tooltip-selector',
+                                    overlay: true
                                 });
                                 setTimeout(function (){
                                     $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
-                                }, 10)
+                                }, 10);
                                 mw.tabs({
                                     nav: tip.querySelectorAll('.mw-ui-btn'),
                                     tabs: tip.querySelectorAll('.module-bubble-tab'),
@@ -425,7 +426,7 @@ mw._initHandles = {
                                             conf.template = mw.$(this).attr('template');
                                         }
                                         mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
-                                        tip.remove()
+                                        tip.remove();
                                     };
                                 });
                         }

@@ -1,13 +1,16 @@
 
-.mw-uploader-input{
+input.mw-uploader-input,
+.mw-filepicker-root .mw-ui-field-holder input.mw-uploader-input{
     position: absolute;
     cursor: pointer;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
+    width: 100% !important;
+    height: 100% !important;
     font-size: 99px;
-    opacity: 0;
+    opacity: 0 !important;
 }
 
 .cat_selector_view_ctrl {
