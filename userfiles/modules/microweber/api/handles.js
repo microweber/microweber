@@ -7,7 +7,10 @@ var handleInsertTargetDisplay = function (target, pos) {
         mw.element(document.body).append(_handleInsertTargetDisplay);
     }
     if (target === 'hide'){
-       _handleInsertTargetDisplay.hide();
+       _handleInsertTargetDisplay
+           .removeClass('mw-handle-insert-target-display-top')
+           .removeClass('mw-handle-insert-target-display-bottom')
+           .hide();
        return;
     }   else {
         _handleInsertTargetDisplay.show();
@@ -21,7 +24,11 @@ var handleInsertTargetDisplay = function (target, pos) {
     } else if(pos === 'bottom') {
         css.top = off.top + $el.outerHeight();
     }
-    _handleInsertTargetDisplay.css(css);
+    _handleInsertTargetDisplay
+        .removeClass('mw-handle-insert-target-display-top')
+        .removeClass('mw-handle-insert-target-display-bottom')
+        .addClass(pos === 'top' ? 'mw-handle-insert-target-display-top' : 'mw-handle-insert-target-display-bottom')
+        .css(css);
 }
 
 var dynamicModulesMenuTime = null;
@@ -626,7 +633,7 @@ mw._initHandles = {
                 },
                 {
                     title: 'Move Up',
-                    icon: 'mw-icon-arrow-up-b',
+                    icon: 'mdi mdi-chevron-double-up',
                     className:'mw_handle_module_up',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'prev');
@@ -635,7 +642,7 @@ mw._initHandles = {
                 },
                 {
                     title: 'Move Down',
-                    icon: 'mw-icon-arrow-down-b',
+                    icon: 'mdi mdi-chevron-double-down',
                     className:'mw_handle_module_down',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'next');
@@ -716,7 +723,7 @@ mw._initHandles = {
                 },
                 {
                     title: 'Move Up',
-                    icon: 'mw-icon-arrow-up-b',
+                    icon: 'mdi mdi-chevron-double-up',
                     className:'mw_handle_module_up',
                     action: function () {
                         mw.drag.replace($(getActiveDragCurrent()), 'prev');
@@ -724,7 +731,7 @@ mw._initHandles = {
                 },
                 {
                     title: 'Move Down',
-                    icon: 'mw-icon-arrow-down-b',
+                    icon: 'mdi mdi-chevron-double-down',
                     className:'mw_handle_module_down',
                     action: function () {
                         mw.drag.replace($(getActiveDragCurrent()), 'next');
@@ -858,7 +865,7 @@ mw._initHandles = {
             mw.$(".mw-handle-menu-dynamic", handle.wrapper).empty();
             mw.$('.mw_handle_module_up,.mw_handle_module_down').hide();
             var $el, hasedit;
-            const isLayout = element && element.getAttribute('data-type') === 'layouts';
+            var isLayout = element && element.getAttribute('data-type') === 'layouts';
             handle.isLayout = isLayout;
             handle.handle.classList[isLayout ? 'add' : 'remove']('mw-handle-target-layout');
             if(isLayout){

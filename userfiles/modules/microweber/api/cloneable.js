@@ -65,7 +65,7 @@ mw.drag.onCloneableControl = function(target, isOverControl){
                 target: $t[0],
                 value: $t[0].innerHTML
             });
-            $(mw.drag._onCloneableControl.__target).prev().before(mw.drag._onCloneableControl.__target)
+            $(mw.drag._onCloneableControl.__target).prev().before(mw.drag._onCloneableControl.__target);
             mw.liveEditState.record({
                 target: $t[0],
                 value: $t[0].innerHTML
@@ -106,7 +106,6 @@ mw.drag.onCloneableControl = function(target, isOverControl){
         }
         clc.css({
             top: off.top > 0 ? off.top : 0 ,
-            //left: off.left > 0 ? off.left : 0
             left: leftCenter
         });
 

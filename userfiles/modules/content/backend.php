@@ -779,10 +779,7 @@ if ($action == 'posts') {
                                                     },
                                                     minWidth: 200
                                                 })
-
                                             })
-
-
                                     }
                                 };
 

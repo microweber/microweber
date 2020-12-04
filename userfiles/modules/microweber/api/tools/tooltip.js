@@ -195,7 +195,6 @@
                 }
             },
             init: function (o, wl) {
-            console.log(o)
 
                 var orig_options = o;
                 o = mw.tools.tooltip.prepare(o);
@@ -206,18 +205,16 @@
                 } else {
                     tip = mw.tools.tooltip.source(o.content, o.skin, o.position, o.id);
                 }
-                console.log(11111111, o)
+
                 if(o.overlay) {
-
-
                     var overlay = $('<div class="mw-tooltip-overlay"></div>');
-                    tip.remove = function () {
+                    tip.tremove = function () {
                         overlay.remove();
-                        tip[0].remove()
-                    }
-                    overlay.on('click', function () {
+                        tip.remove();
+                    };
 
-                        tip.remove()
+                    overlay.on('click', function () {
+                        tip.tremove()
                     });
 
                     $('body').append(overlay)

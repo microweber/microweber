@@ -15,6 +15,7 @@ mw.image = {
                     mw.$(mw.image_resizer).addClass('active')
                 };
                 mw.image_resizer._hide = function () {
+                    clearTimeout(mw.image_resizer_time)
                     mw.image_resizer_time = setTimeout(function () {
                         mw.$(mw.image_resizer).removeClass('active')
                     }, 3000)

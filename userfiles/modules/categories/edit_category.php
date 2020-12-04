@@ -410,6 +410,10 @@ if (isset($params['live_edit'])) {
                                         advancedBtn.remove()
                                     })
                                 })
+                                setTimeout(function (){
+                                    mw.askusertostay = false;
+                                    document.querySelector('button[form="quickform-edit-content"]').disabled = true;
+                                }, 999)
                             });
 
 

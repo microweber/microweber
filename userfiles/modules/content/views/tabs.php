@@ -97,6 +97,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
 <script>
     $(document).ready(function () {
+
         pick1 = mw.colorPicker({
             element: '.mw-ui-color-picker',
             position: 'bottom-left',
@@ -104,5 +105,11 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
             }
         });
+
+        setTimeout(function (){
+            mw.askusertostay = false;
+            document.querySelector('.js-bottom-save').disabled = true;
+        }, 999)
+
     });
 </script>

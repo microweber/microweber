@@ -3360,7 +3360,7 @@ body.has-opened-sidebar {
     background: #2b2b2b;
     border-radius: 3px;
     padding: 0;
-    margin-top: -16px;
+    margin-top: 0;
     font-size: 0;
     box-shadow: 0 2px 1px #0000005c;
 }
@@ -4260,9 +4260,11 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     pointer-events: none;
 }
 
+.mw-handle-no-drag .mw-handle-handler-icon,
+.mw-handle-no-drag .ui-draggable-handle,
 .mw-handle-no-drag .mw-handle-insert-button,
 .mw-handle-no-drag .mw-handle-remove {
-    display: none;
+    display: none !important;
 }
 
 .mw-handle-no-drag .mw-handle-remove {
@@ -4770,15 +4772,36 @@ div.element {
     display: none !important;
 }
 
+
 .mw-handle-insert-target-display {
     display: block;
     height: 3px;
     background-color: #2b2b2b;
-
     box-shadow: 0 0 4px rgba(0,0,0,.12);
-    overflow: hidden;
     pointer-events: none;
     position: absolute;
     z-index: 99;
 
+}
+.mw-handle-insert-target-display:after {
+    position: absolute;
+    left: 50%;
+    width: 20px;
+    text-align: center;
+    animation: mw_dropable_arr 2s linear infinite;
+    bottom: 0;
+    color: #2b2b2b;
+    transition: transform .2s;
+    transform: rotate(180deg);
+    top: 30px;
+    text-shadow: 0 0 12px rgba(0, 0, 0, .3);
+    content: "\0121";
+    display: inline-block;
+    font-family: Microweber;
+    font-size: 27px;
+}
+.mw-handle-insert-target-display-top:after{
+    transform: rotate(0);
+    top: -30px;
+     animation: mw_dropable_arr_down 2s linear infinite;
 }
