@@ -12,12 +12,14 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                     </div>
-                    <input type="text" class="form-control js-product-price" name="custom_fields[price]" value="<?php echo $productPrice; ?>">
+                    <input type="text" class="form-control js-product-price" name="price" value="<?php echo $productPrice; ?>">
                 </div>
             </div>
 
             <?php
-            if (is_module('shop/offers')):
+            if (false == true and is_module('shop/offers')):
+            // @todo fix it
+           //disable temporary
             ?>
                 <module type="shop/offers/special_price_field" product_id="<?php echo $product['id'];?>" />
             <?php endif; ?>

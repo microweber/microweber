@@ -17,7 +17,7 @@ class ProductServiceProvider extends ServiceProvider
     public function boot()
     {
         Product::observe(BaseModelObserver::class);
-        Product::observe(ProductObserver::class);
+      //  Product::observe(ProductObserver::class); ->moved to CustomFieldsTrait
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }

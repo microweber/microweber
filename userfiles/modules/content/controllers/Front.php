@@ -742,10 +742,10 @@ class Front
                         }
                         $item['prices'] = $prices;
                     } else {
-                        $item['prices'] = false;
+                        $item['prices'] = [0];
                     }
                 } else {
-                    $item['prices'] = false;
+                    $item['prices'] = [0];
                     $item['prices_data'] = false;
                     $item['original_price'] = false;
 

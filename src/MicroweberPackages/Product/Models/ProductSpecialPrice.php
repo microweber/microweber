@@ -5,7 +5,7 @@ namespace MicroweberPackages\Product\Models;
  * @deprecated
  */
 
-use MicroweberPackages\CustomField\CustomField;
+use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Product\Scopes\SpecialPriceScope;
 
 class ProductSpecialPrice extends CustomField

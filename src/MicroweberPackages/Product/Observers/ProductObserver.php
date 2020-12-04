@@ -19,17 +19,20 @@ class ProductObserver
 
     public function retrieved(Product $model)
     {
-      /* foreach($model->getAttributes() as $attributeKey=>$attributeValue) {
-           unset($model->$attributeKey);
-       }*/
+        /* foreach($model->getAttributes() as $attributeKey=>$attributeValue) {
+             unset($model->$attributeKey);
+         }*/
 
 
     }
 
-    public function saving(Product $product) {
+    public function saving(Product $product)
+    {
+
+
+        $fillable = $product->getFillable();
 
         $product->content_type = 'product';
-
         if (isset($product->price)) {
             self::$fieldsToSave['price'] = $product->price;
             unset($product->price);
@@ -45,12 +48,14 @@ class ProductObserver
     /**
      * Handle the Page "saving" event.
      *
-     * @param  \MicroweberPackages\Product\Models\Product  $product
+     * @param  \MicroweberPackages\Product\Models\Product $product
      * @return void
      */
     public function saved(Product $product)
     {
+
 //        if (isset(self::$fieldsToSave['price'])) {
+//
 //            $price = ProductPrice::where('rel_id', $product->id)->where('rel_type',$product->getMorphClass())->first();
 //
 //            if (!$price) {
@@ -70,24 +75,24 @@ class ProductObserver
 //
 //        }
 
-        if (isset(self::$fieldsToSave['special_price'])) {
+//        if (isset(self::$fieldsToSave['special_price'])) {
+//
+//            $specialPrice = ProductSpecialPrice::where('rel_id', $product->id)->where('rel_type',$product->getMorphClass())->first();
+//            if (!$specialPrice) {
+//                $specialPrice = new ProductSpecialPrice();
+//            }
+//
+//            $specialPriceInputVal = trim(self::$fieldsToSave['special_price']);
+//            if(is_numeric($specialPriceInputVal )) {
+//                $specialPrice->value = $specialPriceInputVal ;
+//            } else {
+//                $specialPrice->value = intval($specialPriceInputVal );
+//            }
+//
+//            $specialPrice->rel_id = $product->id;
+//            $specialPrice->save();
+//        }
 
-            $specialPrice = ProductSpecialPrice::where('rel_id', $product->id)->where('rel_type',$product->getMorphClass())->first();
-            if (!$specialPrice) {
-                $specialPrice = new ProductSpecialPrice();
-            }
-
-            $specialPriceInputVal = trim(self::$fieldsToSave['special_price']);
-            if(is_numeric($specialPriceInputVal )) {
-                $specialPrice->value = $specialPriceInputVal ;
-            } else {
-                $specialPrice->value = intval($specialPriceInputVal );
-            }
-
-            $specialPrice->rel_id = $product->id;
-            $specialPrice->save();
-        }
-        
-        cache_delete('content');
+        //   cache_delete('content');
     }
 }
