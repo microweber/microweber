@@ -4,6 +4,43 @@
     mw.require('forms.js', true);
 </script>
 
+
+
+<?php
+/*
+ * $lang = get_option('language', 'website');
+if (!$lang) {
+    $lang = 'en';
+}
+set_current_lang($lang);
+*/
+
+$lang = mw()->lang_helper->current_lang();
+
+if(isset($params['edit-lang']) and $params['edit-lang']){
+    $lang = $params['edit-lang'];
+    set_current_lang($lang);
+    $lang = mw()->lang_helper->current_lang();
+
+}
+
+
+
+
+$cont = mw()->lang_helper->get_language_file_content();
+$namespaces = mw()->lang_helper->get_all_language_file_namespaces();
+
+
+
+
+?>
+
+
+
+
+
+
+
 <script type="text/javascript">
     function import_language_by_namespace(namespace, language) {
         mw.dialog({
@@ -35,7 +72,7 @@
             $.each($('.lang-edit-form'), function () {
                 mw.form.post($(this), '<?php print api_link('send_lang_form_to_microweber'); ?>',
                     function (msg) {
-                        mw.notification.msg(this, 1000, true);
+                        mw.notification.msg(this, 1000, false);
                         mw.tools.enable(mwd.querySelector(".send-your-lang a"));
                     });
             });
@@ -47,14 +84,21 @@
     function save_lang_form($form_id) {
         var formArray = $('#' + $form_id).serializeArray();
 
+        mw.tools.loading( $('#' + $form_id),true)
+
         $.ajax({
             type: "POST",
             url: "<?php print api_link('save_language_file_content'); ?>",
             data: {lines: JSON.stringify(formArray)},
             dataType: "json",
             success: function (msg) {
+                mw.tools.loading( $('#' + $form_id),false)
+                if(msg.success){
+                                mw.notification.success(msg.success,2000,'lang');
+                } else {
+                    mw.notification.msg(msg,2000,false);
 
-                mw.notification.msg(msg);
+                }
             }
         });
 
@@ -112,6 +156,32 @@
     }
 </style>
 
+
+
+<script>
+    $(document).ready(function () {
+
+
+
+        $('.js-search-lang-text').on('input', function () {
+
+            $('.collapse').collapse('show')
+
+
+            mw.tools.search(this.value, '.js-table-lang tr', function (found) {
+                $(this)[found?'show':'hide']();
+            });
+
+
+
+
+        })
+
+
+
+    });
+</script>
+
 <div class="card bg-none style-1 mb-0 card-settings">
     <div class="card-body pt-3 pb-0 px-0">
         <div class="row">
@@ -126,12 +196,11 @@
                             <div class="input-group-prepend bg-white">
                                 <span class="input-group-text"><i class="mdi mdi-magnify mdi-18px"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Enter a word or phrase"/>
+                            <input type="text" class="form-control js-search-lang-text"  placeholder="Enter a word or phrase"/>
                         </div>
                     </div>
 
-                    <div class="col-auto pl-0">
-                        <button type="submit" class="btn btn-outline-primary">Search</button>
+
                     </div>
                 </div>
             </div>
@@ -154,19 +223,7 @@
             </div>
 
             <div class="col-md-9">
-                <?php
-                /*
-                 * $lang = get_option('language', 'website');
-                if (!$lang) {
-                    $lang = 'en';
-                }
-                set_current_lang($lang);
-                */
-                $lang = mw()->lang_helper->current_lang();
 
-                $cont = mw()->lang_helper->get_language_file_content();
-                $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
-                ?>
                 <?php if (!empty($cont)): ?>
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body py-2">
@@ -199,7 +256,7 @@
                                 <form id="language-form-<?php print $params['id'] ?>" class="lang-edit-form">
                                     <input name="___lang" value="<?php print $lang ?>" type="hidden">
 
-                                    <table width="100%" class="table">
+                                    <table width="100%" class="table js-table-lang">
                                         <thead>
                                         <tr>
                                             <th scope="col" style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;"><?php _e('Key'); ?></th>
@@ -215,7 +272,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="vertical-align: middle;">
-                                                    <textarea name="<?php print $k ?>" class="mw_lang_item_textarea_edit form-control form-control-sm" onchange="save_lang_form('language-form-<?php print $params['id'] ?>')" wrap="soft" rows="2"><?php print $item ?></textarea>
+                                                    <textarea name="<?php print $k ?>" oninput="mw.on.stopWriting(this,function(){ save_lang_form('language-form-<?php print $params['id'] ?>')  })"    class="mw_lang_item_textarea_edit form-control form-control-sm" xxonchange="save_lang_form('language-form-<?php print $params['id'] ?>')" wrap="soft" rows="2"><?php print $item ?></textarea>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -266,7 +323,7 @@
                                         <form id="language-form-<?php print $params['id'] . $iter ?>" class="lang-edit-form">
                                             <input name="___namespace" value="<?php print $ns ?>" type="hidden">
                                             <input name="___lang" value="<?php print $lang ?>" type="hidden">
-                                            <table width="100%" class="table">
+                                            <table width="100%" class="table js-table-lang">
                                                 <thead>
                                                 <tr>
                                                     <th scope="col" style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;"><?php _e('Key'); ?></th>
@@ -282,7 +339,7 @@
                                                             </div>
                                                         </td>
                                                         <td style="vertical-align: middle;">
-                                                            <textarea name="<?php print $k ?>" class="mw_lang_item_textarea_edit form-control form-control-sm" onchange="save_lang_form('language-form-<?php print $params['id'] . $iter ?>')" wrap="soft" rows="2"><?php print $item ?></textarea>
+                                                            <textarea name="<?php print $k ?>" oninput="mw.on.stopWriting(this,function(){ save_lang_form('language-form-<?php print $params['id'] . $iter ?>')  })" class="mw_lang_item_textarea_edit form-control form-control-sm" xxonchange="save_lang_form('language-form-<?php print $params['id'] . $iter ?>')" wrap="soft" rows="2"><?php print $item ?></textarea>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>

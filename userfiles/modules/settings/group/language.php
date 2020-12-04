@@ -78,7 +78,7 @@ if (is_module('multilanguage')) {
 
     <hr class="thin mx-4"/>
 
-    <module type="settings/group/language_edit" id="mw_lang_file_edit"/>
+    <module type="settings/group/language_edit" id="mw_lang_file_edit"  edit-lang="<?php print $def_language ?>"  />
 </div>
 
 

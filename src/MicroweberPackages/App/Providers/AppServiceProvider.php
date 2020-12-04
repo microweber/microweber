@@ -406,6 +406,19 @@ class AppServiceProvider extends ServiceProvider
                 );
             }
 
+
+
+
+
+            $language = get_option('language', 'website');
+            if ($language != false and $language != 'en') {
+                set_current_lang($language);
+                //     app()->setLocale($language);
+            }
+
+
+
+
             load_all_functions_files_for_modules();
 
 
@@ -445,11 +458,6 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-            /*  $language = get_option('language', 'website');
-
-              if ($language != false) {
-                  set_current_lang($language);
-              }*/
 
             if (is_cli()) {
                 $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
