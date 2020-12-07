@@ -1,25 +1,22 @@
 <?php
 
-namespace MicroweberPackages\CustomField\Traits;
+namespace MicroweberPackages\Product\Traits;
 
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Product\Models\ProductPrice;
-use MicroweberPackages\Product\Models\ProductSpecialPrice;
 
-trait  CustomFieldPriceTrait {
+trait CustomFieldPriceTrait {
 
     private $_addCustomFields = [];
     private $_addPriceField = null;
     private $_addSpecialPriceField = null;
 
-    public function initializeCustomFieldsTrait()
+    public function initializeCustomFieldPriceTrait()
     {
         $this->fillable[] = 'price'; // related with boot custom fields trait
         $this->fillable[] = 'special_price'; // related with boot custom fields trait
     }
 
-    public static function bootCustomFieldsTrait()
+    public static function bootCustomFieldPriceTrait()
     {
         static::saving(function ($model)  {
             if (isset($model->attributes['price'])) {
@@ -33,6 +30,8 @@ trait  CustomFieldPriceTrait {
         });
 
         static::saved(function($model) {
+
+            dd($model);
 
             if (isset($model->_addPriceField)) {
                 $price = ProductPrice::where('rel_id', $model->id)->where('rel_type',$model->getMorphClass())->first();
