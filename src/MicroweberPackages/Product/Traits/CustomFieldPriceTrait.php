@@ -31,9 +31,8 @@ trait CustomFieldPriceTrait {
 
         static::saved(function($model) {
 
-            dd($model);
-
             if (isset($model->_addPriceField)) {
+
                 $price = ProductPrice::where('rel_id', $model->id)->where('rel_type',$model->getMorphClass())->first();
 
                 if (!$price) {
@@ -44,53 +43,12 @@ trait CustomFieldPriceTrait {
                 if(is_numeric($priceInputVal)) {
                     $price->value = $priceInputVal;
                 } else {
-                    $price->value = intval($priceInputVal);
+                    $price->value = floatval($priceInputVal);
                 }
 
                 $price->rel_id = $model->id;
                 $price->save();
             }
-
-           /* if (!empty($model->_addCustomFields)) {
-                foreach ($model->_addCustomFields as $customField) {
-
-                    if (empty($customField['name_key'])) {
-                        $customField['name_key'] = \Str::slug($customField['name'], '-');
-                    } else {
-                        $customField['name_key'] = \Str::slug($customField['name_key'], '-');
-                    }
-
-                    $findCustomField = $model->customField()->where('name_key', $customField['name_key'])->first();
-
-
-
-                    if($customField['name_key'] == 'price' or ($findCustomField and $findCustomField->type == 'price') ){
-                        if(is_array($customField['value'])){
-                            $customField['value'] = reset($customField['value']);
-                        }
-                        $priceInputVal = trim($customField['value']);
-                        if(is_numeric($priceInputVal)) {
-                            $customField['value'] = $priceInputVal;
-                        } else {
-                            $customField['value'] = intval($priceInputVal);
-                        }
-                    }
-
-                    if ($findCustomField) {
-                        $findCustomField->value = $customField['value'];
-
-                        $findCustomField->save();
-                    } else {
-
-                        $model->customField()->create([
-                            'value' => $customField['value'],
-                            'name' => $customField['name'],
-                            'name_key' => $customField['name_key']
-                        ]);
-                    }
-                }
-                $model->refresh();
-            }*/
 
         });
     }
