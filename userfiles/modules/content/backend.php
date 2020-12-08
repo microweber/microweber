@@ -188,6 +188,13 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     }
 
     mw.on.hashParam("action", function () {
+
+        if (this == false) {
+            mw.tools.classNamespaceDelete(mwd.body, 'action-')
+        }
+
+
+
         mainTreeSetActiveItems()
 
         if (this == false) {
@@ -212,7 +219,19 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             return false;
         }
         var arr = this.split(":");
-        $(mwd.body).removeClass("action-Array");
+       // $(mwd.body).removeClass("action-Array");
+        // $(mwd.body).removeClass("action-");
+        // $(mwd.body).removeClass("action-showposts");
+        // $(mwd.body).removeClass("action-showpostscat");
+        // $(mwd.body).removeClass("action-editpage");
+        // $(mwd.body).removeClass("action-trash");
+        // $(mwd.body).removeClass("action-editcategory");
+        // $(mwd.body).removeClass("action-editpost");
+        // $(mwd.body).removeClass("action-addsubcategory");
+        mw.tools.classNamespaceDelete(mwd.body, 'action-')
+
+
+
 
         if (arr[0] === 'new') {
             mw.contentAction.create(arr[1]);
@@ -222,6 +241,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             mw.$(".active-bg").removeClass('active-bg');
             mw.$(".mw_action_nav").removeClass("not-active");
             var active_item = mw.$(".item_" + arr[1]);
+
+            if (arr[0]) {
+            $(mwd.body).addClass("action-"+arr[0]);
+            }
             if (arr[0] == 'showposts') {
                 var active_item = mw.$(".content-item-" + arr[1]);
             }
