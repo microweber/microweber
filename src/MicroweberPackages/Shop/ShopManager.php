@@ -474,6 +474,10 @@ class ShopManager
             $decimals = 2;
         }
 
+        if (!is_numeric($amount)) {
+            return $amount;
+        }
+
         switch ($curr) {
             case 'EUR':
                 $curNumberFormat = number_format($amount, $decimals, ',', ' ');
