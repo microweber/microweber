@@ -328,7 +328,8 @@ event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
                 $price_on_offer = (array)$price_on_offer;
 
                 $offerExpired = false;
-                if(!empty($price_on_offer['expires_at'])) {
+
+                if(!empty($price_on_offer['expires_at']) && $price_on_offer['expires_at'] != '0000-00-00 00:00:00') {
                     $offerExpired = \Carbon\Carbon::now()->gt($price_on_offer['expires_at']);
                 }
 
