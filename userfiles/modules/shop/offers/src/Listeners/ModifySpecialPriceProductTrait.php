@@ -52,6 +52,6 @@ trait ModifySpecialPriceProductTrait {
             $save = offer_save($saveOffer);
         }
 
-        clearcache();
+        
     }
 }
