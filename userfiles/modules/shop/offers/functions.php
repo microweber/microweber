@@ -31,8 +31,19 @@ function offer_save($offerData = array())
     }
 
     if (isset($offerData['expires_at']) and trim($offerData['expires_at']) != '') {
-        $date_db_format = get_date_db_format($offerData['expires_at']);
-        $offerData['expires_at'] = date('Y-m-d H:i:s', strtotime($date_db_format));
+        //$date_db_format = get_date_db_format($offerData['expires_at']);
+        //$offerData['expires_at'] = date('Y-m-d H:i:s', strtotime($date_db_format));
+
+        // >>> Format date
+        try {
+            $carbonExpiresAt = Carbon::parse($offerData['expires_at']);
+            $offerData['expires_at'] = $carbonExpiresAt->format('Y-m-d H:i:s');
+        } catch (\Exception $e) {
+            //$data['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+        }
+        // <<< Format date
+    } else {
+        $offerData['expires_at'] = null;
     }
 
     if (empty($offerData['is_active'])) {
@@ -137,7 +148,6 @@ function offers_get_products()
 
     return $specialOffers;
 }
-
 
 //api_expose('offers_get_price');
 function offers_get_price($product_id = false, $price_id)
@@ -317,7 +327,12 @@ event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
             if ($price_on_offer) {
                 $price_on_offer = (array)$price_on_offer;
 
-                if ($price_on_offer and isset($price_on_offer['offer_price'])) {
+                $offerExpired = false;
+                if(!empty($price_on_offer['expires_at'])) {
+                    $offerExpired = \Carbon\Carbon::now()->gt($price_on_offer['expires_at']);
+                }
+
+                if ($price_on_offer and isset($price_on_offer['offer_price']) and $offerExpired == false) {
                     $cust_price = $price;
                     $new_price_value = $price_on_offer['offer_price'];
 
