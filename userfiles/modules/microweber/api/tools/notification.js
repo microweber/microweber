@@ -1,3 +1,41 @@
+
+
+var errorsHandlePrev = [];
+mw.errorsHandle = function (obj) {
+    while (errorsHandlePrev.length) {
+        errorsHandlePrev[errorsHandlePrev.length-1].remove();
+        errorsHandlePrev.pop();
+    }
+
+    if(!obj) return;
+    if(obj.status === 401) {
+
+        mw.session.checkPause = false;
+        mw.session.checkPauseExplicitly = false;
+        mw.session.logRequest();
+
+    }
+    if(obj.errors) {
+        for (var key in obj.errors) {
+            var bsel = document.querySelector('.form-control[name="' + key + '"]');
+            if ( bsel ) {
+                var next = bsel.nextElementSibling;
+                if (!next || !next.classList.contains('invalid-feedback')) {
+                    next = document.createElement('div');
+                    next.classList.add('invalid-feedback');
+                    bsel.parentNode.insertBefore(next, bsel.nextSibling);
+                    errorsHandlePrev.push(next);
+                }
+                next.style.display = 'block';
+                next.innerHTML = obj.errors[key];
+            }
+        }
+
+    }
+    if (obj.errors && obj.message) {
+        mw.notification.warning(obj.message);
+    }
+};
 mw.notification = {
     msg: function (data, timeout, alert) {
         timeout = timeout || 1000;
