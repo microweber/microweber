@@ -274,6 +274,19 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     pointer-events: none;
 }
 
+.pictures-admin-container .select_actions,
+.pictures-admin-container .select_actions_holder{
+    float: right;
+    position: static;
+}
+.pictures-admin-container .select_actions_holder {
+    float: right;
+}
+.pictures-admin-container .post-media-select-all-pictures{
+    position: relative;
+    margin-top: 0;
+}
+
 .btnnv-label {
     float: left;
     margin: 3px 7px 0 0;

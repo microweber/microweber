@@ -31,7 +31,7 @@
 
         };
 
-        this.create = function(){
+        this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
 
@@ -46,7 +46,7 @@
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
                         scope.append(el);
-                    })
+                    });
                 } else {
                     this.append(this.settings.content);
                 }

@@ -5730,6 +5730,10 @@ li:hover > .show-on-hover {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
 }
+.mw-tooltip-default.mw-tooltip-widget {
+  padding: 10px;
+  background: white;
+}
 .mw-tooltip-default .mw-tooltip-content {
   padding: 10px;
   position: relative;

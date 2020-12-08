@@ -314,26 +314,7 @@
             onError: function () {
                 $(window).trigger('adminSaveFailed');
                 module.removeClass('loading');
-                if (typeof this.title !== 'undefined') {
-                    mw.notification.error('<?php _ejs('Please enter title'); ?>');
 
-                    $('#content-title-field-row').animate({
-                        backgroundColor: "red"
-                    }, function () {
-                        $('#content-title-field-row').animate({
-                            backgroundColor: "transparent"
-                        })
-                    })
-
-                }
-                if (typeof this.content !== 'undefined') {
-                    mw.notification.error('<?php _ejs('Please enter content'); ?>');
-                }
-                if (typeof this.error !== 'undefined') {
-                    mw.session.checkPause = false;
-                    mw.session.checkPauseExplicitly = false;
-                    mw.session.logRequest();
-                }
                 mw.edit_content.saving = false;
             }
         });

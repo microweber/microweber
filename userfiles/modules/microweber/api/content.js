@@ -124,11 +124,12 @@ mw.content = mw.content || {
             datatype: "json",
             async: true,
 
-            error: function (data) {
+            error: function (data, x) {
                 mw.$(mwd.body).removeClass("loading");
                 if (typeof e.onError === 'function') {
                     e.onError.call(data.data || data);
                 }
+                mw.errorsHandle(data.responseJSON);
             },
             complete: function (a,b,c) {
                  mw.$(mwd.body).removeClass("loading");
