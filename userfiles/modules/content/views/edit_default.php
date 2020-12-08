@@ -245,7 +245,7 @@ if (isset($params['quick_edit'])) {
                                   </div>
 
                                 <div class="d-none">
-                                    <input autocomplete="off" name="content_url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
+                                    <input autocomplete="off" name="url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
 
                                     <script>
                                         var slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
