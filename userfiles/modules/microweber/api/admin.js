@@ -9,11 +9,10 @@ mw.require(mw.settings.modules_url + '/categories/categories.js');
 
 mw.admin = {
     language: function(language) {
-        if (!language) {
-            return mw.cookie.get("lang");
-        }
-        mw.cookie.set("lang", language);
-        location.reload();
+        $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})
+        .done(function (data) {
+            location.reload();
+        });
     },
     editor: {
         set: function (frame) {

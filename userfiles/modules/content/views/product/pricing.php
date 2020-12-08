@@ -17,9 +17,7 @@
             </div>
 
             <?php
-            if (false == true and is_module('shop/offers')):
-            // @todo fix it
-           //disable temporary
+            if (is_module('shop/offers')):
             ?>
                 <module type="shop/offers/special_price_field" product_id="<?php echo $product['id'];?>" />
             <?php endif; ?>

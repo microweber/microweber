@@ -55,7 +55,7 @@ if (!isset($offer['price']['offer_price'])) {
 			<span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
 		</div>
         
-		<input type="text" class="form-control js-product-special-price" name="special_price" value="<?php echo $offer['price']['offer_price'];?>">
+		<input type="text" class="form-control js-product-special-price" name="content_data[special_price]" value="<?php echo $offer['price']['offer_price'];?>">
 
         <?php if (isset($offer['price']['offer_id'])): ?>
             <div class="input-group-append">
