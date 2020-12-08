@@ -9,6 +9,12 @@ class ExportTables
 	
 	public function addItemToTable($table, $item)
 	{
+        foreach ($item as &$itemValue) {
+            if (is_array($itemValue)) {
+                $itemValue = json_encode($itemValue);
+            }
+        }
+
 		if (isset($this->tablesMap[$table])) {
 			if (in_array($item['id'], $this->tablesMap[$table])) {
 				return;
