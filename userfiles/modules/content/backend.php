@@ -235,6 +235,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         if (arr[0] === 'new') {
             mw.contentAction.create(arr[1]);
+            if (arr[0]) {
+                $(mwd.body).addClass("action-"+arr[0] + '-' + arr[1]);
+            }
         }
         else {
 
