@@ -419,10 +419,10 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-            load_all_functions_files_for_modules();
+            load_all_functions_files_for_modules( $this->app);
 
 
-            // Register module service providers
+            /*// Register module service providers
             $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999&order_by=position asc');
             if ($modules) {
                 foreach ($modules as $module) {
@@ -454,7 +454,7 @@ class AppServiceProvider extends ServiceProvider
 //
                     }
                 }
-            }
+            }*/
 
 
 
