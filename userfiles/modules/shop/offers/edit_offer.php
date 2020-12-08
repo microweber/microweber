@@ -8,6 +8,14 @@ $all_products = get_products('nolimit=1');
 if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     $addNew = false;
     $data = offer_get_by_id($params['offer_id']);
+    if (isset($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') {
+        try {
+            $carbonUpdatedAt = Carbon::parse($data['expires_at']);
+            $data['expires_at'] = $carbonUpdatedAt->format('Y-m-d');
+        } catch (\Exception $e) {
+            //
+        }
+    }
 } else {
     $addNew = true;
 
@@ -137,10 +145,13 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         <label class="control-label">Offer expiry at</label>
         <small class="text-muted d-block mb-2">The date when the offer will expire</small>
 
-        <?php // TODO: expires_at not saving in correct format ?>
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="expiration-checkbox" <?php echo (!empty($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') ? 'checked' : '' ?> >
+            <label class="custom-control-label" for="expiration-checkbox"><?php echo _e('Has expiration date');?></label>
+        </div>
 
         <div class="js-exp-date-holder">
-            <input type="date" name="expires_at" class="form-control disabled-js-validation disabled-js-validation-expiry-date" autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
+            <input type="date" name="expires_at" class="js-exp-date form-control disabled-js-validation disabled-js-validation-expiry-date" autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
         </div>
 
         <div class="js-field-message"></div>
@@ -161,15 +172,31 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         </div>
     </div>
 </form>
-
-<script src="<?php print $config['url_to_module']; ?>js/edit-offer.js"/>
-
 <script type='text/javascript'>
 
     $(document).ready(function () {
         <?php if (isset($data['product_title'])): ?>
         $(".js-product_title").val("<?php echo $data['product_title']; ?>").change();
         <?php endif; ?>
+
+        $('#expiration-checkbox').on('click',function(e) {
+
+            var checked = $(this).is(":checked");
+            var calendarInputEl =  $('.js-exp-date');
+
+            if(checked === false) {
+                calendarInputEl.attr('data-old-val', calendarInputEl.val())
+                calendarInputEl.val('');
+            } else {
+                if( calendarInputEl.attr('data-old-val')){
+                    calendarInputEl.val(calendarInputEl.attr('data-old-val')).trigger('change');
+
+                }
+            }
+        });
+
     });
 
 </script>
+<script src="<?php print $config['url_to_module']; ?>js/edit-offer.js"/>
+

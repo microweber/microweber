@@ -27,7 +27,7 @@ $allOffers = offers_get_all();
                     <td><?php print($offer['price_name']) ?></td>
                     <td><?php print currency_format($offer['price']) ?></td>
                     <td><?php print currency_format($offer['offer_price']) ?></td>
-                    <td><?php if ($offer['expires_at']): ?><?php print date_system_format($offer['expires_at']) ?><?php else: ?>-<?php endif; ?></td>
+                    <td><?php if ($offer['expires_at'] and $offer['expires_at'] != '0000-00-00 00:00:00' ): ?><?php print date_system_format($offer['expires_at']) ?><?php else: ?>-<?php endif; ?></td>
                     <td class="<?php print $class_status; ?>"><?php print($offer['is_active'] == 1 ? 'Active' : 'Inactive') ?></td>
                     <td class="action-buttons">
                         <button onclick="editOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit">Edit</button>
