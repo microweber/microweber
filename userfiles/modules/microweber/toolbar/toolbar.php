@@ -28,6 +28,7 @@ if (isset($_COOKIE['mw_exp'])) {
         //mw.require("tools.js");
         mw.require("wysiwyg.js");
         mw.require("css_parser.js");
+        mw.require("filepicker.js");
 
         mw.require("forms.js");
         mw.require("files.js");
