@@ -34,7 +34,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
     <?php
     $showCustomFields = true;
     if ($data['content_type'] == 'product') {
-        $showCustomFields = false;
+        $showCustomFields = true;
         include_once __DIR__ . DS . 'product' . DS . 'tabs.php';
     }
     ?>

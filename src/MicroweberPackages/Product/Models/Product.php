@@ -94,6 +94,22 @@ class Product extends Content
         return $this->provideFilter(ProductFilter::class);
     }
 
+    private function fetchSingleAttributeByType($type, $returnAsObject = false)
+    {
+        foreach($this->customField as $customFieldRow) {
+            if($customFieldRow->type == $type) {
+                if(isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
+                    if ($returnAsObject) {
+                        return $customFieldRow;
+                    }
+                    return $customFieldRow->fieldValue[0]->value;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private function fetchSingleAttributeByName($name, $returnAsObject = false)
     {
         foreach($this->customField as $customFieldRow) {
@@ -123,12 +139,12 @@ class Product extends Content
 
     public function getPriceAttribute()
     {
-        return $this->fetchSingleAttributeByName('price');
+        return $this->fetchSingleAttributeByType('price');
     }
 
     public function getPriceModelAttribute()
     {
-        return $this->fetchSingleAttributeByName('price', true);
+        return $this->fetchSingleAttributeByType('price', true);
     }
 
     public function getQtyAttribute()

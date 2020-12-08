@@ -25,8 +25,6 @@ class ProductPrice extends CustomField
     {
         $this->rel_type = 'content';
         $this->type = 'price';
-        $this->name = 'price';
-        $this->name_key = 'price';
 
        return parent::save($options);
     }

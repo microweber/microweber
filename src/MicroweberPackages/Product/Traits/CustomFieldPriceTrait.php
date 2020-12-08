@@ -37,6 +37,8 @@ trait CustomFieldPriceTrait {
 
                 if (!$price) {
                     $price = new ProductPrice();
+                    $price->name = 'price';
+                    $price->name_key = 'price';
                 }
 
                 $priceInputVal = trim($model->_addPriceField);
