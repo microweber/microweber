@@ -9,7 +9,7 @@ function load_all_functions_files_for_modules($options = false)
     if (!$is_installed) {
         return;
     }
-    $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999');
+    $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999order_by=position asc');
     $files = array();
     if (!empty($modules)) {
         foreach ($modules as $module) {
