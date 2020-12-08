@@ -423,7 +423,7 @@ class AppServiceProvider extends ServiceProvider
 
 
             // Register module service providers
-            $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999');
+            $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999&order_by=position asc');
             if ($modules) {
                 foreach ($modules as $module) {
                     if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
