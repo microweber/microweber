@@ -26,7 +26,7 @@ $app = new \MicroweberPackages\App\LaravelApplication(
 |
 */
 
-if (class_exists(\App\Http\Kernel::class)) {
+if (class_exists(\App\Http\Kernel::class,false)) {
     $app->singleton(
         \Illuminate\Contracts\Http\Kernel::class,
         \App\Http\Kernel::class
@@ -39,7 +39,7 @@ if (class_exists(\App\Http\Kernel::class)) {
 }
 
 
-if (class_exists(\App\Console\Kernel::class)) {
+if (class_exists(\App\Console\Kernel::class,false)) {
     $app->singleton(
         \Illuminate\Contracts\Console\Kernel::class,
         \App\Console\Kernel::class
