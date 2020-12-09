@@ -1081,6 +1081,10 @@ class MediaManager
                         }
                         $tn->createThumb($thumbOptions, $cache_path);
 
+                        if (isset($params['cache_id'])) {
+                            delete_option($params['cache_id'], 'media_tn_temp');
+                        }
+
                         unset($tn);
 
                     } else {

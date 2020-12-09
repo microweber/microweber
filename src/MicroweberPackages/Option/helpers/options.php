@@ -47,5 +47,9 @@ function save_option($dataOrKey, $value = false, $group = false)
     } else {
         return app()->option_manager->save($dataOrKey);
     }
+}
 
+function delete_option($key, $group = false, $module_id = false) {
+
+    return app()->option_manager->delete($key, $group, $module_id);
 }

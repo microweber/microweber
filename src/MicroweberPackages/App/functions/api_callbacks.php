@@ -174,7 +174,9 @@ api_expose('thumbnail_img');
     $cache_id_data = json_decode($cache_id_data, true);
 
     if ($cache_id_data) {
+        $cache_id_data['cache_id'] = $cache_id;
         $tn = mw()->media_manager->thumbnail_img($cache_id_data);
+
         return $tn;
     }else {
         return mw()->media_manager->pixum_img();
