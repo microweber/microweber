@@ -892,9 +892,12 @@ class MediaManager
         }
 
         $cache_id_data = array();
+        $cache_id_data['mtime'] = '';
+        if (!$is_remote and is_file($base_src)) {
+            $cache_id_data['mtime'] = filemtime($base_src);
+        }
         $cache_id_data['base_src'] = $base_src;
         $cache_id_data['src'] = $src;
-
         $cache_id_data['width'] = $width;
         $cache_id_data['height'] = $height;
         if ($crop) {
