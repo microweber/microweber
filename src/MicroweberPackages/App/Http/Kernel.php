@@ -16,16 +16,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        // \MicroweberPackages\App\Http\Middleware\TrustHosts::class,
-        \MicroweberPackages\App\Http\Middleware\TrustProxies::class,
-        \Fruitcake\Cors\HandleCors::class,
-      //  \Illuminate\Session\Middleware\AuthenticateSession::class,
-        \MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \MicroweberPackages\App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Session\Middleware\StartSession::class, //TODO our routers must be added on web middleware
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class, // petko fix
+
     ];
 
     /**
@@ -34,37 +25,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
-        'web' => [
-            \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
-            //\Illuminate\Session\Middleware\StartSession::class,
-           //  \Illuminate\Session\Middleware\AuthenticateSession::class,
-            AuthenticateSessionForUser::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
-        'public.web' => [
-            'xss',
-         //   \Illuminate\Session\Middleware\AuthenticateSession::class,
-            AuthenticateSessionForUser::class,
 
-        ],
-
-        'api' => [
-            'xss',
-            'throttle:111116,1',
-            'api_auth'
-        ],
-        'public.api' => [
-            'xss',
-            'throttle:161111,1',
-            //  EnsureFrontendRequestsAreStateful::class,
-            //\Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
-        'static.api' => [
-            \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
-            \Illuminate\Http\Middleware\CheckResponseForModifications::class
-        ]
     ];
 
     /**
@@ -75,21 +36,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \MicroweberPackages\App\Http\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \MicroweberPackages\App\Http\Middleware\RedirectIfAuthenticated::class,
-        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        // 'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'throttle' => \MicroweberPackages\App\Http\Middleware\ThrottleExternalRequests::class,
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'xss' => \MicroweberPackages\App\Http\Middleware\XSS::class,
-        'remove_html' => \MicroweberPackages\App\Http\Middleware\RemoveHtml::class,
-        'admin' => \MicroweberPackages\App\Http\Middleware\Admin::class,
-        'api_auth' => \MicroweberPackages\App\Http\Middleware\ApiAuth::class,
-        'allowed_ips' => \MicroweberPackages\App\Http\Middleware\AllowedIps::class,
+
     ];
 }
