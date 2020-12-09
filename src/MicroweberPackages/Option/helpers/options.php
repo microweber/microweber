@@ -30,10 +30,22 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
  * $option['option_group'] = 'my_option_group';
  * save_option($option);
  *
- *
+ * Or Eexample:
+ * save_option($key, $value, $group);
  *
  */
-function save_option($data)
+function save_option($dataOrKey, $value = false, $group = false)
 {
-    return app()->option_manager->save($data);
+    if ($dataOrKey && $value && $group) {
+
+        $option = array();
+        $option['option_value'] = $value;
+        $option['option_key'] = $dataOrKey;
+        $option['option_group'] = $group;
+
+        return app()->option_manager->save($option);
+    } else {
+        return app()->option_manager->save($dataOrKey);
+    }
+
 }

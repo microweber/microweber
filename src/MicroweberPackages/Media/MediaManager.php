@@ -925,10 +925,11 @@ class MediaManager
             }
 
             $cache_id_data['cache_path'] = $cache_path;
-            if (!cache_get($cache_id_without_ext, 'media')) {
-                cache_save($cache_id_data, $cache_id_without_ext, 'media', 99999);
-            }
+
+            save_option($cache_id_without_ext, json_encode($cache_id_data), 'media_tn_temp');
+
             $tn_img_url = $this->app->url_manager->site('api/image-tn/') . $cache_id_without_ext;
+
             return $tn_img_url;
         }
 
