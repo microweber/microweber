@@ -138,6 +138,7 @@
         });
         $(mw._postsImageUploader).on('FileUploaded', function (e, file) {
             mw.$('.admin-thumb-item-loading:last', $root).remove();
+            mw.module_pictures.after_change();
         });
         $(mw._postsImageUploader).on('Result', function (e, res) {
             var url = res.src ? res.src : res;
