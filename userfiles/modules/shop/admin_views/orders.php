@@ -46,14 +46,7 @@ function mw_export_shop_order(pid, iscart, e) {
 
     if (e) e.preventDefault();
 
-    data = {'id':pid};
-    $.post(mw.settings.api_url + 'shop/export_orders', data,
-    function (resp) {
-        mw.notification.msg(resp);
-        if (resp.download != undefined) {
-            window.location = resp.download;
-        }
-    });
+    window.location = mw.settings.api_url + 'shop/export_orders?id=' + pid;
 
 }
 

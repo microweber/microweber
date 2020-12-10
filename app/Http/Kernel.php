@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\App\Http;
+namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
-use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
+
+
 
 class Kernel extends HttpKernel
 {

@@ -15,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
+// Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
+
 
 

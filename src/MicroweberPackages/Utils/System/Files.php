@@ -588,6 +588,8 @@ class Files
             'vbs',
             'vb',
             'lnk',
+            'jsp',
+            'jspx',
 
             // from http://www.file-extensions.org/filetype/extension/name/program-executable-files
             'action ',  //  Automator Action  Mac OS

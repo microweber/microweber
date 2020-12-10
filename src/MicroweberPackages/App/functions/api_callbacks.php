@@ -168,10 +168,15 @@ api_expose('pixum_img');
 api_expose('thumbnail_img');
 
 
-\Illuminate\Support\Facades\Route::get('/api/image-tn/{cache_id}', function ($cache_id) {
-    $cache_id_data = cache_get($cache_id, 'media');
+\Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($cache_id) {
+
+    $cache_id_data = get_option($cache_id, 'media_tn_temp');
+    $cache_id_data = json_decode($cache_id_data, true);
+
     if ($cache_id_data) {
+        $cache_id_data['cache_id'] = $cache_id;
         $tn = mw()->media_manager->thumbnail_img($cache_id_data);
+
         return $tn;
     }else {
         return mw()->media_manager->pixum_img();

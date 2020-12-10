@@ -51,16 +51,16 @@ class Ui
         $btn['class'] = 'mai-category';
         $this->module('content.create.menu', $btn);
 
-        $notif_count = mw()->notifications_manager->get_unread_count();
-        $notif_count_html = false;
-        if (intval($notif_count) > 0) {
-            $notif_count_html = '<span class="badge badge-danger badge-sm badge-pill d-inline-block ml-2">' . $notif_count . '</span>';
-        }
-        $admin_dashboard_btn = array();
-        $admin_dashboard_btn['view'] = 'admin__notifications';
-        $admin_dashboard_btn['text'] = _e('Notifications', true) . $notif_count_html;
-        $admin_dashboard_btn['icon_class'] = 'mdi mdi-bell';
-        $this->module('admin.dashboard.menu', $admin_dashboard_btn);
+//        $notif_count = mw()->notifications_manager->get_unread_count();
+//        $notif_count_html = false;
+//        if (intval($notif_count) > 0) {
+//            $notif_count_html = '<span class="badge badge-danger badge-sm badge-pill d-inline-block ml-2">' . $notif_count . '</span>';
+//        }
+//        $admin_dashboard_btn = array();
+//        $admin_dashboard_btn['view'] = 'admin__notifications';
+//        $admin_dashboard_btn['text'] = _e('Notifications', true) . $notif_count_html;
+//        $admin_dashboard_btn['icon_class'] = 'mdi mdi-bell';
+//        $this->module('admin.dashboard.menu', $admin_dashboard_btn);
 
         $admin_dashboard_btn = array();
         $admin_dashboard_btn['view'] = 'content';

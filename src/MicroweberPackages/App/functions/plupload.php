@@ -38,12 +38,18 @@ if (!is_admin()) {
 
 $host = (parse_url(site_url()));
 
-$host_dir = false;
-if (isset($host['host'])) {
-    $host_dir = $host['host'];
-    $host_dir = str_ireplace('www.', '', $host_dir);
-    $host_dir = str_ireplace('.', '-', $host_dir);
+//$host_dir = false;
+$host_dir = 'default';
+
+
+if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE){
+    if (isset($host['host'])) {
+        $host_dir = $host['host'];
+        $host_dir = str_ireplace('www.', '', $host_dir);
+        $host_dir = str_ireplace('.', '-', $host_dir);
+    }
 }
+
 
 $fileName_ext = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 

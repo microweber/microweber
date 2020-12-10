@@ -16,10 +16,18 @@ if (!isset($offer['price']['offer_price'])) {
 
     $(document).ready(function () {
         var specialPriceElement = $('.js-product-special-price');
+        var specialPriceSet = "<?php echo !empty($offer['price']['offer_price']) ? 1 : 0?>";
+
+        if(specialPriceSet == 1) {
+            $('#customCheck322').attr('checked','checked');
+            $('.js-offer-price-form-group').show();
+        }
+
         $(specialPriceElement).on('input', function () {
             mw.on.stopWriting(this, function () {
-               if (parseFloat($('.js-product-price').val()) === parseFloat($(this).val())) {
-                    mw.notification.warning('<?php _e('Special price must be different from the original price!'); ?>');
+               if (parseFloat($(this).val()) >= parseFloat($('.js-product-price').val())) {
+                   $(this).val('');
+                    mw.notification.warning('<?php _e('Special price must be less than the original price!'); ?>');
                }
             });
         });
@@ -34,6 +42,10 @@ if (!isset($offer['price']['offer_price'])) {
     }
     
     function toggleOfferPrice() {
+        // var specialOfferCheckEl = $('#customCheck322');
+        // if(!specialOfferCheckEl.is(':checked')) {
+        //     $('.js-product-special-price').val(null);
+        // }
         $('.js-offer-price-form-group').toggle();
     }
 </script>
@@ -42,7 +54,7 @@ if (!isset($offer['price']['offer_price'])) {
 
 <div class="form-group">
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" name="" class="custom-control-input"  id="customCheck322" onchange="toggleOfferPrice()" value="1" />
+        <input type="checkbox" name="content_data[has_special_price]" class="custom-control-input"  id="customCheck322" onchange="toggleOfferPrice()" value="1"  />
         <label class="custom-control-label" for="customCheck322"><?php _e('Make offer price for product'); ?></label>
     </div>
 </div>

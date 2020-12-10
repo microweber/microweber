@@ -26,15 +26,31 @@ $app = new \MicroweberPackages\App\LaravelApplication(
 |
 */
 
-$app->singleton(
-    \Illuminate\Contracts\Http\Kernel::class,
-    \MicroweberPackages\App\Http\Kernel::class
-);
+if (class_exists(\App\Http\Kernel::class,false)) {
+    $app->singleton(
+        \Illuminate\Contracts\Http\Kernel::class,
+        \App\Http\Kernel::class
+    );
+} else {
+    $app->singleton(
+        \Illuminate\Contracts\Http\Kernel::class,
+        \MicroweberPackages\App\Http\Kernel::class
+    );
+}
 
-$app->singleton(
-    \Illuminate\Contracts\Console\Kernel::class,
-    \MicroweberPackages\App\Console\Kernel::class
-);
+
+if (class_exists(\App\Console\Kernel::class,false)) {
+    $app->singleton(
+        \Illuminate\Contracts\Console\Kernel::class,
+        \App\Console\Kernel::class
+    );
+} else {
+    $app->singleton(
+        \Illuminate\Contracts\Console\Kernel::class,
+        \MicroweberPackages\App\Console\Kernel::class
+    );
+
+}
 
 $app->singleton(
     \Illuminate\Contracts\Debug\ExceptionHandler::class,

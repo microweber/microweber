@@ -9,7 +9,12 @@ function media_uploads_url()
 function media_uploads_path()
 {
     $environment = App::environment();
-    $folder = media_base_path() . ($environment . DIRECTORY_SEPARATOR);
+    $folder = media_base_path() . ('default' . DIRECTORY_SEPARATOR);
+
+    if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+        $folder = media_base_path() . ($environment . DIRECTORY_SEPARATOR);
+    }
+
     return $folder;
 }
 

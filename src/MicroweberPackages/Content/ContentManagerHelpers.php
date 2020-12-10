@@ -666,7 +666,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $pd = $guess_page_data->index();
                 if(isset($pd['id'])){
                     $pd1 = DB::table('content')->where('id',$pd['id'])->first();
-                    $pd = (array) $pd1 ;
+                    $pd1 = (array) $pd1 ;
+                    if($pd1){
+                        $pd = $pd1;
+                    }
+
                 }
 
                 $ustr = $this->app->url_manager->string(1);

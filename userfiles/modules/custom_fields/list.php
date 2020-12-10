@@ -166,37 +166,43 @@ if (isset($params['for_module_id'])): ?>
                         <th>
                             <small><?php _e("Name"); ?></small>
                         </th>
-                        <th>
-                            <small><?php _e("Placeholder"); ?></small>
-                        </th>
-                        <th>
-                            <small><?php _e("Value"); ?></small>
-                        </th>
-                        <th class="text-center">
-                            <small><?php _e("Settings"); ?></small>
-                        </th>
-                        <th class="text-center">
-                            <small><?php _e("Delete"); ?></small>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($more as $field): ?>
-                        <tr id="mw-custom-list-element-<?php print $field['id']; ?>" data-id="<?php print $field['id']; ?>" class="show-on-hover-root">
-                            <td data-tip="<?php print  ucfirst($field['type']); ?>" class="tip custom-field-icon" data-tipposition="top-left">
-                                <span class="mobile-th"><?php _e("Type"); ?>:</span>
-                                <div><span class="mw-custom-field-icon-<?php print $field['type']; ?>"></span></div>
-                            </td>
+                        <?php
+                        /*  <th>
+                           <small><?php _e("Placeholder"); ?></small>
+                       </th>*/
 
-                            <td data-id="<?php print $field['id']; ?>">
-                                <span class="mobile-th"><?php _e("Name"); ?>: </span>
-                                <span class="mw-admin-custom-field-name-edit-inline text-capitalize" data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
-                            </td>
+                        ?>
+                       <th>
+                           <small><?php _e("Value"); ?></small>
+                       </th>
+                       <th class="text-center">
+                           <small><?php _e("Settings"); ?></small>
+                       </th>
+                       <th class="text-center">
+                           <small><?php _e("Delete"); ?></small>
+                       </th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <?php foreach ($more as $field): ?>
+                       <tr id="mw-custom-list-element-<?php print $field['id']; ?>" data-id="<?php print $field['id']; ?>" class="show-on-hover-root">
+                           <td data-tip="<?php print  ucfirst($field['type']); ?>" class="tip custom-field-icon" data-tipposition="top-left">
+                               <span class="mobile-th"><?php _e("Type"); ?>:</span>
+                               <div><span class="mw-custom-field-icon-<?php print $field['type']; ?>"></span></div>
+                           </td>
 
-                            <td data-id="<?php print $field['id']; ?>">
-                                <span class="mobile-th"><?php _e("Placeholder"); ?>: </span>
-                                <span class="mw-admin-custom-field-placeholder-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $field['placeholder']; ?></span>
-                            </td>
+                           <td data-id="<?php print $field['id']; ?>">
+                               <span class="mobile-th"><?php _e("Name"); ?>: </span>
+                               <span class="mw-admin-custom-field-name-edit-inline text-capitalize" data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
+                           </td>
+
+                        <?php
+                        /*   <td data-id="<?php print $field['id']; ?>">
+                               <span class="mobile-th"><?php _e("Placeholder"); ?>: </span>
+                               <span class="mw-admin-custom-field-placeholder-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $field['placeholder']; ?></span>
+                           </td>*/
+
+                         ?>
 
                             <td data-id="<?php print $field['id']; ?>" width="100%">
                                 <span class="mobile-th"><?php _e("Settings"); ?></span>

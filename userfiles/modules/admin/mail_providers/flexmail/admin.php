@@ -25,6 +25,14 @@
 </script>
 
 <form class="mail-provider-flexmail-settings-form" method="post">
+
+
+    <div class="alert alert-dismissible alert-warning">
+        <h4 class="alert-heading">Warning!</h4>
+        <p class="mb-0">This module work only with the SOAP API, not the new one that is using REST. </p>
+    </div>
+
+
     <input type="hidden" name="mail_provider_name" value="flexmail"/>
     <?php foreach (get_flexmail_api_fields() as $field): ?>
         <div class="form-group">
@@ -34,6 +42,8 @@
     <?php endforeach; ?>
 
     <div class="form-group">
-        <button type="button" class="btn btn-primary mail-provider-test-api-flexmail">Test Api</button>
+        <button type="button" class="btn btn-primary mail-provider-test-api-flexmail"><i class="mdi mdi-flask"></i> Test Api</button>
+        <button type="button" class="btn btn-primary mail-provider-sync-api-flexmail"><i class="mdi mdi-cloud-sync"></i> Sync Subscribers</button>
+      <!--  <button type="button" class="btn btn-primary mail-provider-logs-api-flexmail"><i class="mdi mdi-note-text"></i> Logs</button>-->
     </div>
 </form>

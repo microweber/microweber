@@ -47,8 +47,19 @@ class ConfigSave extends Repository
         $dirs = array();
         $dirs[] = $default_dir;
         if (is_dir($env_dir)) {
+            if(!defined('MW_IS_MULTISITE')){
+                define('MW_IS_MULTISITE', true);
+            }
             $dirs[] = $env_dir;
+        } else {
+            if(!defined('MW_IS_MULTISITE')){
+                define('MW_IS_MULTISITE', false);
+            }
         }
+
+
+
+
         foreach ($dirs as $dir) {
             $files = scandir($dir);
             foreach ($files as $file) {
@@ -62,6 +73,10 @@ class ConfigSave extends Repository
                 }
             }
         }
+
+
+
+
 
         return true;
     }
