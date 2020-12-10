@@ -85,7 +85,7 @@ mw.layoutPlus = {
             id: 'mw-plus-tooltip-selector',
             title: mw.lang('Select layout'),
             width: 800,
-            overlay: false
+            overlay: true
         });
         scope._prepareList(document.getElementById('mw-plus-tooltip-selector'), 'before');
         $('#mw-plus-tooltip-selector input').focus();

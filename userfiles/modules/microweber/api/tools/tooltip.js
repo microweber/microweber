@@ -12,15 +12,17 @@
         var scope = this;
 
         this.settings = mw.object.extend({}, defaults, options);
-        if(this.settings.skin ) {
+        if (this.settings.skin ) {
             this.settings.template = this.settings.skin;
         }
 
         var create = function () {
+            var tpl = scope.settings.template.indexOf('mw-tooltip') === 0 ? scope.settings.template : 'mw-tooltip  mw-tooltip-' + scope.settings.template;
+            tpl += ' mw-tooltip-widget';
             scope.tooltip = mw.element({
                 tag: 'div',
                 props: {
-                    className: 'mw-tooltip mw-tooltip-widget mw-tooltip-' + scope.settings.template,
+                    className: tpl,
                     id: scope.settings.id || mw.id('mw-tooltip-')
                 }
             });
@@ -28,7 +30,12 @@
             if ( scope.settings.overlay) {
                 scope.overlay = mw.element({
                     tag: 'div',
-                    className: 'mw-tooltip-overlay'
+                    props: {
+                        className: 'mw-tooltip-overlay',
+                    }
+                });
+                scope.overlay.on('mousedown touchstart', function (){
+                    scope.remove()
                 });
             }
             mw.element('body')
@@ -36,6 +43,12 @@
                 .append(scope.tooltip);
             scope.content(scope.settings.content);
         };
+
+        var _e = {};
+
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
         this.content = function (content) {
           if (typeof content === 'undefined') {
@@ -49,18 +62,21 @@
             if (this.overlay) {
                 this.overlay.remove();
             }
+             this.dispatch('removed');
         };
         this.show = function () {
             this.tooltip.show();
             if (this.overlay) {
                 this.overlay.show();
             }
+            this.dispatch('show');
         };
         this.hide = function () {
             this.tooltip.hide();
             if (this.overlay) {
                 this.overlay.hide();
             }
+            this.dispatch('hide');
         };
 
         this._position = null;
@@ -78,10 +94,9 @@
                 tipwidth = mw.$(tooltip).outerWidth(),
                 h = el.outerHeight(),
                 tipheight = mw.$(tooltip).outerHeight(),
-                off = el.offset(),
-                arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
+                off = el.offset();
             if (off.top === 0 && off.left === 0) {
-                off =el.parent().offset();
+                off = el.parent().offset();
             }
             mw.tools.removeClass(tooltip, this._position);
             mw.tools.addClass(tooltip, position);
@@ -96,19 +111,19 @@
 
             if (position === 'bottom-left') {
                 mw.$(tooltip).css({
-                    top: off.top + h + arrheight,
+                    top: off.top + h,
                     left: off.left
                 });
             }
             else if (position === 'bottom-center') {
                 mw.$(tooltip).css({
-                    top: off.top + h + arrheight,
+                    top: off.top + h,
                     left: leftCenter
                 });
             }
             else if (position === 'bottom-right') {
                 mw.$(tooltip).css({
-                    top: off.top + h + arrheight,
+                    top: off.top + h,
                     left: off.left - tipwidth + w
                 });
             }
@@ -152,24 +167,25 @@
             else if (position === 'right-top') {
                 mw.$(tooltip).css({
                     top: off.top,
-                    left: off.left + w + arrheight
+                    left: off.left + w
                 });
             }
             else if (position === 'right-bottom') {
                 mw.$(tooltip).css({
                     top: (off.top + h) - tipheight,
-                    left: off.left + w + arrheight
+                    left: off.left + w
                 });
             }
             else if (position === 'right-center') {
                 mw.$(tooltip).css({
                     top: off.top - tipheight / 2 + h / 2,
-                    left: off.left + w + arrheight
+                    left: off.left + w
                 });
             }
             if (parseFloat($(tooltip).css('top')) < 0) {
                 mw.$(tooltip).css('top', 0);
             }
+            this.show();
         };
 
         var init = function () {

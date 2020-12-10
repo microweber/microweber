@@ -208,7 +208,7 @@ if ($id == 0) {
             $('.change-url-box .input-group-text, .change-url-box input').on('click', function () {
                 var scope = this;
 
-                var linkEditor = new mw.LinkEditor({
+                var linkEditor = new (mw.top().LinkEditor)({
                     mode: 'dialog',
                     controllers: [
                         { type: 'url', config: {target: false}},

@@ -3,8 +3,8 @@ mw.require('widgets.css');
 mw.require('form-controls.js');
 
 
-(function(){
-    var LinkEditor = function(options) {
+    mw.LinkEditor = function(options) {
+        console.log(this)
         var scope = this;
         var defaults = {
             mode: 'dialog',
@@ -46,9 +46,11 @@ mw.require('form-controls.js');
 
             return this;
         };
+console.log( mw.top().settings, this, this.settings );
 
+        this.settings =  mw.object.extend({}, defaults, options || {});
 
-        this.settings = mw.object.extend({}, defaults, options || {});
+        console.log( mw.top().settings );
 
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
@@ -201,6 +203,5 @@ mw.require('form-controls.js');
             });
         };
     };
-    mw.LinkEditor = LinkEditor;
 
-})();
+

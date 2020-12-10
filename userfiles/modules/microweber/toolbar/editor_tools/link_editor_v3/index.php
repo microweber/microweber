@@ -6,7 +6,7 @@
     mw.require("admin-new.css");
     mw.require("editor.js");
 
-    window.linkEditor = new mw.LinkEditor({
+    var linkEditor = new mw.LinkEditor({
         element: document.querySelector('#link-editor'),
         mode: 'element'
     });

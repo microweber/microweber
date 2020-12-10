@@ -2861,6 +2861,9 @@ html.mw-loading:after {
 .mw-tree-nav .opened > ul {
   display: block;
 }
+.form-group > .mw-tree-nav-skin-default {
+  padding-left: 15px;
+}
 .mw-tree-nav-skin-default {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -5687,7 +5690,9 @@ li:hover > .show-on-hover {
 .mw-ui-progress-small .mw-ui-progress-percent {
   display: none;
 }
-.mw-tooltip {
+.mw-tooltip,
+.mw-tooltip-widget,
+.mw-tooltip-default {
   position: absolute;
   z-index: 1200;
   left: -9999px;
@@ -5705,6 +5710,7 @@ li:hover > .show-on-hover {
   position: relative;
   line-height: normal;
 }
+.mw-tooltip-widget:after,
 .mw-tooltip-content:after {
   content: ".";
   display: block;
