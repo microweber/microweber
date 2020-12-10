@@ -263,7 +263,7 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
-                if(textField) textField.value = val.text;
+                if(textField) textField.value = val.text || '';
             };
 
             this.getValue = function () {
@@ -329,7 +329,7 @@ mw.emitter = {
                 title: 'Page block'
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
-            this.settings = options;
+             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.link === true) options.link = defaults.link;
             if (options.target === true) options.target = defaults.target;
@@ -363,13 +363,15 @@ mw.emitter = {
                 var li = mw.controlFields.radio({
                     label: this.name,
                     name: radioName,
-                    id: mw.controlFields._id()
+                    id: mw.controlFields._id(),
+                    value: this.id
                 });
                 var el = this.element;
                 $(li).find('input').on('click', function(){
                     mw.top().tools.scrollTo(el);
                     scope.link = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
-
+                    console.log(scope.link)
+                    scope.valid();
                 });
                 list.append(li);
             });
@@ -404,7 +406,7 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
-                if(textField) textField.value = val.text;
+                if(textField) textField.value = val.text || '';
               };
 
             this.getValue = function () {
@@ -540,7 +542,7 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
-                if(textField) textField.value = val.text;
+                if(textField) textField.value = val.text || '';
                 if(urlField) urlField.value = (val.url || '');
                 if(targetField)  targetField.checked = val.target;
             };
@@ -714,7 +716,7 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
-                if(textField) textField.value = val.text;
+                if(textField) textField.value = val.text || '';
                 if(targetField) targetField.checked = !!val.target;
                 return val;
             };
@@ -771,7 +773,7 @@ mw.emitter = {
         },
         page: function (options) {
             var scope = this;
-            var defaults = {
+             var defaults = {
                 text: {
                     label: mw.lang('Link text'),
                     description: mw.lang('Selected text for the link.'),
@@ -783,7 +785,7 @@ mw.emitter = {
                 title: 'My website',
                 dataUrl: function () {
                     try {
-                        return mw.settings.api_url + 'content/get_admin_js_tree_json';
+                        return mw.top().settings.api_url + 'content/get_admin_js_tree_json';
                     } catch (e) {
                         return null;
                     }
@@ -807,8 +809,7 @@ mw.emitter = {
                     name: 'text'
                 });
             }
-            var url =  this.settings.dataUrl;
-            url = typeof url === 'function' ? url() : url;
+             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
             mw.require('tree.js')
             $.getJSON(url, function (res){
                 scope.tree = new mw.tree({
@@ -819,7 +820,6 @@ mw.emitter = {
                     singleSelect: true
                 });
                 scope.tree.on("selectionChange", function(selection){
-                    console.log(selection[0])
                     if (textField && selection && selection[0]) {
                         textField.value = selection[0].title;
                     }
@@ -877,7 +877,7 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
-                if(textField) textField.value = val.text;
+                if(textField) textField.value = val.text || '';
                 if(targetField) targetField.checked = val.target;
                 return val;
             };
@@ -947,7 +947,7 @@ mw.emitter = {
                 }
             };
             options =  mw.object.extend(true, {}, defaults, (options || {}));
-            this.settings = options;
+             this.settings = options;
             if (options.text === true) options.text = defaults.text;
             if (options.target === true) options.target = defaults.target;
 
@@ -964,9 +964,9 @@ mw.emitter = {
                     name: 'text'
                 });
             }
-            var url =  this.settings.dataUrl;
+             var url =  this.settings.dataUrl;
             url = typeof url === 'function' ? url() : url;
-            scope.filepicker = new mw.filePicker({
+             scope.filepicker = new mw.filePicker({
 
                 element: treeEl,
                 nav: 'tabs',
@@ -1017,7 +1017,7 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
-                if(textField) textField.value = val.text;
+                if(textField) textField.value = val.text || '';
                 if(targetField) targetField.checked = !!val.target;
                 return val;
             };
@@ -1158,8 +1158,8 @@ mw.emitter = {
 
             this.setValue = function (val) {
                 val = val || {};
-                if(textField) textField.value = val.text;
-                if(urlField) urlField.value = val.url  ;
+                if(textField) textField.value = val.text || '';
+                if(urlField) urlField.value = val.url  || '';
                 if(targetField) targetField.checked = val.target  ;
             }
             this.getValue = function () {

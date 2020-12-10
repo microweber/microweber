@@ -116,6 +116,10 @@ mw.filePicker = function (options) {
                         if (scope.settings.fileUploaded) {
                             scope.settings.fileUploaded(file);
                         }
+                        if (!scope.settings.multiple) {
+                            mw.notification.success('File uploaded');
+                            scope.uploaderHolder.find('.mw-file-drop-zone-img').css('backgroundImage', 'url('+file.src+')');
+                        }
                         // scope.uploaderHolder.find('.mw-file-drop-zone-img').css('backgroundImage', 'url('+file.src+')');
                     }
                 }

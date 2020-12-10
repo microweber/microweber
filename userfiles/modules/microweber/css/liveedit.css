@@ -2796,6 +2796,7 @@ div[id*='SSDIVEL'] {
     left: 100px;
 }
 
+.mw-tooltip-insert-module.mw-tooltip-widget .plus-modules-list-box,
 .mw-tooltip-insert-module .mw-tooltip-content .plus-modules-list-box{
     height: 330px;
     overflow: auto;
@@ -3357,12 +3358,12 @@ body.has-opened-sidebar {
     position: absolute;
     z-index: 1101;
     margin: 0;
-    background: #2b2b2b;
+    background: #fff;
     border-radius: 3px;
     padding: 0;
     margin-top: 0;
     font-size: 0;
-    box-shadow: 0 2px 1px #0000005c;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
 
 .mw-module-near-cloneable.mw-cloneable-control {
@@ -3372,8 +3373,8 @@ body.has-opened-sidebar {
 .mw-cloneable-control-item {
     line-height: 24px;
     width: 24px;
-    background: #2b2b2b;
-    color: white;
+    background: #fff;
+    color: #2b2b2b;
     text-align: center;
     cursor: pointer;
     display: block;
@@ -3386,7 +3387,6 @@ body.has-opened-sidebar {
 
 .mw-cloneable-control-item:hover {
     background: #f3f2f2;
-    color: #000;
 }
 
 body.isTyping .mw-cloneable-control {

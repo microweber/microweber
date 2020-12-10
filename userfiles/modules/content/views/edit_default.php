@@ -264,6 +264,8 @@ if (isset($params['quick_edit'])) {
                                             if(this.innerHTML.length > mw.slug.max) {
                                                 this.innerHTML = this.innerHTML.substring(0, mw.slug.max)
                                             }
+                                            document.querySelector('.btn-save').disabled = false;
+                                            mw.askusertostay = true;
                                             slugEdited = true;
                                         })
                                         .on('keydown', function (e) {
@@ -271,6 +273,8 @@ if (isset($params['quick_edit'])) {
                                             var fn = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
                                             var collapsedIn = fn === this && sel.isCollapsed;
                                             slugEdited = true;
+                                            document.querySelector('.btn-save').disabled = false;
+                                            mw.askusertostay = true;
                                             if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
                                                 if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
                                                     e.preventDefault();

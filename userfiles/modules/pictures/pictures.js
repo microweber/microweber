@@ -14,27 +14,33 @@ mw.module_pictures = {
         }
         clearTimeout(mw.module_pictures.time);
         mw.module_pictures.time = setTimeout(function () {
-            mw.reload_module('pictures');
-            mw.reload_module_parent('pictures');
-            mw.reload_module_parent('posts');
-            mw.reload_module_parent('shop/products');
-            mw.reload_module_parent("pictures/admin");
             var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item:visible');
             if(!thumbs.length) {
-                if(mw._postsImageUploader) {
+
+                if(mw._postsImageUploader && mw._postsImageUploader.$root.parent().length) {
                     mw._postsImageUploader.show();
+                } else {
+                    $('.mw-filepicker-root:hidden').show()
                 }
                 if(mw._postsImageUploaderSmall) {
                     mw._postsImageUploaderSmall.$holder.hide();
                 }
             } else {
-                if(mw._postsImageUploader) {
+                if(mw._postsImageUploader && mw._postsImageUploader.$root.parent().length) {
                     mw._postsImageUploader.hide();
+                } else {
+                    $('.mw-filepicker-root:visible').hide()
                 }
                 if(mw._postsImageUploaderSmall) {
                     mw._postsImageUploaderSmall.$holder.show();
                 }
             }
+            mw.reload_module('pictures');
+            mw.reload_module_parent('pictures');
+            mw.reload_module_parent('posts');
+            mw.reload_module_parent('shop/products');
+            mw.reload_module_parent("pictures/admin");
+
             doselect();
         }, 1500)
     },

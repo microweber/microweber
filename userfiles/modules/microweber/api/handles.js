@@ -19,7 +19,7 @@ var handleInsertTargetDisplay = function (target, pos) {
     var $el = $(target);
     var off = $el.offset();
     var css = { left: off.left, width: $el.outerWidth()};
-     if(pos === 'top') {
+    if (pos === 'top') {
         css.top = off.top;
     } else if(pos === 'bottom') {
         css.top = off.top + $el.outerHeight();
@@ -143,9 +143,7 @@ mw.Handle = function(options) {
         this.wrapper.id = this.options.id || ('mw-handle-' + mw.random());
         this.wrapper.className = 'mw-defaults mw-handle-item ' + (this.options.className || 'mw-handle-type-default');
         this.wrapper.contenteditable = false;
-        this.wrapper.onmouseenter = function() {
-            mw.liveEditSelector.select();
-        }
+
         mw.$(this.wrapper).on('mousedown', function () {
             mw.tools.addClass(this, 'mw-handle-item-mouse-down');
         });
@@ -318,6 +316,7 @@ mw._initHandles = {
     getAll: function (but) {
         var all = [
             mw.handleModule,
+            mw.handleModuleActive,
             mw.handleColumns,
             mw.handleElement
         ];
@@ -397,10 +396,11 @@ mw._initHandles = {
                         action: function (el) {
                              if (!mw.tools.hasClass(el, 'active')) {
                                 mw.tools.addClass(el, 'active');
-                                 mw.drag.plus.locked = true;
+                                mw.drag.plus.locked = true;
                                 mw.$('.mw-tooltip-insert-module').remove();
                                 mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
-                                var tip = new mw.tooltip({
+
+                                var tooltip = new mw.ToolTip({
                                     content: mwd.getElementById('plus-modules-list').innerHTML,
                                     element: el,
                                     position: mw.drag.plus.tipPosition(this.currentNode),
@@ -408,6 +408,12 @@ mw._initHandles = {
                                     id: 'mw-plus-tooltip-selector',
                                     overlay: true
                                 });
+                                 tooltip.on('removed', function () {
+                                     mw.drag.plus.locked = false;
+                                 });
+                                 mw._initHandles.hideAll();
+
+                                var tip = tooltip.tooltip.get(0);
                                 setTimeout(function (){
                                     $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
                                 }, 10);
@@ -416,7 +422,7 @@ mw._initHandles = {
                                     tabs: tip.querySelectorAll('.module-bubble-tab'),
                                 });
 
-                                mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
+                                mw.$('.mw-ui-searchfield', tip).on('input', function () {
                                     var resultsLength = mw.drag.plus.search(this.value, tip);
                                     if (resultsLength === 0) {
                                         mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
@@ -433,7 +439,7 @@ mw._initHandles = {
                                             conf.template = mw.$(this).attr('template');
                                         }
                                         mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
-                                        tip.remove();
+                                        tooltip.remove();
                                     };
                                 });
                         }
@@ -480,6 +486,9 @@ mw._initHandles = {
             ]
         });
 
+        mw.$(mw.handleElement.wrapper).on('mouseenter', function () {
+            mw.liveEditSelector.select(mw._activeElementOver);
+        });
         mw.$(mw.handleElement.wrapper).draggable({
             handle: mw.handleElement.handleIcon,
             cursorAt: {
@@ -587,42 +596,42 @@ mw._initHandles = {
 
     },
     modules: function () {
+        var handlesModulesButtons = [
+            {
+                title: mw.lang('Edit'),
+                icon: 'mdi-pencil',
+                action: function () {
+                    mw.drag.module_settings(mw._activeModuleOver,"admin");
+                    mw.handleModule.hide();
+                }
+            },
+            {
+                title: mw.lang('Insert'),
+                className: 'mw-handle-insert-button',
+                icon: 'mdi-plus-circle',
+                hover: [
+                    function (e) {
+                        handleInsertTargetDisplay(mw._activeModuleOver, mw.handleModule.positionedAt);
+                    },
+                    function (e) {
+                        handleInsertTargetDisplay('hide');
+                    }
+                ],
+                action: function (node) {
+                    if(mw.handleModule.isLayout) {
+                        mw.layoutPlus.showSelectorUI(node);
+                    } else {
+                        mw.drag.plus.rendModules(node);
+                    }
+
+                }
+            },
+        ];
 
         var handlesModuleConfig = {
             id: 'mw-handle-item-module',
-            buttons: [
-                {
-                    title: mw.lang('Edit'),
-                    icon: 'mdi-pencil',
-                    action: function () {
-                        mw.drag.module_settings(mw._activeModuleOver,"admin");
-                        mw.handleModule.hide();
-
-                    }
-                },
-                {
-                    title: mw.lang('Insert'),
-                    className: 'mw-handle-insert-button',
-                    icon: 'mdi-plus-circle',
-                    hover: [
-                        function (e) {
-                            handleInsertTargetDisplay(mw._activeModuleOver, mw.handleModule.positionedAt);
-                        },
-                        function (e) {
-                            handleInsertTargetDisplay('hide');
-                        }
-                    ],
-                    action: function (node) {
-                        if(mw.handleModule.isLayout) {
-                            mw.layoutPlus.showSelectorUI(node);
-                        } else {
-                            mw.drag.plus.rendModules(node);
-                        }
-
-                    }
-                },
-            ],
-            menu:[
+            buttons: handlesModulesButtons,
+            menu: [
                 {
                     title: mw.lang('Edit'),
                     icon: 'mdi-pencil',
@@ -657,8 +666,6 @@ mw._initHandles = {
                     title: '{dynamic}',
                     className:'mw_handle_module_spacing'
                 },
-
-
                 {
                     title: 'Reset',
                     icon: 'mw-icon-reload',
@@ -682,37 +689,8 @@ mw._initHandles = {
         };
         var handlesModuleConfigActive = {
             id: 'mw-handle-item-module-active',
-            buttons:[
-                {
-                    title: mw.lang('Edit'),
-                    icon: 'mdi-pencil',
-                    action: function () {
-                        mw.drag.module_settings(getActiveDragCurrent(),"admin");
-                        mw.handleModule.hide();
-                    }
-                },
-                {
-                    title: mw.lang('Insert'),
-                    className: 'mw-handle-insert-button',
-                    hover: [
-                        function (e) {
-                            handleInsertTargetDisplay(getActiveDragCurrent(), mw.handleModuleActive.positionedAt);
-                        },
-                        function (e) {
-                            handleInsertTargetDisplay('hide');
-                        }
-                    ],
-                    icon: 'mdi-plus-circle',
-                    action: function (node) {
-                        if(mw.handleModuleActive.isLayout) {
-                            mw.layoutPlus.showSelectorUI(node);
-                        } else {
-                            mw.drag.plus.rendModules(node);
-                        }
-                    }
-                },
-            ],
-            menu:[
+            buttons: handlesModulesButtons,
+            menu: [
                 {
                     title: 'Settings',
                     icon: 'mw-icon-gear',

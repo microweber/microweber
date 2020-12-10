@@ -14,7 +14,8 @@
     });
 
     var addMenuItem = function () {
-        var linkEditor = new mw.LinkEditor({
+        var mwt = mw.top()
+        var linkEditor = new mwt.LinkEditor({
             mode: 'dialog',
             controllers: [
                 { type: 'page', config: {target: false} },

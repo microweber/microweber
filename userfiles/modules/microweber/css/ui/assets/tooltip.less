@@ -1,6 +1,6 @@
 @import "var";
 
-.mw-tooltip {
+.mw-tooltip, .mw-tooltip-widget, .mw-tooltip-default {
     position: absolute;
     z-index: 1200;
     left: -9999px;
@@ -20,6 +20,7 @@
     line-height: normal;
 }
 
+.mw-tooltip-widget:after,
 .mw-tooltip-content:after {
     content: ".";
     display: block;
