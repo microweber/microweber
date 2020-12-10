@@ -292,15 +292,21 @@ class AppServiceProvider extends ServiceProvider
     protected function setEnvironmentDetection()
     {
         if (!is_cli()) {
+            $domain = null;
             if (isset($_SERVER['HTTP_HOST'])) {
                 $domain = $_SERVER['HTTP_HOST'];
             } else if (isset($_SERVER['SERVER_NAME'])) {
                 $domain = $_SERVER['SERVER_NAME'];
             }
 
+
             return $this->app->detectEnvironment(function () use ($domain) {
                 if (getenv('APP_ENV')) {
                     return getenv('APP_ENV');
+                }
+
+                if(!$domain){
+                    return 'production';
                 }
 
                 $port = explode(':', $domain);
@@ -333,7 +339,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('format', function ($app) {
-            return new Format($app);
+            return new Format();
         });
 
         $this->app->singleton('parser', function ($app) {
