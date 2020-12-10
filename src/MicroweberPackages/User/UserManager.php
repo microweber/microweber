@@ -124,6 +124,8 @@ class UserManager
 
     public function login($params)
     {
+        $params = parse_params($params);
+        $params['x-no-throttle'] = false; //allow throttle
         return RequestRoute::postJson(route('api.user.login'), $params);
     }
 

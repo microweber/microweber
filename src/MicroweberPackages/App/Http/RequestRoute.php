@@ -27,8 +27,14 @@ class RequestRoute extends Request
     {
 
 
-        $requestFactory = function(array $query, array $request, array $attributes, array $cookies, array $files, array $server, $content) {
-            $server['x-no-throttle'] = true;
+        $requestFactory = function (array $query, array $request, array $attributes, array $cookies, array $files, array $server, $content) use ($params) {
+            if (!isset($params["x-no-throttle"])) {
+                $server['x-no-throttle'] = true;
+            } else {
+                $server['x-no-throttle'] = $params["x-no-throttle"];
+                unset($params["x-no-throttle"]);
+
+            }
             return new RequestRoute($query, $request, $attributes, $cookies, $files, $server, $content);
         };
 
@@ -45,14 +51,16 @@ class RequestRoute extends Request
     {
         $messages = json_decode($response->getContent(), true);
 
+        $status = $response->status();
+
         $errors = [];
         if (!isset($messages['success'])) {
-            if ($response->status() == 200 || $response->status() == 201) {
+            if ($status == 200 || $status == 201) {
                 $errors['success'] = true;
             }
         }
 
-        if ($response->status() == 400 || $response->status() == 403|| $response->status() == 422) {
+        if ($status == 400 || $status == 403 || $status == 422 || $status == 429) {
             $errors['error'] = true;
             $errors['success'] = false;
         }
@@ -78,9 +86,9 @@ class RequestRoute extends Request
         if (isset($messages['errors'])) {
             //$errors['error'] = reset($messages['errors']);
             $allErrorsMsg = [];
-            foreach($messages['errors'] as $key => $val) {
-                foreach($val as $message) {
-                    $allErrorsMsg[] =  $message ;
+            foreach ($messages['errors'] as $key => $val) {
+                foreach ($val as $message) {
+                    $allErrorsMsg[] = $message;
                 }
             }
             $errors['message'] = implode("\n", $allErrorsMsg);
@@ -88,6 +96,9 @@ class RequestRoute extends Request
         }
 
         //$messages = array_merge($errors, $messages);
+        if (!is_array($messages)) {
+            $messages = [$messages];
+        }
         $messages = array_merge($messages, $errors);
 
 //        if (isset($messages['success']) and $messages['success'] == true and isset($messages['message'])) {

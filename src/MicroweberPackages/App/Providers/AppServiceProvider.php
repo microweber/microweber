@@ -534,12 +534,12 @@ class AppServiceProvider extends ServiceProvider
         ]);
         $router->middlewareGroup('api',[
             'xss',
-            'throttle:1000,1',
+           // 'throttle:1000,1',
             'api_auth'
         ]);
         $router->middlewareGroup('public.api',[
             'xss',
-            'throttle:1000,1'
+         //   'throttle:1000,1'
         ]);
         $router->middlewareGroup('static.api',[
             \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
