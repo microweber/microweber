@@ -1,6 +1,6 @@
 <?php
 
-$skipKeys = ['for_id', 'for','module_name', 'terms'];
+$ignoreFields = array('terms','rel_id','rel_type','for','for_id','captcha','module_name','list_id','option_group');
 
 $foundedFields = [];
 $formEntires = mw()->forms_manager->get_entires();
@@ -9,7 +9,7 @@ if (!empty($formEntires)) {
         $decodedValues = json_decode($formEntire['form_values'], true);
         if (is_array($decodedValues)) {
             foreach ($decodedValues as $key => $value) {
-                if (in_array($key, $skipKeys)) {
+                if (in_array($key, $ignoreFields)) {
                     continue;
                 }
                 $foundedFields[md5($key)] = $key;
@@ -67,7 +67,8 @@ if (!empty($foundedFields)):
                 <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'name'):?>selected="selected"<?php endif; ?> value="name">Name</option>
                 <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'message'):?>selected="selected"<?php endif; ?> value="message">Message</option>
                 <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'last_name'):?>selected="selected"<?php endif; ?> value="last_name">Last name</option>
-                <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'company'):?>selected="selected"<?php endif; ?> value="company">Company</option>
+                <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'company_name'):?>selected="selected"<?php endif; ?> value="company_name">Company Name</option>
+                <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'company_position'):?>selected="selected"<?php endif; ?> value="company_position">Company Position</option>
                 <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'country'):?>selected="selected"<?php endif; ?> value="country">Country</option>
                 <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'city'):?>selected="selected"<?php endif; ?> value="city">City</option>
                 <option <?php if(!empty($mapFields[$fieldValue]) && $mapFields[$fieldValue] == 'phone'):?>selected="selected"<?php endif; ?> value="phone">Phone</option>
