@@ -1,5 +1,32 @@
 <?php must_have_access(); ?>
 
+<div class="row">
+    <div class="col-12 mb-2">
+
+        <script>
+            $(document).ready(function () {
+
+                $('.js-map-contact-form-fields').click(function () {
+                    mw.notification.warning('Loading...');
+
+                    var dialog = mw.dialog({
+                        title: 'Map Contact Form Fields With Mail Providers'
+                    });
+                    dialog.center();
+
+                    mw.load_module("admin/mail_providers/map_fields", dialog.dialogContainer);
+                });
+            });
+        </script>
+
+        <div class="alert alert-dismissible alert-primary">
+             <i class="mdi mdi-information"></i> We recommend to manually map fields of your contact forms, in order to get full integration with mail providers.
+            <button type="button" class="btn btn-primary js-map-contact-form-fields"><i class="mdi mdi-sitemap"></i> Map Fields</button>
+        </div>
+
+    </div>
+</div>
+
 <?php
 $mail_providers = get_modules('type=mail_provider');
 ?>
