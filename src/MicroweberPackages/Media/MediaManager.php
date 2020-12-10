@@ -894,7 +894,7 @@ class MediaManager
         $cache_id_data = array();
         $cache_id_data['mtime'] = '';
         if (!$is_remote and is_file($base_src)) {
-            $cache_id_data['mtime'] = filemtime($base_src);
+           $cache_id_data['mtime'] = filemtime($base_src);
         }
         $cache_id_data['base_src'] = $base_src;
         $cache_id_data['src'] = $src;
@@ -907,7 +907,7 @@ class MediaManager
         $cache_id = $cache_id_without_ext . '.' . $ext;
         $cache_path = $cd . $cache_id;
         $cache_path = normalize_path($cache_path,false);
-
+ //dump($cache_path);
         if ($is_remote) {
             return $src;
         } elseif (is_file($cache_path)) {
@@ -923,15 +923,15 @@ class MediaManager
             }
 
 
-            if (!defined('MW_NO_OUTPUT_CACHE')) {
-               define('MW_NO_OUTPUT_CACHE', true);
-            }
+//            if (!defined('MW_NO_OUTPUT_CACHE')) {
+//               define('MW_NO_OUTPUT_CACHE', true);
+//            }
 
             $cache_id_data['cache_path'] = $cache_path;
 
             save_option($cache_id_without_ext, json_encode($cache_id_data), 'media_tn_temp');
 
-            $tn_img_url = $this->app->url_manager->site('api/image-tn/') . $cache_id_without_ext;
+            $tn_img_url = $this->app->url_manager->site('api/image-generate-tn-request/') . $cache_id_without_ext;
 
             return $tn_img_url;
         }
@@ -1094,7 +1094,7 @@ class MediaManager
 //                       delete_option($params['cache_id'], 'media_tn_temp');
 //                        }
 
-
+//dd($cache_path);
                         if (!defined('MW_NO_OUTPUT_CACHE')) {
                             define('MW_NO_OUTPUT_CACHE', true);
                         }

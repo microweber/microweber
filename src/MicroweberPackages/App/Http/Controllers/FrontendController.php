@@ -1390,16 +1390,27 @@ class FrontendController extends Controller
             event_trigger('recover_shopping_cart', $_REQUEST['recart']);
         }
         if (!defined('MW_NO_OUTPUT_CACHE')) {
+
             if (!$back_to_editmode and !$is_editmode and $enable_full_page_cache and $output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
                 $compile_assets = \Config::get('microweber.compile_assets');
 
-                $output_cache_id = __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
+                $output_cache_content = false;
+                $output_cache_id = 'full_page_cache_'.__FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
-                $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group);
+                $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group,$output_cache_timeout);
 
-                if ($output_cache_content != false) {
+if($output_cache_content_data and isset($output_cache_content_data['layout']) and isset($output_cache_content_data['time'])){
+    $output_cache_content = $output_cache_content_data['layout'];
+}
 
-                    return \Response::make($output_cache_content);;
+                if ($output_cache_content != false and !strstr($output_cache_content, 'image-generate-tn-request')) {
+
+                    return \Response::make($output_cache_content)
+                         ->header('Cache-Control', 'public, max-age=10800, pre-check=10800')
+                         ->header('Last-Modified', \Carbon::parse($output_cache_content_data['time'])->toRfc850String())
+                         ->header('Pragma', 'public')
+                         ->setEtag(md5($output_cache_id))
+                         ->header('X-App-Full-Page-Cache', true);
                 }
 
             }
@@ -1454,7 +1465,6 @@ class FrontendController extends Controller
                     $page = $this->app->content_manager->get_by_url($page_url);
                     $page_exact = $this->app->content_manager->get_by_url($page_url, true);
                 }
-                //dd($page,__LINE__,__FILE__);
 
                 if ($slug_category and !$page) {
 
@@ -1611,6 +1621,7 @@ class FrontendController extends Controller
                             $page['simply_a_file'] = 'clean.php';
                             $page['layout_file'] = 'clean.php';
                             $show_404_to_non_admin = true;
+
                             $enable_full_page_cache = false;
 
                             if ($show_404_to_non_admin) {
@@ -2279,9 +2290,16 @@ class FrontendController extends Controller
 
             if ($enable_full_page_cache and $output_cache_timeout != false) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
-                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
+                    $output_cache_content_save = [];
+                    $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
+                    $output_cache_content_save['layout']  = $l;
+                    $output_cache_content_save['time']  = now();
+                    if (!strstr($output_cache_content, 'image-generate-tn-request')) {
+                        $this->app->cache_manager->save($output_cache_content_save, $output_cache_id, $output_cache_group, $output_cache_timeout);
+                    }  else {
+                        $this->app->cache_manager->save($output_cache_content_save, $output_cache_id, $output_cache_group, 0);
 
-                    $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group, $output_cache_timeout);
+                    }
                 }
             }
             if (isset($_REQUEST['debug'])) {
@@ -2301,7 +2319,7 @@ class FrontendController extends Controller
             }
 
             $response = \Response::make($l);
-            if (defined('MW_NO_OUTPUT_CACHE') or $is_editmode == true) {
+            if (defined('MW_NO_OUTPUT_CACHE') or $is_editmode == true or (strstr($l, 'image-generate-tn-request'))) {
                 $response->header('Pragma', 'no-cache');
                 $response->header('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
                 $response->header('Cache-Control', 'no-cache, must-revalidate, no-store, max-age=0, private');

@@ -168,7 +168,7 @@ api_expose('pixum_img');
 api_expose('thumbnail_img');
 
 
-\Illuminate\Support\Facades\Route::get('/api/image-tn/{cache_id}', function ($cache_id) {
+\Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($cache_id) {
 
     $cache_id_data = get_option($cache_id, 'media_tn_temp');
     $cache_id_data = json_decode($cache_id_data, true);
