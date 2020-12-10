@@ -1044,6 +1044,12 @@ class MediaManager
         if (file_exists($cache_path)) {
 
             if (!isset($return_cache_path)) {
+
+             //   if (!isset($return_cache_path) and isset($params['cache_id'])) {
+                //    delete_option($cache_id, 'media_tn_temp');
+             //   }
+
+
                 if (!headers_sent()) {
                     if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
                         $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
@@ -1053,7 +1059,7 @@ class MediaManager
                     $mtime = filemtime($src);
                     $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
                     if ($if_modified_since == $gmdate_mod) {
-                        header('HTTP/1.0 304 Not Modified');
+                       // header('HTTP/1.0 304 Not Modified');
                     }
                 }
             }
@@ -1084,9 +1090,9 @@ class MediaManager
                         }
                         $tn->createThumb($thumbOptions, $cache_path);
 
-                        if (!isset($return_cache_path) and isset($params['cache_id'])) {
-                         delete_option($params['cache_id'], 'media_tn_temp');
-                        }
+//                        if (!isset($return_cache_path) and isset($params['cache_id'])) {
+//                       delete_option($params['cache_id'], 'media_tn_temp');
+//                        }
 
 
                         if (!defined('MW_NO_OUTPUT_CACHE')) {
@@ -1110,6 +1116,7 @@ class MediaManager
 
 
         if (isset($return_cache_path)) {
+            delete_option($cache_id, 'media_tn_temp');
             return $cache_path;
         }
 
