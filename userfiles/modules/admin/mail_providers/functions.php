@@ -145,7 +145,25 @@ function save_mail_provider()
 	return db_save('mail_providers', $save);
 }
 
-api_expose('test_mail_provider');
+api_expose_admin('save_contact_form_fields', function() {
+
+    $map = [];
+
+    if (!empty($_POST['contact_form_map_fields'])) {
+        foreach ($_POST['contact_form_map_fields'] as $field) {
+           $map[$field['source']] = $field['target'];
+        }
+    }
+
+    if (empty($map)) {
+        return 0;
+    }
+
+   return save_option('contact_form_map_fields', json_encode($map), 'contact_form');
+
+});
+
+api_expose_admin('test_mail_provider');
 function test_mail_provider()
 {
 	must_have_access();

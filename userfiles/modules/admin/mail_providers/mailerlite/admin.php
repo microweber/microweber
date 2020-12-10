@@ -23,6 +23,18 @@
             });
 
         });
+
+        $('.mail-provider-sync-api-mailerlite').click(function () {
+            mw.notification.warning('Loading...');
+
+            var dialog = mw.dialog({
+                title: 'Mailerlite Sync'
+            });
+
+            mw.load_module("admin/mail_providers/mailerlite/sync", dialog.dialogContainer);
+
+        });
+
     });
 </script>
 
@@ -35,6 +47,8 @@
         </div>
     <?php endforeach; ?>
     <div class="form-group">
-        <button type="button" class="btn btn-primary mail-provider-test-api-mailerlite">Test Api</button>
+        <button type="button" class="btn btn-primary mail-provider-test-api-mailerlite"><i class="mdi mdi-flask"></i> Test Api</button>
+        <button type="button" class="btn btn-primary mail-provider-sync-api-mailerlite"><i class="mdi mdi-cloud-sync"></i> Sync Subscribers</button>
+       <!-- <button type="button" class="btn btn-primary mail-provider-logs-api-mailerlite"><i class="mdi mdi-note-text"></i> Logs</button>-->
     </div>
 </form>

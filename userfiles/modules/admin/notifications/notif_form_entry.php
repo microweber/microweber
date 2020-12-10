@@ -18,8 +18,12 @@ if (isset($entry['form_values'])) {
         $countArrays = ceil(count($form_values) / 2);
     }
 
-    $form_values_1 = array_slice($form_values, 0, $countArrays);
-    $form_values_2 = array_slice($form_values, $countArrays);
+    $form_values_1 = [];
+    $form_values_2 = [];
+    if (is_array($form_values)) {
+        $form_values_1 = array_slice($form_values, 0, $countArrays);
+        $form_values_2 = array_slice($form_values, $countArrays);
+    }
 }
 
 $created_by = false;
