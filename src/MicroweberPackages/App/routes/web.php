@@ -71,6 +71,11 @@ Route::group([ 'middleware' => 'public.web', 'namespace' => '\MicroweberPackages
 
     Route::any('robots.txt', 'FrontendController@robotstxt');
     Route::get('sitemap.xml', 'SitemapController@index');
+    Route::get('sitemap.xml/categories', 'SitemapController@categories');
+    Route::get('sitemap.xml/tags', 'SitemapController@tags');
+    Route::get('sitemap.xml/products', 'SitemapController@products');
+    Route::get('sitemap.xml/posts', 'SitemapController@posts');
+    Route::get('sitemap.xml/pages', 'SitemapController@pages');
     Route::any('rss', 'FrontendController@rss');
     Route::any('{all}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
 

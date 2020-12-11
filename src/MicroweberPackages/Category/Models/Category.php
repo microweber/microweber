@@ -25,11 +25,6 @@ class Category extends Model
 
     public $translatable = ['title','url','description','content'];
 
-    public function link($id)
-    {
-        return category_link($id);
-    }
-
     public function modelFilter()
     {
         return $this->provideFilter(CategoryFilter::class);
@@ -43,6 +38,11 @@ class Category extends Model
     public function children()
     {
          return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
+
+    public function link()
+    {
+        return category_link($this->id);
     }
 
 //    public static function getLinks()

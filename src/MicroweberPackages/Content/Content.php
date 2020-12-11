@@ -53,4 +53,9 @@ class Content extends Model
     {
         return 'content';
     }
+
+    public function link()
+    {
+        return content_link($this->id);
+    }
 }
