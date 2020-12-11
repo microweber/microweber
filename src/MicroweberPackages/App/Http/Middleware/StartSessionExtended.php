@@ -34,7 +34,11 @@ class StartSessionExtended extends StartSession // Extend the base StartSession 
 
 
         $full_url = $request->fullUrl();
+
         $result = Str::startsWith($full_url, api_url());
+        if(!$result){
+            $result = Str::contains('_debugbar',$full_url);
+        }
 
         if ($result and !is_ajax() ) {
             $session->setPreviousUrl($session->previousUrl());
