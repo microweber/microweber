@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Support\Facades\View;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Queue\Events\ProcessQueueEvent;
 use MicroweberPackages\Category\Models\Category;
@@ -56,7 +57,64 @@ class SitemapController extends Controller
 
    public function tags()
    {
+       $generatedSiteMapFile = mw_cache_path() . mw()->url_manager->hostname() . '_tags_sitemap.xml';
+       $updateSitemap = $this->needToUpdateSitemap($generatedSiteMapFile);
 
+       if($updateSitemap) {
+           $pages = Page::where('is_active',1)->where('is_deleted',0)->get();
+           $tagsData = [];
+           $siteUrl = site_url();
+
+           foreach($pages as $page) {
+               $contentTags = content_tags($page->id, true);
+
+               if(!empty($contentTags)) {
+                   foreach($contentTags as $index => $tag) {
+
+                       if($this->isMutilangOn()) {
+                           $allActiveLangs = get_supported_languages(true);
+
+                           foreach($allActiveLangs as $index => $lang) {
+                               $tmp = [
+                                   'original_link' => "{$siteUrl}{$lang['locale']}/{$page->url}/tags:{$tag['tag_slug']}",
+                                   'updated_at' => $page->updated_at->format('Y-m-d H:i:s'),
+                               ];
+
+                               $tagsData[] = $tmp;
+                           }
+                       } else {
+                           $tmp = [
+                               'original_link' => "{$siteUrl}{$page->url}/tags:{$tag['tag_slug']}",
+                               'updated_at' => $page->updated_at->format('Y-m-d H:i:s'),
+                           ];
+
+                           $tagsData[] = $tmp;
+                       }
+                   }
+               }
+           }
+
+           if(!empty($tagsData)) {
+                $sitemap = view('sitemap::items', ['itemsData' => $tagsData])->render();
+           } else {
+               //If user have not used tags sitemap is just empty (no need to check !empty in sitemap::items)
+               $sitemap = '';
+           }
+
+           file_put_contents($generatedSiteMapFile, $sitemap);
+       }
+
+       $fp = fopen($generatedSiteMapFile, 'r');
+
+       // send the right headers
+       header('Content-Type: text/xml');
+       header('Content-Length: ' . filesize($generatedSiteMapFile));
+
+       // dump the file and stop the script
+       fpassthru($fp);
+
+       //TODO event_trigger('mw_robot_url_hit');
+       exit();
    }
 
    public function products()

@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Tag;
 
 
@@ -58,12 +59,15 @@ class TagsManager
             if ($id) {
                 $article = $model->whereId($id)->first();
                 if ($article) {
-                    $article_data =  $article->toArray();
+                    $article_data = $article->toArray();
 
                     if (isset($article_data['content_type']) and $article_data['content_type'] == 'page') {
+
                         $childs = get_content_children($article_data['id']);
+                        $article_tags = [];
+
                         if ($childs) {
-                            $article_tags = [];
+
                             $tag_slug_map = [];
                             foreach ($childs as $child_id) {
                                 $get_tagging_tagged = db_get('tagging_tagged', 'taggable_id=' . $child_id);
@@ -74,21 +78,24 @@ class TagsManager
                                 }
                             }
 
-                            foreach ($tag_slug_map as $tag_slug=>$tag_map_data) {
+                            foreach ($tag_slug_map as $tag_slug => $tag_map_data) {
+
                                 $article_tags[] = array(
-                                    'tag_name'=>$tag_map_data[0]['tag_name'],
-                                    'tag_slug'=>$tag_slug,
-                                    'count'=> count($tag_slug_map[$tag_slug])
+                                    'tag_name' => $tag_map_data[0]['tag_name'],
+                                    'tag_slug' => $tag_slug,
+                                    'count' => count($tag_slug_map[$tag_slug])
                                 );
                             }
 
                             if ($return_full) {
-                                $article_tags = array_filter($article_tags, function($tag_item) {
-                                    if(isset($tag_item['tag_name']) && isset($tag_item['tag_slug'])) {
+
+                                $article_tags = array_filter($article_tags, function ($tag_item) {
+                                    if (isset($tag_item['tag_name']) && isset($tag_item['tag_slug'])) {
                                         return true;
                                     }
                                     return false;
                                 });
+
                                 return $article_tags;
                             }
 
@@ -101,9 +108,8 @@ class TagsManager
                             }
                         }
                     } else {
-                        if ($return_full) {
-                            return $article->toArray();
-                        }
+
+
                         if (isset($article->tags)) {
                             foreach ($article->tags as $tag) {
                                 if (is_object($tag)) {
@@ -112,6 +118,26 @@ class TagsManager
                                         $tags_return[] = $get_tag['name'];
                                     }
                                 }
+                            }
+                        }
+
+
+                        if ($return_full) {
+                            if ($article->tags) {
+                                $return_ready = [];
+                                $article_tags = $article->tags->toArray();
+                                if ($article_tags) {
+                                    foreach ($article_tags as $article_tag) {
+                                        $get_tagging_tagged = db_get('tagging_tagged', 'limit=1&single=1&tag_slug=' . $article_tag['slug']);
+                                        if ($get_tagging_tagged) {
+                                            $return_ready [] = $get_tagging_tagged;
+                                        }
+                                    }
+                                }
+
+                                return $return_ready;
+                            } else {
+                                return [];
                             }
                         }
                     }
@@ -127,6 +153,7 @@ class TagsManager
                     if ($return_full) {
                         return $article->toArray();
                     }
+
                     foreach ($article as $tag) {
                         if (is_object($tag)) {
                             $tags_return[] = $tag->name;
@@ -137,6 +164,7 @@ class TagsManager
 
 
             if (!empty($tags_return)) {
+
                 $tags_return = array_unique($tags_return);
                 return $tags_return;
             }

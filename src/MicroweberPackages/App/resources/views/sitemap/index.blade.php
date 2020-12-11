@@ -11,6 +11,9 @@
         <loc>{{ site_url('sitemap.xml/posts') }}</loc>
     </sitemap>
     <sitemap>
+        <loc>{{ site_url('sitemap.xml/tags') }}</loc>
+    </sitemap>
+    <sitemap>
         <loc>{{ site_url('sitemap.xml/pages') }}</loc>
     </sitemap>
 </sitemapindex> 
