@@ -15,34 +15,29 @@ mw.module_pictures = {
         clearTimeout(mw.module_pictures.time);
         mw.module_pictures.time = setTimeout(function () {
             var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item:visible');
-            if(!thumbs.length) {
+              if(!thumbs.length) {
 
-                if(mw._postsImageUploader && mw._postsImageUploader.$root.parent().length) {
-                    mw._postsImageUploader.show();
-                } else {
-                    $('.mw-filepicker-root:hidden').show()
-                }
+                $('.mw-filepicker-root').show();
                 if(mw._postsImageUploaderSmall) {
                     mw._postsImageUploaderSmall.$holder.hide();
                 }
             } else {
-                if(mw._postsImageUploader && mw._postsImageUploader.$root.parent().length) {
-                    mw._postsImageUploader.hide();
-                } else {
-                    $('.mw-filepicker-root:visible').hide()
-                }
+                $('.mw-filepicker-root').hide();
                 if(mw._postsImageUploaderSmall) {
                     mw._postsImageUploaderSmall.$holder.show();
                 }
             }
-            mw.reload_module('pictures');
-            mw.reload_module_parent('pictures');
-            mw.reload_module_parent('posts');
+            mw.reload_module_everywhere('pictures', function (){
+                if(this.mw.module_pictures) {
+                    this.mw.module_pictures.after_change();
+                }
+            });
+             mw.reload_module_parent('posts');
             mw.reload_module_parent('shop/products');
             mw.reload_module_parent("pictures/admin");
 
             doselect();
-        }, 1500)
+        }, 500)
     },
 
     save_options: function (id, image_options) {

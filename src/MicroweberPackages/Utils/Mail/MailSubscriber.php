@@ -11,6 +11,9 @@ class MailSubscriber
 	protected $firstName = '';
 	protected $lastName = '';
 	protected $phone = '';
+	protected $city = '';
+	protected $state = '';
+	protected $zip = '';
 	protected $address = '';
 	protected $companyName = '';
 	protected $companyPosition = '';
@@ -35,6 +38,18 @@ class MailSubscriber
 
 	public function setLastName($name) {
 		$this->lastName = $name;
+	}
+
+	public function setCity($city) {
+		$this->city = $city;
+	}
+
+	public function setState($state) {
+		$this->state = $state;
+	}
+
+	public function setZip($zip) {
+		$this->zip = $zip;
 	}
 
 	public function setPhone($phone) {
@@ -77,33 +92,35 @@ class MailSubscriber
 		$this->customFields[] = $field;
 	}
 
-	public function subscribe() {
+	public function subscribe($force = false) {
 
-		if (!empty($this->subscribeFrom)) {
+	    $log = [];
+		if (!empty($this->subscribeFrom) || $force) {
 
 			if (get_option('use_integration_with_flexmail', $this->subscribeFrom) == 'y') {
-				$this->_flexmail();
+				$log['FlexMail'] = $this->_flexmail($force);
 			}
 
 			if (get_option('use_integration_with_mailerlite', $this->subscribeFrom) == 'y') {
-				$this->_mailerLite();
+				$log['MailerLite'] = $this->_mailerLite($force);
 			}
 		}
 
+		return $log;
 	}
 
-	private function _flexmail() {
+	private function _flexmail($force = false) {
 
 		$settings = get_mail_provider_settings('flexmail');
 
 		if (!empty($settings)) {
 
-		/*	$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
-
-			if (!empty($checkSubscriber)) {
-				echo 'Email '.$this->email.' allready subscribed for flexmail.';
-				return;
-			}*/
+		    if ($force == false) {
+                $checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
+                if (!empty($checkSubscriber)) {
+                    return 'Email ' . $this->email . ' allready subscribed for flexmail.';
+                }
+            }
 
 			try {
 				$config = new \Finlet\flexmail\Config\Config();
@@ -151,24 +168,24 @@ class MailSubscriber
 				if ($e->getCode() == 225)  {
 					save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 				}
-				// Error
-				 //dd($e);
+
+				return $e->getMessage();
 			}
 		}
 	}
 
-	private function _mailerLite() {
+	private function _mailerLite($force = false) {
 
 		$settings = get_mail_provider_settings('mailerlite');
 
 		if (!empty($settings)) {
 
-			$checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
-
-			if (!empty($checkSubscriber)) {
-				// echo 'Email '.$this->email.' allready subscribed for mailerlite.';
-				return;
-			}
+		    if ($force == false) {
+                $checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
+                if (!empty($checkSubscriber)) {
+                    return 'Email ' . $this->email . ' allready subscribed for mailerlite.';
+                }
+            }
 
 			try {
 				$groupsApi = (new MailerLite($settings['api_key']))->groups();
@@ -192,6 +209,10 @@ class MailSubscriber
 					'fields' => [
 						'name' => $this->firstName,
 						'last_name' => $this->lastName,
+						'country' => $this->countryRegistration,
+						'city' => $this->city,
+						'state' => $this->state,
+						'zip' => $this->zip,
 						'phone' => $this->phone,
 						'company' => $this->companyName
 					]
@@ -200,9 +221,10 @@ class MailSubscriber
 
 				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
 
+				return 'Subscribed!';
+
 			} catch (\Exception $e) {
-				// Error
-				// dd($e);
+				return $e->getMessage();
 			}
 		}
 	}

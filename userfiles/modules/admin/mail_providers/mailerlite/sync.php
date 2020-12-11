@@ -14,11 +14,21 @@ foreach ($formEntires as $formEntire)
     }
 }
 
+$log = '';
+foreach ($foundedEmails as $formEntry) {
+    $log .= 'Sync... <br />';
+    $subscribeUser = sync_mail_subscriber($formEntry);
+    foreach ($subscribeUser as $subscribeLog) {
+        $log .=  $subscribeLog . '<hr />';
+    }
+}
 
-dd($foundedEmails);
-die();
+echo $log;
 ?>
 
+
+
+<!--
 <table class="table table-hover">
     <thead>
     <tr>
@@ -30,4 +40,4 @@ die();
         <th>Active</th>
     </tr>
     </tbody>
-</table>
+</table>-->

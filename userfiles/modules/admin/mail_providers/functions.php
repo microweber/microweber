@@ -1,114 +1,7 @@
 <?php
 
 event_bind('mw.mail_subscribe', function ($params) {
-
-	$email = false;
-	$name = false;
-	$message = false;
-	$phone = false;
-	$lastName = false;
-	
-	if (isset($params['email'])) {
-		$email = $params['email'];
-	}
-	
-	if (isset($params['name'])) {
-		$name = $params['name'];
-	}
-	
-	if (isset($params['first_name'])) {
-		$name = $params['first_name'];
-	}
-	
-	if (isset($params['last_name'])) {
-		$lastName = $params['last_name'];
-	}
-	
-	if (isset($params['phone'])) {
-		$phone = $params['phone'];
-	}
-	
-	if (isset($params['message'])) {
-		$message = $params['message'];
-	}
-	
-	foreach($params as $kParam=>$kValue) {
-		$kParamLower = mb_strtolower($kParam);
-		if ($kParamLower == 'email') {
-			$email = $kValue;
-		}
-		if ($kParamLower == 'message') {
-			$message = $kValue;
-		}
-		if ($kParamLower == 'phone') {
-			$phone = $kValue;
-		}
-		if ($kParamLower == 'name' || $kParamLower == 'firstname' || $kParamLower == 'first_name' || $kParamLower == 'firstName') {
-			$name = $kValue;
-		}
-		if ($kParamLower == 'last_name' || $kParamLower == 'lastname' || $kParamLower == 'lastName') {
-			$lastName = $kValue;
-		}
-	}
-
-	if ($email) {
-
-		$provider = new \Microweber\Utils\MailSubscriber();
-		
-		if (isset($params['list_id'])) {
-			$getFormLists = get_form_lists("?id=".$params['list_id'].'&limit=1');
-			if (isset($getFormLists[0]['title'])) {
-				$provider->setListTitle($getFormLists[0]['title']);
-			}
-		}
-		
-		if (isset($params['rel_id'])) {
-			$provider->setSubscribeSourceId($params['rel_id']);
-		}
-		
-		if (isset($params['rel_type'])) {
-			$provider->setSubscribeSource($params['rel_type']);
-		}
-		
-		$provider->setEmail($email);
-		$provider->setFirstName($name);
-		$provider->setLastName($lastName);
-		$provider->setPhone($phone);
-		
-		if (isset($params['company_name'])) {
-			$provider->setCompanyName($params['company_name']);
-		}
-		
-		if (isset($params['company_position'])) {
-			$provider->setCompanyPosition($params['company_position']);
-		}
-		
-		if (isset($params['country_registration'])) {
-			$provider->setCountryRegistration($params['country_registration']);
-		}
-		
-		$provider->setMessage($message);
-		
-		if (isset($params['option_group'])) {
-			$provider->setSubscribeFrom($params['option_group']);
-		}
-		
-		$ignoreFields = array('name','email','message','rel_id','rel_type','for','for_id','captcha','module_name','list_id','option_group');
-		
-		foreach($params as $key=>$value) {
-			if (in_array(mb_strtolower($key), $ignoreFields)) {
-				continue;
-			}
-			
-			$provider->addCustomField(array(
-				'key'=>$key,
-				'value'=>$value
-			));
-		}
-
-		$provider->subscribe();
-	}
-	
+    sync_mail_subscriber($params);
 });
 
 api_expose('save_mail_provider');
@@ -243,4 +136,99 @@ function get_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId,
 		return db_get('mail_subscribers', $params);
 	
 	}
+}
+
+function sync_mail_subscriber($params) {
+
+    $email = false;
+    $name = false;
+
+    foreach ($params as $key=>$value) {
+        if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            $email = $value;
+            $exp = explode('@', $email);
+            $name = $exp[0];
+        }
+    }
+
+    if ($email) {
+
+        $provider = new \MicroweberPackages\Utils\Mail\MailSubscriber();
+
+        if (isset($params['list_id'])) {
+            $getFormLists = get_form_lists("?id=".$params['list_id'].'&limit=1');
+            if (isset($getFormLists[0]['title'])) {
+                $provider->setListTitle($getFormLists[0]['title']);
+            }
+        }
+
+        if (isset($params['rel_id'])) {
+            $provider->setSubscribeSourceId($params['rel_id']);
+        }
+
+        if (isset($params['rel_type'])) {
+            $provider->setSubscribeSource($params['rel_type']);
+        }
+
+        $provider->setEmail($email);
+        $provider->setFirstName($name);
+
+        $mapFields = get_option('contact_form_map_fields','contact_form');
+        $mapFields = json_decode($mapFields, true);
+        if (!empty($mapFields)) {
+            foreach ($params as $key=>$value) {
+                if (isset($mapFields[$key])) {
+                    if ($mapFields[$key] == 'email') {
+                        $provider->setEmail($value);
+                    }
+                    if ($mapFields[$key] == 'name') {
+                        $provider->setFirstName($value);
+                    }
+                    if ($mapFields[$key] == 'last_name') {
+                        $provider->setLastName($value);
+                    }
+                    if ($mapFields[$key] == 'phone') {
+                        $provider->setPhone($value);
+                    }
+                    if ($mapFields[$key] == 'city') {
+                        $provider->setCity($value);
+                    }
+                    if ($mapFields[$key] == 'country') {
+                        $provider->setCountryRegistration($value);
+                    }
+                    if ($mapFields[$key] == 'company_name') {
+                        $provider->setCompanyName($value);
+                    }
+                    if ($mapFields[$key] == 'company_position') {
+                        $provider->setCompanyPosition($value);
+                    }
+                    if ($mapFields[$key] == 'state') {
+                        $provider->setState($value);
+                    }
+                    if ($mapFields[$key] == 'zip') {
+                        $provider->setZip($value);
+                    }
+                    if ($mapFields[$key] == 'message') {
+                        $provider->setMessage($value);
+                    }
+                }
+            }
+        }
+
+
+    /*    $ignoreFields = array('name','email','message','rel_id','rel_type','for','for_id','captcha','module_name','list_id','option_group');
+
+        foreach($params as $key=>$value) {
+            if (in_array(mb_strtolower($key), $ignoreFields)) {
+                continue;
+            }
+
+            $provider->addCustomField(array(
+                'key'=>$key,
+                'value'=>$value
+            ));
+        }*/
+
+       return $provider->subscribe(true);
+    }
 }

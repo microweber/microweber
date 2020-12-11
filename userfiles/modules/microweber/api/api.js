@@ -484,7 +484,7 @@ mw.getScripts = function (array, callback) {
         if(this.mw && this.mw.reload_module){
             this.mw.reload_module(module, function(){
                 if(typeof eachCallback === 'function'){
-                    eachCallback.call();
+                    eachCallback.call(this);
                 }
             })
         }
