@@ -1,3 +1,5 @@
+<?php must_have_access(); ?>
+
 <?php
 
 $ignoreFields = array('terms','rel_id','rel_type','for','for_id','captcha','module_name','list_id','option_group');

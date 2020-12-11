@@ -1,3 +1,5 @@
+<?php must_have_access(); ?>
+
 <?php
 $option_group = $params['id'];
 

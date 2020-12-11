@@ -1,3 +1,4 @@
+<?php must_have_access(); ?>
 <script>
 
     $(document).ready(function () {
@@ -24,17 +25,6 @@
 
         });
 
-        $('.mail-provider-sync-api-mailerlite').click(function () {
-            mw.notification.warning('Loading...');
-
-            var dialog = mw.dialog({
-                title: 'Mailerlite Sync'
-            });
-
-            mw.load_module("admin/mail_providers/mailerlite/sync", dialog.dialogContainer);
-
-        });
-
     });
 </script>
 
@@ -46,9 +36,29 @@
             <input type="text" value="<?php echo $field['value']; ?>" name="<?php echo $field['name']; ?>" class="mw_option_field form-control">
         </div>
     <?php endforeach; ?>
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Enabled"); ?></label>
+        <?php $is_active = get_option('active', 'mailerlite_provider'); ?>
+
+        <ul class="mw-ui-inline-list">
+            <li>
+                <label class="mw-ui-check">
+                    <input class="mw_option_field" type="radio" name="active" <?php if ($is_active == 'y'): ?> checked <?php endif; ?> value="y" option-group="mailerlite_provider">
+                    <span></span><span><?php _e("Yes"); ?></span>
+                </label>
+            </li>
+            <li>
+                <label class="mw-ui-check">
+                    <input class="mw_option_field" type="radio" name="active" <?php if (!$is_active or $is_active != 'y'): ?> checked <?php endif; ?> value="n" option-group="mailerlite_provider">
+                    <span></span><span><?php _e("No"); ?></span>
+                </label>
+            </li>
+        </ul>
+    </div>
+
     <div class="form-group">
         <button type="button" class="btn btn-primary mail-provider-test-api-mailerlite"><i class="mdi mdi-flask"></i> Test Api</button>
-        <button type="button" class="btn btn-primary mail-provider-sync-api-mailerlite"><i class="mdi mdi-cloud-sync"></i> Sync Subscribers</button>
        <!-- <button type="button" class="btn btn-primary mail-provider-logs-api-mailerlite"><i class="mdi mdi-note-text"></i> Logs</button>-->
     </div>
 </form>

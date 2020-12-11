@@ -138,6 +138,7 @@ function get_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId,
 	}
 }
 
+api_expose_admin('sync_mail_subscriber');
 function sync_mail_subscriber($params) {
 
     $email = false;
