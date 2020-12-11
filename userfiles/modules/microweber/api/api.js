@@ -33,7 +33,7 @@ if (!window.jQuery) {
     $haystack .= "\n\n".load_web_component_file('jquery/jquery-migrate-3.0.0.js');
 
 
-	$needle = '//@ sourceMappingURL=';
+	$needle = '//@ disabled_sourceMappingURL=';
 	$replace = '//@ disabled_sourceMappingURL=';
 	$pos = strpos($haystack,$needle);
 	$newstring = $haystack;
