@@ -6,7 +6,7 @@ use MicroweberPackages\Database\Crud;
 
 class DataFieldsManager extends Crud
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public $table = 'content_data';

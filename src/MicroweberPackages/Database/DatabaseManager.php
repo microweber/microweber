@@ -29,7 +29,7 @@ class DatabaseManager extends DbUtils
 {
     public $use_cache = true;
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     use QueryFilter; //trait with db functions

@@ -19,7 +19,7 @@ use MicroweberPackages\Order\Models\Order;
 
 class OrderManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public $table = 'cart_orders';

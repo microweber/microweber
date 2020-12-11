@@ -7,7 +7,7 @@ use MicroweberPackages\View\View;
 
 class MicroweberTemplate
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public function __construct($app = null)

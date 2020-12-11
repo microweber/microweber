@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class JsCompileController extends Controller
 {
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     private $_should_compile_assets = false;

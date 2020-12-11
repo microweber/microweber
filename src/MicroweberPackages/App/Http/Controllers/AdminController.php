@@ -26,7 +26,7 @@ class AdminController extends Controller
         ]
     ];
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
 
     public $app;
     private $render_content;

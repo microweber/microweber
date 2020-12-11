@@ -18,7 +18,7 @@ class ContentManager
     public $tables = array();
     public $table_prefix = false;
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     /** @var \Microweber\Providers\Content\ContentManagerCrud */

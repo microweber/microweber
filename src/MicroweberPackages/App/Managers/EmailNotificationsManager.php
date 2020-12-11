@@ -4,7 +4,7 @@ namespace MicroweberPackages\App\Managers;
 
 class EmailNotificationsManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public function __construct($app = null)

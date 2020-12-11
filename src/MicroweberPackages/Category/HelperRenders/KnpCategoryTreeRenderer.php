@@ -10,7 +10,7 @@ class KnpCategoryTreeRenderer
 {
 
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     /** @var \Knp\Menu\MenuItem */

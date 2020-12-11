@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends Controller
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public $return_data = false;
