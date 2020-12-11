@@ -31,8 +31,17 @@ description: Lite
         color: #656565;
     }
 </style>
+
+
+
 <div class="tag">
-    <?php foreach ($content_tags as $item): ?>
-        <a href="<?php print $tags_url_base ?>/tags:<?php print url_title($item) ?>" class="tag__link"><?php print $item ?></a>
+    <?php foreach ($content_tags_data as $tag_item): ?>
+        <a  class="tag__link"   href="<?php print $tags_url_base ?>/tags:<?php print $tag_item['tag_slug']; ?>">
+           <?php print $tag_item['tag_name']; ?>
+        </a>
     <?php endforeach; ?>
 </div>
+
+
+
+
