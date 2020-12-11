@@ -97,7 +97,6 @@ class MailSubscriber
 	    $log = [];
 		if (!empty($this->subscribeFrom) || $force) {
 
-
 		    // FlexMail
 		    $flexMailSubscribe = false;
 			if (get_option('use_integration_with_flexmail', $this->subscribeFrom) == 'y') {
@@ -232,9 +231,16 @@ class MailSubscriber
                     }
                 }
 
+                $allGroupsArray = $allGroups->toArray();
+                if (isset($allGroupsArray[0]->error->message)) {
+                    return ['failed'=>true, 'log'=>$allGroupsArray[0]->error->message];
+                }
+
 				if (!$groupId) {
 					$createNewGroup = $groupsApi->create(['name' => $this->listTitle]);
-					$groupId = $createNewGroup->id;
+					if (isset($createNewGroup->id)) {
+                        $groupId = $createNewGroup->id;
+                    }
 				}
 
 				$subscriber = [
@@ -257,7 +263,7 @@ class MailSubscriber
                 return ['success'=>true, 'log'=>'Email ' . $this->email . ' subscribed for mailerlite.'];
 
 			} catch (\Exception $e) {
-                return ['failed'=>true, 'log'=>$e-];
+                return ['failed'=>true, 'log'=>$e->getMessage() .' code:'. $e->getLine()];
 			}
 		}
 	}
