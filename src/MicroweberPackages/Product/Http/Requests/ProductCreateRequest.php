@@ -15,7 +15,7 @@ class ProductCreateRequest extends FormRequest
     {
         $rules = [
              'title' => 'required',
-            'price' => 'sometimes|regex:/^\d+(\.\d{1,2})?$/', //The regex will hold for quantities like '12' or '12.5' or '12.05' '. If you want more decimal points than two, replace the "2" with the allowed decimals you need.
+            'price' => 'nullable|regex:/^\d+(\.\d{1,2})?$/', //The regex will hold for quantities like '12' or '12.5' or '12.05' '. If you want more decimal points than two, replace the "2" with the allowed decimals you need.
         ];
 
         return $rules;

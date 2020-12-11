@@ -40,7 +40,7 @@ class SitemapController extends Controller
 
            file_put_contents($generatedSiteMapFile, $sitemap);
        }
-      
+
        $fp = fopen($generatedSiteMapFile, 'r');
 
        // send the right headers
