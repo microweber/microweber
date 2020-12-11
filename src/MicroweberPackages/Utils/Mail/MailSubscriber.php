@@ -97,12 +97,41 @@ class MailSubscriber
 	    $log = [];
 		if (!empty($this->subscribeFrom) || $force) {
 
+		    // FlexMail
+		    $flexMailSubscribe = false;
 			if (get_option('use_integration_with_flexmail', $this->subscribeFrom) == 'y') {
-				$log['FlexMail'] = $this->_flexmail($force);
+                $flexMailSubscribe = true;
+            }
+            $flexmailSettings = get_mail_provider_settings('flexmail');
+            if (isset($flexmailSettings['active']) && $flexmailSettings['active'] == 'y') {
+                $flexMailSubscribe = true;
+            }
+            if (isset($flexmailSettings['active']) && $flexmailSettings['active'] == 'n') {
+                $flexMailSubscribe = false;
+            }
+
+            if ($flexMailSubscribe) {
+			    $response = $this->_flexmail($force);
+                $response['name'] = 'Flex Mail';
+				$log['providers'][] = $response;
 			}
 
+			// Mailerlite
+            $mailerLiteSubcribe = false;
 			if (get_option('use_integration_with_mailerlite', $this->subscribeFrom) == 'y') {
-				$log['MailerLite'] = $this->_mailerLite($force);
+                $mailerLiteSubcribe = true;
+            }
+            $mailerliteSettings = get_mail_provider_settings('mailerlite');
+            if (isset($mailerliteSettings['active']) && $mailerliteSettings['active'] == 'y') {
+                $mailerLiteSubcribe = true;
+            }
+            if (isset($mailerliteSettings['active']) && $mailerliteSettings['active'] == 'n') {
+                $mailerLiteSubcribe = false;
+            }
+            if ($mailerLiteSubcribe) {
+                $response = $this->_mailerLite($force);
+                $response['name'] = 'Mailer Lite';
+                $log['providers'][] = $response;
 			}
 		}
 
@@ -118,7 +147,7 @@ class MailSubscriber
 		    if ($force == false) {
                 $checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
                 if (!empty($checkSubscriber)) {
-                    return 'Email ' . $this->email . ' allready subscribed for flexmail.';
+                    return ['success'=>true, 'log'=>'Email ' . $this->email . ' allready subscribed for flexmail.'];
                 }
             }
 
@@ -164,12 +193,15 @@ class MailSubscriber
 
 				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
 
+                return ['success'=>true, 'log'=>'Email ' . $this->email . ' subscribed for flexmail.'];
+
 			} catch (\Exception $e) {
 				if ($e->getCode() == 225)  {
 					save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'flexmail');
+                    return ['success'=>true, 'log'=>'Email ' . $this->email . ' allready subscribed for flexmail.'];
 				}
 
-				return $e->getMessage();
+				return ['failed'=>true, 'log'=>$e->getMessage()];
 			}
 		}
 	}
@@ -183,7 +215,7 @@ class MailSubscriber
 		    if ($force == false) {
                 $checkSubscriber = get_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
                 if (!empty($checkSubscriber)) {
-                    return 'Email ' . $this->email . ' allready subscribed for mailerlite.';
+                    return ['success'=>true, 'log'=>'Email ' . $this->email . ' allready subscribed for mailerlite.'];
                 }
             }
 
@@ -193,15 +225,22 @@ class MailSubscriber
 
                 $groupId = false;
 				foreach($allGroups as $group) {
-                    if ($group->name == $this->listTitle) {
+                    if (isset($group->name) && isset($group->id) && $group->name == $this->listTitle) {
                         $groupId = $group->id;
                         break;
                     }
                 }
 
+                $allGroupsArray = $allGroups->toArray();
+                if (isset($allGroupsArray[0]->error->message)) {
+                    return ['failed'=>true, 'log'=>$allGroupsArray[0]->error->message];
+                }
+
 				if (!$groupId) {
 					$createNewGroup = $groupsApi->create(['name' => $this->listTitle]);
-					$groupId = $createNewGroup->id;
+					if (isset($createNewGroup->id)) {
+                        $groupId = $createNewGroup->id;
+                    }
 				}
 
 				$subscriber = [
@@ -221,10 +260,10 @@ class MailSubscriber
 
 				save_mail_subscriber($this->email, $this->subscribeSource, $this->subscribeSourceId, 'mailerlite');
 
-				return 'Subscribed!';
+                return ['success'=>true, 'log'=>'Email ' . $this->email . ' subscribed for mailerlite.'];
 
 			} catch (\Exception $e) {
-				return $e->getMessage();
+                return ['failed'=>true, 'log'=>$e->getMessage() .' code:'. $e->getLine()];
 			}
 		}
 	}

@@ -1,3 +1,4 @@
+<?php must_have_access(); ?>
 <script>
     $(document).ready(function () {
         var mail_provider_settings_form_class = '.mail-provider-flexmail-settings-form';
@@ -41,9 +42,29 @@
         </div>
     <?php endforeach; ?>
 
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Enabled"); ?></label>
+        <?php $is_active = get_option('active', 'flexmail_provider'); ?>
+
+        <ul class="mw-ui-inline-list">
+            <li>
+                <label class="mw-ui-check">
+                    <input class="mw_option_field" type="radio" name="active" <?php if ($is_active == 'y'): ?> checked <?php endif; ?> value="y" option-group="flexmail_provider">
+                    <span></span><span><?php _e("Yes"); ?></span>
+                </label>
+            </li>
+            <li>
+                <label class="mw-ui-check">
+                    <input class="mw_option_field" type="radio" name="active" <?php if (!$is_active or $is_active != 'y'): ?> checked <?php endif; ?> value="n" option-group="flexmail_provider">
+                    <span></span><span><?php _e("No"); ?></span>
+                </label>
+            </li>
+        </ul>
+    </div>
+
     <div class="form-group">
         <button type="button" class="btn btn-primary mail-provider-test-api-flexmail"><i class="mdi mdi-flask"></i> Test Api</button>
-        <button type="button" class="btn btn-primary mail-provider-sync-api-flexmail"><i class="mdi mdi-cloud-sync"></i> Sync Subscribers</button>
       <!--  <button type="button" class="btn btn-primary mail-provider-logs-api-flexmail"><i class="mdi mdi-note-text"></i> Logs</button>-->
     </div>
 </form>

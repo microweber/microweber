@@ -16,6 +16,17 @@
 
                     mw.load_module("admin/mail_providers/map_fields", dialog.dialogContainer);
                 });
+
+                $('.mail-provider-sync').click(function () {
+                    mw.notification.warning('Loading...');
+
+                    var dialog = mw.dialog({
+                        title: 'Mailerlite Sync'
+                    });
+
+                    mw.load_module("admin/mail_providers/sync", dialog.dialogContainer);
+
+                });
             });
         </script>
 
@@ -23,6 +34,8 @@
              <i class="mdi mdi-information"></i> We recommend to manually map fields of your contact forms, in order to get full integration with mail providers.
             <button type="button" class="btn btn-primary js-map-contact-form-fields"><i class="mdi mdi-sitemap"></i> Map Fields</button>
         </div>
+
+        <button type="button" class="btn btn-primary mail-provider-sync pull-right"><i class="mdi mdi-cloud-sync"></i> Sync Subscribers</button>
 
     </div>
 </div>
