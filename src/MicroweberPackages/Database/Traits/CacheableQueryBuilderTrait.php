@@ -17,4 +17,33 @@ trait CacheableQueryBuilderTrait
     {
         return new CachedBuilder($query);
     }
+
+
+    protected static function bootCacheableQueryBuilderTrait()
+    {
+        static::saving(function ($model) {
+            $this->_clearModelCache($model);
+        });
+
+        static::creating(function ($model) {
+            $this->_clearModelCache($model);
+        });
+
+        static::updating(function ($model) {
+            $this->_clearModelCache($model);
+        });
+
+        static::deleting(function ($model) {
+            $this->_clearModelCache($model);
+        });
+        
+    }
+
+
+    private function _clearModelCache($model)
+    {
+        $table = $model->getTable();
+        \Cache::tags($table)->flush();
+    }
+
 }
