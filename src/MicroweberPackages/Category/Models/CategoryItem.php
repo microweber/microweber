@@ -3,9 +3,13 @@ namespace MicroweberPackages\Category\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class CategoryItem extends Model
 {
+
+    use CacheableQueryBuilderTrait;
+
     public $table = 'categories_items';
     public $timestamps = false;
 
