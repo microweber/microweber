@@ -12,7 +12,7 @@ use MicroweberPackages\Database\Eloquent\Builder\CachedBuilder;
 
 trait CacheableQueryBuilderTrait
 {
-
+/*
     public function newEloquentBuilder($query)
     {
         return new CachedBuilder($query);
@@ -45,6 +45,6 @@ trait CacheableQueryBuilderTrait
     {
         $table = $model->getTable();
         \Cache::tags($table)->flush();
-    }
+    }*/
 
 }
