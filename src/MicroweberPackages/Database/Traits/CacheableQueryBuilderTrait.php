@@ -17,20 +17,4 @@ trait CacheableQueryBuilderTrait
     {
         return new CachedBuilder($query);
     }
-
-    /**
-     * Get a new query builder instance for the connection.
-     *
-     * @return \Illuminate\Database\Query\Builder
-     */
-    /*protected function newBaseQueryBuilder()
-    {
-        $conn = $this->getConnection();
-
-        $grammar = $conn->getQueryGrammar();
-
-        $builder = new \MicroweberPackages\Database\Query\Builder\CachedBuilder($conn, $grammar, $conn->getPostProcessor());
-
-        return $builder;
-    }*/
 }

@@ -52,6 +52,14 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function get($columns = ['*'])
     {
 
+        $cacheKey = $this->getCacheKey();
+        $cacheTags = $this->generateCacheTags();
+
+        $cacheFind = \Cache::tags($cacheTags)->get($cacheKey);
+        if ($cacheFind) {
+            return $cacheFind;
+        }
+
         $builder = $this->applyScopes();
 
         // If we actually found models we will also eager load any relationships that
@@ -63,7 +71,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 
         $collection = $builder->getModel()->newCollection($models);
 
-        dump($this->getCacheKey());
+        \Cache::tags($cacheTags)->put($cacheKey, $collection);
 
         return $collection;
     }
@@ -88,12 +96,21 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     {
         $name = $this->getConnection()->getDatabaseName();
 
-        foreach ($this->eagerLoad as $name => $constraints) {
-            $relation = $this->getRelation($name);
-            $appends[] = $relation->getQuery()->getModel()->getTable();
-        }
-
-        return hash('sha256', $name . $this->toSql() . implode('_', $appends) . serialize($this->getBindings()));
+        return md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . serialize($this->getBindings()));
     }
 
+    public function generateCacheTags()
+    {
+        $tags  = [];
+        $tags[] = $this->getModel()->getTable();
+
+        if ($this->eagerLoad) {
+            foreach ($this->eagerLoad as $name => $constraints) {
+                $relation = $this->getRelation($name);
+                $tags[] = $relation->getQuery()->getModel()->getTable();
+            }
+        }
+
+        return $tags;
+    }
 }
