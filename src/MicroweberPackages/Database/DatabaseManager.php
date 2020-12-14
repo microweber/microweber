@@ -569,7 +569,7 @@ class DatabaseManager extends DbUtils
             unset($criteria['id']);
             $engine = $this->get_sql_engine();
             if ($engine == 'pgsql') {
-                $highestId = DB::table($table)->select(DB::raw('MAX(id)'))->first();
+                $highestId = $this->table($table)->select(DB::raw('MAX(id)'))->first();
                 $next_id = 0;
                 if (!isset($highestId->max)) {
                     $next_id = 1;
@@ -580,17 +580,17 @@ class DatabaseManager extends DbUtils
                     $criteria['id'] = $next_id;
                 }
             }
-            $id_to_return = \DB::table($table_assoc_name)->insert($criteria);
+             $id_to_return = $this->table($table_assoc_name)->insert($criteria);
             $id_to_return = $this->last_id($table);
 
         } else {
-            $insert_or_update = $highestId = DB::table($table)->where('id', $criteria['id'])->count();
+            $insert_or_update = $highestId = $this->table($table)->where('id', $criteria['id'])->count();
             if ($insert_or_update != 0) {
                 $insert_or_update = 'update';
             } else {
                 $insert_or_update = 'insert';
             }
-            $id_to_return = \DB::table($table_assoc_name)->where('id', $criteria['id'])->$insert_or_update($criteria);
+            $id_to_return = $this->table($table_assoc_name)->where('id', $criteria['id'])->$insert_or_update($criteria);
             $id_to_return = $criteria['id'];
         }
 
@@ -602,6 +602,8 @@ class DatabaseManager extends DbUtils
         $original_data['table'] = $table;
         $original_data['id'] = $id_to_return;
         $cache_group = $this->assoc_table_name($table);
+
+
         $this->app->cache_manager->delete($cache_group);
 
         if ($skip_cache == false) {
@@ -830,15 +832,20 @@ class DatabaseManager extends DbUtils
         return $data;
     }
 
-    public function table($table, $params = false)
+    public function table($table, $params = [])
     {
         //@todo move this to external resolver class or array
         if ($table == 'content' || $table == 'categories') {
 
             if ($table == 'content') {
-                $model = app()->make(Content::class);
+               $model = new Content($params);
+              // $model = app()->make(Content::class);
+
+            //    $model::boot();
             } else if ($table == 'categories') {
+             //   $model = new Category();
                 $model = app()->make(Category::class);
+
             }
 
             if ($params and isset($params['filter']) and method_exists($model, 'modelFilter')) {

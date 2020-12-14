@@ -7,6 +7,7 @@ use MicroweberPackages\ContentData\Models\ContentData;
 
 trait ContentDataTrait
 {
+
     private $_addContentData = [];
 
     public function initializeContentDataTrait()

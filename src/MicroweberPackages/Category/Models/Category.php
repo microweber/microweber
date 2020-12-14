@@ -4,10 +4,11 @@ namespace MicroweberPackages\Category\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Category extends Model
 {
-
+    use CacheableQueryBuilderTrait;
     use Filterable;
 
     protected $table = 'categories';
