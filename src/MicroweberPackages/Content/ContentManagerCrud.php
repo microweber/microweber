@@ -593,7 +593,7 @@ class ContentManagerCrud extends Crud
 
 
             if (!empty($q)) {
-                if ($data['id'] != $q['id']) {
+                if (!isset($data['id']) or !isset($q['id']) or  $data['id'] != $q['id']) {
                     $orig_slug = $data['url'];
                     $slug = $data['url'];
                     $count = 1;
