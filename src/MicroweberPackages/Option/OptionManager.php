@@ -218,10 +218,21 @@ class OptionManager
             $data['module'] = $module;
         }
 
-        $data['limit'] = 1;
+
+
+
        // $ok = $this->app->database_manager->escape_string($data['option_key']);
 
+        // set limit
+        if (!isset($data['limit'])) {
+            $data['limit'] = 1;
+        }
+
+
+
         $filter = array();
+
+
      //   $filter['limit'] = 1;
         $filter['option_key'] = $key;
         if ($option_group != false) {
@@ -232,7 +243,9 @@ class OptionManager
             $filter['module'] = $module;
         }
         $filter['table'] = $table;
-
+        if (isset($data['limit'])) {
+            $filter['limit'] = $data['limit'];
+        }
           $get_all = mw()->database_manager->get($filter);
 
 
