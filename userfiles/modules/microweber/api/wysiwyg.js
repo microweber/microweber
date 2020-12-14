@@ -1156,16 +1156,17 @@ mw.wysiwyg = {
                     mw.tools.addClass(this, 'isTyping');
                     mwd.body.editor_typing_startTime = new Date();
 
-                    if(!mw.tools.hasAnyOfClasses(this, ['isTypingStill'])){
                     mw.tools.addClass(this, 'isTypingStill');
-                    }
 
                     var myVarisTypingStill;
 
                     var myVarisTypingStillTimeoutFunction = function() {
                         myVarisTypingStill = setTimeout(function(){
                             if(mwd.body){
-                                mw.tools.removeClass(mwd.body, 'isTypingStill');
+                                if(!mw.tools.hasAnyOfClasses(mwd.body, ['isTyping'])){
+                                    mw.tools.removeClass(mwd.body, 'isTypingStill');
+                                }
+
                             }
                         }, 1337);
                     }
