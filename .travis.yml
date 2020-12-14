@@ -40,3 +40,4 @@ branches:
         - dev
         - tests	
         - build
+        - 1.2
