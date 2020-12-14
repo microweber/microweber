@@ -3,6 +3,7 @@ namespace MicroweberPackages\Media\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
 class Media extends Model
@@ -10,6 +11,7 @@ class Media extends Model
     //use \Conner\Tagging\Taggable;
 
     use MaxPositionTrait;
+    use CacheableQueryBuilderTrait;
 
     public $table = 'media';
 
