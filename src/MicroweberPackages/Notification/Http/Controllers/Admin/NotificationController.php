@@ -36,8 +36,12 @@ class NotificationController extends AdminController
                 continue;
             }
 
-            $messageType = new $notification->type();
-
+            try {
+                $messageType = new $notification->type();
+            } catch (\Exception $e) {
+                continue;
+            }
+            
             if (method_exists($messageType, 'setNotification')) {
                 $messageType->setNotification($notification);
             }
