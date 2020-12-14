@@ -16,14 +16,3 @@ use Illuminate\Support\Facades\Route;
 
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
-
-
-
-Route::get('favorite-drink', function(){
-
-  //  $aa = \MicroweberPackages\Product\Models\Product::with('tags')->get();
-    $aa = \MicroweberPackages\Post\Models\Post::with('media')->with('tagged')->get();
-
-    dump($aa);
-
-});

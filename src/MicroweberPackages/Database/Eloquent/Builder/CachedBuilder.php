@@ -51,8 +51,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      */
     public function get($columns = ['*'])
     {
-
-        $cacheKey = $this->getCacheKey();
+        $cacheKey = $this->getCacheKey($columns);
         $cacheTags = $this->generateCacheTags();
 
         $cacheFind = \Cache::tags($cacheTags)->get($cacheKey);
@@ -82,9 +81,9 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      *
      * @return string
      */
-    public function getCacheKey()
+    public function getCacheKey($appends)
     {
-        return $this->cachePrefix . '_' . ($this->cacheKey ?: $this->generateCacheKey());
+        return $this->cachePrefix . '_' . ($this->cacheKey ?: $this->generateCacheKey($appends));
     }
 
     /**
@@ -95,8 +94,11 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function generateCacheKey($appends = [])
     {
         $name = $this->getConnection()->getDatabaseName();
+        $key = md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . serialize($this->getBindings()) . implode('_',$appends));
 
-        return md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . serialize($this->getBindings()));
+      // dump($this->toSql(),$this->getBindings());
+
+        return $key;
     }
 
     public function generateCacheTags()
