@@ -21,22 +21,23 @@ trait CacheableQueryBuilderTrait
 
     protected static function bootCacheableQueryBuilderTrait()
     {
+
         static::saving(function ($model) {
-            $this->_clearModelCache($model);
+            $model->_clearModelCache($model);
         });
 
         static::creating(function ($model) {
-            $this->_clearModelCache($model);
+            $model->_clearModelCache($model);
         });
 
         static::updating(function ($model) {
-            $this->_clearModelCache($model);
+            $model->_clearModelCache($model);
         });
 
         static::deleting(function ($model) {
-            $this->_clearModelCache($model);
+            $model->_clearModelCache($model);
         });
-        
+
     }
 
 
