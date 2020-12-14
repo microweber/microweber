@@ -57,7 +57,7 @@ mw.session = {
                     mw.session.logRequest();
                 }
             });
-        }, 90000);
+        }, 300000); // 5 minutes
     }
 }
 $(document).ready(function () {
