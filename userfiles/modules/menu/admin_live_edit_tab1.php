@@ -71,6 +71,7 @@ if (!isset($rand)) {
     };
 
     add_new_menu = function () {
+
         mw.$("#create-menu-holder").toggle();
         var btn = mw.$('#create-menu-btn');
         btn.toggleClass('active');
@@ -130,7 +131,8 @@ if (!isset($rand)) {
                 mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
                 if (no_reload === undefined) {
                     mw.reload_module('menu/edit_items');
-                }
+
+                 }
                 if (self !== parent && typeof parent.mw === 'object') {
                     parent.mw.reload_module('menu');
                 }
@@ -197,25 +199,25 @@ if ($menu_data) {
     currentMenuId = <?php print $menu_id; ?> ||
     0;
 </script>
+<div id="quick_new_menu_holder">
+    <div id="create-menu-holder" style="display: none;">
+        <div class="form-inline">
+            <div class="form-group mb-3">
+                <label class="control-label d-block w-100 mb-1"><?php _e('Create new menu'); ?></label>
+                <input name="new_menu_name" class="form-control" id="new_menu_name" placeholder="<?php _e("Menu name"); ?>" type="text" style="margin-right: 12px;"/>
+                <button type="button" class="btn btn-success" onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php if (is_array($menus) == true): ?>
     <?php if (is_array($menus)): ?>
-        <div id="quick_new_menu_holder">
-            <div id="create-menu-holder" style="display: none;">
-                <div class="form-inline">
-                    <div class="form-group mb-3">
-                        <label class="control-label d-block w-100 mb-1"><?php _e('Create new menu'); ?></label>
-                        <input name="new_menu_name" class="form-control" id="new_menu_name" placeholder="<?php _e("Menu name"); ?>" type="text" style="margin-right: 12px;"/>
-                        <button type="button" class="btn btn-success" onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="form-group">
             <label class="control-label d-flex justify-content-between">
                 <?php _e("Select the Menu you want to edit"); ?>
-                <a href="javascript:add_new_menu();" class="btn btn-link p-0" id="create-menu-btn"><?php _e("Create new menu"); ?></a>
+                <button   onclick="add_new_menu();"  class="btn btn-link p-0" id="create-menu-btn"><?php _e("Create new menu"); ?></button>
             </label>
 
             <select id="menu_selector_<?php print $params['id'] ?>" name="menu_name" class="mw_option_field selectpicker" data-width="100%" data-size="5" onchange="mw.menu_edit_items(this.value, '#items_list_<?php print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php print $rand ?>');">
@@ -234,6 +236,7 @@ if ($menu_data) {
     <div class="icon-title justify-content-center">
         <i class="mdi mdi-menu"></i>
         <h5 class="mb-0"><?php _e("You have no exising menus. Please create one."); ?></h5>
+        <button   onclick="add_new_menu();" class="btn btn-primary" id="create-menu-btn"><?php _e("Create new menu"); ?></button>
     </div>
 <?php endif; ?>
 <?php
