@@ -493,7 +493,12 @@ class MenuManager
                      $cont = false;
                      // skip the deleted item
                      continue;
-                } elseif(!$cont){
+                } else if (is_array($cont) and isset($cont['is_active']) and $cont['is_active'] == 0) {
+                    $is_active = false;
+                    $cont = false;
+                }
+                elseif
+                 (!$cont){
                     continue;
                 }
                 $full_item = $item;
