@@ -4,6 +4,7 @@ namespace MicroweberPackages\Category;
 
 use DB;
 use MicroweberPackages\Category\HelperRenders\KnpCategoryTreeRenderer;
+use MicroweberPackages\Category\Models\Category;
 
 /**
  * Class to work with categories.
@@ -84,7 +85,8 @@ class CategoryManager
 
 
         $renderer = new KnpCategoryTreeRenderer($this->app);
-        $renderer->setUseCache(false);
+      //  $renderer->setUseCache(false);
+        $renderer->setUseCache(1);
 
 
 //        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
@@ -316,9 +318,18 @@ class CategoryManager
                 }
             }
         }
-        $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
+
+        $get_category = Category::where('data_type',$data_type)
+            ->where('rel_id',$content_id)
+            ->where('rel_type','content')
+            ->orderBy('position','asc')
+            ->get();
+
+       // $get_category = $this->get('order_by=position asc&data_type=' . $data_type . '&rel_type=content&rel_id=' . ($content_id));
         if (empty($get_category)) {
             $get_category = array();
+        } else {
+            $get_category = $get_category->toArray();
         }
 
         if (!empty($include_parents)) {
@@ -421,7 +432,7 @@ class CategoryManager
         if (isset($params['id'])) {
             $data['cache_group'] = $cache_group = 'categories/' . $params['id'];
         } else {
-            $data['cache_group'] = $cache_group = 'categories/global';
+            $data['cache_group'] = $cache_group = 'categories';
         }
 
         if (isset($data['parent']) and !isset($data['parent_id'])) {
@@ -450,9 +461,8 @@ class CategoryManager
                 unset($data['rel_id']);
             }
         }
-//dd($data);
-        $data = $this->app->database_manager->get($data);
 
+        $data = $this->app->database_manager->get($data);
 
         return $data;
     }

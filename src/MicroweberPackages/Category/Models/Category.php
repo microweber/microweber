@@ -8,7 +8,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Category extends Model
 {
-    use CacheableQueryBuilderTrait;
+   use CacheableQueryBuilderTrait;
     use Filterable;
 
     protected $table = 'categories';
