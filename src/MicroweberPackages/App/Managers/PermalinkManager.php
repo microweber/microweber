@@ -4,7 +4,7 @@ namespace MicroweberPackages\App\Managers;
 
 class PermalinkManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
     public $structureMapPrefix = [];
     public $linkAfter = [];

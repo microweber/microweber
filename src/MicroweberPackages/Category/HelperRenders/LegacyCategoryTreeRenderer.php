@@ -15,7 +15,7 @@ class LegacyCategoryTreeRenderer
 {
 
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
 

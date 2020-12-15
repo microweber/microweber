@@ -7,7 +7,7 @@ use function foo\func;
 
 class ContentManagerCrud extends Crud
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public $table = 'content';

@@ -15,7 +15,7 @@ use MicroweberPackages\Database\Crud;
 
 class CartManager extends Crud
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public $table = 'cart';

@@ -25,7 +25,7 @@ use Twig\Loader\ArrayLoader;
 
 class CheckoutManager
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public $table = 'cart';

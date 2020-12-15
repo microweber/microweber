@@ -1779,18 +1779,34 @@ img[_moz_resizing], table[_moz_resizing] {
     outline: 0px none;
 }
 
+
+
+.isTypingStill #mw-handle-item-element,
+.isTypingStill .mw-padding-ctrl,
+.isTypingStill .mw-layout-plus,
+.isTypingStill .mw-handle-item,
+.isTypingStill .mw-selector,
+
 .isTyping .mw-padding-ctrl,
 .isTyping .mw-layout-plus,
 .isTyping .mw-handle-item,
-.isTyping .mw-selector {
-    display: none;
+.isTyping .mw-selector
+{
+    display: none !important;
 }
 
-.isTyping .element-current, .isTyping .element-current:hover {
+.isTypingStill .element-current,
+.isTypingStill .element-current:hover,
+.isTyping .element-current,
+.isTyping .element-current:hover
+{
     outline: none !important;
 }
 
-.isTyping .mw-row .ui-resizable-handle {
+
+
+.isTyping .mw-row .ui-resizable-handle
+{
     display: none !important;
 }
 

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class JsCompileController extends Controller
 {
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     private $_should_compile_assets = false;
@@ -34,7 +34,7 @@ class JsCompileController extends Controller
             $this->_should_compile_assets = \Config::get('microweber.compile_assets');;
         }
 
-    //    $this->_should_compile_assets = false; //@todo remove before release 1.2
+        $this->_should_compile_assets = false; //@todo remove before release 1.2
      }
 
 

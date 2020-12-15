@@ -1,9 +1,9 @@
 language: php
 php:
-    - 5.6
-    - 7.1
-    - 7.2
-    - 7.3
+#   - 5.6
+#    - 7.1
+#   - 7.2
+#    - 7.3
     - 7.4
 matrix:
   allow_failures:
@@ -33,10 +33,11 @@ script: phpunit
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-    rc: "irc.freenode.org#microweber"
+    irc: "irc.freenode.org#microweber"
 branches:
     only:
         - master
         - dev
         - tests	
         - build
+        - 1.2

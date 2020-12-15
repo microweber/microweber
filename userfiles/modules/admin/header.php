@@ -333,6 +333,12 @@ $user = get_user_by_id($user_id);
 
                 <ul class="nav">
                     <?php if (user_can_access('module.content.edit')): ?>
+
+                        <li class="mx-1">
+                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
+                                <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("View"); ?></span>
+                            </a>
+                        </li>
                         <li class="mx-1">
                             <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
                                 <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>

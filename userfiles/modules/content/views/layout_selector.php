@@ -234,6 +234,7 @@ if (!empty($recomended_layouts)) {
         generate: function (return_url) {
 
 
+
             var template = mw.$('#active_site_template_<?php print $rand; ?> option:selected').val();
             var layout = mw.$('#active_site_layout_<?php print $rand; ?>').val();
             var is_shop = mw.$('#active_site_layout_<?php print $rand; ?> option:selected').attr('data-is-shop');
@@ -245,18 +246,21 @@ if (!empty($recomended_layouts)) {
 
             var root = mwd.querySelector('#active_site_layout_<?php print $rand; ?>');
             var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+
+
             if (form != undefined && form != false) {
                 if (is_shop != undefined) {
                     if (is_shop != undefined && is_shop == 'y') {
-                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
-                            form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = true;
+                        
+                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                            form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = true;
                         }
                     }
                     else {
-                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
-                            form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = false;
+                        if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                            form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = false;
                         }
-                        if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input)') != null) {
+                        if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]:not(.custom-control-input-is-shop)') != null) {
                             //   form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                         }
                     }
@@ -264,8 +268,8 @@ if (!empty($recomended_layouts)) {
                     <?php if(!isset($params['no_content_type_setup'])): ?>
 
 
-                    if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input)') != null) {
-                        form.querySelector('input[name="is_shop"]:not(.custom-control-input)').checked = false;
+                    if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
+                        form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = false;
                     }
 
                     <?php endif; ?>

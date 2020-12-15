@@ -8,7 +8,7 @@ use function Opis\Closure\serialize as serializeClosure;
 class CategoryTreeData
 {
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
 

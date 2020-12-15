@@ -29,7 +29,7 @@ class DatabaseManager extends DbUtils
 {
     public $use_cache = true;
 
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     use QueryFilter; //trait with db functions
@@ -206,14 +206,12 @@ class DatabaseManager extends DbUtils
             $params['group_by'] = $params['groupby'];
             unset($params['groupby']);
         }
-        $use_cache = true;
+
         if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
             $use_cache = $this->use_cache = false;
         } else {
             $use_cache = $this->use_cache = true;
         }
-        // $use_cache = false;
-        // $this->use_cache = false;
 
         if (!isset($params['filter'])) {
             $query = $this->map_filters($query, $params, $table);
@@ -302,7 +300,10 @@ class DatabaseManager extends DbUtils
             }
 
         } else {
-            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query, $orig_params) {
+
+            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($cache_key, $query, $orig_params) {
+
+
 
                 $queryResponse = $query->get();
 

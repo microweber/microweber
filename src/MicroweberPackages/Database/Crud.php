@@ -12,7 +12,7 @@ namespace MicroweberPackages\Database;
 
 class Crud
 {
-    /** @var \Microweber\Application */
+    /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public $table = 'your_table_name_here';
