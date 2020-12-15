@@ -430,7 +430,7 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-            load_all_functions_files_for_modules();
+            load_all_functions_files_for_modules($this->app);
 
 
           /*  // Register module service providers
