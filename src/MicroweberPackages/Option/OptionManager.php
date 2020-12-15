@@ -259,14 +259,13 @@ class OptionManager
 
 
 
-//        if($option_group){
-//            $get_all = Option::where('option_group',$option_group)->get()->toArray();
-//            dump($option_group);
-//            dump($get_all);
-//           } else {
-//
-//         $get_all = mw()->database_manager->get($filter);
-//        }
+        if($option_group){
+            $get_all = Option::where('option_group',$option_group)->get()->toArray();
+
+           } else {
+
+         $get_all = mw()->database_manager->get($filter);
+        }
 
 //        $get_all = cache()->remember($table.'full_cache_table'.$option_group, 1000000, function () use ($option_group) {
 //            if($option_group){
@@ -277,7 +276,7 @@ class OptionManager
 //
 //
 //        }) ;
-        $get_all = mw()->database_manager->get($filter);
+   //     $get_all = mw()->database_manager->get($filter);
         if (!is_array($get_all)) {
             return false;
         }

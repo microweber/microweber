@@ -2,9 +2,13 @@
 namespace MicroweberPackages\Option\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Option extends Model
 {
+
+    use CacheableQueryBuilderTrait;
+
     public function getValue($key, $group = false)
     {
         if ($group) {
