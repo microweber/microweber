@@ -130,6 +130,7 @@ class TaggableFileStore implements Store
                 $contents = @file_get_contents($findTagPath, true), 0, 10
             );
         } catch (\Exception $e) {
+            $this->files->cachedDataMemory = [];
             return;
         }
 

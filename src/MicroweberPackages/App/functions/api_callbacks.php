@@ -170,18 +170,24 @@ api_expose('thumbnail_img');
 
 \Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($cache_id) {
 
+
+    app()->option_manager->setUseCache(false);
     $cache_id_data = get_option($cache_id, 'media_tn_temp');
-    $cache_id_data = json_decode($cache_id_data, true);
-
-    if ($cache_id_data) {
-        $cache_id_data['cache_id'] = $cache_id;
-        $tn = mw()->media_manager->thumbnail_img($cache_id_data);
-
+    $cache_id_data_json = json_decode($cache_id_data, true);
+    if ($cache_id_data_json) {
+        $cache_id_data_json['cache_id'] = $cache_id;
+        $tn = mw()->media_manager->thumbnail_img($cache_id_data_json);
         return $tn;
-    }else {
-        return mw()->media_manager->pixum_img();
     }
-})->middleware(\MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class);
+
+	/*
+    if (isset($cache_id_data_json['base_src'])) {
+        return $cache_id_data_json['base_src'];
+    }
+	*/
+	
+    return mw()->media_manager->pixum_img();
+});
 
 api_expose('create_media_dir');
 api_expose('media/delete_media_file');

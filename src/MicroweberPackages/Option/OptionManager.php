@@ -14,6 +14,7 @@ namespace MicroweberPackages\Option;
 
 use DB;
 use Cache;
+use MicroweberPackages\Option\Models\Option;
 
 class OptionManager
 {
@@ -155,6 +156,12 @@ class OptionManager
         return $changes;
     }
 
+
+    private $is_use = true;
+    public function setUseCache($is_use = false){
+        $this->is_use = $is_use;
+    }
+
     /**
      * Getting options from the database.
      *
@@ -176,7 +183,7 @@ class OptionManager
             $this->options_memory = array();
         }
 
-        if (isset($this->override_memory[$option_group]) and isset($this->override_memory[$option_group][$key])) {
+        if ($this->is_use and isset($this->override_memory[$option_group]) and isset($this->override_memory[$option_group][$key])) {
             return $this->override_memory[$option_group][$key];
         }
 
@@ -193,7 +200,7 @@ class OptionManager
         }
 
         $function_cache_id = 'option_' . __FUNCTION__ . '_' . $option_group . '_' . crc32($function_cache_id);
-        if (isset($this->options_memory[$function_cache_id])) {
+        if ($this->is_use and isset($this->options_memory[$function_cache_id])) {
             return $this->options_memory[$function_cache_id];
         }
 
@@ -232,7 +239,9 @@ class OptionManager
 
         $filter = array();
 
-
+        if(!$this->is_use){
+         $filter['no_cache'] = 1;
+        }
      //   $filter['limit'] = 1;
         $filter['option_key'] = $key;
         if ($option_group != false) {
@@ -246,11 +255,23 @@ class OptionManager
         if (isset($data['limit'])) {
             $filter['limit'] = $data['limit'];
         }
-          $get_all = mw()->database_manager->get($filter);
 
 
-//        $get_all = cache()->remember($table.'full_cache_table', 1000000, function () {
-//            return Option::get()->toArray();
+
+
+
+
+         $get_all = mw()->database_manager->get($filter);
+
+
+//        $get_all = cache()->remember($table.'full_cache_table'.$option_group, 1000000, function () use ($option_group) {
+//            if($option_group){
+//                return Option::where('option_group',$option_group)->get()->toArray();
+//            } else {
+//                return Option::get()->toArray();
+//            }
+//
+//
 //        }) ;
 
         if (!is_array($get_all)) {
