@@ -80,7 +80,11 @@ class CheckoutController extends Controller {
         ]);
 
         if ($validator->fails()) {
-            return ['errors'=>$validator->messages()->toArray()];
+
+            $response = \Response::make(['errors'=>$validator->messages()->toArray()]);
+            $response->setStatusCode(422);
+            
+            return $response;
         }
 
     }
