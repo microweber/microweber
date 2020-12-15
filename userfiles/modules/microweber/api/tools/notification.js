@@ -16,9 +16,13 @@ mw.errorsHandle = function (obj) {
 
     }
     if(obj.errors) {
+        var html = [];
         for (var key in obj.errors) {
             var bsel = document.querySelector('.form-control[name="' + key + '"]');
-            if ( bsel ) {
+             if(!bsel) {
+                var err = obj.errors[key].map ? obj.errors[key][0] : obj.errors[key];
+                html.push(err);
+            } else if ( bsel ) {
                 var next = bsel.nextElementSibling;
                 if (!next || !next.classList.contains('invalid-feedback')) {
                     next = document.createElement('div');
@@ -30,7 +34,10 @@ mw.errorsHandle = function (obj) {
                 next.innerHTML = obj.errors[key];
             }
         }
-
+        if (html.length) {
+            console.log(html)
+            mw.notification.warning(html.join('<br>'))
+        }
     }
     if (obj.errors && obj.message) {
         mw.notification.warning(obj.message);
