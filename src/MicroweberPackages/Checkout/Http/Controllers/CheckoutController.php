@@ -83,7 +83,7 @@ class CheckoutController extends Controller {
 
             $response = \Response::make(['errors'=>$validator->messages()->toArray()]);
             $response->setStatusCode(422);
-            
+
             return $response;
         }
 
