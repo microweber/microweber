@@ -1,7 +1,9 @@
 <?php
+
 namespace MicroweberPackages\Media;
 
 use \Intervention\Image\ImageManagerStatic as Image;
+use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Utils\Media\Thumbnailer;
 use MicroweberPackages\Utils\System\Files;
 
@@ -13,6 +15,8 @@ class MediaManager
     public $table_prefix = false;
     public $download_remote_images = false;
     public $no_cache;
+
+    public $thumbnails_path_in_userfiles = 'cache/thumbnails';
 
     public function __construct($app = null)
     {
@@ -180,7 +184,7 @@ class MediaManager
 
 
         ini_set('upload_max_filesize', '2500M');
-       // ini_set('memory_limit', '256M');
+        // ini_set('memory_limit', '256M');
         ini_set('max_execution_time', 0);
         ini_set('post_max_size', '2500M');
         ini_set('max_input_time', 9999999);
@@ -416,36 +420,36 @@ class MediaManager
             return $data;
         }
         // if (media_base_url()) {
-            if (!empty($data)) {
-                $return = array();
-                foreach ($data as $item) {
-                    if (isset($item['filename']) and $item['filename'] != false) {
-                        if (!stristr($item['filename'], '{SITE_URL}')
-                            and !stristr($item['filename'], '{MEDIA_URL}')
-                            and !stristr($item['filename'], '://')
-                            and !stristr($item['filename'], media_base_url())
-                        ) {
-                            $item['filename'] = media_base_url() . $item['filename'];
-                        }
+        if (!empty($data)) {
+            $return = array();
+            foreach ($data as $item) {
+                if (isset($item['filename']) and $item['filename'] != false) {
+                    if (!stristr($item['filename'], '{SITE_URL}')
+                        and !stristr($item['filename'], '{MEDIA_URL}')
+                        and !stristr($item['filename'], '://')
+                        and !stristr($item['filename'], media_base_url())
+                    ) {
+                        $item['filename'] = media_base_url() . $item['filename'];
                     }
-
-                    if (isset($item['title']) and $item['title'] != '') {
-                        $item['title'] = html_entity_decode($item['title']);
-                        $item['title'] = strip_tags($item['title']);
-                        $item['title'] = $this->app->format->clean_html($item['title']);
-                    }
-
-                    if (isset($item['image_options']) and !is_array($item['image_options'])) {
-                        $item['image_options'] = @json_decode($item['image_options'], true);
-                    }
-
-
-                    $return[] = $item;
                 }
 
-                $data = $return;
+                if (isset($item['title']) and $item['title'] != '') {
+                    $item['title'] = html_entity_decode($item['title']);
+                    $item['title'] = strip_tags($item['title']);
+                    $item['title'] = $this->app->format->clean_html($item['title']);
+                }
+
+                if (isset($item['image_options']) and !is_array($item['image_options'])) {
+                    $item['image_options'] = @json_decode($item['image_options'], true);
+                }
+
+
+                $return[] = $item;
             }
-       // }
+
+            $data = $return;
+        }
+        // }
 
         return $data;
     }
@@ -659,7 +663,6 @@ class MediaManager
     }
 
 
-
     public function pixum($width = 150, $height = false)
     {
         $cache_folder = media_base_path() . 'pixum' . DS;
@@ -748,7 +751,7 @@ class MediaManager
                 exit;
             }
 
-            if(!$img){
+            if (!$img) {
                 exit;
             }
 
@@ -844,7 +847,7 @@ class MediaManager
             return $this->pixum($width, $height);
         }
 
-        if(is_array($src)){
+        if (is_array($src)) {
             extract($src);
         }
 
@@ -874,7 +877,8 @@ class MediaManager
             $height = intval($height);
         }
 
-        $cd = $this->thumbnails_path() . $width . DS;
+        $cd = $this->_thumbnails_path() . $width . DS;
+        $cd_relative = $this->thumbnails_path_in_userfiles . DS . $width . DS;
 
         $ext = strtolower(get_file_extension($base_src));
         $cache = ($base_src . $width . $height) . '.' . $ext;
@@ -894,7 +898,7 @@ class MediaManager
         $cache_id_data = array();
         $cache_id_data['mtime'] = '';
         if (!$is_remote and is_file($base_src)) {
-           $cache_id_data['mtime'] = filemtime($base_src);
+            $cache_id_data['mtime'] = filemtime($base_src);
         }
         $cache_id_data['base_src'] = $base_src;
         $cache_id_data['src'] = $src;
@@ -906,8 +910,10 @@ class MediaManager
         $cache_id_without_ext = 'tn-' . md5(serialize($cache_id_data));
         $cache_id = $cache_id_without_ext . '.' . $ext;
         $cache_path = $cd . $cache_id;
-        $cache_path = normalize_path($cache_path,false);
- //dump($cache_path);
+        $cache_path_relative = $cd_relative . $cache_id;
+        $cache_path = normalize_path($cache_path, false);
+        $cache_path_relative = normalize_path($cache_path_relative, false);
+        //dump($cache_path);
         if ($is_remote) {
             return $src;
         } elseif (is_file($cache_path)) {
@@ -927,20 +933,38 @@ class MediaManager
 //               define('MW_NO_OUTPUT_CACHE', true);
 //            }
 
-            $cache_id_data['cache_path'] = $cache_path;
-            if (!get_option($cache_id_without_ext, 'media_tn_temp')) {
-                save_option($cache_id_without_ext, @json_encode($cache_id_data), 'media_tn_temp');
+            //  $cache_id_data['cache_path'] = $cache_path;
+            $cache_id_data['cache_path_relative'] = $cache_path_relative;
+//            if (!get_option($cache_id_without_ext, 'media_tn_temp')) {
+//                save_option($cache_id_without_ext, @json_encode($cache_id_data), 'media_tn_temp');
+//            }
+
+            $check = Media::where('rel_id', $cache_id_without_ext)
+                ->where('media_type', 'media_tn_temp')
+                ->where('rel_type', 'media_tn_temp')
+                ->first();
+            if (!$check) {
+                $media_tn_temp = new Media;
+                $media_tn_temp->media_type = 'media_tn_temp';
+                $media_tn_temp->rel_type = 'media_tn_temp';
+                $media_tn_temp->rel_id = $cache_id_without_ext;
+                $media_tn_temp->filename = null;
+                $media_tn_temp->image_options = $cache_id_data;
+                $media_tn_temp->save();
             }
+
+
             $tn_img_url = $this->app->url_manager->site('api/image-generate-tn-request/') . $cache_id_without_ext;
 
             return $tn_img_url;
         }
 
     }
+
     public function thumbnail_img($params)
     {
 
-       // ini_set('memory_limit', '256M');
+        // ini_set('memory_limit', '256M');
 
         extract($params);
 
@@ -1015,7 +1039,7 @@ class MediaManager
         }
         $media_root = media_base_path();
 
-        $cd = $this->thumbnails_path() . $width . DS;
+        $cd = $this->_thumbnails_path() . $width . DS;
 
         if (!is_dir($cd)) {
             mkdir_recursive($cd);
@@ -1036,18 +1060,22 @@ class MediaManager
             $cache = str_replace(' ', '_', $cache_id);
             $cache = str_replace('..', '', $cache);
         }
-
-        if(!isset($cache_path)){
-            $cache_path = $cd . $cache;
+//        if(!isset($cache_path)){
+//            $cache_path = $cd . $cache;
+//        }
+        $cache_path = $cd . $cache;
+        if (isset($cache_path_relative)) {
+            $cache_path = normalize_path(userfiles_path() . $cache_path_relative, false);
         }
+
 
         if (file_exists($cache_path)) {
 
             if (!isset($return_cache_path)) {
 
-             //   if (!isset($return_cache_path) and isset($params['cache_id'])) {
+                //   if (!isset($return_cache_path) and isset($params['cache_id'])) {
                 //    delete_option($cache_id, 'media_tn_temp');
-             //   }
+                //   }
 
 
                 if (!headers_sent()) {
@@ -1059,7 +1087,7 @@ class MediaManager
                     $mtime = filemtime($src);
                     $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
                     if ($if_modified_since == $gmdate_mod) {
-                       // header('HTTP/1.0 304 Not Modified');
+                        // header('HTTP/1.0 304 Not Modified');
                     }
                 }
             }
@@ -1085,7 +1113,7 @@ class MediaManager
                         }
 
                         $cache_path_dir = dirname($cache_path);
-                        if(!is_dir($cache_path_dir)){
+                        if (!is_dir($cache_path_dir)) {
                             mkdir_recursive($cache_path_dir);
                         }
                         $tn->createThumb($thumbOptions, $cache_path);
@@ -1109,24 +1137,27 @@ class MediaManager
             }
         }
 
-        $ext = get_file_extension($cache_path);
-        if ($ext == 'jpg') {
-            $ext = 'jpeg';
+
+
+        if (is_file($cache_path)) {
+            $ext = get_file_extension($cache_path);
+            if ($ext == 'jpg') {
+                $ext = 'jpeg';
+            }
+
+//        if (isset($return_cache_path)) {
+//            delete_option($cache_id, 'media_tn_temp');
+//            return $cache_path;
+//        }
+
+            header('Content-Type: image/' . $ext);
+            header('Content-Length: ' . filesize($cache_path));
+            readfile($cache_path);
+            exit;
+        } else {
+            return $this->pixum_img();
         }
-
-
-        if (isset($return_cache_path)) {
-            delete_option($cache_id, 'media_tn_temp');
-            return $cache_path;
-        }
-
-        header('Content-Type: image/' . $ext);
-        header('Content-Length: ' . filesize($cache_path));
-        readfile($cache_path);
-        exit;
     }
-
-
 
 
     public function create_media_dir($params)
@@ -1222,10 +1253,11 @@ class MediaManager
         return $path;
     }
 
-    public function thumbnails_path()
+
+    private function _thumbnails_path()
     {
         $userfiles_dir = userfiles_path();
-        $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'thumbnails' . DS);
+        $userfiles_cache_dir = normalize_path($userfiles_dir . $this->thumbnails_path_in_userfiles);
 
         // media_base_path() . 'thumbnail' . DS;
 
