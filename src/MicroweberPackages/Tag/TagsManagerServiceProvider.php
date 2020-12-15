@@ -12,6 +12,9 @@
 namespace MicroweberPackages\Tag;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Tag\Model\Tag;
+use MicroweberPackages\Tag\Model\Tagged;
+use MicroweberPackages\Tag\Model\TagGroup;
 
 class TagsManagerServiceProvider extends ServiceProvider
 {
@@ -22,6 +25,11 @@ class TagsManagerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        \Config::set('tagging.tag_model', Tag::class);
+        \Config::set('tagging.tagged_model', Tagged::class);
+        \Config::set('tagging.tag_group_model', TagGroup::class);
+
         /**
          * @property \MicroweberPackages\Tag\TagsManager    $tags_manager
          */

@@ -72,7 +72,6 @@ class MenuManager
       //  dump($data_to_save);
         $save = $this->app->database_manager->save($table, $data_to_save);
         $this->app->cache_manager->delete('menus');
-        $this->app->cache_manager->delete('menus');
 
         return $save;
     }
@@ -199,7 +198,11 @@ class MenuManager
         //$table = MODULE_DB_SHOP_ORDERS;
         $params['table'] = $table;
         $params['item_type'] = 'menu';
-        $params['no_cache'] = 1; // If remove this we mess up menu auto creating
+    if(is_live_edit()){
+       $params['no_cache'] = 1; // If remove this we mess up menu auto creating
+        //dd($params);
+    }
+
         //$params['debug'] = 'menu';
         $menus = $this->app->database_manager->get($params);
 
@@ -209,7 +212,7 @@ class MenuManager
             if (!defined('MW_MENU_IS_ALREADY_MADE_ONCE')) {
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
                     $check  = $this->app->database_manager->get('no_cache=1&title=' . $params['title']);
-                    if(!$check){
+                     if(!$check){
                         $new_menu = $this->menu_create('title=' . $params['title']);
                         $params['id'] = $new_menu;
                         $menus = $this->app->database_manager->get($params);
