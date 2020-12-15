@@ -171,11 +171,20 @@ api_expose('thumbnail_img');
 \Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($cache_id) {
 
 
-    app()->option_manager->setUseCache(false);
-    $cache_id_data = get_option($cache_id, 'media_tn_temp');
-    $cache_id_data_json = json_decode($cache_id_data, true);
-    if ($cache_id_data_json) {
+   // app()->option_manager->setUseCache(false);
+  //  $cache_id_data = get_option($cache_id, 'media_tn_temp');
+   // $cache_id_data_json = json_decode($cache_id_data, true);
+
+    $check = \MicroweberPackages\Media\Models\Media::where('rel_id',$cache_id)
+        ->where('media_type','media_tn_temp')
+        ->where('rel_type','media_tn_temp')
+        ->first();
+
+
+    if ($check) {
+        $cache_id_data_json = $check->image_options;
         $cache_id_data_json['cache_id'] = $cache_id;
+
         $tn = mw()->media_manager->thumbnail_img($cache_id_data_json);
         return $tn;
     }
