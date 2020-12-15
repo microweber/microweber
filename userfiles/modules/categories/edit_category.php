@@ -145,7 +145,8 @@ if (isset($params['live_edit'])) {
                     }
 
 
-
+                    document.querySelector('.btn-save').disabled = true;
+                    mw.askusertostay = false;
 
 
 
@@ -201,7 +202,7 @@ if (isset($params['live_edit'])) {
         <div class="card-header">
             <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong><?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?><?php _e('category'); ?></strong></h5>
             <div>
-                <button type="button" onclick="save_cat(this);" class="btn btn-success btn-sm" form="quickform-edit-content"><?php _e('Save') ?></button>
+                <button type="button" onclick="save_cat(this);" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><?php _e('Save') ?></button>
             </div>
         </div>
     <?php endif; ?>
@@ -274,7 +275,7 @@ if (isset($params['live_edit'])) {
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group" id="content-title-field-row">
-                                <label class="control-label" for="content-title-field">Category name</label>
+                                <label class="control-label" for="content-title-field"><?php _e('Category name'); ?></label>
                                 <div class="input-group mb-3 prepend-transparent">
                                     <?php if ($data['id'] == 0 and isset($data['parent_id']) and $data['parent_id'] > 0): ?>
                                         <div class="input-group-prepend">
@@ -359,6 +360,10 @@ if (isset($params['live_edit'])) {
                             }
                             $(mwd).ready(function () {
 
+                                mw.$('input,select,textarea').on('input', function () {
+                                    document.querySelector('.btn-save').disabled = false;
+                                    mw.askusertostay = true;
+                                });
                                 $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (data) {
                                     var categoryParentSelector = new mw.tree({
                                         id: 'category-parent-selector',
@@ -373,6 +378,8 @@ if (isset($params['live_edit'])) {
                                         mw.$('#category-dropdown-holder').html(categoryParentSelector.selectedData[0].title)
                                     }
                                     $(categoryParentSelector).on("selectionChange", function (e, selected) {
+                                        document.querySelector('.btn-save').disabled = false;
+                                        mw.askusertostay = true;
                                         var parent = selected[0];
                                         if (!parent) {
                                             mw.$('#rel_id').val(0);

@@ -102,6 +102,9 @@ mw.filePicker = function (options) {
                     progress: function (prg) {
                         scope.uploaderHolder.find('.mw-ui-progress-bar').stop().animate({width: prg.percent + '%'}, 'fast');
                     },
+                    fileUploadError: function (file) {
+                         $(scope).trigger('FileUploadError', [file]);
+                    },
                     fileAdded: function (file) {
                         $(scope).trigger('FileAdded', [file]);
                         scope.uploaderHolder.find('.mw-ui-progress-bar').width('1%');

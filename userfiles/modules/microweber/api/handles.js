@@ -182,7 +182,8 @@ mw.Handle = function(options) {
         this.handleIcon = mwd.createElement('span');
         this.handleTitle = mwd.createElement('span');
         this.handle.className = 'mw-handle-handler';
-        this.handleIcon.className = 'mw-handle-handler-icon';
+        this.handleIcon.dataset.tip = 'Drag to rearrange';
+        this.handleIcon.className = 'tip mw-handle-handler-icon';
         this.handleTitle.className = 'mw-handle-handler-title';
 
         this.handle.appendChild(this.handleIcon);
@@ -826,6 +827,7 @@ mw._initHandles = {
         var positionModuleHandle = function(e, pelement, handle, event){
 
 
+
             var element ;
 
             if(handle.type === 'hover') {
@@ -968,7 +970,9 @@ mw._initHandles = {
             }*/
 
             handle.setTitle(mod_icon, mod_handle_title);
-            if(!handle){
+            handle.handleTitle.dataset.tip = mw.lang('Module') + ': ' + mod_handle_title
+            handle.handleTitle.classList.add('tip');
+             if(!handle) {
                 return;
             }
 

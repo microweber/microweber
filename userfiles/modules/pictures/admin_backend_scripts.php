@@ -136,7 +136,7 @@
         $(mw._postsImageUploader).on('FileAdded', function (e, file) {
             mw._postsImageUploader._thumbpreload()
         });
-        $(mw._postsImageUploader).on('FileUploaded', function (e, file) {
+        $(mw._postsImageUploader).on('FileUploaded FileUploadError', function (e, file) {
             mw.$('.admin-thumb-item-loading:last', $root).remove();
             mw.module_pictures.after_change();
         });

@@ -125,6 +125,7 @@
         };
 
         this.addFiles = function (files) {
+
             if(!files || !files.length) return;
 
             if(!this.settings.multiple) {
@@ -184,7 +185,7 @@
                         } else  if (dt && dt.files)  {
                             scope.addFiles(dt.files);
                         }
-                    })
+                    });
                 });
             }
         };
@@ -206,47 +207,61 @@
         };
 
         this.uploadFile = function (file, done, chunks, _all, _i) {
-            chunks = chunks || this.sliceFile(file);
-            _all = _all || chunks.length;
-            _i = _i || 0;
-            var chunk = chunks.shift();
-            var data = {
-                name: file.name,
-                chunk: _i,
-                chunks: _all,
-                file: chunk,
-            };
-            _i++;
-            $(scope).trigger('uploadStart', [data]);
+            return new Promise(function (resolve, reject) {
+                chunks = chunks || scope.sliceFile(file);
+                _all = _all || chunks.length;
+                _i = _i || 0;
+                var chunk = chunks.shift();
+                var data = {
+                    name: file.name,
+                    chunk: _i,
+                    chunks: _all,
+                    file: chunk,
+                };
+                _i++;
+                $(scope).trigger('uploadStart', [data]);
 
-            this.upload(data, function (res) {
-                var dataProgress;
-                if(chunks.length) {
-                    scope.uploadFile(file, done, chunks, _all, _i);
-                    dataProgress = {
-                        percent: ((100 * _i) / _all).toFixed()
-                    };
-                    $(scope).trigger('progress', [dataProgress, res]);
-                    if(scope.settings.on.progress) {
-                        scope.settings.on.progress(dataProgress, res);
-                    }
+                scope.upload(data, function (res) {
+                    var dataProgress;
+                    if(chunks.length) {
+                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){}, function (xhr){
+                             if(scope.settings.on.fileUploadError) {
+                                scope.settings.on.fileUploadError(xhr);
+                            }
+                        });
+                        dataProgress = {
+                            percent: ((100 * _i) / _all).toFixed()
+                        };
+                        $(scope).trigger('progress', [dataProgress, res]);
+                        if(scope.settings.on.progress) {
+                            scope.settings.on.progress(dataProgress, res);
+                        }
 
-                } else {
-                    dataProgress = {
-                        percent: '100'
-                    };
-                    $(scope).trigger('progress', [dataProgress, res]);
-                    if(scope.settings.on.progress) {
-                        scope.settings.on.progress(dataProgress, res);
+                    } else {
+                        dataProgress = {
+                            percent: '100'
+                        };
+                        $(scope).trigger('progress', [dataProgress, res]);
+                        if(scope.settings.on.progress) {
+                            scope.settings.on.progress(dataProgress, res);
+                        }
+                        $(scope).trigger('FileUploaded', [res]);
+                        if(scope.settings.on.fileUploaded) {
+                            scope.settings.on.fileUploaded(res);
+                        }
+                        if (done) {
+                            done.call(file);
+                        }
+                        resolve(file);
                     }
-                    $(scope).trigger('FileUploaded', [res]);
-                    if(scope.settings.on.fileUploaded) {
-                        scope.settings.on.fileUploaded(res);
+                }, function (req) {
+                    if (req.responseJSON && req.responseJSON.error && req.responseJSON.error.message) {
+                        mw.notification.warning(req.responseJSON.error.message);
                     }
-                    done.call(file);
-                }
+                    scope.removeFile(file);
+                    reject(req)
+                });
             });
-
         };
 
         this.sliceFile = function(file) {
@@ -267,10 +282,18 @@
             if (this.settings.async) {
                 if (this.files.length) {
                     this.uploading(true);
-                    this.uploadFile(this.files[0], function () {
+                    var file = this.files[0]
+                    scope.uploadFile(file)
+                        .then(function (){
                         scope.files.shift();
                         scope.uploadFiles();
-                    });
+                    }, function (xhr){console.log(2, scope.settings.on.fileUploadError)
+                            scope.removeFile(file);
+                            if(scope.settings.on.fileUploadError) {
+                                scope.settings.on.fileUploadError(xhr)
+                            }
+                        });
+
                 } else {
                     this.uploading(false);
                     scope.input.value = '';
@@ -285,23 +308,29 @@
                 var all = this.files.length;
                 this.uploading(true);
                 this.files.forEach(function (file) {
-                    scope.uploadFile(file, function () {
-                        count++;
-                        scope.uploading(false);
-                        if(all === count) {
-                            scope.input.value = '';
-                            if(scope.settings.on.filesUploaded) {
-                                scope.settings.on.filesUploaded();
+                    scope.uploadFile(file)
+                        .then(function (file){
+                            count++;
+                            scope.uploading(false);
+                            if(all === count) {
+                                scope.input.value = '';
+                                if(scope.settings.on.filesUploaded) {
+                                    scope.settings.on.filesUploaded();
+                                }
+                                $(scope).trigger('FilesUploaded');
                             }
-                            $(scope).trigger('FilesUploaded');
-                        }
-                    });
+                        }, function (xhr){
+                            console.log(1)
+                            if(scope.settings.on.fileUploadError) {
+                                scope.settings.on.fileUploadError(xhr)
+                            }
+                        });
                 });
             }
         };
 
 
-        this.upload = function (data, done) {
+        this.upload = function (data, done, onFail) {
             if (!this.settings.url) {
                 return;
             }
@@ -335,6 +364,12 @@
                         }
                     }
 
+                },
+                error:  function(  xhrReq, edata, statusText ) {
+                    scope.removeFile(data.file);
+                    if (onFail) {
+                        onFail.call(xhrReq, xhrReq);
+                    }
                 },
                 dataType: 'json',
                 xhr: function () {

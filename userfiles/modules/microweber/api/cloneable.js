@@ -3,10 +3,10 @@ mw.drag.onCloneableControl = function(target, isOverControl){
         this._onCloneableControl = mwd.createElement('div');
         this._onCloneableControl.className = 'mw-cloneable-control';
         var html = '';
-        html += '<span class="mw-cloneable-control-item mw-cloneable-control-prev" title="Move backward"></span>';
-        html += '<span class="mw-cloneable-control-item mw-cloneable-control-plus" title="Clone"></span>';
-        html += '<span class="mw-cloneable-control-item mw-cloneable-control-minus" title="Remove"></span>' ;
-        html += '<span class="mw-cloneable-control-item mw-cloneable-control-next" title="Move forward"></span>';
+        html += '<span class="mw-cloneable-control-item mw-cloneable-control-prev tip" data-tip="Move backward"></span>';
+        html += '<span class="mw-cloneable-control-item mw-cloneable-control-plus tip" data-tip="Clone"></span>';
+        html += '<span class="mw-cloneable-control-item mw-cloneable-control-minus tip" data-tip="Remove"></span>' ;
+        html += '<span class="mw-cloneable-control-item mw-cloneable-control-next tip" data-tip="Move forward"></span>';
         this._onCloneableControl.innerHTML = html;
 
         mwd.body.appendChild(this._onCloneableControl);

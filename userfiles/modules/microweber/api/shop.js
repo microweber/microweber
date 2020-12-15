@@ -207,7 +207,7 @@ mw.cart = {
         })
             .done(function (data) {
                 mw.trigger('checkoutDone', data);
- 
+
 
                 var data2 = data;
 
@@ -288,7 +288,7 @@ mw.cart = {
 
 
 
-mw.cart.modal = {}
+mw.cart.modal = {};
 
 mw.cart.modal.init = function (root_node) {
     mw.cart.modal.bindStepButtons(root_node);
@@ -316,19 +316,6 @@ mw.cart.modal.bindStepButtons = function (root_node) {
 
      var checkout_form = $(root_node).find('form').first();
 
-    // $('body').on("mousedown touchstart", '.js-show-step-shopping-cart', function () {
-    //     mw.cart.modal.showStep(checkout_form, 'shopping-cart');
-    // });
-    // $('body').on("mousedown touchstart", '.js-show-step-delivery-address', function () {
-    //     mw.cart.modal.showStep(checkout_form, 'delivery-address');
-    // });
-    // $('body').on("mousedown touchstart", '.js-show-step-payment-method', function () {
-    //     mw.cart.modal.showStep(checkout_form, 'payment-method');
-    // });
-    // $('body').on("mousedown touchstart", '.js-show-step-checkout-complete', function () {
-    //     mw.cart.modal.showStep(checkout_form, 'checkout-complete');
-    // });
-
 
     $('body').on("mousedown touchstart", '.js-show-step', function () {
         var step = $(this).attr('data-step');
@@ -342,47 +329,61 @@ mw.cart.modal.bindStepButtons = function (root_node) {
 
 mw.cart.modal.showStep = function (form, step) {
 
-    var has_error = false;
-
-
- //   mw.log(form);
 
     var prevStep = mw.$('.js-show-step.active', form).data('step');
 
     if(prevStep === step) return;
 
-
-    //var prevHolder = form.querySelector('.js-' + prevStep);
     var prevHolder =  $(form).find('.js-' + prevStep).first();
 
-    $(form).attr('is-modal-form',true)
+    $(form).attr('is-modal-form',true);
 
     if (step === 'checkout-complete') {
         return;
     }
-    mw.$('input,textarea,select', prevHolder).each(function () {
-        if (!this.checkValidity()) {
-            mw.$(this).addClass('is-invalid');
-            has_error = 1;
+
+    var validate = function (callback) {
+        var hasError = false;
+        mw.$('input,textarea,select', prevHolder).each(function () {
+            if (!this.checkValidity()) {
+                mw.$(this).addClass('is-invalid');
+                hasError = true;
+            } else {
+                mw.$(this).removeClass('is-invalid');
+            }
+        });
+        if (step === 'payment-method'  || step === 'preview') {
+            if (hasError) {
+                step = 'delivery-address';
+                callback.call(undefined, hasError, undefined, step);
+            }
+        }
+        if (step === 'payment-method') {
+            $.post(mw.settings.api_url + 'checkout/validate', mw.serializeFields(prevHolder), function (data) {
+                step = 'delivery-address';
+                callback.call(undefined, !data.valid, undefined, step);
+            });
         } else {
-            mw.$(this).removeClass('is-invalid');
+            callback.call(undefined, hasError, undefined, step);
         }
+    };
+
+    validate(function (hasError, message, step){
+        if (hasError) {
+            message = message || 'Please fill properly the required fields';
+            mw.notification.warning(message);
+        }
+
+        mw.$('.js-show-step').removeClass('active');
+        mw.$('[data-step]').removeClass('active');
+        mw.$('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
+        mw.$(this).addClass('active');
+        var step1 = '.js-' + step;
+        mw.$('.js-step-content').hide();
+        mw.$(step1).show();
+
     });
-    if (step === 'payment-method'  || step === 'preview') {
-        if (has_error) {
-            step = 'delivery-address';
-        }
-    }
-    mw.$('.js-show-step').removeClass('active');
-    mw.$('[data-step]').removeClass('active');
-    mw.$('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
-    mw.$(this).addClass('active');
-    var step1 = '.js-' + step;
-    mw.$('.js-step-content').hide();
-    mw.$(step1).show();
-    if (has_error) {
-        mw.notification.warning('Please fill the required fields');
-    }
+
 
 };
 

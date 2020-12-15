@@ -80,11 +80,21 @@ $rand = 'pic-sorter-' . uniqid();
             accept: 'image/*',
             multiple: true,
             dropZone: '#admin-thumbs-drop-zone-<?php print $rand; ?>',
+            on: {
+                fileUploaded: function (xhr) {
+                    mw.module_pictures.after_change();
+                },
+                fileUploadError: function (xhr) {
+                    mw.$('.admin-thumb-item-loading:last').remove();
+                    mw.module_pictures.after_change();
+                }
+            }
         });
         mw._postsImageUploaderSmall.$holder = uploadHolder.parent();
         $(mw._postsImageUploaderSmall).on('FileAdded', function (e, res) {
             mw._postsImageUploader._thumbpreload()
         })
+
         $(mw._postsImageUploaderSmall).on('FileUploaded', function (e, res) {
             var url = res.src ? res.src : res;
             if (window.after_upld) {

@@ -1947,7 +1947,8 @@ mw.wysiwyg = {
             dialog = mw.dialog({
                 content: picker.root,
                 title: mw.lang('Select image'),
-                footer: false
+                footer: false,
+                width: 1200
             })
 
 

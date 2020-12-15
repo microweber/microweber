@@ -2903,6 +2903,7 @@ html.mw-loading:after {
   margin: 2px 0;
 }
 .mw-tree-nav-skin-default li {
+  position: relative;
   list-style: none;
 }
 .mw-tree-nav-skin-default li * {

@@ -8,13 +8,13 @@ mw.module_pictures = {
         },
     time:null,
     after_change: function (data) {
-        var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item:visible');
+        var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item');
         if(!thumbs.length && mw._postsImageUploader) {
             mw._postsImageUploader.show();
         }
         clearTimeout(mw.module_pictures.time);
         mw.module_pictures.time = setTimeout(function () {
-            var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item:visible');
+            var thumbs = mw.$('.admin-thumbs-holder .admin-thumb-item');
               if(!thumbs.length) {
 
                 $('.mw-filepicker-root').show();
@@ -37,7 +37,7 @@ mw.module_pictures = {
             mw.reload_module_parent("pictures/admin");
 
             doselect();
-        }, 500)
+        }, 1500)
     },
 
     save_options: function (id, image_options) {

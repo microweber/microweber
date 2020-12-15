@@ -456,7 +456,11 @@
     };
 
     mw.tools.tooltip = tooltip;
+    var TTTime = null;
     mw.tools.titleTip = function (el, _titleTip) {
+        clearTimeout(TTTime);
+        mw.$(mw.tools[_titleTip]).hide();
+        TTTime = setTimeout(function (){
         _titleTip = _titleTip || '_titleTip';
         if (mw.tools.hasClass(el, 'tip-disabled')) {
             mw.$(mw.tools[_titleTip]).hide();
@@ -509,6 +513,7 @@
             mw.$(mw.tools[_titleTip]).removeClass('mw-tooltip-circle');
         }
         mw.$(mw.tools[_titleTip]).show();
-    }
+        }, 500)
+    };
 
 })();
