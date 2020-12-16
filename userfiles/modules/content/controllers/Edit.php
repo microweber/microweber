@@ -18,6 +18,7 @@ class Edit
         'content_type' => 'page',
         'title' => false,
         'content' => false,
+        'content_body' => false,
         'url' => '',
         'thumbnail' => '',
         'is_active' => 1,

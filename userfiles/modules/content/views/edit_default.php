@@ -342,16 +342,27 @@ if (isset($params['quick_edit'])) {
                                 <?php else: ?>
                                     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
                                         <div class="form-group">
-                                            <label class="control-label">Description</label>
+                                            <?php if (isset($data['content_type']) and ($data['content_type'] == 'product')): ?>
+
+
+                                            <label class="control-label" title="Content Body">Description</label>
 
                                             <div id="mw-admin-content-iframe-editor">
-                                                <?php
-                                                /*var_dump($data);exit;
-                                                    $content = get_content_by_id($data['content_id']);*/
 
-                                                ?>
-                                                <textarea id="content_template" name="content"><?php print $data['content']; ?></textarea>
+                                                <textarea id="content_template" name="content_body"><?php print $data['content_body']; ?></textarea>
+
                                             </div>
+                                        <?php else: ?>
+                                                <label class="control-label">Content</label>
+
+                                                <div id="mw-admin-content-iframe-editor">
+
+                                                    <textarea id="content_template" name="content"><?php print $data['content']; ?></textarea>
+
+                                                </div>
+                                        <?php endif; ?>
+
+
                                         </div>
                                     <?php endif; ?>
                                 <?php endif; ?>
