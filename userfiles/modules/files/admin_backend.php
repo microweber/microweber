@@ -570,6 +570,7 @@
         }
 
         saveNewFolder = function (a) {
+            console.log(a)
 
             if (a) {
                 var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
@@ -598,7 +599,8 @@
         }
 
         createFolder = function () {
-            mw.prompt('Folder name', function (val) {
+            mw.prompt('Folder name', function (val, cc) {
+                console.log(val, cc)
                 saveNewFolder(val);
             });
         }

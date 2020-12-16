@@ -29,7 +29,16 @@ mw.tools.prompt = function (question, callback) {
     if(!question) return ;
     var id = mw.id('mw-prompt-input');
     question = '<label class="mw-ui-label">'+question+'</label><input class="mw-ui-field w100" id="'+id+'">';
-    var dialog = mw.tools.confirm(question, function (){
+    var footer = mw.$('<div class="mw-prompt-input-footer">');
+    var ok = mw.$('<span class="mw-prompt-input-footer">'+mw.lang('OK')+'</span>');
+    var cancel = mw.$('<span class="mw-prompt-input-footer">'+mw.lang('Cancel')+'</span>');
+    footer.append(cancel);
+    footer.append(ok);
+    mw.dialog({
+        content: question,
+        footer: footer
+    })
+/*    var dialog = mw.tools.confirm(question, function (){
         callback.call(window, mw.$('#' + id).val());
     });
     setTimeout(function (){
@@ -39,7 +48,7 @@ mw.tools.prompt = function (question, callback) {
                 dialog.remove();
             }
         });
-    }, 222);
+    }, 222);*/
     return dialog;
 };
 mw.tools.confirm = function (question, callback) {
@@ -88,7 +97,9 @@ mw.tools.confirm = function (question, callback) {
         });
         ok.on('click', function () {
             callback.call(window);
-            modal.remove();
+            setTimeout(function () {
+                modal.remove();
+            }, 78);
         });
         setTimeout(function () {
             mw.$(ok).focus();

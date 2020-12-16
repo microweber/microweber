@@ -25,7 +25,7 @@ mw.admin.custom_fields.initValues = function () {
 mw.admin.custom_fields.initTextAreaValue = function (node) {
     if (!node.fieldBinded) {
         node.fieldBinded = true;
-        mw.$(node).bind('keyup paste click', function (e) {
+        mw.$(node).on('input', function (e) {
             var sh = this.scrollHeight;
             var oh = this.offsetHeight;
             if(sh > oh){
