@@ -360,8 +360,11 @@ mw.cart.modal.showStep = function (form, step) {
         }
         if (step === 'payment-method') {
             $.post(mw.settings.api_url + 'checkout/validate', mw.serializeFields(prevHolder), function (data) {
+                if(!data.valid){
                 step = 'delivery-address';
+                }
                 callback.call(undefined, !data.valid, undefined, step);
+
             }).fail(function (data){
                 mw.errorsHandle(data)
             });
