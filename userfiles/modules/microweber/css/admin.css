@@ -308,3 +308,9 @@ div.form-control {
 }
 
 #edit-content-btn{margin-left: 10px;}
+
+.upload-button-prop.mw-ui-box.mw-ui-box-content {
+    width: 115px;
+    display: inline-block;
+    margin: 10px;
+}

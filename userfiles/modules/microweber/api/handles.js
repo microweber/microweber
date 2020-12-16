@@ -826,7 +826,7 @@ mw._initHandles = {
 
         var positionModuleHandle = function(e, pelement, handle, event){
 
-
+            handle._element = pelement
 
             var element ;
 
@@ -1021,10 +1021,15 @@ mw._initHandles = {
         };
 
         mw.on('ModuleClick', function(e, pelement, event){
+            mw.handleModule.hide();
             positionModuleHandle(e, pelement, mw.handleModuleActive, event);
+
         });
 
         mw.on('moduleOver', function (e, pelement, event) {
+            if(mw.handleModuleActive._element === pelement) {
+                return;
+            }
             positionModuleHandle(e, pelement, mw.handleModule, event);
             if(mw._activeModuleOver === mw.handleModuleActive._target) {
                 mw.handleModule.hide();

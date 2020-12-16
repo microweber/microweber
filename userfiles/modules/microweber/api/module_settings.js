@@ -104,6 +104,8 @@ mw.moduleSettings = function(options){
 
         this.value.splice(pos, 0, _new);
         this.createItem(_new, pos);
+        scope.refactorDomPosition();
+        scope.autoSave();
     };
 
     this.remove = function(pos){

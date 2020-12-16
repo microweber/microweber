@@ -197,7 +197,7 @@ mw.live_edit.showSettings = function (a, opts) {
         }
     }
 
-}
+};
 
 
 mw.live_edit.getModuleTitleBar = function (module_type, module_id) {

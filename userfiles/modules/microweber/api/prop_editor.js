@@ -581,7 +581,7 @@ mw.propEditor = {
                     el.style.backgroundImage = 'url(' + imageUrl + ')';
                 }
                 btn.onclick = function(){
-                    mw.fileWindow({
+                    mw.top().fileWindow({
                         types:'images',
                         change:function(url){
                             if(!url) return;

@@ -126,9 +126,9 @@
                         $(".mw-ui-category-selector a").show()
                     }
                     else {
-                        $(".mw-ui-category-selector a").each(function () {
+                        $(".mw-ui-category-selector li").each(function () {
                             var currel = $(this);
-                            var curr = currel.text().trim().toLowerCase();
+                            var curr = currel.attr('title').trim().toLowerCase();
                             if (curr.indexOf(val) !== -1) {
                                 currel.show()
                             }
