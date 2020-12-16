@@ -42,8 +42,9 @@ if (!empty($template_config)) {
                         <?php $type = (isset($item['type'])) ? ($item['type']) : ''; ?>
                         <?php $name = (isset($item['name'])) ? ($item['name']) : url_title($item['title']); ?>
                         <?php $value = (isset($item['value'])) ? ($item['value']) : false; ?>
+                        <?php $help = (isset($item['help'])) ? ($item['help']) : false; ?>
                         <?php
-
+                        
                         $select_options = false;
                         if (isset($item['options'])) {
                             $select_options = $item['options'];
@@ -55,6 +56,10 @@ if (!empty($template_config)) {
                         ?>
                         <div class="form-group">
                             <label class="control-label"> <?php print $title; ?> </label>
+                            <?php if ($help) { ?>
+                                <small class="text-muted d-block mb-2"><?php print $help; ?></small>
+                            <?php } ?>
+
                             <?php if ($type == 'textarea') { ?>
                                 <textarea name="content_data[<?php print $name; ?>]" class="form-control" placeholder="<?php print $default_value ?>"><?php print $value ?></textarea>
                             <?php } else if ($type == 'color') { ?>
