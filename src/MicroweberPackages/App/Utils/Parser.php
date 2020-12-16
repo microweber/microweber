@@ -2440,6 +2440,8 @@ class Parser
         $non_cached = $this->app->module_manager->get('allow_caching=0&ui=any');
         $has_changes = false;
 //dd($non_cached);
+
+
         if (!$non_cached or $layout == '') {
             return $layout;
         }
@@ -2451,7 +2453,8 @@ class Parser
         $remove_clases = ['changed', 'inaccessibleModule', 'module-over', 'currentDragMouseOver', 'mw-webkit-drag-hover-binded'];
         $found_mods = array();
         $found_mods_non_cached = array();
-        foreach ($pq ['.module'] as $elem) {
+      //  foreach ($pq ['.module'] as $elem) {
+        foreach ($pq->find('.module')as $elem) {
             $attrs = $elem->attributes;
             $tag = $elem->tagName;
 
@@ -2462,6 +2465,7 @@ class Parser
                 $mod_name_is_cached = true;
                 foreach ($attrs as $attribute_name => $attribute_node) {
                     $v = $attribute_node->nodeValue;
+
                     if ($attribute_name == 'type'
                         or $attribute_name == 'data-type'
                         or $attribute_name == 'type'
@@ -2481,7 +2485,6 @@ class Parser
                         $found_mods_non_cached[] = $mod_name;
                     }
                 }
-
 
                 if (!$mod_name_is_cached and $mod_name and $has_changes) {
 
@@ -2505,7 +2508,12 @@ class Parser
                     if ($has_changes) {
                         $module_html .= '><!-- Loading module ' . $mod_name . ' --><' . $tag . '/>';
 
-                        pq($elem)->replaceWith($module_html);
+
+                        $elem = pq($elem);
+
+                        $elem->replaceWith($module_html);
+
+
                     }
 
 
@@ -2515,10 +2523,11 @@ class Parser
 
 
         }
+
+
         if ($has_changes) {
             $layout = $pq->htmlOuter();
         }
-
         return $layout;
 
     }
