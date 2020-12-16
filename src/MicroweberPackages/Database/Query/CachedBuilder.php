@@ -21,8 +21,7 @@ class CachedBuilder extends Builder
      */
     public function cleanBindings(array $bindings)
     {
-//        cache_delete($this->from);
-        
+//      cache_delete($this->from);
         return parent::cleanBindings($bindings);
     }
 }
