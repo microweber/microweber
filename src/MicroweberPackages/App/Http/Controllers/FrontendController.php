@@ -2286,18 +2286,15 @@ class FrontendController extends Controller
                 $this->app->user_manager->session_set('last_content_id', CONTENT_ID);
             }
 
-            if ($enable_full_page_cache and $output_cache_timeout != false) {
+            if (isset($output_cache_content) and $enable_full_page_cache and $output_cache_timeout != false) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
                     $output_cache_content_save = [];
                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
 
                     $output_cache_content_save['layout']  = $l;
                     $output_cache_content_save['time']  = now();
-                    if (!strstr($output_cache_content, 'image-generate-tn-request')) {
+                    if (!str_contains($output_cache_content, 'image-generate-tn-request')) {
                         $this->app->cache_manager->save($output_cache_content_save, $output_cache_id, $output_cache_group, $output_cache_timeout);
-                    }  else {
-                        $this->app->cache_manager->save($output_cache_content_save, $output_cache_id, $output_cache_group, 3000);
-
                     }
                 }
             }
