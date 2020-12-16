@@ -20,6 +20,11 @@ $(document).ready(function () {
 			});
 
 			if (ok) {
+
+
+                alert(2);
+                mw.reload_module_everywhere('shop/offers/special_price_field');
+
 				$.ajax({
 						type: "POST",
 						dataType: "json",
@@ -37,7 +42,7 @@ $(document).ready(function () {
 									reload_offer_after_save();
 								}
 								editModal.modal.remove();
-							}
+                            }
 						}
 					});
 			} else {

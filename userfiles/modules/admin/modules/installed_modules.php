@@ -5,6 +5,8 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+
         mw.dropdown();
         mw.$('#modules_categories_tree_<?php print $params['id']; ?> .fixed-side-column-container .well').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>');
         mw.$('#modules_categories_tree_<?php print $params['id']; ?> li a').each(function () {
@@ -27,12 +29,12 @@
             }
         }
 
-        mw.$(".js-modules-sort-types").on('change', function () {
+        mw.$("select.js-modules-sort-types").on('change', function () {
             var val = $(this).val();
             mw.url.windowHashParam('ui', val);
         });
 
-        mw.$(".js-modules-sort-status").on('change', function () {
+        $("select.js-modules-sort-status").on('change', function () {
             var val = $(this).val();
             mw.url.windowHashParam('installed', val);
         });
@@ -67,6 +69,7 @@
 
 
     _modulesSort = function () {
+
         var hash = mw.url.getHashParams(window.location.hash);
 
         //hash.ui === undefined ? mw.url.windowHashParam('ui', 'admin') : '' ;

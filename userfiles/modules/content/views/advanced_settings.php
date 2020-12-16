@@ -410,9 +410,20 @@ if (isset($data['created_by']) and $data['created_by']) {
                         </div>
                     </div>
                 <?php endif; ?>
+
+
+
+
+
+
+
+
+
             </div>
         </div>
     </div>
+
+
 
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>
 

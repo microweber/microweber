@@ -81,6 +81,11 @@ if (!isset($offer['price']['offer_price'])) {
         <?php endif; ?>
 
 	</div>
+    <?php if(isset($offer['price']['expires_at']) && $offer['price']['expires_at'] > 0): ?>
+        <div class="text-muted">
+            <?php _e('Expires at'); ?>    <?php echo $offer['price']['expires_at']; ?>
+        </div>
+    <?php endif; ?>
 </div>
 
 </div>
