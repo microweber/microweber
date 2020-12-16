@@ -168,32 +168,21 @@ api_expose('pixum_img');
 api_expose('thumbnail_img');
 
 
-\Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($cache_id) {
+\Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
 
-
-   // app()->option_manager->setUseCache(false);
-  //  $cache_id_data = get_option($cache_id, 'media_tn_temp');
-   // $cache_id_data_json = json_decode($cache_id_data, true);
-
-    $check = \MicroweberPackages\Media\Models\Media::where('rel_id',$cache_id)
+    $check = \MicroweberPackages\Media\Models\Media::where('id',$mediaId)
         ->where('media_type','media_tn_temp')
         ->where('rel_type','media_tn_temp')
         ->first();
 
-
     if ($check) {
         $cache_id_data_json = $check->image_options;
-        $cache_id_data_json['cache_id'] = $cache_id;
+        $cache_id_data_json['cache_id'] = $check->rel_id;
 
         $tn = mw()->media_manager->thumbnail_img($cache_id_data_json);
         return $tn;
     }
 
-	/*
-    if (isset($cache_id_data_json['base_src'])) {
-        return $cache_id_data_json['base_src'];
-    }
-	*/
 	
     return mw()->media_manager->pixum_img();
 });

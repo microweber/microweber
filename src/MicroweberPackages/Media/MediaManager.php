@@ -933,11 +933,12 @@ class MediaManager
 //               define('MW_NO_OUTPUT_CACHE', true);
 //            }
 
-            //  $cache_id_data['cache_path'] = $cache_path;
+           // $cache_id_data['cache_path'] = $cache_path;
             $cache_id_data['cache_path_relative'] = $cache_path_relative;
 //            if (!get_option($cache_id_without_ext, 'media_tn_temp')) {
 //                save_option($cache_id_without_ext, @json_encode($cache_id_data), 'media_tn_temp');
 //            }
+
 
             $check = Media::where('rel_id', $cache_id_without_ext)
                 ->where('media_type', 'media_tn_temp')
@@ -951,12 +952,11 @@ class MediaManager
                 $media_tn_temp->filename = null;
                 $media_tn_temp->image_options = $cache_id_data;
                 $media_tn_temp->save();
+
+                return $this->app->url_manager->site('api/image-generate-tn-request/') . $media_tn_temp->id . '?saved';
             }
 
-
-            $tn_img_url = $this->app->url_manager->site('api/image-generate-tn-request/') . $cache_id_without_ext;
-
-            return $tn_img_url;
+            return $this->app->url_manager->site('api/image-generate-tn-request/') . $check->id . '?finded';
         }
 
     }
@@ -1067,7 +1067,11 @@ class MediaManager
         if (isset($cache_path_relative)) {
             $cache_path = normalize_path(userfiles_path() . $cache_path_relative, false);
         }
-
+//        if (!file_exists($cache_path)) {
+//                if(!isset($cache_path)){
+//                $cache_path = $cd . $cache;
+//                }
+//        }
 
         if (file_exists($cache_path)) {
 

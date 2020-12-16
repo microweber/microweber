@@ -187,7 +187,7 @@ class CacheFileHandler
         if (!is_dir($dir = dirname($cacheFile))) {
             @mkdir($dir); // @ - directory may already exist
         }
-        $handle = fopen($cacheFile, 'c+b');
+        $handle = @fopen($cacheFile, 'c+b');
         if (!$handle) {
             return;
         }
