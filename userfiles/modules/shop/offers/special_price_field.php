@@ -54,7 +54,7 @@ if (!isset($offer['price']['offer_price'])) {
 
 <div class="form-group">
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" name="content_data[has_special_price]" class="custom-control-input"  id="customCheck322" onchange="toggleOfferPrice()" value="1"  />
+        <input autocomplete="off" type="checkbox" name="content_data[has_special_price]" class="custom-control-input"  id="customCheck322" onchange="toggleOfferPrice()" value="1"  />
         <label class="custom-control-label" for="customCheck322"><?php _e('Make offer price for product'); ?></label>
     </div>
 </div>
@@ -67,7 +67,7 @@ if (!isset($offer['price']['offer_price'])) {
 			<span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
 		</div>
         
-		<input type="text" class="form-control js-product-special-price" name="content_data[special_price]" value="<?php echo $offer['price']['offer_price'];?>">
+		<input autocomplete="off" type="text" class="form-control js-product-special-price" name="content_data[special_price]" value="<?php echo $offer['price']['offer_price'];?>">
 
         <?php if (isset($offer['price']['offer_id'])): ?>
             <div class="input-group-append">
