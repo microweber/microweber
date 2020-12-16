@@ -35,6 +35,9 @@ class JsonExport extends DefaultExport
                     }
                 }
             );
+            if (is_array($dump)) {
+                $data = $dump ;
+            }
         }
 
         return json_encode(EncodingFix::encode($data));
