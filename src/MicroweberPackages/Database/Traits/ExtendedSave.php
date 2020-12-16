@@ -74,8 +74,9 @@ trait ExtendedSave
                 $this->extended_save_images($ext_params);
             }
 
-            if (isset($ext_params['custom_fields'])) {
-             //   $this->extended_save_custom_fields($ext_params);
+            if (isset($ext_params['custom_fields_advanced'])) {
+                 $this->extended_save_custom_fields($ext_params);
+                 unset($ext_params['custom_fields_advanced']);
             }
 
 //            if (isset($ext_params['tags'])) {
@@ -197,8 +198,8 @@ trait ExtendedSave
         if ($this->extended_save_has_permission()) {
             event_trigger('mw.database.extended_save_custom_fields', $params);
             $data_to_save = $params;
-            if (isset($data_to_save['custom_fields'])) {
-                $custom_fields = $data_to_save['custom_fields'];
+            if (isset($data_to_save['custom_fields_advanced'])) {
+                $custom_fields = $data_to_save['custom_fields_advanced'];
                 if (is_array($custom_fields) and !empty($custom_fields)) {
                     foreach ($custom_fields as $k => $v) {
                         $save_cat_item = array();

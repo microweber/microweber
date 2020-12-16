@@ -33,7 +33,7 @@ class ProductControllerTest extends TestCase
         $title = 'Iphone and spire 4ever! - '. rand();
         $contentBody = 'This is my cool product descriotion.';
 
-        $price = rand();
+        $price = rand(111,999);
         $qty = rand();
         $sku = rand();
         $contentData = [

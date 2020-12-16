@@ -301,7 +301,7 @@ class CustomFieldsTest extends TestCase
             'title' => 'My new product',
             'content_type' => 'product',
             'subtype' => 'product',
-            'custom_fields' => array(
+            'custom_fields_advanced' => array(
                 array('type'=>'dropdown','name'=>'Color', 'value' => array('Purple','Blue')),
                 array('type'=>'price','name'=>'Price', 'value' => '9.99'),
 
@@ -314,6 +314,8 @@ class CustomFieldsTest extends TestCase
         $this->assertEquals($saved_id, $get['id']);
 
         $get_custom_fields = content_custom_fields($saved_id);
+
+
         $this->assertEquals(count($get_custom_fields), 2);
 
 
