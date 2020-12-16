@@ -5,6 +5,7 @@ use Content;
 use ContentFields;
 use Illuminate\Support\Facades\Cache;
 use DB;
+use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 
@@ -296,6 +297,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                     if (isset($data['categories'])) {
                         $to_save['categories'] = $data['categories'];
+                        CategoryItem::where('rel_id',$content_id)->where('rel_type','content')->delete();
                     }
                     $this->app->content_manager->save_content($to_save);
                 }
