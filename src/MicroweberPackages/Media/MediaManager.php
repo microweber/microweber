@@ -4,6 +4,7 @@ namespace MicroweberPackages\Media;
 
 use \Intervention\Image\ImageManagerStatic as Image;
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Media\Models\ThumbnailTemp;
 use MicroweberPackages\Utils\Media\Thumbnailer;
 use MicroweberPackages\Utils\System\Files;
 
@@ -940,12 +941,12 @@ class MediaManager
 //            }
 
 
-            $check = Media::where('rel_id', $cache_id_without_ext)
+            $check = ThumbnailTemp::where('rel_id', $cache_id_without_ext)
                 ->where('media_type', 'media_tn_temp')
                 ->where('rel_type', 'media_tn_temp')
                 ->first();
             if (!$check) {
-                $media_tn_temp = new Media;
+                $media_tn_temp = new ThumbnailTemp();
                 $media_tn_temp->media_type = 'media_tn_temp';
                 $media_tn_temp->rel_type = 'media_tn_temp';
                 $media_tn_temp->rel_id = $cache_id_without_ext;
