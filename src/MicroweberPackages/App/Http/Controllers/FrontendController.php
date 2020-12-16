@@ -1390,7 +1390,6 @@ class FrontendController extends Controller
             event_trigger('recover_shopping_cart', $_REQUEST['recart']);
         }
         if (!defined('MW_NO_OUTPUT_CACHE')) {
-
             if (!$back_to_editmode and !$is_editmode and $enable_full_page_cache and $output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
                 $compile_assets = \Config::get('microweber.compile_assets');
 
@@ -1399,12 +1398,11 @@ class FrontendController extends Controller
                 $output_cache_group = 'global';
                 $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group,$output_cache_timeout);
 
-if($output_cache_content_data and isset($output_cache_content_data['layout']) and isset($output_cache_content_data['time'])){
-    $output_cache_content = $output_cache_content_data['layout'];
-}
+                if($output_cache_content_data and isset($output_cache_content_data['layout']) and isset($output_cache_content_data['time'])){
+                    $output_cache_content = $output_cache_content_data['layout'];
+                }
 
-                if ($output_cache_content != false and !strstr($output_cache_content, 'image-generate-tn-request')) {
-
+                if ($output_cache_content != false and !str_contains($output_cache_content, 'image-generate-tn-request')) {
                     return \Response::make($output_cache_content)
                          ->header('Cache-Control', 'public, max-age=10800, pre-check=10800')
                          ->header('Last-Modified', \Carbon::parse($output_cache_content_data['time'])->toRfc850String())
@@ -2288,17 +2286,15 @@ if($output_cache_content_data and isset($output_cache_content_data['layout']) an
                 $this->app->user_manager->session_set('last_content_id', CONTENT_ID);
             }
 
-            if ($enable_full_page_cache and $output_cache_timeout != false) {
+            if (isset($output_cache_content) and $enable_full_page_cache and $output_cache_timeout != false) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
                     $output_cache_content_save = [];
                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
+
                     $output_cache_content_save['layout']  = $l;
                     $output_cache_content_save['time']  = now();
-                    if (!strstr($output_cache_content, 'image-generate-tn-request')) {
+                    if (!str_contains($output_cache_content, 'image-generate-tn-request')) {
                         $this->app->cache_manager->save($output_cache_content_save, $output_cache_id, $output_cache_group, $output_cache_timeout);
-                    }  else {
-                        $this->app->cache_manager->save($output_cache_content_save, $output_cache_id, $output_cache_group, 0);
-
                     }
                 }
             }

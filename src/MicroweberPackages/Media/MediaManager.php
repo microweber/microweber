@@ -941,7 +941,7 @@ class MediaManager
 //            }
 
 
-            $check = ThumbnailTemp::where('rel_id', $cache_id_without_ext)
+            $check = ThumbnailTemp::where('filename', $cache_id_without_ext)
                 ->where('media_type', 'media_tn_temp')
                 ->where('rel_type', 'media_tn_temp')
                 ->first();
@@ -949,8 +949,8 @@ class MediaManager
                 $media_tn_temp = new ThumbnailTemp();
                 $media_tn_temp->media_type = 'media_tn_temp';
                 $media_tn_temp->rel_type = 'media_tn_temp';
-                $media_tn_temp->rel_id = $cache_id_without_ext;
-                $media_tn_temp->filename = null;
+                $media_tn_temp->filename = $cache_id_without_ext;
+                //$media_tn_temp->filename = null;
                 $media_tn_temp->image_options = $cache_id_data;
                 $media_tn_temp->save();
 
