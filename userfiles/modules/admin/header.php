@@ -608,7 +608,7 @@ $user = get_user_by_id($user_id);
                                 mw.$('.mw_admin_edit_content_form, #quickform-edit-content').submit();
                                 open(el.href);
                             }, function (){
-                                    open(el.href);
+                                open(el.href);
                             })
                         }
                     });
