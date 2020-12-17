@@ -13,6 +13,7 @@
                 mw.reload_module("testimonials/list");
 
             });
+            mw.reload_module_parent("testimonials");
         }
     }
 
