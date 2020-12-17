@@ -24,6 +24,8 @@ class BackupManager
 
 	public function __construct()
 	{
+        \Config::set('microweber.disable_model_cache', 1);
+
 		if (php_can_use_func('ini_set')) {
 			ini_set('memory_limit', '-1');
 		}

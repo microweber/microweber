@@ -600,17 +600,7 @@ $user = get_user_by_id($user_id);
                         }
                         el.attr('href', href);
                     }).on('click', function (e){
-                        var el = this;
-                        if(mw.askusertostay) {
-                            e.preventDefault();
-                            mw.confirm(mw.lang('Save changes') + '?',
-                            function (){
-                                mw.$('.mw_admin_edit_content_form, #quickform-edit-content').submit();
-                                open(el.href);
-                            }, function (){
-                                open(el.href);
-                            })
-                        }
+                   
                     });
                 });
             </script>
