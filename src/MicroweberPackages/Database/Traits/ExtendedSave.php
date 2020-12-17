@@ -63,9 +63,9 @@ trait ExtendedSave
             if (isset($ext_params['categories'])) {
                 $this->extended_save_categories($ext_params);
             }
-//            if (isset($ext_params['tags'])) {
-//                $this->extended_save_tags($ext_params);
-//            }
+            if (isset($ext_params['tags'])) {
+                $this->extended_save_tags($ext_params);
+            }
 
             if (isset($ext_params['data_fields'])) {
                 $this->extended_save_data_fields($ext_params);
@@ -79,9 +79,9 @@ trait ExtendedSave
                  unset($ext_params['custom_fields_advanced']);
             }
 
-//            if (isset($ext_params['tags'])) {
-//                $this->extended_save_tags($ext_params);
-//            }
+            if (isset($ext_params['tags'])) {
+                $this->extended_save_tags($ext_params);
+            }
 
             return $saved_id;
         } else {
