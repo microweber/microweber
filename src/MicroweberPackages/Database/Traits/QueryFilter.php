@@ -21,6 +21,9 @@ trait QueryFilter
 
     public function map_filters($query, &$params, $table)
     {
+
+
+
         $dbDriver = Config::get('database.default');
 
         if (!isset($params['count']) and !isset($params['count_paging'])) {
@@ -371,6 +374,7 @@ trait QueryFilter
                 case 'tags':
                 case 'all_tags':
                 case 'all_tag':
+                case 'tag_names':
 
                     $ids = $value;
 
@@ -385,7 +389,7 @@ trait QueryFilter
                         if ($this->supports($table, 'tag')) {
                             if ($filter == 'tag' or $filter == 'tags') {
                                 $query = $query->withAnyTag($ids);
-                            } else if ($filter == 'all_tags' or $filter == 'all_tag') {
+                            } else if ($filter == 'all_tags' or $filter == 'all_tag' or $filter == 'tag_names') {
                                 $query = $query->withAllTags($ids);
                             }
                         }
