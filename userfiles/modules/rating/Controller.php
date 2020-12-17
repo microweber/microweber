@@ -50,7 +50,9 @@ class Controller
         $get['rel_type'] = $rel_type;
         $get['rel_id'] = $rel_id;
         $get['avg'] = 'rating';
-        $rating = $this->model->get($get);
+    //    $rating = $this->model->get($get);
+
+        $rating = Rating::where('rel_type',$rel_type)->where('rel_id',$rel_id)->avg('rating');
 
 
 //        if ($rating_points > 0 and $total_of_ratings > 0) {
@@ -89,6 +91,7 @@ class Controller
     function simple_rating($item)
     {
 
+        return;
 
         $rating = 0;
         $rel_type = 'content';
@@ -106,6 +109,10 @@ class Controller
         } else {
             $rating_points = $get['rating'];
         }
+
+
+        //Rating
+
 
 
         $get = array();
@@ -130,6 +137,8 @@ class Controller
 
     function get_rating_points($item)
     {
+
+        return;
 
         $item = parse_params($item);
 
