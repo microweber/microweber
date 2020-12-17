@@ -27,6 +27,7 @@ trait CustomFieldsTrait {
                         'value' => [$value]
                     ];
 
+                    // @todo must refactor for price
                     if ($key == 'price') {
                         $customField['type'] = 'price';
                     }
