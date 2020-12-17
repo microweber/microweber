@@ -33,7 +33,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      *
      * @var int
      */
-    protected $cacheSeconds;
+    protected $cacheSeconds = 1800; // half hour
 
     /**
      * Execute the query as a "select" statement.
@@ -43,14 +43,17 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      */
     public function get($columns = ['*'])
     {
-        $cacheKey = $this->getCacheKey($columns);
-        $cacheTags = $this->generateCacheTags();
+        $is_disabled = \Config::get('microweber.disable_model_cache');
 
-        $cacheFind = \Cache::tags($cacheTags)->get($cacheKey);
-        if ($cacheFind) {
-            return $cacheFind;
+        if (!$is_disabled) {
+            $cacheKey = $this->getCacheKey($columns);
+            $cacheTags = $this->generateCacheTags();
+
+            $cacheFind = \Cache::tags($cacheTags)->get($cacheKey, $this->cacheSeconds);
+            if ($cacheFind) {
+                return $cacheFind;
+            }
         }
-
         $builder = $this->applyScopes();
 
         // If we actually found models we will also eager load any relationships that
@@ -61,9 +64,9 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         }
 
         $collection = $builder->getModel()->newCollection($models);
-
-        \Cache::tags($cacheTags)->put($cacheKey, $collection);
-
+        if (!$is_disabled) {
+            \Cache::tags($cacheTags)->put($cacheKey, $collection, $this->cacheSeconds);
+        }
         return $collection;
     }
 
