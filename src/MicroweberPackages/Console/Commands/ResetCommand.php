@@ -4,12 +4,10 @@ namespace MicroweberPackages\Console\Commands;
 
 use Illuminate\Console\Command;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
-use MicroweberPackages\App\Providers\Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputArgument;
 use MicroweberPackages\Install\DbInstaller;
 use MicroweberPackages\Install\ModulesInstaller;
 use MicroweberPackages\Install\DefaultOptionsInstaller;
-use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Cache;
 
 class ResetCommand extends Command
 {
@@ -60,7 +58,7 @@ class ResetCommand extends Command
     	foreach ($tables as $table)
     	{
     		$table = trim($table);
-    		DB::table($table)->truncate();
+    		\DB::table($table)->truncate();
     		$this->info('Truncate table: ' . $table);
     	}
 
@@ -107,7 +105,7 @@ class ResetCommand extends Command
     	@mkdir(storage_path() . '\framework\sessions');
     	@mkdir(storage_path() . '\framework\views');
 
-    	Cache::flush();
+    	\Cache::flush();
     }
 
     /**
