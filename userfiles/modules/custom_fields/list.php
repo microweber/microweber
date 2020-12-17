@@ -193,7 +193,9 @@ if (isset($params['for_module_id'])): ?>
 
                            <td data-id="<?php print $field['id']; ?>">
                                <span class="mobile-th"><?php _e("Name"); ?>: </span>
-                               <span class="mw-admin-custom-field-name-edit-inline text-capitalize" data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span>
+                               <span class="mw-custom-fields-list-preview">
+                                    <span class="mw-admin-custom-field-name-edit-inline text-capitalize mw-admin-custom-field-value-edit-inline-holder bg-secondary-opacity-8 d-inline-block px-3 py-1" data-id="<?php print $field['id']; ?>"><small class="mw-admin-custom-field-value-edit-inline px-1 py-1"><?php print $field['name']; ?></small></span>
+                                </span>
                            </td>
 
                         <?php
