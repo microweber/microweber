@@ -25,33 +25,50 @@ mw.tools.alert = function (text) {
 };
 
 
-mw.tools.prompt = function (question, callback) {
-    if(!question) return ;
-    var id = mw.id('mw-prompt-input');
-    question = '<label class="mw-ui-label">'+question+'</label><input class="mw-ui-field w100" id="'+id+'">';
+mw.tools.prompt = function (q, callback) {
+    if(!q) return ;
+     var input = document.createElement('input');
+    input.className = 'mw-ui-field w100';
+
+
+    var question = mw.$('<div class="mw-prompt-input-container"><label class="mw-ui-label">'+q+'</label></div>');
+    question.append(input)
     var footer = mw.$('<div class="mw-prompt-input-footer">');
-    var ok = mw.$('<span class="mw-prompt-input-footer">'+mw.lang('OK')+'</span>');
-    var cancel = mw.$('<span class="mw-prompt-input-footer">'+mw.lang('Cancel')+'</span>');
+    var ok = mw.$('<button type="button" disabled class="mw-ui-btn mw-ui-btn-info">'+mw.lang('OK')+'</button>');
+    var cancel = mw.$('<span class="mw-ui-btn">'+mw.lang('Cancel')+'</span>');
     footer.append(cancel);
     footer.append(ok);
-    mw.dialog({
+    var dialog = mw.dialog({
         content: question,
+        title: q,
         footer: footer
-    })
-/*    var dialog = mw.tools.confirm(question, function (){
-        callback.call(window, mw.$('#' + id).val());
     });
-    setTimeout(function (){
-        mw.$('#' + id).focus().on('keydown', function (e) {
-            if (mw.event.is.enter(e)) {
-                callback.call(window, mw.$('#' + id).val());
+    ok.on('click', function (){
+        callback.call(window, input.value);
+        dialog.remove();
+    });
+    cancel.on('click', function (){
+        dialog.remove();
+    });
+    input.focus();
+    input.oninput = function () {
+        var val = this.value.trim();
+        ok[0].disabled = !val;
+    };
+    input.onkeydown = function (e) {
+        if (mw.event.is.enter(e)) {
+            var val = this.value.trim();
+            if (val) {
+                callback.call(window, input.value);
                 dialog.remove();
             }
-        });
-    }, 222);*/
+
+        }
+    };
+
     return dialog;
 };
-mw.tools.confirm = function (question, callback) {
+mw.tools.confirm = function (question, callback, onCancel) {
     if(typeof question === 'function') {
         callback = question;
         question = 'Are you sure?';
@@ -93,6 +110,9 @@ mw.tools.confirm = function (question, callback) {
             }
         });
         cancel.on('click', function () {
+            if(onCancel) {
+                onCancel.call()
+            }
             modal.remove();
         });
         ok.on('click', function () {
