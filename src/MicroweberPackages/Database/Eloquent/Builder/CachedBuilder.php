@@ -49,7 +49,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
             $cacheKey = $this->getCacheKey($columns);
             $cacheTags = $this->generateCacheTags();
 
-            $cacheFind = \Cache::tags($cacheTags)->get($cacheKey, $this->cacheSeconds);
+            $cacheFind = \Cache::tags($cacheTags)->get($cacheKey);
             if ($cacheFind) {
                 return $cacheFind;
             }
