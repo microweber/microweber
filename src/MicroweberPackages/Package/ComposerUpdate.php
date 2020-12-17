@@ -1052,12 +1052,14 @@ class ComposerUpdate
             $system_repos[] = array("type" => "composer", "url" => "https://packages-dev.microweberapi.com/");
             $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
         } else {
-            $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
-            $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
+            $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
+
+            //  $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
+           // $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
         }
 
-        $system_repos = array();
-        $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
+      //  $system_repos = array();
+     //   $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
 
         $system_repos_custom = array();
 
