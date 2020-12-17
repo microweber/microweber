@@ -59,8 +59,7 @@ api_expose_admin('save_contact_form_fields', function() {
 api_expose_admin('test_mail_provider');
 function test_mail_provider()
 {
-	must_have_access();
-	
+
 	if (isset($_POST['mail_provider_name'])) {
 		
 		$mailProviderName = 'test_mail_' . $_POST['mail_provider_name'];
@@ -75,7 +74,6 @@ function test_mail_provider()
 
 function get_mail_provider($providerName)
 {
-	must_have_access();
 
 	$params = array();
 	$params['provider_name'] = $providerName;
@@ -86,8 +84,7 @@ function get_mail_provider($providerName)
 
 function get_mail_provider_settings($providerName)
 {
-	must_have_access();
-	
+
 	$mailProvider = get_mail_provider($providerName);
 
 	if(is_array($mailProvider ) and isset($mailProvider['provider_settings'])){
@@ -100,8 +97,7 @@ function get_mail_provider_settings($providerName)
 
 function save_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
 	
-	must_have_access();
-	
+
 	$provider = get_mail_provider($providerName);
 	
 	if (isset($provider['id'])) {
@@ -119,8 +115,7 @@ function save_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId
 
 function get_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
 	
-	must_have_access();
-	
+ 	
 	$provider = get_mail_provider($providerName);
 	
 	if (isset($provider['id'])) {

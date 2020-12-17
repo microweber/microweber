@@ -111,12 +111,12 @@ class TagsTest extends TestCase
         $new_page = array();
         $new_page['title'] = 'Beer';
         $new_page['content_type'] = 'page';
-        $new_page['tags'] = 'beer';
+        $new_page['tag_names'] = 'beer';
         $new_page['auto_discover_id'] = true;
 
         $saved_id = save_content($new_page);
 
-        $content = get_content('tag=beer&single=true');
+        $content = get_content('tag_names=beer&single=true');
         $check = false;
         if ($content['id'] == $saved_id) {
             $check = true;
@@ -125,7 +125,7 @@ class TagsTest extends TestCase
         $new_page = array();
         $new_page['title'] = 'Orange';
         $new_page['content_type'] = 'page';
-        $new_page['tags'] = 'apple,orange';
+        $new_page['tag_names'] = 'apple,orange';
         $new_page['auto_discover_id'] = true;
 
         $saved_id = save_content($new_page);
@@ -139,7 +139,7 @@ class TagsTest extends TestCase
         $new_page = array();
         $new_page['title'] = 'Orange';
         $new_page['content_type'] = 'page';
-        $new_page['tags'] = 'apple,orange';
+        $new_page['tag_names'] = 'apple,orange';
         $new_page['auto_discover_id'] = true;
 
         $saved_id = save_content($new_page);

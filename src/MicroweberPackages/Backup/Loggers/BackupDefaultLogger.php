@@ -43,11 +43,11 @@ abstract class BackupDefaultLogger
             $countLines = substr_count($countLines, "\n");;
 
             if ($countLines > $max) {
-                file_put_contents($fileName, '');
+                @file_put_contents($fileName, '');
             }
         }
 
-		file_put_contents($fileName, $line."\n", FILE_APPEND);
+		@file_put_contents($fileName, $line."\n", FILE_APPEND);
 	}
 
 	protected static function _getLogFilename()

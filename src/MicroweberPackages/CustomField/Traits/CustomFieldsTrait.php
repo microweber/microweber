@@ -20,11 +20,19 @@ trait CustomFieldsTrait {
         static::saving(function ($model)  {
             if (isset($model->attributes['custom_fields'])) {
                 foreach ($model->attributes['custom_fields'] as $key=>$value) {
-                    $model->_addCustomFields[] = [
+
+                    $customField = [
                         'name' => $key,
                         'name_key' => $key,
                         'value' => [$value]
                     ];
+
+                    // @todo must refactor for price
+                    if ($key == 'price') {
+                        $customField['type'] = 'price';
+                    }
+
+                    $model->_addCustomFields[] = $customField;
                 }
                 unset($model->attributes['custom_fields']);
             }
@@ -45,15 +53,20 @@ trait CustomFieldsTrait {
 
                     if ($findCustomField) {
                         $findCustomField->value = $customField['value'];
-
                         $findCustomField->save();
                     } else {
 
-                        $model->customField()->create([
+                        $createCustomField = [
                             'value' => $customField['value'],
                             'name' => $customField['name'],
                             'name_key' => $customField['name_key']
-                        ]);
+                        ];
+
+                        if (isset($customField['type'])) {
+                            $createCustomField['type'] = $customField['type'];
+                        }
+
+                        $model->customField()->create($createCustomField);
                     }
                 }
                 $model->refresh();

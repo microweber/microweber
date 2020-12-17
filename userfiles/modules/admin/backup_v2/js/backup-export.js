@@ -392,7 +392,7 @@ mw.log(mw.$(template_holder).html())
 
 		    },
 		    error: function() {
-                scope.exportLog('Error opening log file.');
+               // scope.exportLog('Error opening log file.');
 		    },
             always: function () {
 

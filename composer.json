@@ -109,7 +109,7 @@
     "config": {
         "preferred-install": "dist",
         "platform": {
-            "php": "7.4"
+            "php": "7.3"
         },
         "github-protocols": [
             "https",

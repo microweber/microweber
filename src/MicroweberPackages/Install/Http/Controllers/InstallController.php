@@ -177,6 +177,7 @@ class InstallController extends Controller
 
             if (!isset($input['developer_mode'])) {
                 Config::set('microweber.compile_assets', 1);
+                Config::set('microweber.disable_model_cache', 0);
             }
             if (isset($input['clean_pre_configured'])) {
                 Config::set('microweber.pre_configured', null);
