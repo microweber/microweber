@@ -1,12 +1,13 @@
 <?php must_have_access(); ?>
 
 <?php
-if (!isset($params['product_id']) or !function_exists('offers_get_by_product_id')) {
+if (!isset($params['product_id']) or !class_exists('\MicroweberPackages\Offer\Models\Offer')) {
     return;
 }
 
 $productId = $params['product_id'];
-$offer = offers_get_by_product_id($productId);
+//WAS $offer = offers_get_by_product_id($productId);
+$offer = \MicroweberPackages\Offer\Models\Offer::getByProductId($productId);
 
 if (!isset($offer['price']['offer_price'])) {
     $offer['price']['offer_price'] = '';

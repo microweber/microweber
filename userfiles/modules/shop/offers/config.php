@@ -18,9 +18,14 @@ $config['ui_admin'] = true;
 $config['categories'] = "online shop";
 $config['version'] = 1.0;
 $config['position'] = 27;
+//WAS $config['settings']['service_provider'] = [
+//    \MicroweberPackages\Shop\Offers\ShopOffersServiceProvider::class,
+//    \MicroweberPackages\Shop\Offers\ShopOffersEventServiceProvider::class,
+//];
+
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Shop\Offers\ShopOffersServiceProvider::class,
-    \MicroweberPackages\Shop\Offers\ShopOffersEventServiceProvider::class,
+    \MicroweberPackages\Offer\Providers\EventServiceProvider::class,
+    \MicroweberPackages\Offer\Providers\OfferServiceProvider::class,
 ];
 
 $config['tables'] = array(

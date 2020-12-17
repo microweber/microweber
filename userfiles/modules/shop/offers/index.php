@@ -11,8 +11,8 @@ if (!$offer_id) {
     return;
 }
 
-$data = offer_get_by_id($offer_id);
-
+//WAS $data = offer_get_by_id($offer_id);
+$data = \MicroweberPackages\Offer\Models\Offer::getById($offer_id);
 
 $params['data-in-stock'] = true;
 //if (isset($params['data-parent-id']) && isset($params['data-in-stock']) && isset($params['data-count']) && isset($params['data-title']) && isset($params['data-price-name']) && isset($params['data-retail-price']) && isset($params['data-offer-price'])) {

@@ -37,7 +37,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
                 if (confirmUser == true) {
                     $.ajax({
-                        url: '<?php print api_url('offer_delete');?>',
+                        url: '<?php print route('api.offer.delete');?>',
                         data: 'offer_id=' + offer_id,
                         type: 'POST',
                         dataType: 'json',
