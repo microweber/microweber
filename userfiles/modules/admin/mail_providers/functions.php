@@ -115,7 +115,7 @@ function save_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId
 
 function get_mail_subscriber($mailAddress, $subscribeSource, $subscribeSourceId, $providerName) {
 	
- 	
+
 	$provider = get_mail_provider($providerName);
 	
 	if (isset($provider['id'])) {

@@ -599,18 +599,22 @@ $user = get_user_by_id($user_id);
                             href = href + ((href.indexOf('?') === -1 ? '?' : '&') + 'editmode:y');
                         }
                         el.attr('href', href);
-                    }).on('click', function (e){
-                        var el = this;
-                        if(mw.askusertostay) {
-                            e.preventDefault();
-                            mw.confirm(mw.lang('Save changes') + '?',
-                            function (){
-                                mw.$('.mw_admin_edit_content_form, #quickform-edit-content').submit();
-                                open(el.href);
-                            }, function (){
-                                    open(el.href);
-                            })
-                        }
+                    }).on('xxxxxxclick', function (e){
+                      //  mw.$('.mw_admin_edit_content_form, #quickform-edit-content').submit();
+
+                      //  open(el.href);
+
+                        // var el = this;
+                        // if(mw.askusertostay) {
+                        //     e.preventDefault();
+                        //     mw.confirm(mw.lang('Save changes') + '?',
+                        //     function (){
+                        //         mw.$('.mw_admin_edit_content_form, #quickform-edit-content').submit();
+                        //         open(el.href);
+                        //     }, function (){
+                        //             open(el.href);
+                        //     })
+                        // }
                     });
                 });
             </script>

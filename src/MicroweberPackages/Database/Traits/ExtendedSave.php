@@ -79,9 +79,9 @@ trait ExtendedSave
                  unset($ext_params['custom_fields_advanced']);
             }
 
-//            if (isset($ext_params['tags'])) {
-//                $this->extended_save_tags($ext_params);
-//            }
+            if (isset($ext_params['tag_names'])) {
+                $this->extended_save_tags($ext_params);
+            }
 
             return $saved_id;
         } else {
@@ -415,16 +415,16 @@ trait ExtendedSave
             event_trigger('mw.database.extended_save_tags', $params);
             $data_to_save = $params;
             $tags_modified = false;
-            if (isset($data_to_save['tags'])
+            if (isset($data_to_save['tag_names'])
                 and isset($params['id']) and $params['id']
             ) {
-                if (is_string($data_to_save['tags'])) {
-                    $data_to_save['tags'] = explode(',', $data_to_save['tags']);
+                if (is_string($data_to_save['tag_names'])) {
+                    $data_to_save['tag_names'] = explode(',', $data_to_save['tag_names']);
                 }
                 $article = $model->whereId(intval($params['id']))->first();
                 if ($article) {
                     $tags_modified = true;
-                    $tags = $data_to_save['tags'];
+                    $tags = $data_to_save['tag_names'];
                     if (is_array($tags)) {
                         $tags = array_unique($tags);
                         $tags = array_filter($tags);
