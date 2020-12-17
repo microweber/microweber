@@ -181,8 +181,7 @@ class UserManagerTest extends TestCase
 
         $this->assertArrayHasKey('error', $requestStatus);
         $this->assertTrue($requestStatus['error']);
-        $this->assertContains('user with that e-mail address', $requestStatus['message']);
-
+        $this->assertContains('user with that', $requestStatus['message']);
 
 
     }
@@ -347,7 +346,8 @@ class UserManagerTest extends TestCase
         $forgotPass = $userManager->send_forgot_password($newUser);
         $this->assertArrayHasKey('success', $forgotPass);
         $this->assertTrue( $forgotPass['success']);
-        $this->assertContains('reset link sent', $forgotPass['message']);
+
+        $this->assertContains('reset link', $forgotPass['message']);
 
         $check = DB::table('password_resets')
             ->where('email', '=', $newUser['email'])
@@ -427,7 +427,7 @@ class UserManagerTest extends TestCase
         $forgotPass = $userManager->send_forgot_password($newUser);
         $this->assertArrayHasKey('success', $forgotPass);
         $this->assertTrue( $forgotPass['success']);
-        $this->assertContains('reset link sent', $forgotPass['message']);
+        $this->assertContains('reset link', $forgotPass['message']);
 
 
         $findUnitTestingText = false;
