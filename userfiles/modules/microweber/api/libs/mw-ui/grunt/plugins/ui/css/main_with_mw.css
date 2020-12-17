@@ -9315,6 +9315,9 @@ body {
 
 .container {
   max-width: 70%; }
+  @media screen and (max-width: 1600px) {
+    .container {
+      max-width: 90%; } }
   @media screen and (max-width: 1440px) {
     .container {
       max-width: calc(100% - 30px); } }
@@ -10432,4 +10435,4 @@ header {
   fill: #4592ff;
   display: block !important; }
 
-/*# disabled_sourceMappingURL=main_with_mw.css.map */
+/*# sourceMappingURL=main_with_mw.css.map */
