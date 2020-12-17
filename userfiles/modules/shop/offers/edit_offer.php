@@ -2,12 +2,15 @@
 
 <?php
 $date_format = get_date_format();
-$products = offers_get_products();
+//$products = offers_get_products();
+
 $all_products = get_products('nolimit=1');
 
 if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     $addNew = false;
-    $data = offer_get_by_id($params['offer_id']);
+    //WAS $data = offer_get_by_id($params['offer_id']);
+    $data = \MicroweberPackages\Offer\Models\Offer::getById($params['offer_id']);
+
     if (isset($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') {
         try {
             $carbonUpdatedAt = Carbon::parse($data['expires_at']);
