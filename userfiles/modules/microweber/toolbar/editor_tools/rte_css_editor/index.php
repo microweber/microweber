@@ -321,6 +321,9 @@ var output = function(property, value){
     if(!ActiveNode) {
         ActiveNode = mw.top().liveEditSelector.selected
     }
+    if(ActiveNode.length) {
+        ActiveNode = ActiveNode[0]
+    }
     if(ActiveNode) {
           // ActiveNode.style[property] = value;
         mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
@@ -379,15 +382,34 @@ var init = function(){
         output('backgroundImage', 'none')
     });
     $("#background-select-item").on("click", function () {
-        mw.top().fileWindow({
-            types: 'images',
-            change: function (url) {
-                if(!url) return;
-                url = url.toString();
+        var dialog;
+        var picker = new mw.filePicker({
+            type: 'images',
+            label: false,
+            autoSelect: false,
+            footer: true,
+            _frameMaxHeight: true,
+
+            onResult: function (data) {
+                if(!data) return;
+                var url = data.src;
+                console.log(url)
                 output('backgroundImage', 'url(' + url + ')');
                 $('.background-preview').css('backgroundImage', 'url(' + url + ')')
+                dialog.remove()
+            },
+            cancel: function () {
+                dialog.remove()
             }
         });
+        dialog = mw.top().dialog({
+            content: picker.root,
+            title: mw.lang('Select image'),
+            footer: false,
+            width: 1200
+        })
+
+
     });
 
     _prepare.units();
