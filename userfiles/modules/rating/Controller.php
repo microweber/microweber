@@ -52,8 +52,20 @@ class Controller
         $get['avg'] = 'rating';
     //    $rating = $this->model->get($get);
 
-        $rating = Rating::where('rel_type',$rel_type)->where('rel_id',$rel_id)->avg('rating');
+        $cache_key = md5($rel_type . $rel_id. 'avg');
+        $rating_cache = \Cache::tags('rating')->get($cache_key);
 
+        if ($rating_cache == NULL) {
+            $rating = Rating::where('rel_type',$rel_type)->where('rel_id',$rel_id)->avg('rating');
+            if ($rating == NULL) {
+                $rating = '_';
+            }
+            \Cache::tags('rating')->put($cache_key, $rating);
+        } else {
+            $rating = $rating_cache;
+        }
+        
+        $rating = (int) $rating;
 
 //        if ($rating_points > 0 and $total_of_ratings > 0) {
 //            $rating = $rating_points / $total_of_ratings;
