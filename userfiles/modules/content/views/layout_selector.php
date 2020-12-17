@@ -461,11 +461,13 @@ if (!empty($recomended_layouts)) {
                             <small class="text-muted d-block mb-3">Choose a new template or browse the pages of the current one.</small>
                             <br/>
 
+                            <?php if (\Config::get('microweber.enable_template_uploads')): ?>
                             <?php if (mw()->ui->disable_marketplace != true): ?>
                                 <label class="control-label">Want to upload template?</label>
                                 <small class="text-muted d-block mb-3">.zip file format allowed</small>
 
                                 <module type="admin/templates/upload_button"/>
+                            <?php endif; ?>
                             <?php endif; ?>
 
                             <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()">Apply this template</button>
