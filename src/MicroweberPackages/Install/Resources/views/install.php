@@ -657,7 +657,9 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <?php
+
+                                                /*<div class="col-md-4">
                                                     <?php $current_lang = current_lang(); ?>
                                                     <div class="form-group">
                                                         <select name="site_lang" class="form-control" tabindex="8">
@@ -673,7 +675,9 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                </div>
+                                                </div>*/
+
+                                                ?>
                                             </div>
                                         </div>
 
