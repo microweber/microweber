@@ -52,6 +52,12 @@ if (isset($params['live_edit'])) {
         top: -55px;
         right: 0;
     }
+
+     .card-header.fixed{
+         position: fixed !important;
+         top: 69px;
+         z-index: 10;
+     }
 </style>
 <div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">
@@ -92,6 +98,27 @@ if (isset($params['live_edit'])) {
 
         <?php endif; ?>
         $(document).ready(function () {
+
+
+
+            var all = $(window);
+            var header = document.querySelector('#mw-admin-container header');
+            var postHeader = mw.element(document.querySelector('.card-header'));
+            all.push(document)
+            all.on('scroll load resize', function () {
+                var stop = $(this).scrollTop(),
+                    otop = $('.mw-iframe-editor').offset().top,
+                    tbheight = $('.admin-toolbar').outerHeight(),
+                    is = (stop + tbheight) >= otop;
+
+
+
+                var isFixed = (stop > (postHeader.get(0).offsetHeight + (header ? header.offsetHeight : 0) + $(postHeader).offset().top));
+                postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
+                postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
+
+
+            });
 
             mw.category_is_saving = false;
             <?php if(intval($data['id']) == 0): ?>

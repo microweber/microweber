@@ -270,7 +270,6 @@ MWEditor.api = function (scope) {
                     }
                 }
             };
-
             return cleanWord(content)
 
         },
@@ -443,8 +442,19 @@ MWEditor.api = function (scope) {
                 scope.api.savedSelection.selection.addRange(scope.api.savedSelection.range);
             }
         },
+        _cleaner: document.createElement('div'),
+        cleanHTML: function(html) {
+             this._cleaner.innerHTML = html;
+            var elements = Array.prototype.slice.call(this._cleaner.querySelectorAll('iframe,script,noscript'));
+            while (elements.length) {
+                elements[0].remove();
+                elements.shift();
+            }
+            return this._cleaner.innerHTML;
+        },
         insertHTML: function(html) {
-            return scope.api.execCommand('insertHTML', false, html);
+            console.log(this.cleanHTML(html))
+            return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {
             var id =  mw.id('image_');

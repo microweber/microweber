@@ -59,7 +59,7 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
             var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
             if (confirmUser == true) {
                 $.ajax({
-                    url: '<?php print api_url('offer_delete');?>',
+                    url: '<?php print route('api.offer.delete');?>',
                     data: 'offer_id=' + offer_id,
                     type: 'POST',
                     dataType: 'json',
@@ -81,7 +81,8 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
 <?php } ?>
 <?php if ($offers_enabled) {
     $is_offer_set = false;
-    $offer = offers_get_price($product_id,$price_id);
+    //WAS $offer = offers_get_price($product_id,$price_id);
+    $offer = \MicroweberPackages\Offer\Models\Offer::getPrice($product_id, $price_id);
 
     if (isset($offer['id']) && isset($offer['offer_price'])) {
         $is_offer_set = true;
