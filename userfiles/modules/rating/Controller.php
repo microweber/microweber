@@ -64,7 +64,7 @@ class Controller
         } else {
             $rating = $rating_cache;
         }
-        
+
         $rating = (int) $rating;
 
 //        if ($rating_points > 0 and $total_of_ratings > 0) {
