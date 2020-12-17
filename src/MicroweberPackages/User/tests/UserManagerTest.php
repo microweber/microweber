@@ -169,7 +169,6 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
-dd($requestStatus);
 
         $this->assertArrayHasKey('success', $requestStatus);
         $this->assertTrue($requestStatus['success']);
