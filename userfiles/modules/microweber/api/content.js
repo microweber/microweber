@@ -18,8 +18,6 @@ mw.content = mw.content || {
                     callback.call(data, data);
                 }
                 mw.reload_module_everywhere('content/manager');
-                mw.url.windowDeleteHashParam('action');
-
             });
         });
     },
@@ -86,10 +84,12 @@ mw.content = mw.content || {
     save: function (data, e) {
         var master = {};
         var calc = {};
-        e = e || {};
-         if (!data.content) {
-
-         } else {
+        var e = e || {};
+        //   data.subtype === 'category'
+        if (data.content == "" || typeof data.content === 'undefined') {
+            // calc.content = false;
+        }
+        else {
             var doc = mw.tools.parseHtml(data.content);
             var all = doc.querySelectorAll('[contenteditable]'), l = all.length, i = 0;
             for (; i < l; i++) {
@@ -98,7 +98,7 @@ mw.content = mw.content || {
             data.content = doc.body.innerHTML;
         }
 
-        if (!data.title) {
+        if (data.title == "" || typeof data.title === 'undefined') {
             calc.title = false;
         }
         if (!mw.tools.isEmptyObject(calc)) {
@@ -107,10 +107,10 @@ mw.content = mw.content || {
             }
             return false;
         }
-        if (!data.content_type) {
+        if (typeof data.content_type === "undefined" || data.content_type == "") {
             data.content_type = "post";
         }
-        if (!data.id) {
+        if (typeof data.id === "undefined" || data.id == "") {
             data.id = 0;
         }
         master.title = data.title;
@@ -119,40 +119,32 @@ mw.content = mw.content || {
         mw.trigger('adminSaveStart');
         $.ajax({
             type: 'POST',
-            url: e.url || (mw.settings.api_url + 'save_content_admin'),
+            url: mw.settings.api_url + 'save_content_admin',
             data: data,
             datatype: "json",
             async: true,
-
-            error: function (data, x) {
+            success: function (data) {
                 mw.$(mwd.body).removeClass("loading");
-                if (typeof e.onError === 'function') {
-                    e.onError.call(data.data || data);
+                if (typeof data === 'object' && typeof data.error != 'undefined') {
+                    if (typeof e.onError === 'function') {
+                        e.onError.call(data);
+                    }
                 }
-                mw.errorsHandle(data.responseJSON);
+                else {
+                    if (typeof e.onSuccess === 'function') {
+                        e.onSuccess.call(data);
+                    }
+                }
             },
-            complete: function (a,b,c) {
-                 mw.$(mwd.body).removeClass("loading");
-                mw.trigger('adminSaveEnd');
-            }
-        }).done(function (data) {
-            if(data.data) {
-                data = data.data;
-            }
-            mw.$(mwd.body).removeClass("loading");
-            if (typeof data === 'object' && typeof data.error != 'undefined') {
+            error: function (data) {
+                mw.$(mwd.body).removeClass("loading");
                 if (typeof e.onError === 'function') {
                     e.onError.call(data);
                 }
+            },
+            complete: function () {
+                mw.$(mwd.body).removeClass("loading");
             }
-            else {
-                if (typeof e.onSuccess === 'function') {
-                    e.onSuccess.call(data);
-                }
-
-            }
-            document.querySelector('.btn-save').disabled = true;
-            mw.askusertostay = false;
         });
     }
 };

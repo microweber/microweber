@@ -1,4 +1,4 @@
-<?php must_have_access(); ?>
+<?php only_admin_access(); ?>
 <script  type="text/javascript">
 
 
@@ -101,7 +101,7 @@ header_bg_color = function(a){
 }
 
 content_bg_media = function(){
-  mw.dialogIframe({
+  mw.tools.modal.frame({
       url:"rte_image_editor#set_content_bg_media",
       //title:"Upload Picture",
       name:"mw_rte_image",
@@ -119,7 +119,7 @@ set_content_bg_media = function(a){
 
 $(document).ready(function(){
     //$("#mw-theme-settings").draggable();
-    mw.$("#mwthemesettings-fontfamily").on("change", function(){
+    mw.$("#mwthemesettings-fontfamily").bind("change", function(){
           mwd.body.style.fontFamily = $(this).getDropdownValue();
     });
 });

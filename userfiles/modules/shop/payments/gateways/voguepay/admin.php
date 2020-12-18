@@ -1,31 +1,39 @@
-<?php must_have_access(); ?>
+<?php only_admin_access(); ?>
 
-<div class="mb-3 float-right">
-    <img src="<?php print $config['url_to_module'] ?>voguepay.svg"  style="width: 40px; margin-top: -70px;"/>
+<div class="m-b-20">
+    <img src="<?php print $config['url_to_module'] ?>voguepay.png" style="max-width: 140px;"/>
 </div>
 
-<div class="clearfix"></div>
-
-<div class="form-group">
-    <label class="control-label">Developer Code: </label>
-    <input type="text" class="mw_option_field form-control" name="voguepay_developer_code" placeholder="" data-option-group="payments" value="<?php print get_option('voguepay_developer_code', 'payments'); ?>">
+<div class="m-b-10">
+    <label class="mw-ui-label">Developer Code: </label>
+    <input type="text" class="mw-ui-field mw_option_field block-field" name="voguepay_developer_code"
+           placeholder="" data-option-group="payments"
+           value="<?php print get_option('voguepay_developer_code', 'payments'); ?>">
 </div>
-
-<div class="form-group">
-    <label class="control-label">Merchant ID: </label>
-    <input type="text" class="mw_option_field form-control" name="voguepay_merchant_id" placeholder="" data-option-group="payments" value="<?php print get_option('voguepay_merchant_id', 'payments'); ?>">
+<div class="m-b-10">
+    <label class="mw-ui-label">Merchant ID: </label>
+    <input type="text" class="mw-ui-field mw_option_field block-field" name="voguepay_merchant_id"
+           placeholder="" data-option-group="payments"
+           value="<?php print get_option('voguepay_merchant_id', 'payments'); ?>">
 </div>
-
-<div class="form-group">
-    <label class="control-label d-block"><?php _e("Test mode"); ?></label>
-
-    <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="voguepay_test_mode1" name="voguepay_test_mode" class="mw_option_field custom-control-input" data-option-group="payments" value="1" <?php if (get_option('voguepay_test_mode', 'payments') == 1): ?> checked="checked" <?php endif; ?>>
-        <label class="custom-control-label" for="voguepay_test_mode1"><?php _e("Yes"); ?></label>
-    </div>
-
-    <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="voguepay_test_mode2" name="voguepay_test_mode" class="mw_option_field custom-control-input" data-option-group="payments" value="0" <?php if (get_option('voguepay_test_mode', 'payments') != 1): ?> checked="checked" <?php endif; ?>>
-        <label class="custom-control-label" for="voguepay_test_mode2"><?php _e("No"); ?></label>
-    </div>
-</div>
+<ul class="mw-ui-inline-list">
+    <li>
+        <label class="mw-ui-label p-10 bold">
+            <?php _e("Test mode"); ?>
+            :</label>
+    </li>
+    <li>
+        <label class="mw-ui-check">
+            <input name="voguepay_test_mode" class="mw_option_field" data-option-group="payments" value="1" type="radio" <?php if (get_option('voguepay_test_mode', 'payments') == 1): ?> checked="checked" <?php endif; ?> >
+            <span></span><span>
+      <?php _e("Yes"); ?>
+      </span></label>
+    </li>
+    <li>
+        <label class="mw-ui-check">
+            <input name="voguepay_test_mode" class="mw_option_field" data-option-group="payments" value="0" type="radio" <?php if (get_option('voguepay_test_mode', 'payments') != 1): ?> checked="checked" <?php endif; ?> >
+            <span></span><span>
+      <?php _e("No"); ?>
+      </span></label>
+    </li>
+</ul>

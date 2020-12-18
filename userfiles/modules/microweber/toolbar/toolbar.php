@@ -28,7 +28,6 @@ if (isset($_COOKIE['mw_exp'])) {
         //mw.require("tools.js");
         mw.require("wysiwyg.js");
         mw.require("css_parser.js");
-        mw.require("filepicker.js");
 
         mw.require("forms.js");
         mw.require("files.js");
@@ -77,11 +76,11 @@ if (isset($_COOKIE['mw_exp'])) {
         $(window).bind('load', function () {
 
 
-            $(window).on('saveStart adminSaveStart', function () {
-                mw.$("#main-save-btn,.btn-save").html('<?php _e("Saving"); ?>...');
+            $(window).bind('saveStart', function () {
+                mw.$("#main-save-btn").html('<?php _e("Saving"); ?>...');
             });
-            $(window).on('saveEnd adminSaveEnd', function () {
-                mw.$("#main-save-btn,.btn-save").html('<?php _e("Save"); ?>');
+            $(window).bind('saveEnd', function () {
+                mw.$("#main-save-btn").html('<?php _e("Save"); ?>');
                 mw.notification.success('<?php _ejs("All changes are saved"); ?>.')
             });
 
@@ -243,7 +242,7 @@ if (isset($_COOKIE['mw_exp'])) {
         $(window).on("load", function () {
             mw.liveEditSettings = new mw.controlBox({
                 content: '<div class="module" type="admin/modules/sidebar_live_edit"></div>',
-                position: !mw.tools.isRtl() ? 'right' : 'right',
+                position: 'right',
                 id: 'live_edit_side_holder',
                 closeButton: true
             });
@@ -330,7 +329,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
                                 <div class="mw-dropdown-list-search">
-                                    <input type="text" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
+                                    <input type="mwautocomplete" class="mwtb-search mw-dropdown-search mw-ui-searchfield" placeholder="Search content"/>
                                 </div>
                                 <?php
                                 $pt_opts = array();
@@ -367,7 +366,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                     </a>
                                 </li>
 
-                                <?php $create_content_menu = mw()->module_manager->ui('content.create.menu'); ?>
+                                <?php $create_content_menu = mw()->modules->ui('content.create.menu'); ?>
                                 <?php if (!empty($create_content_menu)): ?>
                                     <?php foreach ($create_content_menu as $type => $item): ?>
                                         <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
@@ -445,7 +444,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                     <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
 
 
-                                    <?php $custom_ui = mw()->module_manager->ui('live_edit.toolbar.action_menu.start'); ?>
+                                    <?php $custom_ui = mw()->modules->ui('live_edit.toolbar.action_menu.start'); ?>
                                     <?php if (!empty($custom_ui)): ?>
                                         <?php foreach ($custom_ui as $item): ?>
                                             <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
@@ -606,21 +605,35 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
             mw.$(".create-content-dropdown").hover(function () {
+
                 if (typeof mw.wysiwyg.hide_drag_handles == 'function') {
                     mw.wysiwyg.hide_drag_handles();
                 }
+
+
                 var el = $(this);
 
                 if (typeof(el[0]) == 'undefined') {
                     return;
                 }
-                 el.addClass("over");
+
+                var list = mw.$(".create-content-dropdown-list", el[0]);
+
+                el.addClass("over");
+                setTimeout(function () {
+                    mw.$(".create-content-dropdown-list").not(list).hide();
+                    if (el.hasClass("over")) {
+                        list.stop().show().css("opacity", 1);
+                    }
+                }, 222);
+
             }, function () {
                 var el = $(this);
                 el.removeClass("over");
                 setTimeout(function () {
                     if (!el.hasClass("over")) {
-                         if (typeof mw.wysiwyg.show_drag_handles == 'function') {
+                        mw.$(".create-content-dropdown-list", el[0]).stop().fadeOut(322);
+                        if (typeof mw.wysiwyg.show_drag_handles == 'function') {
                             mw.wysiwyg.show_drag_handles();
                         }
                     }
@@ -668,24 +681,22 @@ if (isset($_COOKIE['mw_exp'])) {
     });
 </script>
 
-<span class="mw-plus-top mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
-<span class="mw-plus-bottom mw-wyswyg-plus-element tip" data-tip="Insert module"></span>
+<span class="mw-plus-top mw-wyswyg-plus-element"></span>
+<span class="mw-plus-bottom mw-wyswyg-plus-element"></span>
 
 <div style="display: none" id="plus-modules-list">
-    <h3>Select module</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
-        <div class="plus-modules-list-box">
+        <div class="mw-ui-box">
             <module type="admin/modules/list" data-clean="true" class="modules-list-init module-as-element">
         </div>
     </div>
 </div>
 
 <div style="display: none" id="plus-layouts-list">
-    <h3>Select layout</h3>
     <div class="plus-modules-list" >
         <input type="text" class="mw-ui-searchfield" placeholder="<?php _e('Search') ?>"/>
-        <div class="plus-modules-list-box">
+        <div class="mw-ui-box">
             <module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element">
         </div>
     </div>

@@ -1,6 +1,6 @@
 <?php
 
-must_have_access();
+only_admin_access();
 ?>
 <?php $get_log_file_url = mw()->update->get_log_file_url(); ?>
 

@@ -26,12 +26,9 @@
 
 .module-shop-offers .status-active {
     color: green;
+    font-weight: bold;
 }
 
 .module-shop-offers .status-inactive {
     color: red;
-}
-
-.td-valign td{
-    vertical-align: middle;
 }

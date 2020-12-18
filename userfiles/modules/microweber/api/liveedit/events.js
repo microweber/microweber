@@ -1,10 +1,8 @@
 mw.liveedit.handleEvents = function() {
-    mw.$(document.body).on('touchmove mousemove', function(e){
+    mw.$(document.body).on('touchmove mousemove', function(){
         if(mw.liveEditSelector.interactors.active) {
-            if( !mw.liveedit.data.get('move', 'hasModuleOrElement')){
-                if(e.target !== mw.drag.plusTop && e.target !== mw.drag.plusBottom) {
-                    mw.liveEditSelector.hideItem(mw.liveEditSelector.interactors);
-                }
+            if( !mw.liveedit.data.get('move', 'hasModuleOrElement') ){
+                mw.liveEditSelector.hideItem(mw.liveEditSelector.interactors);
             }
         }
     });
@@ -78,11 +76,12 @@ mw.liveedit.handleEvents = function() {
         if (e.type === 'mousedown' || e.type === 'touchstart') {
             if (!mw.wysiwyg.elementHasFontIconClass(e.target)
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
+                mw.$(mw.iconSelectorGUI).hide();
 
-                mw.editorIconPicker.tooltip('hide');
-                try {
+                mw.iconSelector.hide();
+                try{
                     $(mw.liveedit.widgets._iconEditor.tooltip).hide();
-                } catch(e) {
+                }catch(e){
 
                 }
 

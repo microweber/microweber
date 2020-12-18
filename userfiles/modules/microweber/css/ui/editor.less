@@ -1,0 +1,50 @@
+
+@editorSpacing: 5px;
+
+.mw-editor-wrapper{
+    &.mw-editor-default{
+        border:1px solid #DDDDDD;
+        background-color: #F5F5F5;
+        .mw-bar-row {
+            border-bottom:1px solid #DDDDDD;
+            padding: @editorSpacing;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            .mw-bar-control-item{
+                vertical-align: middle;
+                &+.mw-bar-control-item{
+                    margin-left: @editorSpacing;
+                }
+            }
+            .mw-editor-controller-button{
+                font-size: 19px;
+                padding: 0;
+                width: 32px;
+                line-height: 2.308rem;
+            }
+        }
+        .mw-editor-area{
+            background-color: #fff;
+            padding: @editorSpacing;
+            min-height: 100px;
+        }
+        .mw-editor-state-component{
+
+        }
+    }
+    .mw-editor-controller-component{
+        display: inline-block;
+    }
+    .mw-bar-delimiter{
+        display: inline-block;
+        height: 16px;
+        width: 2px;
+        margin: 2px;
+        background-color: #b7b7b7;
+        border-left: 1px solid #eaeaea;
+        vertical-align: middle;
+    }
+}

@@ -1,3 +1,4 @@
-<?php must_have_access(); ?>
+<?php only_admin_access(); ?>
 
-<module type="admin/modules/templates_layouts" live_edit="false" data-screenshots="true" data-search="true"  />
+
+<module type="admin/modules/templates_layouts" data-screenshots="true" data-search="true"  />

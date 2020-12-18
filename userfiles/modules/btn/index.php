@@ -123,12 +123,12 @@ if (is_file($template_file) != false) {
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
         <?php print $action_content; ?>
     </script>
-
+    
     <script>
         function <?php print $popup_function_id ?>() {
-            mw.dialog({
+            mw.modal({
                 name: 'frame<?php print $btn_id; ?>',
-                content: $(mwd.getElementById('area<?php print $btn_id; ?>')).html(),
+                html: $(mwd.getElementById('area<?php print $btn_id; ?>')).html(),
                 template: 'basic',
                 title: "<?php print addslashes ($text); ?>"
             });

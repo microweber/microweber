@@ -3,10 +3,12 @@
 
 namespace rating;
 
-use MicroweberPackages\Database\Crud;
+
+use Microweber\Utils\Crud;
 
 class Model extends Crud
 {
+
     public $app;
     public $table = 'rating';
 

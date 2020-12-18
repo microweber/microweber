@@ -114,9 +114,11 @@ mw.custom_fields = {
     },
 
     after_save: function () {
+        //  mw.reload_module('custom_fields/list');
 
-        mw.reload_module_everywhere('custom_fields');
-        mw.reload_module_everywhere('custom_fields/list');
+        mw.reload_module('custom_fields');
+        mw.reload_module_parent('custom_fields/list');
+        mw.reload_module_parent('custom_fields');
 
 
         mw.trigger("custom_fields.save");

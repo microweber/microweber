@@ -37,7 +37,7 @@ description: Login default
                     <input class="large-field form-control" name="password" <?php if (isset($input['password']) != false): ?> value="<?php print $input['password'] ?>"  <?php endif;  ?> type="password" placeholder="<?php _e("Password"); ?>"/>
                 </div>
                 <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
-                    <module type="captcha" template="admin" />
+                    <module type="captcha" />
                 <?php endif; ?>
                 <a class="reset-password-link" href="<?php print forgot_password_url(); ?>">
                     <?php _e("Forgot password"); ?>
@@ -94,20 +94,5 @@ description: Login default
 
             </form>
         </div>
-
-          <?php
-          if(get_option('register_email_verify', 'users') == 'y'){
-              if(isset($_GET['verify_email'])) {
-          ?>
-          <div class="pull-left alert alert-warning"><?php _e("Please check your inbox for your account activation email"); ?></div>
-          <?php
-              } elseif(isset($_GET['email_verified'])) {
-          ?>
-          <div class="pull-left alert alert-success"><?php _e("Success! Your email has been verified and account activated. You can now login."); ?></div>
-          <?php
-              }
-          }
-          ?>
-
     <?php endif; ?>
 </div>

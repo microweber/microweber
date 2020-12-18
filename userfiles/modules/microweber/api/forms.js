@@ -7,23 +7,6 @@ var getFieldValue = function(a){
 //Cross-browser placeholder
 
 
-mw.Form = function(options) {
-    options = options || {};
-    var defaults = {
-        form: null
-    };
-    this.settings = $.extend({}, defaults, options);
-
-    this.$form = mw.$(this.settings.form).eq(0);
-    this.form = this.$form[0];
-    if (!this.form) {
-        return;
-    }
-
-    this.addBeforePost = function (func, cb) {
-
-    };
-};
 
 
 
@@ -62,7 +45,8 @@ mw.form = {
         mw.$(target).addClass('loading');
     }
   },
-  post: function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
+
+  post:function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
     mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
@@ -78,81 +62,35 @@ mw.form = {
 
 	}
 
+ // var is_form_valid = true;
+
 
     if(is_form_valid){
-
-        var form = mw.$(selector)[0];
-
-        if(form._isSubmitting){
-            return;
-        }
-        form._isSubmitting = true;
-
-
-        var when = form.$beforepost ? form.$beforepost : function () {};
-        $.when(when()).then(function() {
-            setTimeout(function () {
-                var obj = mw.form.serialize(selector, ignorenopost);
-                var req = {
-                    url: url_to_post,
-                    data: before_send ? before_send(obj) : obj,
-                    method: 'post',
-                    dataType: "json",
-
-                    success: function(data){
-/*
-                       if(typeof (data.error) != 'undefined' && data.error){
-                           mw.notification.error(data.error);
-                       }*/
-
-                        mw.session.checkPause = false;
-                        if(typeof callback === 'function'){
-                            callback.call(data, mw.$(selector)[0]);
-                        } else {
-                            return data;
-                        }
-                    },
-
-                    onExternalDataDialogClose: function() {
-                        if(callback_user_cancel) {
-                            callback_user_cancel.call();
-                        }
-                    }
+        var obj = mw.form.serialize(selector, ignorenopost);
+      	var xhr = $.ajax({
+            url: url_to_post,
+            data: before_send ? before_send(obj) : obj,
+            method: 'post',
+            success: function(data){
+                mw.session.checkPause = false;
+                if(typeof callback === 'function'){
+                    callback.call(data, mw.$(selector)[0]);
+                } else {
+                    return data;
                 }
-
-                if (form.getAttribute('enctype') === "multipart/form-data") {
-
-                    var form_data = new FormData();
-                    $.each(req.data, function (k,v) {
-                        form_data.append(k,v);
-                    });
-
-                    $('[type="file"]', form).each(function () {
-                        if(typeof this.files[0] !== 'undefined') {
-                            form_data.set(this.name, this.files[0]);
-                        }
-                    })
-
-                    req.data = form_data;
-                    req.processData = false;
-                    req.contentType = false;
-                    req.mimeType = 'multipart/form-data';
+            },
+            onExternalDataDialogClose: function() {
+                if(callback_user_cancel) {
+                    callback_user_cancel.call();
                 }
-
-                var xhr = $.ajax(req);
-                xhr.always(function(jqXHR, textStatus) {
-                    form._isSubmitting = false;
-                });
-                xhr.fail(function(a,b) {
-                    mw.session.checkPause = false;
-                    if(typeof callback_error === 'function'){
-                        callback_error.call(a,b);
-                    }
-                });
-            }, 78);
+            }
+      	});
+        xhr.fail(function(a,b) {
+           mw.session.checkPause = false;
+           if(typeof callback_error === 'function'){
+              callback_error.call(a,b);
+           }
         });
-
-
     }
 	return false;
   },

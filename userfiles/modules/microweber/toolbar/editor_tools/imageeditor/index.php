@@ -1,35 +1,17 @@
 <div id="image_settings_modal_holder">
 
+    <link rel="stylesheet" href="<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/cropper.min.css" type="text/css"/>
+    <script src="<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/cropper.min.js"></script>
+    <script src="<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/jquery-cropper.min.js"></script>
 
-    <script>
-        mw.require("<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/cropper.min.css");
-        mw.require("<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/cropper.min.js");
-        mw.require("<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/jquery-cropper.min.js");
-        mw.require('css_parser.js');
-        mw.lib.require('colorpicker');
-        mw.require("files.js");
-        mw.require("widgets.css");
-    </script>
-
-    <style>
+    <style scoped="scoped">
 
         #the-image-holder {
             position: relative;
             text-align: center;
             max-width: 100%;
-            height: 200px;
+            max-height: 300px;
             direction: ltr !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: white;
-            background-image:
-                linear-gradient(45deg, #ccc 25%, transparent 25%),
-                linear-gradient(-45deg, #ccc 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #ccc 75%),
-                linear-gradient(-45deg, transparent 75%, #ccc 75%);
-            background-size:20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
 
         #mwimagecurrentoverlay{
@@ -46,14 +28,21 @@
 
         #the-image-holder img {
             max-width: 100%;
-            max-height: 100%;
+            max-height: 300px;
             box-shadow: 0 0 4px -2px #000;
             -webkit-box-shadow: 0 0 4px -1px #000;
         }
-
+        .nav-actions{
+            float: right;
+        }
 
         @media (max-width:550px){
-
+            .nav-actions{
+                clear: both;
+                float: none;
+                padding-top: 20px;
+                display: block;
+            }
             .imeditor-image-description,
             .imeditor-image-description > div.mw-ui-col{
                 display: block;
@@ -87,7 +76,14 @@
 
     </style>
 
+    <script>
+        mw.require('css_parser.js');
+        // mw.require('color.js', 'color_js');
+        // mw.require('color.js');
+        mw.lib.require('colorpicker');
 
+        mw.require("files.js");
+    </script>
 
     <div class='image_settings_modal'>
 
@@ -105,19 +101,18 @@
                 <div class="mw-ui-btn-nav pull-left" style="margin-right:12px">
 
 
-                  <span class="mw-ui-btn tip" data-tip="<?php _e('Crop') ?>" onclick="createCropTool();">
-                    <span class="mdi mdi-crop"></span>
+                  <span class="mw-ui-btn" onclick="createCropTool();">
+                    <span class="mw-icon-crop"></span> &nbsp;<?php _e('Crop') ?>
                   </span>
-                  <span class="mw-ui-btn mw-ui-btn-icon tip"
-                        data-tip="<?php _e('Rotate'); ?>"
+                  <span class="mw-ui-btn mw-ui-btn-icon"
                         onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
-                    <span class="mdi mdi-refresh"></span>
+                    <span class="mw-icon-app-refresh-empty"></span> &nbsp; <?php _e('Rotate'); ?>
                   </span>
 
                 </div>
 
 
-                <div class="mw-dropdown mw-dropdown-default pull-left">
+                <div class="mw-dropdown mw-dropdown-default pull-left" id="" style="width: 140px;">
                     <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val"><?php _e("Effects"); ?></span>
                     <div class="mw-dropdown-content" style="display: none;">
                         <ul>
@@ -175,10 +170,10 @@
 
                 <script>
 
-                    var isBG = false;
+                    isBG = false;
 
 
-                  var CurrSRC = function(b){
+                  CurrSRC = function(b){
                     var curr = parent.mw.image.currentResizing ? parent.mw.image.currentResizing[0] : new Image();
                     if(curr.nodeName == 'IMG'){
                       if(!b){
@@ -212,7 +207,7 @@
                     }
                   }
 
-                  var setColor = function(save){
+                  setColor = function(save){
                       var color = $("#overlaycolor").val();
                       var alpha = parseInt($("#overlaycoloralpha").val(), 10);
                       if(isNaN(alpha)){
@@ -230,17 +225,18 @@
                   $(document).ready(function(){
 
                       mw.top().on('imageSrcChanged', function(e, node, url){
-                        if(url !== $('#mwimagecurrent')[0].src){
+                        if(url != $('#mwimagecurrent')[0].src){
                             $('#mwimagecurrent')[0].src = url;
                         }
                       });
 
 
-                  if (mw.parent().image.currentResizing) {
-                      SelectedImage =  mw.parent().image.currentResizing[0];
+                  if (self !== parent && parent.mw.image.currentResizing) {
+                      SelectedImage = parent.mw.image.currentResizing[0];
                   }
-                  else if (mw.parent().image.currentResizing) {
-                      SelectedImage = mw.parent().element('.element-current').get(0);
+                  else if (self !== parent && parent.mw.image.currentResizing) {
+
+                      SelectedImage = parent.mw.$('.element-current')[0];
                   }
 
                       if(!window.SelectedImage){
@@ -265,7 +261,7 @@
 
 
                     }
-                    mw.colorPicker({
+                    pick3 = mw.colorPicker({
                       element:'#overlaycolor',
                       onchange:function(color){
                         $("#overlaycolor").val(color);
@@ -278,6 +274,8 @@
                       if(window.thismodal){
                           thismodal.remove()
                       }
+
+
                     })
                   })
                 </script>
@@ -314,7 +312,7 @@
                 </div>
             </div>
             </div>
-            <div class="mw-ui-form-controllers-footer nav-actions">
+            <div class="mw-ui-btn-nav nav-actions">
 
 
 
@@ -339,11 +337,10 @@
     var createCropTool = function () {
         mw.$('#cropmenu').show();
         mw.$('#editmenu').hide();
-        mw.$('.nav-actions').hide();
         cropImage = $('#mwimagecurrent');
         cropImage.cropper({
             crop: function (data) {
-              mw.$('.cropper-dragger', cropImage[0].parentNode).on('dblclick', function () {
+              mw.$('.cropper-dragger', cropImage[0].parentNode).bind('dblclick', function () {
                   DoCrop();
               });
             }
@@ -353,7 +350,7 @@
     }
 
 
-  var DoCrop = function () {
+    DoCrop = function () {
         var data = cropImage.cropper("getData");
         var canvas = document.createElement('canvas');
         canvas.width = data.width,
@@ -369,13 +366,12 @@
         mw.image.current = newimg;
         mw.$('#cropmenu').hide();
         mw.$('#editmenu').show();
-        mw.$('.nav-actions').show();
 
         $('.mw-ui-btn-nav.nav-actions').show();
         $('#edititems').show()
 
     }
-  var cropcancel = function () {
+    cropcancel = function () {
 
         mw.$(".cropper-container").remove();
         mw.$('#cropmenu').hide();
@@ -391,9 +387,16 @@
     }
 
     $(mwd).ready(function () {
+
+
+
+
         if (mw.tools.hasParentsWithTag(SelectedImage, 'a')) {
+
+
             $("#link").val($(mw.tools.firstParentWithTag(SelectedImage, 'a')).attr("href"));
         }
+
 
         mw.image.current_need_resize = false;
 

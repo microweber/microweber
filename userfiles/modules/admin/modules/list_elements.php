@@ -1,7 +1,10 @@
 <?php
-// must_have_access('module.admin.modules.index');
+admin_access();
 
-$is_elements = true;
+
+       $is_elements = true;
  //d($modulsdsdes );
 
 include('list.php');
+?>
+

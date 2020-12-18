@@ -3,7 +3,7 @@
 
 namespace Microweber\Comments\Controllers;
 
-use MicroweberPackages\View\View;
+use Microweber\View;
 
 
 class Admin
@@ -25,14 +25,13 @@ class Admin
         }
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
 
+        only_admin_access();
+
     }
 
 
     function index($params)
     {
-        if (!user_can_access('module.comments.index')) {
-            return;
-        }
 
         $view_file = $this->views_dir . 'admin.php';
         $view = new View($view_file);
@@ -44,10 +43,6 @@ class Admin
 
     function comments_list($params)
     {
-
-        if (!user_can_access('module.comments.index')) {
-            return;
-        }
 
         if (!isset($params['content_id'])) {
 
@@ -84,7 +79,9 @@ class Admin
             $content_id = false;
         }
 
+
         $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
+
 
         $view_file = $this->views_dir . 'comments_list.php';
         $view = new View($view_file);
@@ -100,9 +97,6 @@ class Admin
 
     function comment_item($params)
     {
-        if (!user_can_access('module.comments.index')) {
-            return;
-        }
 
         $data = array(
             'id' => $params['comment_id'],
@@ -130,9 +124,6 @@ class Admin
 
     function manage($params)
     {
-        if (!user_can_access('module.comments.index')) {
-            return;
-        }
 
         $keyword = false;
         $paging_param = 'comments_page';

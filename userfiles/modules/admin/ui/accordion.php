@@ -343,83 +343,62 @@
 <div class="ui_section">
     <script>
         mw.require('editor.js');
-        mw.lib.require("mwui");
         $(document).ready(function () {
 
-            var editor = new MWEditor({
+            var editor = new mw.Editor({
                 selector: '#editortest',
                 mode: 'iframe',
                 controls: [
                     [
-                        'undoRedo', '|', 'fontSelector', 'fontSize', 'media', 'format','unlink', 'removeFormat'
-
-
+                        'undoRedo', '|', 'fontSelector', 'fontSize', 'media',
+                        {
+                            group: {
+                                icon: 'mdi mdi-edit',
+                                when: 500,
+                                controls: ['bold', 'italic']
+                            }
+                        }
                     ],
-                    [ 'bold', 'italic', '|', 'indent', 'outdent', 'table' ]
+                    [ 'bold', '|', 'italic' ]
                 ],
-                content: `1Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
-                In faucibus odio eget nisi pulvinar porttitor. <a href="http://somerandomweb.com">Nam elementum magna</a> Nam elementum magna in velit malesuada tin
+                content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
+                In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
                 cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="http://localhost/mw1/userfiles/media/localhost/top-matte-cars-060815-6912.jpg"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
                 , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });
-            var allControls = Object.keys(MWEditor.controllers);
-            var spl = Math.floor(allControls.length/2);
-            var ctrl1 = allControls.slice(0, spl);
-            var ctrl2 = allControls.slice(spl, allControls.length);
 
-            var editor2 = new MWEditor({
+            var editor2 = new mw.Editor({
                 selector: '#editortest2',
                 mode: 'div',
                 controls: [
-                    [
-                        ...ctrl1,
-                        {
-                            group: {
-                                icon: 'mdi mdi-format-bold',
-                                controls: ['bold', 'italic', 'fontSize']
-                            }
-                        },
-                        {
-                            group: {
-                                controller: 'bold',
-                                controls: ['italic', 'fontSize']
-                            }
-                        }
-                    ],
-                    [
-                        ...ctrl2,
-                        {
-                            group: {
-                                icon: 'mdi mdi-format-align-left',
-                                when: 'only screen and (max-width: 600px)',
-                                controls: ['align']
-                            }
-                        }
-                    ]
+                    ['undoRedo', '|', 'fontSelector'],
+                    ['bold', '|', 'italic', '|', 'fontSize'   ]
                 ],
                 content: `Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
-                In faucibus odio eget nisi pulvinar porttitor. <a href="http://somerandomweb.com">Nam elementum magna</a> in velit malesuada tin
-                cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="https://picsum.photos/200"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
+                In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
+                cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="http://localhost/mw1/userfiles/media/localhost/top-matte-cars-060815-6912.jpg"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
                 , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });
+            console.log(editor2)
 
-            /*var editor3 = new MWEditor({
+            var editor3 = new mw.Editor({
                 mode: 'document',
                 editMode: 'liveedit',
                 controls: [
-                    [ 'undoRedo', '|', 'fontSelector' ],
-                    [ 'bold', '|', 'italic', '|', 'fontSize'   ]
+                    ['undoRedo', '|', 'fontSelector'],
+                    ['bold', '|', 'italic', '|', 'fontSize'   ]
                 ],
                 regions:'.edit'
-            });*/
+            });
+            console.log(editor3)
         });
     </script>
     <h2>Editor</h2>
     <br>
-<div style="display: none"><b>Iframe</b>
-    <div id="editortest"></div></div>
+<b>Iframe</b>
+<div id="editortest"></div>
     <br>
     <br>
     <b>Div</b>
@@ -430,7 +409,7 @@
 <div class="edit">
     Nulla facilisi. Donec <b>congue mauris mi, nec elementum diam elementum</b> sed.
     In faucibus odio eget nisi pulvinar porttitor. Nam elementum magna in velit malesuada tin
-    cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="https://picsum.photos/200"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
+    cidunt nec id nisl. Duis <i>vel arcu non <img id="image_1586547086398" contenteditable="false" class="element" src="http://localhost/mw1/userfiles/media/localhost/top-matte-cars-060815-6912.jpg"> nisl euismod malesuada. Fusce efficitur <b>sollicitudin lectus</b>
         , imperdiet cursus lorem bib</i>endum eget. Proin rutrum porttitor risus, eget suscipit ipsum finibus in.
     Nunc posuere ultricies eros, eget aliquet mauris.`
 

@@ -3,9 +3,8 @@
 if (!mw_is_installed()) {
 
 } else {
-    if (!user_can_access('module.marketplace.index')) {
-        return;
-    }
+    only_admin_access();
+
 }
 
 
@@ -31,15 +30,12 @@ if (isset($params['rel_type'])) {
 if (!$confirm_key) {
     return;
 }
-$get_existing_files_for_confirm = [];
+
 $confirm_files_count = 0;
-$get_existing_files_for_confirm_all = cache_get($confirm_key, 'composer');
+$get_existing_files_for_confirm = cache_get($confirm_key, 'composer');
 
-if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_for_confirm_all['user'])) {
-    $confirm_files_count = count($get_existing_files_for_confirm_all['user']);
-    $get_existing_files_for_confirm = $get_existing_files_for_confirm_all['user'];
-
-
+if (is_array($get_existing_files_for_confirm)) {
+    $confirm_files_count = count($get_existing_files_for_confirm);
 } else {
     return;
 }
@@ -67,7 +63,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
             success: function (msg) {
                 mw.notification.msg(msg, 3000);
                 if (msg.success) {
-                    mw.dialog.get('#js-buttons-confirm-install').remove()
+                    mw.tools.modal.get('#js-buttons-confirm-install').remove()
                 }
 
                 if (typeof(mw.marketplace_dialog_jquery_ui) != 'undefined') {
@@ -121,52 +117,60 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
 
 
 <div class="js-install-package-loading-container-confirm">
-    <div class="text-center">
-        <div class="mb-3">
-            <h5>Please confirm the installation of <br/> <strong><?php print $require_name ?></strong></h5>
-            <h6>Version <?php print $require_version ?> </h6>
-            <small class="text-muted"><?php print count($get_existing_files_for_confirm); ?> files will be installed</small>
-        </div>
+    <div class="">
+        <div class="mw-flex-row text-center">
+            <div class="mw-flex-col-xs-12">
+                <div class="mw-ui-box text-center">
+                    <div class="mw-ui-box-header">
+                        <h4>Please confirm the installation of <br/> <strong><?php print $require_name ?></strong></h4>
+                        <h5>Version <?php print $require_version ?> </h5>
+                        <h6><?php print count($get_existing_files_for_confirm); ?> files will be installed</h6>
 
-        <div>
-            <?php if ($get_existing_files_for_confirm) { ?>
-                <div class="js-files hidden">
-                    <table class="table bg-white text-left" style="table-layout: fixed;">
-                        <thead>
-                        <tr>
-                            <th>File location</th>
-                        </tr>
+                    </div>
+                    <div class="mw-ui-box-content mw-text p-0">
+                        <?php if ($get_existing_files_for_confirm) { ?>
+                            <div class="js-files hidden">
+                                <table class="mw-ui-table mw-full-width mw-ui-table-basic text-left"
+                                       style="table-layout: fixed;">
+                                    <thead>
+                                    <tr>
+                                        <th>File location</th>
+                                    </tr>
 
-                        </thead>
 
-                        <?php
-                        $i = 0;
+                                    </thead>
 
-                        foreach ($get_existing_files_for_confirm as $file) { ?>
-                            <tr>
-                                <td><?php print ($file) ?></td>
-                            </tr>
-                            <?php
+                                    <?php
+                                    $i = 0;
 
-                            if ($i > 1000) {
-                                break;
-                            }
+                                    foreach ($get_existing_files_for_confirm as $file) { ?>
+                                        <tr>
+                                            <td><?php print ($file) ?></td>
+                                        </tr>
+                                        <?php
 
-                            $i++;
-                        } ?>
-                        </tbody>
-                    </table>
+                                        if ($i > 1000) {
+                                            break;
+                                        }
+
+                                        $i++;
+                                    } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php } ?>
+                        <div id="js-buttons-confirm-install" style="padding: 20px;">
+                            <a class="mw-ui-btn mw-ui-btn-important" onclick="mw.dialog.get(this).remove()">Cancel</a>
+
+                            <?php if ($get_existing_files_for_confirm) { ?>
+                                <button type="button" class="js-show-files mw-ui-btn mw-ui-btn-info">Show files</button>
+                            <?php } ?>
+
+                            <a id="js-buttons-confirm-install-link" class="mw-ui-btn mw-ui-btn-notification"
+                               onclick="mw.install_composer_package_confirm_by_key('<?php print $confirm_key ?>', '<?php print $require_name ?>','<?php print $require_version ?>')">Confirm</a>
+                        </div>
+                    </div>
                 </div>
-            <?php } ?>
-
-            <div id="js-buttons-confirm-install" class="p-3 d-flex align-items-center justify-content-between">
-                <a class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()">Cancel</a>
-
-                <?php if ($get_existing_files_for_confirm) { ?>
-                    <button type="button" class="js-show-files btn btn-link btn-sm">Show files</button>
-                <?php } ?>
-
-                <a href="javascript:;" id="js-buttons-confirm-install-link" class="btn btn-success btn-sm" onclick="mw.install_composer_package_confirm_by_key('<?php print $confirm_key ?>', '<?php print $require_name ?>','<?php print $require_version ?>')">Confirm</a>
             </div>
         </div>
     </div>

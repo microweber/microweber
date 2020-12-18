@@ -242,9 +242,9 @@ mw.backup_export = {
 	},
 
 	choice: function(template_holder) {
-mw.log(mw.$(template_holder).html())
+
 		this.dialog = mw.dialog({
-		    title: 'Select data which you want to export',
+		    title: 'Select data wich want to export',
 		    id: 'mw_backup_export_modal',
             content: mw.$(template_holder).html(),
             width: 595,
@@ -261,49 +261,49 @@ mw.log(mw.$(template_holder).html())
             data: [
                 {
                     input: {name: 'export_items', value: 'media'},
-                    icon: { className: 'mdi mdi-shopping-outline'  },
+                    icon: { className: 'mw-micon-Bag-Coins'  },
                     title: 'Export all orders',
                     description: 'If you check this checkbox then all of your orders will be added into the backup export'
                 },
                 {
                     input: {name: 'export_items', value: 'users'},
-                    icon: { className: 'mdi mdi-account-multiple-outline'  },
+                    icon: { className: 'mw-micon-Couple-Sign'  },
                     title: 'Export users',
                     description: 'This check box will include all your user database in the backup'
                 },
                 {
                     input: {name: 'export_items', value: 'menus'},
-                    icon: { className: 'mdi mdi-menu'  },
+                    icon: { className: 'mw-micon-Bulleted-List'  },
                     title: 'Export menus',
                     description: 'If you want to include the existing menus in the bachup use this check'
                 },
                 {
                     input: {name: 'export_items', value: 'comments'},
-                    icon: { className: 'mdi mdi-comment-account-outline'  },
+                    icon: { className: 'mw-micon-Speach-BubbleDialog'  },
                     title: 'Export comments',
                     description: 'Export all comments of your website'
                 },
                 {
                     input: {name: 'export_items', value: 'forms_data,forms_lists,notifications'},
-                    icon: { className: 'mdi mdi-email-outline'  },
+                    icon: { className: 'mw-icon-app-email'  },
                     title: 'Export contacts',
                     description: 'Export all contact lists of your website'
                 },
                 {
                     input: {name: 'export_items', value: 'forms_data,forms_lists'},
-                    icon: { className: 'mdi mdi-format-list-text'  },
+                    icon: { className: 'mw-icon-post'  },
                     title: 'Export Posts & Contents',
                     description: 'Export all posts & contents of your website'
                 },
                 {
                     input: {name: 'export_items', value: ''},
-                    icon: { className: 'mdi mdi-cog-outline'  },
+                    icon: { className: 'mw-micon-File-Settings'  },
                     title: 'Export  website settings',
                     description: 'All settings lik, website name, company details etc, '
                 },
                 {
                     input: {name: 'export_media', value: true, checked: true},
-                    icon: { className: 'mdi mdi-image-multiple-outline'  },
+                    icon: { className: 'mw-micon-Photos'  },
                     title: 'Include media files  <span>(images, videos, etc..)</span>',
                     description: ''
                 }
@@ -333,7 +333,7 @@ mw.log(mw.$(template_holder).html())
 	    var scope = this;
 		mw.backup_export.get_log_check('start');
 		manifest.format = $('.js-export-format').val();
-		$.get(mw.settings.api_url+'BackupV2/export', manifest , function(exportData) {
+		$.get(mw.settings.api_url+'Microweber/Utils/BackupV2/export', manifest , function(exportData) {
 			if (exportData.data.download) {
 			    scope.done = true;
 				mw.backup_export.get_log_check('stop');
@@ -392,7 +392,7 @@ mw.log(mw.$(template_holder).html())
 
 		    },
 		    error: function() {
-               // scope.exportLog('Error opening log file.');
+                scope.exportLog('Error opening log file.');
 		    },
             always: function () {
 

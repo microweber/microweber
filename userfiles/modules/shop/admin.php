@@ -1,5 +1,5 @@
 <?php
-must_have_access();
+only_admin_access();
 
 $mw_notif = (url_param('mw_notif'));
 if ($mw_notif != false) {

@@ -18,7 +18,7 @@ mw.url = {
       return url.replace(/#[^#]*$/, "").replace(/\?[^\?]*$/, "")
     },
     getUrlParams:function(url){
-        url = mw.url.removeHash(url);
+        var url = mw.url.removeHash(url);
         if(url.contains('?')){
           var arr = url.slice(url.indexOf('?') + 1).split('&');
           var obj = {}, i=0, len = arr.length;
@@ -31,7 +31,7 @@ mw.url = {
         else{return {} }
     },
     set_param:function(param, value, url){
-        url = url || window.location.href;
+        var url = url || window.location.href;
         var hash = mw.url.getHash(url);
         var params = mw.url.getUrlParams(url);
         params[param] = value;
@@ -44,7 +44,7 @@ mw.url = {
         var params = mw.url.getUrlParams(url);
         delete params[param];
         var params_string = json2url(params);
-        url = mw.url.strip(url);
+        var url = mw.url.strip(url);
         return decodeURIComponent (url + "?" + params_string + hash);
     },
     getHashParams:function(hash){
@@ -125,7 +125,6 @@ mw.url = {
         return obj;
     },
     type:function(url){
-        if(!url) return;
       url = url.toString();
       if( url ===  'false' ){
           return false;
@@ -145,18 +144,16 @@ mw.url = {
 
       else{ return 'link'; }
     }
-};
+}
 
 mw.slug = {
-  max: 60,
   normalize:function(string){
-      if(!string) return '';
-      string = string.substring(0, mw.slug.max);
-      return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
+
+  //  return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\\/]/g, '');
+    return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
   },
   removeSpecials:function(string){
-    string = mw.slug.normalize(string);
-    if(!string) return string;
+    var string = mw.slug.normalize(string);
     var special = 'àáäãâèéëêìíïîòóöôõùúüûñç·=,:;',
         normal =  'aaaaaeeeeiiiiooooouuuunc------',
         len = special.length,
@@ -164,13 +161,29 @@ mw.slug = {
     for ( ; i<len; i++) {
        var bad = special[i];
        var good = normal[i];
-       string = string.replace(new RegExp(bad, 'g'), good);
+       var string = string.replace(new RegExp(bad, 'g'), good);
     }
     return string;
   },
   create:function(string){
-    string = string || '';
-    string = mw.slug.removeSpecials(string);
+    var string = mw.slug.removeSpecials(string);
     return string.trim().toLowerCase().replace(/[-\s]+/g, '-');
+  },
+  toggleEdit:function(){
+    var edit = mw.$(".edit-post-slug");
+    var view = mw.$(".view-post-slug");
+    mw.$([edit, view]).toggleClass('active');
+
+    if(view.hasClass("active")){
+     view.html(edit.val());
+    }
+    else{
+       edit.focus();
+    }
+  },
+  setVal:function(el){
+    var val = mw.slug.create(el.value);
+    el.value = val;
+    mw.$(".view-post-slug").html(val);
   }
 };

@@ -1,4 +1,4 @@
-MWEditor.controllersHelpers = {
+mw.Editor.controllersHelpers = {
     '|' : function () {
         return mw.element({
             tage: 'span',

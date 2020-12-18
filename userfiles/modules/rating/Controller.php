@@ -50,22 +50,8 @@ class Controller
         $get['rel_type'] = $rel_type;
         $get['rel_id'] = $rel_id;
         $get['avg'] = 'rating';
-    //    $rating = $this->model->get($get);
+        $rating = $this->model->get($get);
 
-        $cache_key = md5($rel_type . $rel_id. 'avg');
-        $rating_cache = \Cache::tags('rating')->get($cache_key);
-
-        if ($rating_cache == NULL) {
-            $rating = Rating::where('rel_type',$rel_type)->where('rel_id',$rel_id)->avg('rating');
-            if ($rating == NULL) {
-                $rating = '_';
-            }
-            \Cache::tags('rating')->put($cache_key, $rating);
-        } else {
-            $rating = $rating_cache;
-        }
-
-        $rating = (int) $rating;
 
 //        if ($rating_points > 0 and $total_of_ratings > 0) {
 //            $rating = $rating_points / $total_of_ratings;
@@ -88,7 +74,7 @@ class Controller
         if ($template_file and is_file($template_file)) {
             $view_file = $template_file;
             //$view_file = __DIR__ . DS . 'views' . DS . 'star_rating.php';
-            $view = new \MicroweberPackages\View\View($view_file);
+            $view = new \Microweber\View($view_file);
             $view->assign('ratings', intval($rating));
             $view->assign('rel_type', $rel_type);
             $view->assign('rel_id', $rel_id);
@@ -103,7 +89,6 @@ class Controller
     function simple_rating($item)
     {
 
-        return;
 
         $rating = 0;
         $rel_type = 'content';
@@ -123,10 +108,6 @@ class Controller
         }
 
 
-        //Rating
-
-
-
         $get = array();
         $get['rel_type'] = $rel_type;
         $get['rel_id'] = $rel_id;
@@ -134,7 +115,7 @@ class Controller
         $total_of_ratings = $this->model->get($get);
 
         $view_file = __DIR__ . DS . 'views' . DS . 'simple_rating.php';
-        $view = new \MicroweberPackages\View\View($view_file);
+        $view = new \Microweber\View($view_file);
         if ($rating_points > 0 and $total_of_ratings > 0) {
             $rating = $rating_points / $total_of_ratings;
         }
@@ -149,8 +130,6 @@ class Controller
 
     function get_rating_points($item)
     {
-
-        return;
 
         $item = parse_params($item);
 
@@ -214,7 +193,7 @@ class Controller
         $total_of_ratings = $this->model->get($get);
 
         $view_file = __DIR__ . DS . 'views' . DS . 'comment_rating.php';
-        $view = new \MicroweberPackages\View\View($view_file);
+        $view = new \Microweber\View($view_file);
         if ($rating_points > 0 and $total_of_ratings > 0) {
             $rating = $rating_points / $total_of_ratings;
         }

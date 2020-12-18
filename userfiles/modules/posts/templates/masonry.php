@@ -28,7 +28,7 @@ description: Masonry
           "itemSelector": '.masonry-item',
           "gutter":5
         });
-        $(window).on('load', function(){
+        $(window).bind('load', function(){
              m.masonry({
             "itemSelector": '.masonry-item',
             "gutter":5

@@ -1,4 +1,4 @@
-<?php must_have_access(); ?>
+<?php only_admin_access(); ?>
 
 <script type="text/javascript">
 $(document).ready(function(){

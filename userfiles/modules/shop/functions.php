@@ -15,14 +15,14 @@ function mw_add_admin_menu_buttons($params = false)
         $btn['content_type'] = 'product';
         $btn['title'] = _e("Product", true);
         $btn['class'] = 'mai-product';
-        mw()->module_manager->ui('content.create.menu', $btn);
+        mw()->modules->ui('content.create.menu', $btn);
     }
     $btn = array();
     $btn['icon'] = '<span class="mai-market2"></span>';
     $btn['module'] = 'shop/settings';
     $btn['title'] =  _e("Shop", true);
 
-//    mw()->module_manager->ui('admin.settings.menu', $btn);
+//    mw()->modules->ui('admin.settings.menu', $btn);
 
 
 }
@@ -35,16 +35,16 @@ function mw_print_admin_dashboard_orders_btn()
     }
     $admin_dashboard_btn = array();
     $admin_dashboard_btn['view'] = 'shop/action:orders';
-    $admin_dashboard_btn['icon_class'] = 'mdi mdi-shopping';
+    $admin_dashboard_btn['icon_class'] = 'mai-shop';
     $notif_html = '';
     $notif_count = mw()->order_manager->get_count_of_new_orders();
     if ($notif_count > 0) {
-        $notif_html = '<span class="badge badge-danger badge-sm badge-pill">' . $notif_count . '</span>';
+        $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
     }
     $admin_dashboard_btn['text'] = _e("View Orders", true) . $notif_html;
     mw()->ui->module('admin.dashboard.menu', $admin_dashboard_btn);
 }
-/*
+
 event_bind('mw_edit_product_admin', function ($data) {
     if (isset($data['id'])) {
         if (get_option('shop_disabled', 'website') == 'y') {
@@ -52,10 +52,10 @@ event_bind('mw_edit_product_admin', function ($data) {
         }
         print '<module type="shop/products/product_options" content-id="' . $data['id'] . '" />';
     }
-});*/
+});
 
 
-/*event_bind('module.content.edit.main', function ($data) {
+event_bind('module.content.edit.main', function ($data) {
 
     if (isset($data['id']) and isset($data['content_type']) and $data['content_type'] == 'product') {
         $data['prices'] = mw()->fields_manager->get("field_type=price&for=content&for_id=" . $data['id']);
@@ -70,16 +70,16 @@ event_bind('mw_edit_product_admin', function ($data) {
         $btn['title'] = _e("Price", true);
         $btn['html'] = ' <module type="custom_fields" template="shop/products/edit_price" content_id="' . $data['id'] . '" />';
         $btn['class'] = 'titlepricecolumn';
-        mw()->module_manager->ui('content.edit.title.after', $btn);
+        mw()->modules->ui('content.edit.title.after', $btn);
     }
-});*/
+});
 
 
 event_bind('mw.user.login', function ($data) {
     if (is_array($data) and isset($data['old_sid'])) {
         $cur_sid = mw()->user_manager->session_id();
 
-        \MicroweberPackages\Cart\Cart::where('session_id', $data['old_sid'])->update(array('session_id' => $cur_sid));
+        Cart::where('session_id', $data['old_sid'])->update(array('session_id' => $cur_sid));
         mw()->cache_manager->delete('cart');
     }
 });

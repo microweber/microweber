@@ -1,10 +1,10 @@
 <?php
 
 
-use MicroweberPackages\View\View;
+use Microweber\View;
 
 
-must_have_access();
+only_admin_access();
 
 
 $shipping_to_country = mw('shop\shipping\gateways\country\shipping_to_country');

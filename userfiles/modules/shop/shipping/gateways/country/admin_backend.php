@@ -1,6 +1,6 @@
 <?php
 
-use MicroweberPackages\View\View;
+use Microweber\View;
 
 include __DIR__ . "/_admin_data.php";
 
@@ -41,11 +41,6 @@ print $view->display();
 
 
 ?>
-
-
-
-
-
 <?php
 /*
 <script>

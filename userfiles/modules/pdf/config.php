@@ -1,4 +1,6 @@
+
 <?php
+
 $config = array();
 $config['name'] = "PDF";
 $config['author'] = "Microweber";

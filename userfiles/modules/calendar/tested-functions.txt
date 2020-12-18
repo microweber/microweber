@@ -1,0 +1,59 @@
+1.Doesn't repeat
+Edit - ok
+Adding - ok
+Backend - ok
+Frontend - ok
+
+2.Daily
+Edit - ok
+Adding - ok
+Backend - ok
+Frontend - ok
+
+3.Weekly on Friday
+Edit - ok
+Adding - ok
+Backend - ok
+Frontend - ok
+
+4.Weekly on all days
+Edit - ok
+Adding - ok
+Backend - ok
+Frontend - ok
+
+5.Every weekday
+Edit - ok
+Adding - ok
+Backend - ok
+Frontend - ok
+
+6.Monthly on the day number 
+Edit -ok
+Adding -ok
+Backend -ok
+Frontend - X
+
+7. Monthly on the week number and day name
+Edit -ok
+Adding -ok
+Backend -ok
+Frontend - X
+
+8. Annually on the month name and day number
+Edit -ok
+Adding -ok
+Backend -ok
+Frontend - ok
+
+9. Custom repeat every 1 year
+Edit -ok
+Adding -ok
+Backend -ok
+Frontend - ok
+
+10. Custom repeat every 1,2,3.. days
+Edit -ok
+Adding -ok
+Backend -ok
+Frontend - ok

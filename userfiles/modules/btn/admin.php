@@ -1,257 +1,279 @@
-<?php must_have_access(); ?>
-
+<?php only_admin_access(); ?>
 <?php
-$from_live_edit = false;
-if (isset($params["live_edit"]) and $params["live_edit"]) {
-    $from_live_edit = $params["live_edit"];
+$style = get_option('button_style', $params['id']);
+$size = get_option('button_size', $params['id']);
+$action = get_option('button_action', $params['id']);
+
+$onclick = false;
+if (isset($params['button_onclick'])) {
+    $onclick = $params['button_onclick'];
 }
+
+$url  = $url_display = get_option('url', $params['id']);
+$popupcontent = get_option('popupcontent', $params['id']);
+$text = get_option('text', $params['id']);
+$url_blank = get_option('url_blank', $params['id']);
+$icon = get_option('icon', $params['id']);
+
+
+
+$link_to_content_by_id = 'content:';
+$link_to_category_by_id = 'category:';
+
+
+
+if (substr($url, 0, strlen($link_to_content_by_id)) === $link_to_content_by_id) {
+    $link_to_content_by_id = substr($url, strlen($link_to_content_by_id));
+    if ($link_to_content_by_id) {
+        $url_display = content_link($link_to_content_by_id);
+    }
+} else if (substr($url, 0, strlen($link_to_category_by_id)) === $link_to_category_by_id) {
+    $link_to_category_by_id = substr($url, strlen($link_to_category_by_id));
+
+    if ($link_to_category_by_id) {
+        $url_display = category_link($link_to_category_by_id);
+    }
+}
+
+
+
+
 ?>
+<style>
+    select {
+        width: 100%;
+    }
 
-<?php if (isset($params['backend'])): ?>
-    <module type="admin/modules/info"/>
-<?php endif; ?>
+    #editor_holder {
+        display: none;
+    }
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
-        </h5>
+    .mw-iframe-editor {
+        width: 100%;
+        height: 300px;
+    }
+
+    #icon-picker ul {
+        height: 220px;
+    }
+
+    #icon-picker li {
+        margin: 5px 0;
+        float: left;
+        width: 33.333%;
+        text-align: center;
+    }
+
+    #icon-picker .mw-ui-btn > *:first-child{
+        margin-right: 7px;
+    }
+    #icon-picker input,
+    #icon-picker {
+        width: 250px;
+    }
+
+    .mw-ui-field-icon {
+        height: 35px;
+    }
+
+    .mw-ui-field-icon i {
+        font-size: 30px;
+        line-height: 30px;
+    }
+
+</style>
+<script>
+    mw.require('icon_selector.js')
+    mw.require('wysiwyg.css')
+</script>
+<script>
+    launchEditor = function () {
+        if (!window.editorLaunched) {
+            editorLaunched = true;
+            PopUpEditor = mw.editor({
+                element: document.getElementById('popupcontent'),
+                hideControls: ['format', 'fontsize']
+            });
+        }
+
+    }
+
+    $(document).ready(function () {
+        btn_action = function () {
+            var el = mw.$("#action");
+            if (el.val() == 'url') {
+                $("#editor_holder").hide();
+                mw.$("#btn_url_holder").show();
+            }
+            else if (el.val() == 'popup') {
+                $("#editor_holder").show();
+                mw.$("#btn_url_holder").hide();
+                launchEditor();
+            }
+            else {
+                $("#editor_holder").hide();
+                mw.$("#btn_url_holder").hide();
+            }
+        }
+
+        btn_action();
+        mw.$("#action").change(function () {
+            btn_action();
+        });
+    });
+</script>
+
+<div class="module-live-edit-settings module-btn-settings">
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Text"); ?></label>
+        <input type="text" name="text" class="mw_option_field mw-ui-field w100" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>"/>
     </div>
 
-    <div class="card-body pt-3">
-        <?php
-        $style = get_option('button_style', $params['id']);
-        $size = get_option('button_size', $params['id']);
-        $action = get_option('button_action', $params['id']);
 
-        $onclick = false;
-        if (isset($params['button_onclick'])) {
-            $onclick = $params['button_onclick'];
-        }
+    <?php if (!$onclick): ?>
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Action"); ?></label>
+        <select class="mw-ui-field mw_option_field w100" id="action" name="button_action">
 
-        $url = $url_display = get_option('url', $params['id']);
-        $popupcontent = get_option('popupcontent', $params['id']);
-        $text = get_option('text', $params['id']);
-        $url_blank = get_option('url_blank', $params['id']);
-        $icon = get_option('icon', $params['id']);
+            <?php /* <option <?php if ($action == '') {print 'selected';} ?> value=""><?php _e("None"); ?></option>*/ ?>
+            <option <?php if ($action == 'url' OR $action == '') {
+                print 'selected';
+            } ?> value="url">
+            <?php _e("Go to link"); ?>
+            </option>
 
+            <option <?php if ($action == 'popup') {
+                print 'selected';
+            } ?> value="popup">
+            <?php _e("Open a pop-up window"); ?>
+            </option>
 
-        $link_to_content_by_id = 'content:';
-        $link_to_category_by_id = 'category:';
+            <option <?php if ($action == 'submit') {
+                print 'selected';
+            } ?> value="submit">
+            <?php _e("Submit form"); ?>
+            </option>
 
+        </select>
+    </div>
+    <?php endif; ?>
 
-        if (substr($url, 0, strlen($link_to_content_by_id)) === $link_to_content_by_id) {
-            $link_to_content_by_id = substr($url, strlen($link_to_content_by_id));
-            if ($link_to_content_by_id) {
-                $url_display = content_link($link_to_content_by_id);
-            }
-        } else if (substr($url, 0, strlen($link_to_category_by_id)) === $link_to_category_by_id) {
-            $link_to_category_by_id = substr($url, strlen($link_to_category_by_id));
+    <?php if (!$onclick): ?>
+    <div id="editor_holder" class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Popup content"); ?></label>
+        <textarea class="mw_option_field" name="popupcontent" id="popupcontent"><?php print $popupcontent; ?></textarea>
+    </div>
+    <?php endif; ?>
 
-            if ($link_to_category_by_id) {
-                $url_display = category_link($link_to_category_by_id);
-            }
-        }
-        ?>
-
-        <style>
-            #editor_holder {
-                display: none;
-            }
-
-            .mw-iframe-editor {
-                width: 100%;
-                height: 300px;
-            }
-
-
-            #icon-picker i{
-                font-size: 30px;
-                line-height: 45px;
-                margin-inline-start: -10px;
-                margin-inline-end: 8px;
-            }
-
-        </style>
-
-        <script>
-            mw.require('icon_selector.js')
-            mw.require('wysiwyg.css');
-        </script>
-
-        <script>
-
-            mw.require('editor.js');
-
-            launchEditor = function () {
-                if (!window.editorLaunched) {
-                    editorLaunched = true;
-                    PopUpEditor = mw.Editor({
-                        element: document.getElementById('popupcontent'),
-                        mode: 'div',
-                        smallEditor: false
-                    });
-                }
-            }
-
-            $(window).on('load', function () {
-                btn_action = function () {
-                    var el = mw.$("#action");
-                    if (el.val() == 'url') {
-                        $("#editor_holder").hide();
-                        mw.$("#btn_url_holder").show();
-                    } else if (el.val() == 'popup') {
-                        $("#editor_holder").show();
-                        mw.$("#btn_url_holder").hide();
-                        launchEditor();
-                    } else {
-                        $("#editor_holder").hide();
-                        mw.$("#btn_url_holder").hide();
-                    }
-                }
-
-                btn_action();
-                mw.$("#action").change(function () {
-                    btn_action();
-                });
-            });
-        </script>
-
-        <div class="module-live-edit-settings module-btn-settings">
-            <div class="text-left">
-                <div class="form-group">
-                    <label class="control-label"><?php _e("Text"); ?></label>
-                    <input type="text" name="text" class="mw_option_field form-control" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>"/>
-                </div>
-
-                <?php if (!$onclick): ?>
-                    <div class="form-group">
-                        <label class="control-label d-block"><?php _e("Action"); ?></label>
-                        <select class="mw_option_field selectpicker" data-width="100%" id="action" name="button_action">
-                            <option <?php if ($action == 'url' OR $action == ''): ?>selected<?php endif; ?> value="url"><?php _e("Go to link"); ?></option>
-                            <option <?php if ($action == 'popup'): ?>selected<?php endif; ?> value="popup"><?php _e("Open a pop-up window"); ?></option>
-                            <option <?php if ($action == 'submit'): ?>selected<?php endif; ?> value="submit"><?php _e("Submit form"); ?></option>
-                        </select>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (!$onclick): ?>
-                    <div id="editor_holder" class="form-group">
-                        <label class="control-label"><?php _e("Popup content"); ?></label>
-                        <textarea class="mw_option_field form-control" name="popupcontent" id="popupcontent"><?php print $popupcontent; ?></textarea>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (!$onclick): ?>
-
-                        <div id="btn_url_holder">
-                            <div class="form-group">
-                                <label class="control-label"><?php _e("Edit url"); ?></label>
-                                <br>
-
-                                <input type="hidden" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field" />
-
-                                <span class="mdi mdi-pencil"></span>
-                                <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
-
-                                <input type="hidden" name="url" id="btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
-                            </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="url_blank" value="y" class="mw_option_field custom-control-input" <?php if ($url_blank == 'y'): ?>checked<?php endif; ?> id="url_blank">
-                                    <label class="custom-control-label" for="url_blank"><?php _e("Open in new window"); ?></label>
-                                </div>
-                            </div>
-
-                    </div>
-                <?php endif; ?>
+    <?php if (!$onclick): ?>
+    <div id="btn_url_holder">
+        <div class="mw-ui-btn-nav">
 
 
 
-                <script>
-                    mw.top().require('instruments.js');
-                    var pickUrl = function () {
+            <input
+
+                    type="text"
+
+                    readonly="readonly"
+                    disabled="disabled"
+
+                    id="btn-default_url-show"
+                    value="<?php print $url_display; ?>"
+                    placeholder="<?php _e("Enter URL"); ?>"
+                    class="mw_option_field mw-ui-field" style="min-width: 350px" /> <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
 
 
-                        var linkEditor = new (mw.top()).LinkEditor({
-                            mode: 'dialog',
-                            controllers: [
-                                { type: 'url', config: {target: false, text: false}},
-                                { type: 'page', config: {target: false, text: false} },
-                                { type: 'post', config: {target: false, text: false}},
-                                { type: 'layout', config: {target: false, text: false} }
-                            ]
-                        });
 
-                        linkEditor.setValue({
-                            url: mw.$('#btn-default_url-show').val() || ''
-                        })
 
-                        linkEditor.promise().then(function (ldata){
-                            if (!ldata) {
-                                return
-                            }
-                            var url = ldata.url;
-                            var url_display = ldata.url;
-                            if (ldata.object) {
-                                if (ldata.object.id) {
-                                    if (ldata.object.type && ldata.data.type === 'category') {
-                                        url = 'category:' + ldata.data.id;
-                                    } else if (ldata.data.content_type) {
-                                        url = 'content:' + ldata.data.id;
-                                    }
-                                }
 
-                            }
-                            if (!url_display) {
-                                url_display = url;
-                            }
-                            mw.$('#btn-default_url').val(url).trigger('change');
-                            mw.$('#btn-default_url-show').val(url_display);
-                            mw.$('#display-url').html(url_display);
-                        })
 
-                    };
+            <input
 
-                    $(window).on('load', function () {
-                        var btnUrl = mw.$('#display-url')
-                        btnUrl.on('click', function () {
-                            pickUrl();
-                        });
-                        if(!btnUrl.html()) {
-                            btnUrl.html(parent.location.href.split('?')[0])
-                        }
-                    })
+                type="hidden"
+                name="url"
 
-                </script>
+                id="btn-default_url"
+                value="<?php print $url; ?>"
+                placeholder="<?php _e("Enter URL"); ?>"
+                class="mw_option_field mw-ui-field" />
 
-                <div class="form-group">
-                    <div class="mw-ui-btn">
-                    <script>
-                        $(document).ready(function () {
-                            mw.iconLoader().init();
-                            var picker = mw.iconPicker({iconOptions: false});
-                            picker.target = document.createElement('i');
-                            picker.on('select', function (data) {
-                                data.render();
-                                $('[name="icon"]').val(picker.target.outerHTML).trigger('change')
-                                document.querySelector('#icon-picker').innerHTML = (picker.target.outerHTML)
-                                picker.dialog('hide');
-                            });
-
-                            document.querySelector('#icon-picker').parentNode.onclick = function (){
-                                picker.dialog();
-                            }
-
-                        })
-                    </script>
-                    <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
-                    <span id="icon-picker"><?php print $icon ? $icon : ''; ; ?></span> <?php _e("Select Icon"); ?></div>
-                </div>
-
-                <module type="admin/modules/templates" simple="true"/>
-            </div>
         </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if (!$onclick): ?>
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-check">
+            <input type="checkbox" name="url_blank" value="y" class="mw_option_field"<?php if ($url_blank == 'y'): ?> checked="checked" <?php endif; ?>>
+            <span></span> <span><?php _e("Open in new window"); ?></span>
+        </label>
+    </div>
+    <?php endif; ?>
+
+    <script>
+        mw.top().require('instruments.js');
+        var pickUrl = function(){
+            var picker = mw.component({
+                url: 'link_editor_v2',
+                options: {
+                    target: false,
+                    text: false,
+                    controllers: 'page, custom, content, section, layout, emial'
+                }
+            });
+            $(picker).on('Result', function (e, ldata) {
+                if (ldata) {
+                    var url = ldata.url;
+                    var url_display = ldata.url;
+                     if (ldata.object) {
+                        if (ldata.object.id) {
+                            if (ldata.object.type && ldata.object.type == 'category') {
+                                url = 'category:'+ldata.object.id;
+                            } else if (ldata.object.content_type) {
+                                url = 'content:'+ldata.object.id;
+                            }
+                        }
+
+                    }
+
+                    if(!url_display){
+                        url_display = url;
+                    }
+
+                    mw.$('#btn-default_url').val(url).trigger('change');
+                    mw.$('#btn-default_url-show').val(url_display);
+                }
+            });
+        };
+
+
+        $(window).on('load', function(){
+            //mw.$('#btn_url_holder').find('a').on('click', function(){
+            mw.$('#btn_url_holder').on('click', function(){
+                pickUrl();
+            });
+        })
+
+    </script>
+
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label"><?php _e("Select Icon"); ?></label>
+        <script>
+            $(document).ready(function () {
+                mw.iconSelector.iconDropdown("#icon-picker", {
+                    onchange: function (iconClass) {
+                        $('[name="icon"]').val(iconClass).trigger('change')
+                    },
+                    mode: 'absolute',
+                    value: '<?php print $icon; ?>'
+                });
+            })
+        </script>
+        <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
+        <div id="icon-picker"></div>
+    </div>
+    <div class="mw-ui-field-holder">
+        <module type="admin/modules/templates" simple="true"/>
     </div>
 </div>

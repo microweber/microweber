@@ -1,11 +1,11 @@
 <?php
 
 
-$logo_name = $params['id'];
+$logo_name =  $params['id'];
 
-if (isset($params['logo-name'])) {
+if(isset($params['logo-name'])){
     $logo_name = $params['logo-name'];
-} else if (isset($params['logo_name'])) {
+} else if(isset($params['logo_name'])){
     $logo_name = $params['logo_name'];
 }
 
@@ -34,10 +34,10 @@ if ($logoimage_inverse == false or $logoimage_inverse == '') {
     if (isset($params['logoimage_inverse'])) {
         $logoimage_inverse = $params['logoimage_inverse'];
     } else {
-        if ($logoimage) {
-            $logoimage_inverse = false;
+        if($logoimage){
+            $logoimage_inverse = $logoimage;
         } else {
-            $logoimage_inverse = false;
+            $logoimage_inverse = $default;
         }
     }
 }
@@ -123,16 +123,6 @@ if (is_file($template_file) != false) {
     include($template_file);
 } else {
     print lnotif("No template found. Please choose template.");
-}
-
-if ($logoimage_inverse == false) {
-    if ($logoimage == "") {
-        print lnotif("Upload your logo");
-    }
-} else {
-    if ($logoimage == "" or $logoimage_inverse == "") {
-        print lnotif("Upload your logo");
-    }
 }
 
 

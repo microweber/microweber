@@ -11,78 +11,103 @@ description: Default register template
 */
 
 ?>
-<?php if (is_logged() == false): ?>
-    <script type="text/javascript">
-        mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css");
-        mw.require('forms.js', true);
-        mw.require('url.js', true);
-        $(document).ready(function () {
-            mw.$('#user_registration_form_holder').submit(function () {
-                mw.form.post(mw.$('#user_registration_form_holder'), '<?php print site_url('api') ?>/user_register', function () {
-                    mw.response('#register_form_holder', this);
-                    if (this.success) {
-                        mw.reload_module('users/register');
+<script type="text/javascript">
+    mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css");
+    mw.require('forms.js', true);
+    mw.require('url.js', true);
+    $(document).ready(function () {
+        mw.$('#user_registration_form_holder').submit(function () {
+            mw.form.post(mw.$('#user_registration_form_holder'), '<?php print site_url('api') ?>/user_register', function () {
+                mw.response('#register_form_holder', this);
+                if (typeof this.success !== 'undefined') {
+                    mw.form.post(mw.$('#user_registration_form_holder'), '<?php print site_url('api') ?>/user_login', function () {
+                        mw.load_module('users/login', '#<?php print $params['id'] ?>');
                         window.location.href = window.location.href;
-                    }
-                });
-                return false;
+                    });
+                }
             });
+            return false;
         });
-    </script>
+    });
+</script>
 
-    <div id="register_form_holder">
-        <h2  class="text-center p-t-10">
-            Register new account.
-
+<div class="module-register well">
+    <div class="box-head">
+        <h2>
+            <?php _e("New Registration"); ?>
         </h2>
-        <h4 class="text-center p-t-10"> We are glad to welcome you in our community. </h4>
-        <form class="p-t-10" action="#" id="user_registration_form_holder" method="post">
+    </div>
+    <div id="register_form_holder">
+        <form id="user_registration_form_holder" method="post" class="reg-form-clearfix">
+
             <?php print csrf_form(); ?>
+
             <?php if ($form_show_first_name): ?>
-                <div class="form-group">
-                    <input class="form-control input-lg" type="text" name="first_name" placeholder="<?php _e('First Name'); ?>">
+                <div class="control-group form-group">
+                    <div class="controls">
+                        <input type="text" class="large-field form-control" name="first_name" placeholder="<?php _e("First name"); ?>" required>
+                    </div>
                 </div>
+
             <?php endif; ?>
 
             <?php if ($form_show_last_name): ?>
-                <div class="form-group">
-                    <input class="form-control input-lg" type="text" name="last_name" placeholder="<?php _e('Last Name'); ?>">
+                <div class="control-group form-group">
+                    <div class="controls">
+                        <input type="text" class="large-field form-control" name="last_name" placeholder="<?php _e("Last name"); ?>" required>
+                    </div>
                 </div>
-            <?php endif; ?>
 
-            <div class="form-group">
-                <input class="form-control input-lg" type="email" name="email" placeholder="E-mail">
+            <?php endif; ?>
+            <div class="control-group form-group">
+                <div class="controls">
+                    <input type="text" class="large-field form-control" name="email" placeholder="<?php _e("Email"); ?>" required>
+                </div>
             </div>
 
-            <div class="form-group m-t-20">
-                <input class="form-control input-lg" type="password" name="password" placeholder="Password">
+            <div class="control-group form-group">
+                <div class="controls">
+                    <input type="password" class="large-field form-control" name="password" placeholder="<?php _e("Password"); ?>" required>
+                </div>
             </div>
 
             <?php if ($form_show_password_confirmation): ?>
-                <div class="form-group m-t-20">
-                    <input class="form-control input-lg" type="password" name="password2" placeholder="<?php _e("Confirm Password"); ?>">
+                <div class="control-group form-group">
+                    <div class="controls">
+                        <input type="password" class="large-field form-control" name="password2" placeholder="<?php _e("Confirm password"); ?>" required>
+                    </div>
                 </div>
             <?php endif; ?>
 
-            <?php if (!$captcha_disabled): ?>
-                <module type="captcha" template="skin-1"/>
+            <?php if($show_newsletter_subscription == 'y' && !$newsletter_subscribed): ?>
+			<div class="control-group form-group">
+				<div class="custom-control custom-checkbox">
+					<label class="mw-ui-check">
+						<input type="checkbox" name="newsletter_subscribe" value="1" autocomplete="off"/> <span></span>
+						<span><?php _e("Please email me your monthly news and special offers"); ?></span>
+					</label>
+				</div>
+			</div>
             <?php endif; ?>
 
+		    <?php if($require_terms): ?>
+                <module type="users/terms" data-for="registration" />
+            <?php endif; ?>
 
-            <div class="row">
-                <div class="col-12">
-                    <p class="personal-data">Your personal data will be used to support your expirience
-                        throughout this website, to manage access to your account
-                        and for other purposes described in our <a href="#">privacy policy</a>.</p>
+			<?php if (get_option('disable_captcha', $params['id']) != 'y'): ?>
+            <div class="mw-ui-row vertical-middle captcha-row">
+                <div class="mw-ui-col">
+                    <module type="captcha"/>
                 </div>
             </div>
+			<?php endif; ?>
 
-            <button type="submit" class="btn btn-default btn-lg btn-block m-t-30 m-b-20"><?php print $form_btn_title ?></button>
+            <div class="alert" style="margin: 0;display: none;"></div>
+
+            <button type="submit" class="btn btn-default pull-right"><?php print $form_btn_title ?></button>
+
+            <div style="clear: both"></div>
         </form>
+
     </div>
-<?php else: ?>
-    <p class="text-center">
-        You Are Logged In
-    </p>
-<?php endif; ?>
-<br/>
+</div>

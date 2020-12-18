@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Basic Theme";
+$config['name'] = "New World";
 $config['author'] = "Microweber";
 $config['version'] = 0.1;
 $config['is_hidden_from_install_screen'] = true;

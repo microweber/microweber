@@ -1,0 +1,337 @@
+.admin-toolbar {
+    position: fixed;
+    height: 66px;
+    top: 0;
+    right: 0;
+    left: 229px;
+    background: #2b2b2b;
+    color: white;
+    z-index: 104;
+    padding: 15px 20px 15px 0;
+}
+
+.main-admin-row {
+    padding: 66px 0 0;
+}
+
+#main-bar {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 100;
+}
+
+#mw-admin-mobile-header {
+    height: 40px;
+    background: black;
+    color: white;
+    padding: 0 20px;
+    line-height: 40px;
+    font-size: 16px;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+}
+
+#mw-admin-mobile-header nav {
+    float: left;
+    margin-top: -2px;
+}
+
+#main-bar-user-menu-link-top {
+    display: block;
+}
+
+#user-menu-top .mw-icon-dropdown {
+    right: -15px;
+    margin-top: -12px;
+    color: #eee
+}
+
+#user-menu-top {
+    float: right;
+    position: relative;
+    max-height: 100%;
+    display: none;
+}
+
+#main-bar-user-menu-link-top,
+#mw-admin-mobile-header nav a {
+    color: #8F8F8F;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 0 5px;
+}
+
+#main-bar-user-menu-link-top {
+    padding: 0;
+}
+
+#mw-admin-mobile-header nav a .mw-notification-count {
+    top: 3px;
+}
+
+#mw-admin-mobile-header nav a.mamh-shop {
+    font-size: 24px;
+    display: inline-block;
+    position: relative;
+}
+
+#mw-admin-mobile-header nav a.mamh-shop span:before {
+    vertical-align: middle;
+}
+
+#mw-admin-mobile-header nav a.mamh-shop .mw-notification-count {
+    right: 10px;
+}
+
+#mw-admin-mobile-header nav a:hover {
+    color: white;
+}
+
+#main-bar-user-menu-link-top {
+    position: relative;
+}
+
+#user-menu-top-links a {
+    white-space: nowrap;
+}
+
+#user-menu-top-links {
+    position: absolute;
+    top: 100%;
+    right: 0;
+}
+
+.tree-column, .tree-column-menu {
+    width: 300px;
+}
+
+.mobile-tree-menu {
+    display: none;
+    cursor: pointer;
+    position: fixed;
+    left: 0;
+    top: 40px;
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    font-size: 30px;
+    background: #F5F5F5;
+    color: #3B3B3B;
+    z-index: 12;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.tree-column-menu {
+    background: #F5F5F5
+}
+
+.layouts_box_holder .mw-ui-col:last-child .mw-ui-col-container {
+    padding-right: 0;
+}
+
+.tree-column-mobile-active .fixed-side-column {
+
+    min-width: 0;
+}
+
+.tree-column-holder {
+    max-width: 100%;
+    position: relative;
+    z-index: 102;
+}
+
+.tree-column-holder-custom-item {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.main-bar-column {
+    width: 230px;
+
+}
+
+/* New */
+
+@media screen and (max-width: 1399px) {
+    .main-bar-column {
+        width: 0;
+    }
+    .tree-show-hide-nav{
+        margin-right: 0 !important;
+    }
+
+    .mobile-tree-menu {
+        display: inline-block;
+
+        font-size: 18px;
+        margin-top: 10px;
+    }
+
+    .tree-column {
+        width: 0;
+    }
+
+    .fixed-side-column {
+        top: 40px;
+        left: 0;
+        min-width: 0;
+        width: 0;
+        opacity: 0;
+        visibility: hidden;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        transition: all 0.3s;
+        -webkit-transform: translateX(-200px);
+        -moz-transform: translateX(-200px);
+        transform: translateX(-200px);
+    }
+
+    .tree-column-mobile-active .fixed-side-column {
+        width: 210px;
+        opacity: 1;
+        visibility: visible;
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    .tree-column-mobile-active .mobile-tree-menu {
+        left: 170px;
+    }
+
+    .tree-column-mobile-active {
+        width: 210px;
+    }
+
+    .tree-column-mobile-active .tree-column-holder {
+        width: 210px;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1399px) {
+    .admin-content-column {
+        max-width: 1100px;
+        padding-left: 230px;
+    }
+
+    html[dir=rtl] .admin-content-column {
+        padding-left: 0px;
+        padding-right: 230px;
+    }
+
+    .tree-column-mobile-active .fixed-side-column {
+        width: 300px;
+        left: 230px;
+        /*position: absolute;*/
+    }
+
+    .tree-column-mobile-active {
+        width: 0;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .main-admin-row {
+        padding: 42px 0 0;
+    }
+
+    #main-bar {
+        -moz-transform: translateX(-230px);
+        -ms-transform: translateX(-230px);
+        -webkit-transform: translateX(-230px);
+        transform: translateX(-230px);
+        height: auto;
+        top: 40px !important;
+        bottom: 0;
+    }
+
+    #main-bar.mobile-active {
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+        z-index: 104;
+    }
+
+    #mb-active {
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        transition: all 0.3s;
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        box-shadow: inset 100px 0 100px rgba(0, 0, 0, 0.3);
+        z-index: 99;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    #main-bar.mobile-active + #mb-active {
+        left: 150px; /* should be less, most of the browsers do not sync the animations */
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .admin-content-column {
+        width: 100%;
+    }
+
+    .admin-toolbar {
+        display: none;
+    }
+
+    .tree-column-mobile-active {
+        width: 0;
+    }
+
+    #mw-admin-mobile-header {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .mw-ui-col.main-bar-column {
+        display: block !important;
+        clear: both;
+        width: auto !important;
+    }
+
+    .tree-column-menu .slimScrollDiv,
+    .tree-column-menu .fixed-side-column-container {
+        height: auto !important;
+    }
+
+    .tree-column-menu .mw-ui-sidenav li {
+        float: left;
+        width: 33.333%;
+    }
+}
+
+@media (max-width: 530px) {
+    .tree-column-menu .mw-ui-sidenav li {
+        width: 50%;
+    }
+}
+
+@media (max-width: 380px) {
+    .tree-column-menu .mw-ui-sidenav li {
+        width: 100%;
+    }
+}

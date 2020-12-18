@@ -1,4 +1,4 @@
-wroot = window.opener || top;
+wroot = window.opener || top
 
 mw.html_editor = {};
 mw.html_editor.map = {};
@@ -14,7 +14,16 @@ mw.html_editor.init = function () {
 
 
 mw.html_editor.set_height = function () {
-
+    var set = function () {
+        mw.$('.CodeMirror,.selector-box').each(function () {
+            var el = $(this)
+            this.style.height = ($(window).height() - el.offset().top - 90) + 'px'
+        });
+        setTimeout(function () {
+            set()
+        }, 333)
+    }
+    set()
 }
 mw.html_editor.get_edit_fields = function (also_in_modules, root_element_selector) {
 
@@ -44,7 +53,7 @@ mw.html_editor.get_edit_fields = function (also_in_modules, root_element_selecto
 
 mw.html_editor.createItemContent = function (option) {
     var method = 'frame';
-    var text = option.el.textContent.trim();
+    var text = option.el.innerText.trim();
     if (method == 'text') {
         return text.substring(0, 45) + '...';
     }
@@ -355,15 +364,12 @@ mw.html_editor.reset_content = function (also_reset_modules) {
 
         var childs_arr = {};
 
-        $(el).find('.edit').andSelf().each(function (i) {
+        $(el).find('.edit').each(function (i) {
             var some_child = {};
             some_child.rel = $(this).attr('rel');
             some_child.field = $(this).attr('field');
-            if(some_child.rel && some_child.field){
             childs_arr[i] = some_child;
-            }
         });
-
 
         var childs_arr_data = {'reset':childs_arr};
 

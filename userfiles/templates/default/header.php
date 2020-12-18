@@ -15,18 +15,14 @@
     <meta property="og:image" content="{content_image}">
     <meta property="og:description" content="{og_description}">
     <meta property="og:site_name" content="{og_site_name}">
-
-	<?php if($page['content_type']=='product'){ ?>
-	<script type="application/ld+json">
-	  { "@context":"http://schema.org/","@type":"Product","sku":"{product_sku}","image":"{content_image}","name":"{content_meta_title}","description":"{content_meta_description}","offers":{ "@type": "Offer","priceCurrency":"{product_currency}","price":"{product_price}" } }
-	</script>
-	<?php } ?>
-
     <script type="text/javascript">
       
         mw.require("<?php print( mw_includes_url()); ?>css/ui.css");
         mw.lib.require("bootstrap3");
     </script>
+
+
+
 
 
     <?php if(isset($custom_head)): ?>
@@ -45,7 +41,7 @@
           <div class="mw-row">
               <div class="mw-col" style="width: 20%">
                   <div class="mw-col-container">
-                      <div class="brand element" id="logo"><a href="<?php print site_url(); ?>">Basic Theme</a></div>
+                      <div class="brand element" id="logo"><a href="<?php print site_url(); ?>">New World</a></div>
                   </div>
               </div>
               <div class="mw-col" style="width: 45%">

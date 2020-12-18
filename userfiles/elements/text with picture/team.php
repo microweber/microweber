@@ -10,6 +10,7 @@
         		<span class="mw-social-icons-layout-list element">
         			<a href="https://facebook.com/Microweber" class="mw-icon-facebook"></a>
         			<a href="https://twitter.com/Microweber" class="mw-icon-twitter"></a>
+        			<a href="https://plus.google.com/+Microweber/" class="mw-icon-googleplus"></a>
         			<a href="https://youtube.com/Microweber" class="mw-icon-social-youtube"></a>
         		</span>
         	</div>
@@ -26,6 +27,7 @@
         		<span class="mw-social-icons-layout-list element">
         			<a href="https://facebook.com/Microweber" class="mw-icon-facebook"></a>
         			<a href="https://twitter.com/Microweber" class="mw-icon-twitter"></a>
+        			<a href="https://plus.google.com/+Microweber/" class="mw-icon-googleplus"></a>
         			<a href="https://youtube.com/Microweber" class="mw-icon-social-youtube"></a>
         		</span>
         	</div>
@@ -42,6 +44,7 @@
         		<span class="mw-social-icons-layout-list element">
         			<a href="https://facebook.com/Microweber" class="mw-icon-facebook"></a>
         			<a href="https://twitter.com/Microweber" class="mw-icon-twitter"></a>
+        			<a href="https://plus.google.com/+Microweber/" class="mw-icon-googleplus"></a>
         			<a href="https://youtube.com/Microweber" class="mw-icon-social-youtube"></a>
         		</span>
         	</div>
@@ -58,6 +61,7 @@
         		<span class="mw-social-icons-layout-list element">
         			<a href="https://facebook.com/Microweber" class="mw-icon-facebook"></a>
         			<a href="https://twitter.com/Microweber" class="mw-icon-twitter"></a>
+        			<a href="https://plus.google.com/+Microweber/" class="mw-icon-googleplus"></a>
         			<a href="https://youtube.com/Microweber" class="mw-icon-social-youtube"></a>
         		</span>
         	</div>

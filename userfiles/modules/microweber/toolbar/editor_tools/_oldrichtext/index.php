@@ -121,7 +121,9 @@
             }, false);
 
 
-
+            $(mwd.body).bind('mousedown', function (e) {
+                parent.mw.$(".mw-ui-category-selector").hide();
+            });
             mw.$("#mw-iframe-editor-area .module").each(function () {
                 if ($(this).dataset("type") == 'pictures') {
                     $(this).css("cursor", "pointer").click(function (e) {
@@ -183,6 +185,9 @@
             padding-top: 5px;
         }
 
+        .mw-admin-editor {
+            background: none;
+        }
 
         .mw-wysiwyg-module-helper {
             min-height: 23px;
@@ -201,6 +206,9 @@
             background: #787878;
         }
 
+        .mw-admin-editor .module {
+
+        }
 
     </style>
 </head>

@@ -1,0 +1,62 @@
+#newevent {
+	cursor: move;
+	width: 80px;
+	text-align: center;
+	margin-top: 10px
+}
+
+#external-events {
+	margin-bottom: 10px
+}
+
+#trash {
+	float: left;
+	width: 80px;
+	text-align: center
+}
+
+#eventContent {
+	display: table;
+	width: 100% !important;
+}
+
+#eventContent .row {
+	width: 100%;
+	clear: both;
+	padding-bottom: 10px;
+}
+
+#eventContent .row label {
+	width: 80px;
+	vertical-align: top;
+	float: left;
+	display: table-column;
+}
+
+#eventContent .row col {
+	width: auto;
+	float: left;
+	display: table-column;
+}
+
+#eventContent .row .colElement {
+	width: 220px;
+}
+
+.ui-dialog-buttonpane .leftButton {
+	float: left
+}
+
+.mw-mod-template-settings-holder {
+	float: right
+}
+
+.mw-mod-template-settings-holder label, .mw-mod-template-settings-holder select
+	{
+	float: left
+}
+
+.mw-mod-template-settings-holder label {
+	margin-top: 11px;
+	margin-right: 10px
+}

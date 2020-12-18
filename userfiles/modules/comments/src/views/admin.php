@@ -17,7 +17,7 @@
 
 
         $(document).ready(function () {
-            mw.$("#post_select").on("focus", function () {
+            mw.$("#post_select").bind("focus", function () {
                 mwd.getElementById('display_from_post').checked = true;
             });
         });

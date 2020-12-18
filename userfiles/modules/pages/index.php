@@ -43,6 +43,8 @@ $params['parent'] = intval($params['parent']);
 } else {
 $params['parent'] = 0;	
 }
+
+ 
  
 $option = get_option('include_categories', $params['id']);
 

@@ -1,6 +1,6 @@
 <?php $path = mw_includes_url() . "toolbar/editor_tools/file_picker/"; ?>
 
-<script>
+<script type="text/javascript">
     mw.require("events.js");
     mw.require("forms.js");
     mw.require("files.js");
@@ -19,7 +19,7 @@ if (array_key_exists('types', $_GET)) {
 
 
 ?>
-<script>
+<script type="text/javascript">
 
 
     var selectUrl = function(){
@@ -49,8 +49,7 @@ if (array_key_exists('types', $_GET)) {
             var filetypes = li.dataset('type');
 
             var frame = mw.files.uploader({
-                filetypes: filetypes,
-                element: li
+                filetypes: filetypes
             });
             frame.width = li.width();
             frame.height = li.height();
@@ -87,7 +86,7 @@ if (array_key_exists('types', $_GET)) {
                     ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name + '" ...');
                 }
             });
-
+            li.append(frame);
             li.hover(function () {
                 if (!li.hasClass('disabled')) {
                     li.parent().find("li").not(this).addClass('hovered');

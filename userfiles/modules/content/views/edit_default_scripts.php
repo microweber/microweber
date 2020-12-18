@@ -206,16 +206,14 @@
 
 
         if (categories.length) {
-            data.category_ids  = categories.join(',')
+            data.categories = categories.join(',')
         } else {
-            data.category_ids = '';
+            data.categories = '';
 
         }
 
-
         module.addClass('loading');
         mw.content.save(data, {
-            url: el.getAttribute('action'),
             onSuccess: function (a) {
                 if (window.pagesTreeRefresh) {
                     pagesTreeRefresh()
@@ -250,7 +248,7 @@
 
                         var xhr = mw.save_inner_editable_fields(save_inner_edit_data);
                         xhr.success(function () {
-                            mw.trigger('adminSaveEnd');
+                            $(window).trigger('adminSaveEnd');
                         });
                         xhr.fail(function () {
                             $(window).trigger('adminSaveFailed');
@@ -270,8 +268,7 @@
                     });
                 }
                 else {
-                    var nid = typeof this === "number" ? this : this.id;
-                     $.get('<?php print site_url('api/content/get_link_admin/?id=') ?>' + nid, function (data) {
+                    $.get('<?php print site_url('api/content/get_link_admin/?id=') ?>' + this, function (data) {
 
                         if (data == null) {
                             return false;
@@ -284,14 +281,14 @@
                         mw.$("a.quick-post-done-link").attr("href",  data.url + '?editmode=y');
                         mw.$("a.quick-post-done-link").html(data.url);
                     });
-                    mw.$("#<?php print $module_id ?>").attr("content-id", nid);
+                    mw.$("#<?php print $module_id ?>").attr("content-id", this);
                     <?php if($is_quick != false) : ?>
                     //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
                     <?php else: ?>
                     //if (self === parent) {
                     if (self === parent) {
                         //var type =  el['subtype'];
-                        mw.url.windowHashParam("action", "editpage:" + nid);
+                        mw.url.windowHashParam("action", "editpage:" + this);
                     }
                     <?php endif; ?>
                     mw.edit_content.after_save(this);
@@ -314,7 +311,26 @@
             onError: function () {
                 $(window).trigger('adminSaveFailed');
                 module.removeClass('loading');
+                if (typeof this.title !== 'undefined') {
+                    mw.notification.error('<?php _ejs('Please enter title'); ?>');
 
+                    $('#content-title-field-row').animate({
+                        backgroundColor: "red"
+                    }, function () {
+                        $('#content-title-field-row').animate({
+                            backgroundColor: "transparent"
+                        })
+                    })
+
+                }
+                if (typeof this.content !== 'undefined') {
+                    mw.notification.error('<?php _ejs('Please enter content'); ?>');
+                }
+                if (typeof this.error !== 'undefined') {
+                    mw.session.checkPause = false;
+                    mw.session.checkPauseExplicitly = false;
+                    mw.session.logRequest();
+                }
                 mw.edit_content.saving = false;
             }
         });
@@ -342,10 +358,14 @@
 
 
     /* END OF FUNCTIONS */
-</script>
 
+</script>
 <script>
+
+
     $(mwd).ready(function () {
+
+
         $("#quickform-edit-content").on('keydown', "input[type='text']", function (e) {
             if (e.keyCode == 13) {
                 e.preventDefault()
@@ -388,7 +408,7 @@
             }
             //mw.edit_content.load_editor();
         });
-        $(window).on('templateChanged', function (e) {
+        $(window).bind('templateChanged', function (e) {
 
             var iframe_ed = $('.mw-iframe-editor')
             var changed = iframe_ed.contents().find('.changed').size();
@@ -399,7 +419,7 @@
         });
         if (mwd.querySelector('.mw-iframe-editor') !== null) {
             mwd.querySelector('.mw-iframe-editor').onload = function () {
-                $(window).on('scroll', function () {
+                $(window).bind('scroll', function () {
                     var scrolltop = $(window).scrollTop();
                     if (mwd.getElementById('mw-edit-page-editor-holder') !== null) {
                         var otop = mwd.getElementById('mw-edit-page-editor-holder').offsetTop;
@@ -432,7 +452,7 @@
 
         if (title_field_shanger.length > 0) {
             $(title_field_shanger).unbind("change");
-            $(title_field_shanger).on("change", function () {
+            $(title_field_shanger).bind("change", function () {
                 var newtitle = $(this).val();
                 $('#content-title-field-master').val(newtitle);
             });
@@ -442,7 +462,7 @@
             $(this).remove()
         })
 
-        mww.QTABS = mw.tabs({
+        mww.QTABS = mw.tools.tabGroup({
             nav: mw.$("#quick-add-post-options .mw-ui-abtn"),
             tabs: mw.$("#quick-add-post-options-items-holder .quick-add-post-options-item"),
             toggle: true,
@@ -485,7 +505,7 @@
             qt.css('width', ($(".admin-manage-content-wrap").width()));
         }
 
-        $(mww).on('mousedown', function (e) {
+        $(mww).bind('mousedown', function (e) {
             var el = mwd.getElementById('content-edit-settings-tabs-holder');
             var cac = mw.wysiwyg.validateCommonAncestorContainer(e.target);
             if (el != null && !el.contains(e.target)
@@ -501,17 +521,116 @@
             }
         });
 
-        mw.$(".mw-iframe-editor").on("editorKeyup", function () {
+        mw.$(".mw-iframe-editor").bind("editorKeyup", function () {
             mw.tools.addClass(mwd.body, 'editorediting');
         });
-        $(mwd.body).on("mousedown", function () {
+        $(mwd.body).bind("mousedown", function () {
             mw.tools.removeClass(mwd.body, 'editorediting');
         });
-        mw.$(".admin-manage-toolbar").on("mousemove", function () {
+        mw.$(".admin-manage-toolbar").bind("mousemove", function () {
             mw.tools.removeClass(mwd.body, 'editorediting');
         });
 
+        $(window).bind("resize scroll", function () {
+
+            QTABMaxHeight();
+            /*
+
+             $(window).scrollTop(0);
+             mw.tools.toggleFullscreen(mwd.getElementById('pages_edit_container'));
+
+             */
+        });
+
+
+        mw.tabs({
+            nav: '#settings-tabs .mw-ui-btn-nav-tabs a',
+            tabs: '#settings-tabs .mw-settings-tabs-content',
+            activeClass: "active-info"
+        });
+
+        $('.btn-settings').on('click', function () {
+            if ($('#settings-tabs').hasClass('hidden')) {
+                $('#settings-tabs').slideDown();
+                $('#settings-tabs').toggleClass('hidden');
+            } else {
+                $('#settings-tabs').slideUp();
+                $('#settings-tabs').toggleClass('hidden');
+            }
+
+        });
+
+
+//        $('.admin-manage-toolbar-scrolled').on('scroll',function() {
+//
+//            if($("#content-title-field-buttons").is(':visible') === $("#content-title-field-buttons").is(':not(:hidden)')){
+//
+//
+//            }
+//
+//
+//            if(!$("#content-title-field-buttons").is(':visible')){
+//
+//                mw.$(".js-top-save").show();
+//            }
+//        });
 
 
     });
+
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //    function toolbar_show_the_save_btn_sticky_init() {
+    //
+    //        var self=this;
+    //
+    //        var elA = document.getElementsByClassName('.js-edit-content-the-main-save-btn')[0];
+    //        var elB = document.getElementsByClassName('.js-top-save')[0];
+    //
+    //        if(!elA && !elB){
+    //            return;
+    //        }
+    //
+    //
+    //// Defining a function to get top, left, right and bottom coordinates
+    //        function pos(el) {
+    //            return el.getBoundingClientRect();
+    //        }
+    //
+    //// Function to check el1 is covered by el2
+    //        function checkElements(el1, el2) {
+    //            var eleA = self.pos(el1);
+    //            var eleB = self.pos(el2);
+    //
+    //            if((eleB.top >= eleA.top && eleB.top <= eleA.bottom) || (eleB.bottom >= eleA.top && eleB.bottom <= eleA.bottom)) {
+    //                if((eleB.left >= eleA.left && eleB.left <= eleA.right) || (eleB.right >= eleA.left && eleB.right <= eleA.right)) {
+    //                    el1.innerHTML = '<p>covered</p>';
+    //                }
+    //                else {
+    //                    el1.innerHTML = '<p>not covered</p>';
+    //                }
+    //            }
+    //            else {
+    //                el1.innerHTML = '<p>not covered</p>';
+    //            }
+    //        }
+    //        self.checkElements(elA, elB); // pass two elements to check
+    //    }
 </script>

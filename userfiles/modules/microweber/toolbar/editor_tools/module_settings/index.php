@@ -4,20 +4,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <?php $module_info = false;
     if (isset($params['module'])): ?>
-        <?php $module_info = mw()->module_manager->get('one=1&ui=any&module=' . $params['module']); ?>
+        <?php $module_info = mw()->modules->get('one=1&ui=any&module=' . $params['module']); ?>
     <?php endif; ?>
 
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
-    <script>
-        mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
-    </script>
+
+
+
 
     <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 
     <?php template_stack_display('default'); ?>
 
+
+
+
+
     <?php
+
+
     template_stack_add(mw_includes_url() . 'default.css');
     template_stack_add(mw_includes_url() . 'css/components.css');
     template_stack_add(mw_includes_url() . 'css/admin.css');
@@ -36,8 +41,10 @@
     template_stack_add(mw_includes_url() . 'api/wysiwyg.js');
     template_stack_add(mw_includes_url() . 'css/wysiwyg.css');
     template_stack_add(mw_includes_url() . 'api/options.js');
+
     ?>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?>"/>
+
+
 
     <?php if (isset($params['live_edit_sidebar'])): ?>
 
@@ -62,13 +69,12 @@
         #settings-main {
             min-height: 200px;
             overflow-x: hidden;
-            /*padding: 10px 25px;*/
         }
 
         #settings-container {
             overflow: hidden;
             position: relative;
-            min-height: 300px;
+            min-height: 200px;
         }
 
         #settings-container:after {
@@ -147,7 +153,7 @@
 
         if (typeof thismodal === 'undefined' && self !== parent && typeof this.name != 'undefined' && this.name != '') {
             var frame = parent.mw.$('#' + this.name)[0];
-            thismodal = parent.mw.dialog.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
+            thismodal = parent.mw.tools.modal.get(mw.tools.firstParentWithClass(frame, 'mw_modal'));
         }
 
 
@@ -180,6 +186,20 @@
             }
 
 
+            $(window).load(function () {
+                if (thismodal.main && !!thismodal.main[0]) {
+
+                    if (autoSize) {
+                        parent.mw.tools.modal.resize("#" + thismodal.main[0].id, false, $('#settings-container').height() + 25, true);
+
+                        $(window.parent.window).bind("resize", function () {
+                            if (parent != null) {
+                                parent.mw.tools.modal.center("#" + thismodal.main[0].id);
+                            }
+                        });
+                    }
+                }
+            });
         }
 
         $(window).load(function () {
@@ -236,7 +256,7 @@
 
 
                     //   mw.top().win.module_settings_modal_reference = thismodal;
-                    <?php if(is_array($module_info) and isset($module_info['module'])): ?>
+                    <?php if(is_array($module_info)): ?>
 
                     <?php $mod_adm = admin_url('load_module:') . module_name_encode($module_info['module']); ?>
 
@@ -297,7 +317,7 @@
                         dropdownContent.className = 'mw-dropdown-content';
                         dropdownContent.innerHTML = '<ul></ul>';
                         dropdown.className = 'mw-dropdown mw-dropdown-default';
-                        dropdown.innerHTML = '<span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-dropdown-val css-preset-dropdown btn px-1"></span>';
+                        dropdown.innerHTML = '<span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-outline mw-dropdown-val css-preset-dropdown"></span>';
                         var btn = document.createElement('li');
                         var btn2 = document.createElement('li');
                         btn2.innerHTML = 'Reset module';

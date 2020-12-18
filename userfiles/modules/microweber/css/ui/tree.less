@@ -1,0 +1,287 @@
+.mw-tree {
+  .mw-tree-nav-skin-default {
+    padding: 20px 0 20px 20px;
+  }
+  * {
+    vertical-align: middle;
+  }
+}
+
+.mw-tree-nav {
+  li.skip-true {
+    opacity: .6;
+    pointer-events: none;
+    cursor: no-drop;
+  }
+  .opened > ul {
+    display: block;
+  }
+}
+
+.mw-tree-nav-skin-default {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  ul {
+    display: none;
+  }
+  .mw-tree-item-content {
+    cursor: pointer;
+  }
+  .mw-tree-item-title {
+    padding: 0 4px 0 0;
+    display: inline-block;
+    border: 1px solid transparent;
+    transition: all .3s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    padding-left: 5px;
+    padding-right: 42px;
+      font-size: 12px;
+      color: #7e7e7e;
+  }
+  tree-label {
+    width: 20px;
+    & + .mw-tree-item-title {
+      max-width: -webkit-calc(100% - 25px);
+      max-width: calc(100% - 25px);
+    }
+  }
+  & > li {
+      margin: 2px 0;
+  }
+  li {
+    * {
+      vertical-align: middle;
+    }
+      .mdi-pencil{
+          color: #0e80e5;
+          opacity: 1;
+      }
+    &.selected > .mw-tree-item-content-root .mw-tree-item-title {
+      color: #0e80e5;
+      font-weight: bold;
+      &:before {
+        color: #0e80e5;
+        font-weight: normal;
+      }
+    }
+    &.selected > .mw-tree-item-content-root,
+    .mw-tree-item-content-root:hover  {
+      background: #fff;
+
+    }
+    list-style: none;
+    li {
+      padding-left: 23px;margin-left: 5px;
+    }
+    ul,
+    li {
+      position: relative;
+    }
+
+      &.selected > .mw-tree-toggler{
+          background-color: white;
+      }
+
+    ul li:after {
+      position: absolute;
+      top: 0;
+      left: 7px;
+      bottom: 0;
+      width: 1px;
+      content: '';
+      background: #ccc
+    }
+
+    ul li:last-child:after {
+      bottom: auto;
+      height: 19px;
+    }
+
+    ul li:before {
+      position: absolute;
+      top: 18px;
+      left: 8px;
+      width: 15px;
+      height: 1px;
+      content: '';
+      background: #ccc
+    }
+  }
+  .mw-tree-toggler {
+    display: inline-block;
+    width: 25px;
+    color: #bcbfc2;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    padding: 0;
+    line-height: 31px;
+    font-size: 9px;
+    font-family: "Material Design Icons";
+  }
+  .mw-tree-toggler:after {
+    content: "\F0536";
+    transition: .3s;
+    position: relative;
+    display: inline-block;
+    transform: rotate(90deg);
+  }
+
+    .opened > .mw-tree-item-content-root .mw-tree-toggler:after {
+      transform: rotate(180deg);
+  }
+
+  .mw-tree-context-menu-item {
+    font-size: 14px;
+    display: inline-block;
+    visibility: hidden;
+    position: relative;
+    height: 21px;
+    width: 21px;
+    line-height: 17px;
+    text-align: center;
+    border: 1px solid transparent;
+    color: #3B3B3B;
+    opacity: 0.9;
+    cursor: pointer;
+  }
+  .mw-tree-item-content:hover .mw-tree-context-menu-item {
+    visibility: visible;
+  }
+
+  .mw-tree-context-menu-item:hover {
+    opacity: 1;
+    color: #0e80e5;
+
+  }
+    .mw-tree-item-content-root{
+        display: block;
+    }
+
+  .mw-tree-item-content {
+    color: #212121;
+    padding: 0;
+    display: inline-block;
+    position: relative;
+    outline: none;
+    background-repeat: no-repeat;
+    line-height: 27px;
+      width: 100%;
+  }
+    .mw-tree-toggler +   .mw-tree-item-content {
+        width: ~"-webkit-calc(100% - 30px)";
+        width: ~"calc(100% - 30px)";
+    }
+
+  .has-children > .mw-tree-item-content {
+    width: ~"-webkit-calc(100% - 35px)";
+    width: ~"calc(100% - 35px)";
+  }
+
+  .mw-tree-context-menu {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .mw-tree-item-title [class*='mai-'],
+  .mw-tree-item-title [class*='mw-icon-'],
+  .mw-tree-aditional-item-icon,
+  .mw-tree-item-title:before {
+    color: #bcbfc2;
+    font-size: 19px;
+    display: inline-block;
+    position: relative;
+    top: 0;
+    margin-right: 3px;
+      vertical-align: top;
+  }
+    .selected > .mw-tree-item-content-root .mw-tree-item-title:before {
+        color: #0e80e5;
+    }
+
+  .mw-tree-item-title:before {
+    font-family: 'Microweber';
+  }
+
+  li.type-category > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+    content: 'c';
+  }
+
+  li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+      content: "\F0214";
+      font-family: "Material Design Icons";
+  }
+
+  li.type-page.subtype-home > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+    content: "\F02DC";
+    font-family: "Material Design Icons";
+  }
+
+  li.type-page.subtype-shop > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+    content: "\F049A";
+    font-family: "Material Design Icons";
+  }
+
+  li.type-page.subtype-dynamic > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+    content: "\F1009";
+    font-family: Material Design Icons;
+    z-index: 1;
+  }
+  .mw-tree-item-hidden {
+    display: none;
+  }
+}
+
+html[dir="rtl"] {
+  .mw-tree-nav-skin-default {
+    padding-right: 20px;
+    padding-left: 0;
+    .mw-tree-toggler {
+      margin-right: 0;
+      margin-left: 0px;
+    }
+    .mw-tree-toggler:not(.opened) {
+      transform: rotate(180deg);
+    }
+    .mw-tree-item-title {
+      padding-left: 42px;
+      padding-right: 5px;
+      [class*=mw-icon-],
+      [class*=mai-],
+      &:before {
+        margin-left: 3px;
+        margin-right: 0;
+      }
+    }
+    li {
+      &:before {
+        left: auto;
+        right: 8px;
+      }
+      &:after {
+        left: auto;
+        right: 7px;
+        bottom: 0;
+      }
+      li {
+        padding-right: 30px;
+        padding-left: 0;
+      }
+    }
+    .mw-tree-context-menu {
+      right: auto;
+      left: 5px;
+    }
+  }
+}

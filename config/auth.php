@@ -36,9 +36,7 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-           // 'driver' => 'passport',
             'driver' => 'token',
-           // 'driver' => 'passport',
             'provider' => 'users',
         ],
     ],
@@ -61,7 +59,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => \MicroweberPackages\User\Models\User::class,
+            'model' => Microweber\App\User::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

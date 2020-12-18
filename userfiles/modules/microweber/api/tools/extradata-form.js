@@ -22,7 +22,7 @@ mw.getExtradataFormData = function (data, call) {
     }
 }
 
-mw.extradataForm = function (options, data, func) {
+mw.extradataForm = function (options, data) {
     if (options._success) {
         options.success = options._success;
         delete options._success;
@@ -60,6 +60,9 @@ mw.extradataForm = function (options, data, func) {
         if(data.form_data_required) {
             mw.$(form).on('submit', function (e) {
 
+
+
+
                 e.preventDefault();
                 var exdata = mw.serializeFields(this);
 
@@ -71,24 +74,16 @@ mw.extradataForm = function (options, data, func) {
                     });
                     options.data = params;
                 }
-                var isFormData = options.data.constructor.name === 'FormData';
-                if(isFormData) {
-                    for (var i in exdata) {
-                        options.data.set(i, exdata[i]);
-                    }
-
-                } else {
-                    for (var i in exdata) {
-                        options.data[i] = exdata[i];
-                    }
+                for (var i in exdata) {
+                    options.data[i] = exdata[i];
                 }
-                if(func) {
-                    func(options);
 
-                } else {
-                    mw.ajax(options);
-
+                if(options.data.captcha){
+                   // mw.top().
+                   // ('data-captcha-value')
                 }
+
+                mw.ajax(options);
                 form.__modal.remove();
             });
         }

@@ -1,4 +1,3 @@
-mw.require('editor.js')
 mw.propEditor = {
     addInterface:function(name, func){
         this.interfaces[name] = this.interfaces[name] || func;
@@ -25,7 +24,7 @@ mw.propEditor = {
         },
         label:function(content){
             var el = document.createElement('label');
-            el.className = 'control-label d-block prop-ui-label';
+            el.className = 'mw-ui-label prop-ui-label';
             el.innerHTML = content;
             return el;
         },
@@ -37,9 +36,8 @@ mw.propEditor = {
         },
         field: function(val, type, options){
             type = type || 'text';
-            var el;
             if(type === 'select'){
-                el = document.createElement('select');
+                var el = document.createElement('select');
                 if(options && options.length){
                     var option = document.createElement('option');
                         option.innerHTML = 'Choose...';
@@ -59,10 +57,8 @@ mw.propEditor = {
                     }
                 }
             }
-            else if(type === 'textarea'){
-                el = document.createElement('textarea');
-            } else{
-                el = document.createElement('input');
+            else{
+                var el = document.createElement('input');
                 try { // IE11 throws error on html5 types
                     el.type = type;
                 } catch (err) {
@@ -71,7 +67,7 @@ mw.propEditor = {
 
             }
 
-            el.className = 'form-control prop-ui-field';
+            el.className = 'mw-ui-field prop-ui-field';
             el.value = val;
             return el;
         },
@@ -581,10 +577,9 @@ mw.propEditor = {
                     el.style.backgroundImage = 'url(' + imageUrl + ')';
                 }
                 btn.onclick = function(){
-                    mw.top().fileWindow({
+                    mw.fileWindow({
                         types:'images',
                         change:function(url){
-                            if(!url) return;
                             url = url.toString();
                             proto._valSchema[config.id] = proto._valSchema[config.id] || [];
                             proto._valSchema[config.id][btn._index] = url;
@@ -690,45 +685,25 @@ mw.propEditor = {
             };
             this.id = config.id;
         },
-        icon: function(proto, config){
+        icon:function(proto, config){
             var holder = mw.propEditor.helpers.wrapper();
 
-            var el = document.createElement('span');
-            el.className = "mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-outline";
-            var elTarget = document.createElement('i');
-
-/*            var selector = mw.iconSelector.iconDropdown(holder, {
+            var selector = mw.iconSelector.iconDropdown(holder, {
                 onchange: function (ic) {
                     proto._valSchema[config.id] = ic;
                     $(proto).trigger('change', [config.id, ic]);
                 },
                 mode: 'relative',
                 value: ''
-            });*/
-
-            el.onclick = function () {
-                picker.dialog();
-            };
-            mw.iconLoader().init();
-            var picker = mw.iconPicker({iconOptions: false});
-            picker.target = elTarget;
-            picker.on('select', function (data) {
-                data.render();
-                proto._valSchema[config.id] = picker.target.outerHTML;
-                $(proto).trigger('change', [config.id, picker.target.outerHTML]);
-                picker.dialog('hide');
-             });
-
+            });
             var label = mw.propEditor.helpers.label(config.label);
 
-            $(el).prepend(elTarget);
-            $(holder).prepend(el);
             $(holder).prepend(label);
 
             this.node = holder;
             this.setValue = function(value){
-                if(picker && picker.value) {
-                    picker.value(value);
+                if(selector && selector.value) {
+                    selector.value(value);
 
                 }
                 proto._valSchema[config.id] = value;
@@ -746,33 +721,28 @@ mw.propEditor = {
                 proto._valSchema[config.id] = this.value;
                 $(proto).trigger('change', [config.id, this.value]);
             });
+
             this.node = holder;
             this.setValue = function(value){
                 field.value = value;
-                this.editor.setContent(value, true);
+                if(this.editor.api){
+                    $(this.editor).contents().find('#editor-area').html(value);
+                }
+                else{
+                    var scope = this;
+                    setTimeout(function(){ scope.setValue(value); }, 300);
+                }
                 proto._valSchema[config.id] = value;
             };
             this.id = config.id;
-            var defaults = {
-                height: 120,
-                mode: 'div',
-                smallEditor: false,
-                controls: [
-                    [
-                        'bold', 'italic',
-                        {
-                            group: {
-                                icon: 'mdi xmdi-format-bold',
-                                controls: ['underline', 'strikeThrough', 'removeFormat']
-                            }
-                        },
 
-                        '|', 'align', '|', 'textColor', 'textBackgroundColor', '|', 'link', 'unlink'
-                    ],
-                ]
-            };
-            config.options = config.options || {};
-            this.editor = mw.Editor($.extend({}, defaults, config.options, {selector: field}));
+            this.editor = mw.editor({
+                element:field,
+                height:220,
+                width:'100%',
+                addControls: false,
+                hideControls:false
+            });
         }
     }
 };

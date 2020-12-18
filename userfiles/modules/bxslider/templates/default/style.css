@@ -1,0 +1,8 @@
+.template-default .skin-default{}
+
+.template-default .skin-default .bx-caption {
+    text-align: center;
+    top: 0;
+    height: 2em;
+    line-height: 1em;
+}

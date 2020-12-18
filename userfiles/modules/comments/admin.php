@@ -1,7 +1,8 @@
 <?php
-if (!user_can_access('module.comments.index')) {
-    return;
-}
+
+
+only_admin_access();
+
 
 $display = new \Microweber\Comments\Controllers\Admin();
 

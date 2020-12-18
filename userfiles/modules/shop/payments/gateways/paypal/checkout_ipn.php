@@ -2,16 +2,12 @@
 
 
 
-
-
 $update_order = array();
 $data['host'] = $hostname;
-$is_paypalArr = explode('.',$hostname);
-$n = count($is_paypalArr);
-$is_paypal= "{$is_paypalArr[$n-2]}.{$is_paypalArr[$n-1]}";
 
 
-if (strtolower(trim($is_paypal)) == 'paypal.com') {
+
+if (strtolower(trim($hostname)) == 'paypal.com') {
     if (isset($data['payment_gross']) and $data['payment_gross']) {
         // payment_gross: Will be empty for non-USD payments
         $update_order['payment_amount'] = $data['payment_gross'];

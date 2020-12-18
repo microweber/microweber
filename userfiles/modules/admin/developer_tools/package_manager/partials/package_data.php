@@ -1,17 +1,8 @@
-<?php
-if (!user_can_access('module.marketplace.index')) {
-    return;
-}
+<?php only_admin_access();
+
 
 $is_core_update = false;
-
-$author = array_first(explode('/', $item['name']), function ($key, $value) {
-    return $value;
-});
-
-$package_name = explode('/', $item['name']);
-$package_name = $package_name[1];
-
+$author = array_first(explode('/', $item['name']));
 if (isset($item['authors']) and isset($item['authors'][0]) and isset($item['authors'][0]['name'])) {
     $author = $item['authors'][0]['name'];
 
@@ -24,7 +15,8 @@ if (isset($item['license']) and isset($item['license'][0])) {
 
 $author_icon = false;
 if (isset($item['extra']) and isset($item['extra']['_meta']) and isset($item['extra']['_meta']['avatar'])) {
-    //$author_icon = $item['extra']['_meta']['avatar'];
+    $author_icon = $item['extra']['_meta']['avatar'];
+
 }
 
 
@@ -49,11 +41,6 @@ if ($item['name'] == 'microweber/update') {
     $is_core_update = true;
 }
 
-if (!$screenshot) {
-    if (isset($item['latest_version']['extra']['_meta'][$package_name])) {
-        $screenshot = $item['latest_version']['extra']['_meta'][$package_name];
-    }
-}
 
 $key = $item['name'];
 $vkey = 'latest';

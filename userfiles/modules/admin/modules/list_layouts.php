@@ -1,5 +1,5 @@
 <?php
-must_have_access();
+only_admin_access();
 
 
        $is_elements = true;

@@ -1,10 +1,7 @@
 <?php
-if (!user_can_access('module.users.edit')) {
-    return;
-}
 
 $user_id = $params['user_id'];
-$loginAttempts = \MicroweberPackages\App\LoginAttempt::where('user_id', $user_id)
+$loginAttempts = \Microweber\App\LoginAttempt::where('user_id', $user_id)
     ->orderBy('time', 'desc')
     ->take(40)
     ->get();

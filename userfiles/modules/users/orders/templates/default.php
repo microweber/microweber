@@ -13,9 +13,7 @@
                     <?php } ?>
                 </div>
 
-                <h4>Order #<?php print $order['id']; ?> -
-                    <small>created on <?php print $order['created_at']; ?></small>
-                </h4>
+                <h4>Order #<?php print $order['id']; ?> - <small>created on <?php print $order['created_at']; ?></small></h4>
 
                 <hr class="m-b-0"/>
                 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
@@ -31,17 +29,13 @@
                     <tbody>
                     <?php foreach ($cart as $product) { ?>
                         <?php $theproduct = get_content_by_id($product['rel_id']); ?>
-                        <?php if ($theproduct): ?>
-                            <tr>
-                                <td>
-                                    <img src="<?php print get_picture($theproduct['id']); ?>" width="70" alt=""/>
-                                </td>
-                                <td><?php print $theproduct['title']; ?></td>
-                                <td><?php print $product['qty']; ?></td>
-                                <td><?php print $product['price']; ?></td>
-                                <td><?php print (intval($product['qty']) * intval($product['price'])); ?></td>
-                            </tr>
-                        <?php endif; ?>
+                        <tr>
+                            <td><img src="<?php print get_picture($theproduct['id']); ?>" width="70" alt=""/></td>
+                            <td><?php print $theproduct['title']; ?></td>
+                            <td><?php print $product['qty']; ?></td>
+                            <td><?php print $product['price']; ?></td>
+                            <td><?php print (intval($product['qty']) * intval($product['price'])); ?></td>
+                        </tr>
                     <?php } ?>
                     </tbody>
                 </table>

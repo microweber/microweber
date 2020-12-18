@@ -1,5 +1,5 @@
 <?php
-must_have_access();
+only_admin_access();
 /**
  * Print the site pages as tree
  *

@@ -1,4 +1,4 @@
-<?php must_have_access();
+<?php only_admin_access();
 exit;
 //depricated
 
@@ -14,7 +14,7 @@ if(isset($_COOKIE['mw-update-popup-closed'])){
 
 <script>
     $( document ).ready(function() {
-        mw.dialogIframe({
+        mw.modalFrame({
             url:'<?php print $params["popup"] ?>',
             onremove:function(){
 

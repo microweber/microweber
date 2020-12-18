@@ -1,4 +1,4 @@
-<?php must_have_access(); ?>
+<?php only_admin_access(); ?>
 
 <div class="mw-ui mw-ui-box-content">
 <div class="mw-ui-box mw-ui-box-content">

@@ -178,7 +178,7 @@ mw._colorPicker = function (options) {
     }
 
 };
-mw.colorPicker = function (o) {
+mw.colorPicker = mw.colourPicker = function (o) {
 
     return new mw._colorPicker(o);
 };

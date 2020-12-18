@@ -1,54 +1,91 @@
-
-mw.require('uploader.js');
-
 mw.files = {
     settings:{
             filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg",
-            url: mw.settings.upload_url,
+            url:mw.settings.upload_url,
             type:'explorer', // ... or filedrag
             multiple:true
     },
     filetypes:function(a, normalize){
             var def = !!normalize ? a : mw.files.settings.filetypes;
             switch(a){
-            case 'img':
-            case 'image':
+    case 'img':
+    case 'image':
             case 'images':
                 return mw.files.settings.filetypes;
-            case 'video':
+                break;
+    case 'video':
             case 'videos':
                 return 'avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
-            case 'file':
+                break;
+    case 'file':
             case 'files':
                 return 'doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv';
+                break;
             case 'documents':
-            case 'doc':
+    case 'doc':
                 return 'doc,docx,log,pdf,msg,odt,pages,rtf,tex,txt,wpd,wps,pps,ppt,pptx,xml,htm,html,xlr,xls,xlsx';
+                break;
             case 'archives':
-            case 'arc':
-            case 'arch':
+    case 'arc':
+    case 'arch':
                 return 'zip,zipx,gzip,rar,gz,7z,cbr,tar.gz';
-             case 'audio':
+                break;
+            case 'audio':
                 return 'mp3,wav,ogg,mp4,flac';
-             case 'media':
+                break;
+            case 'media':
                 return (mw.files.filetypes('video') + ',' + mw.files.filetypes('audio'));
-             case 'all':
+                break;
+            case 'all':
                 return '*';
-             case '*':
+                break;
+            case '*':
                 return '*';
-             default:
+                break;
+            default:
                 return def;
             }
     },
     normalize_filetypes:function(a){
         var str = '';
-        a = a.replace(/\s/g, '');
+        var a = a.replace(/\s/g, '');
         var arr = a.split(','), i=0, l=arr.length;
         for( ; i<l; i++){
             str+= mw.files.filetypes(arr[i], true) + ',';
         }
-        str = str.substring(0, str.length - 1);
+        var str = str.substring(0, str.length - 1);
         return str;
+    },
+    uploader:function(obj, mode1){
+            var obj = $.extend({}, mw.files.settings, obj);
+            var frame = mwd.createElement('iframe');
+            frame.className = 'mw-uploader mw-uploader-'+obj.type;
+            frame.scrolling = 'no';
+            frame.style.backgroundColor = "transparent";
+            frame.setAttribute('frameborder', 0);
+            frame.setAttribute('allowtransparency', 'true');
+            var params = "?type="+obj.type+"&filters="+mw.files.normalize_filetypes(obj.filetypes)+'&multiple='+obj.multiple +'&autostart='+obj.autostart;
+            if(typeof obj.path !== 'undefined'){
+                params += '&path=' + encodeURIComponent(obj.path);
+            }
+    if(typeof obj.autopath !== 'undefined'){
+                params += '&autopath=' + encodeURIComponent(obj.autopath);
+            }
+            params+= '&mwv=' + mw.version;
+            if(mode1){
+                frame.src = mw.external_tool('uppy'+params);
+
+            }
+            else {
+                frame.src = mw.external_tool('plupload'+params);
+            }
+            frame.name = obj.name || 'mw-uploader-frame-'+mw.random();
+            frame.style.background = "transparent";
+            frame.setAttribute('frameborder', 0);
+            frame.setAttribute('frameBorder', 0);
+            frame.setAttribute('allowtransparency', 'true');
+            frame.setAttribute('allowTransparency', 'true');
+            return frame;
     },
     safeFilename:function(url){
             if(!url) return;
@@ -56,15 +93,12 @@ mw.files = {
             return url;
     },
     urlAsBackgrund:function(url, el){
-            url = this.safeFilename(url);
+            var url = this.safeFilename(url);
             var bg = 'url("'+ url +'")';
             if(!!el){
                     el.style.backgroundImage = bg;
             }
             return bg;
-    },
-    uploader: function (o) {
-        return mw.upload(o);
     }
 }
 

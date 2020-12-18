@@ -1,4 +1,5 @@
 <?php
+
 $config = array();
 $config['name'] = "Logo";
 $config['author'] = "Microweber";
@@ -7,13 +8,3 @@ $config['ui'] = true;
 $config['categories'] = "other";
 $config['position'] = 39;
 $config['version'] = 1;
-
-$config['settings'] = [];
-$config['settings']['translatable_options'] = [
-    'text',
-    'font_family',
-    'logotype',
-    'logoimage',
-    'size',
-    'settings'
-];

@@ -4,16 +4,16 @@
 
 <script>
 var uploader = mw.files.uploader({
-    filetypes: ".xlsx, .xls",
-    multiple: false,
-    element: mw.$("#mw_uploader")
+    filetypes: "xlsx",
+    multiple: false
 });
 
 _mw_log_reload_int = false;
 $(document).ready(function () {
 
+    mw.$("#mw_uploader").append(uploader);
 
-    $(uploader).on("FileUploaded", function (obj, data) {
+    $(uploader).bind("FileUploaded", function (obj, data) {
     	$('#mw_uploader').fadeIn();
     	$('#upload_file_info').hide();
     	mw.notification.success("Moving uploaded file...");
@@ -23,7 +23,7 @@ $(document).ready(function () {
     	postData.namespace = "<?php echo $params['namespace']; ?>";
     	postData.language = "<?php echo $params['language']; ?>";
 
-		$.post("<?php echo route('admin.backup.language.upload'); ?>", postData,
+		$.post(mw.settings.api_url+'Microweber/Utils/Language/upload', postData,
 			function(msg) {
 				if (msg.success) {
 			    	mw.reload_module('settings/group/language_edit');
@@ -32,13 +32,13 @@ $(document).ready(function () {
 		});
     });
 
-    $(uploader).on('progress', function (up, file) {
+    $(uploader).bind('progress', function (up, file) {
         $('#mw_uploader').hide();
         $('#upload_file_info').show();
         mw.$("#upload_file_info").html("<b>Uploading file " + file.percent + "%</b><br /><br />");
     });
 
-    $(uploader).on('error', function (up, file) {
+    $(uploader).bind('error', function (up, file) {
         mw.notification.error("The template must be zip.");
     });
 

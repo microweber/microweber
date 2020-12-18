@@ -4,12 +4,15 @@
 namespace comments;
 
 
-use MicroweberPackages\Database\Crud;
-use MicroweberPackages\Utils\Mail\MailSender;
+use Microweber\Providers\Database\Crud;
+use Microweber\Utils\MailSender;
 
 
 class Api extends Crud
 {
+
+
+
 
     public $table = 'comments';
 
@@ -19,6 +22,9 @@ class Api extends Crud
        exit;
 
     }
+
+
+
 
     function get($params)
     {
@@ -162,13 +168,6 @@ class Api extends Crud
             $notif['content'] = mw('format')->limit($data['comment_body'], 800);
             mw()->notifications_manager->save($notif);
 
-
-
-
-
-
-
-
             $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
             $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
 
@@ -215,7 +214,7 @@ class Api extends Crud
     function mark_as_old($data)
     {
 
-        must_have_access();
+        only_admin_access();
 
         if (isset($data['content_id'])) {
             $table = MODULE_DB_COMMENTS;

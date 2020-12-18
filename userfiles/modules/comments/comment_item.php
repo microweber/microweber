@@ -1,6 +1,15 @@
 <?php
-must_have_access();
+
+
+only_admin_access();
+
+
 
 $display = new \Microweber\Comments\Controllers\Admin();
 
+
 return $display->comment_item($params);
+
+
+
+

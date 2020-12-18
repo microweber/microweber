@@ -1,0 +1,169 @@
+@import "var";
+
+.mw-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1200;
+    &.mw-dialog-scroll-mode-window{
+        overflow: auto;
+    }
+    &.mw-dialog-scroll-mode-inside{
+        overflow: hidden;
+        .mw-dialog-holder{
+            max-height: 96%;
+        }
+        .mw-dialog-container{
+            overflow: hidden auto;
+        }
+    }
+    .mw-dialog-container{
+        position: relative;
+    }
+    .mw-dialog-overlay{
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.2);
+    }
+    .mw-dialog-holder{
+        position: absolute !important;
+        z-index: 2;
+    }
+    &.mw-dialog-iframe iframe{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+    }
+    &.mw-dialog-iframe-autoheight iframe{
+        position: relative;
+    }
+}
+
+.mw-dialog-skin-default{
+    visibility: hidden;
+    .mw-dialog-header{
+        min-height: 40px;
+        background-color: #2b2b2b;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        align-items:center;
+        position: relative;
+        top: 0;
+        z-index: 2;
+        .mw-dialog-title{
+            max-width: calc(100% ~"-" 30px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .mw-dropdown-content{
+            background-color: #2b2b2b;
+        }
+    }
+    .mw-dialog-footer{
+        padding: 10px;
+        overflow: hidden;
+        position: relative;
+        text-align: right;
+        border-top: 1px solid #eee;
+
+        .mw-ui-btn + .mw-ui-btn{
+            margin-left: 10px;
+        }
+        &:empty{
+            display: none;
+        }
+
+    }
+    &.mw-dialog-scroll-mode-window{
+        .mw-dialog-header{
+            position: sticky;
+        }
+    }
+    .mw-dialog-holder{
+        max-width: 98%;
+        background-color: white;
+        box-shadow: 0 3px 9px rgba(0,0,0,.15);
+        visibility: hidden;
+        opacity: 0;
+        transform:  translateY(20px);
+        transition: none;
+        &.mw-dialog-drag-start{
+            transition: none;
+        }
+    }
+    .mw-dialog-overlay{
+        opacity: 0;
+        visibility: hidden;
+    }
+    &.active{
+        visibility: visible;
+        .mw-dialog-holder{
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .mw-dialog-overlay{
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    .mw-dialog-close{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        color: #bababa;
+        cursor: pointer;
+        transition: background-color .3s;
+        &:hover{
+            background-color: rgba(255,255,255,.2);
+        }
+        &:after{
+            content: "\f2d7";
+            font-family: Microweber;
+            font-size: 15px;
+        }
+    }
+    .mw-dialog-header .mw-dialog-close{
+        height: 100%;
+    }
+    .mw-dialog-container{
+        padding: 10px;
+    }
+    &.mw-dialog-iframe-loading{
+        iframe {
+            opacity: 0;
+            min-height: 100px;
+        }
+    }
+}
+
+html[dir='rtl'] {
+    .mw-dialog-close{
+        right: auto;
+        left: 0;
+    }
+}
+
+.mw-dialog-module-settings {
+    .mw-dialog-overlay{
+        pointer-events: none;
+    }
+}
+

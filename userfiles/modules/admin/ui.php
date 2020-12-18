@@ -348,24 +348,6 @@
                     <div class="mw-ui-box-content" style="display: none">About - Lorem Ipsum</div>
                     <div class="mw-ui-box-content" style="display: none">Contact - Lorem Ipsum</div>
                 </div>
-
-
-            </div>
-
-
-            <div class="demobox" id="demotabsnav2">
-                <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-                    <a href="javascript:;" class="mw-ui-btn-tab active">Home</a>
-                    <a href="javascript:;" class="mw-ui-btn-tab">About</a>
-                    <a href="javascript:;" class="mw-ui-btn-tab">Contact</a>
-                </div>
-                <div class="mw-ui-box">
-                    <div class="mw-ui-box-content">Home - Lorem Ipsum</div>
-                    <div class="mw-ui-box-content" style="display: none">About - Lorem Ipsum</div>
-                    <div class="mw-ui-box-content" style="display: none">Contact - Lorem Ipsum</div>
-                </div>
-
-
             </div>
 
 
@@ -374,10 +356,6 @@
                     mw.tabs({
                         nav: '#demotabsnav .mw-ui-btn-nav-tabs a',
                         tabs: '#demotabsnav .mw-ui-box-content'
-                    });
-                    mw.tabs({
-                        nav: '#demotabsnav2 .mw-ui-btn-nav-tabs a',
-                        tabs: '#demotabsnav2 .mw-ui-box-content'
                     });
                 });
             </script>
@@ -904,7 +882,123 @@
 
         </td>
     </tr>
+    <tr>
+        <td colspan="2">
+            <h2>Rich-text Editor</h2>
+            <div id="editor-demo">
 
+                <p>Lorem ipsu<em>m dolor sit amet, conse</em>ctetur adipiscing elit. <strong>Sed quis <u>orci pla</u>cer</strong>at, tristique nibh nec, rhoncus libero.</p>
+
+            </div>
+
+
+            <h3>Editor options and methods</h3>
+
+
+            Note: the editor must NOT be inside a hidden (display:'none') element.
+            <pre>
+    mw.editor({
+        element:'',
+        height:320,
+        width:'100%',
+        addControls: false,
+        hideControls:false,
+        ready: function(){
+
+        }
+     })
+</pre>
+
+
+            <ul>
+                <li><strong>element</strong>: - <strong>Required</strong>: represents the source element(for example: &lt;textarea>Some content&lt;/textarea>&lt;div>Some content&lt;/div>) - Node
+                    element or String (Selector)
+                </li>
+                <li><strong>height</strong>: - <strong>Optional</strong> <strong>Number</strong> or <strong>String</strong> in CSS Syntax - Default: 320</li>
+                <li><strong>width</strong>: - <strong>Optional</strong> <strong>Number</strong> or <strong>String</strong> in CSS Syntax - Default: '100%'</li>
+                <li><strong>addControls</strong>: - <strong>Optional</strong>. Represents Element/s that will be appended to the editor's control bar. <strong>String</strong> or <strong>Node</strong>
+                    or <strong>function</strong> that returns node - Default: false
+                </li>
+                <li><strong>hideControls</strong> - <strong>Optional</strong>. <strong>Array</strong>. Controls to hide. Example ['bold', 'italic', 'format', 'ol', 'ul'] - Default false</li>
+                <li><strong>ready</strong>: - <strong>Optional</strong>. <strong>Function</strong> to be executed after editor is loaded. Dedault: false</li>
+            </ul>
+
+
+            <br><br>
+
+
+            <h3>Editor API</h3>
+            <p>The function
+            <pre>mw.editor </pre>
+            returns an iframe node that represents the editor. It has 'atached' one event, one function and a API object.
+            </p>
+            <h4>Example:</h4>
+            <pre>
+    myEditor = mw.editor({ element: '#some-div-or-textarea' });
+
+    // 'change' event
+    $(myEditor).bind('change', function(){
+       console.log( this.value )
+    });
+
+    // function setValue, must be used after editor is ready
+    // Sets value of the editor nd triggers the change event
+    myEditor.setValue('Some &lt;b>value&lt;/b>');
+</pre>
+            <p> // API myEditor.api - The 'API' object is a refference to mw.wysiwyg object that is inside the editor </p>
+            <pre>
+            Examples:
+
+            myEditor.api.insert_html('some text or html') - inserts html
+            myEditor.api.link()                           - opens link popup
+            myEditor.api.unlink()                         - removes link from selection
+            myEditor.api.fontSize(16)                     - sets font size in pixels
+            myEditor.api.fontColor('#efecec')             - sets font color
+            myEditor.api.fontbg('#efecec')                - sets font background color
+
+             ...
+          </pre>
+
+            <p> Complete Example:</p>
+
+            <p> The function 'EditorRandomIMG' will insert random image in the selection inside the editor (If selection exists) </p>
+            <pre>
+             EditorRandomIMG = function(){
+               myEditor.api.insert_html('&lt;p>&lt;img src="//lorempixel.com/400/200/nature/" />&lt;/p>');
+             }
+
+
+       </pre>
+            <script>
+                $(document).ready(function () {
+
+                    DemoEditor = mw.editor({
+                        element: '#editor-demo',
+                        height: 250,
+                        width: '650',
+                        addControls: false,
+                        hideControls: false,
+                        ready: function () {
+                            mw.log('Editor is ready');
+                        },
+                        style:'font-size: 19px; font-family: Times;'
+                    });
+
+
+                })
+
+
+                DemoEditorRandomIMG = function () {
+                    DemoEditor.api.insert_html('<p><img src="//lorempixel.com/400/200/nature/?' + mw.random() + '" /></p>');
+                }
+
+            </script>
+
+
+            <span class="mw-ui-btn mw-ui-btn-info" onclick="DemoEditorRandomIMG();event.preventDefault();">Insert Random Image</span>
+
+        </td>
+    </tr>
     <tr>
         <td colspan="2">
             <h2>Navigations</h2>
@@ -1092,9 +1186,34 @@
     </tr>
     <tr>
         <td colspan="2">
+            <h2>Modal Window</h2>
+
+            <span class="mw-ui-btn" onclick="mw.modal({})">Default</span>
+
+            <span class="mw-ui-btn" onclick="mw.modal({template:'basic'})">Simple</span>
+
+            <span class="mw-ui-btn" onclick="mw.modalFrame({url:'http://google.com'});">Iframe</span>
+            <span class="mw-ui-btn" onclick="modalAPIEXAMPLE()">API EXAMPLE</span>
+
+            <div id="modalAPIEXAMPLE" style="display: none">
 
 
+                <div class="mw-ui-btn-nav">
+                    <span class="mw-ui-btn" onclick="MODALAPI.resize(Math.floor(Math.random()*(700-150+1)+150),Math.floor(Math.random()*(700-150+1)+150))">Resize</span>
+                    <span class="mw-ui-btn" onclick="MODALAPI.center()">Center</span>
+                    <span class="mw-ui-btn" onclick="MODALAPI.resize(Math.floor(Math.random()*(700-150+1)+150),Math.floor(Math.random()*(700-150+1)+150)).center()">Resize and Center</span>
 
+                </div>
+
+            </div>
+
+            <script>
+
+                modalAPIEXAMPLE = function () {
+                    MODALAPI = mw.modal({content: $('#modalAPIEXAMPLE').html()});
+                }
+
+            </script>
         </td>
     </tr>
 
@@ -1450,13 +1569,13 @@
                     pick2 = mw.colorPicker({
                         element: '#resr',
                         onchange: function (color) {
-                            console.log(color);
+                            $("#mw-admin-main-menu").css("background", color);
                         }
                     });
                     pick3 = mw.colorPicker({
                         element: '#resr2',
                         onchange: function (color) {
-                            console.log(color);
+                            $("#mw-admin-main-menu").css("background", color);
                         }
                     });
                 });
@@ -1482,7 +1601,48 @@
 
         </td>
     </tr>
+    <tr>
+        <td colspan="2">
 
+            <h2>Upload demo</h2>
+
+
+            <script>
+                mw.require("files.js");
+            </script>
+            <style>
+             #pl,#uppy{
+                 position: relative;
+                 width: 600px;
+                 height: 600px;
+                 background-color: #ccc;
+             }
+
+            </style>
+            <script>
+
+                var updefaults = {
+                    filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg,zip,sql",
+                    url:mw.settings.upload_url,
+                    multiple:true
+                }
+
+                $(window).load(function () {
+                    var pl = mw.files.uploader(updefaults)
+                    var uppy = mw.files.uploader(updefaults, true)
+                    $('#pl').append(pl)
+                    $('#uppy').append(uppy)
+                });
+
+            </script>
+
+            <h6>pl</h6>
+            <div id="pl"></div>
+            <h6>uppy</h6>
+            <div id="uppy"></div>
+
+        </td>
+    </tr>
     </tbody>
 </table>
 

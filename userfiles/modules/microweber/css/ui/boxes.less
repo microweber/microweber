@@ -1,0 +1,144 @@
+/****************************
+            Boxes
+*****************************/
+@import "var";
+
+.mw-ui-box2 {
+    border: 1px solid @borderColor;
+    background-color: @buttonColor;
+    position: relative;
+    z-index: 1;
+    clear: both;
+    padding: 20px;
+    transition: box-shadow .3s;
+    &:hover,&.active{
+        box-shadow: 0 0 8px rgba(0,0,0,.16) !important
+    }
+}
+
+.mw-ui-box {
+    border: 1px solid @borderColor;
+    border-radius: @radius;
+    clear: both;
+    background-color: @buttonColor;
+    box-shadow: 0 .126rem .26rem rgba(0,0,0,.066) !important
+}
+
+.mw-ui-box,
+.mw-ui-box-content {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.mw-ui-box-header {
+    background: @boxbg;
+    overflow: hidden;
+    padding: 10px;
+    border-bottom: 1px solid @borderColor;
+    border-top-left-radius: @radius;
+    border-top-right-radius: @radius;
+
+}
+
+.mw-ui-box-header a {
+    text-decoration: none;
+}
+
+.mw-ui-box-header > [class*='mw-icon-'] {
+    font-size: 20px;
+    line-height: 20px;
+    float: left;
+    margin-right: 12px;
+}
+
+.mw-ui-box-header h2 {
+    padding: 0;
+}
+
+.mw-ui-box-content.mw-accordion-content{
+    overflow: auto;
+}
+.mw-ui-box-content {
+    padding: 12px;
+    position: relative;
+}
+
+.mw-ui-box:after,
+.mw-ui-box-content:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+    font-size: 0;
+}
+
+.mw-ui-box-invert {
+    background-color: @invert;
+    color: white;
+    border-color: transparent;
+}
+
+.mw-ui-box-info {
+    background-color: @info;
+    color: white;
+    border-color: transparent;
+}
+
+.mw-ui-box-warn {
+    background-color: @warn;
+    color: white;
+    border-color: transparent;
+}
+
+.mw-ui-box-important {
+    background-color: @important;
+    color: white;
+    border-color: transparent;
+}
+
+.mw-ui-box-notification {
+    background-color: @notification;
+    color: white;
+    border-color: transparent;
+}
+
+.mw-ui-box-invert > .mw-ui-box-header {
+    background-color: lighten(@invert, 10%);
+    color: white;
+}
+
+.mw-ui-box-info > .mw-ui-box-header {
+    background-color: lighten(@info, 10%);
+    color: white;
+}
+
+.mw-ui-box-warn > .mw-ui-box-header {
+    background-color: lighten(@warn, 10%);
+    color: white;
+}
+
+.mw-ui-box-important > .mw-ui-box-header {
+    background-color: lighten(@important, 10%);
+    color: white;
+}
+
+.mw-ui-box-notification > .mw-ui-box-header {
+    background-color: lighten(@notification, 10%);
+    color: white;
+}
+
+.mw-ui-box-accordion-content {
+    overflow: hidden;
+    background: @boxbg;
+}
+
+.mw-ui-box-accordion > .mw-ui-box-content {
+    display: none;
+}
+
+.mw-accordion-active > .mw-ui-box-content {
+    display: none;
+}

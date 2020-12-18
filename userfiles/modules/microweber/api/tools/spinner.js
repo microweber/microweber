@@ -12,7 +12,7 @@ mw.Spinner = function(options){
     this.options = options;
 
     this.options.size = this.options.size || 20;
-    this.options.color = this.options.color || '#4592ff';
+    this.options.color = this.options.color || '#394cb0';
     this.options.insertMode = this.options.insertMode || 'append';
 
     this.color = function(val){
@@ -37,34 +37,24 @@ mw.Spinner = function(options){
     };
 
     this.create = function(){
-        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '" style="display: none;"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
+        this.$spinner = $('<div class="mw-spinner mw-spinner-mode-' + this.options.insertMode + '"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg></div>');
         this.size(this.options.size);
         this.color(this.options.color);
         this.$element[this.options.insertMode](this.$spinner);
-        this.show();
         return this;
     };
 
     this.show = function(){
-        this.$spinner.show();
-        this.$element.addClass('has-mw-spinner');
-        if(this.options.decorate) {
-            this.$element.addClass('mw-spinner-decorate');
-        }
+        this.$spinner.fadeIn();
         return this;
     };
 
     this.hide = function(){
-        this.$spinner.hide();
-        this.$element.removeClass('has-mw-spinner');
-        if(this.options.decorate) {
-            this.$element.removeClass('mw-spinner-decorate');
-        }
+        this.$spinner.fadeOut();
         return this;
     };
 
     this.remove = function(){
-        this.hide();
         this.$spinner.remove();
         delete this.element._mwSpinner;
     };

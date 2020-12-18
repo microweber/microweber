@@ -1,8 +1,14 @@
 <?php
 
+
+
+ 
+ 
+
 if (!isset($params)) {
     $params = array();
 }
+
 
 $manager = new content\controllers\Edit();
 
@@ -12,4 +18,6 @@ if (isset($params['view'])) {
         return $manager->$m($params);
     }
 }
-$html =  $manager->index($params);
+return $manager->index($params);
+
+

@@ -3,11 +3,13 @@
  $wrapper_class = 'mw-edit-content-item-admin'; 
  
   if(isset($params['live_edit'])){
-	$wrapper_class = 'module-live-edit-settings';
- }
- ?>
+	$wrapper_class = 'module-live-edit-settings'; 
+	 
+ }?>
 
 <div class="<?php print $wrapper_class; ?>">
+
+
 
 <?php event_trigger('content.edit.main',$params); ?>
 
@@ -31,6 +33,7 @@ if (!empty($content_edit_modules) and !empty($data)) {
      }
 	$modules = array_unique($modules);
 }
+
 ?>
   <?php if(!empty($modules)): ?>
   <?php foreach($modules as $module) : ?>

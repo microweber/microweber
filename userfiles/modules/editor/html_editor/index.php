@@ -1,4 +1,4 @@
-<?php must_have_access(); ?>
+<?php only_admin_access(); ?>
 
 <script src="<?php print modules_url()?>editor/html_editor/html_editor.js"></script>
 

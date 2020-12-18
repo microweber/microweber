@@ -12,7 +12,7 @@
 class CouponClass
 {
 
-	/** @var \MicroweberPackages\App\LaravelApplication */
+	/** @var \Microweber\Application */
 	public $app;
 
 	public $table = 'cart_coupons';

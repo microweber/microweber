@@ -1,154 +1,87 @@
-<?php
-$from_live_edit = false;
-if (isset($params["live_edit"]) and $params["live_edit"]) {
-    $from_live_edit = $params["live_edit"];
-}
-?>
+<script type="text/javascript">
+    $(document).ready(function () {
+        mw.options.form('.<?php print $config['module_class'] ?>', function () {
+            mw.notification.success("<?php _ejs("Saved"); ?>.");
+        });
+    });
+</script>
 
-<?php if (isset($params['backend'])): ?>
-    <module type="admin/modules/info"/>
-<?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <i class="mdi mdi-cogs module-icon-svg-fill"></i> <strong>Other shop settings</strong>
-        </h5>
+<div id="shop-settings-accordion" class="mw-ui-box mw-ui-box-silver-blue active m-t-20">
+    <div class="mw-ui-box-header" onclick="mw.accordion('#shop-settings-accordion');">
+        <div class="header-holder">
+            <i class="mai-shop"></i> <?php print _e('Shop settings'); ?>
+        </div>
     </div>
 
-    <div class="card-body pt-3">
-        <script type="text/javascript">
-            $(document).ready(function () {
-                mw.options.form('.<?php print $config['module_class'] ?>', function () {
-                    mw.notification.success("<?php _ejs("Saved"); ?>.");
-                });
+    <div class="mw-accordion-content mw-ui-box-content">
+        <div class="mw-ui-row">
+            <div class="mw-ui-col">
+                <div class="m-b-10">
+                    <label class="mw-ui-label bold p-b-10"><?php _e("Users must agree to Terms and Conditions"); ?></label>
 
+                    <div class="mw-ui-check-selector">
+                        <label class="mw-ui-check" style="margin-right: 15px;">
+                            <input name="shop_require_terms" class="mw_option_field" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_terms', 'website') != 1): ?> checked="checked" <?php endif; ?> >
+                            <span></span><span><?php _e("No"); ?></span>
+                        </label>
+                        <label class="mw-ui-check">
+                            <input name="shop_require_terms" class="mw_option_field" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_terms', 'website') == 1): ?> checked="checked" <?php endif; ?> >
+                            <span></span><span><?php _e("Yes"); ?></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mw-ui-col">
+                <div class="m-b-10">
+                    <label class="mw-ui-label bold p-b-10"><?php _e("Purchasing requires registration"); ?></label>
+
+                    <div class="mw-ui-check-selector">
+                        <label class="mw-ui-check" style="margin-right: 15px;">
+                            <input name="shop_require_registration" class="mw_option_field" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_registration', 'website') != 1): ?> checked="checked" <?php endif; ?> >
+                            <span></span><span><?php _e("No"); ?></span>
+                        </label>
+                        <label class="mw-ui-check">
+                            <input name="shop_require_registration" class="mw_option_field" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_registration', 'website') == 1): ?> checked="checked" <?php endif; ?> >
+                            <span></span><span><?php _e("Yes"); ?></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mw-ui-col">
+                <div class="m-b-10">
+
+<module type="shop/orders/settings/enable_disable_shop" />
+
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
                 $('.js-show-others').on('click', function () {
-                    $('.js-others').toggleClass('d-none');
+                    $('.js-others').toggleClass('hidden');
                 });
             });
         </script>
-
-        <h5 class="font-weight-bold"><?php print _e('Shop settings'); ?></h5>
-
-        <div class="form-group">
-            <label class="control-label d-block"><?php _e("Users must agree to Terms and Conditions"); ?></label>
-
-            <div class="custom-control custom-radio d-inline-block mr-2">
-                <input name="shop_require_terms" class="mw_option_field custom-control-input" id="shop_require_terms_0" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_terms', 'website') != 1): ?> checked="checked" <?php endif; ?> >
-                <label class="custom-control-label" for="shop_require_terms_0"><?php _e("No"); ?></label>
-            </div>
-
-            <div class="custom-control custom-radio d-inline-block">
-                <input name="shop_require_terms" class="mw_option_field custom-control-input" id="shop_require_terms_1" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_terms', 'website') == 1): ?> checked="checked" <?php endif; ?> >
-
-                <label class="custom-control-label" for="shop_require_terms_1"><?php _e("Yes"); ?></label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label d-block"><?php _e("Purchasing requires registration"); ?></label>
-
-            <div class="custom-control custom-radio d-inline-block mr-2">
-                <input name="shop_require_registration" class="mw_option_field custom-control-input" id="shop_require_registration_0" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_registration', 'website') != 1): ?> checked="checked" <?php endif; ?> >
-                <label class="custom-control-label" for="shop_require_registration_0"><?php _e("No"); ?></label>
-            </div>
-
-            <div class="custom-control custom-radio d-inline-block mr-2">
-                <input name="shop_require_registration" class="mw_option_field custom-control-input" id="shop_require_registration_1" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_registration', 'website') == 1): ?> checked="checked" <?php endif; ?> >
-                <label class="custom-control-label" for="shop_require_registration_1"><?php _e("Yes"); ?></label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label d-block"><?php _e("Require fields for checkout"); ?></label>
-
-
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_first_name" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_first_name" <?php if (get_option('shop_require_first_name', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_first_name"></label> <?php _e("First Name"); ?>
-            </div>
-
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_last_name" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_last_name" <?php if (get_option('shop_require_last_name', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_last_name"></label> <?php _e("Last Name"); ?>
-            </div>
-
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_email" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_email" <?php if (get_option('shop_require_email', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_email"></label> <?php _e("Email"); ?>
-            </div>
-
-
- <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_phone" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_phone" <?php if (get_option('shop_require_phone', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_phone"></label> <?php _e("Phone"); ?>
-            </div>
-
-
- <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_country" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_country" <?php if (get_option('shop_require_country', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_country"></label> <?php _e("Country"); ?>
-            </div>
-
-
- <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_city" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_city" <?php if (get_option('shop_require_city', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_city"></label> <?php _e("City"); ?>
-            </div>
-
-
- <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_address" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_address" <?php if (get_option('shop_require_address', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_address"></label> <?php _e("Address"); ?>
-            </div>
-
- <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_state" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_state" <?php if (get_option('shop_require_state', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_state"></label> <?php _e("State"); ?>
-            </div>
-
-
- <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="shop_require_zip" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_zip" <?php if (get_option('shop_require_zip', 'website') == 1): ?> checked="checked" <?php endif; ?>>
-                <label class="custom-control-label" for="check-shop_require_zip"></label> <?php _e("Zip"); ?>
-            </div>
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-
-        <module type="shop/orders/settings/enable_disable_shop"/>
-
-        <div class="my-3">
-            <button type="button" class="btn btn-outline-primary btn-sm js-show-others"><?php print _e('Advanced'); ?></button>
-        </div>
-
-        <div class="js-others d-none">
-            <div class="form-group">
-                <label class="control-label"><?php _e("Checkout URL"); ?></label>
+        <button type="button" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline js-show-others"><?php print _e('Advanced'); ?></button>
+        <div class="mw-ui-row js-others hidden">
+            <div class="m-b-10">
+                <label class="mw-ui-label bold p-b-10"><?php _e("Checkout URL"); ?></label>
                 <?php $checkout_url = get_option('checkout_url', 'shop'); ?>
-                <input name="checkout_url" class="mw_option_field form-control" type="text" option-group="shop" value="<?php print get_option('checkout_url', 'shop'); ?>" placeholder="<?php _e('Use default'); ?>"/>
+                <input name="checkout_url" class="mw-ui-field mw_option_field block-field" type="text" option-group="shop" value="<?php print get_option('checkout_url', 'shop'); ?>" placeholder="<?php _e('Use default'); ?>"/>
             </div>
 
-            <div class="form-group">
-                <label class="control-label"><?php _e("Custom order id"); ?></label>
-                <input name="custom_order_id" class="mw_option_field form-control" type="text" option-group="shop" value="<?php print get_option('custom_order_id', 'shop'); ?>" placeholder="ORD-{id}"/>
+            <div class="m-b-10">
+                <label class="mw-ui-label bold p-b-10"><?php _e("Custom order id"); ?></label>
+                <input name="custom_order_id" class="mw-ui-field mw_option_field block-field" type="text" option-group="shop" value="<?php print get_option('custom_order_id', 'shop'); ?>" placeholder="ORD-{id}"/>
             </div>
         </div>
-
-        <hr class="thin"/>
-
-        <module type="shop/shipping/set_units" id="mw_set_shipping_units"/>
     </div>
 </div>
+
+<module type="shop/shipping/set_units" id="mw_set_shipping_units"/>
 

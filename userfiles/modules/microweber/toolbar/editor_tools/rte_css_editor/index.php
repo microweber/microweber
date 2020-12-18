@@ -1,8 +1,12 @@
+
+
+
+
 <div id="xtree"></div>
 <div id="domtree"></div>
 
 <script type="text/javascript">
-    // parent.mw.require("external_callbacks.js");
+    //parent.mw.require("external_callbacks.js");
     mw.require("jquery-ui.js");
     mw.require("events.js");
     mw.require("forms.js");
@@ -14,6 +18,8 @@
     mw.require('tree.js');
 
     mw.require('domtree.js');
+
+
 
 
     mw.require('css_parser.js');
@@ -45,6 +51,7 @@
 <script>
 
 var ActiveNode = null;
+
 
 var reset = function(){
     if(!ActiveNode){
@@ -217,7 +224,7 @@ var _prepare = {
         units = [];
         $('.unit').each(function(){
             // var select = $('<select style="width: 60px"/>');
-            var select = $('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-link tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
+            var select = $('<span class="mw-ui-btn mw-ui-btn-medium tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mw-icon-refresh"></i></span>');
             select.on('click', function () {
                 var prev = $(this).parent().prev();
                 output( prev.attr('data-prop'), '');
@@ -321,9 +328,6 @@ var output = function(property, value){
     if(!ActiveNode) {
         ActiveNode = mw.top().liveEditSelector.selected
     }
-    if(ActiveNode.length) {
-        ActiveNode = ActiveNode[0]
-    }
     if(ActiveNode) {
           // ActiveNode.style[property] = value;
         mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
@@ -382,34 +386,14 @@ var init = function(){
         output('backgroundImage', 'none')
     });
     $("#background-select-item").on("click", function () {
-        var dialog;
-        var picker = new mw.filePicker({
-            type: 'images',
-            label: false,
-            autoSelect: false,
-            footer: true,
-            _frameMaxHeight: true,
-
-            onResult: function (data) {
-                if(!data) return;
-                var url = data.src;
-                console.log(url)
+        mw.fileWindow({
+            types: 'images',
+            change: function (url) {
+                url = url.toString();
                 output('backgroundImage', 'url(' + url + ')');
                 $('.background-preview').css('backgroundImage', 'url(' + url + ')')
-                dialog.remove()
-            },
-            cancel: function () {
-                dialog.remove()
             }
         });
-        dialog = mw.top().dialog({
-            content: picker.root,
-            title: mw.lang('Select image'),
-            footer: false,
-            width: 1200
-        })
-
-
     });
 
     _prepare.units();
@@ -445,7 +429,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     }
 
     if(ActiveNode){
-        var can = ActiveNode.textContent === ActiveNode.innerHTML;
+        var can = ActiveNode.innerText === ActiveNode.innerHTML;
         mw.$('#text-mask')[can ? 'show' : 'hide']();
         mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
         if(!mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(ActiveNode.parentNode, ['edit', 'module'])) {
@@ -516,7 +500,6 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             include "rtl.css";
         }
     ?>
-
 </style>
 <div id="css-editor-root">
 
@@ -588,10 +571,10 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             <label><?php _e("Text align"); ?></label>
             <div class="s-field-content">
                 <div class="text-align">
-                    <span class="ta-left" data-value="left"><span class="mdi mdi-format-align-left"></span></span>
-                    <span class="ta-center" data-value="center"><span class="mdi mdi-format-align-center"></span></span>
-                    <span class="ta-right" data-value="right"><span class="mdi mdi-format-align-right"></span></span>
-                    <span class="ta-justify" data-value="justify"><span class="mdi mdi-format-align-justify"></span></span>
+                    <span class="ta-left" data-value="left"><i></i><i></i><i></i></span>
+                    <span class="ta-center" data-value="center"><i></i><i></i><i></i></span>
+                    <span class="ta-right" data-value="right"><i></i><i></i><i></i></span>
+                    <span class="ta-justify" data-value="justify"><i></i><i></i><i></i></span>
                 </div>
             </div>
         </div>
@@ -700,8 +683,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <div class="s-field">
             <label><?php _e("Image"); ?></label>
             <div class="s-field-content">
-
-                <span class="mw-ui-btn mw-ui-btn-small" id="background-select-item"><span class="mw-ui-btn-img background-preview"></span> <?php _e("Image"); ?></span>
+                <span class="background-preview"></span>
+                <span class="mw-ui-btn mw-ui-btn-medium" id="background-select-item"><?php _e("Image"); ?></span>
                 <span id="background-remove"><span class="mw-icon-close"></span></span>
             </div>
         </div>

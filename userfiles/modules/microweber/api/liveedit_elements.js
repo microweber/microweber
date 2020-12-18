@@ -240,7 +240,7 @@ mw.dropables = {
     _elementRegister:null,
     element: function(ev) {
         var element = mw.tools.firstParentOrCurrentWithClass(mw.mm_target, 'element');
-        if(element /*&& this._elementRegister !== element*/) {
+        if(element && this._elementRegister !== element) {
             this._elementRegister = element;
             if (!mw.tools.hasClass(element, 'module')
                 && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['edit', 'module'])
@@ -260,7 +260,7 @@ mw.dropables = {
         }
         if (mw.mm_target === mw.image_resizer && this._elementRegister !== mw.image.currentResizing[0]) {
             this._elementRegister = mw.image.currentResizing[0];
-            mw.trigger("ElementOver", [mw.image.currentResizing[0], ev]);
+            mw.trigger("ElementOver", mw.image.currentResizing[0]);
         }
     },
     _layoutRegister:null,
@@ -295,7 +295,7 @@ mw.dropables = {
      }
  };
  mw.liveEditHandlers = function(event){
-    if (mw.drag.columns.resizing === false ) {
+    if ( /*mw.emouse.x % 2 === 0 && */ mw.drag.columns.resizing === false ) {
         mw.triggerLiveEditHandlers.cloneable(event);
         mw.triggerLiveEditHandlers.layout(event);
         mw.triggerLiveEditHandlers.element(event);
@@ -377,13 +377,16 @@ mw.liveNodeSettings = {
         if (!this.__is_sidebar_opened()) {
             return;
         }
-
+        mw.$('.mw-live-edit-component-options')
+            .hide()
+            .filter('#js-live-edit-side-wysiwyg-editor-holder')
+            .show();
     },
     none: function (el) {
         if (!this.__is_sidebar_opened()) {
             return;
         }
-
+        mw.$('.mw-live-edit-component-options').hide();
     },
     module: function (el) {
         mw.live_edit.showSettings(undefined, {mode:"sidebar", liveedit:true})
@@ -397,14 +400,20 @@ mw.liveNodeSettings = {
             .contents()
             .find("#mwimagecurrent")
             .attr("src", el.src)
-
+        mw.$('.mw-live-edit-component-options')
+            .hide()
+            .filter('#js-live-edit-image-settings-holder')
+            .show()
     },
     initImage: function () {
         var url = mw.external_tool('imageeditor');
         mw.$("#js-live-edit-image-settings-holder").append('<iframe src="' + url + '" frameborder="0" id="mw-live-edit-sidebar-image-frame"></iframe>');
     },
     icon: function () {
-
+        mw.$('.mw-live-edit-component-options')
+            .hide()
+            .filter('#js-live-edit-icon-settings-holder')
+            .show();
     },
     __is_sidebar_opened: function () {
         if (mw.liveEditSettings  &&  mw.liveEditSettings.active) {

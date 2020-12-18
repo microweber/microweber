@@ -1,4 +1,4 @@
-<?php must_have_access();?>
+<?php only_admin_access();?>
 <?php $here = dirname(__FILE__); ?>
 
 

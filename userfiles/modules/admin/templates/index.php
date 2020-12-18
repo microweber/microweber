@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 if (!isset($params['parent-module'])) {
     error('parent-module is required');
 

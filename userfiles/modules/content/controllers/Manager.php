@@ -3,7 +3,7 @@
 
 namespace content\controllers;
 
-use MicroweberPackages\View\View;
+use Microweber\View;
 
 class Manager
 {
@@ -26,19 +26,20 @@ class Manager
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
         $this->event_manager = $this->app->event_manager;
+        $is_admin = $this->app->user_manager->admin_access();
     }
 
     function index($params)
     {
-        if (!user_can_access('module.content.index')) {
-            return;
-        }
+
 
         if (isset($params['manage_categories'])) {
             print load_module('categories/manage', $params);
-            return;
-        }
 
+            return;
+
+
+        }
         if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             $params['is_shop'] = 1;
         } else if (isset($params['is_shop']) and $params['is_shop'] == 'n') {
@@ -70,8 +71,7 @@ class Manager
         if (isset($params['is_shop']) and $params['is_shop'] == 1) {
             $posts_mod['content_type'] = 'product';
         } else if (isset($params['is_shop']) and $params['is_shop'] == 0) {
-          //  $posts_mod['subtype'] = 'post';
-            $posts_mod['content_type'] = 'post';
+            $posts_mod['subtype'] = 'post';
         }
 
         if (isset($params['content_type']) and $params['content_type'] == 'product') {
@@ -172,25 +172,12 @@ class Manager
 
         }
 
-
-
-        if (!empty($params['filter'])) {
-            $posts_mod['filter'] = $params['filter'];
-
-        }
-
-        $posts_mod['no_cache'] = 1;
-        $posts_mod['limit'] = 15;
-
         $data = $this->provider->get($posts_mod);
-
-         if (empty($data) and isset($posts_mod['page'])) {
+        if (empty($data) and isset($posts_mod['page'])) {
             if (isset($posts_mod['paging_param'])) {
                 $posts_mod[$posts_mod['paging_param']] = 1;
             }
             unset($posts_mod['page']);
-
-
             $data = $this->provider->get($posts_mod);
         }
 
@@ -199,6 +186,7 @@ class Manager
 
 
         $pages = $this->provider->get($post_params_paging);
+
 
 
         $this->event_manager->trigger('module.content.manager', $posts_mod);
@@ -251,7 +239,6 @@ class Manager
                 }
             }
         }
-
 
         $view = new View($post_list_view);
         $view->assign('params', $params);

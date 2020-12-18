@@ -5,11 +5,15 @@ if (!isset($params)) {
 }
 
 $set_content_type_from_opt = false;
+ 
 
 if (isset($params['parent-module-id'])) {
 	$set_content_type_from_opt = get_option('data-content-type', $params['parent-module-id']);
+
 }
 
+
+ 
 
 if (isset($params['content_type'])) {
 
@@ -20,6 +24,7 @@ if (isset($params['content_type'])) {
     $params['content_type'] = $set_content_type;
 }
 
+ 
 $manager = new content\controllers\Manager();
 
 if (isset($params['view'])) {

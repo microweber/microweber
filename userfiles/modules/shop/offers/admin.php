@@ -1,8 +1,8 @@
-<?php must_have_access(); ?>
+<?php only_admin_access(); ?>
 
 <?php
 $from_live_edit = false;
-if (isset($params["live_edit"]) and $params["live_edit"]) {
+if(isset($params["live_edit"]) and $params["live_edit"] ){
     $from_live_edit = $params["live_edit"];
 }
 ?>
@@ -11,84 +11,92 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
-        <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
-        </h5>
-    </div>
+<div class="module-live-edit-settings">
 
-    <div class="card-body pt-3">
-        <script>
-            mw.lib.require('jqueryui');
-            mw.require("<?php print $config['url_to_module'];?>css/main.css");
-        </script>
+    <script>
+        mw.lib.require('jqueryui');
+        mw.require("<?php print $config['url_to_module'];?>css/main.css");
+    </script>
 
-        <script>
-            function editOffer(offer_id = false) {
-                var data = {};
-                var mTitle = (offer_id ? 'Edit offer' : 'Add new offer');
-                data.offer_id = offer_id;
-                editModal = mw.tools.open_module_modal('shop/offers/edit_offer', data, {overlay: true, skin: 'simple', title: mTitle})
-            }
+	<div id="tabsnav">
+		<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+			<a href="javascript:;" class="mw-ui-btn active tabnav">Offers</a>
 
-            function deleteOffer(offer_id) {
-                var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
-                if (confirmUser == true) {
-                    $.ajax({
-                        url: '<?php print route('api.offer.delete');?>',
-                        data: 'offer_id=' + offer_id,
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (response) {
-                            if (typeof(reload_offer_after_save) != 'undefined') {
-                                reload_offer_after_save();
-                            }
-                        }
-                    });
-                }
-            }
+            <?php if($from_live_edit) : ?>
+			<a href="javascript:;" class="mw-ui-btn tabnav">Skin/Template</a>
 
-            function reload_offer_after_save() {
-                mw.reload_module_parent('#<?php print $params['id'] ?>');
-                mw.reload_module('shop/offers/edit_offers');
-                window.parent.$(window.parent.document).trigger('shop.offers.update');
-                if (typeof(editModal) != 'undefined' && editModal.modal) {
-                    editModal.modal.remove();
-                }
-            }
+            <?php endif; ?>
+		</div>
+		<div class="mw-ui-box">
+			<div class="mw-ui-box-content tabitem">
 
-            $(document).ready(function () {
+				<div>
+					<a class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-info mw-ui-btn-outline js-add-new-offer"
+						href="javascript:;"><span> <span class="mai-plus"></span> Add new offer </span></a>
+				</div>
 
-                $(".js-add-new-offer").click(function () {
-                    editOffer(false);
-                });
-            });
-        </script>
+				<hr>
 
-        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Offers</a>
-            <?php if ($from_live_edit) : ?>
-                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+				<div>
+					<module type="shop/offers/edit_offers" />
+				</div>
+
+			</div>
+            <?php if($from_live_edit) : ?>
+
+			<div class="mw-ui-box-content tabitem" style="display: none">
+				<module type="admin/modules/templates" />
+			</div>
             <?php endif; ?>
 
-        </nav>
-
-        <div class="tab-content py-3">
-            <div class="tab-pane fade show active" id="list">
-                <div class="mb-3">
-                    <a class="btn btn-primary btn-rounded js-add-new-offer" href="javascript:;">Add new offer</a>
-                </div>
-
-                <module type="shop/offers/edit_offers"/>
-            </div>
-
-            <?php if ($from_live_edit) : ?>
-                <div class="tab-pane fade" id="templates">
-                    <module type="admin/modules/templates"/>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
+
+
+<script>
+	function editOffer(offer_id = false) {
+	    var data = {};
+	    var mTitle = (offer_id ? 'Edit offer' : 'Add new offer');
+	    data.offer_id = offer_id;
+	    editModal = mw.tools.open_module_modal('shop/offers/edit_offer', data, {overlay: true, skin: 'simple', title: mTitle})
+	}
+
+    function deleteOffer(offer_id) {
+        var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
+        if (confirmUser == true) {
+            $.ajax({
+                    url: '<?php print api_url('offer_delete');?>',
+                    data: 'offer_id=' + offer_id,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (typeof(reload_offer_after_save) != 'undefined') {
+                        	reload_offer_after_save();
+                        }
+                    }
+            });
+        }
+    }
+
+	function reload_offer_after_save() {
+        mw.reload_module_parent('#<?php print $params['id'] ?>');
+        mw.reload_module('shop/offers/edit_offers');
+        window.parent.$(window.parent.document).trigger('shop.offers.update');
+        if (typeof(editModal) != 'undefined' && editModal.modal) {
+            editModal.modal.remove();
+        }
+    }
+
+    $(document).ready(function () {
+        // Add tabs
+        mw.tabs({
+            nav: '#tabsnav  .tabnav',
+            tabs: '#tabsnav .tabitem'
+        });
+
+        $(".js-add-new-offer").click(function(){
+        	editOffer(false);
+    	});
+    });
+</script>

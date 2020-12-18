@@ -9,8 +9,7 @@ Import
   <script type="text/javascript">
     		var uploader = mw.files.uploader({
     			filetypes:"zip,sql",
-    			multiple:false,
-                element: "#mw_uploader"
+    			multiple:false
     		});
 
 		_mw_log_reload_int = false;
@@ -18,8 +17,8 @@ Import
 
 
 
-
-				$(uploader).on("FileUploaded", function(obj, data){
+		mw.$("#mw_uploader").append(uploader);
+				$(uploader).bind("FileUploaded", function(obj, data){
 					mw.admin_backup.move_uploaded_file_to_backup(data.src);
 					//mw.tools.enable(mwd.getElementById('mw_uploader'));
 					mw.$("#mw_uploader_loading").hide();
@@ -28,7 +27,7 @@ Import
 
 				});
 
-			    $(uploader).on('progress', function(up, file) {
+			    $(uploader).bind('progress', function(up, file) {
 
 
 
@@ -41,7 +40,7 @@ Import
                      mw.$("#upload_backup_info").html(file.percent + "%");
             	});
 
-                $(uploader).on('error', function(up, file) {
+                $(uploader).bind('error', function(up, file) {
                    mw.notification.error("<?php _ejs("The file must be"); ?> xml, sql, csv or zip.");
 
             	});

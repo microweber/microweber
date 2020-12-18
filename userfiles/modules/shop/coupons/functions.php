@@ -8,7 +8,7 @@
  * @author     Bozhidar Slaveykov <selfworksbg@gmail.com>
  * @copyright  2018 Microweber
  */
-include __DIR__ . DS . 'src/CouponClass.php';
+include __DIR__.DS.'src/CouponClass.php';
 
 api_expose('coupon_apply');
 function coupon_apply($params = array())
@@ -27,7 +27,7 @@ function coupon_apply($params = array())
 
     $customer_ip = user_ip();
 
-    $checkout = new MicroweberPackages\Checkout\CheckoutManager();
+    $checkout = new Microweber\Providers\Shop\CheckoutManager();
     $getCart = $checkout->app->shop_manager->get_cart(array(
         'session_id' => $checkout->app->user_manager->session_id()
     ));
@@ -92,11 +92,6 @@ function coupons_save_coupon($couponData = array())
     $ok = false;
     $errorMessage = '';
     $table = 'cart_coupons';
-
-
-    if (!isset($couponData['is_active'])) {
-        $couponData['is_active'] = 0;
-    }
 
     // check if coupon code exists
     $check = coupon_get_by_code($couponData['coupon_code']);
@@ -277,19 +272,11 @@ function coupons_delete_session()
 }
 
 
-event_bind('mw.admin.shop.settings.menu', function ($data) {
-    print '<div class="col-12 col-sm-6 col-lg-4">
-                <a href="?group=coupons" class="d-flex my-3">
-                    <div class="icon-holder"><i class="mdi mdi-scissors-cutting mdi-20px"></i></div>
-                    <div class="info-holder">
-                        <span class="text-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
-                        <small class="text-muted">Creating and managing coupon codes</small>
-                    </div>
-                </a>
-            </div>';
-});
 
-event_bind('mw.admin.shop.settings.coupons', function ($data) {
+
+
+
+event_bind('mw.admin.shop.settings', function ($data) {
     print '<module type="shop/coupons" view="admin_block" />';
 });
 
@@ -303,7 +290,7 @@ event_bind('mw.shop.cart.init', function ($params) {
     );
 
 
-    mw()->app->ui->register_component('price_summary', '');
+    mw()->app->ui->register_component('price_summary','');
 });
 
 

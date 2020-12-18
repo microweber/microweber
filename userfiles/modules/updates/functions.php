@@ -6,7 +6,7 @@ event_bind('mw.admin.dashboard.content.before', function ($params = false) {
 
     if (isset($_GET['install_done']) and mw()->ui->disable_marketplace != true) {
         print '<h1 style="font-size: 24px; color: #555555;">Welcome to Microweber ' . MW_VERSION . '</h1>';
-        print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom: 5px;">Use Microweber to build your website, online shop or blog.</p>';
+        print '<p style="font-size: 13px; color: #999999; line-height: 1.6;">Use Microweber to build your website, online shop or blog.</p>';
         print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom:30px;">Create and  edit content, sell online, manage orders and clients with Open Source CMS Microweber.</p>';
     }
 });
@@ -146,7 +146,7 @@ function mw_print_admin_updates_settings_link()
 //       $update_check_count = mw()->app->notifications_manager->get('rel_type=update_check&is_read=0&count=1');
 //    $notif_html = '';
 //    if($update_check_count){
-//        $notif_html = '<sup class="badge badge-danger badge-sm badge-pill">'.$update_check_count.'</sup>';
+//        $notif_html = '<sup class="mw-notification-count">'.$update_check_count.'</sup>';
 //
 //    }
 
@@ -154,7 +154,7 @@ function mw_print_admin_updates_settings_link()
 
     $mname = module_name_encode('updates');
     $modurl = admin_url() . 'view:settings#option_group=' . module_name_encode('updates');
-    print "<a class=\"dropdown-item item-" . $mname . "\" href=\"" . $modurl . "\"><span class=\"mai-thunder\"></span>" . _e("Updates", true) . "</a>";
+    print "<li><a class=\"item-" . $mname . "\" href=\"" . $modurl . "\"><span class=\"mai-thunder\"></span><strong>" . _e("Updates", true) . "</strong></a></li>";
 
     //$notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
     /*if ($notif_count > 0) {

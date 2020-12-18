@@ -38,14 +38,6 @@
                 skin:'default',
                 multiPageSelect:true,
                 saveState:true,
-                stateStorage: {
-                    get: function (id) {
-                        return mw.storage.get( id);
-                    },
-                    set: function (id, dataToSave) {
-                        mw.storage.set(id, dataToSave);
-                    }
-                },
                 sortable:false,
                 nestedSortable:false,
                 singleSelect:false,
@@ -63,7 +55,6 @@
                 filterRemoteKey: 'keyword',
             };
 
-
             var options = $.extend({}, defaults, config);
 
 
@@ -74,8 +65,6 @@
             this.options = options;
             this.document = options.document;
             this._selectionChangeDisable = false;
-
-            this.stateStorage = this.options.stateStorage;
 
             if(this.options.selectedData){
                 this.selectedData = this.options.selectedData;
@@ -111,6 +100,7 @@
                 var ts = {};
                 ts[scope.options.filterRemoteKey] = val;
                 $.get(scope.options.filterRemoteURL, ts, function (data) {
+                    console.log(data)
                     scope.setData(data);
                 });
             }, 777);
@@ -123,11 +113,6 @@
                 this.filterLocal(val, key);
             }
         };
-
-        var _e = {};
-
-        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
-        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
         this.search = function(){
             this._seachInput = mw.$(this.options.searchInput);
@@ -199,7 +184,7 @@
                 var it = this._postCreated[i];
                 if(it.parent_id !== 0) {
                     var has = this.options.data.find(function (a) {
-                        return a.id ==  it.parent_id; // 1 == '1'
+                        return a.id ==  it.parent_id;
                     });
                     if(!has) {
                         it.parent_id = 0;
@@ -245,13 +230,6 @@
 
         };
 
-        function triggerChange() {
-            if(!this._selectionChangeDisable) {
-                mw.$(scope).trigger('selectionChange', [scope.selectedData]);
-                scope.dispatch('selectionChange', scope.selectedData)
-            }
-        }
-
         this.setData = function(newData){
             this.options.data = newData;
             this._postCreated = [];
@@ -268,12 +246,12 @@
                 }
             });
 
-            this.stateStorage.set(this.options.id, data);
+            mw.storage.set(this.options.id, data);
         };
 
         this.restoreState = function(){
             if(!this.options.saveState) return;
-            var data = this.stateStorage.get(this.options.id);
+            var data = mw.storage.get(this.options.id);
             if(!data) return;
             try{
                 $.each(data, function(){
@@ -322,10 +300,10 @@
 
             this.manageUnselected();
             this.getSelected();
-            triggerChange();
+            if(!this._selectionChangeDisable) {
+                mw.$(scope).trigger('selectionChange', [scope.selectedData]);
+            }
         };
-
-
 
         this.unselect = function(li, type){
             if(Array.isArray(li)){
@@ -342,7 +320,9 @@
             }
             this.manageUnselected();
             this.getSelected();
-            triggerChange();
+            if(!this._selectionChangeDisable) {
+                mw.$(scope).trigger('selectionChange', [scope.selectedData]);
+            }
         };
 
         this.get = function(li, type){
@@ -388,14 +368,14 @@
             this._selectionChangeDisable = true;
             this.select(this.options.data);
             this._selectionChangeDisable = false;
-            triggerChange()
+            mw.$(scope).trigger('selectionChange', [this.selectedData]);
         };
 
         this.unselectAll = function(){
             this._selectionChangeDisable = true;
             this.unselect(this.selectedData);
             this._selectionChangeDisable = false;
-            triggerChange()
+            mw.$(scope).trigger('selectionChange', [this.selectedData]);
         };
 
         this.open = function(li, type, _skipsave){
@@ -566,10 +546,10 @@
             element.querySelector('.mw-tree-item-content').appendChild(this.contextMenu(element));
 
             if(this.options.sortable){
-                this.sortable();
+                this.sortable()
             }
             if(this.options.nestedSortable){
-                this.nestedSortable();
+                this.nestedSortable()
             }
 
         };
@@ -819,7 +799,7 @@
         if(parent) {
             return parent._tree;
         }
-    }
 
+    }
 
 })();

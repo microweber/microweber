@@ -5,7 +5,7 @@ use Microweber\Utils\ContentImport;
 api_expose('content_export_start');
 function content_export_start($data)
 {
-	must_have_access();
+	only_admin_access();
 	
 	$export = new ContentExport($data);
 	$export->setExportFormatType('json');

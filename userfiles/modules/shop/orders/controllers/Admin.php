@@ -3,7 +3,7 @@
 
 namespace shop\orders\controllers;
 
-use MicroweberPackages\View\View;
+use Microweber\View;
 
 
 class Admin
@@ -15,7 +15,7 @@ class Admin
     function __construct($app = null)
     {
 
-        must_have_access();
+        only_admin_access();
 
 
         if (!is_object($this->app)) {

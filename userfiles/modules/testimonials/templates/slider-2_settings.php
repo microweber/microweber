@@ -17,7 +17,7 @@ $bgImage = get_option('bg-image', $params['id']);
             multiple: false,
             element: "#bg-image"
         });
-        $(textImage).on('FileUploaded', function (a, b) {
+        $(textImage).bind('FileUploaded', function (a, b) {
             mw.tools.preload(b.src);
             mw.$("#bgimageval").val(b.src).trigger('change');
         });
