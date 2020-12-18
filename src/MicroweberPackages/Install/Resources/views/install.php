@@ -629,14 +629,16 @@
                                                 });
 
                                                 function setscreenshot() {
-                                                    var scrshot = ($('#default_template').children('option:selected').data('screenshot'));
-                                                    $('#theImg').remove();
+                                                    setTimeout(function(){
+                                                        var scrshot = ($('#default_template').children('option:selected').data('screenshot'));
+                                                        $('#theImg').remove();
 
-                                                    if (typeof(scrshot) != 'undefined') {
-                                                        $('#screenshot_preview').append('<div id="theImg"></div>');
-                                                        $('#theImg').css('background-image', 'url(' + scrshot + ')');
-                                                        $('#theImg').attr('data-src', scrshot);
-                                                    }
+                                                        if (typeof(scrshot) != 'undefined') {
+                                                            $('#screenshot_preview').append('<div id="theImg"></div>');
+                                                            $('#theImg').css('background-image', 'url(' + scrshot + ')');
+                                                            $('#theImg').attr('data-src', scrshot);
+                                                        }
+                                                    }, 3000);
                                                 }
                                             </script>
 
