@@ -39,6 +39,7 @@ class LaravelApplication extends Application
     private function _check_system()
     {
         $this->__ensure_bootstrap_cache_dir();
+        $this->__ensure_storage_dir();
         $this->__ensure_dot_env_file_exists();
     }
 
@@ -49,16 +50,31 @@ class LaravelApplication extends Application
         */
         $bootstrap_dir = $this->base_path_local . DIRECTORY_SEPARATOR . 'bootstrap';
         $bootstrap_cache_dir = $bootstrap_dir . DIRECTORY_SEPARATOR . 'cache';
-        if (is_dir($bootstrap_dir)
-            and
-            (
-                !is_dir($bootstrap_cache_dir)
-                and
-                !is_link($bootstrap_cache_dir)
-            )
-        ) {
+
+        if (is_dir($bootstrap_dir) and (!is_dir($bootstrap_cache_dir) and !is_link($bootstrap_cache_dir))) {
             mkdir($bootstrap_cache_dir);
         }
+    }
+
+    private function __ensure_storage_dir()
+    {
+        /*
+        * fix of error: The bootstrap/cache directory must be present and writable.
+        */
+        $storage_dir = $this->base_path_local . DIRECTORY_SEPARATOR . 'storage';
+
+        $storage_sessions_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework'.DIRECTORY_SEPARATOR.'sessions';
+        if (!is_dir($storage_sessions_dir) and !is_link($storage_sessions_dir)) {
+            $this->_mkdir_recursive($storage_sessions_dir);
+        }
+
+        $storage_view_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework'.DIRECTORY_SEPARATOR.'views';
+        if (!is_dir($storage_view_dir) and !is_link($storage_view_dir)) {
+            $this->_mkdir_recursive($storage_view_dir);
+        }
+
+
+
     }
 
     private function __ensure_dot_env_file_exists()
@@ -75,5 +91,15 @@ class LaravelApplication extends Application
             @touch($file);
         }
 
+    }
+
+    private function _mkdir_recursive($pathname)
+    {
+        if ($pathname == '') {
+            return false;
+        }
+        is_dir(dirname($pathname)) || $this->_mkdir_recursive(dirname($pathname));
+
+        return is_dir($pathname) || @mkdir($pathname);
     }
 }

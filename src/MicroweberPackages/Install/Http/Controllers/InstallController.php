@@ -62,7 +62,6 @@ class InstallController extends Controller
 
         $allowed_configs = array('database', 'microweber');
 
-
         $env = $this->app->environment();
 
         $view = dirname(dirname(__DIR__)) . '/Resources/views/install.php';
@@ -96,12 +95,6 @@ class InstallController extends Controller
 
             $input['table_prefix'] = str_replace(':', '', $input['table_prefix']);
 
-
-            if (isset($input['db_driver'])) {
-                $dbDriver = $input['db_driver'];
-            } else {
-                $dbDriver = 'mysql';
-            }
 
             if (isset($input['db_driver'])) {
                 $dbDriver = $input['db_driver'];
