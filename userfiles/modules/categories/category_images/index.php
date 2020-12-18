@@ -84,8 +84,10 @@ if ($results) {
     if ($selected_pages) {
         foreach ($selected_pages as $sel_p) {
             $pp = get_content_by_id($sel_p);
-            $pp['is_page'] = true;
-            $cats[] = $pp;
+            if($pp) {
+                $pp['is_page'] = true;
+                $cats[] = $pp;
+            }
 
 
             if ($selected_cats) {
