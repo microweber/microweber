@@ -1,0 +1,17 @@
+{
+  "name": "microweber-modules/tags",
+  "description": "Tags",
+  "license": "MIT",
+  "homepage": "https://microweber.org/modules/microweber-modules/tags",
+  "authors": [
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "keywords": [
+    "tags"
+  ],
+  "type": "microweber-module",
+  "target-dir": "tags"
+}

@@ -7,7 +7,7 @@ mw.backup_import = {
 	upload: function(src) {
 		data = {}
 		data.src=src;
-		$.post(mw.settings.api_url+'Microweber/Utils/BackupV2/upload', data ,
+		$.post(mw.settings.api_url+'BackupV2/upload', data ,
 			function(msg) {
 				mw.reload_module('admin/backup_v2/manage');
 				mw.notification.msg(msg, 5000);
@@ -18,7 +18,7 @@ mw.backup_import = {
 		mw.tools.confirm(mw.msg.del, function() {
 			data = {}
 			data.id = $id;
-			$.post(mw.settings.api_url + 'Microweber/Utils/BackupV2/delete', data, function(resp) {
+			$.post(mw.settings.api_url + 'BackupV2/delete', data, function(resp) {
 				mw.notification.msg(resp);
 				if ($selector_to_hide != undefined) {
 					mw.reload_module('admin/backup_v2/manage');
@@ -88,8 +88,8 @@ mw.backup_import = {
 		'<div class="backup-import-modal-log-progress"></div>'+
 
 		'<div class="mw-backup-v2-import-buttons">'+
-		'<a class="button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
-		'<button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-rounded button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
+		'<a class="btn btn-link button-cancel" onClick="mw.backup_import.close_import_modal();">Close</a>'+
+		'<button class="btn btn-primary btn-rounded button-start" onclick="mw.backup_import.start_import_button()" type="submit">Start Importing</button>'+
 		'</div>'+
 
 		'</div>'
@@ -129,18 +129,6 @@ mw.backup_import = {
 
 		$('.button-start').addClass('disabled');
 
-	//	mw.spinner({element: ".button-start", size: 30, color: 'white'}).show()
-
-
-
-        //$('.button-start').hide();
-
-
-
-
-
-
-
 		$('.backup-import-modal-log-progress').show();
 
         var import_by_type = $('input[name="import_by_type"]:checked').val();
@@ -157,11 +145,17 @@ mw.backup_import = {
             data.import_by_type = 'overwrite_by_titles';
         }
 
+        if (typeof data.step === 'undefined') {
+            data.step = 0;
+		}
+
 		$.ajax({
 		  dataType: "json",
-		  url: mw.settings.api_url+'Microweber/Utils/BackupV2/import',
+		  url: mw.settings.api_url+'BackupV2/import',
 		  data: data,
 		  success: function(json_data) {
+
+              data.step = json_data.next_step;
 
 		  	if (json_data.must_choice_language) {
 		  		mw.backup_import.choice_language(json_data.detected_languages);
@@ -197,7 +191,7 @@ mw.backup_import = {
 
 				}
 				//		$('#mw_backup_import_modal').
-				setTimeout(function(){ mw.backup_import.start_import();; }, 300);
+				setTimeout(function(){ mw.backup_import.start_import(); }, 300);
 
 
 			}

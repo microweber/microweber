@@ -24,9 +24,7 @@ description: Default
         <a href="https://twitter.com/intent/tweet?text=<?php print content_title(); ?>&url=<?php print mw()->url->current(); ?>" target="_blank"><span class="mw-icon-twitter"></span></a>
     <?php } ?>
 
-    <?php if ($googleplus_enabled) { ?>
-        <a href="https://plus.google.com/share?url=<?php print mw()->url->current(); ?>" target="_blank"><span class="mw-icon-googleplus"></span></a>
-    <?php } ?>
+
 
     <?php if ($pinterest_enabled) { ?>
         <script type="text/javascript">

@@ -3,12 +3,7 @@ mw.liveedit.toolbar = {
         mwd.body.style.paddingTop = parseFloat($(mwd.body).css("paddingTop")) + mw.$("#live_edit_toolbar").height() + 'px';
     },
     setEditor: function(){
-        /*mw
-            .$(mwd.querySelector('.editor_wrapper_tabled'))
-            .css({
-                left: mw.$(mwd.querySelector('.toolbar-sections-tabs')).outerWidth(true) + mw.$(mwd.querySelector('.wysiwyg-undo-redo')).outerWidth(true) + 30,
-                right: mw.$(mwd.querySelector('#mw-toolbar-right')).outerWidth(true)
-            });*/
+
     },
     prepare: function () {
         mw.$("#liveedit_wysiwyg")

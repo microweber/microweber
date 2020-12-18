@@ -14,7 +14,7 @@ if (isset($params['for-content-id'])) {
     function editTagsShowManageWindow(module_id) {
         var opts = {};
         opts.width = '800';
-        opts.height =  '600';
+        opts.height = '600';
 
         opts.liveedit = true;
         opts.mode = 'modal';
@@ -22,35 +22,25 @@ if (isset($params['for-content-id'])) {
         var additional_params = {};
         additional_params.manage_tags = 'yes';
 
-        return window.parent.mw.tools.open_global_module_settings_modal('tags/admin_backend', module_id, opts,additional_params);
+        return window.parent.mw.tools.open_global_module_settings_modal('tags/admin_backend', module_id, opts, additional_params);
     }
 </script>
 
-<div class="mw-accordion-item-block   mw-live-edit-module-manage-and-list-top">
-    <a href="javascript:void();" onClick="editTagsShowManageWindow('<?php print $params['id'] ?>',{mode:'modal', liveedit:false});"
-       class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded"><span class="fas fa-list"></span>
-        &nbsp; <?php print _e('Manage tags') ?></a>
+<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+</nav>
 
+<div class="tab-content py-3">
+    <div class="tab-pane fade show active" id="settings">
+        <!-- Settings Content -->
+        <div class="module-live-edit-settings module-categories-settings">
+            <div class="form-group">
+                <label class="control-label"><?php _e("Show Tags from"); ?></label>
+                <input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>"/>
 
-</div>
-<div class="mw-modules-tabs">
-
-
-    <div class="mw-accordion-item">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
-            </div>
-        </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <!-- Settings Content -->
-            <div class="module-live-edit-settings module-categories-settings">
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e("Show Tags From"); ?></label>
-                    <input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>"/>
-
-                    <select name="data-root-page-id" class="mw-ui-field mw_option_field mw-full-width" data-also-reload="<?php print  $config['the_module'] ?>">
+                <div class="">
+                    <select name="data-root-page-id" class="mw_option_field selectpicker" data-width="100%" data-also-reload="<?php print  $config['the_module'] ?>">
                         <option value="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?> title="<?php _e("Default"); ?>"><?php _e("Default"); ?></option>
                         <?php
                         $pt_opts = array();
@@ -64,35 +54,18 @@ if (isset($params['for-content-id'])) {
                         ?>
                     </select>
                 </div>
-
             </div>
-            <!-- Settings Content - End -->
+
+            <div class="text-right">
+                <a href="javascript:;" onClick="editTagsShowManageWindow('<?php print $params['id'] ?>',{mode:'modal', liveedit:false});" class="btn btn-primary btn-sm"><?php print _e('Manage tags') ?></a>
+            </div>
         </div>
+        <!-- Settings Content - End -->
     </div>
 
-    <?php
-
-    /*  <div class="mw-accordion-item">
-          <div class="mw-ui-box-header mw-accordion-title">
-              <div class="header-holder" id="mw-live-edit-cats-tab" onclick="mw.live_edit_load_cats_list()">
-                  <i class="mw-icon-navicon-round"></i> <?php print _e('List of Categories'); ?>
-              </div>
-          </div>
-          <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-              <div id="mw_add_cat_live_edit"></div>
-          </div>
-      </div>*/
-
-    ?>
-
-    <div class="mw-accordion-item">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
-            </div>
-        </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <module type="admin/modules/templates"/>
-        </div>
+    <div class="tab-pane fade" id="templates">
+        <module type="admin/modules/templates"/>
     </div>
 </div>
+
+

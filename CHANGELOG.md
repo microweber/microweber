@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] - 2020-12-17
+- Migrated to Laravel 8
+- Refactored the internal code to Laravel style 
+- New admin template
+- Many other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.1.20...1.2.0 "")
+
 ## [1.1.20] - 2020-06-22
 - Fix Module Menu Not working properly 
 - Fix toolbar align on RTL 
@@ -108,7 +115,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fixes on mw.dialog 
 - Fixes on Custom fields 
 - Fixes on Calendar module in Live Edit mode
-- Fixes on Modal mw.tools.modal.get(...) is not a function when in mw.dialog
+- Fixes on Modal mw.dialog.get(...) is not a function when in mw.dialog
 - Fixes on Testimonials module select image does not work
 - Fixes on UI in RTL languages
 - Fixes on Import from CSV 

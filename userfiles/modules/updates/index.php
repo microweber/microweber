@@ -1,4 +1,4 @@
-<?php only_admin_access();
+<?php must_have_access();
 
 
 ?>
@@ -109,7 +109,7 @@ mw()->notifications_manager->delete_for_module('updates');
         mw.bind_update_form_submit();
 
 
-        $(window).bind("mw_updates_done", function () {
+        $(window).on("mw_updates_done", function () {
 
             mw.tools.enable(mwd.getElementById('installsubmit'));
             Alert("Updates are successfully installed.");
@@ -144,7 +144,7 @@ mw()->notifications_manager->delete_for_module('updates');
         <h2 class="mw-side-main-title relative"><span class="mw-icon-updates"></span>
             <?php _e("Updates"); ?>
             <?php if ($notif_count != 0) : ?>
-                &nbsp;<sup class="mw-notification-count" id="number_of_updates"><?php print $notif_count ?></sup>
+                &nbsp;<sup class="badge badge-danger badge-sm badge-pill" id="number_of_updates"><?php print $notif_count ?></sup>
             <?php endif; ?>
         </h2>
     </div>

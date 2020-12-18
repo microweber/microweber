@@ -1,0 +1,102 @@
+.mw-ui-form-controllers-footer{
+    padding: 15px 0 10px;
+    border-top: 1px solid #cfcfcf;
+    margin: 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+.mw-ui-form-controller-root{
+    display: none;
+    padding-top: 15px;
+}
+.mw-ui-form-controller-root.active{display: block}
+
+
+
+.mw-ui-form-controller-root .mw-autocomplete-list.mw-ui-navigation li a {
+    border-bottom: none;
+}
+.mw-ui-form-controller-root .mw-autocomplete .mw-autocomplete-list{
+    position: relative;
+    border: none;
+    top: 0;
+    left: -5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.mw-ui-form-controller-root > div:first-of-type {
+    padding-top: 15px;
+    max-height: calc(100vh - 300px);
+    overflow: auto;
+}
+.mw-link-editor-posts-search .mw-autocomplete:before{
+    content: "\F0349";
+    font-size: 21px;
+    font-family: "Material Design Icons";
+    color: #2b2b2b;
+    vertical-align: middle;
+}
+
+/*.mw-link-editor-root-inIframe-true .mw-ui-form-controller-root > div:first-of-type {
+    max-height: none;
+}*/
+
+.mw-link-editor-nav-drop-box{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    border: 1px solid #4592ff;
+    background-color: white;
+    z-index: 1;
+}
+.mw-link-editor-nav-drop-box > span i{
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 0.5em;
+    position: relative;
+}
+.mw-link-editor-nav-drop-box > span{
+    display: block;
+    cursor: pointer;
+
+    font-weight: 500;
+    border-top: 1px solid #cfcfcf;
+    border-bottom: 1px solid transparent;
+    padding: 8.5px 15px;
+    color: #adb5bd;
+
+}
+
+.mw-link-editor-posts-search .mdi{
+    display: inline-block;
+    width: 25px;
+    color: #bcbfc2;
+    font-size: 17px;
+}
+
+
+.mw-custom-field-group{
+    padding-bottom: 15px;
+}
+.mw-admin-custom-field-value-edit-inline{
+    min-width: 60px;
+    padding: 6px;
+}
+.mw-admin-custom-field-value-edit-inline,
+.mw-live-edit-input{
+
+    line-height: 17px;
+
+}
+
+.btn-create-custom-field-value i{
+    margin-inline-end: 0px !important;
+}
+.btn-create-custom-field-value{
+    width: 30px;
+    text-emphasis: #ce8483;
+}
+
+.mw-custom-field-form-controls{
+    padding: 5px 0;
+}

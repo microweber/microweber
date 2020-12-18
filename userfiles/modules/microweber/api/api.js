@@ -33,7 +33,7 @@ if (!window.jQuery) {
     $haystack .= "\n\n".load_web_component_file('jquery/jquery-migrate-3.0.0.js');
 
 
-	$needle = '//@ sourceMappingURL=';
+	$needle = '//@ disabled_sourceMappingURL=';
 	$replace = '//@ disabled_sourceMappingURL=';
 	$pos = strpos($haystack,$needle);
 	$newstring = $haystack;
@@ -47,6 +47,7 @@ if (!window.jQuery) {
 }
 
 var _jqxhr = jQuery.ajax;
+mw.jqxhr = _jqxhr;
 
 
 
@@ -99,7 +100,9 @@ mw.safeCall = function(hash, call){
 $.ajaxSetup({
     cache: false,
     error: function (xhr, e) {
-        if(xhr.status !== 200 && xhr.status !== 0){
+         if(xhr.status === 422){
+            mw.errorsHandle(xhr.responseJSON)
+        } else if(xhr.status !== 200 && xhr.status !== 0){
             mw.notification.error('Error ' + xhr.status + ' - ' + xhr.statusText + ' - \r\n' + xhr.responseText );
             setTimeout(function(){
                 mw.tools.loading(false);
@@ -141,7 +144,32 @@ mw.askusertostay = false;
      mw.tools.confirm("<?php _ejs("You have unsaved changes! Are you sure"); ?>?");
   };
 
-  mw.module = {}
+  mw.module = {
+    insert: function(target, module, config, pos) {
+        return new Promise(function (resolve) {
+            pos = pos || 'bottom';
+            var action;
+            var id = mw.id('mw-module-'),
+                el = '<div id="' + id + '"></div>';
+
+        if (pos === 'top') {
+            action = 'before';
+            if(mw.tools.hasClass(target, 'allow-drop')) {
+                action = 'prepend';
+            }
+        } else if (pos === 'bottom') {
+            action = 'after';
+            if(mw.tools.hasClass(target, 'allow-drop')) {
+                action = 'append';
+            }
+        }
+        mw.$(target)[action](el);
+        mw.load_module(module, '#' + id, function () {
+            resolve(this);
+        }, config);
+    });
+    }
+  }
 
   mwd = document;
   mww = window;
@@ -167,15 +195,6 @@ mw.askusertostay = false;
 
   String.prototype.contains = function(a) {
     return !!~this.indexOf(a);
-  };
-  String.prototype.tonumber = function(){
-    var n = parseFloat(this);
-    if(!isNaN(n)){
-        return n;
-    }
-    else{
-      return 0;
-    }
   };
 
   mw.onLive = function(callback) {
@@ -236,8 +255,9 @@ mw.askusertostay = false;
           return
       }
       var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-      if ((mwd.readyState === 'loading'/* || mwd.readyState === 'interactive'*/) && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
-         mwd.write(string);
+      if (false && (mwd.readyState === 'loading'/* || mwd.readyState === 'interactive'*/) && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
+         //mwd.write(string);
+          (document.body || document.head).appendChild(document.createRange().createContextualFragment(string))
       }
       else {
           if(typeof $ === 'function'){
@@ -269,6 +289,9 @@ mw.getScripts = function (array, callback) {
   if(typeof array === 'string'){
       array = array.split(',')
   }
+    array = array.filter(function (item) {
+        return !!item.trim();
+    });
   var all = array.length, ready = 0;
   $.each(array, function(){
       var scr = $('<script>');
@@ -278,7 +301,7 @@ mw.getScripts = function (array, callback) {
             callback.call()
         }
       });
-      scr[0].src = this;
+      scr[0].src = this.indexOf('//') !== -1 ? this : mw.settings.includes_url + 'api/' + this;
       document.body.appendChild(scr[0]);
   });
 };
@@ -297,13 +320,6 @@ mw.getScripts = function (array, callback) {
     mw.require(url, true);
   };
 
-
-
-  mw.wait = function(a, b, max) {
-    window[a] === undefined ? setTimeout(function() {
-      mw.wait(a, b), 52
-    }) : b.call(a);
-  };
 
   mw.target = {}
 
@@ -340,7 +356,7 @@ mw.getScripts = function (array, callback) {
  */
 
   mw.load_module = function(name, selector, callback, attributes) {
-     var attributes = attributes || {};
+     attributes = attributes || {};
      attributes.module = name;
      return mw._({
         selector: selector,
@@ -470,7 +486,7 @@ mw.getScripts = function (array, callback) {
         if(this.mw && this.mw.reload_module){
             this.mw.reload_module(module, function(){
                 if(typeof eachCallback === 'function'){
-                    eachCallback.call();
+                    eachCallback.call(this);
                 }
             })
         }
@@ -539,6 +555,7 @@ mw.getScripts = function (array, callback) {
       success: function(data){
         if(mw.notification != undefined){
           mw.notification.msg(data);
+
         }
       }
     });
@@ -675,10 +692,15 @@ mw.getScripts = function (array, callback) {
       if(mw.wysiwyg){
         $(m).hasClass("module") ? mw.wysiwyg.init_editables(m) : '' ;
       }
+
+
       if(mw.on && !hasDone){
         mw.on.moduleReload(id, "", true);
         mw.trigger('moduleLoaded');
       }
+    if($.fn.selectpicker) {
+        $('.selectpicker').selectpicker();
+    }
       if (mw.on) {
         mw.on.DOMChangePause = false;
       }
@@ -696,28 +718,6 @@ mw.getScripts = function (array, callback) {
     return xhr;
   };
 
-
-  api = function(action, params, callback){
-      var obj;
-    var url = mw.settings.api_url + action;
-    var type = typeof params;
-    if(type === 'string'){
-        obj = mw.serializeFields(params);
-    }
-    else if(type === 'object' && !jQuery.isArray(params)){
-        obj = params;
-    }
-    else{
-      obj = {};
-    }
-    $.post(url, obj, function(data){
-       if(typeof callback === 'function'){
-          callback.call(data);
-       }
-    }).fail(function(){
-
-    });
-  };
 
   mw.inLog = function(what) {
     if(!mw._inlog) {
@@ -747,8 +747,9 @@ mw.getScripts = function (array, callback) {
     }
   };
 
+
   mw.$ = function(selector, context) {
-    if(typeof selector === 'object'){ return jQuery(selector); }
+    if(typeof selector === 'object' || (typeof selector === 'string' && selector.indexOf('<') !== -1)){ return jQuery(selector); }
     context = context || mwd;
     if (typeof mwd.querySelector !== 'undefined') {
       if (typeof selector === 'string') {
@@ -860,17 +861,20 @@ mw._response = {
   error:function(form, data, _msg){
     form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'error');
-    mw._response.createHTML(data.error, err_holder);
+    var msg = typeof data.message !== 'undefined' ? data.message : data.error;
+    mw._response.createHTML(msg, err_holder);
   },
   success:function(form, data, _msg){
     form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'success');
-    mw._response.createHTML(data.success, err_holder);
+    var msg = typeof data.message !== 'undefined' ? data.message : data.success;
+    mw._response.createHTML(msg, err_holder);
   },
   warning:function(form, data, _msg){
     form = mw.$(form);
     var err_holder = mw._response.msgHolder(form, 'warning');
-    mw._response.createHTML(data.warning, err_holder);
+    var msg = typeof data.message !== 'undefined' ? data.message : data.warning;
+    mw._response.createHTML(msg, err_holder);
   },
   msgHolder : function(form, type, method){
     method = method || 'append';
@@ -978,15 +982,10 @@ mw.top = function(){
 mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
 
 
-//mw.required.push("<?php print mw_includes_url(); ?>api/libs/acolorpicker/acolorpicker.js");
-//mw.required.push("<?php print mw_includes_url(); ?>api/color.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
 
 
-//mw.required.push("<?php print mw_includes_url(); ?>api/css_parser.js");
-
-//mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
 
@@ -1010,14 +1009,6 @@ mw.required.push("<?php print mw_includes_url(); ?>api/fonts.js");
 
 //mw.required.push("<?php print mw_includes_url(); ?>api/content.js");
 
-
-
-<?php  // include "jquery.js";  ?>
-
-
-<?php  // include  __DIR__.DS."color.js"; ?>
-
-<?php  // include  __DIR__.DS."libs/acolorpicker/acolorpicker.js"; ?>
 
 
 <?php  include __DIR__.DS."tools.js"; ?>

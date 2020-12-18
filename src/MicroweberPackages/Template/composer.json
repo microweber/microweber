@@ -1,0 +1,34 @@
+{
+  "name": "microweber-packages/microweber-template-manager",
+  "description": "Microweber template manager.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\Template\\": ""
+    },
+    "files": [
+      "helpers/templates.php"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

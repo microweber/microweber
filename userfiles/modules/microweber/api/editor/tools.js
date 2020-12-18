@@ -1,0 +1,3 @@
+MWEditor.tools = {
+
+};

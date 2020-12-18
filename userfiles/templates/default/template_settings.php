@@ -1,7 +1,7 @@
 <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" rel="stylesheet">
 <script>
           $(document).ready(function(){
-            
+
           });
 </script>
 <script>
@@ -48,18 +48,19 @@ $(document).ready(function(){
 
     var uploader = mw.files.uploader({
       filetypes:'images',
-      multiple:false
+      multiple:false,
+        element: mw.$("#uploader")
     });
-    mw.$("#uploader").append(uploader);
 
-    $(uploader).bind("FileUploaded", function(a,b){
+
+    $(uploader).on("FileUploaded", function(a,b){
             mw.$(".pattern.bgi").removeClass("active");
             mw.$("#bodybg").val("url(" + b.src + ");");
             mw.tpl.save();
     });
     mw.tools.dropdown();
 
-    mw.$("#font_family").bind("change", function(){
+    mw.$("#font_family").on("change", function(){
         var val = $(this).getDropdownValue();
         mw.$("#font").val(val);
         mw.tpl.save();
@@ -142,18 +143,18 @@ $(document).ready(function(){
         </ul>
       </div>
     </div>
-    
-    
-    
-    <?php 
-	
+
+
+
+    <?php
+
 	$color_cheme = false;
-	if(isset($data['import']) and isset($data['import']['value'])){ 
+	if(isset($data['import']) and isset($data['import']['value'])){
 	$color_cheme = $data['import']['value'];
-	} 
-	
+	}
+
 	?>
-    
+
    <?php /* <label class="mw-ui-label">Color scheme</label>
     <select id="mw_set_template_style" class="mw-ui-field">
       <option value="reset">None</option>
@@ -175,7 +176,7 @@ $(document).ready(function(){
       <hr>
       <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern1.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern2.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern3.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern4.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern5.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern6.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern7.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern8.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern9.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern10.png); "></span> <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern11.png); "></span> <br />
 <span class="bgi STYLERESET" style="">Reset</span> </div>
-    
+
     <div style="padding-left:20px">
       <label class="mw-ui-label-small">Images</label>
       <hr>
@@ -187,7 +188,7 @@ $(document).ready(function(){
              name="bodybg"
              id="bodybg"
              data-property="background-image" />
-    
+
     <hr>
     <label class="mw-ui-label">Text Color</label>
     <span class="pattern bgctextcolor" style="background-color: #A0CE4E;"></span> <span class="pattern bgctextcolor" style="background-color: #9DB668;"></span> <span class="pattern bgctextcolor" style="background-color: #E9A825;"></span> <span class="pattern bgctextcolor" style="background-color: #67B7E1;"></span> <span class="pattern bgctextcolor" style="background-color: #F05858;"></span> <span class="pattern bgctextcolor" style="background-color: #E67FB9;"></span> <span class="pattern bgctextcolor" style="background-color: #9E9E9E;"></span> <span class="pattern bgctextcolor" style="background-color: #AB8B65;"></span> <span class="pattern bgctextcolor" style="background-color: #111111;"></span> <span class="pattern bgctextcolor" style="background-color: #EFECEC;"></span> <span class="bgctextcolor STYLERESET" style="">Reset</span>
@@ -198,7 +199,7 @@ $(document).ready(function(){
              name="textcolor"
              id="textcolor"
              data-property="color" />
-    
+
     <hr>
     <label class="mw-ui-label">Link Color</label>
     <span class="pattern bgclinkcolor" style="background-color: #A0CE4E;"></span> <span class="pattern bgclinkcolor" style="background-color: #9DB668;"></span> <span class="pattern bgclinkcolor" style="background-color: #E9A825;"></span> <span class="pattern bgclinkcolor" style="background-color: #67B7E1;"></span> <span class="pattern bgclinkcolor" style="background-color: #F05858;"></span> <span class="pattern bgclinkcolor" style="background-color: #E67FB9;"></span> <span class="pattern bgclinkcolor" style="background-color: #9E9E9E;"></span> <span class="pattern bgclinkcolor" style="background-color: #AB8B65;"></span> <span class="pattern bgclinkcolor" style="background-color: #111111;"></span> <span class="pattern bgclinkcolor" style="background-color: #EFECEC;"></span> <span class="bgclinkcolor STYLERESET" style="">Reset</span>
@@ -209,7 +210,7 @@ $(document).ready(function(){
              name="linkcolor"
              id="linkcolor"
              data-property="color" />
-    
+
     <hr>
     <label class="mw-ui-label">Title color</label>
     <span class="pattern bgc" style="background-color: #A0CE4E;"></span> <span class="pattern bgc" style="background-color: #9DB668;"></span> <span class="pattern bgc" style="background-color: #E9A825;"></span> <span class="pattern bgc" style="background-color: #67B7E1;"></span> <span class="pattern bgc" style="background-color: #F05858;"></span> <span class="pattern bgc" style="background-color: #E67FB9;"></span> <span class="pattern bgc" style="background-color: #9E9E9E;"></span> <span class="pattern bgc" style="background-color: #AB8B65;"></span> <span class="pattern bgc" style="background-color: #111111;"></span> <span class="pattern bgc" style="background-color: #EFECEC;"></span> <span class="bgc STYLERESET" style="">Reset</span>
@@ -239,4 +240,4 @@ $(document).ready(function(){
 <div class="mw_clear"></div>
 <br />
 <module type="content/views/layout_selector_custom_css" template="<?php print template_name(); ?>" />
- 
+

@@ -29,7 +29,7 @@ if(isset($params['kw'])){
 } 
 
 
-$dirs =  mw('Microweber\Utils\Files')->dir_tree($path,$kw);
+$dirs =  mw('MicroweberPackages\Utils\System\Files')->dir_tree($path,$kw);
 $dirs = str_replace($base_path, '', $dirs);
 if(isset($params['ul_class'])){
 	$dirs = str_replace("ul class='directory_tree'","ul class='directory_tree ".$params['ul_class']."'", $dirs);

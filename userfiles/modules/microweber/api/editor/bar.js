@@ -20,6 +20,7 @@
         this.create = function(){
             this.bar = this.document.createElement('div');
             this.bar.className = 'mw-bar';
+            this.element = mw.element(this.bar);
         };
 
         this.rows = [];
@@ -31,6 +32,7 @@
             this.bar.appendChild(row);
         };
         this.nativeElement = function (node) {
+            if(!node) return;
             return node.node ? node.node : node;
         };
 
@@ -45,8 +47,11 @@
                 this.rows[row].appendChild(what().node);
             } else {
                 var el = this.nativeElement(what);
-                el.classList.add('mw-bar-control-item')
-                this.rows[row].appendChild(el);
+                if(el) {
+                    el.classList.add('mw-bar-control-item')
+                    this.rows[row].appendChild(el);
+                }
+
             }
         };
 

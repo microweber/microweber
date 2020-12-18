@@ -16,7 +16,7 @@ mw.menu_admin.save_item = function(selectorOrData){
         data = selectorOrData;
     }
 
-    return $.post( mw.settings.api_url + "content/menu_item_save",data, function( msg ) {
+    return $.post( mw.settings.api_url + "menu/item/save",data, function( msg ) {
         if(mw.notification != undefined){
             mw.notification.success(mw.msg.settingsSaved);
         }
@@ -55,7 +55,7 @@ mw.menu_admin.after_save_item = function(){
 mw.menu_admin.delete_item = function($item_id){
 
     mw.tools.confirm(mw.msg.del, function(){
-        $.get(mw.settings.api_url +"content/menu_item_delete/?id="+$item_id, function(){
+        $.post(mw.settings.api_url +"menu/item/delete/"+$item_id, function(){
             var master = $('#settings-main');
 
             mw.$(master).find('li[data-item-id="'+$item_id+'"]').fadeOut();

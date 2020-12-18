@@ -141,8 +141,9 @@ mw.require('tempcss.js');
 
                 }
 
-                if (scope._active || mw.liveedit.data.get('move', 'hasLayout')) {
+                if (scope._active && mw.liveedit.data.get('move', 'hasLayout')) {
                     scope.show();
+                    scope.position();
                 } else {
                     scope.hide();
                 }
@@ -167,7 +168,8 @@ mw.require('tempcss.js');
         };
 
         this.selectors = [
-            '.mw-padding-gui-element'
+            '.mw-padding-gui-element',
+            '.mw-padding-control-element',
         ];
 
         this.prepareSelectors = function(){
@@ -194,6 +196,8 @@ mw.require('tempcss.js');
                             targetIsLayout = child || targetIsLayout;
                         }
                         scope.position(targetIsLayout);
+                    } else {
+
                     }
                 }
             });

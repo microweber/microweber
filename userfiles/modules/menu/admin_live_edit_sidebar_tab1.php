@@ -3,25 +3,24 @@
     mw.require('forms.js', true);
     mw.require('url.js', true);
 </script>
-<?php if (!isset($rand)) {
+<?php
+if (!isset($rand)) {
     $rand = uniqid();
-} ?>
+}
+?>
+
 <script type="text/javascript">
-
-
-
-
     mw.menu_add_new = function () {
         var obj = {};
         obj.title = $('#new_menu_name').val();
-        $.post("<?php print api_link('content/menu_create') ?>", obj, function (data) {
+        $.post("<?php echo route('api.menu.create'); ?>", obj, function (data) {
             window.location.href = window.location.href;
         });
     }
 
     mw.menu_save = function ($selector) {
         var obj = mw.form.serialize($selector);
-        $.post("<?php print api_link('content/menu_create') ?>", obj, function (data) {
+        $.post("<?php echo route('api.menu.create'); ?>", obj, function (data) {
             window.location.href = window.location.href;
 
         });
@@ -41,20 +40,17 @@
         var data = {}
         data.id = $id
         if (confirm('<?php _e('Are you sure you want to delete this menu?'); ?>') === true) {
-            $.post("<?php print api_link('menu_delete') ?>", data, function (resp) {
+            $.post("<?php echo route('api.menu.delete'); ?>", data, function (resp) {
                 window.location.href = window.location.href;
             });
         }
     }
-
 
     mw.menu_edit_items = function ($menu_name, $selector) {
         mw.$($selector).attr('menu-name', $menu_name);
         mw.load_module('menu/edit_items', $selector);
 
     };
-
-
 
     view_all_subs = function () {
         var master = mwd.querySelector('.mw-modules-admin');
@@ -81,11 +77,8 @@
         $("#menu-item-" + id).removeClass('active');
         $("#edit-menu_item_edit_wrap-" + id).remove();
     };
-
-
-
-
 </script>
+
 <?php $menus = get_menus(); ?>
 <?php
 if (!isset($menu_name)) {
@@ -96,9 +89,6 @@ if (!isset($menu_name)) {
     } elseif ($menu_name == false and isset($params['name'])) {
 
         $menu_name = $params['name'];
-    } else {
-
-
     }
 }
 

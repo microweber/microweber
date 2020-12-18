@@ -1,7 +1,6 @@
 <?php
-
 $for_module = $_POST['for_module'];
-$readmeMd = module_dir($for_module). 'HOWTO.md';
+$readmeMd = module_dir($for_module) . 'HOWTO.md';
 if (!is_file($readmeMd)) {
     $readmeMd = module_dir($for_module) . 'README.md';
 }
@@ -16,12 +15,13 @@ $text = $Parsedown->text($readmeMd);
     .markdown .h1, h1 {
         font-size: 22px;
     }
+
     .markdown ul {
         list-style: inside;
-        padding-left:10px;
+        padding-left: 10px;
     }
 </style>
 
 <div class="markdown">
-<?php echo $text; ?>
+    <?php echo $text; ?>
 </div>

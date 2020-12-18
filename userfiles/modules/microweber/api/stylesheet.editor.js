@@ -55,6 +55,9 @@ mw.liveeditCSSEditor = function (config) {
     this._temp = {children: {}, attributes: {}};
     this.temp = function (node, prop, val) {
         this.changed = true;
+        if(node.length) {
+            node = node[0];
+        }
         var sel = mw.tools.generateSelectorForNode(node);
         if(!this._temp.children[sel]) {
             this._temp.children[sel] = {};

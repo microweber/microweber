@@ -11,7 +11,7 @@ use Microweber\SiteStats\Models\ReferrersPaths;
 use Microweber\SiteStats\Models\Sessions;
 use Microweber\SiteStats\Models\Urls;
 use Carbon\Carbon;
-use Microweber\App\Providers\Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
 class Stats
 {

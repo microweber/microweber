@@ -1,5 +1,8 @@
 <?php
-only_admin_access();
+if (!user_can_access('module.content.index')) {
+    return;
+}
+
 $action = url_param('action');
 $is_in_shop = false;
 $rand = uniqid(); ?>
@@ -10,10 +13,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 }
 
 ?>
-<script type="text/javascript">
+<script>
     mw.require("content.js");
 </script>
-<script type="text/javascript">
+<script>
 
     mw.on.hashParam("search", function () {
         mw.$('#pages_edit_container').attr("data-type", 'content/manager');
@@ -31,46 +34,39 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     });
     mw.on.moduleReload('#<?php print $params['id'] ?>');
 
-</script>
-<script type="text/javascript">
 
-
-
-
-
-    var mainTreeSetActiveItems = function(){
-        if(typeof(mw.adminPagesTree) != 'undefined'){
+    var mainTreeSetActiveItems = function () {
+        if (typeof(mw.adminPagesTree) != 'undefined') {
 
             var hp = mw.url.getHashParams(location.hash);
 
-            if(hp.action){
+            if (hp.action) {
 
                 var arr = hp.action.split(':');
-                if(arr[0] !== 'new'){
+                if (arr[0] !== 'new') {
                     mw.adminPagesTree.unselectAll();
                 }
                 var activeTreeItemIsPage = arr[0] === 'editpage' || arr[0] === 'showposts';
                 var activeTreeItemIsCategory = arr[0] === 'editcategory' || arr[0] === 'showpostscat';
 
-                if(activeTreeItemIsPage){
+                if (activeTreeItemIsPage) {
                     mw.adminPagesTree.select({
-                        id:arr[1],
-                        type:'page'
+                        id: arr[1],
+                        type: 'page'
                     })
                 }
-                if(activeTreeItemIsCategory){
+                if (activeTreeItemIsCategory) {
                     mw.adminPagesTree.select({
-                        id:arr[1],
-                        type:'category'
+                        id: arr[1],
+                        type: 'category'
                     })
                 }
             }
-            else{
+            else {
                 mw.adminPagesTree.unselectAll();
             }
         }
     };
-
 
 
     $(document).ready(function () {
@@ -87,10 +83,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             $(this).removeClass("loading");
         });
 
-
         mw.$(".mw-admin-go-live-now-btn").off('click');
-
-
 
     });
 
@@ -100,7 +93,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 
 
-         //   add_to_parent_page
+            //   add_to_parent_page
 
             var id = id || 0;
             if (type === 'page') {
@@ -121,9 +114,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             mw.$(".mw_action_" + type).removeClass("not-active");
 
 
-
-
-
         },
         create: function (a) {
             return mw.contentAction.manage(a, 0);
@@ -135,8 +125,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     }
 
     function mw_select_page_for_editing($p_id) {
-
-
 
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
@@ -185,16 +173,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         else {
             mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         }
-//        if (active_item_is_parent != undefined) {
-//           // mw.$(".pages_tree_item.active-bg").children().first().removeClass('active-bg');
-//          //  mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
-//            mw.$(".is_page.content-item-" + active_item_is_parent).addClass('active-bg')
-//            mw.$(".is_page.content-item-" + active_item_is_parent).children().first().addClass('active')
-//            mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_parent);
-//        }
-//        else {
-//            mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
-//        }
 
         mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
 
@@ -209,17 +187,12 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         edit_load('content/edit');
     }
 
-//    mw.on.hashParam("parent-page", function () {
-//        var act = mw.url.windowHashParam("action");
-//        if (act == 'new:page') {
-//            mw.contentAction.create('page');
-//        }
-//    });
-
-
-
     mw.on.hashParam("action", function () {
-    //    mw.url.windowDeleteHashParam('pg')
+
+        if (this == false) {
+            mw.tools.classNamespaceDelete(mwd.body, 'action-')
+        }
+
 
 
         mainTreeSetActiveItems()
@@ -230,8 +203,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             mw.$(".fix-tabs").removeClass('fix-tabs');
         }
 
-
-        mw.admin.CategoryTreeWidth(this);
 
         mw.$(".js-top-save").hide();
 
@@ -248,35 +219,44 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             return false;
         }
         var arr = this.split(":");
-        $(mwd.body).removeClass("action-Array");
-//        var cat_id = mw.url.windowHashParam("category_id");
-//        if (typeof cat_id != 'undefined') {
-//            mw.$('#pages_edit_container').attr('data-category-id', cat_id);
-//        }
-//        else {
-//            mw.$('#pages_edit_container').removeAttr('data-active-item');
-//        }
+       // $(mwd.body).removeClass("action-Array");
+        // $(mwd.body).removeClass("action-");
+        // $(mwd.body).removeClass("action-showposts");
+        // $(mwd.body).removeClass("action-showpostscat");
+        // $(mwd.body).removeClass("action-editpage");
+        // $(mwd.body).removeClass("action-trash");
+        // $(mwd.body).removeClass("action-editcategory");
+        // $(mwd.body).removeClass("action-editpost");
+        // $(mwd.body).removeClass("action-addsubcategory");
+        mw.tools.classNamespaceDelete(mwd.body, 'action-')
+
+
+
+
         if (arr[0] === 'new') {
             mw.contentAction.create(arr[1]);
+            if (arr[0]) {
+                $(mwd.body).addClass("action-"+arr[0] + '-' + arr[1]);
+            }
         }
         else {
 
             mw.$(".active-bg").removeClass('active-bg');
             mw.$(".mw_action_nav").removeClass("not-active");
             var active_item = mw.$(".item_" + arr[1]);
+
+            if (arr[0]) {
+            $(mwd.body).addClass("action-"+arr[0]);
+            }
             if (arr[0] == 'showposts') {
                 var active_item = mw.$(".content-item-" + arr[1]);
             }
             else if (arr[0] == 'showpostscat') {
                 var active_item = mw.$(".category-item-" + arr[1]);
             }
-            //active_item.addClass('active-bg');
-            //active_item.parents("li").addClass('active');
+
             if (arr[0] === 'editpage') {
-
                 mw_select_page_for_editing(arr[1])
-
-
             }
 
 
@@ -302,16 +282,14 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             }
         }
 
-
-
-//        mw.url.windowDeleteHashParam('add_to_parent_page')
-//        mw.url.windowDeleteHashParam('add_to_category_id')
-
     });
 
 
     edit_load = function (module, callback) {
-        mw.tools.loading(true)
+        var spinner =  mw.spinner({
+            element: '#mw-content-backend',
+            size:40
+        })
         var n = mw.url.getHashParams(window.location.hash)['new_content'];
         if (n == 'true') {
             var slide = false;
@@ -322,18 +300,17 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         }
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
-        // mw.tools.loading(mwd.body, true)
-        // mw.tools.loading('.fade-window', !!action);
+
         var time = !action ? 300 : 0;
         if (!action) {
             mw.$('.fade-window').removeClass('active');
         }
         setTimeout(function () {
             mw.load_module(module, holder, function () {
-                mw.tools.loading(false);
+
                 mw.$('.fade-window').addClass('active')
                 if (callback) callback.call();
-                mw.tools.loading(false)
+                spinner.remove()
             });
         }, time)
 
@@ -401,7 +378,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('category-id');
 
 
-
         mw.$(".pages_tree_item.active-bg").removeClass('active-bg');
         mw.$(".category_element.active-bg").removeClass('active-bg');
 
@@ -422,7 +398,6 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         if (cat_id) {
             cont.attr('data-category-id', cat_id);
         }
-
 
 
         mw.load_module('content/manager', '#pages_edit_container');
@@ -615,15 +590,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     function mw_add_product() {
         mw_select_post_for_editing(0, 'product')
     }
-
-
-
 </script>
 
 <?php
-
 $tree_url_endpoint = api_url('content/get_admin_js_tree_json');
-
 
 $pages_container_params_str = " is_shop='n' ";
 $pages_container_params_str = "   ";
@@ -652,255 +622,233 @@ if ($action == 'posts') {
 
 ?>
 
-<?php if ($action != 'categories'): ?>
-    <span class="mw-icon-more mobile-tree-menu"></span>
-<?php endif; ?>
-<div class="mw-ui-row-nodrop" id="edit-content-row">
+<?php if ($action == 'settings'): ?>
+    <module type="settings/group/website_group"/>
+    <?php return; ?>
+<?php endif ?>
+
+<div id="edit-content-row">
     <?php if ($action != 'categories'): ?>
-        <div class="mw-ui-col tree-column" <?php if ($action == 'posts'): ?><?php endif ?>>
 
+        <script>
+            $(document).ready(function () {
+                $('body > #mw-admin-container > .main').addClass('show-sidebar-tree');
+                $(".js-tree").prependTo("body > #mw-admin-container .main.container");
+                $(".js-tree").before($("body .main.container aside"));
+            });
+        </script>
 
+        <div class="js-tree tree">
             <div class="tree-column-holder">
 
+                <div class="fixed-side-column">
+                    <div class="tree-show-hide-nav">
 
-
-                <div class="fixed-side-column scroll-height-exception-master">
-
-
-                    <style>
-                        .tree-show-hide-nav{
-                            box-shadow: 0 1px 1px rgba(0,0,0,.1);
-                            margin-right: -10px;
-                        }
-                        #main-tree-search{
-
-                            max-width: 100px;
-                            transition: 1.2s;
-                            background-position: 4px center;
-                        }
-                    </style>
-                    <div class="tree-show-hide-nav scroll-height-exception">
-                        <div class="mw-ui-btn-nav">
-                            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" onclick="pagesTree.openAll()"><?php _e("Open All"); ?></a>
-                            <a class="mw-ui-btn mw-ui-btn-medium" href="javascript:;" onclick="pagesTree.closeAll()"><?php _e("Close All"); ?></a>
-
-                            <input id="main-tree-search" placeholder="<?php _e('Search'); ?>" type="text" class="mw-ui-field mw-ui-field-medium mw-ui-searchfield">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
+                                <label class="custom-control-label d-flex align-items-center" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
+                            </div>
                         </div>
 
+                        <script>
+                            $(document).ready(function () {
+                                $('.js-open-close-all-tree-elements').on('change', function () {
+                                    if ($(this).is(':checked') == '1') {
+                                        pagesTree.openAll();
+                                    } else {
+                                        pagesTree.closeAll();
+                                    }
+                                });
+                            });
+                        </script>
 
+                        <div class="input-group mb-0 prepend-transparent">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white px-2"><i class="mdi mdi-magnify"></i></span>
+                            </div>
+                            <input type="text" class="form-control form-control-sm" aria-label="Search" id="main-tree-search" placeholder="<?php _e('Search'); ?>">
+                        </div>
                     </div>
 
                     <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
-
-
-
                         <script>
-
                             var pagesTree;
 
-                            var pagesTreeRefresh = function(){
-                                $.get("<?php print $tree_url_endpoint; ?>", function(data){
-                                    var treeTail = [
-                                        {
-                                            title: '<?php _lang("Trash") ?>',
-                                            icon:'mdi mdi-delete',
-                                            action:function(){
-                                                mw.url.windowHashParam('action', 'trash');
-                                            }
-                                        }
-                                    ];
+                            var pagesTreeRefresh = function () {
 
+                                var request = new XMLHttpRequest();
+                                request.open('GET', '<?php print $tree_url_endpoint; ?>', true);
+                                request.send();
+                                request.onload = function() {
+                                    if (request.status >= 200 && request.status < 400) {
 
+                                        var data = JSON.parse(request.responseText);
 
-
-                                    pagesTree = new mw.tree({
-                                        data:data,
-                                        element:$("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
-                                        sortable:true,
-                                        selectable:false,
-                                        id:'admin-main-tree',
-                                        append:treeTail,
-                                        contextMenu:[
-                                            {
-                                                title:'Edit',
-                                                icon:'mdi mdi-pencil',
-                                                action:function(element, data, menuitem){
-                                                    mw.url.windowHashParam("action", "edit"+data.type+":"+data.id);
+                                            var treeTail = [
+                                                {
+                                                    title: '<?php _lang("Trash") ?>',
+                                                    icon: 'mdi mdi-delete',
+                                                    action: function () {
+                                                        mw.url.windowHashParam('action', 'trash');
+                                                    }
                                                 }
-                                            },
-                                            {
-                                                title:'Move to trash',
-                                                icon:'mdi mdi-close',
-                                                action:function(element, data, menuitem){
-                                                    if(data.type  === 'category' ){
-                                                        mw.content.deleteCategory(data.id, function(){
+                                            ];
 
-                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function(){
-                                                                if(window.pagesTreeRefresh){pagesTreeRefresh()};
-                                                            })
-                                                        });
+                                            pagesTree = new mw.tree({
+                                                data: data,
+                                                element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                                sortable: false,
+                                                selectable: false,
+                                                id: 'admin-main-tree',
+                                                append: treeTail,
+                                                contextMenu: [
+                                                    {
+                                                        title: 'Edit',
+                                                        icon: 'mdi mdi-pencil',
+                                                        action: function (element, data, menuitem) {
+                                                            mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
+                                                        }
+                                                    },
+                                                    {
+                                                        title: 'Move to trash',
+                                                        icon: 'mdi mdi-close',
+                                                        action: function (element, data, menuitem) {
+                                                            if (data.type === 'category') {
+                                                                mw.content.deleteCategory(data.id, function () {
+
+                                                                    $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function () {
+                                                                        if (window.pagesTreeRefresh) {
+                                                                            pagesTreeRefresh()
+                                                                        }
+                                                                        ;
+                                                                    })
+                                                                });
+                                                            }
+                                                            else {
+                                                                mw.content.deleteContent(data.id, function () {
+                                                                    $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function () {
+                                                                        if (window.pagesTreeRefresh) {
+                                                                            pagesTreeRefresh()
+                                                                        }
+                                                                        ;
+                                                                    })
+                                                                });
+                                                            }
+                                                        }
                                                     }
-                                                    else{
-                                                        mw.content.deleteContent(data.id, function(){
-                                                            $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function(){
-                                                                if(window.pagesTreeRefresh){pagesTreeRefresh()};
-                                                            })
-                                                        });
-                                                    }
-
-
-                                                }
-                                            }
-                                        ]
-                                    });
-                                    mw.adminPagesTree = pagesTree;
-
-                                    $(pagesTree).on("orderChange", function(e, item, data, old, local){
-                                        var obj = {ids: local};
-                                        var url;
-                                        if(item.type === 'category'){
-                                            url = "<?php print api_link('category/reorder'); ?>" ;
-                                        }
-                                        else {
-                                            url = "<?php print api_link('content/reorder'); ?>";
-                                        }
-                                        $.post(url, obj, function () {
-                                            mw.reload_module('#mw_page_layout_preview');
-                                            mw.notification.success('<?php _ejs("Changes are saved"); ?>')
-                                        });
-                                    });
-                                    $(pagesTree).on("ready", function(){
-
-                                        $('#main-tree-search').on('input', function(){
-                                            var val = this.value.toLowerCase().trim();
-                                            if(!val){
-                                                pagesTree.showAll();
-                                            }
-                                            else{
-                                                pagesTree.options.data.forEach(function(item){
-
-                                                    if(item.title.toLowerCase().indexOf(val) === -1){
-                                                        pagesTree.hide(item);
-                                                    }
-                                                    else{
-                                                        pagesTree.show(item);
-                                                    }
-                                                });
-                                            }
-                                        })
-
-                                        $('.mw-tree-item-title', pagesTree.list).on('click', function(){
-                                            $('li.selected', pagesTree.list).each(function(){
-                                                pagesTree.unselect(this)
+                                                ]
                                             });
-                                            var li = mw.tools.firstParentWithTag(this, 'li'),
-                                                data = li._data,
-                                                action;
-                                            //pagesTree.select(li);
-                                            if(!$(li).hasClass('mw-tree-additional-item')){
-                                                if(data.type == 'page'){
-                                                    action = 'editpage';
+                                            mw.adminPagesTree = pagesTree;
+
+                                            $(pagesTree).on("orderChange", function (e, item, data, old, local) {
+                                                var obj = {ids: local};
+                                                var url;
+                                                if (item.type === 'category') {
+                                                    url = "<?php print api_link('category/reorder'); ?>";
                                                 }
-                                                if(data.subtype == 'dynamic' || data.subtype == 'shop'){
-                                                    action = 'showposts';
+                                                else {
+                                                    url = "<?php print api_link('content/reorder'); ?>";
                                                 }
-                                                if(data.type == 'category'){
-                                                    action = 'showpostscat';
-                                                }
+                                                $.post(url, obj, function () {
+                                                    mw.reload_module('#mw_page_layout_preview');
+                                                    mw.notification.success('<?php _ejs("Changes are saved"); ?>')
+                                                });
+                                            });
+                                            $(pagesTree).on("ready", function () {
+                                                $('#main-tree-search').on('input', function () {
+                                                    var val = this.value.toLowerCase().trim();
+                                                    if (!val) {
+                                                        pagesTree.showAll();
+                                                    }
+                                                    else {
+                                                        pagesTree.options.data.forEach(function (item) {
+                                                            if (item.title.toLowerCase().indexOf(val) === -1) {
+                                                                pagesTree.hide(item);
+                                                            }
+                                                            else {
+                                                                pagesTree.show(item);
+                                                            }
+                                                        });
+                                                    }
+                                                })
+
+                                                $('.mw-tree-item-title', pagesTree.list).on('click', function () {
+                                                    $('li.selected', pagesTree.list).each(function () {
+                                                        pagesTree.unselect(this)
+                                                    });
+                                                    var li = mw.tools.firstParentWithTag(this, 'li'),
+                                                        data = li._data,
+                                                        action;
+                                                    if (!$(li).hasClass('mw-tree-additional-item')) {
+                                                        if (data.type === 'page') {
+                                                            action = 'editpage';
+                                                        }
+                                                        if (data.subtype === 'dynamic' || data.subtype == 'shop') {
+                                                            action = 'showposts';
+                                                        }
+                                                        if (data.type === 'category') {
+                                                            action = 'showpostscat';
+                                                        }
+                                                        mw.url.windowHashParam("action", action + ":" + data.id);
+                                                    }
 
 
-                                                mw.url.windowHashParam("action", action+":"+data.id);
-                                            }
+                                                });
+                                                mainTreeSetActiveItems()
+
+                                                $("#edit-content-row .tree-column").resizable({
+                                                    handles: "e",
+                                                    resize: function (e, ui) {
+                                                        var root = mw.$(ui.element);
+                                                        mw.$('.fixed-side-column', root).width(root.width())
+                                                    },
+                                                    minWidth: 200
+                                                })
+                                            })
+                                    }
+                                };
 
 
-                                        });
-                                        mainTreeSetActiveItems()
 
 
-                                        $("#edit-content-row .tree-column").resizable({
-                                            handles: "e",
-                                            resize: function (e, ui) {
-                                                var root = mw.$(ui.element);
-                                                mw.$('.fixed-side-column', root).width(root.width())
-                                            },
-                                            minWidth: 200
-                                        })
-
-                                    })
-
-                                });
                             };
 
-                            if(window.pagesTreeRefresh){pagesTreeRefresh()};
+                            if (window.pagesTreeRefresh) {
+                                pagesTreeRefresh()
+                            }
+
 
                         </script>
 
-                        <?php /*
-                        <?php if ($action == 'pages'): ?>
-                            <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
-                                    active_class="active-bg" id="pages_tree_toolbar" view="admin_tree" home_first="true"/>
-                        <?php elseif ($action == 'categories'): ?>
-
-                            <module skip-static-pages="true" data-type="pages" template="admin"
-                                    active_ids="<?php print $active_content_id; ?>" active_class="active"
-                                    include_categories="true" include_global_categories="true"
-                                    id="pages_tree_toolbar" <?php print $pages_container_params_str ?> view="admin_tree"
-                                    home_first="true"/>
-                        <?php else: ?>
-                            <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
-                                    active_class="active" include_categories="true" include_global_categories="true"
-                                    id="pages_tree_toolbar" <?php print $pages_container_params_str ?> view="admin_tree"
-                                    home_first="true"/>
-                        <?php endif ?>
-
-                         */ ?>
                         <?php event_trigger('admin_content_after_website_tree', $params); ?>
 
-
-
-
-
-
-                        <?php $custom_title_ui = mw()->modules->ui('content.manager.tree.after'); ?>
+                        <?php $custom_title_ui = mw()->module_manager->ui('content.manager.tree.after'); ?>
                         <?php if (!empty($custom_title_ui)): ?>
                             <?php foreach ($custom_title_ui as $item): ?>
                                 <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                                 <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                                 <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
                                 <?php $width = (isset($item['width'])) ? ($item['width']) : false; ?>
-                                <div class="tree-column-holder-custom-item <?php print $class; ?>"
-                                    <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?>
-                                     title="<?php print $title; ?>"><?php print $html; ?></div>
+                                <div class="tree-column-holder-custom-item <?php print $class; ?>" <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?> title="<?php print $title; ?>"><?php print $html; ?></div>
                             <?php endforeach; ?>
                         <?php endif; ?>
-
-
                     </div>
-
-
-
-
-
                 </div>
-
-
             </div>
         </div>
     <?php endif ?>
-    <div class="mw-ui-col main-content-column">
-        <div class="mw-ui-col-container">
-            <script>
-                $(window).bind('load', function () {
-                    if (!mw.url.windowHashParam("action")) {
-                        edit_load('content/manager');
-                    }
-                    mw.on.hashParam('view', function () {
-                        edit_load('content/manager');
-                    })
-                });
-            </script>
 
-             <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
-        </div>
-    </div>
+    <script>
+        $(window).on('load', function () {
+            if (!mw.url.windowHashParam("action")) {
+                edit_load('content/manager');
+            }
+            mw.on.hashParam('view', function () {
+                edit_load('content/manager');
+            })
+        });
+    </script>
+
+    <div id="pages_edit_container" <?php print $pages_container_params_str; ?>></div>
 </div>

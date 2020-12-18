@@ -10,7 +10,7 @@
 			this.y += vec2d.y;
 			return this;
 		};
-		
+
 		this.subtract = function (vec2d) {
 			this.x -= vec2d.x;
 			this.y -= vec2d.y;
@@ -22,7 +22,7 @@
 			this.y *= scale;
 			return this;
 		};
-		
+
 		this.normalize = function () {
 			var len = this.length();
 			this.x /= len;
@@ -33,11 +33,11 @@
 		this.dot = function (vec2d) {
 			return this.x * vec2d.x + this.y * vec2d.y;
 		};
-		
+
 		this.getAdded = function (vec2d) {
 			return this.copy().add(vec2d);
 		};
-		
+
 		this.getSubtracted = function (vec2d) {
 			return this.copy().subtract(vec2d);
 		};
@@ -48,24 +48,24 @@
 
 			return new Vector2D(x, y);
 		};
-		
+
 		this.getNormalized = function () {
 			return this.copy().normalize();
 		};
-				
+
 		this.length = function () {
 			return Math.sqrt(this.x * this.x + this.y * this.y);
 		};
-		
+
 		this.angle = function (vec2d) {
 			return Math.acos(this.getNormalized().dot(vec2d.getNormalized()));
 		};
-		
+
 		this.copy = function() {
 			return new Vector2D(this.x, this.y);
 		};
 	}
-	
+
 	var defaultSettings = {
 			'max-insects': 3,
 			'chance': 0.5,
@@ -162,21 +162,21 @@
 			lastUpdate = now;
 
 			this.position.add(this.direction.getRotated(this.rotation).scale(delta / 50));
-			
+
 			if (mousePos.getSubtracted(this.position).length() < settings['mouse-distance']) {
 				this.direction.y = settings['max-speed'];
 
 				if (settings['scared']) {
 					var mouseDir = mousePos.getSubtracted(this.position),
 						angle = Math.abs(mouseDir.angle(this.direction.getRotated(this.rotation)));
-	
+
 					if (angle < Math.PI / 4) {
 						this.rotation += Math.random(Math.PI / 2) + Math.PI / 2;
 						this.rotateElement();
 					}
 				}
 			}
-			
+
 			if (this.isOffscreen(window.width, window.height)) {
 				this.kill();
 				return;
@@ -206,12 +206,12 @@
 		this.alive = true;
 		this.create();
 	}
-	
+
 	function validateSettings(settings) {
 		if (settings['max-insects'] < 1) {
 			settings['max-insects'] = 1;
 		}
-		
+
 		if (settings['chance'] < 0) {
 			settings['chance'] = 0;
 		}
@@ -233,7 +233,7 @@
 		var settings = validateSettings($.extend(defaultSettings, options));
 
 		if (settings['mouse-trigger']) {
-			$(window).bind("mousemove", function (event) {
+			$(window).on("mousemove", function (event) {
 				mousePos.x = event.pageX;
 				mousePos.y = event.pageY;
 			});

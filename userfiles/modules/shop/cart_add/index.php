@@ -83,6 +83,7 @@ if (isset($content_data['qty']) and $content_data['qty'] != 'nolimit' and intval
 }
 
 $data = $prices_data =  false;
+
 if (isset($for_id) !== false and isset($for) !== false) {
     $prices_data = mw()->shop_manager->get_product_prices($for_id, true);
  //  dd($prices_data);
@@ -149,7 +150,7 @@ if (is_array($custom_prices_from_modules)) {
 //$price_offers = false;
 //
 //// check for offer prices
-//if (mw()->modules->is_installed('shop/offers') and function_exists('offers_get_by_product_id')) {
+//if (mw()->module_manager->is_installed('shop/offers') and function_exists('offers_get_by_product_id')) {
 //    $price_offers = offers_get_by_product_id($for_id);
 //}
 

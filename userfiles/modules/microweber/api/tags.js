@@ -14,7 +14,7 @@ mw.tags = mw.chips = function(options){
     "use strict";
 
     options.element = mw.$(options.element)[0];
-    options.size = options.size || 'medium';
+    options.size = options.size || 'sm';
 
     this.options = options;
     this.options.map = this.options.map || { title: 'title', value: 'id', image: 'image', icon: 'icon' };
@@ -147,21 +147,25 @@ mw.tags = mw.chips = function(options){
      this.tag = function (options) {
             var config = {
                 close:true,
-                tagBtnClass:'mw-ui-btn mw-ui-btn-' + this.options.size
+                tagBtnClass:'btn btn-' + this.options.size
             };
 
             $.extend(config, options);
 
-         if(this.options.color){
-             config.tagBtnClass +=  ' mw-ui-btn-' + this.options.color;
+         config.tagBtnClass +=  ' mb-2 mr-2 btn';
+
+         if (this.options.outline){
+             config.tagBtnClass +=  '-outline';
          }
 
-         if(this.options.outline){
-             config.tagBtnClass +=  ' mw-ui-btn-outline';
+         if (this.options.color){
+             config.tagBtnClass +=  '-' + this.options.color;
          }
+
+
 
          if(this.options.rounded){
-             config.tagBtnClass +=  ' mw-ui-btn-rounded';
+             config.tagBtnClass +=  ' btn-rounded';
          }
 
 
@@ -210,7 +214,7 @@ mw.tags = mw.chips = function(options){
                 }
             };
 
-            tag_close.className = 'mw-icon-close';
+            tag_close.className = 'mw-icon-close ml-1';
             if(config.close){
                 tag_close.onclick = function () {
                     scope.removeTag(this._index);
@@ -233,6 +237,7 @@ mw.tags = mw.chips = function(options){
 
 mw.treeTags = mw.treeChips = function(options){
     this.options = options;
+    this.options.on = this.options.on || {};
     var scope = this;
 
     var tagsHolder = options.tagsHolder || mw.$('<div class="mw-tree-tag-tags-holder"></div>');
@@ -253,6 +258,9 @@ mw.treeTags = mw.treeChips = function(options){
      });
      mw.$(this.tree).on('selectionChange', function(event, selectedData){
         scope.tags.setData(selectedData);
+        if (scope.options.on.selectionChange) {
+            scope.options.on.selectionChange(selectedData)
+        }
     });
 
 };

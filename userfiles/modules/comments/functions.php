@@ -35,60 +35,60 @@ api_expose_admin('mark_comment_post_notifications_as_read', function ($params) {
 });
 
 api_expose('delete_comment_user', function ($params) {
-	
-	$comment = get_comments('single=1&id=' . $params['comment_id']);
-	if (empty($comment)) {
-		return;
-	}
-	
-	$commentSessionId = false;
-	if (isset($comment['session_id'])) {
-		$commentSessionId = $comment['session_id'];
-	}
-	
-	if (mw()->user_manager->session_id() == $commentSessionId) {
-		
-		return db_delete("comments", intval($params['comment_id']));
-		
-	}
+
+    $comment = get_comments('single=1&id=' . $params['comment_id']);
+    if (empty($comment)) {
+        return;
+    }
+
+    $commentSessionId = false;
+    if (isset($comment['session_id'])) {
+        $commentSessionId = $comment['session_id'];
+    }
+
+    if (mw()->user_manager->session_id() == $commentSessionId) {
+
+        return db_delete("comments", intval($params['comment_id']));
+
+    }
 });
 
 api_expose('save_comment_user', function ($params) {
-	
-	$comment = get_comments('single=1&id=' . $params['comment_id']);
-	if (empty($comment)) {
-		return;
-	}
-	
-	$commentSessionId = false;
-	if (isset($comment['session_id'])) {
-		$commentSessionId = $comment['session_id'];
-	}
-	
-	if (mw()->user_manager->session_id() == $commentSessionId) {
-		
-		$newCommentData = array();
-		$newCommentData['id'] = $params['comment_id'];
-		
-		$commentBody = $params['comment_body'];
-		
-		// Claer HTML
-		$commentBody = mw()->format->clean_html($commentBody);
-		
-		// Clear XSS
-		$evil = ['(?<!\w)on\w*',   'xmlns', 'formaction',   'xlink:href', 'FSCommand', 'seekSegmentTime'];
-		$commentBody = mw()->format->clean_xss($commentBody, true, $evil, 'removeEvilAttributes');
-		
-		$commentBody = GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($commentBody);
-		
-		$newCommentData['comment_body'] = $commentBody;
-		$newCommentData['allow_html'] = '1';
-		$newCommentData['allow_scripts'] = '1';
-		
-		mw()->database_manager->save('comments', $newCommentData);
-		
-	}
-	
+
+    $comment = get_comments('single=1&id=' . $params['comment_id']);
+    if (empty($comment)) {
+        return;
+    }
+
+    $commentSessionId = false;
+    if (isset($comment['session_id'])) {
+        $commentSessionId = $comment['session_id'];
+    }
+
+    if (mw()->user_manager->session_id() == $commentSessionId) {
+
+        $newCommentData = array();
+        $newCommentData['id'] = $params['comment_id'];
+
+        $commentBody = $params['comment_body'];
+
+        // Claer HTML
+        $commentBody = mw()->format->clean_html($commentBody);
+
+        // Clear XSS
+        $evil = ['(?<!\w)on\w*', 'xmlns', 'formaction', 'xlink:href', 'FSCommand', 'seekSegmentTime'];
+        $commentBody = mw()->format->clean_xss($commentBody, true, $evil, 'removeEvilAttributes');
+
+        $commentBody = GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($commentBody);
+
+        $newCommentData['comment_body'] = $commentBody;
+        $newCommentData['allow_html'] = '1';
+        $newCommentData['allow_scripts'] = '1';
+
+        mw()->database_manager->save('comments', $newCommentData);
+
+    }
+
 });
 
 /**
@@ -97,10 +97,10 @@ api_expose('save_comment_user', function ($params) {
 api_expose('post_comment');
 function post_comment($data)
 {
-	// Save to database
+    // Save to database
     $comments = new \Microweber\Comments\Models\Comments();
     $comment_id = $comments->save($data);
-    
+
     return $comment_id;
 
 }
@@ -108,7 +108,7 @@ function post_comment($data)
 function get_comments($params = false)
 {
     $comments = new \Microweber\Comments\Models\Comments();
-    
+
     return $comments->get($params);
 }
 
@@ -130,8 +130,8 @@ event_bind(
         if ($have_new) {
 
         }
-        $link = "<a class='comments-bubble' href='{$comments_link}'  title='{$new}'>";
-        $link .= "<span class='mai-comment'></span><span class='comment-number'>{$new}</span>";
+        $link = "<a class='text-muted' href='{$comments_link}'  title='{$new}'>";
+        $link .= "<span class='mdi mdi-comment mdi-18px'></span><span class='float-right mx-2'>{$new}</span>";
         $link .= "</a>";
         print $link;
     }
@@ -156,7 +156,7 @@ event_bind(
             $btn['title'] = 'Comments';
             $btn['class'] = 'mw-icon-comment';
             $btn['html'] = '<module type="comments/manage" no_post_head="true" content_id="' . $item['id'] . '"  />';
-            mw()->modules->ui('content.edit.tabs', $btn);
+            mw()->module_manager->ui('content.edit.tabs', $btn);
         }
     }
 }
@@ -164,17 +164,17 @@ event_bind(
 
 
 event_bind(
-	'module.comments.item.before', function ($item) {
-	
-		$commentSessionId = false;
-		if (isset($item['session_id'])) {
-			$commentSessionId = $item['session_id'];
-		}
-		
-		if (mw()->user_manager->session_id() == $commentSessionId) {
-			echo '<module type="comments/manage_user" no_post_head="true" comment_id="' . $item['id'] . '"  />';
-		}
-	}
+    'module.comments.item.before', function ($item) {
+
+    $commentSessionId = false;
+    if (isset($item['session_id'])) {
+        $commentSessionId = $item['session_id'];
+    }
+
+    if (mw()->user_manager->session_id() == $commentSessionId) {
+        echo '<module type="comments/manage_user" no_post_head="true" comment_id="' . $item['id'] . '"  />';
+    }
+}
 );
 
 event_bind(
@@ -183,12 +183,12 @@ event_bind(
     $admin_dashboard_btn = array();
     $admin_dashboard_btn['view'] = 'comments';
 
-    $admin_dashboard_btn['icon_class'] = 'mai-comment';
+    $admin_dashboard_btn['icon_class'] = 'mdi mdi-comment-account';
     $notif_html = '';
     $notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
 
     if ($notif_count > 0) {
-        $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
+        $notif_html = '<sup class="badge badge-danger badge-sm badge-pill">' . $notif_count . '</sup>';
     }
     $admin_dashboard_btn['text'] = _e("Comments", true) . $notif_html;
 
@@ -196,5 +196,5 @@ event_bind(
 });
 
 event_bind('website.privacy_settings', function () {
-    print '<h2>Comments settings</h2><module type="comments/privacy_settings" />';
+    print '<module type="comments/privacy_settings" />';
 });

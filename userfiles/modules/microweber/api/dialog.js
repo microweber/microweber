@@ -1,54 +1,12 @@
 (function (mw) {
 
 
-    var dialogEncapsulate = function (content, scripts) {
-        scripts = $.merge(scripts || [], [
-            mw.settings.site_url + 'apijs_settings?mwv=' + mw.version,
-            mw.settings.site_url + 'apijs?mwv='+mw.version
-        ]);
-
-        var frame = document.createElement('iframe');
-        frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-        frame.allowFullscreen = true;
-        frame.scrolling = "no";
-        frame.width = "100%";
-        frame.frameBorder = "0";
-        frame.style.display = 'none';
-        document.body.appendChild(frame);
-
-        frame.__int = setInterval(function(){
-            if(frame.contentWindow && frame.contentWindow.document && frame.contentWindow.document.body){
-                $(frame.contentWindow.document.head)
-                    .append('<link rel="stylesheet" href="'+mw.settings.modules_url + 'microweber/default.css?mwv='+mw.version+'">');
-                var c = 0;
-                $.each(scripts, function(){
-                    var el = frame.contentWindow.document.createElement('script');
-                    $(el).on('load error', function(){
-                        c++;
-                        if(c === scripts.length){
-                            setTimeout(function(){
-                                $(frame).trigger('load');
-                                $(frame.contentWindow).trigger('load');
-                            }, 78);
-                        }
-                    });
-                    el.src = this;
-                    // $(frame.contentWindow.document.head).append(el);
-                });
-
-                $(frame.contentWindow.document.body).append(content);
-
-                mw.tools.iframeAutoHeight(frame);
-                clearInterval(frame.__int);
-
-            }
-        }, 78);
-        return frame;
-    };
 
     mw.dialog = function (options) {
         return new mw.Dialog(options);
     };
+
+
     mw.dialogIframe = function (options, cres) {
         options.pauseInit = true;
         var attr = 'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen';
@@ -112,10 +70,21 @@
         return dialog;
     };
 
+    /** @deprecated */
+    mw.modal = mw.dialog;
+    mw.modalFrame = mw.dialogIframe;
+
+    mw.dialog.remove = function (selector) {
+        return mw.dialog.get(selector).remove();
+    };
+
     mw.dialog.get = function (selector) {
+        selector = selector || '.mw-dialog';
         var $el = mw.$(selector);
         var el = $el[0];
+
         if(!el) return false;
+
         if(el._dialog) {
             return el._dialog;
         }
@@ -126,6 +95,9 @@
         }
         else if (parent_cont.length !== 0) {
             return parent_cont[0]._dialog;
+        }
+        else if (window.thismodal) {
+            return thismodal;
         }
         else {
              // deprecated
@@ -169,6 +141,7 @@
             scrollMode: 'inside', // 'inside' | 'window',
             centerMode: 'intuitive', // 'intuitive' | 'center'
             containment: 'window',
+            overflowMode: 'auto', // 'auto' | 'hidden' | 'visible'
         };
 
         this.options = $.extend({}, defaults, options, {
@@ -202,7 +175,7 @@
             mw.$(document).on('keydown', function (e) {
                 if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
-                    if (dlg.options.closeOnEscape) {
+                    if (dlg && dlg.options && dlg.options.closeOnEscape) {
                         dlg._doCloseButton();
                     }
                 }
@@ -264,7 +237,9 @@
             this.dialogMain = this.options.root.createElement('div');
 
             this.dialogMain.id = this.id;
-            var cls = 'mw-defaults mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode + ' mw-dialog-skin-' + this.options.skin;
+            var cls = 'mw-dialog mw-dialog-scroll-mode-' + this.options.scrollMode
+                + ' mw-dialog-skin-' + this.options.skin
+                + ' mw-dialog-overflowMode-' + this.options.overflowMode;
             cls += (!this.options.className ? '' : (' ' + this.options.className));
             this.dialogMain.className = cls;
             this.dialogMain._dialog = this;
@@ -284,12 +259,27 @@
             this.dialogContainer = this.options.root.createElement('div');
             this.dialogContainer._dialog = this;
 
+            // TODO: obsolate
+            this.container = this.dialogContainer;
+
+
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
 
-            var cont = this.options.encapsulate ? dialogEncapsulate(this.options.content) : this.options.content;
+            var cont = this.options.content;
+            if(this.options.shadow) {
+                this.shadow = this.dialogContainer.attachShadow({
+                    mode: 'open'
+                });
+                if(typeof cont === 'string') {
+                    this.shadow.innerHTML = (cont);
+                } else {
+                    this.shadow.appendChild(cont);
+                }
+            } else {
+                mw.$(this.dialogContainer).append(cont);
+            }
 
-            mw.$(this.dialogContainer).append(cont);
 
             if (this.options.encapsulate) {
                 this.iframe = cont;
@@ -359,7 +349,6 @@
                     $(this.$scope).trigger('closedByUser');
                 }
             });
-
             return this;
         };
 
@@ -416,7 +405,13 @@
             this.hide();
             mw.removeInterval('iframe-' + this.id);
             mw.$(this).trigger('BeforeRemove');
+            if (typeof this.options.beforeRemove === 'function') {
+                this.options.beforeRemove.call(this, this)
+            }
             mw.$(this.dialogMain).remove();
+            if(this.options.onremove) {
+                this.options.onremove()
+            }
             mw.$(this).trigger('Remove');
             mw.trigger('mwDialogRemove', this);
             for (var i = 0; i < mw.top().__dialogs.length; i++) {
@@ -574,6 +569,8 @@
     mw.Dialog.elementIsInDialog = function (node) {
         return mw.tools.firstParentWithClass(node, 'mw-dialog');
     };
+
+
 
 
 })(window.mw);

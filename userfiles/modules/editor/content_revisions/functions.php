@@ -11,7 +11,7 @@ event_bind('mw.admin.content.edit.advanced_settings', function ($data) {
         $arr = array();
         $arr['html'] = load_module('editor/content_revisions/btn_rev_count_for_content', array('content_id' => $data['id']));
 
-        mw()->modules->ui('mw.admin.content.edit.advanced_settings.end', $arr);
+        mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end', $arr);
     }
 
 });

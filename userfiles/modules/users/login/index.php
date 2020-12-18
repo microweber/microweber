@@ -6,10 +6,8 @@
         mw.require('forms.js', true);
     </script>
     <script type="text/javascript">
-
         $(document).ready(function () {
             if (!mw.$('#user_login_<?php print $params['id'] ?>').hasClass("custom-submit")) {
-
                 mw.$('#user_login_<?php print $params['id'] ?>').submit(function () {
                     var subm = mw.$('[type="submit"]', this);
                     if (!subm.hasClass("disabled")) {
@@ -40,13 +38,11 @@
                                 if (typeof this.return === 'string') {
                                     window.location.href = this.return;
                                     return false;
-
                                 } else if (typeof this.redirect === 'string') {
                                     window.location.href = this.redirect;
                                     return false;
 
                                 }
-
 
                                 mw.reload_module('[data-type="<?php print $config['module'] ?>"]', function () {
                                     if (c == '') {
@@ -56,17 +52,12 @@
                                     else {
                                         if (typeof window[c] === 'function') {
                                             window[c]();
-                                        }
-                                        else {
+                                        } else {
                                             //window.location.href ='<?php print site_url(); ?>';
-
                                             window.location.reload();
                                         }
                                     }
                                 });
-
-
-
 
                                 <?php endif; ?>
                                 return false;
@@ -82,9 +73,7 @@
     </script>
     <?php
 
-    $input = mw()->format->clean_xss(\Input::all());
-
-
+    $input = mw()->format->clean_xss(\Request::all());
     $login_captcha_enabled = get_option('login_captcha_enabled', 'users') == 'y';
 
     # Login Providers
@@ -99,7 +88,6 @@
     } else {
         $have_social_login = false;
     }
-
 
     $allow_socials_login = get_option('allow_socials_login', 'users');
     if ($allow_socials_login == 'n') {
@@ -123,5 +111,5 @@
         $template_file = module_templates($config['module'], 'default');
         include($template_file);
     }
-
-    ?><?php endif; ?>
+    ?>
+<?php endif; ?>

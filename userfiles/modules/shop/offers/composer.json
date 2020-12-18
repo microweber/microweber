@@ -1,0 +1,26 @@
+{
+  "name": "microweber-modules/shop-offers",
+  "description": "Shop Offers",
+  "license": "MIT",
+  "version": "0.5",
+  "homepage": "https://github.com/microweber-modules/shop-offers",
+  "authors": [
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    },
+    {
+      "name": "Peter Ivanov",
+      "email": "peter@microweber.com"
+    },
+     {
+      "name": "Petko Yovchevski",
+      "email": "petko@microweber.com"
+    }
+  ],
+  "keywords": [
+    "shop"
+  ],
+  "type": "microweber-module",
+  "target-dir": "shop/offers"
+}

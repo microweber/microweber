@@ -10,7 +10,7 @@ if(isset($params['reload_modules'])){
 		$mod_params['cleanup_db'] = 1;
 		$mod_params['skip_cache'] = 1;
 		
-		$mods = mw()->modules->scan_for_elements($mod_params);
+		$mods = mw()->module_manager->scan_for_elements($mod_params);
 	}
 	
 	 

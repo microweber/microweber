@@ -3,6 +3,7 @@ mw.require('url.js');
 mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; };
 
 mw.on = function(eventName, callback){
+    eventName = eventName.trim()
     $.each(eventName.split(' '), function(){
         mw.$(mw._on._eventsRegister).on(this.toString(), callback);
     });
@@ -63,9 +64,10 @@ mw._on = {
   _hashparams : this._hashparams || [],
   _hashparam_funcs : [],
   hashParam : function(param, callback, trigger, isManual){
+
     if(isManual){
         var index = mw.on._hashparams.indexOf(param);
-        if(mw.on._hashparam_funcs[index]!==undefined){
+        if (mw.on._hashparam_funcs[index] !== undefined){
           mw.on._hashparam_funcs[index].call(false);
         }
         return false;
@@ -73,7 +75,7 @@ mw._on = {
     if(trigger === true){
         var index = mw.on._hashparams.indexOf(param);
 
-        if(index != -1){
+        if(index !== -1){
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
 

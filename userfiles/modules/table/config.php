@@ -8,3 +8,4 @@ $config['ui_admin'] = false; //if set to true, module will be visible in the adm
 $config['categories'] = "content";
 $config['position'] = 99;
 $config['version'] = 0.2;
+

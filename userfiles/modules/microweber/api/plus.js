@@ -21,9 +21,14 @@ mw.drag.plus = {
 
             if (mw.drag.plus.locked === false && mw.isDrag === false) {
                 if (e.pageY % 2 === 0 && mw.tools.isEditable(e)) {
-                    var node = mw.drag.plus.selectNode(e.target);
+                    var whichPlus;
 
-                    mw.drag.plus.set(node);
+                    var node = mw.drag.plus.selectNode(e.target);
+                    if(node && e.type === 'mousemove') {
+                        var off = $(node).offset();
+                        whichPlus = (e.pageY - off.top) > ((off.top + node.offsetHeight) - e.pageY) ? 'top' : 'bottom';
+                    }
+                    mw.drag.plus.set(node, whichPlus);
                     mw.$(mwd.body).removeClass('editorKeyup');
                 }
             }
@@ -33,7 +38,7 @@ mw.drag.plus = {
             }
         });
         mw.$(holder).on('mouseleave', function (e) {
-            if (mw.drag.plus.locked === false) {
+            if (mw.drag.plus.locked === false && (e.target !== mw.drag.plusTop && e.target !== mw.drag.plusBottom) ) {
                 mw.drag.plus.set(undefined);
             }
         });
@@ -59,10 +64,7 @@ mw.drag.plus = {
             return undefined;
         }
     },
-    set: function (node) {
-
-        setTimeout(function () {
-
+    set: function (node, whichPlus) {
             if (typeof node === 'undefined') {
                 return;
             }
@@ -79,14 +81,20 @@ mw.drag.plus = {
             mw.drag.plusTop.currentNode = node;
             mw.drag.plusBottom.style.top = (off.top + node.offsetHeight) + 'px';
             mw.drag.plusBottom.style.left = oleft + ($node.width()/2) + 'px';
+            if(whichPlus) {
+                if(whichPlus === 'top') {
+                    mw.drag.plusTop.style.top = -9999 + 'px';
+
+                } else {
+                     mw.drag.plusBottom.style.top = -9999 + 'px';
+                }
+            }
             mw.drag.plusBottom.currentNode = node;
             mw.tools.removeClass([mw.drag.plusTop, mw.drag.plusBottom], 'active');
 
-
-        }, 100);
-
     },
     tipPosition: function (node) {
+        return 'right-center';
         var off = mw.$(node).offset();
         if (off.top > 130) {
             if ((off.top + node.offsetHeight) < ($(mwd.body).height() - 130)) {
@@ -100,48 +108,64 @@ mw.drag.plus = {
             return 'right-top';
         }
     },
+    rendModules: function (el) {
+        var other = el === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
+        if (!mw.tools.hasClass(el, 'active')) {
+            mw.tools.addClass(el, 'active');
+            mw.tools.removeClass(other, 'active');
+            mw.drag.plus.locked = true;
+            mw.$('.mw-tooltip-insert-module').remove();
+            mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
+            var tip = new mw.tooltip({
+                content: mwd.getElementById('plus-modules-list').innerHTML,
+                element: el,
+                position: mw.drag.plus.tipPosition(this.currentNode),
+                template: 'mw-tooltip-default mw-tooltip-insert-module',
+                id: 'mw-plus-tooltip-selector'
+            });
+            setTimeout(function (){
+                $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
+            }, 10)
+            mw.tabs({
+                nav: tip.querySelectorAll('.mw-ui-btn'),
+                tabs: tip.querySelectorAll('.module-bubble-tab'),
+            });
+
+            mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
+                var resultsLength = mw.drag.plus.search(this.value, tip);
+                if (resultsLength === 0) {
+                    mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
+                }
+                else {
+                    mw.$(".module-bubble-tab-not-found-message").hide();
+                }
+            });
+            mw.$('#plus-modules-list li').each(function () {
+                var name = mw.$(this).attr('data-module-name');
+                if(name === 'layout'){
+                    var template = mw.$(this).attr('template');
+                    mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className, template:"'+template+'"})');
+                } else {
+                    mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className})');
+                }
+            });
+
+        }
+    },
     action: function () {
         var pls = [mw.drag.plusTop, mw.drag.plusBottom];
-        mw.$(pls).click(function () {
-            var other = this === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
-            if (!mw.tools.hasClass(this, 'active')) {
-                mw.tools.addClass(this, 'active');
-                mw.tools.removeClass(other, 'active');
-                mw.drag.plus.locked = true;
-                mw.$('.mw-tooltip-insert-module').remove();
-                mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
-                var tip = new mw.tooltip({
-                    content: mwd.getElementById('plus-modules-list').innerHTML,
-                    element: this,
-                    position: mw.drag.plus.tipPosition(this.currentNode),
-                    template: 'mw-tooltip-default mw-tooltip-insert-module',
-                    id: 'mw-plus-tooltip-selector'
-                });
-                mw.tabs({
-                    nav: tip.querySelectorAll('.mw-ui-btn'),
-                    tabs: tip.querySelectorAll('.module-bubble-tab'),
-                });
+        var $pls = mw.$(pls);
+        $pls.on('mouseenter', function () {
+            mw.tools.addClass(document.body, 'body-mw-module-plus-hover');
+            mw.liveEditSelector.select(mw.drag.plusTop.currentNode);
+        });
+        $pls.on('mouseleave', function () {
+            mw.tools.removeClass(document.body, 'body-mw-module-plus-hover')
+        });
+        $pls.on('click', function () {
+            mw.drag.plus.rendModules(this)
+        });
 
-                mw.$('.mw-ui-searchfield', tip).on('keyup paste', function () {
-                    var resultsLength = mw.drag.plus.search(this.value, tip);
-                    if (resultsLength === 0) {
-                        mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
-                    }
-                    else {
-                        mw.$(".module-bubble-tab-not-found-message").hide();
-                    }
-                });
-            }
-        });
-        mw.$('#plus-modules-list li').each(function () {
-            var name = mw.$(this).attr('data-module-name');
-            if(name === 'layout'){
-                var template = mw.$(this).attr('template');
-                mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className, template:"'+template+'"})');
-            } else {
-                mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className})');
-            }
-        });
     },
     search: function (val, root) {
         var all = root.querySelectorAll('.module_name'),
@@ -170,35 +194,43 @@ mw.drag.plus = {
     }
 };
 
-InsertModule = function (module, cls) {
-    var id = 'mwemodule-' + mw.random(), el = '<div id="' + id + '"></div>', action;
-    if (mw.drag.plusActive === 'top') {
-        action = 'before';
-        if(mw.tools.hasClass(mw.drag.plusTop.currentNode, 'allow-drop')) {
-            action = 'prepend';
-        }
-    }
-    else if (mw.drag.plusActive === 'bottom') {
-        action = 'after';
-        if(mw.tools.hasClass(mw.drag.plusTop.currentNode, 'allow-drop')) {
-            action = 'append';
-        }
-    }
-    mw.$(mw.drag.plusBottom.currentNode)[action](el);
 
-    var el = $('#' + id).parent()[0];
-    mw.load_module(module, '#' + id, function () {
-        var node = document.getElementById(id)
-        mw.wysiwyg.change(node);
+var insertModule = function (target, module, config, pos) {
+    return new Promise(function (resolve) {
+        pos = pos || 'bottom';
+        var action;
+        var id = mw.id('mw-module-'), el = '<div id="' + id + '"></div>';
+        if (pos === 'top') {
+            action = 'before';
+            if(mw.tools.hasClass(target, 'allow-drop')) {
+                action = 'prepend';
+            }
+        } else if (pos === 'bottom') {
+            action = 'after';
+            if(mw.tools.hasClass(target, 'allow-drop')) {
+                action = 'append';
+            }
+        }
+        mw.$(mw.drag.plusBottom.currentNode)[action](el);
+        mw.load_module(module, '#' + id, function () {
+            resolve(this);
+        }, config);
+    });
+};
 
+InsertModule = function (module, cls, action) {
+
+    var position = mw.drag.plusActive === 'top' ? 'top' : 'bottom';
+
+    insertModule(mw.drag.plusTop.currentNode, module, cls, position).then(function (el) {
+        mw.wysiwyg.change(el);
         mw.drag.plus.locked = false;
         mw.drag.fixes();
-        setTimeout(function () {
-            mw.drag.fix_placeholders();
-        }, 40);
+        setTimeout(function () { mw.drag.fix_placeholders(); }, 40);
         mw.dropable.hide();
-    }, cls);
+    });
     mw.$('.mw-tooltip').hide();
+
 };
 
 

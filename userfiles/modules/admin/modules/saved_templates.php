@@ -23,7 +23,7 @@ return;
 
 ?>
 
-<?php only_admin_access(); ?>
+<?php must_have_access(); ?>
 <?php if (isset($params['module_name']) and isset($params['module_id'])): ?>
     <?php
 
@@ -32,10 +32,10 @@ return;
     $module_id = $params['module_id'];
 
     ?>
-    <script type="text/javascript">
+    <script>
         mw.require('forms.js', true);
     </script>
-    <script type="text/javascript">
+    <script>
 
 
         mod_id_for_presets = '<?php print $module_id ?>';

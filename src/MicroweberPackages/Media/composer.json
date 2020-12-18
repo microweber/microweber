@@ -1,0 +1,40 @@
+{
+  "name": "microweber-packages/microweber-media-manager",
+  "description": "Microweber CMS.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\Media\\": ""
+
+    },
+    "files": [
+      "helpers/media.php",
+      "helpers/media_paths.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MicroweberPackages\\Media\\tests\\": "tests"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}

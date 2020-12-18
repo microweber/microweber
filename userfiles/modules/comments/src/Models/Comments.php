@@ -3,10 +3,14 @@
 
 namespace Microweber\Comments\Models;
 
-use Microweber\Providers\Database\Crud;
+use Illuminate\Support\Facades\Notification;
+use MicroweberPackages\Comment\Events\NewComment;
+use MicroweberPackages\Comment\Notifications\NewCommentNotification;
+use MicroweberPackages\Database\Crud;
 use Microweber\Utils\Http;
-use Microweber\Utils\MailSender;
-use Microweber\View;
+use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Utils\Mail\MailSender;
+use MicroweberPackages\View\View;
 use GrahamCampbell\Markdown\Facades\Markdown;
 
 
@@ -259,17 +263,31 @@ class Comments extends Crud
         if (!isset($data['id']) and isset($data['comment_body'])) {
 
 
-            $notif = array();
+           /* $notif = array();
             $notif['module'] = "comments";
             $notif['rel_type'] = $data['rel_type'];
             $notif['rel_id'] = $data['rel_id'];
             $notif['title'] = "You have new comment";
             $notif['description'] = "New comment is posted on " . mw()->url_manager->current(1);
             $notif['content'] = mw('format')->limit($data['comment_body'], 800);
-            mw()->notifications_manager->save($notif);
+            mw()->notifications_manager->save($notif);*/
 
             $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
             $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
+
+            $newComment = \MicroweberPackages\Comment\Comment::where('id',$saved_data_id)->first();
+           if ($newComment) {
+
+               event(new NewComment($newComment));
+
+               Notification::send(User::whereIsAdmin(1)->get(), new NewCommentNotification($newComment));
+
+               if ($email_on_new_comment == true) {
+                   // Anonymous notification
+               }
+
+           }
+
 
             if ($email_on_new_comment == true) {
                 $subject = "You have new comment";
@@ -323,7 +341,7 @@ class Comments extends Crud
     public function mark_as_spam($data)
     {
 
-        only_admin_access();
+        must_have_access();
         if (isset($data['comment_id'])) {
             $s = array();
             $s['id'] = $data['comment_id'];
@@ -345,7 +363,7 @@ class Comments extends Crud
     public function mark_as_old($data)
     {
 
-        only_admin_access();
+        must_have_access();
 
         if (isset($data['content_id'])) {
             $table = MODULE_DB_COMMENTS;

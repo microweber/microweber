@@ -102,6 +102,8 @@ if (is_array($data)) {
 
 $module_template = get_option('data-template', $params['id']);
 
+$disable_default_shipping_fields = get_option('disable_default_shipping_fields', 'shipping');
+$enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'shipping');
 
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];

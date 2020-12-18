@@ -1,0 +1,135 @@
+.mw-file-manager-list-item-thumb{
+    display: inline-flex;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+
+}
+.mw-file-manager-root{
+    color: #2b2b2b;
+}
+.mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb{
+    width: 46px;
+    height: 43px;
+}
+
+.mw-file-manager-root[data-view="list"] .mw-file-manager-listview-table th{
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: normal;
+    border-top: 1px solid #dbdcdd;
+    border-bottom: 1px solid #dbdcdd;
+
+}
+.mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb-image{
+
+}
+.mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb-folder{
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z' /%3E%3C/svg%3E");
+}
+
+
+.mw-file-manager-listview-table {
+    width: 100%;
+}
+
+.mw-file-manager-listview-table tr > *{
+    padding: 10px;
+
+}
+.mw-file-manager-listview-table tr > *:last-child{
+    width: 40px;
+    text-align: right;
+}
+
+.mw-file-manager-listview-table tbody tr:hover > *{
+    background-color: #fafafa;
+}
+
+
+.mw-file-manager-list-item-options-button:before{
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    color: #fff;
+    background: #2b2b2b;
+    font-size: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s;
+    border-radius: 3px;
+    pointer-events: none;
+}
+.mw-file-manager-list-item-options-button:hover:before{
+    opacity: 1;
+    visibility: visible;
+}
+.mw-file-manager-list-item-options-button{
+    display: inline-block;
+    vertical-align: middle;
+    width: 35px;
+    height: 25px;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px auto;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z' /%3E%3C/svg%3E");
+}
+
+.mw-file-manager-list-item-options-button:hover{
+    background-color: #f2f3f5;
+}
+
+.mw-file-manager-list-item-options{
+    position: relative;
+}
+
+.mw-file-manager-list-item-options-list > *{
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+}
+.mw-file-manager-list-item-options-list > *:hover{
+    background-color: #f2f3f5;
+}
+.mw-file-manager-list-item-options-list{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #cfcfcf;
+    border-radius: 3px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s;
+    transform: scale(.8);
+    transform-origin: center top;
+    text-align: left;
+
+}
+
+.mw-file-manager-list-item-options.active {
+    z-index: 1;
+}
+.mw-file-manager-list-item-options.active .mw-file-manager-list-item-options-list{
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+}
+
+.mw-filemanager-actions-bar{
+    display: flex;
+    padding: 15px 0;
+    justify-content: space-between;
+}

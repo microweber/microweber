@@ -110,9 +110,9 @@ mw.Select = function(options) {
             this.ajaxFilter(val, function (data) {
                 scope.setData(data.data);
                 if(data.data && data.data.length){
-                    scope.open()
+                    scope.open();
                 } else {
-                    scope.close()
+                    scope.close();
                 }
                 scope.loading(false);
             });
@@ -255,12 +255,12 @@ mw.Select = function(options) {
             if(item !== scope) {
                 item.close()
             }
-        })
+        });
     };
 
     this.close = function () {
         this.state = 'closed';
-        mw.tools.removeClass(scope.root, 'active')
+        mw.tools.removeClass(scope.root, 'active');
     };
 
     this.tags = function () {
@@ -366,7 +366,7 @@ mw.Select = function(options) {
     this._valueToggle = function(val){
         if (!val) return;
         if (!this._value) {
-            this._value = []
+            this._value = [];
         }
         var exists = this._value.find(function (item) {
             return item.id === val.id;
@@ -376,7 +376,7 @@ mw.Select = function(options) {
         } else {
             this._value.push(val);
         }
-        this.afterChange()
+        this.afterChange();
     };
 
     this.value = function(val){

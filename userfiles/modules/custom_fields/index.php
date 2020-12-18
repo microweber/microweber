@@ -47,14 +47,19 @@ if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
 
 $data = mw()->fields_manager->get($for, $for_id, 1);
 
+$formHasUpload = false;
 $fields_group = array();
 $group_i = 0;
-if (!empty($data)) {
+if (!empty($data)){
     foreach ($data as $field) {
 
         if ($field['type'] == 'breakline') {
             $group_i++;
             continue;
+        }
+
+        if ($field['type'] == 'upload') {
+            $formHasUpload = true;
         }
 
         $field['options']['field_size_class'] = template_default_field_size_option($field);
@@ -76,7 +81,6 @@ if (!empty($data)) {
         $fields_group[$group_i][] = $field;
     }
 }
-
 
 $prined_items_count = false;
 $ready_fields_group = array();
@@ -127,6 +131,7 @@ foreach ($fields_group as $field_group_key => $fields) {
 
     $ready_fields_group[$field_group_key] = $ready_fields;
 }
+
 $fields_group = $ready_fields_group;
 
 $template_file = get_option('data-template', $params['id']);
@@ -151,6 +156,22 @@ if (!isset($params['no-for-fields'])) {
     echo '<input type="hidden" name="for_id" value="' . $for_id . '"/>';
     echo "\n";
     echo '<input type="hidden" name="for" value="' . $for . '"/>';
+}
+
+if ($formHasUpload) {
+    echo '
+    <script>
+        /**
+         * Add enctype="multipart/form-data"
+         * add method="post"
+         */
+        (function() {
+            var checkForm = $(\'#'.$params['id'].'\').closest("form");
+            checkForm.attr(\'enctype\', \'multipart/form-data\');
+            checkForm.attr(\'method\', \'post\');
+        })();
+    </script>
+';
 }
 
 if ($template_file != false and is_file($template_file) != false) {

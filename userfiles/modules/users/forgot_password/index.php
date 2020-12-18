@@ -49,6 +49,8 @@
         </script>
         <?php
 
+		$captcha_disabled = get_option('captcha_disabled', 'users') == 'y';
+
         $module_template = get_option('data-template', $params['id']);
         if ($module_template == false and isset($params['template'])) {
             $module_template = $params['template'];

@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <?php $module_info = false;
     if (isset($params['module'])): ?>
-        <?php $module_info = mw()->modules->get('one=1&ui=any&module=' . $params['module']); ?>
+        <?php $module_info = mw()->module_manager->get('one=1&ui=any&module=' . $params['module']); ?>
     <?php endif; ?>
 
 
@@ -34,12 +34,13 @@
         #settings-main {
             min-height: 200px;
             overflow-x: hidden;
+            /*padding: 10px 25px;*/
         }
 
         #settings-container {
             overflow: hidden;
             position: relative;
-            min-height: 200px;
+            min-height: 300px;
         }
 
         #settings-container:after {

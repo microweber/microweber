@@ -103,7 +103,7 @@ class Worker
         if (defined('MW_CRON_EXEC')) {
 
         } else {
-            only_admin_access();
+            must_have_access();
 
         }
 
@@ -471,7 +471,7 @@ class Worker
         if (defined('MW_CRON_EXEC')) {
 
         } else {
-            only_admin_access();
+            must_have_access();
 
         }
         $temp_db = false;
@@ -870,7 +870,7 @@ class Worker
 
     function move_uploaded_file_to_export($params)
     {
-        only_admin_access();
+        must_have_access();
 
         if (!isset($params['src'])) {
 
@@ -1023,7 +1023,7 @@ class Worker
             die();
         }
         if (is_file($filename)) {
-            $dl = new \Microweber\Utils\Files();
+            $dl = new \MicroweberPackages\Utils\System\Files();
             return $dl->download_to_browser($filename);
         }
     }

@@ -28,7 +28,9 @@ description: Small Modal
 
 
 
-<?php $total = cart_sum(); ?>
+<?php
+$total = cart_total();
+?>
 <div class="checkout-modal-products-wrapper">
     <?php if (is_array($data) and $data) : ?>
         <?php foreach ($data as $item) : ?>
@@ -76,13 +78,19 @@ description: Small Modal
 <div class="checkout-modal-amount-holder row">
     <div class="col-sm-6 checkout-modal-promocode-holder">
     <?php if (get_option('enable_coupons', 'shop') == 1): ?>
-
+        <?php
+            $discountData = app()->cart_manager->totals('discount');
+        ?>
         <module type="shop/coupons" template="modal" />
     <?php endif; ?>
     </div>
     <div class="col-sm-6 checkout-modal-total-holder">
         <p><strong><?php _e('Tax Amount:'); ?> <?php print currency_format(cart_get_tax()); ?></strong></p>
         <p><strong><?php _e('Total Amount:'); ?> <?php print currency_format($total); ?></strong></p>
+        <?php if(!empty($discountData)) :?>
+            <p><strong><?php _e('Coupon Name:'); ?> <?php print $discountData['label']; ?></strong></p>
+            <p><strong><?php _e('Discount Amount:'); ?> <?php print $discountData['amount']; ?></strong></p>
+        <?php endif?>
         <a href="#" class="btn btn-default btn-block btn-lg js-show-step"   data-step="delivery-address"><?php _e('Checkout'); ?></a>
     </div>
 </div>

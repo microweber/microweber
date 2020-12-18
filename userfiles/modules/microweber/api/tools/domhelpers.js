@@ -628,6 +628,18 @@ var domHelp = {
         }
         return false;
     },
+    firstParentOrCurrentWithTag: function (el, tag) {
+        if (!el || !tag) return;
+        tag = typeof tag !== 'string' ? tag : [tag];
+        var curr = el;
+        while (curr && curr !== mwd.body) {
+            if (tag.indexOf(curr.nodeName.toLowerCase()) !== -1) {
+                return curr;
+            }
+            curr = curr.parentNode;
+        }
+        return false;
+    },
     generateSelectorForNode: function (node) {
         if (node === null || node.nodeType === 3) {
             return false;
@@ -646,7 +658,10 @@ var domHelp = {
             }
         }
         var filter = function(item) {
-            return item !== 'changed' && item !== 'module-over' && item !== 'element-current';
+            return item !== 'changed'
+                && item !== 'module-over'
+                && item !== 'mw-bg-mask'
+                && item !== 'element-current';
         };
         var _final = node.className.trim() ? '.' + node.className.trim().split(' ').filter(filter).join('.') : node.nodeName.toLocaleLowerCase();
 

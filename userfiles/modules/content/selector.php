@@ -15,7 +15,7 @@ if(isset($params['selected-id'])){
 
 $rand=uniqid();
 $no_parent_title = _e("None",1);
-if(isset($params['no-parent-title'])){ 
+if(isset($params['no-parent-title'])){
     $no_parent_title = $params['no-parent-title'];
 }
 
@@ -25,17 +25,17 @@ if(isset($params['recommended-id']) and $params['recommended-id'] != false){
   $top_item = get_content_by_id(intval($recommended_parent));
 }
 
- 
-?> 
 
-<?php 
+?>
+
+<?php
 if(isset($params['change-field'])){ ?>
-	
+
 
 <script  type="text/javascript">
 
   $(document).ready(function(){
-  	mw.$('#content_selector_<?php print $rand ?>').bind('change', function(e){
+  	mw.$('#content_selector_<?php print $rand ?>').on('change', function(e){
           var val = $(this).val();
           mw.$('#<?php print $params['change-field'] ?>').val(val).trigger("change");
           mw.$('[name="<?php print $params['change-field'] ?>"]').val(val).trigger("change");

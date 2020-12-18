@@ -10,6 +10,10 @@ $gateway->setApiKey($api_key);
  
 $formData = include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'omnipay_populate_form_data.php');
 
+if(!isset($data['stripeToken'])){
+    $place_order['error'] = 'Stripe Token is required ';
+    return ;
+}
 
 try {
     // Send purchase request
@@ -17,7 +21,8 @@ try {
         array(
             'amount'   => $place_order['amount'],
             'currency' => $place_order['currency'],
-            'card'     => $formData
+            'token' => $data['stripeToken'],
+          //  'card'     => $formData
         )
     )->send();
 

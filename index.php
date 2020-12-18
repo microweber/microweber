@@ -4,13 +4,29 @@ if(defined('LARAVEL_START')){
     return;
 }
 
-if (version_compare(phpversion(), "5.6.0", "<=")) {
-    exit("Error: You must have PHP version 5.6 or greater to run Microweber");
+if (version_compare(phpversion(), "7.3.0", "<=")) {
+    exit("Error: You must have PHP version 7.3 or greater to run Microweber");
 }
 
 
 if (!function_exists('openssl_random_pseudo_bytes')) {
     exit('Error: OpenSSL PHP extension is required to run Microweber');
+}
+
+if (!function_exists('json_encode')) {
+    exit('Error: JSON PHP extension is required to run Microweber');
+}
+
+if (!function_exists('gd_info')) {
+    exit('Error: GD PHP extension is required to run Microweber');
+}
+
+if (!class_exists('PDO') ) {
+    exit('Error: PDO PHP extension is required to run Microweber');
+}
+
+if (!class_exists('XMLReader') ) {
+    exit('Error: XML PHP extension is required to run Microweber');
 }
 
 

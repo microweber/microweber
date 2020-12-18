@@ -1,5 +1,25 @@
 (function(){
     var systemDialogs = {
+        moduleFrame: function(type, params, autoHeight){
+            if(typeof autoHeight === 'undefined') {
+                autoHeight = true;
+            }
+            params = params || {};
+            if(!type) return;
+
+            var frame = document.createElement('iframe');
+            frame.className = 'mw-editor-frame';
+            frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+            frame.allowFullscreen = true;
+            frame.scrolling = "yes";
+            frame.width = "100%";
+            frame.frameBorder = "0";
+            frame.src = mw.external_tool('module') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
+            if(autoHeight) {
+                mw.tools.iframeAutoHeight(frame)
+            }
+            return frame;
+        },
           confirm_reset_module_by_id: function (module_id) {
         if (confirm("Are you sure you want to reset this module?")) {
             var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
@@ -81,7 +101,7 @@
             var src = src + '&root_element_id='+root_element_id;
         }
 
-        // mw.tools.modal.frame({
+        // mw.dialogIframe({
         var modal = mw.dialogIframe({
             url: src,
             // width: 500,
@@ -128,8 +148,8 @@
 
         var settings = $.extend({}, defaultOpts, modalOptions);
 
-        // return mw.tools.modal.frame(settings);
-        return mw.dialogIframe(settings);
+        // return mw.dialogIframe(settings);
+        return mw.top().dialogIframe(settings);
     },
     open_module_modal: function (module_type, params, modalOptions) {
 
@@ -166,7 +186,6 @@
                 autoHeight: true
             };
             return mw.top().dialogIframe(settings);
-           // return mw.top().tools.modal.frame(settings);
 
         } else {
             delete settings.skin;

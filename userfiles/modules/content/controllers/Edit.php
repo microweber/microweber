@@ -3,7 +3,7 @@
 
 namespace content\controllers;
 
-use Microweber\View;
+use MicroweberPackages\View\View;
 
 class Edit
 {
@@ -18,6 +18,7 @@ class Edit
         'content_type' => 'page',
         'title' => false,
         'content' => false,
+        'content_body' => false,
         'url' => '',
         'thumbnail' => '',
         'is_active' => 1,
@@ -45,21 +46,18 @@ class Edit
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
-        $is_admin = $this->app->user_manager->admin_access();
     }
 
     function index($params)
     {
-
-        if (is_admin() == false) {
+        if (!user_can_access('module.content.edit')) {
             return;
         }
+
         if (isset($params['content_type']) and $params['content_type'] == 'category') {
             print load_module('categories/edit_category', $params);
             return;
-
         }
-
 
         $data = false;
         $just_saved = false;

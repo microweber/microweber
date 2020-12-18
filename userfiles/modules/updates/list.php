@@ -1,6 +1,6 @@
 <?php
 
-only_admin_access();
+must_have_access();
 $update_api = mw()->update;
 $forced = false;
 if (isset($params['force'])) {
@@ -93,7 +93,7 @@ $iudates = $update_api->check($forced);
                     <?php if (isset($iudates["popup"])) : ?>
 
 
-                        <a class="mw-ui-btn mw-ui-btn-info show-on-hover" onclick="mw.modalFrame({url:'<?php print $iudates["popup"] ?>'}); return false;"  href="<?php print $iudates["popup"] ?>" target="_blank">
+                        <a class="mw-ui-btn mw-ui-btn-info show-on-hover" onclick="mw.dialogIframe({url:'<?php print $iudates["popup"] ?>'}); return false;"  href="<?php print $iudates["popup"] ?>" target="_blank">
                             <?php _e("Read more"); ?>
                         </a>
 

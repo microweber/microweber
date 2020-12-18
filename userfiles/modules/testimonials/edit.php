@@ -1,8 +1,15 @@
-<?php only_admin_access(); ?>
+<?php must_have_access(); ?>
+
 <script>
     $(document).ready(function () {
         $("#add-testimonial-form").submit(function (event) {
+            var isNew = $('[name="id"]', this).val() === '0';
             event.preventDefault();
+            var form = this;
+            mw.spinner({
+                element: form,
+                decorate: true
+            }).show()
             var data = $(this).serialize();
             var url = "<?php print api_url('save_testimonial'); ?>";
             var post = $.post(url, data);
@@ -11,13 +18,21 @@
                 mw.reload_module("testimonials/list");
                 mw.reload_module("#project-select-testimonials");
 
-                $("#add-testimonial-form").find("input[type=text], textarea").val("");
+                mw.notification.success('Saved');
+                mw.spinner({
+                    element: form,
+                    decorate: true
+                }).hide()
 
                 $('.js-add-new-button').hide();
-                $("#edit-testimonials").attr("edit-id", "0");
-                mw.reload_module("#edit-testimonials");
 
-                $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
+                if(isNew) {
+                    $("#edit-testimonials").attr("edit-id", data);
+                    mw.reload_module("#edit-testimonials");
+
+                    $(".mw-ui-btn-nav-tabs .mw-ui-btn:first-of-type").trigger("click");
+                }
+
             });
         });
     });
@@ -26,16 +41,54 @@
         mw.fileWindow({
             types: 'images',
             change: function (url) {
+                if(!url) return;
                 url = url.toString();
                 mw.$("#client_picture").val(url).trigger('change');
+                mw.$(".js-user-image").attr('src', url);
             }
         });
     };
-
-
 </script>
 
+<style>
+
+    #add-testimonial-form{
+        position: relative;
+    }
+
+
+    .js-img-holder:hover img {
+        display: none;
+    }
+
+    .js-img-holder:hover .js-add-image {
+        display: block;
+    }
+
+    .js-img-holder .js-add-image .add-the-image {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        align-items: center;
+        justify-content: center;
+        display: none;
+    }
+
+    .js-img-holder:hover .js-add-image .add-the-image {
+        display: flex;
+    }
+    .edit-testimonial-top-nav{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 20px;
+        align-items: flex-start;
+    }
+</style>
+
 <script>mw.lib.require('font_awesome5')</script>
+
 <?php $data = false; ?>
 <?php if (isset($params['edit-id'])): ?>
     <?php $data = get_testimonials("single=true&id=" . $params['edit-id']); ?>
@@ -81,75 +134,94 @@ if (!isset($data['client_company'])) {
 }
 ?>
 
-
 <form id="add-testimonial-form">
     <?php if (($data['id']) == 0): ?>
-        <h3><?php _e('Add new testimonial'); ?></h3>
+        <h6 class="font-weight-bold"><?php _e('Add new testimonial'); ?></h6>
     <?php else: ?>
-        <h3><?php _e('Edit testimonial'); ?></h3>
+        <div class="edit-testimonial-top-nav">
+            <a href="javascript:;" onclick="list_testimonial()" class="btn-link"><i class="mdi mdi-arrow-left"></i> Back</a>
+            <a href="javascript:;" onclick="add_new_testimonial()" class="btn-link"><?php _e('Create new'); ?></a>
+        </div>
+        <h6 class="font-weight-bold"><?php _e('Edit testimonial'); ?></h6>
     <?php endif; ?>
+    <br/>
 
-    <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
+    <div class="row">
+        <div class="col-auto">
+            <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
-    <div class="mw-ui-field-holder">
+            <div id="avatar_holder" class="text-center">
+                <div class="d-inline-block">
+                    <?php if ($data['client_picture'] == '') { ?>
+                        <div class="img-circle-holder img-absolute bg-primary-opacity-1 m-auto js-img-holder">
+                            <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no-user.png" class="js-user-image"/>
 
-        <label class="mw-ui-label"><?php _e('Client Name'); ?></label>
-        <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" class="mw-ui-field w100">
+                            <div class="js-add-image">
+                                <a href="javascript:;" class="add-the-image" id="client_img" onclick="handleClientImg();"><i class="mdi mdi-image-plus mdi-24px"></i></a>
+                            </div>
+                        </div>
+                    <?php } else { ?>
+                        <div class="img-circle-holder img-absolute bg-primary-opacity-1 m-auto js-img-holder">
+                            <img src="<?php print $data['client_picture']; ?>" class="js-user-image"/>
+
+                            <div class="js-add-image">
+                                <a href="javascript:;" class="add-the-image" id="client_img" onclick="handleClientImg();"><i class="mdi mdi-image-plus mdi-24px"></i></a>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <span class="text-primary mt-2 d-block" onclick="handleClientImg();"><?php _e("Upload image"); ?></span>
+                    <input type="hidden" name="client_picture" id="client_picture" value="<?php print $data['client_picture'] ?>" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <label class="control-label"><?php _e('Client name'); ?></label>
+                <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><?php _e('Client testimonial'); ?></label>
+                <textarea name="content" class="form-control" rows="10"><?php print $data['content'] ?></textarea>
+            </div>
+
+            <button type="button" class="btn btn-link btn-sm px-0 pt-0 mb-3 d=block" onclick="$('#more-testimonial-settings').slideToggle()"><?php _e('Show more settings'); ?></button>
+
+            <div id="more-testimonial-settings" style="display: none;">
+                <div class="form-group">
+                    <label class="control-label"><?php _e('Client Role'); ?></label>
+                    <input type="text" name="client_role" placeholder="CEO, CTO, etc" value="<?php print $data['client_role'] ?>" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php _e('Company'); ?></label>
+                    <input type="text" name="client_company" placeholder="Awesome Co." value="<?php print $data['client_company'] ?>" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php _e('Client website'); ?></label>
+                    <input type="text" name="client_website" placeholder="http://www.example.com" value="<?php print $data['client_website'] ?>" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php _e('"Read more" button text'); ?></label>
+                    <input type="text" name="read_more_url" value="<?php print $data['read_more_url'] ?>" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?php _e('Project name'); ?></label>
+                    <small class="text-muted d-block mb-2">You can have more than one “testimonials”, check in Settings tab</small>
+                    <input type="text" name="project_name" value="<?php print $data['project_name'] ?>" class="form-control">
+                </div>
+            </div>
+
+            <div class="mw-ui-field-holder text-right">
+                <input type="submit" name="submit" value="Save" class="btn btn-success btn-sm"/>
+            </div>
+        </div>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e('Client Picture'); ?></label>
-        <div class="mw-field w100">
-            <input
-                type="text"
-                name="client_picture"
-                id="client_picture"
-                value="<?php print $data['client_picture'] ?>"
-                class="mw-ui-field">
-            <span class="mw-ui-btn mw-field-append mw-ui-btn-info" id="client_img" onclick="handleClientImg();">
-                 <span class="fas fa-upload"></span> &nbsp; <?php _e('Select Image'); ?>
-            </span>
-        </div>
 
-
-    </div>
-
-    <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e('Client Testimonial'); ?></label>
-        <textarea name="content" class="mw-ui-field w100"><?php print $data['content'] ?></textarea>
-    </div>
-
-    <span class="mw-ui-btn mw-full-width" onclick="$('#more-testimonial-settings').slideToggle()" style="background: #efecec;">
-    <span class="mw-icon-app-gear"></span> &nbsp; <?php _e('More Settings'); ?></span>
-
-    <div id="more-testimonial-settings" style="display: none">
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label"><?php _e('Client Role'); ?></label>
-            <input type="text" name="client_role" placeholder="CEO, CTO, etc" value="<?php print $data['client_role'] ?>" class="mw-ui-field w100">
-        </div>
-
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label"><?php _e('Client Company'); ?></label>
-            <input type="text" name="client_company" placeholder="Awesome Co." value="<?php print $data['client_company'] ?>" class="mw-ui-field w100">
-        </div>
-
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label"><?php _e('Client Website'); ?></label>
-            <input type="text" name="client_website" placeholder="http://www.example.com" value="<?php print $data['client_website'] ?>" class="mw-ui-field w100">
-        </div>
-
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label"><?php _e('"Read more" link'); ?></label>
-            <input type="text" name="read_more_url" value="<?php print $data['read_more_url'] ?>" class="mw-ui-field w100">
-        </div>
-
-        <div class="mw-ui-field-holder">
-            <label class="mw-ui-label"><?php _e('Project name'); ?></label>
-            <input type="text" name="project_name" value="<?php print $data['project_name'] ?>" class="mw-ui-field w100">
-        </div>
-    </div>
-
-    <div class="mw-ui-field-holder text-right">
-        <input type="submit" name="submit" value="Save" class="mw-ui-btn mw-ui-btn-info"/>
-    </div>
 </form>

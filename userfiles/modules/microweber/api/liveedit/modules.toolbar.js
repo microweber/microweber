@@ -2,9 +2,23 @@ mw.liveedit.modulesToolbar = {
     init: function (selector) {
         var items = selector || ".modules-list li[data-module-name]";
         var $items = mw.$(items);
+        $items.on('mouseup touchend', function (){
+            if(!document.body.classList.contains('dragStart') && !this.classList.contains('module-item-layout')) {
+                if(mw.liveEditSelector.selected[0]) {
+                    mw.element(mw.liveEditSelector.selected[0]).after(this.outerHTML);
+                    setTimeout(function (){
+                        mw.drag.load_new_modules();
+                        mw.tools.scrollTo(mw.liveEditSelector.selected[0].nextElementSibling, undefined, 200)
+                    }, 78)
+                } else {
+                    mw.notification.warning('Select element from the page or drag the <b>' + this.dataset.filter + '</b> to the desired place');
+                }
+            }
+        });
         $items.draggable({
             revert: true,
             revertDuration: 0,
+            distance: 20,
             start: function(a, b) {
                 mw.isDrag = true;
                 mw.dragCurrent = mw.ea.data.currentGrabbed = mw.GlobalModuleListHelper;
@@ -38,24 +52,6 @@ mw.liveedit.modulesToolbar = {
                 return clone[0];
             });
         });
-       /* $items.on("click mousedown mouseup", function(e) {
-            e.preventDefault();
-            if (e.type === 'click') {
-                return false;
-            }
-            if (e.type === 'mousedown') {
-                this.mousedown = true;
-            }
-            if (e.type === 'mouseup' && e.which === 1 && !!this.mousedown) {
-                $items.each(function() {
-                    this.mousedown = false;
-                });
-                if (!mw.isDrag && mww.getSelection().rangeCount > 0 && mwd.querySelector('.mw_modal') === null && mw.modulesClickInsert) {
-                    var html = this.outerHTML;
-                    mw.wysiwyg.insert_html(html);
-                    mw.drag.load_new_modules();
-                }
-            }
-        });*/
+
     }
 };

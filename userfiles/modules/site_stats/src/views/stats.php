@@ -9,29 +9,23 @@
             $(this).find('id').toggleClass('active');
         });
 
-        $('.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors').slimScroll({});
-
         $('.show-more-stats').on('click', function () {
-            if ($('.stats-view-holder').hasClass('hidden')) {
-                $('.stats-view-holder').slideDown();
-                $('.stats-view-holder').removeClass('hidden');
-                $(this).text('<?php _e('show less'); ?>');
+            var $holder = $('.stats-view-holder');
+            if ($holder.hasClass('hidden')) {
+                $holder.slideDown().removeClass('hidden');
+                $('.show-more-stats').text('<?php _e('show less'); ?>');
             } else {
-                $('.stats-view-holder').slideUp();
-                $('.stats-view-holder').addClass('hidden');
-                $(this).text('<?php _e('show more'); ?>');
+                $holder.slideUp().addClass('hidden');
+                $('.show-more-stats').text('<?php _e('show more'); ?>');
             }
         });
     });
 </script>
 
-<div class="center m-b-20">
-    <button class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline show-more-stats"><?php _e('show more'); ?></button>
-</div>
 
 <div class="stats-view-holder hidden">
-    <div class="stats-view">
-        <div class="mw-ui-flex-item">
+    <div class="stats-view row">
+        <div class="col-lg-4 mb-3">
             <script>
                 $(document).ready(function () {
                     mw.tabs({
@@ -41,72 +35,56 @@
                 });
             </script>
 
-            <div class="demobox" id="demotabsnav">
-                <div class="heading  mw-ui-box">
-                    <div><?php _e("Referrers"); ?></div>
-                    <!--<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-                        <a href="javascript:;" class="mw-ui-btn"><span class="number">726</span>
-                            <small>Sites</small>
-                        </a>
-                        <a href="javascript:;" class="mw-ui-btn active"><span class="number">84</span>
-                            <small>Social</small>
-                        </a>
-                        <a href="javascript:;" class="mw-ui-btn"><span class="number">10.7k</span>
-                            <small>Search</small>
-                        </a>
-                    </div>-->
-                </div>
+            <div class="card style-1 h-100" id="demotabsnav">
+                <div class="card-header"><?php _e("Referrers"); ?></div>
 
-                <div class="sources mw-ui-box has-tabs">
-                    <div class="mw-ui-box-content" style="">
+                <div class="card-body overflow-auto sources has-tabs">
+                    <div class="" style="">
                         <module type="site_stats/admin" view="referrers_list" period="<?php print $period; ?>"/>
                     </div>
-
-                    <div class="mw-ui-box-content" style="display: none;">
+                    <div class="" style="display: none;">
                         <module type="site_stats/admin" view="referrers_list" period="<?php print $period; ?>"/>
-
                     </div>
-                    <div class="mw-ui-box-content" style="display: none">
+                    <div class="" style="display: none">
                         <module type="site_stats/admin" view="referrers_list" period="<?php print $period; ?>"/>
-
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="mw-ui-flex-item">
-            <div class="heading  mw-ui-box">
-                <?php _e('Content'); ?>
-            </div>
-            <div class="contents mw-ui-box">
-                <module type="site_stats/admin" view="content_list" period="<?php print $period; ?>"/>
-            </div>
-        </div>
-
-        <div class="mw-ui-flex-item">
-            <div class="heading  mw-ui-box">
-                <?php _e('Visitors'); ?>
-            </div>
-            <div class="visitors mw-ui-box">
-                <module type="site_stats/admin" view="visitors_list" period="<?php print $period; ?>"/>
+        <div class="col-lg-4 mb-3">
+            <div class="card style-1 h-100">
+                <div class="card-header"><?php _e('Content'); ?></div>
+                <div class="card-body overflow-auto contents">
+                    <module type="site_stats/admin" view="content_list" period="<?php print $period; ?>"/>
+                </div>
             </div>
         </div>
 
-        <div class="mw-ui-flex-item">
-            <div class="heading  mw-ui-box">
-                <?php _e('Locations'); ?>
-            </div>
-            <div class="locations mw-ui-box">
-                <module type="site_stats/admin2" view="locations_list" period="<?php print $period; ?>"/>
+        <div class="col-lg-4 mb-3">
+            <div class="card style-1 h-100">
+                <div class="card-header"><?php _e('Visitors'); ?></div>
+                <div class="card-body overflow-auto visitors">
+                    <module type="site_stats/admin" view="visitors_list" period="<?php print $period; ?>"/>
+                </div>
             </div>
         </div>
 
-        <div class="mw-ui-flex-item">
-            <div class="heading  mw-ui-box">
-                <?php _e('Browser language'); ?>
+        <div class="col-lg-6 mb-3">
+            <div class="card style-1 h-100">
+                <div class="card-header"><?php _e('Locations'); ?></div>
+                <div class="card-body overflow-auto locations">
+                    <module type="site_stats/admin2" view="locations_list" period="<?php print $period; ?>"/>
+                </div>
             </div>
-            <div class="locations mw-ui-box">
-                <module type="site_stats/admin2" view="languages_list" period="<?php print $period; ?>"/>
+        </div>
+
+        <div class="col-lg-6 mb-3">
+            <div class="card style-1 h-100">
+                <div class="card-header"><?php _e('Browser language'); ?></div>
+                <div class="card-body overflow-auto locations">
+                    <module type="site_stats/admin2" view="languages_list" period="<?php print $period; ?>"/>
+                </div>
             </div>
         </div>
     </div>

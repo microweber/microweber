@@ -301,16 +301,26 @@ mw.drag = {
 
                 mw.emouse = mw.event.page(event);
 
+                /*var targetNode;
+                targetNode = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+                if (targetNode && targetNode.isContentEditable) {
+                    mw.tools.addClass(this, 'isTyping');
+                    return;
+                }*/
+
                 mw.mm_target = event.target;
                 mw.$mm_target = mw.$(mw.mm_target);
 
                 if (!mw.isDrag) {
                     if (mw.liveEditSelectMode === 'element') {
-                        if(mw.tools.distance(mw.handlerMouse.x, mw.handlerMouse.y, mw.emouse.x, mw.emouse.y) > 20) {
+                        //if(mw.tools.distance(mw.handlerMouse.x, mw.handlerMouse.y, mw.emouse.x, mw.emouse.y) > 20) {
+
                             mw.tools.removeClass(this, 'isTyping');
                             mw.handlerMouse = Object.assign({}, mw.emouse);
-                            mw.liveEditHandlers(event)
-                        }
+                            mw.liveEditHandlers(event);
+
+
+                        //}
                     }
                 } else {
                     var sidebar = document.getElementById('live_edit_side_holder');
@@ -496,17 +506,11 @@ mw.drag = {
                         }
                     }
 
-                    if (fonttarget && !mw.tools.hasAnyOfClasses(target, ['element','module'])) {
-                        if ((fonttarget.tagName === 'I' || fonttarget.tagName === 'SPAN') && mw.tools.hasParentsWithClass(fonttarget, 'edit') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
-                            if (!mw.tools.hasParentsWithClass(fonttarget, 'module')) {
+                    if (fonttarget && !mw.tools.hasAnyOfClasses(target, ['element', 'module'])) {
+                        if ((fonttarget.tagName === 'I' || fonttarget.tagName === 'SPAN') && !mw.tools.hasParentsWithClass(fonttarget, 'dropdown')) {
+                            if(mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(fonttarget, ['edit', 'module'])) {
                                 mw.trigger("IconElementClick", fonttarget);
                                 mw.trigger("ComponentClick", [fonttarget, 'icon']);
-                            }
-                            else {
-                                if (mw.wysiwyg.editInsideModule(fonttarget)) {
-                                    mw.trigger("IconElementClick", fonttarget);
-                                    mw.trigger("ComponentClick", [fonttarget, 'icon']);
-                                }
                             }
                         }
                     }
@@ -607,7 +611,9 @@ mw.drag = {
                             mw.drag.fix_placeholders();
                             mw.ea.afterAction();
                             if(mw.liveEditDomTree) {
-                                mw.liveEditDomTree.refresh(mw.ea.data.target.parentNode)
+                                if(mw.ea.data.target) {
+                                    mw.liveEditDomTree.refresh(mw.ea.data.target.parentNode)
+                                }
                             }
                         }, 40);
                         mw.dropable.hide();
@@ -617,7 +623,7 @@ mw.drag = {
 
                     setTimeout(function () {
 
-                        if (mw.have_new_items == true) {
+                        if (mw.have_new_items) {
                             mw.drag.load_new_modules();
                         }
                     }, 120)
@@ -648,7 +654,7 @@ mw.drag = {
         setTimeout(function() {
             mw.$(".edit .mw-col" + more_selectors).each(function() {
                 var el = mw.$(this);
-                if (el.children().length == 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
+                if (el.children().length === 0 || (el.children('.empty-element').length > 0) || el.children('.ui-draggable-dragging').length > 0) {
                     el.height('auto');
                     if (el.height() < el.parent().height()) {
                         el.height(el.parent().height());
@@ -841,7 +847,7 @@ mw.drag = {
         var src = mw.settings.site_url + "api/module?" + json2url(data1);
 
         if (type === 'modal') {
-            var modal = mw.top().tools.modal.frame({
+            var modal = mw.top().dialogIframe({
                 url: src,
                 width: 532,
                 height: 150,
@@ -1117,7 +1123,7 @@ mw.drag = {
         xhr.error(function(){
 
             if(xhr.status == 403){
-                var modal = mw.modal({
+                var modal = mw.dialog({
                     id : 'save_content_error_iframe_modal',
                     html:"<iframe id='save_content_error_iframe' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame' ></iframe>",
                     width:$(window).width() - 90,

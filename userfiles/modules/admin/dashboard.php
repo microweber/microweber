@@ -1,104 +1,86 @@
 <?php event_trigger('mw.admin.dashboard.start'); ?>
-<div class="mw-ui-col-container mw-admin-dashboard-main">
-    <div class="admin-side-content">
-        <?php event_trigger('mw.admin.dashboard.content.before'); ?>
-        <?php event_trigger('mw.admin.dashboard.content'); ?>
 
+<?php event_trigger('mw.admin.dashboard.content.before'); ?>
+<?php event_trigger('mw.admin.dashboard.content'); ?>
+<?php event_trigger('mw.admin.dashboard.content.1'); ?>
+<?php event_trigger('mw.admin.dashboard.content.2'); ?>
+<?php event_trigger('mw.admin.dashboard.content.3'); ?>
 
-        <?php event_trigger('mw.admin.dashboard.content.1'); ?>
+<div class="card style-1">
+    <div class="card-header">
+        <h5><i class="mdi mdi-link text-primary mr-3"></i> <strong><?php _e("Quick Links"); ?></strong></h5>
+    </div>
 
-        <?php event_trigger('mw.admin.dashboard.content.2'); ?>
-
-        <?php event_trigger('mw.admin.dashboard.content.3'); ?>
-
-
-        <div class="mw-ui-box quick-lists pull-left">
-            <div class="mw-ui-box-header">
-                <i class="mai-link"></i> <?php _e("Quick Links"); ?>
-            </div>
-
-            <div class="mw-ui-box-content">
-                <div class="mw-ui-row" id="quick-links-row">
-                    <div class="mw-ui-col">
-                        <div class="mw-ui-col-container">
-                            <div class="mw-ui-navigation">
-                                <?php event_trigger('mw.admin.dashboard.links'); ?>
-                                <?php $dash_menu = mw()->ui->module('admin.dashboard.menu'); ?>
-                                <?php if (!empty($dash_menu)): ?>
-                                    <?php foreach ($dash_menu as $item): ?>
-                                        <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
-                                        <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
-                                        <?php if ($view == false and $link != false) {
-                                            $btnurl = $link;
-                                        } else {
-                                            $btnurl = admin_url('view:') . $item['view'];
-                                        } ?>
-                                        <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
-                                        <?php $text = $item['text']; ?>
-                                        <a href="<?php print $btnurl; ?>"><span
-                                                    class="<?php print $icon; ?>"></span><span><?php print $text; ?></span></a>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </div>
-                        </div>
+    <div class="card-body">
+        <div class="row quick-links">
+            <?php event_trigger('mw.admin.dashboard.links'); ?>
+            <?php $dash_menu = mw()->ui->module('admin.dashboard.menu'); ?>
+            <?php if (!empty($dash_menu)): ?>
+                <?php foreach ($dash_menu as $item): ?>
+                    <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
+                    <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
+                    <?php if ($view == false and $link != false) {
+                        $btnurl = $link;
+                    } else {
+                        $btnurl = admin_url('view:') . $item['view'];
+                    } ?>
+                    <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
+                    <?php $text = $item['text']; ?>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <a href="<?php print $btnurl; ?>" class="btn btn-link"><i class="<?php print $icon; ?>"></i><span><?php print $text; ?></span></a>
                     </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
-                    <div class="mw-ui-col">
-                        <div class="mw-ui-col-container">
-                            <div class="mw-ui-navigation">
-                                <?php $dash_menu = mw()->ui->module('admin.dashboard.menu.second'); ?>
-                                <?php if (!empty($dash_menu)): ?>
-                                    <?php foreach ($dash_menu as $item): ?>
-                                        <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
-                                        <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
-                                        <?php if ($view == false and $link != false) {
-                                            $btnurl = $link;
-                                        } else {
-                                            $btnurl = admin_url('view:') . $item['view'];
-                                        } ?>
-                                        <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
-                                        <?php $text = $item['text']; ?>
-                                        <a href="<?php print $btnurl; ?>"><span
-                                                    class="<?php print $icon; ?>"></span><span><?php print $text; ?></span></a>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                                <?php event_trigger('mw.admin.dashboard.links2'); ?>
-                                <?php event_trigger('mw.admin.dashboard.help'); ?>
-                            </div>
-                        </div>
+            <?php $dash_menu = mw()->ui->module('admin.dashboard.menu.second'); ?>
+            <?php if (!empty($dash_menu)): ?>
+                <?php foreach ($dash_menu as $item): ?>
+                    <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
+                    <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
+                    <?php if ($view == false and $link != false) {
+                        $btnurl = $link;
+                    } else {
+                        $btnurl = admin_url('view:') . $item['view'];
+                    } ?>
+                    <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
+                    <?php $text = $item['text']; ?>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <a href="<?php print $btnurl; ?>" class="btn btn-link"><i class="<?php print $icon; ?>"></i><span><?php print $text; ?></span></a>
                     </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php event_trigger('mw.admin.dashboard.links2'); ?>
+            <?php event_trigger('mw.admin.dashboard.help'); ?>
 
-                    <div class="mw-ui-col">
-                        <div class="mw-ui-col-container">
-                            <?php if (mw()->ui->enable_service_links): ?>
-                                <div class="mw-ui-navigation">
-                                    <?php $dash_menu = mw()->ui->module('admin.dashboard.menu.third'); ?>
-                                    <?php if (!empty($dash_menu)): ?>
-                                        <?php foreach ($dash_menu as $item): ?>
-                                            <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
-                                            <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
-                                            <?php if ($view == false and $link != false) {
-                                                $btnurl = $link;
-                                            } else {
-                                                $btnurl = admin_url('view:') . $item['view'];
-                                            } ?>
-                                            <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
-                                            <?php $text = $item['text']; ?>
-                                            <a href="<?php print $btnurl; ?>"><span
-                                                        class="<?php print $icon; ?>"></span><span><?php print $text; ?></span></a>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                    <?php event_trigger('mw.admin.dashboard.links3'); ?>
-                                </div>
-                            <?php endif; ?>
+            <?php
+            $showThirdMenu = true;
+            if (have_license('modules/white_label')) {
+                $showThirdMenu = mw()->ui->enable_service_links;
+            }
+            ?>
+
+            <?php if ($showThirdMenu): ?>
+                <?php $dash_menu = mw()->ui->module('admin.dashboard.menu.third'); ?>
+                <?php if (!empty($dash_menu)): ?>
+                    <?php foreach ($dash_menu as $item): ?>
+                        <?php $view = (isset($item['view']) ? $item['view'] : false); ?>
+                        <?php $link = (isset($item['link']) ? $item['link'] : false); ?>
+                        <?php if ($view == false and $link != false) {
+                            $btnurl = $link;
+                        } else {
+                            $btnurl = admin_url('view:') . $item['view'];
+                        } ?>
+                        <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
+                        <?php $text = $item['text']; ?>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <a href="<?php print $btnurl; ?>" class="btn btn-link"><i class="<?php print $icon; ?>"></i><span><?php print $text; ?></span></a>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <?php event_trigger('mw.admin.dashboard.links3'); ?>
+            <?php endif; ?>
         </div>
-        <?php event_trigger('mw.admin.dashboard.main'); ?>
     </div>
 </div>
-<div class="m-t-10 text-right p-10">
-v<?php print MW_VERSION; ?>
-</div>
+
+<?php event_trigger('mw.admin.dashboard.main'); ?>

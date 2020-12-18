@@ -1,4 +1,4 @@
-<?php only_admin_access(); ?>
+<?php must_have_access(); ?>
 <script type="text/javascript">
     mw.require('<?php print $config['url_to_module'] ?>style.css', true);
     mw.require('<?php print $config['url_to_module'] ?>comments_admin.js');
@@ -95,7 +95,7 @@ mw()->notifications_manager->mark_as_read('comments');
     <div id="mw_edit_page_left" class="mw_edit_page_default">
         <?php $info = module_info($config['module']); ?>
         <div class="mw-admin-sidebar">
-            <?php mw()->modules->icon_with_title($info['module']); ?>
+            <?php mw()->module_manager->icon_with_title($info['module']); ?>
             <a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0">
                 <?php _e("My Comments"); ?>
             </a> <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="#content_id=settings">
@@ -124,9 +124,7 @@ mw()->notifications_manager->mark_as_read('comments');
                                 <?php _e("Read, moderate & publish comments"); ?>
                             </small>
                         </div>
-                        <input
-                                autocomplete="off"
-                                type="search"
+                        <input autocomplete="off" type="search"
                                 class="mw-ui-searchfield"
                                 placeholder="<?php _e("Search comments"); ?>"
                                 onkeyup="$(this).addClass('active'); mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"

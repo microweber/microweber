@@ -1,5 +1,5 @@
 <?php 
-only_admin_access();
+must_have_access();
 
 $notification_id = (int) $params['notification_id'];
 $notification_module = $params['notification_module'];

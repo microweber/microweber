@@ -3,7 +3,7 @@
 
 namespace content\controllers;
 
-use Microweber\View;
+use MicroweberPackages\View\View;
 use DB;
 
 class Front
@@ -238,6 +238,12 @@ class Front
             $posts_list_show_sub_pages = true;
         }
 
+         if ($posts_parent_category_cfg == 'current_category') {
+
+            if (defined('CATEGORY_ID') and CATEGORY_ID > 0) {
+                $posts_parent_category = CATEGORY_ID;
+            }
+        }
         if ($posts_parent_category == false and ($cfg_page_id == 'current_page')) {
             if (defined('PAGE_ID') and PAGE_ID > 0) {
                 $cfg_page_id = PAGE_ID;
@@ -259,6 +265,12 @@ class Front
                 $post_params['parent'] = $cfg_page_id;
             }
         }
+
+
+        if (!empty($params['filter'])) {
+            $post_params['filter'] = $params['filter'];
+        }
+
 
         if (isset($post_params['most_ordered'])) {
             $str0 = 'table=cart&limit=30&rel_type=content&fields=rel_id&order_by=id desc';
@@ -626,8 +638,10 @@ class Front
             unset($post_params['category']);
         }
 
+       // dd($post_params,$posts_parent_category);
 
         $content = get_content($post_params);
+
         if ($is_search) {
             //dd(DB::getQueryLog(), $content);
         }
@@ -728,10 +742,10 @@ class Front
                         }
                         $item['prices'] = $prices;
                     } else {
-                        $item['prices'] = false;
+                        $item['prices'] = [0];
                     }
                 } else {
-                    $item['prices'] = false;
+                    $item['prices'] = [0];
                     $item['prices_data'] = false;
                     $item['original_price'] = false;
 

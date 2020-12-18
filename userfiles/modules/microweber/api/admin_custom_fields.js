@@ -25,7 +25,7 @@ mw.admin.custom_fields.initValues = function () {
 mw.admin.custom_fields.initTextAreaValue = function (node) {
     if (!node.fieldBinded) {
         node.fieldBinded = true;
-        mw.$(node).bind('keyup paste click', function (e) {
+        mw.$(node).on('input', function (e) {
             var sh = this.scrollHeight;
             var oh = this.offsetHeight;
             if(sh > oh){
@@ -62,8 +62,8 @@ mw.admin.custom_fields.addValueButtons = function (root) {
         all[i].avbinded = true;
         all[i].onclick = function () {
             var span = mwd.createElement('span');
-            span.className = 'mw-admin-custom-field-value-edit-inline-holder';
-            span.innerHTML = '<span class="mw-admin-custom-field-value-edit-inline" data-id="' + mw.$(this).dataset('id') + '"></span><span onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields"></span><span class="custom-field-comma">,</span>';
+            span.className = 'mw-admin-custom-field-value-edit-inline-holder mw-admin-custom-field-checkbox bg-secondary-opacity-8 d-inline-flex mr-2 my-1 p-0';
+            span.innerHTML = '<small class="mw-admin-custom-field-value-edit-inline p-1 text-dark" data-id="' + mw.$(this).dataset('id') + '"></small><small onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields bg-danger text-white p-1"><i class="mdi mdi-close"></i></small>   ';
             mw.admin.custom_fields.initValue(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
             mw.$(this).prev().append(span);
             mw.admin.custom_fields.valueLiveEdit(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
@@ -125,15 +125,15 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         mw.$(el.parentNode).removeClass('active');
         mw.tools.removeClass(mw.tools.firstParentWithTag(el, 'tr'), 'active');
     });
-    mw.$(input).bind('blur', function () {
+    mw.$(input).on('blur', function () {
         mw.$('.mw-admin-custom-field-value-edit-inline-holder.active').removeClass('active');
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
     });
-    mw.$(input).bind('keydown', function (e) {
+    mw.$(input).on('keydown', function (e) {
 
         var code = (e.keyCode ? e.keyCode : e.which);
 
-        if (code == 9) {
+        if (code === 9) {
             var parent = mw.tools.firstParentWithClass(e.target, 'mw-admin-custom-field-value-edit-inline-holder');
             if (!e.shiftKey) {
                 if (parent.nextElementSibling !== null && mw.tools.hasClass(parent.nextElementSibling, 'mw-admin-custom-field-value-edit-inline-holder')) {
@@ -252,9 +252,6 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 
 };
 
-$(mww).bind('load', function () {
-    mw.admin.custom_fields.initValues();
-});
-$(mwd).ready(function () {
+$(window).on('load', function () {
     mw.admin.custom_fields.initValues();
 });

@@ -1,77 +1,89 @@
-<?php only_admin_access(); ?>
+<?php must_have_access(); ?>
 
-<script type="text/javascript">mw.require('options.js');</script>
+<?php
+$from_live_edit = false;
+if (isset($params["live_edit"]) and $params["live_edit"]) {
+    $from_live_edit = $params["live_edit"];
+}
+?>
 
-<script type="text/javascript">
-    $(window).ready(function () {
-        mw.options.form('.module-twitter-feed-settings', function () {
-            if (mw.notification != undefined) {
-                mw.notification.success('Twitter feed settings saved');
-            }
-            mw.reload_module_parent('twitter_feed'); //reload the module in live edit
-        });
-    });
-</script>
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
 
-
-<div class="mw-modules-tabs">
-    <div class="mw-accordion-item">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
-            </div>
-        </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <!-- Settings Content -->
-            <div class="module-live-edit-settings module-twitter-feed-settings">
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e('Search string'); ?> <a href="https://dev.twitter.com/rest/public/search" target="_blank">[?]</a></label>
-                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" placeholder="Example: microweber" name="search_string" value="<?php print get_option('search_string', $params['id']); ?>">
-                </div>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e('Number of items'); ?></label>
-                    <input type="number" class="mw_option_field mw-ui-field mw-full-width" name="number_of_items" value="<?php print get_option('number_of_items', $params['id']); ?>">
-                </div>
-
-                <hr/>
-
-                <h5>Access Token Settings</h5>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e('Consumer Key'); ?></label>
-                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="consumer_key" option-group="twitter_feed" value="<?php print get_option('consumer_key', 'twitter_feed'); ?>">
-                </div>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e('Consumer Secret'); ?></label>
-                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="consumer_secret" option-group="twitter_feed" value="<?php print get_option('consumer_secret', 'twitter_feed'); ?>">
-                </div>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e('Access Token'); ?></label>
-                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="access_token" option-group="twitter_feed" value="<?php print get_option('access_token', 'twitter_feed'); ?>">
-                </div>
-
-                <div class="mw-ui-field-holder">
-                    <label class="mw-ui-label"><?php _e('Access Token Secret'); ?></label>
-                    <input type="text" class="mw_option_field mw-ui-field mw-full-width" name="access_token_secret" option-group="twitter_feed" value="<?php print get_option('access_token_secret', 'twitter_feed'); ?>">
-                </div>
-
-                <p><?php _e('Get your Twitter access keys'); ?> <a href="https://apps.twitter.com/app" target="_blank" class="mw-ui-link"><?php _e('from here'); ?></a></p>
-            </div>
-            <!-- Settings Content - End -->
-        </div>
+<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-header">
+        <?php $module_info = module_info($params['module']); ?>
+        <h5>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+        </h5>
     </div>
 
-    <div class="mw-accordion-item">
-        <div class="mw-ui-box-header mw-accordion-title">
-            <div class="header-holder">
-                <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
+    <div class="card-body pt-3">
+        <script type="text/javascript">mw.require('options.js');</script>
+
+        <script type="text/javascript">
+            $(window).ready(function () {
+                mw.options.form('.module-twitter-feed-settings', function () {
+                    if (mw.notification != undefined) {
+                        mw.notification.success('Twitter feed settings saved');
+                    }
+                    mw.reload_module_parent('twitter_feed'); //reload the module in live edit
+                });
+            });
+        </script>
+
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        </nav>
+
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="settings">
+                <!-- Settings Content -->
+                <div class="module-live-edit-settings module-twitter-feed-settings">
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Search string'); ?> <a href="https://dev.twitter.com/rest/public/search" target="_blank">[?]</a></label>
+                        <input type="text" class="mw_option_field form-control" placeholder="Example: microweber" name="search_string" value="<?php print get_option('search_string', $params['id']); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Number of items'); ?></label>
+                        <input type="number" class="mw_option_field form-control" name="number_of_items" value="<?php print get_option('number_of_items', $params['id']); ?>">
+                    </div>
+
+                    <hr class="thin"/>
+
+                    <h5 class="font-weight-bold mb-3">Access Token Settings</h5>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Consumer Key'); ?></label>
+                        <input type="text" class="mw_option_field form-control" name="consumer_key" option-group="twitter_feed" value="<?php print get_option('consumer_key', 'twitter_feed'); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Consumer Secret'); ?></label>
+                        <input type="text" class="mw_option_field form-control" name="consumer_secret" option-group="twitter_feed" value="<?php print get_option('consumer_secret', 'twitter_feed'); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Access Token'); ?></label>
+                        <input type="text" class="mw_option_field form-control" name="access_token" option-group="twitter_feed" value="<?php print get_option('access_token', 'twitter_feed'); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e('Access Token Secret'); ?></label>
+                        <input type="text" class="mw_option_field form-control" name="access_token_secret" option-group="twitter_feed" value="<?php print get_option('access_token_secret', 'twitter_feed'); ?>">
+                    </div>
+
+                    <p><?php _e('Get your Twitter access keys'); ?> <a href="https://apps.twitter.com/app" target="_blank" class="mw-ui-link"><?php _e('from here'); ?></a></p>
+                </div>
+                <!-- Settings Content - End -->
             </div>
-        </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-            <module type="admin/modules/templates"/>
+
+            <div class="tab-pane fade" id="templates">
+                <module type="admin/modules/templates"/>
+            </div>
         </div>
     </div>
 </div>

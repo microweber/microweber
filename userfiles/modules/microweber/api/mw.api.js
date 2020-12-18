@@ -2,7 +2,7 @@ mw.app = {
     deleteContent:function(id){
         return $.post(mw.settings.site_url + "api/content/delete", {id: id});
     }
-}
+};
 
 mw.api = {
     deleteContent:function(id){
@@ -14,7 +14,7 @@ mw.api = {
                 })
                 .fail(function(){
                     mw.notification.error('Error deleting');
-                })
+                });
         });
     }
 }

@@ -190,7 +190,7 @@ description: Dictionary
     // Filter Glossary items
     function initGlossaryFilter() {
         // Filter using search box
-        $("#glossarySearchInput").bind("keyup", function () {
+        $("#glossarySearchInput").on("keyup", function () {
             var inputValue = $(this).val();
 
             // Hide all the results & Cards

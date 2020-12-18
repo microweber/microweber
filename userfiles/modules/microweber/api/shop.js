@@ -180,6 +180,11 @@ mw.cart = {
 
     checkout: function (selector, callback) {
         var form = mw.$(selector);
+        $( document ).trigger( "checkoutBeforeProcess", form );
+
+
+
+
 
 
         var state = form.dataset("loading");
@@ -187,7 +192,14 @@ mw.cart = {
         form.dataset("loading", 'true');
         form.find('.mw-checkout-btn').attr('disabled', 'disabled');
         form.find('.mw-checkout-btn').hide();
-        var obj = mw.form.serialize(selector);
+
+        setTimeout(function(){
+
+            var form = mw.$(selector);
+        var obj = mw.form.serialize(form);
+
+
+
         $.ajax({
             type: "POST",
             url: mw.settings.api_url + 'checkout',
@@ -206,6 +218,17 @@ mw.cart = {
 
                     if (typeof(data2.error) != 'undefined') {
                         mw.$(selector + ' .mw-cart-data-holder').show();
+                        if (typeof(data2.error.address_error) != 'undefined') {
+                            var form_with_err = form;
+                           var isModalForm = $(form_with_err).attr('is-modal-form')
+
+                          if(isModalForm){
+                              mw.cart.modal.showStep(form_with_err, 'delivery-address');
+                          }
+                          mw.notification.error('Please fill your address details');
+
+                        }
+
                         mw.response(selector, data2);
                     } else if (typeof(data2.success) != 'undefined') {
 
@@ -258,143 +281,168 @@ mw.cart = {
                 form.find('.mw-checkout-btn').show();
                 mw.trigger('mw.cart.checkout', [data]);
             });
+
+        }, 1500);
     }
 }
 
 
 
-mw.cart.modal = {}
+mw.cart.modal = {};
 
 mw.cart.modal.init = function (root_node) {
-
-
     mw.cart.modal.bindStepButtons(root_node);
 
-
+/*
     var inner_cart_module = $(root_node).find('[parent-module-id="js-ajax-cart-checkout-process"]')[0];
+*/
     var inner_cart_module = $(root_node).find('[id="cart_checkout_js-ajax-cart-checkout-process"]')[0];
-
     if(inner_cart_module ){
-        // mw.log(inner_cart_module.innerHTML);
         var check  = $(document).find('[id="'+inner_cart_module.id+'"]').length
-
-
-        //mw.log(check);
-
-        mw.on.moduleReload(inner_cart_module.id, function () {
-            //alert('Module was reloaded')
-        });
+        mw.on.moduleReload(inner_cart_module.id);
     }
+};
 
-
-
-
-
-
-    //
-    // mw.on('mw.cart.after_modify', function () {
-    //
-    // });
-
-
-    // var inner_cart_module = $(root_node).find('[data-type="shop/cart"]');
-    // if(inner_cart_module.length > 0){
-    //     if(!inner_cart_module.hasClass('cart-modal-module-events-binded')){
-    //         var inner_cart_module_id = inner_cart_module.attr('id')
-    //
-    //         inner_cart_module.addClass('cart-modal-module-events-binded')
-    //
-    //
-    //
-    //         mw.on.moduleReload($('[data-type="shop/cart"]')[0], function () {
-    //             alert('Module was reloaded')
-    //         });
-    //
-    //     }
-    //
-    // }
-
-
-
-}
 
 mw.cart.modal.bindStepButtons = function (root_node) {
+    if(typeof root_node === 'string') {
+        root_node = mw.$(root_node);
+    }
 
-    $( root_node).off( "click",'.js-show-step');
-    $( root_node).on( "click",'.js-show-step', function( event ) {
+    if(root_node[0]._bindStepButtons) {
+        return;
+    }
+    root_node[0]._bindStepButtons = true;
 
-
-
-
-        var has_error = false;
-        var step = mw.$(this).data('step');
-        var holder = mw.tools.firstParentWithClass(this, 'js-step-content');
-
-
+     var checkout_form = $(root_node).find('form').first();
 
 
+    $('body').on("mousedown touchstart", '.js-show-step', function () {
+        var step = $(this).attr('data-step');
 
-        if (step == 'checkout-complete') {
-            return;
-        }
+        mw.cart.modal.showStep(checkout_form, step);
 
 
 
+    });
+};
+
+mw.cart.modal.showStep = function (form, step) {
 
 
+    var prevStep = mw.$('.js-show-step.active', form).data('step');
 
-        mw.$('input,textarea,select', holder).each(function () {
+    if(prevStep === step) return;
+
+    var prevHolder =  $(form).find('.js-' + prevStep).first();
+
+    $(form).attr('is-modal-form',true);
+
+    if (step === 'checkout-complete') {
+        return;
+    }
+
+    var validate = function (callback) {
+        var hasError = false;
+        mw.$('input,textarea,select', prevHolder).each(function () {
             if (!this.checkValidity()) {
                 mw.$(this).addClass('is-invalid');
-                // mw.$(this).addClass('error');
-                has_error = 1;
+                hasError = true;
             } else {
                 mw.$(this).removeClass('is-invalid');
-                // mw.$(this).removeClass('error');
             }
-
         });
-
-
-
-
-
-        if (step == 'payment-method'  || step == 'preview') {
-            if (has_error) {
-                step = 'delivery-address'
+        if (step === 'payment-method'  || step === 'preview') {
+            if (hasError) {
+                step = 'delivery-address';
+                callback.call(undefined, hasError, undefined, step);
             }
         }
+        if (step === 'payment-method') {
+            $.post(mw.settings.api_url + 'checkout/validate', mw.serializeFields(prevHolder), function (data) {
+                if(!data.valid){
+                step = 'delivery-address';
+                }
+                callback.call(undefined, !data.valid, undefined, step);
 
+            }).fail(function (data){
+                mw.errorsHandle(data)
+            });
+        } else {
+            callback.call(undefined, hasError, undefined, step);
+        }
+    };
 
-
+    validate(function (hasError, message, step){
+        if (hasError) {
+            message = message || 'Please fill properly the required fields';
+            mw.notification.warning(message);
+        }
 
         mw.$('.js-show-step').removeClass('active');
-
         mw.$('[data-step]').removeClass('active');
         mw.$('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
         mw.$(this).addClass('active');
-        step1 = '.js-' + step;
+        var step1 = '.js-' + step;
         mw.$('.js-step-content').hide();
         mw.$(step1).show();
-
-        if (!has_error) {
-
-        }
-
-        if (has_error) {
-            mw.notification.warning('Please fill the required fields');
-        }
 
     });
 
 
-    /*
-        mw.$('.js-show-step').off('click');
-        mw.$('.js-show-step').on('click', function () {
+};
 
 
+mw.cart.modal.bindStepButtons__old = function (root_node) {
+    if(typeof root_node === 'string') {
+        root_node = mw.$(root_node);
+    }
 
-        });*/
+    if(root_node[0]._bindStepButtons) {
+        return;
+    }
+    root_node[0]._bindStepButtons = true;
 
+    root_node.find('.js-show-step').on( "mousedown touchstart" , function(  ) {
+
+        var has_error = false;
+
+        var form = mw.tools.firstParentWithTag(this, 'form');
+        var prevStep = mw.$('.js-show-step.active', form).data('step');
+        var step = this.dataset.step;
+
+        if(prevStep === step) return;
+
+
+        var prevHolder = form.querySelector('.js-' + prevStep);
+
+
+        if (step === 'checkout-complete') {
+            return;
+        }
+        mw.$('input,textarea,select', prevHolder).each(function () {
+            if (!this.checkValidity()) {
+                 mw.$(this).addClass('is-invalid');
+                has_error = 1;
+            } else {
+                mw.$(this).removeClass('is-invalid');
+            }
+        });
+        if (step === 'payment-method'  || step === 'preview') {
+            if (has_error) {
+                step = 'delivery-address';
+            }
+        }
+        mw.$('.js-show-step').removeClass('active');
+        mw.$('[data-step]').removeClass('active');
+        mw.$('[data-step="' + step + '"]').addClass('active').parent().removeClass('muted');
+        mw.$(this).addClass('active');
+        var step1 = '.js-' + step;
+        mw.$('.js-step-content').hide();
+        mw.$(step1).show();
+        if (has_error) {
+            mw.notification.warning('Please fill the required fields');
+        }
+    });
 
 }

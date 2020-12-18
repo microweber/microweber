@@ -7,16 +7,6 @@ mw.liveedit.handleCustomEvents = function() {
         }
     });
 
-    /*mw.on("ImageClick ElementClick ModuleClick", function(e, el, originalEvent){
-        if(originalEvent) {
-            el = mw.tools.firstParentOrCurrentWithAnyOfClasses(originalEvent.target, ['element', 'module'])
-        }
-        mw.liveEditSelector.select(el);
-        if(mw.tools.hasClass(el, 'module')){
-            mw.liveEditSelector.activeModule = el;
-        }
-    });*/
-
     mw.$(document.body).on('click', function (e) {
         var target = e.target;
         var can = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, [
@@ -50,16 +40,16 @@ mw.liveedit.handleCustomEvents = function() {
         }
     });
     mw.on("IconElementClick", function(e, el) {
-        mw.liveedit.widgets.iconEditor(el);
+        mw.editorIconPicker.tooltip(el)
         setTimeout(function () {
             mw.wysiwyg.contentEditable(el, false);
-        })
+        });
     });
 
     mw.on("ComponentClick", function(e, node, type){
 
         if (type === 'icon'){
-            mw.liveedit.widgets.iconEditor(node);
+            mw.editorIconPicker.tooltip(node)
             return;
 
         }

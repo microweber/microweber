@@ -4,8 +4,7 @@
 
 mw.CSSParser = function(el){
     if(!el || !el.nodeName) return false;
-    if(typeof el !== 'object') return false;
-    if(el.nodeName === undefined || el.nodeName === '#text') return false;
+    if(el.nodeName === '#text') return false;
 
 
     try {
@@ -15,8 +14,6 @@ mw.CSSParser = function(el){
     }
 
 
-
-
     var f = {};
 
     f.display = function(){
@@ -24,13 +21,13 @@ mw.CSSParser = function(el){
     };
 
     f.is = function(){
-
         return {
-          bold:parseFloat(css.fontWeight)>600 || css.fontWeight === 'bold' || css.fontWeight === 'bolder',
-          italic:css.fontStyle === 'italic'||css.fontStyle === 'oblique',
-          underlined:css.textDecoration === 'underline'
-        }
-    }
+          bold: parseFloat(css.fontWeight)>600 || css.fontWeight === 'bold' || css.fontWeight === 'bolder',
+          italic: css.fontStyle === 'italic'||css.fontStyle === 'oblique',
+          underlined: css.textDecoration === 'underline',
+          striked: css.textDecoration.indexOf('line-through') === 0,
+        };
+    };
     f.font = function(){
       if(css === null) return false;
       return {
