@@ -107,8 +107,11 @@ class Import
 		if ($this->step == 0) {
             BackupImportLogger::setLogInfo('Start importing session..');
 		}
-
-		$cacheFileName = userfiles_path() .'cache/'. md5($this->file);
+        $cacheFileFolder = userfiles_path() .'cache/';
+		$cacheFileName = $cacheFileFolder . md5($this->file);
+		if (!is_dir($cacheFileFolder)) {
+		    mkdir_recursive($cacheFileFolder);
+        }
 
 		if (!is_file($cacheFileName)) {
             $cacheFileContent = $this->importAsType($this->file);
