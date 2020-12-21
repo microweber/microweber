@@ -31,7 +31,7 @@ mw.liveedit.handleEvents = function() {
     mw.$("#mw-toolbar-reset-content-editor-btn").click(function() {
         mw.tools.open_reset_content_editor();
     });
-    mw.$(mwd.body).on('keyup', function(e) {
+    mw.$(document.body).on('keyup', function(e) {
         mw.$(".mw_master_handle").css({
             left: "",
             top: ""
@@ -47,7 +47,7 @@ mw.liveedit.handleEvents = function() {
         });
     });
 
-    mw.$(mwd.body).on("keydown", function(e) {
+    mw.$(document.body).on("keydown", function(e) {
 
         if (e.keyCode === 83 && e.ctrlKey) {
 
@@ -65,7 +65,7 @@ mw.liveedit.handleEvents = function() {
         }
     });
 
-    mw.$(mwd.body).on("paste", function(e) {
+    mw.$(document.body).on("paste", function(e) {
         if(mw.tools.hasClass(e.target, 'plain-text')){
             e.preventDefault();
             var text = (e.originalEvent || e).clipboardData.getData('text/plain');
@@ -73,7 +73,7 @@ mw.liveedit.handleEvents = function() {
         }
     });
 
-    mw.$(mwd.body).on("mousedown mouseup touchstart touchend", function(e) {
+    mw.$(document.body).on("mousedown mouseup touchstart touchend", function(e) {
 
         if (e.type === 'mousedown' || e.type === 'touchstart') {
             if (!mw.wysiwyg.elementHasFontIconClass(e.target)
@@ -88,9 +88,9 @@ mw.liveedit.handleEvents = function() {
 
             }
             if (!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')) {
-                mw.tools.addClass(mwd.body, 'state-element')
+                mw.tools.addClass(document.body, 'state-element')
             } else {
-                mw.tools.removeClass(mwd.body, 'state-element');
+                mw.tools.removeClass(document.body, 'state-element');
             }
 
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip-insert-module') && !mw.tools.hasAnyOfClasses(e.target, ['mw-plus-bottom', 'mw-plus-top'])) {
@@ -99,7 +99,7 @@ mw.liveedit.handleEvents = function() {
             }
 
         } else {
-            mw.tools.removeClass(mwd.body, 'state-element');
+            mw.tools.removeClass(document.body, 'state-element');
         }
     });
     mw.$('span.mw-powered-by').on("click", function(e) {

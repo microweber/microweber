@@ -16,7 +16,7 @@ if (isset($data['content-id'])) {
 
     mw.load_editor_internal = function (element_id) {
         var element_id = element_id || 'mw-admin-content-iframe-editor';
-        var area = mwd.getElementById(element_id);
+        var area = document.getElementById(element_id);
 
         if (area !== null) {
             var params = {};
@@ -83,14 +83,14 @@ if (isset($data['content-id'])) {
 
 
 
-            if (mwd.getElementById('content-title-field') !== null) {
+            if (document.getElementById('content-title-field') !== null) {
                 mweditor.onload = function () {
                     if (mweditor.contentWindow) {
                         var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
                         if (titleel !== null) {
                             var rel = mw.tools.mwattr(titleel, 'rel');
                             if (rel === 'post' || rel === 'page' || rel === 'product' || rel === 'content') {
-                                mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
+                                mw.tools.mapNodeValues(titleel, document.getElementById('content-title-field'))
                             }
                         }
                     }

@@ -139,7 +139,7 @@ mw.Handle = function(options) {
     };
 
     this.createWrapper = function() {
-        this.wrapper = mwd.createElement('div');
+        this.wrapper = document.createElement('div');
         this.wrapper.id = this.options.id || ('mw-handle-' + mw.random());
         this.wrapper.className = 'mw-defaults mw-handle-item ' + (this.options.className || 'mw-handle-type-default');
         this.wrapper.contenteditable = false;
@@ -150,7 +150,7 @@ mw.Handle = function(options) {
         mw.$(document).on('mouseup', function () {
             mw.tools.removeClass(scope.wrapper, 'mw-handle-item-mouse-down');
         });
-        mwd.body.appendChild(this.wrapper);
+        document.body.appendChild(this.wrapper);
     };
 
     this.create = function() {
@@ -178,9 +178,9 @@ mw.Handle = function(options) {
     };
 
     this.createHandler = function(){
-        this.handle = mwd.createElement('span');
-        this.handleIcon = mwd.createElement('span');
-        this.handleTitle = mwd.createElement('span');
+        this.handle = document.createElement('span');
+        this.handleIcon = document.createElement('span');
+        this.handleTitle = document.createElement('span');
         this.handle.className = 'mw-handle-handler';
         this.handleIcon.dataset.tip = 'Drag to rearrange';
         this.handleIcon.className = 'tip mw-handle-handler-icon';
@@ -194,7 +194,7 @@ mw.Handle = function(options) {
         this.handleTitle.onclick = function () {
             mw.$(scope.wrapper).toggleClass('active');
         };
-        mw.$(mwd.body).on('click', function (e) {
+        mw.$(document.body).on('click', function (e) {
             if(!mw.tools.hasParentWithId(e.target, scope.wrapper.id)){
                 mw.$(scope.wrapper).removeClass('active');
             }
@@ -202,18 +202,18 @@ mw.Handle = function(options) {
     };
 
     this.menuButton = function (data) {
-        var btn = mwd.createElement('span');
+        var btn = document.createElement('span');
         btn.className = 'mw-handle-menu-item';
         if(data.icon) {
             var iconClass = data.icon;
             if (iconClass.indexOf('mdi-') === 0) {
                 iconClass = 'mdi ' + iconClass
             }
-            var icon = mwd.createElement('span');
+            var icon = document.createElement('span');
             icon.className = iconClass + ' mw-handle-menu-item-icon';
             btn.appendChild(icon);
         }
-        btn.appendChild(mwd.createTextNode(data.title));
+        btn.appendChild(document.createTextNode(data.title));
         if(data.className){
             btn.className += (' ' + data.className);
         }
@@ -238,12 +238,12 @@ mw.Handle = function(options) {
     ];
 
     this.createMenuDynamicHolder = function(item){
-        var dn = mwd.createElement('div');
+        var dn = document.createElement('div');
         dn.className = 'mw-handle-menu-dynamic' + (item.className ? ' ' + item.className : '');
         return dn;
     };
     this.createMenu = function(){
-        this.menu = mwd.createElement('div');
+        this.menu = document.createElement('div');
         this.menu.className = 'mw-handle-menu ' + (this.options.menuClass ? this.options.menuClass : 'mw-handle-menu-default');
         if (this.options.menu) {
             for (var i = 0; i < this.options.menu.length; i++) {
@@ -259,7 +259,7 @@ mw.Handle = function(options) {
         this.wrapper.appendChild(this.menu);
     };
     this.createButton = function(obj){
-        var btn = mwd.createElement('span');
+        var btn = document.createElement('span');
         btn.className = 'tip mdi ' + obj.icon + (obj.className ? ' ' + obj.className : '');
         btn.dataset.tip = obj.title;
         if (obj.hover) {
@@ -275,7 +275,7 @@ mw.Handle = function(options) {
     };
 
     this.createButtons = function(){
-        this.buttonsHolder = mwd.createElement('div');
+        this.buttonsHolder = document.createElement('div');
         this.buttonsHolder.className = 'mw-handle-buttons';
         if (this.options.buttons) {
             for (var i = 0; i < this.options.buttons.length; i++) {
@@ -367,7 +367,7 @@ mw._initHandles = {
             });
         });
 
-        var cloner = mwd.querySelector('.mw-cloneable-control');
+        var cloner = document.querySelector('.mw-cloneable-control');
         if(cloner) {
             scope.getAll().forEach(function (curr) {
                 masterRect = curr.wrapper.getBoundingClientRect();
@@ -402,7 +402,7 @@ mw._initHandles = {
                                 mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
 
                                 var tooltip = new mw.ToolTip({
-                                    content: mwd.getElementById('plus-modules-list').innerHTML,
+                                    content: document.getElementById('plus-modules-list').innerHTML,
                                     element: el,
                                     position: mw.drag.plus.tipPosition(this.currentNode),
                                     template: 'mw-tooltip-default mw-tooltip-insert-module',
@@ -507,14 +507,14 @@ mw._initHandles = {
                 mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
                 mw.trigger("AllLeave");
                 mw.drag.fix_placeholders();
-                mw.$(mwd.body).addClass("dragStart");
+                mw.$(document.body).addClass("dragStart");
                 mw.image_resizer._hide();
                 mw.wysiwyg.change(mw.dragCurrent);
                 mw.smallEditor.css("visibility", "hidden");
                 mw.smallEditorCanceled = true;
             },
             stop: function() {
-                mw.$(mwd.body).removeClass("dragStart");
+                mw.$(document.body).removeClass("dragStart");
 
                 if(mw.liveEditDomTree) {
                     mw.liveEditDomTree.refresh(handleDomtreeSync.start)
@@ -786,14 +786,14 @@ mw._initHandles = {
 
                     mw.trigger("AllLeave");
                     mw.drag.fix_placeholders();
-                    mw.$(mwd.body).addClass("dragStart");
+                    mw.$(document.body).addClass("dragStart");
                     mw.image_resizer._hide();
                     mw.wysiwyg.change(mw.dragCurrent);
                     mw.smallEditor.css("visibility", "hidden");
                     mw.smallEditorCanceled = true;
                 },
                 stop: function() {
-                    mw.$(mwd.body).removeClass("dragStart");
+                    mw.$(document.body).removeClass("dragStart");
                     if(mw.liveEditDomTree) {
                         mw.liveEditDomTree.refresh(handleDomtreeSync.start)
                     }
@@ -868,7 +868,7 @@ mw._initHandles = {
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
 
-            var lebar =  mwd.querySelector("#live_edit_toolbar");
+            var lebar =  document.querySelector("#live_edit_toolbar");
             var minTop = lebar ? lebar.offsetHeight : 0;
             if(mw.templateTopFixed) {
                 var ex = document.querySelector(mw.templateTopFixed);
@@ -981,13 +981,13 @@ mw._initHandles = {
 
             if (mw.live_edit_module_settings_array && mw.live_edit_module_settings_array[module_type]) {
 
-                var new_el = mwd.createElement('div');
+                var new_el = document.createElement('div');
                 new_el.className = 'mw_edit_settings_multiple_holder';
 
                 var settings = mw.live_edit_module_settings_array[module_type];
                 mw.$(settings).each(function () {
                     if (this.view) {
-                        var new_el = mwd.createElement('a');
+                        var new_el = document.createElement('a');
                         new_el.className = 'mw_edit_settings_multiple';
                         new_el.title = this.title;
                         new_el.draggable = 'false';
@@ -1063,7 +1063,7 @@ mw._initHandles = {
                 var bgEl = this;
                 $.each([0,1], function(i){
                     var icon  = '<span class="mw-icon-gear mw-handle-menu-item-icon"></span>';
-                    var menuitem = mwd.createElement('span');
+                    var menuitem = document.createElement('span');
                     menuitem.className = 'mw-handle-menu-item text-background-handle';
                     menuitem.innerHTML = icon + 'background text';
                     menuitem.__for = bgEl;
@@ -1172,7 +1172,7 @@ mw._initHandles = {
                 mw.$(mw.dragCurrent).invisible().addClass("mw_drag_current");
                 mw.trigger("AllLeave");
                 mw.drag.fix_placeholders();
-                mw.$(mwd.body).addClass("dragStart");
+                mw.$(document.body).addClass("dragStart");
                 mw.image_resizer._hide();
                 mw.wysiwyg.change(mw.dragCurrent);
                 mw.smallEditor.css("visibility", "hidden");
@@ -1180,7 +1180,7 @@ mw._initHandles = {
                 mw.$(mw.drag.columns.resizer).hide()
             },
             stop: function() {
-                mw.$(mwd.body).removeClass("dragStart");
+                mw.$(document.body).removeClass("dragStart");
                 if(mw.liveEditDomTree) {
                     mw.liveEditDomTree.refresh(handleDomtreeSync.start)
                 }
@@ -1195,11 +1195,11 @@ mw._initHandles = {
             var htop = o.top - 35;
             var left = o.left;
 
-            if (htop < 55 && mwd.getElementById('live_edit_toolbar') !== null) {
+            if (htop < 55 && document.getElementById('live_edit_toolbar') !== null) {
                 htop = 55;
                 left = left - 100;
             }
-            if (htop < 0 && mwd.getElementById('live_edit_toolbar') === null) {
+            if (htop < 0 && document.getElementById('live_edit_toolbar') === null) {
                 htop = 0;
             }
 

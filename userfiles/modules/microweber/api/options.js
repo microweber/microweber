@@ -136,7 +136,7 @@ mw.options = {
             }
             else {
 
-                var items = mwd.getElementsByName(el[0].name), i = 0, len = items.length;
+                var items = document.getElementsByName(el[0].name), i = 0, len = items.length;
                 for (; i < len; i++) {
                     var _val = items[i].value;
                     val = items[i].checked == true ? (val === '' ? _val : val + "," + _val) : val;

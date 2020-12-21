@@ -4,10 +4,10 @@ mw.admin.admin_package_manager = mw.admin.admin_package_manager || {}
 
 mw.admin.admin_package_manager.set_loading = function (is_loading) {
 
-    mw.tools.loading(mwd.querySelector('.js-install-package-loading-container-confirm'), is_loading, 'slow');
-    mw.tools.loading(mwd.querySelector('#mw-packages-browser-nav-tabs-nav'), is_loading, 'slow');
-    mw.tools.loading(mwd.querySelector('.admin-toolbar'), is_loading, 'slow');
-    mw.tools.loading(mwd.querySelector('#update_queue_set_modal'), is_loading, 'slow');
+    mw.tools.loading(document.querySelector('.js-install-package-loading-container-confirm'), is_loading, 'slow');
+    mw.tools.loading(document.querySelector('#mw-packages-browser-nav-tabs-nav'), is_loading, 'slow');
+    mw.tools.loading(document.querySelector('.admin-toolbar'), is_loading, 'slow');
+    mw.tools.loading(document.querySelector('#update_queue_set_modal'), is_loading, 'slow');
 
 }
 

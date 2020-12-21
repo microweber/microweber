@@ -65,7 +65,7 @@ mw.notification = {
         }
     },
     build: function (type, text, name) {
-        var div = mwd.createElement('div');
+        var div = document.createElement('div');
         div.id = name;
         div.className = 'mw-notification mw-' + type;
         div.innerHTML = '<div>' + text + '</div>';
@@ -87,9 +87,9 @@ mw.notification = {
         timeout = timeout || 1000;
         var div = mw.notification.build(type, text, name);
         if (typeof mw.notification._holder === 'undefined') {
-            mw.notification._holder = mwd.createElement('div');
+            mw.notification._holder = document.createElement('div');
             mw.notification._holder.id = 'mw-notifications-holder';
-            mwd.body.appendChild(mw.notification._holder);
+            document.body.appendChild(mw.notification._holder);
         }
         mw.notification._holder.appendChild(div);
         var w = mw.$(div).outerWidth();

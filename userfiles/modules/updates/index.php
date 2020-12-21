@@ -44,14 +44,14 @@ mw()->notifications_manager->delete_for_module('updates');
             if (!mw.$("#installsubmit").hasClass("disabled")) {
 
 
-                mw.tools.disable(mwd.getElementById('installsubmit'), '<?php _e("Installing"); ?>...', true);
+                mw.tools.disable(document.getElementById('installsubmit'), '<?php _e("Installing"); ?>...', true);
 
                 mw.form.post({
                     // url: '<?php print api_link(); ?>mw_apply_updates',
                     // url: '<?php print api_link(); ?>mw_apply_updates_queue',
                     url: '<?php print api_link(); ?>mw_set_updates_queue',
                     error: function () {
-                        mw.tools.enable(mwd.getElementById('installsubmit'));
+                        mw.tools.enable(document.getElementById('installsubmit'));
                         Alert("<?php _ejs("There was a Problem connecting to the Server"); ?>");
                     },
                     done: function () {
@@ -81,10 +81,10 @@ mw()->notifications_manager->delete_for_module('updates');
 
                 $("#mw-updates").attr('force', 'true');
 
-                $(mwd.body).addClass("loading")
+                $(document.body).addClass("loading")
 
                 mw.reload_module("#mw-updates", function (a, b) {
-                    $(mwd.body).removeClass("loading");
+                    $(document.body).removeClass("loading");
                     mw.tools.enable(el);
                     mw.bind_update_form_submit();
 
@@ -111,7 +111,7 @@ mw()->notifications_manager->delete_for_module('updates');
 
         $(window).on("mw_updates_done", function () {
 
-            mw.tools.enable(mwd.getElementById('installsubmit'));
+            mw.tools.enable(document.getElementById('installsubmit'));
             Alert("Updates are successfully installed.");
             $('#number_of_updates').fadeOut();
             mw.reload_module('#mw-updates', function () {

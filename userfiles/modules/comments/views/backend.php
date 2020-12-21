@@ -38,7 +38,7 @@
             $('#mw_admin_posts_with_comments').show();
             $('#mw_admin_posts_with_comments').attr('content_id', this);
             mw.reload_module('#mw_admin_posts_with_comments', function () {
-                mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+                mw.adminComments.toggleMaster(document.querySelector('.comment-info-holder'));
             });
         } else {
             mw.$('#mw_admin_posts_with_comments').removeAttr('content_id');
@@ -54,7 +54,7 @@
             $('#mw_admin_posts_with_comments').show();
             $('#mw_admin_posts_with_comments').attr('rel_id', this);
             mw.reload_module('#mw_admin_posts_with_comments', function () {
-                mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+                mw.adminComments.toggleMaster(document.querySelector('.comment-info-holder'));
             });
         } else {
             $('#mw_admin_posts_with_comments').removeAttr('rel_id');
@@ -86,7 +86,7 @@ mw()->notifications_manager->mark_as_read('comments');
             $('#mw_admin_posts_with_comments').attr('rel_id', "<?php print $mw_notif['rel_id'] ?>");
             $('#mw_admin_posts_with_comments').attr('rel_type', "<?php print $mw_notif['rel_type'] ?>");
             mw.reload_module('#mw_admin_posts_with_comments', function () {
-                mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+                mw.adminComments.toggleMaster(document.querySelector('.comment-info-holder'));
             });
         });
     </script>

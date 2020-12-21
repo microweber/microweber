@@ -92,7 +92,7 @@ mw.wysiwyg = {
         return hasSafe && !regInsafe;
     },
     parseClassApplierSheet: function () {
-        var sheet = mwd.querySelector('link[classApplier]');
+        var sheet = document.querySelector('link[classApplier]');
         if (sheet !== null) {
             var rules = sheet.sheet.rules;
             for (var i = 0; i < rules.length; i++) {
@@ -159,7 +159,7 @@ mw.wysiwyg = {
         });
         //cleaner.after(inserter)
     },
-    globalTarget: mwd.body,
+    globalTarget: document.body,
     allStatements: function (c, f) {
         var sel = window.getSelection(),
             range = sel.getRangeAt(0),
@@ -212,7 +212,7 @@ mw.wysiwyg = {
                 });
             }
             else {
-                var editables = mwd.querySelectorAll('[contenteditable]'), l = editables.length, x = 0;
+                var editables = document.querySelectorAll('[contenteditable]'), l = editables.length, x = 0;
                 for (; x < l; x++) {
                     mw.wysiwyg.contentEditable(editables[x], 'inherit');
                 }
@@ -272,7 +272,7 @@ mw.wysiwyg = {
         skip = skip || [];
         if (!mw.is.ie) {
             var i=0, i2,
-                all = mwd.getElementsByClassName('edit'),
+                all = document.getElementsByClassName('edit'),
                 len = all.length;
             for (; i < len; i++) {
                 if(skip.length) {
@@ -420,9 +420,9 @@ mw.wysiwyg = {
     },
 
     _external: function () {
-        var external = mwd.createElement('div');
+        var external = document.createElement('div');
         external.className = 'wysiwyg_external';
-        mwd.body.appendChild(external);
+        document.body.appendChild(external);
         return external;
     },
     isSelectionEditable: function (sel) {
@@ -506,7 +506,7 @@ mw.wysiwyg = {
 
                 var before = mw.$(node).clone()[0];
                 if (sel.rangeCount > 0 && mw.wysiwyg.execCommandFilter(a, b, c)) {
-                    mwd.execCommand(a, b, c);
+                    document.execCommand(a, b, c);
                 }
 
                 if (node !== null && mw.loaded) {
@@ -613,10 +613,10 @@ mw.wysiwyg = {
         var html, clipboard;
 
         if (!!e.originalEvent) {
-            clipboard = e.originalEvent.clipboardData || mww.clipboardData;
+            clipboard = e.originalEvent.clipboardData || window.clipboardData;
         }
         else {
-            clipboard = e.clipboardData || mww.clipboardData;
+            clipboard = e.clipboardData || window.clipboardData;
         }
         if (mw.wysiwyg.isSafeMode(e.target)) {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
@@ -741,7 +741,7 @@ mw.wysiwyg = {
         var e = e || false;
         var method = method || 'selection';
         if (method === 'selection') {
-            var sel = mww.getSelection();
+            var sel = window.getSelection();
             var f = sel.focusNode;
             f = mw.tools.hasClass(f, 'edit') ? f : mw.tools.firstParentWithClass(f, 'edit');
             if (f.attributes != undefined && !!f.attributes.field && f.attributes.field.nodeValue == 'title') {
@@ -1053,14 +1053,14 @@ mw.wysiwyg = {
         });
         if (mw.wysiwyg.ready) return;
         mw.wysiwyg.ready = true;
-        mw.$(mwd.body).on('mouseup', function (event) {
+        mw.$(document.body).on('mouseup', function (event) {
             if (event.target.isContentEditable) {
                 if(event.target.nodeName){
                     mw.wysiwyg.check_selection(event.target);
                 }
             }
         });
-        mw.$(mwd.body).on('keydown', function (event) {
+        mw.$(document.body).on('keydown', function (event) {
 
             if ((event.keyCode == 46 || event.keyCode == 8) && event.type == 'keydown') {
                 mw.tools.removeClass(mw.image_resizer, 'active');
@@ -1100,7 +1100,7 @@ mw.wysiwyg = {
 
             }
         });
-        mw.on.tripleClick(mwd.body, function (target) {
+        mw.on.tripleClick(document.body, function (target) {
             mw.wysiwyg.select_all(target);
             if (mw.tools.hasParentsWithClass(target, 'element')) {
                 //mw.wysiwyg.select_all(mw.tools.firstParentWithClass(target, 'element'));
@@ -1136,7 +1136,7 @@ mw.wysiwyg = {
         });
 
 
-        mw.$(mwd.body).on('keyup', function (e) {
+        mw.$(document.body).on('keyup', function (e) {
             mw.smallEditorCanceled = true;
             mw.smallEditor.css({
                 visibility: "hidden"
@@ -1145,8 +1145,8 @@ mw.wysiwyg = {
                 mw.wysiwyg.change(e.target)
 
 
-                if (!mwd.body.editor_typing_startTime) {
-                    mwd.body.editor_typing_startTime = new Date();
+                if (!document.body.editor_typing_startTime) {
+                    document.body.editor_typing_startTime = new Date();
                 }
 
 
@@ -1154,7 +1154,7 @@ mw.wysiwyg = {
                 if (!started_typing) {
                     // isTyping class is removed from livedit.js
                     mw.tools.addClass(this, 'isTyping');
-                    mwd.body.editor_typing_startTime = new Date();
+                    document.body.editor_typing_startTime = new Date();
 
                    // mw.tools.addClass(this, 'isTypingStill');
 
@@ -1162,9 +1162,9 @@ mw.wysiwyg = {
                     //
                     // var myVarisTypingStillTimeoutFunction = function() {
                     //     myVarisTypingStill = setTimeout(function(){
-                    //         if(mwd.body){
-                    //             if(!mw.tools.hasAnyOfClasses(mwd.body, ['isTyping'])){
-                    //                 mw.tools.removeClass(mwd.body, 'isTypingStill');
+                    //         if(document.body){
+                    //             if(!mw.tools.hasAnyOfClasses(document.body, ['isTyping'])){
+                    //                 mw.tools.removeClass(document.body, 'isTypingStill');
                     //             }
                     //
                     //         }
@@ -1182,18 +1182,18 @@ mw.wysiwyg = {
                 } else {
                     // user is typing
                     started_typing_endTime = new Date();
-                    var timeDiff = started_typing_endTime - mwd.body.editor_typing_startTime; //in ms
+                    var timeDiff = started_typing_endTime - document.body.editor_typing_startTime; //in ms
                     timeDiff /= 1000;
                     var seconds = Math.round(timeDiff);
-                    mwd.body.editor_typing_seconds = seconds;
+                    document.body.editor_typing_seconds = seconds;
                 }
 
-                if (mwd.body.editor_typing_seconds) {
+                if (document.body.editor_typing_seconds) {
                     //how much seconds user is typing
-                    if (mwd.body.editor_typing_seconds > 10) {
+                    if (document.body.editor_typing_seconds > 10) {
                         mw.trigger('editUserIsTypingForLong', this)
-                        mwd.body.editor_typing_seconds = 0;
-                        mwd.body.editor_typing_startTime = 0;
+                        document.body.editor_typing_seconds = 0;
+                        document.body.editor_typing_startTime = 0;
                     }
                 }
 
@@ -1202,7 +1202,7 @@ mw.wysiwyg = {
                 if (mw.event.is.enter(e)) {/*
 
                     mw.$(".element-current").removeClass("element-current");
-                    var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
+                    var el = document.querySelectorAll('.edit .element'), l = el.length, i = 0;
                     for (; i < l; i++) {
                         if (!el[i].id) {
                             el[i].id = mw.wysiwyg.createElementId();
@@ -1240,7 +1240,7 @@ mw.wysiwyg = {
     },
     change: function (el) {
         if (typeof el === 'string') {
-            el = mwd.querySelector(el);
+            el = document.querySelector(el);
         }
         var target = null;
         if (mw.tools.hasClass(el, 'edit')) {
@@ -1303,8 +1303,8 @@ mw.wysiwyg = {
         }
         mw.wysiwyg.contentEditable(node, true);
         a = (a || 'start').trim();
-        var sel = mww.getSelection();
-        var r = mwd.createRange();
+        var sel = window.getSelection();
+        var r = document.createRange();
         sel.removeAllRanges();
         if (a === 'start') {
             r.selectNodeContents(node);
@@ -1346,7 +1346,7 @@ mw.wysiwyg = {
         if (mw.wysiwyg.isSelectionEditable()) {
             var range = window.getSelection().getRangeAt(0);
             var selectionContents = range.extractContents();
-            var el = mwd.createElement(tag);
+            var el = document.createElement(tag);
             el.className = classname;
             typeof style_object !== 'undefined' ? mw.$(el).css(style_object) : '';
             el.appendChild(selectionContents);
@@ -1522,7 +1522,7 @@ mw.wysiwyg = {
 
     },
     nestingFixes: function (root) {  /*
-     var root = root || mwd.body;
+     var root = root || document.body;
      var all = root.querySelectorAll('.mw-span-font-size'),
      l = all.length,
      i=0;
@@ -1553,7 +1553,7 @@ mw.wysiwyg = {
             var classApplier = rangy.createCssClassApplier("mw-font-size " + clstemp, true);
             classApplier.applyToSelection();
 
-            var all = mwd.querySelectorAll('.' + clstemp),
+            var all = document.querySelectorAll('.' + clstemp),
                 l = all.length,
                 i = 0;
             for ( ; i < l; i++ ) {
@@ -1998,7 +1998,7 @@ mw.wysiwyg = {
             mw.wysiwyg.restore_selection();
             if (mw.wysiwyg.isSelectionEditable()) {
                 var range = window.getSelection().getRangeAt(0);
-                var el = mwd.createElement('span');
+                var el = document.createElement('span');
                 el.innerHTML = html;
                 range.insertNode(el);
                 mw.$(el).replaceWith(el.innerHTML);
@@ -2013,7 +2013,7 @@ mw.wysiwyg = {
             }
         }
         if (isembed) {
-            var el = mwd.getElementById(id);
+            var el = document.getElementById(id);
             mw.wysiwyg.contentEditable(el.parentNode, false);
             mw.$(el).replaceWith(frame);
         }
@@ -2068,7 +2068,7 @@ mw.wysiwyg = {
         mw.wysiwyg.insert_html(img);
         mw.settings.liveEdit ? mw.$("#" + id).attr("contenteditable", false) : '';
         mw.$("#" + id).removeAttr("_moz_dirty");
-        mw.wysiwyg.change(mwd.getElementById(id));
+        mw.wysiwyg.change(document.getElementById(id));
         return id;
     },
     save_selection: function () {
@@ -2077,8 +2077,8 @@ mw.wysiwyg = {
             var range = selection.getRangeAt(0);
         }
         else {
-            var range = mwd.createRange();
-            range.selectNode(mwd.querySelector('.edit .element'));
+            var range = document.createRange();
+            range.selectNode(document.querySelector('.edit .element'));
         }
         mw.wysiwyg.selection = {};
         mw.wysiwyg.selection.sel = selection;
@@ -2176,11 +2176,11 @@ mw.wysiwyg = {
     },
 
     initFontFamilies: function () {
-        if (window.getComputedStyle(mwd.body) == null) {
+        if (window.getComputedStyle(document.body) == null) {
             return;
         }
 
-        var body_font = window.getComputedStyle(mwd.body, null).fontFamily.split(',')[0].replace(/'/g, "").replace(/"/g, '');
+        var body_font = window.getComputedStyle(document.body, null).fontFamily.split(',')[0].replace(/'/g, "").replace(/"/g, '');
         if (mw.wysiwyg.fontFamilies.indexOf(body_font) === -1) {
             mw.wysiwyg.fontFamilies.push(body_font);
         }
@@ -2257,7 +2257,7 @@ mw.wysiwyg = {
         var id = mw.$(textarea).attr("id");
         mw.$("#iframe_editor_" + id).remove();
         var url = iframe_url;
-        var iframe = mwd.createElement('iframe');
+        var iframe = document.createElement('iframe');
         iframe.className = 'mw-editor-iframe-loading';
         iframe.id = "iframe_editor_" + id;
         iframe.width = mw.$(textarea).width();
@@ -2397,7 +2397,7 @@ mw.wysiwyg = {
                     group.push(curr);
                     curr = curr.nextElementSibling;
                 }
-                var el = mwd.createElement(all[i].getAttribute('data-type') == 'ul' ? 'ul' : 'ol');
+                var el = document.createElement(all[i].getAttribute('data-type') == 'ul' ? 'ul' : 'ol');
                 el.className = 'element';
                 group.wrapAll(el)
                 break;
@@ -2530,7 +2530,7 @@ mw.wysiwyg = {
         }
     },
     cleanHTML: function (root) {
-        var root = root || mwd.body;
+        var root = root || document.body;
         mw.tools.foreachChildren(root, function () {
             if (mw.wysiwyg.hasContentFromWord(this)) {
                 this.innerHTML = mw.wysiwyg.clean_word(this.innerHTML);
@@ -2575,7 +2575,7 @@ mw.wysiwyg = {
         }
     },
     normalizeBase64Images: function (root) {
-        var root = root || mwd.body;
+        var root = root || document.body;
         var all = root.querySelectorAll(".edit img[src*='data:image/'], .edit [style*='data:image/'][style*='background-image']"),
             l = all.length, i = 0;
         if (l > 0) {
@@ -2772,7 +2772,7 @@ $(mwd).ready(function () {
     mw.smallEditor = mw.$("#mw_small_editor");
     mw.smallEditorCanceled = true;
     mw.bigEditor = mw.$("#mw-text-editor");
-    mw.$(mwd.body).on('mousedown touchstart', function (event) {
+    mw.$(document.body).on('mousedown touchstart', function (event) {
         var target = event.target;
         if ($(target).hasClass("element")) {
             mw.trigger("ElementMouseDown", target);
@@ -2786,7 +2786,7 @@ $(mwd).ready(function () {
         else if ($(target).parents(".edit").length > 0) {
             mw.trigger("EditMouseDown", [$(target).parents(".edit")[0], target, event]);
         }
-        var hp = mwd.getElementById('mw-history-panel');
+        var hp = document.getElementById('mw-history-panel');
         if (hp !== null && hp.style.display != 'none') {
             if (!hp.contains(target)) {
                 hp.style.display = 'none';
@@ -2857,7 +2857,7 @@ $(window).on('load', function () {
     mw.$(".mw_editor").each(function () {
         mw.tools.dropdown(this);
     });
-    var nodes = mwd.querySelectorAll(".edit"), l = nodes.length, i = 0;
+    var nodes = document.querySelectorAll(".edit"), l = nodes.length, i = 0;
     for (; i < l; i++) {
         var node = nodes[i];
         var rel = mw.tools.mwattr(node, "rel");

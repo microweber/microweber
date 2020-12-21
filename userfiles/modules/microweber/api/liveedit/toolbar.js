@@ -1,6 +1,6 @@
 mw.liveedit.toolbar = {
     fixPad: function () {
-        mwd.body.style.paddingTop = parseFloat($(mwd.body).css("paddingTop")) + mw.$("#live_edit_toolbar").height() + 'px';
+        document.body.style.paddingTop = parseFloat($(document.body).css("paddingTop")) + mw.$("#live_edit_toolbar").height() + 'px';
     },
     setEditor: function(){
 
@@ -19,21 +19,21 @@ mw.liveedit.toolbar = {
             });
         mw.$(window).scroll(function() {
             if ($(window).scrollTop() > 10) {
-                mw.tools.addClass(mwd.getElementById('live_edit_toolbar'), 'scrolling');
+                mw.tools.addClass(document.getElementById('live_edit_toolbar'), 'scrolling');
             } else {
-                mw.tools.removeClass(mwd.getElementById('live_edit_toolbar'), 'scrolling');
+                mw.tools.removeClass(document.getElementById('live_edit_toolbar'), 'scrolling');
             }
 
         });
         mw.$("#live_edit_toolbar").hover(function() {
-            mw.$(mwd.body).addClass("toolbar-hover");
+            mw.$(document.body).addClass("toolbar-hover");
         }, function() {
-            mw.$(mwd.body).removeClass("toolbar-hover");
+            mw.$(document.body).removeClass("toolbar-hover");
         });
     },
     editor: {
         init: function () {
-            this.ed = mwd.getElementById('liveedit_wysiwyg');
+            this.ed = document.getElementById('liveedit_wysiwyg');
             this.nextBTNS = mw.$(".liveedit_wysiwyg_next");
             this.prevBTNS = mw.$(".liveedit_wysiwyg_prev") ;
         },

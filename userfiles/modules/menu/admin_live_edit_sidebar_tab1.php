@@ -53,7 +53,7 @@ if (!isset($rand)) {
     };
 
     view_all_subs = function () {
-        var master = mwd.querySelector('.mw-modules-admin');
+        var master = document.querySelector('.mw-modules-admin');
         $(master.querySelectorAll('.menu_nested_controll_arrow')).each(function () {
             $(this).addClass('toggler-active');
             $(this.parentNode.parentNode.querySelector('ul')).addClass('toggle-active').show();
@@ -64,7 +64,7 @@ if (!isset($rand)) {
     }
 
     hide_all_subs = function () {
-        var master = mwd.querySelector('.mw-modules-admin');
+        var master = document.querySelector('.mw-modules-admin');
         $(master.querySelectorAll('.menu_nested_controll_arrow')).each(function () {
             $(this).removeClass('toggler-active');
             $(this.parentNode.parentNode.querySelector('ul')).removeClass('toggle-active').hide();

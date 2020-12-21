@@ -1,6 +1,6 @@
 // JavaScript Document
 mw.require('forms.js');
-// mw.require('tools.js');
+
 
 mw.admin_import = {
     export : function(manifest){

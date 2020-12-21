@@ -6,7 +6,7 @@ mw.menu_admin.saving = null;
 
 
 mw.menu_admin.save_item = function(selectorOrData){
-    mw.tools.loading(mwd.querySelector('#settings-main'), 90);
+    mw.tools.loading(document.querySelector('#settings-main'), 90);
     if(mw.menu_admin.saving) return;
     mw.menu_admin.saving = true;
     var data;
@@ -20,7 +20,7 @@ mw.menu_admin.save_item = function(selectorOrData){
         if(mw.notification != undefined){
             mw.notification.success(mw.msg.settingsSaved);
         }
-        mw.tools.loading(mwd.querySelector('#settings-main'), false);
+        mw.tools.loading(document.querySelector('#settings-main'), false);
         mw.menu_admin.after_save_item();
         mw.menu_admin.saving = false;
 
@@ -98,7 +98,7 @@ mw.menu_admin.set_edit_item = function($item_id, node, $id){
         mw.$('#custom_link_inline_controller').show();
 
 
-        mwd.querySelector('#custom_link_inline_controller input[type="text"]').focus();
+        document.querySelector('#custom_link_inline_controller input[type="text"]').focus();
         mw.tools.loading(the_li[0], false);
     });
     $('#ed_menu_holder').hide();

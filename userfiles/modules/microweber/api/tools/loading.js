@@ -20,7 +20,7 @@ mw.tools.progress = function (obj) {
     if(obj.progress < 0 ) {
         obj.progress = 0;
     }
-    var progress = mwd.createElement('div');
+    var progress = document.createElement('div');
     progress.className = obj.skin;
     progress.innerHTML = '<div class="mw-ui-progress-bar" style="width: ' + obj.progress + '%;"></div><div class="mw-ui-progress-info">' + obj.action + '</div><span class="mw-ui-progress-percent">'+obj.progress+'%</span>';
     progress.progressInfo = obj;
@@ -79,14 +79,14 @@ mw.tools.loading = function (element, progress, speed) {
 
     if (typeof element === 'boolean') {
         progress = !!element;
-        element = mwd.body;
+        element = document.body;
     }
     if (typeof element === 'number') {
         progress = element;
-        element = mwd.body;
+        element = document.body;
     }
-    if (element === document || element === mwd.documentElement) {
-        element = mwd.body;
+    if (element === document || element === document.documentElement) {
+        element = document.body;
     }
     element = mw.$(element)[0]
     if (element === null || !element) return false;
@@ -102,7 +102,7 @@ mw.tools.loading = function (element, progress, speed) {
         el = document.createElement('div');
         el.className = 'mw-progress';
         el.innerHTML = '<div class="mw-progress-index"></div>';
-        if (element === mwd.body) el.style.position = 'fixed';
+        if (element === document.body) el.style.position = 'fixed';
         element.appendChild(el);
     }
     if (progress === 'hide') {

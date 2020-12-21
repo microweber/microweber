@@ -381,10 +381,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     handlePaste = function () {
                         $("#htmltable th, #htmltable td").on('paste', function (e) {
                             if (e.originalEvent) {
-                                var clipboard = e.originalEvent.clipboardData || mww.clipboardData;
+                                var clipboard = e.originalEvent.clipboardData || window.clipboardData;
                             }
                             else {
-                                var clipboard = e.clipboardData || mww.clipboardData;
+                                var clipboard = e.clipboardData || window.clipboardData;
                             }
                             var text = clipboard.getData('text');
                             mw.wysiwyg.insert_html(text);

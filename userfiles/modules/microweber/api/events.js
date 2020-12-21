@@ -39,7 +39,7 @@ mw._on = {
           if(exists){
             var i = 0, l = mw.on.onmodules[id].length;
             for( ; i < l; i++){
-               mw.on.onmodules[id][i].call(mwd.getElementById(id));
+               mw.on.onmodules[id][i].call(document.getElementById(id));
             }
           }
         return false;
@@ -222,7 +222,7 @@ DOMChange:function(element, callback, attr, a){
     obj.pauseScrollCallback = function(){ obj._pauseCallback = true;}
     obj.continueScrollCallback = function(){ obj._pauseCallback = false;}
     mw.$(obj).scroll(function(e){
-      var h = obj === window ? mwd.body.scrollHeight : obj.scrollHeight;
+      var h = obj === window ? document.body.scrollHeight : obj.scrollHeight;
       var calc = h - mw.$(obj).scrollTop() - mw.$(obj).height();
       if(calc <= distance && !obj._pauseCallback){
         callback.call(obj);

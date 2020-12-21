@@ -399,7 +399,7 @@ if (isset($params['viewsize'])) {
                                                             <span></span>
                                                         </label>
                                                         <span class="mw-file-item-delete"
-                                                              onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span>
+                                                              onclick="deleteItem(document.getElementById('v<?php print $rand; ?>').value);"></span>
                                                     </div>
                                                     </div>
                                                 </li>
@@ -408,7 +408,7 @@ if (isset($params['viewsize'])) {
 
                                         <script>
                                             rendImages = window.rendImages || function () {
-                                                var all = mwd.querySelectorAll('.image-item-not-ready'),
+                                                var all = document.querySelectorAll('.image-item-not-ready'),
                                                     l = all.length,
                                                     i = 0;
                                                 for (; i < l; i++) {

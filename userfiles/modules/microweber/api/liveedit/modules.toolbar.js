@@ -22,7 +22,7 @@ mw.liveedit.modulesToolbar = {
             start: function(a, b) {
                 mw.isDrag = true;
                 mw.dragCurrent = mw.ea.data.currentGrabbed = mw.GlobalModuleListHelper;
-                mw.$(mwd.body).addClass("dragStart");
+                mw.$(document.body).addClass("dragStart");
                 mw.image_resizer._hide();
 
             },
@@ -30,7 +30,7 @@ mw.liveedit.modulesToolbar = {
                 mw.isDrag = false;
                 mw.pauseSave = true;
                 var el = this;
-                mw.$(mwd.body).removeClass("dragStart");
+                mw.$(document.body).removeClass("dragStart");
                 setTimeout(function() {
                     mw.drag.load_new_modules();
                     mw.liveedit.recommend.increase($(mw.dragCurrent).attr("data-module-name"));
@@ -42,7 +42,7 @@ mw.liveedit.modulesToolbar = {
             mw.$(this).draggable("option", "helper", function() {
                 var el = $(this);
                 var clone = el.clone(true);
-                clone.appendTo(mwd.body);
+                clone.appendTo(document.body);
                 clone.addClass('mw-module-drag-clone');
                 mw.GlobalModuleListHelper = clone[0];
                 clone.css({

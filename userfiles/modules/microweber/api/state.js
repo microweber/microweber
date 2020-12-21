@@ -168,8 +168,8 @@
     mw.$liveEditState = mw.$(mw.liveEditState);
 
     var ui = mw.$('<div class="mw-ui-btn-nav"></div>'),
-        undo = mwd.createElement('span'),
-        redo = mwd.createElement('span');
+        undo = document.createElement('span'),
+        redo = document.createElement('span');
     undo.className = 'mw-ui-btn mw-ui-btn-medium';
     undo.innerHTML = '<span class="mw-icon-reply"></span>';
     redo.className = 'mw-ui-btn mw-ui-btn-medium';

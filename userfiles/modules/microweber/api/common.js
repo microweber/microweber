@@ -6,7 +6,7 @@ $(document).ready(function(){
 $(document).ready(function(){
 
     mw.common['data-mw-close']();
-    mw.$(mwd.body)
+    mw.$(document.body)
     .on('click', '[data-mw-dialog]', function(e){
         mw.common['data-mw-dialog'](e);
     })

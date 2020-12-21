@@ -198,7 +198,7 @@ mw.mobile = {
 
 
 
- mw.ui.btn.radionav(mwd.querySelector('.mw-ui-btn-nav'));
+ mw.ui.btn.radionav(document.querySelector('.mw-ui-btn-nav'));
 
 
 

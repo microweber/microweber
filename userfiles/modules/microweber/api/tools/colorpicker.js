@@ -53,7 +53,7 @@ mw._colorPicker = function (options) {
         return false;
     }
     if (!settings.method) {
-        if (this.element.nodeName == 'DIV') {
+        if (this.element.nodeName === 'DIV') {
             settings.method = 'inline';
         }
     }

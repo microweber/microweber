@@ -22,7 +22,7 @@ setInterval(function(){
     }
 }, 99);
 
-mw.datassetSupport = typeof mwd.documentElement.dataset !== 'undefined';
+mw.datassetSupport = typeof document.documentElement.dataset !== 'undefined';
 
 mw.exec = function (str, a, b, c) {
     a = a || "";
@@ -106,7 +106,7 @@ mw.which = function (str, arr_obj, func) {
 mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
 _Prefixtest = false;
 mw.JSPrefix = function (property) {
-    !_Prefixtest ? _Prefixtest = mwd.body.style : '';
+    !_Prefixtest ? _Prefixtest = document.body.style : '';
     if (_Prefixtest[property] !== undefined) {
         return property;
     }

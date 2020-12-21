@@ -15,25 +15,25 @@
         }
     },
     isFullscreenAvailable: function () {
-        var b = mwd.body;
+        var b = document.body;
         return 'requestFullScreen' in b || 'webkitRequestFullScreen' in b || 'mozRequestFullScreen' in b || 'msRequestFullscreen' in b || false;
     },
     cancelFullscreen: function () {
-        if (mwd.exitFullscreen) {
-            mwd.exitFullscreen();
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
         }
-        else if (mwd.mozCancelFullScreen) {
-            mwd.mozCancelFullScreen();
+        else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
         }
-        else if (mwd.webkitExitFullscreen) {
-            mwd.webkitExitFullscreen();
+        else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
         }
-        else if (mwd.msExitFullscreen) {
-            mwd.msExitFullscreen();
+        else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
         }
     },
     toggleFullscreen: function (el) {
-        var infullscreen = mwd.fullScreen || mwd.webkitIsFullScreen || mwd.mozFullScreen || false;
+        var infullscreen = document.fullScreen || document.webkitIsFullScreen || document.mozFullScreen || false;
         if (infullscreen) {
             mw.tools.cancelFullscreen();
         }

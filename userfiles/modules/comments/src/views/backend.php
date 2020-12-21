@@ -67,7 +67,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             $('#mw_admin_posts_with_comments').attr('content_id', this);
                             selected_content_comment_id = this;
                             mw.reload_module('#mw_admin_posts_with_comments', function () {
-                                mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+                                mw.adminComments.toggleMaster(document.querySelector('.comment-info-holder'));
                                 //  mw.$("#comment-item-inner-"+selected_comment_id).addClass("active");
                                 mw.$(".comment-holder-comment-rel-id-" + selected_content_comment_id).addClass("active");
                                 //  mw.$("#comment-n-"+selected_comment_id).addClass("active");
@@ -85,7 +85,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             mw.$('#mw_admin_posts_with_comments').show();
                             mw.$('#mw_admin_posts_with_comments').attr('rel_id', this);
                             mw.reload_module('#mw_admin_posts_with_comments', function () {
-                                mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+                                mw.adminComments.toggleMaster(document.querySelector('.comment-info-holder'));
                             });
                         } else {
                             mw.$('#mw_admin_posts_with_comments').removeAttr('rel_id');
@@ -184,7 +184,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             $('#mw_admin_posts_with_comments').attr('rel_id', "<?php print $mw_notif['rel_id'] ?>");
                             $('#mw_admin_posts_with_comments').attr('rel_type', "<?php print $mw_notif['rel_type'] ?>");
                             mw.reload_module('#mw_admin_posts_with_comments', function () {
-                                mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+                                mw.adminComments.toggleMaster(document.querySelector('.comment-info-holder'));
                             });
                         });
                     </script>

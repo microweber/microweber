@@ -38,7 +38,7 @@
 
 				$(uploader).on("FileUploaded", function(obj, data){
 					mw.admin_backup.move_uploaded_file_to_backup(data.src);
-					//mw.tools.enable(mwd.getElementById('mw_uploader'));
+					//mw.tools.enable(document.getElementById('mw_uploader'));
 					mw.$("#mw_uploader_loading").hide();
 					mw.$("#mw_uploader").show();
                     mw.$("#upload_backup_info").html("");
@@ -54,7 +54,7 @@
 					mw.$("#mw_uploader_loading").show();
                 // mw.notification.warning("Still uploading...", 5000);
 
-					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), '<?php _e("Uploading"); ?>...<span id="upload_backup_info"></span>');
+					 mw.tools.disable(document.getElementById('mw_uploader_loading'), '<?php _e("Uploading"); ?>...<span id="upload_backup_info"></span>');
                      mw.$("#upload_backup_info").html(file.percent + "%");
             	});
 

@@ -34,7 +34,7 @@
 </div>
 
 <script>
-    // mw.require('tools.js');
+
     mw.require('files.js');
 </script>
 <script>
@@ -45,7 +45,7 @@
             multiple: false,
             name: '<?php echo $data["name"]; ?>',
             autostart: true,
-            element: mwd.getElementById('upload_button_<?php echo($rand); ?>'),
+            element: document.getElementById('upload_button_<?php echo($rand); ?>'),
             filetypes: '<?php if ($settings['options']['file_types']): ?><?php echo implode(",", $settings['options']['file_types']); ?> <?php endif ?>'
         });
 
@@ -54,7 +54,7 @@
 
         $(uploader).on('FilesAdded', function (frame, file) {
 
-            mwd.getElementById('file_name<?php echo $data["name"]; ?>').value = file[0].name;
+            document.getElementById('file_name<?php echo $data["name"]; ?>').value = file[0].name;
 
         });
 

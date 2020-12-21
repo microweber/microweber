@@ -30,9 +30,9 @@ description: Default
         <script type="text/javascript">
             if (!mw.pinMarklet) {
                 mw.pinMarklet = function () {
-                    var script = mwd.createElement('script');
+                    var script = document.createElement('script');
                     script.src = '//assets.pinterest.com/js/pinmarklet.js';
-                    mwd.body.appendChild(script)
+                    document.body.appendChild(script)
                 }
             }
         </script>

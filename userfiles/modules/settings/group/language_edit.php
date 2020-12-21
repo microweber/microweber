@@ -68,12 +68,12 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
 
     function send_lang_form_to_microweber() {
         if (!mw.$(".send-your-lang a").hasClass("disabled")) {
-            mw.tools.disable(mwd.querySelector(".send-your-lang a"), "<?php _e('Sending...'); ?>");
+            mw.tools.disable(document.querySelector(".send-your-lang a"), "<?php _e('Sending...'); ?>");
             $.each($('.lang-edit-form'), function () {
                 mw.form.post($(this), '<?php print api_link('send_lang_form_to_microweber'); ?>',
                     function (msg) {
                         mw.notification.msg(this, 1000, false);
-                        mw.tools.enable(mwd.querySelector(".send-your-lang a"));
+                        mw.tools.enable(document.querySelector(".send-your-lang a"));
                     });
             });
         }

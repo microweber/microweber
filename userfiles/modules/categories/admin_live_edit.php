@@ -40,7 +40,7 @@ if (isset($params['for-content-id'])) {
         mw.$("#mw_add_cat_live_edit").attr("page-id", cont_id);
 
         mw.load_module('categories/edit_category', '#mw_add_cat_live_edit', function () {
-            $(mwd.body).removeClass("loading");
+            $(document.body).removeClass("loading");
         });
     }
 

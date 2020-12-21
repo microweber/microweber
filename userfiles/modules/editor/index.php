@@ -20,7 +20,7 @@ if(user_id() == 0){
   mw.require("url.js");
   mw.require("wysiwyg.js");
   mw.require("css_parser.js");
-  mw.require ("forms.js");
+  mw.require("forms.js");
   mw.require("files.js");
   mw.require("content.js", true);
   mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");

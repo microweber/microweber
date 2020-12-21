@@ -77,7 +77,7 @@ if ($json != false) {
 <script>
     mw.tpl = {
         save: function () {
-            var u = "<?php print $save_url; ?>", obj = {}, m = mwd.getElementById('mw-template-settings');
+            var u = "<?php print $save_url; ?>", obj = {}, m = document.getElementById('mw-template-settings');
             mw.$(".tpl-field", m).each(function () {
                 var name = this.name;
                 obj.id = "template-settings";
@@ -100,7 +100,7 @@ if ($json != false) {
                     mw.reload_module_parent('template_settings');
 
                     if ((css === undefined || css === null) && (msg.url !== undefined)) {
-                        var l = parent.mwd.createElement('link');
+                        var l = parent.document.createElement('link');
                         l.href = mw.settings.template_url + "live_edit.css";
                         l.href = msg.url;
 
@@ -109,7 +109,7 @@ if ($json != false) {
                         l.rel = "stylesheet";
 
 
-                        parent.mwd.getElementsByTagName('head')[0].appendChild(l);
+                        parent.document.getElementsByTagName('head')[0].appendChild(l);
 
                     } else {
                         mw.tools.refresh(css);

@@ -93,7 +93,7 @@
     mw.edit_content.after_save = function (saved_id) {
         mw.askusertostay = false;
         var content_id = mw.$('#mw-content-id-value').val();
-        var quick_add_holder = mwd.getElementById('mw-quick-content');
+        var quick_add_holder = document.getElementById('mw-quick-content');
         if (quick_add_holder != null) {
             mw.tools.removeClass(quick_add_holder, 'loading');
         }
@@ -118,7 +118,7 @@
             mw.reload_module_parent('pages');
             mw.reload_module_parent('content');
             mw.reload_module_parent('custom_fields');
-            mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+            mw.tools.removeClass(document.getElementById('mw-quick-content'), 'loading');
             mw.reload_module('pages');
             parent.mw.askusertostay = false;
         } else {
@@ -135,7 +135,7 @@
 
 
                 }
-                mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+                mw.tools.removeClass(document.getElementById('mw-quick-content'), 'loading');
             });
         }
 
@@ -145,7 +145,7 @@
     mw.edit_content.set_category = function (id) {
         /* FILLING UP THE HIDDEN FIELDS as you change category or parent page */
         var names = [];
-        var inputs = mwd.getElementById(id).querySelectorAll('input[type="checkbox"]'), i = 0, l = inputs.length;
+        var inputs = document.getElementById(id).querySelectorAll('input[type="checkbox"]'), i = 0, l = inputs.length;
         for (; i < l; i++) {
             if (inputs[i].checked === true) {
                 names.push(inputs[i].value);
@@ -157,7 +157,7 @@
             mw.$('#mw_cat_selected_for_post').val('__EMPTY_CATEGORIES__').trigger("change");
         }
         var names = [];
-        var inputs = mwd.getElementById(id).querySelectorAll('input[type="radio"]'), i = 0, l = inputs.length;
+        var inputs = document.getElementById(id).querySelectorAll('input[type="radio"]'), i = 0, l = inputs.length;
         for (; i < l; i++) {
             if (inputs[i].checked === true) {
                 names.push(inputs[i].value);
@@ -179,7 +179,7 @@
         }
         mw.edit_content.saving = true;
         var go_live_edit = go_live || false;
-        var el = mwd.getElementById('quickform-edit-content');
+        var el = document.getElementById('quickform-edit-content');
         if (el === null) {
             return;
         }
@@ -321,11 +321,11 @@
     }
 
     mw.collect_inner_edit_fields = function (data) {
-        var frame = mwd.querySelector('#mw-admin-content-iframe-editor iframe');
+        var frame = document.querySelector('#mw-admin-content-iframe-editor iframe');
         if (frame === null) return false;
         var frameWindow = frame.contentWindow;
         if (typeof(frameWindow.mwd) === 'undefined') return false;
-        var root = frameWindow.mwd.getElementById('mw-iframe-editor-area');
+        var root = frameWindow.document.getElementById('mw-iframe-editor-area');
         var data = frameWindow.mw.drag.getData(root);
         return data;
     }
@@ -397,25 +397,25 @@
             }
             mw.edit_content.load_editor();
         });
-        if (mwd.querySelector('.mw-iframe-editor') !== null) {
-            mwd.querySelector('.mw-iframe-editor').onload = function () {
+        if (document.querySelector('.mw-iframe-editor') !== null) {
+            document.querySelector('.mw-iframe-editor').onload = function () {
                 $(window).on('scroll', function () {
                     var scrolltop = $(window).scrollTop();
-                    if (mwd.getElementById('mw-edit-page-editor-holder') !== null) {
-                        var otop = mwd.getElementById('mw-edit-page-editor-holder').offsetTop;
+                    if (document.getElementById('mw-edit-page-editor-holder') !== null) {
+                        var otop = document.getElementById('mw-edit-page-editor-holder').offsetTop;
                         if ((scrolltop + 100) > otop) {
-                            var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
+                            var ewr = document.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
                             if (ewr === null) {
                                 return false;
                             }
                             ewr.style.position = 'absolute';
                             ewr.style.top = scrolltop + otop + 'px';
-                            ewr.style.top = scrolltop - otop /*+ mwd.querySelector('.admin-manage-toolbar').offsetTop*/ + mwd.querySelector('.admin-manage-toolbar').offsetHeight - 98 + 'px';
+                            ewr.style.top = scrolltop - otop /*+ document.querySelector('.admin-manage-toolbar').offsetTop*/ + document.querySelector('.admin-manage-toolbar').offsetHeight - 98 + 'px';
                             mw.$('.admin-manage-toolbar-scrolled').addClass('admin-manage-toolbar-scrolled-wysiwyg');
                             mw.tools.addClass(ewr, 'editor_wrapper_fixed');
                         }
                         else {
-                            var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
+                            var ewr = document.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
                             if (ewr === null) {
                                 return false;
                             }
@@ -442,15 +442,15 @@
             $(this).remove()
         })
 
-        mww.QTABS = mw.tabs({
+        window.QTABS = mw.tabs({
             nav: mw.$("#quick-add-post-options .mw-ui-abtn"),
             tabs: mw.$("#quick-add-post-options-items-holder .quick-add-post-options-item"),
             toggle: true,
             onclick: function (qtab) {
 
-                var tabs = $(mwd.getElementById('quick-add-post-options-items-holder'));
+                var tabs = $(document.getElementById('quick-add-post-options-items-holder'));
                 if (mw.$("#quick-add-post-options .mw-ui-abtn.active").length > 0) {
-                    var tabsnav = $(mwd.getElementById('quick-add-post-options'));
+                    var tabsnav = $(document.getElementById('quick-add-post-options'));
                     var off = tabsnav.offset();
                     $(tabs).show();
                     QTABSArrow(this);
@@ -467,7 +467,7 @@
 
 
                 try {
-                    mwd.querySelector('.mw-iframe-editor').contentWindow.GalleriesRemote()
+                    document.querySelector('.mw-iframe-editor').contentWindow.GalleriesRemote()
                 } catch (err) {
                 }
 
@@ -486,7 +486,7 @@
         }
 
         $(mww).on('mousedown', function (e) {
-            var el = mwd.getElementById('content-edit-settings-tabs-holder');
+            var el = document.getElementById('content-edit-settings-tabs-holder');
             var cac = mw.wysiwyg.validateCommonAncestorContainer(e.target);
             if (el != null && !el.contains(e.target)
                 && !!cac
@@ -495,20 +495,20 @@
                 && cac.querySelector('[class*="grammarly"]') === null
                 && !mw.tools.hasParentsWithTag(e.target, 'grammarly-ghost')
                 && !mw.tools.hasParentsWithTag(e.target, 'grammarly-card')) {
-                mww.QTABS.unset()
+                window.QTABS.unset()
                 mw.$(".quick-add-post-options-item, #quick-add-post-options-items-holder").hide();
                 mw.$("#quick-add-post-options .active").removeClass('active');
             }
         });
 
         mw.$(".mw-iframe-editor").on("editorKeyup", function () {
-            mw.tools.addClass(mwd.body, 'editorediting');
+            mw.tools.addClass(document.body, 'editorediting');
         });
-        $(mwd.body).on("mousedown", function () {
-            mw.tools.removeClass(mwd.body, 'editorediting');
+        $(document.body).on("mousedown", function () {
+            mw.tools.removeClass(document.body, 'editorediting');
         });
         mw.$(".admin-manage-toolbar").on("mousemove", function () {
-            mw.tools.removeClass(mwd.body, 'editorediting');
+            mw.tools.removeClass(document.body, 'editorediting');
         });
 
 

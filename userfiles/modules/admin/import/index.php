@@ -33,7 +33,7 @@
 
 					mw.$("#mw_uploader").hide();
 					mw.$("#mw_uploader_loading").show();
-					 mw.tools.disable(mwd.getElementById('mw_uploader_loading'), '<?php _e('Uploading...'); ?><span id="upload_backup_info"></span>');
+					 mw.tools.disable(document.getElementById('mw_uploader_loading'), '<?php _e('Uploading...'); ?><span id="upload_backup_info"></span>');
                      mw.$("#upload_backup_info").html(file.percent + "%");
             	});
 

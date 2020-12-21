@@ -2,13 +2,13 @@
 mw.require('uploader.js');
 
 mw.files = {
-    settings:{
-            filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg",
+    settings: {
+            filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg,webp",
             url: mw.settings.upload_url,
-            type:'explorer', // ... or filedrag
-            multiple:true
+            type: 'explorer',
+            multiple: true
     },
-    filetypes:function(a, normalize){
+    filetypes:function(a, normalize) {
             var def = !!normalize ? a : mw.files.settings.filetypes;
             switch(a){
             case 'img':
@@ -55,7 +55,7 @@ mw.files = {
             url = url.replace(/["]/g, "%22").replace(/[']/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29");
             return url;
     },
-    urlAsBackgrund:function(url, el){
+    urlAsBackground:function(url, el){
             url = this.safeFilename(url);
             var bg = 'url("'+ url +'")';
             if(!!el){

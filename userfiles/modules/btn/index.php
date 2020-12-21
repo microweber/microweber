@@ -128,7 +128,7 @@ if (is_file($template_file) != false) {
         function <?php print $popup_function_id ?>() {
             mw.dialog({
                 name: 'frame<?php print $btn_id; ?>',
-                content: $(mwd.getElementById('area<?php print $btn_id; ?>')).html(),
+                content: $(document.getElementById('area<?php print $btn_id; ?>')).html(),
                 template: 'basic',
                 title: "<?php print addslashes ($text); ?>"
             });

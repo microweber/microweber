@@ -82,7 +82,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <script>
             $(document).ready(function () {
                 UP = mw.uploader({
-                    element: mwd.getElementById('upload-image'),
+                    element: document.getElementById('upload-image'),
                     filetypes: 'images',
                     multiple: false
                 });
@@ -93,7 +93,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 });
 
                 UPRollover = mw.uploader({
-                    element: mwd.getElementById('upload-image-rollover'),
+                    element: document.getElementById('upload-image-rollover'),
                     filetypes: 'images',
                     multiple: false
                 });

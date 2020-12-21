@@ -6,7 +6,7 @@ mw.drag = {
     + '.edit p header,.edit p form,.edit p article,'
     + '.edit p aside,.edit p blockquote,.edit p footer,.edit p div',
     fixDeniedParagraphHierarchy: function (root) {
-        root = root || mwd.body;
+        root = root || document.body;
         var all = root.querySelectorAll(mw.drag._fixDeniedParagraphHierarchySelector);
         if (all.length) {
             var i = 0;
@@ -40,7 +40,7 @@ mw.drag = {
                 if ($numcols > $exisintg_num) { //more columns
                     var i = $exisintg_num;
                     for (; i < $numcols; i++) {
-                        var new_col = mwd.createElement('div');
+                        var new_col = document.createElement('div');
                         new_col.className = 'mw-col';
                         new_col.innerHTML = '<div class="mw-col-container"><div class="mw-empty element" id="element_'+mw.random()+'"></div></div>';
                         mw.$('#' + $el_id).append(new_col);
@@ -136,7 +136,7 @@ mw.drag = {
     external_css_no_element_controll_classes: ['container', 'container-fluid', 'edit','noelement','no-element','allow-drop','nodrop', 'mw-open-module-settings','module-layouts'],
     onCloneableControl:function(target, isOverControl){
         if(!this._onCloneableControl){
-            this._onCloneableControl = mwd.createElement('div');
+            this._onCloneableControl = document.createElement('div');
             this._onCloneableControl.className = 'mw-cloneable-control';
             var html = '';
             html += '<span class="mw-cloneable-control-item mw-cloneable-control-prev" title="Move backward"></span>';
@@ -145,7 +145,7 @@ mw.drag = {
             html += '<span class="mw-cloneable-control-item mw-cloneable-control-next" title="Move forward"></span>';
             this._onCloneableControl.innerHTML = html;
 
-            mwd.body.appendChild(this._onCloneableControl);
+            document.body.appendChild(this._onCloneableControl);
             mw.$('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
                 var $t = mw.$(mw.drag._onCloneableControl.__target).parent()
                 mw.liveEditState.record({
@@ -247,7 +247,7 @@ mw.drag = {
             });
 
 
-            var cloner = mwd.querySelector('.mw-cloneable-control');
+            var cloner = document.querySelector('.mw-cloneable-control');
             if(cloner) {
                 mw._initHandles.getAll().forEach(function (curr) {
                     masterRect = curr.wrapper.getBoundingClientRect();
@@ -262,10 +262,10 @@ mw.drag = {
         }
 
     },
-    noop: mwd.createElement('div'),
+    noop: document.createElement('div'),
     create: function() {
 
-        var edits = mwd.body.querySelectorAll(".edit"),
+        var edits = document.body.querySelectorAll(".edit"),
             elen = edits.length,
             ei = 0;
         for (; ei < elen; ei++) {
@@ -294,7 +294,7 @@ mw.drag = {
             y: 0
         };
 
-        mw.$(mwd.body).on('mousemove touchmove', function(event) {
+        mw.$(document.body).on('mousemove touchmove', function(event) {
 
             mw.dragSTOPCheck = false;
             if (!mw.settings.resize_started) {
@@ -343,7 +343,7 @@ mw.drag = {
         mw.drag.fix_placeholders(true);
         mw.drag.fixes();
 
-        mw.$(mwd.body).on('mouseup touchend', function(event) {
+        mw.$(document.body).on('mouseup touchend', function(event) {
             mw.mouseDownStarted = false;
             if (mw.isDrag && mw.dropable.is(":hidden")) {
                 mw.$(".ui-draggable-dragging").css({
@@ -353,7 +353,7 @@ mw.drag = {
             }
             mw.$(this).removeClass("not-allowed");
         });
-        mw.$(mwd.body).on('mousedown touchstart', function(event) {
+        mw.$(document.body).on('mousedown touchstart', function(event) {
             var target = event.target;
             if ($(target).hasClass("image_free_text")) {
                 mw.image._dragcurrent = target;
@@ -435,15 +435,15 @@ mw.drag = {
 
 
 
-        if (!$(mwd.body).hasClass("bup")) {
-            mw.$(mwd.body).addClass("bup");
+        if (!$(document.body).hasClass("bup")) {
+            mw.$(document.body).addClass("bup");
 
 
 
-            mw.$(mwd.body).on("mouseup touchend", function(event) {
+            mw.$(document.body).on("mouseup touchend", function(event) {
                 mw.image._dragcurrent = null;
                 mw.image._dragparent = null;
-                var sliders = mwd.getElementsByClassName("canvas-slider"),
+                var sliders = document.getElementsByClassName("canvas-slider"),
                     len = sliders.length,
                     i = 0;
                 for (; i < len; i++) {
@@ -677,7 +677,7 @@ mw.drag = {
             });
         }, 222);
 
-        var els = mwd.querySelectorAll('div.element'),
+        var els = document.querySelectorAll('div.element'),
             l = els.length,
             i = 0;
         if (l > 0) {
@@ -868,7 +868,7 @@ mw.drag = {
                 content: '<iframe id="'+id+'" frameborder="0" class="mw-tooltip-iframe" src="' + src + '" scrolling="auto"></iframe>',
                 element: tooltip_element
             });
-            mw.tools.iframeAutoHeight(mwd.querySelector('#'+id))
+            mw.tools.iframeAutoHeight(document.querySelector('#'+id))
         }
 
     },
@@ -977,7 +977,7 @@ mw.drag = {
         return xhr;
     },
     parseContent: function(root) {
-        var root = root || mwd.body;
+        var root = root || document.body;
         var doc = mw.tools.parseHtml(root.innerHTML);
         mw.$('.element-current', doc).removeClass('element-current');
         mw.$('.element-active', doc).removeClass('element-active');
@@ -1160,7 +1160,7 @@ mw.drag = {
         xhr.success(function(sdata) {
             mw.$('.edit.changed').removeClass('changed');
             mw.$('.orig_changed').removeClass('orig_changed');
-            if (mwd.querySelector('.edit.changed') !== null) {
+            if (document.querySelector('.edit.changed') !== null) {
                 mw.drag.save();
             } else {
                 mw.askusertostay = false;
@@ -1186,8 +1186,8 @@ mw.drag = {
         if (mw.drag.draftDisabled) return false;
         if (mw.drag.DraftSaving) return false;
         if (!mw.drag.initDraft) return false;
-        if (mwd.body.textContent != mw.drag.saveDraftOld) {
-            mw.drag.saveDraftOld = mwd.body.textContent;
+        if (document.body.textContent != mw.drag.saveDraftOld) {
+            mw.drag.saveDraftOld = document.body.textContent;
             var body = mw.drag.parseContent().body,
                 edits = body.querySelectorAll('.edit.changed'),
                 data = mw.drag.collectData(edits);

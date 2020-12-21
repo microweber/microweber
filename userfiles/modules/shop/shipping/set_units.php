@@ -10,7 +10,7 @@
 
         if (self !== parent && typeof _binded === 'undefined') {
             _binded = true;
-            $(mwd.body).ajaxStop(function () {
+            $(document.body).ajaxStop(function () {
                 if (parent != undefined && parent.mw != undefined) {
                     parent.mw.reload_module("shop/shipping/gateways/country");
                 }

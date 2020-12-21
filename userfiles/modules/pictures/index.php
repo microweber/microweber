@@ -158,7 +158,7 @@ if (isset($params['rel_id']) == true) {
 ?>
 <?php if (isset($params['ondrop'])): ?>
     <script>
-        var _this = mwd.getElementById('<?php print $params['id']; ?>');
+        var _this = document.getElementById('<?php print $params['id']; ?>');
         var _edit = mw.tools.firstParentWithClass(_this, 'edit');
         var rel = mw.tools.mwattr(_edit, 'rel_type');
         var field = mw.tools.mwattr(_edit, 'field');

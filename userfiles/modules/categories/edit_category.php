@@ -66,7 +66,7 @@ if (isset($params['live_edit'])) {
     </script>
     <script type="text/javascript">
         function save_cat(el) {
-            if (mwd.querySelector('.mw-ui-category-selector input:checked') !== null) {
+            if (document.querySelector('.mw-ui-category-selector input:checked') !== null) {
                 $(document.forms['admin_edit_category_form']).submit();
             } else {
                 Alert('<?php _e("Please choose Page or Category"); ?>.');
@@ -123,7 +123,7 @@ if (isset($params['live_edit'])) {
             mw.category_is_saving = false;
             <?php if(intval($data['id']) == 0): ?>
             <?php endif; ?>
-            var h = mwd.getElementById('edit_category_set_par');
+            var h = document.getElementById('edit_category_set_par');
             mw.$('label', h).click(function () {
                 set_category_parent();
             });
@@ -427,7 +427,7 @@ if (isset($params['live_edit'])) {
                                     })
                                 });
 
-                                var _parent = mwd.querySelector('#edit_category_set_par input:checked');
+                                var _parent = document.querySelector('#edit_category_set_par input:checked');
 
                                 if (_parent !== null) {
                                     $("#category-dropdown-holder").html($(_parent).parent().find('span:last').html())

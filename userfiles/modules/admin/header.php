@@ -153,7 +153,7 @@ if (!user_can_view_module(['module' => 'shop'])) {
         }
 
 
-        mw_admin_edit_order_item_popup_modal_opened = mw.dialog({
+        mw.dialog({
             content: '<div id="mw_admin_edit_order_item_module"></div>',
             title: modalTitle,
             id: 'mw_admin_edit_order_item_popup_modal',
@@ -600,7 +600,7 @@ $user = get_user_by_id($user_id);
                         }
                         el.attr('href', href);
                     }).on('click', function (e){
-                   
+
                     });
                 });
             </script>

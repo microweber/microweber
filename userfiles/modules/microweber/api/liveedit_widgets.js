@@ -2,13 +2,13 @@ mw.liveEditWidgets = {
     _cssEditorInSidebarAccordion : null,
     cssEditorInSidebarAccordion : function () {
         if(!this._cssEditorInSidebarAccordion){
-            this._cssEditorInSidebarAccordion = mwd.createElement('iframe') ;
+            this._cssEditorInSidebarAccordion = document.createElement('iframe') ;
             this._cssEditorInSidebarAccordion.id = 'mw-css-editor-sidebar-iframe' ;
             this._cssEditorInSidebarAccordion.src = mw.external_tool('rte_css_editor');
             this._cssEditorInSidebarAccordion.style.opacity = 0;
             this._cssEditorInSidebarAccordion.scrolling = 'no';
             this._cssEditorInSidebarAccordion.frameBorder = 0;
-            var holder = mwd.querySelector('#mw-css-editor-sidebar-iframe-holder');
+            var holder = document.querySelector('#mw-css-editor-sidebar-iframe-holder');
             holder.appendChild(this._cssEditorInSidebarAccordion);
             mw.tools.loading(holder, 90);
             mw.tools.iframeAutoHeight(this._cssEditorInSidebarAccordion);
@@ -28,7 +28,7 @@ mw.liveEditWidgets = {
     _tplSettings : null,
     loadTemplateSettings: function (url) {
         if (!this._tplSettings) {
-            this._tplSettings = mwd.createElement('iframe') ;
+            this._tplSettings = document.createElement('iframe') ;
             this._tplSettings.id = 'mw-live-edit-sidebar-settings-iframe-holder-template-settings-frame' ;
             this._tplSettings.className = 'mw-live-edit-sidebar-settings-iframe' ;
             this._tplSettings.src = url;

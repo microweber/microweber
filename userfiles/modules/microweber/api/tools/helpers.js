@@ -178,10 +178,10 @@
             return can;
         },
          createStyle: function (c, css, ins) {
-            ins = ins || mwd.getElementsByTagName('head')[0];
+            ins = ins || document.getElementsByTagName('head')[0];
             var style = mw.$(c)[0];
             if (!style) {
-                style = mwd.createElement('style');
+                style = document.createElement('style');
                 ins.appendChild(style);
             }
             style.innerHTML = css;
@@ -218,7 +218,7 @@
         },
         jQueryFields: function (root) {
             if (typeof root === 'string') {
-                root = mwd.querySelector(root);
+                root = document.querySelector(root);
             }
             if (typeof root === 'undefined' || root === null) return false;
             var allFields = "textarea, select, input[type='checkbox']:checked, input[type='color'], input[type='date'], input[type='datetime'], input[type='datetime-local'], input[type='email'], input[type='file'], input[type='hidden'], input[type='month'], input[type='number'], input[type='password'], input[type='radio']:checked, input[type='range'], input[type='search'], input[type='tel'], input[type='text'], input[type='time'], input[type='url'], input[type='week']";
@@ -529,18 +529,18 @@
         },
         html_info: function (html) {
             if (typeof mw._html_info === 'undefined') {
-                mw._html_info = mwd.createElement('div');
+                mw._html_info = document.createElement('div');
                 mw._html_info.id = 'mw-html-info';
-                mwd.body.appendChild(mw._html_info);
+                document.body.appendChild(mw._html_info);
             }
             mw.$(mw._html_info).html(html);
             return mw._html_info;
         },
         image_info: function (a, callback) {
-            var img = mwd.createElement('img');
+            var img = document.createElement('img');
             img.className = 'semi_hidden';
             img.src = a.src;
-            mwd.body.appendChild(img);
+            document.body.appendChild(img);
             img.onload = function () {
                 callback.call({width: mw.$(img).width(), height: mw.$(img).height()});
                 mw.$(img).remove();
@@ -576,7 +576,7 @@
             return diff;
         },
         parseHtml: function (html) {
-            var doc = mwd.implementation.createHTMLDocument("");
+            var doc = document.implementation.createHTMLDocument("");
             doc.body.innerHTML = html;
             return doc;
         },
@@ -662,7 +662,7 @@
                     _el.dataset("text", _el.val());
                     _el.val(text);
                 }
-                if (global) mw.$(mwd.body).addClass("loading");
+                if (global) mw.$(document.body).addClass("loading");
             }
             return el;
         },
@@ -679,7 +679,7 @@
             else {
                 _el.val(text);
             }
-            mw.$(mwd.body).removeClass("loading");
+            mw.$(document.body).removeClass("loading");
             return el;
         },
         prependClass: function (el, cls) {
@@ -737,7 +737,7 @@
             });
         },
         setTag: function (node, tag) {
-            var el = mwd.createElement(tag);
+            var el = document.createElement(tag);
             mw.tools.copyAttributes(node, el);
             while (node.firstChild) {
                 el.appendChild(node.firstChild);
@@ -779,7 +779,7 @@
             l.setAttribute('type', 'image/png');
             l.href = im;
             mw.$(".mwfav").remove();
-            mwd.getElementsByTagName('head')[0].appendChild(l);
+            document.getElementsByTagName('head')[0].appendChild(l);
         },
         px2pt: function (px) {
             var n = parseInt(px, 10);
@@ -790,12 +790,12 @@
         },
         matches: function (node, what) {
             if (node === 'init') {
-                if (!!mwd.documentElement.matches) mw.tools.matchesMethod = 'matches';
-                else if (!!mwd.documentElement.matchesSelector) mw.tools.matchesMethod = 'matchesSelector';
-                else if (!!mwd.documentElement.mozMatchesSelector) mw.tools.matchesMethod = 'mozMatchesSelector';
-                else if (!!mwd.documentElement.webkitMatchesSelector) mw.tools.matchesMethod = 'webkitMatchesSelector';
-                else if (!!mwd.documentElement.msMatchesSelector) mw.tools.matchesMethod = 'msMatchesSelector';
-                else if (!!mwd.documentElement.oMatchesSelector) mw.tools.matchesMethod = 'oMatchesSelector';
+                if (!!document.documentElement.matches) mw.tools.matchesMethod = 'matches';
+                else if (!!document.documentElement.matchesSelector) mw.tools.matchesMethod = 'matchesSelector';
+                else if (!!document.documentElement.mozMatchesSelector) mw.tools.matchesMethod = 'mozMatchesSelector';
+                else if (!!document.documentElement.webkitMatchesSelector) mw.tools.matchesMethod = 'webkitMatchesSelector';
+                else if (!!document.documentElement.msMatchesSelector) mw.tools.matchesMethod = 'msMatchesSelector';
+                else if (!!document.documentElement.oMatchesSelector) mw.tools.matchesMethod = 'oMatchesSelector';
                 else mw.tools.matchesMethod = undefined;
             }
             else {
@@ -812,7 +812,7 @@
                     return node[mw.tools.matchesMethod](what)
                 }
                 else {
-                    var doc = mwd.implementation.createHTMLDocument("");
+                    var doc = document.implementation.createHTMLDocument("");
                     node = node.cloneNode(true);
                     doc.body.appendChild(node);
                     var all = doc.body.querySelectorAll(what),

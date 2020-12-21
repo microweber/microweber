@@ -219,11 +219,11 @@ if ($for == false) {
         <input type="hidden" name="rel" value="<?php echo  ($for); ?>"/>
         <input type="hidden" name="rel_id" value="<?php echo  strval($for_module_id) ?>"/>
     <?php endif; ?>
-    
+
     <?php if (isset($save_to_content_id)): ?>
         <input type="hidden" name="copy_rel_id" value="<?php echo  strval($save_to_content_id) ?>"/>
     <?php endif; ?>
-    
+
     <input type="hidden" name="type" value="<?php echo  trim($field_type) ?>"/>
 
     <?php
@@ -233,7 +233,7 @@ if ($for == false) {
     <script>
         $(document).ready(function () {
 
-            var master = mwd.getElementById('custom_fields_edit<?php echo  $rand; ?>');
+            var master = document.getElementById('custom_fields_edit<?php echo  $rand; ?>');
             var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
 
             if (typeof is_body_click_binded === 'undefined') {

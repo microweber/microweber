@@ -125,7 +125,7 @@
         settingsType = '<?php print $type; ?>';
 
         window.onbeforeunload = function () {
-            $(mwd.body).addClass("mw-external-loading")
+            $(document.body).addClass("mw-external-loading")
             window.parent.$('.module-modal-settings-menu-holder').remove();
         };
 
@@ -183,9 +183,9 @@
         }
 
         $(window).load(function () {
-            $(mwd.body).removeClass('mw-external-loading');
-            $(mwd.body).ajaxStop(function () {
-                $(mwd.body).removeClass('mw-external-loading');
+            $(document.body).removeClass('mw-external-loading');
+            $(document.body).ajaxStop(function () {
+                $(document.body).removeClass('mw-external-loading');
             });
 
             addIcon();
@@ -204,7 +204,7 @@
 
                 var toolbar = thismodal.dialogHeader;
 
-                var dd = mwd.createElement('div');
+                var dd = document.createElement('div');
                 dd.className = 'mw-presets-dropdown module-modal-settings-menu-holder';
                 $(toolbar).append(dd);
 
@@ -214,7 +214,7 @@
                     var is_module_preset_tml_holder = $(".module-modal-preset-linked-icon", toolbar);
 
                     if (is_module_preset_tml_holder.length == 0) {
-                        var linked_dd = window.parent.mwd.createElement('div');
+                        var linked_dd = window.parent.document.createElement('div');
                         // linked_dd.id = 'module-modal-preset-linked-icon';
                         linked_dd.class = 'module-modal-preset-linked-icon';
                         linked_dd.style.display = "none";
@@ -245,7 +245,7 @@
                         is_module_tml_holder.empty();
 
 
-                        var holder = mwd.createElement('div');
+                        var holder = document.createElement('div');
                         holder.className = 'mw-module-presets-content';
 
                         var html = ""

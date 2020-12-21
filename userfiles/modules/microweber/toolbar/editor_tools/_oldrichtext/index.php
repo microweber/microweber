@@ -28,7 +28,7 @@
             if (window.name.contains("mweditor")) {
                 HOLD = false;
                 edmwdoc = mw.tools.parseHtml('');
-                mw.on.DOMChange(mwd.getElementById('mw-iframe-editor-area'), function () {
+                mw.on.DOMChange(document.getElementById('mw-iframe-editor-area'), function () {
                     el = $(this);
                     typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
                     HOLD = setTimeout(function () {
@@ -47,7 +47,7 @@
 
 
             scaleHeight();
-            __area = mwd.getElementById('mw-iframe-editor-area');
+            __area = document.getElementById('mw-iframe-editor-area');
 
 
             mw.$("#mw-iframe-editor-area").bind("mouseup", function (e) {
@@ -74,7 +74,7 @@
 
             $(".edit").attr("contentEditable", true);
 
-            $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectstart', function (e) {
+            $(document.body).bind('keydown keyup keypress mouseup mousedown click paste selectstart', function (e) {
                 var el = $(e.target);
                 if (mw.tools.hasClass(e.target.className, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')) {
                     e.preventDefault();
@@ -90,12 +90,12 @@
             mw.$(".module").each(function () {
                 var curr = this;
                 if ($(curr).next().length == 0) {
-                    _next = mwd.createElement('div');
+                    _next = document.createElement('div');
                     _next.className = 'mw-wysiwyg-module-helper';
                     _next.innerHTML = '&nbsp;';
                 }
                 if ($(curr).prev().length == 0) {
-                    _prev = mwd.createElement('div');
+                    _prev = document.createElement('div');
                     _prev.className = 'mw-wysiwyg-module-helper';
                     _prev.innerHTML = '&nbsp;';
                 }
@@ -110,7 +110,7 @@
 
 
         $(window).load(function () {
-            var master = mwd.getElementById('the_admin_editor');
+            var master = document.getElementById('the_admin_editor');
             master.addEventListener("DOMAttrModified", function (e) {
                 var attr = e.attrName;
                 if (attr == 'style') {

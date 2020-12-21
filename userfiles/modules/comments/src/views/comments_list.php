@@ -48,7 +48,7 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
 
 
         mw.dropdown();
-        $(mwd.body).ajaxStop(function () {
+        $(document.body).ajaxStop(function () {
             setTimeout(function () {
                 mw.dropdown();
             }, 1222);

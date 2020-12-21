@@ -418,7 +418,7 @@
 
         mw.image.current_original = src;
 
-        mw.image.current = mwd.querySelector("#mwimagecurrent");
+        mw.image.current = document.querySelector("#mwimagecurrent");
         if (typeof title !== "undefined") mw.$("#image-title").val(title);
         if (typeof alt !== "undefined") mw.$("#image-alt").val(alt);
         //if(!!title)mw.$("#image-title").val(title);

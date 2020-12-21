@@ -35,8 +35,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             setprior = function (v, t) {
                 t = t || false;
-                mwd.getElementById('prior').value = v;
-                $(mwd.getElementById('prior')).trigger('change');
+                document.getElementById('prior').value = v;
+                $(document.getElementById('prior')).trigger('change');
                 if (!!t) {
                     setTimeout(function () {
                         $(t).trigger('change');
@@ -70,10 +70,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     uploadStatusId = 'upload_status';
                     uploadBtnId = 'upload_btn';
                     setprior(2);
-                    mwd.getElementById(uploadFieldId).value = b.src;
+                    document.getElementById(uploadFieldId).value = b.src;
                     $("#video-preview").attr("src", b.src).show();
                     $("#remove-video-button").show();
-                    $(mwd.getElementById(uploadFieldId)).trigger("change");
+                    $(document.getElementById(uploadFieldId)).trigger("change");
                 });
 
                 $(upThumb).on("FileUploaded", function (a, b) {
@@ -86,8 +86,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     $("#upload_thumb_field").val(b.src).trigger('change');
 
-                    mw.tools.refresh_image(mwd.getElementById('thumb'));
-                    mw.tools.refresh(mwd.getElementById('chk_autoplay'));
+                    mw.tools.refresh_image(document.getElementById('thumb'));
+                    mw.tools.refresh(document.getElementById('chk_autoplay'));
                 });
 
                 $(".js-remove-thumb").on('click', function () {

@@ -210,7 +210,7 @@
                                         <script>
                                             $(document).ready(function () {
                                                 favUP = mw.uploader({
-                                                    element: mwd.getElementById('upload-icoimage'),
+                                                    element: document.getElementById('upload-icoimage'),
                                                     filetypes: 'images',
                                                     multiple: false
                                                 });

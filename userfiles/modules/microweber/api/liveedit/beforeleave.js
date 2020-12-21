@@ -9,7 +9,7 @@ mw.liveedit.beforeleave = function(url) {
         "<span class='mw-ui-btn' onclick='mw.dialog.remove(\"modal_beforeleave\")'>" + mw.msg.cancel + "</span>" +
         "</div>";
     if (mw.askusertostay && mw.$(".edit.orig_changed").length > 0) {
-        if (mwd.getElementById('modal_beforeleave') === null) {
+        if (document.getElementById('modal_beforeleave') === null) {
             var modal = mw.dialog({
                 html: beforeleave_html,
                 name: 'modal_beforeleave',
@@ -22,7 +22,7 @@ mw.liveedit.beforeleave = function(url) {
             var go = modal.container.querySelector('.mw-ui-btn-important');
 
             mw.$(save).click(function() {
-                mw.$(mwd.body).addClass("loading");
+                mw.$(document.body).addClass("loading");
                 mw.dialog.remove(modal);
                 mw.drag.save(undefined, function() {
                     mw.askusertostay = false;

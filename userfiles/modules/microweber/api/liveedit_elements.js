@@ -20,9 +20,9 @@ mw.dropables = {
         mw.dropable.hide()
     },
     userInteractionClasses:function(){
-        var bgHolders = mwd.querySelectorAll(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']");
-        var noEditModules = mwd.querySelectorAll('.module' + mw.noEditModules.join(',.module'));
-        var edits = mwd.querySelectorAll('.edit');
+        var bgHolders = document.querySelectorAll(".edit.background-image-holder, .edit .background-image-holder, .edit[style*='background-image'], .edit [style*='background-image']");
+        var noEditModules = document.querySelectorAll('.module' + mw.noEditModules.join(',.module'));
+        var edits = document.querySelectorAll('.edit');
         var i = 0, i1 = 0, i2 = 0;
         for ( ; i<bgHolders.length; i++ ) {
             var curr = bgHolders[i];
@@ -315,7 +315,7 @@ mw.dropables = {
       bgTarget = event.target;
       if(!bg){
           var _c = 0, bgp = event.target;
-          while (!bg || bgp === mwd.body){
+          while (!bg || bgp === document.body){
               bgp = bgp.parentNode;
               if(!bgp) {
                   break;

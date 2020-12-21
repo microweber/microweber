@@ -86,9 +86,9 @@ if (isset($data[0]) == false) {
                 return;
             }
 
-            var val = mwd.getElementById("reset_password").value.trim();
+            var val = document.getElementById("reset_password").value.trim();
             if (!val) {
-                mwd.getElementById("reset_password").disabled = true;
+                document.getElementById("reset_password").disabled = true;
             }
             var el = document.getElementById('user-save-button');
             mw.form.post(mw.$('#users_edit_{rand}'), '<?php print api_link('save_user') ?>', function (scopeEl) {

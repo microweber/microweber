@@ -1,7 +1,7 @@
 (function(){
     mw.require('modal.css');
 
-    var gallery = function (array, startFrom) {
+    var Gallery = function (array, startFrom) {
         startFrom = startFrom || 0;
 
         this.currentIndex = startFrom;
@@ -123,7 +123,7 @@
     };
 
     mw.gallery = function (array, startFrom){
-        return new gallery(array, startFrom);
+        return new Gallery(array, startFrom);
     };
 
     // obsolate:

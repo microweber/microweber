@@ -26,7 +26,7 @@ mw.content = mw.content || {
     publish: function ($id) {
         var master = {};
         master.id = $id;
-        mw.$(mwd.body).addClass("loading");
+        mw.$(document.body).addClass("loading");
         mw.drag.save();
         $.ajax({
             type: 'POST',
@@ -38,24 +38,24 @@ mw.content = mw.content || {
 
             },
             success: function (data) {
-                mw.$(mwd.body).removeClass("loading");
+                mw.$(document.body).removeClass("loading");
                 $('.mw-set-content-publish').hide();
                 mw.$('.mw-set-content-unpublish').fadeIn();
                 mw.askusertostay = false;
                 mw.notification.success("Content is Published.");
             },
             error: function () {
-                mw.$(mwd.body).removeClass("loading");
+                mw.$(document.body).removeClass("loading");
             },
             complete: function () {
-                mw.$(mwd.body).removeClass("loading");
+                mw.$(document.body).removeClass("loading");
             }
         });
     },
     unpublish: function ($id) {
         var master = {};
         master.id = $id;
-        mw.$(mwd.body).addClass("loading");
+        mw.$(document.body).addClass("loading");
 
         mw.drag.save();
         $.ajax({
@@ -68,17 +68,17 @@ mw.content = mw.content || {
 
             },
             success: function (data) {
-                mw.$(mwd.body).removeClass("loading");
+                mw.$(document.body).removeClass("loading");
                 mw.$('.mw-set-content-unpublish').hide();
                 mw.$('.mw-set-content-publish').fadeIn();
                 mw.askusertostay = false;
                 mw.notification.warning("Content is Unpublished.");
             },
             error: function () {
-                mw.$(mwd.body).removeClass("loading");
+                mw.$(document.body).removeClass("loading");
             },
             complete: function () {
-                mw.$(mwd.body).removeClass("loading");
+                mw.$(document.body).removeClass("loading");
             }
         });
 
@@ -115,7 +115,7 @@ mw.content = mw.content || {
         }
         master.title = data.title;
         master.content = data.content;
-        mw.$(mwd.body).addClass("loading");
+        mw.$(document.body).addClass("loading");
         mw.trigger('adminSaveStart');
         $.ajax({
             type: 'POST',
@@ -125,21 +125,21 @@ mw.content = mw.content || {
             async: true,
 
             error: function (data, x) {
-                mw.$(mwd.body).removeClass("loading");
+                mw.$(document.body).removeClass("loading");
                 if (typeof e.onError === 'function') {
                     e.onError.call(data.data || data);
                 }
                 mw.errorsHandle(data.responseJSON);
             },
             complete: function (a,b,c) {
-                 mw.$(mwd.body).removeClass("loading");
+                 mw.$(document.body).removeClass("loading");
                 mw.trigger('adminSaveEnd');
             }
         }).done(function (data) {
             if(data.data) {
                 data = data.data;
             }
-            mw.$(mwd.body).removeClass("loading");
+            mw.$(document.body).removeClass("loading");
             if (typeof data === 'object' && typeof data.error != 'undefined') {
                 if (typeof e.onError === 'function') {
                     e.onError.call(data);

@@ -1,6 +1,6 @@
 <script>
 
-    var thetree = mwd.querySelector(".mw-ui-category-selector-abs .module")
+    var thetree = document.querySelector(".mw-ui-category-selector-abs .module")
 
 
     CreateCategoryForPost = function (step) {
@@ -25,9 +25,9 @@
             }
         }
         else if (step == 3) {
-            var checked = mwd.querySelector('#categoryparent input:checked');
+            var checked = document.querySelector('#categoryparent input:checked');
             if (checked == null) {
-                var checked = mwd.querySelector('#pages_edit_container input[type=radio]:checked');
+                var checked = document.querySelector('#pages_edit_container input[type=radio]:checked');
             }
             if (checked == null) {
                 return;

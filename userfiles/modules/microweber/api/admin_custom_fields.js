@@ -2,7 +2,7 @@ mw.admin = mw.admin || {};
 mw.admin.custom_fields = mw.admin.custom_fields || {};
 
 mw.admin.custom_fields.initValues = function () {
-    var master = mwd.getElementById('custom-fields-post-table');
+    var master = document.getElementById('custom-fields-post-table');
     if ( master === null ) {
         return false;
     }
@@ -61,7 +61,7 @@ mw.admin.custom_fields.addValueButtons = function (root) {
         }
         all[i].avbinded = true;
         all[i].onclick = function () {
-            var span = mwd.createElement('span');
+            var span = document.createElement('span');
             span.className = 'mw-admin-custom-field-value-edit-inline-holder mw-admin-custom-field-checkbox bg-secondary-opacity-8 d-inline-flex mr-2 my-1 p-0';
             span.innerHTML = '<small class="mw-admin-custom-field-value-edit-inline p-1 text-dark" data-id="' + mw.$(this).dataset('id') + '"></small><small onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields bg-danger text-white p-1"><i class="mdi mdi-close"></i></small>   ';
             mw.admin.custom_fields.initValue(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
@@ -110,9 +110,9 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
         $.post(mw.settings.api_url + 'fields/save', data, function (data) {
 
-        	if (mwd.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
+        	if (document.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
 
-	            var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
+	            var rstr = document.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
 
 	            if (rstr && !!data.value) {
 	                mw.reload_module('#mw-custom-fields-list-settings-' + data.id);

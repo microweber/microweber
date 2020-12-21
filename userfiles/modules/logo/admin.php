@@ -106,7 +106,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <script>
                     $(document).ready(function () {
                         UP = mw.uploader({
-                            element: mwd.getElementById('upload-image'),
+                            element: document.getElementById('upload-image'),
                             filetypes: 'images',
                             multiple: false
                         });
@@ -117,7 +117,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
 
                         UPInverse = mw.uploader({
-                            element: mwd.getElementById('upload-image-inverse'),
+                            element: document.getElementById('upload-image-inverse'),
                             filetypes: 'images',
                             multiple: false
                         });

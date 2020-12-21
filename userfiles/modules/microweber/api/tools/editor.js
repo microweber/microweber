@@ -15,7 +15,7 @@
         if (!obj.element || obj.element === undefined) return false;
 
         var o = $.extend({}, mw.tools.richtextEditorSettings, obj);
-        var frame = mwd.createElement('iframe');
+        var frame = document.createElement('iframe');
         frame.richtextEditorSettings = o;
         frame.className = 'mw-fullscreen mw-iframe-editor';
         frame.scrolling = 'no';

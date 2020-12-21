@@ -55,9 +55,9 @@
         ],
         bootstrap2: [
             function () {
-                var v = mwd.querySelector('meta[name="viewport"]');
+                var v = document.querySelector('meta[name="viewport"]');
                 if (v === null) {
-                    v = mwd.createElement('meta');
+                    v = document.createElement('meta');
                     v.name = "viewport";
                 }
                 v.content = "width=device-width, initial-scale=1.0";
@@ -70,9 +70,9 @@
         bootstrap3: [
             function () {
                 mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
-                var v = mwd.querySelector('meta[name="viewport"]');
+                var v = document.querySelector('meta[name="viewport"]');
                 if (v === null) {
-                    v = mwd.createElement('meta');
+                    v = document.createElement('meta');
                     v.name = "viewport";
                 }
                 v.content = "width=device-width, initial-scale=1.0";
@@ -232,9 +232,9 @@
 
         flatstrap3: [
             function () {
-                var v = mwd.querySelector('meta[name="viewport"]');
+                var v = document.querySelector('meta[name="viewport"]');
                 if (v === null) {
-                    v = mwd.createElement('meta');
+                    v = document.createElement('meta');
                     v.name = "viewport";
                 }
                 v.content = "width=device-width, initial-scale=1.0";

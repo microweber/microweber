@@ -383,7 +383,7 @@ if ($last_page_front != false) {
             </div>
             <script>
                 $('.select_posts_for_action').on('change', function () {
-                    var all = mwd.querySelector('.select_posts_for_action:checked');
+                    var all = document.querySelector('.select_posts_for_action:checked');
                     if (all === null) {
                         $('.js-bulk-actions').hide();
                     } else {
@@ -451,7 +451,7 @@ if ($last_page_front != false) {
                 el[0].checked = false;
             }
 
-            var all = mwd.querySelector('.select_posts_for_action:checked');
+            var all = document.querySelector('.select_posts_for_action:checked');
             if (all === null) {
                 $('.js-bulk-actions').hide();
             } else {
@@ -483,7 +483,7 @@ if ($last_page_front != false) {
         });
 
         $(postsSelectTags).on("change", function (event, val) {
-            var parent_mod = mwd.getElementById('pages_edit_container_content_list');
+            var parent_mod = document.getElementById('pages_edit_container_content_list');
             parent_mod.setAttribute('tags', '');
             if (val.length > 0) {
 
@@ -501,7 +501,7 @@ if ($last_page_front != false) {
     postsSort = function (obj) {
 
         var group = mw.tools.firstParentWithClass(obj.el, 'js-table-sorting');
-        var parent_mod = mwd.getElementById('pages_edit_container_content_list');
+        var parent_mod = document.getElementById('pages_edit_container_content_list');
 
 
         var others = group.querySelectorAll('.js-sort-btn'), i = 0, len = others.length;

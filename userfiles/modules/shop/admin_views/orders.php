@@ -1,7 +1,7 @@
 <script  type="text/javascript">
 $(document).ready(function(){
 
-      Rotator = mwd.getElementById('orders-rotator');
+      Rotator = document.getElementById('orders-rotator');
 
       mw.admin.simpleRotator(Rotator);
 

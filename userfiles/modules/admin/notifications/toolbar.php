@@ -34,9 +34,9 @@ if(!isset($notif_params['quick'])){
 		   el.addClass("active");
 		   mw.$(".mw-toolbar-notif-items-wrap").visible();
 		}
-		$(mwd.body).click(function(e){
+		$(document.body).click(function(e){
 		  if(!mw.tools.hasParentsWithClass(e.target, 'mw-toolbar-notification')){
-			  var toolbar_notifications = $(mwd.getElementById('toolbar_notifications').parentNode);
+			  var toolbar_notifications = $(document.getElementById('toolbar_notifications').parentNode);
 			  if(toolbar_notifications.hasClass("active")){
 				 toolbar_notifications.removeClass("active");
 				 mw.$(".mw-toolbar-notif-items-wrap").invisible();
@@ -44,19 +44,19 @@ if(!isset($notif_params['quick'])){
 		  }
 		});
 	  });
-  
-  
+
+
   });
- <?php if( $notif_count > 0): ?> 
+ <?php if( $notif_count > 0): ?>
  mw.tools.fav( <?php if($notif_count < 100 ) { print $notif_count; } else { print "99+"; }; ?> );
  <?php endif; ?>
  </script>
 </span> </span>
 <div class="mw-toolbar-notif-items-wrap">
-	 
-	
+
+
 		<?php include(__DIR__.DS.'index.php'); ?>
-	
+
 	<a  class="mw-ui-link sell-all-notifications" href="<?php print admin_url('view:admin__notifications'); ?>">
 	<?php _e("See all"); ?>
 	</a></div>

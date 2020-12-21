@@ -344,7 +344,7 @@
 
     <script type="text/javascript">
         gchecked = function () {
-            var l = mwd.querySelectorAll(".mw-browser-list input:checked").length;
+            var l = document.querySelectorAll(".mw-browser-list input:checked").length;
             if (l) {
                 mw.$(".delete_item,.file-browser-multiple-download").attr("disabled", false);
             } else {
@@ -379,9 +379,9 @@
             } else {
                 holder.attr(param, value);
             }
-            $(mwd.body).addClass("loading")
+            $(document.body).addClass("loading")
             mw.load_module('files/browser', '#mw_files_admin', function () {
-                $(mwd.body).removeClass("loading");
+                $(document.body).removeClass("loading");
                 $(".mw-ui-searchfield").removeClass("loading");
                 if (typeof callback === 'function') {
                     callback.call()
@@ -459,12 +459,12 @@
             }
 
             mw.tools.confirm(msg, function () {
-                $(mwd.body).addClass("loading");
+                $(document.body).addClass("loading");
                 if (frommodal === true) {
                     mw.$("#prfile").remove()
                 }
                 $.post(mw.settings.api_url + "media/delete_media_file", obj, function (a) {
-                    $(mwd.body).removeClass("loading");
+                    $(document.body).removeClass("loading");
                     _mw_admin_files_manage('all');
                     mw.notification.msg(a);
 
@@ -638,7 +638,7 @@
 
             ProgressBar = mw.progress({
                 action: '<?php _e("Uploading"); ?>...',
-                element: mwd.getElementById('progressbar'),
+                element: document.getElementById('progressbar'),
                 skin: 'mw-ui-progress-small'
             });
 
@@ -682,7 +682,7 @@
 
             mw.$(".delete_item").click(function () {
                 if (!$(this).hasClass("disabled")) {
-                    var arr = [], c = mwd.querySelectorAll(".mw-browser-list input:checked"), i = 0, l = c.length;
+                    var arr = [], c = document.querySelectorAll(".mw-browser-list input:checked"), i = 0, l = c.length;
                     for (; i < l; i++) {
                         arr.push(c[i].value);
                     }

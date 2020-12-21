@@ -48,10 +48,10 @@
             content: '<form id="'+formId+'">' + html + '</form>',
             onremove: function () {
                 html = modal.container.innerHTML;
-                $(mwd.body).removeClass('paymentSettingsModal')
+                $(document.body).removeClass('paymentSettingsModal')
             },
             onopen: function () {
-                $(mwd.body).addClass('paymentSettingsModal');
+                $(document.body).addClass('paymentSettingsModal');
 
             },
             overlay: true,

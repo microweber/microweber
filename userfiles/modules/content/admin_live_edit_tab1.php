@@ -20,7 +20,7 @@ $rand = uniqid(); ?>
                 window.location.href = mw.url.removeHash(window.location.href);
             }, 1000)
 
-            $(mwd.body).ajaxStop(function () {
+            $(document.body).ajaxStop(function () {
                 setTimeout(function () {
                     window.location.href = mw.url.removeHash(window.location.href);
                 }, 1000)

@@ -45,7 +45,7 @@ mw.iframecallbacks = {
 
         if (!!mw.current_element && mw.current_element.nodeName === 'IMG') {
             if (mw.current_element.parentNode.nodeName !== 'A') {
-                a = mwd.createElement('a');
+                a = document.createElement('a');
                 if(url){
                     a.href = url;
                 }
@@ -119,7 +119,7 @@ mw.iframecallbacks = {
         }
         else {
             if (!window.getSelection().isCollapsed) {
-                a = mwd.createElement('a');
+                a = document.createElement('a');
                 a.href = url;
                 a.target = target;
                 sel = window.getSelection();

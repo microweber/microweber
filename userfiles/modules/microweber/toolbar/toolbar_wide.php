@@ -44,7 +44,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 mw.helpinfo.hide(true);
               });
           }, 2000);
-          $(mwd.body).mousedown(function(e){
+          $(document.body).mousedown(function(e){
             if(!mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
                 mw.helpinfo.hide(true);
             }
@@ -62,9 +62,9 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
             mw.tools.dropdown();
             mw_save_draft_int = self.setInterval(function () {
-                mw.drag.save(mwd.getElementById('main-save-btn'), false, true);
+                mw.drag.save(document.getElementById('main-save-btn'), false, true);
                 if (mw.askusertostay) {
-                    mw.tools.removeClass(mwd.getElementById('main-save-btn'), 'disabled');
+                    mw.tools.removeClass(document.getElementById('main-save-btn'), 'disabled');
                 }
             }, 1000);
         });
@@ -303,7 +303,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
 <script>
         mw.liveEditWYSIWYG = {
-            ed: mwd.getElementById('liveedit_wysiwyg'),
+            ed: document.getElementById('liveedit_wysiwyg'),
             nextBTNS: mw.$(".liveedit_wysiwyg_next"),
             prevBTNS: mw.$(".liveedit_wysiwyg_prev"),
             step: function () {
@@ -382,20 +382,20 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             mw.$(".tst-modules").click(function () {
 
                 mw.$(this).next('ul').hide()
-                var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
+                var has_active = document.querySelector(".mw_toolbar_tab.active") !== null;
                 if (!has_active) {
-                    mw.tools.addClass(mwd.getElementById('tab_modules'), 'active');
-                    mw.tools.addClass(mwd.querySelector('.mwtb-search-modules'), 'active');
-                    $(mwd.querySelector('.mwtb-search-modules')).focus();
+                    mw.tools.addClass(document.getElementById('tab_modules'), 'active');
+                    mw.tools.addClass(document.querySelector('.mwtb-search-modules'), 'active');
+                    $(document.querySelector('.mwtb-search-modules')).focus();
                 }
                 mw.liveedit.toolbar.fixPad();
             });
 
 
-            var tab_modules = mwd.getElementById('tab_modules');
-            var tab_layouts = mwd.getElementById('tab_layouts');
-            var modules_switcher = mwd.getElementById('modules_switcher');
-            // var modules_switch = mwd.getElementById('modules_switch');
+            var tab_modules = document.getElementById('tab_modules');
+            var tab_layouts = document.getElementById('tab_layouts');
+            var modules_switcher = document.getElementById('modules_switcher');
+            // var modules_switch = document.getElementById('modules_switch');
 
             modules_switcher.searchIn = 'Modules_List_modules';
 

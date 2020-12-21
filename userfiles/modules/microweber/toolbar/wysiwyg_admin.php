@@ -1,7 +1,7 @@
 <script>
 
     $(document).ready(function () {
-        mw.tools.dropdown(mwd.getElementById('mw-admin-text-editor'));
+        mw.tools.dropdown(document.getElementById('mw-admin-text-editor'));
         Editor = mw.$('#mw-admin-text-editor');
         Editor.mousedown(function (e) {
             e.preventDefault()

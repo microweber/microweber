@@ -1,5 +1,5 @@
 mw.tools.dropdown = function (root) {
-    root = root || mwd.body;
+    root = root || document.body;
     if (root === null) {
         return;
     }
@@ -86,7 +86,7 @@ mw.tools.dropdown = function (root) {
     /* end For loop */
     if (typeof mw.tools.dropdownActivated === 'undefined') {
         mw.tools.dropdownActivated = true;
-        mw.$(mwd.body).on('mousedown touchstart', function (e) {
+        mw.$(document.body).on('mousedown touchstart', function (e) {
             if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-dropdown-content', 'mw-dropdown'])) {
                 mw.$(".mw-dropdown").removeClass("active");
                 mw.$(".mw-dropdown-content").hide();

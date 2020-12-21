@@ -419,7 +419,7 @@ code:			'123456'
                     });
                 },
                 collect: function () {
-                    var data = {}, all = mwd.querySelectorAll('.setting-item'), l = all.length, i = 0;
+                    var data = {}, all = document.querySelectorAll('.setting-item'), l = all.length, i = 0;
                     for (; i < l; i++) {
                         var item = all[i];
                         data = {};
@@ -471,7 +471,7 @@ code:			'123456'
             }
 
             $(document).ready(function () {
-                var all = mwd.querySelectorAll('.setting-item'), l = all.length, i = 0;
+                var all = document.querySelectorAll('.setting-item'), l = all.length, i = 0;
                 for (; i < l; i++) {
                     if (!!all[i].prepared) continue;
                     var item = all[i];

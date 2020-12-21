@@ -118,7 +118,7 @@ mw.tags = mw.chips = function(options){
         }
         var icon;
         if(typeof ic === 'string' && ic.indexOf('<') === -1){
-            icon = mwd.createElement('i');
+            icon = document.createElement('i');
             icon.className = ic;
         }
         else{
@@ -169,8 +169,8 @@ mw.tags = mw.chips = function(options){
          }
 
 
-            var tag_holder = mwd.createElement('span');
-            var tag_close = mwd.createElement('span');
+            var tag_holder = document.createElement('span');
+            var tag_close = document.createElement('span');
 
             tag_close._index = config.index;
             tag_holder._index = config.index;

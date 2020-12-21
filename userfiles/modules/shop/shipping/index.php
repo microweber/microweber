@@ -11,7 +11,7 @@ $shipping_options = mw('shop\shipping\shipping_api')->get_active();
     <script type="text/javascript">
         Gateway = function (el) {
             var val = $(el).val();
-            mwd.querySelector('.mw-shipping-gateway-selected-<?php print $params['id']; ?> .module').setAttribute('data-selected-gw', val);
+            document.querySelector('.mw-shipping-gateway-selected-<?php print $params['id']; ?> .module').setAttribute('data-selected-gw', val);
             mw.load_module(val, '#mw-shipping-gateway-selected-<?php print $params['id']; ?>');
         }
     </script>

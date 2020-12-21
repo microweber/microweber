@@ -32,10 +32,10 @@ $(window).bind("keydown", function(e){
 mw.mouse = mw.mouse || {
   create:function(){
     if(typeof mw.mouse.m === 'undefined'){
-      mw.mouse.m = mwd.createElement('div');
+      mw.mouse.m = document.createElement('div');
       mw.mouse.m.className = 'mw-mouse mw-mouseclick';
       mw.mouse.m.id = 'mw-mouse';
-      mwd.body.appendChild(mw.mouse.m);
+      document.body.appendChild(mw.mouse.m);
       setTimeout(function(){
          mw.mouse.m.className = 'mw-mouse';
       }, 222);
@@ -104,7 +104,7 @@ mw.helpinfo = {
     pauseInit:false,
     helper : function(){
       if( typeof mw.helpinfo_helper === 'undefined'){
-        mw.helpinfo_helper = mwd.createElement('div');
+        mw.helpinfo_helper = document.createElement('div');
         mw.helpinfo_helper.className = 'helpinfo_helper semi_hidden';
         mw.helpinfo_helper.id = 'helpinfo_helper';
         var footer = ''
@@ -114,11 +114,11 @@ mw.helpinfo = {
               + '<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue right" id="mw_helpinfo_prev_btn" onclick="mw.helpinfo.previous();" title="Press Backspace">Previous</span>'
             + '</div>';
         mw.helpinfo_helper.innerHTML = '<span id="helpinfo_arr"></span><div id="mw_info_helper_content"></div>' + footer;
-        mwd.body.appendChild( mw.helpinfo_helper );
-        mw.helpinfo_container = mwd.getElementById('mw_info_helper_content');
-        mw.helpinfo_overlay = mwd.createElement('div');
+        document.body.appendChild( mw.helpinfo_helper );
+        mw.helpinfo_container = document.getElementById('mw_info_helper_content');
+        mw.helpinfo_overlay = document.createElement('div');
         mw.helpinfo_overlay.className = 'mw_helpinfo_overlay';
-        //mwd.body.appendChild(mw.helpinfo_overlay);
+        //document.body.appendChild(mw.helpinfo_overlay);
       }
     },
     position:function(el, pos, hideFooter){
@@ -220,10 +220,10 @@ mw.helpinfo = {
       var scr = mw.$(window).scrollTop();
       var speed = 150;
       if(tipo.top < off.top){
-        mw.$([mwd.documentElement, mwd.body]).stop().animate({scrollTop:tipo.top - 10 }, speed);
+        mw.$([document.documentElement, document.body]).stop().animate({scrollTop:tipo.top - 10 }, speed);
       }
       else if(tipo.top > off.top){
-         mw.$([mwd.documentElement, mwd.body]).stop().animate({scrollTop:$(el).offset().top }, speed);
+         mw.$([document.documentElement, document.body]).stop().animate({scrollTop:$(el).offset().top }, speed);
       }
     },
     init:function(activate){
@@ -240,7 +240,7 @@ mw.helpinfo = {
        }
        if( typeof mw.helpinfo_helper === 'undefined'){
          mw.helpinfo.helper();
-         mw.helpinfo.active =  mw.$(mwd.getElementsByClassName('mw-help-item')[0]);
+         mw.helpinfo.active =  mw.$(document.getElementsByClassName('mw-help-item')[0]);
        }
        mw.$(".mwcurrhelp").removeClass("mwcurrhelp");
        mw.$(mw.helpinfo_overlay).show();
@@ -269,7 +269,7 @@ mw.helpinfo = {
     int:null,
     next:function(){
         clearTimeout(mw.helpinfo.int);
-        if($(mwd.body).hasClass("loading")){
+        if($(document.body).hasClass("loading")){
           mw.helpinfo.int = setTimeout(function(){ mw.helpinfo.next() }, 400);
           return false;
         }
@@ -291,7 +291,7 @@ mw.helpinfo = {
     },
     previous:function(){
         clearTimeout(mw.helpinfo.int);
-        if($(mwd.body).hasClass("loading")){
+        if($(document.body).hasClass("loading")){
           mw.helpinfo.int = setTimeout(function(){mw.helpinfo.previous()}, 400);
           return false;
         }
@@ -323,7 +323,7 @@ mw.helpinfo = {
        mw.$("#mw_info_helper_footer").removeClass("disabled");
     },
     HideToHelp:function(){
-        var help = mwd.getElementById('helpbtn');
+        var help = document.getElementById('helpbtn');
         mw.$("#mw_info_helper_content").html(mw.$("#HELPINFOGHOST").html());
         mw.$("#mw_info_helper_footer").hide();
         mw.helpinfo.position(help, 'bottomcenter');

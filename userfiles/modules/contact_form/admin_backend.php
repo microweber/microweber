@@ -110,7 +110,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <?php if ($load_list): ?>
                         <script type="text/javascript">
                             mw.on.hashParam('search', function () {
-                                var field = mwd.getElementById('forms_data_keyword');
+                                var field = document.getElementById('forms_data_keyword');
                                 if (!field.focused) {
                                     field.value = this;
                                 }

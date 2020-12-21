@@ -4,11 +4,11 @@ mw.liveedit.inline = {
             return false;
         }
         if (mw.$("#" + id).length === 0) {
-            var bar = mwd.createElement('div');
+            var bar = document.createElement('div');
             bar.id = id;
             mw.wysiwyg.contentEditable(bar, false);
             bar.className = 'mw-defaults mw-inline-bar';
-            mwd.body.appendChild(bar);
+            document.body.appendChild(bar);
             return bar;
         }
         else {

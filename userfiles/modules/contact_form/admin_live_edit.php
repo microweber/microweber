@@ -20,7 +20,7 @@ if (!user_can_access('module.contact_form.index')) {
                 window.editorLaunced = true;
 
                 mw.Editor({
-                    element: mwd.getElementById('editorAM'),
+                    element: document.getElementById('editorAM'),
                 });
             }
         }

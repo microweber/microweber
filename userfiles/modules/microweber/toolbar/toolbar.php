@@ -627,7 +627,7 @@ if (isset($_COOKIE['mw_exp'])) {
                 }, 322);
             });
 
-            $(mwd.querySelectorAll('.edit')).each(function () {
+            $(document.querySelectorAll('.edit')).each(function () {
                 mw.linkTip.init(this);
             })
         });

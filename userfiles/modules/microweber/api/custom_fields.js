@@ -33,7 +33,7 @@ mw.custom_fields = {
             });
     },
     sort: function (group) {
-        group = mwd.getElementById(group);
+        group = document.getElementById(group);
         if (group == null) {
             return;
         }

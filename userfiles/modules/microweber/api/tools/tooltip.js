@@ -211,14 +211,14 @@
             if (typeof id === 'undefined') {
                 id = 'mw-tooltip-' + mw.random();
             }
-            var tooltip = mwd.createElement('div');
-            var tooltipc = mwd.createElement('div');
+            var tooltip = document.createElement('div');
+            var tooltipc = document.createElement('div');
             tooltip.className = 'mw-tooltip ' + position + ' ' + skin;
             tooltipc.className = 'mw-tooltip-content';
             tooltip.id = id;
             $(tooltipc).append(content);
             $(tooltip).append(tooltipc).append('<span class="mw-tooltip-arrow"></span>');
-            mwd.body.appendChild(tooltip);
+            document.body.appendChild(tooltip);
             return tooltip;
         },
         setPosition: function (tooltip, el, position) {

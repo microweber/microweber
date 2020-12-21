@@ -204,7 +204,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <script type="text/javascript">
                     delete_selected_posts_forever = function () {
                         mw.tools.confirm("<?php _ejs("Are you sure you want to delete those pages forever"); ?>?", function () {
-                            var master = mwd.getElementById('pages_delete_container');
+                            var master = document.getElementById('pages_delete_container');
                             var arr = mw.check.collectChecked(master);
                             arr.forever = true;
                             mw.post_del_forever(arr, function () {
@@ -229,7 +229,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     restore_selected_posts = function () {
                         mw.tools.confirm("<?php _ejs("Are you sure you want restore the selected content"); ?>?", function () {
-                            var master = mwd.getElementById('pages_delete_container');
+                            var master = document.getElementById('pages_delete_container');
                             var arr = mw.check.collectChecked(master);
                             arr.forever = true;
                             mw.post_undelete(arr, function () {

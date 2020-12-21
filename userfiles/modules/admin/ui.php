@@ -107,8 +107,8 @@
         document.body.removeChild(tempInput);
     }
     $(window).load(function () {
-        var uicss = mwd.querySelector('link[href*="/ui.css"]').sheet.cssRules, l = uicss.length, i = 0, html = '';
-        var admincss = mwd.querySelector('link[href*="/admin.css"]').sheet.cssRules, al = admincss.length, ai = 0;
+        var uicss = document.querySelector('link[href*="/ui.css"]').sheet.cssRules, l = uicss.length, i = 0, html = '';
+        var admincss = document.querySelector('link[href*="/admin.css"]').sheet.cssRules, al = admincss.length, ai = 0;
         html += '<hr><h3>Admin Icons</h3>'
         for (; ai < al; ai++) {
             var sel = admincss[ai].selectorText;
@@ -132,7 +132,7 @@
 
         mw.$("#ui-info-table h2").each(function (i) {
             var el = this;
-            var li = mwd.createElement('li');
+            var li = document.createElement('li');
             li.innerHTML = "<a href='#?uisection=" + i + "'>" + this.innerHTML + "</a>";
 
             $("#apinav").append(li)
@@ -631,7 +631,7 @@
                 <script>
 
                     progressdemo = function () {
-                        var pd = mwd.getElementById('progressdemo');
+                        var pd = document.getElementById('progressdemo');
                         var prg = mw.progress({
                             action: 'Loading',
                             element: pd

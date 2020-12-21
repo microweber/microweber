@@ -20,10 +20,10 @@ must_have_access(); ?>
         }
         mw.$('#settings_admin_<?php print $rand; ?>').attr('is_system', 1);
 
-        mw.tools.loading(mwd.querySelector('#edit-content-row'), true)
+        mw.tools.loading(document.querySelector('#edit-content-row'), true)
 
         mw.load_module('settings/system_settings', '#settings_admin_<?php print $rand; ?>', function () {
-            mw.tools.loading(mwd.querySelector('#edit-content-row'), false)
+            mw.tools.loading(document.querySelector('#edit-content-row'), false)
         });
 
     }

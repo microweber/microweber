@@ -137,7 +137,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         if (this.name == 'enable_service_links') {
                             $("[name='custom_support_url']")[0].disabled = !this.checked
                         } else if (this.name == 'disable_powered_by_link') {
-                            $(mwd.querySelector('.pw-editor-holder'))[!this.checked ? 'addClass' : 'removeClass']('disabled')
+                            $(document.querySelector('.pw-editor-holder'))[!this.checked ? 'addClass' : 'removeClass']('disabled')
                         }
 
                         clearTimeout(wlFormTime);
@@ -151,7 +151,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     })
 
                     mw.$(".up").each(function () {
-                        var span = mwd.createElement('button');
+                        var span = document.createElement('button');
                         span.className = 'btn btn-primary mb-2';
                         span.innerHTML = 'Upload';
                         $(this).next().html(span);

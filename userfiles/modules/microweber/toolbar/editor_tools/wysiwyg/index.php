@@ -87,7 +87,7 @@ PrepareEditor = function(){
   if(window.name.contains("mweditor")){
      HOLD = false;
      edmwdoc = mw.tools.parseHtml('');
-     var WYSIWYGArea = mwd.getElementById('mw-iframe-editor-area');
+     var WYSIWYGArea = document.getElementById('mw-iframe-editor-area');
 
      mw.tools.foreachChildren(WYSIWYGArea, function(){
         if(this.nodeName === 'P'){
@@ -122,7 +122,7 @@ PrepareEditor = function(){
          setTimeout(function(){
 
          ScaleFrame();
-         var imgs = mwd.querySelectorAll('.edit img'), l = imgs.length, i = 0;
+         var imgs = document.querySelectorAll('.edit img'), l = imgs.length, i = 0;
          for( ; i < l; i++){
             $(imgs[i]).on('load', function(){
                 ScaleFrame();
@@ -138,12 +138,12 @@ PrepareEditor = function(){
 $(window).load(function(){
 
 
-  mw.linkTip.init(mwd.getElementById('mw-iframe-editor-area'));
+  mw.linkTip.init(document.getElementById('mw-iframe-editor-area'));
 
 
 
 ScaleFrame();
-    __area = mwd.getElementById('mw-iframe-editor-area');
+    __area = document.getElementById('mw-iframe-editor-area');
    $(window).resize(function(){
 
 });
@@ -174,7 +174,7 @@ $(document).ready(function(){
 $(".edit").each(function(){ mw.wysiwyg.contentEditable(this, true) });
 
 $(".module").each(function(){ mw.wysiwyg.contentEditable(this, false) });
-$(mwd.body).on('keydown keypress paste input', function(e){
+$(document.body).on('keydown keypress paste input', function(e){
   ScaleFrame();
   var el= $(e.target);
   if(mw.tools.hasClass(e.target.className, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
@@ -195,21 +195,21 @@ $(mwd.body).on('keydown keypress paste input', function(e){
 
 
 $(window).load(function(){
-      $(mwd.body).on('mousedown', function(e){
+      $(document.body).on('mousedown', function(e){
         parent.mw.$(".mw-ui-category-selector").hide();
-        parent.$(parent.mwd.body).trigger('mousedown');
+        parent.$(parent.document.body).trigger('mousedown');
       });
-      $(mwd.body).on('mouseup', function(e){
-        parent.$(parent.mwd.body).trigger('mouseup');
+      $(document.body).on('mouseup', function(e){
+        parent.$(parent.document.body).trigger('mouseup');
       });
-      $(mwd.body).on('click', function(e){
-        parent.$(parent.mwd.body).trigger('click');
+      $(document.body).on('click', function(e){
+        parent.$(parent.document.body).trigger('click');
       });
 
 
       mw.$("#mw-iframe-editor-area").on("keypress", function(e){
         parent.mw.$('#'+window.name).trigger("editorKeyup");
-        $(mwd.body).addClass('editorKeyup');
+        $(document.body).addClass('editorKeyup');
         if(e.ctrlKey){
             if(e.keyCode === 65){
                 var edit = mw.tools.hasClass(e.target, 'edit') ? e.target : mw.tools.firstParentWithClass(e.target, 'edit');

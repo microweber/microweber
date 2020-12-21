@@ -9,7 +9,7 @@ mw.tools.tabGroup = function (obj, element, model) {
     *  }
     *
     * */
-    element = element || mwd.body;
+    element = element || document.body;
     model = typeof model === 'undefined' ? true : model;
     if (model) {
         model = {

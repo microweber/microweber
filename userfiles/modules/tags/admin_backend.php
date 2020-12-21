@@ -98,7 +98,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             }
 
             function showPostsWithTags(instance) {
-                mw.modal({
+                mw.dialog({
                     content: '<div id="mw_admin_preview_module_content_with_tags"></div>',
                     title: 'View content with tags',
                     width: 1000,

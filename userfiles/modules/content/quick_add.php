@@ -147,7 +147,7 @@
     });
 
 
-    continuousFrameLoading(mwd.querySelector('.acfle_layouts_browser_template').querySelectorAll('iframe'));
+    continuousFrameLoading(document.querySelector('.acfle_layouts_browser_template').querySelectorAll('iframe'));
 
  });
 

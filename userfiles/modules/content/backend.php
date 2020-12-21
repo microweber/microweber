@@ -79,7 +79,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         });
         mw.on.moduleReload("pages_edit_container", function () {
         });
-        $(mwd.body).ajaxStop(function () {
+        $(document.body).ajaxStop(function () {
             $(this).removeClass("loading");
         });
 
@@ -190,7 +190,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     mw.on.hashParam("action", function () {
 
         if (this == false) {
-            mw.tools.classNamespaceDelete(mwd.body, 'action-')
+            mw.tools.classNamespaceDelete(document.body, 'action-')
         }
 
 
@@ -207,7 +207,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$(".js-top-save").hide();
 
 
-        //  mw.tools.loading(mwd.body, true)
+        //  mw.tools.loading(document.body, true)
         window.scrollTo(0, 0);
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
@@ -219,16 +219,16 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             return false;
         }
         var arr = this.split(":");
-       // $(mwd.body).removeClass("action-Array");
-        // $(mwd.body).removeClass("action-");
-        // $(mwd.body).removeClass("action-showposts");
-        // $(mwd.body).removeClass("action-showpostscat");
-        // $(mwd.body).removeClass("action-editpage");
-        // $(mwd.body).removeClass("action-trash");
-        // $(mwd.body).removeClass("action-editcategory");
-        // $(mwd.body).removeClass("action-editpost");
-        // $(mwd.body).removeClass("action-addsubcategory");
-        mw.tools.classNamespaceDelete(mwd.body, 'action-')
+       // $(document.body).removeClass("action-Array");
+        // $(document.body).removeClass("action-");
+        // $(document.body).removeClass("action-showposts");
+        // $(document.body).removeClass("action-showpostscat");
+        // $(document.body).removeClass("action-editpage");
+        // $(document.body).removeClass("action-trash");
+        // $(document.body).removeClass("action-editcategory");
+        // $(document.body).removeClass("action-editpost");
+        // $(document.body).removeClass("action-addsubcategory");
+        mw.tools.classNamespaceDelete(document.body, 'action-')
 
 
 
@@ -236,7 +236,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         if (arr[0] === 'new') {
             mw.contentAction.create(arr[1]);
             if (arr[0]) {
-                $(mwd.body).addClass("action-"+arr[0] + '-' + arr[1]);
+                $(document.body).addClass("action-"+arr[0] + '-' + arr[1]);
             }
         }
         else {
@@ -246,7 +246,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
             var active_item = mw.$(".item_" + arr[1]);
 
             if (arr[0]) {
-            $(mwd.body).addClass("action-"+arr[0]);
+            $(document.body).addClass("action-"+arr[0]);
             }
             if (arr[0] == 'showposts') {
                 var active_item = mw.$(".content-item-" + arr[1]);
@@ -459,7 +459,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
             mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
 
-            var active_bg = mwd.querySelector('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg');
+            var active_bg = document.querySelector('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg');
 
             var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'have_category');
 
@@ -538,7 +538,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
             mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
 
-            var active_bg = mwd.querySelector('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg');
+            var active_bg = document.querySelector('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg');
 
             var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'have_category');
 

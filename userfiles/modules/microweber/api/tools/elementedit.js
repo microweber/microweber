@@ -3,7 +3,7 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
         return;
     }
     textonly = (typeof textonly === 'undefined') ? true : textonly;
-    var input = mwd.createElement('span');
+    var input = document.createElement('span');
     input.className = (fieldClass || "") + ' mw-live-edit-input mw-liveedit-field';
     input.contentEditable = true;
     var $input = $(input);

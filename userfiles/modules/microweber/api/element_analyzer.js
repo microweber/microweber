@@ -159,8 +159,8 @@ mw.ElementAnalyzer = function(options){
             +'pointer-events: all;'
         +'}';
 
-        var style = mwd.createElement('style');
-        mwd.getElementsByTagName('head')[0].appendChild(style);
+        var style = document.createElement('style');
+        document.getElementsByTagName('head')[0].appendChild(style);
         style.innerHTML = css;
     };
 
@@ -178,7 +178,7 @@ mw.ElementAnalyzer = function(options){
     };
 
     this._layoutInLayout = function() {
-        if (!this.data.currentGrabbed || !mwd.body.contains(this.data.currentGrabbed)) {
+        if (!this.data.currentGrabbed || !document.body.contains(this.data.currentGrabbed)) {
             return false;
         }
         var currentGrabbedIsLayout = (this.data.currentGrabbed.getAttribute('data-module-name') === 'layouts' || mw.dragCurrent.getAttribute('data-type') === 'layouts');
@@ -396,7 +396,7 @@ mw.ElementAnalyzer = function(options){
             this.cls.module,
             this.cls.emptyElement
         ];
-        while(node && node !== mwd.body){
+        while(node && node !== document.body){
             if(mw.tools.hasAnyOfClasses(node, cls)){
                 return node;
             }
@@ -464,7 +464,7 @@ mw.ElementAnalyzer = function(options){
             var res =  this.validateInteractionTarget(/*node === islayOutInLayout.target ? islayOutInLayout.target.parentNode : */islayOutInLayout.target);
             return  res;
         }
-        if(node === mwd.body || node.parentNode === mwd.body) return null;
+        if(node === document.body || node.parentNode === document.body) return null;
         return this.getTarget(node.parentNode);
     };
 
@@ -476,7 +476,7 @@ mw.ElementAnalyzer = function(options){
         if(this.data.currentGrabbed){
             if (e.type.indexOf('touch') !== -1) {
                 var coords = mw.event.page(e);
-                scope.data.target = mwd.elementFromPoint(coords.x, coords.y);
+                scope.data.target = document.elementFromPoint(coords.x, coords.y);
             }
             else {
                 scope.data.target = e.target;

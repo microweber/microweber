@@ -458,7 +458,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
     $(document).ready(function(){
         mw.$('.mw-field input').attr('autocomplete', 'off')
-        mw.top().$(top.mwd.body).on('mousedown touchstart', function(e){
+        mw.top().$(top.document.body).on('mousedown touchstart', function(e){
             var node = mw.tools.firstMatchesOnNodeOrParent(e.target, ['.element', '.module']);
             if( !node && !mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']) ){
                 ActiveNode = null;

@@ -3,7 +3,7 @@ mw.drag.columns = {
     step: 0.8,
     resizing: false,
     prepare: function () {
-        mw.drag.columns.resizer = mwd.createElement('div');
+        mw.drag.columns.resizer = document.createElement('div');
         mw.wysiwyg.contentEditable(mw.drag.columns.resizer, false);
         mw.drag.columns.resizer.className = 'unselectable mw-columns-resizer';
         mw.drag.columns.resizer.pos = 0;
@@ -11,7 +11,7 @@ mw.drag.columns = {
             mw.drag.columns.resizing = true;
             mw.drag.columns.resizer.pos = 0;
         });
-        mwd.body.appendChild(mw.drag.columns.resizer);
+        document.body.appendChild(mw.drag.columns.resizer);
 
         mw.$(mw.drag.columns.resizer).hide();
     },
@@ -89,20 +89,20 @@ mw.drag.columns = {
     }
 }
 $(mwd).ready(function () {
-    mw.$(mwd.body).on('mouseup touchend', function () {
+    mw.$(document.body).on('mouseup touchend', function () {
         if (mw.drag.plus.locked) {
             mw.wysiwyg.change(mw.drag.columns.resizer.curr);
         }
         mw.drag.columns.resizing = false;
         mw.drag.plus.locked = false;
-        mw.tools.removeClass(mwd.body, 'mw-column-resizing');
+        mw.tools.removeClass(document.body, 'mw-column-resizing');
     });
-    mw.$(mwd.body).on('mousemove touchmove', function (e) {
+    mw.$(document.body).on('mousemove touchmove', function (e) {
         if (mw.drag.columns.resizing === true && mw.isDrag === false) {
             mw.drag.columns.resize(e);
             e.preventDefault();
             mw.drag.plus.locked = true;
-            mw.tools.addClass(mwd.body, 'mw-column-resizing');
+            mw.tools.addClass(document.body, 'mw-column-resizing');
         }
     });
 });

@@ -1,7 +1,7 @@
 $(window).load(function () {
     mw.loaded = true;
-    mw.tools.addClass(mwd.body, 'loaded');
-    mw.tools.removeClass(mwd.body, 'loading');
+    mw.tools.addClass(document.body, 'loaded');
+    mw.tools.removeClass(document.body, 'loading');
     mw.$('div.mw-ui-field').click(function (e) {
         if (e.target.type != 'text') {
             try {
@@ -17,7 +17,7 @@ $(window).load(function () {
 $(mwd).ready(function () {
     mw.tools.constructions();
     mw.dropdown();
-    mw.$(mwd.body).ajaxStop(function () {
+    mw.$(document.body).ajaxStop(function () {
         setTimeout(function () {
             mw.dropdown();
         }, 1222);
@@ -28,7 +28,7 @@ $(mwd).ready(function () {
     mw.on('mwDialogHide', function(){
         mw.$(document.documentElement).removeClass('mw-dialog-opened');
     });
-    mw.$(mwd.body).on('mousemove touchmove touchstart', function (event) {
+    mw.$(document.body).on('mousemove touchmove touchstart', function (event) {
         var has = mw.tools.firstParentOrCurrentWithClass(event.target, 'tip');
         if (has && (!has.dataset.trigger || has.dataset.trigger === 'move')) {
             mw.tools.titleTip(has);
@@ -110,8 +110,8 @@ $(mwd).ready(function () {
         $.noop();
         _mwoldww = mw.$(window).width();
     });
-    mw.$(mwd.body).on("keydown", function (e) {
-        var isgal = mwd.querySelector('.mw_modal_gallery') !== null;
+    mw.$(document.body).on("keydown", function (e) {
+        var isgal = document.querySelector('.mw_modal_gallery') !== null;
         if (isgal) {
             if (e.keyCode === 27) {  /* escape */
                 mw.dialog.remove(mw.$(".mw_modal_gallery"))

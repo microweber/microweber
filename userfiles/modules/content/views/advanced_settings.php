@@ -101,7 +101,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
         mw.adm_cont_type_change_holder_event = function (el) {
             mw.tools.confirm("<?php _ejs("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
-                var root = mwd.querySelector('#<?php print $params['id']; ?>');
+                var root = document.querySelector('#<?php print $params['id']; ?>');
                 var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
                 var ctype = $(el).val()
                 if (form != undefined && form.querySelector('input[name="content_type"]') != null) {
@@ -111,7 +111,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         }
         mw.adm_cont_subtype_change_holder_event = function (el) {
             mw.tools.confirm("<?php _ejs("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
-                var root = mwd.querySelector('#<?php print $params['id']; ?>');
+                var root = document.querySelector('#<?php print $params['id']; ?>');
                 var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
                 var ctype = $(el).val();
                 if (form != undefined && form.querySelector('input[name="subtype"]') != null) {

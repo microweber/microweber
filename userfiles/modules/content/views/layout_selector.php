@@ -161,7 +161,7 @@ if (!empty($recomended_layouts)) {
 
     mw.templatePreview<?php print $rand; ?> = {
         set: function () {
-            var iframe = mwd.querySelector('.preview_frame_wrapper iframe');
+            var iframe = document.querySelector('.preview_frame_wrapper iframe');
             var framewindow = iframe.contentWindow;
             framewindow.scrollTo(0, 0);
 
@@ -244,14 +244,14 @@ if (!empty($recomended_layouts)) {
             var inherit_from = mw.$('#active_site_layout_<?php print $rand; ?> option:selected').attr('inherit_from');
 
 
-            var root = mwd.querySelector('#active_site_layout_<?php print $rand; ?>');
+            var root = document.querySelector('#active_site_layout_<?php print $rand; ?>');
             var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
 
 
             if (form != undefined && form != false) {
                 if (is_shop != undefined) {
                     if (is_shop != undefined && is_shop == 'y') {
-                        
+
                         if (form != undefined && form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)') != null) {
                             form.querySelector('input[name="is_shop"]:not(.custom-control-input-is-shop)').checked = true;
                         }
@@ -363,7 +363,7 @@ if (!empty($recomended_layouts)) {
 
     $(document).ready(function () {
         mw.$("#<?php print $params['id']?>").removeAttr('autoload');
-        mw.templatePreview<?php print $rand; ?>.selector = mwd.getElementById('active_site_layout_<?php print $rand; ?>');
+        mw.templatePreview<?php print $rand; ?>.selector = document.getElementById('active_site_layout_<?php print $rand; ?>');
 
         mw.$('#active_site_template_<?php print $rand; ?>').on("change", function (e) {
             var parent_module = $(this).parents('.module').first();

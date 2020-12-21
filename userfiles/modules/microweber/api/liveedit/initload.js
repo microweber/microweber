@@ -43,12 +43,12 @@ mw.liveedit.initLoad = function() {
     mw.wysiwyg.prepareContentEditable();
 
     mw.image.resize.init(".element-image");
-    mw.$(mwd.body).on('mousedown touchstart', function(event) {
+    mw.$(document.body).on('mousedown touchstart', function(event) {
 
 
         if (mw.$(".editor_hover").length === 0) {
             mw.$(mw.wysiwyg.external).empty().css("top", "-9999px");
-            mw.$(mwd.body).removeClass('hide_selection');
+            mw.$(document.body).removeClass('hide_selection');
         }
         if (!mw.tools.hasClass(event.target, 'mw_handle_row') &&
             !mw.tools.hasParentsWithClass(event.target, 'mw_handle_row') &&

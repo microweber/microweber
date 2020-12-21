@@ -52,7 +52,7 @@ if ($action == 'profile') {
 
     $(document).ready(function () {
         if (typeof UsersRotator === 'undefined') {
-            UsersRotator = mw.admin.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
+            UsersRotator = mw.admin.simpleRotator(document.getElementById('mw-users-manage-edit-rotattor'));
         }
     });
 
@@ -60,7 +60,7 @@ if ($action == 'profile') {
         var ui = mw.url.getHashParams(window.location.hash).ui;
 
         if (typeof ui == 'undefined') {
-            var ui = mwd.querySelector('#mw_index_users input.mw_users_filter_show:checked').value;
+            var ui = document.querySelector('#mw_index_users input.mw_users_filter_show:checked').value;
         }
 
         if (typeof ui !== 'undefined') {

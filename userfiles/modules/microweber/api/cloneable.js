@@ -1,6 +1,6 @@
 mw.drag.onCloneableControl = function(target, isOverControl){
     if(!this._onCloneableControl){
-        this._onCloneableControl = mwd.createElement('div');
+        this._onCloneableControl = document.createElement('div');
         this._onCloneableControl.className = 'mw-cloneable-control';
         var html = '';
         html += '<span class="mw-cloneable-control-item mw-cloneable-control-prev tip" data-tip="Move backward"></span>';
@@ -9,7 +9,7 @@ mw.drag.onCloneableControl = function(target, isOverControl){
         html += '<span class="mw-cloneable-control-item mw-cloneable-control-next tip" data-tip="Move forward"></span>';
         this._onCloneableControl.innerHTML = html;
 
-        mwd.body.appendChild(this._onCloneableControl);
+        document.body.appendChild(this._onCloneableControl);
         $('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent()
             mw.liveEditState.record({
@@ -18,7 +18,7 @@ mw.drag.onCloneableControl = function(target, isOverControl){
             });
             var parser = mw.tools.parseHtml(mw.drag._onCloneableControl.__target.outerHTML).body;
             var all = parser.querySelectorAll('[id]'), i = 0;
-            for( ; i<all.length; i++){
+            for( ; i < all.length; i++){
                 all[i].id = 'mw-cl-id-' + mw.random();
             }
             $(mw.drag._onCloneableControl.__target).after(parser.innerHTML);
@@ -110,7 +110,7 @@ mw.drag.onCloneableControl = function(target, isOverControl){
         });
 
 
-        var cloner = mwd.querySelector('.mw-cloneable-control');
+        var cloner = document.querySelector('.mw-cloneable-control');
         if(cloner) {
             mw._initHandles.getAll().forEach(function (curr) {
                 masterRect = curr.wrapper.getBoundingClientRect();

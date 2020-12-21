@@ -34,7 +34,7 @@
                 obj.order_status = val;
 
                 $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
-                    mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
+                    mw.tools.el_switch(document.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
                     var states = {
                         'y': '<?php _e("Completed"); ?>',
                         'n': '<?php _e("Pending"); ?>',

@@ -15,7 +15,7 @@ mw.liveedit.initReady = function() {
 
     mw.dragSTOPCheck = false;
 
-    var t = mwd.querySelectorAll('[field="title"]'),
+    var t = document.querySelectorAll('[field="title"]'),
         l = t.length,
         i = 0;
 

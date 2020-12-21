@@ -28,7 +28,7 @@ description: Inner Slider
         mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
         mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);
         $(document).ready(function () {
-            var el = mwd.getElementById('<?php print $id; ?>');
+            var el = document.getElementById('<?php print $id; ?>');
             var module = mw.tools.firstParentWithClass(el, 'module');
         });
 

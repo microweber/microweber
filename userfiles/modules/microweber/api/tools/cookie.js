@@ -1,6 +1,6 @@
 mw.cookie = {
     get: function (name) {
-        var cookies = mwd.cookie.split(";"), i = 0, l = cookies.length;
+        var cookies = document.cookie.split(";"), i = 0, l = cookies.length;
         for (; i < l; i++) {
             var x = cookies[i].substr(0, cookies[i].indexOf("="));
             var y = cookies[i].substr(cookies[i].indexOf("=") + 1);

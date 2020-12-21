@@ -29,7 +29,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     $(document).ready(function () {
                         $("#upload").on("click", function () {
                             mw.fileWindow({
-                                element: mwd.getElementById('upload'),
+                                element: document.getElementById('upload'),
                                 types: 'media',
                                 change: function (url) {
                                     mw.$("#upload_value").val(url);
@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             });
                         })
 
-                        Prior = mwd.getElementById('prior');
+                        Prior = document.getElementById('prior');
                         mw.$("#audio").keyup(function () {
                             if (Prior.value !== '2') {
                                 Prior.value = '2';
@@ -52,7 +52,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
                     });
                 </script>
-                
+
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-audio-settings">
                     <div class="form-group">

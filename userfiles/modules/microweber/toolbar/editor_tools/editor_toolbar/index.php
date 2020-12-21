@@ -66,7 +66,7 @@
         }
         else {
              height = parseFloat(height);
-            var offset = mwd.getElementById('mw-admin-text-editor').offsetHeight;
+            var offset = document.getElementById('mw-admin-text-editor').offsetHeight;
             if (offset === 0) {
                 offset = height / 9;
             }
@@ -110,7 +110,7 @@
         });
         mw.wysiwyg.init();
         mw.wysiwyg.nceui();
-        Editable = mwd.getElementById('editor-area');
+        Editable = document.getElementById('editor-area');
 
         mw.$("#editor-html-edit-btn").on('mousedown touchstart', function (e) {
             e.preventDefault();
@@ -294,4 +294,4 @@
     <textarea id="editor-area-html-editor-box" onkeyup="mw.on.stopWriting(this, function(){updateHTMLFromTextArea(this.value)});" style="display:none"></textarea>
 </div>
 <div style="clear: both;"></div>
-<script>OLDVALUE = mwd.getElementById('editor-area').innerHTML</script>
+<script>OLDVALUE = document.getElementById('editor-area').innerHTML</script>

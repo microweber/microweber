@@ -44,7 +44,7 @@ MWEditor.api = function (scope) {
                             group.push(curr);
                             curr = curr.nextElementSibling;
                         }
-                        var el = mwd.createElement(all[i].getAttribute('data-type') === 'ul' ? 'ul' : 'ol');
+                        var el = document.createElement(all[i].getAttribute('data-type') === 'ul' ? 'ul' : 'ol');
                         el.className = 'element';
                         group.wrapAll(el);
                         break;

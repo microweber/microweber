@@ -77,27 +77,27 @@ $(document).ready(function(){
 
 
 set_body_font_size = function(size){
-  mwd.body.style.fontSize = size + "px";
+  document.body.style.fontSize = size + "px";
 }
 
 setcontent_bg = function(){
-  mw.wysiwyg.external_tool(mwd.getElementById('mwthemesettings-bgcolor'), mw.external_tool('color_picker') + '#content_bg_color');
+  mw.wysiwyg.external_tool(document.getElementById('mwthemesettings-bgcolor'), mw.external_tool('color_picker') + '#content_bg_color');
   $(mw.wysiwyg.external).find("iframe").width(280).height(320);
 }
 
 content_bg_color = function(a){
-  mwd.getElementById('content').style.backgroundColor = "#"+a;
-  mwd.getElementById('content').style.backgroundImage = "none";
+  document.getElementById('content').style.backgroundColor = "#"+a;
+  document.getElementById('content').style.backgroundImage = "none";
 }
 
 setheader_bg = function(){
-  mw.wysiwyg.external_tool(mwd.getElementById('mwthemesettings-bgcolor-header'), mw.external_tool('color_picker') + '#header_bg_color');
+  mw.wysiwyg.external_tool(document.getElementById('mwthemesettings-bgcolor-header'), mw.external_tool('color_picker') + '#header_bg_color');
   $(mw.wysiwyg.external).find("iframe").width(280).height(320);
 }
 
 header_bg_color = function(a){
-  mwd.getElementById('header-main').style.backgroundColor = "#"+a;
-  mwd.getElementById('header-main').style.backgroundImage = "none";
+  document.getElementById('header-main').style.backgroundColor = "#"+a;
+  document.getElementById('header-main').style.backgroundImage = "none";
 }
 
 content_bg_media = function(){
@@ -112,15 +112,15 @@ content_bg_media = function(){
 }
 
 set_content_bg_media = function(a){
-  mwd.getElementById('content').style.backgroundImage = "url(" + a + ")";
-  mwd.getElementById('content').style.backgroundRepeat = "no-repeat";
+  document.getElementById('content').style.backgroundImage = "url(" + a + ")";
+  document.getElementById('content').style.backgroundRepeat = "no-repeat";
 }
 
 
 $(document).ready(function(){
     //$("#mw-theme-settings").draggable();
     mw.$("#mwthemesettings-fontfamily").on("change", function(){
-          mwd.body.style.fontFamily = $(this).getDropdownValue();
+          document.body.style.fontFamily = $(this).getDropdownValue();
     });
 });
 

@@ -45,7 +45,7 @@ if (isset($params['field-id'])) {
 </style>
 <script>
     mw.on.moduleReload('<?php print $params['id']; ?>', function () {
-        mw.admin.custom_fields.initValues(mwd.getElementById('<?php print $params['id']; ?>').querySelectorAll('.mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-placeholder-edit-inline, .mw-admin-custom-field-value-edit-inline'));
+        mw.admin.custom_fields.initValues(document.getElementById('<?php print $params['id']; ?>').querySelectorAll('.mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-placeholder-edit-inline, .mw-admin-custom-field-value-edit-inline'));
     });
 </script>
 

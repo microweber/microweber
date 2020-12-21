@@ -1,15 +1,15 @@
 <?php must_have_access(); ?>
-<?php 
+<?php
 
 $show = 'list';
 
 if(url_param('show')){
-$show = url_param('show');	
+$show = url_param('show');
 }
 
 if(url_param('vieworder')){
-$show = 'vieworder';	
-$order_id = url_param('vieworder');	
+$show = 'vieworder';
+$order_id = url_param('vieworder');
 
 }
 ?>
@@ -81,7 +81,7 @@ $order_id = url_param('vieworder');
 ordersSort = function(obj){
     var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
 
-    var table = mwd.getElementById(obj.id);
+    var table = document.getElementById(obj.id);
 
 	var parent_mod = mw.tools.firstParentWithClass(table, 'module');
 
@@ -126,9 +126,9 @@ ordersSort = function(obj){
 	 mw.on.hashParam('search', function(){
 
 
-  var field = mwd.getElementById('mw-search-field-orders');
+  var field = document.getElementById('mw-search-field-orders');
   $(field).addClass('loading')
-	
+
   if(!field.focused){ field.value = this; }
 
   if(this  != ''){
@@ -149,4 +149,4 @@ ordersSort = function(obj){
 });
 
 
-</script> 
+</script>

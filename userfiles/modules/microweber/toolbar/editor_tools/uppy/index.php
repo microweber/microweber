@@ -4,7 +4,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
 ?>
 
 <script>
-    // mw.require('tools.js');
+
     mw.require('url.js');
     mw.require('events.js');
     mw.lib.require('uppy');
@@ -32,7 +32,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
 <script type="text/javascript"> mw.require('files.js'); </script>
 <script type="text/javascript">
     Name = this.name;
-    mwd.body.className += ' ' + Name;
+    document.body.className += ' ' + Name;
     Params = mw.url.getUrlParams(window.location.href);
 
 
@@ -49,7 +49,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
     urlparams += '&engine=tus';
 
     $(document).ready(function () {
-        $(mwd.body).mousedown(function (e) {
+        $(document.body).mousedown(function (e) {
             e.preventDefault();
         });
         var multi = (Params.multiple === 'true');
@@ -91,7 +91,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
             this_frame.trigger("FilesAdded", [file]);
             if (Params.autostart != 'false') {
                 uploader.start();
-                $(mwd.body).addClass("loading");
+                $(document.body).addClass("loading");
             }
         });
         uploader.on('upload-progress', function (file, progress) {
@@ -105,16 +105,16 @@ $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
             }
             else {
                 this_frame.trigger("responseError", response);
-                $(mwd.body).removeClass("loading");
+                $(document.body).removeClass("loading");
             }
         });
         uploader.on('complete', function (result) {
             this_frame.trigger("done", result);
-            $(mwd.body).removeClass("loading");
+            $(document.body).removeClass("loading");
         });
         uploader.on('upload-error', function (file, error, response) {
             this_frame.trigger("error", file);
-            $(mwd.body).removeClass("loading");
+            $(document.body).removeClass("loading");
         });
         $(document.body).click(function () {
             this_frame.trigger("click");

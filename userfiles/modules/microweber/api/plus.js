@@ -7,8 +7,8 @@ mw.drag.plus = {
 
         if(this.disabled) return;
 
-        mw.drag.plusTop = mwd.querySelector('.mw-plus-top');
-        mw.drag.plusBottom = mwd.querySelector('.mw-plus-bottom');
+        mw.drag.plusTop = document.querySelector('.mw-plus-top');
+        mw.drag.plusBottom = document.querySelector('.mw-plus-bottom');
 
         if(mw.drag.plusTop) {
             mw.drag.plusTop.style.top = -9999 + 'px';
@@ -29,7 +29,7 @@ mw.drag.plus = {
                         whichPlus = (e.pageY - off.top) > ((off.top + node.offsetHeight) - e.pageY) ? 'top' : 'bottom';
                     }
                     mw.drag.plus.set(node, whichPlus);
-                    mw.$(mwd.body).removeClass('editorKeyup');
+                    mw.$(document.body).removeClass('editorKeyup');
                 }
             }
             else {
@@ -70,7 +70,7 @@ mw.drag.plus = {
             }
             var $node = mw.$(node)
             var off = $node.offset(),
-                toolbar = mwd.querySelector('#live_edit_toolbar');
+                toolbar = document.querySelector('#live_edit_toolbar');
             var oleft = Math.max(0, off.left - 10);
             if(toolbar && off.top < toolbar.offsetHeight){
               off.top = toolbar.offsetHeight + 10;
@@ -97,7 +97,7 @@ mw.drag.plus = {
         return 'right-center';
         var off = mw.$(node).offset();
         if (off.top > 130) {
-            if ((off.top + node.offsetHeight) < ($(mwd.body).height() - 130)) {
+            if ((off.top + node.offsetHeight) < ($(document.body).height() - 130)) {
                 return 'right-center';
             }
             else {
@@ -117,7 +117,7 @@ mw.drag.plus = {
             mw.$('.mw-tooltip-insert-module').remove();
             mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
             var tip = new mw.tooltip({
-                content: mwd.getElementById('plus-modules-list').innerHTML,
+                content: document.getElementById('plus-modules-list').innerHTML,
                 element: el,
                 position: mw.drag.plus.tipPosition(this.currentNode),
                 template: 'mw-tooltip-default mw-tooltip-insert-module',

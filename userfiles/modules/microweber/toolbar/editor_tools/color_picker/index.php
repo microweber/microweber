@@ -118,11 +118,11 @@
         });
 
         if (_hide_selection.indexOf(_command) != -1) {
-            $(parent.mwd.body).addClass('hide_selection');
+            $(parent.document.body).addClass('hide_selection');
         }
 
 
-        color_holder = mwd.getElementById('my-colors');
+        color_holder = document.getElementById('my-colors');
         document_colors = {};
         parent.mw.$("body *").each(function () {
             var css = parent.getComputedStyle(this, null);
@@ -132,11 +132,11 @@
             }
         });
 
-        var f = mwd.createDocumentFragment();
+        var f = document.createDocumentFragment();
 
 
 
-        var span = mwd.createElement('span');
+        var span = document.createElement('span');
         $(span).addClass("clear_color_img");
         span.title = "Clear Color";
         span.setAttribute('onclick', '_do("' + 'none' + '");');
@@ -148,14 +148,14 @@
         for (var x in document_colors) {
             var color = mw.color.rgbToHex(document_colors[x]);
             if (color != 'transparent') {
-                var span = mwd.createElement('span');
+                var span = document.createElement('span');
                 span.style.background = color;
                 span.title = color.toUpperCase();
                 span.setAttribute('onclick', '_do("' + color.replace(/#/g, '') + '");');
                 f.appendChild(span);
             }
         }
-        var span = mwd.createElement('span');
+        var span = document.createElement('span');
         $(span).addClass("transparent");
         span.title = "Transparent Color";
         span.setAttribute('onclick', '_do("' + 'transparent' + '");');
@@ -178,7 +178,7 @@
             e.preventDefault()
         })
 
-        var input = mwd.getElementById('colorpicker');
+        var input = document.getElementById('colorpicker');
 
         picker = new jscolor.color(input);
 
@@ -213,7 +213,7 @@
     _color_prompt = function(){
         _prompt_is_open = true;
         parent.mw.wysiwyg.save_selection()
-        var input = mwd.getElementById('colorpicker');
+        var input = document.getElementById('colorpicker');
         var color = prompt("Please enter your color value", input.value);
         if (color != null) {
             parent.mw.wysiwyg.restore_selection();

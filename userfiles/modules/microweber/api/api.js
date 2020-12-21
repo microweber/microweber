@@ -174,10 +174,10 @@ mw.askusertostay = false;
   mwd = document;
   mww = window;
 
-  mwhead = mwd.head || mwd.getElementsByTagName('head')[0];
+  mwhead = document.head || document.getElementsByTagName('head')[0];
 
   mw.doc = mwd;
-  mw.win = mww;
+  mw.win = window;
   mw.head = mwhead;
 
   mw.loaded = false;
@@ -255,31 +255,27 @@ mw.askusertostay = false;
           return
       }
       var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-      if (false && (mwd.readyState === 'loading'/* || mwd.readyState === 'interactive'*/) && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
-         //mwd.write(string);
-          (document.body || document.head).appendChild(document.createRange().createContextualFragment(string))
-      }
-      else {
-          if(typeof $ === 'function'){
+
+          if(typeof $.fn === 'object'){
               $(mwhead).append(string);
           }
           else{
               var el;
               if( t !== "css")  {
-                  el = mwd.createElement('script');
+                  el = document.createElement('script');
                   el.src = url;
                   el.setAttribute('type', 'text/javascript');
                   mwhead.appendChild(el);
               }
               else{
-                 el = mwd.createElement('link');
+                 el = document.createElement('link');
                  el.rel='stylesheet';
                  el.type='text/css';
                  el.href = url;
                  mwhead.appendChild(el);
               }
           }
-      }
+
     }
   };
 
@@ -309,7 +305,7 @@ mw.getScripts = function (array, callback) {
   mw.moduleCSS = mw.module_css = function(url){
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);
-      var el = mwd.createElement('link');
+      var el = document.createElement('link');
       el.rel='stylesheet';
       el.type='text/css';
       el.href = url;
@@ -624,7 +620,7 @@ mw.getScripts = function (array, callback) {
        if(to_send.hasOwnProperty(a)) { b = false; }
     }
     if(b){
-      mw.tools.removeClass(mwd.body, 'loading');
+      mw.tools.removeClass(document.body, 'loading');
       mw.pauseSave = false;
       mw.on.DOMChangePause = false;
       return false;
@@ -643,7 +639,7 @@ mw.getScripts = function (array, callback) {
       }
       if(DONOTREPLACE){
 
-          mw.tools.removeClass(mwd.body, 'loading');
+          mw.tools.removeClass(document.body, 'loading');
           mw.pauseSave = false;
           mw.on.DOMChangePause = false;
           return false;
@@ -686,7 +682,7 @@ mw.getScripts = function (array, callback) {
 
 
       typeof mw.drag !== 'undefined' ? mw.drag.fix_placeholders(true) : '';
-      var m = mwd.getElementById(id);
+      var m = document.getElementById(id);
       // typeof obj.done === 'function' ? obj.done.call(selector, m) : '';
 
       if(mw.wysiwyg){
@@ -704,7 +700,7 @@ mw.getScripts = function (array, callback) {
       if (mw.on) {
         mw.on.DOMChangePause = false;
       }
-      mw.tools.removeClass(mwd.body, 'loading');
+      mw.tools.removeClass(document.body, 'loading');
 
 
     })
@@ -721,7 +717,7 @@ mw.getScripts = function (array, callback) {
 
   mw.inLog = function(what) {
     if(!mw._inlog) {
-        mw._inlog = mwd.createElement('div');
+        mw._inlog = document.createElement('div');
         mw._inlog.className = 'mw-in-log';
         $(mw._inlog).css({
             position: 'fixed',
@@ -735,7 +731,7 @@ mw.getScripts = function (array, callback) {
             fontSize:10
 
         })
-        mwd.body.appendChild(mw._inlog)
+        document.body.appendChild(mw._inlog)
     }
       $(mw._inlog).append('<br>'+what)
       mw._inlog.scrollTop = mw._inlog.scrollHeight;
@@ -751,7 +747,7 @@ mw.getScripts = function (array, callback) {
   mw.$ = function(selector, context) {
     if(typeof selector === 'object' || (typeof selector === 'string' && selector.indexOf('<') !== -1)){ return jQuery(selector); }
     context = context || mwd;
-    if (typeof mwd.querySelector !== 'undefined') {
+    if (typeof document.querySelector !== 'undefined') {
       if (typeof selector === 'string') {
         try {
           return jQuery(context.querySelectorAll(selector));
@@ -884,7 +880,7 @@ mw._response = {
         err_holder = err_holder2;
     }
     if(err_holder.length === 0){
-        err_holder = mwd.createElement('div');
+        err_holder = document.createElement('div');
         form[method](err_holder);
     }
 

@@ -1,7 +1,7 @@
 <script type="text/javascript">
     function clientorderHandleParam(paramvalue) {
         if (paramvalue != false) {
-            mwd.getElementById('mw-clientorder').setAttribute('data-order-id', paramvalue);
+            document.getElementById('mw-clientorder').setAttribute('data-order-id', paramvalue);
             mw.load_module('shop/orders/client_inner', '#mw-clientorder', function () {
                 Rotator.go(1)
             });
@@ -13,7 +13,7 @@
     }
 
     $(document).ready(function () {
-        Rotator = mwd.getElementById('clients-rotator');
+        Rotator = document.getElementById('clients-rotator');
         mw.admin.simpleRotator(Rotator);
         var ord = mw.url.getHashParams(location.hash).clientorder;
         if (typeof ord != 'undefined') {

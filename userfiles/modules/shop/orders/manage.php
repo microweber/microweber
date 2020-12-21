@@ -38,7 +38,7 @@
 
     ordersSort = function (obj) {
         var group = mw.tools.firstParentWithClass(obj.el, 'js-table-sorting');
-        var table = mwd.getElementById(obj.id);
+        var table = document.getElementById(obj.id);
         var parent_mod = mw.tools.firstParentWithClass(table, 'module');
         var others = group.querySelectorAll('.js-sort-btn'), i = 0, len = others.length;
 
@@ -96,7 +96,7 @@
     }
 
     mw.on.hashParam('search', function () {
-        var field = mwd.getElementById('orders-search-field');
+        var field = document.getElementById('orders-search-field');
         $(field).addClass('loading')
 
         if (!field.focused) {
@@ -128,13 +128,7 @@
     //        }
     //
     //
-    //        mw_admin_edit_order_item_popup_modal_opened = mw.modal({
-    //            content: '<div id="mw_admin_edit_order_item_module"></div>',
-    //            title: modalTitle,
-    //            id: 'mw_admin_edit_order_item_popup_modal',
-    //            width: 900,
-    //            height: 800
-    //        });
+
     //
     //        var params = {}
     //        params.order_id = ord_id;

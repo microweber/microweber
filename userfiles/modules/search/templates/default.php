@@ -25,7 +25,7 @@ description: Default Search template
                    placeholder="<?php _e("Search"); ?>"/>
         </div>
         <div class="mw-ui-col mw-search-default-btn-holder">
-            <button class="mw-search-default-btn" onclick="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', mwd.getElementById('search_field_<?php print $params['id'] ?>').value);">
+            <button class="mw-search-default-btn" onclick="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', document.getElementById('search_field_<?php print $params['id'] ?>').value);">
 
             </button>
         </div>
@@ -61,7 +61,7 @@ description: Default Search template
 
         var s = mw.url.windowHashParam("keyword<?php print $seach_prefix ?>");
         if (!!s) {
-            mwd.getElementById('search_field_<?php  print $params['id'] ?>').value = decodeURIComponent(s);
+            document.getElementById('search_field_<?php  print $params['id'] ?>').value = decodeURIComponent(s);
         }
 
     });

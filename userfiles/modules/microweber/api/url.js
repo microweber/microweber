@@ -99,7 +99,7 @@ mw.url = {
         return hashes;
     },
     hashParamToActiveNode:function(param, classNamespace, context){
-        var context = context || mwd.body;
+        var context = context || document.body;
         var val =  mw.url.windowHashParam(param);
         mw.$('.'+classNamespace, context).removeClass('active');
         var active = mw.$('.'+classNamespace + '-' + val, context);

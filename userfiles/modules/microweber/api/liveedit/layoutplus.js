@@ -78,7 +78,7 @@ mw.layoutPlus = {
         var scope = this;
         scope.pause = true;
         var tip = new mw[mw.layoutPlus.mode]({
-            content: mwd.getElementById('plus-layouts-list').innerHTML,
+            content: document.getElementById('plus-layouts-list').innerHTML,
             element: el,
             position: 'right-center',
             template: 'mw-tooltip-default mw-tooltip-insert-module',

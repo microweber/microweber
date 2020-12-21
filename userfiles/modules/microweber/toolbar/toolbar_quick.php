@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
         $(document).ready(function () {
-          $(mwd.body).addClass("mw-admin-view")
+          $(document.body).addClass("mw-admin-view")
         });
 </script>
 
@@ -34,9 +34,9 @@
         $(document).ready(function () {
             mw.tools.dropdown();
             mw_save_draft_int = self.setInterval(function () {
-                mw.drag.save(mwd.getElementById('main-save-btn'), false, true);
+                mw.drag.save(document.getElementById('main-save-btn'), false, true);
                 if (mw.askusertostay) {
-                    mw.tools.removeClass(mwd.getElementById('main-save-btn'), 'disabled');
+                    mw.tools.removeClass(document.getElementById('main-save-btn'), 'disabled');
                 }
             }, 1000);
         });
@@ -88,7 +88,7 @@
 <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
 <script>
         mw.liveEditWYSIWYG = {
-            ed: mwd.getElementById('liveedit_wysiwyg'),
+            ed: document.getElementById('liveedit_wysiwyg'),
             nextBTNS: mw.$(".liveedit_wysiwyg_next"),
             prevBTNS: mw.$(".liveedit_wysiwyg_prev"),
             step: function () {
@@ -170,20 +170,20 @@
             mw.$(".tst-modules").click(function () {
 
                 mw.$(this).next('ul').hide()
-                var has_active = mwd.querySelector(".mw_toolbar_tab.active") !== null;
+                var has_active = document.querySelector(".mw_toolbar_tab.active") !== null;
                 if (!has_active) {
-                    mw.tools.addClass(mwd.getElementById('tab_modules'), 'active');
-                    mw.tools.addClass(mwd.querySelector('.mwtb-search-modules'), 'active');
-                    $(mwd.querySelector('.mwtb-search-modules')).focus();
+                    mw.tools.addClass(document.getElementById('tab_modules'), 'active');
+                    mw.tools.addClass(document.querySelector('.mwtb-search-modules'), 'active');
+                    $(document.querySelector('.mwtb-search-modules')).focus();
                 }
                 mw.liveedit.toolbar.fixPad();
             });
 
 
-            var tab_modules = mwd.getElementById('tab_modules');
-            var tab_layouts = mwd.getElementById('tab_layouts');
-            var modules_switcher = mwd.getElementById('modules_switcher');
-            // var modules_switch = mwd.getElementById('modules_switch');
+            var tab_modules = document.getElementById('tab_modules');
+            var tab_layouts = document.getElementById('tab_layouts');
+            var modules_switcher = document.getElementById('modules_switcher');
+            // var modules_switch = document.getElementById('modules_switch');
 			if(modules_switcher == null){
 			return;
 			}

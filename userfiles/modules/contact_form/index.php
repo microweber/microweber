@@ -36,7 +36,7 @@ if(typeof  processContactForm !== 'object'){
           form[0].reset();
           form.find(".alert-error").remove();
           setTimeout(function(){
-			  var cap = mwd.getElementById('captcha-<?php print $form_id; ?>');
+			  var cap = document.getElementById('captcha-<?php print $form_id; ?>');
 			  if(cap !== null){
 			    mw.tools.refresh_image(cap);
 			  }

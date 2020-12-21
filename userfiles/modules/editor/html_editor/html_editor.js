@@ -49,9 +49,9 @@ mw.html_editor.createItemContent = function (option) {
         return text.substring(0, 45) + '...';
     }
     else {
-        var framehold = mwd.createElement('div');
+        var framehold = document.createElement('div');
         framehold.className = 'liframe'
-        var frame = mwd.createElement('iframe');
+        var frame = document.createElement('iframe');
         framehold.appendChild(frame)
         frame.src = 'about:blank'
         frame.frameBorder = 0;

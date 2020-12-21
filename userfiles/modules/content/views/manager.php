@@ -12,7 +12,7 @@ $params_module = $params;
 <script type="text/javascript">
     publish_selected_posts = function () {
         mw.tools.confirm('<?php _e('Are you sure you want to publish this content?'); ?>', function () {
-            var master = mwd.getElementById('<?php print $params['id']; ?>');
+            var master = document.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
 
             arr.forEach(function (item) {
@@ -27,7 +27,7 @@ $params_module = $params;
 
     unpublish_selected_posts = function () {
         mw.tools.confirm('<?php _e('Are you sure you want to unpublish this content?'); ?>', function () {
-            var master = mwd.getElementById('<?php print $params['id']; ?>');
+            var master = document.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
 
             arr.forEach(function (item) {
@@ -41,7 +41,7 @@ $params_module = $params;
 
     delete_selected_posts = function () {
         mw.tools.confirm("<?php _ejs("Are you sure you want to delete the selected posts"); ?>?", function () {
-            var master = mwd.getElementById('<?php print $params['id']; ?>');
+            var master = document.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
             mw.post.del(arr, function () {
                 mw.reload_module('#<?php print $params['id']; ?>', function () {
@@ -59,7 +59,7 @@ $params_module = $params;
             var dialog = mw.dialog.get('#pick-categories');
             var tree = mw.tree.get('#pick-categories');
             var selected = tree.getSelected();
-            var posts = mw.check.collectChecked(mwd.getElementById('<?php print $params['id']; ?>'));
+            var posts = mw.check.collectChecked(document.getElementById('<?php print $params['id']; ?>'));
             var data = {
                 content_ids: posts,
                 categories: []

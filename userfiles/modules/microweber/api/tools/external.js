@@ -1,12 +1,12 @@
     mw.tools.externalInstrument = {
         register: {},
         holder: function () {
-            var div = mwd.createElement('div');
+            var div = document.createElement('div');
             div.className = 'mw-external-tool';
             return div;
         },
         prepare: function (name, params) {
-            var frame = mwd.createElement('iframe');
+            var frame = document.createElement('iframe');
             frame.name = name;
             /* for callbacks */
             var url = mw.external_tool(name);
@@ -31,7 +31,7 @@
                 mw.tools.externalInstrument.register[name] = frame;
                 if (!holder) {
                     holder = mw.tools.externalInstrument.holder();
-                    mw.$(mwd.body).append(holder);
+                    mw.$(document.body).append(holder);
                 }
                 mw.$(holder).append(frame);
             }

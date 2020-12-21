@@ -21,8 +21,8 @@ description: Autocomplete Search template
                id="search_field_<?php print $params['id'] . $rand ?>"
                class="mw-ui-field w100"
                placeholder="<?php _e("Search"); ?>"
-               onkeyup="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php print $params['id'] . $rand ?>'), this, event, 'search_results_holder_<?php print $params['id'] . $rand ?>');"
-               onpaste="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php print $params['id'] . $rand ?>'), this, event, 'search_results_holder_<?php print $params['id'] . $rand ?>');"
+               onkeyup="mw.autocompleteSearch(document.getElementById('search_box_holder_<?php print $params['id'] . $rand ?>'), this, event, 'search_results_holder_<?php print $params['id'] . $rand ?>');"
+               onpaste="mw.autocompleteSearch(document.getElementById('search_box_holder_<?php print $params['id'] . $rand ?>'), this, event, 'search_results_holder_<?php print $params['id'] . $rand ?>');"
         />
     </div>
 
@@ -58,12 +58,12 @@ description: Autocomplete Search template
                 clearTimeout(el.timeo);
                 el.timeo = setTimeout(function () {
                     if (el.value == '') {
-                        $(mwd.getElementById(holder_id)).hide();
+                        $(document.getElementById(holder_id)).hide();
                         parent.removeClass("loading");
                         return false;
                     }
-                    $(mwd.getElementById(holder_id)).show();
-                    mw.search(el.value, mwd.getElementById(holder_id), {
+                    $(document.getElementById(holder_id)).show();
+                    mw.search(el.value, document.getElementById(holder_id), {
                         template: 'search',
                         done: function () {
                             parent.removeClass("loading");
@@ -119,7 +119,7 @@ description: Autocomplete Search template
 
     if (!mw.autocompleteBinded) {
         mw.autocompleteBinded = true;
-        $(mwd.body).on('keyup mousedown', function (e) {
+        $(document.body).on('keyup mousedown', function (e) {
             if (!mw.tools.hasParentsWithClass(e.target, 'mw-search-autocomplete')) {
                 mw.$('.mw-autocomplete-search-results').hide();
             }

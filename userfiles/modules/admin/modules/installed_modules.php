@@ -24,7 +24,7 @@
         } else {
             var hash = mw.url.getHashParams(h);
             try {
-                mwd.querySelector(".modules-index-bar input[value='" + hash.ui + "']").checked = true;
+                document.querySelector(".modules-index-bar input[value='" + hash.ui + "']").checked = true;
             } catch (e) {
             }
         }
@@ -127,7 +127,7 @@
 
         mw.on.hashParam('search', function () {
             _modulesSort();
-            var field = mwd.getElementById('module_keyword');
+            var field = document.getElementById('module_keyword');
 
             if (!field.focused) {
                 field.value = this;
