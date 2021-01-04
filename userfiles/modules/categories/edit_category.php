@@ -69,7 +69,7 @@ if (isset($params['live_edit'])) {
             if (document.querySelector('.mw-ui-category-selector input:checked') !== null) {
                 $(document.forms['admin_edit_category_form']).submit();
             } else {
-                Alert('<?php _e("Please choose Page or Category"); ?>.');
+                mw.alert('<?php _e("Please choose Page or Category"); ?>.');
             }
         }
 

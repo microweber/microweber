@@ -257,7 +257,7 @@
   var Alert =
   /*#__PURE__*/
   function () {
-    function Alert(element) {
+    function mw.alert(element) {
       this._element = element;
     } // Getters
 

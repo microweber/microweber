@@ -665,7 +665,7 @@
             });
 
             $(Uploader).bind("responseError", function (e, json) {
-                Alert(json.error.message);
+                mw.alert(json.error.message);
                 ProgressBar.set(0);
                 ProgressBar.hide();
             });

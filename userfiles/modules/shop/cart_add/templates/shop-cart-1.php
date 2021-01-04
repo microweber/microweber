@@ -61,7 +61,7 @@ description: Add to cart
                 <div class="mw-price-item">
                     <?php if (!isset($in_stock) or $in_stock == false) : ?>
                         <button class="btn btn-default pull-right" type="button" disabled="disabled"
-                                onclick="Alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered", true)); ?>');"><i
+                                onclick="mw.alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered", true)); ?>');"><i
                                     class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
                             <?php _e("Out of stock"); ?>
                         </button>

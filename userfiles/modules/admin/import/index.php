@@ -55,7 +55,7 @@ mw.confirm_import_file = function($filename){
 
 
 
-	Alert(ModalContent);
+	mw.alert(ModalContent);
 	$(".mw_import_file").val($filename);
 
 	mw.$('#mw_alert .mw-cancel').hide();

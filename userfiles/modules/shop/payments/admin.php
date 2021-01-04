@@ -88,7 +88,7 @@
                 });
             },
             stop: function () {
-                //  Alert("<?php _ejs("Saving"); ?> ... ");
+                //  mw.alert("<?php _ejs("Saving"); ?> ... ");
             }
         })
     });
@@ -98,7 +98,7 @@
         email_to.to = $('#test_email_to').val();
         //email_to.subject = $('#test_email_subject').val();
         $.post("<?php print site_url('api_html/checkout_confirm_email_test'); ?>", email_to, function (msg) {
-            //Alert("<pre>"+msg+"</pre>")
+            //mw.alert("<pre>"+msg+"</pre>")
             mw.tools.modal.init({
                 html: "<pre>" + msg + "</pre>",
                 title: "<?php _e('Email send results...'); ?>"

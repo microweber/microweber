@@ -106,7 +106,7 @@ mw()->notifications_manager->mark_as_read('comments');
                 <?php _e("My templates"); ?>
             </a>
 
-            <a href="javascript:Alert('Coming soon');" class="mw-ui-btn mw-ui-btn-green">
+            <a href="javascript:mw.alert('Coming soon');" class="mw-ui-btn mw-ui-btn-green">
                 <?php _e("Get more templates"); ?>
             </a>
         </div>

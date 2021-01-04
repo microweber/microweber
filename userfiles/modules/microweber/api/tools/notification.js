@@ -53,7 +53,7 @@ mw.notification = {
                     mw.notification.success(data.success, timeout);
                 }
                 else {
-                    Alert(data.success);
+                    mw.alert(data.success);
                 }
             }
             if (data.error) {
