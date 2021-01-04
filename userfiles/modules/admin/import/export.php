@@ -60,7 +60,7 @@
         selected = selected_export_items.join(',') ;
 
         if(selected.length == 0 && selected_content.length == 0){
-            Alert("Please check at least one of the checkboxes");
+            mw.alert("Please check at least one of the checkboxes");
             return;
         }
 

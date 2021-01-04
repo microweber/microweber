@@ -1038,8 +1038,6 @@ mw.required.push("<?php print mw_includes_url(); ?>api/fonts.js");
 <?php  include  __DIR__.DS."components.js"; ?>
 
 
-<?php  @include __DIR__.DS."dialog.js"; ?>
-
 <?php  include __DIR__.DS."instruments.js"; ?>
 
 <?php  include __DIR__.DS."fonts.js"; ?>

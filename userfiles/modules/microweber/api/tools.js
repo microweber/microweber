@@ -41,7 +41,7 @@ mw.gallery = function (arr, start, modal) {
 
 };
 
-window.Alert = mw.tools.alert;
+mw.alert = mw.tools.alert;
 mw.tooltip = function (config) {
     return mw.tools.tooltip.init(config);
 };

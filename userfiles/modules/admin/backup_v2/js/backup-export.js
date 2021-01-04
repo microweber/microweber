@@ -444,7 +444,7 @@ mw.log(mw.$(template_holder).html())
         selected = selected_export_items.join(',') ;
 
         if(!selected.length && !selected_content.length){
-            Alert("Please check at least one of the checkboxes");
+            mw.alert("Please check at least one of the checkboxes");
             return;
         }
 

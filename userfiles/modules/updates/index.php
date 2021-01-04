@@ -36,7 +36,7 @@ mw()->notifications_manager->delete_for_module('updates');
 
 
             if (mw.$(".update-items input:checked").length === 0) {
-                Alert("Please select at least one item to update.")
+                mw.alert("Please select at least one item to update.")
                 return false;
             }
 
@@ -52,7 +52,7 @@ mw()->notifications_manager->delete_for_module('updates');
                     url: '<?php print api_link(); ?>mw_set_updates_queue',
                     error: function () {
                         mw.tools.enable(document.getElementById('installsubmit'));
-                        Alert("<?php _ejs("There was a Problem connecting to the Server"); ?>");
+                        mw.alert("<?php _ejs("There was a Problem connecting to the Server"); ?>");
                     },
                     done: function () {
 
@@ -112,7 +112,7 @@ mw()->notifications_manager->delete_for_module('updates');
         $(window).on("mw_updates_done", function () {
 
             mw.tools.enable(document.getElementById('installsubmit'));
-            Alert("Updates are successfully installed.");
+            mw.alert("Updates are successfully installed.");
             $('#number_of_updates').fadeOut();
             mw.reload_module('#mw-updates', function () {
                 mw.bind_update_btns();
