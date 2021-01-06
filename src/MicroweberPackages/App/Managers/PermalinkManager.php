@@ -305,7 +305,7 @@ class PermalinkManager
 
         if ($this->structure == 'page_category_post') {
             $structureMap[] = 'page';
-            $structureMap[] = 'category';
+            $structureMap[] = 'category|post';
             $structureMap[] = 'post';
         }
 
