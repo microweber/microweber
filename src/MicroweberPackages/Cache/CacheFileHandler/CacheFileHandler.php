@@ -52,7 +52,7 @@ class CacheFileHandler
             if (empty($dp[self::SLIDING])) {
                 $meta[self::META_EXPIRE] = $dp[self::EXPIRATION] + time(); // absolute time
             } else {
-                $meta[self::META_DELTA] = (int) $dp[self::EXPIRATION]; // sliding time
+                $meta[self::META_DELTA] = (int)$dp[self::EXPIRATION]; // sliding time
             }
         }
 
@@ -95,7 +95,7 @@ class CacheFileHandler
         }
 
         $head = serialize($meta);
-        $head = str_pad((string) strlen($head), 6, '0', STR_PAD_LEFT) . $head;
+        $head = str_pad((string)strlen($head), 6, '0', STR_PAD_LEFT) . $head;
         $headLen = strlen($head);
 
         do {
@@ -130,7 +130,7 @@ class CacheFileHandler
 
         flock($handle, $lock);
 
-        $size = (int) stream_get_contents($handle, self::META_HEADER_LEN);
+        $size = (int)stream_get_contents($handle, self::META_HEADER_LEN);
         if ($size) {
             $meta = stream_get_contents($handle, $size, self::META_HEADER_LEN);
             $meta = unserialize($meta);
@@ -146,17 +146,20 @@ class CacheFileHandler
 
     /**
      * Deletes and closes file.
-     * @param  resource  $handle
+     * @param  resource $handle
      */
     private static function delete(string $file, $handle = null): void
     {
-        if (@unlink($file)) { // @ - file may not already exist
-            if ($handle) {
-                flock($handle, LOCK_UN);
-                fclose($handle);
+        if (is_file($file)) {
+            if (@unlink($file)) { // @ - file may not already exist
+                if ($handle) {
+                    flock($handle, LOCK_UN);
+                    fclose($handle);
+                }
+                return;
             }
-            return;
         }
+
 
         if (!$handle) {
             $handle = @fopen($file, 'r+'); // @ - file may not exist
@@ -169,7 +172,9 @@ class CacheFileHandler
         ftruncate($handle, 0);
         flock($handle, LOCK_UN);
         fclose($handle);
-        @unlink($file); // @ - file may not already exist
+        if (is_file($file)) {
+            @unlink($file); // @ - file may not already exist
+        }
     }
 
     protected function readData(array $meta)
