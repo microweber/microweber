@@ -696,18 +696,21 @@ trait QueryFilter
 
                 case $this->_is_closure($params[$filter]):
 
+                    $query = call_user_func($params[$filter], $query, $params);
+                    unset($params[$filter]);
 
-                    $query = $query->where(function ($query) use (&$params, $filter) {
-                        $call = $params[$filter];
-                        unset($params[$filter]);
-
-
-                        //call_user_func_array($call, $params);
-                        $query = call_user_func($call, $query, $params);
-
-                        return $query;
-
-                    });
+//
+//                    $query = $query->where(function ($query) use (&$params, $filter) {
+//                        $call = $params[$filter];
+//                        unset($params[$filter]);
+//
+//
+//                        //call_user_func_array($call, $params);
+//                        $query = call_user_func($call, $query, $params);
+//
+//                        return $query;
+//
+//                    });
 
 
                     break;
