@@ -258,7 +258,6 @@ class OptionManager
 
 
 
-
         if($option_group){
             $get_all = Option::where('option_group',$option_group)->get()->toArray();
 
@@ -281,8 +280,18 @@ class OptionManager
             return false;
         }
 
+
+
+
+
         $get = array();
         foreach ($get_all as $get_opt) {
+
+            if (isset($get_opt['option_value']) and is_string($get_opt['option_value']) and strval($get_opt['option_value']) != '') {
+                $get_opt['option_value'] = $this->app->url_manager->replace_site_url_back($get_opt['option_value']);
+            }
+
+
             if ($key == $get_opt['option_key']) { //  && $get_opt['option_group'] == $option_group && $get_opt['module'] == $module
 /*
                 $override = $this->app->event_manager->trigger('option.after.get', $get_opt);
@@ -308,9 +317,7 @@ class OptionManager
                 }
 
                 $get = $get[0]['option_value'];
-                if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = $this->app->url_manager->replace_site_url_back($get['option_value']);
-                }
+
 
                 $this->options_memory[$function_cache_id] = $get;
 
