@@ -80,18 +80,35 @@ if ($stylesheet_settings) {
     });
 
     function reloadTemplate() {
+
+
+        $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
+
         parent.mw.notification.success("<?php _ejs("Template settings are saved"); ?>.");
         parent.$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
         mw.tools.refresh(parent.$("#theme-style"));
+        });
     }
 
     function deleteCompiledCSS() {
-        $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
-            // Delete
-            reloadTemplate();
-            window.parent.mw.drag.save();
-            window.parent.location.reload(false);
-        });
+        if (confirm("Are you sure you want to reset stylesheet ?")) {
+
+            $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>&delete_options=true", function () {
+                // Delete
+                // reloadTemplate();
+                reloadTemplate();
+                window.location.reload(false);
+                //     window.parent.mw.drag.save();
+                // window.parent.location.reload(false);
+            });
+
+
+
+        }
+
+
+
+
     }
 </script>
 

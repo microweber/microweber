@@ -11,6 +11,8 @@
 
 </script>
 
+
+
 <style>
     .bootstrap3ns .checkbox label, .bootstrap3ns .radio label {
         padding-left: 0;
@@ -20,7 +22,7 @@
 
 <div id="settings-holder">
     <div class="col-12">
-        <h4 style="font-weight: bold;">Template Settings</h4>
+        <h4 style="font-weight: bold;">Template Settings  asdasd</h4>
     </div>
     <?php //d($template_settings); ?>
     <div class="bootstrap3ns">

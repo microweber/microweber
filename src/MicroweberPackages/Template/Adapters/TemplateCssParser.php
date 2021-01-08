@@ -46,16 +46,16 @@ class TemplateCssParser
         $to_generate_css_file = false;
 
 
-        if (isset($outputFileLocations['output']['file']) and !is_file($outputFileLocations['output']['file'])) {
+        if (isset($outputFileLocations['output']['file']) and (!is_file($outputFileLocations['output']['file']) or !$cache)) {
             $to_generate_css_file = $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName . '&token=' . $token);
             if (!defined('MW_NO_OUTPUT_CACHE')) {
                 define('MW_NO_OUTPUT_CACHE', true);
             }
 
         }
+
         if ($cache == false and $to_generate_css_file) {
             $returnUrl = $to_generate_css_file;
-
         } else {
             if (isset($outputFileLocations['output']['file']) && is_file($outputFileLocations['output']['file'])) {
                 $returnUrl = $outputFileLocations['output']['fileUrl'];
@@ -100,13 +100,13 @@ class TemplateCssParser
     {
 
         $optionGroup = mw()->option_manager->get_all('option_group=' . $options['option_group']);
-
-        if (!empty($optionGroup)) {
-            foreach ($optionGroup as $option) {
-                mw()->option_manager->delete($option['option_key'], $option['option_group']);
+        if (isset($options['delete_options']) and $options['delete_options']) {
+            if (!empty($optionGroup)) {
+                foreach ($optionGroup as $option) {
+                    mw()->option_manager->delete($option['option_key'], $option['option_group']);
+                }
             }
         }
-
         $compileFile = $this->_getOutputDir($options['path']);
         $compileFile = normalize_path($compileFile, false);
         $compileFile = $compileFile . '.css';
