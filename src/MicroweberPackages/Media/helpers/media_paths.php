@@ -2,7 +2,13 @@
 function media_uploads_url()
 {
     $environment = App::environment();
-    $folder = media_base_url() . ($environment . '/');
+    $folder = media_base_url() . ('default/');
+
+    if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+        $folder = media_base_url() . ($environment . '/');
+    }
+
+
     return $folder;
 }
 

@@ -17,7 +17,10 @@ function template_stylesheet()
         return;
     }
 
-    return '<link href="' . mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], $template_settings['stylesheet_compiler']['css_file'], true) . '" id="theme-style" rel="stylesheet" type="text/css" media="all"/>';
+    $stylesheet = mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], $template_settings['stylesheet_compiler']['css_file'], true);
+    if($stylesheet){
+    return '<link href="' . $stylesheet . '" id="theme-style" rel="stylesheet" type="text/css" media="all"/>';
+    }
 }
 
 function template_default_css()
