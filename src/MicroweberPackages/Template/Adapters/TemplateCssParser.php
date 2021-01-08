@@ -45,28 +45,29 @@ class TemplateCssParser
 
         $to_generate_css_file = false;
 
-        if (isset($outputFileLocations['cssFilePath']) and isset($outputFileLocations['output']['fileCss']) and !is_file($outputFileLocations['output']['fileCss'])) {
 
-            $to_generate_css_file = $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&css_path=' . $outputFileLocations['cssFilePath'] . '&template_folder=' . $themeFolderName . '&token=' . $token);
-        } else if (isset($outputFileLocations['output']['file']) and !is_file($outputFileLocations['output']['file'])) {
+        if (isset($outputFileLocations['output']['file']) and !is_file($outputFileLocations['output']['file'])) {
             $to_generate_css_file = $returnUrl = api_url('template/compile_css?path=' . $lessFilePath . '&option_group=' . $optionGroupName . '&template_folder=' . $themeFolderName . '&token=' . $token);
-        }
+            if (!defined('MW_NO_OUTPUT_CACHE')) {
+                define('MW_NO_OUTPUT_CACHE', true);
+            }
 
+        }
         if ($cache == false and $to_generate_css_file) {
             $returnUrl = $to_generate_css_file;
 
         } else {
-            if (isset($outputFileLocations['output']['file']) && is_file($outputFileLocations['output']['file']) && is_file($outputFileLocations['output']['fileCssLocal'])) {
+            if (isset($outputFileLocations['output']['file']) && is_file($outputFileLocations['output']['file'])) {
                 $returnUrl = $outputFileLocations['output']['fileUrl'];
 
             } else if ($to_generate_css_file and isset($outputFileLocations['cssFilePath']) and isset($outputFileLocations['output']['fileCss']) and !is_file($outputFileLocations['output']['fileCss'])) {
                 $returnUrl = $to_generate_css_file;
 
-            } else if (isset($outputFileLocations['output']['fileCssUrl'])  and isset($outputFileLocations['output']['fileCss']) and is_file($outputFileLocations['output']['fileCss'])) {
+            } else if (isset($outputFileLocations['output']['fileCssUrl']) and isset($outputFileLocations['output']['fileCss']) and is_file($outputFileLocations['output']['fileCss'])) {
                 $returnUrl = $outputFileLocations['output']['fileCssUrl'];
 
             } else {
-            //    $returnUrl = $outputFileLocations['output']['fileUrl'];
+                //    $returnUrl = $outputFileLocations['output']['fileUrl'];
             }
 
         }
@@ -129,6 +130,12 @@ class TemplateCssParser
         $cssPath = array_get($params, 'css_path', false);
         $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $templateFolder);
 
+        $dn = dirname($outputFileLocations['output']['file']);
+        if (!is_dir($dn)) {
+            mkdir_recursive($dn);
+        }
+
+
         $parserOptions = array(
             'sourceMap' => true,
             'compress' => true,
@@ -167,6 +174,7 @@ class TemplateCssParser
         }
 
         // Save compiled file
+
         $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
         $response = \Response::make($cssContent);
@@ -182,7 +190,6 @@ class TemplateCssParser
 
         $templateConfig = mw()->template->get_config();
 
-
         if (isset($templateConfig['version'])) {
             $lessFilePathWithVersion = $lessFilePath . '.' . MW_VERSION . '-' . $templateConfig['version'];
         } else {
@@ -196,8 +203,13 @@ class TemplateCssParser
 
 
         // Output dirs
-        $outputDir = media_uploads_path() . 'css/';
-        $outputUrl = media_uploads_url() . 'css/';
+        $outputDir = media_uploads_path() . 'css/' . $templateConfig['dir_name'] . '/';
+        $outputUrl = media_uploads_url() . 'css/' . $templateConfig['dir_name'] . '/';
+
+        if (!is_dir($outputDir)) {
+            mkdir_recursive($outputDir);
+        }
+
 
         $outputFile = $outputDir . $lessFilePathWithVersion . '.css';
 
@@ -258,7 +270,7 @@ class TemplateCssParser
                 'fileMapUrl' => $outputFileMapUrl,
                 'fileCss' => $outputFileCss,
                 'fileCssUrl' => $outputFileCssUrl,
-                'fileCssLocal' => $outputFileCssLocal,
+                //'fileCssLocal' => $outputFileCssLocal,
             )
         );
     }
@@ -267,6 +279,11 @@ class TemplateCssParser
     {
 
         $outputFile = normalize_path($outputFile, false);
+
+        $dir = dirname($outputFile);
+        if (!is_dir($dir)) {
+            mkdir_recursive($dir);
+        }
 
         file_put_contents($outputFile, $cssContent);
 

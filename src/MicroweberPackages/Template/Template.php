@@ -183,6 +183,7 @@ class Template
             if (is_file($file)) {
                 include $file;
                 if (isset($config)) {
+                    $config['dir_name'] = basename($dir);
                     $this->template_config_cache[$file] = $config;
                     return $config;
                 }
