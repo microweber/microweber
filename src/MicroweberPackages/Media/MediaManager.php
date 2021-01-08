@@ -1143,7 +1143,7 @@ class MediaManager
         }
 
 
-        if($return_cache_path){
+        if(isset($return_cache_path) and $return_cache_path){
             return $cache_path;
         }
 
