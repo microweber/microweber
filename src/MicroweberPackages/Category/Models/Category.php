@@ -8,7 +8,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Category extends Model
 {
-   use CacheableQueryBuilderTrait;
+    use CacheableQueryBuilderTrait;
     use Filterable;
 
     protected $table = 'categories';
@@ -22,6 +22,25 @@ class Category extends Model
     protected $attributes = [
         'data_type' => 'category',
         'rel_type' => 'content'
+    ];
+
+    public $fillable = [
+        "rel",
+        "rel_id",
+        "date_type",
+        "parent_id",
+        "title",
+        "content",
+        "description",
+        "category-parent-selector",
+        "position",
+        "thumbnail",
+        "url",
+        "users_can_create_content",
+        "category_subtype",
+        "category_meta_title",
+        "category_meta_description",
+        "category_meta_keywords"
     ];
 
     public $translatable = ['title','url','description','content'];
