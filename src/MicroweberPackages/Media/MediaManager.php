@@ -898,7 +898,7 @@ class MediaManager
 
         $cache_id_data = array();
         $cache_id_data['mtime'] = '';
-        if (!$is_remote and is_file($base_src)) {
+        if (!$is_remote and @is_file($base_src)) {
             $cache_id_data['mtime'] = filemtime($base_src);
         }
         $cache_id_data['base_src'] = $base_src;
@@ -917,7 +917,7 @@ class MediaManager
         //dump($cache_path);
         if ($is_remote) {
             return $src;
-        } elseif (is_file($cache_path)) {
+        } elseif (@is_file($cache_path)) {
             $cache_path = $this->app->url_manager->link_to_file($cache_path);
             return $cache_path;
         } else {
@@ -925,7 +925,7 @@ class MediaManager
                 return $this->pixum($width, $height);
             }
             $file_exists_local = url2dir($src);
-            if (!is_file($file_exists_local)) {
+            if (!@is_file($file_exists_local)) {
                 return $this->pixum($width, $height);
             }
 
@@ -1143,6 +1143,9 @@ class MediaManager
         }
 
 
+        if($return_cache_path){
+            return $cache_path;
+        }
 
         if (is_file($cache_path)) {
             $ext = get_file_extension($cache_path);
