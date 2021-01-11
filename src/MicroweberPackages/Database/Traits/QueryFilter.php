@@ -55,17 +55,21 @@ trait QueryFilter
                 $is_fields = explode(',', $is_fields);
             }
 
-            if (is_array($is_fields) and !empty($is_fields)) {
+            $is_fields_q = [];
+            if ($is_fields) {
                 foreach ($is_fields as $is_field) {
                     if (is_string($is_field)) {
                         $is_field = trim($is_field);
                         if ($is_field != '') {
-                            $query = $query->select($table . '.' . $is_field);
+                            $is_fields_q[] = $table . '.' . $is_field;
                         }
-                        $query = $query->select($table . '.*');
                     }
                 }
             }
+            if ($is_fields_q) {
+                $query = $query->select($is_fields_q);
+            }
+
         } else {
             $query = $query->select($table . '.*');
         }
