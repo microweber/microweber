@@ -8,7 +8,10 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 class Option extends Model
 {
 
+    public $cacheTagsToClear = ['global','content','frontend'];
     use CacheableQueryBuilderTrait;
+
+
     protected $casts = [
 
         'option_value' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/

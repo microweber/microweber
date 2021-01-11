@@ -464,6 +464,7 @@ class OptionManager
                 }
 
                 $this->app->cache_manager->delete('options');
+                $this->app->cache_manager->delete('content');
 
                 return $save;
             }
