@@ -122,13 +122,21 @@ class UserLoginController extends Controller
 
             $response['success'] = _e('You are logged in', 1);
 
-            $redirectParams = $request->only('redirect', 'where_to');
+            $redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
 
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
                 if (Auth::user()->is_admin == 1 && $redirectParams['where_to'] == 'admin_content') {
                     $redirectParams['redirect'] = admin_url();
                 } else {
                     $redirectParams['redirect'] = site_url();
+                }
+            }
+
+            if (isset($redirectParams['http_redirect'])) {
+                if (Auth::user()->is_admin == 1 && $redirectParams['where_to'] == 'admin_content') {
+                    return redirect(admin_url());
+                } else {
+                    return redirect(site_url());
                 }
             }
 
