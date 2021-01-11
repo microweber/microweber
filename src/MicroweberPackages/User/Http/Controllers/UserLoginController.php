@@ -60,7 +60,8 @@ class UserLoginController extends Controller
 		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
 		
         if (Auth::check()) {
-			
+
+            // This will be used for whmcs login redirect
 			if (isset($redirectParams['http_redirect'])) {
                 if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
                     return redirect(admin_url());
