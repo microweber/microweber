@@ -8,7 +8,7 @@ use Config;
 
 trait QueryFilter
 {
-    public $table_cache_ttl = 600;
+    public $table_cache_ttl = 3600;
 
     public $filter_keys = [];
 

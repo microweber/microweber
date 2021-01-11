@@ -10,6 +10,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 use MicroweberPackages\Cache\CacheFileHandler\CacheFileHandler;
+use MicroweberPackages\Cache\CacheFileHandler\MemoryCacheFileHandler;
 
 class TaggableFileStore implements Store
 {
@@ -79,7 +80,8 @@ class TaggableFileStore implements Store
         $this->directoryTags = $this->normalizePath($this->directoryTags);
         $this->directoryData = $this->normalizePath($this->directoryData);
 
-        $this->cacheHandler = new CacheFileHandler();
+     //   $this->cacheHandler = new CacheFileHandler();
+        $this->cacheHandler = new MemoryCacheFileHandler();
     }
 
 

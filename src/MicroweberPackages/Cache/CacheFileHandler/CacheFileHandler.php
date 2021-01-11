@@ -42,7 +42,7 @@ class CacheFileHandler
         return $meta ? $this->readData($meta) : null;
     }
 
-    public function writeToCache(string $key, $data, array $dp = []): void
+    public function writeToCache(string $key, $data, array $dp = [])
     {
         $meta = [
             self::META_TIME => microtime(),
@@ -118,6 +118,9 @@ class CacheFileHandler
         } while (false);
 
         $this->delete($cacheFile, $handle);
+
+
+        return true;
     }
 
     // LOCK_SH to acquire a shared lock (reader).
@@ -179,11 +182,14 @@ class CacheFileHandler
 
     protected function readData(array $meta)
     {
-        $data = stream_get_contents($meta[self::HANDLE]);
-        flock($meta[self::HANDLE], LOCK_UN);
-        fclose($meta[self::HANDLE]);
+        $data = null;
+        if (is_resource($meta[self::HANDLE])) {
+            $data = stream_get_contents($meta[self::HANDLE]);
+            flock($meta[self::HANDLE], LOCK_UN);
+            fclose($meta[self::HANDLE]);
+            return empty($meta[self::META_SERIALIZED]) ? $data : unserialize($data);
+        }
 
-        return empty($meta[self::META_SERIALIZED]) ? $data : unserialize($data);
     }
 
     public function lock(string $key): void
