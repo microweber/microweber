@@ -1,6 +1,6 @@
 # Microweber: Drag-and-Drop CMS
 
-**Current version: 1.0 running on Laravel 5!**
+**Current version: 1.2 running on Laravel 8!**
 
 
 **[Download](https://microweber.com/download.php) |
@@ -18,7 +18,7 @@
 ## What is Microweber?  
 
 
-![admin panel](https://microweber.com/cdn/2019_version/1.jpg "")
+![admin panel](https://microweber.org/userfiles/media/microweber.org/dashboard-1_17.jpg "")
 
 
 Microweber is a Drag and Drop website builder and a powerful next generation CMS. It's based on the PHP Laravel Framework. You can use Microweber to make any kind of website, online store, and blog. The Drag and Drop technology allows you to build your website without any technical knowledge.
