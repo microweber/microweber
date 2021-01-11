@@ -196,7 +196,7 @@ class ContentManagerCrud extends Crud
 
          if (isset($params['filter-only-in-stock'])) {
             $params['__query_get_only_in_stock'] = function ($query){
-                $query->whereIn('content.id', function ($subQuery)  {
+                return $query->whereIn('content.id', function ($subQuery)  {
                     $subQuery->select('content_data.content_id');
                     $subQuery->from('content_data');
                     $subQuery->where('content_data.field_name', '=', 'qty');

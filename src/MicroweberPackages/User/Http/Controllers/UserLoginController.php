@@ -57,7 +57,19 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
+		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
+		
         if (Auth::check()) {
+
+            // This will be used for whmcs login redirect
+			if (isset($redirectParams['http_redirect'])) {
+                if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
+                    return redirect(admin_url());
+                } else {
+                    return redirect(site_url());
+                }
+            }
+			
             $message = [];
             if (Auth::user()->is_admin == 1) {
                 $message['token'] = auth()->user()->createToken('authToken');
@@ -122,10 +134,8 @@ class UserLoginController extends Controller
 
             $response['success'] = _e('You are logged in', 1);
 
-            $redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
-
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
-                if (Auth::user()->is_admin == 1 && $redirectParams['where_to'] == 'admin_content') {
+                if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
                     $redirectParams['redirect'] = admin_url();
                 } else {
                     $redirectParams['redirect'] = site_url();
@@ -133,7 +143,7 @@ class UserLoginController extends Controller
             }
 
             if (isset($redirectParams['http_redirect'])) {
-                if (Auth::user()->is_admin == 1 && $redirectParams['where_to'] == 'admin_content') {
+                if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
                     return redirect(admin_url());
                 } else {
                     return redirect(site_url());
