@@ -787,7 +787,9 @@ trait QueryFilter
         foreach ($params as $column => $value) {
             switch ($value) {
                 case '[not_null]':
-                    $query->whereNotNull($column);
+                    if(!empty($query)) {
+                        $query->whereNotNull($column);
+                    }
                     unset($params[$column]);
                     break;
 
