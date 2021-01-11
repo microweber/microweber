@@ -151,7 +151,7 @@ class AppServiceProvider extends ServiceProvider
         'Response' => \Illuminate\Support\Facades\Response::class,
         'Route' => \Illuminate\Support\Facades\Route::class,
         'Schema' => \Illuminate\Support\Facades\Schema::class,
-        //  'Session' => \Illuminate\Support\Facades\Session::class,
+          'Session' => \Illuminate\Support\Facades\Session::class,
         'Storage' => \Illuminate\Support\Facades\Storage::class,
         'Str' => \Illuminate\Support\Str::class,
         'URL' => \Illuminate\Support\Facades\URL::class,
