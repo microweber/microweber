@@ -28,6 +28,12 @@ class FrontendController extends Controller
     public $params = array();
     public $vars = array();
 
+
+    public $debugbarEnabled = false;
+
+
+
+
     public function __construct($app = null)
     {
         if (!is_object($this->app)) {
@@ -54,6 +60,10 @@ class FrontendController extends Controller
                 $this->app->update->post_update(MW_VERSION);
             }
         }
+
+
+        $this->debugbarEnabled = Config::get('debugbar.enabled');
+
 
         if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
@@ -2002,9 +2012,14 @@ class FrontendController extends Controller
             }
             $modify_content = event_trigger('on_load', $content);
 
-
+            if ($this->debugbarEnabled) {
+                \Debugbar::startMeasure('render', 'Time for rendering');
+            }
             $l = $this->app->parser->process($l, $options = false);
 
+            if ($this->debugbarEnabled) {
+                \Debugbar::stopMeasure('render');
+            }
             if ($preview_module_id != false) {
                 $_REQUEST['embed_id'] = $preview_module_id;
             }
