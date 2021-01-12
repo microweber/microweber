@@ -58,6 +58,8 @@ class TaggableFileStore implements Store
      */
     protected $tags = array();
 
+    protected $emitEvents = false;
+
     /**
      * Create a new file cache store instance.
      *
@@ -84,7 +86,9 @@ class TaggableFileStore implements Store
         $this->directoryTags = $this->normalizePath($this->directoryTags);
         $this->directoryData = $this->normalizePath($this->directoryData);
 
-     //   $this->cacheHandler = new CacheFileHandler();
+        $this->emitEvents = \Config::get('debugbar.enabled');
+
+        //   $this->cacheHandler = new CacheFileHandler();
         $this->cacheHandler = new MemoryCacheFileHandler();
     }
 
@@ -125,7 +129,9 @@ class TaggableFileStore implements Store
 
         if (isset($this->files->cachedDataMemory[$cacheKey])) {
             $data = $this->files->cachedDataMemory[$cacheKey];
-            event(new CacheHit($key, $data));
+            if ($this->emitEvents) {
+                event(new CacheHit($key, $data));
+            }
             return $data;
         }
 
@@ -167,17 +173,16 @@ class TaggableFileStore implements Store
         }
 
 
-
         // If we could not find the cache value, we will fire the missed event and get
         // the default value for this cache value. This default could be a callback
         // so we will execute the value function which will resolve it if needed.
-        if (is_null($data)) {
-           event(new CacheMissed($key));
-        } else {
-           event(new CacheHit($key, $data));
+        if ($this->emitEvents) {
+            if (is_null($data)) {
+                event(new CacheMissed($key));
+            } else {
+                event(new CacheHit($key, $data));
+            }
         }
-
-
 
         $this->files->cachedDataMemory[$cacheKey] = $data;
         return $data;
@@ -249,12 +254,9 @@ class TaggableFileStore implements Store
             //WAS $save = @file_put_contents($path, $value);
             $this->cacheHandler->writeToCache($path, $value);
 
-
-            event(new KeyWritten($key, $value, $seconds));
-
-
-
-
+            if ($this->emitEvents) {
+                event(new KeyWritten($key, $value, $seconds));
+            }
 
 //            if (!$save) {
 //                $save = @file_put_contents($path, $value);
@@ -481,7 +483,7 @@ class TaggableFileStore implements Store
      */
     public function increment($key, $value = 1)
     {
-        $oldValue = (int) $this->get($key);
+        $oldValue = (int)$this->get($key);
         $newValue = $oldValue + $value;
 
         $this->put($key, $newValue);
@@ -499,7 +501,7 @@ class TaggableFileStore implements Store
      */
     public function decrement($key, $value = 1)
     {
-        $oldValue = (int) $this->get($key);
+        $oldValue = (int)$this->get($key);
         $newValue = $oldValue - $value;
 
         $this->put($key, $newValue);
@@ -543,8 +545,9 @@ class TaggableFileStore implements Store
         if ($this->files->exists($findTagPath)) {
             $this->files->delete($findTagPath);
         }
-        event(new KeyForgotten($key));
-
+        if ($this->emitEvents) {
+            event(new KeyForgotten($key));
+        }
 
     }
 
