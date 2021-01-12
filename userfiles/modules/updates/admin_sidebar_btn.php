@@ -1,7 +1,7 @@
 <?php must_have_access() ?>
 
 <?php
-
+return;
 
 $check = __mw_check_core_system_update();
 if ($check and is_array($check) and !isset($_COOKIE['mw_dont_show_update_notif'])) {
