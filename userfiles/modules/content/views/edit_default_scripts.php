@@ -208,7 +208,7 @@
         if (categories.length) {
             data.category_ids  = categories.join(',')
         } else {
-            data.category_ids = '';
+            data.category_ids = 0;
 
         }
 

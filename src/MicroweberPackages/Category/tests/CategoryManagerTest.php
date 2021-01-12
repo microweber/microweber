@@ -41,6 +41,17 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals(2,count( $contentForCategories[0]));
 
 
+        //delete from cat
+        $newPage->category_ids = 0;
+        $newPage->save();
+        //check if deleted
+        $contentForCategories = get_content(array(
+            "categories"=>[$category->id],
+            "fields"=>'title,id'
+        ));
+
+        $this->assertEquals(null, $contentForCategories);
+
     }
 
 
