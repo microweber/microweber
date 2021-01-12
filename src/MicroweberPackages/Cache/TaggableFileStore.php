@@ -3,6 +3,10 @@
 namespace MicroweberPackages\Cache;
 
 use Closure;
+use Illuminate\Cache\Events\CacheHit;
+use Illuminate\Cache\Events\CacheMissed;
+use Illuminate\Cache\Events\KeyForgotten;
+use Illuminate\Cache\Events\KeyWritten;
 use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -120,7 +124,9 @@ class TaggableFileStore implements Store
         $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
 
         if (isset($this->files->cachedDataMemory[$cacheKey])) {
-            return $this->files->cachedDataMemory[$cacheKey];
+            $data = $this->files->cachedDataMemory[$cacheKey];
+            event(new CacheHit($key, $data));
+            return $data;
         }
 
         $findTagPath = $this->_findCachePathByKey($key);
@@ -159,6 +165,19 @@ class TaggableFileStore implements Store
             $this->forget($key);
             return;
         }
+
+
+
+        // If we could not find the cache value, we will fire the missed event and get
+        // the default value for this cache value. This default could be a callback
+        // so we will execute the value function which will resolve it if needed.
+        if (is_null($data)) {
+           event(new CacheMissed($key));
+        } else {
+           event(new CacheHit($key, $data));
+        }
+
+
 
         $this->files->cachedDataMemory[$cacheKey] = $data;
         return $data;
@@ -229,6 +248,13 @@ class TaggableFileStore implements Store
             // Save key value in file
             //WAS $save = @file_put_contents($path, $value);
             $this->cacheHandler->writeToCache($path, $value);
+
+
+            event(new KeyWritten($key, $value, $seconds));
+
+
+
+
 
 //            if (!$save) {
 //                $save = @file_put_contents($path, $value);
@@ -517,6 +543,8 @@ class TaggableFileStore implements Store
         if ($this->files->exists($findTagPath)) {
             $this->files->delete($findTagPath);
         }
+        event(new KeyForgotten($key));
+
 
     }
 
