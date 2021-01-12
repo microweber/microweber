@@ -2053,7 +2053,7 @@ class Parser
         $that->module_load_registry[$mod_id_value] = $that->load_module_callback($module_name, $attrs);
 
         if ($this->debugbarEnabled) {
-            \Debugbar::stopMeasure('render_module_'.$module_name);
+            \Debugbar::stopMeasure('render_module_'.$module_name,$attrs);
         }
 
 
