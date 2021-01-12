@@ -289,7 +289,6 @@ if(typeof mw.rotator === 'undefined'){
           var jqel = $(el);
               if(!jqel.hasClass("active")){
                  if($(selector+".active").length == 0){
-                  //var info = mw.tools.html_info($(el.parentNode).html());
 
                   mw.tools.image_info(el.getElementsByTagName('img')[0], function(){
                         var w = this.width;

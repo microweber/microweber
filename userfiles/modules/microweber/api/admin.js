@@ -1,7 +1,6 @@
 mw.require('tree.js');
 mw.require('link-editor.js');
 mw.require('tags.js');
-mw.require('tags.js');
 mw.require(mw.settings.modules_url + '/categories/categories.js');
 
 
@@ -77,9 +76,7 @@ mw.admin = {
     insertModule: function (module) {
         document.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
     },
-
-
-        simpleRotator: function (rotator) {
+    simpleRotator: function (rotator) {
         if (rotator === null) {
             return undefined;
         }
@@ -224,8 +221,6 @@ $(mww).on('load', function () {
 
     });
 
-
-
     if (document.getElementById('main-bar-user-menu-link') !== null) {
 
         mw.$(document.body).on('click', function (e) {
@@ -254,16 +249,4 @@ $(mww).on('load', function () {
 
 });
 
-
-QTABSArrow = function (el) {
-    el = mw.$(el);
-    if (el == null) {
-        return;
-    }
-    if (!el.length) {
-        return;
-    }
-    var left = el.offset().left - mw.$(document.getElementById('quick-add-post-options')).offset().left + (el[0].offsetWidth / 2) - 5;
-    mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
-};
 

@@ -135,7 +135,7 @@ PrepareEditor = function(){
   }
 }
 
-$(window).load(function(){
+$(window).on('load', function(){
 
 
   mw.linkTip.init(document.getElementById('mw-iframe-editor-area'));
@@ -194,7 +194,7 @@ $(document.body).on('keydown keypress paste input', function(e){
 });
 
 
-$(window).load(function(){
+$(window).on('load', function(){
       $(document.body).on('mousedown', function(e){
         parent.mw.$(".mw-ui-category-selector").hide();
         parent.$(parent.document.body).trigger('mousedown');

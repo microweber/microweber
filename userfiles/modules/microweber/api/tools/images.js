@@ -11,19 +11,19 @@ mw.image = {
                 mw.image_resizer = resizer;
                 mw.image_resizer_time = null;
                 mw.image_resizer._show = function () {
-                    clearTimeout(mw.image_resizer_time)
-                    mw.$(mw.image_resizer).addClass('active')
+                    clearTimeout(mw.image_resizer_time);
+                    mw.$(mw.image_resizer).addClass('active');
                 };
                 mw.image_resizer._hide = function () {
-                    clearTimeout(mw.image_resizer_time)
+                    clearTimeout(mw.image_resizer_time);
                     mw.image_resizer_time = setTimeout(function () {
-                        mw.$(mw.image_resizer).removeClass('active')
+                        mw.$(mw.image_resizer).removeClass('active');
                     }, 3000)
                 };
 
                 mw.$(resizer).on("click", function (e) {
                     if (mw.image.currentResizing[0].nodeName === 'IMG') {
-                        mw.wysiwyg.select_element(mw.image.currentResizing[0])
+                        mw.wysiwyg.select_element(mw.image.currentResizing[0]);
                     }
                 });
                 mw.$(resizer).on("dblclick", function (e) {
@@ -281,7 +281,7 @@ mw.image = {
     preload: function (url, callback) {
         var img;
         if (typeof window.chrome === 'object') {
-            var img = new Image();
+            img = new Image();
         }
         else {
             img = document.createElement('img')

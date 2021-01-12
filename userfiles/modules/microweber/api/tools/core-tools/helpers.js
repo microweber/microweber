@@ -229,7 +229,7 @@
             who.toggle();
             who.toggleClass('toggle-active');
             mw.$(toggler).toggleClass('toggler-active');
-            mw.is.func(callback) ? callback.call(who) : '';
+            typeof callback === 'function' ? callback.call(who) : '';
         },
         _confirm: function (question, callback) {
             var conf = confirm(question);
@@ -283,11 +283,10 @@
             });
         },
         accordion: function (el, callback) {
-            mw.require('css_parser.js');
             var speed = 200;
             var container = el.querySelector('.mw-accordion-content');
             if (container === null) return false;
-            var is_hidden = mw.CSSParser(container).get.display() === 'none';
+            var is_hidden = getComputedStyle(container).display === 'none';
             if (!$(container).is(":animated")) {
                 if (is_hidden) {
                     mw.$(container).slideDown(speed, function () {
@@ -473,77 +472,16 @@
             }
             return true;
         },
-        objLenght: function (obj) {
-            var len = 0, x;
-            if (obj.constructor === {}.constructor) {
-                for ( x in obj ) {
-                    len++;
-                }
-            }
-            return len;
-        },
-        scaleTo: function (selector, w, h) {
-            w = w || 800;
-            h = h || 600;
-            var is_percent = w.toString().contains("%") ? true : false;
-            var item = mw.$(selector);
-            if (item.hasClass('mw-scaleto') || w == 'close') {
-                item.removeClass('mw-scaleto');
-                item.removeAttr('style');
-            }
-            else {
-                item.parent().height(item.height());
-                item.addClass('mw-scaleto');
-                if (is_percent) {
-                    item.css({
-                        width: w,
-                        height: h,
-                        left: ((100 - parseFloat(w)) / 2) + "%",
-                        top: ((100 - parseFloat(h)) / 2) + "%"
-                    });
-                }
-                else {
-                    item.css({
-                        width: w,
-                        height: h,
-                        marginLeft: -w / 2,
-                        marginTop: -h / 2
-                    });
-                }
-            }
-        },
-        getFirstEqualFromTwoArrays: function (a, b) {
-            var ia = 0, ib = 0, la = a.length, lb = b.length;
-            loop:
-                for (; ia < la; ia++) {
-                    var curr = a[ia];
-                    for (; ib < lb; ib++) {
-                        if (b[ib] == curr) {
-                            return curr;
-                        }
-                    }
-                }
-        },
         has: function (el, what) {
             return el.querySelector(what) !== null;
         },
-        html_info: function (html) {
-            if (typeof mw._html_info === 'undefined') {
-                mw._html_info = document.createElement('div');
-                mw._html_info.id = 'mw-html-info';
-                document.body.appendChild(mw._html_info);
-            }
-            mw.$(mw._html_info).html(html);
-            return mw._html_info;
-        },
+
         image_info: function (a, callback) {
             var img = document.createElement('img');
-            img.className = 'semi_hidden';
             img.src = a.src;
-            document.body.appendChild(img);
             img.onload = function () {
-                callback.call({width: mw.$(img).width(), height: mw.$(img).height()});
-                mw.$(img).remove();
+                callback.call({width: img.naturalWidth, height: img.naturalHeight});
+                img.remove();
             };
         },
         refresh_image: function (node) {
@@ -717,11 +655,11 @@
             var setValue1 = ((!!n1.type && n1.nodeName !== 'BUTTON') || n1.nodeName === 'TEXTAREA') ? 'value' : 'textContent';
             var setValue2 = ((!!n2.type && n2.nodeName !== 'BUTTON') || n2.nodeName === 'TEXTAREA') ? 'value' : 'textContent';
             var events = 'keyup paste';
-            mw.$(n1).bind(events, function () {
+            mw.$(n1).on(events, function () {
                 n2[setValue2] = n1[setValue1];
                 mw.$(n2).trigger('change');
             });
-            mw.$(n2).bind(events, function () {
+            mw.$(n2).on(events, function () {
                 n1[setValue1] = n2[setValue2];
                 mw.$(n1).trigger('change');
             });
@@ -732,7 +670,7 @@
             }
             $.each($._data(from, 'events'), function () {
                 $.each(this, function () {
-                    mw.$(to).bind(this.type, this.handler);
+                    mw.$(to).on(this.type, this.handler);
                 });
             });
         },

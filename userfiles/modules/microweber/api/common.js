@@ -32,23 +32,24 @@ mw.common = {
 
     },
     'data-mw-close':function(e){
+        var cookie;
         if(e && e.target){
             var data = e.target.getAttribute('data-mw-close');
-            var cookie = JSON.parse(mw.cookie.get('data-mw-close') || '{}');
+            cookie = JSON.parse(mw.cookie.get('data-mw-close') || '{}');
             mw.$(data).slideUp(function(){
                 mw.$(this).remove();
                 cookie[data] = true;
                 mw.cookie.set('data-mw-close', JSON.stringify(cookie));
-            })
+            });
         }
         else{
-            var cookie =  JSON.parse(mw.cookie.get('data-mw-close') || '{}');
+            cookie =  JSON.parse(mw.cookie.get('data-mw-close') || '{}');
             mw.$('[data-mw-close]').each(function(){
                 var data = this.getAttribute('data-mw-dialog');
                 if(cookie[data]){
                     mw.$(data).remove();
                 }
-            })
+            });
         }
     },
     'data-mw-dialog':function(e){

@@ -35,7 +35,6 @@ mw.errorsHandle = function (obj) {
             }
         }
         if (html.length) {
-            console.log(html)
             mw.notification.warning(html.join('<br>'))
         }
     }

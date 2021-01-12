@@ -41,7 +41,7 @@ mw.exec = function (str, a, b, c) {
             }
             temp = temp[arr[i]];
         }
-        return mw.is.func(temp) ? temp(a, b, c) : temp;
+        return typeof temp === 'function' ? temp(a, b, c) : temp;
     }
 };
 

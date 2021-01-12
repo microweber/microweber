@@ -2,7 +2,7 @@ mw.ajaxState = {
     time: 250,
     tooMuchTime:2250,
     isGoing:false
-}
+};
 
 $(document).ready(function(){
   mw.session.checkInit();

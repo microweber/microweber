@@ -44,7 +44,7 @@ mw._on = {
           }
         return false;
      }
-     if(mw.is.func(c)){
+     if(typeof c === 'function'){
        exists = typeof mw.on.onmodules[id] !== 'undefined';
        if(exists){
           mw.on.onmodules[id].push(c);
