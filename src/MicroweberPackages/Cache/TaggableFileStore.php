@@ -86,7 +86,9 @@ class TaggableFileStore implements Store
         $this->directoryTags = $this->normalizePath($this->directoryTags);
         $this->directoryData = $this->normalizePath($this->directoryData);
 
-        $this->emitEvents = \Config::get('debugbar.enabled');
+
+        // By emmiting events the RAM usage goes up twice , so we check if debugbar collector for cache is enabled
+        $this->emitEvents = \Config::get('debugbar.collectors.cache');
 
         //   $this->cacheHandler = new CacheFileHandler();
         $this->cacheHandler = new MemoryCacheFileHandler();
