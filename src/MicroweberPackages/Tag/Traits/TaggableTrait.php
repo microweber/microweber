@@ -27,6 +27,7 @@ trait TaggableTrait
 
 
     private $_addTagsToContent = [];
+    private $_toSaveTags = false;
 
     public function initializeTaggableTrait()
     {
@@ -40,6 +41,7 @@ trait TaggableTrait
         static::saving(function ($model) {
             // append tags to content
             if (isset($model->tag_names)) {
+                $model->_toSaveTags = true;
                 $model->_addTagsToContent = $model->tag_names;
                 unset($model->tag_names);
             }
@@ -47,14 +49,21 @@ trait TaggableTrait
 
 
         static::saved(function ($model) {
-            if (!empty($model->_addTagsToContent)) {
-                foreach ($model->_addTagsToContent as $tag) {
-                    $model->tag($tag); // attach the tag
+            if ($model->_toSaveTags) {
+                if (!empty($model->_addTagsToContent)) {
+                    foreach ($model->_addTagsToContent as $tag) {
+                        $model->tag($tag); // attach the tag
+                    }
+                } else {
+                    $tags = $model->existingTags();
+                    if ($tags) { 
+                        foreach ($tags as $tag) {
+                            $tag->delete();
+                        }
+                    }
+                    $model->untag();
                 }
-            } else {
-                $model->untag();
             }
-            //$model->_setCategories($model->_addContentToCategory);
         });
 
 

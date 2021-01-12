@@ -193,6 +193,7 @@
 
         var categories = [];
 
+
         if (window.categorySelector) {
             $.each(categorySelector.tree.selectedData, function () {
                 if (this.type == 'category') {
@@ -211,6 +212,13 @@
             data.category_ids = 0;
 
         }
+
+        //
+        // if (data.tag_names.length) {
+        //     data.tag_names  = data.tag_names.join(',')
+        // } else {
+        //     data.tag_names = false;
+        // }
 
 
         module.addClass('loading');
