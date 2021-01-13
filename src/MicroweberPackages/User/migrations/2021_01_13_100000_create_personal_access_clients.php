@@ -20,7 +20,7 @@ class CreatePersonalAccessClients extends Migration
             $table->integer('client_id');
             $table->timestamps();
 
-            $table->index('client_id', 'oauth_personal_access_clients_idx');
+       //     $table->index('client_id', 'oauth_personal_access_clients_idx');
         });
     }
 
