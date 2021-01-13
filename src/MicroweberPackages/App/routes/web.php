@@ -7,9 +7,6 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
     Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
 
 
-
-
-
     Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
     Route::any('/api_nosession', 'FrontendController@api');
     Route::any('/favicon.ico', function () {
@@ -21,23 +18,23 @@ Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\Sessionles
 
 Route::group(['middleware' => 'static.api', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
-Route::any('/userfiles/{path}', [ 'uses' => '\MicroweberPackages\App\Http\Controllers\ServeStaticFileContoller@serveFromUserfiles' ])->where('path', '.*');
+    Route::any('/userfiles/{path}', ['uses' => '\MicroweberPackages\App\Http\Controllers\ServeStaticFileContoller@serveFromUserfiles'])->where('path', '.*');
 
 });
 
 
-Route::get('/csrf', function (){
+Route::get('/csrf', function () {
     if (is_ajax()) {
         event_trigger('mw.csrf.ajax_request');
     }
-    return response()->json(['token' => csrf_token()], 200);
 
-
+    $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
+    return response()->json(['token' => csrf_token()], 200, $headers);
 })->name('csrf');
 
 
 // 'middleware' => 'web',
-Route::group([ 'middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
     Route::any('/', 'FrontendController@index');
 
@@ -46,14 +43,14 @@ Route::group([ 'middleware' => 'public.web', 'namespace' => '\MicroweberPackages
 
     $custom_admin_url = \Config::get('microweber.admin_url');
     $admin_url = 'admin';
-    if($custom_admin_url){
+    if ($custom_admin_url) {
         $admin_url = $custom_admin_url;
     }
 
-    Route::any('/'.$admin_url, 'AdminController@index');
+    Route::any('/' . $admin_url, 'AdminController@index');
     Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@index'));
 
-    Route::any($admin_url.'/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
+    Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*');
 
 
     Route::any('api/{all}', array('as' => 'api', 'uses' => 'FrontendController@api'))->where('all', '.*');
