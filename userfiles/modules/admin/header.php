@@ -602,8 +602,7 @@ $user = get_user_by_id($user_id);
 
                         if (href.indexOf("editmode") === -1) {
                             href = href + ((href.indexOf('?') === -1 ? '?' : '&') + 'editmode:y');
-                            alert(href);
-
+ 
                             el.attr('href', href);
 
                         }
