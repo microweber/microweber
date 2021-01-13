@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "781b86ffd697ace9895f91e1d8e11ce8",
+    "content-hash": "4955653769cd2be612211a66aedeb4cb",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -4592,7 +4592,7 @@
             "target-dir": "new-world",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-templates/new-world.git",
+                "url": "git@github.com:microweber-templates/new-world.git",
                 "reference": "08b284f7046f6b1972d31fd6ae1c09abe6677cce"
             },
             "dist": {
@@ -6574,12 +6574,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "136b9ca7eebef78be14abf90d65c5e57b6bc5d36"
+                "reference": "78e04f4ab68f64c009582ae1c63b99550b711280"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/136b9ca7eebef78be14abf90d65c5e57b6bc5d36",
-                "reference": "136b9ca7eebef78be14abf90d65c5e57b6bc5d36",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/78e04f4ab68f64c009582ae1c63b99550b711280",
+                "reference": "78e04f4ab68f64c009582ae1c63b99550b711280",
                 "shasum": ""
             },
             "require": {
@@ -6657,7 +6657,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2020-12-17T05:42:04+00:00"
+            "time": "2021-01-08T02:36:21+00:00"
         },
         {
             "name": "psr/container",
@@ -8125,12 +8125,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "be5a36670fd7ccb6f6e03d9c9bd7345e2a9a8515"
+                "reference": "366d03137004f7fd0e9d9ae9360eaf2d5c66d1ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/be5a36670fd7ccb6f6e03d9c9bd7345e2a9a8515",
-                "reference": "be5a36670fd7ccb6f6e03d9c9bd7345e2a9a8515",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/366d03137004f7fd0e9d9ae9360eaf2d5c66d1ad",
+                "reference": "366d03137004f7fd0e9d9ae9360eaf2d5c66d1ad",
                 "shasum": ""
             },
             "require": {
@@ -8168,7 +8168,7 @@
             ],
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
-            "time": "2020-10-14T17:08:19+00:00"
+            "time": "2021-01-01T09:26:45+00:00"
         },
         {
             "name": "symfony/error-handler",
@@ -8510,12 +8510,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "7a3892b5aae2d6639a0b97f4af0147f5f1164ed5"
+                "reference": "078272fcc002fbb94d47e74f5f4f45e84c481c81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/7a3892b5aae2d6639a0b97f4af0147f5f1164ed5",
-                "reference": "7a3892b5aae2d6639a0b97f4af0147f5f1164ed5",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/078272fcc002fbb94d47e74f5f4f45e84c481c81",
+                "reference": "078272fcc002fbb94d47e74f5f4f45e84c481c81",
                 "shasum": ""
             },
             "require": {
@@ -8556,9 +8556,9 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony HttpFoundation Component",
+            "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
-            "time": "2020-12-18T10:11:43+00:00"
+            "time": "2021-01-11T09:52:33+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -9102,12 +9102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "401c9d9d3400c53a8f1a39425f0543406c137a43"
+                "reference": "f377a3dd1fde44d37b9831d68dc8dea3ffd28e13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/401c9d9d3400c53a8f1a39425f0543406c137a43",
-                "reference": "401c9d9d3400c53a8f1a39425f0543406c137a43",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f377a3dd1fde44d37b9831d68dc8dea3ffd28e13",
+                "reference": "f377a3dd1fde44d37b9831d68dc8dea3ffd28e13",
                 "shasum": ""
             },
             "require": {
@@ -9119,7 +9119,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.21-dev"
+                    "dev-main": "1.22-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -9157,7 +9157,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-26T13:35:45+00:00"
+            "time": "2021-01-07T16:49:33+00:00"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -9337,12 +9337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "3a11f3dfb34ad50f978cb2b8cf936933b87739aa"
+                "reference": "dc3063ba22c2a1fd2f45ed856374d79114998f91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/3a11f3dfb34ad50f978cb2b8cf936933b87739aa",
-                "reference": "3a11f3dfb34ad50f978cb2b8cf936933b87739aa",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/dc3063ba22c2a1fd2f45ed856374d79114998f91",
+                "reference": "dc3063ba22c2a1fd2f45ed856374d79114998f91",
                 "shasum": ""
             },
             "require": {
@@ -9351,7 +9351,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.21-dev"
+                    "dev-main": "1.22-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -9395,7 +9395,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-26T13:35:45+00:00"
+            "time": "2021-01-07T16:49:33+00:00"
         },
         {
             "name": "symfony/process",
@@ -13046,7 +13046,6 @@
         "darkaonline/l5-swagger": 20,
         "wikimedia/composer-merge-plugin": 20,
         "opis/closure": 20,
-        "laravel/passport": 20,
         "laravel/sanctum": 20,
         "phpdocumentor/reflection-docblock": 20,
         "mtrajano/laravel-swagger": 20,
@@ -13056,7 +13055,8 @@
         "omnipay/stripe": 20,
         "mailerlite/mailerlite-api-v2-php-sdk": 20,
         "finlet/flexmail": 20,
-        "league/csv": 20
+        "league/csv": 20,
+        "laravel/passport": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
