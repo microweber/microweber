@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Category;
 
+use _HumbugBox58fd4d9e2a25\___PHPSTORM_HELPERS\this;
 use DB;
 use MicroweberPackages\Category\HelperRenders\KnpCategoryTreeRenderer;
 use MicroweberPackages\Category\Models\Category;
@@ -14,6 +15,7 @@ class CategoryManager
     public $app;
     public $tables = array();
     public $table_prefix = false;
+    public $useCache = true;
 
 
     public function __construct($app = null)
@@ -476,6 +478,8 @@ class CategoryManager
         }
         $orig_data = $data;
 
+        $this->useCache = false;
+
         if ((isset($data['id']) and ($data['id']) == 0) or !isset($data['id'])) {
             if (!isset($data['title']) or (isset($data['title']) and $data['title'] == false)) {
                 return array('error' => 'Title is required');
@@ -599,9 +603,9 @@ class CategoryManager
         }
 
         if (isset($data['url']) and trim($data['url']) != false) {
-            //$possible_slug = $this->app->url_manager->slug($data['url']);
-            $possible_slug = mb_strtolower($data['url']);
-            $possible_slug = str_ireplace(' ', '-', $possible_slug);
+           $possible_slug = $this->app->url_manager->slug($data['url']);
+          //  $possible_slug = mb_strtolower($data['url']);
+           // $possible_slug = str_ireplace(' ', '-', $possible_slug);
             if ($possible_slug) {
                 $possible_slug_check = $this->get_by_url($possible_slug);
                 if (isset($possible_slug_check['id'])) {
@@ -612,10 +616,19 @@ class CategoryManager
                     }
                 }
             }
+
+
+
             if ($possible_slug) {
 
                 if ($possible_slug != '') {
-                    $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
+                    $cont_get = array();
+                    $cont_get['url'] = $possible_slug;
+                    $cont_get['single'] = true;
+                    $cont_get['no_cache'] = true;
+                    $check_cont_wth_slug =  $this->app->content_manager->get($cont_get);
+
+                   // $check_cont_wth_slug = $this->app->content_manager->get_by_url($possible_slug);
                     if ($check_cont_wth_slug) {
                         $possible_slug = $possible_slug . '-' . date('YmdHis');
                     }
@@ -777,7 +790,10 @@ class CategoryManager
 
         $get = array();
         $get[$by_field_name] = $id;
-        // $get['no_cache'] = true;
+        if(!$this->useCache){
+            $get['no_cache'] = true;
+        }
+        //
         $get['single'] = true;
         $get['limit'] = 1;
         $q = $this->app->database_manager->get($table, $get);
