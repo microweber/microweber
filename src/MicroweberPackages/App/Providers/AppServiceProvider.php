@@ -180,6 +180,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
+
+        $this->app->instance('config', new ConfigSave($this->app));
+
+        $this->app->register(UserServiceProvider::class);
+
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
         $this->setEnvironmentDetection();
@@ -191,7 +196,6 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-        $this->app->instance('config', new ConfigSave($this->app));
 
         $this->app->register(ModuleServiceProvider::class);
 
@@ -232,7 +236,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(FormServiceProvider::class);
-        $this->app->register(UserServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);

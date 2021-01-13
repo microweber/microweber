@@ -72,7 +72,8 @@ class UserLoginController extends Controller
 			
             $message = [];
             if (Auth::user()->is_admin == 1) {
-                $message['token'] = auth()->user()->createToken('authToken');
+                //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
+              //  $message['token'] = auth()->user()->createToken('authToken');
             }
 
             $message['data'] = auth()->user();
@@ -128,7 +129,9 @@ class UserLoginController extends Controller
             }
 
             if (Auth::user()->is_admin == 1) {
-                $userData->token = auth()->user()->createToken('authToken');
+                //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
+
+                //   $userData->token = auth()->user()->createToken('authToken');
             }
 
 
