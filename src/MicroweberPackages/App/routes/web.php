@@ -27,6 +27,9 @@ Route::any('/userfiles/{path}', [ 'uses' => '\MicroweberPackages\App\Http\Contro
 
 
 Route::get('/csrf', function (){
+    if (is_ajax()) {
+        event_triiger('mw.csrf.ajax_request');
+    }
     return response()->json(['token' => csrf_token()], 200);
 
 

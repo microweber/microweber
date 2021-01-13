@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32fb8e3046d4cdda3e75c1a475c4e356",
+    "content-hash": "f9f424a9ba4ab23b081b95719a25d1f4",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -4435,12 +4435,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/microweber-class-alias.git",
-                "reference": "f6b5d990a3324a6d14279d925e295a28dfcf437a"
+                "reference": "c3f1671d5701a431c8895c44209f205ef57940db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-class-alias/zipball/f6b5d990a3324a6d14279d925e295a28dfcf437a",
-                "reference": "f6b5d990a3324a6d14279d925e295a28dfcf437a",
+                "url": "https://api.github.com/repos/microweber-packages/microweber-class-alias/zipball/c3f1671d5701a431c8895c44209f205ef57940db",
+                "reference": "c3f1671d5701a431c8895c44209f205ef57940db",
                 "shasum": ""
             },
             "type": "library",
@@ -4468,7 +4468,7 @@
             ],
             "description": "PHP Microweber class alias.",
             "homepage": "http://microweber.com",
-            "time": "2021-01-08T09:34:14+00:00"
+            "time": "2021-01-13T13:19:55+00:00"
         },
         {
             "name": "microweber-templates/new-world",
@@ -13003,7 +13003,6 @@
         "geoip2/geoip2": 20,
         "twig/twig": 20,
         "halaxa/json-machine": 20,
-        "microweber-packages/microweber-class-alias": 20,
         "erusev/parsedown": 20,
         "barryvdh/laravel-debugbar": 20,
         "barryvdh/laravel-dompdf": 20,
@@ -13028,7 +13027,8 @@
         "mailerlite/mailerlite-api-v2-php-sdk": 20,
         "finlet/flexmail": 20,
         "league/csv": 20,
-        "laravel/passport": 20
+        "laravel/passport": 20,
+        "microweber-packages/microweber-class-alias": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
