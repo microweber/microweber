@@ -30,7 +30,7 @@
 
     <script type="text/javascript">
         function mw_set_default_template() {
-            var el1 = mw.$('.mw-site-theme-selector').find("[name='<?php print  $data['option_key']; ?>'] option:selected")[0];
+            var el1 = mw.$('.mw-site-theme-selector').find("[name='<?php print  $data['option_key']; ?>']")[0];
             mw.options.save(el1, function () {
                 mw.notification.success("<?php _ejs("Template settings are saved"); ?>.");
             });
