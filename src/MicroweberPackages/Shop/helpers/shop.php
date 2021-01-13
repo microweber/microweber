@@ -123,9 +123,15 @@ function payment_options($option_key = false)
     return mw()->shop_manager->payment_options($option_key);
 }
 
+
+
 function currency_format($amount, $curr = false)
 {
     return mw()->shop_manager->currency_format($amount, $curr);
+}
+function get_currency_symbol($curr = false)
+{
+    return mw()->shop_manager->currency_symbol($curr);
 }
 
 function get_currency_code() {
