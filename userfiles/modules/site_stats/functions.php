@@ -41,7 +41,7 @@ event_bind('mw.pageview', function ($params = false) {
                     type: "POST",
                     dataType: "json"
                 });
-            }, 1337);
+            }, 3337);
         });';
 
         $src = '<script async>'.$src_code.'</script>';

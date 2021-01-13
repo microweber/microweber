@@ -354,6 +354,7 @@ class Template
     {
         $ajax = '<script>
         $( document ).ready(function() {
+            setTimeout(function () {
                     $.get( "' . route('csrf') . '", function( data ) {
                     $(\'meta[name="csrf-token"]\').attr(\'content\',data.token)
                      $.ajaxSetup({
@@ -362,6 +363,7 @@ class Template
                         }
                     });
               })
+                }, 1337);
          });
         </script> 
        ';
