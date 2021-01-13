@@ -1,7 +1,8 @@
 <?php if (isset($data['url']) and $data['id'] > 0): ?>
     <script>
         $(document).ready(function () {
-            $('.go-live-edit-href-set').attr('href', '<?php print content_link($data['id']); ?>');
+            $('.go-live-edit-href-set').attr('href', '<?php print content_link($data['id']); ?>?editmode=y');
+            $('.go-live-edit-href-set-view').attr('href', '<?php print content_link($data['id']); ?>?editmode=n');
         });
     </script>
 <?php endif; ?>
