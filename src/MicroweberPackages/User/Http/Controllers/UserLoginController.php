@@ -161,7 +161,7 @@ class UserLoginController extends Controller
             return new  JsonResource($response);
         }
 
-        return response()->json(['error' => 'Unauthorised request'], 401);
+        return response()->json(['error' =>_e( 'Wrong username or password.',true)], 401);
     }
 
     public function loginFields($request)
