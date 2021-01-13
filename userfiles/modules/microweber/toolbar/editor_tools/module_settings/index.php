@@ -182,7 +182,7 @@
 
         }
 
-        $(window).load(function () {
+        $(window).on('load', function () {
             $(document.body).removeClass('mw-external-loading');
             $(document.body).ajaxStop(function () {
                 $(document.body).removeClass('mw-external-loading');
@@ -191,7 +191,7 @@
             addIcon();
         });
 
-        $(window).load(function () {
+        $(window).on('load', function () {
             // add dropdown
 
 

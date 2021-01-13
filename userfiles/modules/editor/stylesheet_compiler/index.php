@@ -193,7 +193,7 @@ if ($stylesheet_settings) {
                         </div>
 
                         <script>
-                            $(window).load(function () {
+                            $(window).on('load', function () {
                                 mw.colorPicker({
                                     element: '#<?php echo $key; ?>',
                                     value: $('input[name="<?php echo $key; ?>"]').val(),

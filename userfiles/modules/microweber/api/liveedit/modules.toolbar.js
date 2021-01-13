@@ -33,7 +33,6 @@ mw.liveedit.modulesToolbar = {
                 mw.$(document.body).removeClass("dragStart");
                 setTimeout(function() {
                     mw.drag.load_new_modules();
-                    mw.liveedit.recommend.increase($(mw.dragCurrent).attr("data-module-name"));
                     mw.drag.toolbar_modules(el);
                 }, 200);
             }
