@@ -428,6 +428,11 @@
 
     </script>
 
+
+
+
+
+
 </head>
 <body class="mw-external-loading loading">
 <div id="settings-main">
@@ -455,11 +460,12 @@
 </form>
 
 <script>
+    $(document).ready(function () {
+        settingsAction();
+    });
 
 
     $(window).on('load', function () {
-
-        settingsAction();
 
         mw.interval('_settingsAutoHeight', function () {
             if (document.querySelector('.mw-iframe-auto-height-detector') === null) {

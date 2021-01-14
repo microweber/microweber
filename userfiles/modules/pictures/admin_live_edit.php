@@ -79,7 +79,6 @@ $rand = uniqid();
     mw.module_pictures_upload_time = null;
     __mw_pics_save_msg = function () {
 
-alert(3333);
 
         if (mw.notification != undefined) {
             mw.notification.success('Picture settings are saved!');
@@ -97,6 +96,7 @@ alert(3333);
 
         //  mw.reload_module_parent("#<?php print $params['id'] ?>");
 
+        mw.reload_module("#<?php print $params['id'] ?>");
 
         clearTimeout(mw.module_pictures_upload_time)
         mw.module_pictures_upload_time = setTimeout(function () {
@@ -110,9 +110,8 @@ alert(3333);
     }
 
     $(document).ready(function () {
-         mw.options.form('#mw-use-post-pics', __mw_pics_save_msg);
 
-
+        mw.options.form('#mw-pic-scope', __mw_pics_save_msg);
 
 
         mw.tabs({
@@ -145,8 +144,8 @@ alert(3333);
                     <table width="100%">
                         <tr>
                             <td width="50%">
-                                <div class="custom-control custom-checkbox" >
-                                    <input type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field custom-control-input" <?php if ($use_from_post): ?>   checked="checked"  <?php endif; ?> />
+                                <div class="custom-control custom-checkbox" id="mw-use-post-pics-scope" >
+                                    <input autocomplete="off"  type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field custom-control-input" <?php if ($use_from_post): ?>   checked="checked"  <?php endif; ?> />
                                     <label class="custom-control-label" for="mw-use-post-pics"><?php _e("Use pictures from post"); ?></label>
                                 </div>
                             </td> <td width="50%" align="right">
