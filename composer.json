@@ -44,7 +44,7 @@
         "knplabs/knp-menu": "^3.2@dev",
         "jenssegers/agent": "^3.0@dev",
         "geoip2/geoip2": "dev-master",
-        "twig/twig": "3.x-dev",
+        "twig/twig": "^3.0@dev",
         "phpoffice/phpspreadsheet": "*",
         "halaxa/json-machine": "dev-master",
 
