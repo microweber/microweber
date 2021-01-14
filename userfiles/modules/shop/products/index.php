@@ -26,6 +26,7 @@
     // OLD METHOD
     // Rendering shop/products (2.05s)
     if ($old_method) {
+
         $dir_name = normalize_path(modules_path());
         $posts_mod = $dir_name . 'posts' . DS . 'index.php';
         include($posts_mod);
@@ -34,6 +35,7 @@
 
         // New METHOD
         //Rendering shop/products (534ms)
+        //Rendering shop/products (187ms) cached
 
         $schema_org_item_type_tag = '';
         $tn_size = array('150');
