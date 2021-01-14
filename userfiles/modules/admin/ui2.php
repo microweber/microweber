@@ -137,7 +137,6 @@
 
 
         <script>
-            mw.require('dialog.js');
             mw.require('prop_editor.js');
             mw.require('module_settings.js');
         </script>

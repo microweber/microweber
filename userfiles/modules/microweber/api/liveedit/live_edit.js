@@ -29,7 +29,6 @@ mw.live_edit.hasAbilityToDropElementsInside = function(target) {
     return true;
 };
 
-mw.require('dialog.js')
 
 
 mw.live_edit.showSettings = function (a, opts) {

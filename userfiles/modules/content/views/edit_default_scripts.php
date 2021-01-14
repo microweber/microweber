@@ -91,6 +91,10 @@
         }
     }
     mw.edit_content.after_save = function (saved_id) {
+        var saved_id = typeof saved_id === "number" ? saved_id : saved_id.id;
+
+
+
         mw.askusertostay = false;
         var content_id = mw.$('#mw-content-id-value').val();
         var quick_add_holder = document.getElementById('mw-quick-content');
@@ -171,7 +175,7 @@
     }
 
 
-    mw.edit_content.handle_form_submit = function (go_live) {
+     mw.edit_content.handle_form_submit = function (go_live) {
 
 
         if (mw.edit_content.saving) {
@@ -222,6 +226,8 @@
 
 
         module.addClass('loading');
+
+
         mw.content.save(data, {
             url: el.getAttribute('action'),
             onSuccess: function (a) {
@@ -273,8 +279,18 @@
                         }
                         window.parent.mw.askusertostay = false;
                     }
-                    $.get('<?php print site_url('api_html/content_link/?id=') ?>' + this, function (data) {
-                        mw.top().win.location.href = data + '?editmode=y';
+                    var nid = typeof this === "number" ? this : this.id;
+
+                    $.get('<?php print site_url('api/content/get_link_admin/?id=') ?>' + nid, function (data) {
+
+                        if (data == null) {
+                            return false;
+                        }
+                         if(go_live_edit === 'n'){
+                        mw.top().win.location.href = data.url + '?editmode=n';
+                        } else {
+                        mw.top().win.location.href = data.url + '?editmode=y';
+                        }
                     });
                 }
                 else {
@@ -289,7 +305,12 @@
                         mw.$("#edit-content-url").val(slug);
                         mw.$(".view-post-slug").html(slug);
                         mw.$("#slug-base-url").html(data.slug_prefix_url);
-                        mw.$("a.quick-post-done-link").attr("href",  data.url + '?editmode=y');
+                         if(go_live_edit === 'n') {
+                             mw.$("a.quick-post-done-link").attr("href", data.url + '?editmode=n');
+                         } else {
+                             mw.$("a.quick-post-done-link").attr("href", data.url + '?editmode=y');
+
+                         }
                         mw.$("a.quick-post-done-link").html(data.url);
                     });
                     mw.$("#<?php print $module_id ?>").attr("content-id", nid);
@@ -311,11 +332,26 @@
 
                 if (self !== parent) {
                     if ((data.id) == 0) {
-                        mw.$("#<?php print $module_id ?>").attr("content-id", this);
+                        var nid = typeof this === "number" ? this : this.id;
+
+
+
+                        mw.$("#<?php print $module_id ?>").attr("content-id", nid);
 
                         mw.reload_module("#<?php print $module_id ?>");
+
+                        mw.reload_module_everywhere('menu');
+                        mw.reload_module_everywhere('pages');
+                        mw.reload_module_everywhere('posts');
+                        mw.reload_module_everywhere('shop/products');
+
+
                     }
                 }
+
+
+
+
 
 
             },

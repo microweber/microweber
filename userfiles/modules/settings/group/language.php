@@ -7,6 +7,12 @@ if (is_module('multilanguage')) {
         $isMultilanguageActivated = true;
     }
 }
+
+
+$def_language = get_option('language', 'website');
+
+
+
 ?>
 
 <script type="text/javascript">
@@ -51,7 +57,6 @@ if (is_module('multilanguage')) {
                                             <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
                                             <?php
                                             $langs = mw()->lang_helper->get_all_lang_codes();
-                                            $def_language = get_option('language', 'website');
 
                                             if ($def_language == false) {
                                                 $def_language = 'en';

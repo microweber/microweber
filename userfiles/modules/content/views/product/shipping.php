@@ -85,13 +85,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                         </div>
-                        <input type="text" class="form-control" name="content_data[fixed_cost]" value="<?php echo $contentData['fixed_cost']; ?>">
-                        <div class="input-group-append">
-                            <div class="input-group-text plus-minus-holder">
-                                <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>
-                                <button type="button" class="minus"><i class="mdi mdi-menu-down"></i></button>
-                            </div>
-                        </div>
+                        <input type="number" min=0 class="form-control" name="content_data[fixed_cost]" value="<?php echo $contentData['fixed_cost']; ?>">
                     </div>
                 </div>
             </div>

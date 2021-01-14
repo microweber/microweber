@@ -761,10 +761,11 @@ class Parser
                                         //  $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = $mod_id;
 
                                         $attrs['id'] = $mod_id;
-
-                                        $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
-
-
+                                        if(!strpos($module_html,'id=')) {
+                                            $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
+                                        } else {
+                                            $module_html = str_replace('__MODULE_ID__', '', $module_html);
+                                        }
 
                                     } else {
                                         $module_html = str_replace('__MODULE_ID__', '', $module_html);
@@ -774,7 +775,11 @@ class Parser
                                     $attrs2 = array();
                                     if (is_array($module_title) and isset($module_title['name'])) {
                                         $module_title['name'] = addslashes($module_title['name']);
+                                        if(!strpos($module_html,'data-mw-title=')){
                                         $module_html = str_replace('__MODULE_NAME__', ' data-mw-title="' . $module_title['name'] . '"', $module_html);
+                                        } else {
+                                            $module_html = str_replace('__MODULE_NAME__', '', $module_html);
+                                        }
                                     } else {
                                         $module_html = str_replace('__MODULE_NAME__', '', $module_html);
                                     }
@@ -903,9 +908,12 @@ class Parser
                                             }
 
                                             if ($pass /*and $nv*/) {
-                                                // $module_html .= " {$nn}='{$nv}'  ";
-                                                $module_html .= " {$nn}=\"{$nv}\"  ";
-                                                // $module_html .= " {$nn}={$nv}  ";
+                                                if(!strpos($module_html,$nn.'=')) {
+
+                                                    // $module_html .= " {$nn}='{$nv}'  ";
+                                                    $module_html .= " {$nn}=\"{$nv}\"  ";
+                                                    // $module_html .= " {$nn}={$nv}  ";
+                                                }
                                             }
                                         }
                                     }
@@ -1761,9 +1769,17 @@ class Parser
             $name = pq($elem)->attr('module');
             $attrs = $elem->attributes;
             $module_html = '<module ';
+            $attrs2 = [];
             if (!empty($attrs)) {
                 foreach ($attrs as $attribute_name => $attribute_node) {
-                    $v = $attribute_node->nodeValue;
+                    $attrs2[$attribute_name] = $attribute_node->nodeValue;
+                }
+            }
+            if (!empty($attrs2)) {
+                $attrs2 = array_unique($attrs2);
+                foreach ($attrs2 as $attribute_name => $attribute_node) {
+                    //$v = $attribute_node->nodeValue;
+                    $v = $attribute_node;
                     if ($attribute_name == 'class') {
                         foreach ($remove_clases as $remove_class) {
                             $v = str_replace(' ' . $remove_class, '', $v);
@@ -1801,6 +1817,7 @@ class Parser
                         }
 
                         if ($attrs) {
+                            $attrs = array_unique($attrs);
                             $module_tags = '<module ';
                             foreach ($attrs as $nn => $nv) {
                                 $module_tags .= " {$nn}='{$nv}' ";

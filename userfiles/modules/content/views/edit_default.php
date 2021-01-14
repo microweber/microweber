@@ -160,6 +160,11 @@ if (isset($params['live_edit'])) {
 if (isset($params['quick_edit'])) {
     $wrapper_class = 'in-popup';
 }
+
+
+
+
+
 ?>
 
 <div class="<?php echo $wrapper_class; ?>">
@@ -187,7 +192,7 @@ if (isset($params['quick_edit'])) {
     }
     ?>
 
-    <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
+    <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form <?php if($wrapper_class=='in-popup'){ ?> mw_admin_edit_content_form_in_popup <?php } ?> " action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
 
         <?php if ($data['id'] > 0): ?>
             <input name="_method" type="hidden" value="PATCH">
@@ -217,7 +222,25 @@ if (isset($params['quick_edit'])) {
                             }
                             ?>
                             <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php echo $action_text; ?></strong></h5>
+
+
                             <div id="content-title-field-buttons">
+
+
+                               <?php
+
+                                if($wrapper_class=='in-popup'){ ?>
+                                    <?php if (isset($data['url']) and $data['id'] > 0) { ?>
+                                        <a href="<?php print content_link($data['id']) ?>?editmode=y" class="btn btn-outline-primary btn-sm btn-rounded btn-sm-only-icon mw-admin-go-live-now-btn">
+                                            <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block"><?php _e("Live Edit"); ?></span>
+                                        </a>
+                                    <?php } ?>
+                                <?php } ?>
+
+
+
+
+
                                 <button type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php print _e('Save'); ?></span></button>
                             </div>
                         </div>

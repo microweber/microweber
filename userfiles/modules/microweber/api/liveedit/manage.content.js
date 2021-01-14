@@ -1,5 +1,8 @@
 mw.liveedit.manageContent = {
-    w: '1220px',
+    //w: '95%',
+   //  w: '1220px',
+     w: '985px',
+   // w: 'auto',
     page: function () {
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
@@ -16,8 +19,8 @@ mw.liveedit.manageContent = {
     category: function () {
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=false&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
-            width: '600px',
-//            width: this.w,
+          //  width: '600px',
+            width: this.w,
             height: 'auto',
             autoHeight: true,
             name: 'quick_page',
@@ -67,8 +70,8 @@ mw.liveedit.manageContent = {
 
         var modal = mw.dialogIframe({
             url: mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id=" + id + str,
-            width: '800px',
-//            width: this.w,
+       //     width: '800px',
+            width: this.w,
             height: 'auto',
             autoHeight: true,
             name: 'quick_page',

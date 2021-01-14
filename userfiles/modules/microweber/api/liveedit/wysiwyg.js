@@ -270,7 +270,7 @@ mw.wysiwyg = {
     },
     removeEditable: function (skip) {
         skip = skip || [];
-
+        if (!mw.is.ie) {
             var i=0, i2,
                 all = document.getElementsByClassName('edit'),
                 len = all.length;
@@ -292,7 +292,10 @@ mw.wysiwyg = {
                 }
 
             }
-
+        }
+        else {
+            mw.$(".edit [contenteditable='true'], .edit").removeAttr('contenteditable');
+        }
     },
     _lastCopy: null,
     handleCopyEvent: function (event) {
@@ -353,14 +356,38 @@ mw.wysiwyg = {
             });
 
             if (!mw.wysiwyg.isSafeMode(target)) {
-
+                if (!mw.is.ie) { //Non IE browser
                     var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
                     mw.$('.safe-mode').each(function () {
                         mw.wysiwyg.contentEditable(this, false);
                     });
                     mw.wysiwyg.contentEditable(target, orderValid);
-
+                }
+                else {   // IE browser
+                    mw.wysiwyg.removeEditable();
+                    var cls = target.className;
+                    if (!mw.tools.hasClass(cls, 'empty-element') && !mw.tools.hasClass(cls, 'ui-resizable-handle')) {
+                        if (mw.tools.hasParentsWithClass(el, 'module')) {
+                            mw.wysiwyg.contentEditable(target, true);
+                        }
+                        else {
+                            if (!mw.tools.hasParentsWithClass(target, "module")) {
+                                if (mw.isDragItem(target)) {
+                                    mw.wysiwyg.contentEditable(target, true);
+                                }
+                                else {
+                                    mw.tools.foreachParents(target, function (loop) {
+                                        if (mw.isDragItem(this)) {
+                                            mw.wysiwyg.contentEditable(target, true);
+                                            mw.tools.loop[loop] = false;
+                                        }
+                                    });
+                                }
                             }
+                        }
+                    }
+                }
+            }
             else {
                 var firstBlock = target;
                 var blocks = ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'section', 'footer', 'ul', 'ol'];
@@ -424,16 +451,14 @@ mw.wysiwyg = {
             var paragraph = mw.tools.firstParentOrCurrentWithTag(elementNode, 'p');
             if (paragraph) {
                 var tag = a === 'insertorderedlist' ? 'ol' : 'ul';
-                if (paragraph.contentEditable === 'inherit') {
-                    var ul = scope.actionWindow.document.createElement(tag);
-                    var li = scope.actionWindow.document.createElement('li');
-                    ul.appendChild(li);
-                    while (paragraph.firstChild) {
-                        li.appendChild(paragraph.firstChild);
-                    }
-                    paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
-                    paragraph.remove();
+                var ul = document.createElement(tag);
+                var li = document.createElement('li');
+                ul.appendChild(li);
+                while (paragraph.firstChild) {
+                    li.appendChild(paragraph.firstChild);
                 }
+                paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
+                paragraph.remove();
                 return;
             }
         }
@@ -449,7 +474,7 @@ mw.wysiwyg = {
             mw.wysiwyg.change(elementNode);
             return false;
         }
-        if (navigator.userAgent.toLowerCase().includes('firefox') && arr.indexOf(a) !== -1) {
+        if (mw.is.firefox && arr.indexOf(a) !== -1) {
 
             if (elementNode.nodeName === 'P') {
                 align = a.split('justify')[1].toLowerCase();
@@ -633,20 +658,27 @@ mw.wysiwyg = {
         }
         else {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
+                if (!mw.is.ie) {
+                    html = clipboard.getData('text/html');
+                    var text = clipboard.getData('text');
+                    var isPlainText = false;
+                    if (!html && text) {
+                        isPlainText = true;
+                        if (/\r\n/.test(text)) {
+                            var wrapper = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
+                            wrapper = mw.tools.firstMatchesOnNodeOrParent(wrapper, ['.element', 'p', 'div', '.edit'])
+                            var tag = wrapper.nodeName.toLowerCase();
+                            html = '<' + tag + ' id="element_' + mw.random() + '">' + text.replace(/\r\n/g, "<br>") + '</' + tag + '>';
+                        }
 
-                html = clipboard.getData('text/html');
-                var text = clipboard.getData('text');
-                var isPlainText = false;
-                if (!html && text) {
-                    isPlainText = true;
-                    if (/\r\n/.test(text)) {
-                        var wrapper = mw.wysiwyg.validateCommonAncestorContainer(getSelection().focusNode);
-                        wrapper = mw.tools.firstMatchesOnNodeOrParent(wrapper, ['.element', 'p', 'div', '.edit'])
-                        var tag = wrapper.nodeName.toLowerCase();
-                        html = '<' + tag + ' id="element_' + mw.random() + '">' + text.replace(/\r\n/g, "<br>") + '</' + tag + '>';
+                    }
+                    else {
+
                     }
                 }
-
+                else {
+                    html = clipboard.getData('text');
+                }
                 if (!!html) {
                     if (mw.form) {
                         var is_link = mw.form.validate.url(html);
@@ -1556,6 +1588,7 @@ mw.wysiwyg = {
                 var fam = font.family;
 
             } else {
+                //var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
                 var fam = family_array.shift();
             }
 

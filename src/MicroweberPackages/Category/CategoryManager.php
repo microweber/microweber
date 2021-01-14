@@ -603,9 +603,9 @@ class CategoryManager
         }
 
         if (isset($data['url']) and trim($data['url']) != false) {
-           $possible_slug = $this->app->url_manager->slug($data['url']);
-          //  $possible_slug = mb_strtolower($data['url']);
-           // $possible_slug = str_ireplace(' ', '-', $possible_slug);
+         //  $possible_slug = $this->app->url_manager->slug($data['url']);
+            $possible_slug = mb_strtolower($data['url']);
+            $possible_slug = str_ireplace(' ', '-', $possible_slug);
             if ($possible_slug) {
                 $possible_slug_check = $this->get_by_url($possible_slug);
                 if (isset($possible_slug_check['id'])) {
