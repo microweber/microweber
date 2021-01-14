@@ -1,4 +1,8 @@
 
+
+mw.require('uploader.js');
+
+
 mw.files = {
     settings: {
             filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg,webp",
