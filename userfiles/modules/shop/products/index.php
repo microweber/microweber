@@ -71,18 +71,24 @@
         $minPrice = 0;
         $maxPrice = 0;
         $prices = [];
+        $mediaUrls = [];
         foreach ($getProducts as $product) {
 
-            $mediaUrls = [];
+
             foreach ($product->media as $media) {
                 $mediaUrls[] = $media->filename;
             }
 
             $prices[] = $product->price;
+            $img = false;
+            if(isset($mediaUrls[0])){
+                $img = $mediaUrls[0];
+            }
+
 
             $data[] = [
                 'id' => $product->id,
-                'image' => $mediaUrls[0],
+                'image' => $img,
                 'link' => $product->url,
                 'title' => $product->title,
                 'prices' => [$product->price],
