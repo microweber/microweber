@@ -46,18 +46,39 @@
         if (isset($shop_options['data-limit'])) {
             $limit = $shop_options['data-limit'];
         }
+        if (isset($_GET['limit'])) {
+            $limit = (int) $_GET['limit'];
+        }
 
         $filter = [];
+        if (isset($_GET['orderBy'])) {
+            $filter['orderBy'] = $_GET['orderBy'];
+        }
+        if (isset($_GET['priceBetween'])) {
+            $priceBetween = $_GET['priceBetween'];
+            $priceBetween = str_replace('%2C', ',', $priceBetween);
+            $filter['priceBetween'] = $priceBetween;
+        }
 
         $getProducts = \MicroweberPackages\Product\Models\Product::filter($filter)->paginate($limit);
 
+        if ($getProducts->total() == 0) {
+            echo 'No products found';
+            return;
+        }
+
         $data = [];
+        $minPrice = 0;
+        $maxPrice = 0;
+        $prices = [];
         foreach ($getProducts as $product) {
 
             $mediaUrls = [];
             foreach ($product->media as $media) {
                 $mediaUrls[] = $media->filename;
             }
+
+            $prices[] = $product->price;
 
             $data[] = [
                 'id' => $product->id,
@@ -67,6 +88,10 @@
                 'prices' => [$product->price],
             ];
         }
+
+        asort($prices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
+        $minPrice = $prices[0];
+        $maxPrice = end($prices);
 
         $pages_count = $getProducts->total();
         $paging_param = 'page&laravel_pagination=1&laravel_pagination_limit='.$limit.'&laravel_total='.$pages_count;
@@ -82,6 +107,14 @@
         }
 
         if (is_file($template_file) != false) {
+
+            echo '
+                <script>
+                    SHOP_PRODUCTS_MIN_PRICE = '. $minPrice.';
+                    SHOP_PRODUCTS_MAX_PRICE = '. $maxPrice.';
+                </script>
+            ';
+
             include($template_file);
         } else {
             print lnotif("No template found. Please choose template.");
