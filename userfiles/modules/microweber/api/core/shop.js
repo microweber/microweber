@@ -1,6 +1,3 @@
-// JavaScript Document
-mw.require('forms.js');
-
 
 mw.cart = {
 
