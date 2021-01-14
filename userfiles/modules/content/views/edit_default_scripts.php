@@ -91,6 +91,10 @@
         }
     }
     mw.edit_content.after_save = function (saved_id) {
+        var saved_id = typeof saved_id === "number" ? saved_id : saved_id.id;
+
+
+
         mw.askusertostay = false;
         var content_id = mw.$('#mw-content-id-value').val();
         var quick_add_holder = document.getElementById('mw-quick-content');
@@ -328,7 +332,11 @@
 
                 if (self !== parent) {
                     if ((data.id) == 0) {
-                        mw.$("#<?php print $module_id ?>").attr("content-id", this);
+                        var nid = typeof this === "number" ? this : this.id;
+
+
+
+                        mw.$("#<?php print $module_id ?>").attr("content-id", nid);
 
                         mw.reload_module("#<?php print $module_id ?>");
 
