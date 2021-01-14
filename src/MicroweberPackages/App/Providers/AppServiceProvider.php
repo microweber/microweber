@@ -151,7 +151,7 @@ class AppServiceProvider extends ServiceProvider
         'Response' => \Illuminate\Support\Facades\Response::class,
         'Route' => \Illuminate\Support\Facades\Route::class,
         'Schema' => \Illuminate\Support\Facades\Schema::class,
-        //  'Session' => \Illuminate\Support\Facades\Session::class,
+          'Session' => \Illuminate\Support\Facades\Session::class,
         'Storage' => \Illuminate\Support\Facades\Storage::class,
         'Str' => \Illuminate\Support\Str::class,
         'URL' => \Illuminate\Support\Facades\URL::class,
@@ -189,9 +189,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerHtmlCollective();
         $this->registerMarkdown();
 
-
-
         $this->app->instance('config', new ConfigSave($this->app));
+        $this->app->register(UserServiceProvider::class);
 
         $this->app->register(ModuleServiceProvider::class);
 
@@ -232,7 +231,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
         $this->app->register(FormServiceProvider::class);
-        $this->app->register(UserServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);
         $this->app->register(CaptchaManagerServiceProvider::class);

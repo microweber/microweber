@@ -287,6 +287,28 @@ class DatabaseManager extends DbUtils
             return $query;
         }
 
+        if (isset($orig_params['fields']) and $orig_params['fields'] != false) {
+            if (is_string($orig_params['fields'])) {
+                $is_fields = explode(',', $orig_params['fields']);
+            } else {
+                $is_fields = $orig_params['fields'];
+            }
+            $is_fields_q = [];
+            if ($is_fields) {
+                foreach ($is_fields as $is_field) {
+                    if (is_string($is_field)) {
+                        $is_field = trim($is_field);
+                        if ($is_field != '') {
+                            $is_fields_q[] = $table . '.' . $is_field;
+                        }
+                    }
+                }
+            }
+            if ($is_fields_q) {
+                $query = $query->select($is_fields_q);
+            }
+
+        }
 
         if ($use_cache == false) {
 
@@ -302,7 +324,6 @@ class DatabaseManager extends DbUtils
         } else {
 
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($cache_key, $query, $orig_params) {
-
 
 
                 $queryResponse = $query->get();
@@ -436,7 +457,6 @@ class DatabaseManager extends DbUtils
                 $data['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
             }
         }
-
 
 
         if ($is_quick == false) {
@@ -581,7 +601,7 @@ class DatabaseManager extends DbUtils
                     $criteria['id'] = $next_id;
                 }
             }
-             $id_to_return = $this->table($table_assoc_name)->insert($criteria);
+            $id_to_return = $this->table($table_assoc_name)->insert($criteria);
             $id_to_return = $this->last_id($table);
 
         } else {
@@ -839,12 +859,12 @@ class DatabaseManager extends DbUtils
         if ($table == 'content' || $table == 'categories') {
 
             if ($table == 'content') {
-               $model = new Content($params);
-              // $model = app()->make(Content::class);
+                $model = new Content($params);
+                // $model = app()->make(Content::class);
 
-            //    $model::boot();
+                //    $model::boot();
             } else if ($table == 'categories') {
-             //   $model = new Category();
+                //   $model = new Category();
                 $model = app()->make(Category::class);
 
             }

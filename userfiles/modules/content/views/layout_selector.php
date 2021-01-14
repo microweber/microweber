@@ -3,7 +3,7 @@ $iframe_cont_id = false;
 
 $data = false;
 
-$rand = uniqid() . rand();
+$rand = md5(uniqid() . rand().time());
 if (!isset($params["data-page-id"]) and !isset($params["content-id"]) and defined('PAGE_ID')) {
     $iframe_cont_id = $params["data-page-id"] = PAGE_ID;
 }
@@ -365,15 +365,27 @@ if (!empty($recomended_layouts)) {
         mw.$("#<?php print $params['id']?>").removeAttr('autoload');
         mw.templatePreview<?php print $rand; ?>.selector = document.getElementById('active_site_layout_<?php print $rand; ?>');
 
-        mw.$('#active_site_template_<?php print $rand; ?>').on("change", function (e) {
+        $('select#active_site_template_<?php print $rand; ?>').on("change", function (e) {
             var parent_module = $(this).parents('.module').first();
             if (parent_module != undefined) {
-                var templ = $(this).val();
+              //  var templ = $(this).val();
+                var templ = $(this).find('option:selected').val()
+
+              //  $(this).selectpicker('destroy');
+
+
+
                 parent_module.attr('active_site_template', templ);
+                parent_module.attr('data-active-site-template', templ);
 
                 mw.$("#<?php print $params['id']?>").attr('active_site_template', templ);
-                mw.reload_module("#<?php print $params['id']?>", function () {
-                });
+
+                mw.templatePreview<?php print $rand; ?>.generate();
+
+
+
+                //mw.reload_module("#<?php //print $params['id']?>//", function () {
+                //});
             }
             //mw.trigger('templateChanged');
         });

@@ -8,7 +8,7 @@ use Config;
 
 trait QueryFilter
 {
-    public $table_cache_ttl = 600;
+    public $table_cache_ttl = 3600;
 
     public $filter_keys = [];
 
@@ -55,17 +55,21 @@ trait QueryFilter
                 $is_fields = explode(',', $is_fields);
             }
 
-            if (is_array($is_fields) and !empty($is_fields)) {
+            $is_fields_q = [];
+            if ($is_fields) {
                 foreach ($is_fields as $is_field) {
                     if (is_string($is_field)) {
                         $is_field = trim($is_field);
                         if ($is_field != '') {
-                            $query = $query->select($table . '.' . $is_field);
+                            $is_fields_q[] = $table . '.' . $is_field;
                         }
-                        $query = $query->select($table . '.*');
                     }
                 }
             }
+            if ($is_fields_q) {
+                $query = $query->select($is_fields_q);
+            }
+
         } else {
             $query = $query->select($table . '.*');
         }
@@ -696,18 +700,21 @@ trait QueryFilter
 
                 case $this->_is_closure($params[$filter]):
 
+                    $query = call_user_func($params[$filter], $query, $params);
+                    unset($params[$filter]);
 
-                    $query = $query->where(function ($query) use (&$params, $filter) {
-                        $call = $params[$filter];
-                        unset($params[$filter]);
-
-
-                        //call_user_func_array($call, $params);
-                        $query = call_user_func($call, $query, $params);
-
-                        return $query;
-
-                    });
+//
+//                    $query = $query->where(function ($query) use (&$params, $filter) {
+//                        $call = $params[$filter];
+//                        unset($params[$filter]);
+//
+//
+//                        //call_user_func_array($call, $params);
+//                        $query = call_user_func($call, $query, $params);
+//
+//                        return $query;
+//
+//                    });
 
 
                     break;
@@ -784,7 +791,9 @@ trait QueryFilter
         foreach ($params as $column => $value) {
             switch ($value) {
                 case '[not_null]':
-                    $query->whereNotNull($column);
+                    if(!empty($query)) {
+                        $query->whereNotNull($column);
+                    }
                     unset($params[$column]);
                     break;
 

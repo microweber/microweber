@@ -8,6 +8,7 @@ trait CategoryTrait
 {
 
     private $_addContentToCategory = null;
+    private $_removeFromAllCategories = false;
 
     public function initializeCategoryTrait()
     {
@@ -24,10 +25,9 @@ trait CategoryTrait
     public static function bootCategoryTrait()
     {
         static::saving(function ($model) {
-             // append content to categories
+            // append content to categories
             if (isset($model->category_ids)) {
                 $model->_addContentToCategory = $model->category_ids;
-
             }
             unset($model->category_ids);
         });
@@ -44,6 +44,12 @@ trait CategoryTrait
 
         if (!is_array($categoryIds)) {
             $categoryIds = explode(',', $categoryIds);
+        }
+
+        //delete from categories if 1st category is 0
+        if (reset($categoryIds) == 0) {
+            CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->delete();
+            return;
         }
 
         $entityCategories = CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();

@@ -57,10 +57,23 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
+		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
+		
         if (Auth::check()) {
+
+            // This will be used for whmcs login redirect
+			if (isset($redirectParams['http_redirect'])) {
+                if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
+                    return redirect(admin_url());
+                } else {
+                    return redirect(site_url());
+                }
+            }
+			
             $message = [];
             if (Auth::user()->is_admin == 1) {
-                $message['token'] = auth()->user()->createToken('authToken');
+                //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
+              //  $message['token'] = auth()->user()->createToken('authToken');
             }
 
             $message['data'] = auth()->user();
@@ -116,19 +129,27 @@ class UserLoginController extends Controller
             }
 
             if (Auth::user()->is_admin == 1) {
-                $userData->token = auth()->user()->createToken('authToken');
+                //"message": "SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: NO) (SQL: select exists(select * from `oauth_personal_access_clients`) as `exists`)",
+
+                //   $userData->token = auth()->user()->createToken('authToken');
             }
 
 
             $response['success'] = _e('You are logged in', 1);
 
-            $redirectParams = $request->only('redirect', 'where_to');
-
             if (isset($redirectParams['where_to']) and $redirectParams['where_to']) {
-                if (Auth::user()->is_admin == 1 && $redirectParams['where_to'] == 'admin_content') {
+                if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
                     $redirectParams['redirect'] = admin_url();
                 } else {
                     $redirectParams['redirect'] = site_url();
+                }
+            }
+
+            if (isset($redirectParams['http_redirect'])) {
+                if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
+                    return redirect(admin_url());
+                } else {
+                    return redirect(site_url());
                 }
             }
 
@@ -140,7 +161,7 @@ class UserLoginController extends Controller
             return new  JsonResource($response);
         }
 
-        return response()->json(['error' => 'Unauthorised request'], 401);
+        return response()->json(['error' =>_e( 'Wrong username or password.',true)], 401);
     }
 
     public function loginFields($request)

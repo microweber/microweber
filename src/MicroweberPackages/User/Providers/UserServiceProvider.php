@@ -15,6 +15,7 @@ use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\User\UserManager;
+use phpseclib\Crypt\RSA;
 
 
 class UserServiceProvider extends AuthServiceProvider
@@ -26,7 +27,10 @@ class UserServiceProvider extends AuthServiceProvider
      */
 //    public function register()
 //    {
-//        parent::register();
+//        $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
+//        $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
+//
+//         parent::register();
 //    }
 
     public function boot()
@@ -34,7 +38,29 @@ class UserServiceProvider extends AuthServiceProvider
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager
          */
+
+        [$publicKey, $privateKey] = [
+            storage_path('oauth-public.key'),
+            storage_path('oauth-private.key'),
+        ];
+
+        $need_to_generate_keys = false;
+        if (!is_file($publicKey) or !is_file($privateKey)) {
+            $need_to_generate_keys = true;
+        }
+        if ($need_to_generate_keys) {
+            $rsa = new RSA();
+            $keys = $rsa->createKey( 4096);
+            file_put_contents($publicKey, \Arr::get($keys, 'publickey'));
+            file_put_contents($privateKey, \Arr::get($keys, 'privatekey'));
+        }
+
+
+        $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
+
+
+
 
         $this->app->singleton('user_manager', function ($app) {
             return new UserManager();

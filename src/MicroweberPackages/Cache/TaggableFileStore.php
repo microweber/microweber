@@ -3,6 +3,10 @@
 namespace MicroweberPackages\Cache;
 
 use Closure;
+use Illuminate\Cache\Events\CacheHit;
+use Illuminate\Cache\Events\CacheMissed;
+use Illuminate\Cache\Events\KeyForgotten;
+use Illuminate\Cache\Events\KeyWritten;
 use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -10,6 +14,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 use MicroweberPackages\Cache\CacheFileHandler\CacheFileHandler;
+use MicroweberPackages\Cache\CacheFileHandler\MemoryCacheFileHandler;
 
 class TaggableFileStore implements Store
 {
@@ -53,6 +58,8 @@ class TaggableFileStore implements Store
      */
     protected $tags = array();
 
+    protected $emitEvents = false;
+
     /**
      * Create a new file cache store instance.
      *
@@ -79,7 +86,12 @@ class TaggableFileStore implements Store
         $this->directoryTags = $this->normalizePath($this->directoryTags);
         $this->directoryData = $this->normalizePath($this->directoryData);
 
-        $this->cacheHandler = new CacheFileHandler();
+
+        // By emmiting events the RAM usage goes up twice , so we check if debugbar collector for cache is enabled
+        $this->emitEvents = \Config::get('debugbar.collectors.cache');
+
+        //   $this->cacheHandler = new CacheFileHandler();
+        $this->cacheHandler = new MemoryCacheFileHandler();
     }
 
 
@@ -118,7 +130,11 @@ class TaggableFileStore implements Store
         $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
 
         if (isset($this->files->cachedDataMemory[$cacheKey])) {
-            return $this->files->cachedDataMemory[$cacheKey];
+            $data = $this->files->cachedDataMemory[$cacheKey];
+            if ($this->emitEvents) {
+                event(new CacheHit($key, $data));
+            }
+            return $data;
         }
 
         $findTagPath = $this->_findCachePathByKey($key);
@@ -156,6 +172,18 @@ class TaggableFileStore implements Store
         } catch (Exception $e) {
             $this->forget($key);
             return;
+        }
+
+
+        // If we could not find the cache value, we will fire the missed event and get
+        // the default value for this cache value. This default could be a callback
+        // so we will execute the value function which will resolve it if needed.
+        if ($this->emitEvents) {
+            if (is_null($data)) {
+                event(new CacheMissed($key));
+            } else {
+                event(new CacheHit($key, $data));
+            }
         }
 
         $this->files->cachedDataMemory[$cacheKey] = $data;
@@ -227,6 +255,10 @@ class TaggableFileStore implements Store
             // Save key value in file
             //WAS $save = @file_put_contents($path, $value);
             $this->cacheHandler->writeToCache($path, $value);
+
+            if ($this->emitEvents) {
+                event(new KeyWritten($key, $value, $seconds));
+            }
 
 //            if (!$save) {
 //                $save = @file_put_contents($path, $value);
@@ -453,7 +485,7 @@ class TaggableFileStore implements Store
      */
     public function increment($key, $value = 1)
     {
-        $oldValue = (int) $this->get($key);
+        $oldValue = (int)$this->get($key);
         $newValue = $oldValue + $value;
 
         $this->put($key, $newValue);
@@ -471,7 +503,7 @@ class TaggableFileStore implements Store
      */
     public function decrement($key, $value = 1)
     {
-        $oldValue = (int) $this->get($key);
+        $oldValue = (int)$this->get($key);
         $newValue = $oldValue - $value;
 
         $this->put($key, $newValue);
@@ -514,6 +546,9 @@ class TaggableFileStore implements Store
 
         if ($this->files->exists($findTagPath)) {
             $this->files->delete($findTagPath);
+        }
+        if ($this->emitEvents) {
+            event(new KeyForgotten($key));
         }
 
     }

@@ -33,7 +33,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      *
      * @var int
      */
-    protected $cacheSeconds = 1800; // half hour
+    protected $cacheSeconds = 3600; // 1 hour
 
     /**
      * Execute the query as a "select" statement.

@@ -135,14 +135,14 @@ class PermalinkManager
         $segments = [];
 
         if ($type == 'content') {
-            $linkContent = $this->_linkContent($id);
+            $linkContent = $this->linkContent($id);
             if ($linkContent) {
                 $segments = array_merge($segments, $linkContent);
             }
         }
 
         if ($type == 'category') {
-            $linkCategory = $this->_linkCategory($id);
+            $linkCategory = $this->linkCategory($id);
             if ($linkCategory) {
                 $segments = array_merge($segments, $linkCategory);
             }
@@ -184,7 +184,7 @@ class PermalinkManager
         return $linkFull;
     }
 
-    private function _linkContent($contentId)
+    public function linkContent($contentId)
     {
         $link = [];
 
@@ -207,7 +207,7 @@ class PermalinkManager
                 }
 
                 if ($this->structure == 'category_post') {
-                    $categorySlugForPost = $this->_getCategorySlugForPost($content['id']);
+                    $categorySlugForPost = $this->getCategorySlugForPost($content['id']);
                     if ($categorySlugForPost) {
                         $link[] = $categorySlugForPost;
                     }
@@ -221,7 +221,7 @@ class PermalinkManager
                         }
                     }
 
-                    $categorySlugForPost = $this->_getCategorySlugForPost($content['id']);
+                    $categorySlugForPost = $this->getCategorySlugForPost($content['id']);
                     if ($categorySlugForPost) {
                         $link[] = $categorySlugForPost;
                     }
@@ -234,7 +234,7 @@ class PermalinkManager
         return $link;
     }
 
-    private function _getCategorySlugForPost($postId)
+    public function getCategorySlugForPost($postId)
     {
         $slug = false;
         $categories = get_categories_for_content($postId);
@@ -254,7 +254,7 @@ class PermalinkManager
         return $slug;
     }
 
-    private function _linkCategory($categoryId)
+    public function linkCategory($categoryId)
     {
         $link = [];
 
@@ -305,7 +305,7 @@ class PermalinkManager
 
         if ($this->structure == 'page_category_post') {
             $structureMap[] = 'page';
-            $structureMap[] = 'category';
+            $structureMap[] = 'category|post';
             $structureMap[] = 'post';
         }
 

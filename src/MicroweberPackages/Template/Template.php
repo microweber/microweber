@@ -183,6 +183,7 @@ class Template
             if (is_file($file)) {
                 include $file;
                 if (isset($config)) {
+                    $config['dir_name'] = basename($dir);
                     $this->template_config_cache[$file] = $config;
                     return $config;
                 }
@@ -353,6 +354,7 @@ class Template
     {
         $ajax = '<script>
         $( document ).ready(function() {
+            setTimeout(function () {
                     $.get( "' . route('csrf') . '", function( data ) {
                     $(\'meta[name="csrf-token"]\').attr(\'content\',data.token)
                      $.ajaxSetup({
@@ -361,6 +363,7 @@ class Template
                         }
                     });
               })
+                }, 1337);
          });
         </script> 
        ';

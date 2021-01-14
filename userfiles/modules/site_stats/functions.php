@@ -41,7 +41,7 @@ event_bind('mw.pageview', function ($params = false) {
                     type: "POST",
                     dataType: "json"
                 });
-            }, 1337);
+            }, 3337);
         });';
 
         $src = '<script async>'.$src_code.'</script>';
@@ -90,6 +90,39 @@ event_bind('mw.pageview', function ($params = false) {
 
     });
 });
+
+
+//
+//event_bind('mw.csrf.ajax_request', function ($params = false) {
+//    $to_track = false;
+//    if (get_option('stats_disabled', 'site_stats') == 1) {
+//        return;
+//    }
+//
+//
+//    if (isset($_SERVER['HTTP_REFERER'])) {
+//        $ref_page = $_SERVER['HTTP_REFERER'];
+//        if (stristr(site_url(), $ref_page)) {
+//            if (is_ajax()) {
+//                $to_track = true;
+//            }
+//        }
+//    }
+//
+//    if (!$to_track) {
+//        return;
+//    }
+//
+//    $tracker = new Microweber\SiteStats\Tracker();
+//
+//    if (get_option('stats_is_buffered', 'site_stats') == 1) {
+//        return $tracker->track_buffered();
+//    } else {
+//        return $tracker->track();
+//    }
+//
+//
+//});
 
 api_expose('pingstats', function ($params = false) {
     $to_track = false;

@@ -20,7 +20,6 @@ $other_html_tag_replace_inc = 0;
 
 class Parser
 {
-    public $app;
     public $page = array();
     public $params = array();
 
@@ -54,13 +53,13 @@ class Parser
     public $current_module_params = false;
     public $current_module = false;
 
-    public function __construct($app = null)
+
+    public $debugbarEnabled = false;
+
+    public function __construct()
     {
-        if (!is_object($app)) {
-            $this->app = mw();
-        } else {
-            $this->app = $app;
-        }
+
+        $this->debugbarEnabled = \Config::get('debugbar.enabled');
 
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 
@@ -77,6 +76,7 @@ class Parser
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false)
     {
+
         static $first_known_mod;
         static $it_loop2;
 
@@ -133,7 +133,7 @@ class Parser
         if ($process_started == false) {
             $process_started = true;
 
-            $this->app->event_manager->trigger('parser.process', $layout);
+            app()->event_manager->trigger('parser.process', $layout);
         }
 
         if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
@@ -592,7 +592,7 @@ class Parser
                                         if (!$coming_from_parent) {
                                             if (defined('CONTENT_ID') and CONTENT_ID == 0) {
                                                 if ($last_content_id == null) {
-                                                    $last_content_id = $this->app->database_manager->last_id('content');
+                                                    $last_content_id = app()->database_manager->last_id('content');
                                                 }
                                                 $last_content_id = intval($last_content_id) + 1;
                                                 $mod_id = $mod_id . '-' . $last_content_id;
@@ -785,7 +785,7 @@ class Parser
                                     } else {
                                         $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                                     }
-                                    $module_name_url = $this->app->url_manager->slug($module_name);
+                                    $module_name_url = app()->url_manager->slug($module_name);
 
                                 //    var_dump($options);
 
@@ -1147,9 +1147,9 @@ class Parser
         }
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
-        $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
-        $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
-        $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
+        $layout = str_replace('{SITE_URL}', app()->url_manager->site(), $layout);
+        $layout = str_replace('{MW_SITE_URL}', app()->url_manager->site(), $layout);
+        $layout = str_replace('%7BSITE_URL%7D', app()->url_manager->site(), $layout);
 //        //  $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
 
         return $layout;
@@ -1325,9 +1325,9 @@ class Parser
 
                         $get_global = false;
                         $data_id = intval($data_id);
-                        $data = $this->app->content_manager->get_by_id($data_id);
+                        $data = app()->content_manager->get_by_id($data_id);
                         if ($field != 'content' and $field != 'content_body' and $field != 'title') {
-                            $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
+                            $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
                         }
 
 
@@ -1336,44 +1336,44 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
                         }
-//                        $data_inh_check = $this->app->content_manager->get_by_id($data_id);
+//                        $data_inh_check = app()->content_manager->get_by_id($data_id);
 //
 //                        if (isset($data_inh_check['id']) and isset($data_inh_check['layout_file']) and (trim($data_inh_check['layout_file']) != '') and $data_inh_check['layout_file'] != 'inherit') {
 //                            $inh = $data_inh_check['id'];
 //                        } else {
-//                            $inh = $this->app->content_manager->get_inherited_parent($data_id);
+//                            $inh = app()->content_manager->get_inherited_parent($data_id);
 //                        }
-                        $inh = $this->app->content_manager->get_inherited_parent($data_id);
+                        $inh = app()->content_manager->get_inherited_parent($data_id);
 
                         if ($inh != false and intval($inh) != 0) {
                             $try_inherited = true;
                             $data_id = $inh;
                             // $rel = 'content';
-                            $data = $this->app->content_manager->get_by_id($data_id);
+                            $data = app()->content_manager->get_by_id($data_id);
                         } else {
                             // $rel = 'content';
-                            $data = $this->app->content_manager->get_page($data_id);
+                            $data = app()->content_manager->get_page($data_id);
                         }
 
                         if ($field != 'content' and $field != 'content_body' and $field != 'title') {
-                            $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
+                            $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=" . $data_id);
                         }
                     } elseif ($rel == 'global') {
                         $get_global = 1;
                         $cont_field = false;
                     } elseif ($rel == 'module') {
 
-                        $data[$field] = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+                        $data[$field] = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
                     }/* elseif (isset($attr['post'])) {
                         $get_global = false;
-                        $data = $this->app->content_manager->get_by_id($attr['post']);
+                        $data = app()->content_manager->get_by_id($attr['post']);
                         if ($data == false) {
-                            $data = $this->app->content_manager->get_page($attr['post']);
+                            $data = app()->content_manager->get_page($attr['post']);
                         }
                     } elseif (isset($attr['category'])) {
                         $get_global = false;
-                        $data = $this->app->category_manager->get_by_id($attr['category']);
+                        $data = app()->category_manager->get_by_id($attr['category']);
                     } elseif (isset($attr['global'])) {
                     } elseif (isset($attr['global'])) {
                         $get_global = true;
@@ -1415,15 +1415,15 @@ class Parser
 
                         $cont_field = false;
                         if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
-                            $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
                             if ($cont_field == false and $try_inherited == true) {
-                                $inh = $this->app->content_manager->get_inherited_parent($data_id);
+                                $inh = app()->content_manager->get_inherited_parent($data_id);
                                 if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
                                     $data_id = $inh;
-                                    $cont_field2 = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$inh");
+                                    $cont_field2 = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$inh");
                                     if ($cont_field2 != false) {
                                         $rel = 'content';
-                                        $data = $this->app->content_manager->get_by_id($inh);
+                                        $data = app()->content_manager->get_by_id($inh);
                                         $cont_field = $cont_field2;
                                     }
                                 }
@@ -1431,14 +1431,14 @@ class Parser
                         } else {
 
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                                $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
                                 if ($cont_field != false) {
                                     $field_content = $cont_field;
                                 }
                             } else {
 
 
-                                $field_content = $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+                                $field_content = $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
 
                             }
@@ -1456,14 +1456,14 @@ class Parser
                         $get_global = 1;
 
 
-                        $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
+                        $cont_field = app()->content_manager->edit_field("rel_type={$rel}&field={$field}");
 
 
                         if ($cont_field == false) {
                             if ($option_mod != false) {
-                                $cont_field = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
+                                $cont_field = app()->content_manager->edit_field("rel_type={$option_group}&field={$field}");
                             } else {
-                                $cont_field = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
+                                $cont_field = app()->content_manager->edit_field("rel_type={$option_group}&field={$field}");
                             }
                         } else {
                             $cont_field = $field_content = $cont_field;
@@ -1677,7 +1677,7 @@ class Parser
             }
 
             if ($no_cache == false) {
-                //    $this->app->cache_manager->save($layout, $parser_mem_crc, 'content_fields/global/parser');
+                //    app()->cache_manager->save($layout, $parser_mem_crc, 'content_fields/global/parser');
             }
         }
 
@@ -2038,6 +2038,11 @@ class Parser
 
     public function load($module_name, $attrs = array())
     {
+        if ($this->debugbarEnabled) {
+            \Debugbar::startMeasure('render_module_'.$module_name, 'Rendering '.$module_name);
+        }
+
+
 
 
         $mod_id_value = 'load'.crc32($module_name . json_encode($attrs));
@@ -2046,6 +2051,12 @@ class Parser
             return $that->module_load_registry[$mod_id_value];
         }
         $that->module_load_registry[$mod_id_value] = $that->load_module_callback($module_name, $attrs);
+
+        if ($this->debugbarEnabled) {
+            \Debugbar::stopMeasure('render_module_'.$module_name,$attrs);
+        }
+
+
         return $that->module_load_registry[$mod_id_value];
 
 
@@ -2062,7 +2073,7 @@ class Parser
         }
 
         /*   if ($custom_view != false and strtolower($custom_view) == 'admin') {
-               if ($this->app->user_manager->is_admin() == false) {
+               if (app()->user_manager->is_admin() == false) {
                    mw_error($custom_view. 'Not logged in as admin');
                }
            }*/
@@ -2084,7 +2095,7 @@ class Parser
 
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            $this->app->content_manager->define_constants();
+            app()->content_manager->define_constants();
         }
 
 
@@ -2112,8 +2123,8 @@ class Parser
         if (!isset($attrs['id'])) {
             global $mw_mod_counter;
             ++$mw_mod_counter;
-            //  $seg_clean = $this->app->url_manager->segment(0);
-            $seg_clean = $this->app->url_manager->segment(0, url_current());
+            //  $seg_clean = app()->url_manager->segment(0);
+            $seg_clean = app()->url_manager->segment(0, url_current());
 
 
             if (defined('IS_HOME')) {
@@ -2229,7 +2240,7 @@ class Parser
 
             $config['module_name_url_safe'] = $this->module_name_encode($module_name);
 
-            $find_base_url = $this->app->url_manager->current(1);
+            $find_base_url = app()->url_manager->current(1);
             if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
                 $find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
             }
@@ -2243,12 +2254,12 @@ class Parser
                 $mod_api = str_replace('/admin', '', $module_name_dir);
             }
 
-            $config['module_api'] = $this->app->url_manager->site('api/' . $mod_api);
-            $config['module_view'] = $this->app->url_manager->site('module/' . $module_name);
+            $config['module_api'] = app()->url_manager->site('api/' . $mod_api);
+            $config['module_view'] = app()->url_manager->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = $this->module_css_class($module_name);
 
-            $config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
+            $config['url_to_module'] = app()->url_manager->link_to_file($config['path_to_module']);
 
             if (isset($attrs['id'])) {
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
@@ -2262,12 +2273,12 @@ class Parser
 //            }
 
 
-            $installed_module = $this->app->module_manager->get('single=1&ui=any&module=' . $module_name);
+            $installed_module = app()->module_manager->get('single=1&ui=any&module=' . $module_name);
             if($installed_module and isset($installed_module['settings'])){
                 $config['settings']  = $installed_module['settings'];
             }
 
-//            $is_installed = $this->app->module_manager->is_installed($module_name);
+//            $is_installed = app()->module_manager->is_installed($module_name);
 //
 //            if(!$is_installed){
 //                d($module_name);
@@ -2284,7 +2295,7 @@ class Parser
 
 
             if ($module_name_root and is_dir($modules_dir_default_root) and is_file($modules_dir_default_root . 'config.php')) {
-                $is_installed = $this->app->module_manager->is_installed($module_name_root);
+                $is_installed = app()->module_manager->is_installed($module_name_root);
                 if (!$is_installed) {
                     return '';
 
@@ -2302,7 +2313,7 @@ class Parser
             }
 
             //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
-            $lic = $this->app->module_manager->license($module_name);
+            $lic = app()->module_manager->license($module_name);
             //  $lic = 'valid';
             if ($lic != false) {
                 $config['license'] = $lic;
@@ -2315,8 +2326,8 @@ class Parser
             if (!isset($attrs['id'])) {
                 global $mw_mod_counter;
                 ++$mw_mod_counter;
-                //  $seg_clean = $this->app->url_manager->segment(0);
-                $seg_clean = $this->app->url_manager->segment(0, url_current());
+                //  $seg_clean = app()->url_manager->segment(0);
+                $seg_clean = app()->url_manager->segment(0, url_current());
 
 
                 if (defined('IS_HOME')) {
@@ -2349,7 +2360,7 @@ class Parser
 
             $l1 = new View($try_file1);
             $l1->config = $config;
-            $l1->app = $this->app;
+            $l1->app = app();
 
             if (!isset($attrs['module'])) {
                 $attrs['module'] = $module_name;
@@ -2437,7 +2448,7 @@ class Parser
     public function replace_non_cached_modules_with_placeholders($layout)
     {
         //   $non_cached
-        $non_cached = $this->app->module_manager->get('allow_caching=0&ui=any');
+        $non_cached = app()->module_manager->get('allow_caching=0&ui=any');
         $has_changes = false;
 //dd($non_cached);
 

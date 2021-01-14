@@ -34,6 +34,8 @@ class Content extends Model
     protected $content_type = 'content';
     public $additionalData = [];
 
+    public $translatable = ['title','url','description','content','content_body'];
+
     protected $attributes = [
         'is_active' => '1',
         'is_deleted' => '0',

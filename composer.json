@@ -49,7 +49,6 @@
         "halaxa/json-machine": "dev-master",
 
         "jeremeamia/superclosure": "*",
-        "microweber-packages/microweber-class-alias": "dev-master",
         "erusev/parsedown": "dev-master",
         "simshaun/recurr": "*",
         "barryvdh/laravel-debugbar": "^3.5@dev",
@@ -67,7 +66,6 @@
 
         "wikimedia/composer-merge-plugin": "dev-master",
         "opis/closure": "^3.6@dev",
-        "laravel/passport": "^11.0@dev",
         "laravel/sanctum": "^3.0@dev",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "mtrajano/laravel-swagger": "dev-master",
@@ -82,7 +80,10 @@
         "finlet/flexmail": "dev-master",
         "league/csv": "^9.0@dev",
         "paragonie/random_compat": "^1.0|^2.0|9.99.99",
-        "microweber-templates/new-world": "1.6"
+        "microweber-templates/new-world": "1.6",
+        "lcobucci/jwt": "3.3.3",
+        "laravel/passport": "^11.0@dev",
+        "microweber-packages/microweber-class-alias": "dev-master"
 
 
     },

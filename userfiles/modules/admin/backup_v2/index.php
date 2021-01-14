@@ -63,7 +63,7 @@
 
                             <div class="card-body py-0">
                                 <div class="collapse pb-4" id="include-modules">
-                                    <div style="width:100%; height: 200px;overflow-y: scroll; overflow-x: hidden;">
+                                    <div style="width:100%;  ">
                                         <ul class="mw-ui-inline-list">
                                             <?php
                                             $modules = get_modules('order_by=module asc');
@@ -89,7 +89,7 @@
 
                             <div class="card-body py-0">
                                 <div class="collapse pb-4" id="include-templates">
-                                    <div style="width:100%; height: 200px; overflow-y: scroll; overflow-x: hidden;">
+                                    <div style="width:100%; >
                                         <ul class="mw-ui-inline-list">
                                             <?php
                                             $templates = site_templates();

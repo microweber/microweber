@@ -1,6 +1,5 @@
 <?php
 
-
 $logo_name = $params['id'];
 
 if (isset($params['logo-name'])) {
@@ -9,12 +8,38 @@ if (isset($params['logo-name'])) {
     $logo_name = $params['logo_name'];
 }
 
-$logotype = get_option('logotype', $logo_name);
-$logoimage = get_option('logoimage', $logo_name);
-$logoimage_inverse = get_option('logoimage_inverse', $logo_name);
-$text = get_option('text', $logo_name);
-$font_family = get_option('font_family', $logo_name);
-$font_size = get_option('font_size', $logo_name);
+// groups is logo_name
+
+// This will increase the speed of loading
+/*
+ * Example with get_option funciton:
+ * Rendering logo (49.19ms)
+ * Example with one get with model by group:
+ * Rendering logo (12.4ms)
+ */
+$logo_options = [];
+$logo_options['logotype'] = '';
+$logo_options['logoimage'] = '';
+$logo_options['logoimage_inverse'] = '';
+$logo_options['text'] = '';
+$logo_options['font_family'] = '';
+$logo_options['font_size'] = '';
+$logo_options['size'] = '';
+$logo_options['data-template'] = '';
+
+$get_logo_options = \MicroweberPackages\Option\Models\Option::where('option_group', $logo_name)->get();
+if (!empty($get_logo_options)) {
+    foreach ($get_logo_options as $logo_option) {
+        $logo_options[$logo_option['option_key']] = $logo_option['option_value'];
+    }
+}
+
+$logotype = $logo_options['logotype'];
+$logoimage = $logo_options['logoimage'];
+$logoimage_inverse = $logo_options['logoimage_inverse'];
+$text = $logo_options['text'];
+$font_family = $logo_options['font_family'];
+$font_size = $logo_options['font_size'];
 
 
 $default = '';
@@ -70,7 +95,7 @@ if ($font_family_safe == '') {
     $font_family_safe = 'inherit';
 }
 
-$size = get_option('size', $logo_name);
+$size = $logo_options['size'];
 if ($size == false or $size == '') {
     if (isset($params['size'])) {
         $size = $params['size'];
@@ -103,13 +128,13 @@ if ($size == false or $size == '') {
 
 <?php
 
-$module_template = get_option('data-template', $logo_name);
+$module_template = $logo_options['data-template'];
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
 
 
-$module_template = get_option('data-template', $logo_name);
+$module_template = $logo_options['data-template'];
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }

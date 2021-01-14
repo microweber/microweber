@@ -11,7 +11,6 @@ api_expose_admin('get_category_children');
 api_expose_admin('category_link');
 api_expose_admin('get_page_for_category');
 api_expose_admin('category_tree');
-api_expose_admin('category/save');
 api_expose_admin('category/delete');
 api_expose_admin('get_category_items');
 

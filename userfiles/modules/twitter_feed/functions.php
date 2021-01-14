@@ -34,12 +34,11 @@ function twitter_feed_perform_api_request($url = 'https://api.twitter.com/1.1/se
     }
 
 
-    $cache_expiration_minutes = 15;
+    $cache_expiration_minutes = 1500;
     $cache_id = md5($url . $getfield);
     $cache_group = 'twitter_feed_2';
     $cached_results = cache_get($cache_id, $cache_group,$cache_expiration_minutes);
     if ($cached_results!=false){
-		//dd($cached_results); 
         return $cached_results;
     }
 

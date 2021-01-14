@@ -339,6 +339,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div class="image-row">
                                 <div class="the-image-holder">
                                     <img src="<?php if ($logoimage_inverse): ?><?php echo thumbnail($logoimage_inverse, 200); ?><?php endif; ?>" class="the-image-inverse" alt="" <?php if ($logoimage_inverse != '' and $logoimage_inverse != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                                    <div class="js-remove-logo-alt-btn <?php if ($logoimage_inverse == ''): ?>d-none<?php endif; ?>">
+                                        <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-alt-logoimage"><i class="mdi mdi-trash-can-outline"></i> Remove the logo</button>
+
+                                        <script>
+                                            $('.js-remove-alt-logoimage').on('click', function () {
+                                                $('#logoimage_inverse').val('');
+                                                $("#logoimage_inverse").trigger('change');
+                                                $('img.the-image-inverse').attr('src', '');
+                                                $(this).parent().addClass('d-none');
+                                            });
+                                        </script>
+                                    </div>
                                 </div>
 
                                 <div>

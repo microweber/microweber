@@ -335,7 +335,7 @@ $user = get_user_by_id($user_id);
                     <?php if (user_can_access('module.content.edit')): ?>
 
                         <li class="mx-1">
-                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
+                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set  go-live-edit-href-set-view" target="_blank">
                                 <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("View"); ?></span>
                             </a>
                         </li>
@@ -592,16 +592,25 @@ $user = get_user_by_id($user_id);
 
             <script>
                 $(document).ready(function () {
+                    setTimeout(function(){
+
+
                     mw.$('.go-live-edit-href-set').each(function () {
                         var el = $(this);
+
                         var href = el.attr('href');
+
                         if (href.indexOf("editmode") === -1) {
                             href = href + ((href.indexOf('?') === -1 ? '?' : '&') + 'editmode:y');
+ 
+                            el.attr('href', href);
+
                         }
-                        el.attr('href', href);
                     }).on('click', function (e){
 
                     });
+
+                    }, 1000);
                 });
             </script>
         </aside>
