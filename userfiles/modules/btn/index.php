@@ -129,9 +129,9 @@ if (is_file($template_file) != false) {
 } else {
     print lnotif("No template found. Please choose template.");
 }
-?>
 
-<?php if ($action == 'popup') { ?>
+
+ if ($action == 'popup') { ?>
 
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
         <?php print $action_content; ?>
@@ -147,4 +147,4 @@ if (is_file($template_file) != false) {
             });
         }
     </script>
-<?php } ?>
+<?php }
