@@ -4,7 +4,7 @@
 
   type: layout
 
-  name: Default
+  name: default
 
   description: Default template
 
@@ -25,49 +25,85 @@ if (isset($json) == false or count($json) == 0) {
 ?>
 
 <script>
+    $(document).ready(function() {
 
-    $(document).ready(function(){
-        var root = $("#mw-accordion-module-<?php print $params['id'] ?>");
-        $('.accordion__title', root).on('click', function(){
-            var el = $(this);
-            setTimeout(function(){
-                $('li.active', root).removeClass('active');
-                $(el).parent().addClass('active');
-            }, 100);
+        function toggleChevron(e) {
+            $(e.target)
+                .prev('.card-header')
+                .find("i.mdi.arrow")
+                .toggleClass('mdi-chevron-down mdi-chevron-up')
+                .toggleClass('active')
+        }
+        $('#accordion').on('hidden.bs.collapse', toggleChevron);
+        $('#accordion').on('shown.bs.collapse', toggleChevron);
 
+        $(".card").click(function() {
+            $(".card").removeClass("active");
+            $(this).addClass("active");
+        });
 
-
-        })
     })
-
 </script>
 
+<style>
+    .card:hover,
+    .card.active {
+        border: 1px #0055ff solid !important;
+    }
 
-<div id="mw-accordion-module-<?php print $params['id'] ?>" class="mw-accordion-box-wrapper">
-    <ul class="accordion">
-        <?php foreach ($json as $key => $slide): ?>
-        <?php
+    .card i.active {
+        background-color: #0055ff !important;
+        color: white !important;
+    }
 
-        $edit_field_key = $key;
-        if(isset($slide['id'])){
-            $edit_field_key = $slide['id'];
-        }
+    .card {
+        border: 1px solid #e6e6e6 !important;
+        border-radius: 5px !important;
+    }
 
-         ?>
+    .mdi.arrow {
+        background-color: #f3f3f3;
+        color: gray;
+        line-height: 1 !important;
+        font-size: 20px !important;
+    }
 
+    .card.card-collapse .card-header:after {
+        border-top: none !important;
+    }
+</style>
 
-            <li class="<?php if ($key == 0): ?>active<?php endif; ?>">
-                <div class="accordion__title">
-                    <span class="h5"><?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?><?php print isset($slide['title']) ? $slide['title'] : ''; ?></span>
+<div id="mw-accordion-module-<?php print $params['id'] ?>">
+    <div class="accordion" id="accordion">
+
+        <?php foreach ($json as $key => $slide) : ?>
+            <?php
+            $edit_field_key = $key;
+            if (isset($slide['id'])) {
+                $edit_field_key = $slide['id'];
+            }
+
+            ?>
+            <div class="card card-collapse mb-3 <?php if ($key == 0) : ?> active <?php endif; ?>">
+                <div class="card-header p-0" id="header-item-<?php print $edit_field_key ?>">
+                    <button class="btn p-5 w-100" data-toggle="collapse" data-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
+                        <?php //module icon -
+                        //print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; 
+                        ?>
+                        <h4> <?php print isset($slide['title']) ? $slide['title'] : ''; ?> </h4>
+                        <i class="mdi arrow border rounded-circle ml-auto mr-0 <?php if ($key == 0) : ?>mdi-chevron-up active<?php else : ?>mdi-chevron-down<?php endif; ?>"></i>
+                    </button>
                 </div>
-
-                <div class="accordion__content">
-                    <div class="edit allow-drop" field="accordion-item-<?php print $edit_field_key ?>" rel="module-<?php print $params['id'] ?>">
-                       <div class="element"> <?php print isset($slide['content']) ? $slide['content'] : 'Accordion content' ?></div>
+                <div id="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" class="collapse <?php if ($key == 0) : ?> show <?php endif; ?>" aria-labelledby="header-item-<?php print $edit_field_key ?>" data-parent="#mw-accordion-module-<?php print $params['id'] ?>">
+                    <div class="card-body px-5 pt-0 pb-5">
+                        <div class="allow-drop" field="accordion-item-<?php print $edit_field_key ?>" rel="module-<?php print $params['id'] ?>">
+                            <div class="element">
+                                <p class="lead text-black"> <?php print isset($slide['content']) ? $slide['content'] : 'Accordion content' ?></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="clearfix"></div>
                 </div>
-            </li>
+            </div>
         <?php endforeach; ?>
-    </ul>
+    </div>
 </div>

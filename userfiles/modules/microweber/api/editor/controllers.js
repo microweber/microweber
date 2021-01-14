@@ -511,7 +511,7 @@ MWEditor.controllers = {
                         var li = scope.actionWindow.document.createElement('li');
                         ul.appendChild(li);
                         while (paragraph.firstChild) {
-                            li.appendChild(node.firstChild);
+                            li.appendChild(paragraph.firstChild);
                         }
                         paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
                         paragraph.remove();

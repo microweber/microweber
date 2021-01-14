@@ -4,23 +4,62 @@ $option_group = $params['id'];
 
 if (isset($params['option-group'])) {
     $option_group = $params['option-group'];
-
 }
 
+$social_links_options = [];
+$social_links_options['facebook_enabled'] = '';
+$social_links_options['twitter_enabled'] = '';
+$social_links_options['googleplus_enabled'] = '';
+$social_links_options['pinterest_enabled'] = '';
+$social_links_options['youtube_enabled'] = '';
+$social_links_options['linkedin_enabled'] = '';
+$social_links_options['github_enabled'] = '';
+$social_links_options['instagram_enabled'] = '';
+$social_links_options['rss_enabled'] = '';
+$social_links_options['soundcloud_enabled'] = '';
+$social_links_options['mixcloud_enabled'] = '';
+$social_links_options['medium_enabled'] = '';
+$social_links_options['instagram_url'] = '';
+$social_links_options['facebook_url'] = '';
+$social_links_options['twitter_url'] = '';
+$social_links_options['googleplus_url'] = '';
+$social_links_options['pinterest_url'] = '';
+$social_links_options['youtube_url'] = '';
+$social_links_options['linkedin_url'] = '';
+$social_links_options['github_url'] = '';
+$social_links_options['soundcloud_url'] = '';
+$social_links_options['mixcloud_url'] = '';
+$social_links_options['medium_url'] = '';
 
-$facebook_enabled_option = get_option('facebook_enabled', $option_group);
-$twitter_enabled_option = get_option('twitter_enabled', $option_group);
-$googleplus_enabled_option = get_option('googleplus_enabled', $option_group);
-$pinterest_enabled_option = get_option('pinterest_enabled', $option_group);
-$youtube_enabled_option = get_option('youtube_enabled', $option_group);
-$linkedin_enabled_option = get_option('linkedin_enabled', $option_group);
-$github_enabled_option = get_option('github_enabled', $option_group);
-$instagram_enabled_option = get_option('instagram_enabled', $option_group);
-$rss_enabled_option = get_option('rss_enabled', $option_group);
+$website_social_links_options = $social_links_options;
 
-$soundcloud_enabled_option = get_option('soundcloud_enabled', $option_group);
-$mixcloud_enabled_option = get_option('mixcloud_enabled', $option_group);
-$medium_enabled_option = get_option('medium_enabled', $option_group);
+$get_social_links_options = \MicroweberPackages\Option\Models\Option::where('option_group', $option_group)->get();
+if (!empty($get_social_links_options)) {
+    foreach ($get_social_links_options as $social_links_option) {
+        $social_links_options[$social_links_option['option_key']] = $social_links_option['option_value'];
+    }
+}
+
+$get_website_social_links_options = \MicroweberPackages\Option\Models\Option::where('option_group', 'website')->get();
+if (!empty($get_website_social_links_options)) {
+    foreach ($get_website_social_links_options as $social_links_option) {
+        $website_social_links_options[$social_links_option['option_key']] = $social_links_option['option_value'];
+    }
+}
+
+$facebook_enabled_option = $social_links_options['facebook_enabled'];
+$twitter_enabled_option = $social_links_options['twitter_enabled'];
+$googleplus_enabled_option = $social_links_options['googleplus_enabled'];
+$pinterest_enabled_option = $social_links_options['pinterest_enabled'];
+$youtube_enabled_option = $social_links_options['youtube_enabled'];
+$linkedin_enabled_option = $social_links_options['linkedin_enabled'];
+$github_enabled_option = $social_links_options['github_enabled'];
+$instagram_enabled_option = $social_links_options['instagram_enabled'];
+$rss_enabled_option = $social_links_options['rss_enabled'];
+
+$soundcloud_enabled_option = $social_links_options['soundcloud_enabled'];
+$mixcloud_enabled_option = $social_links_options['mixcloud_enabled'];
+$medium_enabled_option = $social_links_options['medium_enabled'];
 
 $facebook_enabled = $facebook_enabled_option == 'y';
 $twitter_enabled = $twitter_enabled_option == 'y';
@@ -70,75 +109,75 @@ if (isset($params['show-icons'])) {
 }
 
 
-$instagram_url = get_option('instagram_url', $option_group);
+$instagram_url = $social_links_options['instagram_url'];
 if ($instagram_url == false) {
-    $instagram_url = get_option('instagram_url', 'website');
+    $instagram_url = $website_social_links_options['instagram_url'];
 }
 
 
-$facebook_url = get_option('facebook_url', $option_group);
+$facebook_url = $social_links_options['facebook_url'];
 
 if ($facebook_url == false) {
-    $facebook_url = get_option('facebook_url', 'website');
+    $facebook_url = $website_social_links_options['facebook_url'];
 }
 
-$twitter_url = get_option('twitter_url', $option_group);
+$twitter_url = $social_links_options['twitter_url'];
 
 if ($twitter_url == false) {
-    $twitter_url = get_option('twitter_url', 'website');
+    $twitter_url = $website_social_links_options['twitter_url'];
 }
 
 
-$googleplus_url = get_option('googleplus_url', $option_group);
+$googleplus_url = $social_links_options['googleplus_url'];
 
 if ($googleplus_url == false) {
-    $googleplus_url = get_option('googleplus_url', 'website');
+    $googleplus_url = $website_social_links_options['googleplus_url'];
 }
 
 
-$pinterest_url = get_option('pinterest_url', $option_group);
+$pinterest_url = $social_links_options['pinterest_url'];
 
 
 if ($pinterest_url == false) {
-    $pinterest_url = get_option('pinterest_url', 'website');
+    $pinterest_url = $website_social_links_options['pinterest_url'];
 }
 
 
-$youtube_url = get_option('youtube_url', $option_group);
+$youtube_url = $social_links_options['youtube_url'];
 
 if ($youtube_url == false) {
-    $youtube_url = get_option('youtube_url', 'website');
+    $youtube_url = $website_social_links_options['youtube_url'];
 }
 
 
-$linkedin_url = get_option('linkedin_url', $option_group);
+$linkedin_url = $social_links_options['linkedin_url'];
 
 if ($linkedin_url == false) {
-    $linkedin_url = get_option('linkedin_url', 'website');
+    $linkedin_url = $website_social_links_options['linkedin_url'];
 }
 
-$github_url = get_option('github_url', $option_group);
+$github_url = $social_links_options['github_url'];
 
 if ($github_url == false) {
-    $github_url = get_option('github_url', 'website');
+    $github_url = $website_social_links_options['github_url'];
 }
 
-$soundcloud_url = get_option('soundcloud_url', $option_group);
+$soundcloud_url = $social_links_options['soundcloud_url'];
 
 if ($soundcloud_url == false) {
-    $soundcloud_url = get_option('soundcloud_url', 'website');
+    $soundcloud_url = $website_social_links_options['soundcloud_url'];
 }
 
-$mixcloud_url = get_option('mixcloud_url', $option_group);
+$mixcloud_url = $social_links_options['mixcloud_url'];
 
 if ($mixcloud_url == false) {
-    $mixcloud_url = get_option('mixcloud_url', 'website');
+    $mixcloud_url = $website_social_links_options['mixcloud_url'];
 }
 
-$medium_url = get_option('medium_url', $option_group);
+$medium_url = $social_links_options['medium_url'];
 
 if ($medium_url == false) {
-    $medium_url = get_option('medium_url', 'website');
+    $medium_url = $website_social_links_options['medium_url'];
 }
 
 
