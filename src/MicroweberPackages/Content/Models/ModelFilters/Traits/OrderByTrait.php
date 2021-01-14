@@ -23,6 +23,7 @@ trait OrderByTrait
             $orderColumn = $orderBy[0];
             $orderDirection = $orderBy[1];
         }
+
          return $this->query->orderBy($orderColumn, $orderDirection);
     }
 
