@@ -331,8 +331,19 @@
                         mw.$("#<?php print $module_id ?>").attr("content-id", this);
 
                         mw.reload_module("#<?php print $module_id ?>");
+
+                        mw.reload_module_everywhere('menu');
+                        mw.reload_module_everywhere('pages');
+                        mw.reload_module_everywhere('posts');
+                        mw.reload_module_everywhere('shop/products');
+
+
                     }
                 }
+
+
+
+
 
 
             },
