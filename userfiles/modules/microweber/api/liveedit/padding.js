@@ -1,4 +1,3 @@
-mw.require('tempcss.js');
 
 (function(mw){
 

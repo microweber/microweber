@@ -243,8 +243,7 @@
 
             mw.$(".modules_bar").scrollLeft(0);
 
-            mw.cookie.ui("#modules-and-layouts,#tab_modules,.tst-modules", "true");
-            mw.$(".modules-layouts-menu .create-content-dropdown-list").hide();
+             mw.$(".modules-layouts-menu .create-content-dropdown-list").hide();
 
             if (a == 'layouts') {
                 mw.$(modules_switcher).dataset("for", "layouts");

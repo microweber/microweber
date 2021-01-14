@@ -1,31 +1,4 @@
-
-
 mw.tools = {};
-
-
-<?php
-    $files = glob(__DIR__.DS.'tools'.DS.'*.js');
-
-
-
-foreach($files as $file) {
- //   print("mw.require('".mw_includes_url()."api/tools/".basename($file)."');");
-    echo "\n";
-    print("mw.required.push('".mw_includes_url()."api/tools/".basename($file)."');");
-    echo "\n";
-    echo "\n";
-    include $file;
-    echo "\n";
-}
-
-
-echo "\n";
-echo "\n";
-
-
-?>
-
-mw.require('components.js');
 
 mw.confirm = mw.tools.confirm;
 mw.prompt = mw.tools.prompt;

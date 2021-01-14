@@ -328,8 +328,7 @@
                             presets_mod.module_id = '<?php print $params['id'] ?>'
                             presets_mod.module_name = '<?php print $params['module'] ?>'
                             presets_mod.id = 'presets-<?php print $params['id'] ?>'
-                            //   presets_mod.mod_orig_id='<?php print $mod_orig_id ?>'
-                            //  var src = mw.settings.site_url + "api/module?" + json2url(presets_mod);
+
                             var src = mw.settings.site_url + 'editor_tools/module_presets?' + json2url(presets_mod);
                             var iframeid = 'frame-' + presets_mod.module_id;
 

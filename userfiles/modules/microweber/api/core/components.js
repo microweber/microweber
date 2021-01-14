@@ -187,11 +187,11 @@
 
             if (!el[0].is_searching) {
                 var val = el.val();
-                if (event.type == 'blur') {
+                if (event.type === 'blur') {
                     mw.$(this).next('ul').hide();
                     return false;
                 }
-                if (event.type == 'focus') {
+                if (event.type === 'focus') {
                     if ($(this).next('ul').html()) {
                         mw.$(this).next('ul').show()
                     }

@@ -298,7 +298,7 @@ if ($weight_units == false) {
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
                                 </div>
-                                <input class="form-control" type="text" onkeyup="mw.form.typeNumber(this);" onchange="SaveShippingForm()" placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
+                                <input class="form-control" type="number" onchange="SaveShippingForm()" placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
                             </div>
                         </div>
 
@@ -310,7 +310,7 @@ if ($weight_units == false) {
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
                                     </div>
-                                    <input type="text" name="shipping_price_per_size" value="<?php print  floatval($item['shipping_price_per_size']); ?>" onkeyup="mw.form.typeNumber(this);" onchange="SaveShippingForm();" class="form-control"/>
+                                    <input type="number" name="shipping_price_per_size" value="<?php print  floatval($item['shipping_price_per_size']); ?>"  onchange="SaveShippingForm();" class="form-control"/>
                                 </div>
                             </div>
 

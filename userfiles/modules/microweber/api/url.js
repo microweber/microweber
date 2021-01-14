@@ -36,7 +36,7 @@ mw.url = {
         var params = mw.url.getUrlParams(url);
         params[param] = value;
         var params_string = json2url(params);
-        var url = mw.url.strip(url);
+        url = mw.url.strip(url);
         return decodeURIComponent (url + "?" + params_string + hash);
     },
     remove_param:function(url, param){
@@ -49,13 +49,13 @@ mw.url = {
     },
     getHashParams:function(hash){
         var r = new RegExp(mw.url.hashStart, "g");
-        var hash = hash.replace(r, "");
-        var hash = hash.replace(/\?/g, "");
-        if(hash=='' || hash=='#'){
+        hash = hash.replace(r, "");
+        hash = hash.replace(/\?/g, "");
+        if(hash === '' || hash === '#'){
           return {}
         }
         else{
-          var hash = hash.replace(/#/g, "");
+          hash = hash.replace(/#/g, "");
           var arr = hash.split('&');
           var obj = {}, i=0, len = arr.length;
           for( ; i<len; i++){

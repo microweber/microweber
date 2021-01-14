@@ -4,7 +4,6 @@ mw.require('form-controls.js');
 
 
     mw.LinkEditor = function(options) {
-        console.log(this)
         var scope = this;
         var defaults = {
             mode: 'dialog',

@@ -56,7 +56,6 @@ mw.common = {
         var skin = 'basic';
         var overlay = true;
         var data = e.target.getAttribute('data-mw-dialog');
-
         if(data){
             e.preventDefault();
             data = data.trim();

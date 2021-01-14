@@ -29,7 +29,7 @@ mw.controlFields = {
         this.__id++;
         return 'le-' + this.__id;
     },
-    _label: function (conf){
+    _label: function (conf) {
         var id = conf.id || this._id();
         var label = document.createElement('label');
         label.className = conf.className || 'mw-ui-label';
