@@ -171,7 +171,7 @@
     }
 
 
-    mw.edit_content.handle_form_submit = function (go_live) {
+     mw.edit_content.handle_form_submit = function (go_live) {
 
 
         if (mw.edit_content.saving) {
@@ -222,6 +222,8 @@
 
 
         module.addClass('loading');
+
+
         mw.content.save(data, {
             url: el.getAttribute('action'),
             onSuccess: function (a) {
@@ -273,8 +275,18 @@
                         }
                         window.parent.mw.askusertostay = false;
                     }
-                    $.get('<?php print site_url('api_html/content_link/?id=') ?>' + this, function (data) {
-                        mw.top().win.location.href = data + '?editmode=y';
+                    var nid = typeof this === "number" ? this : this.id;
+
+                    $.get('<?php print site_url('api/content/get_link_admin/?id=') ?>' + nid, function (data) {
+
+                        if (data == null) {
+                            return false;
+                        }
+                         if(go_live_edit === 'n'){
+                        mw.top().win.location.href = data.url + '?editmode=n';
+                        } else {
+                        mw.top().win.location.href = data.url + '?editmode=y';
+                        }
                     });
                 }
                 else {
@@ -289,7 +301,12 @@
                         mw.$("#edit-content-url").val(slug);
                         mw.$(".view-post-slug").html(slug);
                         mw.$("#slug-base-url").html(data.slug_prefix_url);
-                        mw.$("a.quick-post-done-link").attr("href",  data.url + '?editmode=y');
+                         if(go_live_edit === 'n') {
+                             mw.$("a.quick-post-done-link").attr("href", data.url + '?editmode=n');
+                         } else {
+                             mw.$("a.quick-post-done-link").attr("href", data.url + '?editmode=y');
+
+                         }
                         mw.$("a.quick-post-done-link").html(data.url);
                     });
                     mw.$("#<?php print $module_id ?>").attr("content-id", nid);

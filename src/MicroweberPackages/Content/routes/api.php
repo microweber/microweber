@@ -75,7 +75,7 @@ Route::name('api.')
 
             if ($segments) {
                 return [
-                    'url' => site_url($segments['url']),
+                    'url' => $segments['url'],
                     'slug_prefix' => $segments['slug_prefix'],
                     'slug_prefix_url' => $segments['slug_prefix_url'],
                     'slug' => $segments['slug'],

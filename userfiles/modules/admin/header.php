@@ -335,12 +335,12 @@ $user = get_user_by_id($user_id);
                     <?php if (user_can_access('module.content.edit')): ?>
 
                         <li class="mx-1">
-                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set  go-live-edit-href-set-view" target="_blank">
+                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set  go-live-edit-href-set-view" xxtarget="_top">
                                 <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("View"); ?></span>
                             </a>
                         </li>
                         <li class="mx-1">
-                            <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" target="_blank">
+                            <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" xxtarget="_top">
                                 <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
                             </a>
                         </li>
@@ -592,7 +592,7 @@ $user = get_user_by_id($user_id);
 
             <script>
                 $(document).ready(function () {
-                    setTimeout(function(){
+
 
 
                     mw.$('.go-live-edit-href-set').each(function () {
@@ -606,11 +606,33 @@ $user = get_user_by_id($user_id);
                             el.attr('href', href);
 
                         }
-                    }).on('click', function (e){
+                    }).on('click', function (event){
+                        var edit_cont_form =  $('#quickform-edit-content');
+                        var edit_cont_title =  $('#content-title-field').val();
+                        if(edit_cont_form.length > 0 && (typeof(mw.edit_content) != 'undefined') && edit_cont_title){
+                            event.stopPropagation();
+                            event.preventDefault();
+
+
+
+                            window.parent.mw.askusertostay = false;
+
+                            mw.edit_content.saving = false;
+                            if($(this).hasClass('go-live-edit-href-set-view')){
+                                mw.edit_content.handle_form_submit('n');
+                            } else {
+                                mw.edit_content.handle_form_submit('y');
+
+                            }
+
+
+                        }
+
+
 
                     });
 
-                    }, 1000);
+
                 });
             </script>
         </aside>
