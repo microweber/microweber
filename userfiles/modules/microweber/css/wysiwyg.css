@@ -287,8 +287,8 @@
 .mw-active-element-is-in-safe-mode .mw_editor_element,
 .mw-active-element-is-in-safe-mode .mw_editor_outdent,
 .mw-active-element-is-in-safe-mode .mw_editor_indent,
-.mw-active-element-is-in-safe-mode .mw_editor_ol ,
-.mw-active-element-is-in-safe-mode .mw_editor_ul ,
+/*.mw-active-element-is-in-safe-mode .mw_editor_ol ,
+.mw-active-element-is-in-safe-mode .mw_editor_ul ,*/
 .mw-active-element-is-in-safe-mode #wysiwyg_insert li[value='insert_html'],
 .mw-active-element-is-in-safe-mode #wysiwyg_insert li[value='quote'],
 .mw-active-element-is-in-safe-mode #wysiwyg_insert li[value='code'],
