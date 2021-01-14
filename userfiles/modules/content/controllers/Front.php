@@ -308,10 +308,12 @@ class Front
                         $page_categories = false;
                         if (intval($cfg_page_id) != 0 and $cat_from_url == false) {
 
-                            $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
-                            $page_categories = db_get($str0);
+                            // This is not using anywhere
+                            //$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+                            //$page_categories = db_get($str0);
 
-                            $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+                           // $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+
                             $page_categories = db_get('table=categories&limit=1&data_type=category&' . 'parent_id=0&rel_id=' . $cfg_page_id);
 
                             if (is_array($page_categories)) {
