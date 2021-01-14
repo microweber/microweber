@@ -1,14 +1,35 @@
 <?php
 $btn_id = 'btn-' . $params['id'];
-$style = get_option('button_style', $params['id']);
-$size = get_option('button_size', $params['id']);
-$action = get_option('button_action', $params['id']);
-$action_content = get_option('popupcontent', $params['id']);
-$url = get_option('url', $params['id']);
-$blank = get_option('url_blank', $params['id']) == 'y';
-$text = get_option('text', $params['id']);
-if (get_option('icon', $params['id'])) {
-    $icon = get_option('icon', $params['id']);
+
+$btn_options = [];
+$btn_options['button_style'] = '';
+$btn_options['button_size'] = '';
+$btn_options['button_action'] = '';
+$btn_options['popupcontent'] = '';
+$btn_options['url'] = '';
+$btn_options['url_blank'] = '';
+$btn_options['text'] = '';
+$btn_options['icon'] = '';
+$btn_options['button_id'] = '';
+
+
+$get_btn_options = \MicroweberPackages\Option\Models\Option::where('option_group', $params['id'])->get();
+if (!empty($get_btn_options)) {
+    foreach ($get_btn_options as $get_btn_option) {
+        $btn_options[$get_btn_option['option_key']] = $get_btn_option['option_value'];
+    }
+}
+
+
+$style = $btn_options['button_style'];
+$size = $btn_options['button_size'];
+$action = $btn_options['button_action'];
+$action_content = $btn_options['popupcontent'];
+$url = $btn_options['url'];
+$blank = $btn_options['url_blank'] == 'y';
+$text = $btn_options['text'];
+if ($btn_options['icon']) {
+    $icon = $btn_options['icon'];
 } elseif (isset($params['icon'])) {
     $icon = $params['icon'];
 } else {
@@ -91,14 +112,6 @@ if ($action == 'popup') {
     $url = 'javascript:' . $popup_function_id . '()';
 }
 
-
-
-
-
-?>
-
-
-<?php
 
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
