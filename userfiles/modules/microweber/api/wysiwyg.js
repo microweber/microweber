@@ -451,16 +451,14 @@ mw.wysiwyg = {
             var paragraph = mw.tools.firstParentOrCurrentWithTag(elementNode, 'p');
             if (paragraph) {
                 var tag = a === 'insertorderedlist' ? 'ol' : 'ul';
-                if (paragraph.contentEditable === 'inherit') {
-                    var ul = scope.actionWindow.document.createElement(tag);
-                    var li = scope.actionWindow.document.createElement('li');
-                    ul.appendChild(li);
-                    while (paragraph.firstChild) {
-                        li.appendChild(node.firstChild);
-                    }
-                    paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
-                    paragraph.remove();
+                var ul = document.createElement(tag);
+                var li = document.createElement('li');
+                ul.appendChild(li);
+                while (paragraph.firstChild) {
+                    li.appendChild(paragraph.firstChild);
                 }
+                paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
+                paragraph.remove();
                 return;
             }
         }
