@@ -71,4 +71,30 @@ class Category extends Model
 //
 //        return $allCategories;
 //    }
+
+    public static function hasActiveProductInSubcategories($category)
+    {
+
+        if(empty($category) || count($category->items) == 0) {
+            return false;
+        }
+
+        foreach($category->items as $item) {
+            $product = \MicroweberPackages\Product\Models\Product::find($item->rel_id);
+
+            if($product->in_stock) {
+                return true;
+            }
+        }
+
+        if(count($category->children) > 0) {
+            foreach($category->children as $childCat) {
+                if(self::hasActiveProductInSubcategories($childCat)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

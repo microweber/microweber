@@ -264,6 +264,14 @@ class CategoryTreeData
 
                 if (isset($cat['id'])) {
 
+                    if(isset($params['only_cats_with_active_products']) && $params['only_cats_with_active_products'] == true) {
+                        //Skip those without products in them or their children
+                        $hasActiveProducts = $this->hasActiveProductsInItsTree($cat['id']);
+                        if($hasActiveProducts == false) {
+                            continue;
+                        }
+                    }
+
                     $override = $this->app->event_manager->trigger('category.after.get', $cat);
                     if (is_array($override) && isset($override[0])) {
                         $cat = $override[0];
@@ -460,6 +468,14 @@ class CategoryTreeData
             $i = 0;
             foreach ($result as $item) {
 
+                if(isset($params['only_cats_with_active_products']) && $params['only_cats_with_active_products'] == true) {
+                    //Skip those without products in them or their children
+                    $hasActiveProducts = $this->hasActiveProductsInItsTree($item['id']);
+                    if($hasActiveProducts == false) {
+                        continue;
+                    }
+                }
+
                 $override = $this->app->event_manager->trigger('category.after.get', $item);
                 if (is_array($override) && isset($override[0])) {
                     $item = $override[0];
@@ -478,6 +494,13 @@ class CategoryTreeData
         }
     }
 
+    private function hasActiveProductsInItsTree($catId)
+    {
+        $catObj = \MicroweberPackages\Category\Models\Category::find($catId);
+        $hasActiveProducts = \MicroweberPackages\Category\Models\Category::hasActiveProductInSubcategories($catObj);
+
+        return $hasActiveProducts;
+    }
 
 }
 
