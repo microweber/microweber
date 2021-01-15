@@ -1172,9 +1172,16 @@ class UserManager
                 if (isset($params['roles'][0])) {
                     if ($params['roles'][0] == 'Super Admin') {
                         $user->is_admin = 1;
+                    }  else  if ($params['roles'][0] == 'User') {
+                        $user->is_admin = 0;
                     } else {
+                        $user->is_admin = 0;
+
                         $user->assignRole($params['roles']);
                     }
+                }
+                if (isset($params['is_active'])) {
+                    $user->is_active =$params['is_active'];
                 }
             }
 
