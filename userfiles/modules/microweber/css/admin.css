@@ -21,9 +21,15 @@
     clear: both;
 }
 
+#mw-update-frame {
+    max-width: 100%;
+    width:100%;
+}
+
 .main aside > ul > li.nav-item {
     width: 100%;
 }
+
 
 #mw-admin-main-navigation li.active-parent > .dropdown-menu,
 #mw-admin-main-navigation li.active > .dropdown-menu {
