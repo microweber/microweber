@@ -6,10 +6,29 @@ must_have_access(); ?>
     mw.require('forms.js');
 </script>
 
-<script type="text/javascript">
-    _settingsSort = function () {
+<?php
+$show_group = false;
+?>
 
-        var group = mw.url.windowHashParam('option_group');
+<?php
+
+if (isset($_GET['group'])) {
+    $show_group = $_GET['group'];
+} else if (isset($params['group'])) {
+    $show_group = $params['group'];
+}
+
+
+  ?>
+
+<script type="text/javascript">
+    _settingsSort = function (group_set) {
+         var group = mw.url.windowHashParam('option_group');
+
+         if(group_set){
+           //  group = group_set;
+           //  alert(group);
+         }
 
         if (group != undefined) {
             mw.$('#settings_admin_<?php print $rand; ?>').attr('option_group', group);
@@ -20,10 +39,10 @@ must_have_access(); ?>
         }
         mw.$('#settings_admin_<?php print $rand; ?>').attr('is_system', 1);
 
-        mw.tools.loading(document.querySelector('#edit-content-row'), true)
+        mw.tools.loading(document.querySelector('#settings_admin_<?php print $rand; ?>'), true)
 
         mw.load_module('settings/system_settings', '#settings_admin_<?php print $rand; ?>', function () {
-            mw.tools.loading(document.querySelector('#edit-content-row'), false)
+            mw.tools.loading(document.querySelector('#settings_admin_<?php print $rand; ?>'), false)
         });
 
     }
@@ -35,27 +54,45 @@ must_have_access(); ?>
 
         if (this != false) {
 
-            mw.$("#settings_admin_categories_<?php print $rand; ?> a").removeClass("active");
-            mw.$("#settings_admin_categories_<?php print $rand; ?> a.item-" + this).addClass("active");
+         //   mw.$("#settings_admin_categories_<?php print $rand; ?> a").removeClass("active");
+       //     mw.$("#settings_admin_categories_<?php print $rand; ?> a.item-" + this).addClass("active");
         }
         else {
             mw.url.windowHashParam('option_group', 'admin__modules');
         }
+        if (this != false) {
+            _settingsSort(this)
 
-        _settingsSort()
+        }  else {
+            _settingsSort();
+        }
 
         $(".active-parent li.active, #mw-admin-main-menu .active .active").removeClass('active');
-        var link = $('a[href*="option_group=' + this + '"]');
-
-        link
-            .parent()
-            .addClass('active');
+        // var link = $('a[href*="option_group=' + this + '"]');
+        //
+        // link
+        //     .parent()
+        //     .addClass('active');
 
     });
+
+        <?php if (!$show_group) { ?>
+
+        if (!mw.url.windowHashParam('option_group')) {
+            mw.url.windowHashParam('option_group', 'website');
+        }
+
+        <?php }  else if ($show_group) {   ?>
+         //_settingsSort('<?php print $show_group ?>')
+
     if (!mw.url.windowHashParam('option_group')) {
-        //mw.url.windowHashParam('option_group', 'admin__modules');
-        mw.url.windowHashParam('option_group', 'website');
+          mw.url.windowHashParam('option_group', '<?php print $show_group ?>');
     }
+        <?php }  ?>
+
+
+
+
 
 
     mw.on.hashParam('installed', function () {

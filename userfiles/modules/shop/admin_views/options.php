@@ -1,1 +1,8 @@
-<module type="shop/settings"   />
+
+
+
+
+<module type="settings/admin" group="shop/settings"/>
+
+
+

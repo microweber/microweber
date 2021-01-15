@@ -13,6 +13,7 @@
 
 <script type="text/javascript">
     mw.lib.require('collapse_nav');
+    mw.lib.require('anchorific');
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -22,24 +23,23 @@
     });
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/anchorific/1.2/min/anchorific.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('.js-anchorific').anchorific({
-            navigation: '.anchorific', // position of navigation
-            headers: 'h5', // headers that you wish to target
-            speed: 200, // speed of sliding back to top
-            anchorText: '#', // prepended or appended to anchor headings
-            top: '.top', // back to top button or link class
-            spyOffset: 0, // specify heading offset for spy scrolling
-        });
-
-        $('.js-anchorific ul').collapseNav({
-            'mobile_break': 320,
-//            'li_class': '',
-//            'li_a_class': '',
-//            'li_ul_class': ''
-        });
+//         $('.js-anchorific').anchorific({
+//             navigation: '.anchorific', // position of navigation
+//             headers: 'h5', // headers that you wish to target
+//             speed: 200, // speed of sliding back to top
+//             anchorText: '#', // prepended or appended to anchor headings
+//             top: '.top', // back to top button or link class
+//             spyOffset: 0, // specify heading offset for spy scrolling
+//         });
+//
+//         $('.js-anchorific ul').collapseNav({
+//             'mobile_break': 320,
+// //            'li_class': '',
+// //            'li_a_class': '',
+// //            'li_ul_class': ''
+//         });
     })
 </script>
 

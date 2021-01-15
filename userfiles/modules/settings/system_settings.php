@@ -13,7 +13,7 @@
 
 
 
-  <module="settings/group/<?php print $params['option_group']; ?>" />
+  <module type="settings/group/<?php print $params['option_group']; ?>" />
 
    <?php  else: ?>
   <module="<?php print module_name_decode($params['option_group']); ?>" />

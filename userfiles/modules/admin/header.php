@@ -484,7 +484,7 @@ $user = get_user_by_id($user_id);
                                     </a>
                             <?php endif; ?>
 
-                            <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
+                            <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
                             </a>
                         </div>
@@ -513,6 +513,18 @@ $user = get_user_by_id($user_id);
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=all">
+                        <i class="mdi mdi-cog"></i>
+                        <span class="badge-holder"><?php _e("Settings"); ?></span>
+                    </a>
+
+                </li>
+
+
+
+
 
                 <?php /*
                 <li class="nav-item dropdown">
