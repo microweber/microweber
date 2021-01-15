@@ -44,7 +44,9 @@ if (isset($json) == false or count($json) == 0) {
 
     })
 </script>
+<?php
 
+/*
 <style>
     .card:hover,
     .card.active {
@@ -71,7 +73,9 @@ if (isset($json) == false or count($json) == 0) {
     .card.card-collapse .card-header:after {
         border-top: none !important;
     }
-</style>
+</style>*/
+
+?>
 
 <div id="mw-accordion-module-<?php print $params['id'] ?>">
     <div class="accordion" id="accordion">

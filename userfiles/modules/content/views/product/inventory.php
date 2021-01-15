@@ -1,7 +1,8 @@
-<style>
+<?php
+/*<style>
     .js-track-quantity {
-        display: none;
-    }
+         display: none;
+     }
 
     div.dropdown-menu.open {
         max-height: 314px !important;
@@ -16,7 +17,9 @@
     .dropdown.bootstrap-select {
         width:100% !important;
     }
-</style>
+</style>*/
+
+?>
 
 <script>
     $(document).ready(function() {
