@@ -172,7 +172,7 @@ if (isset($params['quick_edit'])) {
     <?php
     $data['id'] = intval($data['id']);
     $formActionUrl = site_url() . 'api/save_content_admin';
-    if ($type == 'Page') {
+    if ($type == 'Page' or $type == 'Shop') {
         $formActionUrl = route('api.page.index');
         if ($data['id'] > 0) {
             $formActionUrl = route('api.page.update', $data['id']);
