@@ -17,6 +17,7 @@ const config = {
     entry: {
         core: glob.sync(path.resolve(`${input}/{tools,tools/core-tools,core}/*.js`)),
         liveedit: glob.sync(path.resolve(`${input}/liveedit/*.js`)),
+        admin: glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,system}/*.js`)),
     },
     plugins: [
         new CleanWebpackPlugin(),

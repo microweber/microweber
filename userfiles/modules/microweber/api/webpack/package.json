@@ -7,6 +7,7 @@
     "webpack-cli": "^4.1.0"
   },
   "dependencies": {
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "jquery-ui": "^1.12.1"
   }
 }

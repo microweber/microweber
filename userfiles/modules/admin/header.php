@@ -7,24 +7,10 @@
     <meta name="robots" content="noindex">
 
     <script>
-        mw.lib.require('jqueryui');
-        mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
-        mw.require("liveadmin.js");
+         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
-        mw.require("wysiwyg.js");
-        mw.require("url.js");
-        mw.require("options.js");
-        mw.require("events.js");
-        mw.require("admin.js");
-        mw.require("editor_externals.js");
-        mw.require("keys.js");
-        mw.require("css_parser.js");
-        mw.require("custom_fields.js");
-        mw.require("session.js");
-        mw.require("content.js");
-        mw.require("upgrades.js");
-        mw.require("tree.js");
+
 
         mw.lib.require('mwui');
         mw.lib.require('mwui_init');
