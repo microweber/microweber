@@ -623,7 +623,13 @@ if ($action == 'posts') {
 ?>
 
 <?php if ($action == 'settings'): ?>
-    <module type="settings/group/website_group"/>
+
+
+    <module type="settings/admin" group="website_group/index"/>
+
+
+
+
     <?php return; ?>
 <?php endif ?>
 

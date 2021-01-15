@@ -56,6 +56,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 mw.notification.success("<?php _ejs('Taxes are updated'); ?>");
                 // mw.reload_module('#mw_admin_shop_taxes_items_list');
                 mw.reload_module('shop/taxes');
+                mw.reload_module_everywhere('shop/taxes/admin_list_taxes')
+                mw.reload_module_everywhere('shop/cart')
             }
 
             $(document).ready(function () {

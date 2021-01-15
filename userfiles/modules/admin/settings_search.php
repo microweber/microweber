@@ -1,3 +1,5 @@
+<?php return; ?>
+
 <script>
     $(document).ready(function (e) {
         $('.js-search-settings').on('change', function () {
