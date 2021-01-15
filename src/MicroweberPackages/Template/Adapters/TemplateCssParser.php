@@ -78,6 +78,12 @@ class TemplateCssParser
 
     public function compile($options)
     {
+        if (php_can_use_func('ini_set')) {
+            ini_set('memory_limit', '-1');
+        }
+        if (php_can_use_func('set_time_limit')) {
+            set_time_limit(1200);
+        }
         $token = md5(mw()->user_manager->session_id());
 
         if ($options['token'] !== $token) {
