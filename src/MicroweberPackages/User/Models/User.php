@@ -125,7 +125,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         self::creating(function ($model) {
 
-           $model->is_active = 0;
+           //$model->is_active = 0;
            $model->is_verified = 0;
         });
     }
@@ -246,7 +246,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function validateAndFill($data)
     {
         if (!empty($data['password']) && !empty($data['verify_password'])) {
-            $this->rules['password'] = 'required|min:4';
+            $this->rules['password'] = 'required|min:1';
             $this->rules['verify_password'] = 'required|same:password';
         }
 
@@ -258,7 +258,7 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($requireUsername && isset($data['id']) && $data['id'] > 0) {
             $this->rules['username'] = [
                 'required',
-                'min:6',
+                'min:1',
                 Rule::unique('users', 'username')->ignore($data['id'], 'id')
             ];
         }
