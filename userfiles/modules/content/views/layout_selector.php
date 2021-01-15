@@ -480,7 +480,7 @@ if (!empty($recomended_layouts)) {
 
                                 <module type="admin/templates/upload_button"/>
                             <?php endif; ?>
-                       
+
 
                             <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()">Apply this template</button>
 
