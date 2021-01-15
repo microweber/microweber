@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Category;
 
-use _HumbugBox58fd4d9e2a25\___PHPSTORM_HELPERS\this;
 use DB;
 use MicroweberPackages\Category\HelperRenders\KnpCategoryTreeRenderer;
 use MicroweberPackages\Category\Models\Category;
