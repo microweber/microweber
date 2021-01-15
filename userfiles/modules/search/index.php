@@ -17,11 +17,7 @@ if (isset($params['data-search-type'])) {
     <script type="text/javascript">
         mw.require('events.js', true);
     </script>
-    <script type="text/javascript">
-        mw.require("url.js", true);
-        //mw.require("tools.js", true);
-        mw.require("forms.js", true);
-    </script>
+
     <script type="text/javascript">
         mw.search_settings = {
             content_type: 'all',

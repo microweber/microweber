@@ -1,25 +1,18 @@
-mw.tools = {};
+mw.tools = {
 
-mw.confirm = mw.tools.confirm;
-mw.prompt = mw.tools.prompt;
-mw.progress = mw.tools.progress;
+};
+
 mw.external = function (o) {
     return mw.tools._external(o);
 };
 
 mw.gallery = function (arr, start, modal) {
-
-    return mw.tools.gallery.init(arr, start, modal)
-
+    return mw.tools.gallery.init(arr, start, modal);
 };
 
-mw.alert = mw.tools.alert;
-mw.tooltip = function (config) {
-    return mw.tools.tooltip.init(config);
-};
 
 mw.gallery = function (arr, start, modal) {
-    return mw.tools.gallery.init(arr, start, modal)
+    return mw.tools.gallery.init(arr, start, modal);
 };
 
 

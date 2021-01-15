@@ -1,3 +1,7 @@
+
+mw.settings.empty_column_placeholder = '<div id="_ID_" class="empty-element empty-element-column"><?php _e("Please drag items here"); ?></div>';
+
+
 (function($) {
 	$.fn.putPlaceholdersInEmptyColumns = function(options) {
 		return this.each(function() {

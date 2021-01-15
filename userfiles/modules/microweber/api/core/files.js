@@ -1,7 +1,6 @@
 
 
-mw.require('uploader.js');
-
+ 
 
 mw.files = {
     settings: {

@@ -1,6 +1,5 @@
 <script type="text/javascript">
-    mw.require("shop.js", true);
-    mw.require("events.js", true);
+     mw.require("events.js", true);
 </script>
 <script type="text/javascript">
     $(document).ready(function () {

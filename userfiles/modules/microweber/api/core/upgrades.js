@@ -42,10 +42,3 @@ window.onmessage = function (e) {
     }
     // document.getElementById("test").innerHTML = e.origin + " said: " + e.data;
 };
-
-
-mw.upgrades = mw.upgrades || {
-        add: function ($id) {
-            alert($id);
-        }
-    }

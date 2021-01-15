@@ -455,6 +455,10 @@
 
     };
 
+    mw.tooltip = function (config) {
+        return mw.tools.tooltip.init(config);
+    };
+
     mw.tools.tooltip = tooltip;
     var TTTime = null;
     mw.tools.titleTip = function (el, _titleTip) {

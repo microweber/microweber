@@ -1,4 +1,3 @@
-<script>mw.require("shop.js", true);</script>
 
 <script>mw.moduleCSS("<?php print modules_url(); ?>shop/coupons/styles.css"); </script>
 

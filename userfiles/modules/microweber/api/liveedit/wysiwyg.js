@@ -270,8 +270,7 @@ mw.wysiwyg = {
     },
     removeEditable: function (skip) {
         skip = skip || [];
-        if (!mw.is.ie) {
-            var i=0, i2,
+             var i=0, i2,
                 all = document.getElementsByClassName('edit'),
                 len = all.length;
             for (; i < len; i++) {
@@ -292,10 +291,7 @@ mw.wysiwyg = {
                 }
 
             }
-        }
-        else {
-            mw.$(".edit [contenteditable='true'], .edit").removeAttr('contenteditable');
-        }
+
     },
     _lastCopy: null,
     handleCopyEvent: function (event) {
@@ -356,37 +352,13 @@ mw.wysiwyg = {
             });
 
             if (!mw.wysiwyg.isSafeMode(target)) {
-                if (!mw.is.ie) { //Non IE browser
+
                     var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
                     mw.$('.safe-mode').each(function () {
                         mw.wysiwyg.contentEditable(this, false);
                     });
                     mw.wysiwyg.contentEditable(target, orderValid);
-                }
-                else {   // IE browser
-                    mw.wysiwyg.removeEditable();
-                    var cls = target.className;
-                    if (!mw.tools.hasClass(cls, 'empty-element') && !mw.tools.hasClass(cls, 'ui-resizable-handle')) {
-                        if (mw.tools.hasParentsWithClass(el, 'module')) {
-                            mw.wysiwyg.contentEditable(target, true);
-                        }
-                        else {
-                            if (!mw.tools.hasParentsWithClass(target, "module")) {
-                                if (mw.isDragItem(target)) {
-                                    mw.wysiwyg.contentEditable(target, true);
-                                }
-                                else {
-                                    mw.tools.foreachParents(target, function (loop) {
-                                        if (mw.isDragItem(this)) {
-                                            mw.wysiwyg.contentEditable(target, true);
-                                            mw.tools.loop[loop] = false;
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
+
             }
             else {
                 var firstBlock = target;
@@ -474,19 +446,18 @@ mw.wysiwyg = {
             mw.wysiwyg.change(elementNode);
             return false;
         }
-        if (mw.is.firefox && arr.indexOf(a) !== -1) {
 
-            if (elementNode.nodeName === 'P') {
-                align = a.split('justify')[1].toLowerCase();
-                if (align === 'full') {
-                    align = 'justify';
-                }
-                elementNode.style.textAlign = align;
-                mw.wysiwyg.change(elementNode)
-                return false;
+
+        if (elementNode.nodeName === 'P') {
+            align = a.split('justify')[1].toLowerCase();
+            if (align === 'full') {
+                align = 'justify';
             }
+            elementNode.style.textAlign = align;
+            mw.wysiwyg.change(elementNode);
+            return false;
         }
-        return true
+        return true;
     },
     execCommand: function (a, b, c) {
         document.execCommand('styleWithCss', 'false', false);
@@ -658,7 +629,7 @@ mw.wysiwyg = {
         }
         else {
             if (typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)) {
-                if (!mw.is.ie) {
+
                     html = clipboard.getData('text/html');
                     var text = clipboard.getData('text');
                     var isPlainText = false;
@@ -675,10 +646,7 @@ mw.wysiwyg = {
                     else {
 
                     }
-                }
-                else {
-                    html = clipboard.getData('text');
-                }
+
                 if (!!html) {
                     if (mw.form) {
                         var is_link = mw.form.validate.url(html);

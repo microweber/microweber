@@ -911,11 +911,7 @@ class Front
                         });
                     </script>
                 <?php endif; ?>
-                <?php if (isset($params['is_shop'])): ?>
-                    <script type="text/javascript">
-                        mw.require("shop.js");
-                    </script>
-                <?php endif; ?>
+
                 <?php
             } else {
                 print lnotif('No default template for ' . $config['module'] . ' is found');

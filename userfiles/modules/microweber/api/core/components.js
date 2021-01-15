@@ -256,6 +256,14 @@
 };
 
 $(document).ready(function () {
+    mw.on('ComponentsLaunch', function () {
+        mw.components._init();
+    });
+    mw.on('mwDialogShow', function () {
+        setTimeout(function () {
+            mw.components._init();
+        }, 110);
+    });
     mw.components._init();
 });
 
@@ -263,15 +271,7 @@ $(window).on('load', function () {
     mw.components._init();
 });
 
-    mw.on('ComponentsLaunch', function () {
-        mw.components._init();
-    });
 
-    mw.on('mwDialogShow', function () {
-        setTimeout(function () {
-            mw.components._init();
-        }, 110);
-    });
 
 $(window).on('ajaxStop', function () {
     setTimeout(function () {

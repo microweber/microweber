@@ -67,12 +67,7 @@
     });
 
 </script>
-<script type="text/javascript">
-    mw.require("forms.js", true);
-</script>
-<script type="text/javascript">
 
-</script>
 <?php $mw_notif = (url_param('mw_notif'));
 if ($mw_notif != false) {
     $mw_notif = mw()->notifications_manager->read($mw_notif);

@@ -2,6 +2,7 @@
         console.log('%c !!! mw already defined !!! ', 'background: #009cff; color: #fff; font-size:16px;');
     }
     window.mw = {
+        version: '<?php print MW_VERSION; ?>',
         settings: {
             regions: false,
             liveEdit: false,
@@ -24,9 +25,6 @@
             resize_started: false,
             sorthandle_click: false,
             row_id: false,
-
-            edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span><?php _e("Please drag items here"); ?></span></div>',
-            empty_column_placeholder: '<div id="_ID_" class="empty-element empty-element-column"><?php _e("Please drag items here"); ?></div>',
             handles: {
                 item: "<div title='<?php _e("Click to select this item"); ?>.' class='mw_master_handle' id='items_handle'></div>"
             },

@@ -4,8 +4,7 @@
     parent.mw.require("external_callbacks.js");
     mw.lib.require('mwui');
     mw.require("events.js");
-    mw.require("forms.js");
-    mw.require("files.js");
+     mw.require("files.js");
     mw.require("url.js");
 </script>
 

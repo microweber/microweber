@@ -6,10 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex">
 
-    <script src="http://localhost/mw/apijs_combined?mwv=1.2.0>"></script>
-    <script src="<?php print mw_includes_url(); ?>api/webpack/dist/core.js"></script>
-
-
     <script>
         mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
@@ -590,7 +586,7 @@ $user = get_user_by_id($user_id);
 
                         if (href.indexOf("editmode") === -1) {
                             href = href + ((href.indexOf('?') === -1 ? '?' : '&') + 'editmode:y');
- 
+
                             el.attr('href', href);
 
                         }

@@ -98,9 +98,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     });
                 </script>
 
-                <script type="text/javascript">
-                    mw.require("forms.js", true);
-                </script>
+
 
                 <script type="text/javascript">
                     mw.adminComments = {

@@ -23,8 +23,7 @@
     </script>
     <script type="text/javascript">
         mw.require("events.js");
-        mw.require("forms.js");
-        mw.require("url.js");
+         mw.require("url.js");
         mw.require("files.js");
         mw.lib.require("mwui");
         mw.lib.require("mwui_init");

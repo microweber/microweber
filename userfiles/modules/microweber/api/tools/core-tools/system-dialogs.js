@@ -24,6 +24,8 @@ mw.tools.alert = function (text) {
     }
 };
 
+mw.alert = mw.tools.alert;
+
 
 mw.tools.prompt = function (q, callback) {
     if(!q) return ;
@@ -68,6 +70,7 @@ mw.tools.prompt = function (q, callback) {
 
     return dialog;
 };
+mw.prompt = mw.tools.prompt;
 mw.tools.confirm = function (question, callback, onCancel) {
     if(typeof question === 'function') {
         callback = question;
@@ -126,3 +129,4 @@ mw.tools.confirm = function (question, callback, onCancel) {
         }, 120);
         return modal;
     };
+mw.confirm = mw.tools.confirm;

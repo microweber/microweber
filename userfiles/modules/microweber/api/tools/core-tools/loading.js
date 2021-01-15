@@ -53,6 +53,8 @@ mw.tools.progress = function (obj) {
     obj.element.appendChild(progress);
     return options;
 };
+mw.progress = mw.tools.progress;
+
 
 mw.tools.loading = function (element, progress, speed) {
     /*
@@ -88,15 +90,13 @@ mw.tools.loading = function (element, progress, speed) {
     if (element === document || element === document.documentElement) {
         element = document.body;
     }
-    element = mw.$(element)[0]
+    element = mw.$(element)[0];
     if (element === null || !element) return false;
     if (element.__loadingTime) {
-        clearTimeout(element.__loadingTime)
+        clearTimeout(element.__loadingTime);
     }
-    mw.require('css_parser.js')
 
-    var isLoading = mw.tools.hasClass(element, 'mw-loading');
-    var el = element.querySelector('.mw-progress');
+     var el = element.querySelector('.mw-progress');
 
     if (!el) {
         el = document.createElement('div');
@@ -109,7 +109,8 @@ mw.tools.loading = function (element, progress, speed) {
         el.remove();
         return;
     }
-    var pos = mw.CSSParser(element).get.position();
+
+    var pos = getComputedStyle(element).position;
     if (pos === 'static') {
         element.style.position = 'relative';
     }

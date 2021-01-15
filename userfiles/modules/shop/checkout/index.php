@@ -69,9 +69,6 @@ if ($template != false and strtolower($template) != 'none') {
 }
 ?>
 
-    <script type="text/javascript">
-        mw.require("shop.js");
-    </script>
 
 
 

@@ -1,5 +1,4 @@
 
-mw.version = "<?php print MW_VERSION; ?>";
 
 mw.pauseSave = false;
 
@@ -87,7 +86,7 @@ mw.parent = function(){
     return window.mw;
 };
 
-mw.top = function(){
+mw.top = function() {
   if(!!mw.__top){
       return mw.__top;
   }
@@ -119,3 +118,6 @@ mw.top = function(){
         }
   }
 };
+
+
+<?php include 'webpack/dist/core.js';  ?>

@@ -15,9 +15,9 @@ const config = {
         aggregateTimeout: 600
     },
     entry: {
-        core: glob.sync(path.resolve(`${input}/core/*.js`)),
+        core: glob.sync(path.resolve(`${input}/{tools,tools/core-tools,core}/*.js`)),
+        liveedit: glob.sync(path.resolve(`${input}/liveedit/*.js`)),
     },
-
     plugins: [
         new CleanWebpackPlugin(),
     ],
@@ -25,13 +25,14 @@ const config = {
         filename: '[name].js',
         path: path.resolve(output)
     },
+    // devtool: 'cheap-module-source-map'
 
 };
 
 module.exports = (env, argv) => {
     argv.mode = argv.mode || 'development';
     if (argv.mode === 'development') {
-        config.devtool = 'inline-source-map';
+        config.devtool = 'cheap-module-source-map';
     }
     if (argv.mode === 'production') {
         //...

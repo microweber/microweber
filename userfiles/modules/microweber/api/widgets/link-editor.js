@@ -1,7 +1,6 @@
 
 mw.require('widgets.css');
-mw.require('form-controls.js');
-
+ 
 
     mw.LinkEditor = function(options) {
         var scope = this;
