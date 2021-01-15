@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\User\Http\Controllers;
 
-use _HumbugBox58fd4d9e2a25\Exception;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Routing\Controller;

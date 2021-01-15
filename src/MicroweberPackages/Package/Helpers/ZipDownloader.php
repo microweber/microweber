@@ -12,7 +12,6 @@
 
 namespace MicroweberPackages\Package\Helpers;
 
-use _HumbugBox58fd4d9e2a25\Exception;
 use Composer\Config;
 use Composer\Cache;
 use Composer\Downloader\ArchiveDownloader;
