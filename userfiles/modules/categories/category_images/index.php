@@ -1,16 +1,19 @@
 <?php
 
-
+use \MicroweberPackages\Option\Models\Option;
 
 $cats = [];
-$parent = $selected_category = get_option('fromcategory', $params['id']);
-$selected_page = get_option('frompage', $params['id']);
+$options = Option::where('option_group', $params['id'])->get();
 
-$show_only_for_parent = get_option('single-only', $params['id']);
+$parent = $selected_category = Option::fetchFromCollection($options, 'fromcategory');
 
-$show_category_header = get_option('show_category_header', $params['id']);
-$show_subcats = get_option('show-subcats', $params['id']);
-$hide_pages = get_option('hide-pages', $params['id']);
+$selected_page = Option::fetchFromCollection($options, 'frompage');
+
+$show_only_for_parent = Option::fetchFromCollection($options, 'single-only');
+
+$show_category_header = Option::fetchFromCollection($options, 'show_category_header');
+$show_subcats = Option::fetchFromCollection($options, 'show-subcats');
+$hide_pages = Option::fetchFromCollection($options, 'hide-pages');
 
 
 $cfg_filter_in_stock = false;
@@ -19,7 +22,7 @@ $cfg_filter_in_stock = false;
 if(isset($params['filter-only-in-stock'])){
     $cfg_filter_in_stock = $params['filter-only-in-stock'];
 } else {
-    $cfg_filter_in_stock =  get_option('filter-only-in-stock', $params['id']) == '1';
+    $cfg_filter_in_stock =  Option::fetchFromCollection($options, 'filter-only-in-stock') == '1';
 }
 
 if ($parent == 'current') {

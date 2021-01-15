@@ -61,4 +61,13 @@ class Option extends Model
         return save_option($saveOption);
     }
 
+    public static function fetchFromCollection($optionsCollection, $key)
+    {
+        if(empty($optionsCollection) || empty($key)) {
+            return null;
+        }
+
+        return $optionsCollection->where('option_key', $key)->pluck('option_value')->first();
+    }
+
 }
