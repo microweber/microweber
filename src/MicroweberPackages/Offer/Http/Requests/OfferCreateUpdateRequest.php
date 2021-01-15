@@ -2,9 +2,9 @@
 
 namespace MicroweberPackages\Offer\Http\Requests;
 
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
-class OfferCreateUpdateRequest extends Request
+class OfferCreateUpdateRequest extends FormRequest
 {
 
     /**
