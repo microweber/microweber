@@ -1,3 +1,5 @@
+<?php must_have_access();?>
+
 <script>
     $(document).ready(function () {
         $('body .main > main').addClass('page-settings');
@@ -30,8 +32,10 @@ if (isset($_GET['group']) and $_GET['group']) {
         $show_inner = 'settings/group/privacy';
     }else{
         $show_inner = false;
+        $show_inner = $group;
     }
 }
+
 ?>
 
 <?php if ($show_inner): ?>
@@ -52,7 +56,7 @@ if (isset($_GET['group']) and $_GET['group']) {
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=general" class="d-flex my-3">
+                        <a href="#option_group=website" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">General</span><br/>
@@ -62,7 +66,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=updates" class="d-flex my-3">
+                        <a href="#option_group=updates" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-flash-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">Updates</span><br/>
@@ -72,7 +76,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=email" class="d-flex my-3">
+                        <a href="#option_group=email" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-email-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">E-mail</span><br/>
@@ -82,7 +86,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=template" class="d-flex my-3">
+                        <a href="#option_group=template" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-text-box-check-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">Template</span><br/>
@@ -92,7 +96,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=advanced" class="d-flex my-3">
+                        <a href="#option_group=advanced" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-keyboard-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">Advanced</span><br/>
@@ -102,7 +106,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=files" class="d-flex my-3">
+                        <a href="#option_group=files" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-file-cabinet mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">Files</span><br/>
@@ -112,7 +116,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=login" class="d-flex my-3">
+                        <a href="#option_group=users" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-login mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">Login & Register</span><br/>
@@ -122,7 +126,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=language" class="d-flex my-3">
+                        <a href="#option_group=language" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-translate mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">Language</span><br/>
@@ -132,7 +136,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=privacy" class="d-flex my-3">
+                        <a href="#option_group=privacy" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-shield-edit-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold">Privacy Policy</span><br/>

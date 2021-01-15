@@ -5,6 +5,10 @@
         $.post(url, data)
             .done(function (data) {
                 mw.trigger("mw.admin.shop.tax.edit.item.saved");
+                mw.reload_module_everywhere('shop/taxes')
+                mw.reload_module_everywhere('shop/taxes/admin_list_taxes')
+                mw.reload_module_everywhere('shop/cart')
+
             });
 
         return false;

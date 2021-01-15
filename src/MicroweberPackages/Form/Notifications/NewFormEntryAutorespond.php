@@ -102,11 +102,9 @@ class NewFormEntryAutorespond extends Notification
 
         $mail->line($emailAutorespondSubject);
 
-        $loader = new \Twig\Loader\ArrayLoader([
-            'mailAutoRespond' => $emailAutorespond,
-        ]);
-        $twig = new \Twig\Environment($loader);
-        $parsedEmail = $twig->render('mailAutoRespond', [
+
+        $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+        $parsedEmail = $twig->render($emailAutorespond, [
                 'url' => url('/'),
                 'created_at' => date('Y-m-d H:i:s')
             ]

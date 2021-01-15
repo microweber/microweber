@@ -84,8 +84,14 @@
                 $.ajax({
                     url: mw.settings.api_url + 'module/reorder_modules',
                     type: "post",
-                    data: serial
+                    data: serial,
+                    success: function(data) {
+                        mw.notification.success("<?php _ejs("Shop settings are saved"); ?>.");
+
+                    }
                 });
+
+
             },
             stop: function () {
                 //  mw.alert("<?php _ejs("Saving"); ?> ... ");

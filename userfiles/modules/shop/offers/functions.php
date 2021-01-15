@@ -374,7 +374,7 @@ event_bind('mw.admin.shop.settings.offers', function ($data) {
 
 event_bind('mw.admin.shop.settings.menu', function ($data) {
     print ' <div class="col-4">
-                <a href="?group=offers" class="d-flex my-3">
+                <a href="#option_group=shop/offers/admin_block" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-label-percent-outline mdi-20px"></i></div>
 
                     <div class="info-holder">

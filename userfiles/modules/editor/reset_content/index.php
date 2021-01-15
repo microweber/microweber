@@ -22,11 +22,12 @@
     .mw-ui-box {
         margin: 20px;
         margin-bottom: 70px;
+        margin-top: 70px;
     }
 
     #save-toolbar {
         position: fixed;
-        bottom: 0;
+        top: 0;
         left: 0;
         background: white;
         box-shadow: 0 -2px 2px rgba(0, 0, 0, .2);
@@ -49,6 +50,8 @@
 
 
 <script>
+
+
     function handle_reset_content_btn_click() {
 
         var also_modules = $('#also_reset_modules').is(':checked');

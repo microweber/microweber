@@ -13,7 +13,7 @@ trait MediaTrait {
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'rel_id');
+        return $this->hasMany(Media::class, 'rel_id')->orderBy('position','asc');
     }
 
     public function addMedia($mediaArr)

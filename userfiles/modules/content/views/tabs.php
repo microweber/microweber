@@ -15,12 +15,8 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
         <div class="card-header no-border" id="post-media-card-header">
             <h6><strong><?php _e('Pictures'); ?></strong></h6>
             <div class="post-media-type-holder">
-                <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
-                    <option value="url">Add image from URL</option>
-                    <option value="server">Browse uploaded</option>
-                    <option value="library">Select from Unsplash</option>
-                    <option value="file">Upload file</option>
-                </select>
+                <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
+
             </div>
         </div>
         <div class="card-body pt-3">

@@ -33,7 +33,7 @@ class NewOrder extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -49,7 +49,7 @@ class NewOrder extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
@@ -65,38 +65,41 @@ class NewOrder extends Notification
 
             $carItems = $this->_getCartItemsTable($this->order->id);
 
-            $loader = new \Twig\Loader\ArrayLoader([
-                'twig_mail_template' => $template['message'],
-            ]);
-            $twig = new \Twig\Environment($loader,[
-                'autoescape'=>false
-            ]);
-            $parsedEmail = $twig->render('twig_mail_template', [
-                    'cart_items' => $carItems,
-                    'order_status' => $this->order->order_status,
-                    'email' => $this->order->email,
-                    'first_name' => $this->order->first_name,
-                    'last_name' => $this->order->last_name,
-                    'phone' => $this->order->phone,
-                    'id' => $this->order->id,
-                    'order_id' => $this->order->id,
-                    'amount' => $this->order->amount,
-                    'transaction_id' => $this->order->transaction_id,
-                    'shipping' => $this->order->shipping,
-                    'shipping_service' => $this->order->shipping_service,
-                    'currency' => $this->order->currency,
-                    'currency_code' => $this->order->currency_code,
-                    'country' => $this->order->country,
-                    'city' => $this->order->city,
-                    'state' => $this->order->state,
-                    'zip' => $this->order->zip,
-                    'address' => $this->order->address,
-                    'address2' => $this->order->address2,
-                    'is_paid' => $this->order->is_paid,
-                    'url' => url('/'),
-                    'created_at' => date('Y-m-d H:i:s')
-                ]
-            );
+ 
+
+            $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+
+            $data = ['cart_items' => $carItems,
+                'order_status' => $this->order->order_status,
+                'email' => $this->order->email,
+                'first_name' => $this->order->first_name,
+                'last_name' => $this->order->last_name,
+                'phone' => $this->order->phone,
+                'id' => $this->order->id,
+                'order_id' => $this->order->id,
+                'amount' => $this->order->amount,
+                'transaction_id' => $this->order->transaction_id,
+                'shipping' => $this->order->shipping,
+                'shipping_service' => $this->order->shipping_service,
+                'currency' => $this->order->currency,
+                'currency_code' => $this->order->currency_code,
+                'country' => $this->order->country,
+                'city' => $this->order->city,
+                'state' => $this->order->state,
+                'zip' => $this->order->zip,
+                'address' => $this->order->address,
+                'address2' => $this->order->address2,
+                'is_paid' => $this->order->is_paid,
+                'url' => url('/'),
+                'created_at' => date('Y-m-d H:i:s')];
+
+            $twig_settings = [
+                'autoescape' => false
+            ];
+            $parsedEmail = $twig->render($template['message'],
+                $data,
+                $twig_settings
+                );
 
             //cart_items
             $mail->subject($template['subject']);
@@ -140,7 +143,7 @@ class NewOrder extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

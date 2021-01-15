@@ -78,7 +78,7 @@ mw.tools.iframeAutoHeight = function(frame, opt){
     };
     frame._intPause = false;
     frame._int = setInterval(function(){
-        if(!frame._intPause && frame.parentNode && frame.contentWindow ){
+        if(!frame._intPause && frame.parentNode && frame.contentWindow && frame.contentWindow.document.body){
             var calc = offset() + _detector.offsetHeight;
             frame._currHeight = frame._currHeight || 0;
             if(calc && calc !== frame._currHeight ){
@@ -91,6 +91,8 @@ mw.tools.iframeAutoHeight = function(frame, opt){
                 }
                 mw.$(frame).trigger('bodyResize');
             }
+        } else if(!frame.parentElement){
+            clearInterval(frame._int);
         }
         else {
             //clearInterval(frame._int);

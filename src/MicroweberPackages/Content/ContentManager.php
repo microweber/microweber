@@ -2,6 +2,9 @@
 namespace MicroweberPackages\Content;
 
 use Content;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Menu;
 use DB;
 
@@ -444,7 +447,9 @@ class ContentManager
      */
     public function paging($params)
     {
+
         $params = parse_params($params);
+
         $pages_count = 1;
         $base_url = false;
         $paging_param = 'current_page';
@@ -486,7 +491,56 @@ class ContentManager
             $no_wrap = true;
         }
 
+        // Laravel pagination
+        if (isset($params['laravel_pagination'])) {
 
+            if ($this->app->url_manager->is_ajax() == false) {
+                $base_url = $this->app->url_manager->current(1);
+            } else {
+                if ($_SERVER['HTTP_REFERER'] != false) {
+                    $base_url = $_SERVER['HTTP_REFERER'];
+                }
+            }
+
+            $current_page_from_url = $current_page_from_url ?: (Paginator::resolveCurrentPage() ?: 1);
+
+            $items = [];
+            for ($i = 0; $i <= $params['laravel_total']; $i++) {
+                $items[] = 1;
+            }
+            $items = Collection::make($items);
+
+            $paginate = new LengthAwarePaginator($items->forPage($current_page_from_url, $params['laravel_pagination_limit']), $items->count(), $params['laravel_pagination_limit'], $current_page_from_url, []);
+
+            $paginationPath = strtok($base_url, '?');
+            $paginate->setPath($paginationPath);
+
+            if (isset($params['return_as_array']) && $params['return_as_array']) {
+
+                $paginateArray = $paginate->toArray();
+
+                $pagination_links = [];
+
+                foreach ($paginateArray['links'] as $paginate) {
+
+                    $pagination_links[] = [
+                        'attributes' => [
+                            'class' => '',
+                            'current' => $paginate['active'],
+                            'data-page-number' => '',
+                            'href' => $paginate['url']
+                        ],
+                        'title' => $paginate['label']
+                    ];
+                }
+
+                return $pagination_links;
+            } else {
+                return  $paginate->links();
+            }
+        }
+
+        // OLD pagiantion
         $ready_paging_first_links = [];
         $ready_paging_last_links = [];
         $ready_paging_number_links = [];

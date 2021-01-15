@@ -50,11 +50,11 @@ class MailResetPasswordNotification extends ResetPassword {
 
         if ($template) {
 
-            $loader = new \Twig\Loader\ArrayLoader([
-                'mailResetPassword' => $template['message'],
-            ]);
-            $twig = new \Twig\Environment($loader);
-            $parsedEmail = $twig->render('mailResetPassword', [
+
+
+            $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+
+            $parsedEmail = $twig->render($template['message'], [
                     'email'=>$notifiable->getEmailForPasswordReset(),
                     'username'=>$notifiable->username,
                     'reset_password_link'=>$url,

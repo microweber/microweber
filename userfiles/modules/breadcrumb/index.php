@@ -1,6 +1,5 @@
 <?php
 
-
 $breacrumb_params = array();
 
 if (isset($params['current-page-as-root'])) {

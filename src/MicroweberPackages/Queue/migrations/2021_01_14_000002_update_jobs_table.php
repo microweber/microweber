@@ -15,9 +15,9 @@ class UpdateJobsTable extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
 
-            $table->unsignedTinyInteger('reserved');
-            $table->unsignedTinyInteger('mw_processed');
-            $table->longText('job_hash');
+            $table->unsignedTinyInteger('reserved')->nullable();
+            $table->unsignedTinyInteger('mw_processed')->nullable();
+            $table->longText('job_hash')->nullable();
             $table->timestamp('updated_at')->useCurrent();
 
         });

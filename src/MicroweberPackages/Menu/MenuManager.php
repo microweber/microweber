@@ -486,7 +486,10 @@ class MenuManager
             $url = $item['url']  = trim(  $item['url'] );
 
             if (intval($item['content_id']) > 0 ) {
-                $cont = $this->app->content_manager->get_by_id($item['content_id']);
+              //  $cont = $this->app->content_manager->get_by_id($item['content_id']);
+                $cont = \MicroweberPackages\Content\Content::where('id', $item['content_id'])->first()->toArray();
+
+
                 if (is_array($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 1) {
 
                      $is_active = false;

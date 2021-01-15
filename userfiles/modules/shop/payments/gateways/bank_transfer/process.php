@@ -7,8 +7,8 @@ if (get_option('bank_transfer_show_instructions', 'payments') == 'y') {
     $html .= '<br />' . get_option('bank_transfer_instructions', 'payments');
 }
 
-$twig = new \Twig_Environment(new \Twig_Loader_String());
-$html = $twig->render($html, array('order_id' => $place_order['id']));
+$twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
+$twig = $twig->render($html, array('order_id' => $place_order['id']));
 
 $place_order['order_completed'] = 1;
 $place_order['is_paid'] = 0;

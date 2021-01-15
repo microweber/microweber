@@ -198,4 +198,3 @@ if (is_file($template_file)) {
     </script>
 <?php endif; ?>
 <?php print lnotif("Click here to manage slides"); ?>
-
