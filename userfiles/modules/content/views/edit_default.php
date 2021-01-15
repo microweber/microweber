@@ -158,7 +158,7 @@ if (isset($params['live_edit'])) {
     $wrapper_class = 'in-popup';
 }
 if (isset($params['quick_edit'])) {
-    $wrapper_class = 'in-popup';
+ //   $wrapper_class = 'in-popup';
 }
 
 
