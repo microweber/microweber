@@ -286,7 +286,13 @@
         apexcharts: [
             'apexcharts.min.js',
             'apexcharts.css'
-        ]
+        ],
+        anchorific: [
+            function () {
+                mw.require(mw.settings.libs_url + 'anchorific' + '/anchorific.min.js', true);
+
+            }
+        ],
     };
 
     mw.lib = {
