@@ -620,8 +620,9 @@ $user = get_user_by_id($user_id);
                         }
                     }).on('click', function (event){
                         var edit_cont_form =  $('#quickform-edit-content');
+                        var edit_cont_form_is_disabled_btn =  $('#js-admin-save-content-main-btn').hasAttribute('disabled');
                         var edit_cont_title =  $('#content-title-field').val();
-                        if(edit_cont_form.length > 0 && (typeof(mw.edit_content) != 'undefined') && edit_cont_title){
+                        if(edit_cont_form.length > 0 && (typeof(mw.edit_content) != 'undefined') && edit_cont_title && !edit_cont_form_is_disabled_btn){
                             event.stopPropagation();
                             event.preventDefault();
 
