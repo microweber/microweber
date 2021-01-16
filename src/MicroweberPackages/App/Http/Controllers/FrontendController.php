@@ -1438,7 +1438,13 @@ class FrontendController extends Controller
                 $this->app->content_manager->define_constants();
             }
             $maintenance_template = TEMPLATES_DIR . ACTIVE_SITE_TEMPLATE . DS . '503.php';
+            $maintenance_mode_text = get_option('maintenance_mode_text', 'website');
             $content_503 = 'Error 503 The website is under maintenance.';
+
+            if ($maintenance_mode_text and trim($maintenance_mode_text) != '') {
+                $content_503 = $maintenance_mode_text;
+            }
+
             if (is_file($maintenance_template)) {
                 $content_503 = new View($maintenance_template);
                 $content_503 = $content_503->__toString();
