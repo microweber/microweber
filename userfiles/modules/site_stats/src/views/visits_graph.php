@@ -9,6 +9,8 @@ $period = 'daily';
 if ($params['period']) {
     $period = $params['period'];
 }
+
+
 ?>
 
 <script>

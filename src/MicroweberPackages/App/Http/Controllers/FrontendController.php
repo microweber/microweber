@@ -1438,7 +1438,13 @@ class FrontendController extends Controller
                 $this->app->content_manager->define_constants();
             }
             $maintenance_template = TEMPLATES_DIR . ACTIVE_SITE_TEMPLATE . DS . '503.php';
+            $maintenance_mode_text = get_option('maintenance_mode_text', 'website');
             $content_503 = 'Error 503 The website is under maintenance.';
+
+            if ($maintenance_mode_text and trim($maintenance_mode_text) != '') {
+                $content_503 = $maintenance_mode_text;
+            }
+
             if (is_file($maintenance_template)) {
                 $content_503 = new View($maintenance_template);
                 $content_503 = $content_503->__toString();
@@ -1632,6 +1638,8 @@ class FrontendController extends Controller
 
                             $enable_full_page_cache = false;
 
+
+
                             if ($show_404_to_non_admin) {
 //                                $content_from_event = event_trigger('mw.frontend.404', $page);
 //                                if($content_from_event and !empty($content_from_event)){
@@ -1751,6 +1759,12 @@ class FrontendController extends Controller
                 }
                 // }
             }
+        }
+
+         if ($show_404_to_non_admin and !$is_admin) {
+            $page['simply_a_file'] = '404.php';
+            $page['layout_file'] = '404.php';
+
         }
 
         if (isset($page['id']) AND $page['id'] != 0) {

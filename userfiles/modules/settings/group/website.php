@@ -1,27 +1,10 @@
 <?php must_have_access(); ?>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        mw.options.form('.js-permalink-edit-option-hook', function () {
-
-            mw.clear_cache();
-
-            mw.notification.success("Permalink changes updated.");
-        });
-    });
-</script>
 
 <script type="text/javascript">
     mw.lib.require('collapse_nav');
-    mw.lib.require('anchorific');
 </script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
-        });
-    });
-</script>
+
 
 <script>
     $(document).ready(function () {
@@ -141,26 +124,7 @@
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="form-group mb-4">
-                                        <label class="control-label"><?php _e("Maintenance mode"); ?></label>
-                                        <small class="text-muted d-block mb-2">Turn on "Under construction mode" of your site</small>
-                                        <?php $maintenance_mode = get_option('maintenance_mode', 'website'); ?>
 
-                                        <ul class="mw-ui-inline-list">
-                                            <li>
-                                                <label class="mw-ui-check">
-                                                    <input class="mw_option_field" type="radio" name="maintenance_mode" <?php if ($maintenance_mode == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
-                                                    <span></span><span><?php _e("Yes"); ?></span>
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <label class="mw-ui-check">
-                                                    <input class="mw_option_field" type="radio" name="maintenance_mode" <?php if (!$maintenance_mode or $maintenance_mode != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
-                                                    <span></span><span><?php _e("No"); ?></span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
 
                                     <div class="form-group mb-4">
                                         <label class="control-label"><?php _e("Date Format"); ?></label>
@@ -328,7 +292,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold">Online Shop</h5>
+                    <h5 class="font-weight-bold"><?php _e('Online Shop'); ?></h5>
                     <small class="text-muted">Enable or disable your online shop</small>
                 </div>
                 <div class="col-md-9">
@@ -341,7 +305,49 @@
             </div>
         </div>
     </div>
+
+
+    <div class="card bg-none style-1 mb-0 card-settings">
+        <div class="card-body pt-3 px-0">
+            <hr class="thin mt-0 mb-5">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="font-weight-bold"><?php _e("Maintenance mode"); ?></h5>
+                </div>
+                <div class="col-md-9">
+                    <div class="card bg-light style-1 mb-3">
+                        <div class="card-body pt-3">
+
+
+                            <module type="settings/group/maintenance_mode"/>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        mw.options.form('.<?php print $config['module_class'] ?>', function () {
+            mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        mw.options.form('.js-permalink-edit-option-hook', function () {
+
+            mw.clear_cache();
+
+            mw.notification.success("Permalink changes updated.");
+        });
+    });
+</script>

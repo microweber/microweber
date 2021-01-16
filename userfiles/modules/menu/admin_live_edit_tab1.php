@@ -27,17 +27,24 @@
 
 
         linkEditor.promise().then(function (res){
+
+
             var data = {
                 title: res.text || res.url.split('/').pop(),
                 url: res.url,
                 parent_id: currentMenuId
             };
 
-            if (res.object) {
-                if (res.object.type === 'page') {
-                    data.content_id = res.object.id;
-                } else if (res.object.type === 'category') {
-                    data.categories_id = res.object.id;
+            if (res.data) {
+                if (res.data.type === 'page') {
+                    data.content_id = res.data.id;
+                    data.url = null;
+                    data.title = null;
+
+                } else if (res.data.type === 'category') {
+                    data.categories_id = res.data.id;
+                    data.url = null;
+                    data.title = null;
                 }
             }
 
