@@ -161,13 +161,24 @@ if ($id == 0) {
                             <div class="form-group">
                                 <label class="control-label d-block">Select image for menu item</label>
                                 <small class="text-muted d-block mb-2">Attach image for the item</small>
-                                <button class="btn btn-outline-primary btn-sm" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>b').toggle();"><?php _e("Select images"); ?></button>
+                                <button class="btn btn-outline-primary btn-sm" onclick="toggle_menu_image_rollover_select<?php print $data['id'] ?>()"><?php _e("Select images"); ?></button>
                             </div>
                         </div>
                     </div>
 
+                    <script>
+                        function toggle_menu_image_rollover_select<?php print $data['id'] ?>() {
+                            var visible = mw.$('#menu-selector-<?php print $data['id'] ?>b').toggle().is(":visible");
+                            if (visible) {
+                                mw.reload_module('#menu-selector-image_rollover-load<?php print $data['id'] ?>b')
+                            } else {
+                                $('#menu-selector-image_rollover-load<?php print $data['id'] ?>b').html('');
+                            }
+                        }
+                    </script>
+
                     <div id="menu-selector-<?php print $data['id'] ?>b" class="mw-ui mw-ui-category-selector" style="display: none;">
-                        <microweber module="image_rollover" view="admin" menu_rollover="true" size="<?php print $data['size'] ?>" default_image="<?php print $data['default_image'] ?>" rollover_image="<?php print $data['rollover_image'] ?>" for="content"/>
+                        <div id="menu-selector-image_rollover-load<?php print $data['id'] ?>b" module="image_rollover" view="admin" menu_rollover="true" size="<?php print $data['size'] ?>" default_image="<?php print $data['default_image'] ?>" rollover_image="<?php print $data['rollover_image'] ?>" for="content"/>
                     </div>
                 </div>
 
