@@ -15,6 +15,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use MicroweberPackages\Option\Facades\Option as OptionFacade;
+use MicroweberPackages\Option\GlobalOptions;
 use MicroweberPackages\Option\Models\Option as OptionModel;
 use MicroweberPackages\Option\OptionManager;
 
@@ -34,6 +35,10 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
 
         $this->app->bind('option',function(){
             return new OptionModel();
+        });
+
+        $this->app->singleton('global_options', function ($app) {
+            return new GlobalOptions(OptionModel::all());
         });
 
     }
