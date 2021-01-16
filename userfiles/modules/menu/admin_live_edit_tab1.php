@@ -39,10 +39,12 @@
                 if (res.data.type === 'page') {
                     data.content_id = res.data.id;
                     data.url = null;
+                    data.title = null;
 
                 } else if (res.data.type === 'category') {
                     data.categories_id = res.data.id;
                     data.url = null;
+                    data.title = null;
                 }
             }
 
