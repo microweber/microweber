@@ -289,7 +289,7 @@ if (isset($data[0]) == false) {
                                     <label class="custom-control-label" for="send_new_user_email">Send the new user an email about their account. <br/>
                                     </label>
                                     <br />
-                                    <a href="<?php echo admin_url();?>/view:content/action:settings?group=login#email-notifications" target="_blank">Edit e-mail template.</a>
+                                    <a href="<?php echo admin_url();?>view:settings#option_group=users" target="_blank">Edit e-mail template.</a>
                                 </div>
                             </div>
 

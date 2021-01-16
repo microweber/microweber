@@ -189,6 +189,7 @@ class Admin
 
 
     }
+
     function quick_stats_by_session($params)
     {
         if (!isset($params['data-user-sid'])) {
@@ -287,6 +288,29 @@ class Admin
 //        if (!$v_monthly) {
 //            return;
 //        }
+
+        $views_dates = [];
+        if ($views_count_grouped_by_period) {
+            foreach ($views_count_grouped_by_period as $views_count_grouped_by) {
+                if (isset($views_count_grouped_by['date_key'])) {
+                    $views_dates[] = $views_count_grouped_by['date_key'];
+
+                }
+            }
+        }
+
+        if ($views_dates) {
+            if ($visits_count_grouped_by_period) {
+                foreach ($visits_count_grouped_by_period as $key => $visits_count_grouped) {
+                    if (isset($visits_count_grouped['date_key']) and in_array($visits_count_grouped['date_key'], $views_dates)) {
+
+                    } else {
+                        unset($visits_count_grouped_by_period[$key]);
+                    }
+                }
+            }
+        }
+
 
         $graph_data = array();
         $graph_data['views'] = $views_count_grouped_by_period;
