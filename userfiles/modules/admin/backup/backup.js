@@ -1,5 +1,4 @@
 // JavaScript Document
-mw.require('forms.js');
 
 
 mw.admin_backup = {

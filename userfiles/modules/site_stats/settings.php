@@ -2,10 +2,6 @@
 must_have_access();
 ?>
 
-<script type="text/javascript">
-    mw.require('forms.js');
-    mw.require('options.js');
-</script>
 
 <script type="text/javascript">
     $(document).ready(function () {

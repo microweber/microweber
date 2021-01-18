@@ -82,8 +82,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <script>
 
-            mw.require('editor.js');
-
             launchEditor = function () {
                 if (!window.editorLaunched) {
                     editorLaunched = true;

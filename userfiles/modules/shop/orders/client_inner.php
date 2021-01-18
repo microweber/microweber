@@ -6,9 +6,7 @@
     $client = get_orders('one=1&id=' . intval($params['order-id']));
     $orders = get_orders('order_by=created_at desc&order_completed=1&email=' . $client['email']);
     ?>
-    <script type="text/javascript">
-        mw.require('forms.js');
-    </script>
+
     <script type="text/javascript">
 
 

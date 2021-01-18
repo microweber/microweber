@@ -1,4 +1,3 @@
-mw.require('editor.js')
 mw.propEditor = {
     addInterface:function(name, func){
         this.interfaces[name] = this.interfaces[name] || func;

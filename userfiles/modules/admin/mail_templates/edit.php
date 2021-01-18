@@ -50,8 +50,7 @@ if (!empty($template_id)) {
 </script>
 
 
-<script>mw.require('editor.js')</script>
-<script>
+ <script>
     $(document).ready(function () {
         mweditor = mw.Editor({
             selector: '#editorAM',

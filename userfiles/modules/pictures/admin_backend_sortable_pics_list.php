@@ -73,7 +73,6 @@ $rand = 'pic-sorter-' . uniqid();
         mw.module_pictures.init('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
         var uploadHolder = mw.$('#admin-thumb-item-uploader<?php print $rand; ?>');
-        mw.require('uploader.js');
 
         mw._postsImageUploaderSmall = mw.upload({
             element: uploadHolder,

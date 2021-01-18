@@ -4,8 +4,7 @@
     if (mw.shipping_country == undefined) {
         mw.shipping_country = {};
     }
-    mw.require('forms.js');
-    mw.require('<?php print $config['url_to_module'] ?>country.js');
+     mw.require('<?php print $config['url_to_module'] ?>country.js');
     if (window.thismodal) {
         thismodal.width(1000);
         thismodal.center(1000);

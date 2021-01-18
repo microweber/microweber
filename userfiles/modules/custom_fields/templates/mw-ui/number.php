@@ -1,10 +1,9 @@
 <div class="mw-flex-col-md-<?php echo $settings['field_size']; ?>">
 <div class="mw-ui-field-holder">
-<script>mw.require('forms.js');</script>
 
 
     <?php if($settings['show_label']): ?>
-	<label class="mw-ui-label"> 
+	<label class="mw-ui-label">
 	<?php echo $data['name']; ?>
 	<?php if ($settings['required']): ?>
 	<span style="color: red;">*</span>

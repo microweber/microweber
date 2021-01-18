@@ -1,5 +1,4 @@
 
-mw.require('uploader.js');
 
 
 mw.filePicker = function (options) {

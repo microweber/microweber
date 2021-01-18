@@ -294,7 +294,6 @@ mw.CSSParser = function(el){
   !*** ../system/filepicker.js ***!
   \*******************************/
 
-mw.require('uploader.js');
 
 
 mw.filePicker = function (options) {
@@ -1713,7 +1712,6 @@ mw.moduleSettings = function(options){
 /*!********************************!*\
   !*** ../system/prop_editor.js ***!
   \********************************/
-mw.require('editor.js')
 mw.propEditor = {
     addInterface:function(name, func){
         this.interfaces[name] = this.interfaces[name] || func;

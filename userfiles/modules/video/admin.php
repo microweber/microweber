@@ -31,7 +31,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <script>
             mw.require("files.js");
-            mw.require("uploader.js");
 
             setprior = function (v, t) {
                 t = t || false;

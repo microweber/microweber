@@ -2,9 +2,7 @@
 <?php
 must_have_access(); ?>
 <?php $option_groups = array('website', 'users', 'template', 'email'); ?>
-<script>
-    mw.require('forms.js');
-</script>
+
 
 <?php
 $show_group = false;

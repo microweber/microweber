@@ -1,4 +1,3 @@
-<script>mw.require('forms.js');</script>
 
 <div class="col-<?php echo $settings['field_size']; ?>">
     <div class="form-group">

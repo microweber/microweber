@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex">
 
+    <script src="<?php print mw_includes_url(); ?>api/webpack/dist/admin.js"></script>
     <script>
          mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");

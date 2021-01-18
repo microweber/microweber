@@ -1,5 +1,4 @@
 mw.require("files.js");
-mw.require("uploader.js");
 
 _mw_log_reload_int = false;
 
