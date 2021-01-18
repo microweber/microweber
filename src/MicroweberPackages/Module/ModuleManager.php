@@ -812,7 +812,7 @@ class ModuleManager
     public function license($module_name = false)
     {
         $module_name = str_replace('\\', '/', $module_name);
-        $lic = $this->app->update->get_licenses('status=active&one=1&rel_type=' . $module_name);
+        $lic = $this->app->update->get_licenses('limit=1&status=active&one=1&rel_type=' . $module_name);
 
         if (!empty($lic)) {
             return true;
