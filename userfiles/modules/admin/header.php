@@ -335,12 +335,12 @@ $user = get_user_by_id($user_id);
                     <?php if (user_can_access('module.content.edit')): ?>
 
                         <li class="mx-1">
-                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set  go-live-edit-href-set-view" xxtarget="_top">
+                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set go-live-edit-href-set-view">
                                 <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("View"); ?></span>
                             </a>
                         </li>
                         <li class="mx-1">
-                            <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" xxtarget="_top">
+                            <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set">
                                 <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
                             </a>
                         </li>
@@ -603,6 +603,22 @@ $user = get_user_by_id($user_id);
             </ul>
 
             <script>
+
+                var handleConfirmBeforeLeave = function (c) {
+                    if (mw.askusertostay) {
+                        mw.confirm(mw.lang("You have unsaved changes. Do you want to save them first") + '?',
+                            function () {
+
+                                c.call(undefined, true)
+                            },
+                            function (){
+                                mw.askusertostay = false;
+                                c.call(undefined, false)
+                            });
+                    } else {
+                        c.call(undefined, false)
+                    }
+                };
                 $(document).ready(function () {
 
 
@@ -614,38 +630,38 @@ $user = get_user_by_id($user_id);
 
                         if (href.indexOf("editmode") === -1) {
                             href = href + ((href.indexOf('?') === -1 ? '?' : '&') + 'editmode:y');
- 
+
                             el.attr('href', href);
 
                         }
-                    }).on('click', function (event){
-                        var edit_cont_form =  $('#quickform-edit-content');
-                        var edit_cont_form_is_disabled_btn =  $('#js-admin-save-content-main-btn').attr('disabled');
-                        var edit_cont_title =  $('#content-title-field').val();
-                        if(edit_cont_form.length > 0 && (typeof(mw.edit_content) != 'undefined') && edit_cont_title && !edit_cont_form_is_disabled_btn){
-                            event.stopPropagation();
-                            event.preventDefault();
+                    }).on('mousedown touchstart', function (event){
+                        var el = this;
+                        if(event.which === 1 || event.type === 'touchstart') {
+                            handleConfirmBeforeLeave(function (shouldSave){
+                                if(shouldSave) {
+                                    var edit_cont_form =  $('#quickform-edit-content');
+                                    var edit_cont_form_is_disabled_btn =  $('#js-admin-save-content-main-btn').attr('disabled');
+                                    var edit_cont_title =  $('#content-title-field').val();
+                                    if (edit_cont_form.length && mw.edit_content && edit_cont_title && !edit_cont_form_is_disabled_btn) {
+                                        event.stopPropagation();
+                                        event.preventDefault();
+                                        mw.askusertostay = false;
+                                        mw.edit_content.saving = false;
+                                        if($(this).hasClass('go-live-edit-href-set-view')){
+                                            mw.edit_content.handle_form_submit('n');
+                                        } else {
+                                            mw.edit_content.handle_form_submit('y');
+                                        }
+                                    }
+                                } else {
+                                    mw.askusertostay = false;
+                                    location.href = el.getAttribute('href');
 
-
-
-                            window.parent.mw.askusertostay = false;
-
-                            mw.edit_content.saving = false;
-                            if($(this).hasClass('go-live-edit-href-set-view')){
-                                mw.edit_content.handle_form_submit('n');
-                            } else {
-                                mw.edit_content.handle_form_submit('y');
-
-                            }
-
-
+                                }
+                            });
                         }
 
-
-
                     });
-
-
                 });
             </script>
         </aside>
