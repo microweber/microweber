@@ -14,6 +14,7 @@ namespace MicroweberPackages\Option;
 
 use DB;
 use Cache;
+use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 
 class OptionManager
@@ -434,7 +435,20 @@ class OptionManager
                 $data['table'] = $this->tables['options'];
 
                 // $this->app->event_manager->trigger('option.before.save', $data);
-                $save = $this->app->database_manager->save($data);
+
+                if (!empty($data['module'])) {
+                    $findModuleOption = ModuleOption::where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->first();
+                    if ($findModuleOption == null) {
+                        $findModuleOption = new ModuleOption();
+                        $findModuleOption->option_key = $data['option_key'];
+                        $findModuleOption->option_group = $data['option_group'];
+                    }
+                    $findModuleOption->module = $data['module'];
+                    $findModuleOption->option_value = $data['option_value'];
+                    $save = $findModuleOption->save();
+                } else {
+                    $save = $this->app->database_manager->save($data);
+                }
 
                 if ($option_group != false) {
                     $cache_group = 'options/' . $option_group;

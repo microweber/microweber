@@ -12,17 +12,16 @@ $config['tables'] = array(
 
 );
 
-
 $config['settings'][]  = array(
     'type'=>'tooltip',
     'title'=>'Spacing',
     'icon'=>'mw-icon-wand',
     'view'=>'quick_settings',
 );
-//$config['settings'][]  = array(
-//    'type'=>'tooltip',
-//    'title'=>'Skin',
-//    'icon'=>'mw-icon-wand',
-//    'module-name'=>'layouts',
-//    'view'=>'quick_skin_change',
-//);
+
+$config['settings']['translatable_options'] = [
+    'title',
+    'type',
+    'icon',
+    'view'
+];
