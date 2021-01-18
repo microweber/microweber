@@ -36,10 +36,10 @@ function coupon_apply($params = array())
     $cartTotal = floatval(cart_total());
 
     // Check rules
-    if ($coupon['uses_per_customer'] > 0) {
+     if ($coupon and isset($coupon['uses_per_customer']) and $coupon['uses_per_customer'] > 0) {
         $getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
 
-        if ($getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
+        if (is_array($getLog) and $getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
             $errorMessage .= 'The coupon can\'t be applied cause maximum uses is ' . $coupon['uses_per_customer'] . "<br />";
         }
     }
@@ -52,7 +52,7 @@ function coupon_apply($params = array())
         }
     }
 
-    if ($cartTotal < $coupon['total_amount']) {
+    if ($coupon and isset($coupon['total_amount']) and  $cartTotal < $coupon['total_amount']) {
         $errorMessage .= 'The coupon can\'t be applied because the minimum total amount is ' . currency_format($coupon['total_amount']) . "<br />";
     }
 
