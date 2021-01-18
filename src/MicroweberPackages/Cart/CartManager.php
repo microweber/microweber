@@ -733,6 +733,7 @@ class CartManager extends Crud
             $cart['session_id'] = mw()->user_manager->session_id();
             $cart['no_cache'] = 1;
             $cart['disable_triggers'] = 1;
+            $cart['order_completed'] = 0;
 
             // $cart['price'] = doubleval($found_price);
             //  $cart_check_db =  \DB::table('cart')->where($cart)->first();
@@ -764,7 +765,6 @@ class CartManager extends Crud
 
             $cart['title'] = mw()->format->clean_html($data['title']);
 
-            $cart['order_completed'] = 0;
             $cart_return['custom_fields_data'] = $add;
             $cart_return['price'] = $cart['price'];
 
