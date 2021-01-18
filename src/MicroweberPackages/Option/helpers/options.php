@@ -5,6 +5,27 @@ function get_module_options($optionGroup) {
     return \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $optionGroup)->get()->toArray();
 }
 
+function get_module_option($optionKey, $optionGroup = false, $returnFull = false) {
+
+    $option = \MicroweberPackages\Option\Models\ModuleOption::query();
+    $option->where('option_key', $optionKey);
+
+    if ($optionGroup) {
+        $option->where('option_group', $optionGroup);
+    }
+
+    $data = $option->first();
+    if ($data == null) {
+        return false;
+    }
+
+    if ($returnFull) {
+        return $data->toArray();
+    }
+
+    return $data->toArray()['option_value'];
+}
+
 /**
  * Getting options from the database.
  *

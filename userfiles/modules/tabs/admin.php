@@ -27,7 +27,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <?php
-        $settings = get_option('settings', $params['id']);
+        $settings = get_module_option('settings', $params['id']);
 
         if ($settings == false) {
             if (isset($params['settings'])) {

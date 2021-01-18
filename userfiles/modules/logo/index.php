@@ -27,7 +27,7 @@ $logo_options['font_size'] = '';
 $logo_options['size'] = '';
 $logo_options['data-template'] = '';
 
-$get_logo_options = \MicroweberPackages\Option\Models\Option::where('option_group', $logo_name)->get();
+$get_logo_options = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $logo_name)->get();
 if (!empty($get_logo_options)) {
     foreach ($get_logo_options as $logo_option) {
         $logo_options[$logo_option['option_key']] = $logo_option['option_value'];

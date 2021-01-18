@@ -21,21 +21,20 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class="card-body pt-3">
         <?php
-        $style = get_option('button_style', $params['id']);
-        $size = get_option('button_size', $params['id']);
-        $action = get_option('button_action', $params['id']);
+        $style = get_module_option('button_style', $params['id']);
+        $size = get_module_option('button_size', $params['id']);
+        $action = get_module_option('button_action', $params['id']);
 
         $onclick = false;
         if (isset($params['button_onclick'])) {
             $onclick = $params['button_onclick'];
         }
 
-        $url = $url_display = get_option('url', $params['id']);
-        $popupcontent = get_option('popupcontent', $params['id']);
-        $text = get_option('text', $params['id']);
-        $url_blank = get_option('url_blank', $params['id']);
-        $icon = get_option('icon', $params['id']);
-
+        $url = $url_display = get_module_option('url', $params['id']);
+        $popupcontent = get_module_option('popupcontent', $params['id']);
+        $text = get_module_option('text', $params['id']);
+        $url_blank = get_module_option('url_blank', $params['id']);
+        $icon = get_module_option('icon', $params['id']);
 
         $link_to_content_by_id = 'content:';
         $link_to_category_by_id = 'category:';
