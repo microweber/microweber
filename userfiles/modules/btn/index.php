@@ -13,7 +13,7 @@ $btn_options['text'] = '';
 $btn_options['icon'] = '';
 $btn_options['button_id'] = '';
 
-$get_btn_options = \MicroweberPackages\Option\Models\Option::where('option_group', $params['id'])->get()->toArray();
+$get_btn_options = get_module_options($params['id']);
 if (!empty($get_btn_options)) {
     foreach ($get_btn_options as $get_btn_option) {
         $btn_options[$get_btn_option['option_key']] = $get_btn_option['option_value'];

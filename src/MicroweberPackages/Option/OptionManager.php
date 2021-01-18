@@ -261,10 +261,8 @@ class OptionManager
 
         if($option_group){
             $get_all = Option::where('option_group',$option_group)->get()->toArray();
-
            } else {
-
-         $get_all = mw()->database_manager->get($filter);
+            $get_all = mw()->database_manager->get($filter);
         }
 
 //        $get_all = cache()->remember($table.'full_cache_table'.$option_group, 1000000, function () use ($option_group) {

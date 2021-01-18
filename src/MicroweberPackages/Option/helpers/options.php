@@ -1,6 +1,9 @@
 <?php
 api_expose_admin('save_option');
 
+function get_module_options($optionGroup) {
+    return \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $optionGroup)->get()->toArray();
+}
 
 /**
  * Getting options from the database.
