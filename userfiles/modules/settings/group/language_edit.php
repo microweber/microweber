@@ -179,6 +179,19 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
 
 
 
+        $('.mw_lang_item_textarea_edit').on('input', function () {
+
+            mw.on.stopWriting(this,function(){
+
+                save_lang_form('language-form-<?php print $params['id'] ?>')
+
+
+
+            })
+
+        })
+
+
     });
 </script>
 
@@ -272,7 +285,7 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
                                                     </div>
                                                 </td>
                                                 <td style="vertical-align: middle;">
-                                                    <textarea name="<?php print $k ?>" oninput="mw.on.stopWriting(this,function(){ save_lang_form('language-form-<?php print $params['id'] ?>')  })"    class="mw_lang_item_textarea_edit form-control form-control-sm" xxonchange="save_lang_form('language-form-<?php print $params['id'] ?>')" wrap="soft" rows="2"><?php print $item ?></textarea>
+                                                    <textarea name="<?php print $k ?>" xxxxoninput="mw.on.stopWriting(this,function(){ save_lang_form('language-form-<?php print $params['id'] ?>')  })"    class="mw_lang_item_textarea_edit form-control form-control-sm" xxonchange="save_lang_form('language-form-<?php print $params['id'] ?>')" wrap="soft" rows="2"><?php print $item ?></textarea>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
