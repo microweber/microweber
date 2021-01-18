@@ -2055,9 +2055,6 @@ class Parser
 
     public function load($module_name, $attrs = array())
     {
-        if ($this->debugbarEnabled) {
-            \Debugbar::startMeasure('render_module_'.$module_name, 'Rendering '.$module_name);
-        }
 
 
 
@@ -2067,6 +2064,13 @@ class Parser
         if (isset($that->module_load_registry[$mod_id_value])) {
             return $that->module_load_registry[$mod_id_value];
         }
+
+        if ($this->debugbarEnabled) {
+            \Debugbar::startMeasure('render_module_'.$module_name, 'Rendering '.$module_name);
+        }
+
+        
+
         $that->module_load_registry[$mod_id_value] = $that->load_module_callback($module_name, $attrs);
 
         if ($this->debugbarEnabled) {
