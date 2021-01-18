@@ -163,8 +163,14 @@ mw.options = {
 
 
         if (mname === undefined) {
-            if (og_test !== undefined && og_test && $(og_test).attr('parent-module')) {
-                o_data.module = $(og_test).attr('parent-module');
+
+
+       if (mname === undefined && og_test !== undefined && og_test &&  $(og_test).attr('data-type')) {
+            var mname_from_type = $(og_test).attr('data-type');
+            mname = (mname_from_type.replace('/admin', ''));
+            o_data.module = mname;
+        } else if (og_test !== undefined && og_test && $(og_test).attr('parent-module')) {
+              o_data.module = $(og_test).attr('parent-module');
              }
         }
 
@@ -172,8 +178,6 @@ mw.options = {
         if (mname !== undefined) {
             o_data.module = mname;
         }
-
-
 
 
         if (for_m_id !== undefined) {
