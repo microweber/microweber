@@ -5,7 +5,7 @@
     
     "autoload": {
         "psr-4": {
-            "Microweber\\SiteStats\\": "src/"
+            "MicroweberPackages\\SiteStats\\": "src/"
         }
     }
 }

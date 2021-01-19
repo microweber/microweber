@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\SiteStats\Models;
+namespace MicroweberPackages\SiteStats\Models;
 
 
 class Log extends Base
@@ -20,7 +20,7 @@ class Log extends Base
 
     public function url()
     {
-        return $this->belongsTo('Microweber\SiteStats\Models\Urls');
+        return $this->belongsTo('MicroweberPackages\SiteStats\Models\Urls');
     }
 
 }

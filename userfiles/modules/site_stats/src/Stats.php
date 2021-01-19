@@ -1,15 +1,15 @@
 <?php
-namespace Microweber\SiteStats;
+namespace MicroweberPackages\SiteStats;
 
-use Microweber\SiteStats\Models\Browsers;
-use Microweber\SiteStats\Models\Comments;
-use Microweber\SiteStats\Models\Log;
-use Microweber\SiteStats\Models\Orders;
-use Microweber\SiteStats\Models\Referrers;
-use Microweber\SiteStats\Models\ReferrersDomains;
-use Microweber\SiteStats\Models\ReferrersPaths;
-use Microweber\SiteStats\Models\Sessions;
-use Microweber\SiteStats\Models\Urls;
+use MicroweberPackages\SiteStats\Models\Browsers;
+use MicroweberPackages\SiteStats\Models\Comments;
+use MicroweberPackages\SiteStats\Models\Log;
+use MicroweberPackages\SiteStats\Models\Orders;
+use MicroweberPackages\SiteStats\Models\Referrers;
+use MicroweberPackages\SiteStats\Models\ReferrersDomains;
+use MicroweberPackages\SiteStats\Models\ReferrersPaths;
+use MicroweberPackages\SiteStats\Models\Sessions;
+use MicroweberPackages\SiteStats\Models\Urls;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
