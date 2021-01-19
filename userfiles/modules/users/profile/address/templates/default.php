@@ -105,7 +105,7 @@
                 </select>
             </div>
 
-            <input type="hidden" class="form-control" value="shipping" name="addresses[1][type]">
+            <input type="hidden" class="form-control" value="billing" name="addresses[1][type]">
         </div>
 
     </div>
@@ -163,11 +163,11 @@
     $(function () {
         $('.js-users-profile-address-save').click(function () {
 
-            var userProfileData = $(".js-users-profile-address select, .js-users-profile-address input").serializeArray();
+            var userProfileData = $(".js-users-profile-address select, .js-users-profile-address input, .js-users-profile-address textarea, .js-users-profile-address select").serializeArray();
 
             $.post("<?php echo route('api.user.profile.update'); ?>", userProfileData)
             .done(function( data ) {
-                alert( "Data Loaded: " + data );
+                mw.notification.success('<?php _e('Profile udpated.');?>');
             });
 
         });
