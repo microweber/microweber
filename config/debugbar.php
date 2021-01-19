@@ -67,7 +67,7 @@ return [
      | Optionally, you can also send ServerTiming headers on ajax requests for the Chrome DevTools.
      */
 
-    'capture_ajax' => true,
+    'capture_ajax' => false,
     'add_ajax_timing' => false,
 
     /*

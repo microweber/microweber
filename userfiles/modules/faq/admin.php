@@ -21,7 +21,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     <div class="card-body pt-3">
         <?php
-        $settings = get_option('settings', 'faq');
+        $settings = get_module_option('settings', 'faq');
         $defaults = array(
             'question' => '',
             'answer' => '',

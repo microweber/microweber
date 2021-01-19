@@ -34,10 +34,8 @@ event_bind('mw.pageview', function ($params = false) {
 
         $src_code = '$(document).ready(function () {
             setTimeout(function () {
-                var track = {referrer: document.referrer}
                 $.ajax({
                     url: mw.settings.api_url+\'pingstats\',
-                    data: track,
                     type: "POST",
                     dataType: "json"
                 });
@@ -113,7 +111,7 @@ event_bind('mw.pageview', function ($params = false) {
 //        return;
 //    }
 //
-//    $tracker = new Microweber\SiteStats\Tracker();
+//    $tracker = new MicroweberPackages\SiteStats\Tracker();
 //
 //    if (get_option('stats_is_buffered', 'site_stats') == 1) {
 //        return $tracker->track_buffered();
@@ -133,18 +131,18 @@ api_expose('pingstats', function ($params = false) {
 
     if (isset($_SERVER['HTTP_REFERER'])) {
         $ref_page = $_SERVER['HTTP_REFERER'];
-        if (stristr(site_url(), $ref_page)) {
+        //if (stristr(site_url(), $ref_page)) {
+        if (starts_with($ref_page, site_url())) {
             if (is_ajax()) {
                 $to_track = true;
             }
         }
     }
-
     if (!$to_track) {
         return;
     }
 
-    $tracker = new Microweber\SiteStats\Tracker();
+    $tracker = new MicroweberPackages\SiteStats\Tracker();
 
     if (get_option('stats_is_buffered', 'site_stats') == 1) {
         return $tracker->track_buffered();
@@ -486,3 +484,6 @@ function get_visits($range = 'daily')
 }
 
 
+function stats_get_views_count_for_content($content_id=0){
+    return (new \MicroweberPackages\SiteStats\Models\ContentViewCounter)->getCountViewsForContent($content_id);
+}

@@ -2,6 +2,7 @@ config/*
 vendor/*
 config/database.php
 config/app.php
+config/debugbar.php
 userfiles/language/
 userfiles/css/
 userfiles/media/*

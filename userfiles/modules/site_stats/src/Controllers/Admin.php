@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Microweber\SiteStats\Controllers;
+namespace MicroweberPackages\SiteStats\Controllers;
 
-use Microweber\SiteStats\Stats;
+use MicroweberPackages\SiteStats\Stats;
 use MicroweberPackages\View\View;
 
 

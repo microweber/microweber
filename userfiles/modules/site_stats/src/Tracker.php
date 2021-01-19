@@ -1,16 +1,16 @@
 <?php
 
-namespace Microweber\SiteStats;
+namespace MicroweberPackages\SiteStats;
 
 
-use Microweber\SiteStats\Models\Browsers;
-use Microweber\SiteStats\Models\Geoip;
-use Microweber\SiteStats\Models\Log;
-use Microweber\SiteStats\Models\Referrers;
-use Microweber\SiteStats\Models\ReferrersDomains;
-use Microweber\SiteStats\Models\ReferrersPaths;
-use Microweber\SiteStats\Models\Sessions;
-use Microweber\SiteStats\Models\Urls;
+use MicroweberPackages\SiteStats\Models\Browsers;
+use MicroweberPackages\SiteStats\Models\Geoip;
+use MicroweberPackages\SiteStats\Models\Log;
+use MicroweberPackages\SiteStats\Models\Referrers;
+use MicroweberPackages\SiteStats\Models\ReferrersDomains;
+use MicroweberPackages\SiteStats\Models\ReferrersPaths;
+use MicroweberPackages\SiteStats\Models\Sessions;
+use MicroweberPackages\SiteStats\Models\Urls;
 use Jenssegers\Agent\Agent;
 use GeoIp2\Database\Reader;
 
@@ -173,6 +173,8 @@ class Tracker
                         $item['url_id'] = $related_data->id;
                     }
                 }
+
+
                 $existing = false;
 
                 if (isset($item['url_id']) and isset($item['session_id_key'])) {

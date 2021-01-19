@@ -429,8 +429,18 @@ function helper_body_classes()
     }
     $seg = url_segment(0);
     if ($seg) {
-        $seg = str_slug($seg);
-        $classes[] = 'page-' . $seg;
+        if (category_id()) {
+            $slugs = app()->permalink_manager->link(category_id(), 'category', $returnSlug = 1);
+            if (isset($slugs['slug']) and $slugs['slug']) {
+                $classes[] = 'category-' . $slugs['slug'];
+            }
+        }
+
+        $slugs = app()->permalink_manager->link(content_id(), 'content',$returnSlug=1);
+        if(isset($slugs['slug']) and $slugs['slug']){
+            $classes[] = 'page-' . $slugs['slug'];
+        }
+
     }
 
     if ($template) {

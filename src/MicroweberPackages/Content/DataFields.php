@@ -1,7 +1,7 @@
 <?php
 
 
-class DataFields extends BaseModel
+class DataFields extends \MicroweberPackages\Database\BaseModel
 {
     public $table = 'content_data';
 }

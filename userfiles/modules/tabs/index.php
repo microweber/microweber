@@ -1,4 +1,4 @@
-<?php $module_template = get_option('data-template', $params['id']);
+<?php $module_template = get_module_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
@@ -9,7 +9,7 @@ if ($module_template != false) {
 }
 
 
-$settings = get_option('settings', $params['id']);
+$settings = get_module_option('settings', $params['id']);
 $json = array();
 
 if ($settings == false) {

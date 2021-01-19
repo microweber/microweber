@@ -71,6 +71,40 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     }
 
 
+//
+//    /**
+//     * Get a base query builder instance.
+//     *
+//     * @return \Illuminate\Database\Query\Builder
+//     */
+//    public function toBase()
+//    {
+//
+//        $is_disabled = \Config::get('microweber.disable_model_cache');
+//
+//        if (!$is_disabled) {
+//            $cacheKey = $this->getCacheKey('toBase');
+//            $cacheTags = $this->generateCacheTags();
+//
+//            $cacheFind = \Cache::tags($cacheTags)->get($cacheKey);
+//            if ($cacheFind) {
+//                return $cacheFind;
+//            }
+//        }
+//        $query  = $this->applyScopes()->getQuery();
+//
+//        if (!$is_disabled) {
+//            \Cache::tags($cacheTags)->put($cacheKey, $query, $this->cacheSeconds);
+//        }
+//
+//
+//
+//        return $query;
+//    }
+
+
+
+
     /**
      * Get a unique cache key for the complete query.
      *
