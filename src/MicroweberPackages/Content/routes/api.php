@@ -43,6 +43,15 @@ Route::name('api.')
             return mw()->content_manager->helpers->copy($request->all());
         });
 
+
+        Route::post('content/related_content/add', function (\Illuminate\Http\Request $request) {
+            return mw()->content_manager->helpers->related_content_add($request->all());
+        });
+
+        Route::post('content/related_content/remove', function (\Illuminate\Http\Request $request) {
+            return mw()->content_manager->helpers->related_content_remove($request->all());
+        });
+
         Route::any('content/redirect_to_content', function (\Illuminate\Http\Request $request) {
 
             if (isset($request['id'])) {

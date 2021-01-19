@@ -412,6 +412,16 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php endif; ?>
 
 
+                <?php if (isset($data['id']) and $data['id']): ?>
+
+
+                    <hr class="thin no-padding"/>
+
+                    <module type="content/views/related_content_list" content-id="<?php print ($data['id']) ?>" id="mw-admin-select-related-content-list" />
+
+
+                <?php endif; ?>
+
 
 
 
