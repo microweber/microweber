@@ -761,7 +761,7 @@ class Parser
                                         //  $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = $mod_id;
 
                                         $attrs['id'] = $mod_id;
-                                        if(!strpos($module_html,'id=')) {
+                                        if(!strpos($module_html,' id=')) {
                                             $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_ID__', '', $module_html);
@@ -775,7 +775,7 @@ class Parser
                                     $attrs2 = array();
                                     if (is_array($module_title) and isset($module_title['name'])) {
                                         $module_title['name'] = addslashes($module_title['name']);
-                                        if(!strpos($module_html,'data-mw-title=')){
+                                        if(!strpos($module_html,' data-mw-title=')){
                                         $module_html = str_replace('__MODULE_NAME__', ' data-mw-title="' . $module_title['name'] . '"', $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_NAME__', '', $module_html);
@@ -908,7 +908,7 @@ class Parser
                                             }
 
                                             if ($pass /*and $nv*/) {
-                                                if(!strpos($module_html,$nn.'=')) {
+                                                if(!strpos($module_html,' '.$nn.'=')) {
 
                                                     // $module_html .= " {$nn}='{$nv}'  ";
                                                     $module_html .= " {$nn}=\"{$nv}\"  ";
