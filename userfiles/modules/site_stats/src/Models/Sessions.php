@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\SiteStats\Models;
+namespace MicroweberPackages\SiteStats\Models;
 
 
 class Sessions extends Base
@@ -23,22 +23,22 @@ class Sessions extends Base
 
     public function views()
     {
-        return $this->hasMany('Microweber\SiteStats\Models\Log','session_id_key');
+        return $this->hasMany('MicroweberPackages\SiteStats\Models\Log','session_id_key');
     }
 
     public function browser()
     {
-        return $this->belongsTo('Microweber\SiteStats\Models\Browsers');
+        return $this->belongsTo('MicroweberPackages\SiteStats\Models\Browsers');
     }
 
     public function geoip()
     {
-        return $this->belongsTo('Microweber\SiteStats\Models\Geoip');
+        return $this->belongsTo('MicroweberPackages\SiteStats\Models\Geoip');
     }
 
     public function referrer()
     {
-        return $this->belongsTo('Microweber\SiteStats\Models\Referrers');
+        return $this->belongsTo('MicroweberPackages\SiteStats\Models\Referrers');
     }
 
 }

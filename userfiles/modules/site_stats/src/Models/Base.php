@@ -1,12 +1,14 @@
 <?php
-namespace Microweber\SiteStats\Models;
+namespace MicroweberPackages\SiteStats\Models;
 
 use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Base extends Eloquent
 {
+
     public $timestamps = ["updated_at"]; // enable only to updated_at
     const CREATED_AT = null;
 

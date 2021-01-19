@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\SiteStats\Models;
+namespace MicroweberPackages\SiteStats\Models;
 
 
 class Comments extends Base
