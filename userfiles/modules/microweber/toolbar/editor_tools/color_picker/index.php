@@ -86,8 +86,7 @@
         src="<?php print mw_includes_url(); ?>toolbar/editor_tools/color_picker/jscolor.js"></script>
 <script>
     parent.mw.require('external_callbacks.js');
-   // mw.require('color.js');
-    mw.lib.require('colorpicker');
+     mw.lib.require('colorpicker');
 
 </script>
 <script type="text/javascript">

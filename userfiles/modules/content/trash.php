@@ -183,7 +183,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <script type="text/javascript">mw.require('forms.js', true);</script>
                 <script type="text/javascript">
                     mw.post_del_forever = function (a, callback) {
                         var arr = $.isArray(a) ? a : [a];

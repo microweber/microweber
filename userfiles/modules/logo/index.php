@@ -110,7 +110,6 @@ if ($size == false or $size == '') {
 <?php if ($font_family_safe != 'inherit') { ?>
 
     <script>
-        mw.require("fonts.js");
 
         $(document).ready(function () {
             mw.logoFont = mw.logoFont || new mw.font();

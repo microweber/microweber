@@ -2,9 +2,7 @@
     <module type="users/forgot_password"/>
 <?php else: ?>
 
-    <script type="text/javascript">
-        mw.require('forms.js', true);
-    </script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             if (!mw.$('#user_login_<?php print $params['id'] ?>').hasClass("custom-submit")) {

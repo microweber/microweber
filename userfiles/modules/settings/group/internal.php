@@ -1,7 +1,5 @@
 <?php must_have_access(); ?>
-<script type="text/javascript">
-    mw.require('forms.js', true);
-</script>
+
 <script type="text/javascript">
     function save_sysconf_form() {
         mw.form.post('#sysconfig-form-<?php print $params['id'] ?>', '<?php print api_link('mw_save_framework_config_file'); ?>',

@@ -1,8 +1,7 @@
 <?php if (!is_admin()) {
     return;
 } ?>
-<script type="text/javascript">
-    mw.require('options.js');
+<script>
     mw.lib.require('mwui_init');
 </script>
 

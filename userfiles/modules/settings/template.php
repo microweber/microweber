@@ -70,9 +70,6 @@ if ($json != false) {
     </div>
 </div>
 
-<script>
-    mw.require('options.js');
-</script>
 
 <script>
     mw.tpl = {

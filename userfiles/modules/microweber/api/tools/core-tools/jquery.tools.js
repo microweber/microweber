@@ -1,15 +1,20 @@
+
 $.fn.dataset = function (dataset, val) {
     var el = this[0];
     if (el === undefined) return false;
     var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);
     if (!val) {
-        var dataset = !!el.dataset ? el.dataset[_dataset] : mw.$(el).attr("data-" + dataset);
+        dataset = !!el.dataset ? el.dataset[_dataset] : mw.$(el).attr("data-" + dataset);
         return dataset !== undefined ? dataset : "";
     }
     else {
         !!el.dataset ? el.dataset[_dataset] = val : mw.$(el).attr("data-" + dataset, val);
         return mw.$(el);
     }
+};
+
+$.fn.size = function () {
+    return this.length;
 };
 
 $.fn.reload_module = function (c) {

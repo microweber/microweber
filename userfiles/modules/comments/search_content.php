@@ -57,9 +57,7 @@ $data = get_comments($comments_data);
 ?>
 
 
-<script type="text/javascript">
-    mw.require("<?php print $config['url_to_module']; ?>edit_comments.js");
-</script>
+
 
 <div class="comments-holder">
     <?php if (is_array($data) and !empty($data)): ?>

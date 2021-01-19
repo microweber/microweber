@@ -2,8 +2,7 @@
 
 <script src="<?php print modules_url()?>editor/html_editor/html_editor.js"></script>
 
-<script type="text/javascript">
-    mw.require('options.js');
+<script>
     mw.require('//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.css');
 </script>
 

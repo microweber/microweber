@@ -1,4 +1,3 @@
-
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const glob = require("glob");
@@ -17,7 +16,7 @@ const config = {
     entry: {
         core: glob.sync(path.resolve(`${input}/{tools,tools/core-tools,core}/*.js`)),
         liveedit: glob.sync(path.resolve(`${input}/liveedit/*.js`)),
-        admin: glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,system}/*.js`)),
+        admin: glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,system,admin}/*.js`)),
     },
     plugins: [
         new CleanWebpackPlugin(),
@@ -26,8 +25,6 @@ const config = {
         filename: '[name].js',
         path: path.resolve(output)
     },
-    // devtool: 'cheap-module-source-map'
-
 };
 
 module.exports = (env, argv) => {

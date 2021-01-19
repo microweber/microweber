@@ -49,10 +49,6 @@ if ($registration_approval_required == false) {
 }
 ?>
 
-<script type="text/javascript">
-    mw.require('forms.js', true);
-    mw.require('options.js', true);
-</script>
 
 <script type="text/javascript">
     $(document).ready(function () {

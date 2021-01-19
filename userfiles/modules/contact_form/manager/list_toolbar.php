@@ -8,9 +8,7 @@ if (!isset($params['load_list'])) {
 }
 ?>
 
-<script type="text/javascript">
-    mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
-</script>
+
 
 <?php
 $def = _e("Search for data", true);

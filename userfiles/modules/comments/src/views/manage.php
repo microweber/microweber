@@ -1,6 +1,4 @@
-<script type="text/javascript">
-    mw.require('<?php print modules_url() ?>comments/edit_comments.js');
-</script>
+
 <script>
     commentToggle = window.commentToggle || function (e, comment_id) {
             var item = mw.tools.firstParentOrCurrentWithAllClasses(e.target, ['comment-holder']);

@@ -1,7 +1,5 @@
 <script type="text/javascript">
     mw.require('tree.js', true);
-    mw.require('forms.js', true);
-    mw.require('url.js', true);
 </script>
 <?php
 if (!isset($rand)) {

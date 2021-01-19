@@ -47,8 +47,6 @@ $order_id = url_param('vieworder');
 <module type="admin/panel/shop/orders/order" order-id='<?php print $order_id; ?>' id="mw-admin-manage-orders-inner" />
 <?php } ?>
 <script>
-    mw.require('forms.js', true);
-
 
    $(mwd).ready(function(){
 

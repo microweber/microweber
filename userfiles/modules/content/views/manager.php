@@ -4,10 +4,6 @@ $pages_count = intval($pages);
 $params_module = $params;
 ?>
 
-<script type="text/javascript">
-    mw.require('forms.js', true);
-    mw.require('content.js', true);
-</script>
 
 <script type="text/javascript">
     publish_selected_posts = function () {

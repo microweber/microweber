@@ -15,7 +15,6 @@
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
 <script type="text/javascript">
-        mw.require('options.js');
 
         $(document).ready(function(){
 

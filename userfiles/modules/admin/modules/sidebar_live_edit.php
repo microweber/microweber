@@ -112,9 +112,6 @@
             </div>
         </div>
         <script>
-            mw.require('prop_editor.js');
-            mw.require('color.js');
-            //mw.require('libs/html2canvas/html2canvas.min.js');
 
             function mwSidebarSearchClear(what) {
                 $('[data-id="mw-sidebar-search-input-for-modules-and-layouts"]').val('');

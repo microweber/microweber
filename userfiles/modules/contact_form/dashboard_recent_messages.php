@@ -4,9 +4,7 @@ if (!user_can_access('module.contact_form.index')) {
 }
 ?>
 
-<script type="text/javascript">
-    mw.require('<?php print $config['url_to_module']; ?>manager/forms_data_manager.js');
-</script>
+
 
 <?php
 $last_messages_count = mw()->forms_manager->get_entires('count=true');

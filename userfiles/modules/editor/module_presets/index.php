@@ -13,7 +13,6 @@
     }
     ?>
 
-    <script type="text/javascript">mw.require('forms.js', true);</script>
 
     <style>
         .mw-presets-list.active {

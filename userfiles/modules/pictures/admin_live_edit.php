@@ -71,10 +71,7 @@ $rand = uniqid();
 ?>
 
 
-<script type="text/javascript">
-//    mw.require('options.js');
-</script>
-<script type="text/javascript">
+<script>
 
     mw.module_pictures_upload_time = null;
     __mw_pics_save_msg = function () {

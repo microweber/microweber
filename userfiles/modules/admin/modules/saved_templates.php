@@ -32,9 +32,7 @@ return;
     $module_id = $params['module_id'];
 
     ?>
-    <script>
-        mw.require('forms.js', true);
-    </script>
+
     <script>
 
 

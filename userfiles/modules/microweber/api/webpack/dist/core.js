@@ -633,8 +633,7 @@ mw.common = {
     mw.components = {
     _rangeOnce: false,
     'range': function(el){
-        mw.lib.require('jqueryui');
-        var options = this._options(el);
+         var options = this._options(el);
         var defaults = {
             range: 'min',
             animate: "fast"
@@ -2517,8 +2516,7 @@ mw.msg = mw._lang = {
         ],
         colorpicker: [
             function () {
-                mw.require(mw.settings.includes_url + 'api' + '/color.js');
-                mw.require(mw.settings.libs_url + 'acolorpicker' + '/acolorpicker.js');
+                 mw.require(mw.settings.libs_url + 'acolorpicker' + '/acolorpicker.js');
             }
         ],
         material_icons: [
@@ -7455,18 +7453,23 @@ mw.image = {
   \*******************************************/
 /***/ (() => {
 
+
 $.fn.dataset = function (dataset, val) {
     var el = this[0];
     if (el === undefined) return false;
     var _dataset = !dataset.contains('-') ? dataset : mw.tools.toCamelCase(dataset);
     if (!val) {
-        var dataset = !!el.dataset ? el.dataset[_dataset] : mw.$(el).attr("data-" + dataset);
+        dataset = !!el.dataset ? el.dataset[_dataset] : mw.$(el).attr("data-" + dataset);
         return dataset !== undefined ? dataset : "";
     }
     else {
         !!el.dataset ? el.dataset[_dataset] = val : mw.$(el).attr("data-" + dataset, val);
         return mw.$(el);
     }
+};
+
+$.fn.size = function () {
+    return this.length;
 };
 
 $.fn.reload_module = function (c) {

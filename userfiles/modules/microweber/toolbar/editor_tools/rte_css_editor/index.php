@@ -8,8 +8,7 @@
      mw.require("files.js");
     mw.require("url.js");
     mw.require('prop_editor.js');
-    mw.require('color.js');
-    mw.require('selector.js');
+     mw.require('selector.js');
     mw.require('tree.js');
 
     mw.require('domtree.js');

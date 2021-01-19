@@ -26,9 +26,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="tab-pane fade show active" id="list">
                 <script type="text/javascript">
                     mw.require('<?php print modules_url() ?>comments/style.css');
-                    mw.require('<?php print modules_url() ?>comments/edit_comments.js');
-                    mw.require('color.js', true);
-                </script>
+                 </script>
 
                 <script type="text/javascript">
                     mw.on.hashParam("search", function () {

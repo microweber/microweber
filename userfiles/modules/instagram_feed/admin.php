@@ -36,8 +36,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $instagram_api_access_token = get_option('instagram_api_access_token', $params['id']);
         ?>
 
-        <script type="text/javascript">mw.require('options.js');</script>
-
         <script type="text/javascript">
             $(window).ready(function () {
                 mw.options.form('.module-instagram-feed-settings', function () {

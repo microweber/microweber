@@ -1,5 +1,5 @@
-mw.admin = mw.admin || {};
-mw.admin.custom_fields = mw.admin.custom_fields || {};
+
+mw.admin.custom_fields = {};
 
 mw.admin.custom_fields.initValues = function () {
     var master = document.getElementById('custom-fields-post-table');
@@ -253,5 +253,6 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 };
 
 $(window).on('load', function () {
+    console.log(  mw.admin)
     mw.admin.custom_fields.initValues();
 });

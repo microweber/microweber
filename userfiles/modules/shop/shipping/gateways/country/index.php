@@ -53,9 +53,7 @@ if (is_array($data)) {
 
 
 ?>
-    <script type="text/javascript">
-        mw.require('forms.js', true);
-    </script>
+
     <script type="text/javascript">
 
         function mw_shipping_<?php print $rand; ?>(country) {

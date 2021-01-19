@@ -463,7 +463,6 @@ if ($last_page_front != false) {
 </script>
 
 <script>
-    mw.require('forms.js', true);
 
 
     $(document).ready(function () {

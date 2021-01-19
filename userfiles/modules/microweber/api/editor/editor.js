@@ -707,7 +707,6 @@ if (window.mw) {
 
 
 mw.require('filemanager.js');
-mw.require('autocomplete.js');
 mw.require('filepicker.js');
 
 mw.require('form-controls.js');

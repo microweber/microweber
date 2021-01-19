@@ -24,9 +24,7 @@ mw()->notifications_manager->delete_for_module('updates');
 
 
 ?>
-<script type="text/javascript">
-    mw.require('forms.js', true);
-</script>
+
 <script type="text/javascript">
 
     mw.bind_update_form_submit = function () {

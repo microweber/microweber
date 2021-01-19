@@ -43,7 +43,6 @@
 	<?php if(is_array($opts)): ?>
 
 	<script type="text/javascript">
-	mw.require("options.js", true);
 	mw.require("<?php print $config['url_to_module']; ?>settings.css");
 	</script>
 	<?php foreach($opts as $params): ?>

@@ -15,7 +15,6 @@ $products = get_content($products_q);
 $data = $products;
 ?>
 
-<script>mw.require('autocomplete.js')</script>
 
 <script>
     mw_admin_custom_checkout_callback = function () {

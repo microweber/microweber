@@ -9,9 +9,6 @@
     <?php //$rand = uniqid(); ?>
     <script type="text/javascript">
 
-        mw.require('forms.js', true);
-
-
         $(document).ready(function () {
             mw.$('#user_reset_password_form<?php print $params['id'];  ?>').submit(function () {
                 mw.form.post(mw.$('#user_reset_password_form<?php print $params['id'];  ?>'), '<?php print site_url('api') ?>/user_reset_password_from_link', function () {

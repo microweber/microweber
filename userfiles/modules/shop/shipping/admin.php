@@ -27,8 +27,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="list">
-                <script type="text/javascript">
-                    mw.require('options.js');
+                <script>
 
                     __shipping_options_save_msg = function () {
                         if (mw.notification != undefined) {

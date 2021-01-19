@@ -66,7 +66,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     });
                 </script>
-                <script type="text/javascript">mw.require('forms.js', true);</script>
                 <script type="text/javascript">
                     mw.on.moduleReload("mw_pages_list_tree_live_edit", function () {
                         mw.manage_pages_sort();

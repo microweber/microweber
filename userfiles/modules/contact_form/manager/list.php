@@ -5,9 +5,7 @@ if (is_admin() == false) {
     );
 }
 ?>
-<script type="text/javascript">
-    mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
-</script>
+
 
 <script type="text/javascript">
     toggle_show_less = function (el) {

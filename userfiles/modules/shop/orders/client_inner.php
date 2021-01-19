@@ -92,7 +92,6 @@
                             500: 2,
                             400: 1
                         };
-                        mw.require('forms.js', true);
 
 
                         $(document).ready(function () {

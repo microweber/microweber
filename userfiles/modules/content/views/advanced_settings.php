@@ -276,8 +276,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                                 <div id="select-post-author"></div>
 
-                                <script>mw.require('autocomplete.js')</script>
-                                <?php $user = get_user($post_author_id); ?>
+                                 <?php $user = get_user($post_author_id); ?>
                                 <script>
                                     $(document).ready(function () {
                                         var created_by_field = new mw.autoComplete({

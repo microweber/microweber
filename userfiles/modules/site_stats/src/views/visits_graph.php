@@ -18,7 +18,7 @@ if ($params['period']) {
 </script>
 
 <script>
-    mw.admin.__statdata = <?php print json_encode($graph_data); ?>;
+    var statsData = <?php print json_encode($graph_data); ?>;
 
     Date.prototype.getWeekNumber = function () {
         var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
@@ -52,16 +52,10 @@ if ($params['period']) {
         $("[data-stat='<?php print $period ?>']").addClass("active");
     });
 
-
-
-
-
-
-
     var series = [];
 
     var count = 0;
-    $.each(mw.admin.__statdata, function (key, val) {
+    $.each(statsData, function (key, val) {
         count ++;
 
         var item = {

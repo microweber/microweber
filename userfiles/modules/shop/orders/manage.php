@@ -7,7 +7,6 @@
         400: 1
     }
 
-    mw.require('forms.js', true);
 
     $(mwd).ready(function () {
         mw.responsive.table('#shop-orders', {

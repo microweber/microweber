@@ -1,8 +1,5 @@
 <script type="text/javascript">
-    mw.require('tree.js', true);
-    mw.require('forms.js', true);
-    mw.require('url.js', true);
-    mw.require('<?php print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
+     mw.require('<?php print $config['url_to_module'] ?>jquery.mjs.nestedSortable.js', true);
 </script>
 
 <script>

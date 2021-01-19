@@ -227,8 +227,7 @@ if (isset($params['for_module_id'])): ?>
                 </table>
             </div>
 
-            <script>mw.require('admin_custom_fields.js');</script>
-            <script>
+             <script>
                 $(document).ready(function () {
                     if (typeof( mw.admin.custom_fields) != 'undefined') {
                         mw.admin.custom_fields.initValues();

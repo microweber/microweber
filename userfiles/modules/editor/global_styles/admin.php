@@ -1,12 +1,6 @@
 <?php must_have_access(); ?>
-<script  type="text/javascript">
 
-
-mw.require('options.js', true);
-
-
-</script>
-<script  type="text/javascript">
+<script>
 $(document).ready(function(){
 
   mw.options.form('.<?php print $config['module_class'] ?>', function(){

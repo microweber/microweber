@@ -1,8 +1,4 @@
-<script>
-    mw.require("content.js");
-    mw.require("files.js");
-    mw.require("admin_custom_fields.js");
-</script>
+
 <script>
     /* FUNCTIONS */
 

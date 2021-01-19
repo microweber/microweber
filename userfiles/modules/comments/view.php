@@ -12,9 +12,7 @@ $data = mw()->notifications_manager->get('single=1&id=' . $notification_id);
         right: 10px;
     }
 </style>
-<script type="text/javascript">
-    mw.require('<?php print modules_url() ?>comments/edit_comments.js');
-</script>
+
 <script>
     commentToggle = window.commentToggle || function (e, comment_id) {
 

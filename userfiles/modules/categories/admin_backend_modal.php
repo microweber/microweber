@@ -1,8 +1,6 @@
 <?php must_have_access(); ?>
 
-<script>
-    mw.require('content.js')
- </script>
+
 <script>
 
     function mw_clear_edit_module_attrs() {

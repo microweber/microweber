@@ -41,7 +41,6 @@ if ($action == 'profile') {
     }
 </style>
 
-<script type="text/javascript"> mw.require('forms.js', true); </script>
 
 <script type="text/javascript">
     userSections = {

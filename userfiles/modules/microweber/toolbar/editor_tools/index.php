@@ -6,9 +6,6 @@
 
       <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
-      <script>
-          mw.lib.require('jqueryui');
-      </script>
 
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?>"/>

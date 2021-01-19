@@ -13,9 +13,7 @@
 
 
 (function(){
-    mw.lib.require('jqueryui');
 
-    mw.lib.require('nestedsortable');
 
 
 

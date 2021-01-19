@@ -8,8 +8,7 @@
 
     <script src="<?php print mw_includes_url(); ?>api/webpack/dist/admin.js"></script>
     <script>
-         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
-        mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
+         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
 
 
@@ -44,7 +43,6 @@
                 });
             });
             // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
-            mw.require("fonts.js");
 
             $(window).on('load', function () {
                 if ($(".bootstrap3ns").size() > 0) {

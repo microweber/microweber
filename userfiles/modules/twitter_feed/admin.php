@@ -20,9 +20,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 
     <div class="card-body pt-3">
-        <script type="text/javascript">mw.require('options.js');</script>
 
-        <script type="text/javascript">
+        <script>
             $(window).ready(function () {
                 mw.options.form('.module-twitter-feed-settings', function () {
                     if (mw.notification != undefined) {

@@ -52,8 +52,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 </script>
 
 <script>
-    mw.lib.require('jqueryui');
-    mw.require("<?php print $config['url_to_module'];?>css/main.css");
+     mw.require("<?php print $config['url_to_module'];?>css/main.css");
 </script>
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
