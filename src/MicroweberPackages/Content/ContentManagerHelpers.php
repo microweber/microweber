@@ -534,7 +534,8 @@ class ContentManagerHelpers extends ContentManagerCrud
             $related = ContentRelated::firstOrCreate(
                 ['content_id' => $data['content_id'], 'related_content_id' => $data['related_content_id']]
             );
-
+            $related->position = 0;
+            $related->save();
             return $related;
         }
     }
@@ -547,6 +548,30 @@ class ContentManagerHelpers extends ContentManagerCrud
             )->delete();
             return true;
         }
+    }
+
+
+    public function related_content_reorder($data)
+    {
+
+
+        if (isset($data['ids'])) {
+            $value = $data['ids'];
+            if (is_array($value)) {
+                $indx = array();
+                $i = 1;
+                foreach ($value as $value2) {
+                    $indx[$i] = $value2;
+
+                    ++$i;
+                }
+                $this->app->database_manager->update_position_field('content_related', $indx);
+                $return_res = $indx;
+            }
+        }
+        $this->app->cache_manager->delete('content');
+
+
     }
 
     public function save_from_live_edit($post_data)

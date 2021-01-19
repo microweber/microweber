@@ -315,6 +315,28 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                 <!-- More Advanced Settings -->
                 <?php if (isset($data['id']) and $data['id'] > 0): ?>
+
+
+                <script>
+                    mw.open_edit_related_content_modal = function($content_id) {
+                        open_edit_related_content_modal__modal_opened = mw.dialog({
+                         //   height:'600px',
+                           //   autoHeight : true,
+
+                            content: '<div id="open_edit_related_content_modal__opened__module"></div>',
+                            title: 'Edit related content',
+                            id: 'open_edit_related_content_modal__modal'
+                        });
+
+                        var params = {}
+                        params.content_id = $content_id;
+                      //  params.id = 'mw-admin-select-related-content-list';
+                        mw.load_module('content/views/related_content_list', '#open_edit_related_content_modal__opened__module', null, params);
+                    }
+
+
+                </script>
+
                     <div class="row d-flex align-items-center">
                         <div class="col-md-4">
                             <label class="control-label my-2"><?php print _e('More options'); ?>:</label>
@@ -325,7 +347,26 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <a class="btn btn-danger btn-sm" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
                             <a class="btn btn-warning btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
                         </div>
+
+
+
+
                     </div>
+
+
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-8">
+                        <label class="control-label my-2"><?php print _e('Related Content'); ?>:</label>
+                    </div>
+                    <div class="col-md-4 text-center text-md-right">
+
+                        <a class="btn btn btn-outline-primary btn-sm" href="javascript:mw.open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit"); ?></a>
+
+                    </div>
+
+                </div>
+
+
                 <?php endif; ?>
 
                 <?php if ($show_page_settings != false): ?>
@@ -412,15 +453,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php endif; ?>
 
 
-                <?php if (isset($data['id']) and $data['id']): ?>
 
-
-                    <hr class="thin no-padding"/>
-
-                    <module type="content/views/related_content_list" content-id="<?php print ($data['id']) ?>" id="mw-admin-select-related-content-list" />
-
-
-                <?php endif; ?>
 
 
 
