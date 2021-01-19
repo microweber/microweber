@@ -318,12 +318,12 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
                 <script>
-                    mw.open_edit_related_content_modal = function($content_id) {
+                    open_edit_related_content_modal = function($content_id) {
                         open_edit_related_content_modal__modal_opened = mw.dialog({
                          //   height:'600px',
                            //   autoHeight : true,
 
-                            content: '<div id="open_edit_related_content_modal__opened__module"></div>',
+                            content: '<div id="open_edit_related_content_modal__opened__module" style="min-height: 500px"></div>',
                             title: 'Edit related content',
                             id: 'open_edit_related_content_modal__modal'
                         });
@@ -360,7 +360,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                     </div>
                     <div class="col-md-4 text-center text-md-right">
 
-                        <a class="btn btn btn-outline-primary btn-sm" href="javascript:mw.open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit"); ?></a>
+                        <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit"); ?></a>
 
                     </div>
 
