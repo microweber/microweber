@@ -1,6 +1,5 @@
-console.log(1);
-require('../webpack/node_modules/jquery-ui');
-console.log(33333311212)
+ require('../webpack/node_modules/jquery-ui');
+
 mw.admin = {
     language: function(language) {
         $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})
