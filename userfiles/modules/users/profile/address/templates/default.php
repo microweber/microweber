@@ -1,4 +1,10 @@
+
+<div class="js-users-profile-address">
+
 <ul class="nav nav-tabs" id="user-profile-address-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link" id="client-information-tab" data-toggle="tab" href="#client-information" role="tab" aria-controls="client-information" aria-selected="false">Client Information</a>
+    </li>
     <li class="nav-item">
         <a class="nav-link" id="billing-address-tab" data-toggle="tab" href="#billing-address" role="tab" aria-controls="billing-address" aria-selected="false">Billing Address</a>
     </li>
@@ -8,6 +14,38 @@
 </ul>
 
 <div class="tab-content">
+
+    <div class="tab-pane" id="client-information" role="tabpanel" aria-labelledby="client-information-tab">
+        <div class="col-md-12 col-px-30">
+            <h5 class="mb-3 font-weight-bold">Client information</h5>
+
+            <div class="form-group">
+                <label class="control-label">Display Name:</label>
+                <input type="text" class="form-control" value="" required="required" name="name">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">First Name:</label>
+                <input type="text" class="form-control" value="" required="required" name="first_name">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Last Name:</label>
+                <input type="text" class="form-control" value="" required="required" name="last_name">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Email:</label>
+                <input type="email" class="form-control" value="" required="required" name="email">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Phone:</label>
+                <input type="text" class="form-control" value="" required="required" name="phone">
+            </div>
+        </div>
+    </div>
+
     <div class="tab-pane" id="billing-address" role="tabpanel" aria-labelledby="billing-address-tab">
 
     <div class="col-md-12 col-px-30">
@@ -117,10 +155,22 @@
 
 
     </div>
+    <button type="submit" class="btn btn-success js-users-profile-address-save"><i class="fa fa-save"></i> Save details</button>
+</div>
 </div>
 
 <script>
     $(function () {
+        $('.js-users-profile-address-save').click(function () {
+
+            var userProfileData = $(".js-users-profile-address select, .js-users-profile-address input").serializeArray();
+
+            $.post("<?php echo route('api.user.profile.update'); ?>", userProfileData)
+            .done(function( data ) {
+                alert( "Data Loaded: " + data );
+            });
+
+        });
         $('#user-profile-address-tabs li:last-child a').tab('show')
     })
 </script>
