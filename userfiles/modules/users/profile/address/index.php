@@ -5,6 +5,68 @@ if (empty($user)) {
     return;
 }
 
+
+
+$findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
+
+$name = '';
+$first_name = '';
+$last_name = '';
+$email = '';
+$phone = '';
+
+if ($findCustomer) {
+    $name = $findCustomer['name'];
+    $first_name = $findCustomer['first_name'];
+    $last_name = $findCustomer['last_name'];
+    $email = $findCustomer['email'];
+    $phone = $findCustomer['phone'];
+}
+
+$billing_address = [
+  'name'=>'',
+  'company_name'=>'',
+  'company_id'=>'',
+  'company_vat'=>'',
+  'company_vat_registered'=>'',
+  'address_street_1'=>'',
+  'address_street_2'=>'',
+  'city'=>'',
+  'zip'=>'',
+  'state'=>'',
+  'country_id'=>'',
+];
+$shipping_address = [
+    'name'=>'',
+    'company_name'=>'',
+    'company_id'=>'',
+    'company_vat'=>'',
+    'company_vat_registered'=>'',
+    'address_street_1'=>'',
+    'address_street_2'=>'',
+    'city'=>'',
+    'zip'=>'',
+    'state'=>'',
+    'country_id'=>'',
+];
+
+if ($findCustomer) {
+    $findAddressBilling = \MicroweberPackages\Customer\Models\Address::where('type', 'billing')->where('customer_id', $findCustomer->id)->first();
+    if ($findAddressBilling) {
+        foreach ($findAddressBilling->toArray() as $addressKey=>$addressValue) {
+            $billing_address[$addressKey] = $addressValue;
+        }
+    }
+    $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+    if ($findAddressShipping) {
+        foreach ($findAddressShipping->toArray() as $addressKey=>$addressValue) {
+            $shipping_address[$addressKey] = $addressValue;
+        }
+    }
+}
+
+
+// Template settings
 $module_template = get_module_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
     $module_template =$params['template'];
@@ -23,4 +85,3 @@ if(isset($template_file) and is_file($template_file) != false){
     $template_file = module_templates( $config['module'], 'default');
     include($template_file);
 }
-
