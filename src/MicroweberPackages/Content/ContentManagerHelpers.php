@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Content;
 
 use Content;
@@ -297,7 +298,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                     if (isset($data['categories'])) {
                         $to_save['categories'] = $data['categories'];
-                        CategoryItem::where('rel_id',$content_id)->where('rel_type','content')->delete();
+                        CategoryItem::where('rel_id', $content_id)->where('rel_type', 'content')->delete();
                     }
                     $this->app->content_manager->save_content($to_save);
                 }
@@ -527,6 +528,27 @@ class ContentManagerHelpers extends ContentManagerCrud
         return $new_cont_id;
     }
 
+    public function related_content_add($data)
+    {
+        if (isset($data['content_id']) and isset($data['related_content_id'])) {
+            $related = ContentRelated::firstOrCreate(
+                ['content_id' => $data['content_id'], 'related_content_id' => $data['related_content_id']]
+            );
+
+            return $related;
+        }
+    }
+
+    public function related_content_remove($data)
+    {
+        if (isset($data['id'])) {
+            $related = ContentRelated::where(
+                'id', $data['id']
+            )->delete();
+            return true;
+        }
+    }
+
     public function save_from_live_edit($post_data)
     {
         $is_module = false;
@@ -666,10 +688,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
                 $pd = $guess_page_data->index();
-                if(isset($pd['id'])){
-                    $pd1 = DB::table('content')->where('id',$pd['id'])->first();
-                    $pd1 = (array) $pd1 ;
-                    if($pd1){
+                if (isset($pd['id'])) {
+                    $pd1 = DB::table('content')->where('id', $pd['id'])->first();
+                    $pd1 = (array)$pd1;
+                    if ($pd1) {
                         $pd = $pd1;
                     }
 
@@ -710,10 +732,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if ($title == 'editor_tools/wysiwyg' or $title == 'api/module' or $title == 'admin/view:content') {
                             return false;
                         }
-                        if(!isset($save_page['title'])){
-                             $save_page['title'] = $title;
+                        if (!isset($save_page['title'])) {
+                            $save_page['title'] = $title;
                         }
-                         if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url_manager->site()) {
+                        if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url_manager->site()) {
                             $save_page['url'] = 'home';
                             $home_exists = $this->app->content_manager->homepage();
                             if ($home_exists == false) {
@@ -757,7 +779,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $page_id = $save_page['id'];
                         } else {
                             if (!$save_as_draft) {
-                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
+                                $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
                                 if ($ref_page_url != $new_content_link) {
                                     $json_print['new_page_url'] = content_link($page_id);
@@ -782,8 +804,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         } elseif ($is_admin == false) {
             return array('error' => 'Not logged in as admin to use ' . __FUNCTION__);
         }
-
-
 
 
         foreach ($the_field_data_all as $the_field_data) {

@@ -13,7 +13,6 @@ use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
-use MicroweberPackages\Tag\Tag;
 use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
@@ -43,10 +42,17 @@ class Content extends Model
         'is_home' => '0',
     ];
 
-    public function tags()
+//    public function tags()
+//    {
+//        return $this->belongsToMany(Taggable::class);
+//    }
+
+    public function related()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->hasMany(ContentRelated::class)->orderBy('position', 'ASC');
     }
+
+
 
     public function modelFilter()
     {
