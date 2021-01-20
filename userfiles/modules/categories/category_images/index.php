@@ -156,30 +156,30 @@ if ($results) {
         $selected_cats = array_unique($selected_cats);
 
         $selected_cats_ids = $selected_cats;
-        foreach ($selected_cats_ids as $selected_cats_id) {
-            $cat_data = get_category_by_id($selected_cats_id);
-            if ($cat_data) {
-                if (!in_array($cat_data['id'], $cat_ids)) {
-                    $cats[] = $cat_data;
-                    $cat_ids [] = $cat_data['id'];
-                }
-                //
+        $selectedCategories = \MicroweberPackages\Category\Models\Category::whereIn('id', $selected_cats_ids)->with('children')->get();
 
-                if ($show_subcats and !$show_only_for_parent) {
-                    $sub_cats = app()->category_manager->get_children($cat_data['id']);
-                    if ($sub_cats) {
-                        foreach ($sub_cats as $sub_cat) {
-                            $cat_data2 = get_category_by_id($sub_cat);
-                            if ($cat_data2) {
-                                if (!in_array($cat_data2['id'], $cat_ids)) {
-                                    $cats[] = $cat_data2;
-                                    $cat_ids [] = $cat_data2['id'];
+        if(!empty($selectedCategories)) {
+            foreach ($selectedCategories as $catData) {
+
+                if (isset($catData['id'])) {
+                    if (!in_array($catData->id, $cat_ids)) {
+                        $cats[] = $catData->toArray();
+                        $cat_ids [] = $catData->id;
+                    }
+
+                    if ($show_subcats and !$show_only_for_parent) {
+                        if ($catData->children) {
+                            foreach ($catData->children as $sub_cat) {
+
+                                if (!in_array($sub_cat->id, $cat_ids)) {
+                                    $cats[] = $sub_cat->toArray();
+                                    $cat_ids [] = $sub_cat->id;
                                 }
                             }
                         }
                     }
-                }
 
+                }
             }
         }
     }
