@@ -1,4 +1,8 @@
- require('../webpack/node_modules/jquery-ui');
+require('../webpack/node_modules/jquery-ui/ui/core');
+require('../webpack/node_modules/jquery-ui/ui/widgets/draggable');
+require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');
+
+
 
 mw.admin = {
     language: function(language) {
