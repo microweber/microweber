@@ -103,8 +103,6 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 //    }
 
 
-
-
     /**
      * Get a unique cache key for the complete query.
      *
@@ -123,7 +121,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function generateCacheKey($appends = [])
     {
         $name = $this->getConnection()->getDatabaseName();
-        $key = md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . serialize($this->getBindings()) . implode('_', $appends).app()->getLocale());
+        $key = md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . serialize($this->getBindings()) . implode('_', $appends) . app()->getLocale());
 
         // dump($this->toSql(),$this->getBindings());
 
@@ -149,6 +147,12 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     {
         $this->_clearModelTaggedCache();
         return parent::insert($values);
+    }
+
+    public function delete()
+    {
+        $this->_clearModelTaggedCache();
+        return parent::delete();
     }
 
     public function update(array $values)
