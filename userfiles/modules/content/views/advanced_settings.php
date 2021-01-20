@@ -318,21 +318,35 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
                 <script>
+                    // open_edit_related_content_modal = function($content_id) {
+                    //     open_edit_related_content_modal__modal_opened = mw.dialog({
+                    //      //   height:'600px',
+                    //        //   autoHeight : true,
+                    //
+                    //         content: '<div id="open_edit_related_content_modal__opened__module" style="min-height: 500px"></div>',
+                    //         title: 'Edit related content',
+                    //         id: 'open_edit_related_content_modal__modal'
+                    //     });
+                    //
+                    //     var params = {}
+                    //     params.content_id = $content_id;
+                    //   //  params.id = 'mw-admin-select-related-content-list';
+                    //     mw.load_module('content/views/related_content_list', '#open_edit_related_content_modal__opened__module', null, params);
+                    // }
+
+
                     open_edit_related_content_modal = function($content_id) {
-                        open_edit_related_content_modal__modal_opened = mw.dialog({
-                         //   height:'600px',
-                           //   autoHeight : true,
-
-                            content: '<div id="open_edit_related_content_modal__opened__module" style="min-height: 500px"></div>',
+                        var modal_id = 'open_edit_related_content_modal__modal';
+                        var dialog = mw.top().dialogIframe({
+                            url: '<?php print site_url() ?>module/?type=content/views/related_content_list&live_edit=true&id=open_edit_related_content_modal__opened__module&content_id='+$content_id+'&from_url=<?php print site_url() ?>',
                             title: 'Edit related content',
-                            id: 'open_edit_related_content_modal__modal'
-                        });
+                            id: modal_id,
 
-                        var params = {}
-                        params.content_id = $content_id;
-                      //  params.id = 'mw-admin-select-related-content-list';
-                        mw.load_module('content/views/related_content_list', '#open_edit_related_content_modal__opened__module', null, params);
+                            height: 'auto',
+                            autoHeight: true
+                        })
                     }
+
 
 
                 </script>
@@ -357,10 +371,11 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <div class="row d-flex align-items-center">
                     <div class="col-md-8">
                         <label class="control-label my-2"><?php print _e('Related Content'); ?>:</label>
+                        <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit related"); ?></a>
+
                     </div>
                     <div class="col-md-4 text-center text-md-right">
 
-                        <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit"); ?></a>
 
                     </div>
 
