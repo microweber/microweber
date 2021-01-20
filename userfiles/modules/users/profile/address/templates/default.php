@@ -80,6 +80,9 @@
             <label class="control-label d-block">Country:</label>
             <div class="dropdown bootstrap-select" style="width: 100%;">
                 <select class="selectpicker" data-live-search="true" data-width="100%" data-size="5" name="addresses[1][country_id]" tabindex="-98">
+                    <?php foreach ($countries as $country):?>
+                        <option value="<?php echo $country['id']; ?>" <?php if ($billing_address['country_id'] == $country['id']): ?> selected="selected" <?php endif; ?>><?php echo $country['name']; ?> </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -124,6 +127,9 @@
                 <label class="control-label d-block">Country:</label>
                 <div class="dropdown bootstrap-select" style="width: 100%;">
                     <select class="selectpicker" data-live-search="true" data-width="100%" data-size="5" name="addresses[0][country_id]" tabindex="-98">
+                        <?php foreach ($countries as $country):?>
+                            <option value="<?php echo $country['id']; ?>" <?php if ($shipping_address['country_id'] == $country['id']): ?> selected="selected" <?php endif; ?>><?php echo $country['name']; ?> </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>

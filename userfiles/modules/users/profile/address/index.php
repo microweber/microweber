@@ -65,6 +65,11 @@ if ($findCustomer) {
     }
 }
 
+$countries = [];
+$getCountries = \MicroweberPackages\Country\Models\Country::all();
+if ($getCountries !== null) {
+    $countries = $getCountries->toArray();
+}
 
 // Template settings
 $module_template = get_module_option('data-template',$params['id']);
