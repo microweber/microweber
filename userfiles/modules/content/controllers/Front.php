@@ -259,10 +259,19 @@ class Front
 
         }
 
+        $get_related_ids_for_content_id = false;
+
         if ($cfg_page_id == false and isset($post_params['related']) and $post_params['related'] != false and (!isset($post_params['parent']) or $post_params['parent'] == false)) {
             if (defined('PAGE_ID') and PAGE_ID > 0) {
                 $cfg_page_id = PAGE_ID;
                 $post_params['parent'] = $cfg_page_id;
+            }
+            if (defined('PAGE_ID') and PAGE_ID > 0) {
+                if (defined('CONTENT_ID') and CONTENT_ID > 0 and CONTENT_ID != PAGE_ID) {
+                    if ($post_params['parent']) {
+                        $get_related_ids_for_content_id = CONTENT_ID;
+                    }
+                }
             }
         }
 
@@ -293,6 +302,16 @@ class Front
                         $ids[] = $order['page_id'];
                     }
                     $post_params['ids'] = $ids;
+                }
+            }
+        }
+
+
+        if ($get_related_ids_for_content_id) {
+            $related_ids = mw()->content_manager->get_related_content_ids_for_content_id($get_related_ids_for_content_id);
+            if ($related_ids) {
+                if ($related_ids) {
+                    $post_params['ids'] = $related_ids;
                 }
             }
         }
