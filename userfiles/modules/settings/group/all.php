@@ -7,5 +7,6 @@
 
 
 
-
+<?php   if (get_option('shop_disabled', 'website') != 'y') { ?>
 <module type="shop/settings" />
+<?php } ?>

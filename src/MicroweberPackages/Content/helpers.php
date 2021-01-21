@@ -125,6 +125,11 @@ function get_content_admin($params)
         return false;
     }
 
+    if(isset($params['keyword'])){
+        $params['keywords_exact_match'] = true;
+    }
+
+
     return get_content($params);
 }
 

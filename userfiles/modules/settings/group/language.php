@@ -71,7 +71,13 @@ $def_language = get_option('language', 'website');
                                                 </select>
                                             <?php endif; ?>
                                         </div>
+                                    <?php else: ?>
+
+
+                                    <module type="multilanguage" template="admin" show_settings_link="true" />
+
                                     <?php endif; ?>
+
                                 </div>
                             </div>
                         </div>

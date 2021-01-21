@@ -205,6 +205,25 @@ class ContentManagerCrud extends Crud
               };
              unset($params['filter-only-in-stock']);
          }
+//        if (isset($params['related'])) {
+//              \Config::set('microweber.disable_model_cache',1);
+//             $params['__query_try_to_get_related_content_from_table'] = function ($query){
+//                 return $query->whereIn('content.id', function ($subQuery)  {
+//                     $subQuery->select('content_related.related_content_id');
+//                     $subQuery->from('content_related');
+//                     $subQuery->where('content_related.content_id', '=', 'content.id');
+//                 });
+//             };
+//             $params['no_cache'] = 1;
+//             $params['category'] = null;
+//             $params['exclude_ids'] = null;
+//
+//              unset($params['try_to_get_related_content']);
+//              unset($params['try_to_get_related_content']);
+//              unset($params['related']);
+//
+//
+//        }
 
         $get = parent::get($params);
 

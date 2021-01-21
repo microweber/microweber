@@ -536,6 +536,9 @@ class ContentManagerHelpers extends ContentManagerCrud
             );
             $related->position = 0;
             $related->save();
+
+            $this->app->cache_manager->delete('content');
+
             return $related;
         }
     }
@@ -546,6 +549,9 @@ class ContentManagerHelpers extends ContentManagerCrud
             $related = ContentRelated::where(
                 'id', $data['id']
             )->delete();
+
+            $this->app->cache_manager->delete('content');
+
             return true;
         }
     }
@@ -569,6 +575,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $return_res = $indx;
             }
         }
+
+        $this->app->cache_manager->delete('content_related');
+
         $this->app->cache_manager->delete('content');
 
 
