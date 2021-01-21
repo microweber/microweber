@@ -205,8 +205,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                             <div class="form-group">
-                                <script>mw.require('editor.js')</script>
-                                <script>
+                                 <script>
                                     $(document).ready(function () {
                                         mweditor = mw.Editor({
                                             selector: '#powered_by_link_text',

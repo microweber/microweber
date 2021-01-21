@@ -3,8 +3,7 @@ if (!user_can_access('module.contact_form.index')) {
     return;
 }
 ?>
-<script>mw.require('editor.js')</script>
-<script>
+ <script>
     $(document).ready(function () {
         mweditor = mw.Editor({
             selector: '#editorAM',

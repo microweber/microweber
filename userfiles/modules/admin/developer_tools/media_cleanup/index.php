@@ -1,7 +1,6 @@
 <?php must_have_access(); ?>
 <script type="text/javascript">
     mw.require("<?php print $config['url_to_module']; ?>media_cleanup.js");
-    mw.require("files.js");
 </script>
 
 <style>

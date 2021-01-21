@@ -17,7 +17,7 @@ var EditorPredefinedControls = {
     ]
 };
 
-var MWEditor = function (options) {
+window.MWEditor = function (options) {
     var defaults = {
         regions: null,
         document: document,
@@ -706,13 +706,12 @@ if (window.mw) {
 }
 
 
-mw.require('filemanager.js');
-mw.require('filepicker.js');
+/*mw.require('filemanager.js');
 
 mw.require('form-controls.js');
 mw.require('link-editor.js');
 
-//
+
 
 mw.require('state.js');
 
@@ -726,4 +725,7 @@ mw.require('editor/add.controller.js');
 mw.require('editor/interaction-controls.js');
 mw.require('editor/i18n.js');
 mw.require('editor/liveeditmode.js');
-mw.require('control_box.js');
+mw.require('control_box.js');*/
+
+
+

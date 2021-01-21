@@ -1845,7 +1845,7 @@ mw.wysiwyg = {
             }
 
             mw.wysiwyg.restore_selection();
-            mw.require("files.js");
+
 
             if(hash === '#editimage') {
                 if(mw.image.currentResizing) {
@@ -2768,7 +2768,7 @@ $(mwd).ready(function () {
 $(window).on('load', function () {
 
     mw.$(this).on('imageSrcChanged', function (e, el, url) {
-        mw.require("files.js");
+
 
         var node = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['mw-image-holder']);
         if (node) {

@@ -1,4 +1,3 @@
-mw.require('files.js');
 if(typeof mw.rotator === 'undefined'){
     mw.rotator = function(selector){
         /*
@@ -102,7 +101,7 @@ if(typeof mw.rotator === 'undefined'){
             if(!reflection){
 
 
-                mw.require("files.js");
+
 
                 for( ; i<l; i++){
                   var a = document.createElement('a');

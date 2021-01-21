@@ -527,7 +527,7 @@
 
         $(mww).on('mousedown', function (e) {
             var el = document.getElementById('content-edit-settings-tabs-holder');
-            var cac = mw.wysiwyg.validateCommonAncestorContainer(e.target);
+            var cac = e.target.nodeType === 1 ? e.target : e.target.parentNode;
             if (el != null && !el.contains(e.target)
                 && !!cac
                 && !mw.tools.hasParentsWithTag(e.target, 'grammarly-btn')

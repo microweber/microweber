@@ -14,8 +14,7 @@ if (!user_can_access('module.contact_form.index')) {
 
 <div class="tab-content py-3">
     <script>
-        mw.require('editor.js')
-        initEditor = function () {
+         initEditor = function () {
             if (!window.editorLaunced) {
                 window.editorLaunced = true;
 

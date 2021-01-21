@@ -75,7 +75,7 @@ if ($for_id != false) {
 ?>
 
 <script>
-    mw.require("files.js");
+
 </script>
 
 <script>
@@ -225,6 +225,5 @@ if (!isset($data["thumbnail"])) {
         <?php endif; ?>
     </div>
 
-    <script>mw.require("files.js", true);</script>
      <?php include (__DIR__.'/admin_backend_scripts.php')?>
 </div>

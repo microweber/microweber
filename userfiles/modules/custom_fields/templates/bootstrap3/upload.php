@@ -34,10 +34,6 @@
 </div>
 
 <script>
-
-    mw.require('files.js');
-</script>
-<script>
     formHasUploader = true;
 
     $(document).ready(function () {

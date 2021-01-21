@@ -10,9 +10,6 @@ if (isset($data['content-id'])) {
 ?>
 
 <script>
-    mw.require('editor.js')
-</script>
-<script>
 
     mw.load_editor_internal = function (element_id) {
         var element_id = element_id || 'mw-admin-content-iframe-editor';

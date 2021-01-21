@@ -1,4 +1,3 @@
-mw.require("files.js");
 
 _mw_log_reload_int = false;
 

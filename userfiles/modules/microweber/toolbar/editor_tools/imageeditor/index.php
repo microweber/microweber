@@ -7,7 +7,7 @@
         mw.require("<?php print(mw_includes_url()); ?>toolbar/editor_tools/imageeditor/jquery-cropper.min.js");
         mw.require('css_parser.js');
         mw.lib.require('colorpicker');
-        mw.require("files.js");
+
         mw.require("widgets.css");
     </script>
 

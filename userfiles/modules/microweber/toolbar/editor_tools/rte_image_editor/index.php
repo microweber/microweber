@@ -4,7 +4,7 @@
     parent.mw.require("external_callbacks.js");
     mw.lib.require('mwui');
     mw.require("events.js");
-     mw.require("files.js");
+
     mw.require("url.js");
 </script>
 
@@ -159,7 +159,6 @@ if (array_key_exists('title', $_GET)) {
             return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "' + filename + '" - <?php _e("Invalid filetype"); ?>.';
         }
 
-        mw.require('filepicker.js');
 
         var picker = new mw.filePicker({
             element:'#filepick',

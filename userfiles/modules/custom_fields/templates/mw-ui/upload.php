@@ -31,9 +31,7 @@
 </div>
 
 <div class="alert alert-error" id="upload_err<?php echo($rand); ?>"  style="display:none;"> </div>
-<script>
-    mw.require('files.js');
-</script>
+
 <script>
 formHasUploader = true;
 

@@ -24,7 +24,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="settings">
-                <script>mw.require("files.js");</script>
                 <script>
                     $(document).ready(function () {
                         $("#upload").on("click", function () {

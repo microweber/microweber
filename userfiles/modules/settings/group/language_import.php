@@ -1,5 +1,5 @@
 <script>
-    mw.require("files.js");
+
 </script>
 
 <script>

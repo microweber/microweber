@@ -106,8 +106,6 @@
 
         var $root = mw.$('#admin-thumbs-holder-sort-<?php print $rand; ?>');
 
-        mw.require('filepicker.js');
-
         mw._postsImageUploader = new mw.filePicker({
             element: '#backend_image_uploader_<?php print $rand?>',
             nav: 'dropdown',

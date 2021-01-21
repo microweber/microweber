@@ -1,7 +1,7 @@
 <?php must_have_access(); ?>
 <script>
     mw.require("<?php print $config['url_to_module']; ?>backup.js");
-    mw.require("files.js");
+
 </script>
 <style>
 

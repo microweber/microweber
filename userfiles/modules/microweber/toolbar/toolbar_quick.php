@@ -8,7 +8,7 @@
         mw.require("wysiwyg.js");
         mw.require("css_parser.js");
 
-         mw.require("files.js");
+
          mw.require("session.js");
         mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
 

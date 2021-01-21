@@ -42,7 +42,7 @@ if (isset($data[0]) == false) {
 ?>
 
 <script>mw.lib.require("mwui_init");</script>
-<script>mw.require("files.js");</script>
+<script></script>
 
 <?php if (is_array($data)): ?>
     <?php event_trigger('mw.admin.user.edit', $data); ?>

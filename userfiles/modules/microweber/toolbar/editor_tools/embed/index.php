@@ -20,7 +20,7 @@ mw.require("events.js");
   mw.require("wysiwyg.js");
   mw.require("css_parser.js");
 
-   mw.require("files.js");
+
    mw.require("session.js");
 
 

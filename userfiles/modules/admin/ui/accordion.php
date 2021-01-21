@@ -342,11 +342,10 @@
 
 <div class="ui_section">
     <script>
-        mw.require('editor.js');
-        mw.lib.require("mwui");
+         mw.lib.require("mwui");
         $(document).ready(function () {
 
-            var editor = new MWEditor({
+            var editor = new mw.Editor({
                 selector: '#editortest',
                 mode: 'iframe',
                 controls: [
@@ -368,7 +367,7 @@
             var ctrl1 = allControls.slice(0, spl);
             var ctrl2 = allControls.slice(spl, allControls.length);
 
-            var editor2 = new MWEditor({
+            var editor2 = new mw.WEditor({
                 selector: '#editortest2',
                 mode: 'div',
                 controls: [
@@ -405,15 +404,7 @@
                  Nunc posuere ultricies eros, eget aliquet mauris.`
             });
 
-            /*var editor3 = new MWEditor({
-                mode: 'document',
-                editMode: 'liveedit',
-                controls: [
-                    [ 'undoRedo', '|', 'fontSelector' ],
-                    [ 'bold', '|', 'italic', '|', 'fontSize'   ]
-                ],
-                regions:'.edit'
-            });*/
+
         });
     </script>
     <h2>Editor</h2>

@@ -16267,8 +16267,6 @@ jQuery.fn.draggable =  __webpack_require__(/*! ../webpack/node_modules/jquery-ui
 jQuery.fn.sortable  =  __webpack_require__(/*! ../webpack/node_modules/jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
 jQuery.fn.resizable =  __webpack_require__(/*! ../webpack/node_modules/jquery-ui/ui/widgets/resizable */ "./node_modules/jquery-ui/ui/widgets/resizable.js");
 
-
-
 mw.admin = {
     language: function(language) {
         $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})

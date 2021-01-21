@@ -5,7 +5,7 @@
           });
 </script>
 <script>
-  mw.require("files.js");
+
   mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
 </script>
 <script type="text/javascript">
