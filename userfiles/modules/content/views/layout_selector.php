@@ -171,6 +171,12 @@ if (!empty($recomended_layouts)) {
             var holder = mw.$('.preview_frame_container');
             var wrapper = mw.$('.preview_frame_wrapper');
 
+            if (self !== top ) {
+                holder.addClass('preview-in-iframe');
+            } else {
+                holder.addClass('preview-in-self')
+            }
+
             var frame = document.createElement('iframe');
             frame.src = url;
             frame.className = 'preview_frame_small';
@@ -588,8 +594,22 @@ if (!empty($recomended_layouts)) {
         <style>
             .preview_frame_container{
                 position: relative;
-                height: calc(80vh - 80px);
                 overflow: hidden;
+            }
+            .preview_frame_container.preview-in-self {
+                height: calc(80vh - 80px);
+
+            }
+            .preview_frame_container.preview-in-self iframe {
+                height: calc(160vh - 160px) !important;
+            }
+
+            .preview_frame_container.preview-in-iframe {
+                height: 800px;
+
+            }
+            .preview_frame_container.preview-in-iframe iframe {
+                height: 1600px !important;
             }
             .preview_frame_wrapper{
                 position: relative;
@@ -600,9 +620,9 @@ if (!empty($recomended_layouts)) {
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-            .preview_frame_container iframe {
+
+             .preview_frame_container iframe {
                 width: 200%;
-                height: calc(160vh - 160px) !important;
                 transform: scale(.5);
                 top: 0;
                 position: absolute;
