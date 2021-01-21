@@ -7,9 +7,7 @@
   \************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-console.log('1u12')
 window.jQuery = window.$ = __webpack_require__ (/*! ../webpack/node_modules/jquery */ "./node_modules/jquery/dist/jquery.js");
-console.log('1u123')
 
 
 /***/ }),

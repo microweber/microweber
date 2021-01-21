@@ -1,8 +1,7 @@
-require('../webpack/node_modules/jquery-ui/ui/core');
-require('../webpack/node_modules/jquery-ui/ui/widgets/draggable');
-require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');
 
-
+jQuery.fn.draggable =  require('../webpack/node_modules/jquery-ui/ui/widgets/draggable');
+jQuery.fn.sortable  =  require('../webpack/node_modules/jquery-ui/ui/widgets/sortable');
+jQuery.fn.resizable =  require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');
 
 mw.admin = {
     language: function(language) {
@@ -14,27 +13,11 @@ mw.admin = {
     editor: {
         set: function (frame) {
             mw.$(frame).width('100%');
-          /*
-            if (!!frame && frame !== null && !!frame.contentWindow) {
-                var width_mbar = mw.$('#main-bar').width(),
-                    tree = document.querySelector('.tree-column'),
-                    width_tbar = mw.$(tree).width(),
-                    ww = mw.$(window).width();
-                if (tree.style.display === 'none') {
-                    width_tbar = 0;
-                }
-                if (width_mbar > 200) {
-                    width_mbar = 0;
-                }
-                mw.$(frame)
-                    .width(ww - width_tbar - width_mbar - 35)
-                    .height(frame.contentWindow.document.body.offsetHeight);
-            }*/
         },
         init: function (area, params) {
             params = params || {};
             if (typeof params === 'object') {
-                if (typeof params.src != 'undefined') {
+                if (params.src) {
                     delete(params.src);
                 }
             }
