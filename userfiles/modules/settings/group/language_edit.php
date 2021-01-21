@@ -322,7 +322,9 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
 
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <label class="control-label m-0"><?php print $ns ?><?php _e('Language file'); ?></label>
+                                                <label class="control-label m-0"><?php _e('Language file'); ?>
+                                                    <span class="badge badge-light"><?php print $ns ?></span>
+                                                </label>
                                             </div>
 
                                             <div>
