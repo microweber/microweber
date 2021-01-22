@@ -155,7 +155,6 @@ class Tracker
                     }
                 }
 
-
                 if (isset($item['visit_url']) and $item['visit_url']) {
                     $hash = md5($item['visit_url']);
                     $related_data = new Urls();
@@ -198,7 +197,7 @@ class Tracker
                       //  $existing_log->where('id', intval($existing))->increment('view_count', 1, $track);
                         $view_count_log =  $check_existing;
                         $view_count = 0;
-                        
+
                         if($view_count_log){
                             $view_count  =intval( $existing_log->view_count);
                         }
