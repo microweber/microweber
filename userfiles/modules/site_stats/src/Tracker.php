@@ -26,7 +26,6 @@ class Tracker
 
         $track[] = $data;
 
-
         return $this->process_buffer($track);
 
 
@@ -172,6 +171,8 @@ class Tracker
                     if ($related_data->id) {
                         $item['url_id'] = $related_data->id;
                     }
+
+
                 }
 
 
@@ -191,12 +192,25 @@ class Tracker
 
                     }
                     if ($check_existing and isset($item['updated_at'])) {
-                        $existing_log = new Log();
+                        $existing_log = $check_existing;
 
-                        $track = array(
-                            'updated_at' => $item['updated_at']
-                        );
-                        $existing_log->where('id', intval($existing))->increment('view_count', 1, $track);
+                       // $existing_log->where('id', intval($existing));
+                      //  $existing_log->where('id', intval($existing))->increment('view_count', 1, $track);
+                        $view_count_log =  $check_existing;
+                        $view_count = 0;
+                        
+                        if($view_count_log){
+                            $view_count  =intval( $existing_log->view_count);
+                        }
+
+                        $view_count = intval($view_count) + 1;
+
+                        $view_count_log->updated_at = $item['updated_at'];
+                        $view_count_log->view_count = $view_count;
+                        $view_count_log->save();
+
+
+
                     } else {
                         $log->create($item);
 
