@@ -332,6 +332,7 @@ class shipping_to_country
 
             }
         }
+        $this->app->user_manager->session_set('shipping_country_data', $active);
 
         return $active;
 
