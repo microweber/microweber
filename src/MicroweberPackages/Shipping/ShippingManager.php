@@ -12,19 +12,18 @@
 namespace MicroweberPackages\Shipping;
 
 use DB;
-use Illuminate\Support\Facades\Notification;
 
 
 
 /**
  * ShippingManager module api.
- *
- * @since             Version 1.0
  */
 // ------------------------------------------------------------------------
 
 class ShippingManager
 {
+
+    //@todo
 
 
 }

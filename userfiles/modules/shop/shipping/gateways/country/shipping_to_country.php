@@ -190,7 +190,6 @@ class shipping_to_country
 
             }
 
-
         }
 
 
@@ -215,6 +214,7 @@ class shipping_to_country
         if ($is_worldwide == false) {
             $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
         }
+
 
         $this->app->user_manager->session_set('shipping_cost', $defined_cost);
 

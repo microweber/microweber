@@ -345,23 +345,16 @@ if ($weight_units == false) {
                 <hr class="thin"/>
 
                 <div class="js-shipping-item-edit-needs-id">
-                    <div class="form-group">
-                        <label class="control-label"><?php _e("Shipping cost"); ?></label>
-                        <small class="text-muted d-block mb-2">What is the price of the shipping</small>
 
-                        <div class="input-group input-group-sm mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
-                            </div>
-                            <input class="form-control shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_max" value="<?php print $item['shipping_cost_max']; ?>" onchange="SaveShippingForm();" placeholder=""/>
-                        </div>
 
-                        <small class="text-muted"><?php _e("Price per order"); ?></small>
-                    </div>
+
+
+
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Shipping cost for Price above"); ?></label>
-                        <small class="text-muted d-block mb-2">Example: If the total price of the order is more than 100 dollars, your shipping price will be the entered</small>
+                        <label class="control-label"><?php _e("Shipping discount for order amount"); ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e("Cost of shipping if price is above"); ?></small>
+
 
                         <div class="input-group input-group-sm mb-2">
                             <div class="input-group-prepend">
@@ -370,8 +363,30 @@ if ($weight_units == false) {
                             <input class="form-control" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_above" value="<?php print $item['shipping_cost_above']; ?>" onchange="SaveShippingForm();" placeholder="">
                         </div>
 
+
+                         <small class="text-muted"><?php print  _e("Enter the amount to trigger shipping discount") ; ?></small>
+
+
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Max Shipping cost"); ?></label>
+
+                        <small class="text-muted d-block mb-2">Example: If the total price of the order is more than the amount entered above, your shipping price will be the entered</small>
+
+
+                        <div class="input-group input-group-sm mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
+                            </div>
+                            <input class="form-control shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_max" value="<?php print $item['shipping_cost_max']; ?>" onchange="SaveShippingForm();" placeholder=""/>
+                        </div>
+
                         <small class="text-muted"><?php print  _e("example") . ' ' . currency_format(100); ?></small>
                     </div>
+
 
                 </div>
             </div>

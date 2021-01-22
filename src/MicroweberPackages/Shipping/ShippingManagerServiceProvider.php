@@ -29,6 +29,6 @@ class ShippingManagerServiceProvider extends ServiceProvider
             return new ShippingManager();
         });
 
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+     //   $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 }
