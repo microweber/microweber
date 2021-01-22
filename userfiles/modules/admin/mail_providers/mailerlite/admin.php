@@ -41,6 +41,7 @@
         <label class="mw-ui-label"><?php _e("Enabled"); ?></label>
         <?php $is_active = get_option('active', 'mailerlite_provider'); ?>
 
+
         <ul class="mw-ui-inline-list">
             <li>
                 <label class="mw-ui-check">

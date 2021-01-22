@@ -163,6 +163,11 @@ class CheckoutManager
         $request = new Request();
         $request->merge($data);
         $is_valid = $validator->validate($request);
+
+        if(is_object($is_valid)){
+            return $is_valid;
+        }
+
         if (isset($is_valid['errors'])) {
             return $is_valid;
         }
