@@ -186,6 +186,11 @@ if ($results) {
 
 
     if (!empty($cats)) {
+
+        usort($cats, function($a, $b) {
+            return $a['position'] - $b['position'];
+        });
+
         foreach ($cats as $k => $cat) {
             $cat['content_items'] = false;
             $cat['content_items_count'] = false;
