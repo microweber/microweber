@@ -353,7 +353,7 @@ if ($weight_units == false) {
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
                             </div>
-                            <input class="form-control shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_max" value="<?php print $item['shipping_cost_max']; ?>" onchange="SaveShippingForm();" placeholder="0"/>
+                            <input class="form-control shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_max" value="<?php print $item['shipping_cost_max']; ?>" onchange="SaveShippingForm();" placeholder=""/>
                         </div>
 
                         <small class="text-muted"><?php _e("Price per order"); ?></small>
@@ -367,7 +367,7 @@ if ($weight_units == false) {
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
                             </div>
-                            <input class="form-control" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_above" value="<?php print $item['shipping_cost_above']; ?>" onchange="SaveShippingForm();" placeholder="0">
+                            <input class="form-control" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_above" value="<?php print $item['shipping_cost_above']; ?>" onchange="SaveShippingForm();" placeholder="">
                         </div>
 
                         <small class="text-muted"><?php print  _e("example") . ' ' . currency_format(100); ?></small>

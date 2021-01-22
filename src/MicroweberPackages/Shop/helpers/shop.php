@@ -40,6 +40,10 @@ function cart_total()
 {
     return mw()->shop_manager->cart_total();
 }
+function cart_totals($return='all')
+{
+    return mw()->cart_manager->totals($return);
+}
 
 function cart_get_tax()
 {
