@@ -143,7 +143,6 @@ if ($weight_units == false) {
                     if (typeof(mw_admin_edit_country_item_popup_modal_opened) != "undefined") {
                         mw_admin_edit_country_item_popup_modal_opened.remove();
                     }
-                    mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
 
                 }
                 else {
@@ -159,6 +158,7 @@ if ($weight_units == false) {
                     mw.reload_module_everywhere('shop/shipping/gateways/country');
 
                 }
+            mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
 
 
                 mw.reload_module('shop/shipping', function () {
