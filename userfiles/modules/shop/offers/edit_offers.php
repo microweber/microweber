@@ -24,7 +24,10 @@ $allOffers = \MicroweberPackages\Offer\Models\Offer::getAll();
                 ?>
                 <tr class="small td-valign <?php if ($offer['is_active'] == 1): ?>js-table-active<?php else: ?>js-table-inactive<?php endif; ?> <?php print $class_product_deleted; ?> ">
                     <td><?php print($offer['id']) ?></td>
-                    <td><?php print($offer['product_title']) ?></td>
+                    <td><a href="<?php print  content_link($offer['product_id']) ?>" target="_blank">
+                        <?php print($offer['product_title']) ?>
+                        </a>
+                    </td>
                     <td><?php print($offer['price_name']) ?></td>
                     <td><?php print currency_format($offer['price']) ?></td>
                     <td><?php print currency_format($offer['offer_price']) ?></td>
