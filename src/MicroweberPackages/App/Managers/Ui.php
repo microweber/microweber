@@ -95,24 +95,24 @@ class Ui
 
         $notif_count = 0;
 
-        if(defined('MW_BACKEND') and MW_BACKEND){
-        $notif_count_updates_data = mw()->update->get_updates_notifications('limit=1');
+        if (defined('MW_BACKEND') and MW_BACKEND) {
+            $notif_count_updates_data = mw()->update->get_updates_notifications('limit=1');
 
-        if (isset($notif_count_updates_data[0])
-            and isset($notif_count_updates_data[0]['notification_data'])
-            and !empty($notif_count_updates_data[0]['notification_data'])
-        ) {
-            $notif_data = $notif_count_updates_data[0]['notification_data'];
+            if (isset($notif_count_updates_data[0])
+                and isset($notif_count_updates_data[0]['notification_data'])
+                and !empty($notif_count_updates_data[0]['notification_data'])
+            ) {
+                $notif_data = $notif_count_updates_data[0]['notification_data'];
 
-            if (isset($notif_data['core_update'])) {
-                $notif_count = $notif_count + 1;
-            }
-            $others_updates = array('modules', 'templates', 'elements');
-            foreach ($others_updates as $item) {
-                if (isset($notif_data[$item]) and is_arr($notif_data[$item])) {
-                    $notif_count = $notif_count + count($notif_data[$item]);
+                if (isset($notif_data['core_update'])) {
+                    $notif_count = $notif_count + 1;
                 }
-            }
+                $others_updates = array('modules', 'templates', 'elements');
+                foreach ($others_updates as $item) {
+                    if (isset($notif_data[$item]) and is_arr($notif_data[$item])) {
+                        $notif_count = $notif_count + count($notif_data[$item]);
+                    }
+                }
 //            if(isset($notif_data['popup']) and $notif_data['popup']) {
 //                event_bind(
 //                    'mw.admin.dashboard.main', function () use ($notif_data) {
@@ -122,7 +122,7 @@ class Ui
 //                );
 //            }
 
-        }
+            }
         }
 
 
@@ -211,6 +211,19 @@ class Ui
     public function create_content_menu()
     {
         return $this->create_content_menu;
+    }
+
+    public function service_links_enabled()
+    {
+        return intval($this->enable_service_links);
+    }
+
+    public function powered_by_link_enabled()
+    {
+        if (intval($this->disable_powered_by_link) != 0) {
+            return false;
+        }
+        return true;
     }
 
     public function custom_fields()
