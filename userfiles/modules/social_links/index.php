@@ -31,6 +31,7 @@ $social_links_options['soundcloud_url'] = '';
 $social_links_options['mixcloud_url'] = '';
 $social_links_options['medium_url'] = '';
 $social_links_options['discord_url'] = '';
+$social_links_options['discord_enabled'] = '';
 
 $website_social_links_options = $social_links_options;
 
