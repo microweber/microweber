@@ -32,6 +32,12 @@ description: Default
 
     <?php } ?>
 
+    <?php if ($discord_enabled) { ?>
+
+        <a href="//discord.gg/<?php print $discord_url; ?>" target="_blank"><span class="mw-icon-web-star"></span></a>
+
+    <?php } ?>
+
 
 
 

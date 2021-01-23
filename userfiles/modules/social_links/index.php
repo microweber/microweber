@@ -30,6 +30,7 @@ $social_links_options['github_url'] = '';
 $social_links_options['soundcloud_url'] = '';
 $social_links_options['mixcloud_url'] = '';
 $social_links_options['medium_url'] = '';
+$social_links_options['discord_url'] = '';
 
 $website_social_links_options = $social_links_options;
 
@@ -60,6 +61,7 @@ $rss_enabled_option = $social_links_options['rss_enabled'];
 $soundcloud_enabled_option = $social_links_options['soundcloud_enabled'];
 $mixcloud_enabled_option = $social_links_options['mixcloud_enabled'];
 $medium_enabled_option = $social_links_options['medium_enabled'];
+$discord_enabled_option = $social_links_options['discord_enabled'];
 
 $facebook_enabled = $facebook_enabled_option == 'y';
 $twitter_enabled = $twitter_enabled_option == 'y';
@@ -74,6 +76,7 @@ $rss_enabled = $rss_enabled_option == 'y';
 $soundcloud_enabled = $soundcloud_enabled_option == 'y';
 $mixcloud_enabled = $mixcloud_enabled_option == 'y';
 $medium_enabled = $medium_enabled_option == 'y';
+$discord_enabled = $discord_enabled_option == 'y';
 
 
 if (isset($params['show-icons'])) {
@@ -104,6 +107,8 @@ if (isset($params['show-icons'])) {
             $mixcloud_enabled = true;
         } else if (strpos($icon, 'medium') !== false and $medium_enabled_option == false) {
             $medium_enabled = true;
+        } else if (strpos($icon, 'discord') !== false and $discord_enabled_option == false) {
+            $discord_enabled = true;
         }
     }
 }
@@ -178,6 +183,13 @@ $medium_url = $social_links_options['medium_url'];
 
 if ($medium_url == false) {
     $medium_url = $website_social_links_options['medium_url'];
+}
+
+
+$discord_url = $social_links_options['discord_url'];
+
+if ($discord_url == false) {
+    $discord_url = $website_social_links_options['discord_url'];
 }
 
 
