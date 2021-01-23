@@ -336,7 +336,7 @@ $user = get_user_by_id($user_id);
 
                         <li class="mx-1">
                             <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set go-live-edit-href-set-view">
-                                <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("View"); ?></span>
+                                <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("Website"); ?></span>
                             </a>
                         </li>
                         <li class="mx-1">

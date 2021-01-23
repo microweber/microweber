@@ -24,6 +24,10 @@ class UserLoginController extends Controller
         ]
     ];
 
+    public function __construct()
+    {
+        event_trigger('mw.init');
+    }
 
     /**
      * Display a listing of Role.
@@ -58,7 +62,8 @@ class UserLoginController extends Controller
     public function login(LoginRequest $request)
     {
 		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
-		
+
+
         if (Auth::check()) {
 
             // This will be used for whmcs login redirect

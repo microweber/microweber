@@ -22,9 +22,8 @@ class UserForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('throttle:10,1');
+        event_trigger('mw.init');
     }
-
     public function showForgotForm()
     {
         return app()->parser->process(view('user::auth.forgot-password'));

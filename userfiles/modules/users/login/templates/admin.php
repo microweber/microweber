@@ -21,6 +21,7 @@ if (isset($_COOKIE['lang'])) {
 }
 
 $current_lang = current_lang();
+//$current_lang = app()->lang_helper->default_lang();
 
 
 if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link == false) {
@@ -38,7 +39,8 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
             mw.tools.dropdown();
             mw.session.checkPause = true;
             mw.$("#lang_selector").on("change", function () {
-                mw.cookie.set("lang", $(this).getDropdownValue());
+
+                mw.cookie.set("lang", $(this).val());
             });
         });
     </script>
@@ -106,7 +108,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="text-muted"><?php _e("Language"); ?>:</label>
-                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" id="lang_selector" data-value="" data-width="100%" data-title="<?php if ($current_lang != 'en' and $current_lang != 'undefined'): ?><?php print strtoupper($current_lang); ?><?php else: ?>EN<?php endif; ?>">
+                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($current_lang != 'en' and $current_lang != 'undefined'): ?><?php print strtoupper($current_lang); ?><?php else: ?>EN<?php endif; ?>">
                                                     <?php
                                                     $langs = get_available_languages(); ?>
                                                     <?php foreach ($langs as $lang): ?>
