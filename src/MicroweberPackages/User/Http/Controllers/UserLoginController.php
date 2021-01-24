@@ -113,7 +113,7 @@ class UserLoginController extends Controller
 
                 if ($isVerfiedEmailRequired) {
 
-                    if (!$userData->is_verfied) {
+                    if (!$userData->hasVerifiedEmail()) {
                         $message = [];
                         $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
                         Auth::logout();

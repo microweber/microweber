@@ -1,4 +1,6 @@
-<?php must_have_access() ?>
+<?php if(!has_access('admin.updates')){
+    return;
+} ?>
 
 <?php
 return;

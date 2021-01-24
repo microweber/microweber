@@ -14,7 +14,8 @@ trait MustVerifyEmailTrait
      */
     public function hasVerifiedEmail()
     {
-        return ! is_null($this->email_verified_at);
+
+        return intval($this->is_verified) != 0;
     }
 
     /**
