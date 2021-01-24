@@ -9,6 +9,6 @@ if (isset($params['content-id'])) {
     $views = stats_get_views_count_for_content($content_id);
 }
 
-if($views){
-    print $views;
-}
+
+print $views;
+ 
