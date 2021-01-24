@@ -97,6 +97,6 @@ description: Default
     <?php endif;?>
 
     <?php if($enable_custom_shipping_fields) :?>
-        <module type="custom_fields" for-id="shipping"  for-id="shipping"  default-fields="message"   />
+        <module type="custom_fields" for-id="shipping"  for="module"  default-fields="message"   />
     <?php endif;?>
 </div>
