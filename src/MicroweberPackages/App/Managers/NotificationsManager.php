@@ -359,25 +359,26 @@ class NotificationsManager
 
         $admin = Auth::user();
 
-        foreach ($admin->unreadNotifications as $notification) {
+        if (isset($admin->unreadNotifications) and !empty($admin->unreadNotifications)) {
+            foreach ($admin->unreadNotifications as $notification) {
 
-            if (!class_exists($notification->type)) {
-                continue;
+                if (!class_exists($notification->type)) {
+                    continue;
+                }
+
+                $messageType = new $notification->type($notification->data);
+
+                if (!method_exists($messageType, 'message')) {
+                    continue;
+                }
+
+                if (method_exists($messageType, 'setNotification')) {
+                    $messageType->setNotification($notification);
+                }
+
+                $readyNotifications[] = $messageType->message($notification);
             }
-
-            $messageType = new $notification->type($notification->data);
-
-            if (!method_exists($messageType, 'message')) {
-                continue;
-            }
-
-            if (method_exists($messageType, 'setNotification')) {
-                $messageType->setNotification($notification);
-            }
-
-            $readyNotifications[] = $messageType->message($notification);
         }
-
         return $readyNotifications;
 
 /*
