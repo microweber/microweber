@@ -159,9 +159,7 @@ class FormsManager
             $for_id = $params['data-id'];
         } elseif (isset($params['id'])) {
             $for_id = $params['id'];
-        } else {
-            $for_id =$for;
-        }
+        }  
 
         if (isset($params['rel_id'])) {
             $for_id = $params['rel_id'];
