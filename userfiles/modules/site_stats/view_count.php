@@ -11,4 +11,3 @@ if (isset($params['content-id'])) {
 
 
 print $views;
- 
