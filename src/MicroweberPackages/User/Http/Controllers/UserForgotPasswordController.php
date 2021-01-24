@@ -143,8 +143,16 @@ class UserForgotPasswordController extends Controller
             }
         }
 
+
+
         return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->to(site_url())->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
+
+//
+//
+//        return $status == Password::PASSWORD_RESET
+//            ? redirect()->route('login')->with('status', __($status))
+//            : back()->withErrors(['email' => __($status)]);
     }
 }
