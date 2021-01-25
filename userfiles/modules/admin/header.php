@@ -90,7 +90,7 @@
 <?php $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates'); ?>
 
 <?php
-$past_page = site_url() . '?editmode=y';
+$past_page = site_url();
 
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {

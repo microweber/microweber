@@ -49,7 +49,7 @@ if ($last_page_front != false) {
                 nav: "#manage-content-toolbar-tabs-nav a",
                 tabs: '#manage-content-toolbar-tabs .mw-ui-box-content'
             });
-            $('.go-live-edit-href-set').attr('href', '<?php print $past_page; ?>');
+        //    $('.go-live-edit-href-set').attr('href', '<?php print $past_page; ?>');
         });
     </script>
 <?php endif; ?>
