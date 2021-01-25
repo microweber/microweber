@@ -1,5 +1,7 @@
 <?php
 
+autoload_add_namespace(__DIR__.'/src/', 'MicroweberPackages\\Admin\\MailTemplates\\');
+
 function get_mail_template_types()
 {
 
@@ -125,25 +127,35 @@ api_expose_admin('save_mail_template');
 function save_mail_template($data)
 {
 
+    $findMailTemplate = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::where('id',$data['id'])->first();
+    if ($findMailTemplate == null) {
+        $findMailTemplate = new \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate();
+    }
 
-    $data['allow_html'] = '1';
-
-    $table = "mail_templates";
-    $save = db_save($table, $data);
-
+    $findMailTemplate->type = $data['type'];
+    $findMailTemplate->name = $data['name'];
+    $findMailTemplate->subject = $data['subject'];
+    $findMailTemplate->message = $data['message'];
+    $findMailTemplate->from_name = $data['from_name'];
+    $findMailTemplate->from_email = $data['from_email'];
+   // $findMailTemplate->custom = $data['custom'];
+    $findMailTemplate->copy_to = $data['copy_to'];
+   // $findMailTemplate->plain_text = $data['plain_text'];
+    $findMailTemplate->is_active = $data['is_active'];
+    $findMailTemplate->save();
 
     if (isset($data['append_files']) && !empty($data['append_files'])) {
 
         $option = array();
         $option['option_value'] = $data['append_files'];
         $option['option_key'] = 'append_files';
-        $option['option_group'] = 'mail_template_id_' . $save;
+        $option['option_group'] = 'mail_template_id_' . $findMailTemplate->id;
 
         mw()->option_manager->save($option);
 
     }
 
-    return $save;
+    return $findMailTemplate;
 }
 
 
@@ -205,9 +217,11 @@ function get_mail_templates($params = array())
     if (is_string($params)) {
         $params = parse_params($params);
     }
-
-    $params['table'] = "mail_templates";
-    $templates = db_get($params);
+    $templates = [];
+    $getTemplates = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::all();
+    if ($getTemplates->count() > 0) {
+        $templates = $getTemplates->toArray();
+    }
 
     $defaultTemplates = get_default_mail_templates();
 
