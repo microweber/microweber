@@ -27,21 +27,21 @@ if (isset($user['role'])) {
 <div class="card style-1 bg-light mb-3">
     <div class="card-header">
         <h5>
-            <i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong>Users</strong>
+            <i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e('Users'); ?></strong>
         </h5>
     </div>
 
     <div class="card-body pt-3">
         <div class="row d-flex align-items-center justify-content-around">
             <div class="col-md-5 py-5">
-                <h5 class="font-weight-bold">Manage your users</h5>
-                <p>You are able to create and manage users, groups and roles.</p>
+                <h5 class="font-weight-bold"><?php _e('Manage your users'); ?></h5>
+                <p><?php _e('You are able to create and manage users, groups and roles.'); ?></p>
                 <br/>
 
-                <h6 class="font-weight-bold mb-1">Working with users</h6>
-                <small class="text-muted d-block mb-2">Create and manage users</small>
-                <a href="<?php print admin_url('view:modules/load_module:users/edit-user:0'); ?>" class="btn btn-primary btn-sm"><i class="mdi mdi-account-plus"></i> Add new user</a>
-                <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="btn btn-outline-primary btn-sm"><i class="mdi mdi-account-cog"></i> Manage users</a>
+                <h6 class="font-weight-bold mb-1"><?php _e('Working with users'); ?></h6>
+                <small class="text-muted d-block mb-2"><?php _e('Create and manage users'); ?></small>
+                <a href="<?php print admin_url('view:modules/load_module:users/edit-user:0'); ?>" class="btn btn-primary btn-sm"><i class="mdi mdi-account-plus"></i><?php _e('Add new user'); ?></a>
+                <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="btn btn-outline-primary btn-sm"><i class="mdi mdi-account-cog"></i><?php _e('Manage users'); ?></a>
                 <br/>
                 <br/>
                 <br/>
@@ -50,10 +50,10 @@ if (isset($user['role'])) {
                 if (class_exists(MicroweberPackages\Role\RoleServiceProvider::class)):
                 ?>
                <div class="d-none">
-                   <h6 class="font-weight-bold mb-1">Set and manage user roles</h6>
-                   <small class="text-muted d-block mb-2">Create and manage users roles</small>
-                   <a href="<?php echo route('admin.role.create');?>" class="btn btn-success btn-sm"><i class="mdi mdi-book-account"></i> Add new role</a>
-                   <a href="<?php echo route('admin.role.index');?>" class="btn btn-outline-success btn-sm"><i class="mdi mdi-format-list-checks"></i> Manage roles</a>
+                   <h6 class="font-weight-bold mb-1"><?php _e('Set and manage user roles'); ?></h6>
+                   <small class="text-muted d-block mb-2"><?php _e('Create and manage users roles'); ?></small>
+                   <a href="<?php echo route('admin.role.create');?>" class="btn btn-success btn-sm"><i class="mdi mdi-book-account"></i><?php _e('Add new role'); ?></a>
+                   <a href="<?php echo route('admin.role.index');?>" class="btn btn-outline-success btn-sm"><i class="mdi mdi-format-list-checks"></i><?php _e('Manage roles'); ?></a>
                </div>
                 <?php endif; ?>
 
@@ -73,7 +73,7 @@ if (isset($user['role'])) {
 
                     <a
                         href="<?php print admin_url('view:modules/load_module:users/edit-user:' . $user['id']); ?>"
-                        class="btn btn-outline-primary btn-sm mt-2">Edit profile</a>
+                        class="btn btn-outline-primary btn-sm mt-2"><?php _e('Edit profile'); ?></a>
                 </div>
             </div>
         </div>

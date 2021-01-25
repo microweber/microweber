@@ -81,11 +81,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_categories.svg'); ">
-                                    <h4>You don’t have any categories yet</h4>
-                                    <p>Create your first category right now.<br/>
-                                        You are able to do that in very easy way!</p>
+                                    <h4><?php _e('You don’t have any categories yet'); ?></h4>
+                                    <p><?php _e('Create your first category right now.'); ?><br/>
+                                        <?php _e('You are able to do that in very easy way!'); ?></p>
                                     <br/>
-                                    <a href="javascript:;" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-rounded">Create a Category</a>
+                                    <a href="javascript:;" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
                                 </div>
                             </div>
                         </div>

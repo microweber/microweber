@@ -71,8 +71,8 @@
                     @csrf
 
                     <div class="form-group mx-auto" style="max-width: 385px">
-                        <label class="control-label">Role Name</label>
-                        <small class="text-muted d-block mb-2">What is the name of the role?</small>
+                        <label class="control-label"><?php _e('Role Name'); ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e('What is the name of the role?'); ?></small>
                         <input type="text" class="form-control" name="name" value="@if(isset($role)){{$role->name}}@else{{old('name')}}@endif" required>
 
                         @if (isset($errors) && $errors->has('name'))
@@ -81,8 +81,8 @@
                     </div>
 
                     <div class="form-group mx-auto" style="max-width: 385px">
-                        <label class="control-label">Role Description</label>
-                        <small class="text-muted d-block mb-2">What is the description of the role?</small>
+                        <label class="control-label"><?php _e('Role Description'); ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e('What is the description of the role?'); ?></small>
                         <textarea class="form-control" name="description">@if(isset($role)){{$role->description}}@else{{old('description')}}@endif</textarea>
 
                         @if (isset($errors) && $errors->has('name'))
@@ -101,14 +101,14 @@
                                     <div class="px-3">
                                         <h5 class="font-weight-bold" style="text-transform: capitalize;">{{$permissionGroupName}}</h5>
                                         <small class="text-muted">
-                                            The user can operate with the content of the website like edit pages, categories, posts, tags.
-                                            Please check below what are the avaliable operations that user can do.
+                                            <?php _e('The user can operate with the content of the website like edit pages, categories, posts, tags.
+                                            Please check below what are the avaliable operations that user can do.'); ?>
                                         </small>
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-right">
-                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)">Select All</button>
-                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)">Unselect All</button>
+                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)"><?php _e('Select All'); ?></button>
+                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)"><?php _e('Unselect All'); ?></button>
                                 </div>
                             </div>
 
@@ -120,23 +120,23 @@
                                                 <thead>
                                                 <tr>
                                                     <th scope="col" colspan="2">
-                                                        <h6 class="font-weight-bold mb-0"><i class="mdi mdi-text mdi-18px mr-2 text-primary"></i> Add and edit {{$permissionGroupName}}</h6>
+                                                        <h6 class="font-weight-bold mb-0"><i class="mdi mdi-text mdi-18px mr-2 text-primary"></i><?php _e('Add and edit'); ?>  {{$permissionGroupName}}</h6>
                                                     </th>
-                                                    <th class="text-center font-weight-normal" scope="col">View</th>
-                                                    <th class="text-center font-weight-normal" scope="col">Create</th>
-                                                    <th class="text-center font-weight-normal" scope="col">Edit</th>
-                                                    <th class="text-center font-weight-normal" scope="col">Delete</th>
+                                                    <th class="text-center font-weight-normal" scope="col"><?php _e('View'); ?></th>
+                                                    <th class="text-center font-weight-normal" scope="col"><?php _e('Create'); ?></th>
+                                                    <th class="text-center font-weight-normal" scope="col"><?php _e('Edit'); ?></th>
+                                                    <th class="text-center font-weight-normal" scope="col"><?php _e('Delete'); ?></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <tr class="no-hover">
                                                     <th scope="row" rowspan="100" class="row-desc">
-                                                        <small class="text-muted d-block">Click on the checkbox to allow the users can {{strtolower($permissionGroupName)}} actions?</small>
-                                                        <a href="#" class="btn btn-link px-0">Check tutorial how to set a role</a>
+                                                        <small class="text-muted d-block"><?php _e('Click on the checkbox to allow the users can'); ?> {{strtolower($permissionGroupName)}}<?php _e('actions?'); ?> </small>
+                                                        <a href="#" class="btn btn-link px-0"><?php _e('Check tutorial how to set a role'); ?></a>
                                                     </th>
 
                                                     <td class="row-module-name">
-                                                        <small class="text-muted">Select all from the column</small>
+                                                        <small class="text-muted"><?php _e('Select all from the column'); ?></small>
                                                     </td>
 
                                                     <td class="text-center">
@@ -216,9 +216,9 @@
                         </div>
                     @endforeach
 
-                    <a href="{{route('roles.index')}}" class="btn btn-outline-secondary btn-sm">Cancel</a>
-                    <button class="btn btn-secondary btn-sm" type="reset">Reset</button>
+                    <a href="{{route('roles.index')}}" class="btn btn-outline-secondary btn-sm"><?php _e('Cancel'); ?></a>
+                    <button class="btn btn-secondary btn-sm" type="reset"><?php _e('Reset'); ?></button>
 
-                    <button class="btn btn-success btn-sm float-right" type="submit">Save</button>
+                    <button class="btn btn-success btn-sm float-right" type="submit"><?php _e('Save'); ?></button>
                 </form>
 @endsection

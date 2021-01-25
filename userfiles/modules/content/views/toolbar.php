@@ -292,8 +292,8 @@ if ($last_page_front != false) {
             </script>
             <div class="d-inline-block">
                 <select class="selectpicker js-search-by-selector" data-width="150" data-style="btn-sm">
-                    <option value="keywords" selected>search by keyword</option>
-                    <option value="tags">search by tags</option>
+                    <option value="keywords" selected><?php _e('search by keyword'); ?></option>
+                    <option value="tags"><?php _e('search by tags'); ?></option>
                 </select>
             </div>
 
@@ -356,7 +356,7 @@ if ($last_page_front != false) {
             <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-1">
                 <div class="custom-control custom-checkbox mb-0">
                     <input type="checkbox" class="custom-control-input" id="posts-check">
-                    <label class="custom-control-label" for="posts-check">Check all</label>
+                    <label class="custom-control-label" for="posts-check"><?php _e('Check all'); ?></label>
                 </div>
 
                 <div class="d-inline-block ml-3">

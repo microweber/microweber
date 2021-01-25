@@ -59,8 +59,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=website" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">General</span><br/>
-                                <small class="text-muted">Make basic settings for your website</small>
+                                <span class="text-primary font-weight-bold"><?php _e('General'); ?></span><br/>
+                                <small class="text-muted"><?php _e('Make basic settings for your website'); ?></small>
                             </div>
                         </a>
                     </div>
@@ -69,8 +69,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=updates" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-flash-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">Updates</span><br/>
-                                <small class="text-muted">Check for the latest updates</small>
+                                <span class="text-primary font-weight-bold"><?php _e('Updates'); ?></span><br/>
+                                <small class="text-muted"><?php _e('Check for the latest updates'); ?></small>
                             </div>
                         </a>
                     </div>
@@ -79,8 +79,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=email" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-email-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">E-mail</span><br/>
-                                <small class="text-muted">Email settings</small>
+                                <span class="text-primary font-weight-bold"><?php _e('E-mail'); ?></span><br/>
+                                <small class="text-muted"><?php _e('Email settings'); ?></small>
                             </div>
                         </a>
                     </div>
@@ -89,8 +89,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=template" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-text-box-check-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">Template</span><br/>
-                                <small class="text-muted">Change or manage the theme you use</small>
+                                <span class="text-primary font-weight-bold"><?php _e('Template'); ?></span><br/>
+                                <small class="text-muted"><?php _e('Change or manage the theme you use'); ?></small>
                             </div>
                         </a>
                     </div>
@@ -99,8 +99,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=advanced" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-keyboard-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">Advanced</span><br/>
-                                <small class="text-muted">Additional settings</small>
+                                <span class="text-primary font-weight-bold"><?php _e('Advanced'); ?></span><br/>
+                                <small class="text-muted"><?php _e('Additional settings'); ?></small>
                             </div>
                         </a>
                     </div>
@@ -109,8 +109,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=files" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-file-cabinet mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">Files</span><br/>
-                                <small class="text-muted">File management</small>
+                                <span class="text-primary font-weight-bold"><?php _e('Files'); ?></span><br/>
+                                <small class="text-muted"><?php _e('File management'); ?></small>
                             </div>
                         </a>
                     </div>
@@ -119,8 +119,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=users" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-login mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">Login & Register</span><br/>
-                                <small class="text-muted">Manage the access control to your website</small>
+                                <span class="text-primary font-weight-bold"><?php _e('Login & Register'); ?></span><br/>
+                                <small class="text-muted"><?php _e('Manage the access control to your website'); ?></small>
                             </div>
                         </a>
                     </div>
@@ -129,8 +129,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=language" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-translate mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">Language</span><br/>
-                                <small class="text-muted">Choice of language and translations</small>
+                                <span class="text-primary font-weight-bold"><?php _e('Language'); ?></span><br/>
+                                <small class="text-muted"><?php _e('Choice of language and translations'); ?></small>
                             </div>
                         </a>
                     </div>
@@ -139,8 +139,8 @@ if (isset($_GET['group']) and $_GET['group']) {
                         <a href="#option_group=privacy" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-shield-edit-outline mdi-20px"></i></div>
                             <div class="info-holder">
-                                <span class="text-primary font-weight-bold">Privacy Policy</span><br/>
-                                <small class="text-muted">Privacy Policy and GDPR settings</small>
+                                <span class="text-primary font-weight-bold"><?php _e('Privacy Policy'); ?></span><br/>
+                                <small class="text-muted"><?php _e('Privacy Policy and GDPR settings'); ?></small>
                             </div>
                         </a>
                     </div>
