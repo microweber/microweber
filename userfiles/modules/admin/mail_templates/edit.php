@@ -192,6 +192,9 @@ if (!empty($template_id)) {
             </div>
             <hr class="thin"/>
 
+
+            <?php event_trigger('admin_mail_templates_message'); ?>
+
             <h5 class="mb-3">Message</h5>
             <div class="row">
                 <div class="col-12">
