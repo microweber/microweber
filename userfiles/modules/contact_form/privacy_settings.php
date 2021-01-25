@@ -41,7 +41,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
 
         <div class="row">
             <div class="col-md-3">
-                <h5 class="font-weight-bold">Contact form settings</h5>
+                <h5 class="font-weight-bold"><?php _e("Contact form settings) ?></h5>
                 <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
             </div>
             <div class="col-md-9">

@@ -38,7 +38,7 @@ if ($load_list == 'default') {
 
 <div class="form-list-toolbar row d-flex align-items-center">
     <div class="col-sm-6">
-        <label class="control-label d-inline-block">Entries for list: <span <?php if (!$hideEditButton): ?>id="form_field_title"<?php endif; ?>><?php print ($data['title']); ?></span></label>
+        <label class="control-label d-inline-block"><?php _e("Entries for list:") ?> <span <?php if (!$hideEditButton): ?>id="form_field_title"<?php endif; ?>><?php print ($data['title']); ?></span></label>
 
         <?php if (!$hideEditButton): ?>
             <a href="#" onClick='$("#form_field_title").click();'>

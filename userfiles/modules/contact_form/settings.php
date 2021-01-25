@@ -60,7 +60,7 @@ if (isset($params['for_module_id'])) {
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
         <div class="col">
-            <h5 class="font-weight-bold mb-3">Contact Form</h5>
+            <h5 class="font-weight-bold mb-3"><?php _e("Contact Form") ?></h5>
         </div>
 
         <div class="col text-right">

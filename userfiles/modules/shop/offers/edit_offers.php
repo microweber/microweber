@@ -7,13 +7,13 @@ $allOffers = \MicroweberPackages\Offer\Models\Offer::getAll();
         <thead>
         <tr>
             <th>#</th>
-            <th>Product</th>
-            <th>Label</th>
-            <th>Price</th>
-            <th>Offer</th>
-            <th>Expire at</th>
-            <th>Status</th>
-            <th class="text-center" style="width:200px;">Action</th>
+            <th><?php print _e('Product'); ?></th>
+            <th><?php print _e('Label'); ?></th>
+            <th><?php print _e('Price'); ?></th>
+            <th><?php print _e('Offer'); ?></th>
+            <th><?php print _e('Expire at'); ?></th>
+            <th><?php print _e('Status'); ?></th>
+            <th class="text-center" style="width:200px;"><?php print _e('Action'); ?></th>
         </tr>
         </thead>
         <?php
@@ -34,9 +34,9 @@ $allOffers = \MicroweberPackages\Offer\Models\Offer::getAll();
                     <td><?php if ($offer['expires_at'] and $offer['expires_at'] != '0000-00-00 00:00:00' ): ?><?php print date_system_format($offer['expires_at']) ?><?php else: ?>-<?php endif; ?></td>
                     <td class="<?php print $class_status; ?>"><?php print($offer['is_active'] == 1 ? 'Active' : 'Inactive') ?></td>
                     <td class="action-buttons">
-                        <button onclick="editOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit">Edit</button>
-                        <button onclick="deleteOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-danger btn-sm" title="Delete">Delete</button>
-                        <a href="<?php echo content_link($offer['product_id']) ?>" target="_new" class="btn btn-primary btn-sm" title="View">View</a>
+                        <button onclick="editOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit"><?php print _e('Edit'); ?></button>
+                        <button onclick="deleteOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-danger btn-sm" title="Delete"><?php print _e('Delete'); ?></button>
+                        <a href="<?php echo content_link($offer['product_id']) ?>" target="_new" class="btn btn-primary btn-sm" title="View"><?php print _e('View'); ?></a>
                     </td>
                 </tr>
                 <?php

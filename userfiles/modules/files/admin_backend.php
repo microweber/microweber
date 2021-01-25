@@ -756,7 +756,7 @@
 
                             <div class="dropdown d-inline-block">
                                 <button class="btn btn-success icon-left dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="mdi mdi-plus"></i> Add
+                                    <i class="mdi mdi-plus"></i> <?php _e("Create folder"); ?>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <span class="dropdown-item" id="mw_uploader"><?php _e("Upload File"); ?></span>
@@ -764,8 +764,8 @@
                                 </div>
                             </div>
 
-                            <button type="button" disabled class="btn btn-danger icon-left delete_item file-browser-multiple-delete"><i class="mdi mdi-trash-can-outline"></i> Delete</button>
-                            <button type="button" disabled class="btn btn-primary icon-left file-browser-multiple-download" onclick="downloadSelected()"><i class="mdi mdi-cloud-download"></i> Download</button>
+                            <button type="button" disabled class="btn btn-danger icon-left delete_item file-browser-multiple-delete"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Delete"); ?></button>
+                            <button type="button" disabled class="btn btn-primary icon-left file-browser-multiple-download" onclick="downloadSelected()"><i class="mdi mdi-cloud-download"></i> <?php _e("Download"); ?></button>
 
                         </div>
 
@@ -786,7 +786,7 @@
 
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-outline-primary align-self-baseline" onclick="search()">Search</button>
+                            <button type="button" class="btn btn-outline-primary align-self-baseline" onclick="search()"><?php _e("Search"); ?></button>
                         </div>
 
 
