@@ -87,8 +87,13 @@ if (is_array($data)) {
         $(document).ready(function () {
 
             mw.$("#<?php print $rand; ?> [name='country']").change(function () {
-                var data = mw.serializeFields("#<?php print $rand; ?>");
-               mw_shipping_<?php print $rand; ?>(data);
+                setTimeout(function(){
+
+                    var data = mw.serializeFields("#<?php print $rand; ?>");
+                    mw_shipping_<?php print $rand; ?>(data);
+                     },100);
+
+
             });
         });
 
