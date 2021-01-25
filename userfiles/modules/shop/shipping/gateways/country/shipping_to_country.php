@@ -323,7 +323,7 @@ class shipping_to_country
         if (is_array($params) and !empty($params)) {
             foreach ($params as $k => $v) {
                 if ($k != 'country' and $k != 'shipping_country') {
-                    if (is_string($k)) {
+                    if (is_string($k) and is_string($v)) {
                         $k = strip_tags($k);
                         $v = strip_tags($v);
                         $this->app->user_manager->session_set('shipping_' . $k, $v);
@@ -332,6 +332,30 @@ class shipping_to_country
 
             }
         }
+
+        $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info'];
+        $shipping_fields_vals_session = [];
+        $shipping_fields_to_save = null;
+        $look_for_address_in_array = $params;
+        if (isset($params['Address']) and is_array($params['Address'])) {
+            $look_for_address_in_array = $params['Address'];
+        }
+
+        if (is_array($look_for_address_in_array) and !empty($look_for_address_in_array)) {
+            foreach ($look_for_address_in_array as $k => $v) {
+
+                foreach ($shipping_fields_keys as $k1) {
+                    if ($k == $k1) {
+                        $shipping_fields_vals_session[$k1] = $v;
+                    }
+                }
+            }
+        }
+        if ($shipping_fields_vals_session) {
+            session_set('checkout', $shipping_fields_vals_session);
+        }
+
+
         $this->app->user_manager->session_set('shipping_country_data', $active);
 
         return $active;

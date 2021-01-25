@@ -57,18 +57,18 @@ if (is_array($data)) {
         mw.require('forms.js', true);
     </script>
     <script type="text/javascript">
-        mw_shipping_country_last_val<?php print $rand; ?> = '';
-        function mw_shipping_<?php print $rand; ?>(country) {
+        mw_shipping_country_last_val<?php print $rand; ?> = null;
+        function mw_shipping_<?php print $rand; ?>(data) {
 
 
-            var data = {};
-            data.country = country;
+            // var data = {};
+            // data.country = country;
 
-            if(mw_shipping_country_last_val<?php print $rand; ?>  == country){
+            if(mw_shipping_country_last_val<?php print $rand; ?>  === data){
                 return;
             }
 
-            mw_shipping_country_last_val<?php print $rand; ?> = country
+            mw_shipping_country_last_val<?php print $rand; ?> = data
 
             $.post("<?php print $config['module_api']; ?>/shipping_to_country/set", data)
                 .done(function (msg) {
@@ -87,7 +87,8 @@ if (is_array($data)) {
         $(document).ready(function () {
 
             mw.$("#<?php print $rand; ?> [name='country']").change(function () {
-                mw_shipping_<?php print $rand; ?>($(this).val());
+                var data = mw.serializeFields("#<?php print $rand; ?>");
+               mw_shipping_<?php print $rand; ?>(data);
             });
         });
 
