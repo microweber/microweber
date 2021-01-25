@@ -209,7 +209,7 @@ $namespaces = mw()->lang_helper->get_all_language_file_namespaces();
                             <div class="input-group-prepend bg-white">
                                 <span class="input-group-text"><i class="mdi mdi-magnify mdi-18px"></i></span>
                             </div>
-                            <input type="text" class="form-control js-search-lang-text"  placeholder="Enter a word or phrase"/>
+                            <input type="text" class="form-control js-search-lang-text"  placeholder="<?php _e('Enter a word or phrase');?>"/>
                         </div>
                     </div>
 

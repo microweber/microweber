@@ -288,7 +288,7 @@ if ($params['period']) {
                     </div>
 
                     <div class="col-12 col-sm d-flex align-items-center  justify-content-center justify-content-sm-end">
-                        <a class="btn btn-outline-secondary btn-sm btn-rounded show-more-stats">Show more</a>
+                        <a class="btn btn-outline-secondary btn-sm btn-rounded show-more-stats"><?php _e('Show more'); ?></a>
                     </div>
                 </div>
 

@@ -225,7 +225,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-outline-primary ml-2 js-search-keyword">Search</button>
+                    <button type="button" class="btn btn-outline-primary ml-2 js-search-keyword"><?php _e("Search"); ?></button>
                 </form>
             </div>
 
