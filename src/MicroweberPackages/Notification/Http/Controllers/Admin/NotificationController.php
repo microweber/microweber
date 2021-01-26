@@ -36,9 +36,14 @@ class NotificationController extends AdminController
                 continue;
             }
 
+
             try {
                 $messageType = new $notification->type();
+            } catch (\ArgumentCountError $e) {
+                //$notification->delete();
+                continue;
             } catch (\Exception $e) {
+
                 continue;
             }
             
