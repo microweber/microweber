@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
@@ -602,6 +603,26 @@ class CheckoutManager
 
         if (!empty($checkout_errors)) {
             return array('error' => $checkout_errors);
+        }
+    }
+
+    public function checkout_get_user_info()
+    {
+        if (is_logged()) {
+            $shipping_address = [];
+            $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
+            if ($findCustomer) {
+                $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+                if ($findAddressShipping) {
+                    foreach ($findAddressShipping->toArray() as $addressKey=>$addressValue) {
+                        $shipping_address[$addressKey] = $addressValue;
+                    }
+                }
+            }
+            return $shipping_address;
+        } else {
+            $checkout_session = session_get('checkout');
+            return $checkout_session;
         }
     }
 
