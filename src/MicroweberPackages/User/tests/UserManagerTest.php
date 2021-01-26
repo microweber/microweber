@@ -409,10 +409,6 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('success', $registerStatus);
         $user = User::find($registerStatus['data']['id']);
 
-
-
-
-
         // Save custom mail template and test it
         $templateId = save_mail_template([
             'type'=>'forgot_password',

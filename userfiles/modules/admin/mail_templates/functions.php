@@ -177,7 +177,7 @@ function save_mail_template($data)
 
     }
 
-    return $findMailTemplate;
+    return $findMailTemplate->id;
 }
 
 
