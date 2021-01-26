@@ -11,7 +11,9 @@
 
 namespace MicroweberPackages\Shipping;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Application;
 
 class ShippingManagerServiceProvider extends ServiceProvider
 {
@@ -25,8 +27,12 @@ class ShippingManagerServiceProvider extends ServiceProvider
         /**
          * @property \MicroweberPackages\Shipping\ShippingManager    $shipping_manager
          */
+
         $this->app->singleton('shipping_manager', function ($app) {
-            return new ShippingManager();
+            /**
+             * @var Application $app
+             */
+            return new ShippingManager($app->make(Container::class));
         });
 
      //   $this->loadMigrationsFrom(__DIR__ . '/migrations/');

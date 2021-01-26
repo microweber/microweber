@@ -9,11 +9,12 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
+use MicroweberPackages\Shipping\ShippingManager;
+use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Cart\CartManager;
 use MicroweberPackages\Category\CategoryManager;
 use MicroweberPackages\Checkout\CheckoutManager;
-use MicroweberPackages\Client\ClientsManager;
 use MicroweberPackages\Content\AttributesManager;
 use MicroweberPackages\Content\ContentManager;
 use MicroweberPackages\Content\DataFieldsManager;
@@ -23,7 +24,6 @@ use MicroweberPackages\CustomField\FieldsManager;
 use MicroweberPackages\Form\FormsManager;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\UrlManager;
-use MicroweberPackages\Invoice\InvoicesManager;
 use MicroweberPackages\Media\MediaManager;
 use MicroweberPackages\Menu\MenuManager;
 use MicroweberPackages\Module\ModuleManager;
@@ -35,7 +35,6 @@ use MicroweberPackages\Tax\TaxManager;
 use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\Template;
 use MicroweberPackages\Template\TemplateManager;
-use MicroweberPackages\User\Models\UserManager;
 use MicroweberPackages\Utils\Http\Http;
 
 /**
@@ -57,12 +56,13 @@ use MicroweberPackages\Utils\Http\Http;
  * @property OrderManager             $order_manager
  * @property TaxManager               $tax_manager
  * @property CheckoutManager          $checkout_manager
+ * @property ShippingManager          $shipping_manager
  * @property ClientsManager           $clients_manager
  * @property InvoicesManager          $invoices_manager
  * @property OptionManager                 $option_manager
  * @property CacheManager                  $cache_manager
  * @property UserManager                   $user_manager
- * @property Modules                       $modules
+ * @property ModuleManager                       $modules_manager
  * @property DatabaseManager              $database_manager
  * @property NotificationsManager          $notifications_manager
  * @property LayoutsManager                $layouts_manager
