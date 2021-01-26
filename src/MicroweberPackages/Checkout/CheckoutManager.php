@@ -7,10 +7,8 @@ use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
-use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Config;
-use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Crypt;
+
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
-use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 
 //use MicroweberPackages\Invoice\Address;
