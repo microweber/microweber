@@ -7,13 +7,13 @@ use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
-use Microweber\App\Providers\Illuminate\Support\Facades\Config;
-use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Config;
+use MicroweberPackages\App\Providers\Illuminate\Support\Facades\Crypt;
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
 use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
-use MicroweberPackages\Invoice\Address;
-use MicroweberPackages\Invoice\Invoice;
+//use MicroweberPackages\Invoice\Address;
+//use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Order\Models\OrderAnonymousClient;
@@ -73,6 +73,17 @@ class CheckoutManager
                     include $gw_return;
 
                     if ($update_order != $update_order_orig) {
+
+                        if(isset($update_order['is_paid'])){
+                            if(intval($update_order['is_paid']) != 0){
+                                $_REQUEST['mw_payment_success'] = true;
+                                $_REQUEST['mw_payment_failure'] = false;
+                            } else {
+                                $_REQUEST['mw_payment_success'] =false;
+                                $_REQUEST['mw_payment_failure'] =true ;
+                            }
+                        }
+
                         $this->_verify_request_params($update_order);
 
                         $this->app->order_manager->save($update_order);
@@ -1086,7 +1097,7 @@ class CheckoutManager
 
             $vkey = urldecode($vkey);
 
-            $encrypter = new \Illuminate\Encryption\Encrypter(md5(Config::get('app.key').$data['payment_verify_token']), Config::get('app.cipher'));
+            $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Config::get('app.key').$data['payment_verify_token']), \Config::get('app.cipher'));
 
             $url_verify = $this->_build_url($pieces);
             $decrypt_data = @json_decode($encrypter->decrypt($vkey), true);

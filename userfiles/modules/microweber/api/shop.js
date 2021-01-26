@@ -246,7 +246,7 @@ mw.cart = {
 
                                 setTimeout(function () {
                                     window.location.href = data2.redirect;
-                                }, 10)
+                                }, 100)
                                 return;
                             } else {
                                 mw.trigger('mw.cart.checkout.success', data2);
@@ -275,7 +275,7 @@ mw.cart = {
                     form.dataset("loading", 'false');
                     form.find('.mw-checkout-btn').removeAttr('disabled');
                     form.find('.mw-checkout-btn').show();
-                     mw.trigger('checkoutResponse', [data]);
+                    mw.trigger('checkoutResponse', data);
                 });
 
         }, 1500);
