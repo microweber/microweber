@@ -65,7 +65,7 @@ if (!isset($params['prefix'])) {
 
     <div class="form-group">
         <label class="control-label"><?php _e('Enter the License Key'); ?><?php print ' ' . $params['prefix'] ?></label>
-        <small class="text-muted d-block mb-2">Don't have a license key? You can get it from here: <a target="_blank" href="https://microweber.com/goto?prefix=<?php print $params['prefix']; ?>"><?php _e('Get license key'); ?></a></small>
+        <small class="text-muted d-block mb-2"><?php _e('Don\'t have a license key? You can get it from here:'); ?> <a target="_blank" href="https://microweber.com/goto?prefix=<?php print $params['prefix']; ?>"><?php _e('Get license key'); ?></a></small>
         <input type="hidden" name="rel" value="<?php print $params['prefix']; ?>">
         <input name="activate_on_save" type="hidden" value="1"/>
         <?php if ($id): ?>
@@ -79,7 +79,7 @@ if (!isset($params['prefix'])) {
         <div class="col d-flex align-items-center justify-content-between">
             <?php if ($id): ?>
                 <input type="hidden" name="_delete_license" value="" class="js-edit-license-del-action-<?php print $id; ?>">
-                <button type="submit" value="Activate" class="btn btn-danger" onclick="$('.js-edit-license-del-action-<?php print $id; ?>').val('_delete_license')">Delete</button>
+                <button type="submit" value="Activate" class="btn btn-danger" onclick="$('.js-edit-license-del-action-<?php print $id; ?>').val('_delete_license')"><?php _e('Delete'); ?></button>
             <?php endif; ?>
 
             <button type="submit" value="Activate" class="btn btn-success"><?php _e('Save key'); ?></button>
@@ -90,7 +90,7 @@ if (!isset($params['prefix'])) {
 
     <div class="row">
         <div class="col-12">
-            <small>Have a problem with your White Label license key? <a href="javascript:;" onmousedown="mw.contactForm();">Contact us.</a></small>
+            <small><?php _e('Have a problem with your White Label license key?'); ?> <a href="javascript:;" onmousedown="mw.contactForm();"><?php _e('Contact us.'); ?></a></small>
         </div>
     </div>
 </form>
