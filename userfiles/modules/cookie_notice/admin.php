@@ -26,7 +26,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <script type="text/javascript">
             $(document).ready(function () {
                 mw.options.form('.<?php print $config['module_class'] ?>', function () {
-                    mw.notification.success("<?php _e("All changes are saved"); ?>.");
+                    mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
                 });
             });
         </script>
