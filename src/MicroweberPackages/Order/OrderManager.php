@@ -301,7 +301,7 @@ class OrderManager
         if ($order_id == false) {
             return;
         }
-        $res = false;
+        $res =  array();
         $ord_data = $this->get_by_id($order_id);
 
         $cart_data = $this->get_items($order_id);
@@ -330,9 +330,9 @@ class OrderManager
                 $notify = true;
                 $new_q['field_value'] = '0';
             }
+
             $res[] = $new_q;
             $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
-            $res = true;
             if ($notify) {
                 $notifiables = User::whereIsAdmin(1)->get();
                 if($notifiables){
