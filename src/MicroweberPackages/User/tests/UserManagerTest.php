@@ -421,40 +421,26 @@ class UserManagerTest extends TestCase
 
         Option::setValue('forgot_password_mail_template', $templateId, 'users');
 
-
-
         $userManager = new UserManager();
         $forgotPass = $userManager->send_forgot_password($newUser);
         $this->assertArrayHasKey('success', $forgotPass);
         $this->assertTrue( $forgotPass['success']);
         $this->assertContains('reset link', $forgotPass['message']);
 
-
-        $findUnitTestingText = false;
-        $checkMailIsFound = false;
         $findResetPasswordLink = false;
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
         foreach ($emails as $email) {
 
-            $subject = $email->getSubject();
             $body = $email->getBody();
 
-            if ($subject == 'Mail Reset Password Notification') {
-                $checkMailIsFound = true;
-                if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
-                    $findUnitTestingText = true;
-                }
-
+            if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
                 if (strpos($body, '?email=') !== false) {
                     $findResetPasswordLink = true;
                 }
             }
-
         }
 
         $this->assertTrue($findResetPasswordLink);
-        $this->assertTrue($findUnitTestingText);
-        $this->assertTrue($checkMailIsFound);
     }
 
 
