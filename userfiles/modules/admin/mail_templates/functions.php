@@ -46,7 +46,7 @@ function get_mail_templates_by_type($type = '')
         if ($template['type'] == $type) {
 
             if (isset($template['is_default'])) {
-                $template['label'] = $template['label'] . ' (default)';
+                $template['name'] = $template['name'] . ' (default)';
             }
 
             $templates[] = $template;
@@ -214,30 +214,33 @@ function get_default_mail_templates()
 
 function get_mail_templates($params = array())
 {
-    if (is_string($params)) {
-        $params = parse_params($params);
-    }
-    $templates = [];
+    $showTemplates = [];
+    $defaultTemplates = get_default_mail_templates();
     $getTemplates = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::all();
     if ($getTemplates->count() > 0) {
         $templates = $getTemplates->toArray();
+        foreach ($templates as $template) {
+            $showTemplates[] = $template;
+        }
     }
 
-    $defaultTemplates = get_default_mail_templates();
-
-    if (empty($templates)) {
-        $templates = $defaultTemplates;
+    if (empty($showTemplates)) {
+        $showTemplates = $defaultTemplates;
     } else {
-        if (!$templates) {
-            $templates = array();
+        foreach ($defaultTemplates as $defaultTemplate) {
+            $appendThisDefaultTemplate = true;
+            foreach ($showTemplates as $template) {
+                if ($template['type'] == $defaultTemplate['type']) {
+                    $appendThisDefaultTemplate = false;
+                }
+            }
+            if ($appendThisDefaultTemplate) {
+                $showTemplates[] = $defaultTemplate;
+            }
         }
-        if (!$defaultTemplates) {
-            $defaultTemplates = array();
-        }
-        array_merge($templates, $defaultTemplates);
     }
 
-    return $templates;
+    return $showTemplates;
 }
 
 api_expose_admin('delete_mail_template');
