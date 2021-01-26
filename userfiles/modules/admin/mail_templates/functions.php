@@ -127,7 +127,10 @@ api_expose_admin('save_mail_template');
 function save_mail_template($data)
 {
 
-    $findMailTemplate = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::where('id',$data['id'])->first();
+    $findMailTemplate = null;
+    if (isset($data['id'])) {
+        $findMailTemplate = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::where('id', $data['id'])->first();
+    }
     if ($findMailTemplate == null) {
         $findMailTemplate = new \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate();
     }
