@@ -49,9 +49,27 @@ if (!empty($template_id)) {
     }
 </script>
 
-
+<?php // _e("These values will be replaced with the actual content"); ?>
 <script>mw.require('editor.js')</script>
 <script>
+
+    MWEditor.controllers.mailTemplateFormDropdownVariables = function (scope, api, rootScope, data) {
+        this.checkSelection = function (opt) {
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
+        this.render = function () {
+            var dropdown = new MWEditor.core.dropdown({
+                data: <?php echo json_encode(get_mail_template_fields($template['type'])); ?>,
+                placeholder: rootScope.lang('<?php _e("E-mail Values"); ?>')
+            });
+            dropdown.select.on('change', function (e, val) {
+                api.insertHTML(val.value);
+            });
+            return dropdown.root;
+        };
+        this.element = this.render();
+    };
+
     $(document).ready(function () {
         mweditor = mw.Editor({
             selector: '#editorAM',
@@ -82,7 +100,7 @@ if (!empty($template_id)) {
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                    '|', 'link', 'unlink', 'wordPaste', 'table', 'mailTemplateFormDropdownVariables'
                 ],
             ]
         });
@@ -93,28 +111,6 @@ if (!empty($template_id)) {
         });
     });
 </script>
-
-<div id="editorctrls" style="display: none">
-    <span class="mw_dlm"></span>
-    <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="email_content_dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
-        <span class="mw-dropdown-value">
-            <span class="mw-dropdown-val"><?php _e("E-mail Values"); ?></span>
-        </span>
-        <div class="mw-dropdown-content">
-            <ul>
-                <?php
-                $mailTypes = get_mail_template_fields($template['type']);
-                if (!empty($mailTypes)):
-                    ?>
-                    <?php foreach ($mailTypes as $field): ?>
-                    <li value="<?php echo $field['tag']; ?>"><a href="javascript:;"><?php _e($field['name']); ?></a></li>
-                <?php endforeach; ?>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </div>
-
-</div>
 
 <form id="edit-mail-template-form">
     <div class="card bg-light style-1 mb-3">
