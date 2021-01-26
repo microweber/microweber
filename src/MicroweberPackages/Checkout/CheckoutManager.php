@@ -608,22 +608,25 @@ class CheckoutManager
 
     public function checkout_get_user_info()
     {
-        if (is_logged()) {
-            $shipping_address = [];
-            $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
-            if ($findCustomer) {
-                $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
-                if ($findAddressShipping) {
-                    foreach ($findAddressShipping->toArray() as $addressKey=>$addressValue) {
-                        $shipping_address[$addressKey] = $addressValue;
+        $checkout_session = session_get('checkout');
+
+        if (!isset($checkout_session['first_name'])) {
+            if (is_logged()) {
+                $shipping_address = [];
+                $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
+                if ($findCustomer) {
+                    $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+                    if ($findAddressShipping) {
+                        foreach ($findAddressShipping->toArray() as $addressKey=>$addressValue) {
+                            $shipping_address[$addressKey] = $addressValue;
+                        }
                     }
                 }
+                return $shipping_address;
             }
-            return $shipping_address;
-        } else {
-            $checkout_session = session_get('checkout');
-            return $checkout_session;
         }
+
+        return $checkout_session;
     }
 
     public function payment_options($option_key = false)
