@@ -14,29 +14,10 @@ if (isset($_COOKIE['mw_exp'])) {
 
 ?>
 <?php if (!isset($_GET['preview'])) { ?>
-    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
-    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
-    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
-    <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
-    <script type="text/javascript">mw.lib.require("jqueryui");</script>
-
-    <script type="text/javascript">
+    <script>
         mw.settings.liveEdit = true;
-        mw.require("liveadmin.js");
-     //   mw.require("events.js");
-        mw.require("url.js");
-        //mw.require("tools.js");
-        mw.require("wysiwyg.js");
-        mw.require("css_parser.js");
-
-
-
-         mw.require("session.js");
-        mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
-        mw.require("upgrades.js");
-
-
     </script>
+    <script src="<?php print mw_includes_url(); ?>api/webpack/dist/liveedit.js"></script>
 
     <?php if (config('app.debug')) { ?>
 
@@ -654,8 +635,6 @@ if (isset($_COOKIE['mw_exp'])) {
 <?php } ?>
 
 <script>
-    mw.require("plus.js");
-    mw.require("columns.js");
 
     $(window).on('load', function () {
 

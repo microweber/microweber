@@ -1,3 +1,1 @@
-MWEditor.tools = {
-
-};
+MWEditor.tools = { };

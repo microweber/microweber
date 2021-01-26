@@ -1,4 +1,3 @@
-mw.require('selector.js');
 
 var _handleInsertTargetDisplay;
 var handleInsertTargetDisplay = function (target, pos) {

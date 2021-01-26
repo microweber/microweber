@@ -70,10 +70,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 include('options.php');
                 ?>
 
-
-                <script>mw.require('prop_editor.js')</script>
-                <script>mw.require('module_settings.js')</script>
-                <script>mw.require('icon_selector.js')</script>
                 <script>mw.require('wysiwyg.css')</script>
                 <script>
                     $(document).ready(function () {
@@ -164,7 +160,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
                     });
                 </script>
-                
+
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-bxslider-settings">
                     <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>

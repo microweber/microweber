@@ -4652,6 +4652,2807 @@ mw.slug = {
 
 /***/ }),
 
+/***/ "../system/color.js":
+/*!**************************!*\
+  !*** ../system/color.js ***!
+  \**************************/
+/***/ (() => {
+
+mw.color = {
+  rgbToHex : function(color) {
+    if(typeof color == 'object'){
+      color = color.r + ',' + color.g + ',' + color.b;
+    }
+    if(color.contains('rgb')){
+      color = color.replace(/rgba/g, '').replace(/rgb/g, '').replace(/\(|\)/g, "").replace(/\s/g, "");
+    }
+    color = color.split(',');
+    if(color !== 'transparent'){
+      return "#" + ((1 << 24) + (parseInt(color[0]) << 16) + (parseInt(color[1]) << 8) + parseInt(color[2])).toString(16).slice(1);
+    }
+    else{
+      return 'transparent';
+    }
+  },
+  hexToRgb: function(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+  },
+  colorParse:function(CSScolor){
+    CSScolor = CSScolor || 'rgb(0,0,0,0)';
+    var final = {r:0,g:0,b:0,alpha:0};
+    if(CSScolor.contains('rgb')){
+      var parse = CSScolor.replace(/rgba/g, '').replace(/rgb/g, '').replace(/\(|\)/g, "").replace(/\s/g, "").split(',');
+      final.r = parseInt(parse[0], 10);
+      final.g = parseInt(parse[1], 10);
+      final.b = parseInt(parse[2], 10);
+      final.alpha = Number((parse[3]||1));
+      return final;
+    }
+    else{
+      final = mw.color.hexToRgb(CSScolor);
+      final.alpha = 1
+      return final;
+    }
+  },
+  getBrightness: function(color) {
+      var rgb = this.colorParse(color);
+      return {
+          color: (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000,
+          alpha: rgb.alpha * 100
+      };
+  },
+  isDark: function(color) {
+      var brightness = this.getBrightness(color);
+      return brightness.color < 128 && brightness.alpha > 22;
+  },
+  isLight: function(color) {
+      return !this.isDark(color);
+  },
+  hexToRgbaCSS: function(hex, alpha) {
+    alpha = alpha || 1;
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? ('rgba('+parseInt(result[1], 16)+','+parseInt(result[2], 16)+','+parseInt(result[3], 16)+','+alpha+')') : '';
+  },
+  random: function(){
+    return '#' + Math.floor( Math.random() * 16777215 ).toString(16);
+  },
+  decimalToHex: function(decimal){
+    var hex = decimal.toString(16);
+    if (hex.length == 1) hex = '0' + hex;
+    return hex;
+  },
+  hexToDecimal: function(hex){
+    return parseInt(hex,16);
+  },
+  oppositeColor: function(color) {
+    color = !color.contains("#") ? color : color.replace("#", '');
+    return mw.color.decimalToHex(255 - mw.color.hexToDecimal(color.substr(0,2)))
+      + mw.color.decimalToHex(255 - mw.color.hexToDecimal(color.substr(2,2)))
+      + mw.color.decimalToHex(255 - mw.color.hexToDecimal(color.substr(4,2)));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "../system/css_parser.js":
+/*!*******************************!*\
+  !*** ../system/css_parser.js ***!
+  \*******************************/
+/***/ (() => {
+
+
+
+
+
+mw.CSSParser = function(el){
+    if(!el || !el.nodeName) return false;
+    if(el.nodeName === '#text') return false;
+
+
+    try {
+        var css = window.getComputedStyle(el, null);
+    } catch(error) {
+        return;
+    }
+
+
+    var f = {};
+
+    f.display = function(){
+      return css.display;
+    };
+
+    f.is = function(){
+        return {
+          bold: parseFloat(css.fontWeight)>600 || css.fontWeight === 'bold' || css.fontWeight === 'bolder',
+          italic: css.fontStyle === 'italic'||css.fontStyle === 'oblique',
+          underlined: css.textDecoration === 'underline',
+          striked: css.textDecoration.indexOf('line-through') === 0,
+        };
+    };
+    f.font = function(){
+      if(css === null) return false;
+      return {
+        size:css.fontSize,
+        weight:css.fontWeight,
+        style:css.fontStyle,
+        height:css.lineHeight,
+        family:css.fontFamily,
+        color:css.color
+      };
+    }
+    f.alignNormalize = function(){
+        if(!!css){
+        var a = css.textAlign;
+        var final = a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
+        return final;
+      }
+    }
+    f.border = function(parse){
+        if(!parse){
+          return {
+              top:{width:css.borderTopWidth, style:css.borderTopStyle, color:css.borderTopColor},
+              left:{width:css.borderLeftWidth, style:css.borderLeftStyle, color:css.borderLeftColor},
+              right:{width:css.borderRightWidth, style:css.borderRightStyle, color:css.borderRightColor},
+              bottom:{width:css.borderBottomWidth, style:css.borderBottomStyle, color:css.borderBottomColor}
+          }
+        }
+        else{
+          return {
+              top:{width:parseFloat(css.borderTopWidth), style:css.borderTopStyle, color:css.borderTopColor},
+              left:{width:parseFloat(css.borderLeftWidth), style:css.borderLeftStyle, color:css.borderLeftColor},
+              right:{width:parseFloat(css.borderRightWidth), style:css.borderRightStyle, color:css.borderRightColor},
+              bottom:{width:parseFloat(css.borderBottomWidth), style:css.borderBottomStyle, color:css.borderBottomColor}
+          }
+        }
+
+    }
+    f.width = function(){
+        return css.width;
+    }
+    f.position = function(){
+        return css.position;
+    }
+    f.background = function(){
+        return {
+            image:css.backgroundImage,
+            color:css.backgroundColor,
+            position:css.backgroundPosition,
+            repeat:css.backgroundRepeat
+        }
+    }
+    f.margin = function(parse, actual){
+        if(actual){
+            var _parent = el.parentNode;
+            var parentOff = mw.$(_parent).offset();
+            var elOff = mw.$(el).offset();
+            if(elOff.left > parentOff.left && css.marginLeft === css.marginRight && elOff.left - parentOff.left === parseInt(css.marginLeft, 10)){
+                return {
+                    top:css.marginTop,
+                    left:'auto',
+                    right:'auto',
+                    bottom:css.marginBottom
+                };
+            }
+      }
+      if(!parse){
+        return {
+          top:css.marginTop,
+          left:css.marginLeft,
+          right:css.marginRight,
+          bottom:css.marginBottom
+        }
+      }
+      else{
+        return {
+          top:parseFloat(css.marginTop),
+          left:parseFloat(css.marginLeft),
+          right:parseFloat(css.marginRight),
+          bottom:parseFloat(css.marginBottom)
+        }
+      }
+    }
+    f.padding = function(parse){
+      if(!parse){
+        return {
+          top:css.paddingTop,
+          left:css.paddingLeft,
+          right:css.paddingRight,
+          bottom:css.paddingBottom
+        }
+      }
+      else{
+         return {
+          top:parseFloat(css.paddingTop),
+          left:parseFloat(css.paddingLeft),
+          right:parseFloat(css.paddingRight),
+          bottom:parseFloat(css.paddingBottom)
+        }
+      }
+    }
+    f.opacity = function(){return css.opacity}
+
+    f.radius = function(parse){
+      if(!parse){
+        return {
+          tl:css.borderTopLeftRadius,
+          tr:css.borderTopRightRadius,
+          br:css.borderBottomRightRadius,
+          bl:css.borderBottomLeftRadius
+        }
+      }
+      else{
+        return {
+          tl:parseFloat(css.borderTopLeftRadius),
+          tr:parseFloat(css.borderTopRightRadius),
+          br:parseFloat(css.borderBottomRightRadius),
+          bl:parseFloat(css.borderBottomLeftRadius)
+        }
+      }
+    }
+
+    f.transform = function(){
+     var transform = mw.JSPrefix('transform');
+     var transform = css[transform];
+     if(transform==="" || transform==="none"){
+       return [1, 0, 0, 1, 0, 0];
+     }
+     else{
+       var transform = transform.substr(7, transform.length - 8).split(", ");
+       return transform;
+     }
+    }
+
+    f.shadow = function(){
+      var shadow =  mw.JSPrefix('boxShadow');
+      var shadow = css[shadow].replace(/, /g, ",").split(" ");
+      return {
+        color: shadow[0],
+        left:shadow[1],
+        top:shadow[2],
+        strength:shadow[3]
+      }
+    }
+
+    return {
+        el:el,
+        css:css,
+        get:f
+    }
+}
+
+
+
+
+/***/ }),
+
+/***/ "../system/filepicker.js":
+/*!*******************************!*\
+  !*** ../system/filepicker.js ***!
+  \*******************************/
+/***/ (() => {
+
+
+
+
+mw.filePicker = function (options) {
+    options = options || {};
+    var scope = this;
+    var $scope = $(this);
+    var defaults = {
+        components: [
+            {type: 'desktop', label: mw.lang('My computer')},
+            {type: 'url', label: mw.lang('URL')},
+            {type: 'server', label: mw.lang('Uploaded')},
+            {type: 'library', label: mw.lang('Media library')}
+        ],
+        nav: 'tabs', // 'tabs | 'dropdown',
+        hideHeader: false,
+        dropDownTargetMode: 'self', // 'self', 'dialog'
+        element: null,
+        footer: true,
+        okLabel: mw.lang('OK'),
+        cancelLabel: mw.lang('Cancel'),
+        uploaderType: 'big', // 'big' | 'small'
+        confirm: function (data) {
+
+        },
+        cancel: function () {
+
+        },
+        label: mw.lang('Media'),
+        autoSelect: true, // depending on the component
+        boxed: false,
+        multiple: false
+    };
+
+
+
+    this.settings = $.extend(true, {}, defaults, options);
+
+    this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root"></div>');
+    this.root = this.$root[0];
+
+    $.each(this.settings.components, function (i) {
+        this['index'] = i;
+    });
+
+
+    this.components = {
+        _$inputWrapper: function (label) {
+            var html = '<div class="mw-ui-field-holder">' +
+                /*'<label>' + label + '</label>' +*/
+                '</div>';
+            return mw.$(html);
+        },
+        url: function () {
+            var $input = $('<input class="mw-ui-field w100" placeholder="http://example.com/image.jpg">');
+            scope.$urlInput = $input;
+            var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
+            $wrap.append($input);
+            $input.before('<label class="mw-ui-label">Insert file url</label>');
+            $input.on('input', function () {
+                var val = this.value.trim();
+                scope.setSectionValue(val || null);
+                if(scope.settings.autoSelect) {
+
+                    scope.result();
+                }
+            });
+            return $wrap[0];
+        },
+        _setdesktopType: function () {
+            var $zone;
+            if(scope.settings.uploaderType === 'big') {
+                $zone = $('<div class="mw-file-drop-zone">' +
+                    '<div class="mw-file-drop-zone-holder">' +
+                    '<div class="mw-file-drop-zone-img"></div>' +
+                    '<div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>' +
+                    '<span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">'+mw.lang('Add file')+'</span> ' +
+                    '<p>'+mw.lang('or drop files to upload')+'</p>' +
+                    '</div>' +
+                    '</div>');
+            } else if(scope.settings.uploaderType === 'small') {
+                $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">Add file</span> <p>or drop file to upload</p> </div> </div>')
+            }
+
+
+            var $el = $(scope.settings.element).eq(0);
+            $el.removeClass('mw-filepicker-desktop-type-big mw-filepicker-desktop-type-small');
+            $el.addClass('mw-filepicker-desktop-type-' + scope.settings.uploaderType);
+            scope.uploaderHolder.empty().append($zone);
+        },
+        desktop: function () {
+            var $wrap = this._$inputWrapper(scope._getComponentObject('desktop').label);
+            scope.uploaderHolder = mw.$('<div class="mw-uploader-type-holder"></div>');
+            this._setdesktopType();
+            $wrap.append(scope.uploaderHolder);
+            scope.uploader = mw.upload({
+                element: $wrap[0],
+                multiple: scope.settings.multiple,
+                accept: scope.settings.accept,
+                on: {
+                    progress: function (prg) {
+                        scope.uploaderHolder.find('.mw-ui-progress-bar').stop().animate({width: prg.percent + '%'}, 'fast');
+                    },
+                    fileUploadError: function (file) {
+                         $(scope).trigger('FileUploadError', [file]);
+                    },
+                    fileAdded: function (file) {
+                        $(scope).trigger('FileAdded', [file]);
+                        scope.uploaderHolder.find('.mw-ui-progress-bar').width('1%');
+                    },
+                    fileUploaded: function (file) {
+                        scope.setSectionValue(file);
+
+                        $(scope).trigger('FileUploaded', [file]);
+                        if (scope.settings.autoSelect) {
+                            scope.result();
+                        }
+                        if (scope.settings.fileUploaded) {
+                            scope.settings.fileUploaded(file);
+                        }
+                        if (!scope.settings.multiple) {
+                            mw.notification.success('File uploaded');
+                            scope.uploaderHolder.find('.mw-file-drop-zone-img').css('backgroundImage', 'url('+file.src+')');
+                        }
+                        // scope.uploaderHolder.find('.mw-file-drop-zone-img').css('backgroundImage', 'url('+file.src+')');
+                    }
+                }
+            });
+            return $wrap[0];
+        },
+        server: function () {
+            var $wrap = this._$inputWrapper(scope._getComponentObject('server').label);
+            /*mw.load_module('files/admin', $wrap, function () {
+
+            }, {'filetype':'images'});*/
+
+            $(scope).on('$firstOpen', function (e, el, type) {
+                var comp = scope._getComponentObject('server');
+                if (type === 'server') {
+                    mw.tools.loading(el, true);
+                    var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
+                    if(scope.settings._frameMaxHeight) {
+                        fr.style.maxHeight = '60vh';
+                        fr.scrolling = 'yes';
+                    }
+                    $wrap.append(fr);
+                    fr.onload = function () {
+                        mw.tools.loading(el, false);
+                        this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
+                            var url = this.href;
+                            scope.setSectionValue(url);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                        });
+                    };
+                }
+            });
+
+            return $wrap[0];
+        },
+        library: function () {
+            var $wrap = this._$inputWrapper(scope._getComponentObject('library').label);
+            $(scope).on('$firstOpen', function (e, el, type) {
+                var comp = scope._getComponentObject('library');
+                if (type === 'library') {
+                    mw.tools.loading(el, true);
+                    var fr = mw.top().tools.moduleFrame('pictures/media_library');
+                    $wrap.append(fr);
+                    if(scope.settings._frameMaxHeight) {
+                        fr.style.maxHeight = '60vh';
+                        fr.scrolling = 'yes';
+                    }
+                    fr.onload = function () {
+                        mw.tools.loading(el, false);
+                        this.contentWindow.mw.on.hashParam('select-file', function () {
+                            var url = this.toString();
+                            scope.setSectionValue(url);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                        });
+                    };
+                }
+            })
+
+            /*mw.load_module('pictures/media_library', $wrap);*/
+            return $wrap[0];
+        }
+    };
+
+    this.hideUploaders = function (type) {
+        mw.$('.mw-filepicker-component-section', this.$root).hide();
+    };
+
+    this.showUploaders = function (type) {
+        mw.$('.mw-filepicker-component-section', this.$root).show();
+    };
+
+    this.desktopUploaderType = function (type) {
+        if(!type) return this.settings.uploaderType;
+        this.settings.uploaderType = type;
+        this.components._setdesktopType();
+    };
+
+    this.settings.components = this.settings.components.filter(function (item) {
+        return !!scope.components[item.type];
+    });
+
+
+    this._navigation = null;
+    this.__navigation_first = [];
+
+    this.navigation = function () {
+        this._navigationHeader = document.createElement('div');
+        this._navigationHeader.className = 'mw-filepicker-component-navigation-header ' + (this.settings.boxed ? 'card-header no-border' : '');
+        if (this.settings.hideHeader) {
+            this._navigationHeader.style.display = 'none';
+        }
+        if (this.settings.label) {
+            this._navigationHeader.innerHTML = '<h6><strong>' + this.settings.label + '</strong></h6>';
+        }
+        this._navigationHolder = document.createElement('div');
+        if(this.settings.nav === false) {
+
+        }
+        else if(this.settings.nav === 'tabs') {
+            var ul = $('<nav class="mw-ac-editor-nav" />');
+            this.settings.components.forEach(function (item) {
+                ul.append('<a href="javascript:;" class="mw-ui-btn-tab" data-type="'+item.type+'">'+item.label+'</a>');
+            });
+            this._navigationHolder.appendChild(this._navigationHeader);
+            this._navigationHeader.appendChild(ul[0]);
+            setTimeout(function () {
+                scope._tabs = mw.tabs({
+                    nav: $('a', ul),
+                    tabs: $('.mw-filepicker-component-section', scope.$root),
+                    activeClass: 'active',
+                    onclick: function (el, event, i) {
+                        if(scope.__navigation_first.indexOf(i) === -1) {
+                            scope.__navigation_first.push(i);
+                            $(scope).trigger('$firstOpen', [el, this.dataset.type]);
+                        }
+                        scope.manageActiveSectionState();
+                    }
+                });
+            }, 78);
+        } else if(this.settings.nav === 'dropdown') {
+            var select = $('<select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto" data-title="' + mw.lang('Add file') + '"/>');
+            scope._select = select;
+            this.settings.components.forEach(function (item) {
+                select.append('<option class="nav-item" value="'+item.type+'">'+item.label+'</option>');
+            });
+
+            this._navigationHolder.appendChild(this._navigationHeader);
+            this._navigationHeader.appendChild(select[0]);
+            select.on('changed.bs.select', function (e, xval) {
+                var val = select.selectpicker('val');
+                var componentObject = scope._getComponentObject(val) ;
+                var index = scope.settings.components.indexOf(componentObject);
+                var items = $('.mw-filepicker-component-section', scope.$root);
+                if(scope.__navigation_first.indexOf(val) === -1) {
+                    scope.__navigation_first.push(val);
+                    $(scope).trigger('$firstOpen', [items.eq(index)[0], val]);
+                }
+                if(scope.settings.dropDownTargetMode === 'dialog') {
+                    var temp = document.createElement('div');
+                    var item = items.eq(index);
+                    item.before(temp);
+                    item.show();
+                    var footer = false;
+                    if (scope._getComponentObject('url').index === index ) {
+                        footer =  document.createElement('div');
+                        var footerok = $('<button type="button" class="mw-ui-btn mw-ui-btn-info">' + scope.settings.okLabel + '</button>');
+                        var footercancel = $('<button type="button" class="mw-ui-btn">' + scope.settings.cancelLabel + '</button>');
+                        footerok.disabled = true;
+                        footer.appendChild(footercancel[0]);
+                        footer.appendChild(footerok[0]);
+                        footer.appendChild(footercancel[0]);
+                        footercancel.on('click', function () {
+                            scope.__pickDialog.remove();
+                        });
+                        footerok.on('click', function () {
+                            scope.setSectionValue(scope.$urlInput.val().trim() || null);
+                            if (scope.settings.autoSelect) {
+                                scope.result();
+                            }
+                            // scope.__pickDialog.remove();
+                        });
+                    }
+
+                    scope.__pickDialog = mw.top().dialog({
+                        overlay: true,
+                        content: item,
+                        beforeRemove: function () {
+                            $(temp).replaceWith(item);
+                            item.hide();
+                            scope.__pickDialog = null;
+                        },
+                        footer: footer
+                    });
+                } else {
+                    items.hide().eq(index).show();
+                }
+            });
+        }
+        this.$root.prepend(this._navigationHolder);
+
+    };
+    this.__displayControllerByTypeTime = null;
+
+    this.displayControllerByType = function (type) {
+        type = (type || '').trim();
+        var item = this._getComponentObject(type) ;
+        clearTimeout(this.__displayControllerByTypeTime);
+        this.__displayControllerByTypeTime = setTimeout(function () {
+            if(scope.settings.nav === 'tabs') {
+                mw.$('[data-type="'+type+'"]', scope.$root).click();
+            } else if(scope.settings.nav === 'dropdown') {
+                $(scope._select).selectpicker('val', type);
+            }
+        }, 10);
+    };
+
+
+
+    this.footer = function () {
+        if(!this.settings.footer || this.settings.autoSelect) return;
+        this._navigationFooter = document.createElement('div');
+        this._navigationFooter.className = 'mw-ui-form-controllers-footer mw-filepicker-footer ' + (this.settings.boxed ? 'card-footer' : '');
+        this.$ok = $('<button type="button" class="mw-ui-btn mw-ui-btn-info">' + this.settings.okLabel + '</button>');
+        this.$cancel = $('<button type="button" class="mw-ui-btn ">' + this.settings.cancelLabel + '</button>');
+        this._navigationFooter.appendChild(this.$cancel[0]);
+        this._navigationFooter.appendChild(this.$ok[0]);
+        this.$root.append(this._navigationFooter);
+        this.$ok[0].disabled = true;
+        this.$ok.on('click', function () {
+            scope.result();
+        });
+        this.$cancel.on('click', function () {
+            scope.settings.cancel()
+        });
+    };
+
+    this.result = function () {
+        var activeSection = this.activeSection();
+        if(this.settings.onResult) {
+            this.settings.onResult.call(this, activeSection._filePickerValue);
+        }
+         $(scope).trigger('Result', [activeSection._filePickerValue]);
+    };
+
+    this.getValue = function () {
+        return this.activeSection()._filePickerValue;
+    };
+
+    this._getComponentObject = function (type) {
+        return this.settings.components.find(function (comp) {
+            return comp.type && comp.type === type;
+        });
+    };
+
+    this._sections = [];
+    this.buildComponentSection = function () {
+        var main = mw.$('<div class="'+(this.settings.boxed ? 'card-body' : '') +' mw-filepicker-component-section"></div>');
+        this.$root.append(main);
+        this._sections.push(main[0]);
+        return main;
+    };
+
+    this.buildComponent = function (component) {
+        if(this.components[component.type]) {
+            return this.components[component.type]();
+        }
+    };
+
+    this.buildComponents = function () {
+        $.each(this.settings.components, function () {
+            var component = scope.buildComponent(this);
+            if(component){
+                var sec = scope.buildComponentSection();
+                sec.append(component);
+            }
+        });
+    };
+
+    this.build = function () {
+        this.navigation();
+        this.buildComponents();
+        if(this.settings.nav === 'dropdown') {
+            $('.mw-filepicker-component-section', scope.$root).hide().eq(0).show();
+        }
+        this.footer();
+    };
+
+    this.init = function () {
+        this.build();
+        if (this.settings.element) {
+            $(this.settings.element).eq(0).append(this.$root);
+        }
+        if($.fn.selectpicker) {
+            $('select', scope.$root).selectpicker();
+        }
+    };
+
+    this.hide = function () {
+        this.$root.hide();
+    };
+    this.show = function () {
+        this.$root.show();
+    };
+
+    this.activeSection = function () {
+        return $(this._sections).filter(function (){
+            return $(this).css('display') !== 'none';
+        })[0];
+    };
+
+    this.setSectionValue = function (val) {
+         var activeSection = this.activeSection();
+         if(activeSection) {
+            activeSection._filePickerValue = val;
+        }
+
+        if(scope.__pickDialog) {
+            scope.__pickDialog.remove();
+        }
+        this.manageActiveSectionState();
+    };
+    this.manageActiveSectionState = function () {
+        // if user provides value for more than one section, the active value will be the one in the current section
+        var activeSection = this.activeSection();
+        if (this.$ok && this.$ok[0]) {
+            this.$ok[0].disabled = !(activeSection && activeSection._filePickerValue);
+        }
+    };
+
+    this.init();
+};
+
+
+/***/ }),
+
+/***/ "../system/icon_selector.js":
+/*!**********************************!*\
+  !*** ../system/icon_selector.js ***!
+  \**********************************/
+/***/ (() => {
+
+
+
+(function () {
+
+    var IconLoader = function (store) {
+        var scope = this;
+
+        var defaultVersion = '-1';
+
+        var iconsCache = {};
+
+
+        var common = {
+            'fontAwesome': {
+                cssSelector: '.fa',
+                detect: function (target) {
+                    return target.classList.contains('fa');
+                },
+                render: function (icon, target) {
+                    target.classList.add('fa');
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    target.classList.remove('fa');
+                    var exception= ['fa-lg', 'fa-2x', 'fa-3x', 'fa-4x', 'fa-5x', 'fa-fw', 'fa-spin', 'fa-pule', 'fa-rotate-90',
+                        'fa-rotate-180', 'fa-rotate-270', 'fa-flip-horizontal', 'fa-flip-vertical'];
+                    mw.tools.classNamespaceDelete(target, 'fa-', undefined, undefined, exception);
+                },
+                icons: function () {
+                     return new Promise(function (resolve) {
+                         $.get(mw.settings.modules_url + 'microweber/api/fa.icons.js',function (data) {
+                             resolve(JSON.parse(data));
+                        });
+                    });
+                },
+                name: 'Font Awesome',
+                load:  mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css',
+                unload: function () {
+                    document.querySelector('link[href*="fontawesome-4.7.0"]').remove();
+                },
+                version: '4.7.0'
+            },
+            'materialIcons': {
+                cssSelector: '.material-icons',
+                detect: function (target) {
+                    return target.classList.contains('material-icons');
+                },
+                render: function (icon, target) {
+                    target.classList.add('material-icons');
+                    target.innerHTML = (icon);
+                },
+                remove: function (target) {
+                    mw.tools.removeClass(target, 'material-icons');
+                    target.innerHTML = '';
+                 },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        $.get(mw.settings.modules_url + 'microweber/api/material.icons.js',function (data) {
+                            resolve(JSON.parse(data));
+                        });
+                    });
+                },
+                name: 'Material Icons',
+                load: mw.settings.libs_url + 'material_icons' + '/material_icons.css',
+                unload: function () {
+                    top.document.querySelector('link[href*="material_icons.css"]').remove();
+                },
+                version: 'mw'
+            },
+            'iconsMindLine': {
+                cssSelector: '[class*="mw-micon-"]:not([class*="mw-micon-solid-"])',
+                detect: function (target) {
+                    return target.className.includes('mw-micon-') && !target.className.includes('mw-micon-solid-');
+                },
+                render: function (icon, target) {
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    mw.tools.classNamespaceDelete(target, 'mw-micon-', undefined, undefined, []);
+                },
+                icons: function () {
+                    var scope = this;
+                    var parse = function (cssLink) {
+                        var icons = cssLink.sheet.cssRules;
+                        var l = icons.length, i = 0, mindIcons = [];
+                        for (; i < l; i++) {
+                            var sel = icons[i].selectorText;
+                            if (!!sel && sel.indexOf('.mw-micon-') === 0) {
+                                var cls = sel.replace(".", '').split(':')[0];
+                                mindIcons.push(cls);
+                            }
+                        }
+                    };
+                    var load = function (cb) {
+                        var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/line"]');
+                        if(cssLink) {
+                            cb.call(undefined, cssLink);
+                        }  else {
+                            $.get(scope.load, function (data) {
+                                cssLink = document.createElement('link');
+                                cssLink.type = 'text/css';
+                                cssLink.rel = 'stylesheet';
+                                cssLink.href = scope.load;
+                                $(document.head).append(cssLink);
+                                cb.call(undefined, cssLink);
+                            });
+                        }
+                    };
+                    return new Promise(function (resolve) {
+                        load(function (link) {
+                            resolve(parse(link));
+                        });
+                    });
+                },
+                name: 'Icons Mind Line',
+                load:  mw.settings.modules_url + 'microweber/api/libs/mw-icons-mind/line/style.css',
+                unload: function () {
+                    document.querySelector('link[href*="mw-icons-mind/line/style"]').remove();
+                },
+                version: 'mw_local'
+            },
+            'iconsMindSolid': {
+                cssSelector: '[class*="mw-micon-solid-"]',
+                detect: function (target) {
+                    return target.className.includes('mw-micon-solid-');
+                },
+                render: function (icon, target) {
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    mw.tools.classNamespaceDelete(target, 'mw-micon-solid-', undefined, undefined, []);
+                },
+                icons: function () {
+                    var scope = this;
+                    var parse = function (cssLink) {
+                        var icons = cssLink.sheet.cssRules;
+                        var l = icons.length, i = 0, mindIcons = [];
+                        for (; i < l; i++) {
+                            var sel = icons[i].selectorText;
+                            if (!!sel && sel.indexOf('.mw-micon-solid-') === 0) {
+                                var cls = sel.replace(".", '').split(':')[0];
+                                mindIcons.push(cls);
+                            }
+                        }
+                    };
+                    var load = function (cb) {
+                        var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]');
+                        if(cssLink) {
+                            cb.call(undefined, cssLink);
+                        }  else {
+                            $.get(scope.load, function (data) {
+                                cssLink = document.createElement('link');
+                                cssLink.type = 'text/css';
+                                cssLink.rel = 'stylesheet';
+                                cssLink.href = scope.load;
+                                $(document.head).append(cssLink);
+                                cb.call(undefined, cssLink);
+                            });
+                        }
+                    };
+                    return new Promise(function (resolve) {
+                        load(function (link) {
+                            resolve(parse(link));
+                        });
+                    });
+                },
+                name: 'Icons Mind Solid',
+                load:  mw.settings.modules_url + 'microweber/api/libs/mw-icons-mind/solid/style.css',
+                unload: function () {
+                    document.querySelector('link[href*="mw-icons-mind/solid/style"]').remove();
+                },
+                version: 'mw_local'
+            },
+
+            'materialDesignIcons': {
+                cssSelector: '.mdi',
+                detect: function (target) {
+                    return target.classList.contains('mdi');
+                },
+                render: function (icon, target) {
+                    target.classList.add('mdi');
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    mw.tools.classNamespaceDelete(target, 'mdi-', undefined, undefined, []);
+                    target.classList.remove('mdi');
+                },
+                icons: function () {
+                    var scope = this;
+                    var load = function (cb) {
+                        var cssLink = mw.top().win.document.querySelector('link[href*="materialdesignicons"]');
+                        if(cssLink) {
+                            cb.call(undefined, cssLink);
+                        }  else {
+                            $.get(scope.load, function (data) {
+                                cssLink = document.createElement('link');
+                                cssLink.type = 'text/css';
+                                cssLink.rel = 'stylesheet';
+                                cssLink.href = scope.load;
+                                $(document.head).append(cssLink);
+                                cb.call(undefined, cssLink);
+                            });
+                        }
+                    };
+                    return new Promise(function (resolve) {
+                        load(function (link){
+                            if(!link || !link.sheet) {
+                                resolve([]);
+                                return;
+                            }
+                            var icons = link.sheet.cssRules;
+                            var l = icons.length, i = 0, mdiIcons = [];
+                            for (; i < l; i++) {
+                                var sel = icons[i].selectorText;
+                                if (!!sel && sel.indexOf('.mdi-') === 0) {
+                                    var cls = sel.replace(".", '').split(':')[0];
+                                    mdiIcons.push(cls);
+                                }
+                            }
+                            resolve(mdiIcons);
+                        });
+                    });
+                },
+                name: 'Material Design Icons',
+                load:  mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css',
+                unload: function () {
+                    document.querySelector('link[href*="materialdesignicons"]').remove();
+                },
+                version: 'mw_local'
+            },
+            'mwIcons': {
+                cssSelector: '[class*="mw-icon-"]',
+                detect: function (target) {
+                    return target.className.includes('mw-icon-');
+                },
+                render: function (icon, target) {
+                    target.classList.add(icon);
+                },
+                remove: function (target) {
+                    mw.tools.classNamespaceDelete(target, 'mw-icon-', undefined, undefined, []);
+                },
+                icons: function () {
+                    return new Promise(function (resolve) {
+                        $.get(mw.settings.modules_url + 'microweber/api/microweber.icons.js',function (data) {
+                            resolve(JSON.parse(data));
+                        });
+                    });
+                },
+                name: 'Microweber Icons',
+                load:  mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css',
+                unload: function () {
+                    document.querySelector('link[href*="materialdesignicons"]').remove();
+                },
+                version: 'mw_local'
+            },
+        };
+
+        var storage = function () {
+            if(!mw.top().__IconStorage) {
+                mw.top().__IconStorage = [];
+            }
+            return mw.top().__IconStorage;
+        };
+
+        this.storage = store || storage;
+
+
+        var iconSetKey = function (options) {
+            return options.name + options.version;
+        };
+
+        var iconSetPush = function (options) {
+            if(!storage().find(function (a) {return iconSetKey(options) === iconSetKey(a); })) {
+                return storage().push(options);
+            }
+            return false;
+        };
+
+        var addFontIconSet = function (options) {
+            options.version = options.version || defaultVersion;
+            iconSetPush(options);
+            if (typeof options.load === 'string') {
+                mw.require(options.load);
+            } else if (typeof options.load === 'function') {
+                options.load();
+            }
+        };
+        var addIconSet = function (conf) {
+            if(typeof conf === 'string') {
+                if (common[conf]) {
+                    conf = common[conf];
+                } else {
+                    console.warn(conf + ' is not defined.');
+                    return;
+                }
+            }
+            if(!conf) return;
+            conf.type = conf.type || 'font';
+            if (conf.type === 'font') {
+                return addFontIconSet(conf);
+            }
+        };
+
+        this.addIconSet = function (conf) {
+            addIconSet(conf);
+            return this;
+        };
+
+        this.removeIconSet = function (name, version) {
+            var str = storage();
+            var item = str.find(function (a) { return a.name === name && (!version || a.version === version); });
+            if (item) {
+                if (item.unload) {
+                    item.unload();
+                }
+                str.splice(str.indexOf(item), 1);
+            }
+        };
+
+
+        this.init = function () {
+            storage().forEach(function (iconSet){
+                scope.addIconSet(iconSet);
+            });
+        };
+
+    };
+
+    mw.iconLoader = function (options) {
+        return new IconLoader(options);
+    };
+
+
+})();
+
+
+(function (){
+
+    var IconPicker = function (options) {
+        options = options || {};
+        var loader = mw.iconLoader();
+        var defaults = {
+            iconsPerPage: 40,
+            iconOptions: {
+                size: true,
+                color: true,
+                reset: false
+            }
+        };
+
+
+        this.settings = mw.object.extend(true, {}, defaults, options);
+        var scope = this;
+        var tabAccordionBuilder = function (items) {
+            var res = {root: mw.element('<div class="mw-tab-accordion" data-options="tabsSize: medium" />'), items: []};
+            items.forEach(function (item){
+                var el = mw.element('<div class="mw-accordion-item" />');
+                var content = mw.element('<div class="mw-accordion-content mw-ui-box mw-ui-box-content">' +(item.content || '') +'</div>');
+                var title = mw.element('<div class="mw-ui-box-header mw-accordion-title">' + item.title +'</div>');
+                el.append(title);
+                el.append(content);
+
+                res.root.append(el);
+                res.items.push({
+                    title: title,
+                    content: content,
+                    root: el,
+                });
+            });
+            setTimeout(function (){
+                if(mw.components) {
+                    mw.components._init();
+                }
+            }, 10);
+            return res;
+        };
+
+        var createUI = function () {
+            var root = mw.element({
+                props: { className: 'mw-icon-selector-root' }
+            });
+            var iconsBlockHolder, tabs, optionsHolder, iconsHolder;
+            if(scope.settings.iconOptions) {
+                tabs = tabAccordionBuilder([
+                    {title: 'Icons'},
+                    {title: 'Options'},
+                ]);
+                iconsBlockHolder = tabs.items[0].content;
+                optionsHolder = tabs.items[1].content;
+                root.append(tabs.root)
+            } else {
+                iconsBlockHolder = mw.element();
+                root.append(iconsBlockHolder);
+            }
+            iconsHolder = mw.element().addClass('mw-icon-picker-icons-holder');
+            iconsBlockHolder.append(iconsHolder);
+            return {
+                root: root,
+                tabs: tabs,
+                iconsBlockHolder: iconsBlockHolder,
+                iconsHolder: iconsHolder,
+                optionsHolder: optionsHolder
+            };
+        };
+
+
+        var _e = {};
+
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+        var actionNodes = {};
+
+        var createOptions = function (holder) {
+
+            if(holder && scope.settings.iconOptions) {
+                if(scope.settings.iconOptions.size) {
+                    var sizeel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Icon size</label></div>');
+                    var sizeinput = mw.element('<input type="range" min="8" max="200">');
+                    actionNodes.size = sizeinput;
+                    sizeinput.on('input', function () {
+                        scope.dispatch('sizeChange', sizeinput.get(0).value);
+                    });
+                    sizeel.append(sizeinput);
+                    holder.append(sizeel);
+                }
+                if(scope.settings.iconOptions.color) {
+                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-ui-label">Color</label></div>');
+                    cinput = mw.element('<input type="color">');
+                    actionNodes.color = cinput;
+                    cinput.on('input', function () {
+                        scope.dispatch('colorChange', cinput.get(0).value);
+                    });
+                    cel.append(cinput);
+                    holder.append(cel);
+                }
+                if(scope.settings.iconOptions.reset) {
+                    var rel = mw.element('<div class="mwiconlist-settings-section-block-item"> </div>');
+                    var rinput = mw.element('<input type="button" class="mw-ui-btn mw-ui-btn-medium" value="Reset options">');
+                    rinput.on('click', function () {
+                        scope.dispatch('reset', rinput.get(0).value);
+                    });
+                    rel.append(rinput);
+                    holder.append(rel);
+                }
+            }
+        };
+
+        var _prepareIconsLists = function (c) {
+            var sets = loader.storage();
+            var all = sets.length;
+            var i = 0;
+            sets.forEach(function (set){
+                 if (!set._iconsLists) {
+                     (function (aset){
+                         aset.icons().then(function (data){
+                             aset._iconsLists = data;
+                             i++;
+                             if(i === all) c.call(sets, sets);
+                         });
+                     })(set);
+                 } else {
+                     i++;
+                     if(i === all) c.call(sets, sets);
+                 }
+
+            });
+        };
+
+
+        var createPaging = function(length, page){
+            page = page || 1;
+            var max = 999;
+            var pages = Math.min(Math.ceil(length/scope.settings.iconsPerPage), max);
+            var paging = document.createElement('div');
+            paging.className = 'mw-paging mw-paging-small mw-icon-selector-paging';
+            if(scope.settings.iconsPerPage >= length ) {
+                return paging;
+            }
+            var active = false;
+            for ( var i = 1; i <= pages; i++) {
+                var el = document.createElement('a');
+                el.innerHTML = i;
+                el._value = i;
+                if(page === i) {
+                    el.className = 'active';
+                    active = i;
+                }
+                el.onclick = function () {
+                    comRender({page: this._value });
+                };
+                paging.appendChild(el);
+            }
+            var all = paging.querySelectorAll('a');
+            for (var i = active - 3; i < active + 2; i++){
+                if(all[i]) {
+                    all[i].className += ' mw-paging-visible-range';
+                }
+            }
+
+
+            if(active < pages) {
+                var next = document.createElement('a');
+                next.innerHTML = '&raquo;';
+                next._value = active+1;
+                next.className = 'mw-paging-visible-range mw-paging-next';
+                next.innerHTML = '&raquo;';
+                $(paging).append(next);
+                next.onclick = function () {
+                     comRender({page: this._value });
+                }
+            }
+            if(active > 1) {
+                var prev = document.createElement('a');
+                prev.className = 'mw-paging-visible-range mw-paging-prev';
+                prev.innerHTML = '&laquo;';
+                prev._value = active-1;
+                $(paging).prepend(prev);
+                prev.onclick = function () {
+                     comRender({page: this._value });
+                };
+            }
+
+            return paging;
+        };
+
+        var searchField = function () {
+            var time = null;
+            scope.searchField =  mw.element({
+                tag: 'input',
+                props: {
+                    className: 'mw-ui-searchfield w100',
+                    oninput: function () {
+                        clearTimeout(time);
+                        time = setTimeout(function (){
+                            comRender();
+                        }, 123);
+                    }
+                }
+            });
+
+            return scope.searchField;
+        };
+
+        var comRender = function (options) {
+            options = options || {};
+            options = mw.object.extend({}, {
+                set: scope.selectField.get(0).options[scope.selectField.get(0).selectedIndex]._value,
+                term: scope.searchField.get(0).value
+            }, options);
+            scope.ui.iconsHolder.empty().append(renderSearchResults(options));
+        };
+
+        var searchSelector = function () {
+            var sel = mw.element('<select class="mw-ui-field w100" />');
+            scope.selectField = sel;
+            loader.storage().forEach(function (item) {
+                var el = document.createElement('option');
+                el._value = item;
+                el.innerHTML = item.name;
+                sel.append(el);
+            });
+            sel.on('change', function (){
+                comRender()
+            });
+            return sel;
+        };
+
+        var search = function (conf) {
+            conf = conf || {};
+            conf.set = conf.set ||  loader.storage()[0];
+            conf.page = conf.page || 1;
+            conf.term = (conf.term || '').trim().toLowerCase();
+
+            if (!conf.set._iconsLists) {
+                return;
+            }
+
+            var all = conf.set._iconsLists.filter(function (f){ return f.toLowerCase().indexOf(conf.term) !== -1; });
+
+            var off = scope.settings.iconsPerPage * (conf.page - 1);
+            var to = off + Math.min(all.length - off, scope.settings.iconsPerPage);
+
+            return mw.object.extend({}, conf, {
+                data: all.slice(off, to),
+                all: all,
+                off: off
+            });
+            /*for ( var i = off; i < to; i++ ) {
+
+            }*/
+        };
+
+        var renderSearchResults = function (conf) {
+            var res = search(conf);
+            if(!res) return;
+            var pg = createPaging(res.all.length, res.page);
+            var root = mw.element();
+            res.data.forEach(function (iconItem){
+                var icon = mw.element({
+                    tag: 'span',
+                    props: {
+                        className: 'mwiconlist-icon',
+                        onclick: function (e) {
+                            scope.dispatch('select', {
+                                icon: iconItem,
+                                renderer: res.set.render,
+                                render: function () {
+                                    var sets = loader.storage();
+                                    sets.forEach(function (set) {
+                                        set.remove(scope.target)
+                                    })
+                                    return res.set.render(iconItem, scope.target);
+                                }
+                            });
+                        }
+                    }
+                });
+                root.append(icon);
+                res.set.render(iconItem, icon.get(0));
+            });
+            root.append(pg)
+            return root;
+        };
+
+        var createIconsBlock = function () {
+            mw.spinner({element: scope.ui.iconsHolder.get(0), size: 30}).show();
+            _prepareIconsLists(function (){
+                comRender();
+                mw.spinner({element: scope.ui.iconsHolder.get(0)}).hide();
+            });
+        };
+
+        this.create = function () {
+            this.ui = createUI();
+            createOptions(this.ui.optionsHolder);
+            this.ui.iconsBlockHolder.prepend(searchField());
+
+            this.ui.iconsBlockHolder.prepend(searchSelector());
+            createIconsBlock();
+
+        };
+
+        this.get = function () {
+            return this.ui.root.get(0);
+        };
+
+        this.dialog = function (method) {
+            if(method === 'hide') {
+                this._dialog.hide();
+                return;
+            }
+            if(!this._dialog) {
+                this._dialog = mw.top().dialog({content: this.get(), title: 'Select icon', closeButtonAction: 'hide', width: 450});
+                mw.components._init();
+            }
+            this._dialog.show();
+            return this._dialog;
+        };
+
+        this.destroy = function () {
+            this.get().remove()
+            if(this._dialog) {
+                this._dialog.remove();
+            }
+            if(this._tooltip) {
+                this._tooltip.remove();
+            }
+        };
+
+        this.target = null;
+
+        this.tooltip = function (target) {
+            this.target = target;
+            if(target === 'hide' && this._tooltip) {
+                this._tooltip.style.display = 'none';
+            } else {
+                if (!this._tooltip) {
+                    this._tooltip = mw.tooltip({
+                        content: this.get(),
+                        element: target,
+                        position: 'bottom-center',
+                    });
+                } else {
+                    mw.tools.tooltip.setPosition(this._tooltip, target, 'bottom-center');
+                }
+                this._tooltip.style.display = 'block';
+            }
+            mw.components._init();
+            return this._tooltip;
+        };
+
+        this.init = function () {
+            this.create();
+        };
+
+        this.promise = function () {
+            return new Promise(function (resolve){
+               scope.on('select', function (data) {
+                   resolve(data);
+               });
+            });
+        };
+
+        this.init();
+
+    };
+
+
+    mw.iconPicker = function (options) {
+        return new IconPicker(options);
+    };
+
+})();
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "../system/module_settings.js":
+/*!************************************!*\
+  !*** ../system/module_settings.js ***!
+  \************************************/
+/***/ (() => {
+
+mw.moduleSettings = function(options){
+    /*
+        options:
+
+            data: [Object],
+            element: NodeElement || selector string || jQuery array,
+            schema: mw.propEditor.schema,
+            key: String
+            group: String,
+            autoSave: Boolean
+
+    */
+
+    var defaults = {
+        sortable: true,
+        autoSave: true
+    };
+
+    if(!options.schema || !options.data || !options.element) return;
+
+    this.options = $.extend({}, defaults, options);
+
+    this.options.element = mw.$(this.options.element)[0];
+    this.value = this.options.data.slice();
+
+    var scope = this;
+
+    this.items = [];
+
+    if(!this.options.element) return;
+
+    this.createItemHolderHeader = function(i){
+        if(this.options.header){
+            var header = document.createElement('div');
+            header.className = "mw-ui-box-header";
+            header.innerHTML = this.options.header.replace(/{count}/g, '<span class="mw-module-settings-box-index">'+(i+1)+'</span>');
+            mw.$(header).on('click', function(){
+                mw.$(this).next().slideToggle();
+            });
+            return header;
+
+        }
+    };
+    this.headerAnalize = function(header){
+        mw.$("[data-action='remove']", header).on('click', function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            $(mw.tools.firstParentOrCurrentWithAnyOfClasses(this, ['mw-module-settings-box'])).remove();
+            scope.refactorDomPosition();
+            scope.autoSave();
+        });
+    };
+    this.createItemHolder = function(i){
+        i = i || 0;
+        var holder = document.createElement('div');
+        var holderin = document.createElement('div');
+        holder.className = 'mw-ui-box mw-module-settings-box';
+        holderin.className = 'mw-ui-box-content mw-module-settings-box-content';
+        holderin.style.display = 'none';
+        holder.appendChild(holderin);
+        if(!this.options.element.children) {
+            this.options.element.appendChild(holder);
+        } else if (!this.options.element.children[i]){
+            this.options.element.appendChild(holder);
+        } else if (this.options.element.children[i]){
+            $(this.options.element.children[i]).before(holder);
+        }
+
+
+        return holder;
+    };
+
+    this.addNew = function(pos, method){
+        method = method || 'new';
+        pos = pos || 0;
+        var _new;
+
+        var val = this.value[0];
+
+        if(val) {
+            _new = mw.tools.cloneObject(JSON.parse(JSON.stringify(this.value[0])));
+
+        } else {
+            _new = {};
+        }
+
+
+        if(_new.title) {
+            _new.title += ' - new';
+        } else if(_new.name) {
+            _new.name += ' - new';
+        }
+        if(method === 'new'){
+            $.each(this.options.schema, function(){
+                if(this.value) {
+                    if(typeof this.value === 'function') {
+                        _new[this.id] = this.value();
+                    } else {
+                        _new[this.id] = this.value;
+                    }
+                }
+            });
+        }
+
+        this.value.splice(pos, 0, _new);
+        this.createItem(_new, pos);
+        scope.refactorDomPosition();
+        scope.autoSave();
+    };
+
+    this.remove = function(pos){
+        if(typeof pos === 'undefined') return;
+        this.value.splice(pos, 1);
+        this.items.splice(pos, 1);
+        mw.$(this.options.element).children().eq(pos).animate({opacity: 0, height: 0}, function(){
+            mw.$(this).remove();
+        });
+        mw.$(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
+    };
+
+    this.createItem = function(curr, i){
+        var box = this.createItemHolder(i);
+        var header = this.createItemHolderHeader(i);
+        var item = new mw.propEditor.schema({
+            schema: this.options.schema,
+            element: box.querySelector('.mw-ui-box-content')
+        });
+        mw.$(box).prepend(header);
+        this.headerAnalize(header);
+        this.items.push(item);
+        item.options.element._prop = item;
+        item.setValue(curr);
+        mw.$(item).on('change', function(){
+            $.each(item.getValue(), function(a, b){
+                // todo: faster approach
+                var index = mw.$(box).parent().children('.mw-module-settings-box').index(box);
+                scope.value[index][a] = b;
+            });
+            $('[data-bind]', header).each(function () {
+                var val = item.getValue();
+                var bind = this.dataset.bind;
+                if(val[bind]){
+                    this.innerHTML = val[bind];
+                } else {
+                    this.innerHTML = this.dataset.orig;
+                }
+            });
+            mw.$(scope).trigger('change', [scope.value/*, scope.value[i]*/]);
+        });
+        $('[data-bind]', header).each(function () {
+            var val = item.getValue();
+            var bind = this.dataset.bind;
+            this.dataset.orig = this.innerHTML;
+            if(val[bind]){
+                this.innerHTML = val[bind];
+            }
+        });
+    };
+
+    this._autoSaveTime = null;
+    this.autoSave = function(){
+        if(this.options.autoSave){
+            clearTimeout(this._autoSaveTime);
+            this._autoSaveTime = setTimeout(function(){
+                scope.save();
+            }, 500);
+        }
+    };
+
+    this.refactorDomPosition = function(){
+        scope.items = [];
+        scope.value = [];
+        mw.$(".mw-module-settings-box-index", this.options.element).each(function (i) {
+            mw.$(this).text(i+1);
+        });
+        mw.$('.mw-module-settings-box-content', this.options.element).each(function(i){
+            scope.items.push(this._prop);
+            scope.value.push(this._prop.getValue());
+        });
+        mw.$(scope).trigger('change', [scope.value]);
+    };
+
+    this.create = function(){
+        this.value.forEach(function(curr, i){
+            scope.createItem(curr, i);
+        });
+        if(this.options.sortable && $.fn.sortable){
+            var conf = {
+                update: function (event, ui) {
+                    setTimeout(function(){
+                        scope.refactorDomPosition();
+                        scope.autoSave();
+                    }, 10);
+                },
+                handle:this.options.header ? '.mw-ui-box-header' : undefined,
+                axis:'y'
+            };
+            if(typeof this.options.sortable === 'object'){
+                conf = $.extend({}, conf, this.options.sortable);
+            }
+            mw.$(this.options.element).sortable(conf);
+        }
+    };
+
+    this.init = function(){
+        this.create();
+    };
+
+    this.save = function(){
+        var key = (this.options.key || this.options.option_key);
+        var group = (this.options.group || this.options.option_group);
+        if( key && group){
+            var options = {
+                group:this.options.group,
+                key:this.options.key,
+                value:this.toString()
+            };
+            mw.options.saveOption(options, function(){
+                mw.notification.msg(scope.savedMessage || mw.msg.settingsSaved)
+            });
+        }
+        else{
+            if(!key){
+                console.warn('Option key is not defined.');
+            }
+            if(!group){
+                console.warn('Option group is not defined.');
+            }
+        }
+
+    };
+
+
+    this.toString = function(){
+        return JSON.stringify(this.value);
+    };
+
+    this.init();
+};
+
+
+/***/ }),
+
+/***/ "../system/prop_editor.js":
+/*!********************************!*\
+  !*** ../system/prop_editor.js ***!
+  \********************************/
+/***/ (() => {
+
+mw.propEditor = {
+    addInterface:function(name, func){
+        this.interfaces[name] = this.interfaces[name] || func;
+    },
+    getRootElement: function(node){
+        if(node.nodeName !== 'IFRAME') return node;
+        return $(node).contents().find('body')[0];
+    },
+    helpers:{
+        wrapper:function(){
+            var el = document.createElement('div');
+            el.className = 'mw-ui-field-holder prop-ui-field-holder';
+            return el;
+        },
+        buttonNav:function(){
+            var el = document.createElement('div');
+            el.className = 'mw-ui-btn-nav prop-ui-field-holder';
+            return el;
+        },
+        quatroWrapper:function(cls){
+            var el = document.createElement('div');
+            el.className = cls || 'prop-ui-field-quatro';
+            return el;
+        },
+        label:function(content){
+            var el = document.createElement('label');
+            el.className = 'control-label d-block prop-ui-label';
+            el.innerHTML = content;
+            return el;
+        },
+        button:function(content){
+            var el = document.createElement('button');
+            el.className = 'mw-ui-btn';
+            el.innerHTML = content;
+            return el;
+        },
+        field: function(val, type, options){
+            type = type || 'text';
+            var el;
+            if(type === 'select'){
+                el = document.createElement('select');
+                if(options && options.length){
+                    var option = document.createElement('option');
+                        option.innerHTML = 'Choose...';
+                        option.value = '';
+                        el.appendChild(option);
+                    for(var i=0;i<options.length;i++){
+                        var opt = document.createElement('option');
+                        if(typeof options[i] === 'string' || typeof options[i] === 'number'){
+                            opt.innerHTML = options[i];
+                            opt.value = options[i];
+                        }
+                        else{
+                            opt.innerHTML = options[i].title;
+                            opt.value = options[i].value;
+                        }
+                        el.appendChild(opt);
+                    }
+                }
+            }
+            else if(type === 'textarea'){
+                el = document.createElement('textarea');
+            } else{
+                el = document.createElement('input');
+                try { // IE11 throws error on html5 types
+                    el.type = type;
+                } catch (err) {
+                    el.type = 'text';
+                }
+
+            }
+
+            el.className = 'form-control prop-ui-field';
+            el.value = val;
+            return el;
+        },
+        fieldPack:function(label, type){
+            var field = mw.propEditor.helpers.field('', type);
+            var holder = mw.propEditor.helpers.wrapper();
+            label = mw.propEditor.helpers.label(label);
+            holder.appendChild(label)
+            holder.appendChild(field);
+            return{
+                label:label,
+                holder:holder,
+                field:field
+            }
+        }
+    },
+    rend:function(element, rend){
+
+        element = mw.propEditor.getRootElement(element);
+        for(var i=0;i<rend.length;i++){
+            element.appendChild(rend[i].node);
+        }
+    },
+    schema:function(options){
+        this._after = [];
+        this.setSchema = function(schema){
+            this.options.schema = schema;
+            this._rend = [];
+            this._valSchema = this._valSchema || {};
+            for(var i =0; i< this.options.schema.length; i++){
+                var item = this.options.schema[i];
+                if(typeof this._valSchema[item.id] === 'undefined' && this._cache.indexOf(item) === -1){
+                    this._cache.push(item)
+                    var curr = new mw.propEditor.interfaces[item.interface](this, item);
+                    this._rend.push(curr);
+                    if(item.id){
+                        this._valSchema[item.id] = this._valSchema[item.id] || '';
+                    }
+                }
+            }
+            $(this.rootHolder).html(' ').addClass('mw-prop-editor-root');
+            mw.propEditor.rend(this.rootHolder, this._rend);
+        };
+        this.updateSchema = function(schema){
+            var final = [];
+            for(var i =0; i<schema.length;i++){
+                var item = schema[i];
+
+                if(typeof this._valSchema[item.id] === 'undefined' && this._cache.indexOf(item) === -1){
+                    this.options.schema.push(item);
+                    this._cache.push(item)
+                    var create = new mw.propEditor.interfaces[item.interface](this, item);
+                    this._rend.push(create);
+                    final.push(create);
+                    if(item.id){
+                        this._valSchema[item.id] = this._valSchema[item.id] || '';
+                    }
+                    //this.rootHolder.appendChild(create.node);
+                }
+            }
+            return final;
+        };
+        this.setValue = function(val){
+            if(!val){
+                return;
+            }
+            for(var i in val){
+                var rend = this.getRendById(i);
+                if(!!rend){
+                    rend.setValue(val[i]);
+                }
+            }
+        };
+        this.getValue = function(){
+            return this._valSchema;
+        };
+        this.disable = function(){
+            this.disabled = true;
+            $(this.rootHolder).addClass('disabled');
+        };
+        this.enable = function(){
+            this.disabled = false;
+            $(this.rootHolder).removeClass('disabled');
+        };
+        this.getRendById = function(id) {
+            for(var i in this._rend) {
+                if(this._rend[i].id === id) {
+                    return this._rend[i];
+                }
+            }
+        };
+        this._cache = [];
+        this.options = options;
+        this.options.element = typeof this.options.element === 'string' ? document.querySelector(options.element) : this.options.element;
+        this.rootHolder = mw.propEditor.getRootElement(this.options.element);
+        this.setSchema(this.options.schema);
+
+        this._after.forEach(function (value) {
+            value.items.forEach(function (item) {
+                value.node.appendChild(item.node);
+            });
+        });
+
+        mw.trigger('ComponentsLaunch');
+    },
+
+    interfaces:{
+        quatro:function(proto, config){
+            //"2px 4px 8px 122px"
+            var holder = mw.propEditor.helpers.quatroWrapper('mw-css-editor-group');
+
+            for(var i = 0; i<4; i++){
+                var item = mw.propEditor.helpers.fieldPack(config.label[i], 'size');
+                holder.appendChild(item.holder);
+                item.field.oninput = function(){
+                    var final = '';
+                    var all = holder.querySelectorAll('input'), i = 0;
+                    for( ; i<all.length; i++){
+                        var unit = all[i].dataset.unit || '';
+                        final+= ' ' + all[i].value + unit ;
+                    }
+                    proto._valSchema[config.id] = final.trim();
+                     $(proto).trigger('change', [config.id, final.trim()]);
+                };
+            }
+            this.node = holder;
+            this.setValue = function(value){
+                value = value.trim();
+                var arr = value.split(' ');
+                var all = holder.querySelectorAll('input'), i = 0;
+                for( ; i<all.length; i++){
+                    all[i].value = parseInt(arr[i], 10);
+                    if(typeof arr[i] === 'undefined'){
+                        arr[i] = '';
+                    }
+                    var unit = arr[i].replace(/[0-9]/g, '');
+                    all[i].dataset.unit = unit;
+                }
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+        },
+        hr:function(proto, config){
+            var el = document.createElement('hr');
+            el.className = ' ';
+            this.node = el;
+        },
+        block: function(proto, config){
+            var node = document.createElement('div');
+            if(typeof config.content === 'string') {
+                node.innerHTML = config.content;
+            } else {
+                var newItems = proto.updateSchema(config.content);
+                proto._after.push({node: node, items: newItems});
+            }
+            if(config.class){
+                node.className = config.class;
+            }
+            this.node = node;
+        },
+        size:function(proto, config){
+            var field = mw.propEditor.helpers.field('', 'text');
+            this.field = field;
+            config.autocomplete = config.autocomplete || ['auto'];
+
+            var holder = mw.propEditor.helpers.wrapper();
+            var buttonNav = mw.propEditor.helpers.buttonNav();
+            var label = mw.propEditor.helpers.label(config.label);
+            var scope = this;
+            var dtlist = document.createElement('datalist');
+            dtlist.id = 'mw-datalist-' + mw.random();
+            config.autocomplete.forEach(function (value) {
+                var option = document.createElement('option');
+                option.value = value;
+                dtlist.appendChild(option)
+            });
+
+            this.field.setAttribute('list', dtlist.id);
+            document.body.appendChild(dtlist);
+
+            this._makeVal = function(){
+                if(field.value === 'auto'){
+                    return 'auto';
+                }
+                return field.value + field.dataset.unit;
+            };
+
+            var unitSelector = mw.propEditor.helpers.field('', 'select', [
+                'px', '%', 'rem', 'em', 'vh', 'vw', 'ex', 'cm', 'mm', 'in', 'pt', 'pc', 'ch'
+            ]);
+            this.unitSelector = unitSelector;
+            $(holder).addClass('prop-ui-field-holder-size');
+            $(unitSelector)
+                .val('px')
+                .addClass('prop-ui-field-unit');
+            unitSelector.onchange = function(){
+                field.dataset.unit = $(this).val() || 'px';
+
+                $(proto).trigger('change', [config.id, scope._makeVal()]);
+            };
+
+            $(unitSelector).on('change', function(){
+
+            });
+
+            holder.appendChild(label);
+            buttonNav.appendChild(field);
+            buttonNav.appendChild(unitSelector);
+            holder.appendChild(buttonNav);
+
+            field.oninput = function(){
+
+                proto._valSchema[config.id] = this.value + this.dataset.unit;
+                $(proto).trigger('change', [config.id, scope._makeVal()]);
+            };
+
+            this.node = holder;
+            this.setValue = function(value){
+                var an = parseInt(value, 10);
+                field.value = isNaN(an) ? value : an;
+                proto._valSchema[config.id] = value;
+                var unit = value.replace(/[0-9]/g, '').replace(/\./g, '');
+                field.dataset.unit = unit;
+                $(unitSelector).val(unit);
+            };
+            this.id = config.id;
+
+        },
+        text:function(proto, config){
+            var val = '';
+            if(config.value){
+                if(typeof config.value === 'function'){
+                    val = config.value();
+                } else {
+                    val = config.value;
+                }
+            }
+            var field = mw.propEditor.helpers.field(val, 'text');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            field.oninput = function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            };
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+        },
+        hidden:function(proto, config){
+            var val = '';
+            if(config.value){
+                if(typeof config.value === 'function'){
+                    val = config.value();
+                } else {
+                    val = config.value;
+                }
+            }
+
+            var field = mw.propEditor.helpers.field(val, 'hidden');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            field.oninput = function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            };
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+        },
+        shadow: function(proto, config){
+            var scope = this;
+
+            this.fields = {
+                position : mw.propEditor.helpers.field('', 'select', [{title:'Outside', value: ''}, {title:'Inside', value: 'inset'}]),
+                x : mw.propEditor.helpers.field('', 'number'),
+                y : mw.propEditor.helpers.field('', 'number'),
+                blur : mw.propEditor.helpers.field('', 'number'),
+                spread : mw.propEditor.helpers.field('', 'number'),
+                color : mw.propEditor.helpers.field('', 'text')
+            };
+
+            this.fields.position.placeholder = 'Position';
+            this.fields.x.placeholder = 'X offset';
+            this.fields.y.placeholder = 'Y offset';
+            this.fields.blur.placeholder = 'Blur';
+            this.fields.spread.placeholder = 'Spread';
+            this.fields.color.placeholder = 'Color';
+            this.fields.color.dataset.options = 'position: ' + (config.pickerPosition || 'bottom-center');
+            //$(this.fields.color).addClass('mw-color-picker');
+            mw.colorPicker({
+                element:this.fields.color,
+                position:'top-left',
+                onchange:function(color){
+                    $(scope.fields.color).trigger('change', color)
+                    scope.fields.color.style.backgroundColor = color;
+                    scope.fields.color.style.color = mw.color.isDark(color) ? 'white' : 'black';
+                }
+            });
+
+            var labelPosition = mw.propEditor.helpers.label('Position');
+            var labelX = mw.propEditor.helpers.label('X offset');
+            var labelY = mw.propEditor.helpers.label('Y offset');
+            var labelBlur = mw.propEditor.helpers.label('Blur');
+            var labelSpread = mw.propEditor.helpers.label('Spread');
+            var labelColor = mw.propEditor.helpers.label('Color');
+
+            var wrapPosition = mw.propEditor.helpers.wrapper();
+            var wrapX = mw.propEditor.helpers.wrapper();
+            var wrapY = mw.propEditor.helpers.wrapper();
+            var wrapBlur = mw.propEditor.helpers.wrapper();
+            var wrapSpread = mw.propEditor.helpers.wrapper();
+            var wrapColor = mw.propEditor.helpers.wrapper();
+
+
+
+            this.$fields = $();
+
+            $.each(this.fields, function(){
+                scope.$fields.push(this);
+            });
+
+            $(this.$fields).on('input change', function(){
+                var val = ($(scope.fields.position).val() || '')
+                    + ' ' + (scope.fields.x.value || 0) + 'px'
+                    + ' ' + (scope.fields.y.value || 0) + 'px'
+                    + ' ' + (scope.fields.blur.value || 0) + 'px'
+                    + ' ' + (scope.fields.spread.value || 0) + 'px'
+                    + ' ' + (scope.fields.color.value || 'rgba(0,0,0,.5)');
+                proto._valSchema[config.id] = val;
+                $(proto).trigger('change', [config.id, val]);
+            });
+
+
+            var holder = mw.propEditor.helpers.wrapper();
+
+            var label = mw.propEditor.helpers.label(config.label ? config.label : '');
+            if(config.label){
+                holder.appendChild(label);
+            }
+            var row1 = mw.propEditor.helpers.wrapper();
+            var row2 = mw.propEditor.helpers.wrapper();
+            row1.className = 'mw-css-editor-group';
+            row2.className = 'mw-css-editor-group';
+
+
+            wrapPosition.appendChild(labelPosition);
+            wrapPosition.appendChild(this.fields.position);
+            row1.appendChild(wrapPosition);
+
+            wrapX.appendChild(labelX);
+            wrapX.appendChild(this.fields.x);
+            row1.appendChild(wrapX);
+
+
+            wrapY.appendChild(labelY);
+            wrapY.appendChild(this.fields.y);
+            row1.appendChild(wrapY);
+
+            wrapColor.appendChild(labelColor);
+            wrapColor.appendChild(this.fields.color);
+            row2.appendChild(wrapColor);
+
+            wrapBlur.appendChild(labelBlur);
+            wrapBlur.appendChild(this.fields.blur);
+            row2.appendChild(wrapBlur);
+
+            wrapSpread.appendChild(labelSpread);
+            wrapSpread.appendChild(this.fields.spread);
+            row2.appendChild(wrapSpread);
+
+            holder.appendChild(row1);
+            holder.appendChild(row2);
+
+            $(this.fields).each(function () {
+                $(this).on('input change', function(){
+                    proto._valSchema[config.id] = this.value;
+                    $(proto).trigger('change', [config.id, this.value]);
+                });
+            });
+
+
+            this.node = holder;
+            this.setValue = function(value){
+                var parse = this.parseShadow(value);
+                $.each(parse, function (key, val) {
+                    scope.fields[key].value = this;
+                });
+                proto._valSchema[config.id] = value;
+            };
+            this.parseShadow = function(shadow){
+                var inset = false;
+                if(shadow.indexOf('inset') !== -1){
+                    inset = true;
+                }
+                var arr = shadow.replace('inset', '').trim().replace(/\s{2,}/g, ' ').split(' ');
+                var sh = {
+                    position: inset ? 'in' : 'out',
+                    x:0,
+                    y: 0,
+                    blur: 0,
+                    spread: 0,
+                    color: 'transparent'
+                };
+                if(!arr[2]){
+                    return sh;
+                }
+                sh.x = arr[0];
+                sh.y = arr[1];
+                sh.blur = (!isNaN(parseInt(arr[2], 10))?arr[2]:'0px');
+                sh.spread = (!isNaN(parseInt(arr[3], 10))?arr[3]:'0px');
+                sh.color = isNaN(parseInt(arr[arr.length-1])) ? arr[arr.length-1] : 'transparent';
+                return sh;
+            };
+            this.id = config.id;
+        },
+        number:function(proto, config){
+            var field = mw.propEditor.helpers.field('', 'number');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            field.oninput = function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            };
+            this.node = holder;
+            this.setValue=function(value){
+                field.value = parseInt(value, 10);
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+        },
+        color:function(proto, config){
+            var field = mw.propEditor.helpers.field('', 'text');
+            if(field.type !== 'color'){
+                mw.colorPicker({
+                    element:field,
+                    position: config.position || 'bottom-center',
+                    onchange:function(){
+                        $(proto).trigger('change', [config.id, field.value]);
+                    }
+                });
+            }
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            field.oninput = function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            }
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value
+            };
+            this.id = config.id
+        },
+        select:function(proto, config){
+            var field = mw.propEditor.helpers.field('', 'select', config.options);
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            field.onchange = function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            };
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value
+            };
+            this.id = config.id;
+        },
+        file:function(proto, config){
+            if(config.multiple === true){
+                config.multiple = 99;
+            }
+            if(!config.multiple){
+                config.multiple = 1;
+            }
+            var scope = this;
+            var createButton = function(imageUrl, i, proto){
+                imageUrl = imageUrl || '';
+                var el = document.createElement('div');
+                el.className = 'upload-button-prop mw-ui-box mw-ui-box-content';
+                var btn =  document.createElement('span');
+                btn.className = ('mw-ui-btn');
+                btn.innerHTML = ('<span class="mw-icon-upload"></span>');
+                btn.style.backgroundSize = 'cover';
+                btn.style.backgroundColor = 'transparent';
+                el.style.backgroundSize = 'cover';
+                btn._value = imageUrl;
+                btn._index = i;
+                if(imageUrl){
+                    el.style.backgroundImage = 'url(' + imageUrl + ')';
+                }
+                btn.onclick = function(){
+                    mw.top().fileWindow({
+                        types:'images',
+                        change:function(url){
+                            if(!url) return;
+                            url = url.toString();
+                            proto._valSchema[config.id] = proto._valSchema[config.id] || [];
+                            proto._valSchema[config.id][btn._index] = url;
+                            el.style.backgroundImage = 'url(' + url + ')';
+                            btn._value = url;
+                            scope.refactor();
+                        }
+                    });
+                };
+                var close = document.createElement('span');
+                close.className = 'mw-badge mw-badge-important';
+                close.innerHTML = '<span class="mw-icon-close"></span>';
+
+                close.onclick = function(e){
+                    scope.remove(el);
+                    e.preventDefault();
+                    e.stopPropagation();
+                };
+                el.appendChild(close);
+                el.appendChild(btn);
+                return el;
+            };
+
+            this.remove = function (i) {
+                if(typeof i === 'number'){
+                    $('.upload-button-prop', el).eq(i).remove();
+                }
+                else{
+                    $(i).remove();
+                }
+                scope.refactor();
+            };
+
+            this.addImageButton = function(){
+                if(config.multiple){
+                    this.addBtn = document.createElement('div');
+                    this.addBtn.className = 'mw-ui-link';
+                    //this.addBtn.innerHTML = '<span class="mw-icon-plus"></span>';
+                    this.addBtn.innerHTML = mw.msg.addImage;
+                    this.addBtn.onclick = function(){
+                        el.appendChild(createButton(undefined, 0, proto));
+                        scope.manageAddImageButton();
+                    };
+                    holder.appendChild(this.addBtn);
+                }
+            };
+
+            this.manageAddImageButton = function(){
+                var isVisible = $('.upload-button-prop', this.node).length < config.multiple;
+                this.addBtn.style.display = isVisible ? 'inline-block' : 'none';
+            };
+
+            var btn = createButton(undefined, 0, proto);
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            var el = document.createElement('div');
+            el.className = 'mw-ui-box-content';
+            el.appendChild(btn);
+            holder.appendChild(el);
+
+            this.addImageButton();
+            this.manageAddImageButton();
+
+            if($.fn.sortable){
+                $(el).sortable({
+                    update:function(){
+                        scope.refactor();
+                    }
+                });
+            }
+
+
+
+            this.refactor = function () {
+                var val = [];
+                $('.mw-ui-btn', el).each(function(){
+                    val.push(this._value);
+                });
+                this.manageAddImageButton();
+                if(val.length === 0){
+                    val = [''];
+                }
+                proto._valSchema[config.id] = val;
+                $(proto).trigger('change', [config.id, proto._valSchema[config.id]]);
+            };
+
+            this.node = holder;
+            this.setValue = function(value){
+                value = value || [''];
+                proto._valSchema[config.id] = value;
+                $('.upload-button-prop', holder).remove();
+                if(typeof value === 'string'){
+                    el.appendChild(createButton(value, 0, proto));
+                }
+                else{
+                    $.each(value, function (index) {
+                        el.appendChild(createButton(this, index, proto));
+                    });
+                }
+
+                this.manageAddImageButton();
+            };
+            this.id = config.id;
+        },
+        icon: function(proto, config){
+            var holder = mw.propEditor.helpers.wrapper();
+
+            var el = document.createElement('span');
+            el.className = "mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-outline";
+            var elTarget = document.createElement('i');
+
+/*            var selector = mw.iconSelector.iconDropdown(holder, {
+                onchange: function (ic) {
+                    proto._valSchema[config.id] = ic;
+                    $(proto).trigger('change', [config.id, ic]);
+                },
+                mode: 'relative',
+                value: ''
+            });*/
+
+            el.onclick = function () {
+                picker.dialog();
+            };
+            mw.iconLoader().init();
+            var picker = mw.iconPicker({iconOptions: false});
+            picker.target = elTarget;
+            picker.on('select', function (data) {
+                data.render();
+                proto._valSchema[config.id] = picker.target.outerHTML;
+                $(proto).trigger('change', [config.id, picker.target.outerHTML]);
+                picker.dialog('hide');
+             });
+
+            var label = mw.propEditor.helpers.label(config.label);
+
+            $(el).prepend(elTarget);
+            $(holder).prepend(el);
+            $(holder).prepend(label);
+
+            this.node = holder;
+            this.setValue = function(value){
+                if(picker && picker.value) {
+                    picker.value(value);
+
+                }
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+
+        },
+        richtext:function(proto, config){
+            var field = mw.propEditor.helpers.field('', 'textarea');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            $(field).on('change', function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            });
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                this.editor.setContent(value, true);
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+            var defaults = {
+                height: 120,
+                mode: 'div',
+                smallEditor: false,
+                controls: [
+                    [
+                        'bold', 'italic',
+                        {
+                            group: {
+                                icon: 'mdi xmdi-format-bold',
+                                controls: ['underline', 'strikeThrough', 'removeFormat']
+                            }
+                        },
+
+                        '|', 'align', '|', 'textColor', 'textBackgroundColor', '|', 'link', 'unlink'
+                    ],
+                ]
+            };
+            config.options = config.options || {};
+            this.editor = mw.Editor($.extend({}, defaults, config.options, {selector: field}));
+        }
+    }
+};
+
+
+/***/ }),
+
+/***/ "../system/state.js":
+/*!**************************!*\
+  !*** ../system/state.js ***!
+  \**************************/
+/***/ (() => {
+
+(function (){
+    if(mw.State) return;
+    var State = function(options){
+
+        var scope = this;
+        var defaults = {
+            maxItems: 1000
+        };
+        this.options = $.extend({}, defaults, (options || {}));
+        this._state = this.options.state || [];
+        this._active = null;
+        this._activeIndex = -1;
+
+        this.hasNext = false;
+        this.hasPrev = false;
+
+        this.state = function(state){
+            if(!state){
+                return this._state;
+            }
+            this._state = state;
+            return this;
+        };
+
+
+        this.active = function(active){
+            if(!active){
+                return this._active;
+            }
+        };
+
+        this.activeIndex = function(activeIndex){
+            if(!activeIndex){
+                return this._activeIndex;
+            }
+        };
+
+        this._timeout = null;
+        this.timeoutRecord = function(item){
+            clearTimeout(this._timeout);
+            this._timeout = setTimeout(function(scope, item){
+                scope.record(item);
+            }, 333, this, item);
+        };
+
+        var recentRecordIsEqual = function (item) {
+            const curr = scope._state[0];
+            if(!curr) return false;
+            for (var n in item) {
+                if(curr[n] !== item[n]) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        this.record = function(item){
+            if(this._activeIndex>-1) {
+                var i = 0;
+                while ( i <  this._activeIndex) {
+                    this._state.shift();
+                    i++;
+                }
+            }
+            if (recentRecordIsEqual(item)) {
+                return;
+            }
+            this._state.unshift(item);
+            if(this._state.length >= this.options.maxItems) {
+                this._state.splice(-1,1);
+            }
+            this._active = null;
+            this._activeIndex = -1;
+            this.afterChange(false);
+            mw.$(this).trigger('stateRecord', [this.eventData()]);
+            return this;
+        };
+
+        this.actionRecord = function(recordGenFunc, action){
+            this.record(recordGenFunc());
+            action.call();
+            this.record(recordGenFunc());
+        };
+
+        this.redo = function(){
+            this._activeIndex--;
+            this._active = this._state[this._activeIndex];
+            this.afterChange('stateRedo');
+            return this;
+        };
+
+        this.undo = function(){
+            if(this._activeIndex === -1) {
+                this._activeIndex = 1;
+            }
+            else{
+                this._activeIndex++;
+            }
+            this._active = this._state[this._activeIndex];
+            this.afterChange('stateUndo');
+            return this;
+        };
+
+        this.hasRecords = function(){
+            return !!this._state.length;
+        };
+
+        this.eventData = function(){
+            return {
+                hasPrev: this.hasPrev,
+                hasNext: this.hasNext,
+                active: this.active(),
+                activeIndex: this.activeIndex()
+            };
+        };
+        this.afterChange = function(action){
+            this.hasNext = true;
+            this.hasPrev = true;
+
+            if(action) {
+                if(this._activeIndex >= this._state.length) {
+                    this._activeIndex = this._state.length - 1;
+                    this._active = this._state[this._activeIndex];
+                }
+            }
+
+            if(this._activeIndex <= 0) {
+                this.hasPrev = false;
+            }
+            if(this._activeIndex === this._state.length-1 || (this._state.length === 1 && this._state[0].$initial)) {
+                this.hasNext = false;
+            }
+
+            if(action){
+
+                mw.$(this).trigger(action, [this.eventData()]);
+            }
+            if(action !== false){
+                mw.$(this).trigger('change', [this.eventData()]);
+            }
+            return this;
+        };
+
+        this.reset = function(){
+            this._state = this.options.state || [];
+            this.afterChange('reset');
+            return this;
+        };
+
+        this.clear = function(){
+            this._state = [];
+            this.afterChange('clear');
+            return this;
+        };
+
+
+    };
+    mw.State = State;
+})();
+
+(function(){
+    if(mw.liveEditState) return;
+    mw.liveEditState = new mw.State();
+    mw.liveEditState.record({
+         value: null,
+         $initial: true
+    });
+    mw.$liveEditState = mw.$(mw.liveEditState);
+
+    var ui = mw.$('<div class="mw-ui-btn-nav"></div>'),
+        undo = document.createElement('span'),
+        redo = document.createElement('span');
+    undo.className = 'mw-ui-btn mw-ui-btn-medium';
+    undo.innerHTML = '<span class="mw-icon-reply"></span>';
+    redo.className = 'mw-ui-btn mw-ui-btn-medium';
+    redo.innerHTML = '<span class="mw-icon-forward"></span>';
+
+    undo.onclick = function(){
+        mw.liveEditState.undo();
+    };
+    redo.onclick = function(){
+        mw.liveEditState.redo();
+    };
+
+    ui.append(undo);
+    ui.append(redo);
+
+    mw.$(document).ready(function(){
+        var idata = mw.liveEditState.eventData();
+
+        mw.$(undo)[!idata.hasNext?'addClass':'removeClass']('disabled');
+        mw.$(redo)[!idata.hasPrev?'addClass':'removeClass']('disabled');
+
+        /*undo.disabled = !idata.hasNext;
+        redo.disabled = !idata.hasPrev;*/
+
+        var edits = document.querySelectorAll('.edit'), editstime = null;
+
+        for ( var i = 0; i < edits.length; i++ ) {
+            if(!mw.tools.hasParentsWithClass(this, 'edit')) {
+                edits[i].addEventListener('keydown', function (e) {
+                    var sel = getSelection();
+                    var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+                    if(target && !target.__initialRecord) {
+                        target.__initialRecord = true;
+
+                        mw.liveEditState.record({
+                            target: target,
+                            value: target.innerHTML
+                        });
+                    }
+                });
+                edits[i].addEventListener('input', function (e) {
+                    clearTimeout(editstime);
+                    editstime = setTimeout(function () {
+                        var sel = getSelection();
+                        var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+                        if(!target) return;
+                        mw.liveEditState.record({
+                            target: target,
+                            value: target.innerHTML
+                        });
+                        this.__initialRecord = false;
+                    }, 1234);
+                });
+            }
+        }
+
+        mw.$liveEditState.on('stateRecord', function(e, data){
+            mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+            mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
+        });
+        mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
+
+
+
+            if(!data.active || (!data.active.target && !data.active.action)) {
+                mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+                mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
+                return;
+            }
+            if(data.active.action) {
+                data.active.action();
+            } else if(document.body.contains(data.active.target)) {
+                mw.$(data.active.target).html(data.active.value);
+            } else{
+                if(data.active.target.id) {
+                    mw.$(document.getElementById(data.active.target.id)).html(data.active.value);
+                }
+            }
+            if(data.active.prev) {
+                mw.$(data.active.prev).html(data.active.prevValue);
+            }
+            mw.drag.load_new_modules();
+            mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
+            mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
+        });
+
+        mw.$('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
+        mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);
+
+
+
+
+
+        mw.element(document.body).on('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'z') {
+                e.preventDefault();
+                mw.liveEditState.undo();
+            } else if (e.ctrlKey && e.key === 'y') {
+                e.preventDefault();
+                mw.liveEditState.redo();
+            }
+        });
+
+    });
+
+})();
+
+
+
+
+/***/ }),
+
 /***/ "../tools/@tools.js":
 /*!**************************!*\
   !*** ../tools/@tools.js ***!
@@ -19743,6 +22544,13 @@ return jQuery;
 /******/ 	__webpack_require__("../core/upgrades.js");
 /******/ 	__webpack_require__("../core/uploader.js");
 /******/ 	__webpack_require__("../core/url.js");
+/******/ 	__webpack_require__("../system/color.js");
+/******/ 	__webpack_require__("../system/css_parser.js");
+/******/ 	__webpack_require__("../system/filepicker.js");
+/******/ 	__webpack_require__("../system/icon_selector.js");
+/******/ 	__webpack_require__("../system/module_settings.js");
+/******/ 	__webpack_require__("../system/prop_editor.js");
+/******/ 	__webpack_require__("../system/state.js");
 /******/ 	__webpack_require__("../tools/@tools.js");
 /******/ 	__webpack_require__("../tools/core-tools/common-extend.js");
 /******/ 	__webpack_require__("../tools/core-tools/common.js");

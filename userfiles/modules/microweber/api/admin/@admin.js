@@ -26,7 +26,6 @@ mw.admin = {
             area = mw.$(area);
             var frame = document.createElement('iframe');
             frame.src = mw.external_tool('wysiwyg?' + params);
-            console.log(mw.external_tool('wysiwyg?' + params))
             frame.className = 'mw-iframe-editor';
             frame.scrolling = 'no';
             var name = 'mweditor' + mw.random();

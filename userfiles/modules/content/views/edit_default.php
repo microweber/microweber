@@ -90,12 +90,6 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
             });
 
 
-            $('.fade-window').on('scroll', function () {
-                var otop = $('.mw-iframe-editor').offset().top;
-                $('#mw-admin-content-iframe-editor iframe').contents().find('#mw-admin-text-editor')[otop <= 0 ? 'addClass' : 'removeClass']('scrolled').css({
-                    top: otop <= 0 ? Math.abs(otop) : 0
-                });
-            })
 
         });
     </script>
@@ -109,42 +103,6 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
 <script>
     $(document).ready(function () {
-        var all = $(window);
-        var header = document.querySelector('#mw-admin-container header');
-        var postHeader = mw.element(document.querySelector('#content-title-field-row .card-header'));
-        all.push(document)
-        all.on('scroll load resize', function () {
-            var stop = $(this).scrollTop(),
-                otop = $('.mw-iframe-editor').offset().top,
-                tbheight = $('.admin-toolbar').outerHeight(),
-                is = (stop + tbheight) >= otop;
-
-
-            $('#mw-admin-content-iframe-editor iframe').contents().find('#mw-admin-text-editor')[is ? 'addClass' : 'removeClass']('scrolled').css({
-                top: is ? Math.abs((stop + tbheight) - otop) : 0
-            });
-            var fixinheaderTime = null;
-            if (stop > $(".admin-toolbar").height()) {
-
-                $(".top-bar").addClass("fix-in-header").css('left', $('.window-holder').offset().left);
-                fixinheaderTime = setTimeout(function () {
-                    $(".top-bar").addClass("after-fix-in-header")
-                    // $("#create-content-btn").hide()
-                }, 10)
-            }
-            else {
-                $(".top-bar").removeClass("fix-in-header after-fix-in-header");
-                //$("#create-content-btn").show()
-                clearTimeout(fixinheaderTime)
-
-            }
-            var isFixed = (stop > (postHeader.get(0).offsetHeight + (header ? header.offsetHeight : 0) + $(postHeader).offset().top));
-            postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
-            postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
-
-
-        });
-
         $('[name]').on('change input', function (){
             document.querySelector('.btn-save').disabled = false;
             mw.askusertostay = true;

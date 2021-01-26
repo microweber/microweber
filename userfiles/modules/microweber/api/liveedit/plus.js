@@ -1,4 +1,3 @@
-mw.drag = mw.drag || {};
 mw.drag.plus = {
     locked: false,
     disabled: false,

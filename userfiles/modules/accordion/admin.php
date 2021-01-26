@@ -22,9 +22,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-body pt-3">
         <script type="text/javascript">
             mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
-            mw.require('icon_selector.js');
-            mw.require('prop_editor.js');
-            mw.require('module_settings.js');
         </script>
         <?php
         $settings = get_module_option('settings', $params['id']);
@@ -119,7 +116,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
                     <div class="mb-3 d-flex">
                         <label class="control-label align-self-center"> <?php  _e('Add new field'); ?></label>
-                        
+
                         <button type="button" class="btn btn-primary btn-rounded ml-auto" onclick="accordionSettings.addNew()"><i class="mdi mdi-plus"></i> <?php  _e('Add new'); ?></button>
                     </div>
 

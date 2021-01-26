@@ -1332,9 +1332,7 @@ MWEditor.controllersHelpers = {
 /*!**************************!*\
   !*** ../editor/tools.js ***!
   \**************************/
-MWEditor.tools = {
-
-};
+MWEditor.tools = { };
 
 })();
 

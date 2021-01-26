@@ -31,7 +31,6 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 }
 ?>
 <div class="main container my-3" id="mw-login">
-    <script>mw.require("session.js");</script>
     <script>
         mw.session.checkPauseExplicitly = true;
         $(document).ready(function () {

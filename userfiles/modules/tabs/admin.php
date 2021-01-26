@@ -23,7 +23,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <script type="text/javascript">
             mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
-            mw.require('icon_selector.js')
         </script>
 
         <?php

@@ -300,6 +300,6 @@ mw.image.settings = function () {
     };
 
     for (var i in image) {
-        mw.image[i] = image[i]
-    };
-})()
+        mw.image[i] = image[i];
+    }
+})();

@@ -1,11 +1,6 @@
 /* WYSIWYG Editor */
 /* ContentEditable Functions */
 
-mw.require('css_parser.js');
-mw.require('icon_selector.js');
-mw.require('events.js');
-
-//mw.lib.require('rangy');
 
 classApplier = window.classApplier || [];
 if (!Element.prototype.matches) {
@@ -1546,7 +1541,6 @@ mw.wysiwyg = {
         mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active');
     },
     setActiveButtons: function (node) {
-        mw.require('css_parser.js');
 
         var css = mw.CSSParser(node);
         if (css && css.get) {
@@ -1569,7 +1563,6 @@ mw.wysiwyg = {
         }
     },
     setActiveFontSize: function () {
-        mw.require('css_parser.js');
 
         var sel = getSelection();
         var range = sel.getRangeAt(0);
@@ -1655,9 +1648,6 @@ mw.wysiwyg = {
     started_checking: false,
     check_selection: function (target) {
         target = target || false;
-
-        mw.require('css_parser.js');
-
 
         if (!mw.wysiwyg.started_checking) {
             mw.wysiwyg.started_checking = true;
@@ -2844,7 +2834,6 @@ $(window).on('load', function () {
         }
 
     }
-    mw.require('wysiwygmdab.js');
 });
 
 mw.linkTip = {

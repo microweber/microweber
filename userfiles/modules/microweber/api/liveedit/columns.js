@@ -1,4 +1,3 @@
-mw.drag = mw.drag || {};
 mw.drag.columns = {
     step: 0.8,
     resizing: false,

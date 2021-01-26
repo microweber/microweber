@@ -14,9 +14,10 @@ const config = {
         aggregateTimeout: 600
     },
     entry: {
-        core: glob.sync(path.resolve(`${input}/{tools,tools/core-tools,core}/*.js`)),
-        liveedit: glob.sync(path.resolve(`${input}/liveedit/*.js`)),
-        admin: glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,system,admin}/*.js`)),
+        core: glob.sync(path.resolve(`${input}/{tools,tools/core-tools,core,system}/*.js`)),
+        liveedit: glob.sync(path.resolve(`${input}/{liveedit,libs/rangy,tools/widgets,tools/system-tools,widgets,gui-css-editor}/*.js`)),
+        admin: glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,admin}/*.js`)),
+        //'gui-css-editor': glob.sync(path.resolve(`${input}/{gui-css-editor}/*.js`)),
         editor: [
             input + '/editor/editor.js',
             input + '/editor/bar.js',

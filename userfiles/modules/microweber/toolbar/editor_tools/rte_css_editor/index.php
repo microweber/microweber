@@ -2,19 +2,7 @@
 <div id="domtree"></div>
 
 <script type="text/javascript">
-    // parent.mw.require("external_callbacks.js");
-    mw.require("jquery-ui.js");
-    mw.require("events.js");
 
-    mw.require("url.js");
-    mw.require('prop_editor.js');
-     mw.require('selector.js');
-    mw.require('tree.js');
-
-    mw.require('domtree.js');
-
-
-    mw.require('css_parser.js');
     mw.lib.require('colorpicker');
 
 
@@ -519,7 +507,6 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 <div id="css-editor-root">
 
     <script>
-        mw.require('tags.js');
 
         initClasses = function () {
             if(!window.classes) {

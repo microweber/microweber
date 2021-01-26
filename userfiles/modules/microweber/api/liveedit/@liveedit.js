@@ -1,3 +1,8 @@
+jQuery.widget = require('../webpack/node_modules/jquery-ui/ui/widget');
+jQuery.fn.draggable =  require('../webpack/node_modules/jquery-ui/ui/widgets/draggable');
+jQuery.fn.sortable  =  require('../webpack/node_modules/jquery-ui/ui/widgets/sortable');
+jQuery.fn.resizable =  require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');
+
 
 mw.liveedit = {};
 mw.isDrag = false;
@@ -48,7 +53,6 @@ $(document).ready(function() {
 
 });
 
-mw.require('stylesheet.editor.js');
 $(window).on("load", function() {
     mw.liveedit.initLoad();
 });
