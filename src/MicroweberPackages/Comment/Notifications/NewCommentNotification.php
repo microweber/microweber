@@ -68,6 +68,7 @@ class NewCommentNotification extends Notification implements ShouldQueue
 
         $article = false;
         $comments = false;
+        $user_picture = false;
         $picture = thumbnail(false);
         if (isset($notification['rel_id'])) {
 
