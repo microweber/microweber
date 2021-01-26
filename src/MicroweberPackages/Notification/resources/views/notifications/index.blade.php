@@ -253,7 +253,7 @@
 
 <div class="card style-1 mb-3">
     <div class="card-header">
-        <h5><i class="mdi mdi-bell text-primary mr-3"></i> <strong>Notifications</strong></h5>
+        <h5><i class="mdi mdi-bell text-primary mr-3"></i> <strong><?php _e("Notifications"); ?></strong></h5>
     </div>
 
     <div class="card-body" id="">
@@ -262,8 +262,8 @@
         <?php $periods_printed = array(); ?>
         <div class="toolbar row mb-3">
             <div class="col-12 text-center text-sm-left">
-                <h5><strong>All Activities</strong></h5>
-                <p>List of all notifications of your website.{{-- <a href="javascript:;"
+                <h5><strong><?php _e("All Activities"); ?></strong></h5>
+                <p><?php _e("List of all notifications of your website."); ?>{{-- <a href="javascript:;"
                                                                  onClick="mw.load_module('admin/notifications/system_log','#admin_notifications');"
                                                                  class="d-block d-sm-block float-sm-right"><?php _e("Show system log"); ?></a>--}}
                 </p>
@@ -272,7 +272,7 @@
                 <div class="text-center text-md-left my-2">
                     <div class="custom-control custom-checkbox d-inline-block my-2 mr-3">
                         <input type="checkbox" class="custom-control-input check-all js-check-all" id="check-all"/>
-                        <label class="custom-control-label" for="check-all">Select all</label>
+                        <label class="custom-control-label" for="check-all"><?php _e("Check all"); ?></label>
                     </div>
 
                     <div class="d-inline-flex">
@@ -306,7 +306,7 @@
                 </div>
 
                 <div class="float-sm-right text-center text-md-right my-2">
-                    <span class="d-inline d-sm-none d-md-inline">Show notifications</span>
+                    <span class="d-inline d-sm-none d-md-inline"> <?php _e("Show notifications"); ?></span>
 
                     <script>
                         $(function () {
@@ -324,11 +324,11 @@
 
                         <option value="?">All notifications</option>
 
-                        <option value="?type=Comment"<?php if ($type == 'Comment'): ?> selected="selected" <?php endif; ?>> Comments</option>
-                        <option value="?type=Order"<?php if ($type == 'Order'): ?> selected="selected" <?php endif; ?>> Orders</option>
-                        <option value="?type=Product"<?php if ($type == 'Product'): ?> selected="selected" <?php endif; ?>> Products</option>
-                        <option value="?type=NewRegistration"<?php if ($type == 'NewRegistration'): ?> selected="selected" <?php endif; ?>> New Registrations</option>
-                        <option value="?type=Customer"<?php if ($type == 'Customer'): ?> selected="selected" <?php endif; ?>> Customers</option>
+                        <option value="?type=Comment"<?php if ($type == 'Comment'): ?> selected="selected" <?php endif; ?>> <?php _e("Comments"); ?></option>
+                        <option value="?type=Order"<?php if ($type == 'Order'): ?> selected="selected" <?php endif; ?>> <?php _e("Orders"); ?></option>
+                        <option value="?type=Product"<?php if ($type == 'Product'): ?> selected="selected" <?php endif; ?>> <?php _e("Products"); ?></option>
+                        <option value="?type=NewRegistration"<?php if ($type == 'NewRegistration'): ?> selected="selected" <?php endif; ?>> <?php _e("New Registrations"); ?></option>
+                        <option value="?type=Customer"<?php if ($type == 'Customer'): ?> selected="selected" <?php endif; ?>> <?php _e("Customers"); ?></option>
 
                     </select>
                 </div>
@@ -340,7 +340,7 @@
         <div class="timeline js-all-notifications">
             <div class="row timeline-event">
                 <div class="col pr-0 timeline-line datetime-indicator">
-                    <button type="button" class="btn btn-primary btn-rounded btn-sm">Past hour</button>
+                    <button type="button" class="btn btn-primary btn-rounded btn-sm"><?php _e("Past hour"); ?></button>
                 </div>
             </div>
 
@@ -398,10 +398,10 @@
                 <div class="no-items-box no-notifications"
                      style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
                     <h4><?php _e("No notifications for this filter"); ?></h4>
-                    <p>Here you will be able to see notifications <br/> about orders, comments, email and others.</p>
+                    <p><?php _e("Here you will be able to see notifications"); ?> <br/> <?php _e("about orders, comments, email and others."); ?></p>
                     <br/>
                     <a href="?" class="btn btn-outline-primary btn-sm icon-left"><i class="mdi mdi-arrow-left"></i>
-                        <span class="">Back</span></a>
+                        <span class=""><?php _e("Back"); ?></span></a>
                 </div>
             </div>
         </div>
@@ -411,11 +411,11 @@
             <div class="col-12">
                 <div class="no-items-box no-notifications"
                      style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_notifications.svg');">
-                    <h4>You don't have any notifications</h4>
-                    <p>Here you will be able to see notifications <br/> about orders, comments, email and others.</p>
+                    <h4><?php _e("You don't have any notifications"); ?></h4>
+                    <p><?php _e("Here you will be able to see notifications"); ?> <br/><?php _e("about orders, comments, email and others."); ?> </p>
                     <br/>
                     <a href="<?php print admin_url() ?>view:dashboard" class="btn btn-outline-primary btn-sm icon-left"><i
-                                class="mdi mdi-arrow-left"></i> <span class="">Back</span></a>
+                                class="mdi mdi-arrow-left"></i> <span class=""><?php _e("Back"); ?></span></a>
                 </div>
             </div>
         </div>

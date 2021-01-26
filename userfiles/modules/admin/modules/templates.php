@@ -131,7 +131,7 @@ if ($screenshots) {
 
         <label class="form-group d-block">
             <label class="control-label"><?php _e("Current Skin / Template"); ?></label>
-            <small class="text-muted d-block mb-2">Select different design</small>
+            <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
             <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw_option_field selectpicker" data-width="100%" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>" data-size="5">
                 <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
                     <?php _e("Default"); ?>
@@ -197,7 +197,7 @@ if ($screenshots) {
             <!-- Current template - Start -->
             <div class="mw-ui-row-nodrop">
                 <div class="mw-ui-col current-template" style="width: 50%;">
-                    <span class="title">Current layout</span>
+                    <span class="title"><?php _e('Current layout'); ?></span>
                     <div class="screenshot">
                         <div class="holder">
                             <img src="<?php echo thumbnail($current_template['screenshot'], 300); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
@@ -208,7 +208,7 @@ if ($screenshots) {
 
                 <div class="mw-ui-col current-template-modules" style="width: 50%;">
                     <div class="current-template-modules-list-wrap">
-                        <span class="title">This layout contains modules</span>
+                        <span class="title"><?php _e('This layout contains modules'); ?></span>
 
                         <div class="current-template-modules-list">
 

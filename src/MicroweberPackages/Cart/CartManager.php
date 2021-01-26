@@ -450,7 +450,9 @@ class CartManager extends Crud
             if (isset($check_cart['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
                 $old_qty = intval($data_fields['qty']);
                 if (intval($data['qty']) > $old_qty) {
-                    return false;
+                    return array('error' => true, 'message'=>'Item quantity not changed' , 'cart_item_quantity_available' => $check_cart['qty']);
+
+                   // return false;
                 }
             }
         }

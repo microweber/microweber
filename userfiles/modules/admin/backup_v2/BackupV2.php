@@ -53,12 +53,25 @@ class BackupV2
 		}
 
 		$backupLocation = $this->manager->getBackupLocation();
-		$backupFiles = glob("$backupLocation{*.sql,*.zip,*.json,*.xml,*.xlsx,*.csv}", GLOB_BRACE);
 
-		usort($backupFiles, function ($a, $b) {
-			return filemtime($a) < filemtime($b);
-		});
+		// Use of undefined constant GLOB_BRACE - assumed 'GLOB_BRACE' (this will throw an Error in a future version of PHP)
+		//$backupFiles = glob("$backupLocation{*.sql,*.zip,*.json,*.xml,*.xlsx,*.csv}", GLOB_BRACE);
 
+        $backupFiles = [];
+
+
+        $files = preg_grep('~\.(sql|zip|json|xml|xlsx|csv|xls)$~', scandir($backupLocation));
+        if ($files) {
+            foreach ($files as $file) {
+                $backupFiles[] = normalize_path($backupLocation. $file,false);
+            }
+        }
+
+        if (! empty($backupFiles)) {
+            usort($backupFiles, function ($a, $b) {
+                return filemtime($a) < filemtime($b);
+            });
+        }
 		$backups = array();
 		if (! empty($backupFiles)) {
 			foreach ($backupFiles as $file) {

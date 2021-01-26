@@ -180,7 +180,7 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
         <?php endforeach; ?>
     <?php else: ?>
         <div class="icon-title">
-            <i class="mdi mdi-comment-account"></i> <h5>You don't have any comments</h5>
+            <i class="mdi mdi-comment-account"></i> <h5><?php _e('You don\'t have any comments'); ?></h5>
         </div>
     <?php endif; ?>
 </div>

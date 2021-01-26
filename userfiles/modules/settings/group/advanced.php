@@ -106,25 +106,25 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Internal Settings"); ?></label>
-                                        <small class="text-muted d-block mb-2">Internal settings for developers</small>
+                                        <small class="text-muted d-block mb-2"><?php _e('Internal settings for developers'); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Live Edit settings"); ?></label>
-                                        <small class="text-muted d-block mb-2">Configure Live Edit settings</small>
+                                        <small class="text-muted d-block mb-2"><?php _e('Configure Live Edit settings'); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Setup statitics"); ?></label>
-                                        <small class="text-muted d-block mb-2">Configure website statistics</small>
+                                        <small class="text-muted d-block mb-2"><?php _e('Configure website statistics'); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Other"); ?></label>
-                                        <small class="text-muted d-block mb-2">Other settings</small>
+                                        <small class="text-muted d-block mb-2"><?php _e('Other settings'); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a>
 
                                         <?php if (is_module('shop') and get_option('shop_disabled', 'website') == "y") { ?>
@@ -134,7 +134,7 @@
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Experimental"); ?></label>
-                                        <small class="text-muted d-block mb-2">Experimental settings for developers</small>
+                                        <small class="text-muted d-block mb-2"><?php _e('Actions'); ?>Experimental settings for developers</small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Experimental settings','settings/group/experimental')"><?php _e("Experimental settings"); ?></a>
                                     </div>
 

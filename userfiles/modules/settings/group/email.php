@@ -275,7 +275,7 @@
                                 </div>
 
                                 <div class="col-12 d-flex align-items-center justify-content-between">
-                                    <a class="btn btn-outline-primary btn-sm"  href="#" onclick="$('.js-test-email').mwDialog();"><span class="mw-icon-beaker mr-1"></span> <?php _e("Test Mail Sending Method"); ?></a>
+                                    <a class="btn btn-outline-primary btn-sm"  href="javascript:;" onclick="$('.js-test-email').mwDialog();"><span class="mw-icon-beaker mr-1"></span> <?php _e("Test Mail Sending Method"); ?></a>
 
                                     <button onClick="saveEmailOptions(1)" class="btn btn-success btn-sm"><?php _e("Save email settings"); ?></button>
                                 </div>

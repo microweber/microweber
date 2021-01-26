@@ -223,7 +223,7 @@
         <div class="col-6 mb-4">
             <?php if (user_can_access('module.admin.backup_v2.index')): ?>
                 <h5 class="font-weight-bold"><?php _e('Create new backup'); ?></h5>
-                <small class="text-muted d-block mb-3">Create a backup and export your website content</small>
+                <small class="text-muted d-block mb-3"><?php _e('Create a backup and export your website content'); ?></small>
                 <a href="javascript:;" onclick="mw.backup_export.choice('#export-template')" class="btn btn-success btn-rounded"><i class="mdi mdi-plus"></i> <?php _e("Create backup"); ?></a>
             <?php endif; ?>
         </div>

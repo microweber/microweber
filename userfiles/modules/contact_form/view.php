@@ -23,7 +23,7 @@ foreach($form_data['custom_fields'] as $kFiled=>$vField) {
 }
 ?>
 
-<h3 style="color: #2f9cff;"> View contact form entry</h3>
+<h3 style="color: #2f9cff;"><?php _e(" View contact form entry"); ?></h3>
 Created at: <?php echo $form_data['created_at']; ?>
 <br />
 <br />

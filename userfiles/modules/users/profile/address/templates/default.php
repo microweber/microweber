@@ -75,17 +75,18 @@
             <label class="control-label">State:</label>
             <input type="text" class="form-control" value="<?php echo $billing_address['state'];?>" name="addresses[1][state]">
         </div>
-
         <div class="form-group">
             <label class="control-label d-block">Country:</label>
-            <div class="dropdown bootstrap-select" style="width: 100%;">
+            <?php if(!empty($countries)):?>
+
+                <div class="dropdown bootstrap-select" style="width: 100%;">
                 <select class="selectpicker" data-live-search="true" data-width="100%" data-size="5" name="addresses[1][country_id]" tabindex="-98">
                     <?php foreach ($countries as $country):?>
                         <option value="<?php echo $country['id']; ?>" <?php if ($billing_address['country_id'] == $country['id']): ?> selected="selected" <?php endif; ?>><?php echo $country['name']; ?> </option>
                     <?php endforeach; ?>
                 </select>
             </div>
-
+            <?php endif; ?>
             <input type="hidden" class="form-control" value="billing" name="addresses[1][type]">
         </div>
 
@@ -125,6 +126,8 @@
 
             <div class="form-group">
                 <label class="control-label d-block">Country:</label>
+                <?php if(!empty($countries)):?>
+
                 <div class="dropdown bootstrap-select" style="width: 100%;">
                     <select class="selectpicker" data-live-search="true" data-width="100%" data-size="5" name="addresses[0][country_id]" tabindex="-98">
                         <?php foreach ($countries as $country):?>
@@ -132,6 +135,7 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <?php endif; ?>
             </div>
 
             <input type="hidden" class="form-control" value="shipping" name="addresses[0][type]">

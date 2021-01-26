@@ -236,11 +236,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_products.svg'); ">
-                        <h4>You don’t have any products</h4>
-                        <p>Create your first product right now.<br/>
-                            You are able to do that in very easy way!</p>
+                        <h4><?php _e('You don’t have any products'); ?></h4>
+                        <p><?php _e('Create your first product right now.');?> <br/>
+                           <?php _e( 'You are able to do that in very easy way!'); ?></p>
                         <br/>
-                        <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded">Create a Product</a>
+                        <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Product'); ?></a>
                     </div>
                 </div>
             </div>
@@ -267,11 +267,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_pages.svg');">
-                            <h4>You don’t have pages</h4>
-                            <p>Create your first page right now.<br/>
-                                You are able to do that in very easy way!</p>
+                            <h4><?php _e('You don’t have pages'); ?></h4>
+                            <p><?php _e('Create your first page right now.'); ?><br/>
+                                <?php _e( 'You are able to do that in very easy way!'); ?></p>
                             <br/>
-                            <a href="<?php print admin_url() . 'view:content#action=new:page'; ?>" class="btn btn-primary btn-rounded">Create a Page</a>
+                            <a href="<?php print admin_url() . 'view:content#action=new:page'; ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Page'); ?></a>
                         </div>
                     </div>
                 </div>
@@ -279,11 +279,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_content.svg'); ">
-                            <h4>You don’t have any posts yet</h4>
-                            <p>Create your first post right now.<br/>
-                                You are able to do that in very easy way!</p>
+                            <h4><?php _e('You don’t have any posts yet'); ?></h4>
+                            <p><?php _e('Create your first post right now.'); ?><br/>
+                                <?php _e('You are able to do that in very easy way!'); ?> </p>
                             <br/>
-                            <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded">Create a Post</a>
+                            <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Post'); ?></a>
                         </div>
                     </div>
                 </div>

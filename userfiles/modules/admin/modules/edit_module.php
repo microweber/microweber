@@ -36,7 +36,7 @@ if ($id != false) {
                         $('#module_uninstall_<?php print $params['id']; ?>').hide();
                         $('#module_install_<?php print $params['id']; ?>').show();
                         $('#module_open_<?php print $params['id']; ?>').hide();
-                        mw.notification.success("Module uninstalled");
+                        mw.notification.success("<?php _e('Module uninstalled'); ?>");
                     });
                     return false;
                 }
@@ -44,7 +44,7 @@ if ($id != false) {
 
             mw.$('#module_install_<?php print $params['id']; ?>').unbind('click');
             mw.$('#module_install_<?php print $params['id']; ?>').click(function () {
-                mw.notification.success("Installing... please wait");
+                mw.notification.success("<?php _e('Installing... please wait'); ?>");
 
                 var for_module = {}
                 for_module.for_module = $(this).attr('data-module-name');
@@ -53,7 +53,7 @@ if ($id != false) {
 
                     $('#module_uninstall_<?php print $params['id']; ?>').show();
                     $('#module_open_<?php print $params['id']; ?>').show();
-                    mw.notification.success("Module is installed");
+                    mw.notification.success("<?php _e('Module is installed'); ?>");
 
                 });
 
@@ -67,7 +67,7 @@ if ($id != false) {
                 mw.notification.warning("Installing update for module: " + for_module + '');
 
                 $.post('<?php print admin_url() ?>view:modules?add_module=' + for_module, function (data) {
-                    mw.notification.success("New update for module <b>" + for_module + '</b> is installed');
+                    mw.notification.success("<?php _e('New update for module <b>'); ?> " + for_module + '<?php _e('</b> is installed'); ?>');
                 });
 
                 return false;
@@ -103,7 +103,7 @@ if ($id != false) {
                         <div class="admin-modules-list-description mt-0">
                             <h6>
                                 <?php if (isset($data['name'])): ?>
-                                    <?php print($data['name']); ?>
+                                    <?php print _e($data['name']) ?>
                                 <?php endif; ?>
                             </h6>
                         </div>

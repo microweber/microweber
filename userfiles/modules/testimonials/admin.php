@@ -131,10 +131,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="<?php if ($from_live_edit): ?><?php else: ?><?php endif; ?>">
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-outline-secondary justify-content-center active js-list-testimonials" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Testimonials</a>
+                <a class="btn btn-outline-secondary justify-content-center active js-list-testimonials" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php print _e("List of Testimonials") ?></a>
                 <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
                 <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center js-add-new-testimonials" data-toggle="tab" href="#new" style="display: none;"><i class="mdi mdi-card-plus mr-1"></i> Add New / Edit</a>
+                <a class="btn btn-outline-secondary justify-content-center js-add-new-testimonials" data-toggle="tab" href="#new" style="display: none;"><i class="mdi mdi-card-plus mr-1"></i><?php _e(" Add New / Edit") ?></a>
             </nav>
 
             <div id="mw-modules-tabs" class="tab-content py-3">
@@ -151,19 +151,19 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="module-live-edit-settings module-testimonials-settings">
                         <div class="form-group">
                             <label class="control-label"><?php _e('Show testimonials for project'); ?></label>
-                            <small class="text-muted d-block mb-2">If you have more than one template for testimonials, choose which one to be visible</small>
+                            <small class="text-muted d-block mb-2"><?php _e('If you have more than one template for testimonials, choose which one to be visible'); ?></small>
                             <module type="testimonials/project_select" id="project-select-testimonials" option-group="<?php print $params['id'] ?>"/>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label"><?php _e('Maximum number of testimonials to display'); ?></label>
-                            <small class="text-muted d-block mb-2">Number of the visable testimonials </small>
+                            <small class="text-muted d-block mb-2"<?php _e('Number of the visable testimonials'); ?>> </small>
                             <input type="text" class="form-control mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label"><?php _e('Maximum number of characters to display'); ?></label>
-                            <small class="text-muted d-block mb-2">Limit of the testimonial characters</small>
+                            <small class="text-muted d-block mb-2"><?php _e('Limit of the testimonial characters'); ?></small>
                             <input type="text" class="form-control mw_option_field" name="limit" value="<?php print $limit; ?>"/>
                         </div>
                     </div>

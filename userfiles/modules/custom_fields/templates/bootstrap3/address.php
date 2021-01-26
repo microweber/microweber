@@ -16,7 +16,7 @@
 
 
         <?php foreach ($data['values'] as $key => $value): ?>
-            <div class="control-group">
+            <div class="form-group">
 
                 <?php if($settings['show_label']): ?>
                 <label class="control-label"><?php _e($value); ?>

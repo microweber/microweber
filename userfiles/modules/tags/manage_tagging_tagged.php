@@ -252,12 +252,12 @@
 
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label mb-0">Search <span class="js-filter-by-text">posts</span></label>
-            <small class="d-block text-muted mb-2">You can search posts by title & tags.</small>
+            <label class="control-label mb-0"><?php _e('Search'); ?> <span class="js-filter-by-text"><?php _e('posts'); ?></span></label>
+            <small class="d-block text-muted mb-2"><?php _e('You can search posts by title & tags.'); ?></small>
             <div class="input-group">
-                <input type="text" class="form-control js-search-posts-keyword" placeholder="Keyword...">
+                <input type="text" class="form-control js-search-posts-keyword" placeholder="<?php _e('Keyword...'); ?>">
                 <div class="input-group-append">
-                    <button class="btn btn-success js-search-posts-submit" type="button">Search</button>
+                    <button class="btn btn-success js-search-posts-submit" type="button"><?php _e('Search'); ?></button>
                 </div>
             </div>
         </div>
@@ -270,27 +270,27 @@
     <div class="col-md-6">
         <div class="card style-1 bg-light">
             <div class="card-header">
-                <h6 class="font-weight-bold"><span class="js-filter-by-text">Posts</span> list</h6>
+                <h6 class="font-weight-bold"><span class="js-filter-by-text"><?php _e('Posts'); ?></span> <?php _e('list'); ?></h6>
             </div>
 
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6>List of all <span class="js-filter-by-text">Posts</span></h6>
-                    <button class="btn btn-success btn-sm js-add-tags-to-posts" disabled="disabled">Add tags to&nbsp;<span class="js-filter-by-text">Posts</span></button>
+                    <h6><?php _e('List of all'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span></h6>
+                    <button class="btn btn-success btn-sm js-add-tags-to-posts" disabled="disabled"><?php _e('Add tags to'); ?>&nbsp;<span class="js-filter-by-text"><?php _e('Posts'); ?></span></button>
                 </div>
 
-                <small class="text-muted d-block mb-3">Select the <span class="js-filter-by-text">Posts</span> you want to add or edit tags.</small>
+                <small class="text-muted d-block mb-3"><?php _e('Select the'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span> <?php _e('Actions'); ?></small>
 
                 <div class="form-group">
-                    <label class="control-label d-block">Filter:</label>
+                    <label class="control-label d-block"><?php _e('Filter:'); ?></label>
                     <select class="js-posts-filter-by selectpicker" data-width="100%">
-                        <option value="posts">Posts</option>
-                        <option value="products">Products</option>
+                        <option value="posts"><?php _e('Posts'); ?></option>
+                        <option value="products"><?php _e('Products'); ?></option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label d-block"><span class="js-filter-by-text">Post</span> lists</label>
+                    <label class="control-label d-block"><span class="js-filter-by-text"><?php _e('Post'); ?></span> <?php _e('lists'); ?></label>
                     <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;"></div>
                 </div>
             </div>
@@ -300,16 +300,16 @@
     <div class="col-md-6">
         <div class="card style-1 bg-light">
             <div class="card-header">
-                <h6 class="font-weight-bold">Tags for <span class="js-filter-by-text">Post</span></h6>
+                <h6 class="font-weight-bold"><?php _e('Tags for'); ?> <span class="js-filter-by-text"><?php _e('Post'); ?></span></h6>
             </div>
             <div class="card-body" style="height: 525px;overflow-y: scroll;">
-                <h6 class="font-weigh-bold">List of all tags for selected <span class="js-filter-by-text">Posts</span></h6>
+                <h6 class="font-weigh-bold"><?php _e('List of all tags for selected'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span></h6>
 
-                <small class="d-block text-muted mb-2">Select the <span class="js-filter-by-text">tags</span> you want to add or edit for posts.</small>
+                <small class="d-block text-muted mb-2"><?php _e('Select the'); ?> <span class="js-filter-by-text"><?php _e('tags'); ?></span> <?php _e('you want to add or edit for posts.'); ?></small>
                 <hr class="thin"/>
 
                 <div class="js-posts-tags">
-                    <h6 class="font-weight-bold">Select posts to see tags.</h6>
+                    <h6 class="font-weight-bold"><?php _e('Select posts to see tags.'); ?></h6>
                 </div>
             </div>
         </div>

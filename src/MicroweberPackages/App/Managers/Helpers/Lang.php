@@ -1153,7 +1153,14 @@ class Lang
         return $mw_all_langs;
     }
 
-
+//    function is_supported($lang)
+//    {
+//        //@todo
+//
+//        $all_langs = $this->get_available_languages();
+//        $all_locales = $this->get_all_locales();
+//
+//    }
     private function _rsearch($folder, $pattern)
     {
 

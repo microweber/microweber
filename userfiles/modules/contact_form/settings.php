@@ -3,7 +3,29 @@ if (!user_can_access('module.contact_form.index')) {
     return;
 }
 ?>
- <script>
+<script>mw.require('editor.js')</script>
+<script>
+    MWEditor.controllers.contactFormInsertEmailVariable = function (scope, api, rootScope, data) {
+        this.checkSelection = function (opt) {
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
+        this.render = function () {
+            var dropdown = new MWEditor.core.dropdown({
+                data: [
+
+                    { label: 'email', value: '{email}' },
+
+                ],
+                placeholder: rootScope.lang('Insert variable')
+            });
+            dropdown.select.on('change', function (e, val) {
+                api.insertHTML(val.value);
+            });
+            return dropdown.root;
+        };
+        this.element = this.render();
+    };
+    
     $(document).ready(function () {
         mweditor = mw.Editor({
             selector: '#editorAM',
@@ -34,7 +56,7 @@ if (!user_can_access('module.contact_form.index')) {
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                    '|', 'link', 'unlink', 'wordPaste', 'table', 'contactFormInsertEmailVariable'
                 ],
             ]
         });
@@ -59,7 +81,7 @@ if (isset($params['for_module_id'])) {
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
         <div class="col">
-            <h5 class="font-weight-bold mb-3">Contact Form</h5>
+            <h5 class="font-weight-bold mb-3"><?php _e("Contact Form") ?></h5>
         </div>
 
         <div class="col text-right">

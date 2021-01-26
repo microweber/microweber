@@ -22,9 +22,8 @@ class UserForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('throttle:10,1');
+        event_trigger('mw.init');
     }
-
     public function showForgotForm()
     {
         return app()->parser->process(view('user::auth.forgot-password'));
@@ -144,8 +143,16 @@ class UserForgotPasswordController extends Controller
             }
         }
 
+
+
         return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->to(site_url())->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
+
+//
+//
+//        return $status == Password::PASSWORD_RESET
+//            ? redirect()->route('login')->with('status', __($status))
+//            : back()->withErrors(['email' => __($status)]);
     }
 }
