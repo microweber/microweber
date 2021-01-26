@@ -127,21 +127,43 @@ api_expose_admin('save_mail_template');
 function save_mail_template($data)
 {
 
-    $findMailTemplate = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::where('id',$data['id'])->first();
+    $findMailTemplate = null;
+    if (isset($data['id'])) {
+        $findMailTemplate = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::where('id', $data['id'])->first();
+    }
     if ($findMailTemplate == null) {
         $findMailTemplate = new \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate();
     }
 
     $findMailTemplate->type = $data['type'];
-    $findMailTemplate->name = $data['name'];
-    $findMailTemplate->subject = $data['subject'];
+
+    if (isset($data['name'])) {
+        $findMailTemplate->name = $data['name'];
+    }
+
+    if (isset($data['subject'])) {
+        $findMailTemplate->subject = $data['subject'];
+    }
+
+    if (isset($data['from_name'])) {
+        $findMailTemplate->from_name = $data['from_name'];
+    }
+
+    if (isset($data['from_email'])) {
+        $findMailTemplate->from_email = $data['from_email'];
+    }
+
+    if (isset($data['copy_to'])) {
+        $findMailTemplate->copy_to = $data['copy_to'];
+    }
+
+    if (isset($data['is_active'])) {
+        $findMailTemplate->is_active = $data['is_active'];
+    }
+
     $findMailTemplate->message = $data['message'];
-    $findMailTemplate->from_name = $data['from_name'];
-    $findMailTemplate->from_email = $data['from_email'];
    // $findMailTemplate->custom = $data['custom'];
-    $findMailTemplate->copy_to = $data['copy_to'];
    // $findMailTemplate->plain_text = $data['plain_text'];
-    $findMailTemplate->is_active = $data['is_active'];
     $findMailTemplate->save();
 
     if (isset($data['append_files']) && !empty($data['append_files'])) {
@@ -155,7 +177,7 @@ function save_mail_template($data)
 
     }
 
-    return $findMailTemplate;
+    return $findMailTemplate->id;
 }
 
 
