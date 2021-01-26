@@ -12,7 +12,7 @@
 namespace MicroweberPackages\Order;
 
 use DB;
-use MicroweberPackages\Notification\Models\Notification;
+use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Order\Events\OrderIsCreating;
 use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasPaid;
