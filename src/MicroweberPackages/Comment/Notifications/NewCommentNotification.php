@@ -68,6 +68,7 @@ class NewCommentNotification extends Notification implements ShouldQueue
 
         $article = false;
         $comments = false;
+        $user_picture = false;
         $picture = thumbnail(false);
         if (isset($notification['rel_id'])) {
 
@@ -82,6 +83,8 @@ class NewCommentNotification extends Notification implements ShouldQueue
 
         }
 
+        $created_by_username = false;
+        $user_picture = false;
         $created_by = false;
         if (isset($notification['created_by'])) {
             $created_by = get_user_by_id($notification['created_by']);

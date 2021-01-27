@@ -29,7 +29,12 @@ api_expose_admin('users/register_email_send_test', function () {
 
     try {
         mw()->option_manager->override('users', 'register_email_enabled', true);
-        return mw()->user_manager->register_email_send();
+        $send =  mw()->user_manager->register_email_send();
+        if ($send) {
+            $user = Auth::user();
+
+            return 'Email is send successfully to <b>'.$user->email.'</b>.';
+        }
     } catch (Exception $e) {
         echo "Error Message: <br />" . $e->getMessage();
     }
@@ -46,14 +51,18 @@ api_expose('users/register_email_send', function ($params = false) {
 
 api_expose_admin('users/forgot_password_email_send_test', function () {
 
-    echo '';
-
-    /* try {
-        mw()->option_manager->override('users', 'forgot_pass_email_enabled', true);
-        return mw()->user_manager->send_forgot_password();
+     try {
+         $user = Auth::user();
+         mw()->option_manager->override('users', 'forgot_pass_email_enabled', true);
+         $send = mw()->user_manager->send_forgot_password([
+             'email'=>$user->email
+         ]);
+         if ($send) {
+             return 'Email is send successfully to <b>'.$user->email.'</b>.';
+         }
     } catch (Exception $e) {
         echo "Error Message: <br />" . $e->getMessage();
-    } */
+    }
 
 });
 

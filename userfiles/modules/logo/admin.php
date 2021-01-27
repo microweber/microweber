@@ -39,21 +39,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 }
 
 
-                $logoimage = get_option('logoimage', $logo_name);
-                $logoimage_inverse = get_option('logoimage_inverse', $logo_name);
-                $text = get_option('text', $logo_name);
-                $font_family = get_option('font_family', $logo_name);
-                $font_size = get_option('font_size', $logo_name);
+                $logoimage = get_module_option('logoimage', $logo_name);
+                $logoimage_inverse = get_module_option('logoimage_inverse', $logo_name);
+                $text = get_module_option('text', $logo_name);
+                $font_family = get_module_option('font_family', $logo_name);
+                $font_size = get_module_option('font_size', $logo_name);
                 if ($font_size == false) {
                     $font_size = 30;
                 }
-                $logotype = get_option('logotype', $logo_name);
+                $logotype = get_module_option('logotype', $logo_name);
 
                 if (!$logotype) {
                     $logotype = 'image';
                 }
 
-                $size = get_option('size', $logo_name);
+                $size = get_module_option('size', $logo_name);
                 if ($size == false or $size == '') {
                     $size = 60;
                 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1b3bf22aefffc5d402d26147002918d",
+    "content-hash": "d4de0f56704a9e4ebd9a03b08d9fa94f",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2030,6 +2030,137 @@
                 "php"
             ],
             "time": "2020-03-25T18:49:23+00:00"
+        },
+        {
+            "name": "florianv/exchanger",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/florianv/exchanger.git",
+                "reference": "cfc57b743a07b31bd2dc53497664892b052514bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/florianv/exchanger/zipball/cfc57b743a07b31bd2dc53497664892b052514bd",
+                "reference": "cfc57b743a07b31bd2dc53497664892b052514bd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "php": "^7.1.3 || ^8.0",
+                "php-http/client-implementation": "^1.0",
+                "php-http/discovery": "^1.6",
+                "php-http/httplug": "^1.0 || ^2.0",
+                "php-http/message-factory": "^1.0.2",
+                "psr/simple-cache": "^1.0"
+            },
+            "require-dev": {
+                "nyholm/psr7": "^1.0",
+                "php-http/message": "^1.7",
+                "php-http/mock-client": "^1.0",
+                "phpunit/phpunit": "^7 || ^8 || ^9.4"
+            },
+            "suggest": {
+                "php-http/guzzle6-adapter": "Required to use Guzzle for sending HTTP requests",
+                "php-http/message": "Required to use Guzzle for sending HTTP requests"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Exchanger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florian Voutzinos",
+                    "email": "florian@voutzinos.com",
+                    "homepage": "https://voutzinos.com"
+                }
+            ],
+            "description": "Currency exchange rates framework for PHP",
+            "homepage": "https://github.com/florianv/exchanger",
+            "keywords": [
+                "Rate",
+                "conversion",
+                "currency",
+                "exchange rates",
+                "money"
+            ],
+            "support": {
+                "issues": "https://github.com/florianv/exchanger/issues",
+                "source": "https://github.com/florianv/exchanger/tree/2.6.1"
+            },
+            "time": "2021-01-18T12:06:39+00:00"
+        },
+        {
+            "name": "florianv/swap",
+            "version": "4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/florianv/swap.git",
+                "reference": "88edd27fcb95bdc58bbbf9e4b00539a2843d97fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/florianv/swap/zipball/88edd27fcb95bdc58bbbf9e4b00539a2843d97fd",
+                "reference": "88edd27fcb95bdc58bbbf9e4b00539a2843d97fd",
+                "shasum": ""
+            },
+            "require": {
+                "florianv/exchanger": "^2.0",
+                "php": "^7.1.3 || ^8.0"
+            },
+            "require-dev": {
+                "nyholm/psr7": "^1.0",
+                "php-http/message": "^1.7",
+                "php-http/mock-client": "^1.0",
+                "phpunit/phpunit": "^7 || ^8 || ^9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Swap\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florian Voutzinos",
+                    "email": "florian@voutzinos.com",
+                    "homepage": "https://voutzinos.com"
+                }
+            ],
+            "description": "Exchange rates library for PHP",
+            "keywords": [
+                "Rate",
+                "conversion",
+                "currency",
+                "exchange rates",
+                "money"
+            ],
+            "support": {
+                "issues": "https://github.com/florianv/swap/issues",
+                "source": "https://github.com/florianv/swap/tree/4.3.0"
+            },
+            "time": "2020-12-28T10:14:12+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -13039,7 +13170,8 @@
         "finlet/flexmail": 20,
         "league/csv": 20,
         "laravel/passport": 20,
-        "microweber-packages/microweber-class-alias": 20
+        "microweber-packages/microweber-class-alias": 20,
+        "florianv/exchanger": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -13051,5 +13183,6 @@
     },
     "platform-overrides": {
         "php": "7.3"
-    }
+    },
+    "plugin-api-version": "2.0.0"
 }

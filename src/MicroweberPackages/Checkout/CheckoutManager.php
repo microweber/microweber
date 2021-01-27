@@ -6,14 +6,14 @@ use Carbon\Carbon;
 use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
-use Microweber\App\Providers\Illuminate\Support\Facades\Config;
-use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
-use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
-use MicroweberPackages\Invoice\Address;
-use MicroweberPackages\Invoice\Invoice;
+
+//use MicroweberPackages\Invoice\Address;
+//use MicroweberPackages\Invoice\Invoice;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Order\Models\OrderAnonymousClient;
@@ -67,15 +67,31 @@ class CheckoutManager
         if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
 
             $update_order = $update_order_orig = $this->app->order_manager->get_by_id($sess_order_id);
-            if (isset($update_order['payment_gw'])) {
+            if (isset($update_order['payment_gw']) and isset($update_order['id'])) {
                 $gw_return = normalize_path(modules_path() . $update_order['payment_gw'] . DS . 'return.php', false);
                 if (is_file($gw_return)) {
                     include $gw_return;
 
                     if ($update_order != $update_order_orig) {
+
+                        if (isset($update_order['is_paid'])) {
+                            if (intval($update_order['is_paid']) != 0) {
+                                $_REQUEST['mw_payment_success'] = true;
+                                $_REQUEST['mw_payment_failure'] = false;
+                            } else {
+                                $_REQUEST['mw_payment_success'] = false;
+                                $_REQUEST['mw_payment_failure'] = true;
+                            }
+                        }
+
                         $this->_verify_request_params($update_order);
 
                         $this->app->order_manager->save($update_order);
+                        if (isset($update_order['id'])) {
+                            $this->after_checkout($update_order['id']);
+                        }
+
+
                     }
                 }
             }
@@ -160,11 +176,15 @@ class CheckoutManager
 
         $validator = app()->make(CheckoutController::class);
 
-        $request = new Request();
-        $request->merge($data);
-        $is_valid = $validator->validate($request);
+        if (!empty($data)) {
+            $request = new Request();
+            $request->merge($data);
+            $is_valid = $validator->validate($request);
+        } else {
+            $is_valid['errors'] = 'Data not entered.';
+        }
 
-        if(is_object($is_valid)){
+        if (is_object($is_valid)) {
             return $is_valid;
         }
 
@@ -422,7 +442,7 @@ class CheckoutManager
             $payment_currency_rate = get_option('payment_currency_rate', 'payments');
 
             if (!isset($place_order['payment_currency'])) {
-            $place_order['payment_currency'] = $place_order['currency'];
+                $place_order['payment_currency'] = $place_order['currency'];
             }
 
             if ($payment_currency and $payment_currency != $currencyCode) {
@@ -472,7 +492,7 @@ class CheckoutManager
                         $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
                     }
 
-                    $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key').$place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
+                    $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key') . $place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
 
                     $vkey_data = array();
                     $vkey_data['payment_amount'] = $place_order['payment_amount'];
@@ -522,45 +542,45 @@ class CheckoutManager
                 }
 
 
-           /*
-                $invoicePrefix = 'INV';
-                $nextInvoiceNumber = Invoice::getNextInvoiceNumber($invoicePrefix);
-                $invoiceDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
-                $dueDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))));
+                /*
+                     $invoicePrefix = 'INV';
+                     $nextInvoiceNumber = Invoice::getNextInvoiceNumber($invoicePrefix);
+                     $invoiceDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
+                     $dueDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))));
 
-                $invoiceTotal = ($place_order['amount'] * 100);
+                     $invoiceTotal = ($place_order['amount'] * 100);
 
-                $invoice = Invoice::create([
-                    'invoice_date' => $invoiceDate,
-                    'due_date' => $dueDate,
-                    'invoice_number' => $invoicePrefix . '-' . $nextInvoiceNumber,
-                    'reference_number' => '',
-                    'customer_id' => $findCustomer->id,
-                    'company_id' => 0,
-                    'invoice_template_id' => 1,
-                    'status' => Invoice::STATUS_DRAFT,
-                    'paid_status' => Invoice::STATUS_UNPAID,
-                    'sub_total' => $invoiceTotal,
-                    'discount' =>'',
-                    'discount_type' => $place_order['discount_type'],
-                    'discount_val' => ($place_order['discount_value'] * 100),
-                    'total' => $invoiceTotal,
-                    'due_amount' => $invoiceTotal,
-                    'tax_per_item' => '',
-                    'discount_per_item' => '',
-                    'tax' => '',
-                    'notes' => '',
-                    'unique_hash' => str_random(60)
-                ]);
+                     $invoice = Invoice::create([
+                         'invoice_date' => $invoiceDate,
+                         'due_date' => $dueDate,
+                         'invoice_number' => $invoicePrefix . '-' . $nextInvoiceNumber,
+                         'reference_number' => '',
+                         'customer_id' => $findCustomer->id,
+                         'company_id' => 0,
+                         'invoice_template_id' => 1,
+                         'status' => Invoice::STATUS_DRAFT,
+                         'paid_status' => Invoice::STATUS_UNPAID,
+                         'sub_total' => $invoiceTotal,
+                         'discount' =>'',
+                         'discount_type' => $place_order['discount_type'],
+                         'discount_val' => ($place_order['discount_value'] * 100),
+                         'total' => $invoiceTotal,
+                         'due_amount' => $invoiceTotal,
+                         'tax_per_item' => '',
+                         'discount_per_item' => '',
+                         'tax' => '',
+                         'notes' => '',
+                         'unique_hash' => str_random(60)
+                     ]);
 
-                foreach ($check_cart as $cartItem) {
-                    $invoice->items()->create([
-                        'name'=>$cartItem['title'],
-                        'description'=>$cartItem['description'],
-                        'price'=>($cartItem['price'] * 100),
-                        'quantity'=>$cartItem['qty'],
-                    ]);
-                }*/
+                     foreach ($check_cart as $cartItem) {
+                         $invoice->items()->create([
+                             'name'=>$cartItem['title'],
+                             'description'=>$cartItem['description'],
+                             'price'=>($cartItem['price'] * 100),
+                             'quantity'=>$cartItem['qty'],
+                         ]);
+                     }*/
 
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
@@ -588,6 +608,93 @@ class CheckoutManager
         if (!empty($checkout_errors)) {
             return array('error' => $checkout_errors);
         }
+    }
+
+    public function checkout_get_user_info()
+    {
+
+        $ready = [];
+        $shipping_address_from_profile = [];
+        $logged_user_data = [];
+
+
+        $selected_country_from_session = session_get('shipping_country');
+        $checkout_session = session_get('checkout');
+
+        $user_fields_from_profile = ['email', 'last_name', 'first_name', 'phone', 'username', 'middle_name'];
+        $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_gw'];
+
+        $all_field_keys = array_merge($user_fields_from_profile, $shipping_fields_keys);
+
+
+        if (is_logged()) {
+            $logged_user_data = get_user();
+            $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
+            if ($findCustomer) {
+                $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+                if ($findAddressShipping) {
+                    $country_from_shipping_addr = $findAddressShipping->country()->first();
+                    foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {
+                        $shipping_address_from_profile[$addressKey] = $addressValue;
+                    }
+                    if($country_from_shipping_addr and isset($country_from_shipping_addr->name)){
+                        $shipping_address_from_profile['country'] = $country_from_shipping_addr->name;
+                    }
+
+                    if($findAddressShipping and isset($findAddressShipping->address_street_1)){
+                        $shipping_address_from_profile['address'] = $findAddressShipping->address_street_1;
+                    }
+
+                    if(!isset( $shipping_address_from_profile['address'] ) and $findAddressShipping and isset($findAddressShipping->address_street_2)){
+                        $shipping_address_from_profile['address'] = $findAddressShipping->address_street_2;
+                    }
+                }
+            }
+        }
+        if ($checkout_session) {
+            foreach ($all_field_keys as $field_key) {
+                if (!empty($checkout_session) and !isset($ready[$field_key])) {
+                    foreach ($checkout_session as $k => $v) {
+                        if ($field_key == $k and $v) {
+                            $ready[$k] = $v;
+                        }
+                    }
+                }
+            }
+            if (!isset($ready['country']) and $selected_country_from_session) {
+                $ready['country'] = $selected_country_from_session;
+            }
+        }
+        if ($shipping_address_from_profile) {
+            foreach ($all_field_keys as $field_key) {
+                if (!empty($shipping_address_from_profile) and !isset($ready[$field_key])) {
+                    foreach ($shipping_address_from_profile as $k => $v) {
+                        if ($field_key == $k and $v) {
+                            $ready[$k] = $v;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        if ($logged_user_data) {
+            foreach ($all_field_keys as $field_key) {
+                if (!empty($logged_user_data) and !isset($ready[$field_key])) {
+                    foreach ($logged_user_data as $k => $v) {
+                        if ($field_key == $k and $v) {
+                            $ready[$k] = $v;
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+
+
+        return $ready;
     }
 
     public function payment_options($option_key = false)
@@ -673,9 +780,28 @@ class CheckoutManager
             if ($customer) {
                 if (empty($order->email)) {
                     $notifiable = $customer;
-                 }
+                }
             }
         }
+
+
+        $update_order_event_data = $order->toArray();
+        if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
+            $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
+        }
+
+        if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
+            $this->app->shop_manager->update_quantities($orderId);
+        }
+
+        if ($orderId > 0) {
+            $this->app->cache_manager->delete('cart');
+            $this->app->cache_manager->delete('cart_orders');
+            //return true;
+        }
+
+        $this->confirm_email_send($orderId);
+
 
         if (!$notifiable) {
             $notifiable = OrderAnonymousClient::find($orderId);
@@ -860,10 +986,12 @@ class CheckoutManager
                         if (is_array($order_email_cc)) {
                             // echo 'Send to admins.';
                             foreach ($order_email_cc as $admin_email) {
-                                $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
+                                 $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
                             }
                         }
                     }
+
+                    return true;
                 }
             }
         }
@@ -880,7 +1008,6 @@ class CheckoutManager
 
 
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
-
 
 
         $client_ip = user_ip();
@@ -939,27 +1066,30 @@ class CheckoutManager
 
 
         if (!empty($update_order_event_data) and isset($update_order_event_data['order_completed']) and $update_order_event_data['order_completed'] == 1) {
-            $update_order_event_data['id'] = $ord;
-            $update_order_event_data['payment_gw'] = $data['payment_gw'];
-            $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
+            $this->after_checkout($ord);
 
 
-            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
-                $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
-            }
-
-            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
-                $this->app->shop_manager->update_quantities($ord);
-
-
-            }
-            if ($ord > 0) {
-                $this->app->cache_manager->delete('cart');
-                $this->app->cache_manager->delete('cart_orders');
-                //return true;
-            }
-
-            $this->confirm_email_send($ord);
+            //            $update_order_event_data['id'] = $ord;
+//            $update_order_event_data['payment_gw'] = $data['payment_gw'];
+//            $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
+//
+//
+//            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
+//                $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
+//            }
+//
+//            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
+//                $this->app->shop_manager->update_quantities($ord);
+//
+//
+//            }
+//            if ($ord > 0) {
+//                $this->app->cache_manager->delete('cart');
+//                $this->app->cache_manager->delete('cart_orders');
+//                //return true;
+//            }
+//
+//            $this->confirm_email_send($ord);
 
         }
 
@@ -1086,7 +1216,7 @@ class CheckoutManager
 
             $vkey = urldecode($vkey);
 
-            $encrypter = new \Illuminate\Encryption\Encrypter(md5(Config::get('app.key').$data['payment_verify_token']), Config::get('app.cipher'));
+            $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Config::get('app.key') . $data['payment_verify_token']), \Config::get('app.cipher'));
 
             $url_verify = $this->_build_url($pieces);
             $decrypt_data = @json_decode($encrypter->decrypt($vkey), true);

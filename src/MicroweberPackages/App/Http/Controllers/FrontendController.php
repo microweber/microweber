@@ -2728,6 +2728,9 @@ class FrontendController extends Controller
         //    $page['render_file'] = $render_file;
         if (!$standalone_edit) {
             if (isset($page['render_file'])) {
+                if (!isset($page['layout_file'])) {
+                    $page['layout_file'] = str_replace(template_dir(),'',$page['render_file']);
+                 }
                 event_trigger('mw.front', $page);
                 $l = new View($page['render_file']);
                 $l->page_id = PAGE_ID;

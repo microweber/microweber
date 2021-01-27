@@ -11,7 +11,9 @@
 
 namespace MicroweberPackages\Shipping;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Application;
 
 class ShippingManagerServiceProvider extends ServiceProvider
 {
@@ -23,12 +25,28 @@ class ShippingManagerServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @property \MicroweberPackages\Shipping\ShippingManager    $shipping_manager
+         * @property \MicroweberPackages\Shipping\ShippingManager $shipping_manager
          */
+
         $this->app->singleton('shipping_manager', function ($app) {
-            return new ShippingManager();
+            /**
+             * @var Application $app
+             */
+            return new ShippingManager($app->make(Container::class));
         });
 
-     //   $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+
+        //add drivers
+
+        $this->app->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager, $app) {
+
+            $shippingManager->extend('country', function () {
+                return new \MicroweberPackages\Shipping\Providers\ShippingToCountry();
+            });
+
+        });
+
+
+        //   $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 }

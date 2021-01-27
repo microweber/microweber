@@ -62,23 +62,23 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_order' || $type == 'order_change_status' || $type == 'receive_payment') {
 
         $fields = array();
-        $fields[] = array('tag' => '{id}', 'name' => 'Order Id');
-        $fields[] = array('tag' => '{date}', 'name' => 'Date');
-        $fields[] = array('tag' => '{cart_items}', 'name' => 'Cart items');
-        $fields[] = array('tag' => '{amount}', 'name' => 'Amount');
-        $fields[] = array('tag' => '{order_status}', 'name' => 'Order Status');
-        $fields[] = array('tag' => '{currency}', 'name' => 'Currency');
-        $fields[] = array('tag' => '{first_name}', 'name' => 'First Name');
-        $fields[] = array('tag' => '{last_name}', 'name' => 'Last Name');
-        $fields[] = array('tag' => '{email}', 'name' => 'Email');
-        $fields[] = array('tag' => '{country}', 'name' => 'Country');
-        $fields[] = array('tag' => '{city}', 'name' => 'City');
-        $fields[] = array('tag' => '{state}', 'name' => 'State');
-        $fields[] = array('tag' => '{zip}', 'name' => 'Zip');
-        $fields[] = array('tag' => '{address}', 'name' => 'Address');
-        $fields[] = array('tag' => '{phone}', 'name' => 'Phone');
-        $fields[] = array('tag' => '{transaction_id}', 'name' => 'Transaction Id');
-        $fields[] = array('tag' => '{order_id}', 'name' => 'Order Id');
+        $fields[] = array('value' => '{{id}}', 'label' => 'Order Id');
+        $fields[] = array('value' => '{{date}}', 'label' => 'Date');
+        $fields[] = array('value' => '{{cart_items}}', 'label' => 'Cart items');
+        $fields[] = array('value' => '{{amount}}', 'label' => 'Amount');
+        $fields[] = array('value' => '{{order_status}}', 'label' => 'Order Status');
+        $fields[] = array('value' => '{{currency}}', 'label' => 'Currency');
+        $fields[] = array('value' => '{{first_name}}', 'label' => 'First Name');
+        $fields[] = array('value' => '{{last_name}}', 'label' => 'Last Name');
+        $fields[] = array('value' => '{{email}}', 'label' => 'Email');
+        $fields[] = array('value' => '{{country}}', 'label' => 'Country');
+        $fields[] = array('value' => '{{city}}', 'label' => 'City');
+        $fields[] = array('value' => '{{state}}', 'label' => 'State');
+        $fields[] = array('value' => '{{zip}}', 'label' => 'Zip');
+        $fields[] = array('value' => '{{address}}', 'label' => 'Address');
+        $fields[] = array('value' => '{{phone}}', 'label' => 'Phone');
+        $fields[] = array('value' => '{{transaction_id}}', 'label' => 'Transaction Id');
+        $fields[] = array('value' => '{{order_id}}', 'label' => 'Order Id');
 
         return $fields;
     }
@@ -86,9 +86,9 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_comment_reply') {
 
         $fields = array();
-        $fields[] = array('tag' => '{comment_author}', 'name' => 'Comment Author');
-        $fields[] = array('tag' => '{comment_reply_author}', 'name' => 'Comment Reply Author');
-        $fields[] = array('tag' => '{post_url}', 'name' => 'Post Url');
+        $fields[] = array('value' => '{{comment_author}}', 'label' => 'Comment Author');
+        $fields[] = array('value' => '{{comment_reply_author}}', 'label' => 'Comment Reply Author');
+        $fields[] = array('value' => '{{post_url}}', 'label' => 'Post Url');
 
         return $fields;
     }
@@ -96,13 +96,13 @@ function get_mail_template_fields($type = '')
     if ($type == 'new_user_registration') {
 
         $fields = array();
-        $fields[] = array('tag' => '{id}', 'name' => 'User Id');
-        $fields[] = array('tag' => '{username}', 'name' => 'Username');
-        $fields[] = array('tag' => '{email}', 'name' => 'Email');
-        $fields[] = array('tag' => '{first_name}', 'name' => 'First Name');
-        $fields[] = array('tag' => '{last_name}', 'name' => 'Last Name');
-        $fields[] = array('tag' => '{created_at}', 'name' => 'Date of registration');
-        $fields[] = array('tag' => '{verify_email_link}', 'name' => 'Verify email link');
+        $fields[] = array('value' => '{{id}}', 'label' => 'User Id');
+        $fields[] = array('value' => '{{username}}', 'label' => 'Username');
+        $fields[] = array('value' => '{{email}}', 'label' => 'Email');
+        $fields[] = array('value' => '{{first_name}}', 'label' => 'First Name');
+        $fields[] = array('value' => '{{last_name}}', 'label' => 'Last Name');
+        $fields[] = array('value' => '{{created_at}}', 'label' => 'Date of registration');
+        $fields[] = array('value' => '{{verify_email_link}}', 'label' => 'Verify email link');
 
         return $fields;
     }
@@ -110,14 +110,14 @@ function get_mail_template_fields($type = '')
     if ($type == 'forgot_password') {
 
         $fields = array();
-        $fields[] = array('tag' => '{id}', 'name' => 'User Id');
-        $fields[] = array('tag' => '{username}', 'name' => 'Username');
-        $fields[] = array('tag' => '{email}', 'name' => 'Email');
-        $fields[] = array('tag' => '{first_name}', 'name' => 'First Name');
-        $fields[] = array('tag' => '{last_name}', 'name' => 'Last Name');
-        $fields[] = array('tag' => '{created_at}', 'name' => 'Date of registration');
-        $fields[] = array('tag' => '{reset_password_link}', 'name' => 'Reset password link');
-        $fields[] = array('tag' => '{ip}', 'name' => 'IP address');
+        $fields[] = array('value' => '{{id}}', 'label' => 'User Id');
+        $fields[] = array('value' => '{{username}}', 'label' => 'Username');
+        $fields[] = array('value' => '{{email}}', 'label' => 'Email');
+        $fields[] = array('value' => '{{first_name}}', 'label' => 'First Name');
+        $fields[] = array('value' => '{{last_name}}', 'label' => 'Last Name');
+        $fields[] = array('value' => '{{created_at}}', 'label' => 'Date of registration');
+        $fields[] = array('value' => '{{reset_password_link}}', 'label' => 'Reset password link');
+        $fields[] = array('value' => '{{ip}}', 'label' => 'IP address');
 
         return $fields;
     }
@@ -127,21 +127,43 @@ api_expose_admin('save_mail_template');
 function save_mail_template($data)
 {
 
-    $findMailTemplate = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::where('id',$data['id'])->first();
+    $findMailTemplate = null;
+    if (isset($data['id'])) {
+        $findMailTemplate = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::where('id', $data['id'])->first();
+    }
     if ($findMailTemplate == null) {
         $findMailTemplate = new \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate();
     }
 
     $findMailTemplate->type = $data['type'];
-    $findMailTemplate->name = $data['name'];
-    $findMailTemplate->subject = $data['subject'];
+
+    if (isset($data['name'])) {
+        $findMailTemplate->name = $data['name'];
+    }
+
+    if (isset($data['subject'])) {
+        $findMailTemplate->subject = $data['subject'];
+    }
+
+    if (isset($data['from_name'])) {
+        $findMailTemplate->from_name = $data['from_name'];
+    }
+
+    if (isset($data['from_email'])) {
+        $findMailTemplate->from_email = $data['from_email'];
+    }
+
+    if (isset($data['copy_to'])) {
+        $findMailTemplate->copy_to = $data['copy_to'];
+    }
+
+    if (isset($data['is_active'])) {
+        $findMailTemplate->is_active = $data['is_active'];
+    }
+
     $findMailTemplate->message = $data['message'];
-    $findMailTemplate->from_name = $data['from_name'];
-    $findMailTemplate->from_email = $data['from_email'];
    // $findMailTemplate->custom = $data['custom'];
-    $findMailTemplate->copy_to = $data['copy_to'];
    // $findMailTemplate->plain_text = $data['plain_text'];
-    $findMailTemplate->is_active = $data['is_active'];
     $findMailTemplate->save();
 
     if (isset($data['append_files']) && !empty($data['append_files'])) {
@@ -155,7 +177,7 @@ function save_mail_template($data)
 
     }
 
-    return $findMailTemplate;
+    return $findMailTemplate->id;
 }
 
 
@@ -214,30 +236,33 @@ function get_default_mail_templates()
 
 function get_mail_templates($params = array())
 {
-    if (is_string($params)) {
-        $params = parse_params($params);
-    }
-    $templates = [];
+    $showTemplates = [];
+    $defaultTemplates = get_default_mail_templates();
     $getTemplates = \MicroweberPackages\Admin\MailTemplates\Models\MailTemplate::all();
     if ($getTemplates->count() > 0) {
         $templates = $getTemplates->toArray();
+        foreach ($templates as $template) {
+            $showTemplates[] = $template;
+        }
     }
 
-    $defaultTemplates = get_default_mail_templates();
-
-    if (empty($templates)) {
-        $templates = $defaultTemplates;
+    if (empty($showTemplates)) {
+        $showTemplates = $defaultTemplates;
     } else {
-        if (!$templates) {
-            $templates = array();
+        foreach ($defaultTemplates as $defaultTemplate) {
+            $appendThisDefaultTemplate = true;
+            foreach ($showTemplates as $template) {
+                if ($template['type'] == $defaultTemplate['type']) {
+                    $appendThisDefaultTemplate = false;
+                }
+            }
+            if ($appendThisDefaultTemplate) {
+                $showTemplates[] = $defaultTemplate;
+            }
         }
-        if (!$defaultTemplates) {
-            $defaultTemplates = array();
-        }
-        array_merge($templates, $defaultTemplates);
     }
 
-    return $templates;
+    return $showTemplates;
 }
 
 api_expose_admin('delete_mail_template');
