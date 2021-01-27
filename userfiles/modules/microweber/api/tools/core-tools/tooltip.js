@@ -222,6 +222,7 @@
             return tooltip;
         },
         setPosition: function (tooltip, el, position) {
+            if(!el || el.length === 0) return;
                 el = mw.$(el);
                 if (el.length === 0) {
                     return false;
@@ -235,6 +236,10 @@
                     arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
                 if (off.top === 0 && off.left === 0) {
                     off = mw.$(el).parent().offset();
+                }
+                if (!off) {
+                    console.log(el);
+                    return ;
                 }
                 mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
                 mw.tools.addClass(tooltip, position);

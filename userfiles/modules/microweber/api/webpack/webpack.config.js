@@ -9,6 +9,8 @@ const output = `${dir}/dist`;
 const input = `${dir}/..`;
 const inputs = arr => arr.map(item => path.resolve(`${input}/${item}`));
 
+
+
 const config = {
     watchOptions: {
         aggregateTimeout: 600
@@ -17,7 +19,7 @@ const config = {
         core: glob.sync(path.resolve(`${input}/{tools,tools/core-tools,core,system}/*.js`)),
         liveedit: glob.sync(path.resolve(`${input}/{liveedit,libs/rangy,tools/widgets,tools/system-tools,widgets,gui-css-editor}/*.js`)),
         admin: glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,admin}/*.js`)),
-        //'gui-css-editor': glob.sync(path.resolve(`${input}/{gui-css-editor}/*.js`)),
+        'gui-css-editor': glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,gui-css-editor}/*.js`)),
         editor: [
             input + '/editor/editor.js',
             input + '/editor/bar.js',

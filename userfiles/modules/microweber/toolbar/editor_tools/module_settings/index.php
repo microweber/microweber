@@ -13,8 +13,6 @@
         mw.lib.require('mwui_init');
     </script>
 
-    <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
-
     <?php template_stack_display('default'); ?>
 
     <?php

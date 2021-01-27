@@ -13,8 +13,6 @@
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/popup.css"/>
 
-      <script>mw.require('<?php print mw_includes_url(); ?>api/editor_externals.js');</script>
-
       <script>
         window.RegisterChange = function(){
           if (self !== parent) {

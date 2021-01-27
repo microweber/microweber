@@ -1,914 +1,426 @@
 /******/ (() => { // webpackBootstrap
 (() => {
-/*!**************************!*\
-  !*** ../admin/@admin.js ***!
-  \**************************/
-/*jQuery.widget = require('../webpack/node_modules/jquery-ui/ui/widget');
-jQuery.fn.draggable =  require('../webpack/node_modules/jquery-ui/ui/widgets/draggable');
-jQuery.fn.sortable  =  require('../webpack/node_modules/jquery-ui/ui/widgets/sortable');
-jQuery.fn.resizable =  require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');*/
-
-
-
-
-console.log($.fn);
-console.log($.fn.draggable);
-console.log($.widget);
-console.log($('div').draggable().length);
-
-mw.admin = {
-    language: function(language) {
-        $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})
-        .done(function (data) {
-            location.reload();
-        });
-    },
-    editor: {
-        set: function (frame) {
-            mw.$(frame).width('100%');
-        },
-        init: function (area, params) {
-            params = params || {};
-            if (typeof params === 'object') {
-                if (params.src) {
-                    delete(params.src);
+/*!************************************!*\
+  !*** ../gui-css-editor/domtree.js ***!
+  \************************************/
+mw.DomTree = function (options) {
+    var scope = this;
+    this.prepare = function () {
+        var defaults = {
+            selector: '.edit',
+            document: document,
+            targetDocument: document,
+            componentMatch: [
+                {
+                    label:  function (node) {
+                        return 'Edit';
+                    },
+                    test: function (node) {
+                        return mw.tools.hasClass(node, 'edit');
+                    }
+                },
+                {
+                    label: function (node) {
+                        var icon = mw.top().live_edit.getModuleIcon(node.getAttribute('data-type'));
+                        return icon + ' ' + node.getAttribute('data-mw-title') || node.getAttribute('data-type');
+                    },
+                    test: function (node) {
+                        return mw.tools.hasClass(node, 'module');
+                    }
+                },
+                {
+                    label: 'Image',
+                    test: function (node) {
+                        return node.nodeName === 'IMG';
+                    }
+                },
+                {
+                    label:  function (node) {
+                        var id = node.id ? '#' + node.id : '';
+                        return node.nodeName.toLowerCase() ;
+                    },
+                    test: function (node) { return true; }
                 }
-            }
-            params.live_edit=false;
-            params = typeof params === 'object' ? json2url(params) : params;
-            area = mw.$(area);
-            var frame = document.createElement('iframe');
-            frame.src = mw.external_tool('wysiwyg?' + params);
-            frame.className = 'mw-iframe-editor';
-            frame.scrolling = 'no';
-            var name = 'mweditor' + mw.random();
-            frame.id = name;
-            frame.name = name;
-            frame.style.backgroundColor = "transparent";
-            frame.setAttribute('frameborder', 0);
-            frame.setAttribute('allowtransparency', 'true');
-            area.empty().append(frame);
-            mw.$(frame).load(function () {
-                frame.contentWindow.thisframe = frame;
-                if (typeof frame.contentWindow.PrepareEditor === 'function') {
-                    frame.contentWindow.PrepareEditor();
+            ],
+            componentTypes: [
+                {
+                    label: 'SafeMode',
+                    test: function (node) {
+                        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [ 'safe-mode', 'regular-mode' ]);
+                    }
                 }
-                mw.admin.editor.set(frame);
-                mw.$(frame.contentWindow.document.body).bind('keyup paste', function () {
-                    mw.admin.editor.set(frame);
-                });
+            ]
+        };
+        options = options || {};
+
+        this.settings = $.extend({}, defaults, options);
+
+        this.$holder = $(this.settings.element);
+
+        this.document = this.settings.document;
+        this.targetDocument = this.settings.targetDocument;
+
+        this._selectedDomNode = null;
+    };
+    this.prepare();
+
+    this.createList = function () {
+        return this.document.createElement('ul');
+    };
+
+    this.createRoot = function () {
+        this.root = this.createList();
+        this.root.className = 'mw-defaults mw-domtree';
+    };
+
+
+    this._get = function (nodeOrTreeNode) {
+        return nodeOrTreeNode._value ? nodeOrTreeNode : this.findElementInTree(nodeOrTreeNode);
+    };
+
+    this.select = function (node) {
+        var el = this.getByNode(node);
+        if (el) {
+            this.selected(el);
+            this.openParents(el);
+            this._scrollTo(el);
+        }
+    };
+
+    this.toggle = function (nodeOrTreeNode) {
+        var li = this._get(nodeOrTreeNode);
+        this[ li._opened ? 'close' : 'open'](li);
+    };
+
+    this._opened = [];
+
+    this.open = function (nodeOrTreeNode) {
+        var li = this._get(nodeOrTreeNode);
+        li._opened = true;
+        li.classList.add('expand');
+        if(this._opened.indexOf(li._value) === -1) {
+            this._opened.push(li._value);
+        }
+    };
+    this.close = function (nodeOrTreeNode) {
+        var li = this._get(nodeOrTreeNode);
+        li._opened = false;
+        li.classList.remove('expand');
+        var ind = this._opened.indexOf(li._value);
+        if( ind !== -1 ) {
+            this._opened.splice(ind, ind)
+        }
+    };
+
+    this._scrollTo = function (el) {
+        setTimeout(function () {
+            scope.$holder.stop().animate({
+                scrollTop: (scope.$holder.scrollTop() + ($(el).offset().top - scope.$holder.offset().top)) - (scope.$holder.height()/2 - 10)
             });
-            mw.admin.editor.set(frame);
-            mw.$(window).bind('resize', function () {
-                mw.admin.editor.set(frame);
+        }, 55);
+    };
+
+    this.openParents = function (node) {
+        node = this._get(node);
+        while(node && node !== this.root) {
+            if(node.nodeName === 'LI'){
+                this.open(node);
+            }
+            node = node.parentNode;
+        }
+    };
+    this.selected = function (node) {
+        if (typeof node === 'undefined') {
+            return this._selectedDomNode;
+        }
+        mw.$('.selected', this.root).removeClass('selected');
+        node.classList.add('selected');
+        this._selectedDomNode = node;
+    };
+
+    this.getByNode = function (el) {
+        var all = this.root.querySelectorAll('li');
+        var l = all.length, i = 0;
+        for ( ; i < l; i++) {
+            if (all[i]._value === el) {
+                return all[i];
+            }
+        }
+    };
+
+    this.getByTreeNode = function (treeNode) {
+        return treeNode._value;
+    };
+
+    this.allDomNodes = function () {
+        return Array.from(this.map().keys());
+    };
+
+    this.allTreeNodes = function () {
+        return Array.from(this.map().values());
+    };
+
+    this.emptyTreeNode = function (node) {
+        var li = this.getByNode(node);
+        $(li).empty();
+        return li;
+    };
+
+    this.refresh = function (node) {
+        var item = this.emptyTreeNode(node);
+        this.createChildren(node, item);
+    };
+
+    this._currentTarget = null;
+    this.createItemEvents = function () {
+        $(this.root)
+            .on('mousemove', function (e) {
+                var target = e.target;
+                if(target.nodeName !== 'LI') {
+                    target = target.parentNode;
+                }
+                if(scope._currentTarget !== target) {
+                    scope._currentTarget = target;
+                    mw.$('li.hover', scope.root).removeClass('hover');
+                    target.classList.add('hover');
+                    if(scope.settings.onHover) {
+                        scope.settings.onHover.call(scope, e, target, target._value);
+                    }
+                }
+            })
+            .on('mouseleave', function (e) {
+                mw.$('li', scope.root).removeClass('hover');
+            })
+            .on('click', function (e) {
+                var target = e.target;
+
+                if(target.nodeName !== 'LI') {
+                    target = mw.tools.firstParentWithTag(target, 'li');
+                    scope.toggle(target);
+                }
+                scope.selected(target);
+                if(target.nodeName === 'LI' && scope.settings.onSelect) {
+                    scope.settings.onSelect.call(scope, e, target, target._value);
+                }
             });
-            return frame;
-        }
-    },
-    manageToolbarQuickNav: null,
-    insertModule: function (module) {
-        document.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
-    },
-    simpleRotator: function (rotator) {
-        if (rotator === null) {
-            return undefined;
-        }
-        if (typeof rotator !== 'undefined') {
-            if (!$(rotator).hasClass('activated')) {
-                mw.$(rotator).addClass('activated')
-                var all = rotator.children;
-                var l = all.length;
-                mw.$(all).addClass('mw-simple-rotator-item');
+    };
 
-                rotator.go = function (where, callback, method) {
-                    method = method || 'animate';
-                    mw.$(rotator).dataset('state', where);
-                    mw.$(rotator.children).hide().eq(where).show()
-                        if (typeof callback === 'function') {
-                            callback.call(rotator);
-                        }
+    this.map = function (node, treeNode) {
+        if (!this._map) {
+            this._map = new Map();
+        }
+        if(!node) {
+            return this._map;
+        }
+        if (!treeNode) {
+            return this._map.get(node);
+        }
+        if (!this._map.has(node)) {
+            this._map.set(node, treeNode);
+        }
+    };
 
-                    if (rotator.ongoes.length > 0) {
-                        var l = rotator.ongoes.length;
-                        i = 0;
-                        for (; i < l; i++) {
-                            rotator.ongoes[i].call(rotator);
-                        }
-                    }
-                };
-                rotator.ongoes = [];
-                rotator.ongo = function (c) {
-                    if (typeof c === 'function') {
-                        rotator.ongoes.push(c);
-                    }
-                };
+    this.createItem = function (item) {
+        if(!this.validateNode(item)) {
+            return;
+        }
+        var li = this.document.createElement('li');
+        li._value = item;
+        li.className = 'mw-domtree-item' + (this._selectedDomNode === item ? ' active' : '');
+        var dio = item.children.length ? '<i class="mw-domtree-item-opener"></i>' : '';
+        li.innerHTML = dio + '<span class="mw-domtree-item-label">' + this.getComponentLabel(item) + '</span>';
+        return li;
+    };
+
+    this.getComponentLabel = function (node) {
+        var all = this.settings.componentMatch, i = 0;
+        for (  ; i < all.length; i++ ) {
+            if( all[i].test(node)) {
+                return typeof all[i].label === 'string' ? all[i].label : all[i].label.call(this, node);
             }
         }
-        return rotator;
-    },
-
-    postImageUploader: function () {
-        if (document.querySelector('#images-manager') === null) {
-            return false;
-        }
-        if (document.querySelector('.mw-iframe-editor') === null) {
-            return false;
-        }
-        if (document.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.edit') === null) {
-            return false;
-        }
-        var uploader = mw.uploader({
-            filetypes: "images",
-            multiple: true,
-            element: "#insert-image-uploader"
-        });
-        mw.$(uploader).bind("FileUploaded", function (obj, data) {
-            var frameWindow = document.querySelector('.mw-iframe-editor').contentWindow;
-            var hasRanges = frameWindow.getSelection().rangeCount > 0;
-            var img = '<img class="element" src="' + data.src + '" />';
-            if (hasRanges && frameWindow.mw.wysiwyg.isSelectionEditable()) {
-                frameWindow.mw.wysiwyg.insert_html(img);
-            }
-            else {
-                frameWindow.mw.$(frameWindow.document.querySelector('.edit')).append(img);
-            }
-        });
-
-    },
-    listPostGalleries: function () {
-        if (document.querySelector('#images-manager') === null) {
-            return false;
-        }
-        if (document.querySelector('.mw-iframe-editor') === null) {
-            return false;
-        }
-        if (document.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.edit') === null) {
-            return false;
-        }
-    },
-
-
-    beforeLeaveLocker: function () {
-        var roots = '#pages_tree_toolbar, #main-bar',
-            all = document.querySelectorAll(roots),
-            l = all.length,
-            i = 0;
-        for (; i < l; i++) {
-            if (!!all[i].MWbeforeLeaveLocker) continue;
-            all[i].MWbeforeLeaveLocker = true;
-            var links = all[i].querySelectorAll('a'), ll = links.length, li = 0;
-            for (; li < ll; li++) {
-                mw.$(links[li]).bind('mouseup', function (e) {
-                    if (mw.askusertostay === true) {
-                        e.preventDefault();
-                        return false;
-
-                    }
-                });
+    };
+    this.isComponent = function (node) {
+        var all = this.settings.componentMatch, i = 0;
+        for (  ; i < all.length; i++ ) {
+            if( all[i].test(node)) {
+                return true;
             }
         }
-    }
-};
-
-
-mw.contactForm = function () {
-    mw.dialogIframe({
-        url: 'https://microweber.com/contact-frame/',
-        overlay: true,
-        height: 600
-    })
-};
-
-
-$(mwd).ready(function () {
-
-
-    mw.$(document.body).on('keydown', function (e) {
-        if (mw.event.key(e, 8) && (e.target.nodeName === 'DIV' || e.target === document.body)) {
-            if (!e.target.isContentEditable) {
-                mw.event.cancel(e);
-                return false;
-            }
-        }
-    });
-
-    mw.admin.beforeLeaveLocker();
-
-    mw.$(document.body).on('click', '[data-href]', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var loc = $(this).attr('data-href');
-        if (mw.askusertostay) {
-            mw.confirm(mw.lang("Continue without saving") + '?', function () {
-                mw.askusertostay = false;
-                location.href = loc;
-            });
-        } else {
-            location.href = loc;
-        }
-    });
-});
-
-$(mww).on('load', function () {
-    mw.on.moduleReload('pages_tree_toolbar', function () {
-
-    });
-
-    if (document.getElementById('main-bar-user-menu-link') !== null) {
-
-        mw.$(document.body).on('click', function (e) {
-            if (e.target !== document.getElementById('main-bar-user-menu-link') && e.target.parentNode !== document.getElementById('main-bar-user-menu-link')) {
-                mw.$('#main-bar-user-tip').removeClass('main-bar-user-tip-active');
-            }
-            else {
-
-                mw.$('#main-bar-user-tip').toggleClass('main-bar-user-tip-active');
-            }
-        });
-    }
-
-    mw.on('adminSaveStart saveStart', function () {
-        var btn = document.querySelector('#content-title-field-buttons .btn-save span');
-        btn.innerHTML = mw.msg.saving + '...';
-    });
-    mw.on('adminSaveEnd saveEnd', function () {
-         var btn = document.querySelector('#content-title-field-buttons .btn-save span');
-        btn.innerHTML = mw.msg.save;
-    });
-
-    mw.$(".dr-item-table > table").click(function(){
-        mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
-    });
-
-});
-
-
-
-})();
-
-(() => {
-/*!***************************************!*\
-  !*** ../admin/admin_custom_fields.js ***!
-  \***************************************/
-
-mw.admin.custom_fields = {};
-
-mw.admin.custom_fields.initValues = function () {
-    var master = document.getElementById('custom-fields-post-table');
-    if ( master === null ) {
         return false;
-    }
-    var all = master.querySelectorAll('.mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-placeholder-edit-inline, .mw-admin-custom-field-value-edit-inline'),
-        l = all.length,
-        i = 0;
-    for (; i < l; i++) {
-        mw.admin.custom_fields.initValue(all[i]);
-    }
-    mw.admin.custom_fields.addValueButtons();
-    all = master.querySelectorAll('.mw-admin-custom-field-value-edit-text');
-    l = all.length;
-    i = 0;
-    for ( ; i < l; i++ ) {
-        mw.admin.custom_fields.initTextAreaValue(all[i]);
-    }
+    };
+
+    this.validateNode = function (node) {
+        if(node.nodeType !== 1){
+            return false;
+        }
+        var tag = node.nodeName;
+        if(tag === 'SCRIPT' || tag === 'STYLE' || tag === 'LINK' || tag === 'BR') {
+            return false;
+        }
+        return this.isComponent(node);
+    };
+
+    this.create = function () {
+        var all = this.targetDocument.querySelectorAll(this.settings.selector);
+        var i = 0;
+        for (  ; i < all.length; i++ ) {
+            var item = this.createItem(all[i]);
+            if(item) {
+                this.root.appendChild(item);
+                this.createChildren(all[i], item);
+            }
+        }
+        this.createItemEvents();
+        $(this.settings.element).empty().append(this.root).resizable({
+            handles: "s",
+            start: function( event, ui ) {
+                ui.element.css('maxHeight', 'none');
+            }
+        });
+    };
+
+    this.createChildren = function (node, parent) {
+        if(!parent) return;
+        var list = this.createList();
+        var curr = node.children[0];
+        while (curr) {
+            var item = this.createItem(curr);
+            if (item) {
+                list.appendChild(item);
+                if (curr.children.length) {
+                    this.createChildren(curr, item);
+                }
+            }
+            curr = curr.nextElementSibling;
+        }
+        parent.appendChild(list);
+    };
+
+    this.init = function () {
+        this.createRoot();
+        this.create();
+    };
+
+    this.init();
+
 };
 
+})();
 
-mw.admin.custom_fields.initTextAreaValue = function (node) {
-    if (!node.fieldBinded) {
-        node.fieldBinded = true;
-        mw.$(node).on('input', function (e) {
-            var sh = this.scrollHeight;
-            var oh = this.offsetHeight;
-            if(sh > oh){
-                this.style.height = sh+"px";
-            }
+(() => {
+/*!**********************************************!*\
+  !*** ../gui-css-editor/stylesheet.editor.js ***!
+  \**********************************************/
+mw.require('libs/cssjson/cssjson.js');
 
+
+mw.liveeditCSSEditor = function (config) {
+    var scope = this;
+    config = config || {};
+    config.document = config.document || document;
+    var node = document.querySelector('link[href*="live_edit"]');
+    var defaults = {
+        cssUrl: node ? node.href : null,
+        saveUrl: mw.settings.api_url + "current_template_save_custom_css"
+    };
+    this.settings = $.extend({}, defaults, config);
+
+    this.json = null;
+
+    this.getByUrl = function (url, callback) {
+        return $.get(url, function (css) {
+            callback.call(this, css)
         });
-        node.onchange = function (e) {
-            var data = {
-                id: mw.$(this).dataset('id'),
-                value: mw.$(this).val()
-            };
-            $.post(mw.settings.api_url + 'fields/save', data, function () {
-                 mw.custom_fields.after_save();
+    };
+
+    this.getLiveeditCSS = function () {
+        if( this.settings.cssUrl ) {
+            this.getByUrl( this.settings.cssUrl, function (css) {
+                if(/<\/?[a-z][\s\S]*>/i.test(css)) {
+                    scope.json = {};
+                    scope._css = '';
+                } else {
+                    scope.json = CSSJSON.toJSON(css);
+                    scope._css = css;
+                }
+                $(scope).trigger('ready');
             });
         }
-    }
-};
-
-mw.admin.custom_fields.initValue = function (node) {
-    if (!node.fieldBinded) {
-        node.fieldBinded = true;
-        node.onclick = function (e) {
-            mw.admin.custom_fields.valueLiveEdit(this);
-        }
-    }
-}
-mw.admin.custom_fields.addValueButtons = function (root) {
-    var root = root || mwd, all = root.querySelectorAll(".btn-create-custom-field-value"), l = all.length, i = 0;
-    for (; i < l; i++) {
-        if (!!all[i].avbinded) {
-            continue;
-        }
-        all[i].avbinded = true;
-        all[i].onclick = function () {
-            var span = document.createElement('span');
-            span.className = 'mw-admin-custom-field-value-edit-inline-holder mw-admin-custom-field-checkbox bg-secondary-opacity-8 d-inline-flex mr-2 my-1 p-0';
-            span.innerHTML = '<small class="mw-admin-custom-field-value-edit-inline p-1 text-dark" data-id="' + mw.$(this).dataset('id') + '"></small><small onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields bg-danger text-white p-1"><i class="mdi mdi-close"></i></small>   ';
-            mw.admin.custom_fields.initValue(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
-            mw.$(this).prev().append(span);
-            mw.admin.custom_fields.valueLiveEdit(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
-        }
-    }
-
-}
-
-mw.admin.custom_fields.valueLiveEdit = function (span) {
-    mw.$(span.parentNode).addClass('active');
-    mw.tools.addClass(mw.tools.firstParentWithTag(span, 'tr'), 'active');
-    var input = mw.tools.elementEdit(span, true, function (el) {
-        var data;
-        if (mw.tools.hasClass(el, 'mw-admin-custom-field-value-edit-inline')) {
-            var vals = [],
-                all = mw.tools.firstParentWithClass(el, 'custom-fields-values-holder').parentNode.querySelectorAll('.mw-admin-custom-field-value-edit-inline'),
-                l = all.length,
-                i = 0;
-            for (; i < l; i++) {
-                vals.push(all[i].textContent);
-            }
-
-            data = {
-                id: mw.$(el).dataset('id'),
-                value: vals
-            };
-        }
-
-        else if (mw.tools.hasClass(el, 'mw-admin-custom-field-placeholder-edit-inline')) {
-
-            data = {
-                id: mw.$(el).dataset('id'),
-                placeholder: mw.$(el).text()
-            };
-
-        }
-
         else {
-            data = {
-                id: mw.$(el).dataset('id'),
-                name: mw.$(el).text()
-            };
+            scope.json = {};
+            scope._css = '';
+            $(scope).trigger('ready');
         }
-        mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
-        $.post(mw.settings.api_url + 'fields/save', data, function (data) {
+    };
 
-        	if (document.getElementById('mw-custom-fields-list-settings-' + data.id) != null) {
 
-	            var rstr = document.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
-
-	            if (rstr && !!data.value) {
-	                mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
-	            }
-        	}
-
-        	mw.custom_fields.after_save();
-
-        });
-        mw.$(el.parentNode).removeClass('active');
-        mw.tools.removeClass(mw.tools.firstParentWithTag(el, 'tr'), 'active');
-    });
-    mw.$(input).on('blur', function () {
-        mw.$('.mw-admin-custom-field-value-edit-inline-holder.active').removeClass('active');
-        mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
-    });
-    mw.$(input).on('keydown', function (e) {
-
-        var code = (e.keyCode ? e.keyCode : e.which);
-
-        if (code === 9) {
-            var parent = mw.tools.firstParentWithClass(e.target, 'mw-admin-custom-field-value-edit-inline-holder');
-            if (!e.shiftKey) {
-                if (parent.nextElementSibling !== null && mw.tools.hasClass(parent.nextElementSibling, 'mw-admin-custom-field-value-edit-inline-holder')) {
-                    mw.admin.custom_fields.valueLiveEdit(parent.nextElementSibling.querySelector('.mw-admin-custom-field-value-edit-inline'));
-                }
-                else {
-
-                }
-            }
-            else {
-                if (parent.previousElementSibling !== null && mw.tools.hasClass(parent.previousElementSibling, 'mw-admin-custom-field-value-edit-inline-holder')) {
-                    mw.admin.custom_fields.valueLiveEdit(parent.previousElementSibling.querySelector('.mw-admin-custom-field-value-edit-inline'));
-                }
-                else {
-
-                }
-            }
-
-            return false;
+    this._cssTemp = function (json) {
+        var css = CSSJSON.toCSS(json);
+        if(!mw.liveedit._cssTemp) {
+            mw.liveedit._cssTemp = mw.tools.createStyle('#mw-liveedit-dynamic-temp-style', css, document.body);
+            mw.liveedit._cssTemp.id = 'mw-liveedit-dynamic-temp-style';
         } else {
+            mw.liveedit._cssTemp.innerHTML = css;
+        }
+    };
 
-	/*
-				var el = mw.$( e.target)[0];
-				mw.on.stopWriting(el, function () {
+    this.changed = false;
+    this._temp = {children: {}, attributes: {}};
+    this.temp = function (node, prop, val) {
+        this.changed = true;
+        if(node.length) {
+            node = node[0];
+        }
+        var sel = mw.tools.generateSelectorForNode(node);
+        if(!this._temp.children[sel]) {
+            this._temp.children[sel] = {};
+        }
+        if (!this._temp.children[sel].attributes ) {
+            this._temp.children[sel].attributes = {};
+        }
+        this._temp.children[sel].attributes[prop] = val;
+        this._cssTemp(this._temp);
+    };
 
-		             var parent = mw.tools.firstParentWithClass(el, 'mw-admin-custom-field-value-edit-inline');
-					 d(parent);
-                    mw.admin.custom_fields.valueLiveEdit(parent);
+    this.timeOut = null;
 
+    this.save = function () {
+        this.json = $.extend(true, {}, this.json, this._temp);
+        this._css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.');
+    };
 
-			 });*/
-
-		}
-    });
-}
-mw.admin.custom_fields.make_fields_sortable = function () {
-    var sortable_holder = mw.$("#custom-fields-post-table").eq(0);
-    if (!sortable_holder.hasClass('ui-sortable') && sortable_holder.find('tr').length > 1) {
-        sortable_holder.sortable({
-            items: 'tr',
-            distance: 35,
-            update: function (event, ui) {
-                var obj = {ids: []};
-                mw.$(this).find(".mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-placeholder-edit-inline").each(function () {
-                    var id = mw.$(this).dataset("id");
-                    obj.ids.push(id);
-                });
-
-
-                $.post(mw.settings.api_url + "fields/reorder", obj, function () {
-
-                });
+    this.publish = function (callback) {
+        var css = {
+            css_file_content: this.getValue()
+        };
+        $.post(this.settings.saveUrl, css, function (res) {
+            scope.changed = false;
+            if(callback) {
+                callback.call(this, res);
             }
         });
-    }
-    return sortable_holder;
-};
-mw.admin.custom_fields.del = function (id, toremove) {
-    var q = "Are you sure you want to delete '" + mw.$('#mw-custom-list-element-' + id + ' .mw-admin-custom-field-name-edit-inline').text() + "' ?";
-    mw.tools.confirm(q, function () {
+    };
 
-        mw.custom_fields.remove(id, function (data) {
-            mw.$('#mw-custom-list-element-' + id).addClass('scale-out');
-            setTimeout(function () {
-                mw.reload_module_parent('custom_fields');
-                mw.reload_module('custom_fields/list', function () {
-                    if (!!toremove) {
-                        mw.$(toremove).remove();
-                    }
-                    mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
-                    mw.trigger('customFieldSaved', id);
-                    if (typeof load_iframe_editor === 'function') {
-                        load_iframe_editor();
-                    }
-                    mw.admin.custom_fields.initValues();
-                });
-            }, 300);
+    this.publishIfChanged = function (callback) {
+        if(this.changed) {
+            this.publish(callback);
+        }
+    };
 
-        });
-    });
-};
-mw.admin.custom_fields.deleteFieldValue = function (el) {
-    var xel  = el.parentNode.parentNode
-    mw.$(el.parentNode).remove();
-    mw.admin.custom_fields.valueLiveEdit(xel.querySelector('.mw-admin-custom-field-value-edit-inline'));
+    this.getValue = function () {
+        this.save();
+        return this._css;
+    };
 
+    this.init = function () {
+        this.getLiveeditCSS();
+    };
 
+    this.init();
 
 };
 
-
-
-mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callback, event) {
-
-    var mTitle = (id ? 'Edit custom field' : 'Add new custom field');
-
-    var data = {};
-    data.settings = 'y';
-    data.field_id = id;
-    data.live_edit = true;
-    data.module_settings = true;
-    data.id = id;
-
-
-    data.params = {};
-    data.params.field_id = id;
-
-    editModal = mw.top().tools.open_module_modal('custom_fields/values_edit', data, {
-        overlay: false,
-        width:'450px',
-        height:'auto',
-        autoHeight: true,
-        iframe: true,
-        title: mTitle
-    });
-
-};
-
-$(window).on('load', function () {
-    console.log(  mw.admin)
-    mw.admin.custom_fields.initValues();
-});
-
-})();
-
-(() => {
-/*!*****************************************!*\
-  !*** ../admin/admin_package_manager.js ***!
-  \*****************************************/
-mw.admin = mw.admin || {};
-mw.admin.admin_package_manager = mw.admin.admin_package_manager || {}
-
-
-mw.admin.admin_package_manager.set_loading = function (is_loading) {
-
-    mw.tools.loading(document.querySelector('.js-install-package-loading-container-confirm'), is_loading, 'slow');
-    mw.tools.loading(document.querySelector('#mw-packages-browser-nav-tabs-nav'), is_loading, 'slow');
-    mw.tools.loading(document.querySelector('.admin-toolbar'), is_loading, 'slow');
-    mw.tools.loading(document.querySelector('#update_queue_set_modal'), is_loading, 'slow');
-
-}
-
-
-mw.admin.admin_package_manager.reload_packages_list = function () {
-    mw.admin.admin_package_manager.set_loading(true)
-    setTimeout(function () {
-        mw.notification.success('Reloading packages', 15000);
-    }, 1000);
-    mw.clear_cache();
-    mw.admin.admin_package_manager.set_loading(true)
-
-    setTimeout(function () {
-        mw.reload_module('admin/developer_tools/package_manager/browse_packages', function () {
-            mw.admin.admin_package_manager.set_loading(false)
-            mw.notification.success('Packages are reloaded');
-        })
-
-    }, 1000);
-
-
-}
-
-mw.admin.admin_package_manager.show_licenses_modal = function () {
-    var data = {}
-    licensesModal = mw.tools.open_module_modal('settings/group/licenses', data, {
-        //  overlay: true,
-        //  iframe: true,
-
-        title: 'Licenses',
-        skin: 'simple'
-    })
-
-
-}
-
-
-mw.admin.admin_package_manager.install_composer_package_by_package_name = function ($key, $version) {
-
-    mw.notification.success('Loading...', 25000);
-    //mw.load_module('updates/worker', '#mw-updates-queue');
-
-
-    var update_queue_set_modal = mw.dialog({
-        content: '<div class="module" type="updates/worker" id="update_queue_process_alert"></div>',
-        overlay: false,
-        id: 'update_queue_set_modal',
-        title: 'Preparing'
-    });
-
-    mw.reload_module('#update_queue_process_alert');
-
-
-    mw.admin.admin_package_manager.set_loading(50)
-
-
-    var values = {require_name: $key, require_version: $version};
-
-    mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values);
-
-
-}
-
-
-mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals = null;
-
-
-mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax = function (values) {
-    $.ajax({
-        url: mw.settings.api_url + "mw_composer_install_package_by_name",
-        type: "post",
-        data: values,
-        success: function (msg) {
-            mw.admin.admin_package_manager.set_loading(true);
-
-            if (typeof msg == 'object' && msg.try_again  && msg.unzip_cache_key) {
-                if (msg.try_again) {
-                    values.try_again_step = true;
-                    values.unzip_cache_key =  msg.unzip_cache_key;
-                    mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals = values;
-                    setTimeout(function(){
-                        mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values);
-
-                    }, 500);
-
-
-
-                    return;
-                }
-            } else {
-                mw.notification.msg(msg);
-                mw.admin.admin_package_manager.set_loading(false)
-
-
-
-                mw.admin.admin_package_manager.reload_packages_list();
-                mw.admin.admin_package_manager.set_loading(false);
-
-                mw.$('#update_queue_set_modal').remove();
-            }
-
-
-
-        },
-
-        error: function (jqXHR, textStatus, errorThrown) {
-            mw.admin.admin_package_manager.set_loading(false);
-
-            setTimeout(function(){
-                mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals);
-
-            }, 500);
-        }
-
-    }).always(function (jqXHR, textStatus) {
-
-
-        if(typeof(context) != 'undefined' ) {
-            mw.spinner({ element: $(context).next() }).hide();
-            $(context).show();
-        }
-
-        mw.$('#update_queue_set_modal').remove();
-
-        mw.admin.admin_package_manager.set_loading(false);
-
-
-    })
-
-}
-
-
-})();
-
-(() => {
-/*!****************************!*\
-  !*** ../admin/checkbox.js ***!
-  \****************************/
-mw.check = {
-    all: function (selector) {
-        mw.$(selector).find("input[type='checkbox']").each(function () {
-            this.checked = true;
-        });
-    },
-    none: function (selector) {
-        mw.$(selector).find("input[type='checkbox']").each(function () {
-            this.checked = false;
-        });
-    },
-    toggle: function (selector) {
-        var els = mw.$(selector).find("input[type='checkbox']"), checked = els.filter(':checked');
-        if (els.length === checked.length) {
-            mw.check.none(selector)
-        }
-        else {
-            mw.check.all(selector);
-        }
-    },
-    collectChecked: function (parent) {
-        var arr = [];
-        var all = parent.querySelectorAll('input[type="checkbox"]'), i = 0, l = all.length;
-        for (; i < l; i++) {
-            var el = all[i];
-            el.checked ? arr.push(el.value) : '';
-        }
-        return arr;
-    }
-}
-})();
-
-(() => {
-/*!***************************!*\
-  !*** ../admin/content.js ***!
-  \***************************/
-mw.content = mw.content || {
-
-    deleteContent: function (id, callback) {
-        mw.tools.confirm(mw.msg.del, function () {
-            $.post(mw.settings.api_url + "content/delete", {id: id}, function (data) {
-                if (callback) {
-                    callback.call(data, data);
-                }
-                mw.notification.success('Content deleted');
-            });
-        });
-    },
-    deleteCategory: function (id, callback) {
-        mw.tools.confirm('Are you sure you want to delete this?', function () {
-            $.post(mw.settings.api_url + "category/delete", {id: id}, function (data) {
-                mw.notification.success('Category deleted');
-                if (callback) {
-                    callback.call(data, data);
-                }
-                mw.reload_module_everywhere('content/manager');
-                mw.url.windowDeleteHashParam('action');
-
-            });
-        });
-    },
-    publish: function ($id) {
-        var master = {};
-        master.id = $id;
-        mw.$(document.body).addClass("loading");
-        mw.drag.save();
-        $.ajax({
-            type: 'POST',
-            url: mw.settings.site_url + 'api/content/set_published',
-            data: master,
-            datatype: "json",
-            async: true,
-            beforeSend: function () {
-
-            },
-            success: function (data) {
-                mw.$(document.body).removeClass("loading");
-                $('.mw-set-content-publish').hide();
-                mw.$('.mw-set-content-unpublish').fadeIn();
-                mw.askusertostay = false;
-                mw.notification.success("Content is Published.");
-            },
-            error: function () {
-                mw.$(document.body).removeClass("loading");
-            },
-            complete: function () {
-                mw.$(document.body).removeClass("loading");
-            }
-        });
-    },
-    unpublish: function ($id) {
-        var master = {};
-        master.id = $id;
-        mw.$(document.body).addClass("loading");
-
-        mw.drag.save();
-        $.ajax({
-            type: 'POST',
-            url: mw.settings.site_url + 'api/content/set_unpublished',
-            data: master,
-            datatype: "json",
-            async: true,
-            beforeSend: function () {
-
-            },
-            success: function (data) {
-                mw.$(document.body).removeClass("loading");
-                mw.$('.mw-set-content-unpublish').hide();
-                mw.$('.mw-set-content-publish').fadeIn();
-                mw.askusertostay = false;
-                mw.notification.warning("Content is Unpublished.");
-            },
-            error: function () {
-                mw.$(document.body).removeClass("loading");
-            },
-            complete: function () {
-                mw.$(document.body).removeClass("loading");
-            }
-        });
-
-    },
-    save: function (data, e) {
-        var master = {};
-        var calc = {};
-        e = e || {};
-         if (!data.content) {
-
-         } else {
-            var doc = mw.tools.parseHtml(data.content);
-            var all = doc.querySelectorAll('[contenteditable]'), l = all.length, i = 0;
-            for (; i < l; i++) {
-                all[i].removeAttribute('contenteditable');
-            }
-            data.content = doc.body.innerHTML;
-        }
-
-        if (!data.title) {
-            calc.title = false;
-        }
-        if (!mw.tools.isEmptyObject(calc)) {
-            if (typeof e.onError === 'function') {
-                e.onError.call(calc);
-            }
-            return false;
-        }
-        if (!data.content_type) {
-            data.content_type = "post";
-        }
-        if (!data.id) {
-            data.id = 0;
-        }
-        master.title = data.title;
-        master.content = data.content;
-        mw.$(document.body).addClass("loading");
-        mw.trigger('adminSaveStart');
-        $.ajax({
-            type: 'POST',
-            url: e.url || (mw.settings.api_url + 'save_content_admin'),
-            data: data,
-            datatype: "json",
-            async: true,
-
-            error: function (data, x) {
-                mw.$(document.body).removeClass("loading");
-                if (typeof e.onError === 'function') {
-                    e.onError.call(data.data || data);
-                }
-                mw.errorsHandle(data.responseJSON);
-            },
-            complete: function (a,b,c) {
-                 mw.$(document.body).removeClass("loading");
-                mw.trigger('adminSaveEnd');
-            }
-        }).done(function (data) {
-            if(data.data) {
-                data = data.data;
-            }
-            mw.$(document.body).removeClass("loading");
-            if (typeof data === 'object' && typeof data.error != 'undefined') {
-                if (typeof e.onError === 'function') {
-                    e.onError.call(data);
-                }
-            }
-            else {
-                if (typeof e.onSuccess === 'function') {
-                    e.onSuccess.call(data);
-                }
-
-            }
-            document.querySelector('.btn-save').disabled = true;
-            mw.askusertostay = false;
-        });
-    }
-};
-
-
-mw.post = mw.post || {
-    del: function (a, callback) {
-        var arr = $.isArray(a) ? a : [a];
-        var obj = {ids: arr}
-        $.post(mw.settings.api_url + "content/delete", obj, function (data) {
-            typeof callback === 'function' ? callback.call(data) : '';
-        });
-    },
-    publish: function (id, c) {
-        var obj = {
-            id: id
-        }
-        $.post(mw.settings.api_url + 'content/set_published', obj, function (data) {
-            if (typeof c === 'function') {
-                c.call(id, data);
-            }
-        });
-    },
-    unpublish: function (id, c) {
-        var obj = {
-            id: id
-        }
-        $.post(mw.settings.api_url + 'content/set_unpublished', obj, function (data) {
-            if (typeof c === 'function') {
-                c.call(id, data);
-            }
-        });
-    },
-    set: function (id, state, e) {
-        if (typeof e !== 'undefined') {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        if (state == 'unpublish') {
-            mw.post.unpublish(id, function (data) {
-                mw.notification.warning(mw.msg.contentunpublished);
-            });
-        }
-        else if (state == 'publish') {
-            mw.post.publish(id, function (data) {
-                mw.notification.success(mw.msg.contentpublished);
-                mw.$(".manage-post-item-" + id).removeClass("content-unpublished").find(".post-un-publish").remove();
-                if (typeof e !== 'undefined') {
-                    mw.$(e.target.parentNode).removeClass("content-unpublished");
-                    mw.$(e.target).remove();
-                }
-            });
-        }
-    }
-}
 
 })();
 
@@ -6603,4 +6115,4 @@ mw.treeTags = mw.treeChips = function(options){
 
 /******/ })()
 ;
-//# sourceMappingURL=admin.js.map
+//# sourceMappingURL=gui-css-editor.js.map

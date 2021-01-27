@@ -212,8 +212,6 @@ if ($id == 0) {
             $("#edit-menu_item_edit_wrap-" + id).remove();
         };
 
-        mw.require('link-editor.js');
-
         $(document).ready(function () {
 
             $('.change-url-box .input-group-text, .change-url-box input').on('click', function () {

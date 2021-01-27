@@ -134,6 +134,9 @@
             }
         };
         this.position = function(item, target){
+            if( !target ) {
+                return;
+            }
             var off = mw.$(target).offset();
             css(item.top, {
                 top:off.top,

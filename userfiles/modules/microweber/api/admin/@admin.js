@@ -1,7 +1,15 @@
-
+/*jQuery.widget = require('../webpack/node_modules/jquery-ui/ui/widget');
 jQuery.fn.draggable =  require('../webpack/node_modules/jquery-ui/ui/widgets/draggable');
 jQuery.fn.sortable  =  require('../webpack/node_modules/jquery-ui/ui/widgets/sortable');
-jQuery.fn.resizable =  require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');
+jQuery.fn.resizable =  require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');*/
+
+
+
+
+console.log($.fn);
+console.log($.fn.draggable);
+console.log($.widget);
+console.log($('div').draggable().length);
 
 mw.admin = {
     language: function(language) {

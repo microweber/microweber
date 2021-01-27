@@ -3,7 +3,6 @@ if (!user_can_access('module.contact_form.index')) {
     return;
 }
 ?>
-<script>mw.require('editor.js')</script>
 <script>
     MWEditor.controllers.contactFormInsertEmailVariable = function (scope, api, rootScope, data) {
         this.checkSelection = function (opt) {
@@ -25,7 +24,7 @@ if (!user_can_access('module.contact_form.index')) {
         };
         this.element = this.render();
     };
-    
+
     $(document).ready(function () {
         mweditor = mw.Editor({
             selector: '#editorAM',

@@ -1,7 +1,8 @@
 <div id="xtree"></div>
 <div id="domtree"></div>
 
-<script type="text/javascript">
+<script src="<?php print mw_includes_url(); ?>api/webpack/dist/gui-css-editor.js"></script>
+<script>
 
     mw.lib.require('colorpicker');
 
@@ -369,7 +370,7 @@ var init = function(){
     });
     $("#background-select-item").on("click", function () {
         var dialog;
-        var picker = new mw.filePicker({
+       var picker = new mw.filePicker({
             type: 'images',
             label: false,
             autoSelect: false,
@@ -489,6 +490,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)
+        mw.$(document.body).removeClass('mw-external-loading');
 
     });
 </script>

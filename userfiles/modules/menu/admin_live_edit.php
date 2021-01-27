@@ -11,9 +11,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
 }
 ?>
 
-<script>
-    mw.require('link-editor.js');
-</script>
+
 <script>
 
     mw.add_new_page_to_menu = function (id) {

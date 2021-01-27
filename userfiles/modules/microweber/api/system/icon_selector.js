@@ -28,7 +28,7 @@
                 },
                 icons: function () {
                      return new Promise(function (resolve) {
-                         $.get(mw.settings.modules_url + 'microweber/api/fa.icons.js',function (data) {
+                         $.get(mw.settings.modules_url + 'microweber/api/icons-sets/fa.icons.js',function (data) {
                              resolve(JSON.parse(data));
                         });
                     });
@@ -55,7 +55,7 @@
                  },
                 icons: function () {
                     return new Promise(function (resolve) {
-                        $.get(mw.settings.modules_url + 'microweber/api/material.icons.js',function (data) {
+                        $.get(mw.settings.modules_url + 'microweber/api/icons-sets/material.icons.js',function (data) {
                             resolve(JSON.parse(data));
                         });
                     });
@@ -241,7 +241,7 @@
                 },
                 icons: function () {
                     return new Promise(function (resolve) {
-                        $.get(mw.settings.modules_url + 'microweber/api/microweber.icons.js',function (data) {
+                        $.get(mw.settings.modules_url + 'microweber/api/icons-sets/microweber.icons.js',function (data) {
                             resolve(JSON.parse(data));
                         });
                     });

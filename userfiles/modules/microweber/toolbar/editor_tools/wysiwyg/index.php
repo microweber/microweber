@@ -3,7 +3,6 @@
 <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/ui.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/wysiwyg.css"/>
-<script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 <script>
     mwAdmin = true;
 
