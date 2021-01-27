@@ -83,7 +83,9 @@
         "microweber-templates/new-world": "1.6",
         "lcobucci/jwt": "3.3.3",
         "laravel/passport": "^11.0@dev",
-        "microweber-packages/microweber-class-alias": "dev-master"
+        "microweber-packages/microweber-class-alias": "dev-master",
+        "florianv/swap": "^4.3",
+        "florianv/exchanger": "2.x-dev"
 
 
     },
