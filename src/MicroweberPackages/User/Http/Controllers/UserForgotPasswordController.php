@@ -36,6 +36,10 @@ class UserForgotPasswordController extends Controller
             $rules['captcha'] = 'captcha';
         }
 
+        if (is_admin()) {
+            unset($rules['captcha']);
+        }
+
 
         if (!isset($request['email']) and isset($request['username'])) {
             $user_id = detect_user_id_from_params($request);
