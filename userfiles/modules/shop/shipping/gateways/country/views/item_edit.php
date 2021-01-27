@@ -353,8 +353,8 @@ if ($weight_units == false) {
 
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Order amount to activate shipping discount"); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e("Minimum amount in the shopping cart to activate shipping discount"); ?></small>
+                        <label class="control-label"><?php _e("Order amount to activate special shipping price"); ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e("Minimum amount in the shopping cart to activate special shipping price"); ?></small>
 
 
                         <div class="input-group input-group-sm mb-2">
@@ -374,9 +374,9 @@ if ($weight_units == false) {
 
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Discounted Shipping cost"); ?></label>
+                        <label class="control-label"><?php _e("Shipping cost"); ?></label>
 
-                        <small class="text-muted d-block mb-2"><?php _e("Enter the shipping cost if the shipping discount is activated"); ?></small>
+                        <small class="text-muted d-block mb-2"><?php _e("Enter the cost if the special shipping price is activated"); ?></small>
 
 
                         <div class="input-group input-group-sm mb-2">

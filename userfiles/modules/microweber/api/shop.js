@@ -124,6 +124,12 @@ mw.cart = {
                 // mw.reload_module('shop/shipping');
                 // mw.trigger('mw.cart.qty', [data]);
 
+                if(data && typeof(data.error) !== 'undefined'){
+                    if(typeof(data.message) !== 'undefined'){
+                        mw.notification.warning(data.message);
+                    }
+                }
+
                 mw.cart.after_modify(data, ['mw.cart.qty']);
                 mw.trigger('cartModify', data);
 

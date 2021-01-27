@@ -33,7 +33,7 @@ class ShippingToCountry implements ShippingProviderInterface
 
     public function process()
     {
-        return true;
+        return [];
     }
 
 }
