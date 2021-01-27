@@ -982,10 +982,12 @@ class CheckoutManager
                         if (is_array($order_email_cc)) {
                             // echo 'Send to admins.';
                             foreach ($order_email_cc as $admin_email) {
-                                $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
+                                 $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
                             }
                         }
                     }
+
+                    return true;
                 }
             }
         }
