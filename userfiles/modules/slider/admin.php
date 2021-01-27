@@ -37,13 +37,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     'skin' => 'default'
                 );
 
-                $settings = get_option('settings', $params['id']);
+                $settings = get_module_option('settings', $params['id']);
                 $json = json_decode($settings, true);
 
                 if (isset($json) == false or count($json) == 0) {
                     $json = array(0 => $defaults);
                 }
-                $module_template = get_option('data-template', $params['id']);
+                $module_template = get_module_option('data-template', $params['id']);
                 if (!$module_template OR $module_template == 'default') {
                     $module_template = 'bxslider-skin-1';
                 }
@@ -63,7 +63,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 $count = 0;
 
-                $module_template_check = get_option('data-template', $params['id']);
+                $module_template_check = get_module_option('data-template', $params['id']);
                 if ($module_template_check == false AND isset($params['template'])) {
                     $module_template = $params['template'];
                 }
@@ -164,7 +164,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
                     });
                 </script>
-                
+
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-bxslider-settings">
                     <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
