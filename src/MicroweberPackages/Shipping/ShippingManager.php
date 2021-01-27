@@ -13,7 +13,7 @@ namespace MicroweberPackages\Shipping;
 
 use DB;
 use Illuminate\Support\Manager;
-use MicroweberPackages\Shipping\Drivers\PickupFromOffice;
+use MicroweberPackages\Shipping\Providers\PickupFromOffice;
 
 
 /**

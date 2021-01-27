@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Cart;
+namespace MicroweberPackages\Cart\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

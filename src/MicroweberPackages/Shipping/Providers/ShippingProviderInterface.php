@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Shipping\Drivers;
+namespace MicroweberPackages\Shipping\Providers;
 
 
-interface ShippingDriverInterface
+interface ShippingProviderInterface
 {
-  //  public function title();
+    public function title();
     public function cost();
     public function process();
 //    public function display();

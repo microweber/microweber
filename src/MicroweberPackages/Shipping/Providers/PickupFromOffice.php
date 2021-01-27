@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Shipping\Drivers;
+namespace MicroweberPackages\Shipping\Providers;
 
 
-class PickupFromOffice implements ShippingDriverInterface
+class PickupFromOffice implements ShippingProviderInterface
 {
 
     public function title()
