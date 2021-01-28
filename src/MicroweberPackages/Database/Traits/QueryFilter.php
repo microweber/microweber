@@ -313,7 +313,6 @@ trait QueryFilter
                                                     $where_or_where = 'where';
                                                 }
 
-
                                                 //check search in joined table
                                                 $search_joined_tables_check = array();
                                                 foreach ($to_search_in_fields as $to_search_in_field) {
@@ -328,23 +327,43 @@ trait QueryFilter
                                                     }
                                                 }
 
-                                                $query->{$where_or_where}(function ($query) use ($to_search_in_fields, $to_search_keyword, $params, $table, $dbDriver) {
+                                                //$query->{$where_or_where}(function ($query) use ($to_search_in_fields, $to_search_keyword, $params, $table, $dbDriver,$where_or_where) {
+                                                $query =  $query->$where_or_where(function ($query) use ($to_search_in_fields, $to_search_keyword, $params, $table, $dbDriver,$where_or_where) {
+
+
                                                     foreach ($to_search_in_fields as $to_search_in_field) {
                                                         $to_search_keyword = str_replace('.', ' ', $to_search_keyword);
                                                         if ($dbDriver == 'pgsql') {
-                                                            $query = $query->orWhere($to_search_in_field, 'ILIKE', '%' . $to_search_keyword . '%');
+                                                            $query = $query->$where_or_where($to_search_in_field, 'ILIKE', '%' . $to_search_keyword . '%');
                                                         } else {
                                                             $query = $query->orWhere($to_search_in_field, 'LIKE', '%' . $to_search_keyword . '%');
                                                             $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
                                                             $query = $query->orWhere($to_search_in_field, 'LIKE', '%' . $to_search_keyword);
                                                             $query = $query->orWhere($to_search_in_field, 'LIKE', '.' . $to_search_keyword);
                                                             $query = $query->orWhere($to_search_in_field, 'LIKE', $to_search_keyword . '%');
+                                                            if($where_or_where == 'orWhere'){
                                                             $query = $query->orWhereRaw('LOWER(`' . $to_search_in_field . '`) LIKE ? ', ['%' . trim(strtolower($to_search_keyword)) . '%']);
+                                                            } else {
+                                                                $query = $query->orWhereRaw('LOWER(`' . $to_search_in_field . '`) LIKE ? ', ['%' . trim(strtolower($to_search_keyword)) . '%']);
+
+                                                                // $query = $query->whereRaw('LOWER(`' . $to_search_in_field . '`) LIKE ? ', ['%' . trim(strtolower($to_search_keyword)) . '%']);
+                                                                // $query = $query->orWhereRaw('LOWER(`' . $to_search_in_field . '`) LIKE ? ', ['%' . trim(strtolower($to_search_keyword)) . '%']);
+
+                                                            }
                                                         }
                                                     }
 
+
+
+
                                                 });
-                                                //  $query->distinct();
+
+
+                                                $query = $query->distinct();
+
+
+
+
                                             }
                                         }
                                     }
