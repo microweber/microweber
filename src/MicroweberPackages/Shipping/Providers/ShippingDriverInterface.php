@@ -3,11 +3,11 @@
 namespace MicroweberPackages\Shipping\Providers;
 
 
-interface ShippingProviderInterface
+interface ShippingDriverInterface
 {
     public function title();
-    public function cost();
-    public function process();
+//    public function cost($params=[]);
+//    public function process($params=[]);
 //    public function display();
 //    public function admin();
 }

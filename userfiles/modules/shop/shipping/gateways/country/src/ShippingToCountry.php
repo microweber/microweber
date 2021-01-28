@@ -1,11 +1,13 @@
 <?php
 
 
-namespace MicroweberPackages\Shipping\Providers;
+namespace MicroweberPackages\Shop\Shipping\Gateways\Country;
 
 
 
-class ShippingToCountry implements ShippingProviderInterface
+use MicroweberPackages\Shipping\Providers\ShippingDriverInterface;
+
+class ShippingToCountry implements ShippingDriverInterface
 {
 
 
@@ -17,6 +19,7 @@ class ShippingToCountry implements ShippingProviderInterface
 
     public function cost()
     {
+
         return 0;
     }
 

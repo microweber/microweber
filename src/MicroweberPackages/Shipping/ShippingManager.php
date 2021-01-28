@@ -13,8 +13,8 @@ namespace MicroweberPackages\Shipping;
 
 
 use Illuminate\Support\Manager;
-use MicroweberPackages\Shipping\Providers\NoShippingProvider;
-use MicroweberPackages\Shipping\Providers\PickupFromOffice;
+use MicroweberPackages\Shipping\Providers\AbstractShippingDriver;
+use MicroweberPackages\Shipping\Providers\NoShippingDriver;
 
 
 /**
@@ -22,27 +22,51 @@ use MicroweberPackages\Shipping\Providers\PickupFromOffice;
  */
 // ------------------------------------------------------------------------
 
+
+/**
+ * @mixin AbstractShippingDriver
+ */
 class ShippingManager extends Manager
 {
 
-    //@todo
+    /**
+     * Get default driver instance.
+     *
+     * @return AbstractShippingDriver
+     *
+     * @throws \InvalidArgumentException
+     */
     public function getDefaultDriver()
     {
 
-         return new NoShippingProvider();
+        return new NoShippingDriver();
         // return new PickupFromOffice();
-      //  throw new \InvalidArgumentException('No Shipping driver was specified.');
+        //  throw new \InvalidArgumentException('No Shipping driver was specified.');
     }
+
+    public function createDefaultDriver()
+    {
+        return $this->getDefaultDriver();
+    }
+
+
 
     /**
      * Get a driver instance.
      *
-     * @param  string  $driver
-     * @return mixed
+     * @param  string|null  $driver
+     * @return AbstractShippingDriver
+     *
+     * @throws \InvalidArgumentException
      */
-    public function with($driver=null)
+    public function driver($driver = 'default')
     {
-        return $this->driver($driver);
+         return parent::driver($driver);
     }
+
+//    public function with($driver = null)
+//    {
+//        return $this->driver($driver);
+//    }
 
 }

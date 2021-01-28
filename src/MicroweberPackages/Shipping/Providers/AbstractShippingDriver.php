@@ -1,14 +1,15 @@
 <?php
 
+
+
 namespace MicroweberPackages\Shipping\Providers;
 
 
-class PickupFromOffice implements ShippingProviderInterface
+abstract class AbstractShippingDriver
 {
-
     public function title()
     {
-        return 'Pickup from office';
+        return 'Example provider';
     }
 
     public function cost()
@@ -20,6 +21,5 @@ class PickupFromOffice implements ShippingProviderInterface
     {
         return [];
     }
-
 
 }
