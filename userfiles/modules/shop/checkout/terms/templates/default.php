@@ -27,14 +27,11 @@ description: Default terms template
         });
     </script>
 
-    <div class="mw-ui-row" id="i_agree_with_terms_row">
-        <label class="mw-ui-check">
+    <div id="i_agree_with_terms_row">
+        <label>
             <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
-            <span></span>
-            <span>
-                <?php _e('I agree with the'); ?>
-                <a href="<?php print $terms_url ?>" target="_blank" class="mw-checkout-terms-and-conditions-link-check"><?php _e('Terms and Conditions'); ?></a>
-            </span>
+            <?php _e('I agree with the'); ?>
+            <a href="<?php print $terms_url ?>" target="_blank" class="mw-checkout-terms-and-conditions-link-check"><?php _e('Terms and Conditions'); ?></a>
         </label>
     </div>
 <?php endif; ?>
