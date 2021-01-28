@@ -75,12 +75,14 @@ class CheckoutManager
                     if ($update_order != $update_order_orig) {
 
                         if (isset($update_order['is_paid'])) {
-                            if (intval($update_order['is_paid']) != 0) {
+                            if (intval($update_order['is_paid']) !== 0) {
                                 $_REQUEST['mw_payment_success'] = true;
-                                $_REQUEST['mw_payment_failure'] = false;
+                                $_REQUEST['mw_payment_failure'] = null;
                             } else {
-                                $_REQUEST['mw_payment_success'] = false;
+                                $_REQUEST['mw_payment_success'] = null;
                                 $_REQUEST['mw_payment_failure'] = true;
+                                 mw()->cart_manager->recover_cart(session()->getId(), $update_order['id']);
+
                             }
                         }
 

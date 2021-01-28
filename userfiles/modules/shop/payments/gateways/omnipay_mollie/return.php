@@ -36,7 +36,7 @@ if ($response->isSuccessful()) {
 
         } else {
             $update_order['is_paid'] = 0;
-            $update_order['order_completed'] = 0;
+            $update_order['order_completed'] = 1;
 
         }
         if (isset($data['profileId'])) {
