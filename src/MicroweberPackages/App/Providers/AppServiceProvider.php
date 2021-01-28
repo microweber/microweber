@@ -21,6 +21,7 @@ use MicroweberPackages\Offer\Providers\OfferServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
+use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
@@ -202,6 +203,7 @@ class AppServiceProvider extends ServiceProvider
         //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
+        $this->app->register(TranslationServiceProvider::class);
         $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
