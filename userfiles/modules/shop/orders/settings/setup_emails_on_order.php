@@ -97,7 +97,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         email_to.to = $('#test_email_to').val();
         //email_to.subject = $('#test_email_subject').val();
         $.post("<?php print site_url('api_html/checkout_confirm_email_test'); ?>", email_to, function (msg) {
-             mw.alert("<pre>"+msg+"</pre>")
+             mw.alert(msg);
 
         });
     }</script>
