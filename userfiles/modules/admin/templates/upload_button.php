@@ -3,7 +3,6 @@
         mw.dialog({
             content: '<div id="mw_admin_upload_template_modal_content"></div>',
             title: 'Upload Template',
-            height: 200,
             id: 'mw_admin_upload_template_modal'
         });
         var params = {};

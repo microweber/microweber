@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Shop;
 
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 use MicroweberPackages\Currency\Currency;
@@ -248,7 +249,10 @@ class ShopManager
             shuffle($ord_data);
             $ord_test = $ord_data[0];
 
-            return $this->app->checkout_manager->confirm_email_send($ord_test['id'], $to = $email_from, true, true);
+            $send = $this->app->checkout_manager->confirm_email_send($ord_test['id'], $to = $email_from, true, true);
+            if ($send) {
+                return 'Email is send successfully to <b>'.$to.'</b>.';
+            }
         }
     }
 

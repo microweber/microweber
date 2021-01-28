@@ -176,9 +176,13 @@ class CheckoutManager
 
         $validator = app()->make(CheckoutController::class);
 
-        $request = new Request();
-        $request->merge($data);
-        $is_valid = $validator->validate($request);
+        if (!empty($data)) {
+            $request = new Request();
+            $request->merge($data);
+            $is_valid = $validator->validate($request);
+        } else {
+            $is_valid['errors'] = 'Data not entered.';
+        }
 
         if (is_object($is_valid)) {
             return $is_valid;
@@ -982,10 +986,12 @@ class CheckoutManager
                         if (is_array($order_email_cc)) {
                             // echo 'Send to admins.';
                             foreach ($order_email_cc as $admin_email) {
-                                $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
+                                 $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
                             }
                         }
                     }
+
+                    return true;
                 }
             }
         }
