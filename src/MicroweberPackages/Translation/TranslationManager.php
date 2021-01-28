@@ -8,6 +8,8 @@ use MicroweberPackages\App\Managers\Helpers\Lang;
 class TranslationManager extends FileLoader
 {
 
+    public $translatedLanguageLines = [];
+
     /**
      * Load the messages for the given locale.
      *
@@ -33,6 +35,10 @@ class TranslationManager extends FileLoader
 
     private function _loadLanguageFiles($locale, $group, $namespace)
     {
+        if (isset($this->translatedLanguageLines[$locale])) {
+            return $this->translatedLanguageLines[$locale];
+        }
+
         $languageFiles = [];
         $languageFiles[] = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $locale . '.json';
 
@@ -42,19 +48,18 @@ class TranslationManager extends FileLoader
             $languageFiles[] =  normalize_path(mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . $locale . '.json', false);
         }
 
-        $variablesWithContent = [];
         foreach ($languageFiles as $languageFile) {
             if (is_file($languageFile)) {
                 $languageContent = file_get_contents($languageFile);
                 $languageVariables = json_decode($languageContent, true);
                 if (isset($languageVariables) and is_array($languageVariables)) {
                     foreach ($languageVariables as $languageVariableKey=> $languageVariableValue) {
-                        $variablesWithContent[$locale][$languageVariableKey] = $languageVariableValue;
+                        $this->translatedLanguageLines[$locale][$languageVariableKey] = $languageVariableValue;
                     }
                 }
             }
         }
 
-        return $variablesWithContent;
+        return $this->translatedLanguageLines[$locale];
     }
 }
