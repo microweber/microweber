@@ -370,7 +370,7 @@ var init = function(){
     });
     $("#background-select-item").on("click", function () {
         var dialog;
-       var picker = new mw.filePicker({
+        var picker = new mw.filePicker({
             type: 'images',
             label: false,
             autoSelect: false,
@@ -379,8 +379,7 @@ var init = function(){
 
             onResult: function (data) {
                 if(!data) return;
-                var url = data.src;
-                console.log(url)
+                var url = data.src ? data.src : data;
                 output('backgroundImage', 'url(' + url + ')');
                 $('.background-preview').css('backgroundImage', 'url(' + url + ')')
                 dialog.remove()
@@ -395,8 +394,6 @@ var init = function(){
             footer: false,
             width: 1200
         })
-
-
     });
 
     _prepare.units();
