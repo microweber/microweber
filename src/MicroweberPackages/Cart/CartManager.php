@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Cart;
 
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Database\Crud;
 
 class CartManager extends Crud
