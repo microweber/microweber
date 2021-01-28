@@ -128,6 +128,12 @@ function payment_options($option_key = false)
 }
 
 
+function checkout_get_user_info()
+{
+    return mw()->checkout_manager->checkout_get_user_info();
+}
+
+
 
 function currency_format($amount, $curr = false)
 {

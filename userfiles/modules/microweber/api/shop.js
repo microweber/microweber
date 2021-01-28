@@ -35,6 +35,7 @@ mw.cart = {
                     c.call(data);
                 }
                 mw.cart.after_modify(data, ['mw.cart.add']);
+                mw.trigger('cartAddItem', data);
 
                 //  mw.trigger('mw.cart.add', [data]);
             });
@@ -84,6 +85,7 @@ mw.cart = {
                     c.call(data);
                 }
                 mw.cart.after_modify(data, ['mw.cart.add']);
+                mw.trigger('cartAddItem', data);
 
 
             });
@@ -107,6 +109,7 @@ mw.cart = {
                 // mw.reload_module('shop/shipping');
                 // mw.trigger('mw.cart.remove', [data]);
                 mw.cart.after_modify(data, ['mw.cart.remove']);
+                mw.trigger('cartRemoveItem', data);
 
             });
     },
@@ -121,7 +124,14 @@ mw.cart = {
                 // mw.reload_module('shop/shipping');
                 // mw.trigger('mw.cart.qty', [data]);
 
+                if(data && typeof(data.error) !== 'undefined'){
+                    if(typeof(data.message) !== 'undefined'){
+                        mw.notification.warning(data.message);
+                    }
+                }
+
                 mw.cart.after_modify(data, ['mw.cart.qty']);
+                mw.trigger('cartModify', data);
 
 
             });
@@ -166,6 +176,7 @@ mw.cart = {
 
 
         mw.trigger('mw.cart.after_modify', data);
+        mw.trigger('cartModify', data);
 
 
     },
@@ -234,14 +245,18 @@ mw.cart = {
                             }
 
 
-                            mw.trigger('mw.cart.checkout.success', data2);
+
 
 
                             if (typeof(data2.redirect) != 'undefined') {
 
                                 setTimeout(function () {
                                     window.location.href = data2.redirect;
-                                }, 10)
+                                }, 100)
+                                return;
+                            } else {
+                                mw.trigger('mw.cart.checkout.success', data2);
+                                mw.trigger('checkoutSuccess', [data]);
 
                             }
 
@@ -266,7 +281,7 @@ mw.cart = {
                     form.dataset("loading", 'false');
                     form.find('.mw-checkout-btn').removeAttr('disabled');
                     form.find('.mw-checkout-btn').show();
-                    mw.trigger('mw.cart.checkout', [data]);
+                    mw.trigger('checkoutResponse', data);
                 });
 
         }, 1500);

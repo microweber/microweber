@@ -11,8 +11,10 @@
 
 namespace MicroweberPackages\Shipping;
 
-use DB;
 
+use Illuminate\Support\Manager;
+use MicroweberPackages\Shipping\Providers\NoShippingProvider;
+use MicroweberPackages\Shipping\Providers\PickupFromOffice;
 
 
 /**
@@ -20,10 +22,27 @@ use DB;
  */
 // ------------------------------------------------------------------------
 
-class ShippingManager
+class ShippingManager extends Manager
 {
 
     //@todo
+    public function getDefaultDriver()
+    {
 
+         return new NoShippingProvider();
+        // return new PickupFromOffice();
+      //  throw new \InvalidArgumentException('No Shipping driver was specified.');
+    }
+
+    /**
+     * Get a driver instance.
+     *
+     * @param  string  $driver
+     * @return mixed
+     */
+    public function with($driver=null)
+    {
+        return $this->driver($driver);
+    }
 
 }

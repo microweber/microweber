@@ -11,7 +11,7 @@ class UserLoginListener
         $oldSid = Session::get('old_sid');
 
         if(!empty($oldSid)) {
-            \MicroweberPackages\Cart\Cart::where('session_id', $oldSid)->update(array('session_id' => Session::getId()));
+            \MicroweberPackages\Cart\Models\Cart::where('session_id', $oldSid)->update(array('session_id' => Session::getId()));
             mw()->cache_manager->delete('cart');
         }
     }

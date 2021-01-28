@@ -22,25 +22,7 @@
 
  **************************************************************/
 
-MWEditor.controllers.insertEmailVariable = function (scope, api, rootScope) {
-    this.checkSelection = function (opt) {
-        opt.controller.element.disabled = !opt.api.isSelectionEditable();
-    };
-    this.render = function () {
-        var dropdown = new MWEditor.core.dropdown({
-            data: [
-                { label: 'User Name', value: '{user_name}' },
-                { label: '...', value: '{...}' },
-            ],
-            placeholder: rootScope.lang('Insert variable')
-        });
-        dropdown.select.on('change', function (e, val) {
-            api.insertHTML(val.value);
-        });
-        return dropdown.root;
-    };
-    this.element = this.render();
-};
+
 
 MWEditor.controllers.editSource = function (scope, api, rootScope) {
     this.render = function () {

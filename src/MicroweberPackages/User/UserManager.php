@@ -1445,7 +1445,6 @@ class UserManager
     public function send_forgot_password($params)
     {
         return RequestRoute::postJson(route('api.user.password.email'), $params);
-
     }
 
     public function send_forgot_password_OLD($params)

@@ -5,6 +5,27 @@ if (!user_can_access('module.contact_form.index')) {
 ?>
 <script>mw.require('editor.js')</script>
 <script>
+    MWEditor.controllers.contactFormInsertEmailVariable = function (scope, api, rootScope, data) {
+        this.checkSelection = function (opt) {
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
+        this.render = function () {
+            var dropdown = new MWEditor.core.dropdown({
+                data: [
+
+                    { label: 'email', value: '{email}' },
+
+                ],
+                placeholder: rootScope.lang('Insert variable')
+            });
+            dropdown.select.on('change', function (e, val) {
+                api.insertHTML(val.value);
+            });
+            return dropdown.root;
+        };
+        this.element = this.render();
+    };
+    
     $(document).ready(function () {
         mweditor = mw.Editor({
             selector: '#editorAM',
@@ -35,7 +56,7 @@ if (!user_can_access('module.contact_form.index')) {
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                    '|', 'link', 'unlink', 'wordPaste', 'table', 'contactFormInsertEmailVariable'
                 ],
             ]
         });
