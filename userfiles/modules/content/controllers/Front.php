@@ -851,7 +851,7 @@ class Front
 
 
 
-        if ($cfg_data_hide_paging === false) {
+        if ($cfg_data_hide_paging === false || $cfg_data_hide_paging === null) {
             if (isset($post_params['hide_paging']) and trim($post_params['hide_paging']) != 'false') {
                 $post_params['hide-paging'] = $post_params['hide_paging'];
                 unset($post_params['hide_paging']);
