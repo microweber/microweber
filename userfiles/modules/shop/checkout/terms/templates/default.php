@@ -33,7 +33,7 @@ description: Default terms template
             <span></span>
             <span>
                 <?php _e('I agree with the'); ?>
-                <a href="<?php print site_url('terms-and-conditions') ?>" target="_blank"><?php _e('Terms and Conditions'); ?></a>
+                <a href="<?php print $terms_url ?>" target="_blank" class="mw-checkout-terms-and-conditions-link-check"><?php _e('Terms and Conditions'); ?></a>
             </span>
         </label>
     </div>
