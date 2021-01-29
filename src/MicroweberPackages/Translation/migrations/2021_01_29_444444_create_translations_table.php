@@ -2,7 +2,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLanguageLinesTable extends Migration
+class CreateTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -11,12 +11,13 @@ class CreateLanguageLinesTable extends Migration
      */
     public function up()
     {
-        Schema::create('language_lines', function (Blueprint $table) {
+        Schema::create('translations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('group');
             $table->index('group');
             $table->string('key');
             $table->text('text');
+            $table->string('locale');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateLanguageLinesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('language_lines');
+        Schema::drop('translations');
     }
 }

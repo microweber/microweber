@@ -85,8 +85,7 @@
         "laravel/passport": "^11.0@dev",
         "microweber-packages/microweber-class-alias": "dev-master",
         "florianv/swap": "^4.3",
-        "florianv/exchanger": "2.x-dev",
-        "spatie/laravel-translation-loader": "dev-master"
+        "florianv/exchanger": "2.x-dev"
 
 
     },

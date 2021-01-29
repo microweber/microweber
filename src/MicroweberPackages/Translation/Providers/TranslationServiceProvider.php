@@ -3,11 +3,10 @@
 namespace MicroweberPackages\Translation\Providers;
 
 use Illuminate\Support\Facades\Schema;
+use MicroweberPackages\Translation\TranslationManager;
 
 class TranslationServiceProvider extends \Spatie\TranslationLoader\TranslationServiceProvider
 {
-
-
     /**
      * Bootstrap the application services.
      */
@@ -26,8 +25,7 @@ class TranslationServiceProvider extends \Spatie\TranslationLoader\TranslationSe
     {
         if (mw_is_installed()) {
             $this->app->singleton('translation.loader', function ($app) {
-                $class = config('translation-loader.translation_manager');
-                return new $class($app['files'], $app['path.lang']);
+                return new TranslationManager($app['files'], $app['path.lang']);
             });
         }
     }

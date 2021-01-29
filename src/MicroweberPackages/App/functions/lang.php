@@ -68,7 +68,10 @@ function lang($title, $namespace = false)
  */
 function _e($k, $to_return = false)
 {
-    return mw()->lang_helper->e($k, $to_return);
+    if ($to_return) {
+        return trans($k);
+    }
+    echo trans($k);
 }
 
 /**
