@@ -394,6 +394,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(\Illuminate\Routing\Router $router)
     {
 
+       // $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
 //        $this->app->singleton('lang_helper', function ($app) {
