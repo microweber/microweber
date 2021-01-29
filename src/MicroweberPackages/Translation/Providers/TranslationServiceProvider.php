@@ -15,7 +15,6 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
      */
     public function boot()
     {
-
         /*
          * This is an example how to add namespace to your package
          * andd how to call it with trans function
@@ -49,6 +48,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                         }
                         if (!empty($saveTranslations)) {
                             Translation::insert($saveTranslations);
+                            clearcache();
                         }
                     }
                 }
