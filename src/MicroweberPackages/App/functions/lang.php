@@ -71,6 +71,7 @@ function _e($k, $to_return = false)
     if ($to_return) {
         return trans($k);
     }
+
     echo trans($k);
 }
 
