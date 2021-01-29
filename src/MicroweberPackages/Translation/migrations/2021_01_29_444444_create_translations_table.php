@@ -13,6 +13,7 @@ class CreateTranslationsTable extends Migration
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('namespace')->nullable();
             $table->string('group');
             $table->index('group');
             $table->string('key');
