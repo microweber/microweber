@@ -50,6 +50,8 @@ function lang($key, $namespace = false)
         $namespace = '*';
     }
 
+    $namespace = url_title($namespace);
+
     return trans($namespace . '::'.$group.'.'.$key);
 }
 

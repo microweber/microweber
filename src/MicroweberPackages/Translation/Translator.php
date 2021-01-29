@@ -34,13 +34,13 @@ class Translator extends \Illuminate\Translation\Translator
 
             [$namespace, $group, $item] = $this->parseKey($key);
 
-            self::$newTexts[md5($namespace. $group. $item. $locale)] = [
+           /* self::$newTexts[md5($namespace. $group. $key. $locale)] = [
                 'namespace' => $namespace,
                 'group' => $group,
-                'key' => $item,
-                'text' => $item,
+                'key' => $key,
+                'text' => $key,
                 'locale' => $locale,
-            ];
+            ];*/
 
             // Here we will get the locale that should be used for the language line. If one
             // was not passed, we will use the default locales which was given to us when
