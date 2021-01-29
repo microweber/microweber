@@ -81,7 +81,7 @@ class CheckoutManager
                             } else {
                                 $_REQUEST['mw_payment_success'] = null;
                                 $_REQUEST['mw_payment_failure'] = true;
-                            //    mw()->cart_manager->recover_cart(session()->getId(), $update_order['id']);
+                                //    mw()->cart_manager->recover_cart(session()->getId(), $update_order['id']);
 
                             }
                         }
@@ -498,26 +498,33 @@ class CheckoutManager
                     $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key') . $place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
 
                     $vkey_data = array();
-                    $vkey_data['payment_amount'] = $place_order['payment_amount'];
-                    $vkey_data['payment_currency'] = $place_order['payment_currency'];
+                   // $vkey_data['payment_amount'] = $place_order['payment_amount'];
+                   // $vkey_data['payment_currency'] = $place_order['payment_currency'];
+                $vkey_data['payment_verify_token'] = $place_order['payment_verify_token'];
+                 //   $vkey_data['id'] = $place_order['id'];
+// dd($vkey_data);
+                  //  $enc_key_hash = md5($encrypter->encrypt(json_encode($vkey_data)));
 
+                  //  $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
+                    $enc_key_hash = md5(json_encode($vkey_data));
+                    $enc_key_hash = $encrypter->encrypt($enc_key_hash);
 
-                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
+                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'].'&payment_verify_token=' . $place_order['payment_verify_token']  . '&_vkey_url=' . $enc_key_hash . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    $vkey_data_temp['url'] = $mw_return_url;
-                    $mw_return_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+                   // $vkey_data_temp['url'] = $mw_return_url;
+                    //$mw_return_url .= '&_vkey_url=' . $enc_key_hash;
 
 
-                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&recart=' . $sid . $return_url_after;
+                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&_vkey_url=' . $enc_key_hash .  '&recart=' . $sid . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    $vkey_data_temp['url'] = $mw_cancel_url;
-                    $mw_cancel_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+                   // $vkey_data_temp['url'] = $mw_cancel_url;
+                   // $mw_cancel_url .= '&_vkey_url=' . $enc_key_hash;
 
 
-                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
+                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id']  .  '&payment_verify_token=' . $place_order['payment_verify_token']  . '&_vkey_url=' . $enc_key_hash . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    $vkey_data_temp['url'] = $mw_ipn_url;
-                    $mw_ipn_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+                    //$vkey_data_temp['url'] = $mw_ipn_url;
+                    //$mw_ipn_url .= '&_vkey_url=' . $enc_key_hash;
 
 
                     if (is_file($gw_process)) {
@@ -640,15 +647,15 @@ class CheckoutManager
                     foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {
                         $shipping_address_from_profile[$addressKey] = $addressValue;
                     }
-                    if($country_from_shipping_addr and isset($country_from_shipping_addr->name)){
+                    if ($country_from_shipping_addr and isset($country_from_shipping_addr->name)) {
                         $shipping_address_from_profile['country'] = $country_from_shipping_addr->name;
                     }
 
-                    if($findAddressShipping and isset($findAddressShipping->address_street_1)){
+                    if ($findAddressShipping and isset($findAddressShipping->address_street_1)) {
                         $shipping_address_from_profile['address'] = $findAddressShipping->address_street_1;
                     }
 
-                    if(!isset( $shipping_address_from_profile['address'] ) and $findAddressShipping and isset($findAddressShipping->address_street_2)){
+                    if (!isset($shipping_address_from_profile['address']) and $findAddressShipping and isset($findAddressShipping->address_street_2)) {
                         $shipping_address_from_profile['address'] = $findAddressShipping->address_street_2;
                     }
                 }
@@ -693,8 +700,6 @@ class CheckoutManager
                 }
             }
         }
-
-
 
 
         return $ready;
@@ -803,7 +808,7 @@ class CheckoutManager
             //return true;
         }
 
-        $this->confirm_email_send($orderId);
+        //$this->confirm_email_send($orderId);
 
 
         if (!$notifiable) {
@@ -817,7 +822,7 @@ class CheckoutManager
         Notification::send(User::whereIsAdmin(1)->get(), $newOrderEvent);
     }
 
-    public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
+    public function confirm_email_send($order_id, $to = false, $no_cache = true, $skip_enabled_check = false)
     {
         $ord_data = $this->app->shop_manager->get_order_by_id($order_id);
 
@@ -989,7 +994,7 @@ class CheckoutManager
                         if (is_array($order_email_cc)) {
                             // echo 'Send to admins.';
                             foreach ($order_email_cc as $admin_email) {
-                                 $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
+                                $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
                             }
                         }
                     }
@@ -1175,7 +1180,7 @@ class CheckoutManager
     private function _verify_request_params($data)
     {
 
-        $error = false;
+        $error = true;
 
         if (!isset($data['payment_verify_token'])) {
             $error = true;
@@ -1190,62 +1195,93 @@ class CheckoutManager
             $error = true;
         }
 
-
         $vkey = false;
 
-        $url = url_current();
-        $param = '_vkey_url';
-        $pieces = parse_url($url);
-        $query = [];
-        if ($pieces['query']) {
-            parse_str($pieces['query'], $query);
-            $data[$param] = $query[$param];
-            unset($query[$param]);
-            $pieces['query'] = http_build_query($query);
+        if (isset($_REQUEST['_vkey_url'])) {
+            $vkey = $_REQUEST['_vkey_url'];
         }
-        if (!isset($data['_vkey_url'])) {
-            $error = true;
-        } else {
-            $vkey = $data['_vkey_url'];
-        }
+
+
+//        $url = url_current();
+//        $param = '_vkey_url';
+//        $pieces = parse_url($url);
+//        $query = [];
+//        if ($pieces['query']) {
+//            parse_str($pieces['query'], $query);
+//            $data[$param] = $query[$param];
+//            unset($query[$param]);
+//            $pieces['query'] = http_build_query($query);
+//        }
+//        if (!isset($data['_vkey_url'])) {
+//            $error = true;
+//        } else {
+//            $vkey = $data['_vkey_url'];
+//        }
 
 
         if (!$vkey) {
             $error = true;
         }
 
+        $order_data = get_order_by_id($data['id']);
 
-        if (!$error) {
 
-            $vkey = urldecode($vkey);
 
-            $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Config::get('app.key') . $data['payment_verify_token']), \Config::get('app.cipher'));
 
-            $url_verify = $this->_build_url($pieces);
-            $decrypt_data = @json_decode($encrypter->decrypt($vkey), true);
+        if ($order_data and $vkey) {
 
-            if (!$decrypt_data) {
-                $error = true;
-            } else {
+            $vkey_data = array();
+          //  $vkey_data['payment_amount'] = $order_data['payment_amount'];
+           // $vkey_data['payment_currency'] = $order_data['payment_currency'];
+           $vkey_data['payment_verify_token'] = $order_data['payment_verify_token'];
+           //  $vkey_data['id'] = $order_data['id'];
+//dd($order_data);
+            $enc_key_hash = md5(json_encode($vkey_data));
+         //   $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
 
-                $decrypt_url = $decrypt_data['url'];
-                $decrypt_payment_amount = $decrypt_data['payment_amount'];
-                $decrypt_payment_currency = $decrypt_data['payment_currency'];
+          // dd(2222,$vkey,$enc_key_hash,$data,$order_data);
 
-                $url_verify = urldecode($url_verify);
-                $decrypt_url = urldecode($decrypt_url);
+            // $vkey = urldecode($vkey);
 
-                if (md5($url_verify) !== md5($decrypt_url)) {
-                    $error = true;
-                }
+           $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Config::get('app.key') . $order_data['payment_verify_token']), \Config::get('app.cipher'));
 
-                if (md5(floatval($decrypt_payment_amount)) !== md5(floatval($data['payment_amount']))) {
-                    $error = true;
-                }
-                if (md5(strtoupper($decrypt_payment_currency)) !== md5(strtoupper($data['payment_currency']))) {
-                    $error = true;
-                }
+            $decrypt_data = $encrypter->decrypt($vkey);
+
+        //    dd($enc_key_hash,$decrypt_data);
+
+         //  $enc_key_hash = $encrypter->encrypt(json_encode($vkey_data));
+
+            //dd($vkey, $enc_key_hash,$order_data,$vkey_data);
+            if ($enc_key_hash === $decrypt_data) {
+                $error = false;
+
             }
+
+            // $url_verify = $this->_build_url($pieces);
+            // $decrypt_data = @json_decode($encrypter->decrypt($vkey), true);
+
+//            if (!$decrypt_data) {
+//                $error = true;
+//            } else {
+//
+//                $decrypt_url = $decrypt_data['url'];
+//                $decrypt_payment_amount = $decrypt_data['payment_amount'];
+//                $decrypt_payment_currency = $decrypt_data['payment_currency'];
+//
+//                $url_verify = urldecode($url_verify);
+//                $decrypt_url = urldecode($decrypt_url);
+//
+//                if (md5($url_verify) !== md5($decrypt_url)) {
+//                    $error = true;
+//                }
+//
+//                if (md5(floatval($decrypt_payment_amount)) !== md5(floatval($data['payment_amount']))) {
+//                    $error = true;
+//                }
+//                if (md5(strtoupper($decrypt_payment_currency)) !== md5(strtoupper($data['payment_currency']))) {
+//                    $error = true;
+//                }
+//            }
         }
 
 
