@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Translation;
 
 use _HumbugBox58fd4d9e2a25\VARIANT;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Translation\FileLoader;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\Translation\Models\Translation;
