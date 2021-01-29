@@ -23,15 +23,28 @@ class TranslationManager extends FileLoader
      */
     public function load($locale, $group, $namespace = null): array
     {
-        $fileTranslations = parent::load($locale, $group, $namespace);
+        $allTranslations = [];
 
+        // Load translations from files
+        $fileTranslations = parent::load($locale, $group, $namespace);
         if (!is_null($fileTranslations)) {
-            return $fileTranslations;
+            $allTranslations = $fileTranslations;
         }
 
+        // Load translations from database
+        if (mw_is_installed()) {
+            $getTranslations = Translation::where('locale', $locale)->where('group', $group)->where('namespace', $namespace)->get();
+            if ($getTranslations !== null) {
+                foreach ($getTranslations as $translation) {
+                    $allTranslations[$translation->key] = $translation->text;
+                }
+            }
+        }
+
+        return $allTranslations;
     }
 
-    private function ___loadLanguageFiles($locale, $group, $namespace)
+    private function _____loadLanguageFiles($locale, $group, $namespace)
     {
         if (isset($this->translatedLanguageLines[$locale])) {
             return $this->translatedLanguageLines[$locale];
