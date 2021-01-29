@@ -32,11 +32,11 @@ if ($response->isSuccessful()) {
         $data['payment_status'] = $data['status'];
         if (isset($data['status']) and $data['status'] == 'paid') {
             $update_order['is_paid'] = 1;
-            $update_order['order_completed'] = 1;
+         //   $update_order['order_completed'] = 1;
 
         } else {
             $update_order['is_paid'] = 0;
-            $update_order['order_completed'] = 1;
+          //  $update_order['order_completed'] = 1;
 
         }
         if (isset($data['profileId'])) {
