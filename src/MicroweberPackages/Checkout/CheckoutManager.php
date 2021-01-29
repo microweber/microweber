@@ -75,13 +75,13 @@ class CheckoutManager
                     if ($update_order != $update_order_orig) {
 
                         if (isset($update_order['is_paid'])) {
-                            if (intval($update_order['is_paid']) !== 0) {
+                            if (intval($update_order['is_paid']) == 1) {
                                 $_REQUEST['mw_payment_success'] = true;
                                 $_REQUEST['mw_payment_failure'] = null;
                             } else {
                                 $_REQUEST['mw_payment_success'] = null;
                                 $_REQUEST['mw_payment_failure'] = true;
-                                 mw()->cart_manager->recover_cart(session()->getId(), $update_order['id']);
+                            //    mw()->cart_manager->recover_cart(session()->getId(), $update_order['id']);
 
                             }
                         }
@@ -103,6 +103,7 @@ class CheckoutManager
                 $mw_process_payment_success = true;
                 $exec_return = true;
             } elseif (isset($_REQUEST['mw_payment_failure'])) {
+
                 if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false and isset($_REQUEST['order_id'])) {
 
                     mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
@@ -792,7 +793,7 @@ class CheckoutManager
             $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
         }
 
-        if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
+        if (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 1) {
             $this->app->shop_manager->update_quantities($orderId);
         }
 

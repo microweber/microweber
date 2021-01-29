@@ -2,6 +2,7 @@
 $order = false;
 $order_products = false;
 $order_first_product = false;
+$is_read = false;
 
 $item_id = $id;
 
@@ -63,7 +64,7 @@ if (isset($item['created_by'])) {
                     <div class="col-6 col-sm-4 col-md item-amount">
                         <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?>
                         <br/><?php endif; ?>
-                        <?php if (isset($order['is_paid'])): ?>
+                        <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?>
                         <small class="text-success"><?php _e('Paid'); ?></small>
                         <?php else: ?>
                         <small class="text-muted"><?php _e('Unpaid'); ?></small>

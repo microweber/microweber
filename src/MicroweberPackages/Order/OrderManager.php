@@ -59,7 +59,10 @@ class OrderManager
         $params['table'] = $table;
         $params['no_cache'] = true;
 
-        return $this->app->database_manager->get($params);
+        $data =  $this->app->database_manager->get($params);
+
+
+        return $data;
     }
 
     public function get_by_id($id = false)
@@ -198,21 +201,24 @@ class OrderManager
         }
 
         if (isset($params['is_paid'])) {
-            if ($params['is_paid'] == 'y') {
+            if ($params['is_paid'] === 'y') {
                 $params['is_paid'] = 1;
-            } elseif ($params['is_paid'] == 'n') {
+            } elseif ($params['is_paid'] === 'n') {
                 $params['is_paid'] = 0;
             }
         }
 
 
         if (isset($params['payment_data']) and !empty($params['payment_data'])) {
-            $params['payment_data'] = json_encode($params['payment_data']);
+            if(is_array($params['payment_data'])){
+               $params['payment_data'] = json_encode($params['payment_data']);
+            }
         }
         $table = $this->table;
         $params['table'] = $table;
         $this->app->cache_manager->delete('cart_orders');
         $this->app->cache_manager->delete('cart');
+        $this->app->cache_manager->delete('shop');
 
         return $this->app->database_manager->save($table, $params);
     }
