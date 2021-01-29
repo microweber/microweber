@@ -42,7 +42,8 @@ class TranslationManager extends FileLoader
         return $allTranslations;
     }
 
-    private function ___loadLanguageFiles($locale, $group, $namespace)
+    /*
+    private function loadLanguageFiles($locale, $group, $namespace)
     {
         if (isset($this->translatedLanguageLines[$locale])) {
             return $this->translatedLanguageLines[$locale];
@@ -70,5 +71,6 @@ class TranslationManager extends FileLoader
         }
 
         return $this->translatedLanguageLines[$locale];
-    }
+    }*/
+
 }
