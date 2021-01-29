@@ -2,10 +2,7 @@
 
 namespace MicroweberPackages\Translation;
 
-use _HumbugBox58fd4d9e2a25\VARIANT;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Translation\FileLoader;
-use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\Translation\Models\Translation;
 
 class TranslationManager extends FileLoader
@@ -45,7 +42,7 @@ class TranslationManager extends FileLoader
         return $allTranslations;
     }
 
-    private function _____loadLanguageFiles($locale, $group, $namespace)
+    private function ___loadLanguageFiles($locale, $group, $namespace)
     {
         if (isset($this->translatedLanguageLines[$locale])) {
             return $this->translatedLanguageLines[$locale];
