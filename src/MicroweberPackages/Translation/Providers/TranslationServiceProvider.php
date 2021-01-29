@@ -31,29 +31,13 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 ]);
             }
 
-
             $this->app->terminating(function () {
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
-                    foreach ($getNewTexts as $locale => $newTexts) {
-                        $saveTranslations = [];
-                        foreach ($newTexts as $text) {
-                            $saveTranslations[] = [
-                                'group' => '*',
-                                'namespace' => '*',
-                                'locale' => $locale,
-                                'key' => $text,
-                                'text' => $text,
-                            ];
-                        }
-                        if (!empty($saveTranslations)) {
-                            Translation::insert($saveTranslations);
-                            clearcache();
-                        }
-                    }
+                    Translation::insert($getNewTexts);
+                    clearcache();
                 }
             });
-
         }
     }
 

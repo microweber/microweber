@@ -34,18 +34,23 @@ function _lang_is_rtl($lang = false)
     return mw()->lang_helper->lang_is_rtl($lang);
 }
 
-function _lang($title, $namespace = false, $return = false)
+function _lang($key, $namespace = false, $return = false)
 {
     if ($return) {
-        return lang($title, $namespace);
+        return lang($key, $namespace);
     }
 
-    echo lang($title, $namespace);
+    echo lang($key, $namespace);
 }
 
-function lang($title, $namespace = false)
+function lang($key, $namespace = false)
 {
-    return mw()->lang_helper->lang($title, $namespace);
+    $group = '*';
+    if (!$namespace) {
+        $namespace = '*';
+    }
+
+    return trans($namespace . '::'.$group.'.'.$key);
 }
 
 

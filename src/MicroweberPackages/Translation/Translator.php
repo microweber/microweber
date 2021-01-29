@@ -32,9 +32,15 @@ class Translator extends \Illuminate\Translation\Translator
         // helper such as __ instead of having to pick between trans or __ with views.
         if (! isset($line)) {
 
-            self::$newTexts[$locale][$key] = $key;
-
             [$namespace, $group, $item] = $this->parseKey($key);
+
+            self::$newTexts[md5($namespace. $group. $item. $locale)] = [
+                'namespace' => $namespace,
+                'group' => $group,
+                'key' => $item,
+                'text' => $item,
+                'locale' => $locale,
+            ];
 
             // Here we will get the locale that should be used for the language line. If one
             // was not passed, we will use the default locales which was given to us when
