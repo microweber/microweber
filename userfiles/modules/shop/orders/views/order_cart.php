@@ -49,31 +49,58 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
     </div>
 
     <script>
-        $(document).ready(function () {
-            $('.table-responsive .mw-order-item').mouseover(function () {
-                $(this).next('tr').find('td').css({
-                    'background': 'rgba(0, 134, 219, 0.07)',
-                    'border-bottom': '1px solid #0086db'
-                });
-            });
+        // $(document).ready(function () {
+        //     $('.table-responsive .mw-order-item').mouseover(function () {
+        //         $(this).next('tr').find('td').css({
+        //             'background': 'rgba(0, 134, 219, 0.07)',
+        //             'border-bottom': '1px solid #0086db'
+        //         });
+        //     });
+        //
+        //     $('.table-responsive .mw-order-item').mouseout(function () {
+        //         $(this).next('tr').find('td').css({'background': 'none', 'border-bottom': '0'});
+        //     });
+        //
+        //     $('.table-responsive .mw-order-custom-fields').mouseover(function () {
+        //         $(this).find('td').css({
+        //             'background': 'rgba(0, 134, 219, 0.07)',
+        //             'border-bottom': '1px solid #0086db'
+        //         });
+        //         $(this).prev().trigger('mouseenter');
+        //     });
+        //
+        //     $('.table-responsive .mw-order-custom-fields').mouseout(function () {
+        //         $(this).find('td').css({'background': 'none', 'border-bottom': '0'});
+        //         $(this).prev().trigger('mouseleave');
+        //     });
+        // });
 
-            $('.table-responsive .mw-order-item').mouseout(function () {
-                $(this).next('tr').find('td').css({'background': 'none', 'border-bottom': '0'});
-            });
-
-            $('.table-responsive .mw-order-custom-fields').mouseover(function () {
-                $(this).find('td').css({
-                    'background': 'rgba(0, 134, 219, 0.07)',
-                    'border-bottom': '1px solid #0086db'
-                });
-                $(this).prev().trigger('mouseenter');
-            });
-
-            $('.table-responsive .mw-order-custom-fields').mouseout(function () {
-                $(this).find('td').css({'background': 'none', 'border-bottom': '0'});
-                $(this).prev().trigger('mouseleave');
-            });
-        });
+            // $(document).ready(function () {
+            //     $('.table-responsive .mw-order-item').mouseover(function () {
+            //         $(this).find('td').css({
+            //             'background': 'rgba(0, 134, 219, 0.07)',
+            //             'border-bottom': '1px solid #0086db',
+            //         });
+            //     });
+            //
+            //     $('.table-responsive .mw-order-item').mouseout(function () {
+            //         $(this).find('td').css({'background': 'none', 'border-bottom': '0'});
+            //     });
+            //
+            //
+            //     $('.table-responsive .mw-order-custom-fields').mouseover(function () {
+            //         $(this).find('td').css({
+            //             'background': 'rgba(0, 134, 219, 0.07)',
+            //             'border-bottom': '1px solid #0086db'
+            //         });
+            //         $(this).prev().trigger('mouseenter');
+            //     });
+            //
+            //     $('.table-responsive .mw-order-custom-fields').mouseout(function () {
+            //         $(this).find('td').css({'background': 'none', 'border-bottom': '0'});
+            //         $(this).prev().trigger('mouseleave');
+            //     });
+            // });
     </script>
 
     <div class="table-responsive">
