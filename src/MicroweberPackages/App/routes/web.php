@@ -44,6 +44,8 @@ function migrateLanguages()
         }
     }
 
+
+
     $saveTranslations = [];
     foreach($enTranslations as $enTranslationKey=>$enTranslationValue) {
         $saveTranslations[$enTranslationKey]['en'] = $enTranslationValue;
