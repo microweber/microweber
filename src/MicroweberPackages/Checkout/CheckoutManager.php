@@ -258,19 +258,40 @@ class CheckoutManager
 
             $coupon_id = false;
             $coupon_code = false;
+            $shipping_cost = 0;
 
-            if (($this->app->user_manager->session_get('shipping_country'))) {
+          /*  if (($this->app->user_manager->session_get('shipping_country'))) {
                 $shipping_country = $this->app->user_manager->session_get('shipping_country');
             }
             if (($this->app->user_manager->session_get('shipping_cost_max'))) {
                 $shipping_cost_max = $this->app->user_manager->session_get('shipping_cost_max');
             }
-            if (($this->app->user_manager->session_get('shipping_cost'))) {
-                $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
-            }
             if (($this->app->user_manager->session_get('shipping_cost_above'))) {
                 $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
+            }*/
+            if ($this->app->user_manager->session_get('shipping_cost')) {
+                $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
             }
+
+
+
+
+            $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
+            if(!isset($data['shipping_gw']) and $shipping_gw_from_session){
+                $data['shipping_gw'] = $shipping_gw_from_session;
+            }
+            if(isset($data['shipping_gw']) and $data['shipping_gw']){
+                try {
+                    $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+
+                } catch (\InvalidArgumentException $e) {
+                    $shipping_cost = 0;
+                    unset($data['shipping_gw']);
+                }
+             }
+
+
+
             if (($this->app->user_manager->session_get('discount_value'))) {
                 $discount_value = $this->app->user_manager->session_get('discount_value');
             }
@@ -283,6 +304,8 @@ class CheckoutManager
             if (($this->app->user_manager->session_get('coupon_code'))) {
                 $coupon_code = $this->app->user_manager->session_get('coupon_code');
             }
+
+
 
             //post any of those on the form
             $flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw', 'other_info');

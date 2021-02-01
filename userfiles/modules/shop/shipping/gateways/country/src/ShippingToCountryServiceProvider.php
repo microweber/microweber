@@ -10,10 +10,10 @@ class ShippingToCountryServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-//         app()->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager, $app) {
-//            $shippingManager->extend('shop/shipping/gateways/country', function () {
-//                return new ShippingToCountry();
-//            });
-//        });
+        app()->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager) {
+            $shippingManager->extend('shop/shipping/gateways/country', function () {
+                return new ShippingToCountry();
+            });
+        });
     }
 }

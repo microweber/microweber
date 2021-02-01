@@ -38,6 +38,9 @@ class shipping_to_country
     function get_cost()
     {
 
+
+
+
         // $defined_cost = $this->app->user_manager->session_get('shipping_cost');
         $shipping_country = $this->app->user_manager->session_get('shipping_country');
         $defined_cost = 0;
@@ -217,6 +220,7 @@ class shipping_to_country
 
 
         $this->app->user_manager->session_set('shipping_cost', $defined_cost);
+        app()->shipping_manager->setDefaultDriver('shop/shipping/gateways/country');
 
         return $defined_cost;
     }
@@ -297,6 +301,10 @@ class shipping_to_country
 
     function set($params = false)
     {
+
+        app()->shipping_manager->setDefaultDriver('shop/shipping/gateways/country');
+
+
 
         $active = array();
         if (isset($params['shipping_country'])) {
