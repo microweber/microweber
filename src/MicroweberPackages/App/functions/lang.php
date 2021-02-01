@@ -76,7 +76,7 @@ function lang($key, $namespace = false)
 function _e($k, $to_return = false)
 {
     $trans = trans('*.'.$k);
-    $trans = ltrim('*.',$trans);
+    $trans = ltrim($trans, '*.');
 
     if ($to_return) {
         return $trans;
