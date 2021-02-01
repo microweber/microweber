@@ -7,7 +7,7 @@ function loadLanguageByLocale($locale) {
     $translatedLanguageLines = [];
 
     $languageFiles = [];
-    $languageFiles[] = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $locale . '.json';
+   // $languageFiles[] = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $locale . '.json';
 
     if (empty($locale) || $locale == 'en') {
         $languageFiles[] = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . 'en.json';
@@ -49,6 +49,8 @@ function migrateLanguages()
         $saveTranslations[$enTranslationKey]['en'] = $enTranslationValue;
     }
 
+
+
     $locales = [];
     $locales[] = 'bg';
 
@@ -61,10 +63,21 @@ function migrateLanguages()
 
     foreach ($saveTranslations as $translation) {
 
+        if (!isset($translation['en'])) {
+            continue;
+        }
+
         $key = $translation['en'];
         $key = trim($key);
 
         foreach ($translation as $locale => $text) {
+
+            $text = trim($text);
+
+            if (empty($text)) {
+                continue;
+            }
+
             $saveText = [
                 'key' => $key,
                 'text' => $text,
