@@ -79,7 +79,11 @@ function _e($k, $to_return = false)
         return trans($k);
     }
 
-    echo trans($k);
+    if (is_array(trans($k))) {
+        var_dump(trans($k));
+    } else {
+        echo trans($k);
+    }
 }
 
 /**

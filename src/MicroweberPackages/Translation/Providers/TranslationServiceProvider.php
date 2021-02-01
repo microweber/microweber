@@ -34,7 +34,15 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
             $this->app->terminating(function () {
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
-                    Translation::insert($getNewTexts);
+                    foreach ($getNewTexts as $text) {
+                        $findTranslation = Translation::where('namespace', $text['namespace'])
+                            ->where('group', $text['group'])
+                            ->where('key', $text['key'])
+                            ->where('locale', $text['locale'])->first();
+                        if ($findTranslation == null) {
+                            Translation::insert($text);
+                        }
+                    }
                     clearcache();
                 }
             });

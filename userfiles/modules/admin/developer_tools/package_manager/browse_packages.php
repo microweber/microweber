@@ -264,7 +264,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         <script>mw.lib.require('mwui_init');</script>
 
         <?php if (!$is_update_mode) : ?>
-            <p><?php _e('Welcome to the marketplace. Here you will find new modules, templates and updates.'); ?></p>
+            <p><?php _e('Welcome to the marketplace');?> <?php _e('Here you will find new modules, templates and updates'); ?></p>
         <?php endif; ?>
 
 
