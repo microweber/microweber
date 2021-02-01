@@ -77,6 +77,9 @@ function migrateLanguages()
                 ->where('locale', $saveText['locale'])->first();
             if ($findTranslation == null) {
                 Translation::insert($saveText);
+            } else {
+                $findTranslation->text = $saveText['text'];
+                $findTranslation->save();
             }
         }
     }
