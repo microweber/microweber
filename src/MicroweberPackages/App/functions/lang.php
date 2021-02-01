@@ -37,10 +37,10 @@ function _lang_is_rtl($lang = false)
 function _lang($key, $namespace = false, $return = false)
 {
     if ($return) {
-        return lang($key, $namespace);
+        return lang('*.'.$key, $namespace);
     }
 
-    echo lang($key, $namespace);
+    echo lang('*.'.$key, $namespace);
 }
 
 function lang($key, $namespace = false)
@@ -76,13 +76,13 @@ function lang($key, $namespace = false)
 function _e($k, $to_return = false)
 {
     if ($to_return) {
-        return trans($k);
+        return trans('*.'.$k);
     }
 
-    if (is_array(trans($k))) {
-        var_dump(trans($k));
+    if (is_array(trans('*.'.$k))) {
+        //
     } else {
-        echo trans($k);
+        echo trans('*.'.$k);
     }
 }
 
