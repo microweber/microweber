@@ -2658,7 +2658,7 @@ mw.wysiwyg.dropdowns = function () {
         mw.$(this).find('.mw-dropdown-content').hide()
     })
 };
-$(mwd).ready(function () {
+$(document).ready(function () {
 
 
     mw.wysiwyg.initClassApplier();

@@ -87,7 +87,7 @@ mw.drag.columns = {
         }
     }
 }
-$(mwd).ready(function () {
+$(document).ready(function () {
     mw.$(document.body).on('mouseup touchend', function () {
         if (mw.drag.plus.locked) {
             mw.wysiwyg.change(mw.drag.columns.resizer.curr);

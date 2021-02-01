@@ -44,7 +44,7 @@ if (isset($params['for-content-id'])) {
         });
     }
 
-    $(mwd).ready(function () {
+    $(document).ready(function () {
         CatTabs = mw.tabs({
             nav: '.mw-ui-btn-nav-tabs a',
             tabs: '.tab',

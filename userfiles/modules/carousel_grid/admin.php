@@ -33,7 +33,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         }
         ?>
         <script>
-            $(mwd).ready(function () {
+            $(document).ready(function () {
                 $('[data-type="pictures/admin"]').on('change', function () {
                     mw.reload_module_everywhere('#<?php print $params['id']; ?>')
                 });

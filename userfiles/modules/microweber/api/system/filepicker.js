@@ -137,7 +137,7 @@ mw.filePicker = function (options) {
             $(scope).on('$firstOpen', function (e, el, type) {
                 var comp = scope._getComponentObject('server');
                 if (type === 'server') {
-                    mw.tools.loading(el, true);
+                    mw.top().tools.loading(el, true);
                     var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
                     if(scope.settings._frameMaxHeight) {
                         fr.style.maxHeight = '60vh';

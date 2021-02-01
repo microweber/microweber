@@ -384,7 +384,7 @@ if (isset($params['live_edit'])) {
                                 });
 
                             }
-                            $(mwd).ready(function () {
+                            $(document).ready(function () {
 
                                 mw.$('input,select,textarea').on('input', function () {
                                     document.querySelector('.btn-save').disabled = false;

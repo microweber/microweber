@@ -385,7 +385,7 @@
 </script>
 
 <script>
-    $(mwd).ready(function () {
+    $(document).ready(function () {
         $("#quickform-edit-content").on('keydown', "input[type='text']", function (e) {
             if (e.keyCode == 13) {
                 e.preventDefault()
@@ -525,7 +525,7 @@
             qt.css('width', ($(".admin-manage-content-wrap").width()));
         }
 
-        $(mww).on('mousedown', function (e) {
+        $(window).on('mousedown touchstart', function (e) {
             var el = document.getElementById('content-edit-settings-tabs-holder');
             var cac = e.target.nodeType === 1 ? e.target : e.target.parentNode;
             if (el != null && !el.contains(e.target)

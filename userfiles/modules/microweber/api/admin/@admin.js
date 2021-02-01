@@ -1,15 +1,10 @@
-/*jQuery.widget = require('../webpack/node_modules/jquery-ui/ui/widget');
-jQuery.fn.draggable =  require('../webpack/node_modules/jquery-ui/ui/widgets/draggable');
-jQuery.fn.sortable  =  require('../webpack/node_modules/jquery-ui/ui/widgets/sortable');
-jQuery.fn.resizable =  require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');*/
+global.jQuery = global.$ = require ('../webpack/node_modules/jquery');
+require('../webpack/node_modules/jquery-ui/ui/widgets/draggable');
+require('../webpack/node_modules/jquery-ui/ui/widgets/resizable');
+require('../webpack/node_modules/jquery-ui/ui/widgets/sortable');
+require('../webpack/node_modules/jquery-ui/ui/widgets/slider');
 
 
-
-
-console.log($.fn);
-console.log($.fn.draggable);
-console.log($.widget);
-console.log($('div').draggable().length);
 
 mw.admin = {
     language: function(language) {
@@ -175,7 +170,7 @@ mw.contactForm = function () {
 };
 
 
-$(mwd).ready(function () {
+$(document).ready(function () {
 
 
     mw.$(document.body).on('keydown', function (e) {
@@ -204,7 +199,7 @@ $(mwd).ready(function () {
     });
 });
 
-$(mww).on('load', function () {
+$(window).on('load', function () {
     mw.on.moduleReload('pages_tree_toolbar', function () {
 
     });

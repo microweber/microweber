@@ -18,8 +18,7 @@
         mw.lib.require('flag_icons', true);
         mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
-        <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
-        mw.require("helpinfo.js");*/ ?>
+
         <?php if(_lang_is_rtl()){ ?>
         mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
         <?php } ?>

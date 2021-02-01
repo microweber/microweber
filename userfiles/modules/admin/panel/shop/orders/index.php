@@ -48,7 +48,7 @@ $order_id = url_param('vieworder');
 <?php } ?>
 <script>
 
-   $(mwd).ready(function(){
+   $(document).ready(function(){
 
 
 

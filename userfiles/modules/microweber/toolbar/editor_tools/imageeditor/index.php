@@ -389,7 +389,7 @@
 
     }
 
-    $(mwd).ready(function () {
+    $(document).ready(function () {
         if (mw.tools.hasParentsWithTag(SelectedImage, 'a')) {
             $("#link").val($(mw.tools.firstParentWithTag(SelectedImage, 'a')).attr("href"));
         }

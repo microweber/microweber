@@ -47,7 +47,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
         });
     }
 
-    $(mwd).ready(function () {
+    $(document).ready(function () {
         MenuTabs = mw.tabs({
             nav: '#menu-tabs a',
             tabs: '.tab'

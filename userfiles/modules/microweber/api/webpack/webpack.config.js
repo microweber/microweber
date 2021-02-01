@@ -10,16 +10,45 @@ const input = `${dir}/..`;
 const inputs = arr => arr.map(item => path.resolve(`${input}/${item}`));
 
 
+const core = [
+    'tools','tools/core-tools','core','system'
+];
+
+
+
+const prod = [
+    'entrylibs/prod.js', ...core
+    
+];
+
+const liveedit = [
+    ...core,
+    'liveedit',
+    'libs/rangy',
+    'tools/widgets',
+    'tools/system-tools',
+    'widgets',
+    'gui-css-edito'
+];
+
+const admin = [
+    ...core,
+    'tools/system-tools','tools/widgets','widgets','admin'
+];
+
+const guiEditor = [
+    'tools/system-tools','tools/widgets','widgets','gui-css-editor'
+];
 
 const config = {
     watchOptions: {
         aggregateTimeout: 600
     },
     entry: {
-        core: glob.sync(path.resolve(`${input}/{tools,tools/core-tools,core,system}/*.js`)),
-        liveedit: glob.sync(path.resolve(`${input}/{liveedit,libs/rangy,tools/widgets,tools/system-tools,widgets,gui-css-editor}/*.js`)),
-        admin: glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,admin}/*.js`)),
-        'gui-css-editor': glob.sync(path.resolve(`${input}/{tools/system-tools,tools/widgets,widgets,gui-css-editor}/*.js`)),
+        prod: glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
+        liveedit: glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`)),
+        admin: glob.sync(path.resolve(`${input}/{${admin.join(',')}}/*.js`)),
+        'gui-css-editor': glob.sync(path.resolve(`${input}/{${guiEditor.join(',')}}/*.js`)),
         editor: [
             input + '/editor/editor.js',
             input + '/editor/bar.js',

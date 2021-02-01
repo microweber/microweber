@@ -103,7 +103,7 @@ if (isset($data['content-id'])) {
 </script>
 
 <script>
-    $(mwd).ready(function () {
+    $(document).ready(function () {
         mw.load_editor_internal();
     });
 </script>
