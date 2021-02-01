@@ -75,14 +75,17 @@ function lang($key, $namespace = false)
  */
 function _e($k, $to_return = false)
 {
+    $trans = trans('*.'.$k);
+    $trans = ltrim('*.',$trans);
+
     if ($to_return) {
-        return trans('*.'.$k);
+        return $trans;
     }
 
-    if (is_array(trans('*.'.$k))) {
+    if (is_array($trans)) {
         //
     } else {
-        echo trans('*.'.$k);
+        echo $trans;
     }
 }
 
