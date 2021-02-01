@@ -19,8 +19,8 @@ description: List Navigation
 ?>
 
 <div class="module-categories module-categories-template-default">
-	<div class="well">
+
 		<?php  category_tree($params);  ?>
-	</div>
+
 </div>
 

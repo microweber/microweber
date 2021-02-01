@@ -23,7 +23,7 @@ class Lang
 
     public function __construct()
     {
-        
+
 
 
         if (mw_is_installed()) {

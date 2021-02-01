@@ -127,6 +127,7 @@ function get_content_admin($params)
 
     if(isset($params['keyword'])){
         $params['keywords_exact_match'] = true;
+  //      $params['no_cache'] = true;
     }
 
 

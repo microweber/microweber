@@ -85,6 +85,7 @@
 
 }
 
+
 @media screen and (max-width: 767px) {
     .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item img {
         max-width: 200px;
@@ -137,10 +138,6 @@
     /*padding-top: 35px*/
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder .form-control {
-    font-size: 14px;
-    font-style: italic
-}
 
 .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder p, .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder p {
     margin-bottom: 20px
@@ -165,7 +162,6 @@
 }
 
 .checkout-modal .js-step-content .form-control {
-    border: 0;
     margin-bottom: 10px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -209,6 +205,13 @@
     float: left;
     width: 33.3%;
     padding: 0 5px
+}
+
+.checkout-modal-products-wrapper .table *{
+    vertical-align:middle;
+}
+.checkout-modal-products-wrapper .table .td-title{
+   max-width: 290px;
 }
 
 @media screen and (max-width: 767px) {

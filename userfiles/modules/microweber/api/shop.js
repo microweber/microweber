@@ -201,11 +201,17 @@ mw.cart = {
             $.ajax({
                 type: "POST",
                 url: mw.settings.api_url + 'checkout',
-                data: obj
+                data: obj,
+                error: function (xhr, ajaxOptions, thrownError) {
+                     mw.errorsHandle(JSON.parse(xhr.responseText))
+                    form.dataset("loading", 'false');
+                    form.find('.mw-checkout-btn').removeAttr('disabled');
+                    form.find('.mw-checkout-btn').show();
+
+                }
             })
                 .done(function (data) {
                     mw.trigger('checkoutDone', data);
-
 
                     var data2 = data;
 

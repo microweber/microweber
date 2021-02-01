@@ -38,13 +38,13 @@ class ShippingManagerServiceProvider extends ServiceProvider
 
         //add drivers
 
-        $this->app->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager, $app) {
+      /*  $this->app->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager) {
 
-            $shippingManager->extend('country', function () {
-                return new \MicroweberPackages\Shipping\Providers\ShippingToCountry();
+            $shippingManager->extend('pickup', function () {
+                return new \MicroweberPackages\Shipping\Providers\PickupDriver();
             });
 
-        });
+        });*/
 
 
         //   $this->loadMigrationsFrom(__DIR__ . '/migrations/');

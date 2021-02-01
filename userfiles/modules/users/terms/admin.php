@@ -3,9 +3,14 @@ if (!user_can_access('module.users.terms.index')) {
     return;
 }
 
+$show_edit_for_label = true;
 $mod_id = 'users';
 if (isset($params['terms-group'])) {
     $mod_id = $params['terms-group'];
+}
+
+if (isset($params['hide-label'])) {
+    $show_edit_for_label = false;
 }
 
 $terms_label = get_option('terms_label', $mod_id);
@@ -21,11 +26,16 @@ $terms_url = get_option('terms_url', $mod_id);
     });
 </script>
 
+<?php if($show_edit_for_label){ ?>
+
 <div class="form-group mb-3">
     <label class="control-label"><?php _e("Terms and conditions text"); ?></label>
     <small class="text-muted d-block mb-2">The text will appear to the user</small>
     <input type="text" class="mw_option_field form-control" name="terms_label" option-group="<?php print $mod_id ?>" value="<?php print $terms_label; ?>" placeholder="I agree with the Terms and Conditions"/>
 </div>
+
+<?php } ?>
+
 
 <div class="form-group mb-3">
     <label class="control-label"><?php _e("URL of terms and conditions"); ?></label>

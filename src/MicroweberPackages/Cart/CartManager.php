@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Cart;
 
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Database\Crud;
 
 class CartManager extends Crud
@@ -450,7 +451,7 @@ class CartManager extends Crud
             if (isset($check_cart['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
                 $old_qty = intval($data_fields['qty']);
                 if (intval($data['qty']) > $old_qty) {
-                    return array('error' => true, 'message'=>_e('Quantity not changed, because there are not enough items in stock.',true) , 'cart_item_quantity_available' => $check_cart['qty']);
+                    return array('error' => true, 'message' => _e('Quantity not changed, because there are not enough items in stock.', true), 'cart_item_quantity_available' => $check_cart['qty']);
                 }
             }
         }
@@ -852,11 +853,13 @@ class CartManager extends Crud
         if ($cur_sid == false) {
             return;
         } else {
+
+
             if ($cur_sid != false) {
                 $c_id = $sid;
                 $table = $this->table;
                 $params = array();
-                $params['order_completed'] = 0;
+                //   $params['order_completed'] = 0;
                 $params['session_id'] = $c_id;
                 $params['table'] = $table;
                 if ($ord_id != false) {
@@ -898,6 +901,14 @@ class CartManager extends Crud
                             }
                             $data['order_completed'] = 0;
                             $data['session_id'] = $cur_sid;
+
+                            if (isset($item['order_completed']) and intval($item['order_completed']) == 1) {
+                                if ($sid == $cur_sid) {
+                                    if (isset($item['is_paid']) and intval($item['is_paid']) == 0) {
+                                        $data['id'] = $item['id'];
+                                    }
+                                }
+                            }
                             if ($will_add == true) {
                                 $s = $this->app->database_manager->save($table, $data);
                             }

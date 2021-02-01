@@ -15,7 +15,7 @@ class OfferCreateUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'offer_price' => 'sometimes|integer',
+            'offer_price' => 'sometimes|numeric',
         ];
     }
 

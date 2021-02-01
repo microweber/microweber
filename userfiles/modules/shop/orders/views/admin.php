@@ -5,10 +5,12 @@ $hide_ctrls = false;
 if (isset($params['hide-controls']) and $params['hide-controls']) {
     $hide_ctrls = $params['hide-controls'];
 }
+
+
 ?>
 
 <div id="mw-order-table-holder">
-    <?php if ($orders_type == 'completed' and isset($orders) and is_array($orders) and !empty($orders)) : ?>
+    <?php if ($orders_type == 'completed' and  (!empty($orders)) or $has_new) : ?>
         <div class="orders-holder" id="shop-orders">
             <?php
             if ($has_new and !$current_page): ?>
@@ -32,8 +34,10 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
                 </div>
             <?php endif; ?>
 
-            <label class="control-label mb-3 mt-3"><?php print _e('All orders'); ?></label>
+            <?php if ($orders and (!empty($orders))) : ?>
 
+            <label class="control-label mb-3 mt-3"><?php print _e('All orders'); ?></label>
+            <?php endif; ?>
             <?php
             if ($orders) {
                 $view_file = __DIR__ . '/partials/orders-list.php';

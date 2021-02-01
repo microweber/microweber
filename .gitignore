@@ -50,3 +50,4 @@ node_modules/
 /bootstrap/cache/services.php
 /bootstrap/cache/packages.php
 /webpack/dist/*
+/.rnd

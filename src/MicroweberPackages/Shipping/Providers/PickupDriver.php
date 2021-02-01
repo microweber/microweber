@@ -3,12 +3,12 @@
 namespace MicroweberPackages\Shipping\Providers;
 
 
-class NoShippingProvider implements ShippingProviderInterface
+class PickupDriver implements ShippingDriverInterface
 {
 
     public function title()
     {
-        return '';
+        return 'Pickup from office';
     }
 
     public function cost()

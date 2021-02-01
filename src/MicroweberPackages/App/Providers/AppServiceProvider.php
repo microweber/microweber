@@ -2,14 +2,11 @@
 
 namespace MicroweberPackages\App\Providers;
 
-use Hamcrest\Core\Is;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\AdminServiceProvider;
-use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
