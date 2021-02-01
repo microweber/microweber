@@ -45,22 +45,24 @@ function migrateLanguages()
     }
 
     $saveTranslations = [];
+    foreach($enTranslations as $enTranslationKey=>$enTranslationValue) {
+        $saveTranslations[$enTranslationKey]['en'] = $enTranslationValue;
+    }
+
+    $locales = [];
+    $locales[] = 'bg';
+
     foreach ($locales as $locale) {
-
         $getCurrentLocale = loadLanguageByLocale($locale);
-
-        foreach ($enTranslations as $enTranslationKey => $enTranslationValue) {
-            foreach ($getCurrentLocale as $currentLocaleKey => $currentLocaleValue) {
-                if ($enTranslationKey == $currentLocaleKey) {
-                    $saveTranslations[$enTranslationKey][$locale] = $currentLocaleValue;
-                }
-            }
+        foreach($getCurrentLocale as $translationKey=>$translationValue) {
+            $saveTranslations[$translationKey][$locale] = $translationValue;
         }
     }
 
     foreach ($saveTranslations as $translation) {
 
         $key = $translation['en'];
+        $key = trim($key);
 
         foreach ($translation as $locale => $text) {
             $saveText = [
