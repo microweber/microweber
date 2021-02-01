@@ -79,7 +79,7 @@
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Website Keywords"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e("Ex.");?>: <?php _e("Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?></small>
                                         <input autocomplete="off" name="website_keywords" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
                                     </div>
 
@@ -117,7 +117,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php echo _e('General Settings'); ?></h5>
-                    <small class="text-muted"><?php echo _e('Set regional settings for your website or online store. They will also affect the language you use and the fees for the orders.'); ?></small>
+                    <small class="text-muted"><?php echo _e('Set regional settings for your website or online store');?> <?php _e('They will also affect the language you use and the fees for the orders.'); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
