@@ -37,10 +37,10 @@ function _lang_is_rtl($lang = false)
 function _lang($key, $namespace = false, $return = false)
 {
     if ($return) {
-        return lang('*.'.$key, $namespace);
+        return lang($key, $namespace);
     }
 
-    echo lang('*.'.$key, $namespace);
+    echo lang($key, $namespace);
 }
 
 function lang($key, $namespace = false)
@@ -51,8 +51,10 @@ function lang($key, $namespace = false)
     }
 
     $namespace = url_title($namespace);
+    $trans = trans($namespace . '::'.$group.'.'.$key);
+    $trans = ltrim($trans, $namespace . '::'.$group.'.');
 
-    return trans($namespace . '::'.$group.'.'.$key);
+    return $trans;
 }
 
 
