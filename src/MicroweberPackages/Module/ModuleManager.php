@@ -455,6 +455,8 @@ class ModuleManager
                     $configs[] = $config;
                 }
             }
+
+
             if ($skip_save == true) {
                 return $configs;
             }
@@ -531,7 +533,7 @@ class ModuleManager
                 $s['module'] = $data_to_save['module'];
 
                 if (!isset($s['module_id'])) {
-                    $save = $this->get_modules('ui=any&limit=1&module=' . $s['module']);
+                    $save = $this->get_modules('ui=any&no_cache=1&limit=1&module=' . $s['module']);
 
                     if ($save != false and isset($save[0]) and is_array($save[0]) and isset($save[0]['id']) and ($save[0]['id'])) {
                         $s['id'] = intval($save[0]['id']);

@@ -6,6 +6,7 @@ namespace MicroweberPackages\Shop\Shipping\Gateways\Country;
 
 
 use MicroweberPackages\Shipping\Providers\ShippingDriverInterface;
+use shop\shipping\gateways\country\shipping_to_country;
 
 class ShippingToCountry implements ShippingDriverInterface
 {
@@ -20,7 +21,9 @@ class ShippingToCountry implements ShippingDriverInterface
     public function cost()
     {
 
-        return 0;
+        return (new shipping_to_country())->get_cost();
+
+        //return 1110;
     }
 
 

@@ -1,4 +1,4 @@
-<div style="display: none" class="mw-ui-field-holder">
+<div  <?php if(count($shipping_options) == 1): ?>style="display: none" <?php endif; ?> class="mw-ui-field-holder">
     <select onchange="Gateway(this);" name="shipping_gw"
             class="mw-ui-field mw-full-width mw-shipping-gateway mw-shipping-gateway-<?php print $params['id']; ?> <?php if (count($shipping_options) == 1): ?> semi_hidden <?php endif; ?>">
         <?php foreach ($shipping_options as $item) : ?>
