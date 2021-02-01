@@ -16,7 +16,7 @@ class CreateTranslationsTable extends Migration
             $table->string('namespace')->nullable();
             $table->string('group');
             $table->index('group');
-            $table->string('key');
+            $table->text('key');
             $table->text('text');
             $table->string('locale');
             $table->timestamps();
