@@ -173,13 +173,13 @@ class CartManager extends Crud
                 case 'shipping':
 
                     if($shipping_modules){
-                       // if ($shipping_cost and $shipping_cost > 0) {
+                         if ($shipping_cost and $shipping_cost > 0) {
                             $totals[$total_key] = array(
                                 'label' => _e("Shipping", true),
                                 'value' => $shipping_cost,
                                 'amount' => currency_format($shipping_cost)
                             );
-                        //}
+                         }
                     }
 
 
