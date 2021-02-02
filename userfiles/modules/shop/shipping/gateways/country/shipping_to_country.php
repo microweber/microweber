@@ -39,8 +39,6 @@ class shipping_to_country
     {
 
 
-
-
         // $defined_cost = $this->app->user_manager->session_get('shipping_cost');
         $shipping_country = $this->app->user_manager->session_get('shipping_country');
         $defined_cost = 0;
@@ -199,10 +197,12 @@ class shipping_to_country
 
         if (isset($shipping_country['shipping_cost_above']) and intval($shipping_country['shipping_cost_above']) > 0) {
             $shipping_cost_above = floatval($shipping_country['shipping_cost_above']);
-           // if (intval($shipping_cost_above) > 0 and intval($shipping_country['shipping_cost_max']) > 0) {
+            // if (intval($shipping_cost_above) > 0 and intval($shipping_country['shipping_cost_max']) > 0) {
+            if (isset($shipping_country['shipping_cost_max']) and trim($shipping_country['shipping_cost_max']) != '') {
                 if ($items_cart_amount > $shipping_cost_above) {
                     $defined_cost = floatval($shipping_country['shipping_cost_max']);
-             //   }
+                    //   }
+                }
             }
         }
         if (isset($shipping_country['shipping_cost']) and intval($shipping_country['shipping_cost']) > 0) {
@@ -302,7 +302,6 @@ class shipping_to_country
     {
 
         app()->shipping_manager->setDefaultDriver('shop/shipping/gateways/country');
-
 
 
         $active = array();
