@@ -27,7 +27,7 @@ class Translation extends Model
 
     public static function getGroupedTranslations($filter = [])
     {
-        $filter['page'] = 100;
+        $filter['page'] = 200;
         $filter['namespace'] = '*';
 
         $queryModel = static::query();

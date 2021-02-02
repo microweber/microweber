@@ -14,7 +14,7 @@ use MicroweberPackages\Translation\Models\Translation;
 class TranslationController {
 
     public function save(Request $request) {
-        
+
        $translations = $request->post('translations');
 
        foreach ($translations as $translationLocales) {
