@@ -8,11 +8,7 @@
             <?php endforeach; ?>
         </select>
     </div>
-    <h2 style="margin-top:0 " class="edit nodrop" field="checkout_shipping_information_title" rel="global"
-        rel_id="<?php print $params['id'] ?>">
-        <?php _e("Shipping Information"); ?>
-    </h2>
-    <hr/>
+
     <?php if (isset($selected_shipping_gateway) and is_module($selected_shipping_gateway)): ?>
         <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">
             <module type="<?php print $selected_shipping_gateway ?>"/>
