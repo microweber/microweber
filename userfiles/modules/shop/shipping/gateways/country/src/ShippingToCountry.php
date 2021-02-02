@@ -11,6 +11,10 @@ use shop\shipping\gateways\country\shipping_to_country;
 class ShippingToCountry implements ShippingDriverInterface
 {
 
+    public function isEnabled()
+    {
+        return true;
+    }
 
     public function title()
     {
@@ -35,7 +39,10 @@ class ShippingToCountry implements ShippingDriverInterface
 //        $rates[] = ['name' => 'Delivery to address 1234', 'cost' => 200];
 //        return $rates;
 //    }
-
+    public function getData()
+    {
+        return [];
+    }
 
     public function process()
     {

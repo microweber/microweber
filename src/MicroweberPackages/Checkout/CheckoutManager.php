@@ -269,28 +269,32 @@ class CheckoutManager
             if (($this->app->user_manager->session_get('shipping_cost_above'))) {
                 $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
             }*/
-            if ($this->app->user_manager->session_get('shipping_cost')) {
-                $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
-            }
 
 
 
+//
+//            if ($this->app->user_manager->session_get('shipping_cost')) {
+//                $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
+//            }
+//
+////
+////
+////
+////            $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
+////            if(!isset($data['shipping_gw']) and $shipping_gw_from_session){
+////                $data['shipping_gw'] = $shipping_gw_from_session;
+////            }
+////            if(isset($data['shipping_gw']) and $data['shipping_gw']){
+////                try {
+////                    $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+////
+////                } catch (\InvalidArgumentException $e) {
+////                    $shipping_cost = 0;
+////                    unset($data['shipping_gw']);
+////                }
+////             }
 
-            $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
-            if(!isset($data['shipping_gw']) and $shipping_gw_from_session){
-                $data['shipping_gw'] = $shipping_gw_from_session;
-            }
-            if(isset($data['shipping_gw']) and $data['shipping_gw']){
-                try {
-                    $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
-
-                } catch (\InvalidArgumentException $e) {
-                    $shipping_cost = 0;
-                    unset($data['shipping_gw']);
-                }
-             }
-
-
+            $shipping_cost = $this->getShippingCost($data);
 
             if (($this->app->user_manager->session_get('discount_value'))) {
                 $discount_value = $this->app->user_manager->session_get('discount_value');
@@ -1312,6 +1316,42 @@ class CheckoutManager
 
             abort(403, 'Unauthorized action.');
         }
+
+    }
+
+    public function getShippingCost($data=[]){
+
+        if(!is_array($data)){
+            $data = [];
+        }
+        $shipping_cost = 0;
+
+        if ($this->app->user_manager->session_get('shipping_cost')) {
+            $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
+        }
+
+
+
+
+        $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
+        if(!isset($data['shipping_gw']) and $shipping_gw_from_session){
+            $data['shipping_gw'] = $shipping_gw_from_session;
+        } else {
+            $data['shipping_gw'] = 'default';
+
+        }
+        if(isset($data['shipping_gw']) and $data['shipping_gw']){
+            $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+
+//            try {
+//                $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+//
+//            } catch (\InvalidArgumentException $e) {
+//                $shipping_cost = 0;
+//                unset($data['shipping_gw']);
+//            }
+        }
+        return $shipping_cost;
 
     }
 
