@@ -3,10 +3,14 @@
 require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
 
 
+api_expose('stattstrack', function () {
+
+
+});
+
 if (!defined("MODULE_DB_USERS_ONLINE")) {
     define('MODULE_DB_USERS_ONLINE', 'stats_users_online');
 }
-
 
 
 event_bind('mw.admin.dashboard.content', function ($params = false) {
@@ -32,6 +36,20 @@ event_bind('mw.pageview', function ($params = false) {
             return;
         }
 
+
+        $src_code = '$(document).ready(function () {
+            setTimeout(function () {
+                 var mwtrackpageview = document.createElement(\'script\'); mwtrackpageview.type = \'text/javascript\'; mwtrackpageview.async = true; mwtrackpageview.defer = true;
+                  mwtrackpageview.src = "' . api_url('pingstats') . '";
+                  var s = document.getElementsByTagName(\'head\')[0]; s.parentNode.insertBefore(mwtrackpageview, s);
+            }, 3337);
+        });';
+
+        $src = '<script defer>' . $src_code . '</script>';
+
+
+        return $src;
+
         $src_code = '$(document).ready(function () {
             setTimeout(function () {
                 $.ajax({
@@ -42,8 +60,7 @@ event_bind('mw.pageview', function ($params = false) {
             }, 3337);
         });';
 
-        $src = '<script async>'.$src_code.'</script>';
-
+        $src = '<script async>' . $src_code . '</script>';
 
 
         $compile_assets = \Config::get('microweber.compile_assets');   //$compile_assets =  \Config::get('microweber.compile_assets');
@@ -53,7 +70,7 @@ event_bind('mw.pageview', function ($params = false) {
             $hash = crc32(site_url() . $src_code);
             $userfiles_cache_filename = $userfiles_cache_dir . 'ping.' . $hash . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)) {
-                if(!is_dir(userfiles_url() . 'cache/apijs/')){
+                if (!is_dir(userfiles_url() . 'cache/apijs/')) {
                     @mkdir_recursive(userfiles_url() . 'cache/apijs/');
                 }
                 @file_put_contents($userfiles_cache_filename, $src_code);
@@ -133,22 +150,29 @@ api_expose('pingstats', function ($params = false) {
         $ref_page = $_SERVER['HTTP_REFERER'];
         //if (stristr(site_url(), $ref_page)) {
         if (starts_with($ref_page, site_url())) {
-            if (is_ajax()) {
-                $to_track = true;
-            }
+            // if (is_ajax()) {
+            $to_track = true;
+            // }
         }
     }
     if (!$to_track) {
         return;
     }
-
     $tracker = new MicroweberPackages\SiteStats\Tracker();
 
     if (get_option('stats_is_buffered', 'site_stats') == 1) {
-        return $tracker->track_buffered();
+        $tracker->track_buffered();
     } else {
-        return $tracker->track();
+        $tracker->track();
     }
+
+    $response = response('');
+
+    $response->header('Pragma', 'no-cache');
+    $response->header('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
+    $response->header('Cache-Control', 'no-cache, must-revalidate, no-store, max-age=0, private');
+
+    return $response;
 
 
 });
@@ -484,6 +508,7 @@ function get_visits($range = 'daily')
 }
 
 
-function stats_get_views_count_for_content($content_id=0){
+function stats_get_views_count_for_content($content_id = 0)
+{
     return (new \MicroweberPackages\SiteStats\Models\ContentViewCounter)->getCountViewsForContent($content_id);
 }

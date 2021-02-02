@@ -3,12 +3,17 @@
 namespace MicroweberPackages\Shipping\Providers;
 
 
-class NoShippingProvider implements ShippingProviderInterface
+class NoShippingDriver extends AbstractShippingDriver implements ShippingDriverInterface
 {
+
+    public function isEnabled()
+    {
+        return true;
+    }
 
     public function title()
     {
-        return '';
+        return 'NoShippingDriver';
     }
 
     public function cost()

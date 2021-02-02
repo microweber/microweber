@@ -3,6 +3,7 @@ vendor/*
 config/database.php
 config/app.php
 config/debugbar.php
+config/microweber.php
 userfiles/language/
 userfiles/css/
 userfiles/media/*
@@ -50,3 +51,4 @@ node_modules/
 /bootstrap/cache/services.php
 /bootstrap/cache/packages.php
 /webpack/dist/*
+/.rnd

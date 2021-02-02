@@ -427,12 +427,12 @@
             "version": "v1.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/clue/php-stream-filter.git",
+                "url": "https://github.com/clue/stream-filter.git",
                 "reference": "aeb7d8ea49c7963d3b581378955dbf5bc49aa320"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clue/php-stream-filter/zipball/aeb7d8ea49c7963d3b581378955dbf5bc49aa320",
+                "url": "https://api.github.com/repos/clue/stream-filter/zipball/aeb7d8ea49c7963d3b581378955dbf5bc49aa320",
                 "reference": "aeb7d8ea49c7963d3b581378955dbf5bc49aa320",
                 "shasum": ""
             },
@@ -2064,7 +2064,6 @@
                 "php-http/guzzle6-adapter": "Required to use Guzzle for sending HTTP requests",
                 "php-http/message": "Required to use Guzzle for sending HTTP requests"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2096,10 +2095,6 @@
                 "exchange rates",
                 "money"
             ],
-            "support": {
-                "issues": "https://github.com/florianv/exchanger/issues",
-                "source": "https://github.com/florianv/exchanger/tree/2.6.1"
-            },
             "time": "2021-01-18T12:06:39+00:00"
         },
         {
@@ -2156,10 +2151,6 @@
                 "exchange rates",
                 "money"
             ],
-            "support": {
-                "issues": "https://github.com/florianv/swap/issues",
-                "source": "https://github.com/florianv/swap/tree/4.3.0"
-            },
             "time": "2020-12-28T10:14:12+00:00"
         },
         {
@@ -4608,7 +4599,7 @@
             "target-dir": "new-world",
             "source": {
                 "type": "git",
-                "url": "git@github.com:microweber-templates/new-world.git",
+                "url": "https://github.com/microweber-templates/new-world.git",
                 "reference": "08b284f7046f6b1972d31fd6ae1c09abe6677cce"
             },
             "dist": {
@@ -7284,7 +7275,7 @@
             "version": "4.1.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:ramsey/uuid.git",
+                "url": "https://github.com/ramsey/uuid.git",
                 "reference": "cd4032040a750077205918c86049aa0f43d22947"
             },
             "dist": {
@@ -10883,12 +10874,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "9c89b265ccc4092d58e66d72af5d343ee77a41ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/9c89b265ccc4092d58e66d72af5d343ee77a41ae",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9c89b265ccc4092d58e66d72af5d343ee77a41ae",
                 "reference": "9c89b265ccc4092d58e66d72af5d343ee77a41ae",
                 "shasum": ""
             },
@@ -13183,6 +13174,5 @@
     },
     "platform-overrides": {
         "php": "7.3"
-    },
-    "plugin-api-version": "2.0.0"
+    }
 }

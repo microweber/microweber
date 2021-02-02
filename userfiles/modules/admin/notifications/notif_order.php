@@ -25,6 +25,7 @@ if (isset($item['created_by'])) {
     }
 }
 
+
 ?>
 
 <div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ((isset($params['new']) AND $params['new'] == true) OR isset($item['is_read']) AND $item['is_read'] == 0): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
@@ -63,10 +64,26 @@ if (isset($item['created_by'])) {
                 <div class="row align-items-center h-100">
                     <div class="col-6 col-sm-4 col-md item-amount">
                         <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?><br/><?php endif; ?>
-                        <?php if (isset($order['is_paid'])): ?>
-                            <small class="text-success"><?php _e('Paid'); ?></small>
+                        <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?>
+
+                           <?php if (isset($item['payment_status']) && $item['payment_status']): ?>
+                            <small class="text-success"><?php _e($item['payment_status']); ?></small>
+                            <?php else: ?>
+                             <small class="text-success"><?php _e('Paid'); ?></small>
+                            <?php endif; ?>
+
+
                         <?php else: ?>
-                            <small class="text-muted"><?php _e('Unpaid'); ?></small>
+
+                            <?php if (isset($item['payment_status']) && $item['payment_status']): ?>
+                                <small class="text-muted"><?php _e($item['payment_status']); ?></small>
+                            <?php else: ?>
+                                <small class="text-muted"><?php _e('Unpaid'); ?></small>
+                            <?php endif; ?>
+
+
+
+
                         <?php endif; ?>
                     </div>
 

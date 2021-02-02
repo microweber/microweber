@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Cart;
 
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Database\Crud;
 
 class CartManager extends Crud
@@ -76,12 +77,40 @@ class CartManager extends Crud
         $all_totals = array('subtotal', 'shipping', 'tax', 'discount', 'total');
 
 
-        $tax = $shipping = $discount_sum = 0;
+        $tax = $shipping_cost = $discount_sum = 0;
 
-        $shipping_sess = $this->app->user_manager->session_get('shipping_cost');
-        if ($shipping_sess) {
-            $shipping = floatval($shipping_sess);
-        }
+//        $shipping_sess = $this->app->user_manager->session_get('shipping_cost');
+//        if ($shipping_sess) {
+//            $shipping_cost = floatval($shipping_sess);
+//        }
+
+        $shipping_cost = $this->app->checkout_manager->getShippingCost();
+        $shipping_modules = $this->app->checkout_manager->getShippingModules();
+
+//        if ($this->app->user_manager->session_get('shipping_cost')) {
+//            $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
+//        }
+
+
+
+//        $shipping_data = [];
+//        $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
+//        if(!isset($shipping_data['shipping_gw']) and $shipping_gw_from_session){
+//            $shipping_data['shipping_gw'] = $shipping_gw_from_session;
+//        }
+//        if(isset($shipping_data['shipping_gw']) and $shipping_data['shipping_gw']){
+//            try {
+//                $shipping_cost = $this->app->shipping_manager->driver($shipping_data['shipping_gw'])->cost();
+//
+//            } catch (\InvalidArgumentException $e) {
+//                $shipping_cost = 0;
+//                unset($shipping_data['shipping_gw']);
+//            }
+//        }
+
+
+
+
 
         // Coupon code discount
         $discount_value = $this->get_discount_value();
@@ -100,7 +129,7 @@ class CartManager extends Crud
         }
 
 
-        $total = $sum + $shipping;
+        $total = $sum + $shipping_cost;
 
         if (get_option('enable_taxes', 'shop') == 1) {
             if ($total > 0) {
@@ -142,13 +171,18 @@ class CartManager extends Crud
                     break;
 
                 case 'shipping':
-                    if ($shipping and $shipping > 0) {
-                        $totals[$total_key] = array(
-                            'label' => _e("Shipping", true),
-                            'value' => $shipping,
-                            'amount' => currency_format($shipping)
-                        );
+
+                    if($shipping_modules){
+                         if ($shipping_cost and $shipping_cost > 0) {
+                            $totals[$total_key] = array(
+                                'label' => _e("Shipping", true),
+                                'value' => $shipping_cost,
+                                'amount' => currency_format($shipping_cost)
+                            );
+                         }
                     }
+
+
                     break;
 
                 case 'total':
@@ -450,7 +484,7 @@ class CartManager extends Crud
             if (isset($check_cart['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
                 $old_qty = intval($data_fields['qty']);
                 if (intval($data['qty']) > $old_qty) {
-                    return array('error' => true, 'message'=>_e('Quantity not changed, because there are not enough items in stock.',true) , 'cart_item_quantity_available' => $check_cart['qty']);
+                    return array('error' => true, 'message' => _e('Quantity not changed, because there are not enough items in stock.', true), 'cart_item_quantity_available' => $check_cart['qty']);
                 }
             }
         }
@@ -852,11 +886,13 @@ class CartManager extends Crud
         if ($cur_sid == false) {
             return;
         } else {
+
+
             if ($cur_sid != false) {
                 $c_id = $sid;
                 $table = $this->table;
                 $params = array();
-                $params['order_completed'] = 0;
+                //   $params['order_completed'] = 0;
                 $params['session_id'] = $c_id;
                 $params['table'] = $table;
                 if ($ord_id != false) {
@@ -898,6 +934,14 @@ class CartManager extends Crud
                             }
                             $data['order_completed'] = 0;
                             $data['session_id'] = $cur_sid;
+
+                            if (isset($item['order_completed']) and intval($item['order_completed']) == 1) {
+                                if ($sid == $cur_sid) {
+                                    if (isset($item['is_paid']) and intval($item['is_paid']) == 0) {
+                                        $data['id'] = $item['id'];
+                                    }
+                                }
+                            }
                             if ($will_add == true) {
                                 $s = $this->app->database_manager->save($table, $data);
                             }

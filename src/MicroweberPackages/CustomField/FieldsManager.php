@@ -483,7 +483,9 @@ class FieldsManager
                     if (!empty($check_old)) {
                         $remove_old_ids = array();
                         foreach ($check_old as $remove) {
-                            $remove_old_ids[] = $remove['id'];
+                            if(isset($remove['id'])) {
+                                $remove_old_ids[] = $remove['id'];
+                            }
                         }
                         if (!empty($remove_old_ids)) {
                             $remove_old = $this->app->database_manager->delete_by_id($table_values, $remove_old_ids);

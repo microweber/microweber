@@ -13,8 +13,8 @@ namespace MicroweberPackages\Shipping;
 
 
 use Illuminate\Support\Manager;
-use MicroweberPackages\Shipping\Providers\NoShippingProvider;
-use MicroweberPackages\Shipping\Providers\PickupFromOffice;
+use MicroweberPackages\Shipping\Providers\AbstractShippingDriver;
+use MicroweberPackages\Shipping\Providers\NoShippingDriver;
 
 
 /**
@@ -22,27 +22,134 @@ use MicroweberPackages\Shipping\Providers\PickupFromOffice;
  */
 // ------------------------------------------------------------------------
 
+
+/**
+ * @mixin AbstractShippingDriver
+ */
 class ShippingManager extends Manager
 {
 
-    //@todo
+    public $shippingModules = [];
+    // public $defaultDriver = 'NoShippingDriver';
+
+    /**
+     * Get default driver instance.
+     *
+     * @return AbstractShippingDriver
+     *
+     * @throws \InvalidArgumentException
+     */
     public function getDefaultDriver()
     {
+        $selected = app()->user_manager->session_get('shipping_provider');
 
-         return new NoShippingProvider();
-        // return new PickupFromOffice();
-      //  throw new \InvalidArgumentException('No Shipping driver was specified.');
+
+        if (!$selected) {
+            $mods = $this->getShippingModules();
+            if ($mods and isset($mods[0]) and isset($mods[0]['gw_file'])) {
+                $selected = $mods[0]['gw_file'];
+            }
+        }
+
+
+        if ($selected) {
+            if (!isset($this->drivers[$selected])) {
+                $this->drivers[$selected] = $this->createDriver($selected);
+            }
+            return $this->drivers[$selected];
+
+        } else {
+            return new NoShippingDriver();
+        }
     }
+
+    public function createDefaultDriver()
+    {
+        return $this->getDefaultDriver();
+    }
+
 
     /**
      * Get a driver instance.
      *
-     * @param  string  $driver
-     * @return mixed
+     * @param  string|null $driver
+     * @return AbstractShippingDriver
+     *
+     * @throws \InvalidArgumentException
      */
-    public function with($driver=null)
+    public function driver($driver = 'default')
     {
-        return $this->driver($driver);
+        return parent::driver($driver);
     }
+
+
+    public function getShippingModules($only_enabled = true)
+    {
+
+        $shipping_modules_path = modules_path() . 'shop/shipping/gateways';
+
+
+        $shipping_gateways = get_modules('is_installed=1&type=shipping_gateway');
+
+        if ($shipping_gateways == false) {
+            $shipping_gateways = scan_for_modules("cache_group=modules/global&dir_name={$shipping_modules_path}");
+
+        }
+
+        if (!empty($shipping_gateways)) {
+            $gw = array();
+            foreach ($shipping_gateways as $item) {
+                if (!isset($item['gw_file']) and isset($item['module'])) {
+                    $item['gw_file'] = $item['module'];
+                }
+                if (!isset($item['module_base']) and isset($item['module'])) {
+                    $item['module_base'] = $item['module'];
+                }
+                $gw[] = $item;
+
+            }
+
+            $this->shippingModules = $gw;
+        } else {
+            $this->shippingModules = $shipping_gateways;
+        }
+
+
+        if ($only_enabled) {
+            if (!empty($this->shippingModules)) {
+                foreach ($this->shippingModules as $key => $item) {
+                    if (isset($item['gw_file']) and isset($item['gw_file'])) {
+                        $isEnabled = false;
+                        try {
+                            $isEnabled = $this->driver($item['gw_file'])->isEnabled();
+                        } catch (\InvalidArgumentException $e) {
+                            $isEnabled = false;
+                        }
+
+                        if (!$isEnabled) {
+                            unset($this->shippingModules[$key]);
+                        }
+
+                    }
+
+
+                }
+            }
+        }
+
+
+        return $this->shippingModules;
+    }
+
+    public function setDefaultDriver($driver)
+    {
+        app()->user_manager->session_set('shipping_provider', $driver);
+        return true;
+    }
+
+//    public function with($driver = null)
+//    {
+//        return $this->driver($driver);
+//    }
 
 }

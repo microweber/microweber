@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Offer\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 

@@ -638,7 +638,9 @@ class Front
         if (isset($params['strict_categories']) and $params['strict_categories'] != false) {
             $post_params['strict_categories'] = $params['strict_categories'];
         }
-
+        if (isset($params['keywords_exact_match'])) {
+            $post_params['keywords_exact_match'] = $params['keywords_exact_match'];
+        }
 
         $is_search = url_param('search');
         if ($is_search and isset($_GET['search_params'])) {
@@ -655,6 +657,18 @@ class Front
             }
 
         }
+
+        if (isset($params['keyword']) and $params['keyword'] != false) {
+            $post_params['keyword'] =$params['keyword'];
+         //   $post_params['no_cache'] = 1;
+
+            if (!isset($params['keywords_exact_match'])) {
+                $post_params['keywords_exact_match'] = true;
+            }
+         }
+
+
+
         if ($posts_list_show_sub_pages) {
             $post_params['content_type'] = 'page';
             $post_params['parent'] = PAGE_ID;
@@ -851,7 +865,7 @@ class Front
 
 
 
-        if ($cfg_data_hide_paging === false) {
+        if ($cfg_data_hide_paging === false || $cfg_data_hide_paging === null) {
             if (isset($post_params['hide_paging']) and trim($post_params['hide_paging']) != 'false') {
                 $post_params['hide-paging'] = $post_params['hide_paging'];
                 unset($post_params['hide_paging']);
