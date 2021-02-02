@@ -1,6 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Shipping\Providers;
+
+namespace MicroweberPackages\Shop\Shipping\Gateways\Pickup;
+
+
+
+use MicroweberPackages\Shipping\Providers\ShippingDriverInterface;
+
 
 
 class PickupDriver implements ShippingDriverInterface
@@ -8,7 +14,9 @@ class PickupDriver implements ShippingDriverInterface
 
     public function isEnabled()
     {
-        return false;
+        $module = 'shop/shipping/gateways/pickup';
+        $status = get_option('shipping_gw_' . $module, 'shipping') === 'y' ? true: false;
+        return $status;
     }
 
     public function title()
@@ -28,3 +36,4 @@ class PickupDriver implements ShippingDriverInterface
 
 
 }
+

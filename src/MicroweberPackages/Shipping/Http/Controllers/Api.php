@@ -11,10 +11,9 @@ class Api
     public function setShippingProviderToSession(Request $request)
     {
         $provider = $request->input('provider');
-
         if ($provider) {
             try {
-                $provider = app()->shipping_manager->driver($provider)->title();
+                $has = app()->shipping_manager->driver($provider)->title();
 
             } catch (\InvalidArgumentException $e) {
                 $provider = null;
