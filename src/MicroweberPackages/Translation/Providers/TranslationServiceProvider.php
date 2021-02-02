@@ -43,7 +43,11 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                             Translation::insert($text);
                         }
                     }
-                    clearcache();
+                    try {
+                        clearcache();
+                    } catch (\Exception $e) {
+                        //
+                    }
                 }
             });
         }
