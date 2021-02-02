@@ -26,6 +26,7 @@
     });
 </script>
 
+<?php _e("Settings"); ?>
 
 <div class="card bg-light style-1 mb-3">
     <div class="card-body py-2">
