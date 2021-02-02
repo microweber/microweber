@@ -24,6 +24,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
          */
         Lang::addNamespace('translation', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/lang');
 
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
+
         if (mw_is_installed()) {
             if (!Schema::hasTable('translations')) {
                 app()->mw_migrator->run([
