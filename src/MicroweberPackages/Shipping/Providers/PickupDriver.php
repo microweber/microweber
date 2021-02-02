@@ -6,6 +6,11 @@ namespace MicroweberPackages\Shipping\Providers;
 class PickupDriver implements ShippingDriverInterface
 {
 
+    public function isEnabled()
+    {
+        return false;
+    }
+
     public function title()
     {
         return 'Pickup from office';

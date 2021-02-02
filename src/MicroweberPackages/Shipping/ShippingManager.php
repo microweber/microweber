@@ -30,7 +30,7 @@ class ShippingManager extends Manager
 {
 
     public $shippingModules = [];
-   // public $defaultDriver = 'NoShippingDriver';
+    // public $defaultDriver = 'NoShippingDriver';
 
     /**
      * Get default driver instance.
@@ -42,6 +42,16 @@ class ShippingManager extends Manager
     public function getDefaultDriver()
     {
         $selected = app()->user_manager->session_get('shipping_provider');
+
+
+        if (!$selected) {
+            $mods = $this->getShippingModules();
+            if ($mods and isset($mods[0]) and isset($mods[0]['gw_file'])) {
+                $selected = $mods[0]['gw_file'];
+            }
+        }
+
+
         if ($selected) {
             if (!isset($this->drivers[$selected])) {
                 $this->drivers[$selected] = $this->createDriver($selected);
@@ -73,7 +83,7 @@ class ShippingManager extends Manager
     }
 
 
-    public function getShippingModules()
+    public function getShippingModules($only_enabled = true)
     {
 
         $shipping_modules_path = modules_path() . 'shop/shipping/gateways';
@@ -102,6 +112,29 @@ class ShippingManager extends Manager
             $this->shippingModules = $gw;
         } else {
             $this->shippingModules = $shipping_gateways;
+        }
+
+
+        if ($only_enabled) {
+            if (!empty($this->shippingModules)) {
+                foreach ($this->shippingModules as $key => $item) {
+                    if (isset($item['gw_file']) and isset($item['gw_file'])) {
+                        $isEnabled = false;
+                        try {
+                            $isEnabled = $this->driver($item['gw_file'])->isEnabled();
+                        } catch (\InvalidArgumentException $e) {
+                            $isEnabled = false;
+                        }
+
+                        if (!$isEnabled) {
+                            unset($this->shippingModules[$key]);
+                        }
+
+                    }
+
+
+                }
+            }
         }
 
 
