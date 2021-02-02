@@ -14,10 +14,33 @@ class Translation extends Model
     /** @var array */
     public $guarded = ['id'];
 
+    public static function boot() {
+        parent::boot();
 
-    public static function getGroupedTranslations($page = 15, $namespace = '*')
+      /*  static::saving(function($model){
+            clearcache();
+        });
+        static::updating(function($model){
+            clearcache();
+        });*/
+    }
+
+    public static function getGroupedTranslations($filter = [])
     {
-        $getTranslations = static::where('namespace', $namespace)->groupBy('key')->limit($page)->get();
+        $filter['page'] = 15;
+        $filter['namespace'] = '*';
+
+        $queryModel = static::query();
+        $queryModel->where('namespace', $filter['namespace']);
+        $queryModel->groupBy('key');
+        $queryModel->limit($filter['page']);
+
+        if (isset($filter['search']) && !empty($filter['search'])) {
+            $queryModel->where('key', 'like', '%'.$filter['search'].'%');
+            $queryModel->orWhere('text', 'like', '%'.$filter['search'].'%');
+        }
+
+        $getTranslations = $queryModel->get();
 
         $group = [];
 
