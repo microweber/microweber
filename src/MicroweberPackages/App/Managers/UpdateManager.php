@@ -736,7 +736,7 @@ class UpdateManager
             mw()->cache_manager->delete('templates');
             mw()->cache_manager->delete('modules');
             mw()->cache_manager->clear();
-            scan_for_modules();
+            scan_for_modules(['no_cache'=>true]);
             scan_for_elements();
             mw()->layouts_manager->scan();
             mw()->template->clear_cached_custom_css();
