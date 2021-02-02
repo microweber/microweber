@@ -139,37 +139,35 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
     }
 </style>
 
-
-
 <script>
     $(document).ready(function () {
 
-
-
         $('.js-search-lang-text').on('input', function () {
-
             $('.collapse').collapse('show')
-
 
             mw.tools.search(this.value, '.js-table-lang tr', function (found) {
                 $(this)[found?'show':'hide']();
             });
-
-
         });
-
 
 
         $('.mw_lang_item_textarea_edit').on('input', function () {
-
             mw.on.stopWriting(this,function(){
 
-                save_lang_form('language-form-<?php print $params['id'] ?>')
+                var saveTranslations = $('.lang-edit-form').serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo route('admin.language.save'); ?>",
+                    data: saveTranslations,
+                    dataType: "json",
+                    success: function (data) {
+                        mw.notification.success('Saved!', 2000, 'lang');
+                    }
+                });
 
             });
-
         });
-
 
     });
 </script>
@@ -243,7 +241,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
 
                                 <hr class="thin my-2"/>
 
-                                <form id="language-form-" class="lang-edit-form">
+                                <form id="language-form" class="lang-edit-form">
                                     <table width="100%" class="table js-table-lang">
                                         <thead>
                                         <tr>
@@ -257,8 +255,9 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
                                         $supportedLanguages = get_supported_languages(true);
                                         $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations();
                                         foreach ($getTranslations as $translationKey=>$translationByLocales):
+                                            $translationKeyMd5 = md5($translationKey);
                                         ?>
-                                            <tr>
+                                            <tr style="border-bottom: 1px solid #cfcfcf">
                                                 <td style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;">
                                                     <div class="lang-key-holder">
                                                         <small><?php echo $translationKey;?></small>
@@ -274,7 +273,10 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
                                                              <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
                                                             </span>
                                                         </div>
-                                                        <textarea name="" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
+                                                        <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][group]" value="*">
+                                                        <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][namespace]" value="*">
+                                                        <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][key]" style="display:none;"><?php echo $translationKey;?></textarea>
+                                                        <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
                                                     </div>
                                                     <?php endforeach; ?>
                                                 </td>

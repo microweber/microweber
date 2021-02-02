@@ -15,9 +15,9 @@ class Translation extends Model
     public $guarded = ['id'];
 
 
-    public static function getGroupedTranslations()
+    public static function getGroupedTranslations($page = 15, $namespace = '*')
     {
-        $getTranslations = static::groupBy('key')->limit(15)->get();
+        $getTranslations = static::where('namespace', $namespace)->groupBy('key')->limit($page)->get();
 
         $group = [];
 
