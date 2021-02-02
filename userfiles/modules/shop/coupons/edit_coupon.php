@@ -29,7 +29,6 @@ if ($params['coupon_id'] !== 'false') {
     var TEXT_FILL_ALL_FIELDS = "<?php _ejs('Please fill all fields correct.');?>";
 </script>
 
-<script>mw.lib.require('mwui_init');</script>
 
 <div class="js-validation-messages"></div>
 

@@ -1,8 +1,4 @@
-<script>
-    $(document).ready(function () {
-        mw.lib.require('mwui_init');
-    });
-</script>
+
 
 <?php
 $custom_tabs = false;

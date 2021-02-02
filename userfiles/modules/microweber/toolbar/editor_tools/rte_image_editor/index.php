@@ -1,12 +1,6 @@
 <?php $path = mw_includes_url() . "toolbar/editor_tools/rte_image_editor/"; ?>
 
-<script>
-    parent.mw.require("external_callbacks.js");
-    mw.lib.require('mwui');
-    mw.require("events.js");
 
-    mw.require("url.js");
-</script>
 
 <?php
 

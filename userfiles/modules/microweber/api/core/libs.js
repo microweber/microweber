@@ -59,22 +59,7 @@
 
 
         ],
-        mwui: [
-            function () {
-                // mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/main.css');
-                // mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/css/plugins.min.css');
-                // mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/mw.css');
-                //The files above are added in default.css
-                mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/js/plugins.js');
-            }
 
-
-        ],
-        mwui_init: [
-            function () {
-                mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/js/ui.js');
-            }
-        ],
         flag_icons: [
             function () {
                 mw.require(mw.settings.libs_url + 'flag-icon-css' + '/css/flag-icon.min.css');

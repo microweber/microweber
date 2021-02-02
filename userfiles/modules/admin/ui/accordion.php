@@ -314,9 +314,7 @@
 </div>
 
 <div class="ui_section">
-    <script>
-        mw.require('block-edit.js');
-    </script>
+
     <h2>Edit box</h2>
     <br>
 
@@ -342,7 +340,6 @@
 
 <div class="ui_section">
     <script>
-         mw.lib.require("mwui");
         $(document).ready(function () {
 
             var editor = new mw.Editor({
@@ -367,7 +364,7 @@
             var ctrl1 = allControls.slice(0, spl);
             var ctrl2 = allControls.slice(spl, allControls.length);
 
-            var editor2 = new mw.WEditor({
+            var editor2 = new mw.Editor({
                 selector: '#editortest2',
                 mode: 'div',
                 controls: [

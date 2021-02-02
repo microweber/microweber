@@ -61,9 +61,6 @@ if (isset($params['live_edit'])) {
 </style>
 <div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">
-         mw.lib.require('mwui_init');
-    </script>
-    <script type="text/javascript">
         function save_cat(el) {
             if (document.querySelector('.mw-ui-category-selector input:checked') !== null) {
                 $(document.forms['admin_edit_category_form']).submit();

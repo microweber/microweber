@@ -19,43 +19,10 @@ if (isset($_COOKIE['mw_exp'])) {
     </script>
     <script src="<?php print mw_includes_url(); ?>api/webpack/dist/liveedit.js"></script>
 
-    <?php if (config('app.debug')) { ?>
-
-        <script type="text/javascript">
-            window.__onerror_alert_shown = false;
-            window.onerror = function (msg, url, lineNo, columnNo, error) {
-                if ((typeof(msg) != 'undefined') && !msg.contains('ResizeObserver') && !window.__onerror_alert_shown) {
-                    var string = msg.toLowerCase();
-                    var substring = "script error";
-                    if (string.indexOf(substring) > -1) {
-                        alert('Script Error: See Browser Console for Detail');
-                    } else {
-                        var message = [
-                            'Message: ' + msg,
-                            'URL: ' + url,
-                            'Line: ' + lineNo,
-                            'Column: ' + columnNo,
-                            'Error object: ' + JSON.stringify(error)
-                        ].join(' \n ');
-
-                        console.log(message);
-                    }
-
-                    return false;
-                }
-                window.__onerror_alert_shown = true;
-
-
-            };
-
-        </script>
-    <?php } ?>
 
 
     <script type="text/javascript">
-        $(window).bind('load', function () {
-
-
+        $(window).on('load', function () {
             $(window).on('saveStart adminSaveStart', function () {
                 mw.$("#main-save-btn,.btn-save").html('<?php _e("Saving"); ?>...');
             });
@@ -63,8 +30,6 @@ if (isset($_COOKIE['mw_exp'])) {
                 mw.$("#main-save-btn,.btn-save").html('<?php _e("Save"); ?>');
                 mw.notification.success('<?php _ejs("All changes are saved"); ?>.')
             });
-
-
         });
 
     </script>

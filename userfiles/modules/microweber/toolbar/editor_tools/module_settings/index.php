@@ -8,10 +8,7 @@
     <?php endif; ?>
 
     <script type="text/javascript" src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
-    <script>
-        mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
-    </script>
+
 
     <?php template_stack_display('default'); ?>
 

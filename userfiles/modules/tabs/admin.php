@@ -60,10 +60,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </style>
 
         <script>
-            mw.require('prop_editor.js');
-            mw.require('module_settings.js');
-        </script>
-        <script>
             $(window).on("load", function () {
                 this.tabSettings = new mw.moduleSettings({
                     element: '#settings-box',

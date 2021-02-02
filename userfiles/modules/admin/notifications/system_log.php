@@ -53,7 +53,6 @@ $data = mw()->log_manager->get($log_params);
     }
 </script>
 
-<script>mw.lib.require('mwui_init'); </script>
 
 <?php if (is_array($data)): ?>
     <br/>
@@ -143,4 +142,3 @@ $data = mw()->log_manager->get($log_params);
 <?php else: ?>
     <?php print notif(_e("Your system log is empty", true)) ?>
 <?php endif; ?>
- 

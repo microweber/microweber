@@ -160,9 +160,7 @@ $moderation_is_required = get_option('require_moderation', 'comments') == 'y';
 
 </script>
 
-<script>
-    mw.lib.require('mwui_init');
-</script>
+
 <div class="comment-item-holder-inner" id="comment-item-inner-<?php print $content['id'] ?>">
     <?php
     if (is_array($postComments)): ?>

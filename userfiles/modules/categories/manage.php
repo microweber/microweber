@@ -118,7 +118,6 @@
 
             </div>
             <script>
-                mw.require('block-edit.js');
 
                 categorySearch = function (el) {
                     var val = el.value.trim().toLowerCase();

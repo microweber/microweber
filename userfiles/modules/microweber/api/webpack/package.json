@@ -7,7 +7,13 @@
     "webpack-cli": "^4.1.0"
   },
   "dependencies": {
+    "@popperjs/core": "^2.6.0",
+    "aos": "^2.3.4",
+    "bootstrap": "^4.6.0",
+    "bootstrap-select": "^1.13.18",
+    "ion-rangeslider": "^2.3.1",
     "jquery": "^3.5.1",
-    "jquery-ui": "^1.12.1"
+    "jquery-ui": "^1.12.1",
+    "popper.js": "^1.16.1"
   }
 }

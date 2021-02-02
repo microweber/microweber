@@ -178,7 +178,7 @@ function theProductHasVariants(field) {
 /**
  * Replace all SVG images with inline SVG
  */
-function SVGtoCode() {
+window.SVGtoCode = function() {
     $('img.svg[src*=".svg"]').each(function () {
         var $img = $(this);
         var imgID = $img.attr('id');

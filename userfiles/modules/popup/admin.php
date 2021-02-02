@@ -32,7 +32,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         // TODO: fix module refresh on closing settings
         ?>
-        <script>mw.lib.require('mwui_init');</script>
 
         <script type="text/javascript">
             is_searching = false;

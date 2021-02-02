@@ -6,7 +6,6 @@
     aria-expanded="false"
     aria-controls="collapseExample">
     <div class="card-body">
-        <script>mw.lib.require('mwui_init');</script>
 
         <?php
         $image = '';

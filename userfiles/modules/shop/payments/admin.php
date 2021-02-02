@@ -1,9 +1,7 @@
 <?php if (!is_admin()) {
     return;
 } ?>
-<script>
-    mw.lib.require('mwui_init');
-</script>
+
 
 <style>
     .cursor-move-holder {

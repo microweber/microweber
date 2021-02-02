@@ -56,7 +56,6 @@
 
     <hr class="thin">
 
-    <script>mw.lib.require('mwui_init');</script>
     <div class="form-group">
         <label class="control-label"><?php _e("Static files delivery method"); ?></label>
         <?php $static_files_delivery_method = get_option('static_files_delivery_method', 'website'); ?>

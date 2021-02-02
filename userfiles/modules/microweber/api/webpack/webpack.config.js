@@ -7,7 +7,6 @@ const webpack = require('webpack');
 const dir = __dirname;
 const output = `${dir}/dist`;
 const input = `${dir}/..`;
-const inputs = arr => arr.map(item => path.resolve(`${input}/${item}`));
 
 
 const core = [
@@ -15,10 +14,8 @@ const core = [
 ];
 
 
-
 const prod = [
-    'entrylibs/prod.js', ...core
-    
+    ...core
 ];
 
 const liveedit = [
@@ -45,6 +42,10 @@ const config = {
         aggregateTimeout: 600
     },
     entry: {
+        'site-libs': input + '/entrylibs/prod.js',
+        'liveedit-libs': input + '/entrylibs/liveedit.js',
+        'admin-libs': input + '/entrylibs/admin.js',
+
         prod: glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
         liveedit: glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`)),
         admin: glob.sync(path.resolve(`${input}/{${admin.join(',')}}/*.js`)),

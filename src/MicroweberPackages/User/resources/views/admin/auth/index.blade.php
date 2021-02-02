@@ -36,8 +36,7 @@
         mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
         <?php } ?>
 
-        mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
+
     </script>
 
 </head>

@@ -12,7 +12,6 @@
     }
 </script>
 
-<script>mw.lib.require('mwui_init');</script>
 <?php
 $for = 'module';
 if (isset($params['for'])) {

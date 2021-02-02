@@ -6,15 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex">
 
+    <script src="<?php print mw_includes_url(); ?>api/webpack/dist/admin-libs.js"></script>
     <script src="<?php print mw_includes_url(); ?>api/webpack/dist/admin.js"></script>
     <script src="<?php print mw_includes_url(); ?>api/webpack/dist/editor.js"></script>
     <script>
-         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
+        mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
         mw.require("<?php print mw_includes_url(); ?>css/components.css");
 
-
-        mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
         mw.lib.require('flag_icons', true);
         mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
@@ -189,7 +187,6 @@ $user = get_user_by_id($user_id);
                                     <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg" class="logo svg" style="height: 40px;"/>
                                 <?php endif; ?>
                             </h5>
-                            <script>mw.lib.require('mwui_init')</script>
                             <script>SVGtoCode();</script>
                         </a>
                     </li>

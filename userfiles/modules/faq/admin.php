@@ -32,9 +32,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         }
         $pp = json_encode($json);
         ?>
-        <script>mw.lib.require('mwui_init');</script>
-        <script>mw.require('prop_editor.js')</script>
-        <script>mw.require('module_settings.js')</script>
+
         <script>
           $(window).on('load', function (){
               window.faqSettings = new mw.moduleSettings({

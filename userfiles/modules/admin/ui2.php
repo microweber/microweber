@@ -32,16 +32,6 @@
 </div>
 
 
-
-<script>mw.require('filemanager.js')</script>
-
-
-
-<script>
-    mw.FileManager({element:'#fm', selectable: false})
-</script>
-
-
 <br>
 <br>
 <br>
@@ -136,10 +126,6 @@
         </div>
 
 
-        <script>
-            mw.require('prop_editor.js');
-            mw.require('module_settings.js');
-        </script>
 
     </div>
 </div>

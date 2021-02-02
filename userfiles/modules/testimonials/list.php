@@ -72,7 +72,6 @@
         });
     });
 </script>
-<script>mw.lib.require('mwui_init');</script>
 
 <style>
     .testimonial-client-image {

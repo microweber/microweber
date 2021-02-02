@@ -16,7 +16,6 @@
         </div><br/>
     @endif
 
-    <script>mw.lib.require('mwui_init');</script>
 
     @foreach ($contents as $i=>$content)
 
@@ -53,7 +52,7 @@
                 </div>
                 <div class="collapse" id="comments-<?php print $content['id'] ?>">
                     <div class="row mt-3">
-                        <div class="col-12"> 
+                        <div class="col-12">
                             <a href="<?php print content_link($content['rel_id']); ?>" class="btn btn-primary btn-sm btn-rounded" target="_blank">View article</a>
                         </div>
                     </div>

@@ -14,7 +14,6 @@ if ($id != false) {
 }
 ?>
 <?php if (!empty($data)): ?>
-    <script>mw.lib.require('mwui_init');</script>
     <script type="text/javascript">
         $(document).ready(function () {
             mw.$('#module_admin_settings_form_<?php print $params['id']; ?>').submit(function () {
