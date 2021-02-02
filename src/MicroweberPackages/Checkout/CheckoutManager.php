@@ -1341,15 +1341,15 @@ class CheckoutManager
 
         }
         if(isset($data['shipping_gw']) and $data['shipping_gw']){
-            $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+           // $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
 
-//            try {
-//                $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
-//
-//            } catch (\InvalidArgumentException $e) {
-//                $shipping_cost = 0;
-//                unset($data['shipping_gw']);
-//            }
+            try {
+                $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+
+            } catch (\InvalidArgumentException $e) {
+                $shipping_cost = 0;
+                unset($data['shipping_gw']);
+            }
         }
         return $shipping_cost;
 
