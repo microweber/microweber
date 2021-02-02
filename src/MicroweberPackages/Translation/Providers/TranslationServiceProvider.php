@@ -37,6 +37,12 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
                     foreach ($getNewTexts as $text) {
+
+                        $text['key'] = trim($text['key']);
+                        $text['group'] = trim($text['group']);
+                        $text['namespace'] = trim($text['namespace']);
+                        $text['locale'] = trim($text['locale']);
+
                         $findTranslation = Translation::where('namespace', $text['namespace'])
                             ->where('group', $text['group'])
                             ->where('key', $text['key'])

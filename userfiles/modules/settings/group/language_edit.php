@@ -139,39 +139,6 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
     }
 </style>
 
-<script>
-    $(document).ready(function () {
-
-        $('.js-search-lang-text').on('input', function () {
-            $('.collapse').collapse('show')
-
-            mw.tools.search(this.value, '.js-table-lang tr', function (found) {
-                $(this)[found?'show':'hide']();
-            });
-        });
-
-
-        $('.mw_lang_item_textarea_edit').on('input', function () {
-            mw.on.stopWriting(this,function(){
-
-                var saveTranslations = $('.lang-edit-form').serialize();
-
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo route('admin.language.save'); ?>",
-                    data: saveTranslations,
-                    dataType: "json",
-                    success: function (data) {
-                        mw.notification.success('Saved!', 2000, 'lang');
-                    }
-                });
-
-            });
-        });
-
-    });
-</script>
-
 <div class="card bg-none style-1 mb-0 card-settings">
     <div class="card-body pt-3 pb-0 px-0">
         <div class="row">
@@ -209,87 +176,10 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
                 <small class=""><?php _e('Help us improve Microweber'); ?></small>
                 <a href="javascript:;" onclick="send_lang_form_to_microweber()" class="btn btn-outline-primary btn-sm mt-2"><?php _e('Send us your translation'); ?></a>
             </div>
-
             <div class="col-md-9">
-
-                    <div class="card bg-light style-1 mb-3">
-                        <div class="card-body py-2">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group mb-0">
-                                        <label class="control-label mb-0"><?php _e('Language file'); ?>:
-                                            <button type="button" class="btn btn-link px-0 js-lang-file-position" type="button" data-toggle="collapse" data-target="#global-file">
-                                                <?php _e('Global'); ?> <i class="mdi mdi-menu-down mdi-rotate-270"></i>
-                                            </button>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="collapse" id="global-file">
-                                <hr class="thin my-2"/>
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <label class="control-label m-0">Global <?php _e('Language file'); ?></label>
-                                    </div>
-
-                                    <div>
-                                        <a href="javascript:;" onClick="export_language_by_namespace('global', '<?php print $lang ?>');" class="btn btn-outline-primary btn-sm">Export to Excel</a>
-                                        <a href="javascript:;" onClick="import_language_by_namespace('global', '<?php print $lang ?>');" class="btn btn-outline-primary btn-sm">Import Excel file</a>
-                                    </div>
-                                </div>
-
-                                <hr class="thin my-2"/>
-
-                                <form id="language-form" class="lang-edit-form">
-                                    <table width="100%" class="table js-table-lang">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col" style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;"><?php _e('Key'); ?></th>
-                                            <th scope="col"><?php _e('Value'); ?></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        <?php
-                                        $supportedLanguages = get_supported_languages(true);
-                                        $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations();
-                                        foreach ($getTranslations as $translationKey=>$translationByLocales):
-                                            $translationKeyMd5 = md5($translationKey);
-                                        ?>
-                                            <tr style="border-bottom: 1px solid #cfcfcf">
-                                                <td style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;">
-                                                    <div class="lang-key-holder">
-                                                        <small><?php echo $translationKey;?></small>
-                                                    </div>
-                                                </td>
-                                                <td style="vertical-align: middle;">
-                                                    <?php
-                                                    foreach ($supportedLanguages as $supportedLanguage):
-                                                    ?>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">
-                                                             <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
-                                                            </span>
-                                                        </div>
-                                                        <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][group]" value="*">
-                                                        <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][namespace]" value="*">
-                                                        <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                                        <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
-                                                    </div>
-                                                    <?php endforeach; ?>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-
+                <form id="language-form" class="lang-edit-form">
+                    <module type="settings/group/language_edit_browse" class="js-language-edit-browse" search="" />
+                </form>
             </div>
         </div>
     </div>
