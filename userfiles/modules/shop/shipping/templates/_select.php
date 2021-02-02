@@ -11,9 +11,7 @@
 
     <?php if (isset($selected_shipping_gateway) and is_module($selected_shipping_gateway)): ?>
         <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">
-            <module type="<?php print $selected_shipping_gateway ?>" template="modal"/>
+            <module type="<?php print $selected_shipping_gateway ?>"/>
         </div>
     <?php endif; ?>
 </div>
-
-

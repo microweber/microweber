@@ -77,12 +77,40 @@ class CartManager extends Crud
         $all_totals = array('subtotal', 'shipping', 'tax', 'discount', 'total');
 
 
-        $tax = $shipping = $discount_sum = 0;
+        $tax = $shipping_cost = $discount_sum = 0;
 
-        $shipping_sess = $this->app->user_manager->session_get('shipping_cost');
-        if ($shipping_sess) {
-            $shipping = floatval($shipping_sess);
-        }
+//        $shipping_sess = $this->app->user_manager->session_get('shipping_cost');
+//        if ($shipping_sess) {
+//            $shipping_cost = floatval($shipping_sess);
+//        }
+
+        $shipping_cost = $this->app->checkout_manager->getShippingCost();
+        $shipping_modules = $this->app->checkout_manager->getShippingModules();
+
+//        if ($this->app->user_manager->session_get('shipping_cost')) {
+//            $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
+//        }
+
+
+
+//        $shipping_data = [];
+//        $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
+//        if(!isset($shipping_data['shipping_gw']) and $shipping_gw_from_session){
+//            $shipping_data['shipping_gw'] = $shipping_gw_from_session;
+//        }
+//        if(isset($shipping_data['shipping_gw']) and $shipping_data['shipping_gw']){
+//            try {
+//                $shipping_cost = $this->app->shipping_manager->driver($shipping_data['shipping_gw'])->cost();
+//
+//            } catch (\InvalidArgumentException $e) {
+//                $shipping_cost = 0;
+//                unset($shipping_data['shipping_gw']);
+//            }
+//        }
+
+
+
+
 
         // Coupon code discount
         $discount_value = $this->get_discount_value();
@@ -101,7 +129,7 @@ class CartManager extends Crud
         }
 
 
-        $total = $sum + $shipping;
+        $total = $sum + $shipping_cost;
 
         if (get_option('enable_taxes', 'shop') == 1) {
             if ($total > 0) {
@@ -143,13 +171,18 @@ class CartManager extends Crud
                     break;
 
                 case 'shipping':
-                    if ($shipping and $shipping > 0) {
-                        $totals[$total_key] = array(
-                            'label' => _e("Shipping", true),
-                            'value' => $shipping,
-                            'amount' => currency_format($shipping)
-                        );
+
+                    if($shipping_modules){
+                         if ($shipping_cost and $shipping_cost > 0) {
+                            $totals[$total_key] = array(
+                                'label' => _e("Shipping", true),
+                                'value' => $shipping_cost,
+                                'amount' => currency_format($shipping_cost)
+                            );
+                         }
                     }
+
+
                     break;
 
                 case 'total':

@@ -1102,7 +1102,7 @@ class FrontendController extends Controller
 
         $aj = $this->app->url_manager->is_ajax();
 
-        if (isset($request_data['live_edit']) and $aj == false) {
+        if ((isset($request_data['live_edit']) or isset($request_data['admin'])  ) and $aj == false) {
             $p_index = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
             $p_index = normalize_path($p_index, false);
             $l = new View($p_index);

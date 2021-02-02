@@ -152,6 +152,7 @@ if ($weight_units == false) {
                      });*/
                 }
                 mw.reload_module_everywhere('shop/shipping/gateways/country/admin_backend');
+                mw.reload_module_everywhere('shop/shipping/gateways/country/admin');
 
 
                 if (window.parent != undefined && window.parent.mw != undefined) {
@@ -365,7 +366,7 @@ if ($weight_units == false) {
                         </div>
 
 
-                         <small class="text-muted"><?php print  _e("Enter the amount to trigger shipping discount") ; ?></small>
+                         <small class="text-muted"><?php print  _e("Enter the amount to trigger the new shipping price") ; ?></small>
 <br>
                         <small class="text-muted"> <?php print  _e("Example") . ' ' . currency_format(100); ?></small></small>
 
