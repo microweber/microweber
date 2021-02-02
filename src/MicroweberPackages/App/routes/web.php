@@ -7,7 +7,7 @@ function loadLanguageByLocale($locale) {
     $translatedLanguageLines = [];
 
     $languageFiles = [];
-   // $languageFiles[] = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $locale . '.json';
+    $languageFiles[] = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $locale . '.json';
 
     if (empty($locale) || $locale == 'en') {
         $languageFiles[] = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . 'en.json';

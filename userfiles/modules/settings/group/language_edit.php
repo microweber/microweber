@@ -274,7 +274,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
                                                              <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
                                                             </span>
                                                         </div>
-                                                        <textarea name="" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php echo $translationByLocales['en'];?></textarea>
+                                                        <textarea name="" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
                                                     </div>
                                                     <?php endforeach; ?>
                                                 </td>
