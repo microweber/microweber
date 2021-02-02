@@ -20,7 +20,8 @@ class TranslationController {
        foreach ($translations as $translationLocales) {
            foreach ($translationLocales as $translationLocale=>$translation) {
 
-               $findTranslataion = Translation::where('key',$translation['key'])
+               $findTranslataion = Translation::
+                   whereRaw("BINARY `key`= ?", [$translation['key']])
                    ->where('locale', $translationLocale)
                    ->where('group', $translation['group'])
                    ->where('namespace', $translation['namespace'])

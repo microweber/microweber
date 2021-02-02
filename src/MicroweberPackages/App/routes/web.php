@@ -1,5 +1,6 @@
 <?php
 
+/*
 use MicroweberPackages\Translation\Models\Translation;
 
 function loadLanguageByLocale($locale) {
@@ -121,6 +122,7 @@ Route::get('test-lang', function () {
     echo _e('Optional thumbnail. image for use with uploaded. or embedded videos. Required . Lazy Loading. selected.');
 
 });
+*/
 
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');

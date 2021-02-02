@@ -27,12 +27,12 @@ class Translation extends Model
 
     public static function getGroupedTranslations($filter = [])
     {
-        $filter['page'] = 15;
+        $filter['page'] = 100;
         $filter['namespace'] = '*';
 
         $queryModel = static::query();
         $queryModel->where('namespace', $filter['namespace']);
-        $queryModel->groupBy('key');
+        $queryModel->groupBy(\DB::raw("BINARY `key`"));
         $queryModel->limit($filter['page']);
 
         if (isset($filter['search']) && !empty($filter['search'])) {
