@@ -21,8 +21,25 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
     $lang = $params['edit-lang'];
     set_current_lang($lang);
     $lang = mw()->lang_helper->current_lang();
+
 }
+
+
+
+
+$cont = mw()->lang_helper->get_language_file_content();
+$namespaces = mw()->lang_helper->get_all_language_file_namespaces();
+
+
+
+
 ?>
+
+
+
+
+
+
 
 <script type="text/javascript">
     function import_language_by_namespace(namespace, language) {
@@ -156,7 +173,9 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
             });
 
 
-        });
+
+
+        })
 
 
 
@@ -166,9 +185,11 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
 
                 save_lang_form('language-form-<?php print $params['id'] ?>')
 
-            });
 
-        });
+
+            })
+
+        })
 
 
     });
@@ -188,9 +209,11 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
                             <div class="input-group-prepend bg-white">
                                 <span class="input-group-text"><i class="mdi mdi-magnify mdi-18px"></i></span>
                             </div>
-                            <input type="text" class="form-control js-search-lang-text"
-                                   placeholder="<?php _e('Enter a word or phrase'); ?>"/>
+                            <input type="text" class="form-control js-search-lang-text"  placeholder="<?php _e('Enter a word or phrase');?>"/>
                         </div>
+                    </div>
+
+
                     </div>
                 </div>
             </div>
@@ -214,19 +237,19 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
 
             <div class="col-md-9">
 
+                <?php if (!empty($cont)): ?>
                     <div class="card bg-light style-1 mb-3">
                         <div class="card-body py-2">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-0">
                                         <label class="control-label mb-0"><?php _e('Language file'); ?>:
-                                            <button type="button" class="btn btn-link px-0 js-lang-file-position" type="button" data-toggle="collapse" data-target="#global-file">
-                                                <?php _e('Global'); ?> <i class="mdi mdi-menu-down mdi-rotate-270"></i>
-                                            </button>
+                                            <button type="button" class="btn btn-link px-0 js-lang-file-position" type="button" data-toggle="collapse" data-target="#global-file"><?php _e('Global'); ?> <i class="mdi mdi-menu-down mdi-rotate-270"></i></button>
                                         </label>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="collapse" id="global-file">
                                 <hr class="thin my-2"/>
 
@@ -243,7 +266,9 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
 
                                 <hr class="thin my-2"/>
 
-                                <form id="language-form-" class="lang-edit-form">
+                                <form id="language-form-<?php print $params['id'] ?>" class="lang-edit-form">
+                                    <input name="___lang" value="<?php print $lang ?>" type="hidden">
+
                                     <table width="100%" class="table js-table-lang">
                                         <thead>
                                         <tr>
@@ -252,42 +277,96 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
                                         </tr>
                                         </thead>
                                         <tbody>
-
-                                        <?php
-                                        $supportedLanguages = get_supported_languages(true);
-                                        $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations();
-                                        foreach ($getTranslations as $translationKey=>$translationByLocales):
-                                        ?>
+                                        <?php foreach ($cont as $k => $item): ?>
                                             <tr>
                                                 <td style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;">
                                                     <div class="lang-key-holder">
-                                                        <small><?php echo $translationKey;?></small>
+                                                        <small><?php print $k ?></small>
                                                     </div>
                                                 </td>
                                                 <td style="vertical-align: middle;">
-                                                    <?php
-                                                    foreach ($supportedLanguages as $supportedLanguage):
-                                                    ?>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">
-                                                             <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
-                                                            </span>
-                                                        </div>
-                                                        <textarea name="" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php echo $translationByLocales['en'];?></textarea>
-                                                    </div>
-                                                    <?php endforeach; ?>
+                                                    <textarea name="<?php print $k ?>" xxxxoninput="mw.on.stopWriting(this,function(){ save_lang_form('language-form-<?php print $params['id'] ?>')  })"    class="mw_lang_item_textarea_edit form-control form-control-sm" xxonchange="save_lang_form('language-form-<?php print $params['id'] ?>')" wrap="soft" rows="2"><?php print $item ?></textarea>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </form>
-
                             </div>
                         </div>
                     </div>
+                <?php endif; ?>
 
+                <?php if (!empty($namespaces)): ?>
+                    <?php foreach ($namespaces as $iter => $ns): ?>
+
+                        <?php
+                        $cont = mw()->lang_helper->get_language_file_content($ns);
+                        ?>
+
+                        <?php if (!empty($cont)): ?>
+                            <div class="card bg-light style-1 mb-3">
+                                <div class="card-body py-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group mb-0">
+                                                <label class="control-label mb-0"><?php _e('Language file'); ?>:
+                                                    <button type="button" class="btn btn-link px-0 js-lang-file-position" type="button" data-toggle="collapse" data-target="#file-<?php print $params['id'] . $iter ?>"><?php print $ns ?> <i class="mdi mdi-menu-down mdi-rotate-270"></i></button>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="collapse" id="file-<?php print $params['id'] . $iter ?>">
+                                        <hr class="thin my-2"/>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <label class="control-label m-0"><?php _e('Language file'); ?>
+                                                    <span class="badge badge-light"><?php print $ns ?></span>
+                                                </label>
+                                            </div>
+
+                                            <div>
+                                                <a href="javascript:;" onClick="export_language_by_namespace('<?php print $ns; ?>', '<?php print $lang ?>');" class="btn btn-outline-primary btn-sm">Export Excel</a>
+                                                <a href="javascript:;" onClick="import_language_by_namespace('<?php print $ns; ?>', '<?php print $lang ?>');" class="btn btn-outline-primary btn-sm">Import Excel</a>
+                                            </div>
+                                        </div>
+
+                                        <hr class="thin my-2"/>
+
+                                        <form id="language-form-<?php print $params['id'] . $iter ?>" class="lang-edit-form">
+                                            <input name="___namespace" value="<?php print $ns ?>" type="hidden">
+                                            <input name="___lang" value="<?php print $lang ?>" type="hidden">
+                                            <table width="100%" class="table js-table-lang">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col" style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;"><?php _e('Key'); ?></th>
+                                                    <th scope="col"><?php _e('Value'); ?></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php foreach ($cont as $k => $item): ?>
+                                                    <tr>
+                                                        <td style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;">
+                                                            <div class="lang-key-holder">
+                                                                <small><?php print $k ?></small>
+                                                            </div>
+                                                        </td>
+                                                        <td style="vertical-align: middle;">
+                                                            <textarea name="<?php print $k ?>" oninput="mw.on.stopWriting(this,function(){ save_lang_form('language-form-<?php print $params['id'] . $iter ?>')  })" class="mw_lang_item_textarea_edit form-control form-control-sm" xxonchange="save_lang_form('language-form-<?php print $params['id'] . $iter ?>')" wrap="soft" rows="2"><?php print $item ?></textarea>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

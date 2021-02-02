@@ -8,11 +8,7 @@ if (is_module('multilanguage')) {
     }
 }
 
-
 $def_language = get_option('language', 'website');
-
-
-
 ?>
 
 <script type="text/javascript">
