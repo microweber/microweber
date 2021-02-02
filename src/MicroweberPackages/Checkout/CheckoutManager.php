@@ -1319,6 +1319,10 @@ class CheckoutManager
 
     }
 
+    public function getShippingModules(){
+        return $this->app->shipping_manager->getShippingModules();
+
+    }
     public function getShippingCost($data=[]){
 
         if(!is_array($data)){

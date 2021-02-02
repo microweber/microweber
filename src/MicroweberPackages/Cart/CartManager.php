@@ -85,6 +85,7 @@ class CartManager extends Crud
 //        }
 
         $shipping_cost = $this->app->checkout_manager->getShippingCost();
+        $shipping_modules = $this->app->checkout_manager->getShippingModules();
 
 //        if ($this->app->user_manager->session_get('shipping_cost')) {
 //            $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
@@ -170,13 +171,18 @@ class CartManager extends Crud
                     break;
 
                 case 'shipping':
-                    if ($shipping_cost and $shipping_cost > 0) {
-                        $totals[$total_key] = array(
-                            'label' => _e("Shipping", true),
-                            'value' => $shipping_cost,
-                            'amount' => currency_format($shipping_cost)
-                        );
+
+                    if($shipping_modules){
+                       // if ($shipping_cost and $shipping_cost > 0) {
+                            $totals[$total_key] = array(
+                                'label' => _e("Shipping", true),
+                                'value' => $shipping_cost,
+                                'amount' => currency_format($shipping_cost)
+                            );
+                        //}
                     }
+
+
                     break;
 
                 case 'total':
