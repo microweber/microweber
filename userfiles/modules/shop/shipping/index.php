@@ -1,10 +1,12 @@
-
-
-<?php // require_once($config['path_to_module'].'shipping_api.php');  ?>
 <?php
 
 //$shipping_options = mw('shop\shipping\shipping_api')->get_active();
 $shipping_options =app()->shipping_manager->getShippingModules();
+$selected_shipping_gateway= $this->app->user_manager->session_get('shipping_provider');
+
+if(!$selected_shipping_gateway and $shipping_options and isset($shipping_options[0]) and  isset($shipping_options[0]['module_base'])){
+    $selected_shipping_gateway = $shipping_options[0]['module_base'];
+}
 
 ?>
 
@@ -19,6 +21,7 @@ $shipping_options =app()->shipping_manager->getShippingModules();
                 data: {"provider":val},
                 method: 'POST',
             }).done(function() {
+                mw.reload_module('shop/cart');
 
                 //document.querySelector('.mw-shipping-gateway-selected-<?php print $params['id']; ?> .module').setAttribute('data-selected-gw', val);
                 mw.load_module(val, '#mw-shipping-gateway-selected-<?php print $params['id']; ?>');
@@ -29,7 +32,6 @@ $shipping_options =app()->shipping_manager->getShippingModules();
         }
     </script>
 
-    <script>mw.moduleCSS("<?php print modules_url(); ?>shop/shipping/styles.css"); </script>
 
     <?php
     $module_template = get_option('data-template', $params['id']);

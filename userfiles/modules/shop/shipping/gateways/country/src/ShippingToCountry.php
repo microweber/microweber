@@ -13,8 +13,11 @@ class ShippingToCountry implements ShippingDriverInterface
 
     public function isEnabled()
     {
-        return true;
+        $module = 'shop/shipping/gateways/country';
+        $status = get_option('shipping_gw_' . $module, 'shipping') === 'y' ? true: false;
+        return $status;
     }
+
 
     public function title()
     {
