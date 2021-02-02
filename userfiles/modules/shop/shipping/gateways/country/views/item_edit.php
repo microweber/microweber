@@ -152,6 +152,7 @@ if ($weight_units == false) {
                      });*/
                 }
                 mw.reload_module_everywhere('shop/shipping/gateways/country/admin_backend');
+                mw.reload_module_everywhere('shop/shipping/gateways/country/admin');
 
 
                 if (window.parent != undefined && window.parent.mw != undefined) {
