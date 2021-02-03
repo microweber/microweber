@@ -17,7 +17,16 @@ $namespace = $filter['translation_namespace'];
 
 \Config::set('microweber.disable_model_cache', true);
 
-$supportedLanguages = get_supported_languages(true);
+if (function_exists('get_supported_languages')) {
+    $supportedLanguages = get_supported_languages(true);
+} else {
+    $currentLanguageAbr = mw()->lang_helper->default_lang();
+    $supportedLanguages = [];
+    $supportedLanguages[] = [
+        'icon'=>$currentLanguageAbr,
+        'locale'=>$currentLanguageAbr
+    ];
+}
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
 
 $namespaceMd5 = md5($namespace);

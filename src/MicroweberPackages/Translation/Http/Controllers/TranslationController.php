@@ -18,7 +18,7 @@ class TranslationController {
 
        $translations = base64_decode($request->post('translations'));
        $translations = json_decode($translations, true);
-       
+
        $saveTranslations = [];
 
        foreach ($translations['translations'] as $translationLocales) {
