@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="col-1 d-flex item-action justify-content-end">
-                    <a data-toggle="tooltip" title="<?php _lang("Remove", "templates/big"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger">delete_forever</i></a>
+                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger">delete_forever</i></a>
                 </div>
 
             </div>
@@ -71,14 +71,14 @@
     <div class="form-row align-items-center">
         <?php if (is_array($data)): ?>
             <div class="col-12 col-sm-6 total">
-                <h6><strong><?php _lang("Total Amount: ", "templates/big"); ?> <br class="d-none d-sm-block"> <?php print currency_format($total); ?></strong></h6>
+                <h6><strong><?php _e("Total Amount: "); ?> <br class="d-none d-sm-block"> <?php print currency_format($total); ?></strong></h6>
             </div>
             <div class="col-12 col-sm-6">
-                <button type="button" class="btn btn-primary btn-md float-right" data-toggle="modal" data-target="#shoppingCartModal"><?php _lang("Checkout", "templates/big"); ?></button>
+                <button type="button" class="btn btn-primary btn-md float-right" data-toggle="modal" data-target="#shoppingCartModal"><?php _e("Checkout"); ?></button>
             </div>
         <?php else: ?>
             <div class="col-12">
-                <h5><?php _lang("Your cart is empty. Please add some products in the cart.", "templates/big"); ?></h5>
+                <h5><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
             </div>
         <?php endif; ?>
     </div>

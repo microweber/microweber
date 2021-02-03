@@ -30,8 +30,8 @@ description: Default terms template
     <div class="form-group my-4">
         <div class="custom-control custom-checkbox" id="i_agree_with_terms_row" style="line-height: normal;" >
             <input type="checkbox" class="custom-control-input i_agree_with_terms" name="terms" id="customCheck1">
-            <label class="custom-control-label" for="customCheck1"><?php _lang('I agree with the Terms and Conditiots', "templates/big"); ?>
-                <a href="<?php print $terms_url ?>" target="_blank" class="mw-checkout-terms-and-conditions-link-check"><?php _lang('Terms and Conditions', "templates/big"); ?></a>
+            <label class="custom-control-label" for="customCheck1"><?php _e('I agree with the Terms and Conditiots'); ?>
+                <a href="<?php print $terms_url ?>" target="_blank" class="mw-checkout-terms-and-conditions-link-check"><?php _e('Terms and Conditions'); ?></a>
             </label>
         </div>
     </div>

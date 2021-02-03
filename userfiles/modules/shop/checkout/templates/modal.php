@@ -42,26 +42,26 @@ description: Checkout
                             <div class="col-3 step-button">
                                 <a href="#" class="js-show-step js-show-step-shopping-cart" data-step="shopping-cart">
                                     <i class="material-icons">shopping_cart</i>
-                                    <h6 class="font-weight-bold"><?php _lang("Shopping Cart", "templates/big"); ?></h6>
+                                    <h6 class="font-weight-bold"><?php _e("Shopping Cart"); ?></h6>
 
                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
                                 <a href="#" class="js-show-step js-show-step-delivery-address" data-step="delivery-address">
                                     <i class="material-icons">local_shipping</i>
-                                    <h6 class="font-weight-bold"><?php _lang("Delivery Address", "templates/big"); ?> </h6>
+                                    <h6 class="font-weight-bold"><?php _e("Delivery Address"); ?> </h6>
                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
                                 <a href="#" class="js-show-step js-show-step-payment-method" data-step="payment-method">
                                     <i class="material-icons">payment</i>
-                                    <h6 class="font-weight-bold"><?php _lang("Payment Method", "templates/big"); ?></h6>
+                                    <h6 class="font-weight-bold"><?php _e("Payment Method"); ?></h6>
                                 </a>
                             </div>
                             <div class="col-3 step-button muted">
                                 <a href="#" class="js-show-step js-show-step-checkout-complete" data-step="checkout-complete">
                                     <i class="material-icons">check_circle</i>
-                                    <h6 class="font-weight-bold"><?php _lang("Complete", "templates/big"); ?></h6>
+                                    <h6 class="font-weight-bold"><?php _e("Complete"); ?></h6>
                                 </a>
                             </div>
                         </div>
@@ -90,16 +90,16 @@ description: Checkout
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="exampleInputFirstName"><?php _lang("First Name", "templates/big"); ?></label>
+                                        <label for="exampleInputFirstName"><?php _e("First Name"); ?></label>
                                         <input required name="first_name" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>" class="form-control"
-                                               placeholder="<?php _lang("First Name", "templates/big"); ?>">
+                                               placeholder="<?php _e("First Name"); ?>">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="exampleInputLastName"><?php _lang("Last Name", "templates/big"); ?></label>
+                                        <label for="exampleInputLastName"><?php _e("Last Name"); ?></label>
                                         <input required name="last_name" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>" class="form-control"
-                                               placeholder="<?php _lang("Last Name", "templates/big"); ?>">
+                                               placeholder="<?php _e("Last Name"); ?>">
                                     </div>
                                 </div>
                             </div>
@@ -107,17 +107,17 @@ description: Checkout
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1"><?php _lang("Email", "templates/big"); ?></label>
+                                        <label for="exampleInputEmail1"><?php _e("Email"); ?></label>
                                         <input required name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control"
-                                               placeholder="<?php _lang("Enter email", "templates/big"); ?>">
-                                        <small id="emailHelp" class="form-text text-muted"><?php _lang("We'll never share your email with anyone else.", "templates/big"); ?></small>
+                                               placeholder="<?php _e("Enter email"); ?>">
+                                        <small id="emailHelp" class="form-text text-muted"><?php _e("We'll never share your email with anyone else."); ?></small>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="exampleInputPhone"><?php _lang("Phone", "templates/big"); ?></label>
+                                        <label for="exampleInputPhone"><?php _e("Phone"); ?></label>
                                         <input required name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control"
-                                               placeholder="<?php _lang("Enter phone", "templates/big"); ?>">
+                                               placeholder="<?php _e("Enter phone"); ?>">
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ description: Checkout
 
                             <div class="m-t-10">
                                 <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step"
-                                   data-step="payment-method"><?php _lang("Continue", "templates/big"); ?></a>
+                                   data-step="payment-method"><?php _e("Continue"); ?></a>
                             </div>
 
                         </div>
@@ -142,14 +142,14 @@ description: Checkout
                                             onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
                                             type="button"
                                             id="complete_order_button" <?php if ($terms): ?> disabled="disabled"   <?php endif; ?>>
-                                        <?php _lang("Complete order", "templates/big"); ?>
+                                        <?php _e("Complete order"); ?>
                                     </button>
                                     <?php if (is_array($shop_page)): ?>
                                         <?php
 
                                         /*<a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn btn-default pull-left"
                                            type="button">
-                                            <?php _lang("Continue Shopping", "templates/big"); ?>
+                                            <?php _e("Continue Shopping"); ?>
                                         </a>*/
 
                                         ?>
@@ -160,7 +160,7 @@ description: Checkout
                         </div>
                         <div class="js-step-content js-checkout-complete">
                             <div class="text-center p-10">
-                                <h3><?php _lang("Thank you for your purchase!", "templates/big"); ?></h3>
+                                <h3><?php _e("Thank you for your purchase!"); ?></h3>
                             </div>
                         </div>
                     </div>

@@ -41,7 +41,7 @@ description: Payments 1
                     <div class="methods">
                        <div class="edit nodrop mt-2" field="checkout_payment_information_title" rel="global"
                             rel_id="<?php print $params['id'] ?>">
-                           <h5 class="font-weight-bold m-0"><?php _lang("Choose Payment Method", "templates/big"); ?></h5>
+                           <h5 class="font-weight-bold m-0"><?php _e("Choose Payment Method"); ?></h5>
                            <small class="text-muted">Choose from the available payment methods to pay this order.</small>
                            <div class="field-holder my-4 d-sm-inline-block d-md-flex">
                                <?php $count = 0;
@@ -49,7 +49,7 @@ description: Payments 1
 
                                    <label class="btn btn-outline-primary btn-lg <?php if($count == 1) { print 'btn-primary';}   ?>  custom-control custom-radio mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?> mx-1">
                                        <input style="display: none;" value="<?php print  $payment_option['gw_file']; ?>" name="payment_gw" type="radio" class="custom-control-input" <?php if($count == 1) { print 'checked';} ?>>
-                                       <span for="customRadio1"><?php print _lang($payment_option['name'], "templates/big"); ?></span>
+                                       <span for="customRadio1"><?php print _e($payment_option['name']); ?></span>
                                    </label>
                                <?php endforeach; ?>
                            </div>
@@ -59,8 +59,8 @@ description: Payments 1
 
                        <div class="edit nodrop" field="checkout_payment_information_title" rel="global"
                             rel_id="<?php print $params['id'] ?>">
-                           <h5 class="font-weight-bold m-0"><?php _lang("Finish your order", "templates/big"); ?></h5>
-                           <small class="text-muted"><?php _lang("Please full the fields of the selected payment method below, if it has.", "templates/big"); ?></small>
+                           <h5 class="font-weight-bold m-0"><?php _e("Finish your order"); ?></h5>
+                           <small class="text-muted"><?php _e("Please full the fields of the selected payment method below, if it has."); ?></small>
 
                            <div class="mx-3 mt-4 mb-6" id="mw-payment-gateway-selected-<?php print $params['id']; ?>">
                                <?php if (isset($payment_options[0])): ?>
@@ -71,11 +71,11 @@ description: Payments 1
 
                            <div class="mt-5">
                                <?php $cart_subtotal = cart_totals('subtotal'); ?>
-                               <?php _lang("Subtotal", "templates/big") ?>: <?php echo $cart_subtotal['amount']; ?>
+                               <?php _e("Subtotal") ?>: <?php echo $cart_subtotal['amount']; ?>
 
                                <div class="row my-1 ml-auto">
                                    <?php $print_total = cart_total(); ?>
-                                   <h5 class="col-xs-6 checkout-modal-total-label mr-1 font-weight-bold"><?php _lang("Total", "templates/big"); ?>:</h5>
+                                   <h5 class="col-xs-6 checkout-modal-total-label mr-1 font-weight-bold"><?php _e("Total"); ?>:</h5>
                                    <h5 class="col-xs-6 checkout-modal-total-price pl-0">
                                        <?php print currency_format($print_total); ?>
                                    </h5>

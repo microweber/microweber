@@ -31,7 +31,7 @@ description: Small Modal
 $total = cart_total();
 ?>
 <div class="container">
-    <h5 class="mb-3"><?php _lang("List of Products", "templates/big"); ?></h5>
+    <h5 class="mb-3"><?php _e("List of Products"); ?></h5>
     <div class="checkout-modal-products-wrapper row">
         <?php if (is_array($data) and $data) : ?>
             <table class="table table-responsive w-100 d-block d-md-table">
@@ -64,7 +64,7 @@ $total = cart_total();
                                 <input min=0 type="number" class="form-control m-0" name="qty" value="<?php print $item['qty'] ?>"  onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/>
                             </div></td>
                         <td><?php print currency_format($item['price'] * $item['qty']); ?></td>
-                        <td> <a data-toggle="tooltip" title="<?php _lang("Remove", "templates/big"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center">delete_forever</i></a></td>
+                        <td> <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center">delete_forever</i></a></td>
                     </tr>
                     </tbody>
 
@@ -83,7 +83,7 @@ $total = cart_total();
 
         <?php else: ?>
 
-            <h5><?php _lang("Your cart is empty. Please add some products in the cart.", "templates/big"); ?></h5>
+            <h5><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
 
         <?php endif; ?>
 
@@ -106,16 +106,16 @@ $total = cart_total();
                 <?php
 
 
-                /*<p><strong><?php _lang('Tax Amount:', "templates/big"); ?> <?php print currency_format(cart_get_tax()); ?></strong></p>
-                <p><strong><?php _lang('Total Amount:', "templates/big"); ?> <?php print currency_format($total); ?></strong></p>
+                /*<p><strong><?php _e('Tax Amount:'); ?> <?php print currency_format(cart_get_tax()); ?></strong></p>
+                <p><strong><?php _e('Total Amount:'); ?> <?php print currency_format($total); ?></strong></p>
                 <?php if(!empty($discountData)) :?>
-                    <p><strong><?php _lang('Coupon Name:', "templates/big"); ?> <?php print $discountData['label']; ?></strong></p>
-                    <p><strong><?php _lang('Discount Amount:', "templates/big"); ?> <?php print $discountData['amount']; ?></strong></p>
+                    <p><strong><?php _e('Coupon Name:'); ?> <?php print $discountData['label']; ?></strong></p>
+                    <p><strong><?php _e('Discount Amount:'); ?> <?php print $discountData['amount']; ?></strong></p>
                 <?php endif?>*/
 
 
                 ?>
-                <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step" data-step="delivery-address"><?php _lang('Checkout', "templates/big"); ?></a>
+                <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step" data-step="delivery-address"><?php _e('Checkout'); ?></a>
             </div>
 
         </div>

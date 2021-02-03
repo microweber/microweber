@@ -176,7 +176,7 @@ $my_tree_id = ''
                             <input type="checkbox" class="mw_option_field" name="single-only"
                                    value="single-only" <?php if ($show_only_for_parent == '1') {
                                 echo 'checked';
-                            } ?> /> <span></span><span><?php _lang("Show only parent category"); ?></span>
+                            } ?> /> <span></span><span><?php _e("Show only parent category"); ?></span>
                         </label>
                     </div>
                 </div>
@@ -187,7 +187,7 @@ $my_tree_id = ''
                             <input type="checkbox" class="mw_option_field" name="show-subcats"
                                    value="1" <?php if ($show_subcats == '1') {
                                 echo 'checked';
-                            } ?> /> <span></span><span><?php _lang("Show sub categories"); ?></span>
+                            } ?> /> <span></span><span><?php _e("Show sub categories"); ?></span>
                         </label>
                     </div>
                 </div>
@@ -199,7 +199,7 @@ $my_tree_id = ''
                             <input type="checkbox" class="mw_option_field" name="hide-pages"
                                    value="1" <?php if ($hide_pages == '1') {
                                 echo 'checked';
-                            } ?> /> <span></span><span><?php _lang("Hide pages"); ?></span>
+                            } ?> /> <span></span><span><?php _e("Hide pages"); ?></span>
                         </label>
                     </div>
                 </div>

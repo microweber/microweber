@@ -48,7 +48,7 @@ description: Default
                        <div class="field-holder">
                            <label for="exampleInputEmail1">Country</label>
                            <select required name="country" class="selectpicker shipping-country-select">
-                               <option value=""><?php _lang("Country", "templates/big"); ?></option>
+                               <option value=""><?php _e("Country"); ?></option>
                                <?php foreach ($data as $item): ?>
                                    <option value="<?php print $item['shipping_country'] ?>" <?php if (isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
                                <?php endforeach; ?>
@@ -59,9 +59,9 @@ description: Default
 
                <div class="col-6">
                    <div class="form-group">
-                       <label for="exampleInputEmail1"><?php _lang("Town / City", "templates/big"); ?></label>
+                       <label for="exampleInputEmail1"><?php _e("Town / City"); ?></label>
                        <input required type="text" value="<?php if (!empty($checkout_session['city'])) echo $checkout_session['city']; ?>" class="form-control" name="Address[city]"
-                              placeholder="<?php _lang("Town / City", "templates/big"); ?>">
+                              placeholder="<?php _e("Town / City"); ?>">
                    </div>
                </div>
            </div>
@@ -69,17 +69,17 @@ description: Default
            <div class="row">
                <div class="col-6">
                    <div class="form-group">
-                       <label for="exampleInputEmail1"><?php _lang("ZIP / Postal Code", "templates/big"); ?></label>
+                       <label for="exampleInputEmail1"><?php _e("ZIP / Postal Code"); ?></label>
                        <input required type="text" value="<?php if (!empty($checkout_session['zip'])) echo $checkout_session['zip']; ?>" class="form-control" name="Address[zip]"
-                              placeholder="<?php _lang("ZIP / Postal Code", "templates/big"); ?>">
+                              placeholder="<?php _e("ZIP / Postal Code"); ?>">
                    </div>
                </div>
 
                <div class="col-6">
                    <div class="form-group">
-                       <label for="exampleInputEmail1"><?php _lang("State / Province", "templates/big"); ?></label>
+                       <label for="exampleInputEmail1"><?php _e("State / Province"); ?></label>
                        <input type="text" value="<?php if (!empty($checkout_session['state'])) echo $checkout_session['state']; ?>" class="form-control" name="Address[state]"
-                              placeholder="<?php _lang("State / Province", "templates/big"); ?>">
+                              placeholder="<?php _e("State / Province"); ?>">
                    </div>
                </div>
            </div>
@@ -87,17 +87,17 @@ description: Default
            <div class="row">
                <div class="col-6">
                    <div class="form-group">
-                       <label for="exampleInputEmail1"><?php _lang("Address / Street address", "templates/big"); ?></label>
+                       <label for="exampleInputEmail1"><?php _e("Address / Street address"); ?></label>
                        <input required type="text" value="<?php if (!empty($checkout_session['address'])) echo $checkout_session['address']; ?>" class="form-control" name="Address[address]"
-                              placeholder="<?php _lang("Address / Street address, Floor, Apartment, etc...", "templates/big"); ?>">
+                              placeholder="<?php _e("Address / Street address, Floor, Apartment, etc..."); ?>">
                    </div>
 
                </div>
                <div class="col-6">
                    <div class="form-group">
-                       <label for="exampleInputEmail1"><?php _lang("Additional Information", "templates/big"); ?></label>
+                       <label for="exampleInputEmail1"><?php _e("Additional Information"); ?></label>
                        <input  type="text" value="<?php if (!empty($checkout_session['other_info'])) echo $checkout_session['other_info']; ?>" class="form-control" name="other_info"
-                               placeholder="<?php _lang("Additional Information ( Special notes for delivery - Optional )", "templates/big"); ?>">
+                               placeholder="<?php _e("Additional Information ( Special notes for delivery - Optional )"); ?>">
                    </div>
                </div>
            </div>
