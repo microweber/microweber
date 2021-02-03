@@ -8,6 +8,7 @@
 
 namespace MicroweberPackages\Translation\Http\Controllers;
 
+use function _HumbugBox58fd4d9e2a25\pcov\clear;
 use Illuminate\Http\Request;
 use MicroweberPackages\Translation\Models\Translation;
 
@@ -37,6 +38,8 @@ class TranslationController {
 
                $findTranslataion->translation_text = trim($translation['translation_text']);
                $findTranslataion->save();
+
+               clearcache();
            }
        }
 
