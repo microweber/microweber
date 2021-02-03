@@ -26,13 +26,23 @@ class Translation extends Model
         });*/
     }
 
+    public static function getNamespaces()
+    {
+        $queryModel = static::query();
+        $queryModel->groupBy('namespace');
+
+        return $queryModel->get();
+    }
+
     public static function getGroupedTranslations($filter = [])
     {
         if (!isset($filter['page'])) {
             $filter['page'] = 1;
         }
 
-        $filter['namespace'] = '*';
+        if (!isset($filter['page'])) {
+            $filter['namespace'] = '*';
+        }
 
         Paginator::currentPageResolver(function() use ($filter) {
             return $filter['page'];
