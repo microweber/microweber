@@ -18,12 +18,21 @@ class TranslationController {
 
        $translations = $request->post('translations');
 
+       $saveTranslations = [];
+
        foreach ($translations as $translationLocales) {
            foreach ($translationLocales as $translationLocale=>$translation) {
+               $translation['translation_locale'] = $translationLocale;
+               $saveTranslations[] = $translation;
+           }
+       }
+
+       if (!empty($saveTranslations)) {
+           foreach($saveTranslations as $translation) {
 
                $findTranslataion = Translation::
-                   whereRaw("md5(translation_key) = ?", [md5($translation['translation_key'])])
-                   ->where('translation_locale', $translationLocale)
+               whereRaw("md5(translation_key) = ?", [md5($translation['translation_key'])])
+                   ->where('translation_locale', $translation['translation_locale'])
                    ->where('translation_group', $translation['translation_group'])
                    ->where('translation_namespace', $translation['translation_namespace'])
                    ->first();
@@ -38,7 +47,6 @@ class TranslationController {
 
                $findTranslataion->translation_text = trim($translation['translation_text']);
                $findTranslataion->save();
-
            }
        }
 
