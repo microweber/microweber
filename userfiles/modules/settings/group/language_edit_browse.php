@@ -101,7 +101,7 @@ $namespaceMd5 = md5($namespace);
 
             <?php
             foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
-                $translationKeyMd5 = md5($translationKey);
+                $translationKeyMd5 = md5($translationKey . $namespaceMd5);
                 ?>
                 <tr style="border-bottom: 1px solid #cfcfcf">
                     <td style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;">
