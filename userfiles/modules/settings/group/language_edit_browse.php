@@ -12,10 +12,13 @@ if (isset($params['namespace'])) {
 $supportedLanguages = get_supported_languages(true);
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
 
-$namespace = _e('Global', true);
-if (isset($params['namespace']) && ($params['namespace'] !== '' || $params['namespace'] !== '*')) {
+if (!isset($params['namespace'])) {
+    $namespace = '*';
+}
+if ($params['namespace'] != '' || $params['namespace'] != '*') {
     $namespace = $params['namespace'];
 }
+
 $namespaceMd5 = md5($namespace);
 ?>
 <script>
@@ -52,7 +55,13 @@ $namespaceMd5 = md5($namespace);
                 <div class="form-group mb-0">
                     <label class="control-label mb-0"><?php _e('Language file'); ?>:
                         <button type="button" class="btn btn-link px-0 js-lang-file-position" type="button" data-toggle="collapse" data-target="#language-edit-<?php echo $namespaceMd5;?>">
-                            <?php  echo $namespace;  ?>
+                            <?php
+                            if ($namespace == '*') {
+                                echo 'Global';
+                            } else {
+                                echo $namespace;
+                            }
+                            ?>
                             <i class="mdi mdi-menu-down mdi-rotate-270"></i>
                         </button>
                     </label>
