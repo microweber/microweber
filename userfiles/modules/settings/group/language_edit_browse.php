@@ -15,6 +15,8 @@ if (isset($params['translation_namespace'])) {
 
 $namespace = $filter['translation_namespace'];
 
+\Config::set('microweber.disable_model_cache', true);
+
 $supportedLanguages = get_supported_languages(true);
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
 

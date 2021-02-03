@@ -27,6 +27,8 @@ class TranslationController {
            }
        }
 
+       \Config::set('microweber.disable_model_cache', true);
+
        if (!empty($saveTranslations)) {
            foreach($saveTranslations as $translation) {
 
@@ -36,9 +38,12 @@ class TranslationController {
                    ->where('translation_group', $translation['translation_group'])
                    ->where('translation_namespace', $translation['translation_namespace'])
                   ->first();
+
+              // dump($translation, $findTranslataion);
+
                if ($findTranslataion == null) {
                    $findTranslataion = new Translation();
-                   $findTranslataion->translation_locale = $translationLocale;
+                   $findTranslataion->translation_locale = $translation['translation_locale'];
                    $findTranslataion->translation_key = $translation['translation_key'];
                    $findTranslataion->translation_namespace = $translation['translation_namespace'];
                    $findTranslataion->translation_group = $translation['translation_group'];
