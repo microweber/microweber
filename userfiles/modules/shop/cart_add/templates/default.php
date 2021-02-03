@@ -29,7 +29,7 @@ if (isset($params['content-id'])) {
         <?php $i = 1;
 
         foreach ($data as $key => $v): ?>
-            <div class="mw-price-item">
+            <div class="mw-price-item font-weight-bold uppercase">
 
 
                 <?php
@@ -44,7 +44,7 @@ if (isset($params['content-id'])) {
                 <?php if (is_string($key) and trim(strtolower($key)) == 'price'): ?>
 
                     <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
-                    <?php _e($key); ?>
+                    <?php _lang($key, "templates/big"); ?>
                 </span>
                 <?php else: ?>
                     <span class="mw-price-item-key mw-price-item-key-<?php print ($keyslug_class); ?>">
@@ -60,12 +60,12 @@ if (isset($params['content-id'])) {
                     <button class="btn btn-default pull-right" type="button" disabled="disabled"
                             onclick="mw.alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered", true)); ?>');">
                         <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
-                        <?php _e("Out of stock"); ?>
+                        <?php _lang("Out of stock", "templates/big"); ?>
                     </button>
                 <?php else: ?>
 
 
-                    <button class="btn btn-default pull-right" type="button"
+                    <button class="btn btn-primary pull-right" type="button"
                             onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');">
                         <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
                         <?php _e($button_text !== false ? $button_text : "Add to cart"); ?>

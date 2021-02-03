@@ -15,7 +15,6 @@ description: Payments 1
         var logoPath = mw.$('.mw-payment-gateway-<?php print $params['id']; ?>').find('option:selected').data('logo');
         $('.js-gateway-img-holder').find('img').attr('src', logoPath).show();
 
-
         mw.$('.mw-payment-gateway-<?php print $params['id']; ?>').on('change', function () {
             mw.$('.mw-payment-gateway-selected-<?php print $params['id']; ?> .module:first').attr('data-selected-gw', $(this).find('option:selected'));
             mw.load_module('' + this.value, '#mw-payment-gateway-selected-<?php print $params['id']; ?>');
@@ -24,6 +23,12 @@ description: Payments 1
             $('.js-gateway-img-holder').find('img').attr('src', logoPath).show();
         });
 
+        var ritems = $('.mw-shipping-and-payments input[type="radio"]');
+        ritems.on('input', function (){
+            ritems.each(function (){
+                $(this).parent()[this.checked ? 'addClass' : 'removeClass']('btn-primary');
+            });
+        });
 
         // $('.methods input, .methods select').addClass('input-lg');
     });
@@ -31,56 +36,55 @@ description: Payments 1
 
 <div class="mw-shipping-and-payments">
     <?php if ($payment_options and count($payment_options) > 0): ?>
-        <div class="m-t-20">
-            <div class="edit nodrop" field="checkout_payment_information_title" rel="global"
-                 rel_id="<?php print $params['id'] ?>">
-                <p class="bold m-b-10"><?php _e("Choose Payment Method"); ?></p>
-            </div>
-        </div>
+           <div class="container">
+               <div class="row">
+                    <div class="methods">
+                       <div class="edit nodrop mt-2" field="checkout_payment_information_title" rel="global"
+                            rel_id="<?php print $params['id'] ?>">
+                           <h5 class="font-weight-bold m-0"><?php _lang("Choose Payment Method", "templates/big"); ?></h5>
+                           <small class="text-muted">Choose from the available payment methods to pay this order.</small>
+                           <div class="field-holder my-4 d-sm-inline-block d-md-flex">
+                               <?php $count = 0;
+                               foreach ($payment_options as $payment_option) : $count++; ?>
 
-        <div class="methods">
-            <div class="row">
-                <div class="field-holder">
-                    <select name="payment_gw"
-                            class="input-lg selectpicker mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?>">
-                        <?php $count = 0;
-                        foreach ($payment_options as $payment_option) : $count++; ?>
-                            <option id="option-<?php print $count; ?>" <?php if ($count == 1): ?> selected="selected" <?php endif; ?>
-                                    value="<?php print  $payment_option['gw_file']; ?>"
-                                    data-logo="<?php print $payment_option['icon']; ?>"><?php print  _e($payment_option['name']); ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                                   <label class="btn btn-outline-primary btn-lg <?php if($count == 1) { print 'btn-primary';}   ?>  custom-control custom-radio mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?> mx-1">
+                                       <input style="display: none;" value="<?php print  $payment_option['gw_file']; ?>" name="payment_gw" type="radio" class="custom-control-input" <?php if($count == 1) { print 'checked';} ?>>
+                                       <span for="customRadio1"><?php print _lang($payment_option['name'], "templates/big"); ?></span>
+                                   </label>
+                               <?php endforeach; ?>
+                           </div>
+                       </div>
+
+
+
+                       <div class="edit nodrop" field="checkout_payment_information_title" rel="global"
+                            rel_id="<?php print $params['id'] ?>">
+                           <h5 class="font-weight-bold m-0"><?php _lang("Finish your order", "templates/big"); ?></h5>
+                           <small class="text-muted"><?php _lang("Please full the fields of the selected payment method below, if it has.", "templates/big"); ?></small>
+
+                           <div class="mx-3 mt-4 mb-6" id="mw-payment-gateway-selected-<?php print $params['id']; ?>">
+                               <?php if (isset($payment_options[0])): ?>
+                                   <module type="<?php print $payment_options[0]['gw_file'] ?>"/>
+                               <?php endif; ?>
+                           </div>
+                           <div class="mw-checkout-response"></div>
+
+                           <div class="mt-5">
+                               <?php $cart_subtotal = cart_totals('subtotal'); ?>
+                               <?php _lang("Subtotal", "templates/big") ?>: <?php echo $cart_subtotal['amount']; ?>
+
+                               <div class="row my-1 ml-auto">
+                                   <?php $print_total = cart_total(); ?>
+                                   <h5 class="col-xs-6 checkout-modal-total-label mr-1 font-weight-bold"><?php _lang("Total", "templates/big"); ?>:</h5>
+                                   <h5 class="col-xs-6 checkout-modal-total-price pl-0">
+                                       <?php print currency_format($print_total); ?>
+                                   </h5>
+                               </div>
+                               <small class="text-muted mt-1"><i><b>*Note</b> Shopping cart will be emptied when order is completed</i></small>
+                           </div>
+                       </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="text-center m-t-20 m-b-20 js-gateway-img-holder"><br/>
-                <img style="max-width: 240px; display: none"/>
-            </div>
-
-
-            <div class="mw-checkout-response"></div>
-
-
-
-
-            <div class="">
-                <div id="mw-payment-gateway-selected-<?php print $params['id']; ?>">
-                    <?php if (isset($payment_options[0])): ?>
-                        <module type="<?php print $payment_options[0]['gw_file'] ?>"/>
-                    <?php endif; ?>
-                </div>
-                <hr/>
-            </div>
-
-
-            <div class="m-t-20">
-
-
-
-              <module type="shop/cart" template="totals" />
-
-            </div>
-        </div>
     <?php endif; ?>
-
 </div>

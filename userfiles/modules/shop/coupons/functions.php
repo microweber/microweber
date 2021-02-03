@@ -21,7 +21,7 @@ function coupon_apply($params = array())
 
     $coupon = coupon_get_by_code($coupon_code);
     if (empty($coupon)) {
-        $json['error_message'] = 'The coupon code is not valid.<br />';
+        $json['error_message'] = 'The coupon code is not valid.';
         return $json;
     }
 
