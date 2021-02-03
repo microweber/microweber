@@ -25,6 +25,7 @@ $namespaceMd5 = md5($namespace);
 </script>
 
 <script>
+
     $(document).ready(function () {
 
         $('.js-search-lang-text').on('input', function () {
