@@ -544,9 +544,14 @@ class TaggableFileStore implements Store
         $findTagPath = $this->_findCachePathByKey($key);
         $findTagPath = $this->getPath() . $findTagPath;
 
-        if ($this->files->exists($findTagPath)) {
-            $this->files->delete($findTagPath);
+        try {
+            if ($this->files->exists($findTagPath)) {
+                $this->files->delete($findTagPath);
+            }
+        } catch (\Exception $e) {
+            //
         }
+
         if ($this->emitEvents) {
             event(new KeyForgotten($key));
         }
@@ -572,9 +577,16 @@ class TaggableFileStore implements Store
                 if (!empty($tagDetails)) {
                     foreach ($tagDetails as $tagDetail) {
                         $tagPath = $this->getPath() . $tagDetail;
-                        if ($this->files->isFile($tagPath)) {
-                            $this->files->delete($tagPath);
+
+                        try {
+                            if ($this->files->isFile($tagPath)) {
+                                $this->files->delete($tagPath);
+                            }
+                        } catch (\Exception $e) {
+                            //
                         }
+
+
                     }
                 }
 
