@@ -6,18 +6,17 @@ if (isset($params['search'])) {
 if (isset($params['page'])) {
     $filter['page'] = $params['page'];
 }
+
 if (isset($params['translation_namespace'])) {
     $filter['translation_namespace'] = $params['translation_namespace'];
 } else {
-    $params['translation_namespace'] = '*';
+    $filter['translation_namespace'] = '*';
 }
+
+$namespace = $filter['translation_namespace'];
+
 $supportedLanguages = get_supported_languages(true);
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
-
-
-if ($params['translation_namespace'] != '' || $params['translation_namespace'] != '*') {
-    $namespace = $params['translation_namespace'];
-}
 
 $namespaceMd5 = md5($namespace);
 ?>
@@ -29,8 +28,9 @@ $namespaceMd5 = md5($namespace);
     $(document).ready(function () {
 
         $('.js-search-lang-text').on('input', function () {
+            var searchText = $(this).val();
             $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('page', 1);
-            $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('search', $(this).val());
+            $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('search', searchText);
             mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
         });
 

@@ -51,8 +51,10 @@ class Translation extends Model
         $queryModel->groupBy(\DB::raw("MD5(translation_key)"));
 
         if (isset($filter['search']) && !empty($filter['search'])) {
-            $queryModel->where('translation_key', 'like', '%'.$filter['search'].'%');
-            $queryModel->orWhere('translation_text', 'like', '%'.$filter['search'].'%');
+            $queryModel->where(function($subQuery) use ($filter) {
+                $subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
+                $subQuery->orWhere('translation_text', 'like', '%' . $filter['search'] . '%');
+            });
         }
 
         Paginator::currentPageResolver(function() use ($filter) {
