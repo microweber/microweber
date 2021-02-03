@@ -52,11 +52,6 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                                 Translation::insert($text);
                             }
                         }
-                        try {
-                            clearcache();
-                        } catch (\Exception $e) {
-                            //
-                        }
                     }
                 });
             }

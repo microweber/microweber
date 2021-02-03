@@ -39,7 +39,6 @@ class TranslationController {
                $findTranslataion->translation_text = trim($translation['translation_text']);
                $findTranslataion->save();
 
-               clearcache();
            }
        }
 

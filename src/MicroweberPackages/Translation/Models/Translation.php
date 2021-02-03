@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Translation extends Model
 {
+    use CacheableQueryBuilderTrait;
+
     public $timestamps = true;
 
     /** @var array */
@@ -16,17 +19,6 @@ class Translation extends Model
 
     /** @var array */
     public $guarded = ['id'];
-
-    public static function boot() {
-        parent::boot();
-
-      /*  static::saving(function($model){
-            clearcache();
-        });
-        static::updating(function($model){
-            clearcache();
-        });*/
-    }
 
     public static function getNamespaces()
     {
