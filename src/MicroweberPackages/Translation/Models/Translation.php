@@ -53,7 +53,7 @@ class Translation extends Model
             return $filter['page'];
         });
 
-        $getTranslations = $queryModel->paginate(50);
+        $getTranslations = $queryModel->paginate(100);
         $pagination = $getTranslations->links("pagination::bootstrap-4");
 
         $group = [];

@@ -16,11 +16,12 @@ class TranslationController {
 
     public function save(Request $request) {
 
-       $translations = $request->post('translations');
-
+       $translations = base64_decode($request->post('translations'));
+       $translations = json_decode($translations, true);
+       
        $saveTranslations = [];
 
-       foreach ($translations as $translationLocales) {
+       foreach ($translations['translations'] as $translationLocales) {
            foreach ($translationLocales as $translationLocale=>$translation) {
                $translation['translation_locale'] = $translationLocale;
                $saveTranslations[md5($translation['translation_key'].$translation['translation_locale'].$translation['translation_group'].$translation['translation_namespace'])] = $translation;
