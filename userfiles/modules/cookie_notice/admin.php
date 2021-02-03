@@ -113,34 +113,34 @@ code:			'123456'
 
             <div class="setting-item" id="setting-item">
                 <div class="form-group">
-                    <label class="control-label d-block"><?php _lang('Turn On Cookies Policy', 'modules/cookie_notice'); ?>:</label>
+                    <label class="control-label d-block"><?php _e('Turn On Cookies Policy'); ?>:</label>
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="cookies_policy1" name="cookies_policy" class="custom-control-input cookies_policy" value="y" <?php if ('y' == $settings['cookies_policy']): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="cookies_policy1"><?php _lang("Yes", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="cookies_policy1"><?php _e("Yes"); ?></label>
                     </div>
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="cookies_policy2" name="cookies_policy" class="custom-control-input cookies_policy" value="n" <?php if ('n' == $settings['cookies_policy']): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="cookies_policy2"><?php _lang("No", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="cookies_policy2"><?php _e("No"); ?></label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php _lang('Cookie Policy URL', 'modules/cookie_notice'); ?>:</label>
+                    <label class="control-label"><?php _e('Cookie Policy URL'); ?>:</label>
                     <input type="text" class="form-control w100 cookiePolicyURL" value="<?php print $settings['cookiePolicyURL']; ?>">
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label"><?php _lang('Panel Background Color' ,'modules/cookie_notice'); ?>:</label>
+                            <label class="control-label"><?php _e('Panel Background Color'); ?>:</label>
                             <input type="text" id="bg-color" class="form-control backgroundColor" readonly="readonly" style="width:150px;<?php print (isset($settings['backgroundColor']) ? ' background:' . $settings['backgroundColor'] : ''); ?>" value="<?php print (isset($settings['backgroundColor']) ? $settings['backgroundColor'] : ''); ?>">
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label"><?php _lang('Panel Text Color' ,'modules/cookie_notice'); ?>:</label>
+                            <label class="control-label"><?php _e('Panel Text Color'); ?>:</label>
                             <input type="text" id="text-color" class="form-control textColor" readonly="readonly" style="width:150px;<?php print (isset($settings['textColor']) ? ' background:' . $settings['textColor'] : ''); ?>" value="<?php print (isset($settings['textColor']) ? $settings['textColor'] : ''); ?>">
                         </div>
                     </div>
@@ -149,50 +149,50 @@ code:			'123456'
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label d-block"><?php _lang('Show Live Chat Message', 'modules/cookie_notice'); ?>:</label>
+                            <label class="control-label d-block"><?php _e('Show Live Chat Message'); ?>:</label>
 
                             <div class="custom-control custom-radio d-inline-block mr-2">
                                 <input type="radio" id="showLiveChatMessage1" name="showLiveChatMessage" class="custom-control-input showLiveChatMessage" value="true" <?php if ('true' == trim($settings['showLiveChatMessage'])): ?>checked<?php endif; ?>>
-                                <label class="custom-control-label" for="showLiveChatMessage1"><?php _lang("Yes", 'modules/cookie_notice'); ?></label>
+                                <label class="custom-control-label" for="showLiveChatMessage1"><?php _e("Yes"); ?></label>
                             </div>
 
                             <div class="custom-control custom-radio d-inline-block mr-2">
                                 <input type="radio" id="showLiveChatMessage2" name="showLiveChatMessage" class="custom-control-input showLiveChatMessage" value="false" <?php if ('' == trim($settings['showLiveChatMessage']) or 'false' == trim($settings['showLiveChatMessage'])): ?>checked<?php endif; ?>>
-                                <label class="custom-control-label" for="showLiveChatMessage2"><?php _lang("no", 'modules/cookie_notice'); ?></label>
+                                <label class="custom-control-label" for="showLiveChatMessage2"><?php _e("no"); ?></label>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label d-block"><?php _lang('Panel Toggle Position', 'modules/cookie_notice'); ?>:</label>
+                            <label class="control-label d-block"><?php _e('Panel Toggle Position'); ?>:</label>
 
                             <div class="custom-control custom-radio d-inline-block mr-2">
                                 <input type="radio" id="panelTogglePosition1" name="panelTogglePosition" class="custom-control-input panelTogglePosition" value="left" <?php if ('left' == trim($settings['panelTogglePosition'])): ?>checked<?php endif; ?>>
-                                <label class="custom-control-label" for="panelTogglePosition1"><?php _lang("left", 'modules/cookie_notice'); ?></label>
+                                <label class="custom-control-label" for="panelTogglePosition1"><?php _e("left"); ?></label>
                             </div>
                             <div class="custom-control custom-radio d-inline-block mr-2">
                                 <input type="radio" id="panelTogglePosition2" name="panelTogglePosition" class="custom-control-input panelTogglePosition" value="center" <?php if ('center' == trim($settings['panelTogglePosition'])): ?>checked<?php endif; ?>>
-                                <label class="custom-control-label" for="panelTogglePosition2"><?php _lang("center", 'modules/cookie_notice'); ?></label>
+                                <label class="custom-control-label" for="panelTogglePosition2"><?php _e("center"); ?></label>
                             </div>
                             <div class="custom-control custom-radio d-inline-block mr-2">
                                 <input type="radio" id="panelTogglePosition3" name="panelTogglePosition" class="custom-control-input panelTogglePosition" value="right" <?php if ('' == trim($settings['panelTogglePosition']) or 'right' == trim($settings['panelTogglePosition'])): ?>checked<?php endif; ?>>
-                                <label class="custom-control-label" for="panelTogglePosition3"><?php _lang("right", 'modules/cookie_notice'); ?></label>
+                                <label class="custom-control-label" for="panelTogglePosition3"><?php _e("right"); ?></label>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="control-label d-block"><?php _lang('Unset Default', 'modules/cookie_notice'); ?>:</label>
+                            <label class="control-label d-block"><?php _e('Unset Default'); ?>:</label>
 
                             <div class="custom-control custom-radio d-inline-block mr-2">
                                 <input type="radio" id="unsetDefault1" name="unsetDefault" class="custom-control-input unsetDefault" value="allowed" <?php if ('allowed' == trim($settings['unsetDefault'])): ?>checked<?php endif; ?>>
-                                <label class="custom-control-label" for="unsetDefault1"><?php _lang("allowed", 'modules/cookie_notice'); ?></label>
+                                <label class="custom-control-label" for="unsetDefault1"><?php _e("allowed"); ?></label>
                             </div>
 
                             <div class="custom-control custom-radio d-inline-block mr-2">
                                 <input type="radio" id="unsetDefault2" name="unsetDefault" class="custom-control-input unsetDefault" value="blocked" <?php if ('' == trim($settings['unsetDefault']) or 'blocked' == trim($settings['unsetDefault'])): ?>checked<?php endif; ?>>
-                                <label class="custom-control-label" for="unsetDefault2"><?php _lang("blocked", 'modules/cookie_notice'); ?></label>
+                                <label class="custom-control-label" for="unsetDefault2"><?php _e("blocked"); ?></label>
                             </div>
                         </div>
                     </div>
@@ -201,15 +201,15 @@ code:			'123456'
                 <hr class="thin">
 
                 <div class="form-group">
-                    <label class="control-label d-block"><?php _lang('Google Analytics enabled', 'modules/cookie_notice'); ?>:</label>
+                    <label class="control-label d-block"><?php _e('Google Analytics enabled'); ?>:</label>
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Google_Analytics_enabled1" name="Google_Analytics_enabled" class="custom-control-input enable" value="true" <?php if ('true' == trim($settings['Google_Analytics']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Google_Analytics_enabled1"><?php _lang("Yes", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Google_Analytics_enabled1"><?php _e("Yes"); ?></label>
                     </div>
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Google_Analytics_enabled2" name="Google_Analytics_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Google_Analytics']['enabled']) or 'false' == trim($settings['Google_Analytics']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Google_Analytics_enabled2"><?php _lang("no", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Google_Analytics_enabled2"><?php _e("no"); ?></label>
                     </div>
                 </div>
 
@@ -217,14 +217,14 @@ code:			'123456'
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Google Analytics label', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Google Analytics label'); ?>:</label>
                                 <input type="text" class="form-control Google_Analytics_label" value="<?php print $settings['Google_Analytics']['label']; ?>">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Google Analytics code', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Google Analytics code'); ?>:</label>
                                 <input type="text" class="form-control Google_Analytics_code" value="<?php print $settings['Google_Analytics']['code']; ?>">
                             </div>
                         </div>
@@ -234,15 +234,15 @@ code:			'123456'
                <hr class="thin">
 
                <div class="form-group">
-                    <label class="control-label d-block"><?php _lang('Facebook Pixel enabled', 'modules/cookie_notice'); ?>:</label>
+                    <label class="control-label d-block"><?php _e('Facebook Pixel enabled'); ?>:</label>
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Facebook_Pixel_enabled1" name="Facebook_Pixel_enabled" class="custom-control-input enable" value="true" <?php if ('true' == trim($settings['Facebook_Pixel']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Facebook_Pixel_enabled1"><?php _lang("Yes", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Facebook_Pixel_enabled1"><?php _e("Yes"); ?></label>
                     </div>
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Facebook_Pixel_enabled2" name="Facebook_Pixel_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Facebook_Pixel']['enabled']) or 'false' == trim($settings['Facebook_Pixel']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Facebook_Pixel_enabled2"><?php _lang("No", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Facebook_Pixel_enabled2"><?php _e("No"); ?></label>
                     </div>
                </div>
 
@@ -250,14 +250,14 @@ code:			'123456'
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Facebook Pixel label', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Facebook Pixel label'); ?>:</label>
                                 <input type="text" class="form-control Facebook_Pixel_label" value="<?php print $settings['Facebook_Pixel']['label']; ?>">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Facebook Pixel code', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Facebook Pixel code'); ?>:</label>
                                 <input type="text" class="form-control Facebook_Pixel_code" value="<?php print $settings['Facebook_Pixel']['code']; ?>">
                             </div>
                         </div>
@@ -267,15 +267,15 @@ code:			'123456'
                <hr class="thin">
 
                <div class="form-group">
-                    <label class="control-label d-block"><?php _lang('Mautic Tracking enabled', 'modules/cookie_notice'); ?>:</label>
+                    <label class="control-label d-block"><?php _e('Mautic Tracking enabled'); ?>:</label>
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Mautic_Tracking_enabled1" name="Mautic_Tracking_enabled" class="custom-control-input enable" value="true" <?php if ('true' == trim($settings['Mautic_Tracking']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Mautic_Tracking_enabled1"><?php _lang("Yes", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Mautic_Tracking_enabled1"><?php _e("Yes"); ?></label>
                     </div>
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Mautic_Tracking_enabled2" name="Mautic_Tracking_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Mautic_Tracking']['enabled']) or 'false' == trim($settings['Mautic_Tracking']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Mautic_Tracking_enabled2"><?php _lang("no", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Mautic_Tracking_enabled2"><?php _e("no"); ?></label>
                     </div>
                </div>
 
@@ -283,14 +283,14 @@ code:			'123456'
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Mautic Tracking label', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Mautic Tracking label'); ?>:</label>
                                 <input type="text" class="form-control Mautic_Tracking_label" value="<?php print $settings['Mautic_Tracking']['label']; ?>">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Mautic Tracking code', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Mautic Tracking code'); ?>:</label>
                                 <input type="text" class="form-control Mautic_Tracking_code" value="<?php print $settings['Mautic_Tracking']['code']; ?>">
                             </div>
                         </div>
@@ -300,15 +300,15 @@ code:			'123456'
                <hr class="thin">
 
                 <div class="form-group">
-                    <label class="control-label d-block"><?php _lang('Tawk.to enabled', 'modules/cookie_notice'); ?>:</label>
+                    <label class="control-label d-block"><?php _e('Tawk.to enabled'); ?>:</label>
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Tawk_to_enabled1" name="Tawk_to_enabled" class="custom-control-input enable" value="true" <?php if ('true' == trim($settings['Tawk.to']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Tawk_to_enabled1"><?php _lang("Yes"); ?></label>
+                        <label class="custom-control-label" for="Tawk_to_enabled1"><?php _e("Yes"); ?></label>
                     </div>
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Tawk_to_enabled2" name="Tawk_to_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Tawk.to']['enabled']) or 'false' == trim($settings['Tawk.to']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Tawk_to_enabled2"><?php _lang("No", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Tawk_to_enabled2"><?php _e("No"); ?></label>
                     </div>
                 </div>
 
@@ -316,14 +316,14 @@ code:			'123456'
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Tawk.to label', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Tawk.to label'); ?>:</label>
                                 <input type="text" class="form-control Tawk_to_label" value="<?php print $settings['Tawk.to']['label']; ?>">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Tawk.to code', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Tawk.to code'); ?>:</label>
                                 <input type="text" class="form-control Tawk_to_code" value="<?php print $settings['Tawk.to']['code']; ?>">
                             </div>
                         </div>
@@ -333,16 +333,16 @@ code:			'123456'
                 <hr class="thin">
 
                 <div class="form-group">
-                    <label class="control-label d-block"><?php _lang('Smartsupp enabled', 'modules/cookie_notice'); ?>:</label>
+                    <label class="control-label d-block"><?php _e('Smartsupp enabled'); ?>:</label>
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Smartsupp_enabled1" name="Smartsupp_enabled" class="custom-control-input enable" value="true" <?php if ('true' == trim($settings['Smartsupp']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Smartsupp_enabled1"><?php _lang("Yes", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Smartsupp_enabled1"><?php _e("Yes"); ?></label>
                     </div>
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Smartsupp_enabled2" name="Smartsupp_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Smartsupp']['enabled']) or 'false' == trim($settings['Smartsupp']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Smartsupp_enabled2"><?php _lang("No", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Smartsupp_enabled2"><?php _e("No"); ?></label>
                     </div>
                 </div>
 
@@ -350,14 +350,14 @@ code:			'123456'
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Smartsupp label', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Smartsupp label'); ?>:</label>
                                 <input type="text" class="form-control Smartsupp_label" value="<?php print $settings['Smartsupp']['label']; ?>">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Smartsupp code', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Smartsupp code'); ?>:</label>
                                 <input type="text" class="form-control Smartsupp_code" value="<?php print $settings['Smartsupp']['code']; ?>">
                             </div>
                         </div>
@@ -367,15 +367,15 @@ code:			'123456'
                 <hr class="thin">
 
                 <div class="form-group">
-                    <label class="control-label d-block"><?php _lang('Hotjar enabled', 'modules/cookie_notice'); ?>:</label>
+                    <label class="control-label d-block"><?php _e('Hotjar enabled'); ?>:</label>
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Hotjar_enabled1" name="Hotjar_enabled" class="custom-control-input enable" value="true" <?php if ('true' == trim($settings['Hotjar']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Hotjar_enabled1"><?php _lang("Yes", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Hotjar_enabled1"><?php _e("Yes"); ?></label>
                     </div>
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Hotjar_enabled2" name="Hotjar_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Hotjar']['enabled']) or 'false' == trim($settings['Hotjar']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Hotjar_enabled2"><?php _lang("No", 'modules/cookie_notice'); ?></label>
+                        <label class="custom-control-label" for="Hotjar_enabled2"><?php _e("No"); ?></label>
                     </div>
                 </div>
 
@@ -383,14 +383,14 @@ code:			'123456'
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Hotjar label', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Hotjar label'); ?>:</label>
                                 <input type="text" class="form-control Hotjar_label" value="<?php print $settings['Hotjar']['label']; ?>">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _lang('Hotjar code', 'modules/cookie_notice'); ?>:</label>
+                                <label class="control-label"><?php _e('Hotjar code'); ?>:</label>
                                 <input type="text" class="form-control Hotjar_code" value="<?php print $settings['Hotjar']['code']; ?>">
                             </div>
                         </div>

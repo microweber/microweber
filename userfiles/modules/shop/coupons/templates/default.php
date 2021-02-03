@@ -33,7 +33,7 @@ $applied_code = '';
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <h4>Enter coupon code</h4>
+                            <h4 class="mb-2>Enter coupon code</h4>
                             <hr/>
                             <div class="js-coupon-code-messages"></div>
                         </div>

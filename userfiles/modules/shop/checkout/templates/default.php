@@ -31,7 +31,6 @@ description: Default cart template
             <div class="alert hide"></div>
             <div class="mw-cart-action-holder">
                 <hr/>
-
                 <module type="shop/checkout/terms"/>
                 <br/>
 

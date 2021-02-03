@@ -37,20 +37,20 @@ class Translator extends \Illuminate\Translation\Translator
             if (empty($item)) {
                // echo 'This is without namespace, only key ->'.$key . '<br />';
                 self::$newTexts[md5($key. $locale)] = [
-                    'namespace' => '*',
-                    'group' => '*',
-                    'key' => $key,
-                    'text' => $key,
-                    'locale' => $locale,
+                    'translation_namespace' => '*',
+                    'translation_group' => '*',
+                    'translation_key' => $key,
+                    'translation_text' => $key,
+                    'translation_locale' => $locale,
                 ];
             } else {
                 // echo This is with namespace ->' . $namespace . $group . $item .'<br />';
                 self::$newTexts[md5($namespace. $group. $item. $locale)] = [
-                    'namespace' => $namespace,
-                    'group' => $group,
-                    'key' => $item,
-                    'text' => $item,
-                    'locale' => $locale,
+                    'translation_namespace' => $namespace,
+                    'translation_group' => $group,
+                    'translation_key' => $item,
+                    'translation_text' => $item,
+                    'translation_locale' => $locale,
                 ];
             }
 

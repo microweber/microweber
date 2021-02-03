@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+Route::get('aaa', function(){
+    $cost = app()->checkout_manager->getShippingCost();
+    dd($cost);
+});
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');

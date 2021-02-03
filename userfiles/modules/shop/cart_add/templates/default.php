@@ -29,7 +29,7 @@ if (isset($params['content-id'])) {
         <?php $i = 1;
 
         foreach ($data as $key => $v): ?>
-            <div class="mw-price-item">
+            <div class="mw-price-item font-weight-bold uppercase">
 
 
                 <?php
@@ -65,10 +65,10 @@ if (isset($params['content-id'])) {
                 <?php else: ?>
 
 
-                    <button class="btn btn-default pull-right" type="button"
+                    <button class="btn btn-primary pull-right" type="button"
                             onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');">
                         <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
-                        <?php _e($button_text !== false ? $button_text : "Add to cart"); ?>
+                        <?php _e($button_text); ?>
                     </button>
 
 

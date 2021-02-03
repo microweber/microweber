@@ -6,18 +6,32 @@ if (isset($params['search'])) {
 if (isset($params['page'])) {
     $filter['page'] = $params['page'];
 }
+if (isset($params['translation_namespace'])) {
+    $filter['translation_namespace'] = $params['translation_namespace'];
+} else {
+    $params['translation_namespace'] = '*';
+}
 $supportedLanguages = get_supported_languages(true);
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
+
+
+if ($params['translation_namespace'] != '' || $params['translation_namespace'] != '*') {
+    $namespace = $params['translation_namespace'];
+}
+
+$namespaceMd5 = md5($namespace);
 ?>
 <script>
-    $('.collapse').collapse('show');
+    $('#language-edit-<?php echo $namespaceMd5;?>').collapse('show');
 </script>
 
 <script>
     $(document).ready(function () {
+
         $('.js-search-lang-text').on('input', function () {
-            $('.js-language-edit-browse').attr('search', $(this).val());
-            mw.reload_module('.js-language-edit-browse');
+            $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('page', 1);
+            $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('search', $(this).val());
+            mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
         });
 
         $('.mw_lang_item_textarea_edit').on('input', function () {
@@ -42,28 +56,35 @@ $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupe
             <div class="col-12">
                 <div class="form-group mb-0">
                     <label class="control-label mb-0"><?php _e('Language file'); ?>:
-                        <button type="button" class="btn btn-link px-0 js-lang-file-position" type="button" data-toggle="collapse" data-target="#global-file">
-                            <?php _e('Global'); ?> <i class="mdi mdi-menu-down mdi-rotate-270"></i>
+                        <button type="button" class="btn btn-link px-0 js-lang-file-position" type="button" data-toggle="collapse" data-target="#language-edit-<?php echo $namespaceMd5;?>">
+                            <?php
+                            if ($namespace == '*') {
+                                echo 'Global';
+                            } else {
+                                echo $namespace;
+                            }
+                            ?>
+                            <i class="mdi mdi-menu-down mdi-rotate-270"></i>
                         </button>
                     </label>
                 </div>
             </div>
         </div>
-        <div class="collapse" id="global-file">
+        <div class="collapse" id="language-edit-<?php echo $namespaceMd5;?>">
         <hr class="thin my-2"/>
 
         <div class="d-flex justify-content-between align-items-center">
             <div>
-                <label class="control-label m-0">Global <?php _e('Language file'); ?></label>
+                <label class="control-label m-0"><?php _e('Translate the fields to different languages'); ?></label>
             </div>
 
-            <div>
+           <!-- <div>
                 <a href="javascript:;" onClick="" class="btn btn-outline-primary btn-sm">Export to Excel</a>
                 <a href="javascript:;" onClick="" class="btn btn-outline-primary btn-sm">Import Excel file</a>
-            </div>
+            </div>-->
         </div>
 
-        <div class="text-center mt-5">
+        <div class="js-language-pagination-<?php echo $namespaceMd5;?> text-center mt-5">
         <?php
         echo $getTranslations['pagination'];
         ?>
@@ -98,10 +119,10 @@ $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupe
                                  <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
                                 </span>
                                 </div>
-                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][group]" value="*">
-                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][namespace]" value="*">
-                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
+                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
+                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
+                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
+                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
                             </div>
                         <?php endforeach; ?>
                     </td>
@@ -110,25 +131,27 @@ $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupe
             </tbody>
         </table>
 
+            <div class="js-language-pagination-<?php echo $namespaceMd5;?>">
+                <?php
+                echo $getTranslations['pagination'];
+                ?>
+            </div>
         </div>
 
 
         <script>
             // Laravel Pagination
-            $(document).on('click', '.pagination a', function(event){
+            $(document).on('click', '.js-language-pagination-<?php echo $namespaceMd5;?> .pagination a', function(event){
                 event.preventDefault();
 
                 var page = $(this).attr('href').split('page=')[1];
 
-                $('.js-language-edit-browse').attr('page', page);
-                mw.reload_module('.js-language-edit-browse');
+                $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('page', page);
+                mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
 
             });
         </script>
 
-        <?php
-        echo $getTranslations['pagination'];
-        ?>
 
     </div>
 </div>

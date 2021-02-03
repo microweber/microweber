@@ -21,7 +21,7 @@
 <?php $total = cart_sum(); ?>
 
 <?php if (is_array($data)) : ?>
-    <div class="products">
+    <div class="products m-3">
         <?php foreach ($data as $item) : ?>
             <div class="form-row product-item align-items-center">
                 <div class="col-3 d-flex item-img">
@@ -35,22 +35,23 @@
                         <img src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/>
                     <?php endif; ?>
                 </div>
-                <div class="col-7">
-                    <div class="form-row">
-                        <div class="col-12 d-flex item-title">
-                            <a class="" title="" href="<?php print $item['url'] ?>"><?php print $item['title'] ?></a> <span class="text-small pl-1">x<?php print $item['qty'] ?></span>
+                <div class="col-8">
+                    <div class="form-row m-1">
+                        <div class="col-12 d-flex item-title m-1">
+                            <a class="" title="" href="<?php print $item['url'] ?>"><?php print $item['title'] ?></a>
                         </div>
-
-                        <div class="col-12 d-flex item-price">
-                            <span><?php print currency_format($item['price']); ?></span>
+                        <div class="col-12 d-flex item-price m-1">
+                            <span class="text-small py-1"><?php print $item['qty'] ?> <span class="px-1">x</span></span>
+                            <span class="p-1"><?php print currency_format($item['price']); ?></span>
                         </div>
                     </div>
                 </div>
-                <div class="col-2 d-flex item-action justify-content-end">
-                    <a data-toggle="tooltip" title="Remove" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons">delete_forever</i></a>
+                <div class="col-1 d-flex item-action justify-content-end">
+                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger">delete_forever</i></a>
                 </div>
 
             </div>
+            <hr class="m-1">
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
@@ -66,18 +67,18 @@
 
 <?php endif; ?>
 
-<div class="products-amount">
+<div class="products-amount m-3">
     <div class="form-row align-items-center">
         <?php if (is_array($data)): ?>
             <div class="col-12 col-sm-6 total">
-                <p><strong><?php _e("Total Amount: "); ?> <br class="d-none d-sm-block"> <?php print currency_format($total); ?></strong></p>
+                <h6><strong><?php _e("Total Amount: "); ?> <br class="d-none d-sm-block"> <?php print currency_format($total); ?></strong></h6>
             </div>
             <div class="col-12 col-sm-6">
-                <button type="button" class="btn btn-primary btn-md btn-block" data-toggle="modal" data-target="#shoppingCartModal">Checkout</button>
+                <button type="button" class="btn btn-primary btn-md float-right" data-toggle="modal" data-target="#shoppingCartModal"><?php _e("Checkout"); ?></button>
             </div>
         <?php else: ?>
             <div class="col-12">
-                <p><?php _e("Your cart is empty."); ?></p>
+                <h5><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
             </div>
         <?php endif; ?>
     </div>

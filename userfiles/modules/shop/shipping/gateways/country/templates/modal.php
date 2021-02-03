@@ -19,7 +19,6 @@ description: Default
             $('.selectpicker').selectpicker();
         }
 
-
     });
 </script>
 
@@ -35,68 +34,77 @@ description: Default
     ?>
 
 
-    <div class="m-t-20 edit nodrop" field="checkout_shipping_information_title" rel="global"
-         rel_id="<?php print $params['id'] ?>">
-        <div class="pull-right red">* All fields are required</div>
-        <p class="bold m-b-10"><?php _e("Shipping Information"); ?></p>
-    </div>
-    <?php if(!$disable_default_shipping_fields) :?>
-        <div class="row">
-            <?php if ($data) { ?>
-                <div class="col-6">
-                    <div class="field-holder">
-                        <select name="country" class="selectpicker shipping-country-select">
-                            <option value=""><?php _e("Country"); ?></option>
-                            <?php foreach ($data as $item): ?>
-                                <option value="<?php print $item['shipping_country'] ?>" <?php if (isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-            <?php } ?>
 
-            <div class="col-6">
-                <div class="field-holder">
-                    <input name="Address[city]" class="form-control input-lg" required type="text" value="<?php if (!empty($checkout_session['city'])) echo $checkout_session['city']; ?>"
-                           placeholder="<?php _e("Town / City"); ?>"/>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-6">
-                <div class="field-holder">
-                    <input name="Address[zip]" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['zip'])) echo $checkout_session['zip']; ?>"
-                           placeholder="<?php _e("ZIP / Postal Code"); ?>"/>
-                </div>
+       <div class="m-t-20 edit nodrop" field="checkout_shipping_information_title" rel="global"
+            rel_id="<?php print $params['id'] ?>">
+           <small class="pull-right text-muted">*All fields are required</small>
+           <h5 class="my-4 font-weight-bold">Shipping Information</h5>
+       </div>
+       <?php if(!$disable_default_shipping_fields) :?>
+           <div class="row">
+               <?php if ($data) { ?>
+                   <div class="col-6">
+                       <div class="field-holder">
+                           <label for="exampleInputEmail1">Country</label>
+                           <select required name="country" class="selectpicker shipping-country-select">
+                               <option value=""><?php _e("Country"); ?></option>
+                               <?php foreach ($data as $item): ?>
+                                   <option value="<?php print $item['shipping_country'] ?>" <?php if (isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
+                               <?php endforeach; ?>
+                           </select>
+                       </div>
+                   </div>
+               <?php } ?>
 
-            </div>
+               <div class="col-6">
+                   <div class="form-group">
+                       <label for="exampleInputEmail1"><?php _e("Town / City"); ?></label>
+                       <input required type="text" value="<?php if (!empty($checkout_session['city'])) echo $checkout_session['city']; ?>" class="form-control" name="Address[city]"
+                              placeholder="<?php _e("Town / City"); ?>">
+                   </div>
+               </div>
+           </div>
 
-            <div class="col-6">
-                <div class="field-holder">
-                    <input name="Address[state]" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['state'])) echo $checkout_session['state']; ?>"
-                           placeholder="<?php _e("State / Province"); ?>"/>
-                </div>
-            </div>
-        </div>
+           <div class="row">
+               <div class="col-6">
+                   <div class="form-group">
+                       <label for="exampleInputEmail1"><?php _e("ZIP / Postal Code"); ?></label>
+                       <input required type="text" value="<?php if (!empty($checkout_session['zip'])) echo $checkout_session['zip']; ?>" class="form-control" name="Address[zip]"
+                              placeholder="<?php _e("ZIP / Postal Code"); ?>">
+                   </div>
+               </div>
 
-        <div class="row">
-            <div class="col-6">
-                <div class="field-holder">
-                    <input name="Address[address]" class="form-control input-lg" required type="text" value="<?php if (!empty($checkout_session['address'])) echo $checkout_session['address']; ?>"
-                           placeholder="<?php _e("Address / Street address, Floor, Apartment, etc..."); ?>"/>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="field-holder">
-                    <input name="other_info" class="form-control input-lg" type="text" value="<?php if (!empty($checkout_session['other_info'])) echo $checkout_session['other_info']; ?>"
-                           placeholder="Additional Information ( Special notes for delivery - Optional )"/>
-                </div>
-            </div>
-        </div>
-    <?php endif;?>
+               <div class="col-6">
+                   <div class="form-group">
+                       <label for="exampleInputEmail1"><?php _e("State / Province"); ?></label>
+                       <input type="text" value="<?php if (!empty($checkout_session['state'])) echo $checkout_session['state']; ?>" class="form-control" name="Address[state]"
+                              placeholder="<?php _e("State / Province"); ?>">
+                   </div>
+               </div>
+           </div>
 
-    <?php if($enable_custom_shipping_fields) :?>
-        <module type="custom_fields" for-id="shipping"  for="module"  default-fields="message"   />
-    <?php endif;?>
-</div>
+           <div class="row">
+               <div class="col-6">
+                   <div class="form-group">
+                       <label for="exampleInputEmail1"><?php _e("Address / Street address"); ?></label>
+                       <input required type="text" value="<?php if (!empty($checkout_session['address'])) echo $checkout_session['address']; ?>" class="form-control" name="Address[address]"
+                              placeholder="<?php _e("Address / Street address, Floor, Apartment, etc..."); ?>">
+                   </div>
+
+               </div>
+               <div class="col-6">
+                   <div class="form-group">
+                       <label for="exampleInputEmail1"><?php _e("Additional Information"); ?></label>
+                       <input  type="text" value="<?php if (!empty($checkout_session['other_info'])) echo $checkout_session['other_info']; ?>" class="form-control" name="other_info"
+                               placeholder="<?php _e("Additional Information ( Special notes for delivery - Optional )"); ?>">
+                   </div>
+               </div>
+           </div>
+       <?php endif;?>
+
+       <?php if($enable_custom_shipping_fields) :?>
+           <module type="custom_fields" for-id="shipping"  for="module"  default-fields="message"   />
+       <?php endif;?>
+   </div>
+

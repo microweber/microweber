@@ -1,50 +1,29 @@
-<div class="col-<?php echo $settings['field_size']; ?>">
-    <?php if ($settings['show_label']): ?>
-        <label class="control-label">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
-                <span style="color: red;">*</span>
-            <?php endif; ?>
-        </label>
-    <?php endif; ?>
-    <?php foreach ($data['values'] as $key => $value): ?>
-
-        <div class="form-group">
-
-            <?php if ($settings['show_label']): ?>
-                <label class="control-label"><?php _e($value); ?>
-                    <?php if ($settings['required']): ?>
-                        <span style="color:red;">*</span>
-                    <?php endif; ?>
-                </label>
-            <?php endif; ?>
-
-            <?php if ($key == 'country')  : ?>
-                <?php if ($data['countries']) { ?>
-
-                    <select name="<?php echo $data['name'] ?>[country]" class="form-control">
-                        <option value=""><?php _e('Choose country') ?></option>
-                        <?php foreach ($data['countries'] as $country): ?>
-                            <option value="<?php echo $country ?>"><?php echo $country ?></option>
-                        <?php endforeach; ?>
+<?php
+// var_dump($data);var_dump($settings);die();
+?>
+<div class="col-md-<?php echo $settings['field_size']; ?>">
+    <?php foreach($data['values'] as $key=>$value): ?>
+        <?php if($settings['show_label']): ?>
+            <label class="col-form-label" for="inputDefault"><?php _e($value); ?></label>
+        <?php endif; ?>
+        <?php if ($key == 'address')  : ?>
+            <?php if ($data['countries']) { ?>
+                <div class="form-group">
+                    <select class="form-control" id="exampleSelect1">
+                        <option><?php _e('Choose address') ?></option>
+                        <option><?php foreach ($data['countries'] as $country): ?>
+                        <option value="<?php echo $country ?>"><?php echo $country ?></option>
+                        <?php endforeach; ?></option>
                     </select>
-                <?php } else { ?>
-                    <input type="text" class="form-control" name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"/>
-                <?php } ?>
+                </div>
+            <?php } else { ?>
+                <input type="text" class="mw-ui-field" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"
+            <?php } ?>
 
-            <?php else: ?>
-                <input type="text" class="form-control" name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?>
-                       data-custom-field-id="<?php echo $data["id"]; ?>"/>
-            <?php endif; ?>
-
-            <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
-            <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>
-
-        </div>
-
+        <?php else: ?>
+            <div class="form-group">
+                <input type="text" class="form-control" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>" placeholder="Default input" id="inputDefault">
+            </div>
+        <?php endif; ?>
     <?php endforeach; ?>
-
-    <?php if ($data['help']): ?>
-        <small class="form-text text-muted"><?php echo $data['help']; ?></small>
-    <?php endif; ?>
 </div>
