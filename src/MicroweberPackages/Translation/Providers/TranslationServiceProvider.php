@@ -24,6 +24,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
          */
         Lang::addNamespace('translation', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/lang');
 
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
+
         if (mw_is_installed()) {
             if (!Schema::hasTable('translations')) {
                 app()->mw_migrator->run([
@@ -35,15 +37,25 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
                     foreach ($getNewTexts as $text) {
+
+                        $text['key'] = trim($text['key']);
+                        $text['group'] = trim($text['group']);
+                        $text['namespace'] = trim($text['namespace']);
+                        $text['locale'] = trim($text['locale']);
+
                         $findTranslation = Translation::where('namespace', $text['namespace'])
                             ->where('group', $text['group'])
-                            ->where('key', $text['key'])
+                            ->whereRaw("BINARY `key`= ?",[$text['key']])
                             ->where('locale', $text['locale'])->first();
                         if ($findTranslation == null) {
                             Translation::insert($text);
                         }
                     }
-                    clearcache();
+                    try {
+                        clearcache();
+                    } catch (\Exception $e) {
+                        //
+                    }
                 }
             });
         }
