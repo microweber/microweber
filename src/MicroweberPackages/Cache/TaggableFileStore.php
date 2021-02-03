@@ -579,9 +579,16 @@ class TaggableFileStore implements Store
                 }
 
                 $tagMapPath = $this->_getTagMapPathByName($tag);
-                if ($this->files->isFile($tagMapPath)) {
-                    $this->files->delete($tagMapPath);
+
+                try {
+                    if ($this->files->isFile($tagMapPath)) {
+                        $this->files->delete($tagMapPath);
+                    }
+                } catch (\Exception $e) {
+                    //
                 }
+
+
                 if (isset($this->tags[$tag])) {
                     unset($this->tags[$tag]);
                 }
