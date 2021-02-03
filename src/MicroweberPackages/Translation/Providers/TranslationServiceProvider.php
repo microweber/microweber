@@ -47,7 +47,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
                             $findTranslation = Translation::where('translation_namespace', $text['translation_namespace'])
                                 ->where('translation_group', $text['translation_group'])
-                                ->whereRaw("MD5(translation_key) = ?", [md5($text['translation_key'])])
+                                ->where(\DB::raw('md5(translation_key)'), md5($text['translation_key']))
                                 ->where('translation_locale', $text['translation_locale'])->first();
                             if ($findTranslation == null) {
                                 $forInsert[] =  $text;

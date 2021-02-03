@@ -23,20 +23,19 @@ class TranslationController {
        foreach ($translations as $translationLocales) {
            foreach ($translationLocales as $translationLocale=>$translation) {
                $translation['translation_locale'] = $translationLocale;
-               $saveTranslations[] = $translation;
+               $saveTranslations[md5($translation['translation_key'].$translation['translation_locale'].$translation['translation_group'].$translation['translation_namespace'])] = $translation;
            }
        }
-       
+
        if (!empty($saveTranslations)) {
            foreach($saveTranslations as $translation) {
 
                $findTranslataion = Translation::
-               whereRaw("md5(translation_key) = ?", [md5($translation['translation_key'])])
+                    where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
                    ->where('translation_locale', $translation['translation_locale'])
                    ->where('translation_group', $translation['translation_group'])
                    ->where('translation_namespace', $translation['translation_namespace'])
-                   ->first();
-
+                  ->first();
                if ($findTranslataion == null) {
                    $findTranslataion = new Translation();
                    $findTranslataion->translation_locale = $translationLocale;
