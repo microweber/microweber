@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Cache;
 
 class Translation extends Model
 {
+    public $timestamps = true;
+
     /** @var array */
-    public $translatable = ['text'];
+    public $translatable = ['translation_text'];
 
     /** @var array */
     public $guarded = ['id'];
@@ -29,7 +31,7 @@ class Translation extends Model
     public static function getNamespaces()
     {
         $queryModel = static::query();
-        $queryModel->groupBy('namespace');
+        $queryModel->groupBy('translation_namespace');
 
         return $queryModel->get();
     }
@@ -40,22 +42,22 @@ class Translation extends Model
             $filter['page'] = 1;
         }
 
-        if (!isset($filter['page'])) {
-            $filter['namespace'] = '*';
+        if (!isset($filter['translation_namespace'])) {
+            $filter['translation_namespace'] = '*';
+        }
+
+        $queryModel = static::query();
+        $queryModel->where('translation_namespace', $filter['translation_namespace']);
+        $queryModel->groupBy(\DB::raw("MD5(translation_key)"));
+
+        if (isset($filter['search']) && !empty($filter['search'])) {
+            $queryModel->where('translation_key', 'like', '%'.$filter['search'].'%');
+            $queryModel->orWhere('translation_text', 'like', '%'.$filter['search'].'%');
         }
 
         Paginator::currentPageResolver(function() use ($filter) {
             return $filter['page'];
         });
-
-        $queryModel = static::query();
-        $queryModel->where('namespace', $filter['namespace']);
-        $queryModel->groupBy(\DB::raw("BINARY `key`"));
-
-        if (isset($filter['search']) && !empty($filter['search'])) {
-            $queryModel->where('key', 'like', '%'.$filter['search'].'%');
-            $queryModel->orWhere('text', 'like', '%'.$filter['search'].'%');
-        }
 
         $getTranslations = $queryModel->paginate(100);
         $pagination = $getTranslations->links("pagination::bootstrap-4");
@@ -65,12 +67,12 @@ class Translation extends Model
         foreach ($getTranslations as $translation) {
 
             $translationLocales = [];
-            $getTranslationLocales = static::where('key', $translation->key)->get()->toArray();
+            $getTranslationLocales = static::where('translation_key', $translation->translation_key)->get()->toArray();
             foreach ($getTranslationLocales as $translationLocale) {
-                $translationLocales[$translationLocale['locale']] = $translationLocale['text'];
+                $translationLocales[$translationLocale['translation_locale']] = $translationLocale['translation_text'];
             }
 
-            $group[$translation->key] = $translationLocales;
+            $group[$translation->translation_key] = $translationLocales;
         }
 
         return ['results'=>$group,'pagination'=>$pagination];

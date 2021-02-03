@@ -6,17 +6,17 @@ if (isset($params['search'])) {
 if (isset($params['page'])) {
     $filter['page'] = $params['page'];
 }
-if (isset($params['namespace'])) {
-    $filter['namespace'] = $params['namespace'];
+if (isset($params['translation_namespace'])) {
+    $filter['translation_namespace'] = $params['translation_namespace'];
+} else {
+    $params['translation_namespace'] = '*';
 }
 $supportedLanguages = get_supported_languages(true);
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
 
-if (!isset($params['namespace'])) {
-    $namespace = '*';
-}
-if ($params['namespace'] != '' || $params['namespace'] != '*') {
-    $namespace = $params['namespace'];
+
+if ($params['translation_namespace'] != '' || $params['translation_namespace'] != '*') {
+    $namespace = $params['translation_namespace'];
 }
 
 $namespaceMd5 = md5($namespace);
@@ -27,7 +27,9 @@ $namespaceMd5 = md5($namespace);
 
 <script>
     $(document).ready(function () {
+
         $('.js-search-lang-text').on('input', function () {
+            $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('page', 1);
             $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('search', $(this).val());
             mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
         });
@@ -117,10 +119,10 @@ $namespaceMd5 = md5($namespace);
                                  <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
                                 </span>
                                 </div>
-                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][group]" value="*">
-                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][namespace]" value="<?php echo $namespace;?>">
-                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
+                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
+                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
+                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
+                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
                             </div>
                         <?php endforeach; ?>
                     </td>

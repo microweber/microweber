@@ -31,10 +31,10 @@ class TranslationManager extends FileLoader
 
         // Load translations from database
         if (mw_is_installed()) {
-            $getTranslations = Translation::where('locale', $locale)->where('group', $group)->where('namespace', $namespace)->get();
+            $getTranslations = Translation::where('translation_locale', $locale)->where('translation_group', $group)->where('translation_namespace', $namespace)->get();
             if ($getTranslations !== null) {
                 foreach ($getTranslations as $translation) {
-                    $allTranslations[$translation->key] = $translation->text;
+                    $allTranslations[$translation->translation_key] = $translation->translation_text;
                 }
             }
         }

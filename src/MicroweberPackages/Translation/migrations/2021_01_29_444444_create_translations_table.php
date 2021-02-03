@@ -13,12 +13,12 @@ class CreateTranslationsTable extends Migration
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('namespace')->nullable();
-            $table->string('group');
-            $table->index('group');
-            $table->text('key');
-            $table->text('text');
-            $table->string('locale');
+            $table->string('translation_namespace')->nullable();
+            $table->string('translation_group');
+            $table->index('translation_group');
+            $table->text('translation_key');
+            $table->text('translation_text');
+            $table->string('translation_locale');
             $table->timestamps();
         });
     }

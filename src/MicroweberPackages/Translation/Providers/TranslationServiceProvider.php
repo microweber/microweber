@@ -38,15 +38,15 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 if (!empty($getNewTexts)) {
                     foreach ($getNewTexts as $text) {
 
-                        $text['key'] = trim($text['key']);
-                        $text['group'] = trim($text['group']);
-                        $text['namespace'] = trim($text['namespace']);
-                        $text['locale'] = trim($text['locale']);
+                        $text['translation_key'] = trim($text['translation_key']);
+                        $text['translation_group'] = trim($text['translation_group']);
+                        $text['translation_namespace'] = trim($text['translation_namespace']);
+                        $text['translation_locale'] = trim($text['translation_locale']);
 
-                        $findTranslation = Translation::where('namespace', $text['namespace'])
-                            ->where('group', $text['group'])
-                            ->whereRaw("BINARY `key`= ?",[$text['key']])
-                            ->where('locale', $text['locale'])->first();
+                        $findTranslation = Translation::where('translation_namespace', $text['translation_namespace'])
+                            ->where('translation_group', $text['translation_group'])
+                            ->whereRaw("MD5(translation_key = ?)",[$text['translation_key']])
+                            ->where('translation_locale', $text['translation_locale'])->first();
                         if ($findTranslation == null) {
                             Translation::insert($text);
                         }

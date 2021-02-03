@@ -21,21 +21,21 @@ class TranslationController {
            foreach ($translationLocales as $translationLocale=>$translation) {
 
                $findTranslataion = Translation::
-                   whereRaw("BINARY `key`= ?", [$translation['key']])
-                   ->where('locale', $translationLocale)
-                   ->where('group', $translation['group'])
-                   ->where('namespace', $translation['namespace'])
+                   whereRaw("md5(translation_key) = ?", [md5($translation['translation_key'])])
+                   ->where('translation_locale', $translationLocale)
+                   ->where('translation_group', $translation['translation_group'])
+                   ->where('translation_namespace', $translation['translation_namespace'])
                    ->first();
 
                if ($findTranslataion == null) {
                    $findTranslataion = new Translation();
-                   $findTranslataion->locale = $translationLocale;
-                   $findTranslataion->key = $translation['key'];
-                   $findTranslataion->namespace = $translation['namespace'];
-                   $findTranslataion->group = $translation['group'];
+                   $findTranslataion->translation_locale = $translationLocale;
+                   $findTranslataion->translation_key = $translation['translation_key'];
+                   $findTranslataion->translation_namespace = $translation['translation_namespace'];
+                   $findTranslataion->translation_group = $translation['translation_group'];
                }
 
-               $findTranslataion->text = trim($translation['text']);
+               $findTranslataion->translation_text = trim($translation['translation_text']);
                $findTranslataion->save();
            }
        }

@@ -179,7 +179,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
             <div class="col-md-9">
                 <form id="language-form" class="lang-edit-form">
                     <?php foreach (\MicroweberPackages\Translation\Models\Translation::getNamespaces() as $translation):?>
-                    <module type="settings/group/language_edit_browse" class="js-language-edit-browse-<?php echo md5($translation->namespace);?>" namespace="<?php echo $translation->namespace; ?>" search="" page="1" />
+                    <module type="settings/group/language_edit_browse" class="js-language-edit-browse-<?php echo md5($translation->translation_namespace);?>" translation_namespace="<?php echo $translation->translation_namespace; ?>" search="" page="1" />
                     <?php endforeach; ?>
                 </form>
             </div>
