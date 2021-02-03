@@ -37,6 +37,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 $this->app->terminating(function () {
                     $getNewTexts = app()->translator->getNewTexts();
                     if (!empty($getNewTexts)) {
+                        $forInsert = [];
                         foreach ($getNewTexts as $text) {
 
                             $text['translation_key'] = trim($text['translation_key']);
@@ -49,9 +50,16 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                                 ->whereRaw("MD5(translation_key) = ?", [md5($text['translation_key'])])
                                 ->where('translation_locale', $text['translation_locale'])->first();
                             if ($findTranslation == null) {
-                                Translation::insert($text);
+                                $forInsert[] =  $text;
+                              //  Translation::insert($text);
                             }
                         }
+
+
+                        if($forInsert){
+                            Translation::insert($forInsert);
+                        }
+
                     }
                 });
             }
