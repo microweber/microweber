@@ -1,10 +1,20 @@
+<?php
+$filter = [];
+if (isset($params['search'])) {
+    $filter['search'] = $params['search'];
+}
+if (isset($params['page'])) {
+    $filter['page'] = $params['page'];
+}
+$supportedLanguages = get_supported_languages(true);
+$getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
+?>
 <script>
     $('.collapse').collapse('show');
 </script>
 
 <script>
     $(document).ready(function () {
-
         $('.js-search-lang-text').on('input', function () {
             $('.js-language-edit-browse').attr('search', $(this).val());
             mw.reload_module('.js-language-edit-browse');
@@ -53,7 +63,11 @@
             </div>
         </div>
 
-        <hr class="thin my-2"/>
+        <div class="text-center mt-5">
+        <?php
+        echo $getTranslations['pagination'];
+        ?>
+        </div>
 
         <table width="100%" class="table js-table-lang">
             <thead>
@@ -65,13 +79,7 @@
             <tbody>
 
             <?php
-            $filter = [];
-            if (isset($params['search'])) {
-                $filter['search'] = $params['search'];
-            }
-            $supportedLanguages = get_supported_languages(true);
-            $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
-            foreach ($getTranslations as $translationKey=>$translationByLocales):
+            foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
                 $translationKeyMd5 = md5($translationKey);
                 ?>
                 <tr style="border-bottom: 1px solid #cfcfcf">
@@ -86,9 +94,9 @@
                             ?>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                                                <span class="input-group-text" id="basic-addon1">
-                                                                 <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
-                                                                </span>
+                                <span class="input-group-text" id="basic-addon1">
+                                 <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
+                                </span>
                                 </div>
                                 <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][group]" value="*">
                                 <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][namespace]" value="*">
@@ -102,7 +110,26 @@
             </tbody>
         </table>
 
-
         </div>
+
+
+        <script>
+            // Laravel Pagination
+            $(document).on('click', '.pagination a', function(event){
+                event.preventDefault();
+
+                var page = $(this).attr('href').split('page=')[1];
+
+                $('.js-language-edit-browse').attr('page', page);
+                mw.reload_module('.js-language-edit-browse');
+
+            });
+        </script>
+
+        <?php
+        echo $getTranslations['pagination'];
+        ?>
+
     </div>
 </div>
+

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Translation\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
@@ -27,35 +28,42 @@ class Translation extends Model
 
     public static function getGroupedTranslations($filter = [])
     {
-        $filter['page'] = 100;
+        if (!isset($filter['page'])) {
+            $filter['page'] = 1;
+        }
+
         $filter['namespace'] = '*';
+
+        Paginator::currentPageResolver(function() use ($filter) {
+            return $filter['page'];
+        });
 
         $queryModel = static::query();
         $queryModel->where('namespace', $filter['namespace']);
         $queryModel->groupBy(\DB::raw("BINARY `key`"));
-        $queryModel->limit($filter['page']);
 
         if (isset($filter['search']) && !empty($filter['search'])) {
             $queryModel->where('key', 'like', '%'.$filter['search'].'%');
             $queryModel->orWhere('text', 'like', '%'.$filter['search'].'%');
         }
 
-        $getTranslations = $queryModel->get();
+        $getTranslations = $queryModel->paginate(100);
+        $pagination = $getTranslations->links("pagination::bootstrap-4");
 
         $group = [];
 
-        foreach ($getTranslations->toArray() as $translation) {
+        foreach ($getTranslations as $translation) {
 
             $translationLocales = [];
-            $getTranslationLocales = static::where('key', $translation['key'])->get()->toArray();
+            $getTranslationLocales = static::where('key', $translation->key)->get()->toArray();
             foreach ($getTranslationLocales as $translationLocale) {
                 $translationLocales[$translationLocale['locale']] = $translationLocale['text'];
             }
 
-            $group[$translation['key']] = $translationLocales;
+            $group[$translation->key] = $translationLocales;
         }
 
-        return $group;
+        return ['results'=>$group,'pagination'=>$pagination];
 
     }
 }
