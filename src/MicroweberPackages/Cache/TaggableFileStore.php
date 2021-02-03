@@ -598,7 +598,11 @@ class TaggableFileStore implements Store
                 return false;
             }
 
-            return @$this->files->deleteDirectory($mainCacheDir);
+            try {
+                $this->files->deleteDirectory($mainCacheDir);
+            } catch (\Exception $e) {
+                 //
+            }
 
         }
     }
