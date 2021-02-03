@@ -178,7 +178,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
             </div>
             <div class="col-md-9">
                 <form id="language-form" class="lang-edit-form">
-                    <module type="settings/group/language_edit_browse" class="js-language-edit-browse" search="" />
+                    <module type="settings/group/language_edit_browse" class="js-language-edit-browse" search="" page="1" />
                 </form>
             </div>
         </div>
