@@ -3871,11 +3871,17 @@ mw.cart = {
             $.ajax({
                 type: "POST",
                 url: mw.settings.api_url + 'checkout',
-                data: obj
+                data: obj,
+                error: function (xhr, ajaxOptions, thrownError) {
+                     mw.errorsHandle(JSON.parse(xhr.responseText))
+                    form.dataset("loading", 'false');
+                    form.find('.mw-checkout-btn').removeAttr('disabled');
+                    form.find('.mw-checkout-btn').show();
+
+                }
             })
                 .done(function (data) {
                     mw.trigger('checkoutDone', data);
-
 
                     var data2 = data;
 
@@ -15308,7 +15314,12 @@ mw.filePicker = function (options) {
                 var comp = scope._getComponentObject('server');
                 if (type === 'server') {
                     mw.top().tools.loading(el, true);
-                    var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
+                    var fr = document.createElement('iframe');
+                    fr.src =  mw.external_tool('module_dialog') + '?module=files/admin';
+                    mw.tools.iframeAutoHeight(fr);
+                    fr.style.width = '100%';
+                    fr.scrolling = 'no';
+                    fr.frameBorder = '0';
                     if(scope.settings._frameMaxHeight) {
                         fr.style.maxHeight = '60vh';
                         fr.scrolling = 'yes';
@@ -15316,6 +15327,7 @@ mw.filePicker = function (options) {
                     $wrap.append(fr);
                     fr.onload = function () {
                         mw.tools.loading(el, false);
+                        this.contentWindow.document.body.classList.remove('mw-external-loading');
                         this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
                             var url = this.href;
                             scope.setSectionValue(url);

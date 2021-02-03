@@ -251,7 +251,7 @@ if (isset($params['quick_edit'])) {
                                         })
                                         .on('keydown', function (e) {
                                             var sel = getSelection();
-                                            var fn = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+                                            var fn = sel.focusNode.nodeType === 1 ? sel.focusNode : sel.focusNode.parentNode;
                                             var collapsedIn = fn === this && sel.isCollapsed;
                                             slugEdited = true;
                                             document.querySelector('.btn-save').disabled = false;

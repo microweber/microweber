@@ -12,7 +12,8 @@
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/popup.css"/>
-
+      <script src="<?php print mw_includes_url(); ?>api/webpack/dist/admin-libs.js"></script>
+      <script src="<?php print mw_includes_url(); ?>api/webpack/dist/admin.js"></script>
       <script>
         window.RegisterChange = function(){
           if (self !== parent) {
