@@ -27,6 +27,8 @@ class TranslationController {
            }
        }
 
+      $saveTranslations = array_unique($saveTranslations);
+
        if (!empty($saveTranslations)) {
            foreach($saveTranslations as $translation) {
 
