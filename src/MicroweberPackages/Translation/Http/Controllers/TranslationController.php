@@ -40,8 +40,6 @@ class TranslationController {
                    ->where('translation_namespace', $translation['translation_namespace'])
                   ->first();
 
-              // dump($translation, $findTranslataion);
-
                if ($findTranslataion == null) {
                    $findTranslataion = new Translation();
                    $findTranslataion->translation_locale = $translation['translation_locale'];
@@ -52,6 +50,15 @@ class TranslationController {
 
                $findTranslataion->translation_text = trim($translation['translation_text']);
                $findTranslataion->save();
+
+               // Delete dublicates if exists
+               Translation::where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
+                   ->where('translation_locale', $translation['translation_locale'])
+                   ->where('translation_group', $translation['translation_group'])
+                   ->where('translation_namespace', $translation['translation_namespace'])
+                   ->where('id','!=', $findTranslataion->id)
+                   ->delete();
+
            }
        }
 
