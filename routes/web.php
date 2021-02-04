@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('aaa', function(){
-    $cost = app()->checkout_manager->getShippingCost();
-    dd($cost);
+
+    event($event = new \MicroweberPackages\Order\Events\OrderWasCreated(\MicroweberPackages\Order\Models\Order::where('id', 129)->first(), []));
+
 });
+*/
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
