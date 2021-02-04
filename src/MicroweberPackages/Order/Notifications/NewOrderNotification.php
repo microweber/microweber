@@ -65,8 +65,6 @@ class NewOrderNotification extends Notification
 
             $carItems = $this->_getCartItemsTable($this->order->id);
 
- 
-
             $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
 
             $data = ['cart_items' => $carItems,
@@ -117,27 +115,30 @@ class NewOrderNotification extends Notification
         $cartItemsInfo = array();
         $cartItems = app()->shop_manager->get_cart('order_id=' . $orderId);
 
-        foreach ($cartItems as $cartItem) {
+        if (!empty($cartItems)) {
+            foreach ($cartItems as $cartItem) {
 
-            $item = array();
-            if (isset($cartItem['item_image']) and $cartItem['item_image']) {
-                $item['item_image'] = $cartItem['item_image'];
-                $item['item_image'] = '<img src="' . $item['item_image'] . '" width="100" />';
-            }
-            if (isset($cartItem['link'])) {
-                $item['link'] = $cartItem['link'];
-            }
-            if (isset($cartItem['title'])) {
-                $item['title'] = $cartItem['title'];
-            }
-            if (isset($cartItem['custom_fields'])) {
-                $item['custom_fields'] = $cartItem['custom_fields'];
-            }
+                $item = array();
+                if (isset($cartItem['item_image']) and $cartItem['item_image']) {
+                    $item['item_image'] = $cartItem['item_image'];
+                    $item['item_image'] = '<img src="' . $item['item_image'] . '" width="100" />';
+                }
+                if (isset($cartItem['link'])) {
+                    $item['link'] = $cartItem['link'];
+                }
+                if (isset($cartItem['title'])) {
+                    $item['title'] = $cartItem['title'];
+                }
+                if (isset($cartItem['custom_fields'])) {
+                    $item['custom_fields'] = $cartItem['custom_fields'];
+                }
 
-            $cartItemsInfo[] = $item;
+                $cartItemsInfo[] = $item;
+            }
+            return app()->format->array_to_table($cartItemsInfo);
         }
 
-        return app()->format->array_to_table($cartItemsInfo);
+        return '';
     }
 
     /**

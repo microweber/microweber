@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Order\Listeners;
 
+use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Order\Models\OrderAnonymousClient;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Order\Notifications\NewOrderNotification;
