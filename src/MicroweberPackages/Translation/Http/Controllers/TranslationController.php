@@ -21,7 +21,7 @@ class TranslationController {
     public function export(Request $request) {
 
         $namespace = $request->post('namespace','*');
-        $exportLocale = $request->post('locale', 'ccc');
+        $exportLocale = $request->post('locale', mw()->lang_helper->default_lang());
         
         $exportFileName = 'translation-global';
 
