@@ -25,7 +25,8 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
 ?>
 
 <script type="text/javascript">
-    function import_language_by_namespace(namespace, language) {
+
+    function importTranslation(namespace) {
         mw.dialog({
             content: '<div id="mw_admin_import_language_modal_content"></div>',
             title: 'Import Language File',
@@ -34,19 +35,20 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
         });
         var params = {};
         params.namespace = namespace;
-        params.language = language;
         mw.load_module('settings/group/language_import', '#mw_admin_import_language_modal_content', null, params);
     }
 
-    function export_language_by_namespace(namespace, language) {
-        $.ajax({
-            type: "POST",
-            url: "<?php echo route('admin.backup.language.export'); ?>",
-            data: "namespace=" + namespace + "&language=" + language,
-            success: function (data) {
-                window.location = data;
-            }
+    function exportTranslation(namespace) {
+
+        mw.dialog({
+            content: '<div id="mw_admin_export_language_modal_content"></div>',
+            title: 'Export Language File',
+            height: 200,
+            id: 'mw_admin_export_language_modal'
         });
+        var params = {};
+        params.namespace = namespace;
+        mw.load_module('settings/group/language_export', '#mw_admin_export_language_modal_content', null, params);
     }
 
     function send_lang_form_to_microweber() {
@@ -63,36 +65,12 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
 
         return false;
     }
-
-    function save_lang_form($form_id) {
-        var formArray = $('#' + $form_id).serializeArray();
-
-        mw.tools.loading( $('#' + $form_id),true)
-
-        $.ajax({
-            type: "POST",
-            url: "<?php print api_link('save_language_file_content'); ?>",
-            data: {lines: JSON.stringify(formArray)},
-            dataType: "json",
-            success: function (msg) {
-                mw.tools.loading( $('#' + $form_id),false)
-                if(msg.success){
-                                mw.notification.success(msg.success,2000,'lang');
-                } else {
-                    mw.notification.msg(msg,2000,false);
-
-                }
-            }
-        });
-
-        return false;
-    }
 </script>
 
 <script>
     $('body').on('click', '.js-lang-file-position', function () {
         $(this).find('.mdi').toggleClass('mdi-rotate-270');
-    })
+    });
 
     $(document).ready(function () {
         $('.lang-edit-form textarea').keypress(function (event) {

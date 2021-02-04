@@ -21,7 +21,7 @@
 <?php $total = cart_sum(); ?>
 
 <?php if (is_array($data)) : ?>
-    <div class="products m-3">
+    <div class="products m-6">
         <?php foreach ($data as $item) : ?>
             <div class="form-row product-item align-items-center">
                 <div class="col-3 d-flex item-img">

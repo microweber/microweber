@@ -8,11 +8,72 @@
 
 namespace MicroweberPackages\Translation\Http\Controllers;
 
-use function _HumbugBox58fd4d9e2a25\pcov\clear;
 use Illuminate\Http\Request;
+use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Translation\Models\Translation;
 
 class TranslationController {
+
+    public function import(Request $request) {
+
+    }
+
+    public function export(Request $request) {
+
+        $namespace = $request->post('namespace','*');
+        $exportLocale = $request->post('locale', mw()->lang_helper->default_lang());
+        
+        $exportFileName = 'translation-global';
+
+        $query = Translation::query();
+        $query->groupBy(\DB::raw("MD5(translation_key)"));
+
+        if (!empty($namespace)) {
+            $query->where('translation_namespace', $namespace);
+            if ($namespace !== '*') {
+                $exportFileName = 'translation-' . $namespace;
+            }
+        }
+
+        if (!empty($exportLocale)) {
+            $exportFileName = $exportFileName . '-' . $exportLocale;
+        }
+
+        $getTranslatable = $query->get(); // Get original english fields
+
+        $readyExportData = [];
+        foreach ($getTranslatable as $translation) {
+
+            $translationText = $translation->translation_text;
+
+            // Get the current locale lang translatable fields
+            $getTranslationByLocale = Translation::where('translation_key', $translation->translation_key)
+                ->where('translation_namespace', $translation->translation_namespace)
+                ->where('translation_group', $translation->translation_group)
+                ->where('translation_locale', $exportLocale)
+                ->first();
+
+            if ($getTranslationByLocale != null) {
+                $translationText = $getTranslationByLocale->translation_text;
+            }
+
+            $readyTranslate = [];
+            $readyTranslate['translation_namespace'] = $translation->translation_namespace;
+            $readyTranslate['translation_group'] = $translation->translation_group;
+            $readyTranslate['translation_key'] = $translation->translation_key;
+            $readyTranslate['translation_text'] = $translationText;
+            $readyTranslate['translation_locale'] = $exportLocale;
+
+            $readyExportData[] = $readyTranslate;
+
+        }
+
+        $export = new XlsxExport();
+        $export->data[$exportFileName] = $readyExportData;
+
+        return $export->start();
+
+    }
 
     public function save(Request $request) {
 
