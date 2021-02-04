@@ -27,6 +27,7 @@ description: Small Modal
 <?php
 $total = cart_total();
 ?>
+       <div class="checkout-modal-products-wrapper">
            <?php if (is_array($data) and $data) : ?>
                <?php foreach ($data as $item) : ?>
                    <div class="form-row checkout-modal-product-list-item ">
@@ -87,4 +88,4 @@ $total = cart_total();
                    </div>
                </div>
            <?php endif; ?>
-
+       </div>
