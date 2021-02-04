@@ -6,6 +6,7 @@ use Hamcrest\Core\Is;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\AdminServiceProvider;
@@ -201,7 +202,10 @@ class AppServiceProvider extends ServiceProvider
             define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
         }
 
-        //   $this->app->register(TaggableFileCacheServiceProvider::class);
+        if (config::get('microweber.force_https') && !is_cli()) {
+            URL::forceScheme("https");
+        }
+            //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
         $this->app->register(TranslationServiceProvider::class);
