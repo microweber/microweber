@@ -22,9 +22,11 @@ if(!$selected_shipping_gateway and $shipping_options and isset($shipping_options
                 method: 'POST',
             }).done(function() {
                 mw.reload_module('shop/cart');
+                $('#mw-shipping-gateway-selected-<?php print $params['id']; ?>').attr('data-type',val);
 
+                mw.reload_module('#mw-shipping-gateway-selected-<?php print $params['id']; ?>');
                 //document.querySelector('.mw-shipping-gateway-selected-<?php print $params['id']; ?> .module').setAttribute('data-selected-gw', val);
-                mw.load_module(val, '#mw-shipping-gateway-selected-<?php print $params['id']; ?>');
+            //   mw.load_module(val, '#mw-shipping-gateway-selected-<?php print $params['id']; ?>');
 
             });
 

@@ -10,8 +10,8 @@
     </div>
 
     <?php if (isset($selected_shipping_gateway) and is_module($selected_shipping_gateway)): ?>
-        <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">
-            <module type="<?php print $selected_shipping_gateway ?>" template="modal"/>
+        <div id="mw-shipping-gateway-selected-wrapper-<?php print $params['id']; ?>">
+            <module id="mw-shipping-gateway-selected-<?php print $params['id']; ?>" type="<?php print $selected_shipping_gateway ?>" template="modal"/>
         </div>
     <?php endif; ?>
 </div>
