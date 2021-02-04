@@ -27,40 +27,38 @@ description: Small Modal
 <?php
 $total = cart_total();
 ?>
-    <div class="container">
-        <div class="checkout-modal-products-wrapper">
-            <div class="form-row checkout-modal-product-list-item">
+    <div class="container checkout-modal-products-wrapper">
                 <?php if (is_array($data) and $data) : ?>
                     <?php foreach ($data as $item) : ?>
-
-                        <div class="col-3 col-sm-4 col-md-2 justify-content-start mb-3">
-                            <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
-                                <?php $p = $item['item_image']; ?>
-                            <?php else: ?>
-                                <?php $p = get_picture($item['rel_id']); ?>
-                            <?php endif; ?>
-                            <?php if ($p != false): ?>
-                                <div><img src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/></div>
-                            <?php endif; ?>
-                        </div>
-                        <div class="col-9 col-sm-8 col-md-10">
-                            <div class="form-row h-100">
-                                <div class="col-10">
-                                    <div class="form-row align-items-md-center h-100">
-                                        <div class="col-12 col-md-7 text-md-center mb-2">
-                                            <div><?php print _lang($item['title'], "template/big") ?></div>
-                                        </div>
-                                        <div class="col-6 col-md-3 align-self-center justify-content-md-center">
-                                            <?php print currency_format($item['price']); ?>
-                                        </div>
-                                        <div class="col-6 col-md-2 align-self-center justify-content-md-center">
-                                            <div class="mw-qty-field">
-                                                <input min=0 type="number" class="form-control input-sm " name="qty" value="<?php print $item['qty'] ?>"  onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/></div>
+                        <div class="form-row checkout-modal-product-list-item ">
+                            <div class="col-auto">
+                                <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
+                                    <?php $p = $item['item_image']; ?>
+                                <?php else: ?>
+                                    <?php $p = get_picture($item['rel_id']); ?>
+                                <?php endif; ?>
+                                <?php if ($p != false): ?>
+                                    <img style="max-width:70px; max-height:70px;" src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/>
+                                <?php endif; ?>
+                            </div>
+                            <div class="col">
+                                <div class="form-row h-100">
+                                    <div class="col-10">
+                                        <div class="form-row align-items-md-center h-100">
+                                            <div class="col-12 col-md-7">
+                                                <div><?php print _lang($item['title'], "template/big") ?></div>
+                                            </div>
+                                            <div class="col-6 col-md-3 align-self-center justify-content-md-center">
+                                                <?php print currency_format($item['price']); ?>
+                                            </div>
+                                            <div class="col-6 col-md-2 align-self-center justify-content-md-center mw-qty-field">
+                                                    <input min=0 type="number" class="form-control input-sm " name="qty" value="<?php print $item['qty'] ?>"  onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-2 justify-content-center align-self-center">
-                                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center justify-content-md-end">delete_forever</i></a>
+                                    <div class="col-2 justify-content-center align-self-center">
+                                        <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center justify-content-md-end">delete_forever</i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +66,6 @@ $total = cart_total();
                 <?php else: ?>
                     <h5><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
                 <?php endif; ?>
-            </div>
 
             <?php if (is_array($data) and $data) : ?>
                 <div class="checkout-modal-amount-holder form-row mt-4">
@@ -91,7 +88,4 @@ $total = cart_total();
                     </div>
                 </div>
             <?php endif; ?>
-        </div>
-
-
     </div>
