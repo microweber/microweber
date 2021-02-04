@@ -110,10 +110,10 @@ $namespaceMd5 = md5($namespace);
                 <label class="control-label m-0"><?php _e('Translate the fields to different languages'); ?></label>
             </div>
 
-           <!-- <div>
-                <a href="javascript:;" onClick="" class="btn btn-outline-primary btn-sm">Export to Excel</a>
-                <a href="javascript:;" onClick="" class="btn btn-outline-primary btn-sm">Import Excel file</a>
-            </div>-->
+           <div>
+                <button type="button" onClick="exportTranslation('<?php echo $namespace;?>')" class="btn btn-outline-primary btn-sm">Export to Excel</button>
+                <button type="button" onClick="importTranslation('<?php echo $namespace;?>')" class="btn btn-outline-primary btn-sm">Import Excel file</button>
+            </div>
         </div>
 
         <div class="js-language-pagination-<?php echo $namespaceMd5;?> text-center mt-5">

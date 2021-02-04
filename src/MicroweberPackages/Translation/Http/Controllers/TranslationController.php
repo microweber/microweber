@@ -8,11 +8,38 @@
 
 namespace MicroweberPackages\Translation\Http\Controllers;
 
-use function _HumbugBox58fd4d9e2a25\pcov\clear;
 use Illuminate\Http\Request;
+use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Translation\Models\Translation;
 
 class TranslationController {
+
+    public function import(Request $request) {
+
+    }
+
+    public function export(Request $request) {
+        
+        $exportFileName = 'translation-global';
+
+        $query = Translation::query();
+        $namespace = $request->post('namespace');
+
+        if (!empty($namespace)) {
+            $query->where('translation_namespace', $namespace);
+            if ($namespace !== '*') {
+                $exportFileName = 'translation-' . $namespace;
+            }
+        }
+
+        $data = $query->get()->toArray();
+
+        $export = new XlsxExport();
+        $export->data[$exportFileName] = $data;
+
+        return $export->start();
+
+    }
 
     public function save(Request $request) {
 

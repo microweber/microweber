@@ -7,3 +7,5 @@
  */
 
 Route::post('admin/language/save', '\MicroweberPackages\Translation\Http\Controllers\TranslationController@save')->name('admin.language.save');
+Route::post('admin/language/import', '\MicroweberPackages\Translation\Http\Controllers\TranslationController@import')->name('admin.language.import');
+Route::post('admin/language/export', '\MicroweberPackages\Translation\Http\Controllers\TranslationController@export')->name('admin.language.export');
