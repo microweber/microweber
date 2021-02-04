@@ -39,18 +39,16 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
     }
 
     function exportTranslation(namespace) {
-        $.ajax({
-            type: "POST",
-            url: "<?php echo route('admin.language.export'); ?>",
-            data: "namespace=" + namespace + "&locale=" + locale,
-            success: function (data) {
-                if (data.files[0].download) {
-                    window.location = data.files[0].download;
-                } else {
-                    mw.notification.error("<?php _e("Can't export the language pack."); ?>");
-                }
-            }
+
+        mw.dialog({
+            content: '<div id="mw_admin_export_language_modal_content"></div>',
+            title: 'Export Language File',
+            height: 200,
+            id: 'mw_admin_export_language_modal'
         });
+        var params = {};
+        params.namespace = namespace;
+        mw.load_module('settings/group/language_export', '#mw_admin_export_language_modal_content', null, params);
     }
 
     function send_lang_form_to_microweber() {
