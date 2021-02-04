@@ -827,11 +827,11 @@ class CheckoutManager
 
 
     public function mark_order_as_paid($orderId){
+
         $order = Order::find($orderId);
         if (!$order) {
            return;
         }
-
 
         $update_order_event_data = $order->toArray();
 
