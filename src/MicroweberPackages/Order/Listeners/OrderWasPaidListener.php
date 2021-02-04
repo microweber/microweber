@@ -3,9 +3,10 @@
 namespace MicroweberPackages\Order\Listeners;
 
 
+use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\Order\Listeners\Tratis\NewOrderNotificationTrait;
 
-class OrderCreatedListener
+class OrderWasPaidListener
 {
     use NewOrderNotificationTrait;
 

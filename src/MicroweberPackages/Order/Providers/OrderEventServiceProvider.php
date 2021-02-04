@@ -15,6 +15,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Listeners\OrderCreatedListener;
+use MicroweberPackages\Order\Listeners\OrderWasPaidListener;
 
 class OrderEventServiceProvider extends EventServiceProvider
 {
