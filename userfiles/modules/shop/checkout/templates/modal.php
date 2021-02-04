@@ -77,19 +77,13 @@ description: Checkout
                             <?php endif; ?>
                         </div>
 
-
                         <div class="js-step-content js-delivery-address">
 
-                            <?php
-                            $checkout_session = session_get('checkout');
-                            ?>
-
-                            <div class="container">
-                                    <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
-                                         rel_id="<?php print $params['id'] ?>">
-                                        <small class="pull-right text-muted">*All fields are required</small>
-                                        <h5 class="my-4 font-weight-bold">Personal Information</h5>
-                                    </div>
+                                <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
+                                     rel_id="<?php print $params['id'] ?>">
+                                    <small class="pull-right text-muted">*All fields are required</small>
+                                    <h5 class="my-4 font-weight-bold">Personal Information</h5>
+                                </div>
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
@@ -131,7 +125,6 @@ description: Checkout
                                     <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step"
                                        data-step="payment-method"><?php _e("Continue"); ?></a>
                                 </div>
-                            </div>
                         </div>
 
                         <div class="js-step-content js-payment-method">
@@ -146,27 +139,17 @@ description: Checkout
                                         id="complete_order_button" <?php if ($terms): ?> disabled="disabled"   <?php endif; ?>>
                                     <?php _e("Complete order"); ?>
                                 </button>
-                                <?php if (is_array($shop_page)): ?>
-                                    <?php
-
-                                    /*<a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn btn-default pull-left"
-                                       type="button">
-                                        <?php _e("Continue Shopping"); ?>
-                                    </a>*/
-
-                                    ?>
-                                <?php endif; ?>
                                 <div class="clear"></div>
                             </div>
+                        </div>
                         <div class="js-step-content js-checkout-complete">
                             <div class="text-center p-10">
                                 <h3><?php _e("Thank you for your purchase!"); ?></h3>
                             </div>
                         </div>
                     </div>
-                </div>
+                <div class="mw-checkout-response"></div>
             </form>
-            <div class="mw-checkout-response"></div>
         <?php endif; ?>
     </div>
 </div>
