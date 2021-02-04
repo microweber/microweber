@@ -36,7 +36,6 @@ description: Payments 1
 
 <div class="mw-shipping-and-payments">
     <?php if ($payment_options and count($payment_options) > 0): ?>
-           <div class="container">
                <div class="form-row">
                     <div class="methods">
                        <div class="edit nodrop mt-2" field="checkout_payment_information_title" rel="global"
@@ -85,6 +84,5 @@ description: Payments 1
                        </div>
                     </div>
                 </div>
-            </div>
     <?php endif; ?>
 </div>
