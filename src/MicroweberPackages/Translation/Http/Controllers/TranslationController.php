@@ -69,6 +69,8 @@ class TranslationController {
 
         }
 
+        $exportFileName = $exportFileName . '-' . date('Y-m-d-H-i-s');
+
         $export = new XlsxExport();
         $export->data[$exportFileName] = $readyExportData;
 
