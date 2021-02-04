@@ -22,102 +22,76 @@ description: Small Modal
 
 
     </script>
-
 <?php endif; ?>
-
-
 
 <?php
 $total = cart_total();
 ?>
-<div class="container">
-    <h5 class="mb-3"><?php _e("List of Products"); ?></h5>
-    <div class="checkout-modal-products-wrapper row">
-        <?php if (is_array($data) and $data) : ?>
-            <table class="table table-responsive w-100 d-block d-md-table">
-                <thead>
-                <tr class="font-weight-bold">
-                    <th scope="col" class="text-muted">Image</th>
-                    <th scope="col" class="text-muted">Product</th>
-                    <th scope="col" class="text-muted">Price</th>
-                    <th scope="col" class="text-muted">Qty</th>
-                    <th scope="col" class="text-muted">Total</th>
-                    <th scope="col" class="text-muted">Actions</th>
-                </tr>
-                </thead>
-                <?php foreach ($data as $item) : ?>
-                    <tbody>
-                    <tr>
-                        <td>
+    <div class="container">
+        <div class="checkout-modal-products-wrapper">
+            <div class="form-row checkout-modal-product-list-item">
+                <?php if (is_array($data) and $data) : ?>
+                    <?php foreach ($data as $item) : ?>
+
+                        <div class="col-3 col-sm-4 col-md-2 justify-content-start mb-3">
                             <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                 <?php $p = $item['item_image']; ?>
                             <?php else: ?>
                                 <?php $p = get_picture($item['rel_id']); ?>
                             <?php endif; ?>
                             <?php if ($p != false): ?>
-                                <img src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/>
+                                <div><img src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/></div>
                             <?php endif; ?>
-                        </td>
-                        <td class="td-title"><?php print _lang($item['title'], "template/big") ?></td>
-                        <td><?php print currency_format($item['price']); ?></td>
-                        <td> <div class="mw-qty-field">
-                                <input min=0 type="number" class="form-control m-0" name="qty" value="<?php print $item['qty'] ?>"  onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/>
-                            </div></td>
-                        <td><?php print currency_format($item['price'] * $item['qty']); ?></td>
-                        <td> <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center">delete_forever</i></a></td>
-                    </tr>
-                    </tbody>
-
-                <?php endforeach; ?>
-                <thead>
-                <tr class="font-weight-bold">
-                    <th scope="col" class="text-muted">Image</th>
-                    <th scope="col" class="text-muted">Product</th>
-                    <th scope="col" class="text-muted">Price</th>
-                    <th scope="col" class="text-muted">Qty</th>
-                    <th scope="col" class="text-muted">Total</th>
-                    <th scope="col" class="text-muted">Actions</th>
-                </tr>
-                </thead>
-            </table>
-
-        <?php else: ?>
-
-            <h5><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
-
-        <?php endif; ?>
-
-    </div>
-
-    <?php if (is_array($data) and $data) : ?>
-        <div class="checkout-modal-amount-holder row mt-4">
-            <div class="col-sm-6 checkout-modal-promocode-holder ml-auto">
-                <?php if (get_option('enable_coupons', 'shop') == 1): ?>
-                    <?php
-                    $discountData = app()->cart_manager->totals('discount');
-                    ?>
-                    <module type="shop/coupons" template="modal" />
+                        </div>
+                        <div class="col-9 col-sm-8 col-md-10">
+                            <div class="form-row h-100">
+                                <div class="col-10">
+                                    <div class="form-row align-items-md-center h-100">
+                                        <div class="col-12 col-md-7 text-md-center mb-2">
+                                            <div><?php print _lang($item['title'], "template/big") ?></div>
+                                        </div>
+                                        <div class="col-6 col-md-3 align-self-center justify-content-md-center">
+                                            <?php print currency_format($item['price']); ?>
+                                        </div>
+                                        <div class="col-6 col-md-2 align-self-center justify-content-md-center">
+                                            <div class="mw-qty-field">
+                                                <input min=0 type="number" class="form-control input-sm " name="qty" value="<?php print $item['qty'] ?>"  onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2 justify-content-center align-self-center">
+                                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center justify-content-md-end">delete_forever</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <h5><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
                 <?php endif; ?>
             </div>
-            <div class="col-sm-6 checkout-modal-total-holder ">
-                <div class="d-flex justify-content-center align-items-center">
-                    <module type="shop/cart" template="totals" />
+
+            <?php if (is_array($data) and $data) : ?>
+                <div class="checkout-modal-amount-holder form-row mt-4">
+                    <div class="col-sm-6 checkout-modal-promocode-holder ml-auto">
+                        <?php if (get_option('enable_coupons', 'shop') == 1): ?>
+                            <?php
+                            $discountData = app()->cart_manager->totals('discount');
+                            ?>
+                            <module type="shop/coupons" template="modal" />
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-sm-6 checkout-modal-total-holder ">
+                        <div class="d-flex justify-content-md-end align-items-center">
+                            <module type="shop/cart" template="totals" />
+                        </div>
+                    </div >
+
+                    <div class="w-100 mt-2">
+                        <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step" data-step="delivery-address"><?php _e('Checkout'); ?></a>
+                    </div>
                 </div>
-                <?php
-
-
-                /*<p><strong><?php _e('Tax Amount:'); ?> <?php print currency_format(cart_get_tax()); ?></strong></p>
-                <p><strong><?php _e('Total Amount:'); ?> <?php print currency_format($total); ?></strong></p>
-                <?php if(!empty($discountData)) :?>
-                    <p><strong><?php _e('Coupon Name:'); ?> <?php print $discountData['label']; ?></strong></p>
-                    <p><strong><?php _e('Discount Amount:'); ?> <?php print $discountData['amount']; ?></strong></p>
-                <?php endif?>*/
-
-
-                ?>
-                <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step" data-step="delivery-address"><?php _e('Checkout'); ?></a>
-            </div>
-
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
-</div>
+
+
+    </div>

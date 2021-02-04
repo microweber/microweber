@@ -37,13 +37,13 @@ description: Payments 1
 <div class="mw-shipping-and-payments">
     <?php if ($payment_options and count($payment_options) > 0): ?>
            <div class="container">
-               <div class="row">
+               <div class="form-row">
                     <div class="methods">
                        <div class="edit nodrop mt-2" field="checkout_payment_information_title" rel="global"
                             rel_id="<?php print $params['id'] ?>">
                            <h5 class="font-weight-bold m-0"><?php _e("Choose Payment Method"); ?></h5>
                            <small class="text-muted">Choose from the available payment methods to pay this order.</small>
-                           <div class="field-holder my-4 d-sm-inline-block d-md-flex">
+                           <div class="field-holder text-center my-4 d-sm-inline-block d-md-flex">
                                <?php $count = 0;
                                foreach ($payment_options as $payment_option) : $count++; ?>
 

@@ -73,91 +73,91 @@ description: Checkout
                             <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
                             <?php if ($cart_show_enanbled != 'n'): ?>
                                 <br/>
-                                <module type="shop/cart" template="modal" data-checkout-link-enabled="n"
-                                        id="cart_checkout_<?php print $params['id'] ?>"/>
+                                <module type="shop/cart" template="modal" data-checkout-link-enabled="n" id="cart_checkout_<?php print $params['id'] ?>"/>
                             <?php endif; ?>
                         </div>
+
+
                         <div class="js-step-content js-delivery-address">
 
                             <?php
                             $checkout_session = session_get('checkout');
                             ?>
-                            <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
-                                 rel_id="<?php print $params['id'] ?>">
-                                <small class="pull-right text-muted">*All fields are required</small>
-                                <h5 class="my-4 font-weight-bold">Personal Information</h5>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputFirstName"><?php _e("First Name"); ?></label>
-                                        <input required name="first_name" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>" class="form-control"
-                                               placeholder="<?php _e("First Name"); ?>">
+
+                            <div class="container">
+                                    <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
+                                         rel_id="<?php print $params['id'] ?>">
+                                        <small class="pull-right text-muted">*All fields are required</small>
+                                        <h5 class="my-4 font-weight-bold">Personal Information</h5>
+                                    </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputFirstName"><?php _e("First Name"); ?></label>
+                                            <input required name="first_name" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>" class="form-control"
+                                                   placeholder="<?php _e("First Name"); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputLastName"><?php _e("Last Name"); ?></label>
+                                            <input required name="last_name" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>" class="form-control"
+                                                   placeholder="<?php _e("Last Name"); ?>">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputLastName"><?php _e("Last Name"); ?></label>
-                                        <input required name="last_name" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>" class="form-control"
-                                               placeholder="<?php _e("Last Name"); ?>">
+
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php _e("Email"); ?></label>
+                                            <input required name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control"
+                                                   placeholder="<?php _e("Enter email"); ?>">
+                                            <small id="emailHelp" class="form-text text-muted"><?php _e("We'll never share your email with anyone else."); ?></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputPhone"><?php _e("Phone"); ?></label>
+                                            <input required name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control"
+                                                   placeholder="<?php _e("Enter phone"); ?>">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1"><?php _e("Email"); ?></label>
-                                        <input required name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control"
-                                               placeholder="<?php _e("Enter email"); ?>">
-                                        <small id="emailHelp" class="form-text text-muted"><?php _e("We'll never share your email with anyone else."); ?></small>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputPhone"><?php _e("Phone"); ?></label>
-                                        <input required name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control"
-                                               placeholder="<?php _e("Enter phone"); ?>">
-                                    </div>
+                                <module type="shop/shipping" data-store-values="true" template="modal"/>
+
+                                <div class="m-t-10">
+                                    <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step"
+                                       data-step="payment-method"><?php _e("Continue"); ?></a>
                                 </div>
                             </div>
-
-                            <module type="shop/shipping" data-store-values="true" template="modal"/>
-
-                            <div class="m-t-10">
-                                <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step"
-                                   data-step="payment-method"><?php _e("Continue"); ?></a>
-                            </div>
-
                         </div>
 
                         <div class="js-step-content js-payment-method">
-                            <div>
-                                <module type="shop/payments" data-store-values="true" template="modal"/>
-                                <div class="mw-cart-action-holder mt-3 ml-3">
-                                    <module type="shop/checkout/terms"/>
-                                    <hr/>
-                                    <?php $shop_page = get_content('is_shop=1'); ?>
-                                    <button class="btn btn-primary d-flex justify-content-center w-100 btn-lg rounded"
-                                            onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
-                                            type="button"
-                                            id="complete_order_button" <?php if ($terms): ?> disabled="disabled"   <?php endif; ?>>
-                                        <?php _e("Complete order"); ?>
-                                    </button>
-                                    <?php if (is_array($shop_page)): ?>
-                                        <?php
+                            <module type="shop/payments" data-store-values="true" template="modal"/>
+                            <div class="mw-cart-action-holder">
+                                <module type="shop/checkout/terms"/>
+                                <hr/>
+                                <?php $shop_page = get_content('is_shop=1'); ?>
+                                <button class="btn btn-primary d-flex justify-content-center w-100 btn-lg rounded"
+                                        onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
+                                        type="button"
+                                        id="complete_order_button" <?php if ($terms): ?> disabled="disabled"   <?php endif; ?>>
+                                    <?php _e("Complete order"); ?>
+                                </button>
+                                <?php if (is_array($shop_page)): ?>
+                                    <?php
 
-                                        /*<a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn btn-default pull-left"
-                                           type="button">
-                                            <?php _e("Continue Shopping"); ?>
-                                        </a>*/
+                                    /*<a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn btn-default pull-left"
+                                       type="button">
+                                        <?php _e("Continue Shopping"); ?>
+                                    </a>*/
 
-                                        ?>
-                                    <?php endif; ?>
-                                    <div class="clear"></div>
-                                </div>
+                                    ?>
+                                <?php endif; ?>
+                                <div class="clear"></div>
                             </div>
-                        </div>
                         <div class="js-step-content js-checkout-complete">
                             <div class="text-center p-10">
                                 <h3><?php _e("Thank you for your purchase!"); ?></h3>

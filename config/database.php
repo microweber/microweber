@@ -6,7 +6,7 @@
     'sqlite' => 
     array (
       'driver' => 'sqlite',
-      'database' => storage_path().DIRECTORY_SEPARATOR.'up_laraguy.sqlite',
+      'database' => storage_path().DIRECTORY_SEPARATOR.'localhost.sqlite',
       'prefix' => 'up_laraguy_',
       'host' => '',
       'username' => '',
