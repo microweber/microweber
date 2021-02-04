@@ -10,16 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
-use MicroweberPackages\Form\Notifications\NewFormEntry;
 
 //use MicroweberPackages\Invoice\Address;
 //use MicroweberPackages\Invoice\Invoice;
-use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Order\Models\OrderAnonymousClient;
 use MicroweberPackages\Order\Notifications\NewOrder;
-use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -827,47 +823,6 @@ class CheckoutManager
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
-
-        $newOrderEvent = new NewOrder($order);
-
-        // Ss logged
-        $notifiable = false;
-        if (isset($order->created_by) && $order->created_by > 0) {
-            $customer = User::where('id', $order->created_by)->first();
-            if ($customer) {
-                if (empty($order->email)) {
-                    $notifiable = $customer;
-                }
-            }
-        }
-
-
-        $update_order_event_data = $order->toArray();
-
-        if (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 1) {
-           // $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
-
-            $this->app->shop_manager->update_quantities($orderId);
-        }
-
-        if ($orderId > 0) {
-            $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders');
-            //return true;
-        }
-
-        //$this->confirm_email_send($orderId);
-
-
-        if (!$notifiable) {
-            $notifiable = OrderAnonymousClient::find($orderId);
-        }
-
-        if ($notifiable) {
-            $notifiable->notifyNow($newOrderEvent);
-        }
-
-        Notification::send(User::whereIsAdmin(1)->get(), $newOrderEvent);
     }
 
 

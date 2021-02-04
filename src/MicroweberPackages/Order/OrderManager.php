@@ -17,6 +17,7 @@ use MicroweberPackages\Order\Events\OrderIsCreating;
 use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Models\Order;
+use MicroweberPackages\Order\Notifications\NewOrderNotification;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Notifications\ProductOutOfStockNotification;
 use MicroweberPackages\User\Models\User;
@@ -140,7 +141,10 @@ class OrderManager
         $ord = $this->app->database_manager->save($this->table, $place_order);
         $place_order['id'] = $ord;
 
-        event($event = new OrderWasCreated(Order::find($ord), $place_order));
+        $orderModel = Order::find($ord);
+
+        event($event = new OrderWasCreated($orderModel, $place_order));
+
 
         //get client
 

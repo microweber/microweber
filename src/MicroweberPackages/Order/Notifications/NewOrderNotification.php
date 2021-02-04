@@ -12,7 +12,7 @@ use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
 
 
-class NewOrder extends Notification
+class NewOrderNotification extends Notification
 {
     use Queueable;
     use InteractsWithQueue, SerializesModels;
