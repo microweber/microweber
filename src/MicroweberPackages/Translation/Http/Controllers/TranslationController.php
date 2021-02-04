@@ -47,7 +47,8 @@ class TranslationController {
             $translationText = $translation->translation_text;
 
             // Get the current locale lang translatable fields
-            $getTranslationByLocale = Translation::where('translation_key', $translation->translation_key)
+            $getTranslationByLocale = Translation::
+                where(\DB::raw('md5(translation_key)'), md5($translation->translation_key))
                 ->where('translation_namespace', $translation->translation_namespace)
                 ->where('translation_group', $translation->translation_group)
                 ->where('translation_locale', $exportLocale)
