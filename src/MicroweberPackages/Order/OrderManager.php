@@ -131,8 +131,12 @@ class OrderManager
         }
 
         event($event = new OrderIsCreating($place_order));
-
+        $should_mark_as_paid = false;
         $place_order = array_filter($place_order);
+        if (isset($place_order['is_paid']) and intval($place_order['is_paid']) == 1) {
+            unset($place_order['is_paid']);
+            $should_mark_as_paid = true;
+        }
         $ord = $this->app->database_manager->save($this->table, $place_order);
         $place_order['id'] = $ord;
 
@@ -149,7 +153,7 @@ class OrderManager
 //
 //            }
 //        }
-        DB::transaction(function () use ($sid, $ord, $place_order) {
+        DB::transaction(function () use ($sid, $ord, $place_order,$should_mark_as_paid) {
 
             DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
@@ -170,11 +174,16 @@ class OrderManager
                 }
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                    $this->app->shop_manager->update_quantities($ord);
+                  //  $this->app->shop_manager->update_quantities($ord);
 
-                    event($event = new OrderWasPaid(Order::find($ord), $place_order));
+                  //  event($event = new OrderWasPaid(Order::find($ord), $place_order));
                 }
-                $this->app->shop_manager->after_checkout($ord);
+
+                if($should_mark_as_paid){
+                    $this->app->checkout_manager->mark_order_as_paid($ord);
+                }
+
+                $this->app->checkout_manager->after_checkout($ord);
             }
         });
 

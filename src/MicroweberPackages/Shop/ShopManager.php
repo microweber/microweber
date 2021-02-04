@@ -156,10 +156,6 @@ class ShopManager
         return $this->app->order_manager->get_items($order_id);
     }
 
-    public function after_checkout($order_id)
-    {
-        return $this->app->checkout_manager->after_checkout($order_id);
-    }
 
     public function get_orders($params = false)
     {
