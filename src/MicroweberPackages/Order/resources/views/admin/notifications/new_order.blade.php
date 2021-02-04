@@ -22,6 +22,10 @@ if (isset($item['created_by'])) {
     }
 }
 
+if(!$order){
+    return;
+}
+
 ?>
 
 <div class="card mb-3 not-collapsed-border collapsed card-order-holder card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>"
