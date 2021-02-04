@@ -90,7 +90,7 @@ class CheckoutManager
                         $this->_verify_request_params($update_order);
 
 
-                        if (isset($update_order_orig['is_paid']) and intval($update_order_orig['is_paid']) == 0) {
+                        if (!isset($update_order_orig['is_paid']) or (isset($update_order_orig['is_paid']) and intval($update_order_orig['is_paid']) == 0)) {
                             if (isset($update_order['is_paid']) and intval($update_order['is_paid']) == 1) {
                                 $should_mark_as_paid = true;
                                 unset($update_order['is_paid']);
