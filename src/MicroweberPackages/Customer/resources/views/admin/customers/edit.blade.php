@@ -92,7 +92,11 @@
                                 <span class="d-block mb-1">{{$customer->addresses[0]->company_id}}</span>
                                 <span class="d-block mb-1">{{$customer->addresses[0]->company_vat}}</span>
                                 {{--<span class="d-block mb-1">{{$customer->addresses[0]->address_street_1}}</span>--}}
-                                <span class="d-block mb-1">{{$customer->addresses[0]->city}} {{$customer->addresses[0]->zip}} / {{$customer->addresses[0]->state}} / {{$customer->addresses[0]->country->name}}</span>
+                                <span class="d-block mb-1">{{$customer->addresses[0]->city}} {{$customer->addresses[0]->zip}} / {{$customer->addresses[0]->state}} /
+                                    @if(isset($customer->addresses[0]) AND isset($customer->addresses[0]->country )  AND isset($customer->addresses[0]->country->name ))
+                                    {{$customer->addresses[0]->country->name}}
+                                    @endif
+                                </span>
                             @else
                                 <div class="text-center">
                                     <span class="d-block"><i class="mdi mdi-truck text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
