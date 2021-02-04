@@ -1,6 +1,8 @@
 
 <div class="mw-shipping-select">
     <div   <?php if(count($shipping_options) == 1): ?>style="display: none" <?php endif; ?>>
+
+        <label class="form-control-label">Shipping method</label>
         <select autocomplete="off" onchange="Gateway(this);" name="shipping_gw"
                 class="field-full form-control mw-shipping-gateway mw-shipping-gateway-<?php print $params['id']; ?> <?php if (count($shipping_options) == 1): ?> semi_hidden <?php endif; ?>">
             <?php foreach ($shipping_options as $item) : ?>
