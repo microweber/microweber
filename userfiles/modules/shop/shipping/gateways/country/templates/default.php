@@ -11,7 +11,6 @@ description: Default
 */
 ?>
 
-
 <div class="<?php print $config['module_class'] ?>">
   <?php if(!$disable_default_shipping_fields) :?>
       <div id="<?php print $rand; ?>">

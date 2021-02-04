@@ -24,6 +24,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
          */
         Lang::addNamespace('translation', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/lang');
 
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
+
         if (mw_is_installed()) {
             if (!Schema::hasTable('translations')) {
                 app()->mw_migrator->run([
@@ -35,17 +37,23 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
                     foreach ($getNewTexts as $text) {
-                        $findTranslation = Translation::where('namespace', $text['namespace'])
-                            ->where('group', $text['group'])
-                            ->where('key', $text['key'])
-                            ->where('locale', $text['locale'])->first();
+
+                        $text['translation_key'] = trim($text['translation_key']);
+                        $text['translation_group'] = trim($text['translation_group']);
+                        $text['translation_namespace'] = trim($text['translation_namespace']);
+                        $text['translation_locale'] = trim($text['translation_locale']);
+
+                        $findTranslation = Translation::where('translation_namespace', $text['translation_namespace'])
+                            ->where('translation_group', $text['translation_group'])
+                            ->where(\DB::raw('md5(translation_key)'), md5($text['translation_key']))
+                            ->where('translation_locale', $text['translation_locale'])->first();
                         if ($findTranslation == null) {
                             Translation::insert($text);
                         }
                     }
-                    clearcache();
                 }
             });
+
         }
     }
 

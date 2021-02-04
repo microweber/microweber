@@ -211,7 +211,7 @@
     vertical-align:middle;
 }
 .checkout-modal-products-wrapper .table .td-title{
-   max-width: 290px;
+   max-width: 140px;
 }
 
 @media screen and (max-width: 767px) {

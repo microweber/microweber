@@ -691,7 +691,7 @@ if ($action == 'posts') {
 
                                             var treeTail = [
                                                 {
-                                                    title: '<?php _lang("Trash") ?>',
+                                                    title: '<?php _e("Trash") ?>',
                                                     icon: 'mdi mdi-delete',
                                                     action: function () {
                                                         mw.url.windowHashParam('action', 'trash');

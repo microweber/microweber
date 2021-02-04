@@ -1,4 +1,3 @@
-
 <div class="mw-shipping-select">
     <div   <?php if(count($shipping_options) == 1): ?>style="display: none" <?php endif; ?>>
         <select autocomplete="off" onchange="Gateway(this);" name="shipping_gw"
@@ -8,7 +7,7 @@
             <?php endforeach; ?>
         </select>
     </div>
-
+    <?php print $selected_shipping_gateway ?>
     <?php if (isset($selected_shipping_gateway) and is_module($selected_shipping_gateway)): ?>
         <div id="mw-shipping-gateway-selected-<?php print $params['id']; ?>">
             <module type="<?php print $selected_shipping_gateway ?>"/>

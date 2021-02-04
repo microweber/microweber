@@ -1,5 +1,6 @@
 <?php
 
+/*
 use MicroweberPackages\Translation\Models\Translation;
 
 function loadLanguageByLocale($locale) {
@@ -7,7 +8,7 @@ function loadLanguageByLocale($locale) {
     $translatedLanguageLines = [];
 
     $languageFiles = [];
-   // $languageFiles[] = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $locale . '.json';
+    $languageFiles[] = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $locale . '.json';
 
     if (empty($locale) || $locale == 'en') {
         $languageFiles[] = mw_includes_path() . 'language' . DIRECTORY_SEPARATOR . 'en.json';
@@ -121,6 +122,7 @@ Route::get('test-lang', function () {
     echo _e('Optional thumbnail. image for use with uploaded. or embedded videos. Required . Lazy Loading. selected.');
 
 });
+*/
 
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');

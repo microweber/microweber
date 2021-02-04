@@ -84,11 +84,7 @@ function _e($k, $to_return = false)
         return $trans;
     }
 
-    if (is_array($trans)) {
-        //
-    } else {
-        echo $trans;
-    }
+    echo $trans;
 }
 
 /**

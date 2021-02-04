@@ -8,23 +8,17 @@ if (is_module('multilanguage')) {
     }
 }
 
-
 $def_language = get_option('language', 'website');
-
-
-
 ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _ejs("Language settings are saved"); ?>.");
-            mw.reload_module('#mw_lang_file_edit');
         }, function () {
             <?php if(!$isMultilanguageActivated): ?>
             var cooklie_lang = $("#user_lang").val();
             mw.cookie.set('lang', cooklie_lang);
-            window.location.reload();
             <?php endif; ?>
         });
     });
