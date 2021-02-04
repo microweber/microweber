@@ -100,7 +100,6 @@ class CheckoutManager
                         $this->app->order_manager->save($update_order);
 
 
-
                         if($should_mark_as_paid){
                             $this->app->checkout_manager->mark_order_as_paid($update_order['id']);
                         }
@@ -835,10 +834,10 @@ class CheckoutManager
 
         $update_order_event_data = $order->toArray();
 
-        if (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 0) {
+        if (!isset($update_order_event_data['is_paid']) or (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 0)) {
             event($event = new OrderWasPaid($order, $update_order_event_data));
             $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
-           // $this->app->shop_manager->update_quantities($orderId);
+            $this->app->shop_manager->update_quantities($orderId);
             $order->is_paid = 1;
             $order->save();
         }
@@ -1115,7 +1114,7 @@ class CheckoutManager
         if (!empty($update_order_event_data) and isset($update_order_event_data['order_completed']) and $update_order_event_data['order_completed'] == 1) {
             $this->after_checkout($ord);
 
-            if (isset($ord_data['is_paid']) and intval($ord_data['is_paid']) == 0) {
+            if (!isset($ord_data['is_paid']) or (isset($ord_data['is_paid']) and intval($ord_data['is_paid']) == 0)) {
                 if (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 1) {
                     $should_mark_as_paid = true;
                 }
