@@ -68,7 +68,7 @@ if (isset($params['content-id'])) {
                     <button class="btn btn-primary pull-right" type="button"
                             onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');">
                         <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
-                        <?php _e($button_text); ?>
+                        <?php _e($button_text !== false ? $button_text : "Add to cart"); ?>
                     </button>
 
 
