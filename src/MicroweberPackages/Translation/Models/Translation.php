@@ -61,7 +61,11 @@ class Translation extends Model
         foreach ($getTranslations as $translation) {
 
             $translationLocales = [];
-            $getTranslationLocales = static::where('translation_key', $translation->translation_key)->get()->toArray();
+            $getTranslationLocales = static::where('translation_key', $translation->translation_key)
+                ->where('translation_namespace', $translation->translation_namespace)
+                ->where('translation_group', $translation->translation_group)
+                ->get()
+                ->toArray();
             foreach ($getTranslationLocales as $translationLocale) {
                 $translationLocales[$translationLocale['translation_locale']] = $translationLocale['translation_text'];
             }

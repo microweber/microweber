@@ -42,7 +42,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
         $.ajax({
             type: "POST",
             url: "<?php echo route('admin.language.export'); ?>",
-            data: "namespace=" + namespace,
+            data: "namespace=" + namespace + "&locale=" + locale,
             success: function (data) {
                 if (data.files[0].download) {
                     window.location = data.files[0].download;

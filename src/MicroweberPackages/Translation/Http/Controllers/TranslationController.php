@@ -19,11 +19,14 @@ class TranslationController {
     }
 
     public function export(Request $request) {
+
+        $namespace = $request->post('namespace','*');
+        $exportLocale = $request->post('locale', 'ccc');
         
         $exportFileName = 'translation-global';
 
         $query = Translation::query();
-        $namespace = $request->post('namespace');
+        $query->groupBy(\DB::raw("MD5(translation_key)"));
 
         if (!empty($namespace)) {
             $query->where('translation_namespace', $namespace);
@@ -32,10 +35,41 @@ class TranslationController {
             }
         }
 
-        $data = $query->get()->toArray();
+        if (!empty($exportLocale)) {
+            $exportFileName = $exportFileName . '-' . $exportLocale;
+        }
+
+        $getTranslatable = $query->get(); // Get original english fields
+
+        $readyExportData = [];
+        foreach ($getTranslatable as $translation) {
+
+            $translationText = $translation->translation_text;
+
+            // Get the current locale lang translatable fields
+            $getTranslationByLocale = Translation::where('translation_key', $translation->translation_key)
+                ->where('translation_namespace', $translation->translation_namespace)
+                ->where('translation_group', $translation->translation_group)
+                ->where('translation_locale', $exportLocale)
+                ->first();
+
+            if ($getTranslationByLocale != null) {
+                $translationText = $getTranslationByLocale->translation_text;
+            }
+
+            $readyTranslate = [];
+            $readyTranslate['translation_namespace'] = $translation->translation_namespace;
+            $readyTranslate['translation_group'] = $translation->translation_group;
+            $readyTranslate['translation_key'] = $translation->translation_key;
+            $readyTranslate['translation_text'] = $translationText;
+            $readyTranslate['translation_locale'] = $exportLocale;
+
+            $readyExportData[] = $readyTranslate;
+
+        }
 
         $export = new XlsxExport();
-        $export->data[$exportFileName] = $data;
+        $export->data[$exportFileName] = $readyExportData;
 
         return $export->start();
 
