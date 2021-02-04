@@ -59,7 +59,7 @@ $namespaceMd5 = md5($namespace);
         $('.mw_lang_item_textarea_edit').on('input', function () {
             mw.on.stopWriting(this,function(){
 
-               var  saveTranslations = JSON.stringify($('.lang-edit-form').serializeObject());
+               var  saveTranslations = JSON.stringify($('.js-translate-changed-fields').find('input,textarea,select').serializeObject());
                saveTranslations = btoa(encodeURIComponent(saveTranslations).replace(/%([0-9A-F]{2})/g,
                 function toSolidBytes(match, p1) {
                     return String.fromCharCode('0x' + p1);
@@ -150,7 +150,7 @@ $namespaceMd5 = md5($namespace);
                                 <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
                                 <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
                                 <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
+                                <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
                             </div>
                         <?php endforeach; ?>
                     </td>
