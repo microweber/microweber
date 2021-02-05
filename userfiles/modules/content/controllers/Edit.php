@@ -3,6 +3,7 @@
 
 namespace content\controllers;
 
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\View\View;
 
 class Edit
@@ -97,13 +98,12 @@ class Edit
             $is_current = $params['is-current'];
         }
         if (isset($params['page-id'])) {
-            $data = $this->app->content_manager->get_by_id(intval($params["page-id"]));
-
+            $data = Content::where('id', intval($params["page-id"]))->first()->toArray();
         }
-
         if (isset($params['content-id'])) {
-            $data = $this->app->content_manager->get_by_id(intval($params["content-id"]));
+            $data = Content::where('id', intval($params["content-id"]))->first()->toArray();
         }
+
         $recommended_parent = false;
 
         if (isset($params['recommended_parent']) and $params['recommended_parent'] != false) {
