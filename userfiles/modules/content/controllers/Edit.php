@@ -98,10 +98,16 @@ class Edit
             $is_current = $params['is-current'];
         }
         if (isset($params['page-id'])) {
-            $data = Content::where('id', intval($params["page-id"]))->first()->toArray();
+            $data_q = Content::where('id', intval($params["page-id"]))->first();
+            if($data_q){
+            $data = $data_q->toArray();
+            }
         }
         if (isset($params['content-id'])) {
-            $data = Content::where('id', intval($params["content-id"]))->first()->toArray();
+            $data_q = Content::where('id', intval($params["content-id"]))->first();
+            if($data_q){
+                $data = $data_q->toArray();
+            }
         }
 
         $recommended_parent = false;
