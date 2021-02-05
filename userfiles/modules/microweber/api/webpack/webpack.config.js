@@ -1,5 +1,6 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 const glob = require("glob");
 
 const webpack = require('webpack');
@@ -7,6 +8,7 @@ const webpack = require('webpack');
 const dir = __dirname;
 const output = `${dir}/dist`;
 const input = `${dir}/..`;
+const css = `${dir}/../../css`;
 
 
 const core = [
@@ -42,15 +44,14 @@ const config = {
         aggregateTimeout: 600
     },
     entry: {
-        'site-libs': input + '/entrylibs/prod.js',
-        'liveedit-libs': input + '/entrylibs/liveedit.js',
-        'admin-libs': input + '/entrylibs/admin.js',
-
-        prod: glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
-        liveedit: glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`)),
-        admin: glob.sync(path.resolve(`${input}/{${admin.join(',')}}/*.js`)),
-        'gui-css-editor': glob.sync(path.resolve(`${input}/{${guiEditor.join(',')}}/*.js`)),
-        editor: [
+        'site-libs.js': input + '/entrylibs/prod.js',
+        'liveedit-libs.js': input + '/entrylibs/liveedit.js',
+        'admin-libs.js': input + '/entrylibs/admin.js',
+        'prod.js': glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
+        'liveedit.js': glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`)),
+        'admin.js': glob.sync(path.resolve(`${input}/{${admin.join(',')}}/*.js`)),
+        'gui-css-editor.js': glob.sync(path.resolve(`${input}/{${guiEditor.join(',')}}/*.js`)),
+        'editor.js': [
             input + '/editor/editor.js',
             input + '/editor/bar.js',
             input + '/editor/api.js',
@@ -62,15 +63,17 @@ const config = {
             input + '/editor/interaction-controls.js',
             input + '/editor/i18n.js',
             input + '/editor/liveeditmode.js',
-        ],
+        ]
     },
     plugins: [
         new CleanWebpackPlugin(),
+
     ],
     output: {
-        filename: '[name].js',
+        filename: '[name]',
         path: path.resolve(output)
     },
+
 };
 
 module.exports = (env, argv) => {

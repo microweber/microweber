@@ -12,11 +12,6 @@
     mw.require("<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js")
     mw.require("<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js")
     mw.require("<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js")
-    mw.require("<?php print(mw_includes_url()); ?>api/tools.js")
-    mw.require("<?php print(mw_includes_url()); ?>api/url.js")
-    mw.require("<?php print(mw_includes_url()); ?>api/events.js")
-    mw.require("<?php print(mw_includes_url()); ?>api/wysiwyg.js")
-    mw.require("<?php print(mw_includes_url()); ?>api/external_callbacks.js")
 </script>
 
 <script>

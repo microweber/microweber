@@ -102,7 +102,7 @@
         //email_to.subject = $('#test_email_subject').val();
         $.post("<?php print site_url('api_html/checkout_confirm_email_test'); ?>", email_to, function (msg) {
             //mw.alert("<pre>"+msg+"</pre>")
-            mw.tools.modal.init({
+            mw.dialog({
                 html: "<pre>" + msg + "</pre>",
                 title: "<?php _e('Email send results...'); ?>"
             });
