@@ -49,9 +49,17 @@ class NewFormEntryAutorespond extends Notification
      */
     public function toMail($notifiable)
     {
-        $mail = new MailMessage();
 
         $form_id = $this->formEntry->rel_id;
+
+        $enableAutoRespond = Option::getValue('enable_auto_respond', $form_id);
+        if ($enableAutoRespond !== true) {
+            // Dont send mail
+            return;
+        }
+
+        $mail = new MailMessage();
+
 
         $emailAutorespond = Option::getValue('email_autorespond', $form_id);
 
@@ -64,7 +72,7 @@ class NewFormEntryAutorespond extends Notification
         }
 
         if (!$emailAutorespond) {
-            $emailAutorespond = _e('Thank you!', true);
+            $emailAutorespond = _e('Thank you for your subscription!', true);
         }
 
         $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $form_id);
