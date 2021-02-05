@@ -16,17 +16,21 @@ if (isset($params['translation_namespace'])) {
 $namespace = $filter['translation_namespace'];
 
 \Config::set('microweber.disable_model_cache', true);
-
+$supportedLanguages = [];
 if (function_exists('get_supported_languages')) {
     $supportedLanguages = get_supported_languages(true);
-} else {
+}
+
+if(empty($supportedLanguages)){
     $currentLanguageAbr = mw()->lang_helper->default_lang();
-    $supportedLanguages = [];
+
     $supportedLanguages[] = [
         'icon'=>$currentLanguageAbr,
         'locale'=>$currentLanguageAbr
     ];
 }
+
+
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
 
 $namespaceMd5 = md5($namespace);
@@ -59,7 +63,7 @@ $namespaceMd5 = md5($namespace);
         $('.mw_lang_item_textarea_edit').on('input', function () {
             mw.on.stopWriting(this,function(){
 
-               var  saveTranslations = JSON.stringify($('.lang-edit-form').serializeObject());
+               var  saveTranslations = JSON.stringify($('.js-translate-changed-fields').find('input,textarea,select').serializeObject());
                saveTranslations = btoa(encodeURIComponent(saveTranslations).replace(/%([0-9A-F]{2})/g,
                 function toSolidBytes(match, p1) {
                     return String.fromCharCode('0x' + p1);
@@ -106,10 +110,10 @@ $namespaceMd5 = md5($namespace);
                 <label class="control-label m-0"><?php _e('Translate the fields to different languages'); ?></label>
             </div>
 
-           <!-- <div>
-                <a href="javascript:;" onClick="" class="btn btn-outline-primary btn-sm">Export to Excel</a>
-                <a href="javascript:;" onClick="" class="btn btn-outline-primary btn-sm">Import Excel file</a>
-            </div>-->
+           <div>
+                <button type="button" onClick="exportTranslation('<?php echo $namespace;?>')" class="btn btn-outline-primary btn-sm">Export to Excel</button>
+                <button type="button" onClick="importTranslation('<?php echo $namespaceMd5;?>')" class="btn btn-outline-primary btn-sm">Import Excel file</button>
+            </div>
         </div>
 
         <div class="js-language-pagination-<?php echo $namespaceMd5;?> text-center mt-5">
@@ -150,7 +154,7 @@ $namespaceMd5 = md5($namespace);
                                 <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
                                 <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
                                 <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
+                                <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
                             </div>
                         <?php endforeach; ?>
                     </td>

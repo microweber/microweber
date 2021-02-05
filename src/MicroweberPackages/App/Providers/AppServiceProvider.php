@@ -6,6 +6,7 @@ use Hamcrest\Core\Is;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\AdminServiceProvider;
@@ -18,6 +19,7 @@ use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
+use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
@@ -200,7 +202,10 @@ class AppServiceProvider extends ServiceProvider
             define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
         }
 
-        //   $this->app->register(TaggableFileCacheServiceProvider::class);
+        if (config::get('microweber.force_https') && !is_cli()) {
+            URL::forceScheme("https");
+        }
+            //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
         $this->app->register(TranslationServiceProvider::class);
@@ -227,6 +232,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ShopManagerServiceProvider::class);
         $this->app->register(TaxManagerServiceProvider::class);
         $this->app->register(OrderServiceProvider::class);
+        $this->app->register(OrderEventServiceProvider::class);
         $this->app->register(CurrencyServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);

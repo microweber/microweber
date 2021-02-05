@@ -51,7 +51,7 @@ must_have_access();
 
 <div class="form-group">
     <label class="control-label"><?php _e('Shipping instructions'); ?></label>
-    <textarea name="shipping_pickup_instructions" class="mw_option_field form-control" data-option-group="shipping"><?php print get_option('shipping_pickup_instructions', 'shipping') ?></textarea>
-    <small class="text-muted d-block mt-2"><?php _e('Display message to the customer when they select this shipping method.'); ?></small>
+    <small class="text-muted d-block mb-2"><?php _e('Display message to the customer when they select this shipping method.'); ?></small>
+    <textarea name="shipping_pickup_instructions" placeholder="<?php _e('Ex.: Your order will be delivered to our office on address: ...'); ?>" class="mw_option_field form-control" data-option-group="shipping"><?php print get_option('shipping_pickup_instructions', 'shipping') ?></textarea>
 </div>
 

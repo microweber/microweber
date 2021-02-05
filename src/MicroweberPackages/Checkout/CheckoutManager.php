@@ -10,15 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
-use MicroweberPackages\Form\Notifications\NewFormEntry;
 
 //use MicroweberPackages\Invoice\Address;
 //use MicroweberPackages\Invoice\Invoice;
-use MicroweberPackages\Notification\Channels\AppMailChannel;
+use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Order\Models\OrderAnonymousClient;
 use MicroweberPackages\Order\Notifications\NewOrder;
-use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -86,9 +83,29 @@ class CheckoutManager
                             }
                         }
 
+                        $should_mark_as_paid = false;
+
+
+
                         $this->_verify_request_params($update_order);
 
+
+                        if (!isset($update_order_orig['is_paid']) or (isset($update_order_orig['is_paid']) and intval($update_order_orig['is_paid']) == 0)) {
+                            if (isset($update_order['is_paid']) and intval($update_order['is_paid']) == 1) {
+                                $should_mark_as_paid = true;
+                                unset($update_order['is_paid']);
+                            }
+                        }
+
                         $this->app->order_manager->save($update_order);
+
+
+                        if($should_mark_as_paid){
+                            $this->app->checkout_manager->mark_order_as_paid($update_order['id']);
+                        }
+
+
+
                         if (isset($update_order['id'])) {
                             $this->after_checkout($update_order['id']);
                         }
@@ -805,49 +822,32 @@ class CheckoutManager
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
+    }
 
-        $newOrderEvent = new NewOrder($order);
 
-        // Ss logged
-        $notifiable = false;
-        if (isset($order->created_by) && $order->created_by > 0) {
-            $customer = User::where('id', $order->created_by)->first();
-            if ($customer) {
-                if (empty($order->email)) {
-                    $notifiable = $customer;
-                }
-            }
+    public function mark_order_as_paid($orderId){
+
+        $order = Order::find($orderId);
+        if (!$order) {
+           return;
         }
-
 
         $update_order_event_data = $order->toArray();
-        if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
+
+        if (!isset($update_order_event_data['is_paid']) or (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 0)) {
+            event($event = new OrderWasPaid($order, $update_order_event_data));
             $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
-        }
-
-        if (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 1) {
             $this->app->shop_manager->update_quantities($orderId);
+            $order->is_paid = 1;
+            $order->save();
         }
 
-        if ($orderId > 0) {
-            $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders');
-            //return true;
-        }
-
-        //$this->confirm_email_send($orderId);
 
 
-        if (!$notifiable) {
-            $notifiable = OrderAnonymousClient::find($orderId);
-        }
 
-        if ($notifiable) {
-            $notifiable->notifyNow($newOrderEvent);
-        }
 
-        Notification::send(User::whereIsAdmin(1)->get(), $newOrderEvent);
     }
+
 
     public function confirm_email_send($order_id, $to = false, $no_cache = true, $skip_enabled_check = false)
     {
@@ -1044,6 +1044,7 @@ class CheckoutManager
 
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
+        $should_mark_as_paid = false;
 
         $client_ip = user_ip();
 
@@ -1084,6 +1085,11 @@ class CheckoutManager
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
         }
 
+
+
+
+
+
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
@@ -1100,8 +1106,25 @@ class CheckoutManager
         }
 
 
+
+
+
+
+
         if (!empty($update_order_event_data) and isset($update_order_event_data['order_completed']) and $update_order_event_data['order_completed'] == 1) {
             $this->after_checkout($ord);
+
+            if (!isset($ord_data['is_paid']) or (isset($ord_data['is_paid']) and intval($ord_data['is_paid']) == 0)) {
+                if (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 1) {
+                    $should_mark_as_paid = true;
+                }
+            }
+
+            if($should_mark_as_paid){
+                $this->app->checkout_manager->mark_order_as_paid($ord);
+            }
+
+
 
 
             //            $update_order_event_data['id'] = $ord;

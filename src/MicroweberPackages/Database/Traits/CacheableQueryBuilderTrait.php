@@ -57,30 +57,29 @@ trait CacheableQueryBuilderTrait
 
     private function _clearModelCache($model)
     {
-        $related_tables = [];
+        $relatedTables = [];
 
         $table = $model->getTable();
 
-        $related_tables [] = $table;
+        $relatedTables[] = $table;
 
 
         if (method_exists($model, 'getRelations')) {
             $relations = $model->getRelations();
             if ($relations) {
                 foreach ($relations as $key => $relation) {
-                    $related_tables [] = $key;
+                    $relatedTables[] = $key;
                 }
             }
         }
         if (isset($this->cacheTagsToClear) and is_array($this->cacheTagsToClear)) {
             $tags = $this->cacheTagsToClear;
-            $related_tables = array_merge($related_tables, $tags);
+            $relatedTables = array_merge($relatedTables, $tags);
         }
 
-        \Cache::tags($related_tables)->flush();
+        \Cache::tags($relatedTables)->flush();
 
     }
-
 
 
 }

@@ -34,20 +34,19 @@ description: Default
     ?>
 
 
-
-
-       <div class="m-t-20 edit nodrop" field="checkout_shipping_information_title" rel="global"
+       <div class="mt-4 edit nodrop" field="checkout_shipping_information_title" rel="global"
             rel_id="<?php print $params['id'] ?>">
-           <small class="pull-right text-muted">*All fields are required</small>
-           <h5 class="my-4 font-weight-bold">Shipping Information</h5>
+           <small class="pull-right text-muted">*Fields are required</small>
+           <label class="control-label ">Shipping Information</label>
+           <small class="text-muted d-block mb-2"> <?php _e("Add your shipping information"); ?></small>
        </div>
        <?php if(!$disable_default_shipping_fields) :?>
            <div class="row">
                <?php if ($data) { ?>
-                   <div class="col-6">
+                   <div class="col-12 col-md-6">
                        <div class="field-holder">
                            <label for="exampleInputEmail1">Country</label>
-                           <select required name="country" class="selectpicker shipping-country-select">
+                           <select required name="country" class="selectpicker shipping-country-select w-100">
                                <option value=""><?php _e("Country"); ?></option>
                                <?php foreach ($data as $item): ?>
                                    <option value="<?php print $item['shipping_country'] ?>" <?php if (isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
@@ -57,7 +56,7 @@ description: Default
                    </div>
                <?php } ?>
 
-               <div class="col-6">
+               <div class="col-12 col-md-6">
                    <div class="form-group">
                        <label for="exampleInputEmail1"><?php _e("Town / City"); ?></label>
                        <input required type="text" value="<?php if (!empty($checkout_session['city'])) echo $checkout_session['city']; ?>" class="form-control" name="Address[city]"
@@ -67,7 +66,7 @@ description: Default
            </div>
 
            <div class="row">
-               <div class="col-6">
+               <div class="col-12 col-md-6">
                    <div class="form-group">
                        <label for="exampleInputEmail1"><?php _e("ZIP / Postal Code"); ?></label>
                        <input required type="text" value="<?php if (!empty($checkout_session['zip'])) echo $checkout_session['zip']; ?>" class="form-control" name="Address[zip]"
@@ -75,7 +74,7 @@ description: Default
                    </div>
                </div>
 
-               <div class="col-6">
+               <div class="col-12 col-md-6">
                    <div class="form-group">
                        <label for="exampleInputEmail1"><?php _e("State / Province"); ?></label>
                        <input type="text" value="<?php if (!empty($checkout_session['state'])) echo $checkout_session['state']; ?>" class="form-control" name="Address[state]"
@@ -85,7 +84,7 @@ description: Default
            </div>
 
            <div class="row">
-               <div class="col-6">
+               <div class="col-12 col-md-6">
                    <div class="form-group">
                        <label for="exampleInputEmail1"><?php _e("Address / Street address"); ?></label>
                        <input required type="text" value="<?php if (!empty($checkout_session['address'])) echo $checkout_session['address']; ?>" class="form-control" name="Address[address]"
@@ -93,7 +92,7 @@ description: Default
                    </div>
 
                </div>
-               <div class="col-6">
+               <div class="col-12 col-md-6">
                    <div class="form-group">
                        <label for="exampleInputEmail1"><?php _e("Additional Information"); ?></label>
                        <input  type="text" value="<?php if (!empty($checkout_session['other_info'])) echo $checkout_session['other_info']; ?>" class="form-control" name="other_info"

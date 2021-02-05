@@ -33,6 +33,8 @@ class Content extends Model
     protected $content_type = 'content';
     public $additionalData = [];
 
+    public $cacheTagsToClear = ['content', 'content_fields', 'categories'];
+
     public $translatable = ['title','url','description','content','content_body'];
 
     protected $attributes = [

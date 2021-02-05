@@ -12,6 +12,7 @@ use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
 use MicroweberPackages\User\Http\Resources\UserResource;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\User\Socialite\MicroweberProvider;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 
 
@@ -2076,7 +2077,7 @@ class UserManager
             $this->socialite->extend('microweber', function ($app) {
                 $config = $app['config']['services.microweber'];
 
-                return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);
+                return $this->socialite->buildProvider(MicroweberProvider::class, $config);
             });
         }
     }

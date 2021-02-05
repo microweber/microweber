@@ -14,7 +14,7 @@ class ContentRelated extends Model
 
     use CacheableQueryBuilderTrait;
 
-      public $cacheTagsToClear = ['content','categories'];
+    public $cacheTagsToClear = ['content', 'categories'];
 
     protected $table = 'content_related';
 
