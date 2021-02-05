@@ -109,8 +109,7 @@
                                             <?php
                                             if (user_can_access('module.content.edit')):
                                                 ?>
-                                                <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');
-                                                        return false;">
+                                                <a target="_top" class="btn btn-outline-success btn-sm" href="<?php print $edit_link ?>"> 
                                                     <?php echo $edit_text; ?>
                                                 </a>
 
