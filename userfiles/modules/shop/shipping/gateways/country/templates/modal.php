@@ -34,12 +34,11 @@ description: Default
     ?>
 
 
-
-
-       <div class="m-t-20 edit nodrop" field="checkout_shipping_information_title" rel="global"
+       <div class="mt-4 edit nodrop" field="checkout_shipping_information_title" rel="global"
             rel_id="<?php print $params['id'] ?>">
-           <small class="pull-right text-muted">*All fields are required</small>
-           <h5 class="my-4 font-weight-bold">Shipping Information</h5>
+           <small class="pull-right text-muted">*Fields are required</small>
+           <label class="control-label ">Shipping Information</label>
+           <small class="text-muted d-block mb-2"> <?php _e("Add your shipping information"); ?></small>
        </div>
        <?php if(!$disable_default_shipping_fields) :?>
            <div class="row">
@@ -47,7 +46,7 @@ description: Default
                    <div class="col-12 col-md-6">
                        <div class="field-holder">
                            <label for="exampleInputEmail1">Country</label>
-                           <select required name="country" class="selectpicker shipping-country-select">
+                           <select required name="country" class="selectpicker shipping-country-select w-100">
                                <option value=""><?php _e("Country"); ?></option>
                                <?php foreach ($data as $item): ?>
                                    <option value="<?php print $item['shipping_country'] ?>" <?php if (isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>

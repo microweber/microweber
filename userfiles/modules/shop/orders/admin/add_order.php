@@ -106,118 +106,111 @@ $data = $products;
 </style>
 
 <div id="mw-add-order">
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-        <a href="javascript:;" class="mw-ui-btn active">Add to cart</a>
-        <a href="javascript:;" class="mw-ui-btn">My cart's content</a>
-        <a href="javascript:;" class="mw-ui-btn">Checkout</a>
-    </div>
 
-    <div class="mw-ui-box mw-ui-box-content">
+
         <!-- Add to cart -->
-        <div class="mw-ui-row">
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <h3>Search for product</h3>
-                    <div class="mw-ui-field-holder">
-                        <label class="mw-ui-label">In the field below you can search for products from your shop.</label>
-                        <div id="mw-admin-search-for-products" class="mw_admin_custom_order_item_add_form_toggle"></div>
-                    </div>
+
+            <div class="row">
+                <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs m-1 w-100">
+                    <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+                        <a class="btn btn-outline-secondary justify-content-center active show" data-toggle="tab" href="javascript:;"><i class="mdi mdi-cart-outline"></i><?php _e("Add to cart"); ?></a>
+                        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="javascript:;"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e("My cart's content"); ?></a>
+                        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="javascript:;"><i class="mdi mdi-arrow-right"></i> <?php _e("Checkout"); ?></a>
+                    </nav>
                 </div>
-            </div>
-
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <h3>Add custom item</h3>
-
-                    <div class="mw_admin_custom_order_item_add_form_toggle">
-                        <div id="mw_admin_custom_order_item_add_form" class="m-b-10">
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">Product name</label>
-                                <input type="text" name="title" class="mw-ui-field mw-full-width" required="required">
-                                <input type="hidden" name="for" value="custom_item">
-                                <input type="hidden" name="for_id" value="1">
-                            </div>
-
-                            <div class="mw-ui-field-holder">
-                                <label class="mw-ui-label">Price</label>
-                                <input type="text" name="price" class="mw-ui-field mw-full-width" required="required" placeholder="Example: 10"/>
-                            </div>
-
-                            <button
-                                class="mw-ui-btn mw-ui-btn-info pull-right"
-                                onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')">
-                                <i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add Item'); ?>
-                            </button>
+                <div class="mw-ui-box-content m-1 border-0 w-100">
+                    <h5 class="font-weight-bold mb-4">Search Products</h5>
+                    <div class="col-12 ">
+                       <label class="control-label"><?php _e("Search for product"); ?></label>
+                        <small class="text-muted d-block mb-2"> <?php _e("In the field below you can search for products from your shop."); ?></small>
+                        <div class="mw-ui-field-holder p-0">
+                            <div id="mw-admin-search-for-products"></div>
                         </div>
                     </div>
+
+                    <h5 class="font-weight-bold my-4">Add New Product</h5>
+                    <div class="col-12 mt-2">
+                       <label class="control-label"><?php _e("Add custom item"); ?></label>
+                        <small class="text-muted d-block mb-2"> <?php _e("In the field below you can add the name and price of products from your shop."); ?></small>
+                        <div class="mw_admin_custom_order_item_add_form_toggle">
+                            <div id="mw_admin_custom_order_item_add_form">
+                                <div class="row">
+                                    <div class="mw-ui-field-holder col-6">
+                                        <label class="form-label" for="inputDefault"><?php _e("Product name"); ?></label>
+                                        <input type="text" name="title" class="form-control" required="required">
+                                        <input type="hidden" name="for" value="custom_item">
+                                        <input type="hidden" name="for_id" value="1">
+                                    </div>
+                                    <div class="mw-ui-field-holder col-6">
+                                        <label class="form-label" for="inputDefault"><?php _e("Price"); ?></label>
+                                        <input type="text" name="price" class="form-control" placeholder="<?php _e("Example: 10"); ?>" required>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary icon-left pull-right m-2"  onclick="mw_admin_custom_order_item_add('#mw_admin_custom_order_item_add_form')"><i class="fas fa-plus-circle"></i> <?php _e('Add Item'); ?></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                    /*     <hr>
+
+                        <h2>Add existing product</h2>
+
+                        <div class="mw-ui-field-holder">
+                            <form class="js-search-product-for-custom-order">
+                                <input type="text" name="search" class="mw-ui-field element-block "
+                                       placeholder="Search product in catalog" required="required" value="<?php print $kw; ?>">
+                            </form>
+                        </div>
+
+
+
+                    <?php if (is_array($data) and !empty($data)): ?>
+                        <div class="table-responsive">
+                            <table class="mw-ui-table table-style-2 layout-auto" width="100%" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                <?php foreach ($data as $item): ?>
+                                    <?php
+                                    $pub_class = '';
+                                    $append = '';
+                                    if (isset($item['is_active']) and $item['is_active'] == '0') {
+                                        $pub_class = ' content-unpublished';
+                                        $append = '<div class="post-un-publish"><span class="mw-ui-btn mw-ui-btn-yellow disabled unpublished-status">' . _e("Unpublished", true) . '</span><span class="mw-ui-btn mw-ui-btn-green publish-btn" onclick="mw.post.set(' . $item['id'] . ', \'publish\');">' . _e("Publish", true) . '</span></div>';
+                                    }
+                                    ?>
+                                    <?php $pic = get_picture($item['id']); ?>
+
+                                    <tr>
+                                        <td><a class="text-center"><span class="mw-user-thumb image"
+                                                                         style="background-image: url('<?php print $pic ?>');"></span></a>
+                                        </td>
+                                        <td><?php print content_title($item['id']) ?><?php print $append; ?></td>
+                                        <td>
+                                            <module type="shop/cart_add" template="mw_default"
+                                                    content-id="<?php print ($item['id']) ?>"/>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php else: ?>
+                    No products found
+                    <?php endif; ?>*/
+                    ?>
                 </div>
             </div>
 
-            <?php
-            /*     <hr>
-
-                <h2>Add existing product</h2>
-
-                <div class="mw-ui-field-holder">
-                    <form class="js-search-product-for-custom-order">
-                        <input type="text" name="search" class="mw-ui-field element-block "
-                               placeholder="Search product in catalog" required="required" value="<?php print $kw; ?>">
-                    </form>
-                </div>
-
-
-
-            <?php if (is_array($data) and !empty($data)): ?>
-                <div class="table-responsive">
-                    <table class="mw-ui-table table-style-2 layout-auto" width="100%" cellspacing="0" cellpadding="0">
-                        <tbody>
-                        <?php foreach ($data as $item): ?>
-                            <?php
-                            $pub_class = '';
-                            $append = '';
-                            if (isset($item['is_active']) and $item['is_active'] == '0') {
-                                $pub_class = ' content-unpublished';
-                                $append = '<div class="post-un-publish"><span class="mw-ui-btn mw-ui-btn-yellow disabled unpublished-status">' . _e("Unpublished", true) . '</span><span class="mw-ui-btn mw-ui-btn-green publish-btn" onclick="mw.post.set(' . $item['id'] . ', \'publish\');">' . _e("Publish", true) . '</span></div>';
-                            }
-                            ?>
-                            <?php $pic = get_picture($item['id']); ?>
-
-                            <tr>
-                                <td><a class="text-center"><span class="mw-user-thumb image"
-                                                                 style="background-image: url('<?php print $pic ?>');"></span></a>
-                                </td>
-                                <td><?php print content_title($item['id']) ?><?php print $append; ?></td>
-                                <td>
-                                    <module type="shop/cart_add" template="mw_default"
-                                            content-id="<?php print ($item['id']) ?>"/>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-            No products found
-            <?php endif; ?>*/
-            ?>
-        </div>
-    </div>
-
     <!-- My cart's content -->
-    <div class="mw-ui-box mw-ui-box-content" style="display: block;">
-        <module type="shop/cart" data-checkout-link-enabled="n" template="mw_default"/>
+    <div class="mw-ui-box-content" style="display: block;">
+        <module type="shop/cart" data-checkout-link-enabled="n" template="mw_default">
     </div>
 
     <!-- Checkout -->
-    <div class="mw-ui-box mw-ui-box-content" style="display: none;">
+    <div class="mw-ui-box-content" style="display: none;">
         <module type="shop/checkout" data-checkout-link-enabled="n" template="mw_default" id="mw-admin-custom-checkout-add-order"/>
+            <button type="button" class="btn btn btn-primary pull-right m-auto" onclick="mw.cart.checkout('#mw-admin-custom-checkout-add-order', mw_admin_custom_checkout_callback);"><?php _e("Complete order"); ?></button>
     </div>
-
-    <button class="mw-ui-btn mw-ui-btn-notification m-t-20 pull-right"
-            onclick="mw.cart.checkout('#mw-admin-custom-checkout-add-order', mw_admin_custom_checkout_callback);"
-            type="button">
-        <?php _e("Complete order"); ?>
-    </button>
 </div>
 
 

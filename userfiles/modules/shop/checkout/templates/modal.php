@@ -81,8 +81,8 @@ description: Checkout
 
                                <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
                                     rel_id="<?php print $params['id'] ?>">
-                                   <small class="pull-right text-muted">*All fields are required</small>
-                                   <h5 class="my-4 font-weight-bold">Personal Information</h5>
+                                   <small class="pull-right text-muted">*Fields are required</small>
+                                   <label class="control-label">Personal Information</label>
                                </div>
                                <div class="row">
                                    <div class="col-12 col-md-6">
@@ -107,7 +107,7 @@ description: Checkout
                                            <label for="exampleInputEmail1"><?php _e("Email"); ?></label>
                                            <input required name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control"
                                                   placeholder="<?php _e("Enter email"); ?>">
-                                           <small id="emailHelp" class="form-text text-muted"><?php _e("We'll never share your email with anyone else."); ?></small>
+
                                        </div>
                                    </div>
                                    <div class="col-12 col-md-6">
