@@ -1,15 +1,17 @@
 
 <div class="mw-shipping-select">
-    <div   <?php if(count($shipping_options) == 1): ?>style="display: none" <?php endif; ?>>
-
-        <label class="form-control-label">Shipping method</label>
+    <div  class="my-4" <?php if(count($shipping_options) == 1): ?>style="display: none" <?php endif; ?>>
+        <label class="control-label"><?php _e("Choose shipping method"); ?></label>
+        <small class="text-muted d-block mb-2"> <?php _e("Please choose the right method for deliver your order."); ?></small>
         <select autocomplete="off" onchange="Gateway(this);" name="shipping_gw"
-                class="field-full form-control mw-shipping-gateway mw-shipping-gateway-<?php print $params['id']; ?> <?php if (count($shipping_options) == 1): ?> semi_hidden <?php endif; ?>">
+                class="col-6 pl-0 selectpicker mw-shipping-gateway mw-shipping-gateway-<?php print $params['id']; ?> <?php if (count($shipping_options) == 1): ?> semi_hidden <?php endif; ?>">
             <?php foreach ($shipping_options as $item) : ?>
-                <option value="<?php print  $item['module_base']; ?>" <?php if ($selected_shipping_gateway == $item['module_base']): ?> selected <?php endif; ?>    ><?php print  $item['name']; ?></option>
+                <option value="<?php print  $item['module_base']; ?>" <?php if ($selected_shipping_gateway == $item['module_base']): ?> selected <?php endif; ?>><?php print  $item['name']; ?></option>
             <?php endforeach; ?>
         </select>
     </div>
+
+
 
     <?php if (isset($selected_shipping_gateway) and is_module($selected_shipping_gateway)): ?>
         <div id="mw-shipping-gateway-selected-wrapper-<?php print $params['id']; ?>">

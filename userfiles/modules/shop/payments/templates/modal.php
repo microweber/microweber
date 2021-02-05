@@ -40,8 +40,8 @@ description: Payments 1
                     <div class="methods">
                        <div class="edit nodrop mt-2" field="checkout_payment_information_title" rel="global"
                             rel_id="<?php print $params['id'] ?>">
-                           <h5 class="font-weight-bold m-0"><?php _e("Choose Payment Method"); ?></h5>
-                           <small class="text-muted">Choose from the available payment methods to pay this order.</small>
+                           <label class="control-label"><?php _e("Choose Payment Method"); ?></label>
+                           <small class="text-muted d-block mb-2">Choose from the available payment methods to pay this order.</small>
                            <div class="field-holder text-center my-4 d-sm-inline-block d-md-flex">
                                <?php $count = 0;
                                foreach ($payment_options as $payment_option) : $count++; ?>
@@ -58,8 +58,8 @@ description: Payments 1
 
                        <div class="edit nodrop" field="checkout_payment_information_title" rel="global"
                             rel_id="<?php print $params['id'] ?>">
-                           <h5 class="font-weight-bold m-0"><?php _e("Finish your order"); ?></h5>
-                           <small class="text-muted"><?php _e("Please full the fields of the selected payment method below, if it has."); ?></small>
+                           <label class="control-label"><?php _e("Finish your order"); ?></label>
+                           <small class="text-muted d-block mb-2"><?php _e("Please full the fields of the selected payment method below, if it has."); ?></small>
 
                            <div class="mx-3 mt-4 mb-6" id="mw-payment-gateway-selected-<?php print $params['id']; ?>">
                                <?php if (isset($payment_options[0])): ?>
@@ -74,10 +74,10 @@ description: Payments 1
 
                                <div class="row my-1 ml-auto">
                                    <?php $print_total = cart_total(); ?>
-                                   <h5 class="col-xs-6 checkout-modal-total-label mr-1 font-weight-bold"><?php _e("Total"); ?>:</h5>
-                                   <h5 class="col-xs-6 checkout-modal-total-price pl-0">
+                                   <label class="col-xs-6 checkout-modal-total-label mr-1 control-label"><?php _e("Total"); ?>:</label>
+                                   <label class="col-xs-6 checkout-modal-total-price pl-0">
                                        <?php print currency_format($print_total); ?>
-                                   </h5>
+                                   </label>
                                </div>
                                <small class="text-muted mt-1"><i><b>*Note</b> Shopping cart will be emptied when order is completed</i></small>
                            </div>

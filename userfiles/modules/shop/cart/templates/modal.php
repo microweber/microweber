@@ -31,7 +31,7 @@ $total = cart_total();
            <?php if (is_array($data) and $data) : ?>
                <?php foreach ($data as $item) : ?>
                    <div class="form-row checkout-modal-product-list-item ">
-                       <div class="col-auto mr-5">
+                       <div class="col-auto">
                            <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                <?php $p = $item['item_image']; ?>
                            <?php else: ?>
@@ -46,7 +46,7 @@ $total = cart_total();
                                <div class="col-10">
                                    <div class="form-row align-items-md-center h-100">
                                        <div class="col-12 col-md-7">
-                                           <h6><?php print _lang($item['title'], "template/big") ?></h6>
+                                           <h6><?php print _e($item['title']) ?></h6>
                                        </div>
                                        <div class="col-6 col-md-3 align-self-center justify-content-md-center">
                                            <h6><?php print currency_format($item['price']); ?></h6>
