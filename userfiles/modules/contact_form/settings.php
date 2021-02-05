@@ -123,9 +123,25 @@ if (isset($params['for_module_id'])) {
 
     <hr class="thin"/>
 
-    <h5 class="font-weight-bold mb-3">Auto-respond Message</h5>
+    <h5 class="font-weight-bold mb-3"><?php _e("Auto-respond Message"); ?></h5>
 
     <div class="">
+
+        <div class="form-group mb-3">
+            <label class="control-label"><?php _e("Enable auto-respond message"); ?></label>
+            <small class="text-muted d-block mb-2"> <?php _e('Allow users to receive <b>Thank you</b> emails after subscribtion.'); ?></small>
+        </div>
+
+        <div class="form-group mb-4">
+            <?php  $curent_val = get_option('enable_auto_respond', $mod_id); ?>
+            <div class="custom-control custom-switch pl-0">
+                <label class="d-inline-block mr-5" for="enable_auto_respond">No</label>
+                <input type="checkbox"  data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_auto_respond" option-group="<?php print $mod_id ?>" id="enable_auto_respond" value="y" <?php if ($curent_val !== 'n'): ?>checked<?php endif; ?>>
+                <label class="custom-control-label" for="enable_auto_respond">Yes</label>
+            </div>
+        </div>
+
+
         <div class="form-group">
             <label class="control-label"><?php _e("Autorespond Subject"); ?></label>
             <small class="text-muted d-block mb-2">Auto-responders allows you to set up automated replies to incoming email <br/>E.x. “Thank you for your request”</small>
