@@ -20,13 +20,11 @@ $(document).ready(function () {
 
     	postData = {}
     	postData.src = data.src;
-    	postData.namespace = "<?php echo $params['namespace']; ?>";
-    	postData.language = "<?php echo $params['language']; ?>";
 
-		$.post("<?php echo route('admin.backup.language.upload'); ?>", postData,
+		$.post("<?php echo route('admin.language.import'); ?>", postData,
 			function(msg) {
 				if (msg.success) {
-			    	mw.reload_module('settings/group/language_edit');
+			    	mw.reload_module('.js-language-edit-browse-<?php echo $_POST['namespaceMD5'];?>');
 			    }
 				mw.notification.msg(msg);
 		});
@@ -44,9 +42,9 @@ $(document).ready(function () {
 
 });
 </script>
-<br />
-<center>
-<h3>If you have a .xlsx translated file you can import it by uploading it here.</h3>
+
+<div class="mb-5">
+<h5>If you have a .xlsx translated file you can import it by uploading it here.</h5>
 <br />
 
 <span id="upload_file_info" style="font-size:14px;"></span>
@@ -56,4 +54,4 @@ $(document).ready(function () {
 	<span><?php _e("Upload file"); ?></span>
 </span>
 
-</center>
+</div>

@@ -112,7 +112,7 @@ $namespaceMd5 = md5($namespace);
 
            <div>
                 <button type="button" onClick="exportTranslation('<?php echo $namespace;?>')" class="btn btn-outline-primary btn-sm">Export to Excel</button>
-                <button type="button" onClick="importTranslation('<?php echo $namespace;?>')" class="btn btn-outline-primary btn-sm">Import Excel file</button>
+                <button type="button" onClick="importTranslation('<?php echo $namespaceMd5;?>')" class="btn btn-outline-primary btn-sm">Import Excel file</button>
             </div>
         </div>
 

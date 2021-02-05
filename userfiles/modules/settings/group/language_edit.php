@@ -26,7 +26,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
 
 <script type="text/javascript">
 
-    function importTranslation(namespace) {
+    function importTranslation(namespaceMD5) {
         mw.dialog({
             content: '<div id="mw_admin_import_language_modal_content"></div>',
             title: 'Import Language File',
@@ -34,7 +34,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
             id: 'mw_admin_import_language_modal'
         });
         var params = {};
-        params.namespace = namespace;
+        params.namespaceMD5 = namespaceMD5;
         mw.load_module('settings/group/language_import', '#mw_admin_import_language_modal_content', null, params);
     }
 
@@ -52,14 +52,18 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
     }
 
     function send_lang_form_to_microweber() {
+
         if (!mw.$(".send-your-lang a").hasClass("disabled")) {
+
             mw.tools.disable(document.querySelector(".send-your-lang a"), "<?php _e('Sending...'); ?>");
-            $.each($('.lang-edit-form'), function () {
-                mw.form.post($(this), '<?php print api_link('send_lang_form_to_microweber'); ?>',
-                    function (msg) {
-                        mw.notification.msg(this, 1000, false);
-                        mw.tools.enable(document.querySelector(".send-your-lang a"));
-                    });
+
+            $.ajax({
+                type: "POST",
+                url: "<?php echo route('admin.language.send_to_us'); ?>",
+                success: function (data) {
+                    mw.notification.msg('<?php _e('Thank you for your sharing.'); ?>', 1000, false);
+                    mw.tools.enable(document.querySelector(".send-your-lang a"));
+                }
             });
         }
 
