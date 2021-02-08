@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -188,8 +188,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _lang('Settings', "modules/image_rollover"); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _lang('Templates', "modules/image_rollover"); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -198,22 +198,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="module-live-edit-settings  module-image-rollover-settings" id="module-image-rollover-settings">
                     <div class="row image-row">
                         <div class="col-md-6 mb-4">
-                            <h6 class="font-weight-bold text-center">Default image</h6>
+                            <h6 class="font-weight-bold text-center"><?php _lang("Default image") ?></h6>
                             <img src="<?php print $default_image; ?>" class="the-image mx-auto mt-3 d-block" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
                             <br>
                             <div class="d-block d-md-flex justify-content-between align-items-center p-1">
-                                <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
-                                <a href="javascript:imageRolloverUploadBrowseExisting()" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _e('Browse uploaded'); ?></a>
+                                <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image"><span class="mw-icon-upload"></span> &nbsp;<?php _lang('Upload Image', "modules/image_rollover"); ?></span>
+                                <a href="javascript:imageRolloverUploadBrowseExisting()" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _lang('Browse uploaded', "modules/image_rollover"); ?></a>
                             </div>
                         </div>
 
                         <div class="col-md-6 mb-4">
-                            <h6 class="font-weight-bold text-center">Rollover image</h6>
+                            <h6 class="font-weight-bold text-center"><?php _lang("Rollover image") ?></h6>
                             <img src="<?php print $rollover_image; ?>" class="the-image-rollover mx-auto mt-3 d-block" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
                             <br>
                             <div class="d-block d-md-flex justify-content-between align-items-center p-1">
-                                <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image-rollover"><span class="mw-icon-upload"></span> &nbsp;<?php _e('Upload Image'); ?></span>
-                                <a href="javascript:imageRolloverUploadBrowseExisting(true)" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _e('Browse uploaded'); ?></a>
+                                <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image-rollover"><span class="mw-icon-upload"></span> &nbsp;<?php _lang('Upload Image', "modules/image_rollover"); ?></span>
+                                <a href="javascript:imageRolloverUploadBrowseExisting(true)" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _lang('Browse uploaded', "modules/image_rollover"); ?></a>
                             </div>
                         </div>
                     </div>
@@ -221,28 +221,28 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <hr class="thin"/>
 
                     <div class="form-group">
-                        <label class="control-label" style="padding-top: 10px;"><span><?php _e('Image size'); ?></span> - <b id="imagesizeval"></b></label>
+                        <label class="control-label" style="padding-top: 10px;"><span><?php _lang('Image size', "modules/image_rollover"); ?></span> - <b id="imagesizeval"></b></label>
                         <div id="sizeslider" class="mw-slider"></div>
                     </div>
 
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="size_auto" value="pending" checked="">
-                            <label class="custom-control-label" for="size_auto"><?php _e('Auto'); ?></label>
+                            <label class="custom-control-label" for="size_auto"><?php _lang('Auto', "modules/image_rollover"); ?></label>
                         </div>
                     </div>
 
                     <?php if (!isset($params['menu_rollover'])) { ?>
                         <div class="form-group">
-                            <label class="control-label">Link title</label>
-                            <small class="text-muted mb-2 d-block">Create a link below the image</small>
+                            <label class="control-label"><?php _lang("Link title") ?></label>
+                            <small class="text-muted mb-2 d-block"><?php _lang("Create a link below the image") ?></small>
                             <input type="text" class="mw_option_field form-control" value="<?php print $text; ?>" name="text" id="text"/>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label">Link URL</label>
-                            <small class="text-muted mb-2 d-block">Type the URL for the link</small>
-                            <input type="text" class="mw_option_field form-control" placeholder="<?php _e('http://'); ?>" value="<?php print $text; ?>" name="href-url" id="href-url"/>
+                            <label class="control-label"><?php _lang("Link URL") ?></label>
+                            <small class="text-muted mb-2 d-block"><?php _lang("Type the URL for the link") ?></small>
+                            <input type="text" class="mw_option_field form-control" placeholder="<?php _lang('http://', "modules/image_rollover"); ?>" value="<?php print $text; ?>" name="href-url" id="href-url"/>
                         </div>
                     <?php } ?>
 

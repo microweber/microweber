@@ -15,14 +15,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _lang($module_info['name'], "modules/include"); ?></strong>
         </h5>
     </div>
 
     <div class="card-body pt-3">
         <?php $file = get_option('file', $params['id']); ?>
         <div class="form-group">
-            <label class="control-label"><?php _e('Include file'); ?></label>
+            <label class="control-label"><?php _lang('Include file', "modules/include"); ?></label>
             <input type="text" value="<?php print $file; ?>" name="file" class="mw_option_field form-control" id="file"/>
         </div>
     </div>

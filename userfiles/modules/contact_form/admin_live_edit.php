@@ -36,7 +36,7 @@ if (!user_can_access('module.contact_form.index')) {
     <div class="tab-pane fade show active" id="settings">
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
-            <module type="settings/list" for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>"/>
+            <module type="settings/list" for_module="<?php print _e($config['module']) ?>" for_module_id="<?php print $params['id'] ?>"/>
 
             <module type="contact_form/settings" for_module_id="<?php print $params['id'] ?>"/>
 
@@ -54,18 +54,18 @@ if (!user_can_access('module.contact_form.index')) {
             }
             ?>
 
-            <module type="contact_form/manager/assign_list_to_module" data-for-module="<?php print $config['module_name'] ?>" data-for-module-id="<?php print $params['id'] ?>"/>
+            <module type="contact_form/manager/assign_list_to_module" data-for-module="<?php print _e($config['module_name']) ?>" data-for-module-id="<?php print $params['id'] ?>"/>
             <hr class="thin"/>
 
-            <h5 class="font-weight-bold mb-3">Contact form advanced settings</h5>
+            <h5 class="font-weight-bold mb-3"><?php e_("Contact form advanced settings") ?></h5>
 
             <module type="admin/mail_providers/integration_select" option_group="contact_form"/>
 
             <hr class="thin"/>
 
             <div class="form-group">
-                <label class="control-label">Newsletter</label>
-                <small class="text-muted d-block mb-2">Show the newsletter subscription checkbox?</small>
+                <label class="control-label"><?php e_("Newsletter") ?></label>
+                <small class="text-muted d-block mb-2"><?php e_("Show the newsletter subscription checkbox?") ?></small>
 
                 <div class="custom-control custom-checkbox mb-4">
                     <input type="checkbox" parent-reload="true" name="newsletter_subscription" id="newsletter_subscription" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field custom-control-input" option-group="<?php print $mod_id ?>" <?php if (get_option('newsletter_subscription', $mod_id) == 'y'): ?>checked<?php endif; ?> />
@@ -80,8 +80,8 @@ if (!user_can_access('module.contact_form.index')) {
             <?php if ($mod_id != 'contact_form_default') : ?>
                 <br/>
                 <div class="form-group">
-                    <label class="control-label">Capcha settings</label>
-                    <small class="text-muted d-block mb-2">Setup your capcha preferences from <a href="<?php print admin_url('view:modules/load_module:captcha'); ?>" target="_blank">Captcha module</a></small>
+                    <label class="control-label"><?php e_("Capcha settings") ?></label>
+                    <small class="text-muted d-block mb-2"><?php e_("Setup your capcha preferences from ") ?><a href="<?php print admin_url('view:modules/load_module:captcha'); ?>" target="_blank"><?php e_("Captcha module") ?></a></small>
                 </div>
 
                 <div class="form-group">
@@ -93,7 +93,7 @@ if (!user_can_access('module.contact_form.index')) {
 
                 <div class="form-group">
                     <label class="control-label"><?php _e("Redirect URL"); ?></label>
-                    <small class="text-muted d-block mb-2">Redirect to URL after submit for example for “Thank you” page</small>
+                    <small class="text-muted d-block mb-2"><?php e_("Redirect to URL after submit for example for “Thank you” page") ?></small>
                     <input name="email_redirect_after_submit" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_redirect_after_submit', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
                 </div>
             <?php endif; ?>
@@ -105,7 +105,7 @@ if (!user_can_access('module.contact_form.index')) {
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
             <h5 class="font-weight-bold"><?php _e("Contact Form Fields"); ?></h5>
-            <small class="text-muted d-block">Add / Edit fieldes of the form using the custom fields</small>
+            <small class="text-muted d-block"><?php e_("Add / Edit fieldes of the form using the custom fields") ?></small>
             <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $params['id'] ?>"/>
         </div>
         <!-- Settings Content - End -->

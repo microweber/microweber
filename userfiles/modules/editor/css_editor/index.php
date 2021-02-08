@@ -83,7 +83,7 @@
 
 </script>
 <div class="holder"><textarea class="mw-ui-field w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
-                    option-group="template" placeholder="Type your CSS code here"><?php print $custom_css ?></textarea></div>
+                    option-group="template" placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea></div>
 <div class="mw-ui-btn-nav pull-right" id="csssave">
     <span onclick="savecss();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></span>
 </div>

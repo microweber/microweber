@@ -18,7 +18,7 @@ description: Basic contact form
 
 <div class="contact-form-container contact-form-template-basic">
     <div class="edit" data-field="contact_form_title" rel="newsletter_module" data-id="<?php print $params['id'] ?>">
-        <h3>Write us a letter</h3>
+        <h3><?php _e("Write us a letter"); ?></h3>
         <hr>
     </div>
     <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">

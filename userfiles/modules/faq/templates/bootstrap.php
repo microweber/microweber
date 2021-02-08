@@ -20,16 +20,12 @@ description: Default
     <div class="faq-holder bootstrap">
         <div class="row">
             <div class="col-xs-12 edit" rel="module-<?php print $params['id']; ?>" field="title-content">
-                <h3>Here’s a few answers to our most common questions</h3>
+                <h3><?php _e("Here’s a few answers to our most common questions"); ?></h3>
             </div>
         </div>
 
         <div class="row">
-
-
             <div class="panel-group" id="faq-accordion">
-
-
                 <?php
                 $count = 0;
                 foreach ($data as $slide) {
@@ -55,14 +51,8 @@ description: Default
                             <div class="panel-body"><?php print $slide['answer']; ?></div>
                         </div>
                     </div>
-
-
                 <?php } ?>
-
-
             </div>
-
-
         </div>
     </div>
 </div>

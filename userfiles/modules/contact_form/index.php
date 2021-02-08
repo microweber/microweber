@@ -96,7 +96,7 @@ if(typeof  processContactForm !== 'object'){
 }
 
 $(document).ready(function(){
-	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').append('<input type="hidden" name="module_name"  value="<?php print $params['module']; ?>" />');
+	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').append('<input type="hidden" name="module_name"  value="<?php print _e($params['module']); ?>" />');
 	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').submit(function() {
 		processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
 		mw.$('input[type="submit"]','form[data-form-id="<?php print $form_id ?>"]').removeAttr('disabled');
@@ -175,6 +175,6 @@ if(isset($template_file) and is_file($template_file) != false){
 } elseif(isset($template_file_def) and is_file($template_file_def) != false){
  	include($template_file_def);
 } else {
-	print 'No template for contact form is found';
+	print _e('No template for contact form is found');
 }
 ?>

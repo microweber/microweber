@@ -59,13 +59,13 @@ try {
     return;
 }
 if (!($matches)) {
-    print lnotif("Click here to edit Instagram feed");
+    print lnotif(_lang("Click here to edit Instagram feed", "modules/instagram_feed"));
     return;
 }
 
 
 if (!isset($matches[1])) {
-    print lnotif("Click here to edit Instagram feed");
+    print lnotif(_lang("Click here to edit Instagram feed","modules/instagram_feed"));
     return;
 }
 
@@ -106,5 +106,5 @@ if ($template_file != false and is_file($template_file)) {
     include($template_file);
 }
 if (!$photos and is_admin()) {
-    print lnotif("Click here to edit Instagram feed");
+    print lnotif(_lang("Click here to edit Instagram feed", "modules/instagram_feed"));
 }

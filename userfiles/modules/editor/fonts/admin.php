@@ -198,7 +198,7 @@ if ($is_load_more) {
                 <th></th>
                 <th>
                     <?php _e('Select Fonts'); ?>
-                    <input class="mw-ui-searchfield" placeholder="Search.." id="search">
+                    <input class="mw-ui-searchfield" placeholder="<?php _e("Search.."); ?>" id="search">
                 </th>
             </tr>
             </thead>

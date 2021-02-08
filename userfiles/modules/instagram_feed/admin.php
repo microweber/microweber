@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _lang($module_info['name'], "modules/instagram_feed"); ?></strong>
         </h5>
     </div>
 
@@ -51,8 +51,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _lang('Settings', "modules/instagram_feed"); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _lang('Templates', "modules/instagram_feed"); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -63,12 +63,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="module-live-edit-settings module-instagram-feed-settings">
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e('Instagram Username'); ?></label>
+                        <label class="control-label"><?php _lang('Instagram Username', "modules/instagram_feed"); ?></label>
                         <input type="text" class="mw_option_field form-control" placeholder="Example: microweber" name="username" value="<?php print $username; ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e('Number of items'); ?></label>
+                        <label class="control-label"><?php _lang('Number of items', "modules/instagram_feed"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="number_of_items" value="<?php print $number_of_items; ?>">
                     </div>
 
@@ -77,17 +77,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <h5 class="font-weight-bold mb-3">Api Settings</h5>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e('Instagram Api Client'); ?></label>
+                        <label class="control-label"><?php _lang('Instagram Api Client', "modules/instagram_feed"); ?></label>
                         <input type="text" class="mw_option_field form-control" name="instagram_api_client" value="<?php print $instagram_api_client; ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e('Instagram Api Secret'); ?></label>
+                        <label class="control-label"><?php _lang('Instagram Api Secret', "modules/instagram_feed"); ?></label>
                         <input type="text" class="mw_option_field form-control" name="instagram_api_secret" value="<?php print $instagram_api_secret; ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e('Instagram Api Access Token'); ?></label>
+                        <label class="control-label"><?php _lang('Instagram Api Access Token', "modules/instagram_feed"); ?></label>
                         <input type="text" class="mw_option_field form-control" name="instagram_api_access_token" value="<?php print $instagram_api_access_token; ?>">
                     </div>
 

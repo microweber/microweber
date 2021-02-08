@@ -13,7 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _lang($module_info['name'], "modules/carousel_grid"); ?></strong>
         </h5>
     </div>
 
@@ -46,8 +46,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> List of Images</a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i><?php _lang("List of Images", "modules/carousel_grid") ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _lang('Settings', "modules/carousel_grid"); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -61,15 +61,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-carousel-grid-settings">
                     <div class="form-group">
-                        <label class="control-label">Items per slide</label>
+                        <label class="control-label"><?php print _lang('Items per slide', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="items_number" value="<?php print $items_number; ?>"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Minimum Row height</label>
+                        <label class="control-label"><?php print _lang('Minimum Row height', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="row_height" placeholder="120" value="<?php print $rowHeight; ?>"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Max Row height</label>
+                        <label class="control-label"><?php print _lang('Max Row height', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="max_row_height" placeholder="250" value="<?php print $maxRowHeight; ?>"/>
                     </div>
                 </div>

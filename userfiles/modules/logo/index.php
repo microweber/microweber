@@ -147,16 +147,16 @@ if ($module_template != false) {
 if (is_file($template_file) != false) {
     include($template_file);
 } else {
-    print lnotif("No template found. Please choose template.");
+    print lnotif(_e("No template found. Please choose template."));
 }
 
 if ($logoimage_inverse == false) {
     if ($logoimage == "") {
-        print lnotif("Upload your logo");
+        print lnotif(_e("Upload your logo"));
     }
 } else {
     if ($logoimage == "" or $logoimage_inverse == "") {
-        print lnotif("Upload your logo");
+        print lnotif(_e("Upload your logo"));
     }
 }
 

@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -40,7 +40,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
 
             <div class="form-group">
-                <label class="control-label p-b-0">Allow users to download the PDF file</label>
+                <label class="control-label p-b-0"><?php print _e('Allow users to download the PDF file'); ?></label>
             </div>
 
             <div class="form-group">

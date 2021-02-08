@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -73,17 +73,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $(window).on('load', function () {
                 this.accordionSettings = new mw.moduleSettings({
                     element: '#accordion-settings',
-                    header: '<div class="show-on-hover-root"><div><i class="mdi mdi-cursor-move mdi-18px text-silver mr-2"></i> <span data-bind="title">Move</span></div> <a href="javascript:;" class="show-on-hover" data-action="remove"><i class="mdi mdi-close text-danger mdi-18px font-weight-bold"></i></a></div>',
+                    header: '<div class="show-on-hover-root"><div><i class="mdi mdi-cursor-move mdi-18px text-silver mr-2"></i> <span data-bind="title"><?php  _e('Move'); ?></span></div> <a href="javascript:;" class="show-on-hover" data-action="remove"><i class="mdi mdi-close text-danger mdi-18px font-weight-bold"></i></a></div>',
                     data: <?php print json_encode($data); ?>,
                     schema: [
                         {
                             interface: 'text',
-                            label: ['Title'],
+                            label: ['<?php  _e('Title'); ?>'],
                             id: 'title'
                         },
                         {
                             interface: 'text',
-                            label: ['Content'],
+                            label: ['<?php  _e('Content'); ?>'],
                             id: 'content'
                         },
                         // {

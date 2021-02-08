@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _lang($module_info['name'], "modules/beforeafter"); ?></strong>
         </h5>
     </div>
 
@@ -46,22 +46,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label class="control-label"><?php print _e('Upload Before Image'); ?></label>
+                        <label class="control-label"><?php print _lang('Upload Before Image', "modules/beforeafter"); ?></label>
                         <img src="<?php print $before; ?>" alt="before" class="js-before-image"/>
 
                         <div class="text-center mt-3">
-                            <span class="btn btn-primary" id="before"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose Before Image'); ?></span>
+                            <span class="btn btn-primary" id="before"><span class="fas fa-upload"></span> &nbsp; <?php _lang('Choose Before Image', "modules/beforeafter"); ?></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-6">
                     <div class="form-group">
-                        <label class="control-label"><?php print _e('Upload After Image'); ?></label>
+                        <label class="control-label"><?php print _lang('Upload After Image', "modules/beforeafter"); ?></label>
                         <img src="<?php print $after; ?>" alt="after" class="js-after-image"/>
 
                         <div class="text-center mt-3">
-                            <span class="btn btn-primary" id="after"><span class="fas fa-upload"></span> &nbsp; <?php _e('Choose After Image'); ?></span>
+                            <span class="btn btn-primary" id="after"><span class="fas fa-upload"></span> &nbsp; <?php _lang('Choose After Image', "modules/beforeafter"); ?></span>
                         </div>
                     </div>
                 </div>

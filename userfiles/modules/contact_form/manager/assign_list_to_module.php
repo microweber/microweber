@@ -45,7 +45,7 @@ $data = get_form_lists('order_by=created_at desc&module_name=' . $params['for-mo
         <div class="row">
             <div class="col-6">
                 <label class="control-label"><?php _e("Select list for current form"); ?></label>
-                <small class="text-muted d-block mb-2">Select a list in which incoming entries will be saved</small>
+                <small class="text-muted d-block mb-2"><?php _e("Select a list in which incoming entries will be saved"); ?></small>
                 <select name="list_id" class="mw_option_field form-list-id selectpicker" data-width="100%" option-group="<?php print $params['for-module-id'] ?>">
                     <option value="" <?php if (intval($selected_list) == 0): ?>   selected="selected"  <?php endif; ?>><?php _e("Default list"); ?></option>
                     <?php foreach ($data as $item): ?>
@@ -72,7 +72,7 @@ $data = get_form_lists('order_by=created_at desc&module_name=' . $params['for-mo
 
     <div class="my-3">
         <label class="control-label d-block"><?php _e("Manage lists"); ?></label>
-        <small class="text-muted d-block mb-2">Go to see your lists or create new one</small>
+        <small class="text-muted d-block mb-2"><?php _e("Go to see your lists or create new one"); ?></small>
 
         <button class="btn btn-outline-primary btn-sm mr-3" onclick="mw.$('.mw_create_new_list, #form_dropdown_lists').toggle()"><?php _e("Create List"); ?></button>
         <a href="#" onClick="browseAllLists();" target="_blank" class="btn btn-link btn-sm px-0"><?php _e("Browse Lists"); ?></a>
