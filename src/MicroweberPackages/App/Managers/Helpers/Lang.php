@@ -718,6 +718,11 @@ class Lang
 
     function get_all_lang_codes()
     {
+        return \Symfony\Component\Intl\Locales::getNames();
+    }
+
+    private function ___deprecated_get_all_lang_codes()
+    {
         $langs = array(
             //  'Abkhazian' => 'AB',
             // 'Afar' => 'AA',
