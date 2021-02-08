@@ -101,11 +101,16 @@ if (isset($item['created_by'])) {
                         <?php endforeach; ?>
                     <?php endif; ?>
 
-                    <div>
+                    <?php
+
+                    /*<div>
                         <small class="text-muted">Attached files:</small>
                         <p><i class="mdi mdi-pdf-box text-primary mdi-18px"></i> Refactoring UI: Bad About</p>
                         <p><i class="mdi mdi-file-check text-primary mdi-18px"></i> Some of our files attached</p>
-                    </div>
+                    </div>*/
+                    ?>
+
+
                 </div>
             </div>
         </div>
