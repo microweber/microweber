@@ -28,6 +28,7 @@ use function Opis\Closure\unserialize as unserializeClosure;
 class DatabaseManager extends DbUtils
 {
     public $use_cache = true;
+    public $use_model_cache = true;
 
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
@@ -211,6 +212,10 @@ class DatabaseManager extends DbUtils
             $use_cache = $this->use_cache = false;
         } else {
             $use_cache = $this->use_cache = true;
+        }
+
+        if ($this->use_model_cache == false) {
+            $use_cache = false;
         }
 
         if (!isset($params['filter'])) {
@@ -858,6 +863,8 @@ class DatabaseManager extends DbUtils
         //@todo move this to external resolver class or array
         if ($table == 'content' || $table == 'categories') {
 
+            $this->use_model_cache = false;
+
             if ($table == 'content') {
                 $model = new Content($params);
                 // $model = app()->make(Content::class);
@@ -892,7 +899,9 @@ class DatabaseManager extends DbUtils
                 return $model->query();
             }
         }
+
         if ($table == 'media') {
+            $this->use_model_cache = false;
             return Media::query();
         }
 
