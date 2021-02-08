@@ -60,7 +60,6 @@ use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Order\Providers\OrderServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
-use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Post\PostServiceProvider;
 use MicroweberPackages\Product\ProductServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
