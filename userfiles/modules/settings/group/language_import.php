@@ -43,15 +43,13 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="mb-5">
-<h5>If you have a .xlsx translated file you can import it by uploading it here.</h5>
-<br />
+<div class="my-2">
+<label class="control-label"><?php _e('Upload Your Language File');?></label>
+    <small class="text-muted d-block mb-3"><?php _e('If you have a .xlsx translated file you can import it by uploading it here.');?></small>
 
 <span id="upload_file_info" style="font-size:14px;"></span>
-
  <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info">
 	<i class="mw-icon-upload"></i> &nbsp;
 	<span><?php _e("Upload file"); ?></span>
 </span>
-
 </div>

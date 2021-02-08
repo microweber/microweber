@@ -30,7 +30,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
         mw.dialog({
             content: '<div id="mw_admin_import_language_modal_content"></div>',
             title: 'Import Language File',
-            height: 200,
+            height: "auto",
             id: 'mw_admin_import_language_modal'
         });
         var params = {};
@@ -43,7 +43,7 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
         mw.dialog({
             content: '<div id="mw_admin_export_language_modal_content"></div>',
             title: 'Export Language File',
-            height: 200,
+            height: "auto",
             id: 'mw_admin_export_language_modal'
         });
         var params = {};
