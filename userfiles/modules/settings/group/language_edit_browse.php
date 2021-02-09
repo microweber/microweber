@@ -10,10 +10,11 @@ if (isset($params['page'])) {
 if (isset($params['translation_namespace'])) {
     $filter['translation_namespace'] = $params['translation_namespace'];
 } else {
-    $filter['translation_namespace'] = '*';
+    $filter['translation_namespace'] = 'global';
 }
 
 $namespace = $filter['translation_namespace'];
+$namespaceMd5 = md5($namespace);
 
 \Config::set('microweber.disable_model_cache', true);
 $supportedLanguages = [];
@@ -33,7 +34,7 @@ if(empty($supportedLanguages)){
 
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
 
-$namespaceMd5 = md5($namespace);
+
 ?>
 <script>
     $('#language-edit-<?php echo $namespaceMd5;?>').collapse('show');
