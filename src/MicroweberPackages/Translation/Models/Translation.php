@@ -24,8 +24,26 @@ class Translation extends Model
     {
         $queryModel = static::query();
         $queryModel->groupBy('translation_namespace');
+        $namespaces =  $queryModel->get()->toArray();
 
-        return $queryModel->get();
+        $readyNamespaces = [];
+
+        foreach($namespaces as $namespace) {
+
+            $translationNamespace = $namespace['translation_namespace'];
+
+            if ($namespace['translation_namespace'] == '') {
+                $translationNamespace = 'global';
+            }
+
+            if ($namespace['translation_namespace'] == '*') {
+                $translationNamespace ='global';
+            }
+
+            $readyNamespaces[$translationNamespace] = $namespace;
+        }
+
+        return $readyNamespaces;
     }
 
     public static function getGroupedTranslations($filter = [])
