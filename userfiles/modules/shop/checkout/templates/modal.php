@@ -31,7 +31,7 @@ description: Checkout
 
                <div class="clear"></div>
                <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post">
-                   <div class="modal-content container">
+                   <div class="modal-content">
                        <div class="modal-header">
                            <?php if(!isset($params['no-close-btn'])) { ?>
                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span

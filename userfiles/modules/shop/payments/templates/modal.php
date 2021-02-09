@@ -42,7 +42,7 @@ description: Payments 1
                             rel_id="<?php print $params['id'] ?>">
                            <label class="control-label"><?php _e("Choose Payment Method"); ?></label>
                            <small class="text-muted d-block mb-2"><?php _e("Choose from the available payment methods to pay this order."); ?></small>
-                           <div class="field-holder text-center my-4 d-sm-inline-block d-md-flex">
+                           <div class="field-holder text-center my-4 d-sm-inline-block d-md-flex flex-wrap">
                                <?php $count = 0;
                                foreach ($payment_options as $payment_option) : $count++; ?>
 
