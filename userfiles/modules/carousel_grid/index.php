@@ -173,7 +173,7 @@ $items_number = intval($items_number);
     $count = 0;
     $html = '';
     if ($data == false) {
-        print lnotif("Click to add images");
+        print lnotif(_lang("Click to add images", "modules/carousel-grid"));
     } else {
         foreach ($data as $key => $pic) {
             $alt_text = '';

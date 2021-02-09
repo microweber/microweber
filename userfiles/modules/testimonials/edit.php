@@ -139,7 +139,7 @@ if (!isset($data['client_company'])) {
         <h6 class="font-weight-bold"><?php _e('Add new testimonial'); ?></h6>
     <?php else: ?>
         <div class="edit-testimonial-top-nav">
-            <a href="javascript:;" onclick="list_testimonial()" class="btn-link"><i class="mdi mdi-arrow-left"></i> Back</a>
+            <a href="javascript:;" onclick="list_testimonial()" class="btn-link"><i class="mdi mdi-arrow-left"></i> <?php _e('Back'); ?></a>
             <a href="javascript:;" onclick="add_new_testimonial()" class="btn-link"><?php _e('Create new'); ?></a>
         </div>
         <h6 class="font-weight-bold"><?php _e('Edit testimonial'); ?></h6>
@@ -212,7 +212,7 @@ if (!isset($data['client_company'])) {
 
                 <div class="form-group">
                     <label class="control-label"><?php _e('Project name'); ?></label>
-                    <small class="text-muted d-block mb-2">You can have more than one “testimonials”, check in Settings tab</small>
+                    <small class="text-muted d-block mb-2"><?php _e('You can have more than one “testimonials”, check in Settings tab'); ?></small>
                     <input type="text" name="project_name" value="<?php print $data['project_name'] ?>" class="form-control">
                 </div>
             </div>

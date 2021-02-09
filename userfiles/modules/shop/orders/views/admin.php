@@ -74,10 +74,10 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
                 <div class="row">
                     <div class="col-12">
                         <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_orders.svg'); ">
-                            <h4>You don’t have any orders yet</h4>
-                            <p>Here you can track your orders</p>
+                            <h4><?php _e("You don’t have any orders yet"); ?></h4>
+                            <p><?php _e("Here you can track your orders"); ?></p>
                             <br/>
-                            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded">Add order</a>
+                            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded"><?php _e("Add order"); ?></a>
                         </div>
                     </div>
                 </div>

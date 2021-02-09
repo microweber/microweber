@@ -112,7 +112,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-2">
                 <div class="custom-control custom-checkbox mb-0 trash-select-all">
                     <input type="checkbox" class="custom-control-input" id="check-all">
-                    <label class="custom-control-label" for="check-all">Check all</label>
+                    <label class="custom-control-label" for="check-all"><?php _e("Check all"); ?></label>
                 </div>
             </div>
 

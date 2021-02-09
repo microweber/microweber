@@ -10,10 +10,11 @@ if (isset($params['page'])) {
 if (isset($params['translation_namespace'])) {
     $filter['translation_namespace'] = $params['translation_namespace'];
 } else {
-    $filter['translation_namespace'] = '*';
+    $filter['translation_namespace'] = 'global';
 }
 
 $namespace = $filter['translation_namespace'];
+$namespaceMd5 = md5($namespace);
 
 \Config::set('microweber.disable_model_cache', true);
 $supportedLanguages = [];
@@ -33,9 +34,22 @@ if(empty($supportedLanguages)){
 
 $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
 
-$namespaceMd5 = md5($namespace);
+
 ?>
 <script>
+
+    <?php
+    if (empty($getTranslations['results'])):
+    ?>
+    $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').fadeOut();
+    <?php
+   else:
+    ?>
+    $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').fadeIn();
+    <?php
+    endif;
+    ?>
+
     $('#language-edit-<?php echo $namespaceMd5;?>').collapse('show');
 </script>
 
@@ -58,6 +72,15 @@ $namespaceMd5 = md5($namespace);
             $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('page', 1);
             $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('search', searchText);
             mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
+
+
+            setTimeout(function() {
+                $('.js-lang-edit-form-messages').html('');
+                if ($('.js-language-edit-browse-module:hidden').size() == $('.js-language-edit-browse-module').size()) {
+                    $('.js-lang-edit-form-messages').html('<div class="alert alert-warning"><?php _e('No results found');?></div>');
+                }
+            }, 2000);
+
         });
 
         $('.mw_lang_item_textarea_edit').on('input', function () {
@@ -111,8 +134,8 @@ $namespaceMd5 = md5($namespace);
             </div>
 
            <div>
-                <button type="button" onClick="exportTranslation('<?php echo $namespace;?>')" class="btn btn-outline-primary btn-sm">Export to Excel</button>
-                <button type="button" onClick="importTranslation('<?php echo $namespaceMd5;?>')" class="btn btn-outline-primary btn-sm">Import Excel file</button>
+                <button type="button" onClick="exportTranslation('<?php echo $namespace;?>')" class="btn btn-outline-primary btn-sm"><?php _e('Export to Excel'); ?></button>
+                <button type="button" onClick="importTranslation('<?php echo $namespaceMd5;?>')" class="btn btn-outline-primary btn-sm"><?php _e('Import Excel file'); ?></button>
             </div>
         </div>
 

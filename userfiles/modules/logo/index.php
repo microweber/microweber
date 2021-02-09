@@ -146,7 +146,7 @@ if ($module_template != false) {
 if (is_file($template_file) != false) {
     include($template_file);
 } else {
-    print lnotif("No template found. Please choose template.");
+    print lnotif(_e("No template found. Please choose template."));
 }
 
 if ($logoimage_inverse == false) {

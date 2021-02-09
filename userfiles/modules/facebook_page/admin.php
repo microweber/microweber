@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -66,7 +66,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="module-live-edit-settings module-facebook-page-settings">
             <div class="form-group">
                 <label class="control-label" for="fb-page"><?php _e('Facebook page URL'); ?></label>
-                <input name="fb-page" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $fbPage; ?>" id="fb-page" placeholder="Example: https://www.facebook.com/Microweber/"/>
+                <input name="fb-page" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $fbPage; ?>" id="fb-page" placeholder="<?php _e('Example: https://www.facebook.com/Microweber/"'); ?>/>
             </div>
 
             <div class="row">
@@ -74,7 +74,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="control-label" for="width"><?php _e('Box width'); ?><br/></label>
                         <input name="width" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $width; ?>" id="width"/>
-                        <small class="text-muted">Min: 180px - Max: 500px</small>
+                        <small class="text-muted"><?php _e('Min: 180px - Max: 500px'); ?></small>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="control-label" for="height"><?php _e('Box height'); ?><br/></label>
                         <input name="height" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $height; ?>" id="height"/>
-                        <small class="text-muted">Min: 70px</small>
+                        <small class="text-muted"><?php _e('Min: 70px'); ?></small>
                     </div>
                 </div>
             </div>

@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -266,26 +266,26 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="logo-module-types">
                         <div class="form-group">
-                            <label class="control-label mb-3">Choose Logo type</label>
+                            <label class="control-label mb-3"><?php _e("Choose Logo type"); ?></label>
 
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="logotype1" class="mw_option_field custom-control-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
                                 <label class="custom-control-label" for="logotype1"><?php _e('Image Logo'); ?><br/>
-                                    <small class="text-muted">Upload your logo image in .JPG or .PNG format</small>
+                                    <small class="text-muted"><?php _e("Upload your logo image in .JPG or .PNG format"); ?></small>
                                 </label>
                             </div>
 
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="logotype2" class="mw_option_field custom-control-input" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
                                 <label class="custom-control-label" for="logotype2"><?php _e('Text Logo'); ?><br/>
-                                    <small class="text-muted">Type your brand and choose font size and style</small>
+                                    <small class="text-muted"><?php _e("Type your brand and choose font size and style"); ?></small>
                                 </label>
                             </div>
 
                             <div class="custom-control custom-radio d-none">
                                 <input type="radio" id="logotype3" class="mw_option_field custom-control-input" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
                                 <label class="custom-control-label" for="logotype3"><?php _e('Both'); ?><br/>
-                                    <small class="text-muted">Type your brand and choose font size</small>
+                                    <small class="text-muted"><?php _e("Type your brand and choose font size") ;?></small>
                                 </label>
                             </div>
                         </div>
@@ -296,8 +296,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="js-logo-image-holder">
                         <div class="form-group">
-                            <label class="control-label">Main Logo</label>
-                            <small class="text-muted d-block mb-2">This logo image will appear every time</small>
+                            <label class="control-label"><?php _e("Main Logo"); ?></label>
+                            <small class="text-muted d-block mb-2"><?php _e("This logo image will appear every time"); ?></small>
                         </div>
 
                         <div class="image-row">
@@ -306,7 +306,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <img src="<?php if ($logoimage): ?><?php echo thumbnail($logoimage, 200); ?><?php endif; ?>" class="the-image" alt="" <?php if ($logoimage != '' and $logoimage != false): ?><?php else: ?>style="display:block;"<?php endif; ?> />
 
                                 <div class="js-remove-logo-btn <?php if ($logoimage == ''): ?>d-none<?php endif; ?>">
-                                    <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-logoimage"><i class="mdi mdi-trash-can-outline"></i> Remove the logo</button>
+                                    <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
 
                                     <script>
                                         $('.js-remove-logoimage').on('click', function () {
@@ -320,10 +320,10 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                             <div>
-                                <span class="btn btn-primary btn-rounded btn-sm" id="upload-image">Upload Image</span>
+                                <span class="btn btn-primary btn-rounded btn-sm" id="upload-image"><?php _e("Upload Image"); ?></span>
                                 <a href="javascript:mw_admin_logo_upload_browse_existing()" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Uploaded'); ?></a>
                                 <?php if ($logotype == 'both' or $logotype == 'image' or $logotype == false): ?>
-                                    <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);">Edit image</a>
+                                    <a class="btn btn-outline-primary btn-rounded btn-sm" onclick="mw.edit_logo_image_crop()" href="javascript:void(0);"><?php _e("Edit image"); ?></a>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -332,15 +332,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <br/>
 
                             <div class="form-group">
-                                <label class="control-label">Alternative Logo</label>
-                                <small class="text-muted d-block mb-2">For example we are using the alternative logo when we have a sticky navigation</small>
+                                <label class="control-label"><?php _e("Alternative Logo"); ?></label>
+                                <small class="text-muted d-block mb-2"><?php _e("For example we are using the alternative logo when we have a sticky navigation"); ?></small>
                             </div>
 
                             <div class="image-row">
                                 <div class="the-image-holder">
                                     <img src="<?php if ($logoimage_inverse): ?><?php echo thumbnail($logoimage_inverse, 200); ?><?php endif; ?>" class="the-image-inverse" alt="" <?php if ($logoimage_inverse != '' and $logoimage_inverse != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
                                     <div class="js-remove-logo-alt-btn <?php if ($logoimage_inverse == ''): ?>d-none<?php endif; ?>">
-                                        <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-alt-logoimage"><i class="mdi mdi-trash-can-outline"></i> Remove the logo</button>
+                                        <button type="button" class="btn btn-link px-0 mb-3 text-danger js-remove-alt-logoimage"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Remove the logo"); ?></button>
 
                                         <script>
                                             $('.js-remove-alt-logoimage').on('click', function () {
@@ -354,7 +354,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 </div>
 
                                 <div>
-                                    <span class="btn btn-primary btn-rounded btn-sm" id="upload-image-inverse">Upload Image</span>
+                                    <span class="btn btn-primary btn-rounded btn-sm" id="upload-image-inverse"><?php _e("Upload Image"); ?></span>
                                     <a href="javascript:mw_admin_logo_upload_browse_existing('true')" class="btn btn-outline-primary btn-rounded btn-sm"><?php _e('Browse Uploaded'); ?></a>
                                 </div>
                             </div>
@@ -364,7 +364,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                         <div class="form-group">
-                            <label class="control-label">Scale the logo image</label>
+                            <label class="control-label"><?php _e("Scale the logo image"); ?></label>
 
                             <div>
                                 <p class="mb-1"><?php _e('Image size'); ?> - <span id="imagesizeval"></span></p>
@@ -385,8 +385,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="js-logo-text-holder">
                         <div class="form-group">
-                            <label class="control-label">Design your logo</label>
-                            <small class="text-muted d-block mb-2">Chooose fornt size for your logo</small>
+                            <label class="control-label"><?php _e("Design your logo"); ?></label>
+                            <small class="text-muted d-block mb-2"><?php _e("Chooose fornt size for your logo"); ?></small>
 
                             <select id="google-fonts" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true" name="font_family">
                                 <option value=""><?php _e('Choose font'); ?></option>

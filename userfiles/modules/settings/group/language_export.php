@@ -1,5 +1,3 @@
-<h5><?php _e('Select the language to export:');?></h5>
-
 <script>
     function exportTheSelectedLanguage(namespace) {
 
@@ -37,14 +35,18 @@ if(empty($supportedLanguages)){
     ];
 }
 ?>
-<select class="form-control js-export-selected-locale-val">
-    <?php
-    foreach ($supportedLanguages as $supportedLanguage):
-    ?>
-    <option value="<?php echo $supportedLanguage['locale'];?>"><?php echo strtoupper($supportedLanguage['locale']); ?></option>
-    <?php
-    endforeach;
-    ?>
-</select>
-<br />
-<button type="button" onclick="exportTheSelectedLanguage('<?php echo $params['namespace'];?>');" class="btn btn-success js-export-selected-locale-btn"><i class="mdi mdi-download"></i> <?php _e('Export & Download');?> </button>
+<div class="my-2">
+    <label class="control-label"><?php _e('Select the language to export:');?></label>
+    <small class="text-muted d-block mb-3"><?php _e('If you want to export a .xlsx translated file you can export it from here.');?></small>
+    <select class="form-control js-export-selected-locale-val">
+        <?php
+        foreach ($supportedLanguages as $supportedLanguage):
+            ?>
+            <option value="<?php echo $supportedLanguage['locale'];?>"><?php echo strtoupper($supportedLanguage['locale']); ?></option>
+        <?php
+        endforeach;
+        ?>
+    </select>
+    <br />
+    <button type="button" onclick="exportTheSelectedLanguage('<?php echo $params['namespace'];?>');" class="btn btn-success js-export-selected-locale-btn"><i class="mdi mdi-download"></i> <?php _e('Export & Download');?> </button>
+</div>

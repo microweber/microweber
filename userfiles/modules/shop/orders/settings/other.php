@@ -13,7 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <i class="mdi mdi-cogs module-icon-svg-fill"></i> <strong>Other shop settings</strong>
+            <i class="mdi mdi-cogs module-icon-svg-fill"></i> <strong><?php _e("Other shop settings"); ?></strong>
         </h5>
     </div>
 

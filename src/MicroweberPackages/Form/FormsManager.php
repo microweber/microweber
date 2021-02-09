@@ -6,6 +6,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use League\Csv\Writer;
 use MicroweberPackages\Country\Models\Country;
 use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
@@ -887,7 +888,8 @@ class FormsManager
             return array('error' => 'Please specify list id! By posting field id=the list id ');
         } else {
             $lid = intval($params['id']);
-            $data = get_form_entires('limit=100000&list_id=' . $lid);
+           // $data = get_form_entires('limit=100000&list_id=' . $lid);
+            $data = get_form_entires('limit=100000');
 
             $surl = $this->app->url_manager->site();
             $csv_output = '';

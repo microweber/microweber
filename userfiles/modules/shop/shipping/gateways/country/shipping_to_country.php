@@ -199,7 +199,7 @@ class shipping_to_country
             $shipping_cost_above = floatval($shipping_country['shipping_cost_above']);
             // if (intval($shipping_cost_above) > 0 and intval($shipping_country['shipping_cost_max']) > 0) {
             if (isset($shipping_country['shipping_cost_max']) and trim($shipping_country['shipping_cost_max']) != '') {
-                if ($items_cart_amount > $shipping_cost_above) {
+                if ($items_cart_amount >= $shipping_cost_above) {
                     $defined_cost = floatval($shipping_country['shipping_cost_max']);
                     //   }
                 }

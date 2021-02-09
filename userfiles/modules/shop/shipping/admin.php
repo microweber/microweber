@@ -112,12 +112,12 @@ $shipping_modules = get_modules("type=shipping_gateway");
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
     <div class="card-body pt-3">
-        <p class="text-muted">Enable and set up the shipping methods your customers will use</p>
+        <p class="text-muted"><?php _e("Enable and set up the shipping methods your customers will use"); ?></p>
 
         <div id="db-shipping-methods">
             <?php if (is_array($shipping_modules)): ?>
@@ -156,7 +156,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                         <h4 class="gateway-title font-weight-bold mb-0"><?php print $shipping_module['name'] ?></h4>
 
                                         <small class="text-muted">
-                                            <?php print $shipping_module['name'] ?> <span class="text-primary js-method-on <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')   === 'n'): ?>d-none<?php endif; ?>">is ON</span>
+                                            <?php print $shipping_module['name'] ?> <span class="text-primary js-method-on <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')   === 'n'): ?>d-none<?php endif; ?>"><?php _e("is ON"); ?></span>
                                         </small>
                                     </div>
 

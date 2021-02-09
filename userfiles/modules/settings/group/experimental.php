@@ -14,11 +14,11 @@
     <?php _e("Experimental"); ?>
     <?php _e("settings"); ?>
 </h2>
-<div class="mw-ui-box mw-ui-box-content mw-ui-box-warn">Those settings are experimental and may lead to bugs. Please don't use them yet</div>
+<div class="mw-ui-box mw-ui-box-content mw-ui-box-warn"><?php _e("Those settings are experimental and may lead to bugs. Please don't use them yet"); ?></div>
 <div class="<?php print $config['module_class'] ?>">
     <div class="mw-ui-field-holder" style="display: none">
         <label class="mw-ui-label">
-            Open module settings in sidebar on live edit
+            <?php _e("Open module settings in sidebar on live edit"); ?>
         </label>
         <?php
         $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar', 'live_edit');
@@ -39,7 +39,7 @@
 
     <div class="mw-ui-field-holder">
         <h3><?php _e('Cache settings'); ?></h3>
-        <div class="mw-notification">Note: Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings.</div>
+        <div class="mw-notification"><?php _e("Note: Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings."); ?></div>
         <hr>
     </div>
 
@@ -91,19 +91,19 @@
 
         <select id="js-static_files_delivery_method_select" name="static_files_delivery_method" class="mw-ui-field mw_option_field" type="text" option-group="website">
             <option value="" <?php if (!$static_files_delivery_method): ?> selected="selected" <?php endif; ?>><?php _e("Default"); ?></option>
-            <option value="cdn_domain" <?php if ($static_files_delivery_method == 'cdn_domain'): ?> selected="selected" <?php endif; ?>>CDN Domain</option>
-            <option value="content_proxy" <?php if ($static_files_delivery_method == 'content_proxy'): ?> selected="selected" <?php endif; ?>>Content proxy (experimental)</option>
+            <option value="cdn_domain" <?php if ($static_files_delivery_method == 'cdn_domain'): ?> selected="selected" <?php endif; ?>><?php _e("CDN Domain"); ?></option>
+            <option value="content_proxy" <?php if ($static_files_delivery_method == 'content_proxy'): ?> selected="selected" <?php endif; ?>><?php _e("Content proxy (experimental)"); ?></option>
         </select>
 
         <div class="js-toggle-content-proxy-settings" <?php if (!$static_files_delivery_method): ?> style="display: none" <?php endif; ?> >
 
-            <div class="mw-ui-box mw-ui-box-content mw-ui-box m-b-20">Warning, this is advanced action and may break your site.
+            <div class="mw-ui-box mw-ui-box-content mw-ui-box m-b-20"><?php _e("Warning, this is advanced action and may break your site.
                 Make sure you setup you domain to resolve to your website. <br>
-                After that you can enter your content delivery domain name for example cdn.mydomain.com
+                After that you can enter your content delivery domain name for example cdn.mydomain.com"); ?>
             </div>
 
             <div class="mw-ui-field-holder">
-                <label class="mw-ui-label">CDN Domain name</label>
+                <label class="mw-ui-label"><?php _e("CDN Domain name"); ?></label>
                 <?php $key_name = 'static_files_delivery_method_domain'; ?>
                 <input name="<?php print $key_name ?>" class="mw_option_field mw-ui-field mw-full-width" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
             </div>

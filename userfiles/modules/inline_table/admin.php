@@ -13,13 +13,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _lang($module_info['name'], "modules/inline_table"); ?></strong>
         </h5>
     </div>
 
     <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column">
         <div class="icon-title d-inline-flex">
-            <i class="mdi mdi-view-grid-plus"></i> <h5 class="mb-0"><?php _e('This module has no settings'); ?></h5>
+            <i class="mdi mdi-view-grid-plus"></i> <h5 class="mb-0"><?php _lang('This module has no settings', "modules/inline_table"); ?></h5>
         </div>
     </div>
 </div>

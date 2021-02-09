@@ -32,7 +32,7 @@ if (isset($params['content_id'])){
                     <?php print $item['created_at'] ?>
                     (<?php print mw()->format->ago($item['created_at']); ?>)
                     </span>
-                    <a   class="pull-right mw-ui-btn mw-ui-btn-small"   href="javascript:mw.content_revisions_control.load_content_field_to_editor('<?php print $item['id'] ?>')">Load to editor</a>
+                    <a   class="pull-right mw-ui-btn mw-ui-btn-small"   href="javascript:mw.content_revisions_control.load_content_field_to_editor('<?php print $item['id'] ?>')"><?php _e("Load to editor"); ?></a>
                 </div>
                 <div class="mw-accordion-content mw-ui-box-content"
                      style="display: block;">

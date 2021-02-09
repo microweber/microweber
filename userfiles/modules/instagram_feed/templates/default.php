@@ -36,5 +36,5 @@ description: Default Instagram Feed
         </div>
     <?php endif; ?>
 <?php else: ?>
-    <p>This profile is private!</p>
+    <p><?php _lang("This profile is private!", "modules/instagram_feed/templates") ?></p>
 <?php endif; ?>
