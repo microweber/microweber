@@ -214,15 +214,6 @@
    max-width: 140px;
 }
 
-.modal-content .table th {
-    background: none;
-    color: black;
-}
-
-.modal-content .btn-lg {
-min-width: auto;
-}
-
 @media screen and (max-width: 767px) {
     .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
         text-align: center

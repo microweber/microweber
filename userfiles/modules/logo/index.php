@@ -152,11 +152,11 @@ if (is_file($template_file) != false) {
 
 if ($logoimage_inverse == false) {
     if ($logoimage == "") {
-        print lnotif(_e("Upload your logo"));
+        print lnotif("Upload your logo");
     }
 } else {
     if ($logoimage == "" or $logoimage_inverse == "") {
-        print lnotif(_e("Upload your logo"));
+        print lnotif("Upload your logo");
     }
 }
 
