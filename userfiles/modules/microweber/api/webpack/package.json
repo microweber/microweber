@@ -2,6 +2,7 @@
   "name": "microweber-webpack",
   "version": "1.0.0",
   "devDependencies": {
+    "@mdi/font": "^5.9.55",
     "clean-webpack-plugin": "^3.0.0",
     "file-loader": "^6.2.0",
     "gulp": "^4.0.2",
@@ -25,7 +26,7 @@
   },
   "scripts": {
     "bild": "webpack --mode=development && gulp mwui",
-    "dev": "webpack --watch --mode=development && gulp mwui",
+    "dev": "webpack --watch --mode=development && gulp watch",
     "prod": "webpack --mode=production"
   }
 }

@@ -16,12 +16,40 @@ const lessConfig = {
 
 };
 
-gulp.task('mwui', function () {
+const bootstrapUI = [
+    'node_modules/bootstrap-select/dist/css/bootstrap-select.css',
+    '../libs/bootstrap_tags/bootstrap-tagsinput.css',
+    'node_modules/ion-rangeslider/css/ion.rangeSlider.css',
+    'node_modules/@mdi/font/css/materialdesignicons.css',
+    'node_modules/aos/dist/aos.css',
+];
+
+gulp.task('Microweber CSS UI', function () {
     return gulp.src(ui)
         .pipe(sourcemaps.init())
         .pipe(gulpLess(lessConfig))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(`${css}`));
+});
+
+gulp.task('Microweber Bootstrap UI', function () {
+    return gulp.src(bootstrapUI)
+        .pipe(sourcemaps.init())
+        .pipe(gulpLess(lessConfig))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(`${css}`));
+});
+
+
+const all = ['Microweber CSS UI', 'Microweber Bootstrap UI'];
+
+gulp.task('default', gulp.series(...all), function() {
+
+});
+
+
+gulp.task('watch', function () {
+    return watch(css + '/**/*.less', gulp.series(...all));
 });
 
 
