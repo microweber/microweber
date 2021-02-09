@@ -31,7 +31,13 @@ if ($settings == false) {
     $json = json_decode($settings, true);
 }
 
-
+if(!$json){
+    $json[] = array(
+        'title' => 'Title 1',
+        'id' => 'tab-' .  $params['id']. '-1',
+        'icon' => '<i class="fa fa-home"></i>'
+    );
+}
 
 $data = array();
 $count = 0;
