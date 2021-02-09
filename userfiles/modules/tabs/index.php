@@ -33,7 +33,7 @@ if ($settings == false) {
 
 if(!$json){
     $json[] = array(
-        'title' => 'Title 1',
+        'title' => 'Info',
         'id' => 'tab-' .  $params['id']. '-1',
         'icon' => '<i class="fa fa-home"></i>'
     );
