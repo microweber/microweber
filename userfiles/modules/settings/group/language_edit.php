@@ -160,10 +160,15 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
             </div>
             <div class="col-md-9">
                 <form id="language-form" class="lang-edit-form">
-                    <?php foreach (\MicroweberPackages\Translation\Models\Translation::getNamespaces() as $translation):?>
+
+                    <div class="js-lang-edit-form-messages"></div>
+                    <?php
+                    $getNamespaces = \MicroweberPackages\Translation\Models\Translation::getNamespaces();
+                    ?>
+                    <?php foreach ($getNamespaces as $translation):?>
 
                     <module type="settings/group/language_edit_browse"
-                            class="js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
+                            class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
                             translation_namespace="<?php echo $translation['translation_namespace']; ?>"
                             translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
                     <?php endforeach; ?>
