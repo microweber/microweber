@@ -44,7 +44,6 @@ description: Default
            <div class="row">
                <?php if ($data) { ?>
                    <div class="col-12 col-md-6">
-                       <div class="field-holder">
                            <label for="exampleInputEmail1">Country</label>
                            <select required name="country" class="selectpicker shipping-country-select w-100">
                                <option value=""><?php _e("Country"); ?></option>
@@ -52,7 +51,6 @@ description: Default
                                    <option value="<?php print $item['shipping_country'] ?>" <?php if (isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
                                <?php endforeach; ?>
                            </select>
-                       </div>
                    </div>
                <?php } ?>
 

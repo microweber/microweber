@@ -83,6 +83,7 @@ description: Checkout
                                     rel_id="<?php print $params['id'] ?>">
                                    <small class="pull-right text-muted">*Fields are required</small>
                                    <label class="control-label">Personal Information</label>
+                                   <small class="text-muted d-block mb-2"> <?php _e("Add your personal information"); ?></small>
                                </div>
                                <div class="row">
                                    <div class="col-12 col-md-6">
