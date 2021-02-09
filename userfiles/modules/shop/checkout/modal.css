@@ -219,6 +219,9 @@
     color: black;
 }
 
+.modal-content .btn-outline-primary {
+    color: black;
+}
 
 @media screen and (max-width: 767px) {
     .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
