@@ -718,10 +718,7 @@ class Lang
 
     function get_all_lang_codes()
     {
-        $langCodes =  \Symfony\Component\Intl\Locales::getNames();
-        $langCodes['en_uk'] = 'English, UK'; 
-
-        return $langCodes;
+        return \Symfony\Component\Intl\Locales::getNames();
     }
 
     private function ___deprecated_get_all_lang_codes()
