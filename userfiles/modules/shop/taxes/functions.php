@@ -7,7 +7,7 @@ event_bind('mw.admin.shop.settings.menu', function ($data) {
 
                     <div class="info-holder">
                         <span class="text-primary font-weight-bold">' . _e('Taxes', true) . '</span><br/>
-                        <small class="text-muted"><?php _e("Fees and tax rates:); ?></small>
+                        <small class="text-muted">'. _e('Fees and tax rates', true) .'</small>
                     </div>
                 </a>
             </div>';
