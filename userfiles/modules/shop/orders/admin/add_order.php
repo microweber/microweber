@@ -119,7 +119,7 @@ $data = $products;
                     </nav>
                 </div>
                 <div class="mw-ui-box-content m-1 border-0 w-100">
-                    <h5 class="font-weight-bold mb-4">Search Products</h5>
+                    <h5 class="font-weight-bold mb-4"><?php _e("Search Products"); ?></h5>
                     <div class="col-12 ">
                        <label class="control-label"><?php _e("Search for product"); ?></label>
                         <small class="text-muted d-block mb-2"> <?php _e("In the field below you can search for products from your shop."); ?></small>

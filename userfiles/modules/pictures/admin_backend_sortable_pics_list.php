@@ -65,7 +65,7 @@ $rand = 'pic-sorter-' . uniqid();
 </style>
 
 
-<div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none">Drop here to upload</div>
+<div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none"><?php _e("Drop here to download"); ?></div>
 
 
 <script>
@@ -220,7 +220,7 @@ $rand = 'pic-sorter-' . uniqid();
 
                                 <div class="d-flex justify-content-between">
                                 <button type="button" class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()">Cancel</button>
-                                <button type="button" class="btn btn-success btn-sm" onclick="mw.dialog.get(this).result(<?php print $item['id'] ?>)">Update</button>
+                                <button type="button" class="btn btn-success btn-sm" onclick="mw.dialog.get(this).result(<?php print $item['id'] ?>)"><?php _e("Update"); ?></button>
                                 </div>
                             </div>
                         </div>
@@ -231,8 +231,8 @@ $rand = 'pic-sorter-' . uniqid();
         <div class="admin-thumb-item-uploader-holder">
             <div class="dropable-zone small-zone square-zone">
                 <div class="holder">
-                    <button type="button" class="btn btn-link">Add file</button>
-                    <p>or drop file to upload</p></div>
+                    <button type="button" class="btn btn-link"><?php _e("Add file"); ?></button>
+                    <p><?php _e("or drop file to upload"); ?></p></div>
             </div>
             <div class="admin-thumb-item-uploader" id="admin-thumb-item-uploader<?php print $rand; ?>">
 

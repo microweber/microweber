@@ -182,7 +182,7 @@ must_have_access();
 </style>
 <div>
     <div class="show-on-install-complete">
-        <center><h1>Installation complete</h1>
+        <center><h1><?php _e("Installation complete"); ?></h1>
         </center>
     </div>
     <div id="myProgress" class="hide-on-install-complete">
@@ -192,7 +192,7 @@ must_have_access();
     <pre id="mw-update-res-log" style=""></pre>
     <div class="show-on-install-complete">
         <center>
-            <button class="mw-ui-btn mw-ui-btn-invert" onclick="$('#update_queue_set_modal').remove();">Close</button>
+            <button class="mw-ui-btn mw-ui-btn-invert" onclick="$('#update_queue_set_modal').remove();"><?php _e("Close"); ?></button>
         </center>
     </div>
 </div>

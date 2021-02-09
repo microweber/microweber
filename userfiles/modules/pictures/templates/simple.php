@@ -31,7 +31,7 @@ description: Simple Pictures List Template
                     </div>
                 </div>
             <?php endforeach;  ?>
-            <script>gallery<?php print $rand; ?> = [
+            <script><?php _ejs("gallery"); ?><?php print $rand; ?> = [
                         <?php foreach($data  as $item): ?>{image: "<?php print ($item['filename']); ?>", description: "<?php print $item['title']; ?>"},
                     <?php endforeach;  ?>
                 ];</script>

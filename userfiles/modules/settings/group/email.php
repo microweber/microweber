@@ -128,7 +128,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("E-mail Settings"); ?></h5>
-                    <small class="text-muted">Set the email transport settings to your website.</small>
+                    <small class="text-muted"><?php _e("Set the email transport settings to your website."); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -160,7 +160,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("Mail Send Settings"); ?></h5>
-                    <small class="text-muted">Set up your email provider so you can send emails through your site.</small>
+                    <small class="text-muted"><?php _e("Set up your email provider so you can send emails through your site."); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -284,8 +284,8 @@
                                 <div class="col-12 d-none">
                                     <div class="js-test-email">
 
-                                        <h4>Make a test email</h4>
-                                        <p class="text-muted">Send test email to check settings are they work correctly.</p>
+                                        <h4><?php _e("Make a test email"); ?></h4>
+                                        <p class="text-muted"><?php _e("Send test email to check settings are they work correctly."); ?></p>
 
                                         <div class="form-group">
                                             <label class="control-label" for="test_email_to"><?php _e("Send test email to"); ?></label>
@@ -301,7 +301,7 @@
 
                                         <div class="row">
                                             <div class="col-12 d-flex justify-content-between">
-                                                <button type="button" class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()">Cancel</button>
+                                                <button type="button" class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
                                                 <button type="button" onclick="mw.email_send_test();" class="btn btn-success btn-sm" id="email_send_test_btn"><?php _e("Send Test Email"); ?></button>
                                             </div>
                                         </div>

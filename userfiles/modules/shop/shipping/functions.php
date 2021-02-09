@@ -9,7 +9,7 @@ event_bind('mw.admin.shop.settings.menu', function ($data) {
 
                     <div class="info-holder">
                         <span class="text-primary font-weight-bold">' . _e('Shipping', true) . '</span><br/>
-                        <small class="text-muted">Delivery methods and suppliers</small>
+                        <small class="text-muted"><?php _e("Delivery methods and suppliers"); ?></small>
                     </div>
                 </a>
             </div>';

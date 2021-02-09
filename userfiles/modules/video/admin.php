@@ -13,7 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -139,7 +139,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-play-box mr-1"></i> Video</a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-play-box mr-1"></i> <?php print _e('Video'); ?></a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
         </nav>
@@ -169,7 +169,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="d-flex align-items-center justify-content-between">
                         <button type="button" class="btn btn-primary btn-rounded" id="upload_btn"><i class="mdi mdi-upload"></i> &nbsp;<?php _e("Choose video file"); ?></button>
-                        <button type="button" class="btn btn-link text-danger px-0" id="remove-video-button" style="<?php print !!$uploadedVideo ? '' : 'display:none;' ?>;" onclick="$('#video-preview').hide(); $(this).hide(); $('.js-video-preview-label').hide(); $('#upload_field').val('').trigger('change')"><?php _e("Remove"); ?> Video</button>
+                        <button type="button" class="btn btn-link text-danger px-0" id="remove-video-button" style="<?php print !!$uploadedVideo ? '' : 'display:none;' ?>;" onclick="$('#video-preview').hide(); $(this).hide(); $('.js-video-preview-label').hide(); $('#upload_field').val('').trigger('change')"><?php _e("Remove Video"); ?></button>
                     </div>
 
                     <div class="form-group mt-3 mb-2 js-video-preview-label" style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;">
@@ -189,8 +189,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-video-settings">
                     <div class="form-group">
-                        <label class="control-label">Video settings</label>
-                        <small class="text-muted d-block mb-2">Set a width height in pixels</small>
+                        <label class="control-label"><?php print _e('Video settings'); ?></label>
+                        <small class="text-muted d-block mb-2"><?php print _e('Set a width height in pixels'); ?></small>
                     </div>
 
                     <div class="row">
@@ -210,11 +210,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-group">
-                        <small class="d-block text-muted mb-2">The video will start automaticly if you check the option</small>
+                        <small class="d-block text-muted mb-2"><?php print _e('The video will start automaticly if you check the option'); ?></small>
 
                         <div class="custom-control custom-checkbox">
                             <input id="chk_autoplay" name="autoplay" class="mw_option_field custom-control-input" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('autoplay', $params['id']) == 'y') { ?>checked<?php } ?>/>
-                            <label class="custom-control-label" for="chk_autoplay">Autoplay</label>
+                            <label class="custom-control-label" for="chk_autoplay"><?php _e("Autoplay"); ?></label>
                         </div>
                     </div>
 
@@ -231,8 +231,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <div class="dropable-zone small-zone square-zone bg-white" id="upload_thumb_btn">
                                     <div class="holder">
                                         <div class="dropable-zone-img img-media mb-2"></div>
-                                        <button type="button" class="btn btn-link py-1">Add media</button>
-                                        <p>or drop file</p>
+                                        <button type="button" class="btn btn-link py-1"><?php print _e('Add media'); ?></button>
+                                        <p><?php print _e('or drop file'); ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="col-auto js-video-thumb-holder" <?php if(!get_option('upload_thumb', $params['id'])): ?>style="display:none;"<?php endif; ?>>
                             <div class="mb2">
                                 <img id="thumb" src="<?php print thumbnail(get_option('upload_thumb', $params['id']), 120, 120); ?>" alt="" style="max-width: 120px;"/><br/>
-                                <span class="btn btn-link text-danger px-0 js-remove-thumb">Remove</span>
+                                <span class="btn btn-link text-danger px-0 js-remove-thumb"><?php print _e('Remove'); ?></span>
                             </div>
                         </div>
                     </div>

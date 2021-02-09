@@ -21,7 +21,7 @@
 
 <div id="shipping-units-setup">
     <h5 class="font-weight-bold"><?php print _e('Shipping units'); ?></h5>
-    <small class="text-muted d-block mb-4">Select in which units the transport shipment will be calculated</small>
+    <small class="text-muted d-block mb-4"><?php _e("Select in which units the transport shipment will be calculated"); ?></small>
 
     <div class="form-group">
         <label class="control-label d-block"><?php _e("Units for weight"); ?></label>

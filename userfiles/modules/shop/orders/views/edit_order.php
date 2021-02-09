@@ -53,11 +53,11 @@
         <div class="card-header">
             <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Order"); ?> #<?php print $show_ord_id ?></strong></h5>
             <div>
-                <a href="#" class="btn btn-sm btn-outline-secondary">Edit order</a>
+                <a href="#" class="btn btn-sm btn-outline-secondary"><?php _e('Edit order'); ?></a>
             </div>
         </div>
         <div class="card-body">
-            <h5 class="font-weight-bold">Order Information</h5>
+            <h5 class="font-weight-bold"><?php _e('Order Information'); ?></h5>
 
             <module type="shop/orders/views/order_cart" order-id="<?php print $show_ord_id; ?>"/>
         </div>
@@ -193,7 +193,7 @@
                         <?php if (isset($ord['other_info']) and $ord['other_info'] != ''): ?>
                             <small class="text-muted"><?php print $ord['other_info'] ?></small>
                         <?php else: ?>
-                            <small class="text-muted">No additional information regarding delivery specification of this order.</small>
+                            <small class="text-muted"><?php _e('No additional information regarding delivery specification of this order.'); ?></small>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -274,10 +274,10 @@
                     <div class="mb-2">
                         <select name="order_status" class="selectpicker" data-style="btn-sm" data-width="100%">
                             <option value="pending" <?php if ($ord['order_status'] == 'pending'): ?>selected<?php endif; ?>>Pending
-                                <small class="text-muted">(the order is not finished yet)</small>
+                                <small class="text-muted"><?php _e('(the order is not finished yet)'); ?></small>
                             </option>
-                            <option value="completed" <?php if ($ord['order_status'] == 'completed' or $ord['order_status'] == null or $ord['order_status'] == ''): ?>selected<?php endif; ?>>Completed
-                                <small class="text-muted">(the order is finished)</small>
+                            <option value="completed" <?php if ($ord['order_status'] == 'completed' or $ord['order_status'] == null or $ord['order_status'] == ''): ?>selected<?php endif; ?>><?php _e('Back to orders'); ?>Completed
+                                <small class="text-muted"><?php _e('(the order is finished)'); ?></small>
                             </option>
                         </select>
                     </div>

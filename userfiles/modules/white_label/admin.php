@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -176,8 +176,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="module-live-edit-settings">
                 <form id="white_label_settings_holder">
                     <p class="mb-4">
-                        Please fill in the form below to take full advantage of your White Label.
-                        For instructions use this short guide <a href="https://microweber.com/how-to-activate-your-white-label-license-key" class="mw-ui-link mw-blue" target="_blank">White label user guide</a>.
+                        <?php _e('Brand Name'); ?>Please fill in the form below to take full advantage of your White Label.
+                        For instructions use this short guide <a href="https://microweber.com/how-to-activate-your-white-label-license-key" class="mw-ui-link mw-blue" target="_blank"><?php _e('Brand Name'); ?>White label user guide</a>.
                     </p>
 
                     <div class="row">
@@ -260,7 +260,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="col-sm-6 mw-fields mw-fields-upload-buttons">
                             <div class="form-group">
                                 <label class="control-label"><?php _e('Logo for Admin panel'); ?></label>
-                                <small class="text-muted d-block mb-2">Recommended size: 180x35 px</small>
+                                <small class="text-muted d-block mb-2"><?php _e('Recommended size: 180x35 px'); ?></small>
 
 
                                 <div class="input-group mb-3">
@@ -271,7 +271,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <label class="control-label"><?php _e('Logo for Live-Edit toolbar'); ?></label>
-                                <small class="text-muted d-block mb-2">Recommended size: 50x50 px</small>
+                                <small class="text-muted d-block mb-2"><?php _e('Recommended size: 50x50 px'); ?></small>
                                 <div class="input-group mb-3">
                                     <input name="logo_live_edit" option-group="whitelabel" placeholder="<?php _e('Upload your logo'); ?>" class="form-control up" type="text" value="<?php print  $logo_live_edit; ?>"/>
                                     <div class="input-group-append"></div>
@@ -280,7 +280,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <label class="control-label"><?php _e('Logo for Login screen'); ?></label>
-                                <small class="text-muted d-block mb-2">Recommended size: max width 290px</small>
+                                <small class="text-muted d-block mb-2"><?php _e('Recommended size: max width 290px'); ?></small>
                                 <div class="input-group mb-3">
                                     <input name="logo_login" option-group="whitelabel" placeholder="<?php _e('Upload your logo'); ?>" class="form-control up" type="text" value="<?php print  $logo_login; ?>"/>
                                     <div class="input-group-append"></div>
@@ -290,7 +290,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="mw_option_field custom-control-input" <?php if ($disable_marketplace == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
-                                    <label class="custom-control-label" for="disable_marketplace">Microweber Marketplace</label>
+                                    <label class="custom-control-label" for="disable_marketplace"><?php _e('Microweber Marketplace'); ?></label>
                                 </div>
                                 <small class="text-muted d-block mb-2"><?php _e('Allow users to see Microweber Marketplace'); ?></small>
                             </div>

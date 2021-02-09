@@ -33,13 +33,13 @@ $values = array_merge($default_item, $item);
 
     <div class="form-group">
         <label class="control-label"><?php _e('Tax name'); ?></label>
-        <small class="text-muted d-block mb-2">For example: VAT</small>
+        <small class="text-muted d-block mb-2"><?php _e('For example: VAT'); ?></small>
         <input name="name" type="text" class="form-control" required="required" value="<?php print $values['name']; ?>">
     </div>
 
     <div class="form-group">
         <label class="control-label"><?php _e('Tax Type'); ?></label>
-        <small class="text-muted d-block mb-2">The tax can be fixed price or percentage of the price</small>
+        <small class="text-muted d-block mb-2"><?php _e('The tax can be fixed price or percentage of the price'); ?></small>
         <select name="type" class="selectpicker" data-width="100%">
             <option value="fixed" <?php if ($values['type'] == 'fixed') : ?> selected="selected" <?php endif; ?>><?php _e('Fixed'); ?></option>
             <option value="percent" <?php if ($values['type'] == 'percent') : ?> selected="selected" <?php endif; ?>><?php _e('Percent'); ?></option>
@@ -48,7 +48,7 @@ $values = array_merge($default_item, $item);
 
     <div class="form-group">
         <label class="control-label"><?php _e('Tax rate'); ?></label>
-        <small class="text-muted d-block mb-2">The amount of your tax. For example: 55.99</small>
+        <small class="text-muted d-block mb-2"><?php _e('The amount of your tax. For example: 55.99'); ?></small>
         <input name="rate" type="text" class="form-control" required="required" value="<?php print $values['rate']; ?>">
     </div>
 

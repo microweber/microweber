@@ -9,12 +9,12 @@
 </script>
 
 <div class="alert alert-dismissible alert-warning">
-    <p class="mb-0">Note! Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings.</p>
+    <p class="mb-0"><?php _e("Note! Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings."); ?></p>
 </div>
 
 <div class="<?php print $config['module_class'] ?>">
     <div class="form-group" style="display: none">
-        <label class="control-label">Open module settings in sidebar on live edit</label>
+        <label class="control-label"><?php _e("Open module settings in sidebar on live edit"); ?></label>
         <?php
         $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar', 'live_edit');
         ?>
@@ -63,15 +63,15 @@
 
         <select id="js-static_files_delivery_method_select" name="static_files_delivery_method" class="mw_option_field selectpicker" data-width="100%" option-group="website">
             <option value="" <?php if (!$static_files_delivery_method): ?> selected="selected" <?php endif; ?>><?php _e("Default"); ?></option>
-            <option value="cdn_domain" <?php if ($static_files_delivery_method == 'cdn_domain'): ?> selected="selected" <?php endif; ?>>CDN Domain</option>
-            <option value="content_proxy" <?php if ($static_files_delivery_method == 'content_proxy'): ?> selected="selected" <?php endif; ?>>Content proxy (experimental)</option>
+            <option value="cdn_domain" <?php if ($static_files_delivery_method == 'cdn_domain'): ?> selected="selected" <?php endif; ?>><?php _e("CDN Domain"); ?></option>
+            <option value="content_proxy" <?php if ($static_files_delivery_method == 'content_proxy'): ?> selected="selected" <?php endif; ?>><?php _e("Content proxy (experimental)"); ?></option>
         </select>
 
         <div class="js-toggle-content-proxy-settings" <?php if (!$static_files_delivery_method): ?> style="display: none" <?php endif; ?> >
             <div class="alert alert-dismissible alert-warning mt-3">
-                <p class="mb-0">Warning, this is advanced action and may break your site.
-                    Make sure you setup you domain to resolve to your website. <br>
-                    After that you can enter your content delivery domain name for example cdn.mydomain.com
+                <p class="mb-0"><?php _e("Warning, this is advanced action and may break your site.
+                    Make sure you setup you domain to resolve to your website."); ?> <br>
+                    <?php _e("After that you can enter your content delivery domain name for example cdn.mydomain.com"); ?>
                 </p>
             </div>
 

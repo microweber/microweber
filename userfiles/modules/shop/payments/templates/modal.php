@@ -41,7 +41,7 @@ description: Payments 1
                        <div class="edit nodrop mt-2" field="checkout_payment_information_title" rel="global"
                             rel_id="<?php print $params['id'] ?>">
                            <label class="control-label"><?php _e("Choose Payment Method"); ?></label>
-                           <small class="text-muted d-block mb-2">Choose from the available payment methods to pay this order.</small>
+                           <small class="text-muted d-block mb-2"><?php _e("Choose from the available payment methods to pay this order."); ?></small>
                            <div class="field-holder text-center my-4 d-sm-inline-block d-md-flex">
                                <?php $count = 0;
                                foreach ($payment_options as $payment_option) : $count++; ?>
@@ -79,7 +79,7 @@ description: Payments 1
                                        <?php print currency_format($print_total); ?>
                                    </label>
                                </div>
-                               <small class="text-muted mt-1"><i><b>*Note</b> Shopping cart will be emptied when order is completed</i></small>
+                               <small class="text-muted mt-1"><i><?php _e("<b>*Note</b> Shopping cart will be emptied when order is completed"); ?></i></small>
                            </div>
                        </div>
                     </div>

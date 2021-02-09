@@ -33,7 +33,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         <?php print _e('Go to orders'); ?>
                     <?php endif; ?>
                 </a>
-                <a href="javascript: mw_admin_add_order_popup();" class="btn btn-outline-secondary btn-sm">Add new order</a>
+                <a href="javascript: mw_admin_add_order_popup();" class="btn btn-outline-secondary btn-sm"><?php print _e('Add new order'); ?></a>
             </div>
         </div>
 

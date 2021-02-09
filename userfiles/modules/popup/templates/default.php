@@ -37,24 +37,24 @@ TODO: add option to show accept button instead of close
                 <div class="modal-body">
                     <div style="max-height: 50vh; overflow-y: scroll; padding-right:15px">
                         <?php if($source == 'existing_page'): ?>
-                              <div id="modal-content">loading ...</div>
+                              <div id="modal-content"><?php _e("loading ..."); ?></div>
                         <?php else: ?>
                         <div class="edit allow-drop" rel="module"
                              field="module-popup-content-<?php print $params['id']; ?>">
-                            <p>One fine body&hellip;</p>
+                            <p><?php _e("One fine body"); ?>&hellip;</p>
                         </div>
                         <?php endif;?>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e("Close"); ?></button>
 
                     <?php if (in_live_edit() && $source != 'existing_page'): ?>
-                        <button type="button" class="btn btn-success" onclick="mw.drag.save();">Save</button>
+                        <button type="button" class="btn btn-success" onclick="mw.drag.save();"><?php _e("Save"); ?></button>
                     <?php endif; ?>
 
                     <?php if (!in_live_edit() AND $type == 'on_time'): ?>
-                        <button type="button" id="popup-<?php print $params['id']; ?>-accept" class="btn btn-success">Accept</button>
+                        <button type="button" id="popup-<?php print $params['id']; ?>-accept" class="btn btn-success"><?php _e("Accept"); ?></button>
                     <?php endif; ?>
                 </div>
             </div>
