@@ -34,17 +34,17 @@ description: Default
     ?>
 
 
-       <div class="mt-4 edit nodrop" field="checkout_shipping_information_title" rel="global"
+       <div class="my-4 edit nodrop" field="checkout_shipping_information_title" rel="global"
             rel_id="<?php print $params['id'] ?>">
-           <small class="pull-right text-muted">*Fields are required</small>
-           <label class="control-label ">Shipping Information</label>
+           <small class="pull-right text-muted">*<?php _e("Fields are required"); ?></small>
+           <label class="control-label"><?php _e("Shipping Information"); ?></label>
            <small class="text-muted d-block mb-2"> <?php _e("Add your shipping information"); ?></small>
        </div>
        <?php if(!$disable_default_shipping_fields) :?>
            <div class="row">
                <?php if ($data) { ?>
                    <div class="col-12 col-md-6">
-                           <label for="exampleInputEmail1">Country</label>
+                           <label for="exampleInputEmail1"><?php _e("Country"); ?></label>
                            <select required name="country" class="selectpicker shipping-country-select w-100">
                                <option value=""><?php _e("Country"); ?></option>
                                <?php foreach ($data as $item): ?>
