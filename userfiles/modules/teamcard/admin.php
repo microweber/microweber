@@ -123,6 +123,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 });
             });
 
+
+
         </script>
 
 
@@ -154,6 +156,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             }
         </style>
 
+<!--        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs m-1 w-100">-->
+<!--            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">-->
+<!--                <a class="btn btn-outline-secondary justify-content-center show active active-info" data-toggle="tab" href="javascript:;"><i class="mw-icon-navicon-round"></i>&nbsp;--><?php //_e('List of Members'); ?><!--</a>-->
+<!--                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="javascript:;"><i class="mw-icon-beaker"></i>&nbsp;--><?php //_e('Templates'); ?><!-- </a>-->
+<!--            </nav>-->
+<!--        </div>-->
+
         <div class="mw-modules-tabs">
             <div class="mw-accordion-item">
                 <div class="mw-ui-box-header mw-accordion-title">
@@ -167,7 +176,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
 
                         <div class="mw-ui-field-holder add-new-button">
-                            <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-rounded" href="javascript:teamcards.create()"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
+                            <a class="btn btn-success btn-rounded icon-left" href="javascript:teamcards.create()"><i class="fas fa-plus-circle"></i> &nbsp;<?php _e('Add new'); ?></a>
                         </div>
 
                         <div id="teamcard-settings">
@@ -176,21 +185,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             foreach ($json as $slide) {
                                 $count++;
                                 ?>
-                                <div class="mw-ui-box  teamcard-setting-item" id="teamcard-setting-item-<?php print $count; ?>">
+                                <div class="mw-ui-box teamcard-setting-item" id="teamcard-setting-item-<?php print $count; ?>">
                                     <div class="mw-ui-box-header"><i class="mw-icon-drag"></i> <?php print _e('Move'); ?> <a class="pull-right" href="javascript:teamcards.remove('#teamcard-setting-item-<?php print $count; ?>');"><i class="mw-icon-close"></i></a></div>
                                     <div class="mw-ui-box-content mw-accordion-content">
                                         <div class="mw-ui-field-holder">
-                                            <label class="mw-ui-label"><?php _e('Member Image'); ?></label>
+                                            <label class="control-label"><?php _e('Member Image'); ?></label>
 
                                             <div class="mw-flex-row">
                                                 <div class="mw-flex-col-xs-5">
                                                     <img src="<?php print thumbnail(array_get($slide, 'file'), 75, 75); ?>" style="width: 75px; height: 75px;" class="js-teamcard-file-preview"/>
                                                 </div>
                                                 <div class="mw-flex-col-xs-7">
-                                                    <input type="hidden" class="mw-ui-field teamcard-file" value="<?php print array_get($slide, 'file'); ?>"/>
-                                                    <span class="mw-ui-btn teamcard-file-up">
-                                                <span class="ico iupload"></span>
-                                                <span><?php _e('Upload image'); ?></span>
+                                                    <button value="<?php print array_get($slide, 'file'); ?>" type="button" class="btn btn-outline-primary teamcard-file-up ico iupload" ><?php _e("Upload image"); ?></button>
                                             </span>
                                                 </div>
                                                 <input type="hidden" class="teamcard-id" value="<?php print array_get($slide, 'id'); ?>">
@@ -201,22 +207,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <div class="mw-ui-row-nodrop">
                                                 <div class="mw-ui-col">
                                                     <div class="mw-ui-col-container">
-                                                        <label class="mw-ui-label"><?php _e('Name'); ?></label>
-                                                        <input type="text" class="mw-ui-field teamcard-name w100 " value="<?php print array_get($slide, 'name'); ?>">
+                                                        <label class="control-label"><?php _e('Name'); ?></label>
+                                                        <input type="text" class="form-control" value="<?php print array_get($slide, 'name'); ?>">
                                                     </div>
                                                 </div>
                                                 <div class="mw-ui-col">
                                                     <div class="mw-ui-col-container">
-                                                        <label class="mw-ui-label"><?php _e('Position'); ?></label>
-                                                        <input type="text" class="mw-ui-field teamcard-role w100" value="<?php print array_get($slide, 'role'); ?>">
+                                                        <label class="control-label"><?php _e('Position'); ?></label>
+                                                        <input type="text" class="form-control" value="<?php print array_get($slide, 'role'); ?>">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="mw-ui-field-holder">
-                                            <label class="mw-ui-label"><?php _e('Biography'); ?></label>
-                                            <textarea class="mw-ui-field teamcard-bio w100"><?php print array_get($slide, 'bio'); ?></textarea>
+                                            <label class="control-label"><?php _e('Biography'); ?></label>
+                                            <textarea class="form-control"><?php print array_get($slide, 'bio'); ?></textarea>
                                         </div>
                                     </div>
                                 </div>
