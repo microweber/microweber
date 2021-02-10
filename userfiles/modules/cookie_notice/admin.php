@@ -222,6 +222,8 @@ code:			'123456'
                             </div>
                         </div>
 
+                        <a href="<?php echo admin_url('view:settings#option_group=advanced');?>" target="_blank">Check Google Analytics Code</a>
+
                         <div class="col-md-6" style="display: none;">
                             <div class="form-group">
                                 <label class="control-label"><?php _e('Google Analytics code'); ?>:</label>
@@ -254,6 +256,8 @@ code:			'123456'
                                 <input type="text" class="form-control Facebook_Pixel_label" value="<?php print $settings['Facebook_Pixel']['label']; ?>">
                             </div>
                         </div>
+
+                        <a href="<?php echo admin_url('view:settings#option_group=advanced');?>" target="_blank">Check Facebook Pixel Code</a>
 
                         <div class="col-md-6" style="display: none;">
                             <div class="form-group">
