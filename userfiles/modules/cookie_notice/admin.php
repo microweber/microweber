@@ -222,7 +222,7 @@ code:			'123456'
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="display: none;">
                             <div class="form-group">
                                 <label class="control-label"><?php _e('Google Analytics code'); ?>:</label>
                                 <input type="text" class="form-control Google_Analytics_code" value="<?php print $settings['Google_Analytics']['code']; ?>">
@@ -255,7 +255,7 @@ code:			'123456'
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="display: none;">
                             <div class="form-group">
                                 <label class="control-label"><?php _e('Facebook Pixel code'); ?>:</label>
                                 <input type="text" class="form-control Facebook_Pixel_code" value="<?php print $settings['Facebook_Pixel']['code']; ?>">

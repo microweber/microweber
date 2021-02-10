@@ -4,6 +4,7 @@ namespace MicroweberPackages\Template\Adapters\RenderHelpers;
 
 use Arcanedev\SeoHelper\Entities\Webmasters;
 use Arcanedev\SeoHelper\Entities\Analytics;
+use Illuminate\Support\Facades\Cookie;
 
 
 class TemplateMetaTagsRenderer
@@ -206,8 +207,14 @@ class TemplateMetaTagsRenderer
             }
             $headers = array();
             $headers[] = $this->_render_webmasters_tags();
-            $headers[] = $this->_render_analytics_tags();
-            $headers[] = $this->_render_fb_pixel_tags();
+
+            if (Cookie::get('google-analytics-allow') == 1) {
+                $headers[] = $this->_render_analytics_tags();
+            }
+
+            if (Cookie::get('facebook-pixel-allow') == 1) {
+                $headers[] = $this->_render_fb_pixel_tags();
+            }
 
             foreach ($headers as $headers_append) {
                 if ($headers_append != false) {
