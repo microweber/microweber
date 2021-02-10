@@ -19,7 +19,17 @@
                     <td><?php print($coupon['coupon_name']) ?></td>
                     <td><?php print($coupon['coupon_code']) ?></td>
                     <td>
-                        <?php print($coupon['discount_value']) ?><?php if ($coupon['discount_type'] == 'precentage'): ?>%<?php else: ?>$<?php endif; ?>
+
+                        <?php if ($coupon['discount_type'] == 'percentage'): ?>
+
+                            <?php print($coupon['discount_value']); ?>%
+                        <?php else: ?>
+                        <?php
+                            $currencyPrice = currency_format($coupon['discount_value']);
+                            $currencyPrice = str_replace(' ', '', $currencyPrice);
+                            echo $currencyPrice;
+                            ?>
+                        <?php endif; ?>
                     </td>
                     <td><?php print($coupon['total_amount']) ?></td>
                     <td class="text-center">

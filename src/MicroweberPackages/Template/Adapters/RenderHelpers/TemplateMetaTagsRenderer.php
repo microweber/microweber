@@ -4,6 +4,7 @@ namespace MicroweberPackages\Template\Adapters\RenderHelpers;
 
 use Arcanedev\SeoHelper\Entities\Webmasters;
 use Arcanedev\SeoHelper\Entities\Analytics;
+use Illuminate\Support\Facades\Cookie;
 
 
 class TemplateMetaTagsRenderer
@@ -206,7 +207,14 @@ class TemplateMetaTagsRenderer
             }
             $headers = array();
             $headers[] = $this->_render_webmasters_tags();
-            $headers[] = $this->_render_analytics_tags();
+
+            if (Cookie::get('google-analytics-allow') == 1) {
+                $headers[] = $this->_render_analytics_tags();
+            }
+
+            if (Cookie::get('facebook-pixel-allow') == 1) {
+                $headers[] = $this->_render_fb_pixel_tags();
+            }
 
             foreach ($headers as $headers_append) {
                 if ($headers_append != false) {
@@ -233,6 +241,36 @@ class TemplateMetaTagsRenderer
 
         $webmasters = Webmasters::make($configs);
         return $webmasters->render();
+    }
+
+    private function _render_fb_pixel_tags()
+    {
+        $code = get_option('facebook-pixel-id', 'website');
+        if ($code) {
+            $pixel = PHP_EOL;
+            $pixel .= <<<EOT
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '$code'); 
+fbq('track', 'PageView');
+</script>
+<noscript>
+ <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=$code&ev=PageView
+&noscript=1"/>
+</noscript>
+<!-- End Facebook Pixel Code -->
+EOT;
+            return $pixel;
+        }
     }
 
     private function _render_analytics_tags()

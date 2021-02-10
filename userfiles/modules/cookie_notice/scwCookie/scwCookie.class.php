@@ -2,6 +2,8 @@
 
 namespace ScwCookie;
 
+use Illuminate\Support\Facades\Cookie;
+
 class ScwCookie
 {
     public $mod_id		  = '';
@@ -74,6 +76,9 @@ class ScwCookie
 
     public function getOutput()
     {
+        Cookie::queue('google-analytics-allow', 0, 360);
+        Cookie::queue('facebook-pixel-allow', 0, 360);
+
         $return = [];
 
         // Get popup output
@@ -85,6 +90,17 @@ class ScwCookie
             if (!is_array($configValue) || !$configValue['enabled'] || !$this->isAllowed($configKey)) {
                 continue;
             }
+
+            if ($configKey == 'Google_Analytics') {
+                Cookie::queue('google-analytics-allow', 1, 360);
+                continue;
+            }
+
+            if ($configKey == 'Facebook_Pixel') {
+                Cookie::queue('facebook-pixel-allow', 1, 360);
+                continue;
+            }
+
             $return[] = $this->getOutputHTML('/cookies/'.$configKey.'/output');
         }
 
