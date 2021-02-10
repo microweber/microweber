@@ -72,7 +72,6 @@ description: Checkout
                            <div class="js-step-content js-shopping-cart">
                                <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
                                <?php if ($cart_show_enanbled != 'n'): ?>
-                                   <br/>
                                    <module type="shop/cart" template="modal" data-checkout-link-enabled="n" id="cart_checkout_<?php print $params['id'] ?>"/>
                                <?php endif; ?>
                            </div>
