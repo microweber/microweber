@@ -34,6 +34,9 @@ class TranslationManager extends FileLoader
             $getTranslations = Translation::where('translation_locale', $locale)->where('translation_group', $group)->where('translation_namespace', $namespace)->get();
             if ($getTranslations !== null) {
                 foreach ($getTranslations as $translation) {
+
+
+
                     $allTranslations[$translation->translation_key] = $translation->translation_text;
                 }
             }
