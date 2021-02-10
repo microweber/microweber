@@ -36,6 +36,15 @@
 </script>
 
 <div class="other-site-verification-codes-hidden-toggle" style="display: none">
+
+
+    <div class="form-group">
+        <label class="control-label"><?php _e("Facebook pixel ID"); ?> </label>
+        <small class="text-muted d-block mb-2"><?php _e("You can find a tutorials in internet where and how to find the code."); ?></small>
+        <?php $key_name = 'facebook-pixel-id'; ?>
+        <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
+    </div>
+
     <div class="form-group">
         <label class="control-label"><?php _e("Bing"); ?> </label>
         <small class="text-muted d-block mb-2"><?php _e("You can find a tutorials in internet where and how to find the code."); ?></small>
