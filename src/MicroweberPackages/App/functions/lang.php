@@ -51,7 +51,7 @@ function lang($key, $namespace = false)
     }
 
     $namespace = url_title($namespace);
-    $trans = trans($namespace . '::'.$group.'.'.$key);
+    $trans = trans($namespace . '::'.$group.'.'.$key); 
 
     $trans = str_replace($namespace . '::'.$group.'.', '', $trans);
     $trans = trim($trans);
