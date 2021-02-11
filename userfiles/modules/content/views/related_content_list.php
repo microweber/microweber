@@ -44,8 +44,8 @@ if ($content) {
 <?php $rand = md5(uniqid()) ?>
 
 
-<h3><?php _e("Search for content"); ?></h3>
-
+<label class="control-label"><?php _e("Search for content"); ?></label>
+<small class="text-muted d-block"><?php _e('In the field below you can search for content from your website.');?></small>
 
 <script>mw.require('autocomplete.js')</script>
 
@@ -110,7 +110,6 @@ if ($content) {
     }
 
     $(document).ready(function () {
-
         mw.$("#mw-admin-related-content-edit-sort<?php print $rand ?>").sortable({
             items: '.js-admin-related-content-sort-element',
             axis: 'y',
@@ -164,21 +163,13 @@ if ($content) {
         })
     });
 </script>
-
-<div class="mw-ui-field-holder">
-    <label class="mw-ui-label">In the field below you can search for content from your website.</label>
-
-    <input type="hidden" name="mw_admin_edit_related_content_for_id" id="mw_admin_edit_related_content_for_id"
-           value="<?php print $content_id ?>">
-    <div id="mw-admin-search-for-related-content<?php print $rand ?>"></div>
-
-
-</div>
+    <div class="mw-ui-field-holder">
+        <input type="hidden" name="mw_admin_edit_related_content_for_id" id="mw_admin_edit_related_content_for_id"
+               value="<?php print $content_id ?>">
+        <div id="mw-admin-search-for-related-content<?php print $rand ?>"></div>
+    </div>
 <div>
-
-    <h5><?php _e("List of related content"); ?></h5>
-
-
+    <label class="control-label mb-3"><?php _e("List of related content"); ?></label>
     <?php if (!$related) { ?>
 
         <div class="alert alert-dismissible alert-secondary">
@@ -189,49 +180,48 @@ if ($content) {
             <br>
             <br>
         </div>
-
-
     <?php } else { ?>
-
-
         <table class="table table-hover table-sm  " id="mw-admin-related-content-edit-sort<?php print $rand ?>">
             <?php foreach ($related as $related_cont) { ?>
-
-
                 <tr class="js-admin-related-content-sort-element" value="<?php print ($related_cont['id']) ?>">
-
-                    <td style="width: 20px">
-                        <div
-                                class="btn js-admin-related-content-sort-element-handle"><i
-                                    class="mdi mdi-reorder-horizontal"></i></div>
+                    <td class="align-middle" style="width: 20px">
+                        <div class="btn js-admin-related-content-sort-element-handle">
+                            <i class="mdi mdi-cursor-move text-muted"</i>
+                        </div>
                     </td>
-
-
-                    <td>
+                    <td class="align-middle">
                         <div class="img-circle-holder w-60">
                             <img src="<?php print thumbnail(get_picture($related_cont['related_content_id']), 60, 60, true) ?>">
                         </div>
                     </td>
-                    <td><?php print content_title($related_cont['related_content_id']) ?></td>
-                    <td style="width: 20px">
+                    <td class="align-middle"><?php print content_title($related_cont['related_content_id']) ?></td>
+                    <td class="align-middle" style="width: 20px">
 
                         <a href="<?php print content_link($related_cont['related_content_id']) ?>" target="_blank"
                            class="btn btn-link"><i class="mdi mdi-link"></i></a>
-
                     </td>
-                    <td style="width: 20px">
+                    <td class="align-middle" style="width: 20px">
                         <a href="javascript:;"
                            onclick="mw_admin_remove_related_content_by_related_id(<?php print ($related_cont['id']) ?>);"
-                           class="btn btn-link"><i class="mdi mdi-delete"></i></a>
+                           class="btn btn-link"><i class="mdi text-danger mdi-delete"></i></a>
                     </td>
                 </tr>
-
-
             <?php } ?>
         </table>
-
-
     <?php } ?>
-
-
 </div>
+
+
+<style>
+    tr {
+        cursor: pointer;
+    }
+
+    tr i.mdi-cursor-move {
+        opacity: 0;
+    }
+
+    tr:hover i.mdi-cursor-move {
+        opacity: 1;
+    }
+</style>
