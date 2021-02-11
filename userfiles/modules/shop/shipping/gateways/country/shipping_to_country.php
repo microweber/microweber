@@ -40,7 +40,7 @@ class shipping_to_country
 
 
         // $defined_cost = $this->app->user_manager->session_get('shipping_cost');
-        $shipping_country = $this->app->user_manager->session_get('shipping_country');
+        $shipping_country = $shipping_country_session =  $this->app->user_manager->session_get('shipping_country');
 
 //        if(!$shipping_country and is_logged()){
 //            $user_info = checkout_get_user_info();
@@ -232,10 +232,13 @@ class shipping_to_country
 
             }
         }
-        if ($is_worldwide == false) {
-            $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
-        }
 
+
+        if(!$shipping_country_session){
+      //  if ($is_worldwide == false) {
+            $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
+       // }
+        }
 
         $this->app->user_manager->session_set('shipping_cost', $defined_cost);
         app()->shipping_manager->setDefaultDriver('shop/shipping/gateways/country');
@@ -341,7 +344,8 @@ class shipping_to_country
                 if ($is_worldwide == true) {
                     $active['shipping_country'] = $params['country'];
                 }
-                $this->app->user_manager->session_set('shipping_country', $active['shipping_country']);
+
+                   session_set('shipping_country', $active['shipping_country']);
                 $active['cost'] = $this->get_cost();
             }
         }
@@ -351,26 +355,27 @@ class shipping_to_country
                     if (is_string($k) and is_string($v)) {
                         $k = strip_tags($k);
                         $v = strip_tags($v);
-                        $this->app->user_manager->session_set('shipping_' . $k, $v);
+                     //  session_set('shipping_' . $k, $v);
                     }
                 }
 
             }
         }
 
-        $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info'];
+        $shipping_fields_keys = ['country','address', 'city', 'state', 'zip', 'other_info'];
         $shipping_fields_vals_session = [];
         $shipping_fields_to_save = null;
         $look_for_address_in_array = $params;
         if (isset($params['Address']) and is_array($params['Address'])) {
-            $look_for_address_in_array = $params['Address'];
+            $merge = $params['Address'];
+            unset($params['Address']);
+            $look_for_address_in_array = array_merge($params,$merge);
         }
 
         if (is_array($look_for_address_in_array) and !empty($look_for_address_in_array)) {
             foreach ($look_for_address_in_array as $k => $v) {
-
                 foreach ($shipping_fields_keys as $k1) {
-                    if ($k == $k1) {
+                    if ($k == $k1 and !isset($shipping_fields_vals_session[$k1])) {
                         $shipping_fields_vals_session[$k1] = $v;
                     }
                 }
@@ -379,9 +384,10 @@ class shipping_to_country
         if ($shipping_fields_vals_session) {
             session_set('checkout', $shipping_fields_vals_session);
         }
+        session_set('shipping_country', $active['shipping_country']);
+        $selected_country_from_session = session_get('shipping_country');
 
-
-        $this->app->user_manager->session_set('shipping_country_data', $active);
+    //   session_set('shipping_country_data', $active);
 
         return $active;
 

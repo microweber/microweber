@@ -55,6 +55,12 @@ function cart_get_discount()
     return mw()->cart_manager->get_discount();
 }
 
+function is_product_in_stock($content_id)
+{
+    return mw()->cart_manager->is_product_in_stock($content_id);
+}
+
+
 function cart_get_discount_text()
 {
     return mw()->cart_manager->get_discount_text();

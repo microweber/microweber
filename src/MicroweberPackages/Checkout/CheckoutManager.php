@@ -668,6 +668,7 @@ class CheckoutManager
     {
 
         $ready = [];
+        $logged_user_data = [];
         $shipping_address_from_profile = [];
         $logged_user_data = [];
 
@@ -681,51 +682,7 @@ class CheckoutManager
         $all_field_keys = array_merge($user_fields_from_profile, $shipping_fields_keys);
 
 
-
-
-        if ($checkout_session) {
-            foreach ($all_field_keys as $field_key) {
-                if (!empty($checkout_session) and !isset($ready[$field_key])) {
-                    foreach ($checkout_session as $k => $v) {
-                        if ($field_key == $k and $v) {
-                            $ready[$k] = $v;
-                        }
-                    }
-                }
-            }
-            if (!isset($ready['country']) and $selected_country_from_session) {
-                $ready['country'] = $selected_country_from_session;
-
-            }
-        }
-
-        if ($shipping_address_from_profile) {
-            foreach ($all_field_keys as $field_key) {
-                if (!empty($shipping_address_from_profile) and !isset($ready[$field_key])) {
-                    foreach ($shipping_address_from_profile as $k => $v) {
-                        if ($field_key == $k and $v) {
-                            $ready[$k] = $v;
-                        }
-
-                    }
-                }
-            }
-        }
-        if (is_logged()) {
-            $logged_user_data = get_user();
-            if ($logged_user_data) {
-                foreach ($all_field_keys as $field_key) {
-                    if (!empty($logged_user_data) and !isset($ready[$field_key])) {
-                        foreach ($logged_user_data as $k => $v) {
-                            if ($field_key == $k and $v) {
-                                $ready[$k] = $v;
-                            }
-
-                        }
-                    }
-                }
-            }
-
+        if (  is_logged()) {
 
             $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
             if ($findCustomer) {
@@ -751,8 +708,50 @@ class CheckoutManager
         }
 
 
+         if ($checkout_session) {
+            foreach ($all_field_keys as $field_key) {
+                if (!empty($checkout_session) and !isset($ready[$field_key])) {
+                    foreach ($checkout_session as $k => $v) {
+                        if ($field_key == $k and $v) {
+                           // $ready[$k] = $v;
+                        }
+                    }
+                }
+            }
+            if (!isset($ready['country']) and $selected_country_from_session) {
+                $ready['country'] = $selected_country_from_session;
 
+            }
+        }
+         if ($shipping_address_from_profile) {
+            foreach ($all_field_keys as $field_key) {
+                if (!empty($shipping_address_from_profile) and !isset($ready[$field_key])) {
+                    foreach ($shipping_address_from_profile as $k => $v) {
+                        if ($field_key == $k and $v) {
+                            $ready[$k] = $v;
+                        }
 
+                    }
+                }
+            }
+        }
+
+        if ($shipping_address_from_profile) {
+            $logged_user_data = get_user();
+            if ($logged_user_data) {
+                foreach ($all_field_keys as $field_key) {
+                    if (!empty($logged_user_data) and !isset($ready[$field_key])) {
+                        foreach ($logged_user_data as $k => $v) {
+                            if ($field_key == $k and $v) {
+                               $ready[$k] = $v;
+                            }
+
+                        }
+                    }
+                }
+            }
+
+        }
         return $ready;
     }
 
