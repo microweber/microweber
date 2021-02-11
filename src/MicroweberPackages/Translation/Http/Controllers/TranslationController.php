@@ -75,6 +75,7 @@ class TranslationController {
             }
 
             $readyTranslate = [];
+            $readyTranslate['id'] = $translation->id;
             $readyTranslate['translation_namespace'] = $translation->translation_namespace;
             $readyTranslate['translation_group'] = $translation->translation_group;
             $readyTranslate['translation_key'] = $translation->translation_key;
