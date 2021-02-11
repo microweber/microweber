@@ -66,8 +66,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
             #icon-picker i{
-                font-size: 30px;
-                line-height: 45px;
+
                 margin-inline-start: -10px;
                 margin-inline-end: 8px;
             }
@@ -116,21 +115,25 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="module-live-edit-settings module-btn-settings">
             <div class="text-left">
-                <div class="form-group">
-                    <label class="control-label"><?php _e("Text"); ?></label>
-                    <input type="text" name="text" class="mw_option_field form-control" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>"/>
-                </div>
-
-                <?php if (!$onclick): ?>
-                    <div class="form-group">
-                        <label class="control-label d-block"><?php _e("Action"); ?></label>
-                        <select class="mw_option_field selectpicker" data-width="100%" id="action" name="button_action">
-                            <option <?php if ($action == 'url' OR $action == ''): ?>selected<?php endif; ?> value="url"><?php _e("Go to link"); ?></option>
-                            <option <?php if ($action == 'popup'): ?>selected<?php endif; ?> value="popup"><?php _e("Open a pop-up window"); ?></option>
-                            <option <?php if ($action == 'submit'): ?>selected<?php endif; ?> value="submit"><?php _e("Submit form"); ?></option>
-                        </select>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label class="control-label"><?php _e("Text"); ?></label>
+                        <small class="text-muted d-block mb-3"><?php _e('Change your button text.');?></small>
+                        <input type="text" name="text" class="mw_option_field form-control" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>"/>
                     </div>
-                <?php endif; ?>
+
+                    <?php if (!$onclick): ?>
+                        <div class="form-group col-6">
+                            <label class="control-label d-block"><?php _e("Action"); ?></label>
+                            <small class="text-muted d-block mb-3"><?php _e('Setup action from dropdown.');?></small>
+                            <select class="mw_option_field selectpicker" data-width="100%" id="action" name="button_action">
+                                <option <?php if ($action == 'url' OR $action == ''): ?>selected<?php endif; ?> value="url"><?php _e("Go to link"); ?></option>
+                                <option <?php if ($action == 'popup'): ?>selected<?php endif; ?> value="popup"><?php _e("Open a pop-up window"); ?></option>
+                                <option <?php if ($action == 'submit'): ?>selected<?php endif; ?> value="submit"><?php _e("Submit form"); ?></option>
+                            </select>
+                        </div>
+                    <?php endif; ?>
+                </div>
 
                 <?php if (!$onclick): ?>
                     <div id="editor_holder" class="form-group">
@@ -144,10 +147,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div id="btn_url_holder">
                             <div class="form-group">
                                 <label class="control-label"><?php _e("Edit url"); ?></label>
-                                <br>
-
+                                <small class="text-muted d-block mb-3"><?php _e('Link settings for your url.');?></small>
                                 <input type="hidden" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field" />
-
                                 <span class="mdi mdi-pencil"></span>
                                 <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
 
@@ -159,8 +160,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <label class="custom-control-label" for="url_blank"><?php _e("Open in new window"); ?></label>
                                 </div>
                             </div>
-
-                    </div>
+                        </div>
                 <?php endif; ?>
 
 
@@ -223,7 +223,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </script>
 
                 <div class="form-group">
-                    <div class="mw-ui-btn">
+                    <span class="btn btn-primary">
                     <script>
                         $(document).ready(function () {
                             mw.iconLoader().init();
@@ -241,10 +241,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             }
 
                         })
+                        var removeIcon = function () {
+                            $('[name="icon"]').val('').trigger('change')
+                            document.querySelector('#icon-picker').innerHTML = '';
+                        }
                     </script>
-                    <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
-                    <span id="icon-picker"><?php print $icon ? $icon : ''; ; ?></span> <?php _e("Select Icon"); ?></div>
+                        <span id="icon-picker"><?php print $icon ? $icon : ''; ; ?></span> <?php _e("Select Icon"); ?></span>
+                    <button class="btn btn-outline-danger" onclick="removeIcon()"><?php _e("Remove icon"); ?></button>
+
                 </div>
+                <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
 
                 <module type="admin/modules/templates" simple="true"/>
             </div>
