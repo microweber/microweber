@@ -43,7 +43,7 @@ if ($module_template == false) {
 if ($module_template != false) {
     $template_file = module_templates($params['parent-module'], $module_template, true);
 } else {
-    $template_file = module_templates($params['parent-module'], 'default', true);
+    $template_file = module_templates($params['parent-module'], 'default_settings', true);
 }
 
 
@@ -53,7 +53,9 @@ if ($module_template != false) {
     <?php if (isset($template_file) and $template_file != false and is_file($template_file)): ?>
         <div class="mw-ui-box m-t-20">
             <div class="mw-ui-box-header">
-                <span class="mw-icon-gear"></span><span>Skin settings</span>
+                <i class="mw-icon-gear mr-1"></i>
+                <label claas="control-label font-weight-bold"><?php _e("Skin settings"); ?></label>
+                <small class="text-muted d-block mb-3"><?php _e('Manipulate your button design from here.');?></small>
             </div>
             <div class="mw-ui-box-content">
                 <style>
@@ -61,7 +63,8 @@ if ($module_template != false) {
                         display: none !important;
                     }
                 </style>
-                <?php include($template_file); ?>
+<!--                --><?php //include($template_file); ?>
+                <module type="btn" template="bootstrap_settings"/>
             </div>
         </div>
     <?php endif; ?>
