@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Translation\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Translation\TranslationServiceProvider as IlluminateTranslationServiceProvider;
@@ -39,20 +40,36 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
             $this->app->terminating(function () {
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
-                    foreach ($getNewTexts as $text) {
 
-                        $text['translation_key'] = trim($text['translation_key']);
-                        $text['translation_group'] = trim($text['translation_group']);
-                        $text['translation_namespace'] = trim($text['translation_namespace']);
-                        $text['translation_locale'] = trim($text['translation_locale']);
+                    \Config::set('microweber.disable_model_cache', 1);
 
-                        $findTranslation = Translation::where('translation_namespace', $text['translation_namespace'])
-                            ->where('translation_group', $text['translation_group'])
-                            ->where(\DB::raw('md5(translation_key)'), md5($text['translation_key']))
-                            ->where('translation_locale', $text['translation_locale'])->first();
-                        if ($findTranslation == null) {
-                            Translation::insert($text);
+                    DB::beginTransaction();
+                    try {
+                        $toSave = [];
+                        foreach ($getNewTexts as $text) {
+
+                            $text['translation_key'] = trim($text['translation_key']);
+                            $text['translation_group'] = trim($text['translation_group']);
+                            $text['translation_namespace'] = trim($text['translation_namespace']);
+                            $text['translation_locale'] = trim($text['translation_locale']);
+
+                            $findTranslation = Translation::where('translation_namespace', $text['translation_namespace'])
+                                ->where('translation_group', $text['translation_group'])
+                                ->where(\DB::raw('md5(translation_key)'), md5($text['translation_key']))
+                                ->where('translation_locale', $text['translation_locale'])->first();
+                            if ($findTranslation == null) {
+                                $toSave[] = $text;
+                            }
                         }
+                        if ($toSave) {
+                            Translation::insert($toSave);
+                        }
+
+                        DB::commit();
+                        // all good
+                    } catch (\Exception $e) {
+                        DB::rollback();
+                        // something went wrong
                     }
                 }
             });

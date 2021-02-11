@@ -67,7 +67,7 @@ if ($id != false) {
                 mw.notification.warning("Installing update for module: " + for_module + '');
 
                 $.post('<?php print admin_url() ?>view:modules?add_module=' + for_module, function (data) {
-                    mw.notification.success("<?php _e('New update for module <b>'); ?> " + for_module + '<?php _e('</b> is installed'); ?>');
+                    mw.notification.success("<?php _e('New update for module'); ?><b> " + for_module + '</b><?php _e('is installed'); ?>');
                 });
 
                 return false;
