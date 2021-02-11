@@ -67,7 +67,7 @@ class TranslationController {
                 where(\DB::raw('md5(translation_key)'), md5($translation->translation_key))
                 ->where('translation_namespace', $translation->translation_namespace)
                 ->where('translation_group', $translation->translation_group)
-                ->where('translation_locale', $exportLocale) 
+                ->where('translation_locale', $exportLocale)
                 ->first();
 
             if ($getTranslationByLocale != null) {
