@@ -683,29 +683,8 @@ class CheckoutManager
 
 
         if (  is_logged()) {
-
-            $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
-            if ($findCustomer) {
-                $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
-                if ($findAddressShipping) {
-                    $country_from_shipping_addr = $findAddressShipping->country()->first();
-                    foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {
-                        $shipping_address_from_profile[$addressKey] = $addressValue;
-                    }
-                    if ($country_from_shipping_addr and isset($country_from_shipping_addr->name)) {
-                        $shipping_address_from_profile['country'] = $country_from_shipping_addr->name;
-                    }
-
-                    if ($findAddressShipping and isset($findAddressShipping->address_street_1)) {
-                        $shipping_address_from_profile['address'] = $findAddressShipping->address_street_1;
-                    }
-
-                    if (!isset($shipping_address_from_profile['address']) and $findAddressShipping and isset($findAddressShipping->address_street_2)) {
-                        $shipping_address_from_profile['address'] = $findAddressShipping->address_street_2;
-                    }
-                }
-            }
-        }
+            $shipping_address_from_profile = app()->user_manager->get_shipping_address();
+         }
 
 
          if ($checkout_session) {

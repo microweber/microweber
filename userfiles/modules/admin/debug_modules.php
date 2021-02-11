@@ -1,4 +1,4 @@
-
+<?php only_admin_access() ?>
 <?php foreach (mw()->module_manager->get_modules('ui=any&installed=1') as $module): ?>
 
 <h1><?php echo $module['module'];?></h1>

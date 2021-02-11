@@ -40,7 +40,22 @@ class shipping_to_country
 
 
         // $defined_cost = $this->app->user_manager->session_get('shipping_cost');
-        $shipping_country = $shipping_country_session =  $this->app->user_manager->session_get('shipping_country');
+        $shipping_country_name = $shipping_country_session =  $this->app->user_manager->session_get('shipping_country');
+
+        if ($shipping_country_name == false and is_logged()) {
+            $shipping_address_from_profile = app()->user_manager->get_shipping_address();
+            if ($shipping_address_from_profile and isset($shipping_address_from_profile['country'])) {
+                $shipping_country_name = $shipping_address_from_profile['country'];
+            }
+        }
+
+
+        //if(!$shipping_country_session){
+//dd($shipping_address_from_profile);
+      //  }
+
+
+
 
 //        if(!$shipping_country and is_logged()){
 //            $user_info = checkout_get_user_info();
@@ -50,18 +65,24 @@ class shipping_to_country
 //        }
 
 
-      //  dd($shipping_country);
+     //  var_dump($shipping_country_name);
 
         $defined_cost = 0;
         $is_worldwide = false;
-        if ($shipping_country == false) {
+        if ($shipping_country_name == false) {
             $shipping_country = $this->get('one=1&is_active=1&shipping_country=Worldwide');
             if (is_array($shipping_country)) {
                 $is_worldwide = true;
 
             }
         } else {
-            $shipping_country = $this->get('one=1&is_active=1&shipping_country=' . $shipping_country);
+            $shipping_country = $this->get('one=1&is_active=1&shipping_country=' . $shipping_country_name);
+            if(!$shipping_country){
+                $shipping_country = $this->get('one=1&is_active=1&shipping_country=Worldwide');
+                if (is_array($shipping_country)) {
+                    $is_worldwide = true;
+                }
+            }
 
         }
 
@@ -236,10 +257,10 @@ class shipping_to_country
 
         if(!$shipping_country_session){
       //  if ($is_worldwide == false) {
-            $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
+       //     $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
        // }
         }
-
+//var_dump($shipping_country);
         $this->app->user_manager->session_set('shipping_cost', $defined_cost);
         app()->shipping_manager->setDefaultDriver('shop/shipping/gateways/country');
 
