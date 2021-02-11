@@ -6,16 +6,16 @@ if($data['type'] !== 'breakline'):
     <div class="mw-custom-field-form-controls">
         <label class="mw-ui-check">
             <input type="hidden" value="n" name="custom_field_show_label">
-            <input type="checkbox" class="mw-custom-field-option"  name="custom_field_show_label" id="custom_field_show_label<?php print $rand; ?>" value="y" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
+            <input type="checkbox" class="custom-control-input"  name="custom_field_show_label" id="custom_field_show_label<?php print $rand; ?>" value="y" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
             <span></span><span><?php _e('Show Label'); ?></span>
         </label>
     </div>
 </div>
 
 <div class="mw-custom-field-group">
-    <label class="mw-custom-field-label" ><?php _e('Error text'); ?></label>
+    <label class="control-label" ><?php _e('Error text'); ?></label>
     <div class="mw-custom-field-form-controls">
-        <input type="text"  name="error_text" class="mw-ui-field mw-full-width" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
+        <input type="text"  name="error_text" class="form-control" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
     </div>
 </div>
 
@@ -23,7 +23,7 @@ if($data['type'] !== 'breakline'):
 $fields = mw()->ui->custom_fields();
 ?>
 <div class="mw-custom-field-group">
-    <label class="mw-custom-field-label" for="custom_field_width_type<?php print $rand; ?>"><b><?php _e('Field Type'); ?></b></label>
+    <label class="control-label" for="custom_field_width_type<?php print $rand; ?>"><?php _e('Field Type'); ?></label>
     <div class="mw-custom-field-form">
     	
        <select class="mw-ui-field mw-full-width" name="options[field_type]" onChange="$(this).addClass('mw-needs-reload');">
@@ -38,7 +38,7 @@ $fields = mw()->ui->custom_fields();
 </div>
 
 <div class="mw-custom-field-group">
-    <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Organaize in columns'); ?></b></label>
+    <label class="control-label" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Organaize in columns'); ?></label>
     <div class="mw-custom-field-form">
     	
        <select class="mw-ui-field mw-full-width" name="options[field_size]">
@@ -55,12 +55,9 @@ $fields = mw()->ui->custom_fields();
     <label class="mw-custom-field-label" for="custom_field_required<?php print $rand; ?>"><?php _e('Required'); ?></label>
     <div class="mw-custom-field-form-controls mw-full-width">
         <label class="mw-ui-check">
-
-
               <input type="checkbox" class="mw-ui-field mw-full-width"  name="custom_field_required" id="custom_field_required<?php print $rand; ?>" value="y" <?php if ($settings['required']): ?> checked="checked"  <?php endif; ?> >
               <span></span>
-            </label>
-
+        </label>
             <?php _e('Is this field Required?'); ?>
     </div>
 </div>
@@ -83,9 +80,7 @@ $fields = mw()->ui->custom_fields();
     </div>
 </div>
 <div class="form-actions custom-fields-form-actions">
-
     <script>
-
          __save__global_id = '#custom_fields_edit<?php print $rand; ?>';
          $(document).ready(function(){
            if(typeof __custom_fields_editor_binded == 'undefined'){
@@ -98,10 +93,7 @@ $fields = mw()->ui->custom_fields();
            }
 
         });
-
-
     </script>
-
 </div>
 <?php endif; ?> 
 
