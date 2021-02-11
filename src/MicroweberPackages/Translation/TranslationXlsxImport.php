@@ -10,6 +10,9 @@ class TranslationXlsxImport
 {
     public function import($file)
     {
+
+        set_time_limit(-0);
+
         $readFile = new XlsxReader($file);
         $data = $readFile->readData();
 
