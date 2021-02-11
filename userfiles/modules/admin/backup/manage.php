@@ -71,7 +71,8 @@ transform:rotate(360deg);
       </tr>
     </tfoot>
     <tbody>
-      <?php $backups = mw('Microweber\Utils\Backup')->get($keyword);
+      <?php
+      $backups = false; //mw('Microweber\Utils\Backup')->get($keyword);
 		  if(isarr($backups )): ?>
       <?php
 	  $i = 1;
