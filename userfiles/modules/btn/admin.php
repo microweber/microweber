@@ -66,8 +66,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
             #icon-picker i{
-                font-size: 30px;
-                line-height: 45px;
+
                 margin-inline-start: -10px;
                 margin-inline-end: 8px;
             }
@@ -227,7 +226,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </script>
 
                 <div class="form-group">
-                    <div class="mw-ui-btn">
+                    <span class="btn btn-primary">
                     <script>
                         $(document).ready(function () {
                             mw.iconLoader().init();
@@ -245,10 +244,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             }
 
                         })
+                        var removeIcon = function () {
+                            $('[name="icon"]').val('').trigger('change')
+                            document.querySelector('#icon-picker').innerHTML = '';
+                        }
                     </script>
-                    <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
-                    <span id="icon-picker"><?php print $icon ? $icon : ''; ; ?></span> <?php _e("Select Icon"); ?></div>
+                        <span id="icon-picker"><?php print $icon ? $icon : ''; ; ?></span> <?php _e("Select Icon"); ?></span>
+                    <button class="btn btn-outline-danger" onclick="removeIcon()"><?php _e("Remove icon"); ?></button>
+
                 </div>
+                <textarea name="icon" class="mw_option_field" style="display: none"><?php print $icon; ?></textarea>
 
                 <module type="admin/modules/templates" simple="true"/>
             </div>
