@@ -166,9 +166,10 @@ api_expose('pingstats', function ($params = false) {
         $tracker->track();
     }
 
-    $response = response('');
+    $response = response('var mwpingstats={}');
 
     $response->header('Pragma', 'no-cache');
+    $response->header('Content-Type', 'text/javascript');
     $response->header('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
     $response->header('Cache-Control', 'no-cache, must-revalidate, no-store, max-age=0, private');
 

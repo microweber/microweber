@@ -41,8 +41,18 @@ class shipping_to_country
 
         // $defined_cost = $this->app->user_manager->session_get('shipping_cost');
         $shipping_country = $this->app->user_manager->session_get('shipping_country');
+
+//        if(!$shipping_country and is_logged()){
+//            $user_info = checkout_get_user_info();
+//            if($user_info and isset($user_info["country"]) and $user_info["country"]){
+//                $shipping_country = $user_info["country"];
+//            }
+//        }
+
+
+      //  dd($shipping_country);
+
         $defined_cost = 0;
-        $shipping_country = $this->get('one=1&is_active=1&shipping_country=' . $shipping_country);
         $is_worldwide = false;
         if ($shipping_country == false) {
             $shipping_country = $this->get('one=1&is_active=1&shipping_country=Worldwide');
@@ -50,7 +60,13 @@ class shipping_to_country
                 $is_worldwide = true;
 
             }
+        } else {
+            $shipping_country = $this->get('one=1&is_active=1&shipping_country=' . $shipping_country);
+
         }
+
+
+
         if ($shipping_country == false) {
 
 
@@ -59,6 +75,9 @@ class shipping_to_country
 
             //
         }
+
+
+
 
         if ($shipping_country == false) {
             $this->app->user_manager->session_set('shipping_country', 'none');
