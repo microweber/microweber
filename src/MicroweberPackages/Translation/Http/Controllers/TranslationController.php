@@ -55,6 +55,8 @@ class TranslationController {
             $exportFileName = $exportFileName . '-' . $exportLocale;
         }
 
+        $query->orderBy('id');
+
         $getTranslatable = $query->get(); // Get original english fields
 
         $readyExportData = [];
