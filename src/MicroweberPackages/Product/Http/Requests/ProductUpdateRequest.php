@@ -30,7 +30,7 @@ class ProductUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'price.regex' => _e("The price must be in format 12 or 12.3 or 12.03", true)
+            'price.regex' => _e("Use '.' to separate the price (Ex. 9.89)", true)
         ];
     }
 }
