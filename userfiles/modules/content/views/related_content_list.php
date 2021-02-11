@@ -182,6 +182,19 @@ if ($content) {
         </div>
     <?php } else { ?>
         <table class="table table-hover table-sm  " id="mw-admin-related-content-edit-sort<?php print $rand ?>">
+            <style scoped>
+                tr {
+                    cursor: pointer;
+                }
+
+                tr i.mdi-cursor-move {
+                    opacity: 0;
+                }
+
+                tr:hover i.mdi-cursor-move {
+                    opacity: 1;
+                }
+            </style>
             <?php foreach ($related as $related_cont) { ?>
                 <tr class="js-admin-related-content-sort-element" value="<?php print ($related_cont['id']) ?>">
                     <td class="align-middle" style="width: 20px">
@@ -212,16 +225,3 @@ if ($content) {
 </div>
 
 
-<style>
-    tr {
-        cursor: pointer;
-    }
-
-    tr i.mdi-cursor-move {
-        opacity: 0;
-    }
-
-    tr:hover i.mdi-cursor-move {
-        opacity: 1;
-    }
-</style>
