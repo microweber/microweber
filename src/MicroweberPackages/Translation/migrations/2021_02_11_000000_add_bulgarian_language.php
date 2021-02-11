@@ -14,7 +14,7 @@ class AddBulgarianLanguage extends Migration
     {
         if (Schema::hasTable('translations')) {
 
-            $file = dirname(__DIR__) .  '/resources/lang_xlsx/bg_BG.xls';
+            $file = dirname(__DIR__) .  '/resources/lang_xlsx/bg_BG.xlsx';
 
             $import = new \MicroweberPackages\Translation\TranslationXlsxImport();
             return $import->import($file);
