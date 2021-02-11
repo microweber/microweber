@@ -1,6 +1,6 @@
 <?php
 
-/*
+
 use MicroweberPackages\Translation\Models\Translation;
 
 function loadLanguageByLocale($locale) {
@@ -82,21 +82,21 @@ function migrateLanguages()
             }
 
             $saveText = [
-                'key' => $key,
-                'text' => $text,
-                'group' => '*',
-                'namespace' => '*',
-                'locale' => $locale,
+                'translation_key' => $key,
+                'translation_text' => $text,
+                'translation_group' => '*',
+                'translation_namespace' => '*',
+                'translation_locale' => $locale,
             ];
 
-            $findTranslation = Translation::where('namespace', $saveText['namespace'])
-                ->where('group', $saveText['group'])
-                ->where('key', $saveText['key'])
-                ->where('locale', $saveText['locale'])->first();
+            $findTranslation = Translation::where('translation_namespace', $saveText['translation_namespace'])
+                ->where('translation_group', $saveText['translation_group'])
+                ->where('translation_key', $saveText['translation_key'])
+                ->where('translation_locale', $saveText['translation_locale'])->first();
             if ($findTranslation == null) {
                 Translation::insert($saveText);
             } else {
-                $findTranslation->text = $saveText['text'];
+                $findTranslation->translation_text = $saveText['translation_text'];
                 $findTranslation->save();
             }
         }
@@ -104,7 +104,8 @@ function migrateLanguages()
 }
 
 Route::get('migrateLanguages', function () {
-    migrateLanguages();
+
+    //migrateLanguages();
 
 });
 
@@ -122,7 +123,7 @@ Route::get('test-lang', function () {
     echo _e('Optional thumbnail. image for use with uploaded. or embedded videos. Required . Lazy Loading. selected.');
 
 });
-*/
+
 
 Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class, 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/apijs', 'JsCompileController@apijs');
