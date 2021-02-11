@@ -12,6 +12,14 @@ class Translation extends Model
 {
     use CacheableQueryBuilderTrait;
 
+    /**
+     * The number of seconds to cache the query.
+     *
+     * @var int
+     */
+  //  protected $cacheSeconds = 999999;
+
+
     public $timestamps = true;
 
     /** @var array */

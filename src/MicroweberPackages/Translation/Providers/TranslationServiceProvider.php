@@ -31,17 +31,20 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
         $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 
         if (mw_is_installed()) {
-            if (!Schema::hasTable('translations')) {
-                app()->mw_migrator->run([
-                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
-                ]);
-            }
+//            if (!Schema::hasTable('translations')) {
+//                app()->mw_migrator->run([
+//                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
+//                ]);
+//            }
 
             $this->app->terminating(function () {
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
+                  //   \Log::debug($getNewTexts);
+
 
                     \Config::set('microweber.disable_model_cache', 1);
+
 
                     DB::beginTransaction();
                     try {
@@ -58,7 +61,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                                 ->where(\DB::raw('md5(translation_key)'), md5($text['translation_key']))
                                 ->where('translation_locale', $text['translation_locale'])->first();
                             if ($findTranslation == null) {
-                                $toSave[] = $text;
+                                 $toSave[] = $text;
+                               // Translation::insert($text);
                             }
                         }
                         if ($toSave) {
@@ -67,10 +71,10 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
                         DB::commit();
                         // all good
-                    } catch (\Exception $e) {
-                        DB::rollback();
+                     } catch (\Exception $e) {
+                         DB::rollback();
                         // something went wrong
-                    }
+                     }
                 }
             });
 

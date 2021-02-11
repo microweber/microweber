@@ -104,7 +104,14 @@ $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupe
 
     });
 </script>
-
+<style scoped>
+    .lang_textarea_key {
+        display: inline-block;
+        border: none;
+        overflow-y: auto;
+        resize: both;
+    }
+</style>
 <div class="card bg-light style-1 mb-3">
     <div class="card-body py-2">
         <div class="row">
@@ -161,7 +168,9 @@ $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupe
                 <tr style="border-bottom: 1px solid #cfcfcf">
                     <td style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;">
                         <div class="lang-key-holder">
-                            <small><?php echo $translationKey;?></small>
+                            <textarea  readonly disabled="disabled"  class="lang_textarea_key form-control form-control-sm"><?php echo $translationKey;?></textarea>
+
+
                         </div>
                     </td>
                     <td style="vertical-align: middle;">
