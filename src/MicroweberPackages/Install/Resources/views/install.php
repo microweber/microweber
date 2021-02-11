@@ -659,9 +659,9 @@
                                                     </div>
                                                 </div>
 
-                                                <?php
-
-                                                /*<div class="col-md-4">
+                                                <div class="col-md-12">
+                                                    <b><?php _e('Website Default Language'); ?></b>
+                                                    <small class="text-muted d-block mb-2"><?php _e('Choose the language you want to start with.'); ?></small>
                                                     <?php $current_lang = current_lang(); ?>
                                                     <div class="form-group">
                                                         <select name="site_lang" class="form-control" tabindex="8">
@@ -671,15 +671,14 @@
                                                                 <option value="en">EN</option>
                                                             <?php endif; ?>
 
-                                                            <?php $langs = get_available_languages(); ?>
+                                                            <?php $langs = mw()->lang_helper->get_all_lang_codes(); ?>
                                                             <?php foreach ($langs as $lang): ?>
                                                                 <option value="<?php print $lang; ?>"><?php print strtoupper($lang); ?></option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                </div>*/
+                                                </div>
 
-                                                ?>
                                             </div>
                                         </div>
 

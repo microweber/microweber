@@ -3,7 +3,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 use \Illuminate\Support\Facades\DB;
 
-class AddBulgarianLanguage extends Migration
+class AddEnglishLanguage extends Migration
 {
     /**
      * Run the migrations.
