@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Translation\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Backup\Exporters\JsonExport;
 use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Translation\Models\Translation;
 use MicroweberPackages\Translation\TranslationXlsxImport;
@@ -35,6 +36,8 @@ class TranslationController {
 
         $namespace = $request->post('namespace','*');
         $exportLocale = $request->post('locale', mw()->lang_helper->default_lang());
+
+        $format = $request->post('format', 'json');
         
         $exportFileName = 'translation-global';
 
@@ -84,10 +87,20 @@ class TranslationController {
 
         $exportFileName = $exportFileName . '-' . date('Y-m-d-H-i-s');
 
-        $export = new XlsxExport();
-        $export->data[$exportFileName] = $readyExportData;
+        if ($format == 'json') {
 
-        return $export->start();
+            $export = new JsonExport($readyExportData);
+            $export->setFilename($exportFileName);
+            $export->useEncodeFix = false;
+
+            return $export->start();
+
+        } else {
+            $export = new XlsxExport();
+            $export->data[$exportFileName] = $readyExportData;
+
+            return $export->start();
+        }
 
     }
 
