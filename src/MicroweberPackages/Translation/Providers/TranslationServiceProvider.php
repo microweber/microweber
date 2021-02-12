@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Translation\TranslationServiceProvider as IlluminateTranslationServiceProvider;
 use MicroweberPackages\Translation\Models\Translation;
+use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\TranslationManager;
 use MicroweberPackages\Translation\Translator;
 
@@ -41,7 +42,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
 
-               //     \Log::debug($getNewTexts);
+                    \Log::debug($getNewTexts);
 
                     \Config::set('microweber.disable_model_cache', 1);
 
@@ -55,17 +56,21 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                             $text['translation_namespace'] = trim($text['translation_namespace']);
                             $text['translation_locale'] = trim($text['translation_locale']);
 
-                            $findTranslation = Translation::where('translation_namespace', $text['translation_namespace'])
+                            $findTranslationKey = TranslationKey::where('translation_namespace', $text['translation_namespace'])
                                 ->where('translation_group', $text['translation_group'])
                                 ->where(\DB::raw('md5(translation_key)'), md5($text['translation_key']))
-                                ->where('translation_locale', $text['translation_locale'])->first();
-                            if ($findTranslation == null) {
+                                ->first();
+                            if ($findTranslationKey == null) {
+
+                                unset($text['translation_text']);
+                                unset($text['translation_locale']);
+
                                  $toSave[] = $text;
                                // Translation::insert($text);
                             }
                         }
                         if ($toSave) {
-                            Translation::insert($toSave);
+                            TranslationKey::insert($toSave);
                         }
 
                         DB::commit();
