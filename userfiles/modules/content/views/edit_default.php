@@ -150,6 +150,20 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
             document.querySelector('.btn-save').disabled = false;
             mw.askusertostay = true;
         })
+
+
+
+        askToStayIntervalEdit  = setInterval(function(){
+            if(mw.askusertostay){
+                document.querySelector('.btn-save').disabled = false;
+                clearInterval(askToStayIntervalEdit);
+            }
+        }, 1000);
+
+
+
+
+
     });
 </script>
 

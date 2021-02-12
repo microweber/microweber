@@ -132,6 +132,7 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
                     $('.js-track-quantity-select-qty-other-value').on('change input', function (){
                         document.querySelector('.btn-save').disabled = false;
                         mw.askusertostay = true;
+
                     })
 
 
@@ -150,7 +151,7 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
                 <div class="col-md-6 w-100">
                     <div class="form-group">
                         <label class="control-label"><?php _e("Available"); ?></label>
-                        <small class="text-muted d-block mb-3"><?php _e("How many products you have in stock"); ?></small>
+                        <small class="text-muted d-block mb-3"><?php _e("How many products you have available in stock"); ?></small>
 
                         <?php if(!$qty_selected_is_custom){ ?>
                         <select name="content_data[qty]" class="js-track-quantity-select-qty  selectpicker " data-size="7" onchange="set_custom_qty_number(this)">
@@ -162,9 +163,9 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
                             <option  value="other"><?php _e("Other"); ?></option>
                         </select>
 
-                        <input type="number"  min="0" class="form-control d-none js-track-quantity-select-qty-other-value" value="<?php print $qty_selected ?>">
+                        <input type="number"  min="0" class="form-control d-none js-track-quantity-select-qty-other-value" placeholder="<?php _e("No Limit"); ?>"  value="<?php print $qty_selected ?>">
                         <?php } else { ?>
-                        <input type="number"  name="content_data[qty]"  min="0" class="form-control" value="<?php print $qty_selected ?>">
+                        <input type="number"  name="content_data[qty]" placeholder="<?php _e("No Limit"); ?>"  min="0" class="form-control" value="<?php print $qty_selected ?>">
                         <?php }?>
 
 
