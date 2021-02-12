@@ -54,8 +54,6 @@ description: Payments 1
                            </div>
                        </div>
 
-
-
                        <div class="edit nodrop" field="checkout_payment_information_title" rel="global"
                             rel_id="<?php print $params['id'] ?>">
                            <label class="control-label"><?php _e("Finish your order"); ?></label>
