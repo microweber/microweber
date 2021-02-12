@@ -5,6 +5,7 @@ namespace MicroweberPackages\Translation;
 
 use MicroweberPackages\Backup\Readers\XlsxReader;
 use MicroweberPackages\Translation\Models\TranslationKey;
+use MicroweberPackages\Translation\Models\TranslationText;
 
 class TranslationXlsxImport
 {
@@ -29,8 +30,22 @@ class TranslationXlsxImport
                     $getTranslation->translation_namespace = $translation['translation_namespace'];
                     $getTranslation->translation_group = $translation['translation_group'];
                 }
-
                 $getTranslation->save();
+
+                // Get translation text
+                $getTranslationText = TranslationText::where('translation_key_id', $getTranslation->id)
+                    ->where('translation_locale', $translation['translation_locale'])
+                    ->first();
+
+                // Save new translation text
+                if ($getTranslationText == null) {
+                    $getTranslationText = new TranslationText();
+                    $getTranslationText->translation_key_id = $getTranslation->id;
+                    $getTranslationText->translation_locale = $translation['translation_locale'];
+                }
+
+                $getTranslationText->translation_text = $translation['translation_text'];
+                $getTranslationText->save();
             }
 
             return ['success'=> _e('Importing language file success.', true)];
