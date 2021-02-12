@@ -8,10 +8,11 @@
 
 namespace MicroweberPackages\Translation;
 
+use MicroweberPackages\Translation\Locale\IntlLocale;
 
 class TranslationHelper {
 
-    public function getAvailableTranslations()
+    public static function getAvailableTranslations()
     {
         $translations = [];
 
