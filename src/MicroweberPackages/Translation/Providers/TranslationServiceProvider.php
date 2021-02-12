@@ -65,9 +65,6 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                             }
                         }
                         if ($toSave) {
-
-                            var_dump('xodi gladen');
-
                             Translation::insert($toSave);
                         }
 

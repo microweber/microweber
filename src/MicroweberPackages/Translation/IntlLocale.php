@@ -666,10 +666,10 @@ class IntlLocale
         'zu_ZA' => 'South Africa',
     );
 
-    public function getDisplayRegion($locale)
+    public static function getDisplayRegion($locale)
     {
-        if (isset($this->regionsByLocale[$locale])) {
-            return $this->regionsByLocale[$locale];
+        if (isset(self::$regionsByLocale[$locale])) {
+            return self::$regionsByLocale[$locale];
         }
 
         return false;
