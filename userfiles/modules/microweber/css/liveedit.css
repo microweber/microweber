@@ -55,14 +55,14 @@ body.mw-live-edit .mw-control-box-left {
     transition: .3s !important;
 }
 
-#back-to-admin-toolbar {
-    border-color: #2b2b2b;
-    color: #2b2b2b !important;
-    transition: .3s !important;
-    width: 34px;
-    padding: 0;
-    border-radius: 34px;
-}
+/*#back-to-admin-toolbar {*/
+    /*border-color: #2b2b2b;*/
+    /*color: #2b2b2b !important;*/
+    /*transition: .3s !important;*/
+    /*width: 34px;*/
+    /*padding: 0;*/
+    /*border-radius: 34px;*/
+/*}*/
 
 #back-to-admin-toolbar i {
     color: #2b2b2b !important;
@@ -2907,7 +2907,7 @@ div[id*='SSDIVEL'] {
 
 #back-to-admin-toolbar {
     margin: 0px 8px;
-    color: #333333;
+    /*color: #333333;*/
     text-decoration: none;
     font-size: 12px;
     font-family: Verdana, Geneva, sans-serif;
