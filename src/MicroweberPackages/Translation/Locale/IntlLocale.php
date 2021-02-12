@@ -14,7 +14,6 @@ use MicroweberPackages\Translation\Locale\Traits\RegionByLocaleTrait;
 
 class IntlLocale
 {
-
     use DetailsByLocaleTrait, LanguagesByLocaleTrait, RegionByLocaleTrait;
 
     public static function getDisplayRegion($locale)
@@ -33,7 +32,7 @@ class IntlLocale
             return self::$languagesByLocale[$locale];
         }
 
-        return false; 
+        return false;
     }
 
     public static function getDisplayFlag($locale)
