@@ -27,4 +27,14 @@ class TranslationHelper {
         return $translations;
     }
 
+    public static function installLanguage($locale) {
+
+        $file = __DIR__ .  '/resources/lang_xlsx/'.$locale.'.xlsx';
+
+        if (is_file($file)) {
+            $import = new \MicroweberPackages\Translation\TranslationXlsxImport();
+            return $import->import($file);
+        }
+    }
+
 }
