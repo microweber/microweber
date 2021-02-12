@@ -31,9 +31,10 @@ class TranslationHelper {
 
         $file = __DIR__ .  '/resources/lang_xlsx/'.$locale.'.xlsx';
 
-        $import = new \MicroweberPackages\Translation\TranslationXlsxImport();
-        return $import->import($file);
-
+        if (is_file($file)) {
+            $import = new \MicroweberPackages\Translation\TranslationXlsxImport();
+            return $import->import($file);
+        }
     }
 
 }
