@@ -40,11 +40,10 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
             $this->app->terminating(function () {
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
-                  //   \Log::debug($getNewTexts);
 
+                    \Log::debug($getNewTexts);
 
                     \Config::set('microweber.disable_model_cache', 1);
-
 
                     DB::beginTransaction();
                     try {
@@ -66,6 +65,9 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                             }
                         }
                         if ($toSave) {
+
+                            var_dump('xodi gladen');
+
                             Translation::insert($toSave);
                         }
 
