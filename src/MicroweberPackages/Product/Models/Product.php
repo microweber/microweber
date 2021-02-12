@@ -53,7 +53,7 @@ class Product extends Content
     public static $contentDataDefault = [
         'sku'=>'',
         'barcode'=>'',
-        'qty'=>'1',
+        'qty'=>'nolimit',
         'track_quantity'=>'',
         'max_quantity_per_order'=>'',
         'sell_oos'=>'',

@@ -61,15 +61,18 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group mb-3">
-                    <label><?php _e("SKU (Stock Keeping Unit)"); ?></label>
+                    <label><?php _e("SKU"); ?></label>
                     <input type="text" name="content_data[sku]" class="form-control" value="<?php echo $contentData['sku']; ?>">
+                    <small class="text-muted d-block mb-3"><?php _e("Stock Keeping Unit"); ?></small>
+
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label><?php _e("Barcode (ISBN, UPC, GTIN, etc.)"); ?></label>
+                    <label><?php _e("Barcode"); ?></label>
                     <input type="text" name="content_data[barcode]" class="form-control" value="<?php echo $contentData['barcode']; ?>">
+                    <small class="text-muted d-block mb-3"><?php _e("ISBN, UPC, GTIN, etc."); ?></small>
                 </div>
             </div>
 
@@ -90,6 +93,56 @@
             </div>
         </div>
 
+<?php
+$dropdown_qty_max = 100;
+$dropdown_qty_max_per_order = 100;
+
+$qty_selected = 'nolimit';
+
+$qty_selected_is_custom = false;
+$max_qty_per_order_selected = 'nolimit';
+
+if(isset($contentData['qty']) and $contentData['qty'] != 'nolimit'){
+    $qty_selected = intval($contentData['qty']);
+    if($qty_selected > $dropdown_qty_max){
+        $qty_selected_is_custom = $qty_selected;
+    }
+}
+
+if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'] != 'nolimit'){
+    $max_qty_per_order_selected = intval($contentData['max_qty_per_order']);
+}
+
+
+?>
+
+
+        <script>
+
+            set_custom_qty_number = function (el) {
+                var val =  el.value;
+                if(val == 'other'){
+
+                    var next =  $('.js-track-quantity-select-qty-other-value').first();
+                    next.removeClass('d-none');
+                    next.attr('name','content_data[qty]');
+
+                    $('.js-track-quantity-select-qty').remove();
+
+                    $('.js-track-quantity-select-qty-other-value').on('change input', function (){
+                        document.querySelector('.btn-save').disabled = false;
+                        mw.askusertostay = true;
+                    })
+
+
+                }
+            }
+
+        </script>
+
+
+
+
         <div class="js-track-quantity">
             <hr class="thin no-padding"/>
             <label class="control-label mb-3"><?php _e("Quantity"); ?></label>
@@ -97,111 +150,24 @@
                 <div class="col-md-6 w-100">
                     <div class="form-group">
                         <label class="control-label"><?php _e("Available"); ?></label>
-                        <small class="text-muted d-block mb-3"><?php _e("How many products you have"); ?></small>
-                        <select name="data_qty" class="selectpicker w-100" data-size="7">
-                            <option selected="selected" value="nolimit">∞ No Limit</option>
-                            <option value="0" title="This item is out of stock and cannot be ordered.">Out of stock</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
-                            <option value="24">24</option>
-                            <option value="25">25</option>
-                            <option value="26">26</option>
-                            <option value="27">27</option>
-                            <option value="28">28</option>
-                            <option value="29">29</option>
-                            <option value="30">30</option>
-                            <option value="31">31</option>
-                            <option value="32">32</option>
-                            <option value="33">33</option>
-                            <option value="34">34</option>
-                            <option value="35">35</option>
-                            <option value="36">36</option>
-                            <option value="37">37</option>
-                            <option value="38">38</option>
-                            <option value="39">39</option>
-                            <option value="40">40</option>
-                            <option value="41">41</option>
-                            <option value="42">42</option>
-                            <option value="43">43</option>
-                            <option value="44">44</option>
-                            <option value="45">45</option>
-                            <option value="46">46</option>
-                            <option value="47">47</option>
-                            <option value="48">48</option>
-                            <option value="49">49</option>
-                            <option value="50">50</option>
-                            <option value="51">51</option>
-                            <option value="52">52</option>
-                            <option value="53">53</option>
-                            <option value="54">54</option>
-                            <option value="55">55</option>
-                            <option value="56">56</option>
-                            <option value="57">57</option>
-                            <option value="58">58</option>
-                            <option value="59">59</option>
-                            <option value="60">60</option>
-                            <option value="61">61</option>
-                            <option value="62">62</option>
-                            <option value="63">63</option>
-                            <option value="64">64</option>
-                            <option value="65">65</option>
-                            <option value="66">66</option>
-                            <option value="67">67</option>
-                            <option value="68">68</option>
-                            <option value="69">69</option>
-                            <option value="70">70</option>
-                            <option value="71">71</option>
-                            <option value="72">72</option>
-                            <option value="73">73</option>
-                            <option value="74">74</option>
-                            <option value="75">75</option>
-                            <option value="76">76</option>
-                            <option value="77">77</option>
-                            <option value="78">78</option>
-                            <option value="79">79</option>
-                            <option value="80">80</option>
-                            <option value="81">81</option>
-                            <option value="82">82</option>
-                            <option value="83">83</option>
-                            <option value="84">84</option>
-                            <option value="85">85</option>
-                            <option value="86">86</option>
-                            <option value="87">87</option>
-                            <option value="88">88</option>
-                            <option value="89">89</option>
-                            <option value="90">90</option>
-                            <option value="91">91</option>
-                            <option value="92">92</option>
-                            <option value="93">93</option>
-                            <option value="94">94</option>
-                            <option value="95">95</option>
-                            <option value="96">96</option>
-                            <option value="97">97</option>
-                            <option value="98">98</option>
-                            <option value="99">99</option>
-                            <option value="100">100</option>
+                        <small class="text-muted d-block mb-3"><?php _e("How many products you have in stock"); ?></small>
+
+                        <?php if(!$qty_selected_is_custom){ ?>
+                        <select name="content_data[qty]" class="js-track-quantity-select-qty  selectpicker " data-size="7" onchange="set_custom_qty_number(this)">
+                            <option selected="selected" value="nolimit" <?php if($qty_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
+                            <option value="0" <?php if($qty_selected ===0 ) : ?> selected <?php endif;  ?> title="This item is out of stock and cannot be ordered."><?php _e("Out of stock"); ?></option>
+                            <?php for ($i = 1; $i <= $dropdown_qty_max; $i++){  ?>
+                                <option value="<?php print $i ?>" <?php if($qty_selected ==$i ) : ?> selected <?php endif;  ?>><?php print $i ?></option>
+                            <?php }   ?>
+                            <option  value="other"><?php _e("Other"); ?></option>
                         </select>
+
+                        <input type="number"  min="0" class="form-control d-none js-track-quantity-select-qty-other-value" value="<?php print $qty_selected ?>">
+                        <?php } else { ?>
+                        <input type="number"  name="content_data[qty]"  min="0" class="form-control" value="<?php print $qty_selected ?>">
+                        <?php }?>
+
+
                     </div>
                 </div>
 
@@ -209,109 +175,13 @@
                     <div class="form-group w-100">
                         <label class="control-label"><?php _e("Max quantity per order"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("How many products can be ordered at once"); ?></small>
-                        <select name="data_qty" class="selectpicker w-100" data-size="7">
-                            <option selected="selected" value="nolimit">∞ No Limit</option>
-                            <option value="0" title="This item is out of stock and cannot be ordered.">Out of stock</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
-                            <option value="24">24</option>
-                            <option value="25">25</option>
-                            <option value="26">26</option>
-                            <option value="27">27</option>
-                            <option value="28">28</option>
-                            <option value="29">29</option>
-                            <option value="30">30</option>
-                            <option value="31">31</option>
-                            <option value="32">32</option>
-                            <option value="33">33</option>
-                            <option value="34">34</option>
-                            <option value="35">35</option>
-                            <option value="36">36</option>
-                            <option value="37">37</option>
-                            <option value="38">38</option>
-                            <option value="39">39</option>
-                            <option value="40">40</option>
-                            <option value="41">41</option>
-                            <option value="42">42</option>
-                            <option value="43">43</option>
-                            <option value="44">44</option>
-                            <option value="45">45</option>
-                            <option value="46">46</option>
-                            <option value="47">47</option>
-                            <option value="48">48</option>
-                            <option value="49">49</option>
-                            <option value="50">50</option>
-                            <option value="51">51</option>
-                            <option value="52">52</option>
-                            <option value="53">53</option>
-                            <option value="54">54</option>
-                            <option value="55">55</option>
-                            <option value="56">56</option>
-                            <option value="57">57</option>
-                            <option value="58">58</option>
-                            <option value="59">59</option>
-                            <option value="60">60</option>
-                            <option value="61">61</option>
-                            <option value="62">62</option>
-                            <option value="63">63</option>
-                            <option value="64">64</option>
-                            <option value="65">65</option>
-                            <option value="66">66</option>
-                            <option value="67">67</option>
-                            <option value="68">68</option>
-                            <option value="69">69</option>
-                            <option value="70">70</option>
-                            <option value="71">71</option>
-                            <option value="72">72</option>
-                            <option value="73">73</option>
-                            <option value="74">74</option>
-                            <option value="75">75</option>
-                            <option value="76">76</option>
-                            <option value="77">77</option>
-                            <option value="78">78</option>
-                            <option value="79">79</option>
-                            <option value="80">80</option>
-                            <option value="81">81</option>
-                            <option value="82">82</option>
-                            <option value="83">83</option>
-                            <option value="84">84</option>
-                            <option value="85">85</option>
-                            <option value="86">86</option>
-                            <option value="87">87</option>
-                            <option value="88">88</option>
-                            <option value="89">89</option>
-                            <option value="90">90</option>
-                            <option value="91">91</option>
-                            <option value="92">92</option>
-                            <option value="93">93</option>
-                            <option value="94">94</option>
-                            <option value="95">95</option>
-                            <option value="96">96</option>
-                            <option value="97">97</option>
-                            <option value="98">98</option>
-                            <option value="99">99</option>
-                            <option value="100">100</option>
+                        <select name="content_data[max_qty_per_order]" class="selectpicker" data-size="7">
+                            <option selected="selected" value="nolimit" <?php if($max_qty_per_order_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
+
+                            <?php for ($i = 1; $i <= $dropdown_qty_max_per_order; $i++){  ?>
+                                <option value="<?php print $i ?>" <?php if($max_qty_per_order_selected ==$i ) : ?> selected <?php endif;  ?>><?php print $i ?></option>
+                            <?php }   ?>
+
                         </select>
                     </div>
                 </div>
