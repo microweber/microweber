@@ -41,7 +41,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 $getNewTexts = app()->translator->getNewTexts();
                 if (!empty($getNewTexts)) {
 
-                    \Log::debug($getNewTexts);
+               //     \Log::debug($getNewTexts);
 
                     \Config::set('microweber.disable_model_cache', 1);
 
