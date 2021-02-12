@@ -5,7 +5,7 @@ namespace MicroweberPackages\Translation;
 
 class Translator extends \Illuminate\Translation\Translator
 {
-    public static $newTexts = [];
+    public static $newKeys = [];
 
     /**
      * Get the translation for the given key.
@@ -36,12 +36,10 @@ class Translator extends \Illuminate\Translation\Translator
 
             if (empty($item)) {
                 // echo 'This is without namespace, only key ->'.$key . '<br />';
-                self::$newTexts[md5($key . $locale)] = [
+                self::$newKeys[md5($key . '**')] = [
                     'translation_namespace' => '*',
                     'translation_group' => '*',
-                    'translation_key' => $key,
-                    'translation_text' => $key,
-                    'translation_locale' => $locale,
+                    'translation_key' => $key
                 ];
             }
 
@@ -64,12 +62,10 @@ class Translator extends \Illuminate\Translation\Translator
                 return $foundedLine;
             } else {
                 //echo 'This is with namespace ->' . $namespace . $group . $item .'<br />';
-                self::$newTexts[md5($namespace . $group . $item . $locale)] = [
+                self::$newKeys[md5($namespace . $group . $item)] = [
                     'translation_namespace' => $namespace,
                     'translation_group' => $group,
-                    'translation_key' => $item,
-                    'translation_text' => $item,
-                    'translation_locale' => $locale,
+                    'translation_key' => $item
                 ];
             }
         }
@@ -80,8 +76,8 @@ class Translator extends \Illuminate\Translation\Translator
         return $this->makeReplacements($line ?: $key, $replace);
     }
 
-    public function getNewTexts()
+    public function getNewKeys()
     {
-        return self::$newTexts;
+        return self::$newKeys;
     }
 }

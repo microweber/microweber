@@ -37,36 +37,25 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 //                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
 //                ]);
 //            }
-
             $this->app->terminating(function () {
-                $getNewTexts = app()->translator->getNewTexts();
-                if (!empty($getNewTexts)) {
-
-                    \Log::debug($getNewTexts);
-
+                $getNewKeys = app()->translator->getNewKeys();
+                if (!empty($getNewKeys)) {
+                    // \Log::debug($getNewKeys);
                     \Config::set('microweber.disable_model_cache', 1);
-
                     DB::beginTransaction();
                     try {
                         $toSave = [];
-                        foreach ($getNewTexts as $text) {
+                        foreach ($getNewKeys as $newKey) {
+                            $newKey['translation_key'] = trim($newKey['translation_key']);
+                            $newKey['translation_group'] = trim($newKey['translation_group']);
+                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
 
-                            $text['translation_key'] = trim($text['translation_key']);
-                            $text['translation_group'] = trim($text['translation_group']);
-                            $text['translation_namespace'] = trim($text['translation_namespace']);
-                            $text['translation_locale'] = trim($text['translation_locale']);
-
-                            $findTranslationKey = TranslationKey::where('translation_namespace', $text['translation_namespace'])
-                                ->where('translation_group', $text['translation_group'])
-                                ->where(\DB::raw('md5(translation_key)'), md5($text['translation_key']))
+                            $findTranslationKey = TranslationKey::where('translation_namespace', $newKey['translation_namespace'])
+                                ->where('translation_group', $newKey['translation_group'])
+                                ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
                                 ->first();
                             if ($findTranslationKey == null) {
-
-                                unset($text['translation_text']);
-                                unset($text['translation_locale']);
-
-                                 $toSave[] = $text;
-                               // Translation::insert($text);
+                                 $toSave[] = $newKey;
                             }
                         }
                         if ($toSave) {
@@ -81,7 +70,6 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                      }
                 }
             });
-
         }
     }
 
