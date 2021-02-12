@@ -41,7 +41,7 @@ class FormServiceProvider extends ServiceProvider
             return new FieldsManager();
         });
 
-        Validator::extendImplicit('valid_image', 'MicroweberPackages\Form\Validators\ImageValidator@validate', _e('Invalid image file', true));
+        Validator::extendImplicit('valid_image', 'MicroweberPackages\Form\Validators\ImageValidator@validate', 'Invalid image file');
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
         $this->loadRoutesFrom(__DIR__ . '/../routes/api_public.php');

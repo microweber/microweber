@@ -17,6 +17,7 @@ use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
+use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
@@ -504,7 +505,8 @@ class AppServiceProvider extends ServiceProvider
 
 
         if (mw_is_installed()) {
-            $this->app->event_manager->trigger('mw.after.boot', $this);
+
+             $this->app->event_manager->trigger('mw.after.boot', $this);
         }
 
         // >>> MW Kernel add
