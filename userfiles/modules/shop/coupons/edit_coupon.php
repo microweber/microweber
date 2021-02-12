@@ -37,54 +37,54 @@ if ($params['coupon_id'] !== 'false') {
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
     <div class="form-group">
-        <label class="control-label">Coupon name</label>
-        <small class="text-muted d-block mb-2">Enter the name of your coupone code.</small>
+        <label class="control-label"><?php _e("Coupon name"); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e("Enter the name of your coupone code."); ?></small>
         <input type="text" name="coupon_name" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
-        <label class="control-label">Code</label>
-        <small class="text-muted d-block mb-2">Enter the discount code or generate it from the button bellow.</small>
+        <label class="control-label"><?php _e("Code"); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e("Enter the discount code or generate it from the button bellow."); ?></small>
         <input type="text" name="coupon_code" class="form-control js-coupon-code js-validation" value="<?php print $data['coupon_code'] ?>"/>
         <div class="js-field-message"></div>
         <br/>
-        <button type="button" class="btn btn-outline-primary btn-sm js-generate-new-promo-code">Generate New Promo Code</button>
+        <button type="button" class="btn btn-outline-primary btn-sm js-generate-new-promo-code"><?php _e("Generate New Promo Code"); ?></button>
     </div>
 
     <div class="form-group">
-        <label class="control-label">Discount Type</label>
-        <small class="text-muted d-block mb-2">Choose the type of discount which can be fixed price or percentage of the price.</small>
+        <label class="control-label"><?php _e("Discount Type"); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e("Choose the type of discount which can be fixed price or percentage of the price."); ?></small>
         <select name="discount_type" class="js-discount-type selectpicker" data-width="100%">
-            <option value="percentage">Percentage</option>
-            <option value="fixed_amount">Fixed Amount</option>
+            <option value="percentage"><?php _e("Percentage"); ?></option>
+            <option value="fixed_amount"><?php _e("Fixed Amount"); ?></option>
         </select>
     </div>
 
     <div class="form-group">
-        <label class="control-label">Discount</label>
-        <small class="text-muted d-block mb-2">Enter the value of your discount.</small>
+        <label class="control-label"><?php _e("Discount"); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e("Enter the value of your discount."); ?></small>
         <input type="text" name="discount_value" class="form-control js-validation js-validation-float-number" value="<?php print $data['discount_value'] ?>"/>
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
-        <label class="control-label">Minimum Order Amount</label>
-        <small class="text-muted d-block mb-2">Apply the discount when the cart amount is more than the value of the coupone code.</small>
+        <label class="control-label"><?php _e("Minimum Order Amount"); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e("Apply the discount when the cart amount is more than the value of the coupone code."); ?></small>
         <input type="text" name="total_amount" class="form-control js-validation js-validation-float-number" value="<?php print $data['total_amount'] ?>"/>
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
-        <label class="control-label">Uses Per Coupon</label>
-        <small class="text-muted d-block mb-2" title="">How many times can this coupone can be used.</small>
+        <label class="control-label"><?php _e("Uses Per Coupon"); ?></label>
+        <small class="text-muted d-block mb-2" title=""><?php _e("How many times can this coupone can be used."); ?></small>
         <input type="text" name="uses_per_coupon" class="form-control js-validation js-validation-number" value="<?php print $data['uses_per_coupon'] ?>"/>
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
-        <label class="control-label">Uses Per Customer</label>
-        <small class="text-muted d-block mb-2">How many times every client can use the coupone code.</small>
+        <label class="control-label"><?php _e("Uses Per Customer"); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e("How many times every client can use the coupone code."); ?></small>
         <input type="text" name="uses_per_customer" class="form-control js-validation js-validation-number" value="<?php print $data['uses_per_customer'] ?>"/>
         <div class="js-field-message"></div>
     </div>
@@ -92,9 +92,9 @@ if ($params['coupon_id'] !== 'false') {
     <div class="form-group">
         <div class="custom-control custom-switch">
             <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-            <label class="custom-control-label" for="is_active">Active</label>
+            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
         </div>
-        <small class="text-muted d-block mb-2" title="">Is the discount active or not.</small>
+        <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>
     </div>
 
     <hr class="thin">
@@ -102,12 +102,12 @@ if ($params['coupon_id'] !== 'false') {
     <div class="d-flex justify-content-between">
         <?php if (!$addNew) { ?>
             <div>
-                <a class="btn btn-outline-danger btn-sm" href="javascript:deleteCoupon('<?php print $data['id'] ?>')">Delete</a>
+                <a class="btn btn-outline-danger btn-sm" href="javascript:deleteCoupon('<?php print $data['id'] ?>')"><?php _e("Delete"); ?></a>
             </div>
         <?php } ?>
 
         <div>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="editModal.modal.remove()">Cancel</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
             <button type="button" class="btn btn-success btn-sm js-save-coupon">Save</button>
         </div>
     </div>

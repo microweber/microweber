@@ -4,10 +4,10 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Coupon</th>
-            <th>Code</th>
-            <th>Discount</th>
-            <th>Total</th>
+            <th><?php print _e('Coupon'); ?></th>
+            <th><?php print _e('Code'); ?></th>
+            <th><?php print _e('Discount'); ?></th>
+            <th><?php print _e('Total'); ?></th>
             <th  class="text-center"><?php print _e('Actions'); ?></th>
         </tr>
         </thead>
