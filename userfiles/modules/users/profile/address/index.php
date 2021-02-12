@@ -9,7 +9,6 @@ if (empty($user)) {
 }
 
 
-
 $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
 
 $name = '';
@@ -27,42 +26,42 @@ if ($findCustomer) {
 }
 
 $billing_address = [
-  'name'=>'',
-  'company_name'=>'',
-  'company_id'=>'',
-  'company_vat'=>'',
-  'company_vat_registered'=>'',
-  'address_street_1'=>'',
-  'address_street_2'=>'',
-  'city'=>'',
-  'zip'=>'',
-  'state'=>'',
-  'country_id'=>'',
+    'name' => '',
+    'company_name' => '',
+    'company_id' => '',
+    'company_vat' => '',
+    'company_vat_registered' => '',
+    'address_street_1' => '',
+    'address_street_2' => '',
+    'city' => '',
+    'zip' => '',
+    'state' => '',
+    'country_id' => '',
 ];
 $shipping_address = [
-    'name'=>'',
-    'company_name'=>'',
-    'company_id'=>'',
-    'company_vat'=>'',
-    'company_vat_registered'=>'',
-    'address_street_1'=>'',
-    'address_street_2'=>'',
-    'city'=>'',
-    'zip'=>'',
-    'state'=>'',
-    'country_id'=>'',
+    'name' => '',
+    'company_name' => '',
+    'company_id' => '',
+    'company_vat' => '',
+    'company_vat_registered' => '',
+    'address_street_1' => '',
+    'address_street_2' => '',
+    'city' => '',
+    'zip' => '',
+    'state' => '',
+    'country_id' => '',
 ];
 
 if ($findCustomer) {
     $findAddressBilling = \MicroweberPackages\Customer\Models\Address::where('type', 'billing')->where('customer_id', $findCustomer->id)->first();
     if ($findAddressBilling) {
-        foreach ($findAddressBilling->toArray() as $addressKey=>$addressValue) {
+        foreach ($findAddressBilling->toArray() as $addressKey => $addressValue) {
             $billing_address[$addressKey] = $addressValue;
         }
     }
     $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
     if ($findAddressShipping) {
-        foreach ($findAddressShipping->toArray() as $addressKey=>$addressValue) {
+        foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {
             $shipping_address[$addressKey] = $addressValue;
         }
     }
@@ -76,22 +75,47 @@ if ($getCountries->count() > 0) {
     $countries = $getCountries->toArray();
 }
 
+$disabledCountriesForShipping = [];
+
+
+if ($countries) {
+    $shippingModule = app()->shipping_manager->getDefaultDriver();
+    if (method_exists($shippingModule, 'getCountries')) {
+        $countriesFromShippingDriver = $shippingModule->getCountries();
+        if ($countriesFromShippingDriver) {
+            foreach ($countries as $countries_key => $countries_val) {
+                $found = false;
+                foreach ($countriesFromShippingDriver as $enabledCountry) {
+                    if ($countries_val["name"] == $enabledCountry) {
+                        $found = true;
+                    }
+                }
+                if(!$found){
+                    unset($countries[$countries_key]);
+                }
+
+            }
+        }
+
+     }
+}
+
+
 // Template settings
-$module_template = get_module_option('data-template',$params['id']);
-if($module_template == false and isset($params['template'])){
-    $module_template =$params['template'];
+$module_template = get_module_option('data-template', $params['id']);
+if ($module_template == false and isset($params['template'])) {
+    $module_template = $params['template'];
 }
 
-if($module_template != false){
-    $template_file = module_templates( $config['module'], $module_template);
-}
-else {
-    $template_file = module_templates( $config['module'], 'default');
+if ($module_template != false) {
+    $template_file = module_templates($config['module'], $module_template);
+} else {
+    $template_file = module_templates($config['module'], 'default');
 }
 
-if(isset($template_file) and is_file($template_file) != false){
+if (isset($template_file) and is_file($template_file) != false) {
     include($template_file);
 } else {
-    $template_file = module_templates( $config['module'], 'default');
+    $template_file = module_templates($config['module'], 'default');
     include($template_file);
 }

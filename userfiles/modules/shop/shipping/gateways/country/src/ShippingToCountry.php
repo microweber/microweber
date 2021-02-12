@@ -27,12 +27,14 @@ class ShippingToCountry implements ShippingDriverInterface
 
     public function cost()
     {
-
         return (new shipping_to_country())->get_cost();
-
-        //return 1110;
     }
 
+
+    public function getCountries()
+    {
+        return (new shipping_to_country())->get_available_countries();
+    }
 
 //    public function cost($params=[])
 //    {

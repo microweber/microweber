@@ -40,7 +40,7 @@ class shipping_to_country
 
 
         // $defined_cost = $this->app->user_manager->session_get('shipping_cost');
-        $shipping_country_name = $shipping_country_session =  $this->app->user_manager->session_get('shipping_country');
+        $shipping_country_name = $shipping_country_session = $this->app->user_manager->session_get('shipping_country');
 
         if ($shipping_country_name == false and is_logged()) {
             $shipping_address_from_profile = app()->user_manager->get_shipping_address();
@@ -52,9 +52,7 @@ class shipping_to_country
 
         //if(!$shipping_country_session){
 //dd($shipping_address_from_profile);
-      //  }
-
-
+        //  }
 
 
 //        if(!$shipping_country and is_logged()){
@@ -65,7 +63,7 @@ class shipping_to_country
 //        }
 
 
-     //  var_dump($shipping_country_name);
+        //  var_dump($shipping_country_name);
 
         $defined_cost = 0;
         $is_worldwide = false;
@@ -77,7 +75,7 @@ class shipping_to_country
             }
         } else {
             $shipping_country = $this->get('one=1&is_active=1&shipping_country=' . $shipping_country_name);
-            if(!$shipping_country){
+            if (!$shipping_country) {
                 $shipping_country = $this->get('one=1&is_active=1&shipping_country=Worldwide');
                 if (is_array($shipping_country)) {
                     $is_worldwide = true;
@@ -85,7 +83,6 @@ class shipping_to_country
             }
 
         }
-
 
 
         if ($shipping_country == false) {
@@ -96,8 +93,6 @@ class shipping_to_country
 
             //
         }
-
-
 
 
         if ($shipping_country == false) {
@@ -255,10 +250,10 @@ class shipping_to_country
         }
 
 
-        if(!$shipping_country_session){
-      //  if ($is_worldwide == false) {
-       //     $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
-       // }
+        if (!$shipping_country_session) {
+            //  if ($is_worldwide == false) {
+            //     $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
+            // }
         }
 //var_dump($shipping_country);
         $this->app->user_manager->session_set('shipping_cost', $defined_cost);
@@ -366,7 +361,7 @@ class shipping_to_country
                     $active['shipping_country'] = $params['country'];
                 }
 
-                   session_set('shipping_country', $active['shipping_country']);
+                session_set('shipping_country', $active['shipping_country']);
                 $active['cost'] = $this->get_cost();
             }
         }
@@ -376,21 +371,21 @@ class shipping_to_country
                     if (is_string($k) and is_string($v)) {
                         $k = strip_tags($k);
                         $v = strip_tags($v);
-                     //  session_set('shipping_' . $k, $v);
+                        //  session_set('shipping_' . $k, $v);
                     }
                 }
 
             }
         }
 
-        $shipping_fields_keys = ['country','address', 'city', 'state', 'zip', 'other_info'];
+        $shipping_fields_keys = ['country', 'address', 'city', 'state', 'zip', 'other_info'];
         $shipping_fields_vals_session = [];
         $shipping_fields_to_save = null;
         $look_for_address_in_array = $params;
         if (isset($params['Address']) and is_array($params['Address'])) {
             $merge = $params['Address'];
             unset($params['Address']);
-            $look_for_address_in_array = array_merge($params,$merge);
+            $look_for_address_in_array = array_merge($params, $merge);
         }
 
         if (is_array($look_for_address_in_array) and !empty($look_for_address_in_array)) {
@@ -408,7 +403,7 @@ class shipping_to_country
         session_set('shipping_country', $active['shipping_country']);
         $selected_country_from_session = session_get('shipping_country');
 
-    //   session_set('shipping_country_data', $active);
+        //   session_set('shipping_country_data', $active);
 
         return $active;
 
@@ -440,6 +435,66 @@ class shipping_to_country
                 // d($indx);
             }
         }
+    }
+
+
+    public function get_available_countries()
+    {
+        $data_disabled = $this->get("is_active=0");
+        $data = $this->get("is_active=1");
+        $countries_all = mw()->forms_manager->countries_list();
+
+
+        if (is_array($data)) {
+            foreach ($data as $key => $item) {
+                if (trim(strtolower($item['shipping_country'])) == 'worldwide') {
+                    unset($data[$key]);
+                    if (is_array($countries_all)) {
+
+                        foreach ($countries_all as $countries_new) {
+                            $data[] = array('shipping_country' => $countries_new);
+                        }
+
+                    }
+                }
+            }
+
+
+        }
+
+        if (is_array($data)) {
+            foreach ($data as $key => $item) {
+                $skip = false;
+                if (is_array($data_disabled)) {
+                    foreach ($data_disabled as $item_disabled) {
+                        if (trim(strtolower($item_disabled['shipping_country'])) == 'worldwide') {
+                                foreach ($data as $key => $item) {
+                                    if ($item['shipping_country'] == $item_disabled['shipping_country']){
+                                        $skip = 1;
+                                        unset($data[$key]);
+                                    }
+                                }
+
+
+                        } else if ($item['shipping_country'] == $item_disabled['shipping_country']) {
+                            $skip = 1;
+                            unset($data[$key]);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        $ready = [];
+        if (is_array($data)) {
+            foreach ($data as $key => $item) {
+                $ready[] = $item['shipping_country'];
+            }
+        }
+
+        return $ready;
+
     }
 
 
