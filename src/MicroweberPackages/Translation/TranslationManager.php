@@ -5,6 +5,7 @@ namespace MicroweberPackages\Translation;
 use Illuminate\Translation\FileLoader;
 use MicroweberPackages\Translation\Models\Translation;
 use MicroweberPackages\Translation\Models\TranslationKey;
+use MicroweberPackages\Translation\Models\TranslationText;
 
 class TranslationManager extends FileLoader
 {
@@ -32,10 +33,14 @@ class TranslationManager extends FileLoader
 
         // Load translations from database
         if (mw_is_installed()) {
-            $getTranslations = TranslationKey::where('translation_group', $group)->where('translation_namespace', $namespace)->get();
+            $getTranslations = TranslationKey::where('translation_group', $group)
+                ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
+                ->where('translation_texts.translation_locale', $locale)
+                ->where('translation_namespace', $namespace)
+                ->get();
             if ($getTranslations !== null) {
                 foreach ($getTranslations as $translation) {
-                  //  $allTranslations[$translation->translation_key] = $translation->translation_key;
+                    $allTranslations[$translation->translation_key] = $translation->translation_text;
                 }
             }
         }
