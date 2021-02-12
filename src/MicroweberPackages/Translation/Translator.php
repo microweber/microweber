@@ -63,7 +63,7 @@ class Translator extends \Illuminate\Translation\Translator
             if ($foundedLine) {
                 return $foundedLine;
             } else {
-                echo 'This is with namespace ->' . $namespace . $group . $item .'<br />';
+                //echo 'This is with namespace ->' . $namespace . $group . $item .'<br />';
                 self::$newTexts[md5($namespace . $group . $item . $locale)] = [
                     'translation_namespace' => $namespace,
                     'translation_group' => $group,
