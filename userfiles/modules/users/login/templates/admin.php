@@ -108,11 +108,16 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="text-muted"><?php _e("Language"); ?>:</label>
-                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($current_lang != 'en' and $current_lang != 'undefined'): ?><?php print strtoupper($current_lang); ?><?php else: ?>EN<?php endif; ?>">
-                                                    <?php
-                                                    $langs = get_available_languages(); ?>
-                                                    <?php foreach ($langs as $lang): ?>
-                                                        <option value="<?php print $lang; ?>" <?php if ($selected_lang == $lang) { ?> selected <?php } ?>><?php print strtoupper($lang); ?></option>
+
+                                                <?php
+                                                $tm = new \MicroweberPackages\Translation\TranslationHelper();
+                                                $langs = $tm->getAvailableTranslations();
+                                                ?>
+
+                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($current_lang != 'en' and $current_lang != 'undefined'): ?><?php print \MicroweberPackages\Translation\IntlLocale::getDisplayLanguage($current_lang); ?><?php else: ?>English<?php endif; ?>">
+
+                                                    <?php foreach ($langs as $langKey=>$langValue): ?>
+                                                        <option value="<?php print $langKey; ?>" <?php if ($selected_lang == $langKey) { ?> selected <?php } ?>><?php print $langValue; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
