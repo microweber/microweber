@@ -1,7 +1,4 @@
 
-
-
-
 mw.admin = {
     language: function(language) {
         $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})

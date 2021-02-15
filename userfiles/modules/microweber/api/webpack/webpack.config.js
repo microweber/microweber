@@ -27,7 +27,7 @@ const liveedit = [
     'tools/widgets',
     'tools/system-tools',
     'widgets',
-    'gui-css-edito'
+    'gui-css-editor'
 ];
 
 const admin = [
@@ -44,10 +44,11 @@ const config = {
         aggregateTimeout: 600
     },
     entry: {
-        'site-libs.js': input + '/entrylibs/prod.js',
+        'site-libs.js': input + '/entrylibs/site-libs.js',
         'liveedit-libs.js': input + '/entrylibs/liveedit.js',
         'admin-libs.js': input + '/entrylibs/admin.js',
-        'prod.js': glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
+
+        'site.js': glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
         'liveedit.js': glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`)),
         'admin.js': glob.sync(path.resolve(`${input}/{${admin.join(',')}}/*.js`)),
         'gui-css-editor.js': glob.sync(path.resolve(`${input}/{${guiEditor.join(',')}}/*.js`)),

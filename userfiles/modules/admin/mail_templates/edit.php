@@ -50,7 +50,6 @@ if (!empty($template_id)) {
 </script>
 
 <?php // _e("These values will be replaced with the actual content"); ?>
-<script>mw.require('editor.js')</script>
 <script>
 
     MWEditor.controllers.mailTemplateFormDropdownVariables = function (scope, api, rootScope, data) {

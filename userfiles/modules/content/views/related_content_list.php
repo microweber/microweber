@@ -51,62 +51,26 @@ if ($content) {
 
 <script>
 
-    function mw_admin_add_related_content_to_content_id($content_id, $related_content_id) {
-
-
-        var relate_to = {}
-        relate_to.content_id = $content_id;
-        relate_to.related_content_id = $related_content_id;
-
-
-        $.ajax({
-            method: 'post',
-            url: mw.settings.api_url + 'content/related_content/add',
-            data: relate_to
-        }).done(function () {
-            mw_admin_edit_related_content_after_edit()
-
-        });
-
-
-    }
-
-
-    function mw_admin_remove_related_content_by_related_id($id) {
-
+    function removeRelatedContentByRelatedId($id) {
         if (confirm("Are you sure?")) {
-            var relate_to = {}
-            relate_to.id = $id;
-
-
             $.ajax({
                 method: 'post',
                 url: mw.settings.api_url + 'content/related_content/remove',
-                data: relate_to
+                data: {
+                    id: $id
+                }
             }).done(function () {
-                mw_admin_edit_related_content_after_edit()
-
+                relatedContentAfterEdit()
             });
-
-
-            // $.post(mw.settings.api_url + 'content/related_content/remove', relate_to, function (msg) {
-            //
-            //
-            //     mw_admin_edit_related_content_after_edit()
-            // });
         }
-
-
     }
 
-    mw_admin_edit_related_content_after_edit = function () {
+    function relatedContentAfterEdit() {
         mw.reload_module('content/views/related_content_list');
         mw.reload_module_everywhere('posts');
         mw.reload_module_everywhere('shop/products');
         mw.reload_module_everywhere('content');
         mw.reload_module_everywhere('pages');
-        //  mw.reload_module('#mw-admin-select-related-content-list');
-
     }
 
     $(document).ready(function () {
@@ -120,18 +84,14 @@ if ($content) {
                     var id = this.attributes['value'].nodeValue;
                     obj.ids.push(id);
                 });
-
-
                 $.ajax({
                     method: 'post',
                     url: mw.settings.api_url + 'content/related_content/reorder',
                     data: obj
                 }).done(function () {
-                    mw_admin_edit_related_content_after_edit()
+                    relatedContentAfterEdit()
 
                 });
-
-
             },
             start: function (a, ui) {
                 $(this).height($(this).outerHeight());
@@ -157,8 +117,18 @@ if ($content) {
         });
 
         $(search_for_related_content_field<?php print $rand ?>).on("change", function (e, val) {
-            if (val[0].id != undefined) {
-                mw_admin_add_related_content_to_content_id('<?php print $content_id ?>', val[0].id);
+            if (val[0].id) {
+                var relate_to = {
+                    content_id: '<?php print $content_id ?>';
+                    related_content_id: val[0].id;
+                };
+                $.ajax({
+                    method: 'post',
+                    url: mw.settings.api_url + 'content/related_content/add',
+                    data: relate_to
+                }).done(function () {
+                    relatedContentAfterEdit()
+                });
             }
         })
     });
@@ -181,7 +151,7 @@ if ($content) {
             <br>
         </div>
     <?php } else { ?>
-        <table class="table table-hover table-sm  " id="mw-admin-related-content-edit-sort<?php print $rand ?>">
+        <table class="table table-hover table-sm " id="mw-admin-related-content-edit-sort<?php print $rand ?>">
             <style scoped>
                 tr {
                     cursor: pointer;
@@ -209,13 +179,12 @@ if ($content) {
                     </td>
                     <td class="align-middle"><?php print content_title($related_cont['related_content_id']) ?></td>
                     <td class="align-middle" style="width: 20px">
-
                         <a href="<?php print content_link($related_cont['related_content_id']) ?>" target="_blank"
                            class="btn btn-link"><i class="mdi mdi-link"></i></a>
                     </td>
                     <td class="align-middle" style="width: 20px">
                         <a href="javascript:;"
-                           onclick="mw_admin_remove_related_content_by_related_id(<?php print ($related_cont['id']) ?>);"
+                           onclick="removeRelatedContentByRelatedId(<?php print ($related_cont['id']) ?>);"
                            class="btn btn-link"><i class="mdi text-danger mdi-delete"></i></a>
                     </td>
                 </tr>
@@ -223,5 +192,3 @@ if ($content) {
         </table>
     <?php } ?>
 </div>
-
-
