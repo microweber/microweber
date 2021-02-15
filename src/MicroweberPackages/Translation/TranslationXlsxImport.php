@@ -19,28 +19,28 @@ class TranslationXlsxImport
         if (isset($data['content'])) {
             foreach ($data['content'] as $translation) {
 
-                $getTranslation = TranslationKey::where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
+                $getTranslationKey = TranslationKey::where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
                     ->where('translation_namespace', $translation['translation_namespace'])
                     ->where('translation_group', $translation['translation_group'])
                     ->first();
 
-                if ($getTranslation == null) {
-                    $getTranslation = new TranslationKey();
-                    $getTranslation->translation_key = $translation['translation_key'];
-                    $getTranslation->translation_namespace = $translation['translation_namespace'];
-                    $getTranslation->translation_group = $translation['translation_group'];
+                if ($getTranslationKey == null) {
+                    $getTranslationKey = new TranslationKey();
+                    $getTranslationKey->translation_key = $translation['translation_key'];
+                    $getTranslationKey->translation_namespace = $translation['translation_namespace'];
+                    $getTranslationKey->translation_group = $translation['translation_group'];
                 }
-                $getTranslation->save();
+                $getTranslationKey->save();
 
                 // Get translation text
-                $getTranslationText = TranslationText::where('translation_key_id', $getTranslation->id)
+                $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
                     ->where('translation_locale', $translation['translation_locale'])
                     ->first();
 
                 // Save new translation text
                 if ($getTranslationText == null) {
                     $getTranslationText = new TranslationText();
-                    $getTranslationText->translation_key_id = $getTranslation->id;
+                    $getTranslationText->translation_key_id = $getTranslationKey->id;
                     $getTranslationText->translation_locale = $translation['translation_locale'];
                 }
 

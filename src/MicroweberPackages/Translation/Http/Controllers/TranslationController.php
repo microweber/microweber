@@ -11,8 +11,8 @@ namespace MicroweberPackages\Translation\Http\Controllers;
 use Illuminate\Http\Request;
 use MicroweberPackages\Backup\Exporters\JsonExport;
 use MicroweberPackages\Backup\Exporters\XlsxExport;
-use MicroweberPackages\Translation\Models\Translation;
 use MicroweberPackages\Translation\Models\TranslationKey;
+use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationXlsxImport;
 
 class TranslationController {
@@ -122,31 +122,34 @@ class TranslationController {
        if (!empty($saveTranslations)) {
            foreach($saveTranslations as $translation) {
 
-               $findTranslataion = Translation::
+               $getTranslationKey = TranslationKey::
                     where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
-                   ->where('translation_locale', $translation['translation_locale'])
                    ->where('translation_group', $translation['translation_group'])
                    ->where('translation_namespace', $translation['translation_namespace'])
                   ->first();
 
-               if ($findTranslataion == null) {
-                   $findTranslataion = new Translation();
-                   $findTranslataion->translation_locale = $translation['translation_locale'];
-                   $findTranslataion->translation_key = $translation['translation_key'];
-                   $findTranslataion->translation_namespace = $translation['translation_namespace'];
-                   $findTranslataion->translation_group = $translation['translation_group'];
+               if ($getTranslationKey == null) {
+                   $getTranslationKey = new TranslationKey();
+                   $getTranslationKey->translation_key = $translation['translation_key'];
+                   $getTranslationKey->translation_namespace = $translation['translation_namespace'];
+                   $getTranslationKey->translation_group = $translation['translation_group'];
+               }
+               $getTranslationKey->save();
+
+               // Get translation text
+               $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
+                   ->where('translation_locale', $translation['translation_locale'])
+                   ->first();
+
+               // Save new translation text
+               if ($getTranslationText == null) {
+                   $getTranslationText = new TranslationText();
+                   $getTranslationText->translation_key_id = $getTranslationKey->id;
+                   $getTranslationText->translation_locale = $translation['translation_locale'];
                }
 
-               $findTranslataion->translation_text = trim($translation['translation_text']);
-               $findTranslataion->save();
-
-               // Delete dublicates if exists
-               Translation::where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
-                   ->where('translation_locale', $translation['translation_locale'])
-                   ->where('translation_group', $translation['translation_group'])
-                   ->where('translation_namespace', $translation['translation_namespace'])
-                   ->where('id','!=', $findTranslataion->id)
-                   ->delete();
+               $getTranslationText->translation_text = $translation['translation_text'];
+               $getTranslationText->save();
 
            }
        }
