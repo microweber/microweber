@@ -11,13 +11,14 @@ namespace MicroweberPackages\Translation;
 use MicroweberPackages\Backup\Readers\XlsxReader;
 use MicroweberPackages\Translation\Locale\IntlLocale;
 
-class TranslationHelper {
+class TranslationHelper
+{
 
     public static function getAvailableTranslations()
     {
         $translations = [];
 
-        $langFolder = __DIR__ .  '/resources/lang_xlsx/';
+        $langFolder = __DIR__ . '/resources/lang_xlsx/';
 
         foreach (glob($langFolder . '*.xlsx') as $filename) {
             $item = basename($filename);
@@ -25,12 +26,22 @@ class TranslationHelper {
             $translations[$item] = IntlLocale::getDisplayLanguage($item);
         }
 
+        if ($translations) {
+            uksort($translations, function ($a, $b) {
+                if (stristr($a, 'en_')) {
+                    return 0;
+                }
+                return 1;
+            });
+        }
+
         return $translations;
     }
 
-    public static function installLanguage($locale) {
+    public static function installLanguage($locale)
+    {
 
-        $file = __DIR__ .  '/resources/lang_xlsx/'.$locale.'.xlsx';
+        $file = __DIR__ . '/resources/lang_xlsx/' . $locale . '.xlsx';
 
         if (is_file($file)) {
 
