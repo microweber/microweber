@@ -9,9 +9,6 @@
         });
     });
 </script>
-<h3>UI Colors</h3>
-
-
 <?php
 $default_vars = [
     'white' => '#fff',
@@ -30,20 +27,13 @@ $default_vars = [
     'body-bg' => '#fff',
     'body-color' => '#212529'
 ];
-
-
-
-
-
-
 $schemes = ['litera','cosmo'];
-
 ?>
 <?php $selected_admin_scheme =  get_option('admin_color_scheme_name', 'website');
 
  ?>
 <div class="form-group">
-    <label for="admin_color_scheme_name">Color Scheme</label>
+    <label class="control-label" for="admin_color_scheme_name">Color Scheme</label>
     <select name="admin_color_scheme_name" class="form-control js-color-admin-change mw_option_field" id="admin_color_scheme_name" option-group="website">
         <option value="">none</option>
 <?php foreach ($schemes as $scheme_name){ ?>

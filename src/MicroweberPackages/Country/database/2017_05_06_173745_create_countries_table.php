@@ -14,7 +14,6 @@ class CreateCountriesTable extends Migration
     public function up()
     {
         Schema::create('countries', function (Blueprint $table) {
-           $table->engine = 'InnoDB';
            $table->increments('id')->index();
            $table->string('code')->nullable();
            $table->string('name')->nullable();

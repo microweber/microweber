@@ -62,7 +62,6 @@ use MicroweberPackages\Utils\Http\Http;
  * @property OptionManager                 $option_manager
  * @property CacheManager                  $cache_manager
  * @property UserManager                   $user_manager
- * @property ModuleManager                       $modules_manager
  * @property DatabaseManager              $database_manager
  * @property NotificationsManager          $notifications_manager
  * @property LayoutsManager                $layouts_manager

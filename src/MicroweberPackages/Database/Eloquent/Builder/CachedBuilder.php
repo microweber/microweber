@@ -36,6 +36,14 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     protected $cacheSeconds = 3600; // 1 hour
 
     /**
+     * Is cache disabled
+     *
+     * @var boolean
+     */
+    protected $cacheIsDisabled = false;
+
+
+    /**
      * Execute the query as a "select" statement.
      *
      * @param  array|string $columns
@@ -44,6 +52,10 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function get($columns = ['*'])
     {
         $is_disabled = \Config::get('microweber.disable_model_cache');
+
+        if(!$is_disabled){
+            $is_disabled = $this->cacheIsDisabled;
+        }
 
         if (!$is_disabled) {
             $cacheKey = $this->getCacheKey($columns);
@@ -102,6 +114,13 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
 //        return $query;
 //    }
 
+
+
+
+    public function disableCache($isDisabled=true)
+    {
+        return $this->cacheIsDisabled  = $isDisabled;
+    }
 
     /**
      * Get a unique cache key for the complete query.

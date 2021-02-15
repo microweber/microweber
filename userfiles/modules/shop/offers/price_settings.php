@@ -11,7 +11,7 @@ $curr_symbol = mw()->shop_manager->currency_symbol();
 $price_id = $params['price-id'];
 $product_id = $params['product-id'];
 
- 
+
 $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : false);
 ?>
 <?php if ($offers_enabled) { ?>
@@ -75,8 +75,6 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
                 });
             }
         }
-
-
     </script>
 <?php } ?>
 <?php if ($offers_enabled) {
@@ -88,33 +86,24 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
         $is_offer_set = true;
     }
 
-
-
     ?>
-    <div class="mw-ui-field-holder offer-checkbox" style="display:<?php print ($is_offer_set ? 'none' : 'block'); ?>;">
-        <label class="mw-ui-inline-label">
-            <input type="checkbox" class="mw_option_field" name="offer_set"
-                   value="1" <?php if ($is_offer_set) print 'checked="checked"'; ?> onclick="toggleOffer(this);">
-            <?php _e('Set offer price') ?></label>
+    <div class="custom-control custom-checkbox offer-checkbox" style="display:<?php print ($is_offer_set ? 'none' : 'block'); ?>;">
+        <input type="checkbox" class="custom-control-input mw_option_field" name="offer_set" id="customCheck1" value="1" <?php if ($is_offer_set) print 'checked="checked"'; ?> onclick="toggleOffer(this);">
+        <label class="custom-control-label" for="customCheck1"><?php _e('Set offer price') ?></label>
     </div>
 
     <div class="mw-ui-field-holder offer-value" style="display:<?php print ($is_offer_set ? 'block' : 'none'); ?>;">
-        <label class="mw-ui-label" for="offer"><?php _e('New price') ?> <b><?php print $curr_symbol; ?> </b></label>
+        <label class="control-label" for="offer"><?php _e('New price') ?> <b><?php print $curr_symbol; ?> </b></label>
+        <?php if ($is_offer_set): ?>
+            <a href="#" onclick="deleteOffer('<?php print $offer['id']; ?>')"><span class="text-danger">Delete</span></a>
+        <?php endif; ?>
         <input type="text"
-               class="mw-ui-field"
+               class="form-control"
                name="offer"
                value="<?php print ($is_offer_set ? floatval($offer['offer_price']) : ''); ?>"
                data-product-id="<?php print $product_id; ?>"
                data-price-id="<?php print $price_id; ?>"
                data-offer-id="<?php print ($is_offer_set ? $offer['id'] : ''); ?>"
                onblur="saveOffer(this)"/>
-
-
-
-
-        <?php if ($is_offer_set): ?>
-            <a href="#" onclick="deleteOffer('<?php print $offer['id']; ?>')">x</a>
-        <?php endif; ?>
-
     </div>
 <?php } ?>

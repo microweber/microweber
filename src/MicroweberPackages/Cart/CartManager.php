@@ -92,7 +92,6 @@ class CartManager extends Crud
 //        }
 
 
-
 //        $shipping_data = [];
 //        $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
 //        if(!isset($shipping_data['shipping_gw']) and $shipping_gw_from_session){
@@ -107,9 +106,6 @@ class CartManager extends Crud
 //                unset($shipping_data['shipping_gw']);
 //            }
 //        }
-
-
-
 
 
         // Coupon code discount
@@ -172,14 +168,14 @@ class CartManager extends Crud
 
                 case 'shipping':
 
-                    if($shipping_modules){
-                         if ($shipping_cost and $shipping_cost > 0) {
+                    if ($shipping_modules) {
+                        if ($shipping_cost and $shipping_cost > 0) {
                             $totals[$total_key] = array(
                                 'label' => _e("Shipping", true),
                                 'value' => $shipping_cost,
                                 'amount' => currency_format($shipping_cost)
                             );
-                         }
+                        }
                     }
 
 
@@ -962,5 +958,23 @@ class CartManager extends Crud
         return $this->table;
     }
 
+
+    public function is_product_in_stock($content_id)
+    {
+
+        $item = content_data($content_id);
+        $isInStock = true;
+        if ($item) {
+                if (isset($item['qty']) and $item['qty'] != 'nolimit' ) {
+                    $quantity =intval( $item['qty']);
+                    if ($quantity < 1) {
+                        $isInStock = false;
+                    }
+                }
+
+        }
+
+        return $isInStock;
+    }
 
 }

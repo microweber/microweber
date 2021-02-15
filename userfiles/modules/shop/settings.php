@@ -95,7 +95,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
                     <div class="col-12 col-sm-6 col-lg-4">
                         <a href="#option_group=shop/orders/settings/other" class="d-flex my-3">
-                            <div class="icon-holder"><i class="mdi mdi-cog mdi-20px"></i></div>
+                            <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-primary font-weight-bold"><?php _e('Other settings'); ?></span><br/>
                                 <small class="text-muted"><?php _e("Other settings"); ?></small>

@@ -31,7 +31,7 @@ class CaptchaManagerServiceProvider extends ServiceProvider
             return new CaptchaManager();
         });
 
-        Validator::extendImplicit('captcha', 'MicroweberPackages\Utils\Captcha\Validators\CaptchaValidator@validate', __('Invalid captcha answer!'));
+        Validator::extendImplicit('captcha', 'MicroweberPackages\Utils\Captcha\Validators\CaptchaValidator@validate', 'Invalid captcha answer!');
 
     }
 }

@@ -659,27 +659,23 @@
                                                     </div>
                                                 </div>
 
-                                                <?php
-
-                                                /*<div class="col-md-4">
-                                                    <?php $current_lang = current_lang(); ?>
+                                                <div class="col-md-12">
+                                                    <b><?php _e('Website Default Language'); ?></b>
+                                                    <small class="text-muted d-block mb-2"><?php _e('Choose the language you want to start with.'); ?></small>
+                                                    <?php $currentLang = current_lang(); ?>
                                                     <div class="form-group">
+                                                        <?php
+                                                        $tm = new \MicroweberPackages\Translation\TranslationHelper();
+                                                        $langs = $tm->getAvailableTranslations();
+                                                        ?>
                                                         <select name="site_lang" class="form-control" tabindex="8">
-                                                            <?php if ($current_lang != 'en'): ?>
-                                                                <option value="<?php print strtoupper($current_lang); ?>"><?php print strtoupper($current_lang); ?></option>
-                                                            <?php else: ?>
-                                                                <option value="en">EN</option>
-                                                            <?php endif; ?>
-
-                                                            <?php $langs = get_available_languages(); ?>
-                                                            <?php foreach ($langs as $lang): ?>
-                                                                <option value="<?php print $lang; ?>"><?php print strtoupper($lang); ?></option>
+                                                            <?php foreach ($langs as $langKey=>$langValue): ?>
+                                                                <option value="<?php echo $langKey; ?>"><?php echo $langValue; ?></option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                </div>*/
+                                                </div>
 
-                                                ?>
                                             </div>
                                         </div>
 

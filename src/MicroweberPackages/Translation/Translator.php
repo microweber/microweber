@@ -5,7 +5,7 @@ namespace MicroweberPackages\Translation;
 
 class Translator extends \Illuminate\Translation\Translator
 {
-    public static $newTexts = [];
+    public static $newKeys = [];
 
     /**
      * Get the translation for the given key.
@@ -35,22 +35,11 @@ class Translator extends \Illuminate\Translation\Translator
             [$namespace, $group, $item] = $this->parseKey($key);
 
             if (empty($item)) {
-               // echo 'This is without namespace, only key ->'.$key . '<br />';
-                self::$newTexts[md5($key. $locale)] = [
+                // echo 'This is without namespace, only key ->'.$key . '<br />';
+                self::$newKeys[md5($key . '**')] = [
                     'translation_namespace' => '*',
                     'translation_group' => '*',
-                    'translation_key' => $key,
-                    'translation_text' => $key,
-                    'translation_locale' => $locale,
-                ];
-            } else {
-                // echo This is with namespace ->' . $namespace . $group . $item .'<br />';
-                self::$newTexts[md5($namespace. $group. $item. $locale)] = [
-                    'translation_namespace' => $namespace,
-                    'translation_group' => $group,
-                    'translation_key' => $item,
-                    'translation_text' => $item,
-                    'translation_locale' => $locale,
+                    'translation_key' => $key
                 ];
             }
 
@@ -59,12 +48,25 @@ class Translator extends \Illuminate\Translation\Translator
             // the translator was instantiated. Then, we can load the lines and return.
             $locales = $fallback ? $this->localeArray($locale) : [$locale];
 
+            $foundedLine = false;
             foreach ($locales as $locale) {
-                if (! is_null($line = $this->getLine(
+                if (!is_null($line = $this->getLine(
                     $namespace, $group, $locale, $item, $replace
                 ))) {
-                    return $line;
+                    $foundedLine = $line;
+                    break;
                 }
+            }
+
+            if ($foundedLine) {
+                return $foundedLine;
+            } else {
+                //echo 'This is with namespace ->' . $namespace . $group . $item .'<br />';
+                self::$newKeys[md5($namespace . $group . $item)] = [
+                    'translation_namespace' => $namespace,
+                    'translation_group' => $group,
+                    'translation_key' => $item
+                ];
             }
         }
 
@@ -74,8 +76,8 @@ class Translator extends \Illuminate\Translation\Translator
         return $this->makeReplacements($line ?: $key, $replace);
     }
 
-    public function getNewTexts()
+    public function getNewKeys()
     {
-        return self::$newTexts;
+        return self::$newKeys;
     }
 }

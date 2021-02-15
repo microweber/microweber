@@ -143,10 +143,10 @@ if ($id == 0) {
                             ?>
 
                             <div class="form-group">
-                                <label class="control-label">Target attribute</label>
-                                <small class="text-muted d-block mb-2">Open the link in New window, Current window, Parent window or Top window</small>
+                                <label class="control-label"><?php _e("Target attribute"); ?></label>
+                                <small class="text-muted d-block mb-2"><?php _e("Open the link in New window, Current window, Parent window or Top window"); ?></small>
 
-                                <select class="selectpicker" data-width="100%" name="url_target">
+                                <select class="selectpicker" data-width="100%" data-size="4" name="url_target">
                                     <?php
                                     $attributeValues = explode("|", "|_blank|_self|_parent|_top|framename");
                                     foreach ($attributeValues as $attributeValue):
@@ -159,8 +159,8 @@ if ($id == 0) {
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label d-block">Select image for menu item</label>
-                                <small class="text-muted d-block mb-2">Attach image for the item</small>
+                                <label class="control-label d-block"><?php _e("Select image for menu item"); ?></label>
+                                <small class="text-muted d-block mb-2"><?php _e("Attach image for the item"); ?></small>
                                 <button class="btn btn-outline-primary btn-sm" onclick="toggle_menu_image_rollover_select<?php print $data['id'] ?>()"><?php _e("Select images"); ?></button>
                             </div>
                         </div>

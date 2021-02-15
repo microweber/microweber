@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
+use MicroweberPackages\Translation\TranslationHelper;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Package\ComposerUpdate;
@@ -181,7 +182,10 @@ class InstallController extends Controller
                 Config::set('microweber.admin_url', $input['admin_url']);
             }
 
+            Config::set('app.fallback_locale', 'en_US');
+
             if (isset($input['site_lang'])) {
+                Config::set('app.locale', $input['site_lang']);
                 Config::set('microweber.site_lang', $input['site_lang']);
             }
 
@@ -267,6 +271,11 @@ class InstallController extends Controller
                     }
                     $installer->logger = $this;
                     $installer->run();
+
+                    if (isset($input['site_lang'])) {
+                        $this->log('Importing the language package..');
+                        TranslationHelper::installLanguage($input['site_lang']);
+                    }
                 }
 
                 if (!$install_step or $install_step == 5) {

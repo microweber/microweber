@@ -1,10 +1,12 @@
 <?php
 namespace MicroweberPackages\Translation\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Translation\TranslationServiceProvider as IlluminateTranslationServiceProvider;
 use MicroweberPackages\Translation\Models\Translation;
+use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\TranslationManager;
 use MicroweberPackages\Translation\Translator;
 
@@ -30,33 +32,44 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
         $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 
         if (mw_is_installed()) {
-            if (!Schema::hasTable('translations')) {
-                app()->mw_migrator->run([
-                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
-                ]);
-            }
-
+//            if (!Schema::hasTable('translations')) {
+//                app()->mw_migrator->run([
+//                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
+//                ]);
+//            }
             $this->app->terminating(function () {
-                $getNewTexts = app()->translator->getNewTexts();
-                if (!empty($getNewTexts)) {
-                    foreach ($getNewTexts as $text) {
+                $getNewKeys = app()->translator->getNewKeys();
+                if (!empty($getNewKeys)) {
+                    // \Log::debug($getNewKeys);
+                    \Config::set('microweber.disable_model_cache', 1);
+                    DB::beginTransaction();
+                    try {
+                        $toSave = [];
+                        foreach ($getNewKeys as $newKey) {
+                            $newKey['translation_key'] = trim($newKey['translation_key']);
+                            $newKey['translation_group'] = trim($newKey['translation_group']);
+                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
 
-                        $text['translation_key'] = trim($text['translation_key']);
-                        $text['translation_group'] = trim($text['translation_group']);
-                        $text['translation_namespace'] = trim($text['translation_namespace']);
-                        $text['translation_locale'] = trim($text['translation_locale']);
-
-                        $findTranslation = Translation::where('translation_namespace', $text['translation_namespace'])
-                            ->where('translation_group', $text['translation_group'])
-                            ->where(\DB::raw('md5(translation_key)'), md5($text['translation_key']))
-                            ->where('translation_locale', $text['translation_locale'])->first();
-                        if ($findTranslation == null) {
-                            Translation::insert($text);
+                            $findTranslationKey = TranslationKey::where('translation_namespace', $newKey['translation_namespace'])
+                                ->where('translation_group', $newKey['translation_group'])
+                                ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
+                                ->first();
+                            if ($findTranslationKey == null) {
+                                 $toSave[] = $newKey;
+                            }
                         }
-                    }
+                        if ($toSave) {
+                            TranslationKey::insert($toSave);
+                        }
+
+                        DB::commit();
+                        // all good
+                     } catch (\Exception $e) {
+                         DB::rollback();
+                        // something went wrong
+                     }
                 }
             });
-
         }
     }
 
