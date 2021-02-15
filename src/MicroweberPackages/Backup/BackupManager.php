@@ -163,7 +163,7 @@ class BackupManager
 	public function startImport() 
 	{
         define('MW_DISABLE_MULTILANGUAGE', true);
-        
+
 		try {
 			$import = new Import();
             $import->setStep($this->importStep);
