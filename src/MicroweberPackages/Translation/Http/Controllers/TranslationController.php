@@ -11,6 +11,7 @@ namespace MicroweberPackages\Translation\Http\Controllers;
 use Illuminate\Http\Request;
 use MicroweberPackages\Backup\Exporters\JsonExport;
 use MicroweberPackages\Backup\Exporters\XlsxExport;
+use MicroweberPackages\Backup\Readers\XlsxReader;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationImport;
