@@ -28,7 +28,6 @@ use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
-use MicroweberPackages\Utils\Captcha\CaptchaManagerServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
@@ -69,6 +68,7 @@ use MicroweberPackages\Tax\TaxManagerServiceProvider;
 
 use MicroweberPackages\Tag\TagsManagerServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
+use MicroweberPackages\Utils\Captcha\Providers\CaptchaManagerServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use Spatie\Permission\PermissionServiceProvider;

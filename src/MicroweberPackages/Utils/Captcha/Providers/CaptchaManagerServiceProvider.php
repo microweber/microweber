@@ -9,14 +9,19 @@
  *
  */
 
-namespace MicroweberPackages\Utils\Captcha;
+namespace MicroweberPackages\Utils\Captcha\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
+use MicroweberPackages\Utils\Captcha\CaptchaManager;
 
 
 class CaptchaManagerServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        $this->app->register(CaptchaValidatorServiceProvider::class);
+
+    }
     /**
      * Bootstrap the application services.
      *
@@ -31,7 +36,9 @@ class CaptchaManagerServiceProvider extends ServiceProvider
             return new CaptchaManager();
         });
 
-        Validator::extendImplicit('captcha', 'MicroweberPackages\Utils\Captcha\Validators\CaptchaValidator@validate', 'Invalid captcha answer!');
+       // Validator::extendImplicit('captcha', 'MicroweberPackages\Utils\Captcha\Validators\CaptchaValidator@validate', 'Invalid captcha answer!');
+
+
 
     }
 }

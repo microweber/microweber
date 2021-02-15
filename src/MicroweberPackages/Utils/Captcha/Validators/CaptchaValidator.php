@@ -1,20 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bojidar
- * Date: 10/19/2020
- * Time: 5:28 PM
- */
+
+
 
 namespace MicroweberPackages\Utils\Captcha\Validators;
 
 use Illuminate\Validation\Validator;
 
-class CaptchaValidator {
+class CaptchaValidator extends Validator
+{
 
-    public function validate($attribute, $value, $parameters, Validator $validator) {
 
+    public function validateCaptcha($attribute, $value, $parameters)
+    {
         return app()->captcha_manager->validate($value);
+    }
+
+
+    protected function replaceCaptcha($key)
+    {
+        return _e('Invalid captcha answer!', true);
     }
 
 }
