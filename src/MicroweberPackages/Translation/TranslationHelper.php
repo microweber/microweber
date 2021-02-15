@@ -16,9 +16,9 @@ class TranslationHelper {
     {
         $translations = [];
 
-        $langFolder = __DIR__ .  '/resources/lang_json/';
+        $langFolder = __DIR__ .  '/resources/lang_xlsx/';
 
-        foreach (glob($langFolder . '*.json') as $filename) {
+        foreach (glob($langFolder . '*.xlsx') as $filename) {
             $item = basename($filename);
             $item = no_ext($item);
             $translations[$item] = IntlLocale::getDisplayLanguage($item);
@@ -32,8 +32,15 @@ class TranslationHelper {
         $file = __DIR__ .  '/resources/lang_xlsx/'.$locale.'.xlsx';
 
         if (is_file($file)) {
-            $import = new \MicroweberPackages\Translation\TranslationXlsxImport();
-            return $import->import($file);
+
+            set_time_limit(-0);
+
+            $readFile = new XlsxReader($file);
+            $data = $readFile->readData();
+            $translations = $data['content'];
+
+            $import = new \MicroweberPackages\Translation\TranslationImport();
+            return $import->import($translations);
         }
     }
 

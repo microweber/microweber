@@ -13,7 +13,7 @@ use MicroweberPackages\Backup\Exporters\JsonExport;
 use MicroweberPackages\Backup\Exporters\XlsxExport;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
-use MicroweberPackages\Translation\TranslationXlsxImport;
+use MicroweberPackages\Translation\TranslationImport;
 
 class TranslationController {
 
@@ -28,8 +28,12 @@ class TranslationController {
         $src = $request->post('src');
         $file = url2dir($src);
 
-        $import = new TranslationXlsxImport();
-        return $import->import($file);
+        $readFile = new XlsxReader($file);
+        $data = $readFile->readData();
+        $translations = $data['content'];
+
+        $import = new TranslationImport();
+        return $import->import($translations);
 
     }
 

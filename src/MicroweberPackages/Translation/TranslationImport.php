@@ -7,17 +7,17 @@ use MicroweberPackages\Backup\Readers\XlsxReader;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 
-class TranslationXlsxImport
+class TranslationImport
 {
-    public function import($file)
+    public function import($translations)
     {
-        set_time_limit(-0);
+        if (is_array($translations)) {
+            foreach ($translations as $translation) {
 
-        $readFile = new XlsxReader($file);
-        $data = $readFile->readData();
-
-        if (isset($data['content'])) {
-            foreach ($data['content'] as $translation) {
+                $translationText = trim($translation['translation_text']);
+                if (empty($translationText)) {
+                    continue;
+                }
 
                 $getTranslationKey = TranslationKey::where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
                     ->where('translation_namespace', $translation['translation_namespace'])
@@ -44,7 +44,7 @@ class TranslationXlsxImport
                     $getTranslationText->translation_locale = $translation['translation_locale'];
                 }
 
-                $getTranslationText->translation_text = $translation['translation_text'];
+                $getTranslationText->translation_text = $translationText;
                 $getTranslationText->save();
             }
 
