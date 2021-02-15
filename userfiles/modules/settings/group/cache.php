@@ -70,7 +70,7 @@
         <div class="js-toggle-content-proxy-settings" <?php if (!$static_files_delivery_method): ?> style="display: none" <?php endif; ?> >
             <div class="alert alert-dismissible alert-warning mt-3">
                 <p class="mb-0"><?php _e("Warning, this is advanced action and may break your site.
-                    Make sure you setup you domain to resolve to your website."); ?> <br>
+                    Make sure you setup your domain to resolve to your website."); ?> <br>
                     <?php _e("After that you can enter your content delivery domain name for example cdn.mydomain.com"); ?>
                 </p>
             </div>
