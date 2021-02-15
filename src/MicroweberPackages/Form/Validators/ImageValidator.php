@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bojidar
- * Date: 10/19/2020
- * Time: 5:28 PM
- */
+
 
 namespace MicroweberPackages\Form\Validators;
 
 use Illuminate\Validation\Validator;
 
-class ImageValidator {
+class ImageValidator   {
+
 
     public function validate($attribute, $value, $parameters, Validator $validator) {
 
@@ -28,7 +24,7 @@ class ImageValidator {
         $valid = false;
 
         if (is_file($filePath)) {
-           // $ext = get_file_extension($filePath);
+            // $ext = get_file_extension($filePath);
 
             if (function_exists('finfo_open') and function_exists('finfo_file')) {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
@@ -43,7 +39,7 @@ class ImageValidator {
                     $upl_mime_ext = strtolower($upl_mime_ext);
 
                     if (in_array($upl_mime_ext, $dangerous)) {
-                       return false;
+                        return false;
                     }
                 } else {
                     return false;
@@ -69,14 +65,15 @@ class ImageValidator {
                 } else {
                     $valid = false;
                 }
-                 if (!$valid) {
+                if (!$valid) {
                     @unlink($filePath);
-                   return false;
+                    return false;
                 }
             }
 
         }
         return $valid;
+
     }
 
 }
