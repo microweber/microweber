@@ -164,13 +164,13 @@ if (isset($data['created_by']) and $data['created_by']) {
     <!-- SEO Settings -->
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
-            <h6><strong>Search engine</strong></h6>
+            <h6><strong><?php _e('Search engine'); ?></strong></h6>
             <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
         </div>
 
         <div class="card-body py-0">
             <div class="collapse" id="seo-settings">
-                <small class="text-muted d-block">Add a title and description to see how this product might appear in a search engine listing</small>
+                <small class="text-muted d-block"><?php _e("Add a title and description to see how this product might appear in a search engine listing"); ?></small>
 
                 <hr class="thin no-padding"/>
 
@@ -205,8 +205,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <label><?php _e("Meta keywords"); ?>
                                 <small data-toggle="tooltip" title="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial"> (?)</small>
                             </label>
-                            <small class="text-muted d-block mb-2">Separate keywords with a comma and space</small>
-                            <textarea class="form-control" name="content_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach
+                            <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
+                            <textarea class="form-control" name="content_meta_keywords" placeholder="<?php _e('Show') ?>e.g. Summer, Ice cream, Beach
 "><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords']) ?></textarea>
                             <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
                         </div>
@@ -216,8 +216,8 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="form-group">
                             <label><?php _e("OG Images"); ?></label>
                             <small class="text-muted d-block mb-2">
-                                Those images will be shown as a post image at facebook shares.<br/>
-                                If you want to attach a og images, you must upload them to gallery from "Add media".
+                                <?php _e('Those images will be shown as a post image at facebook shares') ?>.<br/>
+                                <?php _e("If you want to attach a og images, you must upload them to gallery from 'Add media'"); ?>.
                             </small>
                         </div>
                     </div>
@@ -229,13 +229,13 @@ if (isset($data['created_by']) and $data['created_by']) {
     <!-- Advanced Settings -->
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
-            <h6><strong>Advanced settings</strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advenced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; advanced setttings</a>
+            <h6><strong><?php _e('Advanced settings') ?></strong></h6>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advenced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
         </div>
 
         <div class="card-body py-0">
             <div class="collapse" id="advenced-settings">
-                <p>Use the advanced settings to customize your blog post</p>
+                <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
 
                 <hr class="thin no-padding"/>
 

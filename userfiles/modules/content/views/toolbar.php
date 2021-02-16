@@ -170,31 +170,31 @@ if ($last_page_front != false) {
             <h5>
                 <i class="mdi mdi-post-outline text-primary mr-3"></i>
                 <strong><?php _e("Pages"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2">Add Page</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2"><?php _e("Add Page"); ?></a>
             </h5>
         <?php elseif ($act == 'posts'): ?>
             <h5>
                 <i class="mdi mdi-text text-primary mr-3"></i>
                 <strong><?php _e("Posts"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:post" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Post</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:post" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Post"); ?></a>
             </h5>
         <?php elseif ($act == 'products'): ?>
             <h5>
                 <i class="mdi mdi-shopping text-primary mr-3"></i>
                 <strong><?php _e("Products"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Product</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Product"); ?></a>
             </h5>
         <?php elseif (isset($params['is_shop'])): ?>
             <h5>
                 <span class="mdi mdi-shopping text-primary mr-3"></span>
                 <strong><?php _e("My Shop"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Product</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Product"); ?></a>
             </h5>
         <?php else: ?>
             <h5 class="d-inline-block">
                 <i class="mdi mdi-earth text-primary mr-3"></i>
                 <strong><?php _e("Website"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items">Add Page</a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Page"); ?></a>
             </h5>
         <?php endif; ?>
 
@@ -361,7 +361,7 @@ if ($last_page_front != false) {
 
                 <div class="d-inline-block ml-3">
                     <div class="js-bulk-actions" style="display: none;">
-                        <select class="selectpicker js-bulk-action" title="Bulk actions" data-style="btn-sm" data-width="auto">
+                        <select class="selectpickeFr js-bulk-action" title="<?php _e("Bulk actions"); ?>" data-style="btn-sm" data-width="auto">
 
                             <?php
                             if (user_can_access('module.content.edit')):

@@ -464,7 +464,7 @@ mw._initHandles = {
                         if(mw.cssEditorSelector){
                             mw.liveEditSelector.active(true);
                             mw.liveEditSelector.select(mw._activeElementOver);
-                        } else{
+                        } else {
                             mw.$(mw.liveEditWidgets.cssEditorInSidebarAccordion()).on('load', function () {
                                 setTimeout(function(){
                                     mw.liveEditSelector.active(true);
@@ -647,7 +647,7 @@ mw._initHandles = {
                     className:'mw_handle_module_up',
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'prev');
-                        mw.handleModule.hide()
+                        mw.handleModule.hide();
                     }
                 },
                 {
@@ -657,6 +657,23 @@ mw._initHandles = {
                     action: function () {
                         mw.drag.replace($(mw._activeModuleOver), 'next');
                         mw.handleModule.hide()
+                    }
+                },
+                {
+                    title: 'Clone',
+                    icon: 'mdi mdi-content-duplicate',
+                    className:'mw_handle_module_clone',
+                    action: function () {
+                        var html = mw._activeModuleOver.outerHTML;
+                        var el = document.createElement('div');
+                        el.innerHTML = html;
+                        $('[id]', el).each(function(){
+                            this.id = mw.id('mw-id-');
+                        });
+                        $(mw._activeModuleOver).after(el.innerHTML);
+                        var newEl = $(mw._activeModuleOver).next();
+                        mw.reload_module(newEl);
+                        mw.handleModule.hide();
                     }
                 },
                 {
@@ -714,6 +731,23 @@ mw._initHandles = {
                     className:'mw_handle_module_down',
                     action: function () {
                         mw.drag.replace($(getActiveDragCurrent()), 'next');
+                    }
+                },
+                {
+                    title: 'Clone',
+                    icon: 'mdi mdi-content-duplicate',
+                    className:'mw_handle_module_clone',
+                    action: function () {
+                        var html = mw._activeModuleOver.outerHTML;
+                        var el = document.createElement('div');
+                        el.innerHTML = html;
+                        $('[id]', el).each(function(){
+                            this.id = mw.id('mw-id-');
+                        });
+                        $(mw._activeModuleOver).after(el.innerHTML);
+                        var newEl = $(mw._activeModuleOver).next();
+                        mw.reload_module(newEl);
+                        mw.handleModule.hide();
                     }
                 },
                 {
@@ -848,7 +882,9 @@ mw._initHandles = {
             var isLayout = element && element.getAttribute('data-type') === 'layouts';
             handle.isLayout = isLayout;
             handle.handle.classList[isLayout ? 'add' : 'remove']('mw-handle-target-layout');
+            mw.$('.mw_handle_module_clone').hide();
             if(isLayout){
+                mw.$('.mw_handle_module_clone').show();
 
                 $el = mw.$(element);
                 hasedit = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst($el[0].parentNode,['edit', 'module']);

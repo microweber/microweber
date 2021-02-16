@@ -16,9 +16,9 @@
         <div class="col-md-8">
             <div class="card style-1 mb-3">
                 <div class="card-header">
-                    <h5><i class="mdi mdi-text text-primary mr-3"></i> <strong>Add post</strong></h5>
+                    <h5><i class="mdi mdi-text text-primary mr-3"></i> <strong><?php _e("Add post"); ?></strong></h5>
                     <div>
-                        <button type="button" class="btn btn-sm btn-success">Save</button>
+                        <button type="button" class="btn btn-sm btn-success"><?php _e("Save"); ?></button>
                     </div>
                 </div>
 
@@ -26,13 +26,13 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label>Post title</label>
+                                <label><?php _e("Post title"); ?></label>
                                 <input type="text" class="form-control" placeholder="e.g. Share your last story">
-                                <span><i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i> <small><span class="text-silver">http://localhost/microweber/</span><span class="contenteditable" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true">shop</span></small></span>
+                                <span><i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i> <small><span class="text-silver">http://localhost/microweber/</span><span class="contenteditable" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php _e("shop"); ?></span></small></span>
                             </div>
 
                             <div class="form-group">
-                                <label>Content</label>
+                                <label><?php _e("Content"); ?></label>
                                 <textarea class="form-control"></textarea>
                             </div>
                         </div>
@@ -45,8 +45,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label>Short description</label>
-                                <small class="text-muted d-block mb-2">Add a summery of your post to appear on your home page or blog</small>
+                                <label><?php _e("Short description"); ?></label>
+                                <small class="text-muted d-block mb-2"><?php _e("Add a summery of your post to appear on your home page or blog"); ?></small>
                                 <textarea class="form-control"></textarea>
                             </div>
                         </div>

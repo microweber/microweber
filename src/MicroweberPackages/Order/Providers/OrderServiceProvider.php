@@ -14,7 +14,7 @@ namespace MicroweberPackages\Order\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Module\Facades\ModuleManager;
-use MicroweberPackages\Order\Http\Controllers\AdminOrdersController;
+use MicroweberPackages\Order\Http\Controllers\OrdersController;
 use MicroweberPackages\Order\OrderManager;
 
 class OrderServiceProvider extends ServiceProvider
@@ -33,9 +33,10 @@ class OrderServiceProvider extends ServiceProvider
             return new OrderManager();
         });
 
-        View::addNamespace('order', __DIR__ . '/../resources/views');
+        View::addNamespace('order', dirname(__DIR__) . '/resources/views');
 
-        //ModuleManager::register('shop/orders/manage','MicroweberPackages\Order\Http\Controllers\AdminOrdersController@index');
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/api.php');
 
 
     }

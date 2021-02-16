@@ -43,7 +43,7 @@ if (isset($item['created_by'])) {
         <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
             <div class="row align-items-center mb-3">
                 <div class="col text-left">
-                    <span class="text-primary text-break-line-2">New form entry</span>
+                    <span class="text-primary text-break-line-2"><?php _e("New form entry"); ?></span>
                 </div>
             </div>
         <?php endif; ?>
@@ -66,18 +66,18 @@ if (isset($item['created_by'])) {
             <hr class="thin"/>
             <div class="row">
                 <div class="col-md-6">
-                    <h6><strong>Fields</strong></h6>
+                    <h6><strong><?php _e("Fields"); ?></strong></h6>
                     <?php if ($form_values_1): ?>
                         <?php foreach ($form_values_1 as $key => $val1): ?>
                             <?php if (!is_array($val1)): ?>
                                 <div>
                                     <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
-                                    <p><?php echo $val1; ?></p>
+                                    <p><?php print _e($val1); ?></p>
                                 </div>
                             <?php else: ?>
                                 <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
                                 <?php foreach ($val1 as $val1_1): ?>
-                                    <p><?php echo ($val1_1) . '<br />'; ?></p>
+                                    <p><?php print e(($val1_1)) . '<br />'; ?></p>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -90,12 +90,12 @@ if (isset($item['created_by'])) {
                             <?php if (!is_array($val2)): ?>
                                 <div>
                                     <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
-                                    <p><?php echo $val2; ?></p>
+                                    <p><?php print e($val2); ?></p>
                                 </div>
                             <?php else: ?>
                                 <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
                                 <?php foreach ($val2 as $val2_1): ?>
-                                    <p><?php echo ($val2_1) . '<br />'; ?></p>
+                                    <p><?php print e(($val2_1)) . '<br />'; ?></p>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>

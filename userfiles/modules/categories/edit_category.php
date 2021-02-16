@@ -492,10 +492,10 @@ if (isset($params['live_edit'])) {
                             <h6><strong><?php _e('Pictures'); ?></strong></h6>
                             <div class="post-media-type-holder">
                                 <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
-                                    <option value="url">Add image from URL</option>
-                                    <option value="server">Browse uploaded</option>
-                                    <option value="library">Select from Unsplash</option>
-                                    <option value="file">Upload file</option>
+                                    <option value="url"><?php _e("Add image from URL"); ?></option>
+                                    <option value="server"><?php _e("Browse uploaded"); ?></option>
+                                    <option value="library"><?php _e("Choose from Unsplash"); ?></option>
+                                    <option value="file"><?php _e("Upload file"); ?></option>
                                 </select>
                             </div>
                         </div>
@@ -511,10 +511,10 @@ if (isset($params['live_edit'])) {
                         </div>
 
                         <div class="col-12">
-                            <label class="control-label">Other settings</label>
-                            <small class="text-muted d-block mb-2">Discover more advanced options</small>
+                            <label class="control-label"><?php _e("Other settings"); ?></label>
+                            <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
 
-                            <button type="button" class="btn btn-link btn-sm px-0" data-toggle="collapse" data-target="#show-more">Show more</button>
+                            <button type="button" class="btn btn-link btn-sm px-0" data-toggle="collapse" data-target="#show-more"><?php _e("Show more"); ?></button>
 
                             <div class="collapse mt-3" id="show-more">
                                 <div class="row">
@@ -599,7 +599,7 @@ if (isset($params['live_edit'])) {
                                         <div class="form-group js-count-letters">
                                             <div class="d-flex justify-content-between">
                                                 <label class="control-label"><?php _e("Meta Title"); ?></label>
-                                                <span class="text-muted"><span class="js-typed-letters">0</span> of 70 characters used</span>
+                                                <span class="text-muted"><span class="js-typed-letters">0</span> <?php _e("of 70 characters used"); ?></span>
                                             </div>
                                             <input type="text" class="form-control" name="category_meta_title" value="<?php (isset($data['category_meta_title'])) ? print ($data['category_meta_title']) : '' ?>">
                                         </div>
@@ -608,8 +608,8 @@ if (isset($params['live_edit'])) {
                                     <div class="col-md-12">
                                         <div class="form-group js-count-letters">
                                             <div class="d-flex justify-content-between">
-                                                <label class="control-label">Meta descriptions</label>
-                                                <span class="text-muted"><span class="js-typed-letters">0</span> of 70 characters used</span>
+                                                <label class="control-label"><?php _e("Meta descriptions"); ?></label>
+                                                <span class="text-muted"><span class="js-typed-letters">0</span> <?php _e("of 70 characters used"); ?> </span>
                                             </div>
                                             <textarea class="form-control" name="category_meta_description"><?php (isset($data['category_meta_description'])) ? print ($data['category_meta_description']) : '' ?></textarea>
                                         </div>
@@ -618,7 +618,7 @@ if (isset($params['live_edit'])) {
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="control-label"><?php _e("Meta Keywords"); ?></label>
-                                            <small class="text-muted d-block mb-2">Separate keywords with a comma and space</small>
+                                            <small class="text-muted d-block mb-2"><?php _e("Separate keywords with a comma and space"); ?></small>
                                             <textarea class="form-control" name="category_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach"><?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?></textarea>
                                         </div>
                                     </div>

@@ -1,15 +1,11 @@
 <?php
-
-
 namespace Microweber\Comments\Models;
 
 
+use Illuminate\Database\Eloquent\Model;
 
-
-class Comment extends \BaseModel
+class Comment extends Model
 {
-    protected $table = 'comments';
-
 
 }
 
