@@ -28,7 +28,6 @@
             <form method="get">
             <div class="manage-toobar d-flex justify-content-between align-items-center">
                 <?php if (count($orders) != 0) { ?>
-
                 <div id="cartsnav">
                     <a href="?orderstype=completed" class="btn btn-link btn-sm px-0 text-dark active"><?php _e("Completed orders"); ?></a>
                     <a href="?orderstype=carts" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned carts"); ?></a>
@@ -57,11 +56,41 @@
             </div>
             </form>
 
+            <?php if (count($orders) > 0): ?>
             <?php foreach ($orders as $order): ?>
-
                 <?php echo $order['id']; ?>
-
             <?php endforeach;?>
+             <?php endif; ?>
+
+
+            <?php if (($filteringResults == true) && (count($orders) == 0)): ?>
+            <div class="no-items-found orders">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_results.png'); ">
+                            <h4><?php _e("No orders found for this query filtering"); ?></h4>
+                            <p><?php _e("Try with other filters"); ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
+
+            <?php if (($filteringResults == false) && (count($orders) == 0)): ?>
+            <div class="no-items-found orders">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_orders.svg'); ">
+                            <h4><?php _e("You don’t have any orders yet"); ?></h4>
+                            <p><?php _e("Here you can track your orders"); ?></p>
+                            <br/>
+                            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded"><?php _e("Add order"); ?></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
 
             <div class="d-flex">
                 <div class="mx-auto">
