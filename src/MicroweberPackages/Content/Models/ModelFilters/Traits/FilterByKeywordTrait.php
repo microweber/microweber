@@ -24,7 +24,6 @@ trait FilterByKeywordTrait
             if (strpos($this->input['searchInFields'], ',') !== false) {
                 $searchInFields = explode(',', $this->input['searchInFields']);
             }
-
         }
 
         if ($searchInFields and $tableFields) {

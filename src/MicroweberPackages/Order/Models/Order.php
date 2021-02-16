@@ -14,19 +14,19 @@ namespace MicroweberPackages\Order\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
+use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
 
 class Order extends Model
 {
-
     use Notifiable;
     use Filterable;
 
     public $table = 'cart_orders';
+    public $fillable = ['id'];
 
     public function modelFilter()
     {
-        return $this->provideFilter(ContentFilter::class);
+        return $this->provideFilter(OrderFilter::class);
     }
 
 }
