@@ -1,7 +1,9 @@
 mw.editSource = function (node) {
+
     if (!mw._editSource) {
         mw._editSource = {
             wrapper: document.createElement('div'),
+            overlay: document.createElement('div'),
             area: document.createElement('textarea'),
             ok: document.createElement('mwbtn'),
             cancel: document.createElement('mwbtn'),
@@ -17,10 +19,13 @@ mw.editSource = function (node) {
         mw._editSource.nav.appendChild(mw._editSource.ok);
         mw._editSource.nav.className = 'mw-inline-source-editor-buttons';
         mw._editSource.wrapper.className = 'mw-inline-source-editor';
+        mw._editSource.overlay.className = 'mw-inline-source-editor-overlay';
+        document.body.appendChild(mw._editSource.overlay);
         document.body.appendChild(mw._editSource.wrapper);
         mw.$(mw._editSource.cancel).on('click', function () {
             mw.$(mw._editSource.target).html(mw._editSource.area.value);
             mw.$(mw._editSource.wrapper).removeClass('active');
+            mw.$(mw._editSource.overlay).removeClass('active');
             mw._editSource.ok.disabled = false;
         });
         mw.$(mw._editSource.area).on('input', function () {
@@ -34,31 +39,26 @@ mw.editSource = function (node) {
                 }
             }
             else {
-                hasErr.remove()
+                hasErr.remove();
             }
         });
         mw.$(mw._editSource.ok).on('click', function () {
             if(!mw._editSource.ok.disabled){
                 mw.$(mw._editSource.target).html(mw._editSource.area.value);
                 mw.$(mw._editSource.wrapper).removeClass('active');
+                mw.$(mw._editSource.overlay).removeClass('active');
                 mw.wysiwyg.change(mw._editSource.target);
             }
         });
+
+
     }
     mw._editSource.area.value = node.innerHTML;
     mw._editSource.target = node;
-    var $node = mw.$(node), off = $node.offset(), nwidth = $node.outerWidth();
-    var sl = mw.$('.mw-live-edit-sidebar-tabs-wrapper').offset();
-    if (off.left + nwidth > sl.left) {
-        off.left -= ((off.left + nwidth) - sl.left + 10);
+    mw.$(mw._editSource.wrapper).addClass('active');
+    mw.$(mw._editSource.overlay).addClass('active');
+    if(mw._initHandles){
+        mw._initHandles.hideAll();
     }
-    mw.$(mw._editSource.area)
-        .height($node.outerHeight())
-        .width(nwidth);
-
-    mw.$(mw._editSource.wrapper)
-        .css(off)
-        .addClass('active');
-
 
 };
