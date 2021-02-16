@@ -18,22 +18,12 @@
         <div class="row">
             <div class="col-md-3">
                 <h5 class="font-weight-bold"><?php _e('Privacy policy settings'); ?></h5>
-                <small class="text-muted d-block mb-3"><?php _e('A Privacy Policy is a legal agreement
-                    that explains what kinds of personal
-                    information you gather from website
-                    visitors, how you use this information,
-                    and how you keep it safe. Examples of
-                    personal information might include:
-                    Names. Dates of birth.'); ?>
+                <small class="text-muted d-block mb-3">
+                    <?php _e('A Privacy Policy is a legal agreement that explains what kinds of personal information you gather from website visitors, how you use this information, and how you keep it safe. Examples of personal information might include: Names. Dates of birth.'); ?>
                 </small>
 
-                <small class="text-muted d-block"><?php _e('The General Data Protection Regulation
-                    (EU) 2016/679 (GDPR) is a regulation in
-                    EU law on data protection and privacy in
-                    the European Union (EU) and the
-                    European Economic Area (EEA).
-                    It also addresses the transfer of personal
-                    data outside the EU and EEA areas.'); ?>
+                <small class="text-muted d-block">
+                    <?php _e('The General Data Protection Regulation (EU) 2016/679 (GDPR) is a regulation in EU law on data protection and privacy in the European Union (EU) and the European Economic Area (EEA). It also addresses the transfer of personal data outside the EU and EEA areas.'); ?>
                 </small>
             </div>
 

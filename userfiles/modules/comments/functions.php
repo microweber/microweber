@@ -185,7 +185,7 @@ event_bind(
 
     $admin_dashboard_btn['icon_class'] = 'mdi mdi-comment-account';
     $notif_html = '';
-    $notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
+    $notif_count = \Microweber\Comments\Models\Comment::get()->count();
 
     if ($notif_count > 0) {
         $notif_html = '<sup class="badge badge-danger badge-sm badge-pill">' . $notif_count . '</sup>';

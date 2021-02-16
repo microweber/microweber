@@ -92,9 +92,10 @@
 
       <div class="js-toggle-content-proxy-settings" <?php if (!$static_files_delivery_method): ?> style="display: none" <?php endif; ?> >
 
-          <div class="mw-ui-box mw-ui-box-content mw-ui-box m-b-20"><?php _e("Warning, this is advanced action and may break your site.
-                Make sure you setup you domain to resolve to your website. <br>
-                After that you can enter your content delivery domain name for example cdn.mydomain.com"); ?>
+          <div class="mw-ui-box mw-ui-box-content mw-ui-box m-b-20">
+              <?php _e("Warning, this is advanced action and may break your site."); ?> <br />
+              <?php _e("Make sure you setup you domain to resolve to your website."); ?> <br />
+              <?php _e("After that you can enter your content delivery domain name for example cdn.mydomain.com"); ?>
           </div>
 
           <div class="mw-ui-field-holder">

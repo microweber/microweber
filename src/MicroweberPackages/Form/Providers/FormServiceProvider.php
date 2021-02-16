@@ -48,7 +48,5 @@ class FormServiceProvider extends ServiceProvider
 
         View::addNamespace('form', __DIR__ . '/../resources/views');
 
-
-
     }
 }

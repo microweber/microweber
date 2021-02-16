@@ -29,7 +29,7 @@ mw.module_pictures = {
             }
             mw.reload_module_everywhere('pictures', function (){
                 if(this.mw.module_pictures) {
-                    this.mw.module_pictures.after_change();
+                 //   this.mw.module_pictures.after_change();
                 }
             });
              mw.reload_module_parent('posts');

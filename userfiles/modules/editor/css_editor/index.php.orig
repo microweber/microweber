@@ -17,9 +17,12 @@
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.min.js"></script>
 <script type="text/javascript">
+<<<<<<< HEAD
+=======
 
     live_edit_css_code_area_editor_value = '';
         mw.require('options.js');
+>>>>>>> dev
 
         $(document).ready(function(){
 

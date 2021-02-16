@@ -32,9 +32,7 @@ if(empty($supportedLanguages)){
 }
 
 
-$getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupedTranslations($filter);
-
-
+$getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGroupedTranslations($filter);
 ?>
 <script>
 
@@ -186,7 +184,17 @@ $getTranslations = \MicroweberPackages\Translation\Models\Translation::getGroupe
                                 <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
                                 <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
                                 <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php if(isset($translationByLocales[$supportedLanguage['locale']])): echo $translationByLocales[$supportedLanguage['locale']]; else: echo $translationKey; endif; ?></textarea>
+                                <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
+                                    if(isset($translationByLocales[$supportedLanguage['locale']])) {
+                                        echo $translationByLocales[$supportedLanguage['locale']];
+                                    } else {
+                                        if (strpos($supportedLanguage['locale'], 'en') !== false) {
+                                            echo $translationKey;
+                                        } else {
+                                            echo '';
+                                        }
+                                    }
+                                    ?></textarea>
                             </div>
                         <?php endforeach; ?>
                     </td>

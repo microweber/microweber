@@ -32,11 +32,14 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
         $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 
         if (mw_is_installed()) {
-//            if (!Schema::hasTable('translations')) {
-//                app()->mw_migrator->run([
-//                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
-//                ]);
-//            }
+
+            // If you are import old database we must run migrations
+            if (!Schema::hasTable('translations_keys')) {
+                app()->mw_migrator->run([
+                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations'
+                ]);
+            }
+
             $this->app->terminating(function () {
                 $getNewKeys = app()->translator->getNewKeys();
                 if (!empty($getNewKeys)) {
