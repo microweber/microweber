@@ -14,7 +14,10 @@ namespace MicroweberPackages\Order\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use MicroweberPackages\Cart\Models\Cart;
+use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
+use MicroweberPackages\User\Models\User;
 
 class Order extends Model
 {
@@ -27,6 +30,22 @@ class Order extends Model
     public function modelFilter()
     {
         return $this->provideFilter(OrderFilter::class);
+    }
+
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class );
+    }
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
     }
 
 }
