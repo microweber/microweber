@@ -33,9 +33,9 @@ class OrderServiceProvider extends ServiceProvider
             return new OrderManager();
         });
 
-        View::addNamespace('order', __DIR__ . '/../resources/views');
+        View::addNamespace('order', dirname(__DIR__) . '/resources/views');
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/api.php');
 
 
     }
