@@ -73,7 +73,7 @@
         <div class="collapse" id="comments-<?php print $comment['id'] ?>">
             <div class="row mt-3">
                 <div class="col-12">
-                    <a href="<?php print content_link($comment['rel_id']); ?>" class="btn btn-primary btn-sm btn-rounded" target="_blank">View article</a>
+                    <a href="<?php print content_link($comment['rel_id']); ?>" class="btn btn-primary btn-sm btn-rounded" target="_blank"><?php _e("View article"); ?></a>
                 </div>
             </div>
 
@@ -95,7 +95,7 @@
                         </div>
                         <div class="col">
                             <div class="mb-1">
-                                <small class="text-muted">Status</small>
+                                <small class="text-muted"><?php _e("Status"); ?></small>
                             </div>
                             <script>
                                 $(document).ready(function () {
@@ -128,27 +128,27 @@
                                 <?php if (isset($comment['comment_name'])): ?>
                                     <?php print $comment['comment_name']; ?>
                                 <?php else: ?>
-                                    Guest
+                                    <?php _e("Guest"); ?>
                                 <?php endif; ?>
                             </strong>
 
                             <span class="js-comment-name-input" style="display: none;">
                                 <input type="text" name="comment_name" class="mw_option_field form-control form-control-sm d-inline-block w-auto" value="<?php print $comment['comment_name']; ?>"/>
                             </span>
-                            <small class="text-muted">says:</small>
+                            <small class="text-muted"><?php _e("says"); ?>:</small>
                         </h6>
 
                     <div class="mb-3">
                         <div class="js-comment-body-text"><?php print $comment['comment_body']; ?></div>
                         <span class="js-comment-body-textarea" style="display: none;">
-                            <small class="text-muted">Comment:</small>
+                            <small class="text-muted"><?php _e("Comment"); ?>:</small>
                             <textarea name="comment_body" class="form-control"><?php print $comment['comment_body']; ?></textarea>
                         </span>
                     </div>
 
                     <div class="mb-3">
                         <?php if ($comment['comment_email']) { ?>
-                            <small class="text-muted">E-mail:</small>
+                            <small class="text-muted"><?php _e("E-mail"); ?>:</small>
                             <span class="js-comment-email-text"><a href="mailto:<?php print $comment['comment_email']; ?>"><?php print $comment['comment_email']; ?></a></span>
 
                             <span class="js-comment-email-input" style="display: none;">
@@ -157,7 +157,7 @@
                         <?php } ?>
 
                         <?php if ($comment['comment_website']) { ?>
-                            <span class="js-comment-website-text"> | <a href="<?php print mw()->format->prep_url($comment['comment_website']); ?>" target="_blank">Website</a></span>
+                            <span class="js-comment-website-text"> | <a href="<?php print mw()->format->prep_url($comment['comment_website']); ?>" target="_blank"><?php _e("Website"); ?></a></span>
 
                             <span class="js-comment-website-input" style="display: none;">
                                     <input type="text" name="comment_website" class="mw_option_field form-control form-control-sm d-inline-block w-auto" value="<?php print $comment['comment_website']; ?>"/>
@@ -174,7 +174,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-12 mb-3">
-                                    <h5><strong>Add a new comment</strong></h5>
+                                    <h5><strong><?php _e("Add a new comment"); ?></strong></h5>
                                 </div>
                                 <div class="col" style="max-width: 80px;">
                                     <?php

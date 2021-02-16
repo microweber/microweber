@@ -62,8 +62,8 @@
             <div class="col-md-6">
                 <div class="form-group mb-3">
                     <label><?php _e("SKU"); ?></label>
-                    <input type="text" name="content_data[sku]" class="form-control" value="<?php echo $contentData['sku']; ?>">
                     <small class="text-muted d-block mb-3"><?php _e("Stock Keeping Unit"); ?></small>
+                    <input type="text" name="content_data[sku]" class="form-control" value="<?php echo $contentData['sku']; ?>">
 
                 </div>
             </div>
@@ -71,8 +71,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label><?php _e("Barcode"); ?></label>
-                    <input type="text" name="content_data[barcode]" class="form-control" value="<?php echo $contentData['barcode']; ?>">
                     <small class="text-muted d-block mb-3"><?php _e("ISBN, UPC, GTIN, etc."); ?></small>
+                    <input type="text" name="content_data[barcode]" class="form-control" value="<?php echo $contentData['barcode']; ?>">
                 </div>
             </div>
 

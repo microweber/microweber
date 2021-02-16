@@ -40,7 +40,7 @@
                 }
 
                 if (user_can_access('module.categories.edit')) {
-                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'><span>Edit</span>  </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>Delete</span></span>";
+                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'>  <span>". _e("Edit", true) . "</span> </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>". _e("Delete", true) . "</span></span>";
                 } else {
                     $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
@@ -65,7 +65,7 @@
                         ?>
                         <div class="card border-0">
                             <div class="card-header pl-0">
-                                <h6><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo $page['title']; ?></h6>
+                                <h6><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo _e($page['title']); ?></h6>
                             </div>
 
                             <div class="card-body py-2">
@@ -109,7 +109,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="card-header">
-                                <h5>Other</h5>
+                                <h5><?php _e('Other') ?></h5>
                             </div>
                             <?php echo $otherCategories; ?>
                         </div>

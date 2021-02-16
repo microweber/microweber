@@ -54,7 +54,7 @@ if (isset($item['created_by'])) {
                         <?php endif; ?>
 
                         <?php if (isset($created_by_username)): ?>
-                            <small class="text-muted">Ordered by: <?php echo $created_by_username; ?></small>
+                            <small class="text-muted"><?php _e("Ordered by"); ?>: <?php echo $created_by_username; ?></small>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -89,12 +89,12 @@ if (isset($item['created_by'])) {
 
                     <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip" title="<?php print mw('format')->ago($item['created_at']); ?>">
                         <?php print date('M d, Y', strtotime($item['created_at'])); ?><br/>
-                        <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?>h</small>
+                        <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?><span class="text-success"><?php _e("h"); ?></span><br/></small>
                     </div>
 
                     <div class="col-12 col-sm-4 col-md item-status">
                         <?php if (isset($item['is_read']) && $item['is_read'] == '0'): ?>
-                            <span class="text-success">New</span><br/>
+                            <span class="text-success"><?php _e("New"); ?></span><br/>
                         <?php endif; ?>
                         <small class="text-muted">&nbsp;</small>
                     </div>
@@ -104,7 +104,7 @@ if (isset($item['created_by'])) {
 
         <div class="row mt-3">
             <div class="col-12 text-center text-sm-left js-change-button-styles">
-                <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded">View order</a>
+                <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
             </div>
         </div>
 
@@ -115,10 +115,10 @@ if (isset($item['created_by'])) {
 
             <div class="row">
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Customer Information</strong></h6>
+                    <h6><strong><?php _e("Customer Information"); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Client name:</small>
+                        <small class="text-muted"><?php _e("Client name"); ?>:</small>
                         <p>
                             <?php if (isset($order['first_name']) OR isset($order['last_name'])): ?>
                                 <?php if (isset($order['first_name'])): ?><?php echo $order['first_name'] . ' '; ?><?php endif; ?>
@@ -130,18 +130,18 @@ if (isset($item['created_by'])) {
                     </div>
 
                     <div>
-                        <small class="text-muted">E-mail:</small>
+                        <small class="text-muted"><?php _e("E-mail"); ?>:</small>
                         <p>
                             <?php if (isset($order['email'])): ?>
                                 <?php echo $order['email']; ?>
                             <?php else: ?>
-                                N/A
+                                    N/A
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Phone:</small>
+                        <small class="text-muted"><?php _e("Phone"); ?>:</small>
                         <p>
                             <?php if (isset($order['phone'])): ?>
                                 <?php echo $order['phone']; ?>
@@ -154,21 +154,21 @@ if (isset($item['created_by'])) {
                 </div>
 
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Payment Information</strong></h6>
+                    <h6><strong><?php _e("Payment Information"); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Amount:</small>
+                        <small class="text-muted"><?php _e("Amount"); ?>:</small>
                         <p>
                             <?php if (isset($order['amount'])): ?>
                                 <?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?>
                             <?php else: ?>
-                                N/A
+                                    N/A
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Payment method:</small>
+                        <small class="text-muted"><?php _e("Payment method"); ?></small>
                         <p>
                             <?php if (isset($order['payment_type'])): ?>
                                 <?php echo $order['payment_type']; ?>
@@ -180,25 +180,25 @@ if (isset($item['created_by'])) {
                 </div>
 
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Shipping Information</strong></h6>
+                    <h6><strong><?php _e("Shipping Information"); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Shipping method:</small>
+                        <small class="text-muted"><?php _e("Shipping method"); ?>:</small>
                         <p>
                             <?php if (isset($order['shipping_service'])): ?>
                                 <?php if ($order['shipping_service'] == 'shop/shipping/gateways/country'): ?>
-                                    Shipping to country
+                                    <?php _e("Shipping to country"); ?>
                                 <?php else: ?>
                                     <?php echo $order['shipping_service']; ?>
                                 <?php endif; ?>
                             <?php else: ?>
-                                N/A
+                                    N/A
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Address:</small>
+                        <small class="text-muted"><?php _e("Address"); ?>:</small>
                         <p>
                             <?php
                             $zip = '';
