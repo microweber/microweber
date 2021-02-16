@@ -13,6 +13,9 @@ class OrderController extends AdminController
 
         $filteringResults = false;
 
+        $orderBy = $request->get('orderBy', 'id');
+        $orderDirection = $request->get('orderDirection', 'desc');
+
         $keyword = $request->get('keyword', '');
         if (!empty($keyword)) {
             $filteringResults = true;
@@ -26,6 +29,8 @@ class OrderController extends AdminController
             ->appends($request->except('page'));
 
         return $this->view('order::admin.orders.index', [
+            'orderBy'=>$orderBy,
+            'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
             'newOrders'=>$newOrders,

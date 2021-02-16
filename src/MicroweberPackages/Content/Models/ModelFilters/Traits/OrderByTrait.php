@@ -24,6 +24,10 @@ trait OrderByTrait
             $orderDirection = $orderBy[1];
         }
 
+        if (isset($this->input['orderDirection'])) {
+            $orderDirection = $this->input['orderDirection'];
+        }
+
          return $this->query->orderBy($orderColumn, $orderDirection);
     }
 
