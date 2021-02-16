@@ -76,12 +76,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <div class="form-group">
                 <label class="control-label"><?php _e("Additional information:"); ?> </label>
-                <textarea class="mw_option_field form-control" data-option-group="shop" name="invoice_company_bank_details" placeholder="For example: reason for taxes"></textarea>
+                <textarea class="mw_option_field form-control" data-option-group="shop" name="invoice_company_bank_details" placeholder="<?php _e("For example: reason for taxes"); ?>"></textarea>
             </div>
 
             <div class="form-group">
                 <label class="control-label"><?php _e("Bank transfer details:"); ?> </label>
-                <textarea class="mw_option_field form-control" data-option-group="shop" name="invoice_company_bank_details" placeholder="Enter your bank details here"></textarea>
+                <textarea class="mw_option_field form-control" data-option-group="shop" name="invoice_company_bank_details" placeholder="<?php _e("Enter your bank details here"); ?>"></textarea>
             </div>
         </div>
     </div>

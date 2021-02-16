@@ -2,7 +2,7 @@
     <div class="card-header no-border">
         <h6><strong><?php _e("Media"); ?></strong></h6>
         <div>
-            <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto">
+            <select class="selectpicker" data-title="<?php _e("Add media from"); ?>" data-style="btn-sm" data-width="auto">
                 <option><?php _e("Add image from URL"); ?></option>
                 <option><?php _e("Browse uploaded"); ?></option>
                 <option><?php _e("Add file"); ?></option>

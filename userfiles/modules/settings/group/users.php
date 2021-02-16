@@ -127,7 +127,7 @@ if ($registration_approval_required == false) {
                                     <div class="form-group mb-4">
                                         <?php  $curent_val = get_option('enable_user_registration', 'users'); ?>
                                         <div class="custom-control custom-switch pl-0">
-                                            <label class="d-inline-block mr-5" for="enable_user_registration">No</label>
+                                            <label class="d-inline-block mr-5" for="enable_user_registration"><?php _e("No"); ?></label>
                                             <input type="checkbox"  data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_user_registration" option-group="users" id="enable_user_registration" value="y" <?php if ($curent_val !== 'n'): ?>checked<?php endif; ?>>
                                             <label class="custom-control-label" for="enable_user_registration"><?php _e("Yes"); ?></label>
                                         </div>
@@ -140,7 +140,7 @@ if ($registration_approval_required == false) {
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-switch pl-0">
-                                            <label class="d-inline-block mr-5" for="registration_approval_required">No</label>
+                                            <label class="d-inline-block mr-5" for="registration_approval_required"><?php _e("No"); ?></label>
                                             <input type="checkbox" class="mw_option_field custom-control-input" name="registration_approval_required" option-group="users" id="registration_approval_required" value="y" <?php if ($registration_approval_required == 'y'): ?>checked<?php endif; ?>>
                                             <label class="custom-control-label" for="registration_approval_required"><?php _e("Yes"); ?></label>
                                         </div>
@@ -298,9 +298,9 @@ if ($registration_approval_required == false) {
                                     <div class="form-group mb-4">
                                         <?php $allow_socials_login = get_option('allow_socials_login', 'users'); ?>
                                         <div class="custom-control custom-switch pl-0">
-                                            <label class="d-inline-block mr-5" for="users-social-newtworks-login">No</label>
+                                            <label class="d-inline-block mr-5" for="users-social-newtworks-login"><?php _e("No"); ?></label>
                                             <input type="checkbox" class="mw_option_field custom-control-input" name="allow_socials_login" id="users-social-newtworks-login" option-group="users" value="y" data-toggle="collapse" data-target="#allow-users-social-newtworks-login" <?php if ($allow_socials_login == 'y'): ?>checked<?php endif; ?> />
-                                            <label class="custom-control-label" for="users-social-newtworks-login">Yes</label>
+                                            <label class="custom-control-label" for="users-social-newtworks-login"><?php _e("Yes"); ?></label>
                                         </div>
 
                                         <div class="collapse <?php if ($allow_socials_login == 'y'): ?>show<?php endif; ?>" id="allow-users-social-newtworks-login">

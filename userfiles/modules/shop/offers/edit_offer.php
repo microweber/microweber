@@ -77,7 +77,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         <label class="control-label"><?php _e("Offer status"); ?></label>
         <div class="custom-control custom-switch">
             <input type="checkbox" name="is_active" class="custom-control-input" id="is_active" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-            <label class="custom-control-label" for="is_active">Active</label>
+            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
         </div>
     </div>
 
@@ -170,8 +170,8 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         </div>
 
         <div>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="editModal.modal.remove()">Cancel</button>
-            <button type="button" class="btn btn-success btn-sm js-save-offer">Save</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+            <button type="button" class="btn btn-success btn-sm js-save-offer"><?php _e("Save"); ?></button>
         </div>
     </div>
 </form>

@@ -52,14 +52,14 @@ $(document).ready(function () {
 </script>
 <br />
 <center>
-<h3>If you have a .zip theme you can install it by uploading it here.</h3>
+<h3><?php _e("If you have a .zip theme you can install it by uploading it here"); ?>.</h3>
 <br />
 
 <span id="upload_file_info" style="font-size:14px;"></span>
 
 <label class="mw-ui-check overwrite-existing-checkobx">
 <input type="checkbox" value="1" name="overwrite_existing_template" id="overwrite_existing_template">
-<span></span><span>Overwrite existing template</span>
+<span></span><span><?php _e("Overwrite existing template"); ?></span>
 </label>
 
 <br />

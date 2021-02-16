@@ -17,9 +17,9 @@
         <div class="col-md-12">
             <div class="card bg-light style-1 mb-3">
                 <div class="card-header no-border">
-                    <h5><strong>L / Red</strong></h5>
+                    <h5><strong><?php _e("L / Red"); ?></strong></h5>
                     <div>
-                        <button type="button" class="btn btn-sm btn-success">Save</button>
+                        <button type="button" class="btn btn-sm btn-success"><?php _e("Save"); ?></button>
                     </div>
                 </div>
 
@@ -36,9 +36,9 @@
                                         </div>
 
                                         <div class="col-8">
-                                            <p class="mb-0">New product</p>
-                                            <small class="text-muted">9 variants</small>
-                                            <a href="#" class="btn btn-sm btn-link px-0">Back to products</a>
+                                            <p class="mb-0"><?php _e("New product"); ?></p>
+                                            <small class="text-muted"><?php _e("9 variants"); ?></small>
+                                            <a href="#" class="btn btn-sm btn-link px-0"><?php _e("Back to products"); ?></a>
                                         </div>
                                     </div>
                                 </div>
@@ -46,9 +46,9 @@
 
                             <div class="card style-1 mb-3">
                                 <div class="card-header no-border">
-                                    <h6><strong>Variants</strong></h6>
+                                    <h6><strong><?php _e("Variants"); ?></strong></h6>
                                     <div>
-                                        <a href="#" class="btn btn-sm btn-link px-0">Delete</a>
+                                        <a href="#" class="btn btn-sm btn-link px-0"><?php _e("Delete"); ?></a>
                                     </div>
                                 </div>
 
@@ -59,7 +59,7 @@
                                                 <img src="assets/img/no-image.jpg">
                                             </div>
 
-                                            <p class="mb-0">L / Red</p>
+                                            <p class="mb-0"><?php _e("L / Red"); ?></p>
                                         </div>
 
                                         <div class="variant">
@@ -67,7 +67,7 @@
                                                 <img src="assets/img/no-image.jpg">
                                             </div>
 
-                                            <p class="mb-0">L / Blue</p>
+                                            <p class="mb-0"><?php _e("L / Blue"); ?></p>
                                         </div>
 
                                         <div class="variant">
@@ -75,7 +75,7 @@
                                                 <img src="assets/img/no-image.jpg">
                                             </div>
 
-                                            <p class="mb-0">L / Yellow</p>
+                                            <p class="mb-0"><?php _e("L / Yellow"); ?></p>
                                         </div>
 
                                         <div class="variant">
@@ -83,7 +83,7 @@
                                                 <img src="assets/img/no-image.jpg">
                                             </div>
 
-                                            <p class="mb-0">M / Red</p>
+                                            <p class="mb-0"><?php _e("M / Red"); ?></p>
                                         </div>
 
                                         <div class="variant">
@@ -91,7 +91,7 @@
                                                 <img src="assets/img/no-image.jpg">
                                             </div>
 
-                                            <p class="mb-0">M / Blue</p>
+                                            <p class="mb-0"><?php _e("M / Blue"); ?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -100,12 +100,12 @@
                         <div class="col-md-8">
                             <div class="card style-1 mb-3">
                                 <div class="card-header no-border">
-                                    <h6><strong>Options</strong></h6>
+                                    <h6><strong><?php _e("Options"); ?></strong></h6>
                                     <div>
                                         <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto">
-                                            <option>Add image from URL</option>
-                                            <option>Browse uploaded</option>
-                                            <option>Add file</option>
+                                            <option><?php _e("Add image from URL"); ?></option>
+                                            <option><?php _e("Browse uploaded"); ?></option>
+                                            <option><?php _e("Add file"); ?></option>
                                         </select>
                                     </div>
                                 </div>
@@ -114,20 +114,20 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label>Size</label>
-                                                <input type="text" class="form-control" placeholder="L">
+                                                <label><?php _e("Size"); ?></label>
+                                                <input type="text" class="form-control" placeholder="<?php _e("L"); ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label>Color</label>
-                                                <input type="text" class="form-control" placeholder="Red">
+                                                <label><?php _e("Color"); ?></label>
+                                                <input type="text" class="form-control" placeholder="<?php _e("Red"); ?>">
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="dropable-zone small-zone square-zone w-100">
                                                 <div class="holder">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm text-primary mb-2">Add file</button>
-                                                    <p>or drop file to upload</p>
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm text-primary mb-2"><?php _e("Add file"); ?></button>
+                                                    <p><?php _e("or drop file to upload"); ?></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -137,16 +137,16 @@
 
                             <div class="card style-1 mb-3">
                                 <div class="card-header no-border">
-                                    <h6><strong>Pricing</strong></h6>
+                                    <h6><strong><?php _e("Pricing"); ?></strong></h6>
                                 </div>
 
                                 <div class="card-body pt-3">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label>Price</label>
+                                            <label><?php _e("Price"); ?></label>
                                             <div class="input-group mb-3 prepend-transparent">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text text-muted">BGN</span>
+                                                    <span class="input-group-text text-muted"><?php _e("BGN"); ?></span>
                                                 </div>
                                                 <input type="text" class="form-control" value="0.00">
                                             </div>
@@ -154,15 +154,15 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Price on sale (compare at price)</label>
+                                                <label><?php _e("Price on sale (compare at price)"); ?></label>
                                                 <div class="input-group mb-3 prepend-transparent append-transparent">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text text-muted">BGN</span>
+                                                        <span class="input-group-text text-muted"><?php _e("BGN"); ?></span>
                                                     </div>
                                                     <input type="text" class="form-control" value="0.00">
                                                     <div class="input-group-append">
                                                             <span class="input-group-text" data-toggle="tooltip" title=""
-                                                                  data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price."><i class="mdi mdi-help-circle"></i></span>
+                                                                  data-original-title="<?php _e("To put a product on sale, make Compare at price the original price and enter the lower amount into Price"); ?>."><i class="mdi mdi-help-circle"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -173,12 +173,12 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label>Cost per item</label>
-                                            <small class="text-muted d-block mb-2">Customers won’t see this</small>
+                                            <label><?php _e("Cost per item"); ?></label>
+                                            <small class="text-muted d-block mb-2"><?php _e("Customers won’t see this"); ?></small>
 
                                             <div class="input-group mb-3 prepend-transparent">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text text-muted">BGN</span>
+                                                    <span class="input-group-text text-muted"><?php _e("BGN"); ?></span>
                                                 </div>
                                                 <input type="text" class="form-control" value="0.00">
                                             </div>
@@ -186,7 +186,7 @@
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                                                    <label class="custom-control-label" for="customCheck1">Charge tax on this product</label>
+                                                    <label class="custom-control-label" for="customCheck1"><?php _e("Charge tax on this product"); ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,21 +196,21 @@
 
                             <div class="card style-1 mb-3">
                                 <div class="card-header no-border">
-                                    <h6><strong>Inventory</strong></h6>
+                                    <h6><strong><?php _e("Inventory"); ?></strong></h6>
                                 </div>
 
                                 <div class="card-body pt-3">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
-                                                <label>SKU (Stock Keeping Unit)</label>
+                                                <label><?php _e("SKU (Stock Keeping Unit)"); ?></label>
                                                 <input type="text" class="form-control" value="">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Barcode (ISBN, UPC, GTIN, etc.)</label>
+                                                <label><?php _e("Barcode (ISBN, UPC, GTIN, etc.)"); ?></label>
                                                 <input type="text" class="form-control" value="">
                                             </div>
                                         </div>
@@ -219,14 +219,14 @@
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck2" checked="">
-                                                    <label class="custom-control-label" for="customCheck2">Track quantity</label>
+                                                    <label class="custom-control-label" for="customCheck2"><?php _e("Track quantity"); ?></label>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                                    <label class="custom-control-label" for="customCheck3">Continue selling when out of stock</label>
+                                                    <label class="custom-control-label" for="customCheck3"><?php _e("Continue selling when out of stock"); ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -234,12 +234,12 @@
 
                                     <hr class="thin no-padding"/>
 
-                                    <h6><strong>Quantity</strong></h6>
+                                    <h6><strong><?php _e("Quantity"); ?></strong></h6>
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Available</label>
+                                                <label><?php _e("Available"); ?></label>
                                                 <div class="input-group mb-1 append-transparent input-group-quantity">
                                                     <input type="text" class="form-control" value="0"/>
                                                     <div class="input-group-append">
@@ -250,13 +250,13 @@
                                                     </div>
                                                 </div>
 
-                                                <small class="text-muted">How many products you have</small>
+                                                <small class="text-muted"><?php _e("How many products you have"); ?></small>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Max quantity per order</label>
+                                                <label><?php _e("Max quantity per order"); ?></label>
                                                 <div class="input-group mb-1 append-transparent input-group-quantity">
                                                     <input type="text" class="form-control" value="" placeholder="No limit"/>
                                                     <div class="input-group-append">
@@ -266,7 +266,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <small class="text-muted">How many products can be ordered at once</small>
+                                                <small class="text-muted"><?php _e("How many products can be ordered at once"); ?></small>
                                             </div>
                                         </div>
                                     </div>
@@ -275,7 +275,7 @@
 
                             <div class="card style-1 mb-3">
                                 <div class="card-header no-border">
-                                    <h6><strong>Shipping</strong></h6>
+                                    <h6><strong><?php _e("Shipping"); ?></strong></h6>
                                 </div>
 
                                 <div class="card-body pt-3">
@@ -284,7 +284,7 @@
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck4" checked="">
-                                                    <label class="custom-control-label" for="customCheck4">This is a physical product</label>
+                                                    <label class="custom-control-label" for="customCheck4"><?php _e("This is a physical product"); ?></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -295,24 +295,24 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="d-block">Free Shipping</label>
+                                                <label class="d-block"><?php _e("Free Shipping"); ?></label>
                                                 <div class="custom-control custom-radio d-inline-block mr-3">
                                                     <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-                                                    <label class="custom-control-label" for="customRadio1">Yes</label>
+                                                    <label class="custom-control-label" for="customRadio1"><?php _e("Yes"); ?></label>
                                                 </div>
                                                 <div class="custom-control custom-radio d-inline-block mr-3">
                                                     <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" checked="">
-                                                    <label class="custom-control-label" for="customRadio2">No</label>
+                                                    <label class="custom-control-label" for="customRadio2"><?php _e("No"); ?></label>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Fixed Cost</label>
+                                                <label><?php _e("Fixed Cost"); ?></label>
                                                 <div class="input-group mb-3 prepend-transparent append-transparent input-group-quantity">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text text-muted">BGN</span>
+                                                        <span class="input-group-text text-muted"><?php _e("BGN"); ?></span>
                                                     </div>
                                                     <input type="text" class="form-control" value="1.00">
                                                     <div class="input-group-append">
@@ -326,22 +326,22 @@
                                         </div>
                                     </div>
 
-                                    <h6><strong>Weight</strong></h6>
-                                    <p>Used to calculate shipping rates at checkout and label prices during fulfillment.</p>
+                                    <h6><strong><?php _e("Weight"); ?></strong></h6>
+                                    <p><?php _e("Used to calculate shipping rates at checkout and label prices during fulfillment"); ?>.</p>
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Weight</label>
+                                                <label><?php _e("Weight"); ?></label>
                                                 <div class="input-group mb-3 append-transparent">
                                                     <input type="text" class="form-control" value="3.0">
                                                     <div class="input-group-append">
                                                         <div style="width:70px;">
                                                             <select class="selectpicker" data-width="100%">
-                                                                <option>kg</option>
-                                                                <option>lb</option>
-                                                                <option>oz</option>
-                                                                <option>g</option>
+                                                                <option><?php _e("kg"); ?></option>
+                                                                <option><?php _e("lb"); ?></option>
+                                                                <option><?php _e("oz"); ?></option>
+                                                                <option><?php _e("g"); ?></option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -350,37 +350,37 @@
                                         </div>
 
                                         <div class="col-md-6 d-flex align-items-center">
-                                            <a href="javascript:;" class="btn btn-link" data-toggle="collapse" data-target="#advandec-weight-settings">Show advanced weight setttings</a>
+                                            <a href="javascript:;" class="btn btn-link" data-toggle="collapse" data-target="#advandec-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
                                         </div>
                                     </div>
 
                                     <div class="collapse" id="advandec-weight-settings">
                                         <hr class="thin no-padding"/>
 
-                                        <h6><strong>Advanced product shipping settings</strong></h6>
+                                        <h6><strong><?php _e("Advanced product shipping settings"); ?></strong></h6>
 
                                         <div class="row">
                                             <div class="col-lg-3 col-xl">
                                                 <div class="form-group">
-                                                    <label>Weight</label>
+                                                    <label><?php _e("Weight"); ?></label>
                                                     <input type="number" class="form-control" value="">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-xl">
                                                 <div class="form-group">
-                                                    <label>Width</label>
+                                                    <label><?php _e("Width"); ?></label>
                                                     <input type="number" class="form-control" value="">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-xl">
                                                 <div class="form-group">
-                                                    <label>Height</label>
+                                                    <label><?php _e("Height"); ?></label>
                                                     <input type="number" class="form-control" value="">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-xl">
                                                 <div class="form-group">
-                                                    <label>Depth</label>
+                                                    <label><?php _e("Depth"); ?></label>
                                                     <input type="number" class="form-control" value="">
                                                 </div>
                                             </div>
@@ -391,7 +391,7 @@
                                                 <div class="form-group">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input" id="customCheck4"/>
-                                                        <label class="custom-control-label" for="customCheck4">Show parameters in checkout page</label>
+                                                        <label class="custom-control-label" for="customCheck4"><?php _e("Show parameters in checkout page"); ?></label>
                                                     </div>
                                                 </div>
                                             </div>

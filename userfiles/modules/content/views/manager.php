@@ -112,7 +112,7 @@ $params_module = $params;
     };
 
     mw.delete_single_post = function (id) {
-        mw.tools.confirm("<?php _ejs("Do you want to delete this post"); ?>?", function () {
+        mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {
             var arr = id;
             mw.post.del(arr, function () {
                 mw.$(".manage-post-item-" + id).fadeOut(function () {

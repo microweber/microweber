@@ -30,6 +30,7 @@ function coupon_apply($params = array())
     $checkout = new MicroweberPackages\Checkout\CheckoutManager();
     $getCart = $checkout->app->shop_manager->get_cart(array(
         'session_id' => $checkout->app->user_manager->session_id()
+
     ));
 
     $coupon['total_amount'] = floatval($coupon['total_amount']);
@@ -283,7 +284,7 @@ event_bind('mw.admin.shop.settings.menu', function ($data) {
                     <div class="icon-holder"><i class="mdi mdi-scissors-cutting mdi-20px"></i></div>
                     <div class="info-holder">
                         <span class="text-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
-                        <small class="text-muted">Creating and managing coupon codes</small>
+                        <small class="text-muted">' . _e('Creating and managing coupon codes', true) . '</small>
                     </div>
                 </a>
             </div>';

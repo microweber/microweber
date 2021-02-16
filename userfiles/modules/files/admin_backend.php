@@ -453,7 +453,7 @@
                 msg = "<?php _ejs("Are you sure you want to delete"); ?> " + name + "?";
             } else if (url.constructor === [].constructor) {
                 obj = {path: url}
-                msg = "<?php _ejs("Are you sure you want to delete these files"); ?>?";
+                msg = "<?php _e("Are you sure you want to delete these files"); ?>?";
             } else {
                 return false;
             }

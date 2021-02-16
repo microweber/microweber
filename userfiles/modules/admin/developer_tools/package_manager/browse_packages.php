@@ -111,7 +111,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                             <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                         </div>
 
-                        <input type="text" class="form-control form-control-sm" name="module_keyword" style="width: 100px;" value="" placeholder="Search" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
+                        <input type="text" class="form-control form-control-sm" name="module_keyword" style="width: 100px;" value="" placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
                     </div>
 
                     <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
@@ -398,7 +398,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                     <?php else: ?>
                     <?php if (!$core_update) : ?>
                         <div class="mw-ui-box-content tab">
-                            No packages found.
+                            <?php _e("No packages found"); ?>.
                         </div>
                     <?php endif; ?>
                 </div>

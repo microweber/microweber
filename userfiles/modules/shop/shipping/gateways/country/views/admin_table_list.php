@@ -48,10 +48,10 @@
             <div class="form-group mb-0">
                 <?php if ($active_or_disabled == 'active'): ?>
                     <label class="control-label"><?php print _e('Allowed countries for shipping'); ?></label>
-                    <small class="text-muted d-block mb-0">List of countries to which shipping is performed</small>
+                    <small class="text-muted d-block mb-0"> <?php print _e('List of countries to which shipping is performed'); ?></small>
                 <?php else: ?>
                     <label class="control-label"><?php print _e('Denied countries for shipping'); ?></label>
-                    <small class="text-muted d-block mb-0">List of countries where deliveries are not allowed</small>
+                    <small class="text-muted d-block mb-0"><?php print _e('List of countries where deliveries are not allowed'); ?></small>
                 <?php endif; ?>
             </div>
         </div>
@@ -65,9 +65,9 @@
             <thead class="<?php if ($active_or_disabled == 'active'): ?>table-success<?php else: ?>table-danger<?php endif; ?>">
             <tr>
                 <th style="width: 10px; padding-right: 0;"></th>
-                <th><?php if ($active_or_disabled == 'active'): ?>Allowed<?php else: ?>Denied<?php endif; ?> Country</th>
-                <th>Shipping Type</th>
-                <th>Shipping Cost</th>
+                <th><?php if ($active_or_disabled == 'active'): ?><?php print _e('Allowed'); ?><?php else: ?><?php print _e('Denied'); ?><?php endif; ?> <?php print _e('Country'); ?></th>
+                <th><?php print _e('Shipping Type'); ?></th>
+                <th><?php print _e('Shipping Cost'); ?></th>
                 <th class="text-right" style="width: 200px;"><?php print _e('Actions'); ?></th>
             </tr>
             </thead>
@@ -107,7 +107,7 @@
             <?php else: ?>
                 <tr class="vertical-align-middle">
                     <td colspan="5" class="bg-grey font-weight-bold">
-                        The list is empty
+                        <?php _e("The list is empty"); ?>
                     </td>
                 </tr>
             <?php endif; ?>
