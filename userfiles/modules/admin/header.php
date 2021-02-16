@@ -282,7 +282,7 @@ $user = get_user_by_id($user_id);
 
                     <?php if ($new_orders_count != ''): ?>
                         <li class="mx-2">
-                            <a href="<?php print admin_url(); ?>view:shop/action:orders" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                            <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>
                                 <i class="mdi mdi-shopping text-muted m-0"></i>
                                 <span class="d-none d-md-block">
@@ -394,6 +394,8 @@ $user = get_user_by_id($user_id);
                 $shop_class = "active";
             } elseif ($view == 'customers') {
                 $shop_class = "active";
+            } elseif ($view == 'order') {
+                $shop_class = "active";
             }
             ?>
 
@@ -460,10 +462,11 @@ $user = get_user_by_id($user_id);
                             ?>
 
                             <?php if (user_can_view_module(['module' => 'shop.orders'])): ?>
-                                <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
+                                <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if ($view == 'order'): ?> active <?php endif; ?>">
                                     <?php _e("Orders"); ?>
-                                    <?php if ($view == 'shop'): ?><?php print $order_notif_html; ?><?php endif; ?>
-                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
+                                    <?php if ($view == 'order'): ?><?php print $order_notif_html; ?><?php endif; ?>
+                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
+                                          data-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
                             <?php endif; ?>
 

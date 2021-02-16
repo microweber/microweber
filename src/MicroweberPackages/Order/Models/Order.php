@@ -25,7 +25,22 @@ class Order extends Model
     use Filterable;
 
     public $table = 'cart_orders';
-    public $fillable = ['id'];
+    public $fillable = [
+        'email',
+        'first_name',
+        'last_name',
+        'country',
+        'amount',
+        'payment_amount',
+        'transaction_id',
+        'city',
+        'state',
+        'zip',
+        'address',
+        'phone',
+        'user_ip',
+        'payment_gw'
+    ];
 
     public function modelFilter()
     {
@@ -33,9 +48,9 @@ class Order extends Model
     }
 
 
-    public function carts()
+    public function cart()
     {
-        return $this->hasMany(Cart::class );
+        return $this->hasMany(Cart::class);
     }
 
     public function customer()

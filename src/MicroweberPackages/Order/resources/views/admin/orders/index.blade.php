@@ -14,7 +14,6 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                                 </div>
-                                <input type="hidden" name="searchInFields" value="id" />
                                 <input type="text" name="keyword" value="<?php echo $keyword; ?>" class="form-control form-control-sm" style="width: 220px;" placeholder="<?php _e("Search"); ?>"/>
                             </div>
                             <button type="submit" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-magnify"></i></button>

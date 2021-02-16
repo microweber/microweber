@@ -32,4 +32,13 @@ class OrderController extends AdminController
             'orders'=>$orders
         ]);
     }
+
+    public function show($id)
+    {
+        $order = Order::where('id',$id);
+
+        return $this->view('order::admin.orders.show', [
+            'order'=>$order
+        ]);
+    }
 }

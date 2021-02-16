@@ -1,7 +1,11 @@
 <?php
 $orderUser = $order->user()->first();
-$orderProducts = $order->carts()->get();
-$firstProduct = $orderProducts[0];
+$carts = $order->cart()->with('products')->get();
+
+foreach ($carts as $cart) {
+    $firstProduct = $cart->products[0];
+    break;
+}
 ?>
 <div class="card mb-3 not-collapsed-border collapsed card-order-holder <?php if ($order['order_status'] == 'new'): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>
 
@@ -12,14 +16,17 @@ $firstProduct = $orderProducts[0];
                 <div class="row align-items-center">
 
                     <div class="col item-image">
-                        <?php if (count($orderProducts) > 1): ?>
+                        <?php if (count($carts) > 1): ?>
                             <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;">
-                                <?php echo count($orderProducts); ?>
+                                <?php echo count($carts); ?>
                             </button>
                         <?php endif; ?>
                         <div class="img-circle-holder img-absolute">
-                            <?php if (!empty($firstProduct['item_image'])): ?>
-                                <img src="<?php echo thumbnail($firstProduct['item_image'], 160, 160); ?>"/>
+                            <?php
+                            $firstProductImage =$firstProduct->media()->first()->filename;
+                            ?>
+                            <?php if (!empty($firstProductImage)): ?>
+                                <img src="<?php echo thumbnail($firstProductImage, 160, 160); ?>"/>
                             <?php else: ?>
                                 <img src="<?php echo thumbnail(''); ?>"/>
                             <?php endif; ?>
@@ -80,7 +87,7 @@ $firstProduct = $orderProducts[0];
 
         <div class="row mt-3">
             <div class="col-12 text-center text-sm-left js-change-button-styles">
-                <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
+                <a href="<?php echo route('admin.order.show', $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
             </div>
         </div>
 

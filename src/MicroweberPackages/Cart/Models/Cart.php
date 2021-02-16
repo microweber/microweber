@@ -12,8 +12,15 @@
 namespace MicroweberPackages\Cart\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Product\Models\Product;
 
 class Cart extends Model
 {
     public $table = 'cart';
+
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'id', 'rel_id');
+    }
 }
