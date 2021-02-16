@@ -15,7 +15,7 @@ use MicroweberPackages\Order\Http\Requests\OrderCreateRequest;
 use MicroweberPackages\Order\Http\Requests\OrderUpdateRequest;
 use MicroweberPackages\Order\Repositories\OrderRepository;
 
-class OrderApiController
+class OrderApiController extends AdminDefaultController
 {
     public $order;
 
@@ -24,7 +24,6 @@ class OrderApiController
         $this->order = $order;
 
     }
-
 
     /**
     /**
