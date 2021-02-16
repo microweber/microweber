@@ -10,7 +10,6 @@ class OrderController extends AdminController
 {
     public function index(Request $request)
     {
-
         $filteringResults = false;
 
         $orderBy = $request->get('orderBy', 'id');
@@ -21,7 +20,7 @@ class OrderController extends AdminController
             $filteringResults = true;
         }
 
-        $newOrders = Order::where('order_status','new')->get();
+        $newOrders = Order::filter($request->all())->where('order_status','new')->get();
 
         $orders = Order::filter($request->all())
             ->where('order_status', '!=', 'new')
