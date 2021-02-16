@@ -51,11 +51,17 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      */
     public function get($columns = ['*'])
     {
-        $is_disabled = \Config::get('microweber.disable_model_cache');
+        if (!defined('MW_INSTALL_CONTROLLER')) {
+            $is_disabled = \Config::get('microweber.disable_model_cache');
 
-        if(!$is_disabled){
-            $is_disabled = $this->cacheIsDisabled;
+            if (!$is_disabled) {
+                $is_disabled = $this->cacheIsDisabled;
+            }
+        } else {
+            $is_disabled = true;
         }
+
+
 
         if (!$is_disabled) {
             $cacheKey = $this->getCacheKey($columns);

@@ -150,6 +150,10 @@ class InstallController extends Controller
                 if (isset($input['db_name']) and $input['db_name'] != ':memory:' and  !file_exists($input['db_name'])) {
                     touch($input['db_name']);
                 }
+
+                \DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
+
+
             }
 
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
@@ -182,7 +186,7 @@ class InstallController extends Controller
                 Config::set('microweber.admin_url', $input['admin_url']);
             }
 
-            Config::set('app.fallback_locale', 'en_US');
+            Config::set('app.fallback_locale', 'en');
 
             if (isset($input['site_lang'])) {
                 Config::set('app.locale', $input['site_lang']);
