@@ -6,37 +6,36 @@
  * Time: 4:09 PM
  */
 
-namespace MicroweberPackages\Product\Http\Controllers\Api;
+namespace MicroweberPackages\Order\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Product\Http\Requests\ProductRequest;
-use MicroweberPackages\Product\Http\Requests\ProductCreateRequest;
-use MicroweberPackages\Product\Http\Requests\ProductUpdateRequest;
-use MicroweberPackages\Product\Repositories\ProductRepository;
+use MicroweberPackages\Order\Http\Requests\OrderRequest;
+use MicroweberPackages\Order\Http\Requests\OrderCreateRequest;
+use MicroweberPackages\Order\Http\Requests\OrderUpdateRequest;
+use MicroweberPackages\Order\Repositories\OrderRepository;
 
-class ProductApiController extends AdminDefaultController
+class OrderApiController extends AdminDefaultController
 {
-    public $product;
+    public $order;
 
-    public function __construct(ProductRepository $product)
+    public function __construct(OrderRepository $order)
     {
-        $this->product = $product;
+        $this->order = $order;
 
     }
 
     /**
     /**
-     * Display a listing of the product.
+     * Display a listing of the order.
      *
-     * @param ProductRequest $request
+     * @param orderRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
         return (new JsonResource(
-            $this->product
+            $this->order
                 ->filter($request->all())
                 ->paginate($request->get('limit', 30))
                 ->appends($request->except('page'))
@@ -46,14 +45,14 @@ class ProductApiController extends AdminDefaultController
     }
 
     /**
-     * Store product in database
+     * Store order in database
      *
-     * @param ProductCreateRequest $request
+     * @param orderCreateRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ProductCreateRequest $request)
+    public function store(orderCreateRequest $request)
     {
-        $result = $this->product->create($request->all());
+        $result = $this->order->create($request->all());
         return (new JsonResource($result))->response();
     }
 
@@ -65,7 +64,7 @@ class ProductApiController extends AdminDefaultController
      */
     public function show($id)
     {
-        $result = $this->product->show($id);
+        $result = $this->order->show($id);
 
         return (new JsonResource($result))->response();
     }
@@ -74,14 +73,14 @@ class ProductApiController extends AdminDefaultController
     /**
      * Update the specified resource in storage.
      *
-     * @param  ProductRequest $request
-     * @param  string $product
+     * @param  orderRequest $request
+     * @param  string $order
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductUpdateRequest $request, $product)
+    public function update(orderUpdateRequest $request, $order)
     {
 
-        $result = $this->product->update($request->all(), $product);
+        $result = $this->order->update($request->all(), $order);
         return (new JsonResource($result))->response();
     }
 
@@ -93,7 +92,7 @@ class ProductApiController extends AdminDefaultController
      */
     public function delete($id)
     {
-        return $this->product->delete($id);
+        return $this->order->delete($id);
     }
 
     /**
@@ -104,6 +103,6 @@ class ProductApiController extends AdminDefaultController
      */
     public function destroy($ids)
     {
-        return $this->product->destroy($ids);
+        return $this->order->destroy($ids);
     }
 }

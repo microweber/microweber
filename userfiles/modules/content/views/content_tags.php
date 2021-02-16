@@ -52,6 +52,6 @@ if ($all_existing_tags == null) {
 
 <div class="row">
     <div class="col-12">
-        <input type="text" name="tag_names" data-role="tagsinput" value="<?php print implode(',', $tags_str); ?>" placeholder="Separate options with a comma" id="tags"/>
+        <input type="text" name="tag_names" data-role="tagsinput" value="<?php print implode(',', $tags_str); ?>" placeholder="<?php _e("Separate options with a comma"); ?>" id="tags"/>
     </div>
 </div>

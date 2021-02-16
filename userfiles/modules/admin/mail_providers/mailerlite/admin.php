@@ -59,7 +59,7 @@
     </div>
 
     <div class="form-group">
-        <button type="button" class="btn btn-primary mail-provider-test-api-mailerlite"><i class="mdi mdi-flask"></i> Test Api</button>
+        <button type="button" class="btn btn-primary mail-provider-test-api-mailerlite"><i class="mdi mdi-flask"></i> <?php _e("Test Api"); ?></button>
        <!-- <button type="button" class="btn btn-primary mail-provider-logs-api-mailerlite"><i class="mdi mdi-note-text"></i> Logs</button>-->
     </div>
 </form>

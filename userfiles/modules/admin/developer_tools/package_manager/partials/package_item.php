@@ -164,7 +164,7 @@ $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode(
                                 </div>
                             <?php endif; ?>
                             <?php $tooltipid = uniqid('tooltip'); ?>
-                            <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>" data-trigger="click">Information</span>
+                            <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>" data-trigger="click"><?php _e("Information"); ?></span>
                             <div id="<?php print $tooltipid ?>" style="display: none">
                                 <?php include(__DIR__ . '/package_data_tooltip.php'); ?>
                             </div>

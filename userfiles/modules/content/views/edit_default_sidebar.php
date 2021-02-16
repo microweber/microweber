@@ -122,7 +122,7 @@
         <div class="card-body pt-3 pb-0">
             <div class="row">
                 <div class="col-12">
-                    <strong>Visibility</strong>
+                    <strong><?php _e("Visibility"); ?></strong>
                 </div>
             </div>
 
@@ -131,17 +131,17 @@
                     <div class="form-group">
                         <div class="custom-control custom-radio">
                             <input type="radio" id="is_active_1" name="is_active" class="custom-control-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" for="is_active_1">Published</label>
+                            <label class="custom-control-label" for="is_active_1"><?php _e("Published"); ?></label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input type="radio" id="is_active_0" name="is_active" class="custom-control-input" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
-                            <label class="custom-control-label" for="is_active_0">Unpublished</label>
+                            <label class="custom-control-label" for="is_active_0"><?php _e("Unpublished"); ?></label>
                         </div>
                     </div>
                 </div>
                 <?php if (isset($data['id']) and $data['id'] != 0): ?>
                     <div class="col-12">
-                        <button type="button" class="btn btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date">Set a specific publish date</button>
+                        <button type="button" class="btn btn-link px-0" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
                         <div class="collapse" id="set-a-specific-publish-date">
                             <div class="row pb-3">
@@ -195,7 +195,7 @@
                 <?php else: ?>
                     <div class="col-12">
                         <strong><?php _e('Categories'); ?></strong>
-                      <a onclick="mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin');void(0);return false;" href="<?php /*echo admin_url(); */?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> Manage</a>
+                      <a onclick="mw.top().tools.open_global_module_settings_modal('categories/admin_backend_modal', 'categories-admin');void(0);return false;" href="<?php /*echo admin_url(); */?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
 
                     </div>
                 <?php endif; ?>
@@ -243,7 +243,7 @@
 
                 <div class="row">
                     <div class="col-12">
-                        <small class="text-muted">Want to add the <?php echo $data['content_type']; ?> in more categories?</small>
+                        <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
                         <br/>
                         <button type="button" class="btn btn-outline-primary btn-sm text-dark my-3" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
                         <br/>
@@ -306,7 +306,7 @@
                 <?php if (isset($data['content_type']) AND $data['content_type'] != 'page'): ?>
                     <module type="content/views/content_tags" content-type="<?php print $data['content_type'] ?>" content-id="<?php print $data['id'] ?>"/>
                 <?php else: ?>
-                    <small class="text-muted">The tags are available only for saved content</small>
+                    <small class="text-muted"><?php _e('The tags are available only for saved content'); ?></small>
                 <?php endif; ?>
             </div>
         </div>

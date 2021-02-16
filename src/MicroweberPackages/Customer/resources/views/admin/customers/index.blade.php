@@ -50,7 +50,7 @@
             @endif
 
             <a href="{{ route('customers.create') }}" class="btn btn-primary icon-left">
-                <i class="mdi mdi-plus"></i> New client
+                <i class="mdi mdi-plus"></i> <?php _e('New client'); ?>
             </a>
         </div>
     </div>
@@ -75,7 +75,7 @@
 
                 <div class="col">
                     <label>&nbsp;</label>
-                    <button type="submit" class="btn btn-outline-primary icon-left btn-md d-block">Apply</button>
+                    <button type="submit" class="btn btn-outline-primary icon-left btn-md d-block"><?php _e('Apply'); ?></button>
                 </div>
             </div>
         </div>
@@ -139,10 +139,10 @@
     <div class="row">
         <div class="col-12">
             <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_clients.svg'); ">
-                <h4>You don’t have clients yet</h4>
-                <p>Here you can mange your clients</p>
+                <h4><?php _e('You don’t have clients yet'); ?></h4>
+                <p><?php _e('Here you can mange your clients'); ?></p>
                 <br/>
-                <a href="{{ route('customers.create') }}" class="btn btn-primary btn-rounded">Add client</a>
+                <a href="{{ route('customers.create') }}" class="btn btn-primary btn-rounded"><?php _e('Add client'); ?></a>
             </div>
         </div>
     </div>
