@@ -11,13 +11,38 @@
 
 namespace MicroweberPackages\Cart\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Cart\Models\ModelFilters\CartFilter;
 use MicroweberPackages\Product\Models\Product;
 
 class Cart extends Model
 {
     public $table = 'cart';
 
+    public $fillable = [
+        'email',
+        'first_name',
+        'last_name',
+        'country',
+        'amount',
+        'payment_amount',
+        'transaction_id',
+        'city',
+        'state',
+        'zip',
+        'address',
+        'phone',
+        'user_ip',
+        'payment_gw'
+    ];
+
+    use Filterable;
+
+    public function modelFilter()
+    {
+        return $this->provideFilter(CartFilter::class);
+    }
 
     public function products()
     {

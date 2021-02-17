@@ -47,7 +47,6 @@ class Order extends Model
         return $this->provideFilter(OrderFilter::class);
     }
 
-
     public function cart()
     {
         return $this->hasMany(Cart::class);

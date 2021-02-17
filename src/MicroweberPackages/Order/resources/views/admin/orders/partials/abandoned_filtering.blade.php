@@ -44,9 +44,9 @@
                 </button>
             </div>
             <div class="d-inline-block mx-1">
-                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="order_status">
-                    <?php _e("Status"); ?>
-                    <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>
+                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="qty">
+                    <?php _e("QTY"); ?>
+                    <?php if($orderBy == 'qty' && $orderDirection == 'asc'): ?>
                     <i class="mdi mdi-chevron-down text-muted"></i>
                     <?php else: ?>
                     <i class="mdi mdi-chevron-up text-muted"></i>
@@ -54,9 +54,9 @@
                 </button>
             </div>
             <div class="d-inline-block mx-1">
-                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="amount">
+                <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="price">
                     <?php _e("Amount"); ?>
-                    <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>
+                    <?php if($orderBy == 'price' && $orderDirection == 'asc'): ?>
                     <i class="mdi mdi-chevron-down text-muted"></i>
                     <?php else: ?>
                     <i class="mdi mdi-chevron-up text-muted"></i>

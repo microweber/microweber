@@ -4,10 +4,13 @@ namespace MicroweberPackages\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Order\Models\Order;
 
 class OrderController extends AdminController
 {
+    public $pageLimit = 15;
+
     public function index(Request $request)
     {
         $filteringResults = false;
@@ -24,8 +27,7 @@ class OrderController extends AdminController
 
         $orders = Order::filter($request->all())
             ->where('order_status', '!=', 'new')
-            //->where('order_status', '=', 'newX')
-            ->paginate($request->get('limit', 15))
+            ->paginate($request->get('limit', $this->pageLimit))
             ->appends($request->except('page'));
 
         return $this->view('order::admin.orders.index', [
@@ -40,8 +42,31 @@ class OrderController extends AdminController
 
     public function abandoned(Request $request)
     {
+        $filteringResults = false;
 
-        return $this->view('order::admin.orders.abandoned', []);
+        $orderBy = $request->get('orderBy', 'id');
+        $orderDirection = $request->get('orderDirection', 'desc');
+
+        $keyword = $request->get('keyword', '');
+        if (!empty($keyword)) {
+            $filteringResults = true;
+        }
+
+        $orders = Cart::filter($request->all())
+            ->where('order_completed', '=', '0')
+            ->groupBy('session_id')
+            ->paginate($request->get('limit', $this->pageLimit))
+            ->appends($request->except('page'));
+
+
+        return $this->view('order::admin.orders.abandoned', [
+            'abandoned'=>true,
+            'orderBy'=>$orderBy,
+            'orderDirection'=>$orderDirection,
+            'filteringResults'=>$filteringResults,
+            'keyword'=>$keyword,
+            'orders'=>$orders
+        ]);
     }
 
     public function show($id)
