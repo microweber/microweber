@@ -47,9 +47,9 @@ class TranslationImport
                 $getTranslationText->save();
             }
 
-            return ['success'=> _e('Importing language file success.', true)];
+            return ['success'=> 'Importing language file success.'];
         }
 
-        return ['error'=> _e('Can\'t import this language file.', true)];
+        return ['error'=> 'Can\'t import this language file.'];
     }
 }
