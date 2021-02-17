@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 class TranslationKey extends Model
 {
     public $timestamps = false;
+    public $table = 'translation_keys';
 
     public function texts()
     {

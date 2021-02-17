@@ -46,6 +46,7 @@ class TranslationImport
                 $getTranslationText->translation_text = $translationText;
                 $getTranslationText->save();
             }
+            \Cache::tags('translation_keys')->flush();
 
             return ['success'=> 'Importing language file success.'];
         }
