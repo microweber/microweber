@@ -383,7 +383,7 @@ if (typeof(mw.cart.modal.bindStepButtons) == 'undefined') {
 
         validate(function (hasError, message, step) {
             if (hasError) {
-                message = message || 'Please fill properly the required fields';
+                message = message || mw.lang('Please fill properly the required fields');
                 mw.notification.warning(message);
             }
 

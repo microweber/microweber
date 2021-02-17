@@ -77,7 +77,7 @@ description: Payments 1
                                        <?php print currency_format($print_total); ?>
                                    </label>
                                </div>
-                               <small class="text-muted mt-1"><i><?php _e("<b>*Note</b> Shopping cart will be emptied when order is completed"); ?></i></small>
+                               <small class="text-muted mt-1"><i>*<?php _e("Shopping cart will be emptied when order is completed"); ?></i></small>
                            </div>
                        </div>
                     </div>

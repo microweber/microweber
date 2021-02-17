@@ -4,6 +4,9 @@ $showSearch = false;
 if (count($orders) > 0) {
     $showSearch = true;
 }
+if (isset($newOrders) && count($newOrders) > 0) {
+    $showSearch = true;
+}
 
 if ($filteringResults) {
     $showSearch = true;

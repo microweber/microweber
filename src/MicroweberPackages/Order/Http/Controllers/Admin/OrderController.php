@@ -73,6 +73,11 @@ class OrderController extends AdminController
     {
         $order = Order::where('id',$id)->first();
 
+        if ($order->order_status == 'new') {
+            $order->order_status = 'pending';
+            $order->save();
+        }
+
         return $this->view('order::admin.orders.show', [
             'order'=>$order
         ]);

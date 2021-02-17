@@ -287,5 +287,5 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
 
 <div class="mt-4 d-flex justify-content-between">
     <button type="button" onclick="del_this_order_and_return('<?php print $show_ord_id ?>')" class="btn btn-outline-danger btn-sm"><?php _e('Delete'); ?></button>
-    <button type="button" onclick="export_this_order_and_return('<?php print $show_ord_id ?>')" class="btn btn-outline-primary btn-sm"><?php _e('Export Excel'); ?></button>
+   <!-- <button type="button" onclick="export_this_order_and_return('<?php /*print $show_ord_id */?>')" class="btn btn-outline-primary btn-sm"><?php /*_e('Export Excel'); */?></button>-->
 </div>

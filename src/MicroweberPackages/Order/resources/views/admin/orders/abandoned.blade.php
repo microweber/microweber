@@ -18,6 +18,19 @@
                 <?php endforeach;?>
             <?php endif; ?>
 
+            <?php if (($filteringResults == false) && (count($orders) == 0)): ?>
+            <div class="no-items-found orders">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="no-items-box">
+                            <h4><?php _e("You don’t have any orders yet"); ?></h4>
+                            <p><?php _e("No abandoned carts found"); ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
 
             <div class="d-flex">
                 <div class="mx-auto">
