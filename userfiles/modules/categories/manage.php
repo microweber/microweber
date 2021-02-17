@@ -148,7 +148,26 @@
 
                 mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
 
-                    mw.url.windowHashParam('action', 'editcategory:' + id)
+
+                    if(self !== top && mw.top().settings.liveEdit){
+
+
+                        var opts = {};
+                        opts.width = '800';
+                        opts.height =  '600';
+
+                        opts.liveedit = true;
+                        opts.mode = 'modal';
+
+                        var additional_params = {};
+                        additional_params.category_id = id;
+                        return mw.tools.open_global_module_settings_modal('categories/edit_category',  '#mw_edit_category_admin_holder_modal', opts,additional_params);
+
+
+                    } else {
+                        mw.url.windowHashParam('action', 'editcategory:' + id)
+
+                    }
 
                 }
 
