@@ -256,11 +256,13 @@ class CustomersController extends AdminController
      */
     public function delete(Request $request)
     {
-        foreach ($request->id as $id) {
-            try {
-                Customer::find($id)->delete();
-            } catch (\Exception $e) {
-                //
+        if (is_array($request->id)) {
+            foreach ($request->id as $id) {
+                try {
+                    Customer::find($id)->delete();
+                } catch (\Exception $e) {
+                    //
+                }
             }
         }
 
