@@ -1,7 +1,7 @@
 <?php
 $orderUser = $order->user()->first();
 $carts = $order->cart()->with('products')->get();
-
+$firstProduct = [];
 foreach ($carts as $cart) {
     $firstProduct = $cart->products[0];
     break;
@@ -23,7 +23,7 @@ foreach ($carts as $cart) {
                         <?php endif; ?>
                         <div class="img-circle-holder img-absolute">
                             <?php
-                            $firstProductImage =$firstProduct->media()->first()->filename;
+                            $firstProductImage = $firstProduct->media()->first()->filename;
                             ?>
                             <?php if (!empty($firstProductImage)): ?>
                                 <img src="<?php echo thumbnail($firstProductImage, 160, 160); ?>"/>

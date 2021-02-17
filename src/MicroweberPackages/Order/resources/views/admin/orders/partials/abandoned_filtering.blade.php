@@ -23,13 +23,14 @@
 <form method="get" class="js-form-order-filtering">
     <input type="hidden" name="orderDirection" value="<?php echo $orderDirection; ?>" class="js-form-order-filtering-direction" />
     <div class="manage-toobar d-flex justify-content-between align-items-center">
-        <?php if (count($orders) != 0) { ?>
+
         <div id="cartsnav">
 
             <a href="{{route('admin.order.index')}}" class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Completed orders"); ?></a>
             <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned carts"); ?></a>
         </div>
 
+        <?php if (count($orders) != 0) { ?>
         <div class="js-table-sorting text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
             <small><?php _e("Sort By"); ?>: &nbsp;</small>
 

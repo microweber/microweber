@@ -26,7 +26,7 @@
             <?php endforeach;?>
              <?php endif; ?>
 
-            <?php if (($filteringResults == true) && (count($orders) == 0)): ?>
+            <?php if (($filteringResults == true) && (count($orders) == 0 && count($newOrders) == 0)): ?>
             <div class="no-items-found orders">
                 <div class="row">
                     <div class="col-12">
@@ -39,7 +39,7 @@
             </div>
             <?php endif; ?>
 
-            <?php if (($filteringResults == false) && (count($orders) == 0)): ?>
+            <?php if (($filteringResults == false) && (count($orders) == 0 && count($newOrders) == 0)): ?>
             <div class="no-items-found orders">
                 <div class="row">
                     <div class="col-12">

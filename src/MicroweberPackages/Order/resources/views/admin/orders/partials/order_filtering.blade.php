@@ -23,7 +23,7 @@
 <form method="get" class="js-form-order-filtering">
     <input type="hidden" name="orderDirection" value="<?php echo $orderDirection; ?>" class="js-form-order-filtering-direction" />
     <div class="manage-toobar d-flex justify-content-between align-items-center">
-        <?php if (count($orders) != 0) { ?>
+        <?php if (count($orders) != 0 || count($newOrders) != 0) { ?>
         <div id="cartsnav">
 
             <a href="{{route('admin.order.index')}}" class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Completed orders"); ?></a>
