@@ -292,7 +292,7 @@
                                         <tr>
                                             <td>
                                             <?php if (!empty($productImage)): ?>
-                                            <img src="<?php echo thumbnail($productImage, 160, 160); ?>"/>
+                                            <img src="<?php echo thumbnail($productImage, 60, 60); ?>"/>
                                             <?php else: ?>
                                             <img src="<?php echo thumbnail(''); ?>"/>
                                             <?php endif; ?>
