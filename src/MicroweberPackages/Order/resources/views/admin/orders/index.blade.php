@@ -63,3 +63,5 @@
         </div>
     </div>
 </div>
+
+@include('order::admin.orders.partials.javascripts')

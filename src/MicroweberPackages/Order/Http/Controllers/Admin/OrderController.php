@@ -71,7 +71,7 @@ class OrderController extends AdminController
 
     public function show($id)
     {
-        $order = Order::where('id',$id);
+        $order = Order::where('id',$id)->first();
 
         return $this->view('order::admin.orders.show', [
             'order'=>$order
