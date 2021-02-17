@@ -39,9 +39,15 @@ class IntlLocale
     {
         if (isset(self::$detailsByLocale[$locale])) {
             $details = self::$detailsByLocale[$locale];
-            return $details['flag'];
-        }
+            if (isset($details['flag']) and $details['flag']) {
+                return $details['flag'];
+            }
+            $localee = explode('_',$locale);
 
-        return false;
+            if(isset($localee[1])){
+                return strtolower($localee[1]);
+            }
+        }
+        return $locale;
     }
 }

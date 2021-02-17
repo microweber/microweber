@@ -53,7 +53,7 @@ class LanguageHelper {
                 'text'=>$displayLanguage. ' (' .$region.')'
             ];
         }
-
+//dd($readyLanguages);
         return $readyLanguages;
 
     }
