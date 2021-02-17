@@ -4,6 +4,8 @@ $form_rand_id = uniqid() . rand();
 $data = false;
 if (isset($params["data-category-id"])) {
     $data = get_category_by_id($params["data-category-id"]);
+} elseif (isset($params["category_id"])) {
+    $data = get_category_by_id($params["category_id"]);
 }
 
 if ($data == false or empty($data)) {
@@ -74,6 +76,9 @@ if (isset($params['live_edit'])) {
         }
 
         make_new_cat_after_save = function (el) {
+
+
+
             $('#<?php print $params['id'] ?>').removeClass('loading');
             $('#<?php print $params['id'] ?>').removeAttr('just-saved');
             $('#<?php print $params['id'] ?>').removeAttr('selected-category-id');
@@ -85,6 +90,9 @@ if (isset($params['live_edit'])) {
             mw.reload_module('#<?php print $params['id'] ?>');
 
             <?php endif; ?>
+
+            mw.reload_module_everywhere('content/manager');
+
         }
 
         continue_editing_cat = function () {
@@ -157,12 +165,13 @@ if (isset($params['live_edit'])) {
                     var v = this.toString();
                     mw.$('#mw_admin_edit_cat_id').val(v);
                     mw.$('#mw-cat-pics-admin').attr("for-id", v);
-                    mw.reload_module('[data-type="categories"]');
-                    if (self !== parent && !!parent.mw) {
-                        parent.mw.reload_module('categories');
-                    }
-                    mw.reload_module('categories/manage');
-                    mw.reload_module('content/manager');
+                    //mw.reload_module('[data-type="categories"]');
+                    // if (self !== parent && !!parent.mw) {
+                    //     parent.mw.reload_module('categories');
+                    // }
+                    mw.reload_module_everywhere('categories');
+                    mw.reload_module_everywhere('categories/manage');
+                    mw.reload_module_everywhere('content/manager');
 
 
                     mw.parent().trigger('pagesTreeRefresh')
