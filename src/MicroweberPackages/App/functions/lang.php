@@ -122,7 +122,16 @@ function _e($k, $to_return = false)
  */
 function _ejs($k, $to_return = false)
 {
-    return mw()->lang_helper->ejs($k, $to_return);
+    $trans = trans('*.'.$k);
+    $trans = ltrim($trans, '*.');
+
+    $trans = htmlspecialchars($trans, ENT_QUOTES);
+
+    if ($to_return) {
+        return $trans;
+    }
+
+    echo $trans;
 }
 
 /**
