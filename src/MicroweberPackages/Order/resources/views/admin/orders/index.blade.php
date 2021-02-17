@@ -51,8 +51,8 @@
             <div class="manage-toobar d-flex justify-content-between align-items-center">
                 <?php if (count($orders) != 0) { ?>
                 <div id="cartsnav">
-                    <a href="?orderstype=completed" class="btn btn-link btn-sm px-0 text-dark active"><?php _e("Completed orders"); ?></a>
-                    <a href="?orderstype=carts" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned carts"); ?></a>
+                    <a href="{{route('admin.order.index')}}" class="btn btn-link btn-sm px-0 text-dark active"><?php _e("Completed orders"); ?></a>
+                    <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned carts"); ?></a>
                 </div>
 
                 <div class="js-table-sorting text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
