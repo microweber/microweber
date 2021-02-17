@@ -213,7 +213,8 @@
                                 <h4 class="pull-left mw-blue"><?php _e("Order"); ?> #<?php print $item['id'] ?></h4>
                                 <div class="pull-right show-on-hover2">
                                     <span class="mw-ui-btn mw-ui-btn-info unselectable" onmousedown="mw.tools.accordion(mw.tools.firstParentWithClass(this, 'mw-ui-box'));"><?php _e("Preview Order"); ?></span>
-                                    <a href="<?php print  admin_url() ?>view:shop/action:orders#vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline unselectable"><i class="mw-icon-cart"></i> &nbsp;<?php _e("Go to order"); ?></a>
+                                    <a href="<?php echo route('admin.order.show',$item['id']) ?>" class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline unselectable">
+                                        <i class="mw-icon-cart"></i> &nbsp;<?php _e("Go to order"); ?></a>
                                 </div>
                             </div>
 

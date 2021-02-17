@@ -299,7 +299,7 @@ if (isset($params['live_edit'])) {
 
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <p>Please fill the fields to create or edit a new category</p>
+                <p><?php _e('Please fill the fields to create or edit a new category') ?></p>
 
                 <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
                     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
@@ -339,7 +339,7 @@ if (isset($params['live_edit'])) {
                             <div class="form-group">
                                 <div class="bootstrap-select form-control">
                                     <label class="control-label"><?php print _e('Choose a parent'); ?>:</label>
-                                    <small class="text-muted d-block mb-2">Choose a parent page or category</small>
+                                    <small class="text-muted d-block mb-2"><?php _e('Choose a parent page or category') ?></small>
 
                                     <span class="btn dropdown-toggle btn-light" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
                                     <?php $is_shop = ''; ?>

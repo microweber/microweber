@@ -104,7 +104,7 @@ if (isset($item['created_by'])) {
 
         <div class="row mt-3">
             <div class="col-12 text-center text-sm-left js-change-button-styles">
-                <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
+                <a href="<?php echo route('admin.order.show', $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
             </div>
         </div>
 

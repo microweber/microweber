@@ -162,10 +162,10 @@ $payment_modules = get_modules('type=payment_gateway');
                                     <div class="col pl-0">
                                         <img src="<?php print $payment_module['icon']; ?>" alt="" class="d-none"/>
 
-                                        <h4 class="gateway-title font-weight-bold mb-0"><?php print $payment_module['name'] ?></h4>
+                                        <h4 class="gateway-title font-weight-bold mb-0"><?php print _e($payment_module['name']) ?></h4>
 
                                         <small class="text-muted">
-                                            <?php print $payment_module['name'] ?> <span class="text-primary js-method-on <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') != 1): ?>d-none<?php endif; ?>"><?php _e("is ON"); ?></span>
+                                            <?php print _e($payment_module['name']) ?> <span class="text-primary js-method-on <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') != 1): ?>d-none<?php endif; ?>"><?php _e("is ON"); ?></span>
                                         </small>
                                     </div>
 
