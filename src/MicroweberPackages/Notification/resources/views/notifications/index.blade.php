@@ -352,12 +352,26 @@
                 .timeline-event .row.align-items-center .item-image {
                     max-width: 55px;
                 }
+                .timeline-line-last {
+                    width: 0px;
+                    height: 0px;
+                }
             </style>
 
-            <?php foreach ($notifications as $notification): ?>
+            <?php
+            $countIterations = 0;
+            $allNotificationsCount = count($notifications);
+            foreach ($notifications as $notification):
+            $countIterations++;
+
+            $notificationMessage = trim($notification['message']);
+            if (empty($notificationMessage)) {
+                continue;
+            }
+            ?>
 
             <div class="row timeline-event mw-ui-admin-notif-item-{{$notification['id']}}" onclick="mw.notif_item_read('{{$notification['id']}}')">
-                <div class="col pr-0 timeline-line">
+                <div class="col pr-0 timeline-line <?php if ($countIterations == $allNotificationsCount): ?>timeline-line-last<?php endif; ?>">
                     <div class="custom-control custom-checkbox d-inline-block">
                         <input type="checkbox" class="custom-control-input js-checked-checkbox"
                                id="notif-{{$notification['id']}}" value="{{$notification['id']}}"
@@ -369,7 +383,7 @@
                     </button>
                 </div>
                 <div class="col">
-                    <?php echo $notification['message'];?>
+                    <?php echo $notificationMessage; ?>
                 </div>
             </div>
 

@@ -23,7 +23,7 @@ must_have_access();
         <span class="drh-activity-name"><i class="mai-shop"></i> <?php _e("Recent Orders") ?></span>
         <a href="javascript: mw_admin_add_order_popup();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-outline" id="homepage-add-new-order-btn"><?php print _e('Add new order'); ?></a>
         <?php $new_orders_count = mw()->order_manager->get_count_of_new_orders(); ?>
-        <a href="<?php print admin_url('view:shop/action:orders'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">
+        <a href="<?php echo route('admin.order.index'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">
             <?php if ($new_orders_count): ?>
                 <strong><?php print $new_orders_count; ?></strong>
                 <?php print _e('New orders'); ?>

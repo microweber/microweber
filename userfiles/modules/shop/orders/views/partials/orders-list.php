@@ -13,7 +13,7 @@
 
     <?php if (isset($params['hide-controls']) AND $params['hide-controls'] == 'true'): ?>
         <div class="text-center">
-            <a href="<?php print admin_url('view:shop/action:orders'); ?>" class="btn btn-link"><?php _e("See all orders"); ?></a>
+            <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link"><?php _e("See all orders"); ?></a>
         </div>
     <?php endif; ?>
 <?php else: ?>
