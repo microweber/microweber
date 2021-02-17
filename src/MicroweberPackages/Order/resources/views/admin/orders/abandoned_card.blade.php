@@ -1,13 +1,13 @@
-<table class="table abandoned-cart mt-2 mb-5" id="abandoned-cart-table<?php print $item['id'] ?>" cellpadding="0" cellspacing="0">
+<table class="table abandoned-cart mt-2 mb-5" id="abandoned-cart-table<?php print $order['id'] ?>" cellpadding="0" cellspacing="0">
     <script>
         $(document).ready(function () {
-            $("#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image").bind("mouseenter mouseleave", function (e) {
+            $("#abandoned-cart-table<?php print $order['id'] ?> .mw-order-item-image").bind("mouseenter mouseleave", function (e) {
                 var index = $(this).dataset('index');
-                mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-index-" + index);
+                mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $order['id'] ?> .mw-order-item-index-" + index);
             });
-            $("#abandoned-cart-table<?php print $item['id'] ?> tr.mw-order-item").bind("mouseenter mouseleave", function (e) {
+            $("#abandoned-cart-table<?php print $order['id'] ?> tr.mw-order-item").bind("mouseenter mouseleave", function (e) {
                 var index = $(this).dataset('index');
-                mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image-" + index);
+                mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $order['id'] ?> .mw-order-item-image-" + index);
             });
         });
 
@@ -23,17 +23,19 @@
 
     <thead class="table-active">
     <tr>
-        <th class="font-weight-bold"><?php _e("Abandoned Cart ID"); ?>: <?php print $item['id']; ?></th>
+        <th class="font-weight-bold"><?php _e("Abandoned Cart ID"); ?>: <?php print $order['id']; ?></th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-    <tr class="mw-order-item-<?php print $item['id'] ?> no-hover">
+    <tr class="mw-order-item-<?php print $order['id'] ?> no-hover">
         <td class="pb-0">
-            <?php $cart_items = get_cart('order_completed=0&session_id=' . $item['session_id']); ?>
-            <?php if (is_array($cart_items) and !empty($cart_items)) : ?>
             <?php
             $recart_base = site_url();
+            ?>
+            <?php $cart_items = get_cart('order_completed=0&session_id=' . $order['session_id']); ?>
+            <?php if (is_array($cart_items) and !empty($cart_items)) : ?>
+            <?php
             if (is_array($cart_items[0]) and isset($cart_items[0]['rel_id'])) {
                 $recart_base = content_link($cart_items[0]['rel_id']);
             }
@@ -89,15 +91,15 @@
             <label class="control-label d-block">
                 <?php _e("Recover URL"); ?> <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Use this if you need to send it to your clients. They'll be able to restore their Shopping Cart."); ?>"></span>
             </label>
-            <small class="text-muted" onclick="mw.wysiwyg.select_all(this);"><?php print $recart_base . '?recart=' . $item['session_id']; ?></small>
+            <small class="text-muted" onclick="mw.wysiwyg.select_all(this);"><?php print $recart_base . '?recart=' . $order['session_id']; ?></small>
         </div>
         <label class="control-label col-2 align-self-center">
             <span class="mw-icon-lite-clock-outline" style="font-size: 16px;top:-1px;right:2px;"></span>
-            <span class="mw-ui-label-small tip" data-tipposition="top-center" data-tip="<?php _e("Last activity on"); ?>: <?php print $item['updated_at'] ?>"><?php print mw('format')->ago($item['updated_at']); ?></span>
+            <span class="mw-ui-label-small tip" data-tipposition="top-center" data-tip="<?php _e("Last activity on"); ?>: <?php print $order['updated_at'] ?>"><?php print mw('format')->ago($order['updated_at']); ?></span>
         </label>
         <div class="text-center col-5 align-self-center">
-            <a class="btn btn-danger btn-sm" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);"><?php _e("Delete cart"); ?></a>
-            <a class="btn btn-secondary btn-sm" href="<?php print $recart_base . '?recart=' . $item['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
+            <button class="btn btn-danger btn-sm" onclick="mw_delete_shop_order('<?php print ($order['session_id']) ?>',1);"><?php _e("Delete cart"); ?></button>
+            <a class="btn btn-secondary btn-sm" href="<?php print $recart_base . '?recart=' . $order['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
         </div>
     </td>
     </tbody>
