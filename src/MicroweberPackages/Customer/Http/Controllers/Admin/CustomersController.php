@@ -113,6 +113,7 @@ class CustomersController extends AdminController
     public function show($id)
     {
         $customer = Customer::with([
+            'orders',
             'billingAddress',
             'shippingAddress',
             'billingAddress.country',

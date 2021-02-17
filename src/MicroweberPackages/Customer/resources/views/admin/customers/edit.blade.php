@@ -251,44 +251,71 @@
 @endsection
 
 @section('order_content')
-    @if (isset($orders))
-        <div class="card style-1 bg-light mb-3">
-            <div class="card-header">
-                <h5>
-                    <i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Client orders"); ?></strong>
-                </h5>
-            </div>
-
-            <div class="card-body pt-3">
-
-                @if (count($orders) > 1)
-                    @foreach ($orders as $order)
-                        <div class="card style-1 mb-2 card-collapse" data-toggle="collapse" data-target="#order-item-{{ $order->id }}">
-                            <div class="card-header no-border">
-                                <h5><strong>Order #{{ $order->id }}</strong></h5>
-                                <div>
-                                    <a href="#" class="btn btn-outline-primary btn-sm"><?php _e("Preview"); ?></a>
-                                    <a href="#" class="btn btn-primary btn-sm"><?php _e("Go to order"); ?></a>
-                                </div>
+    <div class="card style-1 bg-light mb-3">
+        <div class="card-header">
+            <h5>
+                <i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Client orders"); ?></strong>
+            </h5>
+        </div>
+        <div class="card-body pt-3">
+            @if ($customer->orders()->count() > 0)
+                @foreach ($customer->orders()->get() as $order)
+                    <div class="card style-1 mb-2 card-collapse" data-toggle="collapse" data-target="#order-item-{{ $order->id }}">
+                        <div class="card-header no-border">
+                            <h5><strong>Order #{{ $order->id }}</strong></h5>
+                            <div>
+                                <a href="#" class="btn btn-outline-primary btn-sm"><?php _e("Preview"); ?></a>
+                                <a href="#" class="btn btn-primary btn-sm"><?php _e("Go to order"); ?></a>
                             </div>
+                        </div>
 
-                            <div class="card-body py-0">
-                                <div class="collapse" id="order-item-{{ $order->id }}">
-
-
-                                    {{--{{ dump($order) }}--}}
-
-                                    {{ $order->amount }}
-
+                        <div class="card-body py-0">
+                            <div class="collapse" id="order-item-{{ $order->id }}">
+                                <div class="table-responsive">
+                                    <table class="table vertical-align-middle table-header-no-border table-primary-hover" id="order-information-table">
+                                        <thead class="text-primary">
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Product</th>
+                                            <th>SKU</th>
+                                            <th>Price</th>
+                                            <th class="text-center">QTY</th>
+                                            <th>Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $carts = $order->cart()->with('products')->first();
+                                        foreach ($carts->products()->get() as $product):
+                                        $productImage = $product->media()->first()->filename;
+                                        ?>
+                                        <tr>
+                                            <td>
+                                            <?php if (!empty($productImage)): ?>
+                                            <img src="<?php echo thumbnail($productImage, 160, 160); ?>"/>
+                                            <?php else: ?>
+                                            <img src="<?php echo thumbnail(''); ?>"/>
+                                            <?php endif; ?>
+                                            </td>
+                                            <td><?php echo $product->title; ?></td>
+                                            <td><?php echo $product->sku; ?></td>
+                                            <td><?php echo currency_format($product->price); ?></td>
+                                            <td><?php echo $product->qty; ?></td>
+                                            <td><?php echo currency_format(($product->price * $product->qty)); ?></td>
+                                        </tr>
+                                        <?php
+                                        endforeach;
+                                        ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                @else
-                    <?php _e("No orders found for this customer"); ?>.
-                @endif
-
-            </div>
+                    </div>
+                @endforeach
+            @else
+                <?php _e("No orders found for this customer"); ?>.
+            @endif
         </div>
-    @endif
+    </div>
 @endsection
