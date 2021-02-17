@@ -5,93 +5,12 @@
                 <button onclick="mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?php print _e('Add new order'); ?></button>
             </h5>
 
-            <div class="js-hide-when-no-items">
-                <div class="js-search-by d-inline-block">
-                    <div class="js-search-by-keywords">
-                        <form method="get">
-                        <div class="form-inline">
-                            <div class="input-group mb-0 prepend-transparent mx-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
-                                </div>
-                                <input type="text" name="keyword" value="<?php echo $keyword; ?>" class="form-control form-control-sm" style="width: 220px;" placeholder="<?php _e("Search"); ?>"/>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-magnify"></i></button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            @include('order::admin.orders.partials.order_search')
+
         </div>
         <div class="card-body pt-3 pb-0">
-            <script>
-                $(document).ready(function() {
-                    $('.js-sort-btn').click(function (e) {
 
-                        var direction = $('.js-form-order-filtering-direction').val();
-
-                        if (direction == '') {
-                            $('.js-form-order-filtering-direction').val('desc');
-                        }
-
-                        if (direction == 'desc') {
-                            $('.js-form-order-filtering-direction').val('asc');
-                        }
-
-                        if (direction == 'asc') {
-                            $('.js-form-order-filtering-direction').val('desc');
-                        }
-
-                    });
-                });
-            </script>
-
-            <form method="get" class="js-form-order-filtering">
-                <input type="hidden" name="orderDirection" value="<?php echo $orderDirection; ?>" class="js-form-order-filtering-direction" />
-            <div class="manage-toobar d-flex justify-content-between align-items-center">
-                <?php if (count($orders) != 0) { ?>
-                <div id="cartsnav">
-                    <a href="{{route('admin.order.index')}}" class="btn btn-link btn-sm px-0 text-dark active"><?php _e("Completed orders"); ?></a>
-                    <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned carts"); ?></a>
-                </div>
-
-                <div class="js-table-sorting text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
-                    <small><?php _e("Sort By"); ?>: &nbsp;</small>
-
-                    <div class="d-inline-block mx-1">
-                        <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="created_at">
-                            <?php _e("Date"); ?>
-                            <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>
-                            <i class="mdi mdi-chevron-down text-muted"></i>
-                            <?php else: ?>
-                            <i class="mdi mdi-chevron-up text-muted"></i>
-                            <?php endif; ?>
-                        </button>
-                    </div>
-                    <div class="d-inline-block mx-1">
-                        <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="order_status">
-                            <?php _e("Status"); ?>
-                            <?php if($orderBy == 'order_status' && $orderDirection == 'asc'): ?>
-                            <i class="mdi mdi-chevron-down text-muted"></i>
-                            <?php else: ?>
-                            <i class="mdi mdi-chevron-up text-muted"></i>
-                            <?php endif; ?>
-                        </button>
-                    </div>
-                    <div class="d-inline-block mx-1">
-                        <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="amount">
-                            <?php _e("Amount"); ?>
-                            <?php if($orderBy == 'amount' && $orderDirection == 'asc'): ?>
-                                <i class="mdi mdi-chevron-down text-muted"></i>
-                            <?php else: ?>
-                                <i class="mdi mdi-chevron-up text-muted"></i>
-                            <?php endif; ?>
-                        </button>
-                    </div>
-                </div>
-                <?php } ?>
-            </div>
-            </form>
+            @include('order::admin.orders.partials.order_filtering')
 
             <?php if (count($newOrders) > 0): ?>
                  <label class="control-label mb-3 mt-3"><?php print _e('New orders'); ?></label>
@@ -100,9 +19,8 @@
             <?php endforeach;?>
             <?php endif; ?>
 
-            <label class="control-label mb-3 mt-3"><?php print _e('All orders'); ?></label>
-
             <?php if (count($orders) > 0): ?>
+            <label class="control-label mb-3 mt-3"><?php print _e('All orders'); ?></label>
             <?php foreach ($orders as $order): ?>
                 @include('order::admin.orders.order_card')
             <?php endforeach;?>

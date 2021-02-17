@@ -24,6 +24,7 @@ class OrderController extends AdminController
 
         $orders = Order::filter($request->all())
             ->where('order_status', '!=', 'new')
+            //->where('order_status', '=', 'newX')
             ->paginate($request->get('limit', 15))
             ->appends($request->except('page'));
 
