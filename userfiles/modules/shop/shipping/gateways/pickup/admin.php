@@ -41,9 +41,9 @@ must_have_access();
     <label class="control-label"><?php _e("Enable pickup"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Enable or disable pickup method for shipping'); ?></small>
     <div class="custom-control custom-switch pl-0">
-        <label class="d-inline-block mr-5" for="shipping_gw_shop/shipping/gateways/pickup">No</label>
+        <label class="d-inline-block mr-5" for="shipping_gw_shop/shipping/gateways/pickup"><?php _e('No'); ?></label>
         <input onchange="shippingPickupSettingsSet(this)" type="checkbox" name="shipping_gw_shop/shipping/gateways/pickup" id="shipping_gw_shop/shipping/gateways/pickup" data-option-group="shipping" data-id="shipping_gw_shop/shipping/gateways/pickup" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" <?php if ($status == 'notification'): ?> checked  <?php endif; ?>>
-        <label class="custom-control-label" for="shipping_gw_shop/shipping/gateways/pickup">Yes</label>
+        <label class="custom-control-label" for="shipping_gw_shop/shipping/gateways/pickup"><?php _e('Yes'); ?></label>
     </div>
 </div>
 
