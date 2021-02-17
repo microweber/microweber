@@ -293,6 +293,10 @@ class InstallController extends Controller
                     $installer->logger = $this;
                     $installer->run();
 
+
+                }
+
+                if (!$install_step or $install_step == 7) {
                     if (isset($input['site_lang'])) {
                         if ($dbDriver == 'sqlite') {
                             \DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
@@ -307,7 +311,7 @@ class InstallController extends Controller
                 if ($install_step) {
                     if ($install_step != 'finalize') {
                         $install_step_return = array('install_step' => $install_step + 1);
-                        if ($install_step == 6) {
+                        if ($install_step == 7) {
                             if (isset($input['admin_email']) and isset($input['subscribe_for_update_notification'])) {
                                 $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                             }
