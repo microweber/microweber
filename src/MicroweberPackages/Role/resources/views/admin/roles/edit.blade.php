@@ -63,10 +63,10 @@
 
 
     @if(isset($role) && $role)
-        <form id="form_validation" method="post" action="{{ route('roles.update', $role->id) }}">
+        <form id="form_validation" method="post" action="{{ route('admin.role.update', $role->id) }}">
             @method('PUT')
             @else
-                <form method="post" action="{{ route('roles.store') }}">
+                <form method="post" action="{{ route('admin.role.store') }}">
                     @endif
                     @csrf
 
@@ -216,7 +216,7 @@
                         </div>
                     @endforeach
 
-                    <a href="{{route('roles.index')}}" class="btn btn-outline-secondary btn-sm"><?php _e('Cancel'); ?></a>
+                    <a href="{{route('admin.role.index')}}" class="btn btn-outline-secondary btn-sm"><?php _e('Cancel'); ?></a>
                     <button class="btn btn-secondary btn-sm" type="reset"><?php _e('Reset'); ?></button>
 
                     <button class="btn btn-success btn-sm float-right" type="submit"><?php _e('Save'); ?></button>
