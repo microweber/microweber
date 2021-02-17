@@ -37,6 +37,12 @@ class OrderController extends AdminController
         ]);
     }
 
+    public function abandoned(Request $request)
+    {
+
+        return $this->view('order::admin.orders.abandoned', []);
+    }
+
     public function show($id)
     {
         $order = Order::where('id',$id);
