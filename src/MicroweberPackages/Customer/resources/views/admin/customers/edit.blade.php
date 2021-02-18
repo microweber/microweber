@@ -303,8 +303,9 @@
                                             <td><?php echo $product->qty; ?></td>
                                             <?php
                                             $qty = (int) $product->qty;
+                                            $productPrice = (float) $product->price;
                                             ?>
-                                            <td><?php echo currency_format((float($product->price) * $qty)); ?></td>
+                                            <td><?php echo currency_format($productPrice * $qty); ?></td>
                                         </tr>
                                         <?php
                                         endforeach;
