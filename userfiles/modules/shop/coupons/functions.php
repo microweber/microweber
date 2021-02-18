@@ -41,7 +41,7 @@ function coupon_apply($params = array())
         $getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
 
         if (is_array($getLog) and $getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
-            $errorMessage .= 'The coupon can\'t be applied cause maximum uses is ' . $coupon['uses_per_customer'] . "<br />";
+            $errorMessage .= _e('The coupon can\'t be applied cause maximum uses is', true) .' '. $coupon['uses_per_customer'] . "<br />";
         }
     }
 
@@ -49,16 +49,16 @@ function coupon_apply($params = array())
         $getLogs = coupon_logs_get_by_code($coupon_code);
 
         if (count($getLogs) >= $coupon['uses_per_coupon']) {
-            $errorMessage .= 'The coupon code is expired.<br />';
+            $errorMessage .= _e('The coupon code is expired', true) . '.<br />';
         }
     }
 
     if ($coupon and isset($coupon['total_amount']) and  $cartTotal < $coupon['total_amount']) {
-        $errorMessage .= 'The coupon can\'t be applied because the minimum total amount is ' . currency_format($coupon['total_amount']) . "<br />";
+        $errorMessage .= _e('The coupon can\'t be applied because the minimum total amount is ', true) . currency_format($coupon['total_amount']) . "<br />";
     }
 
     if (!is_array($getCart)) {
-        $errorMessage .= 'The coupon can\'t be applied. The shopping cart is empty.';
+        $errorMessage .= _e('The coupon can\'t be applied. The shopping cart is empty.', true);
     }
 
     if (empty($errorMessage)) {
@@ -103,24 +103,24 @@ function coupons_save_coupon($couponData = array())
     $check = coupon_get_by_code($couponData['coupon_code']);
     if (!empty($check)) {
         if ($check['id'] != $couponData['id']) {
-            $errorMessage .= 'This coupon code allready exists. Please, try with another.<br />';
+            $errorMessage .= _e('This coupon code allready exists. Please, try with another', true) . '.<br />';
         }
     }
 
     if (!is_numeric($couponData['uses_per_coupon'])) {
-        $errorMessage .= 'Uses per coupon must be number.<br />';
+        $errorMessage .= _e('Uses per coupon must be number', true) . '.<br />';
     }
 
     if (!is_numeric($couponData['uses_per_customer'])) {
-        $errorMessage .= 'Uses per customer must be number.<br />';
+        $errorMessage .= _e('Uses per customer must be number', true) . '.<br />';
     }
 
     if (!is_numeric($couponData['discount_value'])) {
-        $errorMessage .= 'Discount value must be number.<br />';
+        $errorMessage .= _e('Discount value must be number', true) . '.<br />';
     }
 
     if (!is_numeric($couponData['total_amount'])) {
-        $errorMessage .= 'Total amount must be number.<br />';
+        $errorMessage .= _e('Total amount must be number', true) . '.<br />';
     }
 
     if (empty($errorMessage)) {
