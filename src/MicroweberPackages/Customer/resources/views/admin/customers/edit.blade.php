@@ -301,7 +301,10 @@
                                             <td><?php echo $product->sku; ?></td>
                                             <td><?php echo currency_format($product->price); ?></td>
                                             <td><?php echo $product->qty; ?></td>
-                                            <td><?php echo currency_format(($product->price * $product->qty)); ?></td>
+                                            <?php
+                                            $qty = (int) $product->qty;
+                                            ?>
+                                            <td><?php echo currency_format((float($product->price) * $qty)); ?></td>
                                         </tr>
                                         <?php
                                         endforeach;
