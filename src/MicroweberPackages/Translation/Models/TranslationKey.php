@@ -56,7 +56,7 @@ class TranslationKey extends Model
         $queryModel->groupBy(\DB::raw("MD5(translation_key)"));
 
         if (isset($filter['search']) && !empty($filter['search'])) {
-            $queryModel->where(function($subQuery) use ($filter) {
+            $queryModel->whereHas('texts', function($subQuery) use ($filter) {
                 $subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
                 $subQuery->orWhere('translation_text', 'like', '%' . $filter['search'] . '%');
             });
