@@ -19,14 +19,18 @@ class Post extends Content
         "title",
         "url",
         "content_meta_title",
+        "content",
         "description",
+        "content_body",
         "content_meta_keywords",
         "original_link",
         "require_login",
         "created_by",
         "is_home",
         "is_shop",
-        "is_active"
+        "is_active",
+        "updated_at",
+        "created_at",
     ];
 
     public $translatable = ['title','url','description','content','content_body'];
