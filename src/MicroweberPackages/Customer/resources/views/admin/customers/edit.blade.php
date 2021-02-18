@@ -264,8 +264,8 @@
                         <div class="card-header no-border">
                             <h5><strong>Order #{{ $order->id }}</strong></h5>
                             <div>
-                                <a href="#" class="btn btn-outline-primary btn-sm"><?php _e("Preview"); ?></a>
-                                <a href="#" class="btn btn-primary btn-sm"><?php _e("Go to order"); ?></a>
+                                <a href="{{ route('admin.order.show',$order->id) }}" class="btn btn-outline-primary btn-sm"><?php _e("Preview"); ?></a>
+                                <a href="{{ route('admin.order.show',$order->id) }}" class="btn btn-primary btn-sm"><?php _e("Go to order"); ?></a>
                             </div>
                         </div>
 
