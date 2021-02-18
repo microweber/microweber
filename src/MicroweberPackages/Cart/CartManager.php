@@ -444,12 +444,12 @@ class CartManager extends Crud
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
 
-            return array('success' => 'Item quantity changed', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
+            return array('success' => _e('Item quantity changed', true), 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
 
 
-            return array('success' => 'Item removed from cart');
+            return array('success' => _e('Item removed from cart', true));
         } else {
-            return array('error' => 'Item not removed from cart');
+            return array('error' => _e('Item not removed from cart', true));
 
         }
 
@@ -458,10 +458,10 @@ class CartManager extends Crud
     public function update_item_qty($data)
     {
         if (!isset($data['id'])) {
-            return array('error' => 'Invalid data');
+            return array('error' => _e('Invalid data', true));
         }
         if (!isset($data['qty'])) {
-            return array('error' => 'Invalid data');
+            return array('error' => _e('Invalid data', true));
         }
         $data_fields = false;
 
@@ -511,7 +511,7 @@ class CartManager extends Crud
 
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
-            return array('success' => 'Item quantity changed', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
+            return array('success' => _e('Item quantity changed', true), 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
 
 
         }

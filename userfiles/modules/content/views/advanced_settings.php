@@ -176,7 +176,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="form-group js-count-letters">
                             <div class="d-flex justify-content-between">
                                 <label><?php _e("Meta title"); ?>
-                                    <small data-toggle="tooltip" title="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small>
+                                    <small data-toggle="tooltip" title="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks."></small>
                                 </label>
                             </div>
                             <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
@@ -188,7 +188,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="form-group js-count-letters">
                             <div class="d-flex justify-content-between">
                                 <label><?php _e("Meta description"); ?>
-                                    <small data-toggle="tooltip" title="Short description for yor content.">(?)</small>
+                                    <small data-toggle="tooltip" title="Short description for yor content."></small>
                                 </label>
                              </div>
                             <textarea class="form-control" name="description" placeholder=""><?php if ($data['description'] != '') print ($data['description']) ?></textarea>
@@ -199,7 +199,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                     <div class="col-md-12">
                         <div class="form-group">
                             <label><?php _e("Meta keywords"); ?>
-                                <small data-toggle="tooltip" title="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial"> (?)</small>
+                                <small data-toggle="tooltip" title="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial"></small>
                             </label>
                             <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
                             <textarea class="form-control" name="content_meta_keywords" placeholder="<?php _e('Show') ?>e.g. Summer, Ice cream, Beach
@@ -409,7 +409,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                         <div class="col-md-6">
                                             <label>
                                                 <?php _e("Change content type"); ?>
-                                                <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>">(?)</small>
+                                                <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
                                             <select class="selectpicker" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
@@ -421,7 +421,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                         <div class="col-md-6">
                                             <label>
                                                 <?php _e("Change content sub type"); ?>
-                                                <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>">(?)</small>
+                                                <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
                                             <select class="selectpicker" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">

@@ -4,7 +4,7 @@
                 <th colspan="2"><?php _e("Product Information"); ?></th>
                 <!--  <th><?php _e("Custom fields"); ?></th>-->
                 <th><?php _e("Price"); ?></th>
-                <th><?php _e("QTY"); ?></th>
+                <th><?php _e("Qty"); ?></th>
                 <th><?php _e("Total"); ?></th>
               </tr>
             </thead>

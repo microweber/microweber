@@ -111,7 +111,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                 <th><?php _e("Product"); ?></th>
                 <th><?php _e("SKU"); ?></th>
                 <th><?php _e("Price"); ?></th>
-                <th class="text-center"><?php _e("QTY"); ?></th>
+                <th class="text-center"><?php _e("Qty"); ?></th>
                 <th><?php _e("Total"); ?></th>
                 <th></th>
             </tr>

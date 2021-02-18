@@ -227,7 +227,7 @@
                                             <th></th>
                                             <th><strong><?php _e("Product Name"); ?></strong></th>
                                             <th><strong><?php _e("Price"); ?></strong></th>
-                                            <th><strong><?php _e("QTY"); ?></strong></th>
+                                            <th><strong><?php _e("Qty"); ?></strong></th>
                                             <th><strong><?php _e("Total"); ?></strong></th>
                                         </tr>
                                         </thead>

@@ -27,7 +27,7 @@
         <div id="cartsnav">
 
             <a href="{{route('admin.order.index')}}" class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Completed orders"); ?></a>
-            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned carts"); ?></a>
+            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>"><?php _e("Abandoned cart's"); ?></a>
         </div>
 
         <?php if (count($orders) != 0) { ?>
@@ -46,7 +46,7 @@
             </div>
             <div class="d-inline-block mx-1">
                 <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="qty">
-                    <?php _e("QTY"); ?>
+                    <?php _e("Qty"); ?>
                     <?php if($orderBy == 'qty' && $orderDirection == 'asc'): ?>
                     <i class="mdi mdi-chevron-down text-muted"></i>
                     <?php else: ?>

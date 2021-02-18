@@ -55,11 +55,11 @@ if (isset($item['created_by'])) {
             <div class="col-10 col-sm item-id"><span class="text-primary">#<?php echo $entry_params['id']; ?></span></div>
 
             <div class="col-6 col-sm">
-                <?php print _e(date('M d, Y', strtotime($item['created_at']))); ?>
+                <?php print date('M d, Y', strtotime($item['created_at'])); ?>
                 <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?>h</small>
             </div>
 
-            <div class="col-6 col-sm"><?php print _e(mw('format')->ago($item['created_at'])); ?></div>
+            <div class="col-6 col-sm"><?php print mw('format')->ago($item['created_at']); ?></div>
         </div>
 
         <div class="collapse" id="notif-entry-item-<?php print $item_id ?>">
@@ -71,11 +71,11 @@ if (isset($item['created_by'])) {
                         <?php foreach ($form_values_1 as $key => $val1): ?>
                             <?php if (!is_array($val1)): ?>
                                 <div>
-                                    <small class="text-muted"><?php echo _e(str_replace('_', ' ', $key)); ?>:</small>
+                                    <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                     <p><?php print $val1; ?></p>
                                 </div>
                             <?php else: ?>
-                                <small class="text-muted"><?php echo _e(str_replace('_', ' ', $key)); ?>:</small>
+                                <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                 <?php foreach ($val1 as $val1_1): ?>
                                     <p><?php print $val1_1 . '<br />'; ?></p>
                                 <?php endforeach; ?>
@@ -89,13 +89,13 @@ if (isset($item['created_by'])) {
                         <?php foreach ($form_values_2 as $key => $val2): ?>
                             <?php if (!is_array($val2)): ?>
                                 <div>
-                                    <small class="text-muted"><?php echo _e(str_replace('_', ' ', $key)); ?>:</small>
+                                    <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                     <p><?php print $val2; ?></p>
                                 </div>
                             <?php else: ?>
-                                <small class="text-muted"><?php echo _e(str_replace('_', ' ', $key)); ?>:</small>
+                                <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                 <?php foreach ($val2 as $val2_1): ?>
-                                    <p><?php print _e(($val2_1)) . '<br />'; ?></p>
+                                    <p><?php print ($val2_1). '<br />'; ?></p>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
