@@ -199,13 +199,9 @@
         for ( var i = 0; i < edits.length; i++ ) {
             if(!mw.tools.hasParentsWithClass(this, 'edit')) {
                 edits[i].addEventListener('beforeinput', function (e) {
-
                     var sel = getSelection();
                     var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
-                    console.log(target.innerHTML)
                      if(target) {
-
-
                         mw.liveEditState.record({
                             target: target,
                             value: target.innerHTML
@@ -213,8 +209,6 @@
                     }
                 });
                 edits[i].addEventListener('input', function (e) {
-                    //clearTimeout(editstime);
-                    //editstime = setTimeout(function () {
                         var sel = getSelection();
                         var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
                         if(!target) return;
@@ -223,7 +217,6 @@
                             value: target.innerHTML
                         });
                         this.__initialRecord = false;
-                    //}, 1234);
                 });
             }
         }
