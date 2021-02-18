@@ -72,7 +72,7 @@
                             });
                         }
 
-                        var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder="Search"> </div>');
+                        var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder= <?php _e("Search"); ?>> </div>');
 
                         tree.before(atcmplt);
 
@@ -299,7 +299,7 @@
                 <div class="row mb-3">
                     <div class="col-12">
                         <strong><?php _e("Tags"); ?></strong>
-                        <small data-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>">(?)</small>
+                        <small data-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"></small>
                     </div>
                 </div>
 
