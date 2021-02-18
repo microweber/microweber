@@ -36,7 +36,7 @@ mw.liveedit.handleEvents = function() {
             left: "",
             top: ""
         });
-        mw.on.stopWriting(e.target, function() {
+        /*mw.on.stopWriting(e.target, function() {
             if (mw.tools.hasClass(e.target, 'edit') || mw.tools.hasParentsWithClass(this, 'edit')) {
                 mw.liveEditState.record({
                     target:e.target,
@@ -44,7 +44,7 @@ mw.liveedit.handleEvents = function() {
                 });
                 mw.drag.saveDraft();
             }
-        });
+        });*/
     });
 
     mw.$(document.body).on("keydown", function(e) {
@@ -120,5 +120,15 @@ mw.liveedit.handleEvents = function() {
             }
         }
     });
+
+
+
+    mw.on('editChanged', function (target){
+        document.querySelector('#main-save-btn').disabled = false;
+    });
+
+    mw.on('saveEnd', function (data){
+        document.querySelector('#main-save-btn').disabled = true;
+    })
 
 };

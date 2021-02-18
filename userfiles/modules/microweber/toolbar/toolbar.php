@@ -431,7 +431,7 @@ if (isset($_COOKIE['mw_exp'])) {
 <!--                            <i class="m-r mw-icon-arrow-left-c"></i>-->
                             <?php _e("Admin"); ?>
                         </a>
-                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
+                        <button disabled class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></button>
 
 
 

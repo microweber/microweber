@@ -1424,7 +1424,7 @@ mw.wysiwyg = {
         rectarget = mw.tools.firstParentOrCurrentWithAnyOfClasses(rectarget, ['element', 'edit']);
         if(mw.liveEditState){
             var currState = mw.liveEditState.state()
-            if(currState[0].$id !== 'wysiwyg   '){
+            if(currState[0].$id !== 'wysiwyg'){
                 mw.liveEditState.record({
                     target: rectarget,
                     value: rectarget.innerHTML,

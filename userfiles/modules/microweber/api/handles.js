@@ -457,7 +457,7 @@ mw._initHandles = {
                 },
                 {
                     title: 'Edit Style',
-                    icon: 'mw-icon-edit',
+                    icon: 'mdi mdi-layers',
                     action: function () {
                         mw.liveEditSettings.show();
                         mw.sidebarSettingsTabs.set(3);

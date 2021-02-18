@@ -82,15 +82,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             id: 'title'
                         },
                         {
-                            interface: 'text',
+                            interface: 'textArea',
                             label: ['<?php  _e('Content'); ?>'],
                             id: 'content'
                         },
-                        // {
-                        //     interface: 'icon',
-                        //     label: ['Icon'],
-                        //     id: 'icon'
-                        // },
+                        {
+                            interface: 'icon',
+                            label: ['Icon'],
+                            id: 'icon'
+                        },
                         {
                             interface: 'hidden',
                             label: [''],
@@ -119,7 +119,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
                     <div class="mb-3 d-flex">
                         <label class="control-label align-self-center"> <?php  _e('Add new field'); ?></label>
-                        
+
                         <button type="button" class="btn btn-primary btn-rounded ml-auto" onclick="accordionSettings.addNew()"><i class="mdi mdi-plus"></i> <?php  _e('Add new'); ?></button>
                     </div>
 
