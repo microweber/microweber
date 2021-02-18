@@ -232,7 +232,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <div class="holder">
                                         <div class="dropable-zone-img img-media mb-2"></div>
                                         <button type="button" class="btn btn-link py-1"><?php print _e('Add media'); ?></button>
-                                        <p><?php print _e('or drop file'); ?></p>
+                                        <p><?php print _e('or drop'); ?></p>
                                     </div>
                                 </div>
                             </div>

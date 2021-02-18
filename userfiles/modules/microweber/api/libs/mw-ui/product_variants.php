@@ -127,7 +127,7 @@
                                             <div class="dropable-zone small-zone square-zone w-100">
                                                 <div class="holder">
                                                     <button type="button" class="btn btn-outline-secondary btn-sm text-primary mb-2"><?php _e("Add file"); ?></button>
-                                                    <p><?php _e("or drop file to upload"); ?></p>
+                                                    <p><?php _e("or drop"); ?></p>
                                                 </div>
                                             </div>
                                         </div>

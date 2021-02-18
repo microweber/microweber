@@ -54,13 +54,13 @@ if (!isset($params['prefix'])) {
     });
 </script>
 <?php
-//d($params);
+//d($params);Please confirm the installation of
 
 ?>
 
 <form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
     <?php if (isset($lic['status'])): ?>
-        <div class="alert alert-dismissible <?php if ($lic['status'] == 'active'): ?>alert-success<?php else: ?>alert-danger<?php endif; ?>"><?php _e('License Status:'); ?><?php print ucwords($lic['status']) ?></div>
+        <div class="alert alert-dismissible <?php if ($lic['status'] == 'active'): ?>alert-success<?php else: ?>alert-danger<?php endif; ?>"><?php _e('License Status:'); ?><?php print _e(ucwords($lic['status'])) ?></div>
     <?php endif; ?>
 
     <div class="form-group">

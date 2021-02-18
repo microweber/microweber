@@ -68,7 +68,7 @@
                 <h5 class="text-primary text-break-line-2"><?php print content_title($comment['rel_id']); ?></h5>
             </div>
 
-            <div class="col-12 col-sm text-right"><?php print mw()->format->ago($comment['created_at']); ?></div>
+            <div class="col-12 col-sm text-right"><?php print _e(mw()->format->ago($comment['created_at'])); ?></div>
         </div>
         <div class="collapse" id="comments-<?php print $comment['id'] ?>">
             <div class="row mt-3">

@@ -5,7 +5,7 @@
         @if(!empty($module_name) && $module_name == 'admin/notifications')
             <div class="row align-items-center mb-3">
                 <div class="col text-left">
-                    <span class="text-primary text-break-line-2">New form entry</span>
+                    <span class="text-primary text-break-line-2"><?php _e("New form entry"); ?></span>
                 </div>
             </div>
         @endif

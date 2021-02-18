@@ -49,15 +49,15 @@ if(!$order){
                         </div>
                     </div>
 
-                    <div class="col item-id"><span class="text-primary">#<?php echo $order['id']; ?></span></div>
-
+                    <div class="col item-id"></div>
+                    <span class="text-primary">#<?php echo $order['id']; ?></span>
                     <div class="col item-title" style="min-width: 210px;">
                         <?php if ($order_first_product AND isset($order_first_product['title'])): ?>
                         <span class="text-primary text-break-line-2"><?php echo $order_first_product['title']; ?></span>
                         <?php endif; ?>
 
                         <?php if (isset($created_by_username)): ?>
-                        <small class="text-muted">Ordered by: <?php echo $created_by_username; ?></small>
+                        <small class="text-muted"><?php _e('Ordered by'); ?>: <?php echo $created_by_username; ?></small>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -76,15 +76,15 @@ if(!$order){
                     </div>
 
                     <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip"
-                         title="<?php print mw('format')->ago($item['created_at']); ?>">
-                        <?php print date('M d, Y', strtotime($item['created_at'])); ?><br/>
-                        <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?>h
+                         title="<?php print _e(mw('format')->ago($item['created_at'])); ?>">
+                        <?php print _e(date('M d, Y', strtotime($item['created_at']))); ?><br/>
+                        <small class="text-muted"><?php print _e(date('h:s', strtotime($item['created_at']))); ?>h
                         </small>
                     </div>
 
                     <div class="col-12 col-sm-4 col-md item-status">
                         <?php if (isset($item['is_read']) && $item['is_read'] == '0'): ?>
-                        <span class="text-success">New</span><br/>
+                        <span class="text-success"><?php _e('New'); ?></span><br/>
                         <?php endif; ?>
                         <small class="text-muted">&nbsp;</small>
                     </div>
@@ -95,7 +95,7 @@ if(!$order){
         <div class="row mt-3">
             <div class="col-12 text-center text-sm-left js-change-button-styles">
                 <a href="<?php echo route('admin.order.show', $order['id']); ?>"
-                   class="btn btn-outline-primary btn-sm btn-rounded">View order</a>
+                   class="btn btn-outline-primary btn-sm btn-rounded"><?php _e('View order'); ?></a>
             </div>
         </div>
 
@@ -106,38 +106,38 @@ if(!$order){
 
             <div class="row">
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Customer Information</strong></h6>
+                    <h6><strong><?php _e('Customer Information'); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Client name:</small>
+                        <small class="text-muted"><?php _e('Client name'); ?>:</small>
                         <p>
                             <?php if (isset($order['first_name']) OR isset($order['last_name'])): ?>
                                 <?php if (isset($order['first_name'])): ?><?php echo $order['first_name'] . ' '; ?><?php endif; ?>
                                 <?php if (isset($order['last_name'])): ?><?php echo $order['last_name']; ?><?php endif; ?>
                             <?php else: ?>
-                            N/A
+                            <?php _e('N/A'); ?>
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">E-mail:</small>
+                        <small class="text-muted"><?php _e('E-mail'); ?>:</small>
                         <p>
                             <?php if (isset($order['email'])): ?>
                                 <?php echo $order['email']; ?>
                             <?php else: ?>
-                            N/A
+                            <?php _e('N/A'); ?>
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Phone:</small>
+                        <small class="text-muted"><?php _e('Phone'); ?>:</small>
                         <p>
                             <?php if (isset($order['phone'])): ?>
                                 <?php echo $order['phone']; ?>
                             <?php else: ?>
-                            N/A
+                            <?php _e('N/A'); ?>
                             <?php endif; ?>
                         </p>
                     </div>
@@ -145,51 +145,51 @@ if(!$order){
                 </div>
 
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Payment Information</strong></h6>
+                    <h6><strong><?php _e('Payment Information'); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Amount:</small>
+                        <small class="text-muted"><?php _e('Amount'); ?>:</small>
                         <p>
                             <?php if (isset($order['amount'])): ?>
                                 <?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?>
                             <?php else: ?>
-                            N/A
+                            <?php _e('N/A'); ?>
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Payment method:</small>
+                        <small class="text-muted"><?php _e('Payment method'); ?>:</small>
                         <p>
                             <?php if (isset($order['payment_type'])): ?>
                                 <?php echo $order['payment_type']; ?>
                             <?php else: ?>
-                            N/A
+                            <?php _e('N/A'); ?>
                             <?php endif; ?>
                         </p>
                     </div>
                 </div>
 
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Shipping Information</strong></h6>
+                    <h6><strong><?php _e('Shipping Information'); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Shipping method:</small>
+                        <small class="text-muted"><?php _e('Shipping method'); ?>:</small>
                         <p>
                             <?php if (isset($order['shipping_service'])): ?>
                             <?php if ($order['shipping_service'] == 'shop/shipping/gateways/country'): ?>
-                            Shipping to country
+                            <?php _e('Shipping to country'); ?>
                             <?php else: ?>
                                     <?php echo $order['shipping_service']; ?>
                                 <?php endif; ?>
                             <?php else: ?>
-                            N/A
+                            <?php _e('N/A'); ?>
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Address:</small>
+                        <small class="text-muted"><?php _e('Address'); ?>:</small>
                         <p>
                             <?php
                             $zip = '';

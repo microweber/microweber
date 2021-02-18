@@ -105,7 +105,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
         $(function () {
             $(".js-show-files").click(function () {
                 $(this).text(function (i, text) {
-                    return text === "Hide files" ? "Show files" : "Hide files";
+                    return text === "Hide files" ? mw.lang("Show files") : mw.lang("Hide files");
                 })
             });
         })
@@ -123,9 +123,9 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
 <div class="js-install-package-loading-container-confirm">
     <div class="text-center">
         <div class="mb-3">
-            <h5>Please confirm the installation of <br/> <strong><?php print $require_name ?></strong></h5>
+            <h5><?php _e("Please confirm the installation of") ?> <br/> <strong><?php print _e($require_name) ?></strong></h5>
             <h6>Version <?php print $require_version ?> </h6>
-            <small class="text-muted"><?php print count($get_existing_files_for_confirm); ?> files will be installed</small>
+            <small class="text-muted"><?php print count($get_existing_files_for_confirm); ?> <?php _e("files will be installed") ?></small>
         </div>
 
         <div>
@@ -134,7 +134,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
                     <table class="table bg-white text-left" style="table-layout: fixed;">
                         <thead>
                         <tr>
-                            <th>File location</th>
+                            <th><?php _e("File location") ?></th>
                         </tr>
 
                         </thead>
@@ -160,13 +160,13 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
             <?php } ?>
 
             <div id="js-buttons-confirm-install" class="p-3 d-flex align-items-center justify-content-between">
-                <a class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()">Cancel</a>
+                <a class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel") ?></a>
 
                 <?php if ($get_existing_files_for_confirm) { ?>
-                    <button type="button" class="js-show-files btn btn-link btn-sm">Show files</button>
+                    <button type="button" class="js-show-files btn btn-link btn-sm"><?php _e("Show files") ?></button>
                 <?php } ?>
 
-                <a href="javascript:;" id="js-buttons-confirm-install-link" class="btn btn-success btn-sm" onclick="mw.install_composer_package_confirm_by_key('<?php print $confirm_key ?>', '<?php print $require_name ?>','<?php print $require_version ?>')">Confirm</a>
+                <a href="javascript:;" id="js-buttons-confirm-install-link" class="btn btn-success btn-sm" onclick="mw.install_composer_package_confirm_by_key('<?php print $confirm_key ?>', '<?php print $require_name ?>','<?php print $require_version ?>')"><?php _e("Confirm") ?></a>
             </div>
         </div>
     </div>

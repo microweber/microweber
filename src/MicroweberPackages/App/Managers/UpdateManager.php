@@ -1109,7 +1109,7 @@ class UpdateManager
 
         if (isset($params['_delete_license']) and $params['_delete_license'] == '_delete_license' and isset($params['id'])) {
             $this->app->database_manager->delete_by_id('system_licenses', intval($params['id']));
-            return array('id' => 0, 'success' => 'License was deleted');
+            return array('id' => 0, 'success' => _e('License was deleted', true));
 
         }
 
@@ -1157,7 +1157,7 @@ class UpdateManager
         if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
             $validation = $this->validate_license('id=' . $r);
             if (!$validation) {
-                return array('id' => $r, 'warning' => 'License key saved is not valid');
+                return array('id' => $r, 'warning' => _e('License key saved is not valid', true));
 
             }
         }

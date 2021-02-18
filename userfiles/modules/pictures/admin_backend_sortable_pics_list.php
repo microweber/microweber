@@ -65,7 +65,7 @@ $rand = 'pic-sorter-' . uniqid();
 </style>
 
 
-<div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none"><?php _e("Drop here to download"); ?></div>
+<div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none"><?php _e("Drop here"); ?></div>
 
 
 <script>
@@ -232,7 +232,8 @@ $rand = 'pic-sorter-' . uniqid();
             <div class="dropable-zone small-zone square-zone">
                 <div class="holder">
                     <button type="button" class="btn btn-link"><?php _e("Add file"); ?></button>
-                    <p><?php _e("or drop file to upload"); ?></p></div>
+                    <p><?php _e("or drop"); ?></p>
+                </div>
             </div>
             <div class="admin-thumb-item-uploader" id="admin-thumb-item-uploader<?php print $rand; ?>">
 

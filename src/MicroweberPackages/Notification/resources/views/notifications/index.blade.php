@@ -322,7 +322,7 @@
 
                     <select class="selectpicker js-show-notif" data-style="btn-sm" data-width="auto">
 
-                        <option value="?">All notifications</option>
+                        <option value="?"><?php _e("All notifications"); ?></option>
 
                         <option value="?type=Comment"<?php if ($type == 'Comment'): ?> selected="selected" <?php endif; ?>> <?php _e("Comments"); ?></option>
                         <option value="?type=Order"<?php if ($type == 'Order'): ?> selected="selected" <?php endif; ?>> <?php _e("Orders"); ?></option>
