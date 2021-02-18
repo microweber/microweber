@@ -46,7 +46,7 @@
             </div>
             <div class="d-inline-block mx-1">
                 <button type="submit" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" name="orderBy" value="qty">
-                    <?php _e("QTY"); ?>
+                    <?php _e("Qty"); ?>
                     <?php if($orderBy == 'qty' && $orderDirection == 'asc'): ?>
                     <i class="mdi mdi-chevron-down text-muted"></i>
                     <?php else: ?>
