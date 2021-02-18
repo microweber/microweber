@@ -1,5 +1,9 @@
 <?php
 $orderUser = $order->user()->first();
+if ($order->customer_id > 0) {
+    $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $order->customer_id)->first();
+}
+
 $carts = $order->cart()->with('products')->get();
 $firstProduct = [];
 foreach ($carts as $cart) {
@@ -41,7 +45,18 @@ foreach ($carts as $cart) {
                         <?php endif; ?>
 
                         <?php if ($orderUser): ?>
-                            <small class="text-muted"><?php _e("Ordered by"); ?>: <?php echo $orderUser->username; ?></small>
+                            <small class="text-muted"><?php _e("Created by"); ?>:
+                                <?php
+                                if ($orderUser->first_name) {
+                                    echo $orderUser->first_name;
+                                    if ($orderUser->last_name) {
+                                        echo " " . $orderUser->last_name;
+                                    }
+                                } else if ($orderUser) {
+                                    echo $orderUser->username;
+                                }
+                                ?>
+                            </small>
                         <?php endif; ?>
                     </div>
                 </div>
