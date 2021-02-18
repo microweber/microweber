@@ -87,8 +87,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="row">
                 <div class="col-12 socials-settings">
                     <div class="form-group mb-4">
-                        <label class="control-label">Select and type socials links you want to show</label>
-                        <small class="text-muted d-block mb-2">Select the social networks you want to see on your site, blog and store</small>
+                        <label class="control-label"><?php _e("Select and type socials links you want to show"); ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e("Select the social networks you want to see on your site, blog and store"); ?></small>
                     </div>
 
                     <div class="form-group">
@@ -124,7 +124,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-                    <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-3" data-toggle="collapse" data-target="#more-socials-settings" aria-expanded="true">Show more</a>
+                    <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-3" data-toggle="collapse" data-target="#more-socials-settings" aria-expanded="true"><?php _e("Show more"); ?></a>
 
                     <div class="collapse" id="more-socials-settings">
                         <div class="form-group">

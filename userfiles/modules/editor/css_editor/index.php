@@ -185,8 +185,8 @@ if ($file and is_file($file)) {
 
 
 <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-    <a href="javascript:;" class="mw-ui-btn active">Custom CSS</a>
-    <a href="javascript:;" class="mw-ui-btn">Visual Editor CSS</a>
+    <a href="javascript:;" class="mw-ui-btn active"><?php _e("Custom "); ?>CSS</a>
+    <a href="javascript:;" class="mw-ui-btn"><?php _e("Visual Editor"); ?> CSS</a>
 </div>
 <div class="mw-ui-box">
     <div class="mw-ui-box-content">

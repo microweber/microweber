@@ -45,7 +45,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
 <div class="card bg-none style-1 mb-0">
     <div class="card-header px-0">
-        <h5><i class="mdi mdi-earth text-primary mr-3"></i> <strong>Website settings</strong></h5>
+        <h5><i class="mdi mdi-earth text-primary mr-3"></i> <strong><?php _e('Website settings'); ?></strong></h5>
         <div>
 
         </div>

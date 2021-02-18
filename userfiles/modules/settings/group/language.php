@@ -2,13 +2,19 @@
 
 <?php
 $isMultilanguageActivated = false;
+$hasMultilanguageModuleActivated = false;
 if (is_module('multilanguage')) {
-    if (get_option('is_active', 'multilanguage_settings') == 'y') {
-        $isMultilanguageActivated = true;
+    if (get_option('is_active', 'multilanguage_settings') == 'y' and function_exists('get_supported_languages')) {
+        $hasMultilanguageModuleActivated = true;
+
+        $supported_languages = get_supported_languages(true);
+        if($supported_languages){
+            $isMultilanguageActivated = true;
+
+        }
     }
 }
-
-$def_language = get_option('language', 'website');
+ $def_language = get_option('language', 'website');
 ?>
 
 <script type="text/javascript">
@@ -44,6 +50,10 @@ $def_language = get_option('language', 'website');
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-12">
+
+
+
+
                                     <?php if (!$isMultilanguageActivated): ?>
 
                                         <div class="form-group mb-4">
@@ -65,6 +75,23 @@ $def_language = get_option('language', 'website');
                                                 </select>
                                             <?php endif; ?>
                                         </div>
+                                    <?php if ($hasMultilanguageModuleActivated): ?>
+                                        <script>
+                                            function openMultilangEditModal() {
+                                                var data = {};
+
+                                                data.show_settings_link = "true";
+                                                openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
+                                                    overlay: true,
+                                                    skin: 'simple',
+                                                    title: 'Edit'
+                                                })
+                                            }
+                                        </script>
+
+                                        <a onclick="openMultilangEditModal()" class="btn btn-secondary"><?php _e('Multilanguage settings'); ?></a>
+                                       <?php endif; ?>
+
                                     <?php else: ?>
 
 

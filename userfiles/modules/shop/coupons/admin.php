@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     function editCoupon(coupon_id = false) {
         var data = {};
         data.coupon_id = coupon_id;
-        editModal = mw.tools.open_module_modal('shop/coupons/edit_coupon', data, {overlay: true, skin: 'simple', title: 'Coupon Code'})
+        editModal = mw.tools.open_module_modal('shop/coupons/edit_coupon', data, {overlay: true, skin: 'simple', title: '<?php _ejs("Coupon Code"); ?>'})
     }
 
     function deleteCoupon(coupon_id) {

@@ -130,9 +130,9 @@ class BackupManager
 	 */
 	public function startExport() 
 	{
-
-	    define('MW_DISABLE_MULTILANGUAGE', true);
-
+        if (!defined('MW_DISABLE_MULTILANGUAGE')) {
+            define('MW_DISABLE_MULTILANGUAGE', true);
+        }
 		try {
 			
 			/* // If we want export media
@@ -162,8 +162,9 @@ class BackupManager
 	 */
 	public function startImport() 
 	{
-        define('MW_DISABLE_MULTILANGUAGE', true);
-
+        if (!defined('MW_DISABLE_MULTILANGUAGE')) {
+            define('MW_DISABLE_MULTILANGUAGE', true);
+        }
 		try {
 			$import = new Import();
             $import->setStep($this->importStep);

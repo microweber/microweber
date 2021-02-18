@@ -80,7 +80,7 @@ class Translation extends Model
         });
 
         $getTranslations = $queryModel->paginate(100);
-        $pagination = $getTranslations->links("pagination::bootstrap-4");
+        $pagination = $getTranslations->links("pagination::bootstrap-4-flex");
 
         $group = [];
 

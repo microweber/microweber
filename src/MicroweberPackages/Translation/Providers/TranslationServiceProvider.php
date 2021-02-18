@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Translation\TranslationServiceProvider as IlluminateTranslationServiceProvider;
 use MicroweberPackages\Translation\Models\Translation;
 use MicroweberPackages\Translation\Models\TranslationKey;
-use MicroweberPackages\Translation\TranslationManager;
+use MicroweberPackages\Translation\TranslationLoader;
 use MicroweberPackages\Translation\Translator;
+use \WhiteCube\Lingua\Service as Lingua;
 
 class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 {
@@ -18,7 +19,12 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
     public function boot()
     {
 
+
+
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
+
+
+
 
         /*
          * This is an example how to add namespace to your package
@@ -66,6 +72,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                         }
 
                         DB::commit();
+                        \Cache::tags('translation_keys')->flush();
                         // all good
                      } catch (\Exception $e) {
                          DB::rollback();
@@ -83,6 +90,13 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
      */
     public function register()
     {
+
+        if(!class_exists(Lingua::class)){
+           exit('The class ' . Lingua::class . ' cannot be found. Please run composer install.');
+        }
+
+
+
         $this->registerLoader();
 
         $this->app->singleton('translator', function ($app) {
@@ -105,7 +119,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
     {
         if (mw_is_installed()) {
             $this->app->singleton('translation.loader', function ($app) {
-                return new TranslationManager($app['files'], $app['path.lang']);
+                return new TranslationLoader($app['files'], $app['path.lang']);
             });
         }
     }

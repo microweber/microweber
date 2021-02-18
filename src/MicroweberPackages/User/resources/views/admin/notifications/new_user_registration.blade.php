@@ -10,5 +10,5 @@
           {{$display_name}}
         </span>
         <span class="text-muted">{{_e('joined the community')}}</span></div>
-    <div class="col-4"><span data-toggle="tooltip" data-placement="left" data-original-title="{{$created_at}}" title="{{$created_at}}" class="text-muted"><i class="mdi mdi-clock-outline"></i> {{$ago}}</span></div>
+    <div class="col-4"><span data-toggle="tooltip" data-placement="left" data-original-title="{{$created_at}}" title="{{_e($created_at)}}" class="text-muted"><i class="mdi mdi-clock-outline"></i> {{_e($ago)}}</span></div>
 </div>

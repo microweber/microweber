@@ -24,7 +24,7 @@ description: Sidebar cart template
     <thead>
       <tr>
         <th class="mw-cart-table-product"><?php _e("Product Name"); ?></th>
-        <th><?php _e("QTY"); ?></th>
+        <th><?php _e("Qty"); ?></th>
         <th><?php _e("Total"); ?></th>
         <th></th>
       </tr>

@@ -4,6 +4,7 @@ namespace MicroweberPackages\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Currency\Currency;
+use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Payment\Payment;
 
 class Customer extends Model
@@ -60,6 +61,11 @@ class Customer extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 
     public function user()

@@ -31,11 +31,10 @@
  <div class="custom-field-settings-name">
 
 
-  <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
-    <?php _e('Title'); ?>
-  </label>
+  <label class="control-label" for="input_field_label<?php print $rand; ?>"><?php _e('Title'); ?></label>
+      <small class="text-muted d-block mb-3"><?php _e('Title label of the field');?></small>
 
-    <input type="text" onkeyup="" class="mw-ui-field mw-full-width" value="<?php echo $data['name']; ?>" name="name" id="input_field_label<?php print $rand; ?>">
+    <input type="text" onkeyup="" class="form-control" value="<?php echo $data['name']; ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
 
 
@@ -54,16 +53,19 @@
 
 
     <div class="mw-custom-field-group">
-      <label class="mw-ui-label" for="value<?php echo $rand; ?>"><?php _e("Value"); ?></label>
+      <label class="control-label" for="value<?php echo $rand; ?>"><?php _e("Value"); ?></label>
+        <small class="text-muted d-block mb-3"><?php _e('This attribute specifies the value of description');?></small>
         <div id="mw-custom-fields-text-holder">
-         <textarea class="mw-ui-field mw-full-width" name="value"><?php echo $data['value']; ?></textarea>
+         <textarea class="form-control" name="value"><?php echo $data['value']; ?></textarea>
         </div>
     </div>
 
        <div class="mw-custom-field-group">
-           <label class="mw-ui-label" for="value<?php print $rand; ?>"><?php _e("Placeholder"); ?></label>
+           <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Placeholder"); ?></label>
+           <small class="text-muted d-block mb-3"><?php _e('This attribute specifies a short hint that describes the expected value of a input');?></small>
+
            <div id="mw-custom-fields-text-holder">
-               <input type="text" class="mw-ui-field mw-full-width" name="placeholder" value="<?php echo $data['placeholder']; ?>" />
+               <input type="text" class="form-control" name="placeholder" value="<?php echo $data['placeholder']; ?>" />
            </div>
        </div>
 

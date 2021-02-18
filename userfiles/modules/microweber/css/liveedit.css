@@ -4196,8 +4196,9 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-menu-default .mw-handle-menu-item-icon,
 .mw-handle-menu-default .mw-edit-module-settings-tooltip-icon {
-    font-size: 19px;
+    font-size: 17px;
     margin-right: 6px;
+    vertical-align: middle;
 }
 
 .mw-handle-type-default .mw-handle-handler-icon {

@@ -10,7 +10,7 @@ if ($mw_notif != false) {
 <?php if (is_array($mw_notif) and isset($mw_notif['rel_id']) and $mw_notif['rel_id'] != 0): ?>
     <script type="text/javascript">
         $(document).ready(function () {
-            window.location.href = '<?php print admin_url() ?>view:shop/action:orders/#vieworder=<?php print $mw_notif['rel_id'] ?>';
+            window.location.href = '<?php echo route('admin.order.show', $mw_notif['rel_id']); ?>';
         });
     </script>
 <?php else : ?>

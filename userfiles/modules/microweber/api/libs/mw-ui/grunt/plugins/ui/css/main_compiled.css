@@ -7529,6 +7529,9 @@ body {
 
 .container {
   max-width: 70%; }
+@media screen and (max-width: 1600px) {
+  .container {
+    max-width: 90%; } }
 @media screen and (max-width: 1440px) {
   .container {
     max-width: calc(100% - 30px); } }

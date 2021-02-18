@@ -34,7 +34,7 @@ function mw_print_admin_dashboard_orders_btn()
         return;
     }
     $admin_dashboard_btn = array();
-    $admin_dashboard_btn['view'] = 'shop/action:orders';
+    $admin_dashboard_btn['link'] = route('admin.order.index');
     $admin_dashboard_btn['icon_class'] = 'mdi mdi-shopping';
     $notif_html = '';
     $notif_count = mw()->order_manager->get_count_of_new_orders();

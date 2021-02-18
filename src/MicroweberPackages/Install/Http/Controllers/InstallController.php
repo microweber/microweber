@@ -150,6 +150,9 @@ class InstallController extends Controller
                 if (isset($input['db_name']) and $input['db_name'] != ':memory:' and  !file_exists($input['db_name'])) {
                     touch($input['db_name']);
                 }
+
+
+
             }
 
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
@@ -182,7 +185,7 @@ class InstallController extends Controller
                 Config::set('microweber.admin_url', $input['admin_url']);
             }
 
-            Config::set('app.fallback_locale', 'en_US');
+            Config::set('app.fallback_locale', 'en');
 
             if (isset($input['site_lang'])) {
                 Config::set('app.locale', $input['site_lang']);
@@ -272,10 +275,7 @@ class InstallController extends Controller
                     $installer->logger = $this;
                     $installer->run();
 
-                    if (isset($input['site_lang'])) {
-                        $this->log('Importing the language package..');
-                        TranslationHelper::installLanguage($input['site_lang']);
-                    }
+
                 }
 
                 if (!$install_step or $install_step == 5) {
@@ -292,12 +292,26 @@ class InstallController extends Controller
                     $installer = new Install\ModulesInstaller();
                     $installer->logger = $this;
                     $installer->run();
+
+
+                }
+
+                if (!$install_step or $install_step == 7) {
+                    if (isset($input['site_lang'])) {
+                        if ($dbDriver == 'sqlite') {
+                            \DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
+                        }
+
+                        $this->log('Importing the language package..');
+                        TranslationHelper::installLanguage($input['site_lang']);
+                    }
+
                 }
 
                 if ($install_step) {
                     if ($install_step != 'finalize') {
                         $install_step_return = array('install_step' => $install_step + 1);
-                        if ($install_step == 6) {
+                        if ($install_step == 7) {
                             if (isset($input['admin_email']) and isset($input['subscribe_for_update_notification'])) {
                                 $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                             }

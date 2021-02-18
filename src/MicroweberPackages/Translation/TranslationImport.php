@@ -46,10 +46,11 @@ class TranslationImport
                 $getTranslationText->translation_text = $translationText;
                 $getTranslationText->save();
             }
+            \Cache::tags('translation_keys')->flush();
 
-            return ['success'=> _e('Importing language file success.', true)];
+            return ['success'=> 'Importing language file success.'];
         }
 
-        return ['error'=> _e('Can\'t import this language file.', true)];
+        return ['error'=> 'Can\'t import this language file.'];
     }
 }

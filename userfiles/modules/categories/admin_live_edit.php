@@ -84,7 +84,7 @@ if (isset($params['for-content-id'])) {
 
 <div class="mw-accordion-item-block   mw-live-edit-module-manage-and-list-top">
     <a  href="javascript:;" onClick="editCategoriesShowManageWindow('<?php print $params['id'] ?>',{mode:'modal', liveedit:false});"
-       class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded mb-10"><span class="fas fa-list"></span>
+       class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded" style="margin-bottom: 10px;"><span class="fas fa-list"></span>
         &nbsp; <?php print _e('Manage categories') ?></a>
 
 

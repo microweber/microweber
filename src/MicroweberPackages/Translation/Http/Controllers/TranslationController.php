@@ -158,7 +158,9 @@ class TranslationController {
 
            }
        }
+        \Cache::tags('translation_keys')->flush();
 
     }
+
 
 }

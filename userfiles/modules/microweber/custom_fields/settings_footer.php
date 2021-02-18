@@ -8,12 +8,14 @@ if($data['type'] !== 'breakline'):
             <input type="hidden" value="n" name="custom_field_show_label">
             <input type="checkbox" class="custom-control-input"  name="custom_field_show_label" id="custom_field_show_label<?php print $rand; ?>" value="y" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
             <span></span><span><?php _e('Show Label'); ?></span>
+            <span></span>
         </label>
     </div>
 </div>
 
 <div class="mw-custom-field-group">
     <label class="control-label" ><?php _e('Error text'); ?></label>
+    <small class="text-muted d-block mb-3"><?php _e('This error will be shown when fields are required but not filled');?></small>
     <div class="mw-custom-field-form-controls">
         <input type="text"  name="error_text" class="form-control" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
     </div>
@@ -24,6 +26,7 @@ $fields = mw()->ui->custom_fields();
 ?>
 <div class="mw-custom-field-group">
     <label class="control-label" for="custom_field_width_type<?php print $rand; ?>"><?php _e('Field Type'); ?></label>
+    <small class="text-muted d-block mb-3"><?php _e('Choose type of the fields');?></small>
     <div class="mw-custom-field-form">
     	
        <select class="mw-ui-field mw-full-width" name="options[field_type]" onChange="$(this).addClass('mw-needs-reload');">
@@ -39,6 +42,7 @@ $fields = mw()->ui->custom_fields();
 
 <div class="mw-custom-field-group">
     <label class="control-label" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Organaize in columns'); ?></label>
+    <small class="text-muted d-block mb-3"><?php _e('Choose columns organization');?></small>
     <div class="mw-custom-field-form">
     	
        <select class="mw-ui-field mw-full-width" name="options[field_size]">

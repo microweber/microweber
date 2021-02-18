@@ -41,7 +41,7 @@ if (!empty($this->config['textColor'])) {
                 <span class="icon icon-settings"></span>
             </div>
             <div class="scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php print _e('Cookie policy', 'modules/cookie_notice'); ?>">
-                <a href="<?php print $this->config['cookiePolicyURL']; ?>">
+                <a href="<?php print $this->config['cookiePolicyURL']; ?>" target="_blank">
                     <span class="icon icon-policy"></span>
                 </a>
             </div>

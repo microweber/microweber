@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 class TranslationKey extends Model
 {
     public $timestamps = false;
+    public $table = 'translation_keys';
 
     public function texts()
     {
@@ -55,7 +56,7 @@ class TranslationKey extends Model
         $queryModel->groupBy(\DB::raw("MD5(translation_key)"));
 
         if (isset($filter['search']) && !empty($filter['search'])) {
-            $queryModel->where(function($subQuery) use ($filter) {
+            $queryModel->whereHas('texts', function($subQuery) use ($filter) {
                 $subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
                 $subQuery->orWhere('translation_text', 'like', '%' . $filter['search'] . '%');
             });
@@ -66,7 +67,7 @@ class TranslationKey extends Model
         });
 
         $getTranslationsKeys = $queryModel->paginate(100);
-        $pagination = $getTranslationsKeys->links("pagination::bootstrap-4");
+        $pagination = $getTranslationsKeys->links("pagination::bootstrap-4-flex");
 
         $group = [];
 

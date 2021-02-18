@@ -9,6 +9,9 @@ namespace MicroweberPackages\Translation\Locale\Traits;
 
 trait DetailsByLocaleTrait {
 
+    /**
+     * @deprecated please use LanguageHelper class
+     */
     private static $detailsByLocale =
         array(
             'af' => array(
