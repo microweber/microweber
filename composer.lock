@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5e01c5f523990142c506175e74f62b3",
+    "content-hash": "2a5ee4a85a847a23a7c72bb169daa4a7",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -11661,6 +11661,69 @@
             "time": "2021-01-18T12:52:36+00:00"
         },
         {
+            "name": "whitecube/lingua",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whitecube/lingua.git",
+                "reference": "a1c8df7a1beffe1c5fb29d55432fa7f2119227f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whitecube/lingua/zipball/a1c8df7a1beffe1c5fb29d55432fa7f2119227f4",
+                "reference": "a1c8df7a1beffe1c5fb29d55432fa7f2119227f4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.0|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WhiteCube\\Lingua\\": "src/Lingua/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "WhiteCube",
+                    "email": "hello@whitecube.be",
+                    "homepage": "http://www.whitecube.be",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Toon Van den Bos",
+                    "email": "toon@whitecube.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Adrien Leloup",
+                    "email": "adrien@whitecube.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP language codes converter, from and to the most common formats (ISO, W3C, PHP and human-readable names).",
+            "keywords": [
+                "BCP-47",
+                "codes",
+                "conversion",
+                "iso",
+                "language",
+                "locales",
+                "localization",
+                "translate",
+                "translation"
+            ],
+            "time": "2021-01-28T11:27:27+00:00"
+        },
+        {
             "name": "wikimedia/composer-merge-plugin",
             "version": "dev-master",
             "source": {
@@ -14058,7 +14121,8 @@
         "laravel/passport": 20,
         "microweber-packages/microweber-class-alias": 20,
         "florianv/exchanger": 20,
-        "symfony/intl": 20
+        "symfony/intl": 20,
+        "whitecube/lingua": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
