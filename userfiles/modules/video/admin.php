@@ -222,7 +222,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="form-group">
                         <label class="control-label"><?php _e("Upload Video Thumbnail from your computer"); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected."); ?></small>
+                        <small class="text-muted d-block mb-2"><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected"); ?></small>
                     </div>
 
                     <div class="row d-flex">
@@ -256,7 +256,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="form-group">
                         <label class="control-label"><?php _e("Video Lazy Loading for SEO"); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e("Optional setting for use with embedded YouTube videos to defer the downloading of video scripts. Thumbnail image required, see Thumbnail Upload section."); ?></small>
+                        <small class="text-muted d-block mb-2"><?php _e("Optional setting for use with embedded YouTube videos to defer the downloading of video scripts. Thumbnail image required, see Thumbnail Upload section"); ?></small>
 
                         <div class="custom-control custom-checkbox">
                             <input id="chk_lazyload" name="lazyload" class="mw_option_field custom-control-input" type="checkbox" data-mod-name="<?php print $params['data-type'] ?>" value="y" <?php if (get_option('lazyload', $params['id']) == 'y') { ?>checked<?php } ?>/>

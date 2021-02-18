@@ -144,7 +144,7 @@ if ($content) {
 
         var search_for_related_content_field<?php print $rand ?> = new mw.autoComplete({
             element: "#mw-admin-search-for-related-content<?php print $rand ?>",
-            placeholder: "Search for related content",
+            placeholder: mw.lang("Search for related content"),
             ajaxConfig: {
                 method: 'get',
                 url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&exclude_ids=<?php print implode(',', $exclude_ids) ?>&content_type=<?php print $content_type ?>&keyword=${val}'

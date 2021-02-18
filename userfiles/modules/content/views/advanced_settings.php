@@ -47,7 +47,6 @@ if (isset($data['created_by']) and $data['created_by']) {
     <script type="text/javascript">
         mw.lib.require('mwui_init');
     </script>
-
     <script type="text/javascript">
         mw.reset_current_page = function (a, callback) {
             mw.tools.confirm("<?php _ejs("Are you sure you want to Reset the content of this page?  All your text will be lost forever!!"); ?>", function () {
@@ -80,7 +79,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                             }
                             //content/redirect_to_content_id
                         } else {
-
                         }
                     }
                     typeof callback === 'function' ? callback.call(data) : '';
@@ -167,7 +165,6 @@ if (isset($data['created_by']) and $data['created_by']) {
             <h6><strong><?php _e('Search engine'); ?></strong></h6>
             <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
         </div>
-
         <div class="card-body py-0">
             <div class="collapse" id="seo-settings">
                 <small class="text-muted d-block"><?php _e("Add a title and description to see how this product might appear in a search engine listing"); ?></small>
@@ -181,7 +178,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                                 <label><?php _e("Meta title"); ?>
                                     <small data-toggle="tooltip" title="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small>
                                 </label>
-
                             </div>
                             <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
                             <input type="text" class="form-control" name="content_meta_title" placeholder="" value="<?php if (isset($data['content_meta_title']) and $data['content_meta_title'] != '') print ($data['content_meta_title']) ?>"/>
@@ -236,9 +232,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         <div class="card-body py-0">
             <div class="collapse" id="advenced-settings">
                 <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
-
                 <hr class="thin no-padding"/>
-
                 <div class="row">
                     <div class="col-md-12">
                         <?php
@@ -256,7 +250,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <input type="text" name="original_link" class="form-control" placeholder="<?php _e('http://yoursite.com'); ?>" value="<?php print $data['original_link'] ?>"/>
                         </div>
                     </div>
-
                     <div class="col-md-12">
                         <div class="form-group">
                             <label><?php _e("Require login"); ?></label>
@@ -268,7 +261,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                             </div>
                         </div>
                     </div>
-
                     <?php if ($all_users) : ?>
                         <div class="col-md-12">
                             <div class="form-group">
@@ -304,18 +296,14 @@ if (isset($data['created_by']) and $data['created_by']) {
                                         })
                                     });
                                 </script>
-
                                 <input type="hidden" name="created_by" id="created_by" value="<?php print $post_author_id ?>">
                             </div>
                         </div>
                     <?php endif; ?>
                 </div>
-
                 <hr class="thin no-padding"/>
-
                 <!-- More Advanced Settings -->
                 <?php if (isset($data['id']) and $data['id'] > 0): ?>
-
 
                 <script>
                     // open_edit_related_content_modal = function($content_id) {
@@ -333,8 +321,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                     //   //  params.id = 'mw-admin-select-related-content-list';
                     //     mw.load_module('content/views/related_content_list', '#open_edit_related_content_modal__opened__module', null, params);
                     // }
-
-
                     open_edit_related_content_modal = function($content_id) {
                         var modal_id = 'open_edit_related_content_modal__modal';
                         var dialog = mw.top().dialogIframe({
@@ -346,41 +332,25 @@ if (isset($data['created_by']) and $data['created_by']) {
                             autoHeight: true
                         })
                     }
-
-
-
                 </script>
-
-                    <div class="row d-flex align-items-center">
-                        <div class="col-md-4">
-                            <label class="control-label my-2"><?php print _e('More options'); ?>:</label>
-                        </div>
-
-                        <div class="col-md-8 text-center text-md-right">
-                            <a class="btn btn-info btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
-                            <a class="btn btn-danger btn-sm" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
-                            <a class="btn btn-warning btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
-                        </div>
-
-
-
-
-                    </div>
-
-
                 <div class="row d-flex align-items-center">
                     <div class="col-md-8">
-                        <label class="control-label my-2"><?php print _e('Related Content'); ?>:</label>
+                        <label class="control-label"><?php print _e('Related Content'); ?>:</label>
+                        <small class="text-muted d-block mb-3"><?php _e('You can add related content to your post or product');?></small>
                         <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit related"); ?></a>
-
                     </div>
-                    <div class="col-md-4 text-center text-md-right">
-
-
+                        <div class="col-md-4 text-center text-md-right">
                     </div>
-
                 </div>
-
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-12 text-center text-md-left">
+                        <label class="control-label mt-3"><?php print _e('More options'); ?>:</label>
+                        <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
+                        <a class="btn btn-outline-primary" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
+                        <a class="btn btn-outline-primary" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
+                        <a class="btn btn-outline-primary" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
+                    </div>
+                </div>
 
                 <?php endif; ?>
 
@@ -466,23 +436,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                         </div>
                     </div>
                 <?php endif; ?>
-
-
-
-
-
-
-
-
-
-
-
             </div>
         </div>
     </div>
-
-
-
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>
 
 <?php if (!empty($custom)): ?>
