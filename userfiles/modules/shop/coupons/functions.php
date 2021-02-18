@@ -22,7 +22,7 @@ function coupon_apply($params = array())
     $coupon = coupon_get_by_code($coupon_code);
     if (empty($coupon)) {
         $json['error_message'] = _e('The coupon code is not valid.', true);
-        return $json;
+        return $json; 
     }
 
     $customer_ip = user_ip();
