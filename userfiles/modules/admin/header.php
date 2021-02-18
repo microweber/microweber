@@ -449,7 +449,7 @@ $user = get_user_by_id($user_id);
                     <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
-                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0): ?><?php print $order_notif_html; ?><?php endif; ?></span>
+                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                         </a>
                         <div class="dropdown-menu">
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
@@ -461,10 +461,10 @@ $user = get_user_by_id($user_id);
                             endif;
                             ?>
 
-                            <?php if (user_can_view_module(['module' => 'shop.orders'])): ?>
-                                <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if ($view == 'order'): ?> active <?php endif; ?>">
+                            <?php if (user_can_view_module(['module' => 'order.index'])): ?>
+                                <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if($view == 'order'): ?>active<?php endif;?>">
                                     <?php _e("Orders"); ?>
-                                    <?php if ($view == 'order'): ?><?php print $order_notif_html; ?><?php endif; ?>
+                                    <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
                                     <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
                                           data-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>

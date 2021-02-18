@@ -9,6 +9,7 @@ use MicroweberPackages\Translation\Models\Translation;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\TranslationLoader;
 use MicroweberPackages\Translation\Translator;
+use \WhiteCube\Lingua\Service as Lingua;
 
 class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 {
@@ -18,7 +19,12 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
     public function boot()
     {
 
+
+
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
+
+
+
 
         /*
          * This is an example how to add namespace to your package
@@ -84,6 +90,13 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
      */
     public function register()
     {
+
+        if(!class_exists(Lingua::class)){
+           exit('The class ' . Lingua::class . ' cannot be found. Please run composer install.');
+        }
+
+
+
         $this->registerLoader();
 
         $this->app->singleton('translator', function ($app) {

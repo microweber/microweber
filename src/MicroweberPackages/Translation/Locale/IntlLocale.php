@@ -12,10 +12,16 @@ use MicroweberPackages\Translation\Locale\Traits\DetailsByLocaleTrait;
 use MicroweberPackages\Translation\Locale\Traits\LanguagesByLocaleTrait;
 use MicroweberPackages\Translation\Locale\Traits\RegionByLocaleTrait;
 
+/**
+ * @deprecated please use LanguageHelper class
+ */
 class IntlLocale
 {
     use DetailsByLocaleTrait, LanguagesByLocaleTrait, RegionByLocaleTrait;
 
+    /**
+     * @deprecated please use LanguageHelper class
+     */
     public static function getDisplayRegion($locale)
     {
         if (isset(self::$regionsByLocale[$locale])) {
@@ -25,6 +31,9 @@ class IntlLocale
         return false;
     }
 
+    /**
+     * @deprecated please use LanguageHelper class
+     */
     public static function getDisplayLanguage($locale)
     {
 
@@ -35,6 +44,9 @@ class IntlLocale
         return false;
     }
 
+    /**
+     * @deprecated please use LanguageHelper class
+     */
     public static function getDisplayFlag($locale)
     {
         if (isset(self::$detailsByLocale[$locale])) {
@@ -42,9 +54,9 @@ class IntlLocale
             if (isset($details['flag']) and $details['flag']) {
                 return $details['flag'];
             }
-            $localee = explode('_',$locale);
+            $localee = explode('_', $locale);
 
-            if(isset($localee[1])){
+            if (isset($localee[1])) {
                 return strtolower($localee[1]);
             }
         }
