@@ -89,7 +89,9 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
     $(document).ready(function () {
 
         $('.js-search-lang-text').on('input', function () {
-            searchLangauges<?php echo $namespaceMd5;?>();
+            mw.on.stopWriting(this,function() {
+                searchLangauges<?php echo $namespaceMd5;?>();
+            });
         });
 
         $('.mw_lang_item_textarea_edit').on('input', function () {
