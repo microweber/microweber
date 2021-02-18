@@ -18,15 +18,17 @@
         text-shadow: 0 0 2px rgba(0, 0, 0, .5);
     }
 
-    .image-settings.remove-image {
-        right: 1px;
-        bottom: 0;
-        top: auto;
-        opacity: 1;
+
+    .image-settings.settings-img {
+        margin-right: 23px
     }
 
     .admin-thumb-item:hover .image-settings {
         opacity: 1;
+    }
+
+    .admin-thumb-item:hover .image-settings.remove-image {
+        color: #ff4f52;
     }
 </style>
 
