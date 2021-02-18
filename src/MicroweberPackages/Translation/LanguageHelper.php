@@ -32,6 +32,10 @@ class LanguageHelper
                     $flag =  strtolower($locale_explode[1]);
                 }
 
+                if($flag == 'en'){
+                    $flag = 'us';
+                }
+
                 $name = ucfirst($lang['name']);
                 $readyLanguages[$name] = [
                     'name' => $name,
