@@ -76,7 +76,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <option value="microweber"><?php _e("Select"); ?></option>
                             <option value="google_recaptcha_v2" <?php if (get_option('provider', 'captcha') == 'google_recaptcha_v2'): ?>selected="selected"<?php endif; ?>><?php _e("Google ReCaptcha V2"); ?></option>
                             <option value="google_recaptcha_v3" <?php if (get_option('provider', 'captcha') == 'google_recaptcha_v3'): ?>selected="selected"<?php endif; ?>><?php _e("Google ReCaptcha V3"); ?></option>
-                            <option value="microweber" <?php if (get_option('provider', 'captcha') == 'microweber'): ?>selected="selected"<?php endif; ?>><?php _e("Microweber Captcha"); ?></option>
+                            <option value="microweber" <?php if (get_option('provider', 'captcha') == 'microweber'): ?>selected="selected"<?php endif; ?>><?php _e("{{app_name}} Captcha"); ?></option>
                         </select>
                     </div>
 

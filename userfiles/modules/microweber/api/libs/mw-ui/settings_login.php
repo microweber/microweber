@@ -347,12 +347,12 @@
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck1" data-toggle="collapse" data-target="#mw-login-settings">
-                                                    <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-microweber mdi-30px lh-1_0 mr-2"></i> Microweber login enabled?</label>
+                                                    <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-microweber mdi-30px lh-1_0 mr-2"></i> {{app_name}} login enabled?</label>
                                                 </div>
                                             </div>
 
                                             <div class="collapse" id="mw-login-settings">
-                                                <small class="d-block mb-1">Please enter your credentials for Microweber Login Server</small>
+                                                <small class="d-block mb-1">Please enter your credentials for {{app_name}} Login Server</small>
 
                                                 <div class="form-group mt-3">
                                                     <label>Server URL</label>
