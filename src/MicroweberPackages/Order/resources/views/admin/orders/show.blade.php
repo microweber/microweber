@@ -66,12 +66,11 @@
 
 <div class="card bg-light style-1 mb-3">
     <div class="card-body">
-        <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex mb-3">
             <h5 class="font-weight-bold"><?php _e("Client Information"); ?></h5>
             <?php
             if (isset($order['customer_id']) && $order['customer_id'] > 0):
             ?><small>
-                Edit client information
                 <a href="<?php echo route('customers.edit', $order['customer_id']) ?>" class="btn btn-sm btn-outline-primary ml-2 text-dark">
                     <?php _e("Edit"); ?>
                 </a>

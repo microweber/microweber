@@ -346,9 +346,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                     <div class="col-md-12 text-center text-md-left">
                         <label class="control-label mt-3"><?php print _e('More options'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
-                        <a class="btn btn-outline-primary" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
-                        <a class="btn btn-outline-primary" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
-                        <a class="btn btn-outline-primary" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
+                        <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
+                        <a class="btn btn-outline-primary btn-sm" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
+                        <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
                     </div>
                 </div>
 
