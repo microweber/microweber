@@ -232,7 +232,7 @@
                         </select>
                     </div>
 
-                    <input type="hidden" class="form-control" value="shipping" name="addresses[1][type]"/>
+                    <input type="hidden" class="form-control" value="company" name="addresses[1][type]"/>
                 </div>
             </div>
 

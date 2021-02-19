@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Customer\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
@@ -27,16 +28,16 @@ class CustomersController extends AdminController
         $limit = $request->has('limit') ? $request->limit : 10;
 
         $customers = Customer::applyFilters($request->only([
-                'search',
-                'contact_name',
-                'name',
-                'phone',
-                'orderByField',
-                'orderBy'
-            ]))
+            'search',
+            'contact_name',
+            'name',
+            'phone',
+            'orderByField',
+            'orderBy'
+        ]))
             //->whereCompany($request->header('company'))
             ->select('customers.*',
-              //  DB::raw('sum(due_amount) as due_amount')
+            //  DB::raw('sum(due_amount) as due_amount')
             )
             ->groupBy('customers.id')
             //->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
@@ -50,11 +51,10 @@ class CustomersController extends AdminController
     }
 
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Requests\CustomerRequest $request)
@@ -69,13 +69,13 @@ class CustomersController extends AdminController
         $customer->company_id = $request->header('company');
         $customer->email = $request->email;
         $customer->phone = $request->phone;
-     //  $customer->company_name = $request->company_name;
-    //    $customer->contact_name = $request->contact_name;
-     //   $customer->website = $request->website;
-     //   $customer->enable_portal = $request->enable_portal;
-      //  $customer->role = 'customer';
-       // $customer->password = Hash::make($request->password);
-        $customer->active =1;
+        //  $customer->company_name = $request->company_name;
+        //    $customer->contact_name = $request->contact_name;
+        //   $customer->website = $request->website;
+        //   $customer->enable_portal = $request->enable_portal;
+        //  $customer->role = 'customer';
+        // $customer->password = Hash::make($request->password);
+        $customer->active = 1;
         $customer->save();
 
         if ($request->addresses) {
@@ -91,7 +91,7 @@ class CustomersController extends AdminController
                 // $newAddress->address_street_2 = $address["address_street_2"];
                 $newAddress->city = $address["city"];
                 $newAddress->state = $address["state"];
-                $newAddress->country_id = (int) $address["country_id"];
+                $newAddress->country_id = (int)$address["country_id"];
                 $newAddress->zip = $address["zip"];
 
                 if (isset($address["phone"])) {
@@ -111,7 +111,7 @@ class CustomersController extends AdminController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
@@ -138,9 +138,9 @@ class CustomersController extends AdminController
             $countries = Country::all();
         }
 
-        return $this->view('customer::admin.customers.edit',[
+        return $this->view('customer::admin.customers.edit', [
             'customer' => false,
-            'countries'=>$countries,
+            'countries' => $countries,
             'currencies' => $currencies,
             'currency' => false
         ]);
@@ -149,7 +149,7 @@ class CustomersController extends AdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function edit($id)
@@ -159,8 +159,8 @@ class CustomersController extends AdminController
         $currencies = Currency::all();
         $orders = Order::where('customer_id', $customer->id)->get();
 
-        return $this->view('customer::admin.customers.edit',[
-            'countries'=>Country::all(),
+        return $this->view('customer::admin.customers.edit', [
+            'countries' => Country::all(),
             'customer' => $customer,
             'orders' => $orders,
             'currencies' => $currencies,
@@ -171,8 +171,8 @@ class CustomersController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update($id, Requests\CustomerRequest $request)
@@ -202,10 +202,10 @@ class CustomersController extends AdminController
         $customer->currency_id = $request->currency_id;
         $customer->email = $request->email;
         $customer->phone = $request->phone;
-    //    $customer->company_name = $request->company_name;
-       // $customer->contact_name = $request->contact_name;
-      //  $customer->website_url = $request->website;
-       // $customer->enable_portal = $request->enable_portal;
+        //    $customer->company_name = $request->company_name;
+        // $customer->contact_name = $request->contact_name;
+        //  $customer->website_url = $request->website;
+        // $customer->enable_portal = $request->enable_portal;
         $customer->save();
 
         $customer->addresses()->delete();
@@ -225,6 +225,18 @@ class CustomersController extends AdminController
                 if (isset($address["phone"])) {
                     $newAddress->phone = $address["phone"];
                 }
+                if (isset($address["company_name"])) {
+                    $newAddress->company_name = $address["company_name"];
+                }
+                if (isset($address["company_id"])) {
+                    $newAddress->company_id = $address["company_id"];
+                }
+                if (isset($address["company_vat"])) {
+                    $newAddress->company_vat = $address["company_vat"];
+                }
+                if (isset($address["company_vat_registered"])) {
+                    $newAddress->company_vat_registered = $address["company_vat_registered"];
+                }
                 $newAddress->city = $address["city"];
                 $newAddress->state = $address["state"];
                 $newAddress->country_id = $address["country_id"];
@@ -241,7 +253,7 @@ class CustomersController extends AdminController
     /**
      * Remove the specified Customer along side all his/her resources (ie. Estimates, Invoices, Payments and Addresses)
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
