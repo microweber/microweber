@@ -16,7 +16,6 @@ class AddCompanyDetailsAddressesTable extends Migration
         if (Schema::hasTable('addresses')) {
             Schema::table('addresses', function (Blueprint $table) {
                 $table->string('company_name')->nullable();
-                $table->string('company_id')->nullable();
                 $table->string('company_vat')->nullable();
                 $table->string('company_vat_registered')->nullable();
             });

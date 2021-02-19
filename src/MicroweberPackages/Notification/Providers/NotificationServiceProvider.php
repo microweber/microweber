@@ -35,10 +35,10 @@ class NotificationServiceProvider extends ServiceProvider
             $this->_configMailSender();
         }
 
-      View::addNamespace('notification', __DIR__.'/../resources/views');
+      View::addNamespace('notification', dirname(__DIR__).'/resources/views');
 
-       $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
-       $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
+       $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations/');
+       $this->loadRoutesFrom(dirname(__DIR__) . '/routes/admin.php');
     }
 
 

@@ -23,9 +23,9 @@ class CustomerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::addNamespace('customer', __DIR__.'/../resources/views');
+        View::addNamespace('customer', dirname(__DIR__) . '/resources/views');
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ . '/../database/');
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/admin.php');
+        $this->loadMigrationsFrom(dirname(__DIR__) . '/database/');
     }
 }
