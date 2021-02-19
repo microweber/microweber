@@ -219,12 +219,16 @@ class CustomersController extends AdminController
                 $newAddress = $customer->addresses()->firstOrNew(['type' => $address["type"]]);
                 $newAddress->name = $address["name"];
                 $newAddress->address_street_1 = $address["address_street_1"];
-                $newAddress->address_street_2 = $address["address_street_2"];
+                if (isset($address["address_street_2"])) {
+                    $newAddress->address_street_2 = $address["address_street_2"];
+                }
+                if (isset($address["phone"])) {
+                    $newAddress->phone = $address["phone"];
+                }
                 $newAddress->city = $address["city"];
                 $newAddress->state = $address["state"];
                 $newAddress->country_id = $address["country_id"];
                 $newAddress->zip = $address["zip"];
-                $newAddress->phone = $address["phone"];
                 $newAddress->type = $address["type"];
                 $newAddress->customer_id = $customer->id;
                 $newAddress->save();
