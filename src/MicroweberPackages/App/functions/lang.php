@@ -91,7 +91,7 @@ function _output_trans_key($key) {
  *
  * @use current_lang()
  */
-function _e($k, $to_return = false, $replace = false)
+function _e($k, $to_return = false, $replace = [])
 {
     $trans = trans('*.'.$k, $replace);
     $trans = ltrim($trans, '*.');
@@ -120,7 +120,7 @@ function _e($k, $to_return = false, $replace = false)
  *
  * @use current_lang()
  */
-function _ejs($k, $to_return = false, $replace = false)
+function _ejs($k, $to_return = false, $replace = [])
 {
     $trans = trans('*.'.$k, $replace);
     $trans = ltrim($trans, '*.');
