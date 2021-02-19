@@ -97,7 +97,7 @@ class CustomersController extends AdminController
                 if (isset($address["phone"])) {
                     $newAddress->phone = $address["phone"];
                 }
-                
+
                 $newAddress->type = $address["type"];
                 $newAddress->customer_id = $customer->id;
                 $newAddress->save();
@@ -105,7 +105,7 @@ class CustomersController extends AdminController
             }
         }
 
-        return redirect(route('customers'));
+        return redirect(route('admin.customers.index'));
     }
 
     /**
@@ -124,7 +124,7 @@ class CustomersController extends AdminController
             'shippingAddress.country',
         ])->find($id);
 
-        return redirect(route('customers.index'))->with('status', 'Customer is created success.');
+        return redirect(route('admin.customers.index'))->with('status', 'Customer is created success.');
     }
 
 
@@ -231,7 +231,7 @@ class CustomersController extends AdminController
             }
         }
 
-        return redirect(route('customers.edit', $customer->id));
+        return redirect(route('admin.customers.edit', $customer->id));
     }
 
     /**
@@ -248,7 +248,7 @@ class CustomersController extends AdminController
             $findCustomer->delete();
         }
 
-        return redirect(route('customers.index'));
+        return redirect(route('admin.customers.index'));
     }
 
 
@@ -270,6 +270,6 @@ class CustomersController extends AdminController
             }
         }
 
-        return redirect(route('customers.index'));
+        return redirect(route('admin.customers.index'));
     }
 }

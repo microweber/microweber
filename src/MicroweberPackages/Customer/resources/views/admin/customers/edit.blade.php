@@ -22,7 +22,7 @@
         </div><br/>
     @endif
 
-    <form method="post" action="@if($customer){{route('customers.update', $customer->id)}}@else{{route('customers.store')}}@endif">
+    <form method="post" action="@if($customer){{route('admin.customers.update', $customer->id)}}@else{{route('admin.customers.store')}}@endif">
         @if($customer)
             @method('PUT')
         @endif

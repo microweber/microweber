@@ -71,7 +71,7 @@
                 if (isset($ord['customer_id']) && $ord['customer_id'] > 0):
                 ?><small>
                     Edit client information
-                    <a href="<?php echo route('customers.edit', $ord['customer_id']) ?>" class="btn btn-sm btn-outline-primary ml-2 text-dark">
+                    <a href="<?php echo route('admin.customers.edit', $ord['customer_id']) ?>" class="btn btn-sm btn-outline-primary ml-2 text-dark">
                         <?php _e("Edit"); ?>
                     </a>
                 </small>

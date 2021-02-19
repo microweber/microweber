@@ -44,12 +44,12 @@
         <div class="col"></div>
         <div class="col text-right">
             @if(request()->get('filter') == 'true')
-            <a href="{{route('customers.index')}}" class="btn btn-outline-primary icon-left btn-md"><i class="mdi mdi-close"></i> Filter</a>
+            <a href="{{route('admin.customers.index')}}" class="btn btn-outline-primary icon-left btn-md"><i class="mdi mdi-close"></i> Filter</a>
             @else
             <button type="button" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e('Filter'); ?></button>
             @endif
 
-            <a href="{{ route('customers.create') }}" class="btn btn-primary icon-left">
+            <a href="{{ route('admin.customers.create') }}" class="btn btn-primary icon-left">
                 <i class="mdi mdi-plus"></i> <?php _e('New client'); ?>
             </a>
         </div>
@@ -85,7 +85,7 @@
 <br/>
 
 <div class="actions">
-    <form method="POST" class="js-delete-selected-form" action="{{ route('customers.delete') }}">
+    <form method="POST" class="js-delete-selected-form" action="{{ route('admin.customers.delete') }}">
         {{csrf_field()}}
         <button class="btn btn-danger btn-sm js-delete-all"><?php _e('Delete all'); ?></button>
     </form>
@@ -123,10 +123,10 @@
             <td>{{ $customer->city }}</td>
             <td>{{ number_format($customer->due_amount, 2) }}</td>
             <td class="text-center">
-                <form action="{{ route('customers.destroy', $customer->id)}}" method="post">
+                <form action="{{ route('admin.customers.destroy', $customer->id)}}" method="post">
                     @csrf
                     @method('DELETE')
-                    <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-outline-primary btn-sm"><?php _e('View'); ?></a>
+                    <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-outline-primary btn-sm"><?php _e('View'); ?></a>
                     <button type="submit" class="btn btn-text btn-sm text-danger"><i class="mdi mdi-trash-can-outline mdi-20px"></i></button>
                 </form>
             </td>
@@ -142,7 +142,7 @@
                 <h4><?php _e('You don’t have clients yet'); ?></h4>
                 <p><?php _e('Here you can mange your clients'); ?></p>
                 <br/>
-                <a href="{{ route('customers.create') }}" class="btn btn-primary btn-rounded"><?php _e('Add client'); ?></a>
+                <a href="{{ route('admin.customers.create') }}" class="btn btn-primary btn-rounded"><?php _e('Add client'); ?></a>
             </div>
         </div>
     </div>

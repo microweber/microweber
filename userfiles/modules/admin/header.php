@@ -476,7 +476,7 @@ $user = get_user_by_id($user_id);
                             </a>-->
 
                             <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
-                                <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
+                                <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
                                     <?php _e("Clients"); ?>
                                 </a>
                             <?php endif; ?>
