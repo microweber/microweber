@@ -93,7 +93,11 @@ class CustomersController extends AdminController
                 $newAddress->state = $address["state"];
                 $newAddress->country_id = (int) $address["country_id"];
                 $newAddress->zip = $address["zip"];
-                $newAddress->phone = $address["phone"];
+
+                if (isset($address["phone"])) {
+                    $newAddress->phone = $address["phone"];
+                }
+                
                 $newAddress->type = $address["type"];
                 $newAddress->customer_id = $customer->id;
                 $newAddress->save();
