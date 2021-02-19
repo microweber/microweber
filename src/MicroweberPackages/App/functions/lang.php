@@ -91,9 +91,9 @@ function _output_trans_key($key) {
  *
  * @use current_lang()
  */
-function _e($k, $to_return = false)
+function _e($k, $to_return = false, $replace = false)
 {
-    $trans = trans('*.'.$k);
+    $trans = trans('*.'.$k, $replace);
     $trans = ltrim($trans, '*.');
 
     if ($to_return) {
@@ -120,9 +120,9 @@ function _e($k, $to_return = false)
  *
  * @use current_lang()
  */
-function _ejs($k, $to_return = false)
+function _ejs($k, $to_return = false, $replace = false)
 {
-    $trans = trans('*.'.$k);
+    $trans = trans('*.'.$k, $replace);
     $trans = ltrim($trans, '*.');
 
     $trans = htmlspecialchars($trans, ENT_QUOTES);
