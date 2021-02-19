@@ -71,7 +71,7 @@
             <?php
             if (isset($order['customer_id']) && $order['customer_id'] > 0):
             ?><small>
-                <a href="<?php echo route('customers.edit', $order['customer_id']) ?>" class="btn btn-sm btn-outline-primary ml-2 text-dark">
+                <a href="<?php echo route('admin.customers.edit', $order['customer_id']) ?>" class="btn btn-sm btn-outline-primary ml-2 text-dark">
                     <?php _e("Edit"); ?>
                 </a>
             </small>

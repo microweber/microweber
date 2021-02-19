@@ -28,7 +28,7 @@
         @endif
         @csrf
         <div class="p-5">
-            <div class="row row-mx-30">
+            <div class="row row-mx-30"> 
                 <div class="col-md-6 col-px-30">
                     <h6 class="small font-weight-bold mb-3"><?php _e("Client card"); ?></h6>
                     <div class="card">
