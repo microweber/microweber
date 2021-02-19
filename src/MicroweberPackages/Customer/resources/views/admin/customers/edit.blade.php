@@ -275,12 +275,12 @@
                                     <table class="table vertical-align-middle table-header-no-border table-primary-hover" id="order-information-table">
                                         <thead class="text-primary">
                                         <tr>
-                                            <th>Image</th>
-                                            <th>Product</th>
-                                            <th>SKU</th>
-                                            <th>Price</th>
-                                            <th class="text-center">QTY</th>
-                                            <th>Total</th>
+                                            <th><?php _e("Image"); ?></th>
+                                            <th><?php _e("Product"); ?></th>
+                                            <th><?php _e("SKU"); ?></th>
+                                            <th><?php _e("Price"); ?></th>
+                                            <th><?php _e("Qty"); ?></th>
+                                            <th><?php _e("Total"); ?></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -300,9 +300,15 @@
                                             <td><?php echo $product->title; ?></td>
                                             <td><?php echo $product->sku; ?></td>
                                             <td><?php echo currency_format($product->price); ?></td>
-                                            <td><?php echo $product->qty; ?></td>
+
+                                            <td><?php
+                                                $qty = (int) $product->qty;
+                                                if ($qty == 'nolimit') {
+                                                    echo 1;
+                                                } else {
+                                                    echo $qty;
+                                                } ?></td>
                                             <?php
-                                            $qty = (int) $product->qty;
                                             $productPrice = (float) $product->price;
                                             ?>
                                             <td><?php echo currency_format($productPrice * $qty); ?></td>

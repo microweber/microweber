@@ -10,6 +10,24 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.js-delete-all').hide();
+        $(' input[type="checkbox"]').on('change', function () {
+            var count = 0;
+            $(' input[type="checkbox"]').each(function(){
+                if($(this).prop('checked')) {
+                    count++;
+                    return;
+                }
+
+            })
+            if(count > 0) {
+                $('.js-delete-all').show();
+            }
+            else {
+                $('.js-delete-all').hide();
+            }
+        });
+
         $(".js-select-all").click(function () {
             $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
             //$('.js-delete-all').toggle();
@@ -87,7 +105,7 @@
 <div class="actions">
     <form method="POST" class="js-delete-selected-form" action="{{ route('admin.customers.delete') }}">
         {{csrf_field()}}
-        <button class="btn btn-danger btn-sm js-delete-all"><?php _e('Delete all'); ?></button>
+        <button class="btn btn btn-outline-danger js-delete-all" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))"><?php _e('Delete all'); ?></button>
     </form>
 </div>
 
@@ -127,7 +145,7 @@
                     @csrf
                     @method('DELETE')
                     <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-outline-primary btn-sm"><?php _e('View'); ?></a>
-                    <button type="submit" class="btn btn-text btn-sm text-danger"><i class="mdi mdi-trash-can-outline mdi-20px"></i></button>
+                    <button type="submit" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" class="btn btn-text btn-sm text-danger"><i class="mdi mdi-trash-can-outline mdi-20px"></i></button>
                 </form>
             </td>
         </tr>
