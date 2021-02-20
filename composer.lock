@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a5ee4a85a847a23a7c72bb169daa4a7",
+    "content-hash": "4359747c9b0468b9c8e39ca72aa59ea9",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -2366,16 +2366,16 @@
         },
         {
             "name": "geoip2/geoip2",
-            "version": "dev-master",
+            "version": "v2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/GeoIP2-php.git",
-                "reference": "564627d188f959d40b2fe53128ddc2fe75339f31"
+                "reference": "d01be5894a5c1a3381c58c9b1795cd07f96c30f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/564627d188f959d40b2fe53128ddc2fe75339f31",
-                "reference": "564627d188f959d40b2fe53128ddc2fe75339f31",
+                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/d01be5894a5c1a3381c58c9b1795cd07f96c30f7",
+                "reference": "d01be5894a5c1a3381c58c9b1795cd07f96c30f7",
                 "shasum": ""
             },
             "require": {
@@ -2385,8 +2385,7 @@
                 "php": ">=7.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "*",
-                "phpstan/phpstan": "*",
+                "friendsofphp/php-cs-fixer": "2.*",
                 "phpunit/phpunit": "^8.0 || ^9.0",
                 "squizlabs/php_codesniffer": "3.*"
             },
@@ -2418,9 +2417,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maxmind/GeoIP2-php/issues",
-                "source": "https://github.com/maxmind/GeoIP2-php/tree/master"
+                "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.11.0"
             },
-            "time": "2021-01-19T17:46:46+00:00"
+            "time": "2020-10-01T18:48:34+00:00"
         },
         {
             "name": "graham-campbell/markdown",
@@ -4734,27 +4733,28 @@
         },
         {
             "name": "maxmind-db/reader",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
-                "reference": "9ee9ba9ee287b119e9f5a8e8dbfea0b49647cec4"
+                "reference": "07f84d969cfc527ce49388558a366ad376f1f35c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/9ee9ba9ee287b119e9f5a8e8dbfea0b49647cec4",
-                "reference": "9ee9ba9ee287b119e9f5a8e8dbfea0b49647cec4",
+                "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/07f84d969cfc527ce49388558a366ad376f1f35c",
+                "reference": "07f84d969cfc527ce49388558a366ad376f1f35c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
             },
             "conflict": {
-                "ext-maxminddb": "<1.9.0,>=2.0.0"
+                "ext-maxminddb": "<1.10.0,>=2.0.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "*",
                 "php-coveralls/php-coveralls": "^2.1",
+                "phpstan/phpstan": "*",
                 "phpunit/phpcov": ">=6.0.0",
                 "phpunit/phpunit": ">=8.0.0,<10.0.0",
                 "squizlabs/php_codesniffer": "3.*"
@@ -4792,9 +4792,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maxmind/MaxMind-DB-Reader-php/issues",
-                "source": "https://github.com/maxmind/MaxMind-DB-Reader-php/tree/v1.9.0"
+                "source": "https://github.com/maxmind/MaxMind-DB-Reader-php/tree/v1.10.0"
             },
-            "time": "2021-01-07T21:15:29+00:00"
+            "time": "2021-02-09T17:52:47+00:00"
         },
         {
             "name": "maxmind/web-service-common",
@@ -11662,7 +11662,7 @@
         },
         {
             "name": "whitecube/lingua",
-            "version": "dev-master",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/whitecube/lingua.git",
@@ -11720,6 +11720,16 @@
                 "localization",
                 "translate",
                 "translation"
+            ],
+            "support": {
+                "issues": "https://github.com/whiteCube/lingua/issues",
+                "source": "https://github.com/whiteCube/lingua"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/whitecube",
+                    "type": "github"
+                }
             ],
             "time": "2021-01-28T11:27:27+00:00"
         },
@@ -14091,7 +14101,6 @@
     "stability-flags": {
         "knplabs/knp-menu": 20,
         "jenssegers/agent": 20,
-        "geoip2/geoip2": 20,
         "twig/twig": 20,
         "halaxa/json-machine": 20,
         "erusev/parsedown": 20,
@@ -14121,8 +14130,7 @@
         "laravel/passport": 20,
         "microweber-packages/microweber-class-alias": 20,
         "florianv/exchanger": 20,
-        "symfony/intl": 20,
-        "whitecube/lingua": 20
+        "symfony/intl": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -14134,5 +14142,6 @@
     },
     "platform-overrides": {
         "php": "7.3"
-    }
+    },
+    "plugin-api-version": "2.0.0"
 }
