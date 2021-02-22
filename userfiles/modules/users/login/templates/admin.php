@@ -113,7 +113,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                                 $langs = \MicroweberPackages\Translation\TranslationHelper::getAvailableTranslations();
                                                 ?>
 
-                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($current_lang != 'en' and $current_lang != 'undefined'): ?><?php print \MicroweberPackages\Translation\Locale\IntlLocale::getDisplayLanguage($current_lang); ?><?php else: ?>English<?php endif; ?>">
+                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($current_lang != 'en' and $current_lang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($current_lang); ?><?php else: ?>English<?php endif; ?>">
 
                                                     <?php foreach ($langs as $langKey=>$langValue): ?>
                                                         <option value="<?php print $langKey; ?>" <?php if ($selected_lang == $langKey) { ?> selected <?php } ?>><?php print $langValue; ?></option>
