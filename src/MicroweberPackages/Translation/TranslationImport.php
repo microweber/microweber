@@ -13,6 +13,12 @@ class TranslationImport
         if (is_array($translations)) {
             foreach ($translations as $translation) {
 
+                if (!isset($translation['translation_text'])) {
+                    continue;
+                }
+                if (!isset($translation['translation_locale'])) {
+                    continue;
+                }
                 $translationText = trim($translation['translation_text']);
                 if (empty($translationText)) {
                     continue;
@@ -28,8 +34,9 @@ class TranslationImport
                     $getTranslationKey->translation_key = $translation['translation_key'];
                     $getTranslationKey->translation_namespace = $translation['translation_namespace'];
                     $getTranslationKey->translation_group = $translation['translation_group'];
+                    $getTranslationKey->save();
+
                 }
-                $getTranslationKey->save();
 
                 // Get translation text
                 $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
@@ -41,16 +48,17 @@ class TranslationImport
                     $getTranslationText = new TranslationText();
                     $getTranslationText->translation_key_id = $getTranslationKey->id;
                     $getTranslationText->translation_locale = $translation['translation_locale'];
+                    $getTranslationText->translation_text = $translationText;
+                    $getTranslationText->save();
                 }
 
-                $getTranslationText->translation_text = $translationText;
-                $getTranslationText->save();
+
             }
             \Cache::tags('translation_keys')->flush();
 
-            return ['success'=> 'Importing language file success.'];
+            return ['success' => 'Importing language file success.'];
         }
 
-        return ['error'=> 'Can\'t import this language file.'];
+        return ['error' => 'Can\'t import this language file.'];
     }
 }

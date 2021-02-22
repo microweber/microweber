@@ -15,7 +15,44 @@ use Symfony\Component\Intl\Locales;
 
 class LanguageHelper
 {
+    public static function getDisplayLanguage($locale_name)
+    {
+        $found = false;
+        $langs = self::getLanguagesWithDefaultLocale();
+        $locale_name_explode = explode("_", $locale_name);
 
+        if ($langs) {
+            foreach ($langs as $lang) {
+                if ($found) {
+                    continue;
+                }
+                if (isset($lang['name'])) {
+                    if (isset($lang['locale']) and strtolower($lang['locale']) == strtolower($locale_name)) {
+                        $found = $lang['name'];
+                    } else if (isset($lang['locales']) and $lang['locales']) {
+                        foreach ($lang['locales'] as $lang_locale_key => $lang_locale_country) {
+                            if (strtolower($lang_locale_key) == strtolower($locale_name)) {
+                                $found = $lang['name'];
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!$found) {
+                foreach ($langs as $lang) {
+                    if (isset($lang['flag']) and strtolower($lang['flag']) == strtolower($locale_name_explode[0])) {
+                        $found = $lang['name'];
+                    }
+                }
+            }
+        }
+
+
+        return $found;
+
+
+    }
 
     public static function getLanguagesWithDefaultLocale()
     {
@@ -29,10 +66,10 @@ class LanguageHelper
                 $locale_explode = explode('_', $lang['locale']);
 
                 if (isset($locale_explode[1])) {
-                    $flag =  strtolower($locale_explode[1]);
+                    $flag = strtolower($locale_explode[1]);
                 }
 
-                if($flag == 'en'){
+                if ($flag == 'en') {
                     $flag = 'us';
                 }
 
@@ -41,6 +78,7 @@ class LanguageHelper
                     'name' => $name,
                     'language' => $lang['iso-639-1'],
                     'locale' => $lang['locale'],
+                    'locales' => $lang['locales'],
                     'flag' => $flag,
                     'text' => $name . ' (' . $lang['native'] . ')'
                 ];
@@ -88,50 +126,5 @@ class LanguageHelper
             "zh_TW"];
     }
 
-
-//    public static function __OLD__getLanguagesWithDefaultLocale333()
-//    {
-//        $readyLanguages = [];
-//        foreach (Locales::getLocales() as $locale) {
-//            if (mb_strlen($locale) == 2) {
-//                continue;
-//            }
-//
-//            $region = IntlLocale::getDisplayRegion($locale);
-//            $displayLanguage = IntlLocale::getDisplayLanguage($locale);
-//
-//            if (empty($region) || empty($displayLanguage)) {
-//                continue;
-//            }
-//
-//            // Don't save this language
-//            if (isset($readyLanguages[$displayLanguage])) {
-//                continue;
-//            }
-//
-//            /****
-//             * VERRY IMPORTANT!!
-//             * Set default locale to language if we have a translation for this language
-//             ****/
-//            $availableTranslations = TranslationHelper::getAvailableTranslations();
-//            foreach ($availableTranslations as $languageLocale => $languageName) {
-//                if ($displayLanguage == $languageName) {
-//                    $locale = $languageLocale;
-//                    $region = IntlLocale::getDisplayRegion($locale);
-//                    break;
-//                }
-//            }
-//
-//            $readyLanguages[$displayLanguage] = [
-//                'region' => $region,
-//                'display_language' => $displayLanguage,
-//                'locale' => $locale,
-//                'text' => $displayLanguage . ' (' . $region . ')'
-//            ];
-//        }
-////dd($readyLanguages);
-//        return $readyLanguages;
-//
-//    }
 
 }

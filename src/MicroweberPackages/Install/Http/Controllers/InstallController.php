@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
-use MicroweberPackages\Translation\TranslationHelper;
+use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Package\ComposerUpdate;
@@ -303,7 +303,7 @@ class InstallController extends Controller
                         }
 
                         $this->log('Importing the language package..');
-                        TranslationHelper::installLanguage($input['site_lang']);
+                        TranslationPackageInstallHelper::installLanguage($input['site_lang']);
                     }
 
                 }

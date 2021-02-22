@@ -155,10 +155,18 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
                 <small class="text-muted"><?php _e('You can translate the selected language from this fields.'); ?></small>
                 <br/>
                 <br/>
-<!--
-                <small class=""><?php /*_e('Help us improve Microweber'); */?></small>
-                <a href="javascript:;" onclick="send_lang_form_to_microweber()" class="btn btn-outline-primary btn-sm mt-2"><?php /*_e('Send us your translation'); */?></a>
-                -->
+                <?php if (mw()->ui->enable_service_links and mw()->ui->disable_powered_by_link == false): ?>
+
+                <small class="text-muted"><?php _e('Help us improve'); ?></small>
+                <a href="https://microweber.org/go/translation_help"  target="_blank" class="btn btn-outline-primary btn-sm mt-2"><?php _e('Help with translation'); ?></a>
+                <?php endif; ?>
+
+
+
+                <!--
+                                <small class=""><?php /*_e('Help us improve Microweber'); */?></small>
+                                <a href="javascript:;" onclick="send_lang_form_to_microweber()" class="btn btn-outline-primary btn-sm mt-2"><?php /*_e('Send us your translation'); */?></a>
+                                -->
             </div>
             <div class="col-md-9">
                 <form id="language-form" class="lang-edit-form">
@@ -166,12 +174,15 @@ if(isset($params['edit-lang']) and $params['edit-lang']){
                     <?php
                     $getNamespaces = \MicroweberPackages\Translation\Models\TranslationKey::getNamespaces();
                     ?>
+                    <?php if ($getNamespaces): ?>
+
                     <?php foreach ($getNamespaces as $translation):?>
                     <module type="settings/group/language_edit_browse"
                             class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
                             translation_namespace="<?php echo $translation['translation_namespace']; ?>"
                             translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </form>
             </div>
         </div>
