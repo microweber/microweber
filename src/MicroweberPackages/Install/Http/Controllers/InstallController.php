@@ -303,6 +303,7 @@ class InstallController extends Controller
                         }
 
                         $this->log('Importing the language package..');
+                        TranslationPackageInstallHelper::$logger = $this;
                         TranslationPackageInstallHelper::installLanguage($input['site_lang']);
                     }
 

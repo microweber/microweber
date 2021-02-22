@@ -13,6 +13,7 @@ use MicroweberPackages\Translation\Locale\IntlLocale;
 
 class TranslationPackageInstallHelper
 {
+    static $logger = null;
 
     public static function getAvailableTranslations()
     {
@@ -68,8 +69,11 @@ class TranslationPackageInstallHelper
                     }
                 }
             }
+             $import = new \MicroweberPackages\Translation\TranslationImport();
 
-            $import = new \MicroweberPackages\Translation\TranslationImport();
+            if (is_object(self::$logger) and method_exists(self::$logger, 'log')) {
+                $import->logger = self::$logger;
+            }
             return $import->import($forImport);
         }
     }

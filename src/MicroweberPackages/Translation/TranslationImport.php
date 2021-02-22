@@ -8,6 +8,8 @@ use MicroweberPackages\Translation\Models\TranslationText;
 
 class TranslationImport
 {
+    public $logger = null;
+
     public function import($translations)
     {
         if (is_array($translations)) {
@@ -35,6 +37,7 @@ class TranslationImport
                     $getTranslationKey->translation_namespace = $translation['translation_namespace'];
                     $getTranslationKey->translation_group = $translation['translation_group'];
                     $getTranslationKey->save();
+                    $this->log("Imported translation key " . $getTranslationKey->id);
 
                 }
 
@@ -45,6 +48,7 @@ class TranslationImport
 
                 // Save new translation text
                 if ($getTranslationText == null) {
+                    $this->log("Importing translation text for key " . $getTranslationKey->id);
                     $getTranslationText = new TranslationText();
                     $getTranslationText->translation_key_id = $getTranslationKey->id;
                     $getTranslationText->translation_locale = $translation['translation_locale'];
@@ -61,4 +65,14 @@ class TranslationImport
 
         return ['error' => 'Can\'t import this language file.'];
     }
+
+    public function log($text)
+    {
+        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
+        }
+    }
+
+
+
 }
