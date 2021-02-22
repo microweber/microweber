@@ -102,7 +102,7 @@ if ($for_id != false) {
                     load_iframe_editor();
                 }
                 // mw.reload_module('#' + module_id);
-                mw.reload_module('pictures/admin_backend_sortable_pics_list');
+                mw.reload_module_everywhere('pictures/admin_backend_sortable_pics_list');
 
                 //
 
@@ -112,11 +112,11 @@ if ($for_id != false) {
                     parent.mw.reload_module('pictures');
                     mw.reload_module_parent("pictures/admin");
                     if (self !== top && typeof parent.mw === 'object') {
-                        parent.mw.reload_module('posts');
-                        parent.mw.reload_module('shop/products');
-                        parent.mw.reload_module('content', function () {
-                            mw.reload_module('#' + module_id);
-                            parent.mw.reload_module('pictures');
+                        parent.mw.reload_module_everywhere('posts');
+                        parent.mw.reload_module_everywhere('shop/products');
+                        parent.mw.reload_module_everywhere('content', function () {
+                            mw.reload_module_everywhere('#' + module_id);
+                            parent.mw.reload_module_everywhere('pictures');
                         });
                     }
                 }
