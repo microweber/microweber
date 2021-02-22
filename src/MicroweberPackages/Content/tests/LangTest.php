@@ -3,11 +3,14 @@
 namespace MicroweberPackages\Content\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 
 class LangTest extends TestCase
 {
     public function testLang()
     {
+        $install_lang = TranslationPackageInstallHelper::installLanguage('bg_BG');
+
         $current_lang = current_lang();
         set_current_lang('bg');
         $new_current_lang = current_lang();
