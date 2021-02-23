@@ -397,7 +397,7 @@ class CartManager extends Crud
             foreach ($get as $k => $item) {
 
                 if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-                    $item = $this->app->format->render_item_custom_fields_data($item);
+                    $item = $this->app->format->render_item_custom_fields_data($item); 
                 }
 
                 if (!isset($item['item_image']) and is_array($item) and isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
