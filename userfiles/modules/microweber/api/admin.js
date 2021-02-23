@@ -9,9 +9,11 @@ mw.require(mw.settings.modules_url + '/categories/categories.js');
 
 mw.admin = {
     language: function(language) {
+        if (typeof(mw.notification) != 'undefined') {
+            mw.notification.success('Changing language...',10000);
+        }
         $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})
         .done(function (data) {
-
             if (typeof(mw.notification) != 'undefined') {
                 mw.notification.success('Language changed! Reloading page...');
             }
