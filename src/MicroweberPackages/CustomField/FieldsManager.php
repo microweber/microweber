@@ -568,14 +568,13 @@ class FieldsManager
         if (is_array($custom_field_id)) {
             $id = implode(',', $custom_field_id);
         }
-        $table = $this->table_values;
-        $params = array();
-        $params['table'] = $table;
-        $params['limit'] = 99999;
-        $params['custom_field_id'] = '[in]' . $id;
-        $data = $this->app->database_manager->get($params);
 
-        return $data;
+        $getCustomFieldValues = CustomFieldValue::where('custom_field_id',$id)->get();
+        if ($getCustomFieldValues) {
+            return $getCustomFieldValues->toArray();
+        }
+
+        return false;
     }
 
     public function get_value($content_id, $field_name, $return_full = false, $table = 'content')
@@ -717,8 +716,18 @@ class FieldsManager
         if (empty($params)) {
             return false;
         }
-        
-        $q = $this->app->database_manager->get($params);
+
+        $q = [];
+        $getCustomFields = CustomField::query();
+        if (isset($params['rel_id'])) {
+            $getCustomFields->where('rel_id', $params['rel_id']);
+            $getCustomFields->where('rel_type', $params['rel_type']);
+        }
+        $getCustomFields->where('is_active', $params['is_active']);
+        $getCustomFields = $getCustomFields->get();
+        if ($getCustomFields) {
+            $q = $getCustomFields->toArray();
+        }
 
         if (!empty($q)) {
             $get_values = array();
