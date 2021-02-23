@@ -105,7 +105,7 @@ class TranslationImport
                     if ($forImportKeysDbBulk) {
                         $insertedKeysChunnks = [];
                         $forImportKeysDbBulk_chunked = array_chunk($forImportKeysDbBulk, 100);
-                        foreach ($forImportKeysDbBulk_chunked as $k=>$forImportKeysDbBulk_chunk) {
+                        foreach ($forImportKeysDbBulk_chunked as $k => $forImportKeysDbBulk_chunk) {
                             $this->log("Importing translation keys chunk " . $k);
 
                             $getTranslationKey = new TranslationKey();
@@ -133,17 +133,21 @@ class TranslationImport
 
                             if (isset($forImportKeysAndText[$translation_key_md5])) {
                                 $importTextData = $forImportKeysAndText[$translation_key_md5];
-                                $importText = [];
-                                $importText['translation_key_id'] = $allLangKey['id'];
-                                $importText['translation_text'] = $importTextData['translation_text'];
-                                $importText['translation_locale'] = $importTextData['translation_locale'];
-                                $textsToInsertBulk[] = $importText;
+
+                                $getTranslationText = TranslationText::where('translation_key_id', $allLangKey['id'])->where('translation_locale', $importTextData['translation_locale'])->limit(1)->first();
+                                if ($getTranslationText == null) {
+                                    $importText = [];
+                                    $importText['translation_key_id'] = $allLangKey['id'];
+                                    $importText['translation_text'] = $importTextData['translation_text'];
+                                    $importText['translation_locale'] = $importTextData['translation_locale'];
+                                    $textsToInsertBulk[] = $importText;
+                                }
                             }
                         }
                     }
                     if ($textsToInsertBulk) {
                         $forImportTextDbBulk_chunked = array_chunk($textsToInsertBulk, 100);
-                        foreach ($forImportTextDbBulk_chunked as $k=>$forImportTextDbBulk_chunk) {
+                        foreach ($forImportTextDbBulk_chunked as $k => $forImportTextDbBulk_chunk) {
                             $this->log("Importing translation texts chunk " . $k);
 
                             $insertTranslationText = new TranslationText();
