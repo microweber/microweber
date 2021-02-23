@@ -774,8 +774,6 @@ class FieldsManager
             //$result = (array_change_key_case($result, CASE_LOWER));
             $result = $this->app->url_manager->replace_site_url_back($result);
 
-            //
-
             return $result;
         }
 
