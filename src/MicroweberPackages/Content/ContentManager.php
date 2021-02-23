@@ -2439,7 +2439,13 @@ class ContentManager
 
     public function custom_fields($content_id, $full = true, $field_type = false)
     {
-        return $this->app->fields_manager->get('content', $content_id, $full, false, false, $field_type);
+        $filter = [];
+        $filter['rel_type'] = 'content';
+        $filter['rel_id'] = $content_id;
+        $filter['return_full'] = $full;
+        $filter['type'] = $field_type;
+
+        return $this->app->fields_manager->get($filter);
     }
 
     public function save_content_field($data, $delete_the_cache = true)
