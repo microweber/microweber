@@ -35,7 +35,15 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
         $table = 'content';
     }
 
-    return mw()->fields_manager->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
+    return mw()->fields_manager->get([
+        'rel_type' => $table,
+        'rel_id' => $id,
+        'return_full' => $return_full,
+        'name' => $field_for,
+        'debug' => $debug,
+        'type' => $field_type,
+        'session_id' => $for_session
+    ]);
 }
 
 api_bind_admin('fields/delete', function ($data) {

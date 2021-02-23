@@ -643,8 +643,11 @@ class CartManager extends Crud
 
         $skip_keys = array();
 
-        $content_custom_fields = array();
-        $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
+        $content_custom_fields = $this->app->fields_manager->get([
+            'rel_type'=>$for,
+            'rel_id'=>$for_id,
+            'return_full'=>true,
+        ]);
 
         $product_prices = array();
         if ($for == 'content') {
