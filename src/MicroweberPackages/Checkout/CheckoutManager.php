@@ -811,6 +811,7 @@ class CheckoutManager
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
+        $this->confirm_email_send($orderId);
     }
 
 
