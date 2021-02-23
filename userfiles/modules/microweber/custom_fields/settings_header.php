@@ -230,16 +230,4 @@ if ($for == false) {
     /*<input type="hidden" name="position" value="<?php echo  $data['position'] ?>" /> */
     ?>
 
-    <script>
-        $(document).ready(function () {
-
-            var master = document.getElementById('custom_fields_edit<?php echo  $rand; ?>');
-            var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
-
-            if (typeof is_body_click_binded === 'undefined') {
-                is_body_click_binded = true;
-            }
-
-        });
-    </script>
 </div>

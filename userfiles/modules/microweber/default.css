@@ -76,4 +76,40 @@
 }
 
 
+.mw-richtext-list {
+    padding: 6px 0;
+}
+
+ul.mw-richtext-list,
+ul.mw-richtext-list li{
+    list-style-type: disc;
+    list-style-position: outside;
+}
+ol.mw-richtext-list,
+ol.mw-richtext-list li {
+    list-style-type: decimal;
+    list-style-position: outside;
+}
+ul.mw-richtext-list ul li, ol.mw-richtext-list ul li,
+ul.mw-richtext-list ul, ol.mw-richtext-list ul {
+    list-style-type: circle;
+    list-style-position: outside;
+
+}
+ul.mw-richtext-list ul, ol.mw-richtext-list ul,
+ol.mw-richtext-list ol, ul.mw-richtext-list ol {
+    margin-left: 15px;
+}
+ol.mw-richtext-list ol, ul.mw-richtext-list ol,
+ol.mw-richtext-list ol li, ul.mw-richtext-list ol li {
+    list-style-type: lower-latin;
+    list-style-position: outside;
+}
+
+.mw-richtext-list li {
+    padding-left: 14px;
+    line-height: 2;
+}
+
+
 

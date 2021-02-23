@@ -11,17 +11,31 @@
 
         mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
             mw.custom_fields.sort($selector);
-
-            mw.$("input,textarea,select,checkbox,date,radio", $selector).on("change keyup paste", function () {
-                var el = $(this)[0]
-                mw.on.stopWriting(el, function () {
-                    mw.custom_fields.save_form($selector);
+            var time = null;
+            console.log(1)
+            mw.$("input,textarea,select", this).on("input", function () {
+                console.log(2)
+                var el = this;
+                clearTimeout(time);
+                time = setTimeout(function (){
+                    console.log(3)
+                    mw.spinner({
+                        element: $selector,
+                        decorate: true
+                    })
+                    mw.custom_fields.save_form($selector, function (){
+                        console.log(4)
+                        mw.spinner({
+                            element: $selector,
+                            decorate: true
+                        }).hide()
+                    });
 
                     if (mw.$($selector).find('.mw-needs-reload').length > 0) {
                         mw.reload_module('custom_fields/values_edit');
                     }
+                }, 333)
 
-                });
             });
 
             mw.$($selector + " input").on('focus blur', function (e) {
