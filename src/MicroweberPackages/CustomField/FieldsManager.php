@@ -48,6 +48,29 @@ class FieldsManager
         }
     }
 
+   /* public function get_by_id($field_id)
+    {
+        if ($field_id != 0) {
+            $find = CustomField::where('id', $field_id)->first();
+            if ($find) {
+
+                $customField = $find->toArray();
+                $customField['value'] = '';
+
+                $findValues = $find->fieldValue()->get();
+                if ($findValues) {
+                    $values = [];
+                    foreach($findValues as $findValue) {
+                        $values[] = $findValue->value;
+                    }
+                    $customField['field_values'] = $values;
+                }
+
+                return $customField;
+            }
+        }
+    }*/
+
 
     public function parse_field_settings($fieldParse) {
 
@@ -397,7 +420,7 @@ class FieldsManager
             $data_to_save['rel_id'] = '0';
         }
         if (isset($data['options'])) {
-            $data_to_save['options'] = $this->_encode_options($data['options']);
+            $data_to_save['options'] = $data['options'];
         }
 
         $data_to_save['session_id'] = mw()->user_manager->session_id();
@@ -420,11 +443,8 @@ class FieldsManager
                 return array('error' => 'You must set name');
             }
 
-            if (isset($data_to_save['name'])) {
-                $cf_k = $data_to_save['name'];
-                if ($cf_k != false and !isset($data_to_save['name_key'])) {
-                    $data_to_save['name_key'] = $this->app->url_manager->slug(strtolower($cf_k));
-                }
+            if (!empty($data_to_save['name']) && empty($data_to_save['name_key'])) {
+                $data_to_save['name_key'] = $this->app->url_manager->slug(mb_strtolower($data_to_save['name']));
             }
 
             $data_to_save['allow_html'] = true;
@@ -440,7 +460,43 @@ class FieldsManager
                 unset($data_to_save_parent['value']);
             }
 
-            $save = $this->app->database_manager->save($data_to_save_parent);
+            $customFieldModel = CustomField::where('id', $data_to_save_parent['cf_id'])->first();
+            if ($customFieldModel == null) {
+                $customFieldModel = new CustomField();
+            }
+
+            $customFieldModel->error_text = $data_to_save['error_text'];
+            $customFieldModel->type = $data_to_save['type'];
+            $customFieldModel->rel_type = $data_to_save['rel_type'];
+            $customFieldModel->rel_id = $data_to_save['rel_id'];
+            $customFieldModel->name = $data_to_save['name'];
+            $customFieldModel->name_key = $data_to_save['name_key'];
+
+            if (isset($data_to_save['show_label'])) {
+                $customFieldModel->show_label = $data_to_save['show_label'];
+            }
+            if (isset($data_to_save['options'])) {
+                $customFieldModel->options = $data_to_save['options'];
+            }
+            if (isset($data_to_save['placeholder'])) {
+                $customFieldModel->placeholder = $data_to_save['placeholder'];
+            }
+            if (isset($data_to_save['custom_field_show_label'])) {
+                $customFieldModel->show_label = $data_to_save['custom_field_show_label'];
+            }
+            if (isset($data_to_save['custom_field_required'])) {
+                $customFieldModel->required = $data_to_save['custom_field_required'];
+            }
+            if (isset($data_to_save['options']['required'])) {
+                $customFieldModel->required = $data_to_save['options']['required'];
+            }
+            if (isset($data_to_save['custom_field_is_active'])) {
+                $customFieldModel->is_active = $data_to_save['custom_field_is_active'];
+            }
+
+            $customFieldModel->save();
+
+            $save = $customFieldModel->id;
 
             if (!isset($data_to_save['value'])) {
                 if ($data_to_save['type'] == 'radio' || $data_to_save['type'] == 'checkbox' || $data_to_save['type'] == 'dropdown') {
@@ -485,7 +541,7 @@ class FieldsManager
                             $customFieldValue->value = implode(',', array_values($value_to_save));
                         }
 
-                        $customFieldValue->save(); 
+                        $customFieldValue->save();
                         ++$i;
                     }
 
@@ -1004,8 +1060,7 @@ class FieldsManager
         if (isset($data['copy_from'])) {
             $copy_from = intval($data['copy_from']);
             if (is_admin() == true) {
-                $table_custom_field = $this->table;
-                $form_data = $this->app->database_manager->get_by_id($table_custom_field, $id = $copy_from);
+                $form_data = $this->get_by_id($id = $copy_from);
                 if (is_array($form_data)) {
                     $field_type = $form_data['type'];
                     $data['id'] = 0;
@@ -1048,10 +1103,14 @@ class FieldsManager
 
         if (isset($data['field_values']) and !isset($data['value'])) {
             $data['values'] = $data['field_values'];
+        } else {
+            $data['values'] = false;
         }
 
         if (isset($data['value']) and is_array($data['value'])) {
             $data['value'] = implode(',', $data['value']);
+        } else {
+            $data['value'] = false;
         }
 
         $data['type'] = $field_type;
@@ -1179,6 +1238,8 @@ class FieldsManager
 
         if (isset($data['value'])) {
             $field_data['value'] = $data['value'];
+        } else {
+            $field_data['value'] = false;
         }
 
         if (isset($data['error_text'])) {
