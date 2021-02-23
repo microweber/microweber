@@ -64,28 +64,16 @@ if (isset($params['field-id'])) {
     ?>
 
     <span class="custom-fields-values-holder d-flex flex-wrap">
-        <?php $i = 0; ?>
-        <?php foreach ($vals as $val): ?>
-            <?php $i++; ?>
-            <span class="mw-admin-custom-field-checkbox d-inline-flex mr-2 my-1 p-0">
-                <small class="p-1 text-dark" data-id="<?php print $field['id']; ?>"><?php print $val; ?></small>
-                <small class="delete-custom-fields bg-danger text-white p-1" onclick="mw.admin.custom_fields.deleteFieldValue(this);"><i class="mdi mdi-close"></i></small>
-            </span>
-        <?php endforeach; ?>
+        <?php echo implode(', ', $vals); ?>
     </span>
 
-    <span data-tip="<?php _e('Add option'); ?>"
-          class="tip btn-create-custom-field-value btn btn-primary btn-sm py-2 px-0 d-inline-flex align-items-center justify-content-center xshow-on-hover"
-          data-id="<?php print $field['id']; ?>">
-        <i class="mdi mdi-plus mdi-16px"></i>
-    </span>
 
 <?php elseif (isset($field['type']) and ($field['type'] == 'text' or $field['type'] == 'message' or $field['type'] == 'textarea' or $field['type'] == 'title')): ?>
 
     <?php print $field['value']; ?>
 
 <?php elseif (isset($field['type']) and (($field['type'] == 'address') or $field['type'] == 'upload')): ?>
-    <div style="width:100%; display:block; min-height:20px;" onclick="mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);"><?php print $field['values_plain']; ?></div> 
+    <div style="width:100%; display:block; min-height:20px;" onclick="mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);"><?php print $field['values_plain']; ?></div>
 
 <?php else: ?>
     <?php $vals = '';
