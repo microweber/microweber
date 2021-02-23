@@ -11,6 +11,11 @@ mw.admin = {
     language: function(language) {
         $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})
         .done(function (data) {
+
+            if (typeof(mw.notification) != 'undefined') {
+                mw.notification.success('Language changed! Reloading page...');
+            }
+
             location.reload();
         });
     },
