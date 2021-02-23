@@ -309,7 +309,6 @@ class FieldsManager
         if (is_string($data)) {
             $data = parse_params($data);
         }
-
         $table_custom_field = $this->table;
         $table_values = $this->table_values;
         if (isset($data['cf_id']) and !isset($data['id'])) {
@@ -431,6 +430,7 @@ class FieldsManager
             $data_to_save['value'] = $data_to_save['values'];
         }
 
+
         if ((!isset($data_to_save['id']) or ($data_to_save['id']) == 0) and !isset($data_to_save['is_active'])) {
             $data_to_save['is_active'] = 1;
         }
@@ -459,8 +459,10 @@ class FieldsManager
             if (isset($data_to_save_parent['value'])) {
                 unset($data_to_save_parent['value']);
             }
-
-            $customFieldModel = CustomField::where('id', $data_to_save_parent['id'])->first();
+            $customFieldModel = null;
+            if(isset($data_to_save_parent['cf_id'])){
+            $customFieldModel = CustomField::where('id', $data_to_save_parent['cf_id'])->first();
+            }
             if ($customFieldModel == null) {
                 $customFieldModel = new CustomField();
             }
@@ -557,7 +559,8 @@ class FieldsManager
 
             $this->app->cache_manager->delete('custom_fields/' . $save);
             $this->app->cache_manager->delete('custom_fields');
-
+            $this->app->cache_manager->delete('custom_fields_values');
+            $this->app->cache_manager->delete('content');
             return $save;
         }
     }
@@ -623,8 +626,8 @@ class FieldsManager
         return $customFields;
     }*/
 
-    public function get($params) {
-        return $this->get_deprecated($params);
+    public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false) {
+        return $this->get_deprecated($table, $id , $return_full , $field_for, $debug , $field_type , $for_session );
     }
 
     public function get_deprecated($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
@@ -1128,13 +1131,13 @@ class FieldsManager
         if (isset($data['field_values']) and !isset($data['value'])) {
             $data['values'] = $data['field_values'];
         } else {
-            $data['values'] = false;
+          //  $data['values'] = false;
         }
 
         if (isset($data['value']) and is_array($data['value'])) {
             $data['value'] = implode(',', $data['value']);
         } else {
-            $data['value'] = false;
+          //  $data['value'] = false;
         }
 
         $data['type'] = $field_type;

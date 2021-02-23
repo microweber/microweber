@@ -2431,7 +2431,6 @@ class ContentManager
         $after_save['id'] = $id;
 
         $this->app->event_manager->trigger('content.manager.after.save', $after_save);
-
         event_trigger('mw_save_content', $save);
 
         return $save;
@@ -2442,9 +2441,12 @@ class ContentManager
         $filter = [];
         $filter['rel_type'] = 'content';
         $filter['rel_id'] = $content_id;
-        $filter['return_full'] = $full;
-        $filter['type'] = $field_type;
-
+        if ($full) {
+            $filter['return_full'] = $full;
+        }
+        if ($field_type) {
+            $filter['type'] = $field_type;
+        }
         return $this->app->fields_manager->get($filter);
     }
 
