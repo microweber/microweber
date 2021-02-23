@@ -14,6 +14,7 @@ class TranslationImport
     {
 
         $foundLangKeys = [];
+        $textsToImport = [];
         $allLangKeysDb = TranslationKey::select(['id', 'translation_key'])->get();
         if ($allLangKeysDb != null) {
             $allLangKeysDb = $allLangKeysDb->toArray();
@@ -83,17 +84,33 @@ class TranslationImport
 
                     // Save new translation text
                     if ($getTranslationText == null) {
-                        $this->log("Importing translation text for key " . $getTranslationKeyId);
-                        $getTranslationText = new TranslationText();
-                        $getTranslationText->translation_key_id = $getTranslationKeyId;
-                        $getTranslationText->translation_locale = $translation['translation_locale'];
-                        $getTranslationText->translation_text = $translationText;
-                        $getTranslationText->save();
+                        $textToImport = [];
+                        $textToImport['translation_key_id'] =$getTranslationKeyId;
+                        $textToImport['translation_locale'] =$translation['translation_locale'];
+                        $textToImport['translation_text'] =$translationText;
+                        $textsToImport[] = $textToImport;
+
+
+//                        $this->log("Importing translation text for key " . $getTranslationKeyId);
+//                        $getTranslationText = new TranslationText();
+//                        $getTranslationText->translation_key_id = $getTranslationKeyId;
+//                        $getTranslationText->translation_locale = $translation['translation_locale'];
+//                        $getTranslationText->translation_text = $translationText;
+//                        $getTranslationText->save();
+
+
                     }
                 }
 
 
             }
+
+            if($textsToImport){
+                $this->log("Importing translation texts");
+                $getTranslationText = new TranslationText();
+                $getTranslationText->save($textsToImport);
+            }
+
             \Cache::tags('translation_keys')->flush();
 
             return ['success' => 'Importing language file success.'];
