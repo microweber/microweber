@@ -15,24 +15,76 @@ use Symfony\Component\Intl\Locales;
 
 class LanguageHelper
 {
+    public static function getDisplayLanguage($locale_name)
+    {
+        $langData = self::getLangData($locale_name);
+        if ($langData and isset($langData['name'])) {
+            return $langData['name'];
+        }
+        return $locale_name;
+    }
+  public static function getLanguageFlag($locale_name)
+    {
+        $langData = self::getLangData($locale_name);
+        if ($langData and isset($langData['flag'])) {
+            return $langData['flag'];
+        }
 
+    }
+
+    public static function getLangData($locale_name)
+    {
+
+        $found = false;
+        $langs = self::getLanguagesWithDefaultLocale();
+        $locale_name_explode = explode("_", $locale_name);
+
+        if ($langs) {
+            foreach ($langs as $lang) {
+                if ($found) {
+                    continue;
+                }
+                if (isset($lang['name'])) {
+                    if (isset($lang['locale']) and strtolower($lang['locale']) == strtolower($locale_name)) {
+                        $found = $lang;
+                    } else if (isset($lang['locales']) and $lang['locales']) {
+                        foreach ($lang['locales'] as $lang_locale_key => $lang_locale_country) {
+                            if (strtolower($lang_locale_key) == strtolower($locale_name)) {
+                                $found = $lang;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!$found) {
+                foreach ($langs as $lang) {
+                    if (isset($lang['language']) and strtolower($lang['language']) == strtolower($locale_name_explode[0])) {
+                        $found = $lang;
+                    }
+                }
+            }
+        }
+
+        return $found;
+    }
 
     public static function getLanguagesWithDefaultLocale()
     {
         $langs = LanguagesData::getLanguagesWithLocales();
-
         $readyLanguages = [];
         if ($langs) {
             foreach ($langs as $lang) {
+
                 $flag = $lang['iso-639-1'];
 
                 $locale_explode = explode('_', $lang['locale']);
 
                 if (isset($locale_explode[1])) {
-                    $flag =  strtolower($locale_explode[1]);
+                    $flag = strtolower($locale_explode[1]);
                 }
 
-                if($flag == 'en'){
+                if ($flag == 'en') {
                     $flag = 'us';
                 }
 
@@ -41,6 +93,7 @@ class LanguageHelper
                     'name' => $name,
                     'language' => $lang['iso-639-1'],
                     'locale' => $lang['locale'],
+                    'locales' => $lang['locales'],
                     'flag' => $flag,
                     'text' => $name . ' (' . $lang['native'] . ')'
                 ];
@@ -49,89 +102,5 @@ class LanguageHelper
         return $readyLanguages;
     }
 
-
-    public function getMainLocaleCodes()
-    {
-
-        return ["ar_AE",
-            "bg_BG",
-            "ca_ES",
-            "cs_CZ",
-            "da_DK",
-            "de_DE",
-            "el_GR",
-            "en_US",
-            "es_ES",
-            "fi_FI",
-            "fr_FR",
-            "he_IL",
-            "hu_HU",
-            "id_ID",
-            "it_IT",
-            "ja_JP",
-            "ko_KR",
-            "ms_MY",
-            "nb_NO",
-            "nl_NL",
-            "pl_PL",
-            "pt_BR",
-            "pt_PT",
-            "ro_RO",
-            "ru_RU",
-            "sv_SE",
-            "th_TH",
-            "tl_PH",
-            "tr_TR",
-            "uk_UA",
-            "vi_VN",
-            "zh_CN",
-            "zh_TW"];
-    }
-
-
-//    public static function __OLD__getLanguagesWithDefaultLocale333()
-//    {
-//        $readyLanguages = [];
-//        foreach (Locales::getLocales() as $locale) {
-//            if (mb_strlen($locale) == 2) {
-//                continue;
-//            }
-//
-//            $region = IntlLocale::getDisplayRegion($locale);
-//            $displayLanguage = IntlLocale::getDisplayLanguage($locale);
-//
-//            if (empty($region) || empty($displayLanguage)) {
-//                continue;
-//            }
-//
-//            // Don't save this language
-//            if (isset($readyLanguages[$displayLanguage])) {
-//                continue;
-//            }
-//
-//            /****
-//             * VERRY IMPORTANT!!
-//             * Set default locale to language if we have a translation for this language
-//             ****/
-//            $availableTranslations = TranslationHelper::getAvailableTranslations();
-//            foreach ($availableTranslations as $languageLocale => $languageName) {
-//                if ($displayLanguage == $languageName) {
-//                    $locale = $languageLocale;
-//                    $region = IntlLocale::getDisplayRegion($locale);
-//                    break;
-//                }
-//            }
-//
-//            $readyLanguages[$displayLanguage] = [
-//                'region' => $region,
-//                'display_language' => $displayLanguage,
-//                'locale' => $locale,
-//                'text' => $displayLanguage . ' (' . $region . ')'
-//            ];
-//        }
-////dd($readyLanguages);
-//        return $readyLanguages;
-//
-//    }
 
 }

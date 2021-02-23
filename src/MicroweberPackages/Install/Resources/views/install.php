@@ -665,7 +665,7 @@
                                                     <?php $currentLang = current_lang(); ?>
                                                     <div class="form-group">
                                                         <?php
-                                                        $tm = new \MicroweberPackages\Translation\TranslationHelper();
+                                                        $tm = new \MicroweberPackages\Translation\TranslationPackageInstallHelper();
                                                         $langs = $tm->getAvailableTranslations();
                                                         ?>
                                                         <select name="site_lang" class="form-control" tabindex="8">

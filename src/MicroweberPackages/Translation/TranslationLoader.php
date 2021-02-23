@@ -26,6 +26,13 @@ class TranslationLoader extends FileLoader
     {
         $allTranslations = [];
 
+
+        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($locale);
+        if ($loc_data and isset($loc_data['locale'])) {
+            $locale = $loc_data['locale'];
+        }
+
+
         // Load translations from files
         $fileTranslations = parent::load($locale, $group, $namespace);
         if (!is_null($fileTranslations)) {
@@ -41,7 +48,9 @@ class TranslationLoader extends FileLoader
                 ->get();
             if ($getTranslations !== null) {
                 foreach ($getTranslations as $translation) {
-                    $allTranslations[$translation->translation_key] = $translation->translation_text;
+                    $translationText = $translation->translation_text;
+                    $translationText = str_replace('{{app_name}}', 'Microweber', $translationText);
+                    $allTranslations[$translation->translation_key] = $translationText;
                 }
             }
         }

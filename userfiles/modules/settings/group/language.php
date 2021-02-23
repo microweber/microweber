@@ -68,7 +68,7 @@ if (is_module('multilanguage')) {
                                             ?>
                                             <?php if ($langs) : ?>
                                                 <select id="user_lang" name="language" class="mw_option_field selectpicker" data-size="7" data-width="100%" option-group="website" data-also-reload="settings/group/language_edit">
-                                                    <option disabled="disabled"><?php _e('Select Language...'); ?></option>
+                                                    <option disabled="disabled"><?php _e('Select Language'); ?></option>
                                                     <?php foreach ($langs as $key => $lang): ?>
                                                         <option <?php if ($def_language == $key): ?> selected="" <?php endif; ?> value="<?php print $key ?>"><?php print $lang ?></option>
                                                     <?php endforeach; ?>

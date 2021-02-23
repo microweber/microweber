@@ -12,25 +12,20 @@
         mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
             mw.custom_fields.sort($selector);
             var time = null;
-            console.log(1)
             mw.$("input,textarea,select", this).on("input", function () {
-                console.log(2)
                 var el = this;
                 clearTimeout(time);
                 time = setTimeout(function (){
-                    console.log(3)
                     mw.spinner({
                         element: $selector,
                         decorate: true
-                    })
+                    }).show()
                     mw.custom_fields.save_form($selector, function (){
-                        console.log(4)
                         mw.spinner({
                             element: $selector,
                             decorate: true
                         }).hide()
                     });
-
                     if (mw.$($selector).find('.mw-needs-reload').length > 0) {
                         mw.reload_module('custom_fields/values_edit');
                     }

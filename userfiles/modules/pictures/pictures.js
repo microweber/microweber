@@ -2,8 +2,7 @@ mw.module_pictures = {
     after_upload: function (data) {
         $.post(mw.settings.api_url + 'save_media', data,
             function (resp) {
-                mw.reload_module('pictures/admin_backend_sortable_pics_list')
-                mw.top().reload_module('pictures/admin_backend_sortable_pics_list')
+                mw.reload_module_everywhere('pictures/admin_backend_sortable_pics_list')
             });
         },
     time:null,
@@ -32,9 +31,9 @@ mw.module_pictures = {
                  //   this.mw.module_pictures.after_change();
                 }
             });
-             mw.reload_module_parent('posts');
-            mw.reload_module_parent('shop/products');
-            mw.reload_module_parent("pictures/admin");
+             mw.reload_module_everywhere('posts');
+            mw.reload_module_everywhere('shop/products');
+            mw.reload_module_everywhere("pictures/admin");
 
             doselect();
         }, 1500)
@@ -64,7 +63,7 @@ mw.module_pictures = {
         data.title = title;
         $.post(mw.settings.api_url + 'save_media', data,
             function (data) {
-                mw.reload_module_parent('pictures');
+                mw.reload_module_everywhere('pictures');
             });
     },
     save_alt: function (id, alt) {
@@ -73,7 +72,7 @@ mw.module_pictures = {
         data.alt = alt;
         $.post(mw.settings.api_url + 'save_media', data,
             function (data) {
-                mw.reload_module_parent('pictures');
+                mw.reload_module_everywhere('pictures');
             });
     },
 	save_tags: function (id, tags) {
@@ -82,8 +81,8 @@ mw.module_pictures = {
         data.tags = tags;
         $.post(mw.settings.api_url + 'save_media', data,
             function (data) {
-                mw.reload_module_parent('pictures');
-                mw.reload_module_parent('tags');
+                mw.reload_module_everywhere('pictures');
+                mw.reload_module_everywhere('tags');
             });
     },
     del: function (id) {
