@@ -62,9 +62,10 @@ class LanguagesData
     {
 
         return [
-            "ar_AE",
+            "ar_SA",
             "af_ZA",
             "bg_BG",
+            "bs_EU",
             "ca_ES",
             "cs_CZ",
             "da_DK",
