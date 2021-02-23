@@ -4,6 +4,7 @@ namespace MicroweberPackages\CustomField;
 
 use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
 use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\View\View;
 
 api_expose_admin('fields/reorder');
@@ -465,30 +466,34 @@ class FieldsManager
                     $check_old = $this->app->database_manager->get($check_existing);
                     $i = 0;
                     foreach ($values_to_save as $value_to_save) {
-                        $save_value = array();
+
+                        $saveValueId = false;
                         if (isset($check_old[$i]) and isset($check_old[$i]['id'])) {
-                            $save_value['id'] = $check_old[$i]['id'];
+                            $saveValueId = $check_old[$i]['id'];
                             unset($check_old[$i]);
                         }
-                        $save_value['custom_field_id'] = $custom_field_id;
-                        $save_value['value'] = $value_to_save;
-                        if (is_array($value_to_save)) {
-                            $save_value['value'] = implode(',', array_values($value_to_save));
+                        $customFieldValue = CustomFieldValue::where('id', $saveValueId)->first();
+                        if ($saveValueId == null) {
+                            $customFieldValue = new CustomFieldValue();
                         }
-                        $save_value['position'] = $i;
-                        $save_value['allow_html'] = false;
-                        $save_value = $this->app->database_manager->save($table_values, $save_value);
+
+                        $customFieldValue->custom_field_id = $custom_field_id;
+                        $customFieldValue->position = $i;
+
+                        $customFieldValue->value = $value_to_save;
+                        if (is_array($value_to_save)) {
+                            $customFieldValue->value = implode(',', array_values($value_to_save));
+                        }
+
+                        $customFieldValue->save(); 
                         ++$i;
                     }
+
                     if (!empty($check_old)) {
-                        $remove_old_ids = array();
                         foreach ($check_old as $remove) {
                             if(isset($remove['id'])) {
-                                $remove_old_ids[] = $remove['id'];
+                                CustomFieldValue::where('id', $remove['id'])->delete();
                             }
-                        }
-                        if (!empty($remove_old_ids)) {
-                            $remove_old = $this->app->database_manager->delete_by_id($table_values, $remove_old_ids);
                         }
                     }
                 }

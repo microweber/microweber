@@ -907,6 +907,7 @@ class DatabaseManager extends DbUtils
             $this->use_model_cache = false;
             return CustomField::query();
         }
+
         if ($table == 'custom_fields_values') {
             $this->use_model_cache = false;
             return CustomFieldValue::query();
