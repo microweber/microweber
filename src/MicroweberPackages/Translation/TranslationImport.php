@@ -84,14 +84,12 @@ class TranslationImport
 
                     // Save new translation text
                     if ($getTranslationText == null) {
-
                         $this->log("Importing translation text for key " . $getTranslationKeyId);
                         $getTranslationText = new TranslationText();
                         $getTranslationText->translation_key_id = $getTranslationKeyId;
                         $getTranslationText->translation_locale = $translation['translation_locale'];
                         $getTranslationText->translation_text = $translationText;
                         $getTranslationText->save();
-
 
                     }
                 }
