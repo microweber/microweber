@@ -54,7 +54,7 @@
     });
 </script>
 
-@if($customers->count()>0)
+
 <form method="get">
     <input type="hidden" value="true" name="filter">
 
@@ -100,6 +100,8 @@
     </div>
 </form>
 
+
+@if($customers->count()>0)
 <br/>
 
 <div class="actions">
@@ -153,6 +155,20 @@
     </tbody>
 </table>
 @else
+    @if(request()->get('filter') == 'true')
+
+        <div class="no-items-found customers py-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_clients.svg'); ">
+                        <h4><?php _e('No results found for this filter'); ?></h4>
+                        <p><?php _e('Try with a different filter'); ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else
+
 <div class="no-items-found customers py-5">
     <div class="row">
         <div class="col-12">
@@ -165,5 +181,6 @@
         </div>
     </div>
 </div>
+    @endif
 @endif
 @endsection
