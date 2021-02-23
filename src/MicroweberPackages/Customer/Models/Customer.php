@@ -88,11 +88,18 @@ class Customer extends Model
         $filters = collect($filters);
 
         if ($filters->get('search')) {
-            $query->whereSearch($filters->get('search'));
+            $search = $filters->get('search');
+            $query->where(function($query) use($search) {
+                $query->where('name', 'like', '%' .$search. '%');
+                $query->orWhere('first_name','like', '%' .$search. '%');
+                $query->orWhere('last_name','like', '%' .$search. '%');
+                $query->orWhere('phone','like', '%' .$search. '%');
+                $query->orWhere('email','like', '%' .$search. '%');
+            });
         }
 
-        if ($filters->get('contact_name')) {
-            $query->whereContactName($filters->get('contact_name'));
+        if ($filters->get('name')) {
+            $query->whereName($filters->get('name'));
         }
 
         if ($filters->get('name')) {

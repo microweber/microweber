@@ -198,7 +198,12 @@
 
                     <div class="form-group">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="company_vat_registered" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->company_vat_registered}}@endif" name="addresses[1][company_vat_registered]">
+                            <input type="checkbox"
+                                   class="custom-control-input"
+                                   id="company_vat_registered"
+                                   value="1"
+                                   @if(isset($customer->addresses[1]) && $customer->addresses[1]->company_vat_registered == '1') checked="checked" @endif
+                                   name="addresses[1][company_vat_registered]">
                             <label class="custom-control-label" for="company_vat_registered"><?php _e("VAT registered"); ?></label>
                         </div>
                     </div>

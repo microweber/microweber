@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Traits\ExtendedSave;
@@ -899,6 +901,15 @@ class DatabaseManager extends DbUtils
             } else {
                 return $model->query();
             }
+        }
+
+        if ($table == 'custom_fields') {
+            $this->use_model_cache = false;
+            return CustomField::query();
+        }
+        if ($table == 'custom_fields_values') {
+            $this->use_model_cache = false;
+            return CustomFieldValue::query();
         }
 
         if ($table == 'media') {

@@ -73,6 +73,10 @@ class OrderController extends AdminController
     {
         $order = Order::where('id',$id)->first();
 
+        if ($order == false) {
+            return redirect(route('admin.order.index'));
+        }
+
         if ($order->order_status == 'new') {
             $order->order_status = 'pending';
             $order->save();
