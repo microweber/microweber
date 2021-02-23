@@ -39,7 +39,7 @@ mw.module_pictures = {
         }, 1500)
     },
 
-    save_options: function (id, image_options) {
+    save_options: function (id, image_options, cb) {
       image_options = image_options || {};
       if(typeof image_options === 'string'){
         image_options = JSON.parse(image_options);
@@ -47,17 +47,14 @@ mw.module_pictures = {
       var data = {};
       data.id = id;
       data.image_options = image_options;
-      $.post(mw.settings.api_url + 'save_media', data,
-          function (data) {
-
-         clearTimeout(mw.module_pictures.time)
-              mw.module_pictures.time = setTimeout(function () {
-
-            mw.reload_module_everywhere('pictures');
-
-          }, 1500)
-
-
+      $.post(mw.settings.api_url + 'save_media', data, function (data) {
+         clearTimeout(mw.module_pictures.time);
+          mw.module_pictures.time = setTimeout(function () {
+            mw.reload_module_parent('pictures');
+          }, 1500);
+          if(cb) {
+              cb.call(undefined, data);
+          }
       });
     },
     save_title: function (id, title) {
