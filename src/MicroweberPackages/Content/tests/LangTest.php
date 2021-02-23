@@ -12,14 +12,34 @@ class LangTest extends TestCase
         $install_lang = TranslationPackageInstallHelper::installLanguage('bg_BG');
 
         $current_lang = current_lang();
-        set_current_lang('bg');
+        set_current_lang('bg_BG');
         $new_current_lang = current_lang();
 
         $this->assertEquals('en', $current_lang);
-        $this->assertEquals('bg', $new_current_lang);
+        $this->assertEquals('bg_BG', $new_current_lang);
 
-        $lang_string_test = _e('Select country', true);
-
+        $lang_string_test = _e('Choose country', true);
         $this->assertEquals('Избери държава', $lang_string_test);
+    }
+
+    public function testLangData()
+    {
+
+        $loc_en = \MicroweberPackages\Translation\LanguageHelper::getLangData('en');
+        $loc_en2 = \MicroweberPackages\Translation\LanguageHelper::getLangData('en_US');
+
+
+        $loc_bg = \MicroweberPackages\Translation\LanguageHelper::getLangData('bg');
+        $loc_bg2 = \MicroweberPackages\Translation\LanguageHelper::getLangData('bg_BG');
+
+
+
+        $loc_cs = \MicroweberPackages\Translation\LanguageHelper::getLangData('cs');
+        $loc_cs2 = \MicroweberPackages\Translation\LanguageHelper::getLangData('cs_CZ');
+
+        $this->assertEquals($loc_en, $loc_en2);
+        $this->assertEquals($loc_bg, $loc_bg2);
+        $this->assertEquals($loc_cs, $loc_cs2);
+
     }
 }

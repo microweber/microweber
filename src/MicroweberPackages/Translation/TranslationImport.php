@@ -12,6 +12,23 @@ class TranslationImport
 
     public function import($translations)
     {
+
+        $foundLangKeys = [];
+        $allLangKeysDb = TranslationKey::select(['id', 'translation_key'])->get();
+        if ($allLangKeysDb != null) {
+            $allLangKeysDb = $allLangKeysDb->toArray();
+            if ($allLangKeysDb) {
+                foreach ($allLangKeysDb as $allLangKey) {
+                    if (!isset($allLangKey['translation_key']) or !$allLangKey['translation_key']) {
+                        continue;
+                    }
+                    $allLangKey['translation_key_md5'] = md5($allLangKey['translation_key']);
+                    $foundLangKeys[$allLangKey['translation_key_md5']] = $allLangKey;
+                }
+            }
+        }
+
+
         if (is_array($translations)) {
             foreach ($translations as $translation) {
 
@@ -25,11 +42,26 @@ class TranslationImport
                 if (empty($translationText)) {
                     continue;
                 }
+                $getTranslationKey = null;
+                $getTranslationKeyId = null;
 
-                $getTranslationKey = TranslationKey::where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
-                    ->where('translation_namespace', $translation['translation_namespace'])
-                    ->where('translation_group', $translation['translation_group'])
-                    ->first();
+
+//                $getTranslationKey = TranslationKey::where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
+//                    ->select('id')
+//                    ->where('translation_namespace', $translation['translation_namespace'])
+//                    ->where('translation_group', $translation['translation_group'])
+//                    ->limit(1)
+//                    ->first();
+
+
+                if($foundLangKeys){
+                    $md5Text =  md5($translation['translation_key']);;
+                    if(isset($foundLangKeys[$md5Text])){
+                        $getTranslationKey = $foundLangKeys[$md5Text];
+                        $getTranslationKeyId = $foundLangKeys[$md5Text]['id'];
+                    }
+                }
+
 
                 if ($getTranslationKey == null) {
                     $getTranslationKey = new TranslationKey();
@@ -37,23 +69,27 @@ class TranslationImport
                     $getTranslationKey->translation_namespace = $translation['translation_namespace'];
                     $getTranslationKey->translation_group = $translation['translation_group'];
                     $getTranslationKey->save();
-                    $this->log("Imported translation key " . $getTranslationKey->id);
+                    $getTranslationKeyId = $getTranslationKey->id;
+                    $this->log("Imported translation key " . $getTranslationKeyId);
 
                 }
 
-                // Get translation text
-                $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
-                    ->where('translation_locale', $translation['translation_locale'])
-                    ->first();
+                if ($getTranslationKeyId) {
+                    // Get translation text
+                    $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKeyId)
+                        ->where('translation_locale', $translation['translation_locale'])
+                        ->limit(1)
+                        ->first();
 
-                // Save new translation text
-                if ($getTranslationText == null) {
-                    $this->log("Importing translation text for key " . $getTranslationKey->id);
-                    $getTranslationText = new TranslationText();
-                    $getTranslationText->translation_key_id = $getTranslationKey->id;
-                    $getTranslationText->translation_locale = $translation['translation_locale'];
-                    $getTranslationText->translation_text = $translationText;
-                    $getTranslationText->save();
+                    // Save new translation text
+                    if ($getTranslationText == null) {
+                        $this->log("Importing translation text for key " . $getTranslationKeyId);
+                        $getTranslationText = new TranslationText();
+                        $getTranslationText->translation_key_id = $getTranslationKeyId;
+                        $getTranslationText->translation_locale = $translation['translation_locale'];
+                        $getTranslationText->translation_text = $translationText;
+                        $getTranslationText->save();
+                    }
                 }
 
 
@@ -72,7 +108,6 @@ class TranslationImport
             $this->logger->log($text);
         }
     }
-
 
 
 }
