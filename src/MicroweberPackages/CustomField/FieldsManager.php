@@ -485,7 +485,7 @@ class FieldsManager
                             $customFieldValue->value = implode(',', array_values($value_to_save));
                         }
 
-                        $customFieldValue->save();
+                        $customFieldValue->save(); 
                         ++$i;
                     }
 
