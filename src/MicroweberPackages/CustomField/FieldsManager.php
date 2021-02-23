@@ -460,7 +460,10 @@ class FieldsManager
                 unset($data_to_save_parent['value']);
             }
 
+            $customFieldModel = null;
+            if(isset($data_to_save_parent['cf_id'])){
             $customFieldModel = CustomField::where('id', $data_to_save_parent['cf_id'])->first();
+            }
             if ($customFieldModel == null) {
                 $customFieldModel = new CustomField();
             }
@@ -495,6 +498,8 @@ class FieldsManager
             }
 
             $customFieldModel->save();
+            $this->app->cache_manager->delete('custom_fields');
+            $this->app->cache_manager->delete('custom_fields_values');
 
             $save = $customFieldModel->id;
 
@@ -1053,7 +1058,6 @@ class FieldsManager
         if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']) )) {
         	$data['field_id'] = $_REQUEST['field_id'];
         }
-
   		 //d($data);
         //input_class
 
@@ -1104,7 +1108,7 @@ class FieldsManager
         if (isset($data['field_values']) and !isset($data['value'])) {
             $data['values'] = $data['field_values'];
         } else {
-            $data['values'] = false;
+         //   $data['values'] = false;
         }
 
         if (isset($data['value']) and is_array($data['value'])) {
