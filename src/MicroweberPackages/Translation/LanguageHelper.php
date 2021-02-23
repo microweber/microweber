@@ -23,13 +23,23 @@ class LanguageHelper
         }
         return $locale_name;
     }
-  public static function getLanguageFlag($locale_name)
+
+    public static function getLanguageFlag($locale_name)
     {
         $langData = self::getLangData($locale_name);
         if ($langData and isset($langData['flag'])) {
             return $langData['flag'];
         }
 
+    }
+
+    public static function isRTL($locale_name)
+    {
+        $langData = self::getLangData($locale_name);
+        if ($langData and isset($langData['rtl'])) {
+            return $langData['rtl'];
+        }
+        return false;
     }
 
     public static function getLangData($locale_name)
@@ -66,12 +76,14 @@ class LanguageHelper
             }
         }
 
+
         return $found;
     }
 
     public static function getLanguagesWithDefaultLocale()
     {
         $langs = LanguagesData::getLanguagesWithLocales();
+
         $readyLanguages = [];
         if ($langs) {
             foreach ($langs as $lang) {
@@ -87,13 +99,13 @@ class LanguageHelper
                 if ($flag == 'en') {
                     $flag = 'us';
                 }
-
                 $name = ucfirst($lang['name']);
                 $readyLanguages[$name] = [
                     'name' => $name,
                     'language' => $lang['iso-639-1'],
                     'locale' => $lang['locale'],
                     'locales' => $lang['locales'],
+                    'rtl' => $lang['rtl'],
                     'flag' => $flag,
                     'text' => $name . ' (' . $lang['native'] . ')'
                 ];

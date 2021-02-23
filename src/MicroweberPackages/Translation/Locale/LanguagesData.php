@@ -13,11 +13,20 @@ class LanguagesData
         $ready = [];
 
         $langs = new LanguagesRepository();
+
         $langs = $langs->languages;
         $main_locales = self::getMainLocaleCodes();
+        $rtl_langs = self::getRtlLangs();
         if ($langs) {
+
+
             foreach ($langs as $lang) {
                 if (isset($lang["iso-639-1"]) and !empty($lang["iso-639-1"])) {
+
+                    $isRtl = false;
+                    if (in_array(strtolower($lang["iso-639-1"]), $rtl_langs)) {
+                        $isRtl = true;
+                    }
                     if (isset($lang["countries"]) and !empty($lang["countries"])) {
                         $locales = [];
                         foreach ($lang["countries"] as $loc => $country) {
@@ -47,6 +56,7 @@ class LanguagesData
                         if ($locales) {
                             $lang["locales"] = $locales;
                             $lang["locale"] = array_key_first($locales);
+                            $lang["rtl"] = $isRtl;
 
                             $ready[] = $lang;
                         }
@@ -99,4 +109,10 @@ class LanguagesData
             "zh_TW"];
     }
 
+    public static function getRtlLangs()
+    {
+
+        $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi');
+        return $rtl_langs;
+    }
 }

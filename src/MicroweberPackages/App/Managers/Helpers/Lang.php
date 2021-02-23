@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Managers\Helpers;
 
 use MicroweberPackages\Event\Event;
+use MicroweberPackages\Translation\LanguageHelper;
 
 
 $mw_language_content = array();
@@ -259,7 +260,7 @@ class Lang
 
     function lang_attributes()
     {
-        $lang = current_lang();
+        $lang =$lang_curr= current_lang();
 
         /*  if (mb_strlen($lang) > 2) {
               $lang = mb_substr($lang, 0, 2);
@@ -271,8 +272,10 @@ class Lang
             'lang="' . $lang . '"'
         );
         $dir = 'ltr';
-        if ($lang == 'ar') {
+        $is_rtl = $this->lang_is_rtl($lang_curr);
+        if($is_rtl){
             $dir = 'rtl';
+
         }
         array_push($attr, 'dir="' . $dir . '"');
         return implode(' ', $attr);
@@ -636,10 +639,13 @@ class Lang
         ur	Urdu	rtl	اردو
         yi	Yiddish	rtl	ייִדיש
         */
-        $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi');
-        if ($lang and in_array($lang, $rtl_langs)) {
-            return true;
-        }
+
+        return LanguageHelper::isRTL($lang);
+
+//        $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi');
+//        if ($lang and in_array($lang, $rtl_langs)) {
+//            return true;
+//        }
     }
 
 
