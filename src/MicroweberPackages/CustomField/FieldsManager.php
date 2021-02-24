@@ -647,9 +647,8 @@ class FieldsManager
 
                 $getCustomFieldValue = $customField->fieldValue()->get();
                 if ($getCustomFieldValue) {
+                    $readyCustomField['value'] = $getCustomFieldValue[0]->value;
                     foreach ($getCustomFieldValue as $customFieldValue) {
-                        $readyCustomField['value'] = $customFieldValue->value;
-
                         $readyCustomField['values'][] = $customFieldValue->value;
                     }
                 }
