@@ -30,6 +30,9 @@ mw.tools.moduleFrame = function(type, template){
 
 mw.tools.iframeAutoHeight = function(frame, opt){
 
+    opt = opt || {};
+    opt.maxHeightWindowScroll = opt.maxHeightWindowScroll || null;
+
     frame = mw.$(frame)[0];
     if(!frame) return;
 
@@ -57,8 +60,15 @@ mw.tools.iframeAutoHeight = function(frame, opt){
     setTimeout(function(){
         insertDetector();
     }, 100);
-    frame.scrolling="no";
     frame.style.minHeight = 0 + 'px';
+    if (opt.maxHeightWindowScroll) {
+        frame.style.maxHeight = opt.maxHeightWindowScroll;
+        frame.style.overflow = 'auto';
+        frame.scrolling="auto"
+    } else {
+        frame.scrolling="no";
+        frame.style.overflow = 'hidden';
+    }
     mw.$(frame).on('load resize', function(){
 
         if(!mw.tools.canAccessIFrame(frame)) {
@@ -72,6 +82,14 @@ mw.tools.iframeAutoHeight = function(frame, opt){
             return;
         }
         insertDetector();
+        if (opt.maxHeightWindowScroll) {
+            frame.style.maxHeight = opt.maxHeightWindowScroll;
+            frame.style.overflow = 'auto';
+            frame.scrolling="auto";
+        } else {
+            frame.scrolling="no";
+            frame.style.overflow = 'hidden';
+        }
     });
     var offset = function () {
         return _detector.getBoundingClientRect().top;

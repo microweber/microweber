@@ -26,7 +26,7 @@ $hidden_class = '';
 if (intval($settings) == 2) {
 
 }
-$hidden_class = ' mw-hide ';
+//$hidden_class = ' mw-hide ';
 $is_for_module = mw()->url_manager->param('for_module_id', 1);
 $for = mw()->url_manager->param('for', 1);
 
@@ -207,15 +207,15 @@ if ($for == false) {
 
 <div class="mw-field-type-<?php echo  trim($field_type) ?>" id="custom_fields_edit<?php echo  $rand; ?>">
     <?php if (isset($data['id']) and ($data['id']) != 0): ?>
-        <input type="hidden" name="cf_id" value="<?php echo  ($data['id']) ?>"/>
+        <input type="hidden" name="id" value="<?php echo  ($data['id']) ?>"/>
     <?php endif; ?>
 
      <?php if (isset($data_orig['field_id']) and ($data_orig['field_id']) ): ?>
-         <input type="hidden" name="cf_id" value="<?php echo  ($data_orig['field_id']) ?>"/>
+         <input type="hidden" name="id" value="<?php echo  ($data_orig['field_id']) ?>"/>
     <?php endif; ?>
 
     <?php if ($for): ?>
-        <input type="hidden" name="rel" value="<?php echo  ($for); ?>"/>
+        <input type="hidden" name="rel_type" value="<?php echo  ($for); ?>"/>
         <input type="hidden" name="rel_id" value="<?php echo  strval($for_module_id) ?>"/>
     <?php endif; ?>
 
