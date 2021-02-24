@@ -1,5 +1,4 @@
 <?php include('settings_header.php'); ?>
-
  <div class="custom-field-settings-name">
 
     <div class="mw-custom-field-group ">
@@ -56,8 +55,6 @@
       echo implode(',', $xresult); ?><?php endif; ?>" placeholder='psd,html,css' />
       </div>
     </div>
-     <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-     <small class="text-muted d-block mb-2"><?php _e('Are the choices required');?></small>
 </div>
 <div class="custom-field-settings-values">
    <?php echo $savebtn; ?>

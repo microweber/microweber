@@ -1,28 +1,5 @@
 <?php include('settings_header.php'); ?>
 
-<script type="text/javascript">
-
-    //if(typeof mw.custom_fields.text === 'undefined'){
-    //    mw.custom_fields.text = {}
-    //    mw.custom_fields.text._globalinput = document.createElement('input');
-    //    mw.custom_fields.text._globalinput.type = 'text';
-    //    mw.custom_fields.text._globalarea = document.createElement('textarea');
-    //}
-    //
-    //$(document).ready(function(){
-    //  mw.$("#mw-custom-fields-text-switch").commuter(function(){
-    //    var curr = document.querySelector('#mw-custom-fields-text-holder input');
-    //    mw.tools.copyAttributes(curr, mw.custom_fields.text._globalarea, ['type']);
-    //    curr.parentNode.replaceChild(mw.custom_fields.text._globalarea, curr);
-    //  }, function(){
-    //     var curr = document.querySelector('#mw-custom-fields-text-holder textarea');
-    //     mw.tools.copyAttributes(curr, mw.custom_fields.text._globalinput, ['type']);
-    //     curr.parentNode.replaceChild(mw.custom_fields.text._globalinput, curr);
-    //  });
-    //});
-
-
-</script>
 <style>
     #mw-custom-fields-text-holder textarea{
         resize:both;
@@ -33,12 +10,10 @@
     <small class="text-muted d-block mb-2"><?php _e('Title label of the field');?></small>
     <input type="text" onkeyup="" class="form-control" value="<?php echo $data['name']; ?>" name="name" id="input_field_label<?php print $rand; ?>">
 </div>
-
+<!--
 <div class="mw-ui-field-holder">
-    <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[as_text_area]"  <?php if($settings["as_text_area"]): ?> checked="checked" <?php endif; ?> value="1" id="mw-custom-fields-text-switch"><span></span><span><?php _e("Use as Text Area"); ?></span></label>
-</div>
-    <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-    <small class="text-muted d-block mb-2"><?php _e('Are the choices required');?></small>
+    <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[as_text_area]"  <?php /*if($settings["as_text_area"]): */?> checked="checked" <?php /*endif; */?> value="1" id="mw-custom-fields-text-switch"><span></span><span><?php /*_e("Use as Text Area"); */?></span></label>
+</div>-->
 
 <div class="custom-field-settings-values">
     <div class="mw-custom-field-group">

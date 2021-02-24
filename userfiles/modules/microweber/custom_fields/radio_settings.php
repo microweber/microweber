@@ -1,17 +1,4 @@
 <?php include('settings_header.php'); ?>
-   <?php // p ($data['value']) ?>
-
-   <?php
-   if(empty($data['values'])){
-	//$data['values'] = array(0);
-   }
-
-
-
-   ?>
-
-
-
 
 <div class="custom-field-settings-name">
 
@@ -55,10 +42,8 @@
   <script type="text/javascript">
     mw.custom_fields.sort("fields<?php print $rand; ?>");
   </script>
-
-   <label class="mw-ui-check mt-3"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-     <small class="text-muted d-block mb-2"><?php _e('Are the choices required');?></small>
-
-    </div> <?php print $savebtn; ?></div>
+    </div>
+     <?php print $savebtn; ?>
+ </div>
 
 <?php include('settings_footer.php'); ?>

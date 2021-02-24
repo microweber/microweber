@@ -16,9 +16,6 @@
        <?php print $savebtn; ?>
     </div>
 
-    <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-    <small class="text-muted d-block mb-2"><?php _e('Are the choices required');?></small>
-
 <div class="mw-custom-field-group my-3">
     <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Placeholder"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Specifies a short hint that describes the expected value of an input field');?></small>

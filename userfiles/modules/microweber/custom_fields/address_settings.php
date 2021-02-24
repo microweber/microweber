@@ -60,23 +60,6 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 </div>
 
 <div class="custom-field-settings-values">
-  <?php 
-  
-  /*<div class="mw-custom-field-group">
-    <?php foreach($opt as $key => $val){ ?>
-    <div class="mw-ui-field-holder mw-custom-fields-address-fields-<?php echo $key; ?>">
-      <label class="mw-ui-label"><?php echo $val; ?></label>
-      <input type="text" class="mw-ui-field" name="value[<?php echo $key; ?>]" <?php if(isset($data['values'][$key]) and isset($data['values'][$key])) : ?> value="<?php echo $data['values'][$key] ?>"  <?php endif; ?> />
-    </div>
-    <?php } ?>
-  </div>*/
-  
-  ?>
-  <hr>
-  <label class="mw-ui-check">
-    <input type="checkbox"  class="mw-custom-field-option" name="options[required]" <?php if ($settings['required']): ?> checked="checked" <?php endif; ?> value="true">
-      <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-      <small class="text-muted d-block mb-2"><?php _e('Are the choices required');?></small>
   <?php echo $savebtn; ?>
 </div>
 

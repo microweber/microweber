@@ -19,11 +19,6 @@
     <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
     <input type="text" class="form-control" name="value" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
 
-    <label class="mw-ui-check mt-3"><input type="checkbox" class="mw-custom-field-option"
-                                      name="options[required]" <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?>
-                                      value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-    <small class="text-muted d-block mb-2"><?php _e('Are the choices required');?></small>
-
     <?php print $savebtn; ?>
 </div>
 

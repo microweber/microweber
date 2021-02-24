@@ -26,11 +26,6 @@
             </label>
             <small class="text-muted d-block mb-2"><?php _e('Allow multiple choices');?></small>
 
-            <label class="mw-ui-check"><input type="checkbox" class="mw-custom-field-option"
-                                              name="options[required]" <?php if ($settings["required"]): ?> checked="checked" <?php endif; ?>
-                                              value="1"><span></span><span><?php _e("Required"); ?>?</span>
-            </label>
-            <small class="text-muted d-block mb-2"><?php _e('Allow multiple choices');?></small>
         </div>
 
     </div>
