@@ -611,28 +611,54 @@ class FieldsManager
         return $this->app->database_manager->get($params);
     }
 
-    /*  public function get($params)
-      {
-          $customFields = [];
-
-          $getCustomFields = CustomField::query();
-          $getCustomFields->where('rel_id', $params['rel_id']);
-          $getCustomFields->where('rel_type', $params['rel_type']);
-          $getCustomFields->where('type', $params['type']);
-          $getCustomFields = $getCustomFields->get();
-
-          if ($getCustomFields) {
-              $customFields = $getCustomFields->toArray();
-
-              $customFields['value'] = rand(1,9);
-          }
-
-          return $customFields;
-      }*/
-
-    public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
+    public function get($params)
     {
-        return $this->get_deprecated($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
+        $getCustomFields = CustomField::query();
+
+        if (!empty($params['id'])) {
+            $getCustomFields->where('id', $params['id']);
+        }
+
+        if (!empty($params['rel_id'])) {
+            $getCustomFields->where('rel_id', $params['rel_id']);
+            $getCustomFields->where('rel_type', $params['rel_type']);
+        }
+
+        if (!empty($params['type'])) {
+            $getCustomFields->where('type', $params['type']);
+        }
+
+        if (!empty($params['session_id'])) {
+            $getCustomFields->where('session_id', $params['session_id']);
+        }
+
+        $getCustomFields = $getCustomFields->get();
+
+        $customFields = [];
+
+        if ($getCustomFields) {
+            foreach ($getCustomFields as $customField) {
+
+                $readyCustomField = $customField->toArray();
+
+                $readyCustomField['value'] = '';
+                $readyCustomField['values'] = [];
+                $readyCustomField['values_plain'] = '';
+
+                $getCustomFieldValue = $customField->fieldValue()->get();
+                if ($getCustomFieldValue) {
+                    foreach ($getCustomFieldValue as $customFieldValue) {
+                        $readyCustomField['value'] = $customFieldValue->value;
+
+                        $readyCustomField['values'][] = $customFieldValue->value;
+                    }
+                }
+
+                $customFields[] = $readyCustomField;
+            }
+        }
+
+        return $customFields;
     }
 
     public function get_deprecated($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
