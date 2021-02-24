@@ -599,7 +599,7 @@
     mw.Dialog.elementIsInDialog = function (node) {
         return mw.tools.firstParentWithClass(node, 'mw-dialog');
     };
-    
+
 })(window.mw);
 
 
