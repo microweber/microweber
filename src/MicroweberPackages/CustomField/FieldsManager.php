@@ -313,6 +313,7 @@ class FieldsManager
             return false;
         }
 
+        $customField = null;
         if (!empty($fieldData['id'])) {
             $customField = CustomField::where('id', $fieldData['id'])->first();
         }
@@ -320,11 +321,17 @@ class FieldsManager
             $customField = new CustomField();
         }
 
-        $customField->error_text = $fieldData['error_text'];
         $customField->type = $fieldData['type'];
         $customField->rel_type = $fieldData['rel_type'];
         $customField->rel_id = $fieldData['rel_id'];
-        $customField->name = $fieldData['name'];
+
+        if (!empty($fieldData['error_text'])) {
+            $customField->error_text = $fieldData['error_text'];
+        }
+
+        if (!empty($fieldData['name'])) {
+            $customField->name = $fieldData['name'];
+        }
 
         if (!empty($fieldData['name_key'])) {
             $customField->name_key = $fieldData['name_key'];
