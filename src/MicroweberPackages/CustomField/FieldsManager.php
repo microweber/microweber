@@ -646,7 +646,7 @@ class FieldsManager
                 $readyCustomField['values_plain'] = '';
 
                 $getCustomFieldValue = $customField->fieldValue()->get();
-                if ($getCustomFieldValue) {
+                if (isset($getCustomFieldValue[0])) {
                     $readyCustomField['value'] = $getCustomFieldValue[0]->value;
                     foreach ($getCustomFieldValue as $customFieldValue) {
                         $readyCustomField['values'][] = $customFieldValue->value;
@@ -1056,11 +1056,16 @@ class FieldsManager
             return false;
         }
 
-        $custom_field_table = $this->table;
-        $custom_field_table_values = $this->table_values;
-        $this->app->database_manager->delete_by_id($custom_field_table, $id);
-        $this->app->database_manager->delete_by_id($custom_field_table_values, $id, 'custom_field_id');
-        $this->app->cache_manager->delete('custom_fields');
+        $findCustomField = CustomField::where('id', $id)->first();
+        if ($findCustomField) {
+            $getCustomFieldValues = $findCustomField->fieldValue()->get();
+            if ($getCustomFieldValues) {
+                foreach($getCustomFieldValues as $customFieldValue) {
+                    $customFieldValue->delete();
+                }
+            }
+            $findCustomField->delete();
+        }
 
         event(new CustomFieldWasDeleted($id));
 
