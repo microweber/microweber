@@ -149,6 +149,10 @@ $data = get_testimonials(); ?>
                                     <div class="img-circle-holder img-absolute">
                                         <img src="<?php print thumbnail($item['client_picture'], 75, 75) ?>"/>
                                     </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 09cdf260f3c6a33cabfebb46d0e5a837d259807a
                                     <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php print $item['id'] ?>');"><?php _e("Edit"); ?></a>
                                 </div>
 

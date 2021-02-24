@@ -225,8 +225,16 @@ trait ExtendedSave
                             if (isset($check['id'])) {
                                 $save_cat_item['id'] = $check['id'];
                             }
+                            if (isset($v['value'])) {
+                                $save_cat_item['value'] = $v['value'];
+                            }
+                            if (isset($v['values'])) {
+                                $save_cat_item['values'] = $v['values'];
+                            }
+
                             $save_cat_item = array_merge($save_cat_item, $v);
                             $save_field = $this->app->fields_manager->save($save_cat_item);
+
                         }
                     }
                 }

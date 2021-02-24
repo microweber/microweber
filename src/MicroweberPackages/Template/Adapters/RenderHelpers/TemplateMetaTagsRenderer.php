@@ -114,7 +114,7 @@ class TemplateMetaTagsRenderer
                     	$meta['product_currency'] = $this->app->option_manager->get('currency', 'payments');
                     	$product_price = $this->app->shop_manager->get_product_price($meta_content_id);
                         $meta['product_price'] = $product_price;
-			            $product_fields = $this->app->fields_manager->get('content', $meta_content_id, 1);
+			            $product_fields = $this->app->fields_manager->get(['rel_type'=>'content', 'rel_id'=>$meta_content_id, 'return_full'=>true]);
 			            $meta['product_sku'] = '';
 			            if (empty(!$product_fields)) {
                             foreach ($product_fields as $k => $field_data) {

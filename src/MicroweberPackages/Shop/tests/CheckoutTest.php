@@ -24,7 +24,7 @@ class CheckoutTest extends TestCase
             'title' => $title,
             'content_type' => 'product',
             'subtype' => 'product',
-            'custom_fields' => array(
+            'custom_fields_advanced' => array(
                 array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
                 array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
 
@@ -52,7 +52,7 @@ class CheckoutTest extends TestCase
     public function testCheckout()
     {
 
-        //  \Config::set('mail.transport', 'array');
+     \Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
@@ -87,6 +87,7 @@ class CheckoutTest extends TestCase
 
         $checkEmailContent = '';
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+
         foreach ($emails as $email) {
 
             $subject = $email->getSubject();
@@ -96,7 +97,6 @@ class CheckoutTest extends TestCase
                 $checkEmailContent = $body;
             }
         }
-
         $findFirstName = false;
         if (strpos($checkEmailContent, $checkoutDetails['first_name']) !== false) {
             $findFirstName = true;
@@ -165,7 +165,7 @@ class CheckoutTest extends TestCase
             'title' => $title,
             'content_type' => 'product',
             'subtype' => 'product',
-            'custom_fields' => array(
+            'custom_fields_advanced' => array(
                 array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
                 array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
 

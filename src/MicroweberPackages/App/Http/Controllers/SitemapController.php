@@ -279,9 +279,8 @@ class SitemapController extends Controller
    {
        $allContentLinks = multilanguage_get_all_content_links();
        $items = [];
-
        foreach($allContentLinks as $link) {
-           if($link['content_type'] == $type) {
+           if(isset($link['item']) and isset($link['item']['content_type'] ) and $link['item']['content_type'] == $type) {
                $items[] = $link;
            }
        }

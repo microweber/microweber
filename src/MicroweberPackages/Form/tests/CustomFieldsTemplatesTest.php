@@ -103,6 +103,7 @@ class CustomFieldsTemplatesTest extends TestCase
         $fields_csv_array = explode(',', $fields_csv_str);
 
         $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+
         foreach ($fields as $key => $field_id) {
 
             $option = array();
