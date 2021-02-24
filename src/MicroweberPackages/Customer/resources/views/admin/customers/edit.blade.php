@@ -34,10 +34,24 @@
                     <div class="card">
                         <div class="card-body">
                             @if($customer AND isset($customer->name))
-                                <span class="d-block"><i class="mdi mdi-account text-muted mdi-30px"></i></span>
-                                <span class="font-weight-bold d-block mb-1">{{$customer->name}}</span>
-                                <span class="d-block mb-1">{{$customer->email}}</span>
-                                <span class="d-block mb-1">{{$customer->phone}}</span>
+                             <div class="d-flex">
+                                 <span><i class="mdi mdi-account text-muted mdi-30px mr-2"></i></span>
+                                 <span class="font-weight-bold align-self-center">{{$customer->name}}</span>
+                             </div>
+                               <div class="d-flex">
+                                   <label class="control-label"><?php _e("Full Name"); ?>:</label>
+                                   <span class="ml-2 mb-1">{{$customer->first_name}} {{$customer->last_name}}</span>
+                               </div>
+
+                               <div class="d-flex">
+                                   <label class="control-label"><?php _e("Email"); ?>:</label>
+                                   <span class="ml-2 mb-1">{{$customer->email}}</span>
+                               </div>
+
+                               <div class="d-flex">
+                                   <label class="control-label"><?php _e("Phone"); ?>:</label>
+                                   <span class="ml-2 mb-1">{{$customer->phone}}</span>
+                               </div>
                             @else
                                 <div class="text-center">
                                     <span class="d-block"><i class="mdi mdi-account text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
@@ -290,31 +304,30 @@
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $carts = $order->cart()->with('products')->first();
-                                        foreach ($carts->products()->get() as $product):
+                                        $carts = $order->cart()->get();
+                                        foreach ($carts as $cart):
+                                        $product = \MicroweberPackages\Product\Models\Product::where('id', $cart['rel_id'])->first();
                                         $productImage = $product->media()->first()->filename;
                                         ?>
                                         <tr>
                                             <td>
-                                            <?php if (!empty($productImage)): ?>
-                                            <img src="<?php echo thumbnail($productImage, 60, 60); ?>"/>
-                                            <?php else: ?>
-                                            <img src="<?php echo thumbnail(''); ?>"/>
-                                            <?php endif; ?>
+                                                <?php if (!empty($productImage)): ?>
+                                                <img src="<?php echo thumbnail($productImage, 60, 60); ?>"/>
+                                                <?php else: ?>
+                                                <img src="<?php echo thumbnail(''); ?>"/>
+                                                <?php endif; ?>
                                             </td>
                                             <td><?php echo $product->title; ?></td>
                                             <td><?php echo $product->sku; ?></td>
                                             <td><?php echo currency_format($product->price); ?></td>
-
-                                            <td><?php
-                                                $qty = (int) $product->qty;
-                                                if ($qty == 'nolimit') {
-                                                    echo 1;
-                                                } else {
-                                                    echo $qty;
-                                                } ?></td>
+                                            <td>
+                                                <?php
+                                                $qty = (int) $cart->qty;
+                                                echo $qty;
+                                                ?>
+                                            </td>
                                             <?php
-                                            $productPrice = (float) $product->price;
+                                            $productPrice = (float) $cart->price;
                                             ?>
                                             <td><?php echo currency_format($productPrice * $qty); ?></td>
                                         </tr>
