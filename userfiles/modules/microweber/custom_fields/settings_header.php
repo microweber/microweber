@@ -207,11 +207,11 @@ if ($for == false) {
 
 <div class="mw-field-type-<?php echo  trim($field_type) ?>" id="custom_fields_edit<?php echo  $rand; ?>">
     <?php if (isset($data['id']) and ($data['id']) != 0): ?>
-        <input type="hidden" name="cf_id" value="<?php echo  ($data['id']) ?>"/>
+        <input type="hidden" name="id" value="<?php echo  ($data['id']) ?>"/>
     <?php endif; ?>
 
      <?php if (isset($data_orig['field_id']) and ($data_orig['field_id']) ): ?>
-         <input type="hidden" name="cf_id" value="<?php echo  ($data_orig['field_id']) ?>"/>
+         <input type="hidden" name="id" value="<?php echo  ($data_orig['field_id']) ?>"/>
     <?php endif; ?>
 
     <?php if ($for): ?>

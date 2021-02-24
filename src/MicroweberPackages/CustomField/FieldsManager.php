@@ -306,6 +306,11 @@ class FieldsManager
         return $saved_fields;
     }
 
+    /**
+     * @deprecated
+     * @param $data
+     * @return mixed
+     */
     public function save($data)
     {
         if (is_string($data)) {
