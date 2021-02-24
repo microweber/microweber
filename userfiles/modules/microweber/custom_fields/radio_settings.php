@@ -19,7 +19,7 @@
   <label class="control-label" for="input_field_label<?php print $rand; ?>">
     <?php _e('Field name'); ?>
   </label>
-      <small class="text-muted d-block mb-3"><?php _e('The name of your field');?></small>
+      <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
     <input type="text" class="form-control" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
 </div>
@@ -27,7 +27,7 @@
 
  <div class="custom-field-settings-values">
    <label class="control-label"><?php _e('Values'); ?></label>
-    <small class="text-muted d-block mb-3"><?php _e('Add, remove and change positions of your values');?></small>
+    <small class="text-muted d-block mb-2"><?php _e('Add, remove and change positions of your values');?></small>
 
 
      <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
@@ -57,7 +57,7 @@
   </script>
 
    <label class="mw-ui-check mt-3"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-     <small class="text-muted d-block mb-3"><?php _e('Are the choices required');?></small>
+     <small class="text-muted d-block mb-2"><?php _e('Are the choices required');?></small>
 
     </div> <?php print $savebtn; ?></div>
 

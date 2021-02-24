@@ -91,9 +91,11 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
         <input type="checkbox" class="custom-control-input mw_option_field" name="offer_set" id="customCheck1" value="1" <?php if ($is_offer_set) print 'checked="checked"'; ?> onclick="toggleOffer(this);">
         <label class="custom-control-label" for="customCheck1"><?php _e('Set offer price') ?></label>
     </div>
+        <small class="text-muted d-block mb-2"><?php _e('Your offer price');?></small>
 
     <div class="mw-ui-field-holder offer-value" style="display:<?php print ($is_offer_set ? 'block' : 'none'); ?>;">
         <label class="control-label" for="offer"><?php _e('New price') ?> <b><?php print $curr_symbol; ?> </b></label>
+        <small class="text-muted d-block mb-2"><?php _e('Your new offer price');?></small>
         <?php if ($is_offer_set): ?>
             <a href="#" onclick="deleteOffer('<?php print $offer['id']; ?>')"><span class="text-danger">Delete</span></a>
         <?php endif; ?>

@@ -12,16 +12,12 @@
 
 
  <div class="custom-field-settings-name">
+      <label class="control-label" for="input_field_label<?php print $rand; ?>"><?php _e('Title'); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
+        <input type="text" class="mw-ui-field mw-full-width mb-2" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
-
-  <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
-    <?php _e('Title'); ?>
-  </label>
-
-    <input type="text" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
-<br><br>
      <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-<br><br>
+     <small class="text-muted d-block mb-2"><?php _e('Are the choices required');?></small>
 </div>
 
 
@@ -33,12 +29,14 @@
         <?php if(is_array($data['values'])) : ?>
         <?php foreach($data['values'] as $v): ?>
         <div class="mw-custom-field-form-controls">
-          <input type="text" class="mw-ui-field"  name="value[]"  value="<?php print $v; ?>">
+            <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center mr-2"></i>
+            <input type="text" class="mw-ui-field"  name="value[]"  value="<?php print $v; ?>">
           <?php print $add_remove_controls; ?> </div>
         <?php endforeach; ?>
         <?php else: ?>
         <div class="mw-custom-field-form-controls">
-          <input type="text" name="value[]" class="mw-ui-field mw-full-width"  value="" />
+            <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center mr-2"></i>
+            <input type="text" name="value[]" class="mw-ui-field mw-full-width"  value="" />
           <?php print $add_remove_controls; ?>
         </div>
         <?php endif; ?>
