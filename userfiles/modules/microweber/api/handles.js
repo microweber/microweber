@@ -597,41 +597,63 @@ mw._initHandles = {
 
     },
     modules: function () {
-        var handlesModulesButtons = [
-            {
-                title: mw.lang('Edit'),
-                icon: 'mdi-pencil',
-                action: function () {
-                    mw.drag.module_settings(mw._activeModuleOver,"admin");
-                    mw.handleModule.hide();
-                }
-            },
-            {
-                title: mw.lang('Insert'),
-                className: 'mw-handle-insert-button',
-                icon: 'mdi-plus-circle',
-                hover: [
-                    function (e) {
-                        handleInsertTargetDisplay(mw._activeModuleOver, mw.handleModule.positionedAt);
-                    },
-                    function (e) {
-                        handleInsertTargetDisplay('hide');
+        var handlesModulesButtons = function (targetFn){
+            return [
+                {
+                    title: mw.lang('Edit'),
+                    icon: 'mdi-pencil',
+                    action: function () {
+                        mw.drag.module_settings(targetFn(),"admin");
+                        mw.handleModule.hide();
                     }
-                ],
-                action: function (node) {
-                    if(mw.handleModule.isLayout) {
-                        mw.layoutPlus.showSelectorUI(node);
-                    } else {
-                        mw.drag.plus.rendModules(node);
-                    }
+                },
+                {
+                    title: mw.lang('Insert'),
+                    className: 'mw-handle-insert-button',
+                    icon: 'mdi-plus-circle',
+                    hover: [
+                        function (e) {
+                            handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);
+                        },
+                        function (e) {
+                            handleInsertTargetDisplay('hide');
+                        }
+                    ],
+                    action: function (node) {
+                        if(mw.handleModule.isLayout) {
+                            mw.layoutPlus.showSelectorUI(node);
+                        } else {
+                            mw.drag.plus.rendModules(node);
+                        }
 
-                }
-            },
-        ];
+                    }
+                },
+            ];
+        };
+
+        var getActiveModuleOver = function () {
+            return mw._activeModuleOver;
+        };
+        var getActiveDragCurrent = function () {
+            //var el = mw.liveEditSelector && mw.liveEditSelector.selected ?  mw.liveEditSelector.selected[0] : null;
+            var el = mw.liveEditSelector.activeModule;
+            if (el && el.nodeType === 1) {
+                return el;
+            }
+            if(mw.handleModuleActive._target) {
+                return mw.handleModuleActive._target;
+            }
+        };
+
+        var getDragCurrent = function () {
+            if(mw._activeModuleOver){
+                return mw._activeModuleOver;
+            }
+        };
 
         var handlesModuleConfig = {
             id: 'mw-handle-item-module',
-            buttons: handlesModulesButtons,
+            buttons: handlesModulesButtons(getActiveModuleOver),
             menu: [
                 {
                     title: mw.lang('Edit'),
@@ -707,7 +729,7 @@ mw._initHandles = {
         };
         var handlesModuleConfigActive = {
             id: 'mw-handle-item-module-active',
-            buttons: handlesModulesButtons,
+            buttons: handlesModulesButtons(getActiveDragCurrent),
             menu: [
                 {
                     title: 'Settings',
@@ -780,22 +802,7 @@ mw._initHandles = {
             ]
         };
 
-        var getActiveDragCurrent = function () {
-            //var el = mw.liveEditSelector && mw.liveEditSelector.selected ?  mw.liveEditSelector.selected[0] : null;
-            var el = mw.liveEditSelector.activeModule;
-            if (el && el.nodeType === 1) {
-                return el;
-            }
-            if(mw.handleModuleActive._target) {
-                return mw.handleModuleActive._target;
-            }
-        };
 
-        var getDragCurrent = function () {
-            if(mw._activeModuleOver){
-                return mw._activeModuleOver;
-            }
-        };
         var dragConfig = function (curr, handle) {
             return {
                 handle: handle.handleIcon,

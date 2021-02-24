@@ -24,7 +24,8 @@
                         mw.spinner({
                             element: $selector,
                             decorate: true
-                        }).hide()
+                        }).hide();
+                        mw.notification.success('<?php _ejs("Changes are saved"); ?>')
                     });
                     if (mw.$($selector).find('.mw-needs-reload').length > 0) {
                         mw.reload_module('custom_fields/values_edit');

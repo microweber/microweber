@@ -314,3 +314,10 @@ div.form-control {
     display: inline-block;
     margin: 10px;
 }
+
+.custom-field-settings-values .mw-custom-field-form-controls .mw-admin-custom-field-form-control{
+    font-size: 17px;
+    padding: 1px 7px;
+    cursor: pointer;
+    border: none;
+}
