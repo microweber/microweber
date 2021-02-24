@@ -155,7 +155,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Zip Code"); ?>:</label>
+                        <label class="control-label"><?php _e("ZIP Code"); ?>:</label>
                         <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->zip}}@endif" name="addresses[0][zip]"/>
                     </div>
 
@@ -224,7 +224,7 @@
                                 </div>
 
                                 <div>
-                                    <label class="control-label"><?php _e("Zip Code"); ?>:</label>
+                                    <label class="control-label"><?php _e("ZIP Code"); ?>:</label>
                                     <span class="mb-1">{{$customer->addresses[1]->zip}}</span>
                                 </div>
 
@@ -279,7 +279,7 @@
                                    value="1"
                                    @if(isset($customer->addresses[1]) && $customer->addresses[1]->company_vat_registered == '1') checked="checked" @endif
                                    name="addresses[1][company_vat_registered]">
-                            <label class="custom-control-label" for="company_vat_registered"><?php _e("VAT registered"); ?></label>
+                            <label class="custom-control-label" for="company_vat_registered"><?php _e("VAT Registered"); ?></label>
                         </div>
                     </div>
 
@@ -294,7 +294,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Zip Code"); ?>:</label>
+                        <label class="control-label"><?php _e("ZIP Code"); ?>:</label>
                         <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->zip}}@endif" name="addresses[1][zip]"/>
                     </div>
 
