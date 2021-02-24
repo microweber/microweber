@@ -18,8 +18,6 @@
 
 </div>
 
-
-
    <div class="custom-field-settings-values">
 
       <label class="mw-ui-label"><?php _e("Values"); ?></label>

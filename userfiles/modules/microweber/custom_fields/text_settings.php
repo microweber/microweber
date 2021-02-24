@@ -23,15 +23,9 @@
             <textarea class="form-control" name="value"><?php echo $data['value']; ?></textarea>
         </div>
     </div>
-    <div class="mw-custom-field-group">
-        <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Placeholder"); ?></label>
-        <small class="text-muted d-block mb-2"><?php _e('This attribute specifies a short hint that describes the expected value of a input');?></small>
-
-        <div id="mw-custom-fields-text-holder">
-            <input type="text" class="form-control" name="placeholder" value="<?php echo $data['placeholder']; ?>" />
-        </div>
-    </div>
     <?php print $savebtn; ?>
 </div>
+
+<?php include('placeholder_settings.php'); ?>
 
 <?php include('settings_footer.php'); ?>

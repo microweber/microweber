@@ -46,11 +46,6 @@ if (!isset($data['rows'])) {
     </div>
 
 
-<div class="mw-custom-field-group">
-    <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Placeholder"); ?></label>
-    <div id="mw-custom-fields-text-holder">
-        <input type="text" class="form-control" name="placeholder" value="<?php echo $data['placeholder']; ?>" />
-    </div>
-</div>
+<?php include('placeholder_settings.php'); ?>
 
 <?php include('settings_footer.php'); ?>
