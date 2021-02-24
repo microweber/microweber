@@ -23,10 +23,11 @@ class OrderController extends AdminController
             $filteringResults = true;
         }
 
-        $newOrders = Order::filter($request->all())->where('order_status','new')->get();
+        $newOrders = Order::filter($request->all())->where('order_status','new')->orderBy('id', 'desc')->get();
 
         $orders = Order::filter($request->all())
             ->where('order_status', '!=', 'new')
+            ->orderBy('id', 'desc')
             ->paginate($request->get('limit', $this->pageLimit))
             ->appends($request->except('page'));
 

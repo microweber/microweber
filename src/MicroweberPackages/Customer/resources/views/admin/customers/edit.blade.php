@@ -321,10 +321,17 @@
                                             <td><?php echo $product->sku; ?></td>
                                             <td><?php echo currency_format($product->price); ?></td>
                                             <td>
+<<<<<<< HEAD
                                                 <?php
                                                 $qty = (int) $cart->qty;
                                                 echo $qty;
                                                 ?>
+=======
+                                            <?php
+                                            $qty = (int) $cart->qty;
+                                            echo $qty;
+                                            ?>
+>>>>>>> 095f5bddf0d44986af938ba6f36df55b0bfbe566
                                             </td>
                                             <?php
                                             $productPrice = (float) $cart->price;

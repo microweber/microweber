@@ -39,6 +39,7 @@ class CustomersController extends AdminController
             ->select('customers.*',
             //  DB::raw('sum(due_amount) as due_amount')
             )
+            ->orderBy('id', 'desc')
             ->groupBy('customers.id')
             //->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
             ->paginate($limit);
