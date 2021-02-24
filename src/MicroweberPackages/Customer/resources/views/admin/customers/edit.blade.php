@@ -209,7 +209,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Adress"); ?>:</label>
+                        <label class="control-label"><?php _e("Address"); ?>:</label>
                         <textarea class="form-control" placeholder="Street 1" name="addresses[1][address_street_1]">@if(isset($customer->addresses[1])){{$customer->addresses[1]->address_street_1}}@endif</textarea>
                     </div>
 
