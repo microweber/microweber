@@ -319,6 +319,7 @@ class FieldsManager
         }
         if ($customField == null) {
             $customField = new CustomField();
+            $customField->name = _e($this->getFieldNameByType($fieldData['type']), true);
         }
 
         $customField->type = $fieldData['type'];
@@ -364,6 +365,15 @@ class FieldsManager
         $customField->save();
 
         return $customField->id;
+    }
+
+    public function getFieldNameByType($type)
+    {
+        $fields = mw()->ui->custom_fields();
+
+        if (isset($fields[$type])) {
+            return $fields[$type];
+        }
     }
 
     public function __save_deprecated($data)
