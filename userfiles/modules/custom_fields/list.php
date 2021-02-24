@@ -193,7 +193,7 @@ if (isset($params['for_module_id'])): ?>
                            <td data-id="<?php print $field['id']; ?>">
                                <span class="mobile-th"><?php _e("Name"); ?>: </span>
                                <span class="mw-custom-fields-list-preview">
-                                    <span class="mw-admin-custom-field-name-edit-inline text-capitalize mw-admin-custom-field-value-edit-inline-holder bg-secondary-opacity-8 d-inline-block px-3 py-1" data-id="<?php print $field['id']; ?>"><small class="mw-admin-custom-field-value-edit-inline px-1 py-1"><?php print $field['name']; ?></small></span>
+                                    <span class="text-capitalize d-inline-block px-3 py-1" data-id="<?php print $field['id']; ?>"><small class="px-1 py-1"><?php print $field['name']; ?></small></span>
                                 </span>
                            </td>
 
@@ -212,7 +212,7 @@ if (isset($params['for_module_id'])): ?>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" class="btn btn-link btn-sm px-0">
+                                <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" class="btn btn-outline-primary btn-sm">
                                     <?php print _e('Settings'); ?>
                                 </a>
                             </td>

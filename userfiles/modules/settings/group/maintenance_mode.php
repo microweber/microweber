@@ -15,7 +15,7 @@ $maintenance_mode_text = get_option('maintenance_mode_text', 'website');
 
 <div class="form-group">
     <label class="control-label d-block"><?php _e("Maintenance mode"); ?></label>
-    <small class="text-muted d-block mb-2">Turn on "Under construction mode" of your site</small>
+    <small class="text-muted d-block mb-2"><?php _e("Turn on 'Under construction mode' of your site"); ?></small>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
         <input name="maintenance_mode" class="mw_option_field custom-control-input" id="maintenance_mode_1"

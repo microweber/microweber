@@ -8,6 +8,7 @@
 
 namespace MicroweberPackages\Translation\Locale;
 
+use MicroweberPackages\Translation\LanguageHelper;
 use MicroweberPackages\Translation\Locale\Traits\DetailsByLocaleTrait;
 use MicroweberPackages\Translation\Locale\Traits\LanguagesByLocaleTrait;
 use MicroweberPackages\Translation\Locale\Traits\RegionByLocaleTrait;
@@ -37,11 +38,9 @@ class IntlLocale
     public static function getDisplayLanguage($locale)
     {
 
-        if (isset(self::$languagesByLocale[$locale])) {
-            return self::$languagesByLocale[$locale];
-        }
+       return  LanguageHelper::getDisplayLanguage($locale);
 
-        return false;
+
     }
 
     /**

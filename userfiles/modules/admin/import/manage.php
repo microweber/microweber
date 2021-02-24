@@ -1,7 +1,7 @@
 <?php if(!is_admin()){error("must be admin");}; ?>
  <?php $here = $config['url_to_module']; ?>
  
-<p><?php _e("Microweber supports importing content from"); ?>
+<p> <?php _e("{{app_name}} supports importing content from"); ?>
     <a href="<?php print $here; ?>samples/sample.csv" class="mw-ui-link">csv</a>,
     <a href="<?php print $here; ?>samples/sample.json" class="mw-ui-link">json</a>,
     <a href="<?php print $here; ?>samples/sample.xlsx" class="mw-ui-link">xls</a>,

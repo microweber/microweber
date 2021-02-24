@@ -27,7 +27,8 @@ if(empty($supportedLanguages)){
 
     $supportedLanguages[] = [
         'icon'=>$currentLanguageAbr,
-        'locale'=>$currentLanguageAbr
+        'locale'=>$currentLanguageAbr,
+        'language'=>$currentLanguageAbr
     ];
 }
 
@@ -188,27 +189,44 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
                         <?php
                         foreach ($supportedLanguages as $supportedLanguage):
                             ?>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
+
+                            <div class="form-group">
+                                 <small  class="form-text text-muted"><?php echo $supportedLanguage['language'];?></small>
+
+
+                                <div class="input-group mb-3">
+
+
+                                    <div class="input-group-prepend">
+                                <span class="input-group-text" >
                                  <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
                                 </span>
-                                </div>
-                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
-                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
-                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
-                                    if(isset($translationByLocales[$supportedLanguage['locale']])) {
-                                        echo $translationByLocales[$supportedLanguage['locale']];
-                                    } else {
-                                        if (strpos($supportedLanguage['locale'], 'en') !== false) {
-                                            echo $translationKey;
+                                    </div>
+                                    <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
+                                    <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
+
+
+                                    <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
+                                    <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
+                                        if(isset($translationByLocales[$supportedLanguage['locale']])) {
+                                            echo $translationByLocales[$supportedLanguage['locale']];
                                         } else {
-                                            echo '';
+                                            if (strpos($supportedLanguage['locale'], 'en') !== false) {
+                                                echo $translationKey;
+                                            } else {
+                                                echo '';
+                                            }
                                         }
-                                    }
-                                    ?></textarea>
+                                        ?></textarea>
+
+
+                                </div>
+
                             </div>
+
+
+
+
                         <?php endforeach; ?>
                     </td>
                 </tr>

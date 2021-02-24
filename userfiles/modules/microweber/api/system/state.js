@@ -258,11 +258,8 @@
                 e.preventDefault();
                 mw.liveEditState.undo();
             } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
-                console.log(mw.liveEditState.state());
-
                 e.preventDefault();
                 mw.liveEditState.redo();
-                console.log(mw.liveEditState.state());
             }
         });
     });

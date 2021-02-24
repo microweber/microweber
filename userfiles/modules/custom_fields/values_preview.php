@@ -64,24 +64,14 @@ if (isset($params['field-id'])) {
     ?>
 
     <span class="custom-fields-values-holder d-flex flex-wrap">
-        <?php $i = 0; ?>
-        <?php foreach ($vals as $val): ?>
-            <?php $i++; ?>
-            <span class="mw-admin-custom-field-value-edit-inline-holder mw-admin-custom-field-checkbox bg-secondary-opacity-8 d-inline-flex mr-2 my-1 p-0">
-                <small class="mw-admin-custom-field-value-edit-inline p-1 text-dark" data-id="<?php print $field['id']; ?>"><?php print $val; ?></small>
-                <small class="delete-custom-fields bg-danger text-white p-1" onclick="mw.admin.custom_fields.deleteFieldValue(this);"><i class="mdi mdi-close"></i></small>
-            </span>
-        <?php endforeach; ?>
+        <?php echo implode(', ', $vals); ?>
     </span>
 
-    <span data-tip="<?php _e('Add option'); ?>"
-          class="tip btn-create-custom-field-value btn btn-primary btn-sm py-2 px-0 d-inline-flex align-items-center justify-content-center xshow-on-hover"
-          data-id="<?php print $field['id']; ?>">
-        <i class="mdi mdi-plus mdi-16px"></i>
-    </span>
 
 <?php elseif (isset($field['type']) and ($field['type'] == 'text' or $field['type'] == 'message' or $field['type'] == 'textarea' or $field['type'] == 'title')): ?>
-    <textarea class="mw-admin-custom-field-value-edit-text form-control bg-secondary-opacity-8 border-0 border-radius-0" style=" width:100%; overflow:hidden;height: 33px;min-height: 33px;" data-id="<?php print $field['id']; ?>"><?php print $field['value']; ?></textarea>
+
+    <?php print $field['value']; ?>
+
 <?php elseif (isset($field['type']) and (($field['type'] == 'address') or $field['type'] == 'upload')): ?>
     <div style="width:100%; display:block; min-height:20px;" onclick="mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);"><?php print $field['values_plain']; ?></div>
 
@@ -94,8 +84,8 @@ if (isset($params['field-id'])) {
     }
     ?>
     <span class="custom-fields-values-holder">
-        <span class="mw-admin-custom-field-value-edit-inline-holder bg-secondary-opacity-8 d-inline-block px-3 py-1">
-            <small class="mw-admin-custom-field-value-edit-inline px-1 py-1" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></small>
+        <span class="d-inline-block px-3 py-1">
+            <small class="px-1 py-1" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></small>
         </span>
     </span>
 <?php endif; ?>

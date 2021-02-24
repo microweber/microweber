@@ -43,7 +43,6 @@
         "ezyang/htmlpurifier": "*",
         "knplabs/knp-menu": "^3.2@dev",
         "jenssegers/agent": "^3.0@dev",
-        "geoip2/geoip2": "dev-master",
         "twig/twig": "^3.0@dev",
         "phpoffice/phpspreadsheet": "*",
         "halaxa/json-machine": "dev-master",
@@ -87,7 +86,8 @@
         "florianv/swap": "^4.3",
         "florianv/exchanger": "2.x-dev",
         "symfony/intl": "5.x-dev",
-        "whitecube/lingua": "dev-master"
+        "geoip2/geoip2": "~2.0",
+        "whitecube/lingua": "1.1.0"
 
 
     },

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Managers\Helpers;
 
 use MicroweberPackages\Event\Event;
+use MicroweberPackages\Translation\LanguageHelper;
 
 
 $mw_language_content = array();
@@ -17,13 +18,12 @@ $mw_all_langs = array();
 
 class Lang
 {
-     public $is_enabled = null;
+    public $is_enabled = null;
     private $__default_lang_option = false;
 
 
     public function __construct()
     {
-
 
 
         if (mw_is_installed()) {
@@ -43,6 +43,13 @@ class Lang
         $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 
         mw()->option_manager->clear_memory();
+
+        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($lang);
+
+        if ($loc_data and isset($loc_data['locale'])) {
+            // en = en_US
+            $lang = $loc_data['locale'];
+        }
 
 
         //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
@@ -80,7 +87,7 @@ class Lang
         $lang = $this->current_lang();
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
-            if($lang_opt){
+            if ($lang_opt) {
                 $lang = $lang_opt;
             }
         }
@@ -253,7 +260,7 @@ class Lang
 
     function lang_attributes()
     {
-        $lang = current_lang();
+        $lang =$lang_curr= current_lang();
 
         /*  if (mb_strlen($lang) > 2) {
               $lang = mb_substr($lang, 0, 2);
@@ -265,8 +272,10 @@ class Lang
             'lang="' . $lang . '"'
         );
         $dir = 'ltr';
-        if ($lang == 'ar') {
+        $is_rtl = $this->lang_is_rtl($lang_curr);
+        if($is_rtl){
             $dir = 'rtl';
+
         }
         array_push($attr, 'dir="' . $dir . '"');
         return implode(' ', $attr);
@@ -630,10 +639,13 @@ class Lang
         ur	Urdu	rtl	اردو
         yi	Yiddish	rtl	ייִדיש
         */
-        $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi');
-        if ($lang and in_array($lang, $rtl_langs)) {
-            return true;
-        }
+
+        return LanguageHelper::isRTL($lang);
+
+//        $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi');
+//        if ($lang and in_array($lang, $rtl_langs)) {
+//            return true;
+//        }
     }
 
 
@@ -721,7 +733,7 @@ class Lang
         return \Symfony\Component\Intl\Locales::getNames();
     }
 
-    private function  ___get_all_lang_codes()
+    private function ___get_all_lang_codes()
     {
         $langs = array(
             //  'Abkhazian' => 'AB',

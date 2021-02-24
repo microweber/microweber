@@ -1,9 +1,21 @@
 <script>
 
-     imageConfigDialogInstance = null;
+    var saveOptions = function (id) {
+        var data = {};
+        var root = $(mw.dialog.get().dialogContainer);
+        root.find('input').each(function () {
+            data[this.name] = this.value;
+        })
+        mw.module_pictures.save_options(id, data, function () {
+            mw.reload_module('#<?php print $params['id'] ?>');
+            mw.reload_module('pictures/admin')
+            mw.top().reload_module('pictures')
+        });
+    }
+
     imageConfigDialog = function (id) {
         var el = mw.$('#admin-thumb-item-' + id + ' .image-options');
-        imageConfigDialogInstance = mw.top().dialog({
+        mw.top().dialog({
             overlay: true,
             content: el.html(),
             template: 'default',
@@ -12,21 +24,9 @@
             title: '<?php print _e('Image Settings'); ?>',
             onResult: function (id) {
                 saveOptions(id);
-                imageConfigDialogInstance.remove()
+                this.remove()
             }
         })
-    }
-
-    saveOptions = function (id) {
-        var data = {};
-        var root = $(imageConfigDialogInstance.dialogContainer);
-        root.find('input').each(function () {
-            data[this.name] = this.value;
-        })
-        mw.module_pictures.save_options(id, data);
-        mw.reload_module('#<?php print $params['id'] ?>');
-        mw.reload_module('pictures/admin')
-        mw.top().reload_module('pictures')
     }
 
 

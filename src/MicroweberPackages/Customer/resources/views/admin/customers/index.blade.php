@@ -10,6 +10,24 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('.js-delete-all').hide();
+        $(' input[type="checkbox"]').on('change', function () {
+            var count = 0;
+            $(' input[type="checkbox"]').each(function(){
+                if($(this).prop('checked')) {
+                    count++;
+                    return;
+                }
+
+            })
+            if(count > 0) {
+                $('.js-delete-all').show();
+            }
+            else {
+                $('.js-delete-all').hide();
+            }
+        });
+
         $(".js-select-all").click(function () {
             $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
             //$('.js-delete-all').toggle();
@@ -36,7 +54,7 @@
     });
 </script>
 
-@if($customers->count()>0)
+
 <form method="get">
     <input type="hidden" value="true" name="filter">
 
@@ -44,12 +62,12 @@
         <div class="col"></div>
         <div class="col text-right">
             @if(request()->get('filter') == 'true')
-            <a href="{{route('customers.index')}}" class="btn btn-outline-primary icon-left btn-md"><i class="mdi mdi-close"></i> Filter</a>
+            <a href="{{route('admin.customers.index')}}" class="btn btn-outline-primary icon-left btn-md"><i class="mdi mdi-close"></i> Filter</a>
             @else
             <button type="button" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e('Filter'); ?></button>
             @endif
 
-            <a href="{{ route('customers.create') }}" class="btn btn-primary icon-left">
+            <a href="{{ route('admin.customers.create') }}" class="btn btn-primary icon-left">
                 <i class="mdi mdi-plus"></i> <?php _e('New client'); ?>
             </a>
         </div>
@@ -82,12 +100,14 @@
     </div>
 </form>
 
+
+@if($customers->count()>0)
 <br/>
 
 <div class="actions">
-    <form method="POST" class="js-delete-selected-form" action="{{ route('customers.delete') }}">
+    <form method="POST" class="js-delete-selected-form" action="{{ route('admin.customers.delete') }}">
         {{csrf_field()}}
-        <button class="btn btn-danger btn-sm js-delete-all"><?php _e('Delete all'); ?></button>
+        <button class="btn btn btn-outline-danger js-delete-all" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))"><?php _e('Delete all'); ?></button>
     </form>
 </div>
 
@@ -104,7 +124,7 @@
             <th class="border-0 font-weight-bold"><?php _e('E-mail'); ?></th>
             <th class="border-0 font-weight-bold"><?php _e('Phone'); ?></th>
             <th class="border-0 font-weight-bold"><?php _e('City / Country'); ?></th>
-            <th class="border-0 font-weight-bold"><?php _e('Amount Due'); ?></th>
+            {{--<th class="border-0 font-weight-bold"><?php _e('Amount Due'); ?></th>--}}
             <th class="border-0 font-weight-bold text-center"><?php _e('Action'); ?></th>
         </tr>
     </thead>
@@ -120,14 +140,33 @@
             <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
             <td>{{ $customer->email }}</td>
             <td>{{ $customer->phone }}</td>
-            <td>{{ $customer->city }}</td>
-            <td>{{ number_format($customer->due_amount, 2) }}</td>
+            <td>
+            <?php
+            $city = false;
+            $country = false;
+            if (isset($customer->addresses[0]->city)) {
+                $city = $customer->addresses[0]->city;
+            }
+            if (isset($customer->addresses[0]->country_id)) {
+                $findCountry = \MicroweberPackages\Country\Models\Country::where('id', $customer->addresses[0]->country_id)->first();
+                if ($findCountry) {
+                    $country = $findCountry->name;
+                }
+            }
+
+            echo $city;
+            if ($country) {
+                echo ' / ' . $country;
+            }
+            ?>
+            </td>
+            {{--<td>{{ number_format($customer->due_amount, 2) }}</td>--}}
             <td class="text-center">
-                <form action="{{ route('customers.destroy', $customer->id)}}" method="post">
+                <form action="{{ route('admin.customers.destroy', $customer->id)}}" method="post">
                     @csrf
                     @method('DELETE')
-                    <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-outline-primary btn-sm"><?php _e('View'); ?></a>
-                    <button type="submit" class="btn btn-text btn-sm text-danger"><i class="mdi mdi-trash-can-outline mdi-20px"></i></button>
+                    <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-outline-primary btn-sm"><?php _e('View'); ?></a>
+                    <button type="submit" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" class="btn btn-text btn-sm text-danger"><i class="mdi mdi-trash-can-outline mdi-20px"></i></button>
                 </form>
             </td>
         </tr>
@@ -135,6 +174,20 @@
     </tbody>
 </table>
 @else
+    @if(request()->get('filter') == 'true')
+
+        <div class="no-items-found customers py-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_clients.svg'); ">
+                        <h4><?php _e('No results found for this filter'); ?></h4>
+                        <p><?php _e('Try with a different filter'); ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else
+
 <div class="no-items-found customers py-5">
     <div class="row">
         <div class="col-12">
@@ -142,10 +195,11 @@
                 <h4><?php _e('You don’t have clients yet'); ?></h4>
                 <p><?php _e('Here you can mange your clients'); ?></p>
                 <br/>
-                <a href="{{ route('customers.create') }}" class="btn btn-primary btn-rounded"><?php _e('Add client'); ?></a>
+                <a href="{{ route('admin.customers.create') }}" class="btn btn-primary btn-rounded"><?php _e('Add client'); ?></a>
             </div>
         </div>
     </div>
 </div>
+    @endif
 @endif
 @endsection

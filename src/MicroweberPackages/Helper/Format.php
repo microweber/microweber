@@ -4,6 +4,7 @@ namespace MicroweberPackages\Helper;
 use GrahamCampbell\SecurityCore\Security;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Crypt;
+use MicroweberPackages\CustomField\Models\CustomField;
 
 
 class Format
@@ -1028,7 +1029,23 @@ class Format
         if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
             $item['custom_fields_data'] = $this->base64_to_array($item['custom_fields_data']);
             if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data']) and !empty($item['custom_fields_data'])) {
-                $tmp_val = $this->array_to_ul($item['custom_fields_data']);
+
+                $itemCustomFields = $item['custom_fields_data'];
+                $getCustom_fields = CustomField::where('rel_id', $item['rel_id'])->get();
+                if ($getCustom_fields !== null) {
+                    foreach($getCustom_fields as $customField) {
+                        if (isset($itemCustomFields[$customField->name_key])) {
+                            $customFieldValues = $customField->fieldValue()->get();
+                            if ($customFieldValues !== null) {
+                                foreach ($customFieldValues as $customFieldValue) {
+                                    $itemCustomFields[$customField->name_key] = $customFieldValue->value;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                $tmp_val = $this->array_to_ul($itemCustomFields);
                 $item['custom_fields'] = $tmp_val;
             }
         }

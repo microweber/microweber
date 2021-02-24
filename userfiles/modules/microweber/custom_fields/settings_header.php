@@ -10,9 +10,8 @@ $data_orig = $data;
 	$data_orig['field_id'] = $_REQUEST['field_id'];
 }
  $add_remove_controls = '' .
-    '<span class="mw-icon-plus" onclick="mw.custom_fields.add(this);" title="' . _e("Add", true) . '"></span>' .
-    '<span class="mw-icon-close" onclick="var parent = mw.tools.firstParentWithClass(this, \'mw-admin-custom-field-edit-item-wrapper\'); $(this).parents(\'.mw-custom-field-form-controls\').remove();mw.custom_fields.save(parent);" title="' . _e("Remove", true) . '"></span>' .
-    '<span class="mw-icon-drag custom-fields-handle-field" title="' . _e("Move", true) . '"></span>';
+    '<button class="btn btn-outline-success btn-sm mx-2" onclick="mw.custom_fields.add(this);">Add</button>' .
+    '<button class="btn btn-outline-danger btn-sm" onclick="var parent = mw.tools.firstParentWithClass(this, \'mw-admin-custom-field-edit-item-wrapper\'); $(this).parents(\'.mw-custom-field-form-controls\').remove();mw.custom_fields.save(parent); ">Delete</button>';
 
 
 $savebtn = '';
@@ -230,16 +229,4 @@ if ($for == false) {
     /*<input type="hidden" name="position" value="<?php echo  $data['position'] ?>" /> */
     ?>
 
-    <script>
-        $(document).ready(function () {
-
-            var master = document.getElementById('custom_fields_edit<?php echo  $rand; ?>');
-            var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
-
-            if (typeof is_body_click_binded === 'undefined') {
-                is_body_click_binded = true;
-            }
-
-        });
-    </script>
 </div>

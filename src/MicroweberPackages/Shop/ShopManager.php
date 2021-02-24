@@ -175,12 +175,13 @@ class ShopManager
         $for_id = $product_id;
 
         $cf_params = array();
-        $cf_params['for'] = $for;
-        $cf_params['for_id'] = $for_id;
-        $cf_params['field_type'] = 'price';
+        $cf_params['rel_type'] = $for;
+        $cf_params['rel_id'] = $for_id;
+        $cf_params['type'] = 'price';
         $cf_params['return_full'] = true;
 
         $prices = $this->app->fields_manager->get($cf_params);
+
         $custom_field_items = $prices;
         $override = $this->app->event_manager->trigger('mw.shop.get_product_prices', $custom_field_items);
         if (is_array($override)) {
