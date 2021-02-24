@@ -44,11 +44,9 @@ class CustomersController extends AdminController
             //->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
             ->paginate($limit);
 
-        $siteData = [
+        return $this->view('customer::admin.customers.index', [
             'customers' => $customers
-        ];
-
-        return $this->view('customer::admin.customers.index', $siteData);
+        ]);
     }
 
 
