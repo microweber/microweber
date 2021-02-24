@@ -19,11 +19,7 @@
     <label class="mw-ui-label" for="value<?php print $rand; ?>"><?php _e("Value"); ?></label>
 
     <input type="text" class="mw-ui-field mw-full-width" name="value" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>">
-    <br/><br>
-    <label class="mw-ui-check"><input type="checkbox" class="mw-custom-field-option"
-                                      name="options[required]" <?php if (isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?>
-                                      value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-    <br><br>
+
     
     <?php print $savebtn; ?>
 </div>

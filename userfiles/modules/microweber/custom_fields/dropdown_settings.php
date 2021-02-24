@@ -23,12 +23,7 @@
             <span></span>
             <span> <?php _e("Allow Multiple Choices"); ?></span>
         </label>
-        <br/> <br/>
-        <label class="mw-ui-check"><input type="checkbox" class="mw-custom-field-option"
-                                          name="options[required]" <?php if ($settings["required"]): ?> checked="checked" <?php endif; ?>
-                                          value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
-	 <br/>
-	  <br/>
+
     </div>
 </div>
 
