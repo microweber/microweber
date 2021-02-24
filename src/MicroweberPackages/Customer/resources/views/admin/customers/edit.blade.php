@@ -290,8 +290,9 @@
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $carts = $order->cart()->with('products')->first();
-                                        foreach ($carts->products()->get() as $product):
+                                        $carts = $order->cart()->get();
+                                        foreach ($carts as $cart):
+                                        $product = \MicroweberPackages\Product\Models\Product::where('id', $cart['rel_id'])->first();
                                         $productImage = $product->media()->first()->filename;
                                         ?>
                                         <tr>
@@ -305,16 +306,14 @@
                                             <td><?php echo $product->title; ?></td>
                                             <td><?php echo $product->sku; ?></td>
                                             <td><?php echo currency_format($product->price); ?></td>
-
-                                            <td><?php
-                                                $qty = (int) $product->qty;
-                                                if ($qty == 'nolimit') {
-                                                    echo 1;
-                                                } else {
-                                                    echo $qty;
-                                                } ?></td>
+                                            <td>
                                             <?php
-                                            $productPrice = (float) $product->price;
+                                            $qty = (int) $cart->qty;
+                                            echo $qty;
+                                            ?>
+                                            </td>
+                                            <?php
+                                            $productPrice = (float) $cart->price;
                                             ?>
                                             <td><?php echo currency_format($productPrice * $qty); ?></td>
                                         </tr>

@@ -626,7 +626,7 @@ class FieldsManager
         return $customFields;
     }*/
 
-    public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false) {
+    public function get( $table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false) {
         return $this->get_deprecated($table, $id , $return_full , $field_for, $debug , $field_type , $for_session );
     }
 
