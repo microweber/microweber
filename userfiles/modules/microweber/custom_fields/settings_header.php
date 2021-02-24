@@ -10,12 +10,8 @@ $data_orig = $data;
 	$data_orig['field_id'] = $_REQUEST['field_id'];
 }
  $add_remove_controls = '' .
-     '<div class="btn-group btn-group-sm">'.
-    '<span class="btn btn-secondary mdi mdi-plus mw-admin-custom-field-form-control" onclick="mw.custom_fields.add(this);" title="' . _e("Add", true) . '"></span>' .
-    '<span class="btn btn-secondary mdi mdi-delete mw-admin-custom-field-form-control" onclick="var parent = mw.tools.firstParentWithClass(this, \'mw-admin-custom-field-edit-item-wrapper\'); $(this).parents(\'.mw-custom-field-form-controls\').remove();mw.custom_fields.save(parent);" title="' . _e("Remove", true) . '"></span>' .
-    '<span class="btn btn-secondary mdi mdi-cursor-move mw-admin-custom-field-form-control custom-fields-handle-field" title="' . _e("Move", true) . '"></span>'
-    .'</div>';
-
+    '<button class="btn btn-outline-success btn-sm mx-2" onclick="mw.custom_fields.add(this);">Add</button>' .
+    '<button class="btn btn-outline-danger btn-sm" onclick="var parent = mw.tools.firstParentWithClass(this, \'mw-admin-custom-field-edit-item-wrapper\'); $(this).parents(\'.mw-custom-field-form-controls\').remove();mw.custom_fields.save(parent); ">Delete</button>';
 
 
 $savebtn = '';

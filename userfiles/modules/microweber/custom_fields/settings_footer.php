@@ -8,6 +8,7 @@ if($data['type'] !== 'breakline'):
             <input type="hidden" value="n" name="custom_field_show_label">
             <input type="checkbox" class="custom-control-input"  name="custom_field_show_label" id="custom_field_show_label<?php print $rand; ?>" value="y" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
             <span></span><span><?php _e('Show Label'); ?></span>
+            <small class="text-muted d-block mb-3"><?php _e('Label');?></small>
             <span></span>
         </label>
     </div>
