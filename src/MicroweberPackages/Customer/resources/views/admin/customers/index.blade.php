@@ -142,13 +142,22 @@
             <td>{{ $customer->phone }}</td>
             <td>
             <?php
-            $city = '';
-            $country = '';
+            $city = false;
+            $country = false;
             if (isset($customer->addresses[0]->city)) {
                 $city = $customer->addresses[0]->city;
             }
+            if (isset($customer->addresses[0]->country_id)) {
+                $findCountry = \MicroweberPackages\Country\Models\Country::where('id', $customer->addresses[0]->country_id)->first();
+                if ($findCountry) {
+                    $country = $findCountry->name;
+                }
+            }
 
             echo $city;
+            if ($country) {
+                echo ' / ' . $country;
+            }
             ?>
             </td>
             {{--<td>{{ number_format($customer->due_amount, 2) }}</td>--}}
