@@ -176,8 +176,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="module-live-edit-settings">
                 <form id="white_label_settings_holder">
                     <p class="mb-4">
-                        <?php _e('Brand Name'); ?>Please fill in the form below to take full advantage of your White Label.
-                        For instructions use this short guide <a href="https://microweber.com/how-to-activate-your-white-label-license-key" class="mw-ui-link mw-blue" target="_blank"><?php _e('Brand Name'); ?>White label user guide</a>.
+                     Please fill in the form below to take full advantage of your White Label.
+                        For instructions use this short guide <a href="https://microweber.com/how-to-activate-your-white-label-license-key" class="mw-ui-link mw-blue" target="_blank"> White label user guide</a>.
                     </p>
 
                     <div class="row">
