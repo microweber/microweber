@@ -52,9 +52,9 @@ $fields = mw()->ui->custom_fields();
 <div class="d-flex">
   <div class="col-4 px-1">
       <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Desktop'); ?></label>
-      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size]">
+      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size][desktop]">
           <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
-              <option  data-icon="mdi mdi-monitor" <?php if($settings['field_size'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+              <option  data-icon="mdi mdi-monitor" <?php if($settings['field_size']['desktop'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
           <?php endforeach; ?>
       </select>
   </div>
@@ -62,18 +62,18 @@ $fields = mw()->ui->custom_fields();
 
   <div class="col-4 px-1">
       <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Tablet'); ?></label>
-      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size]">
+      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size][tablet]">
           <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
-              <option  data-icon="mdi mdi-tablet" <?php if($settings['field_size'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+              <option  data-icon="mdi mdi-tablet" <?php if($settings['field_size']['tablet'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
           <?php endforeach; ?>
       </select>
   </div>
 
   <div class="col-4 px-1">
       <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Mobile'); ?></label>
-      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size]">
+      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size][mobile]">
           <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
-              <option data-icon="mdi mdi-cellphone" <?php if($settings['field_size'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
+              <option data-icon="mdi mdi-cellphone" <?php if($settings['field_size']['mobile'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
           <?php endforeach; ?>
       </select>
   </div>

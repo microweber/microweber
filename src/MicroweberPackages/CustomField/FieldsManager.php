@@ -1494,7 +1494,7 @@ class FieldsManager
         // For file upload
         if ($data['type'] == 'upload') {
             if (is_array($data['options']) && isset($data['options']['file_types'])) {
-                $field_settings['options']['file_types'] = array_merge($field_data['options'], $data['options']['file_types']);
+                $field_settings['options']['file_types'] = array_merge($field_data['options']['file_types'], $data['options']['file_types']);
             }
         }
 
