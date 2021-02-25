@@ -115,7 +115,7 @@ description: Bootstrap comments template
                     <?php event_trigger('module.comments.form.start', $data); ?>
                     <input type="hidden" name="rel_id" value="<?php print $data['rel_id'] ?>">
                     <?php print csrf_form(); ?>
-                    <input type="hidden" name="rel" value="<?php print $data['rel_type'] ?>">
+                    <input type="hidden" name="rel_type" value="<?php print $data['rel_type'] ?>">
                     <input type="hidden" name="module_id" value="<?php print $params['id'] ?>">
                     <?php if ($form_title != false): ?>
                         <input type="hidden" name="comment_subject" value="<?php print $form_title ?>">

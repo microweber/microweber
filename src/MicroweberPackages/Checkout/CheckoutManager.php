@@ -157,7 +157,11 @@ class CheckoutManager
 
         $additional_fields = false;
         if (isset($data['for']) and isset($data['for_id'])) {
-            $additional_fields = $this->app->fields_manager->get($data['for'], $data['for_id'], 1);
+            $additional_fields = $this->app->fields_manager->get([
+                'rel_type'=>$data['for'],
+                'rel_id'=>$data['for_id'],
+                'return_full'=>true,
+            ]);
         }
 
         $seach_address_keys = array('country', 'city', 'address', 'state', 'zip');
@@ -807,6 +811,7 @@ class CheckoutManager
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
+        $this->confirm_email_send($orderId);
     }
 
 

@@ -213,7 +213,7 @@ if (isset($params['for_module_id'])): ?>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" class="btn btn-link btn-sm px-0">
+                                <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" class="btn btn-outline-primary btn-sm">
                                     <?php print _e('Settings'); ?>
                                 </a>
                             </td>

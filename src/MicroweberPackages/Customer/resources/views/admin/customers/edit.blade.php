@@ -33,11 +33,22 @@
                     <h6 class="small font-weight-bold mb-3"><?php _e("Client card"); ?></h6>
                     <div class="card">
                         <div class="card-body">
-                            @if($customer AND isset($customer->name))
-                                <span class="d-block"><i class="mdi mdi-account text-muted mdi-30px"></i></span>
-                                <span class="font-weight-bold d-block mb-1">{{$customer->name}}</span>
-                                <span class="d-block mb-1">{{$customer->email}}</span>
-                                <span class="d-block mb-1">{{$customer->phone}}</span>
+                            @if($customer AND isset($customer->first_name))
+                                <span><i class="mdi mdi-account text-muted mdi-30px"></i></span>
+                                <div>
+                                    <label class="control-label"><?php _e("Full Name"); ?>:</label>
+                                    <span class="ml-2 mb-1">{{$customer->first_name}} {{$customer->last_name}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("Email"); ?>:</label>
+                                    <span class="ml-2 mb-1">{{$customer->email}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("Phone"); ?>:</label>
+                                    <span class="ml-2 mb-1">{{$customer->phone}}</span>
+                                </div>
                             @else
                                 <div class="text-center">
                                     <span class="d-block"><i class="mdi mdi-account text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
@@ -51,10 +62,10 @@
                 <div class="col-md-6 col-px-30">
                     <h5 class="mb-3 font-weight-bold"><?php _e("Client information"); ?></h5>
 
-                    <div class="form-group">
-                        <label class="control-label"><?php _e("Display Name"); ?>:</label>
-                        <input type="text" class="form-control" value="@if($customer){{$customer->name}}@endif" required="required" name="name"/>
-                    </div>
+                    {{--<div class="form-group">--}}
+                    {{--<label class="control-label"><?php _e("Display Name"); ?>:</label>--}}
+                    {{--<input type="text" class="form-control" value="@if($customer){{$customer->name}}@endif" required="required" name="name"/>--}}
+                    {{--</div>--}}
 
                     <div class="form-group">
                         <label class="control-label"><?php _e("First Name"); ?>:</label>
@@ -87,16 +98,34 @@
                         <div class="card-body">
                             @if(isset($customer->addresses[0]) AND isset($customer->addresses[0]->name))
                                 <span class="d-block"><i class="mdi mdi-truck text-muted mdi-30px"></i></span>
-                                <span class="d-block mb-1 font-weight-bold">{{$customer->addresses[0]->address_street_1}}</span>
+                                <div>
+                                    <label class="control-label"><?php _e("Address"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[0]->address_street_1}}</span>
+                                </div>
                                 {{--                                <span class="d-block mb-1 font-weight-bold">{{$customer->addresses[0]->name}}</span>--}}
-                                <span class="d-block mb-1">{{$customer->addresses[0]->company_id}}</span>
-                                <span class="d-block mb-1">{{$customer->addresses[0]->company_vat}}</span>
-                                {{--<span class="d-block mb-1">{{$customer->addresses[0]->address_street_1}}</span>--}}
-                                <span class="d-block mb-1">{{$customer->addresses[0]->city}} {{$customer->addresses[0]->zip}} / {{$customer->addresses[0]->state}} /
+                                <div>
+                                    <label class="control-label"><?php _e("City"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[0]->city}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("ZIP Code"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[0]->zip}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("State"); ?>:</label>
+                                    <span class="mb-1">  {{$customer->addresses[0]->state}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("Country"); ?>:</label>
                                     @if(isset($customer->addresses[0]) AND isset($customer->addresses[0]->country )  AND isset($customer->addresses[0]->country->name ))
-                                        {{$customer->addresses[0]->country->name}}
-                                    @endif
-                                </span>
+                                        <span class="mb-1">{{$customer->addresses[0]->country->name}}</span>
+                                    @endif                                </div>
+
+                                {{--<span class="d-block mb-1">{{$customer->addresses[0]->address_street_1}}</span>--}}
+
                             @else
                                 <div class="text-center">
                                     <span class="d-block"><i class="mdi mdi-truck text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
@@ -126,7 +155,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Zip Code"); ?>:</label>
+                        <label class="control-label"><?php _e("ZIP Code"); ?>:</label>
                         <input type="text" class="form-control" value="@if(isset($customer->addresses[0])){{$customer->addresses[0]->zip}}@endif" name="addresses[0][zip]"/>
                     </div>
 
@@ -158,11 +187,57 @@
                             @if(isset($customer->addresses[1]) AND isset($customer->addresses[1]->company_name))
                                 <span class="d-block"><i class="mdi mdi-office-building text-muted mdi-30px"></i></span>
 
-                                <span class="d-block mb-1 font-weight-bold">{{$customer->addresses[1]->company_name}}</span>
-                                <span class="d-block mb-1">{{$customer->addresses[1]->company_id}}</span>
-                                <span class="d-block mb-1">{{$customer->addresses[1]->company_vat}}</span>
-                                <span class="d-block mb-1">{{$customer->addresses[1]->address_street_1}}</span>
-                                <span class="d-block mb-1">{{$customer->addresses[1]->city}} {{$customer->addresses[1]->zip}} / {{$customer->addresses[0]->state}} / {{$customer->addresses[1]->country->name}}</span>
+                                <div>
+                                    <label class="control-label"><?php _e("Company Name"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[1]->company_name}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("Company ID"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[1]->company_id}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("VAT Number"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[1]->company_vat}}</span>
+                                </div>
+
+                                <div class="">
+                                    <label class="control-label"><?php _e("VAT Registered"); ?>:</label>
+                                    <span class="ml-2 mb-1">
+                                        @if ( $customer->addresses[1]->company_vat_registered  == "1")
+                                            <?= _e("Yes"); ?>
+                                        @else
+                                            <?= _e("No"); ?>
+                                        @endif
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("Address"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[1]->address_street_1}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("City"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[1]->city}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("ZIP Code"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[1]->zip}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("State"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[0]->state}}</span>
+                                </div>
+
+                                <div>
+                                    <label class="control-label"><?php _e("Country"); ?>:</label>
+                                    <span class="mb-1">{{$customer->addresses[1]->country->name}}</span>
+                                </div>
+
                             @else
                                 <div class="text-center">
                                     <span class="d-block"><i class="mdi mdi-office-building text-muted" style="opacity: 0.5; font-size: 50px;"></i></span>
@@ -204,12 +279,12 @@
                                    value="1"
                                    @if(isset($customer->addresses[1]) && $customer->addresses[1]->company_vat_registered == '1') checked="checked" @endif
                                    name="addresses[1][company_vat_registered]">
-                            <label class="custom-control-label" for="company_vat_registered"><?php _e("VAT registered"); ?></label>
+                            <label class="custom-control-label" for="company_vat_registered"><?php _e("VAT Registered"); ?></label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Adress"); ?>:</label>
+                        <label class="control-label"><?php _e("Address"); ?>:</label>
                         <textarea class="form-control" placeholder="Street 1" name="addresses[1][address_street_1]">@if(isset($customer->addresses[1])){{$customer->addresses[1]->address_street_1}}@endif</textarea>
                     </div>
 
@@ -219,7 +294,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Zip Code"); ?>:</label>
+                        <label class="control-label"><?php _e("ZIP Code"); ?>:</label>
                         <input type="text" class="form-control" value="@if(isset($customer->addresses[1])){{$customer->addresses[1]->zip}}@endif" name="addresses[1][zip]"/>
                     </div>
 
@@ -240,9 +315,7 @@
                     <input type="hidden" class="form-control" value="company" name="addresses[1][type]"/>
                 </div>
             </div>
-
             <hr class="thin"/>
-
             <div class="row d-flex justify-content-between">
                 <div class="col">
                     <a href="#" class="btn btn-outline-danger btn-sm"><?php _e("Delete"); ?></a>
@@ -290,31 +363,30 @@
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $carts = $order->cart()->with('products')->first();
-                                        foreach ($carts->products()->get() as $product):
+                                        $carts = $order->cart()->get();
+                                        foreach ($carts as $cart):
+                                        $product = \MicroweberPackages\Product\Models\Product::where('id', $cart['rel_id'])->first();
                                         $productImage = $product->media()->first()->filename;
                                         ?>
                                         <tr>
                                             <td>
-                                            <?php if (!empty($productImage)): ?>
-                                            <img src="<?php echo thumbnail($productImage, 60, 60); ?>"/>
-                                            <?php else: ?>
-                                            <img src="<?php echo thumbnail(''); ?>"/>
-                                            <?php endif; ?>
+                                                <?php if (!empty($productImage)): ?>
+                                                <img src="<?php echo thumbnail($productImage, 60, 60); ?>"/>
+                                                <?php else: ?>
+                                                <img src="<?php echo thumbnail(''); ?>"/>
+                                                <?php endif; ?>
                                             </td>
                                             <td><?php echo $product->title; ?></td>
                                             <td><?php echo $product->sku; ?></td>
                                             <td><?php echo currency_format($product->price); ?></td>
-
-                                            <td><?php
-                                                $qty = (int) $product->qty;
-                                                if ($qty == 'nolimit') {
-                                                    echo 1;
-                                                } else {
-                                                    echo $qty;
-                                                } ?></td>
+                                            <td>
+                                                <?php
+                                                $qty = (int) $cart->qty;
+                                                echo $qty;
+                                                ?>
+                                            </td>
                                             <?php
-                                            $productPrice = (float) $product->price;
+                                            $productPrice = (float) $cart->price;
                                             ?>
                                             <td><?php echo currency_format($productPrice * $qty); ?></td>
                                         </tr>

@@ -65,7 +65,7 @@ class Customer extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'customer_id', 'id');
+        return $this->hasMany(Order::class);
     }
 
     public function user()

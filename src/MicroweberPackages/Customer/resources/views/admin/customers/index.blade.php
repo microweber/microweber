@@ -124,7 +124,7 @@
             <th class="border-0 font-weight-bold"><?php _e('E-mail'); ?></th>
             <th class="border-0 font-weight-bold"><?php _e('Phone'); ?></th>
             <th class="border-0 font-weight-bold"><?php _e('City / Country'); ?></th>
-            <th class="border-0 font-weight-bold"><?php _e('Amount Due'); ?></th>
+            {{--<th class="border-0 font-weight-bold"><?php _e('Amount Due'); ?></th>--}}
             <th class="border-0 font-weight-bold text-center"><?php _e('Action'); ?></th>
         </tr>
     </thead>
@@ -140,8 +140,27 @@
             <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
             <td>{{ $customer->email }}</td>
             <td>{{ $customer->phone }}</td>
-            <td>{{ $customer->city }}</td>
-            <td>{{ number_format($customer->due_amount, 2) }}</td>
+            <td>
+            <?php
+            $city = false;
+            $country = false;
+            if (isset($customer->addresses[0]->city)) {
+                $city = $customer->addresses[0]->city;
+            }
+            if (isset($customer->addresses[0]->country_id)) {
+                $findCountry = \MicroweberPackages\Country\Models\Country::where('id', $customer->addresses[0]->country_id)->first();
+                if ($findCountry) {
+                    $country = $findCountry->name;
+                }
+            }
+
+            echo $city;
+            if ($country) {
+                echo ' / ' . $country;
+            }
+            ?>
+            </td>
+            {{--<td>{{ number_format($customer->due_amount, 2) }}</td>--}}
             <td class="text-center">
                 <form action="{{ route('admin.customers.destroy', $customer->id)}}" method="post">
                     @csrf

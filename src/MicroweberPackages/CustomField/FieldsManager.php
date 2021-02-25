@@ -48,31 +48,32 @@ class FieldsManager
         }
     }
 
-   /* public function get_by_id($field_id)
+    /* public function get_by_id($field_id)
+     {
+         if ($field_id != 0) {
+             $find = CustomField::where('id', $field_id)->first();
+             if ($find) {
+
+                 $customField = $find->toArray();
+                 $customField['value'] = '';
+
+                 $findValues = $find->fieldValue()->get();
+                 if ($findValues) {
+                     $values = [];
+                     foreach($findValues as $findValue) {
+                         $values[] = $findValue->value;
+                     }
+                     $customField['field_values'] = $values;
+                 }
+
+                 return $customField;
+             }
+         }
+     }*/
+
+
+    public function parse_field_settings($fieldParse)
     {
-        if ($field_id != 0) {
-            $find = CustomField::where('id', $field_id)->first();
-            if ($find) {
-
-                $customField = $find->toArray();
-                $customField['value'] = '';
-
-                $findValues = $find->fieldValue()->get();
-                if ($findValues) {
-                    $values = [];
-                    foreach($findValues as $findValue) {
-                        $values[] = $findValue->value;
-                    }
-                    $customField['field_values'] = $values;
-                }
-
-                return $customField;
-            }
-        }
-    }*/
-
-
-    public function parse_field_settings($fieldParse) {
 
         preg_match_all(
             '/(\[.*\])/',
@@ -95,7 +96,8 @@ class FieldsManager
         return false;
     }
 
-    public function parse_fields_html($fieldParseInput) {
+    public function parse_fields_html($fieldParseInput)
+    {
 
         if (is_array($fieldParseInput)) {
             return $fieldParseInput;
@@ -169,7 +171,7 @@ class FieldsManager
 
         $make_field['rel_type'] = $rel;
         $make_field['rel_id'] = $rel_id;
-      //  $is_made = $this->get_all($make_field);
+        //  $is_made = $this->get_all($make_field);
 
         if (isset($_mw_made_default_fields_register[$function_cache_id])) {
             return $_mw_made_default_fields_register[$function_cache_id];
@@ -179,10 +181,10 @@ class FieldsManager
             return;
         }
 
-       /* if (is_array($is_made) and !empty($is_made)) {
-            return;
-        }
-        */
+        /* if (is_array($is_made) and !empty($is_made)) {
+             return;
+         }
+         */
 
         $table_custom_field = $this->table;
 
@@ -258,7 +260,7 @@ class FieldsManager
                     $existing['type'] = $field_type;
                     $existing['rel_type'] = $rel;
                     $existing['rel_id'] = $rel_id;
-                   // $existing['no_cache'] = $rel_id;
+                    // $existing['no_cache'] = $rel_id;
                     $existing = $this->get_all($existing);
                     if ($existing == false or is_array($existing) == false) {
 
@@ -304,12 +306,81 @@ class FieldsManager
         return $saved_fields;
     }
 
-    public function save($data)
+
+    public function save($fieldData)
+    {
+        if (!is_array($fieldData)) {
+            return false;
+        }
+
+        $customField = null;
+        if (!empty($fieldData['id'])) {
+            $customField = CustomField::where('id', $fieldData['id'])->first();
+        }
+        if ($customField == null) {
+            $customField = new CustomField();
+            $customField->name = _e($this->getFieldNameByType($fieldData['type']), true);
+        }
+
+        $customField->type = $fieldData['type'];
+        $customField->rel_type = $fieldData['rel_type'];
+        $customField->rel_id = $fieldData['rel_id'];
+
+        if (!empty($fieldData['error_text'])) {
+            $customField->error_text = $fieldData['error_text'];
+        }
+
+        if (!empty($fieldData['name'])) {
+            $customField->name = $fieldData['name'];
+        }
+
+        if (!empty($fieldData['name_key'])) {
+            $customField->name_key = $fieldData['name_key'];
+        }
+
+        if (!empty($fieldData['show_label'])) {
+            $customField->show_label = $fieldData['show_label'];
+        }
+
+        if (!empty($fieldData['options'])) {
+            $customField->options = $fieldData['options'];
+        }
+
+        if (!empty($fieldData['placeholder'])) {
+            $customField->placeholder = $fieldData['placeholder'];
+        }
+
+        if (!empty($fieldData['show_label'])) {
+            $customField->show_label = $fieldData['show_label'];
+        }
+
+        if (!empty($fieldData['required'])) {
+            $customField->required = $fieldData['required'];
+        }
+
+        if (!empty($fieldData['is_active'])) {
+            $customField->is_active = $fieldData['is_active'];
+        }
+
+        $customField->save();
+
+        return $customField->id;
+    }
+
+    public function getFieldNameByType($type)
+    {
+        $fields = mw()->ui->custom_fields();
+
+        if (isset($fields[$type])) {
+            return $fields[$type];
+        }
+    }
+
+    public function __save_deprecated($data)
     {
         if (is_string($data)) {
             $data = parse_params($data);
         }
-
         $table_custom_field = $this->table;
         $table_values = $this->table_values;
         if (isset($data['cf_id']) and !isset($data['id'])) {
@@ -431,6 +502,7 @@ class FieldsManager
             $data_to_save['value'] = $data_to_save['values'];
         }
 
+
         if ((!isset($data_to_save['id']) or ($data_to_save['id']) == 0) and !isset($data_to_save['is_active'])) {
             $data_to_save['is_active'] = 1;
         }
@@ -459,9 +531,13 @@ class FieldsManager
             if (isset($data_to_save_parent['value'])) {
                 unset($data_to_save_parent['value']);
             }
-
-            $customFieldModel = CustomField::where('id', $data_to_save_parent['cf_id'])->first();
-            if ($customFieldModel == null) {
+            $customFieldModel = null;
+            if (isset($data_to_save_parent['cf_id'])) {
+                $customFieldModel = CustomField::where('id', $data_to_save_parent['cf_id'])->first();
+            } else if (isset($data_to_save_parent['id'])) {
+                $customFieldModel = CustomField::where('id', $data_to_save_parent['id'])->first();
+            }
+             if ($customFieldModel == null) {
                 $customFieldModel = new CustomField();
             }
 
@@ -547,7 +623,7 @@ class FieldsManager
 
                     if (!empty($check_old)) {
                         foreach ($check_old as $remove) {
-                            if(isset($remove['id'])) {
+                            if (isset($remove['id'])) {
                                 CustomFieldValue::where('id', $remove['id'])->delete();
                             }
                         }
@@ -557,7 +633,8 @@ class FieldsManager
 
             $this->app->cache_manager->delete('custom_fields/' . $save);
             $this->app->cache_manager->delete('custom_fields');
-
+            $this->app->cache_manager->delete('custom_fields_values');
+            $this->app->cache_manager->delete('content');
             return $save;
         }
     }
@@ -568,14 +645,13 @@ class FieldsManager
         if (is_array($custom_field_id)) {
             $id = implode(',', $custom_field_id);
         }
-        $table = $this->table_values;
-        $params = array();
-        $params['table'] = $table;
-        $params['limit'] = 99999;
-        $params['custom_field_id'] = '[in]' . $id;
-        $data = $this->app->database_manager->get($params);
 
-        return $data;
+        $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $id)->get();
+        if ($getCustomFieldValues) {
+            return $getCustomFieldValues->toArray();
+        }
+
+        return false;
     }
 
     public function get_value($content_id, $field_name, $return_full = false, $table = 'content')
@@ -605,7 +681,56 @@ class FieldsManager
         return $this->app->database_manager->get($params);
     }
 
-    public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
+    public function get($params)
+    {
+        $getCustomFields = CustomField::query();
+
+        if (!empty($params['id'])) {
+            $getCustomFields->where('id', $params['id']);
+        }
+
+        if (!empty($params['rel_id'])) {
+            $getCustomFields->where('rel_id', $params['rel_id']);
+            $getCustomFields->where('rel_type', $params['rel_type']);
+        }
+
+        if (!empty($params['type'])) {
+            $getCustomFields->where('type', $params['type']);
+        }
+
+        if (!empty($params['session_id'])) {
+            $getCustomFields->where('session_id', $params['session_id']);
+        }
+
+        $getCustomFields = $getCustomFields->get();
+
+        $customFields = [];
+
+        if ($getCustomFields) {
+            foreach ($getCustomFields as $customField) {
+
+                $readyCustomField = $customField->toArray();
+
+                $readyCustomField['value'] = '';
+                $readyCustomField['values'] = [];
+                $readyCustomField['values_plain'] = '';
+
+                $getCustomFieldValue = $customField->fieldValue()->get();
+                if (isset($getCustomFieldValue[0])) {
+                    $readyCustomField['value'] = $getCustomFieldValue[0]->value;
+                    foreach ($getCustomFieldValue as $customFieldValue) {
+                        $readyCustomField['values'][] = $customFieldValue->value;
+                    }
+                }
+
+                $customFields[] = $readyCustomField;
+            }
+        }
+
+        return $customFields;
+    }
+
+    public function get_deprecated($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
     {
         $params = array();
         $no_cache = false;
@@ -717,7 +842,23 @@ class FieldsManager
         if (empty($params)) {
             return false;
         }
-        
+       // $params['no_cache'] = 1;
+       if(isset($params['name']) and !$params['name']){
+           unset( $params['name']);
+       }
+       if(isset($params['debug']) and !$params['debug']){
+           unset( $params['debug']);
+       }
+       if(isset($params['type']) and !$params['type']){
+           unset( $params['type']);
+       }
+
+       if(isset($params['session_id']) and !$params['session_id']){
+           unset( $params['session_id']);
+       }
+
+
+
         $q = $this->app->database_manager->get($params);
 
         if (!empty($q)) {
@@ -835,6 +976,8 @@ class FieldsManager
             //$result = (array_change_key_case($result, CASE_LOWER));
             $result = $this->app->url_manager->replace_site_url_back($result);
 
+            //
+
             return $result;
         }
 
@@ -847,7 +990,7 @@ class FieldsManager
             if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post') {
                 $data['rel_type'] = 'content';
             }
-         //   $data['rel_type'] = $data['rel_type'];
+            //   $data['rel_type'] = $data['rel_type'];
         }
 
         if (isset($params['content_id'])) {
@@ -933,7 +1076,7 @@ class FieldsManager
         }
 
         if (isset($it['options']) and is_string($it['options'])) {
-            $it['options'] = $this->_decode_options($it['options']);
+            $it['options'] = $it['options'];
         }
 
         return $it;
@@ -983,11 +1126,16 @@ class FieldsManager
             return false;
         }
 
-        $custom_field_table = $this->table;
-        $custom_field_table_values = $this->table_values;
-        $this->app->database_manager->delete_by_id($custom_field_table, $id);
-        $this->app->database_manager->delete_by_id($custom_field_table_values, $id, 'custom_field_id');
-        $this->app->cache_manager->delete('custom_fields');
+        $findCustomField = CustomField::where('id', $id)->first();
+        if ($findCustomField) {
+            $getCustomFieldValues = $findCustomField->fieldValue()->get();
+            if ($getCustomFieldValues) {
+                foreach($getCustomFieldValues as $customFieldValue) {
+                    $customFieldValue->delete();
+                }
+            }
+            $findCustomField->delete();
+        }
 
         event(new CustomFieldWasDeleted($id));
 
@@ -1046,15 +1194,15 @@ class FieldsManager
         }
 
         $params = false;
-        if ((isset($_REQUEST['params']) and ($_REQUEST['params']) )) {
-        	$params = $_REQUEST['params'];
+        if ((isset($_REQUEST['params']) and ($_REQUEST['params']))) {
+            $params = $_REQUEST['params'];
         }
 
-        if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']) )) {
-        	$data['field_id'] = $_REQUEST['field_id'];
+        if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']))) {
+            $data['field_id'] = $_REQUEST['field_id'];
         }
 
-  		 //d($data);
+        //d($data);
         //input_class
 
         if (isset($data['copy_from'])) {
@@ -1104,22 +1252,21 @@ class FieldsManager
         if (isset($data['field_values']) and !isset($data['value'])) {
             $data['values'] = $data['field_values'];
         } else {
-            $data['values'] = false;
+            //  $data['values'] = false;
         }
 
         if (isset($data['value']) and is_array($data['value'])) {
             $data['value'] = implode(',', $data['value']);
         } else {
-            $data['value'] = false;
+            //  $data['value'] = false;
         }
 
         $data['type'] = $field_type;
 
         if (isset($data['options']) and is_string($data['options'])) {
-            $data['options'] = $this->_decode_options($data['options']);
+            $data['options'] = $data['options'];
         }
-
-        $data = $this->app->url_manager->replace_site_url_back($data);
+         $data = $this->app->url_manager->replace_site_url_back($data);
 
 
         $template_files = $this->get_template_files($data);
@@ -1131,10 +1278,10 @@ class FieldsManager
         }
 
         if (!is_file($file)) {
-           return;
+            return;
         }
 
-        $field_data = array();
+        $field_data = $data;
         $field_data['name'] = false;
         $field_data['name_key'] = false;
         $field_data['type'] = false;
@@ -1144,7 +1291,7 @@ class FieldsManager
         $field_data['help'] = false;
         $field_data['values'] = array();
         $field_data['value'] = false;
-        $field_data['options'] = array();
+        $field_data['options'] = $data['options'];
         $field_data['options']['old_price'] = false;
 
         $field_settings = array();
@@ -1239,7 +1386,7 @@ class FieldsManager
         if (isset($data['value'])) {
             $field_data['value'] = $data['value'];
         } else {
-            $field_data['value'] = false;
+            //     $field_data['value'] = false;
         }
 
         if (isset($data['error_text'])) {
@@ -1264,6 +1411,8 @@ class FieldsManager
                 $field_settings['options']['file_types'] = array_merge($field_data['options'], $data['options']['file_types']);
             }
         }
+
+
 
         // For address type options
         if ($data['type'] == 'address') {
@@ -1299,7 +1448,7 @@ class FieldsManager
 
                 if (!empty($selected_address_fields)) {
                     $new_address_fields = array();
-                    foreach($selected_address_fields as $field) {
+                    foreach ($selected_address_fields as $field) {
                         if (isset($default_address_fields[$field])) {
                             $new_address_fields[$field] = $default_address_fields[$field];
                         }
@@ -1317,7 +1466,7 @@ class FieldsManager
 
         $layout = $parseView->__toString();
 
-        if($settings and defined('MW_API_HTML_OUTPUT')){
+        if ($settings and defined('MW_API_HTML_OUTPUT')) {
             $layout = $this->app->parser->process($layout, $options = false);
         }
 
@@ -1342,7 +1491,7 @@ class FieldsManager
         $original_template_file_preview = $original_tempaltes_path . DS . $template_name . DS . $type . '.php';
 
         // Get default tempalte files
-        $default_template_file_preview = $original_tempaltes_path . DS .  $default_template_name . DS . $type . '.php';
+        $default_template_file_preview = $original_tempaltes_path . DS . $default_template_name . DS . $type . '.php';
 
         // Try to get overwrite template file
         if (is_file($overwrite_template_file_preview)) {
@@ -1381,7 +1530,7 @@ class FieldsManager
         $settings_file = normalize_path($settings_file, FALSE);
         $preview_file = normalize_path($preview_file, FALSE);
 
-        return array('preview_file'=>$preview_file, 'settings_file'=>$settings_file);
+        return array('preview_file' => $preview_file, 'settings_file' => $settings_file);
     }
 
     public function get_template_name($data)
@@ -1429,7 +1578,8 @@ class FieldsManager
         return $template_name;
     }
 
-    public function get_default_template_name() {
+    public function get_default_template_name()
+    {
 
         $template_name = false;
 
