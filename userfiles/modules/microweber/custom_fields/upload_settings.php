@@ -7,7 +7,7 @@
       </label>
         <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
         <input type="text" class="form-control" value="<?php echo  ($data['name']) ?>" name="name" id="input_field_label<?php echo  $rand; ?>">
-        <input type="hidden" class="control-label" value="<?php echo  ($data['value']) ?>" name="value">
+        <input type="hidden" class="control-label" value="" name="value">
     </div>
     <div class="mw-custom-fields-upload-filetypes">
     <label class="control-label"><small><?php _e("Allowable Format for upload"); ?></small></label>
@@ -41,7 +41,6 @@
          <input type="text" class="form-control js-custom-field-types" value="<?php if(isset($settings['options']) and isset($settings['options']['file_types']) and is_array($settings['options']['file_types'])) : ?><?php
 
       $array2 = array("images", "documents", "archives");
-
       $oresult = array_diff( $settings['options']['file_types'], $array2 );
       $xresult = [];
       foreach ($oresult as $restype) {
@@ -51,16 +50,22 @@
           }
           $xresult[] = $restype;
       }
-
-      echo implode(',', $xresult); ?><?php endif; ?>" placeholder='psd,html,css' />
+      $xresult = array_unique($xresult);
+      echo implode(',', $xresult);  
+      ?><?php endif; ?>" placeholder='psd,html,css' />
       </div>
-        <div class="js-custom-field-types-append"></div>
+        <div class="js-custom-field-types-append">
+
+        </div>
         <script>
             $('.js-custom-field-types').change(function() {
                 $('.js-custom-field-types-append').html('');
                 var customFieldTypesText = $(this).val();
                 var customFieldTypes = customFieldTypesText.split(',');
                 $.each(customFieldTypes, function(index, customFieldType) {
+                    if (customFieldType == '' || customFieldType == ' ') {
+                        return;
+                    }
                     $('.js-custom-field-types-append').append('<input type="text" name="options[file_types]" value="'+customFieldType+'" />');
                 });
             });
