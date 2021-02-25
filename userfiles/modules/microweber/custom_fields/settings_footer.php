@@ -78,21 +78,24 @@ $fields = mw()->ui->custom_fields();
 
 
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
-    <div class="mw-custom-field-form-controls mw-full-width mt-3">
-        <label class="control-label d-block" ><?php _e('Required'); ?></label>
-        <label class="mw-ui-check">
-              <input type="checkbox" class="mw-ui-field mw-full-width checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
-              <span></span>
-        </label>
-        <?php _e('Is this field required?'); ?>
-    </div>
+
+    <label class="control-label mt-3" ><?php _e('Required'); ?></label>
+       <div class="d-flex">
+           <div class="mw-custom-field-form-controls p-0">
+               <label class="mw-ui-check">
+                   <input type="checkbox" class="mw-ui-field checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
+                   <span></span>
+           </div>
+    </label>
+           <span class="align-self-center col-6 pl-1"><?php _e('Is this field required?'); ?></span>
+       </div>
 </div>
 
 <div class="mw-custom-field-group" id="required_checkbox">
     <label class="control-label" ><?php _e('Error text'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('This error will be shown when fields are required but not filled');?></small>
     <div class="mw-custom-field-form-controls">
-        <input type="text"  name="error_text" class="form-control" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
+        <input type="text" name="error_text" class="form-control" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
     </div>
 </div>
 
