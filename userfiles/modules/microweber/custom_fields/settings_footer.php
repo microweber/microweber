@@ -55,7 +55,7 @@ $fields = mw()->ui->custom_fields();
       </select>
   </div>
 
-  <div class="col-4 px-1">
+  <div class="col-4 px-1">  
       <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Mobile'); ?></label>
       <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size_mobile]">
           <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
