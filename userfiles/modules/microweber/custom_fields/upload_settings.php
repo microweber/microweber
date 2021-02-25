@@ -51,7 +51,7 @@
           $xresult[] = $restype;
       }
       $xresult = array_unique($xresult);
-      echo implode(',', $xresult);  
+      echo implode(',', $xresult);
       ?><?php endif; ?>" placeholder='psd,html,css' />
       </div>
         <div class="js-custom-field-types-append">
@@ -66,7 +66,7 @@
                     if (customFieldType == '' || customFieldType == ' ') {
                         return;
                     }
-                    $('.js-custom-field-types-append').append('<input type="text" name="options[file_types]" value="'+customFieldType+'" />');
+                    $('.js-custom-field-types-append').append('<input type="hidden" name="options[file_types]" value="'+customFieldType+'" />');
                 });
             });
         </script>
