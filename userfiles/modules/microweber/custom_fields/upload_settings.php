@@ -62,7 +62,7 @@
                     var customFieldTypes = customFieldTypesText.split(',');
                     $.each(customFieldTypes, function(index, customFieldType) {
                         if (customFieldType == '' || customFieldType == ' ') {
-                            return;
+                            return; 
                         }
                         $('.js-custom-field-types-append').append('<input type="hidden" name="options[file_types]" value="'+customFieldType+'" />');
                     });
