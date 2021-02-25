@@ -26,14 +26,12 @@
     #mw-custom-fields-text-holder textarea{
       resize:both;
     }
-
 </style>
 <div class="custom-field-settings-name">
   <label class="control-label" for="input_field_label<?php print $rand; ?>">
     <?php _e('Title'); ?>
   </label>
     <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
-
     <input type="text" onkeyup="" class="form-control" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 </div>
 
@@ -43,10 +41,9 @@
       <?php _e("Value"); ?>
     </label>
       <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the value of description');?></small>
-
       <div id="mw-custom-fields-text-holder">
       <textarea class="form-control" name="value"><?php print ($data['value']) ?></textarea>
-    </div>
   </div>
+</div>
   <?php print $savebtn; ?> </div>
 <?php include('settings_footer.php'); ?>

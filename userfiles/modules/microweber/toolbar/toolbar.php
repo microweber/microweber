@@ -422,18 +422,11 @@ if (isset($_COOKIE['mw_exp'])) {
                     <div class="mw-toolbar-right-content">
                         <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
-                        <a
-                            id="back-to-admin-toolbar"
-                            href="<?php print $back_url; ?>"
-                            class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert"
-                            data-tip="<?php _e("Back to Admin"); ?>"
-                            data-tipposition="bottom-center">
-<!--                            <i class="m-r mw-icon-arrow-left-c"></i>-->
+                        <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" data-tip="<?php _e("Back to Admin"); ?>" data-tipposition="bottom-center">
+                            <i class="mdi mdi-arrow-left"></i>
                             <?php _e("Admin"); ?>
                         </a>
                         <button disabled class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></button>
-
-
 
                         <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" >
                             <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span

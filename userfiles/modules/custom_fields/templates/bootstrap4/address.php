@@ -22,7 +22,7 @@
 
         <?php else: ?>
             <div class="form-group">
-                <input type="text" class="form-control" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>" placeholder="Default input" id="inputDefault">
+                <input type="text" class="form-control" name="<?php echo $data['name'] ?>[<?php echo ($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>" placeholder="" id="inputDefault">
             </div>
         <?php endif; ?>
     <?php endforeach; ?>

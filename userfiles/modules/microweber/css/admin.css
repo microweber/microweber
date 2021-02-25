@@ -297,11 +297,16 @@ div.form-control {
 }
 .card.style-1 .card-header-fix .card-header{
     position: static;
+    transition: background-color .2s;
 }
 .card-header-fix .card-header.fixed{
     position: fixed !important;
     top: 69px;
     z-index: 10;
+}
+#settings-container .card-header-fix .card-header.fixed{
+    top: 0;
+
 }
 .card-header-fix{
     height: 55px;
@@ -314,5 +319,9 @@ div.form-control {
     display: inline-block;
     margin: 10px;
 }
+.post-header-content-changed {
+    background-color: #ecfff5 !important;
 
- 
+}
+
+

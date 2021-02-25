@@ -60,6 +60,10 @@ if (isset($params['live_edit'])) {
          top: 69px;
          z-index: 10;
      }
+     #settings-container .card-header.fixed{
+         top: 0;
+
+     }
 </style>
 <div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">

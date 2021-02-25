@@ -12,7 +12,7 @@
         mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
             mw.custom_fields.sort($selector);
             var time = null;
-            mw.$("input,textarea,select", this).on("input", function () {
+            mw.$("input,textarea,select", this).on("change", function () {
                 var el = this;
                 clearTimeout(time);
                 time = setTimeout(function (){
@@ -31,7 +31,6 @@
                         mw.reload_module('custom_fields/values_edit');
                     }
                 }, 333)
-
             });
 
             mw.$($selector + " input").on('focus blur', function (e) {
