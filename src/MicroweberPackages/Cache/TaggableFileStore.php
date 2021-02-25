@@ -58,6 +58,12 @@ class TaggableFileStore implements Store
      */
     protected $tags = array();
 
+    /**
+     * Tags that are deleted
+     * @var array
+     */
+    protected static $flushedTags = array();
+
     protected $emitEvents = false;
 
     /**
@@ -126,6 +132,8 @@ class TaggableFileStore implements Store
      */
     public function get($key)
     {
+
+
         //$cacheHandler = new CacheFileHandler();
         $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
 
@@ -219,6 +227,7 @@ class TaggableFileStore implements Store
     {
         //$cacheHandler = new CacheFileHandler();
 
+
         $cacheKey = $key . (is_array($this->tags) ? md5(serialize($this->tags)) : false);
 
         if (isset($this->files->cachedDataMemory[$cacheKey]) and $this->files->cachedDataMemory[$cacheKey] !== $value) {
@@ -227,11 +236,12 @@ class TaggableFileStore implements Store
 
         if (!isset($this->files->cachedDataMemory[$cacheKey])) {
 
+
+            $this->files->cachedDataMemory[$cacheKey] = $value;
             if (!$seconds) {
                 $seconds = now()->addYear(4);
             }
 
-            $this->files->cachedDataMemory[$cacheKey] = $value;
 
             $value = $this->expiration($seconds) . serialize($value);
 
@@ -544,6 +554,10 @@ class TaggableFileStore implements Store
         $findTagPath = $this->_findCachePathByKey($key);
         $findTagPath = $this->getPath() . $findTagPath;
 
+        if (!empty($this->tags)) {
+            self::$flushedTags = array_merge(self::$flushedTags, $this->tags);
+        }
+
         try {
             if ($this->files->exists($findTagPath)) {
                 $this->files->delete($findTagPath);
@@ -560,6 +574,7 @@ class TaggableFileStore implements Store
 
     public function delete($key)
     {
+
         return $this->forget($key);
     }
 
@@ -572,6 +587,12 @@ class TaggableFileStore implements Store
     {
         $this->files->cachedDataMemory = [];
         if (!empty($this->tags)) {
+
+            if (!$all and $this->isTagFlushed()) {
+                return;
+            }
+
+
             foreach ($this->tags as $tag) {
                 $tagDetails = $this->_getTagMapByName($tag);
                 if (!empty($tagDetails)) {
@@ -600,6 +621,7 @@ class TaggableFileStore implements Store
                     //
                 }
 
+                self::$flushedTags = array_merge(self::$flushedTags, $this->tags);
 
                 if (isset($this->tags[$tag])) {
                     unset($this->tags[$tag]);
@@ -620,9 +642,20 @@ class TaggableFileStore implements Store
             try {
                 $this->files->deleteDirectory($mainCacheDir);
             } catch (\Exception $e) {
-                 //
+                //
             }
 
+        }
+    }
+
+    private function isTagFlushed()
+    {
+        if (self::$flushedTags and $this->tags) {
+            foreach ($this->tags as $tag) {
+                if (in_array($tag, self::$flushedTags)) {
+                    return true;
+                }
+            }
         }
     }
 
