@@ -41,9 +41,7 @@ class TranslationLoader extends FileLoader
                 ->get();
             if ($getTranslations !== null) {
                 foreach ($getTranslations as $translation) {
-                    $translationText = $translation->translation_text;
-                    $translationText = str_ireplace('{{app_name}}', 'Microweber', $translationText);
-                    $allTranslations[$translation->translation_key] = $translationText;
+                    $allTranslations[$translation->translation_key] = $translation->translation_text;
                 }
             }
         }
