@@ -7,12 +7,12 @@
     <meta name="robots" content="noindex">
     <script type="text/javascript">
         if (!window.CanvasRenderingContext2D) {
-            var h = "<div id='UnsupportedBrowserMSG'><h1><?php _e("Your a need better browser to run {{app_name}}"); ?>  </h1></div>"
+            var h = "<div id='UnsupportedBrowserMSG'> </div>"
                 + "<div id='download_browsers_holder'><h2><?php _e("Update your browser"); ?></h2><p id='choose_browsers'>"
                 + "<a id='u__ie' target='_blank' href='http://windows.microsoft.com/en-us/internet-explorer/download-ie'></a>"
-                + "<a id='u__ff' target='_blank' href='http://www.mozilla.org/en-US/firefox/new/'></a>"
-                + "<a id='u__chr' target='_blank' href='https://www.google.com/intl/en/chrome/'></a>"
-                + "<a id='u__sf' target='_blank' href='http://support.apple.com/kb/DL1531'></a>"
+                + "<a id='u__ff' target='_blank' href='http://www.mozilla.org/en-US/firefox/new/'>x</a>"
+                + "<a id='u__chr' target='_blank' href='https://www.google.com/intl/en/chrome/'>x</a>"
+                + "<a id='u__sf' target='_blank' href='http://support.apple.com/kb/DL1531'>x</a>"
                 + "</p></div>";
             document.write(h);
             document.body.id = 'UnsupportedBrowser';
