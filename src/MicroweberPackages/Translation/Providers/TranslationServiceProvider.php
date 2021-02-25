@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Translation\Providers;
 
 use Illuminate\Support\Facades\DB;
@@ -20,10 +21,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
     {
 
 
-
         $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
-
-
 
 
         /*
@@ -49,35 +47,42 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
             $this->app->terminating(function () {
                 $getNewKeys = app()->translator->getNewKeys();
                 if (!empty($getNewKeys)) {
-                    // \Log::debug($getNewKeys);
+
                     \Config::set('microweber.disable_model_cache', 1);
-                    DB::beginTransaction();
+
                     try {
                         $toSave = [];
                         foreach ($getNewKeys as $newKey) {
-                            $newKey['translation_key'] = trim($newKey['translation_key']);
-                            $newKey['translation_group'] = trim($newKey['translation_group']);
-                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
+// do not trim  see https://stackoverflow.com/a/10133237/731166
+
+//                            $newKey['translation_key'] = trim($newKey['translation_key']);
+//                            $newKey['translation_group'] = trim($newKey['translation_group']);
+//                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
+//                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
 
                             $findTranslationKey = TranslationKey::where('translation_namespace', $newKey['translation_namespace'])
                                 ->where('translation_group', $newKey['translation_group'])
                                 ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
+                                ->limit(1)
                                 ->first();
                             if ($findTranslationKey == null) {
-                                 $toSave[] = $newKey;
+                                $toSave[] = $newKey;
                             }
                         }
                         if ($toSave) {
+                            //     \Log::debug($getNewKeys);
+                            DB::beginTransaction();
                             TranslationKey::insert($toSave);
+                            DB::commit();
+                            \Cache::tags('translation_keys')->flush();
                         }
 
-                        DB::commit();
-                        \Cache::tags('translation_keys')->flush();
+
                         // all good
-                     } catch (\Exception $e) {
-                         DB::rollback();
+                    } catch (\Exception $e) {
+                        DB::rollback();
                         // something went wrong
-                     }
+                    }
                 }
             });
         }
@@ -91,10 +96,9 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
     public function register()
     {
 
-        if(!class_exists(Lingua::class)){
-           exit('The class ' . Lingua::class . ' cannot be found. Please run composer install.');
+        if (!class_exists(Lingua::class)) {
+            exit('The class ' . Lingua::class . ' cannot be found. Please run composer install.');
         }
-
 
 
         $this->registerLoader();
