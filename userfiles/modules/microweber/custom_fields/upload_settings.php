@@ -19,7 +19,7 @@
                 </label>
             </div>
 
-            <div class="mw-ui-field-holder"> 
+            <div class="mw-ui-field-holder">
                 <label class="mw-ui-check">
                     <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('documents',$settings['options']['file_types'])) : ?> checked <?php endif; ?>  value="documents" />
                     <span></span>
@@ -64,7 +64,7 @@
                         if (customFieldType == '' || customFieldType == ' ') {
                             return;
                         }
-                        $('.js-custom-field-types-append').append('<input type="text" name="options[file_types]" value="'+customFieldType+'" />');
+                        $('.js-custom-field-types-append').append('<input type="hidden" name="options[file_types]" value="'+customFieldType+'" />');
                     });
                 });
             </script>
