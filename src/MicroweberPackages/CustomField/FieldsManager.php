@@ -319,7 +319,7 @@ class FieldsManager
         if ($customField == null) {
             $customField = new CustomField();
             $customField->name = _e($this->getFieldNameByType($fieldData['type']), true);
-            $fieldData['values'] = $this->generateFieldNameValues($fieldData);
+            $fieldData['value'] = $this->generateFieldNameValues($fieldData);
         }
 
         $customField->type = $fieldData['type'];
@@ -364,24 +364,44 @@ class FieldsManager
 
         $customField->save();
 
-        if (!empty($fieldData['values'])) {
-            foreach($fieldData['values'] as $value) {
+        if (!empty($fieldData['value'])) {
 
-                /*$customFieldValue = CustomFieldValue::where('id', $saveValueId)->first();
-                if ($saveValueId == null) {
+            $oldValueIds = [];
+            $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->get();
+            if ($getCustomFieldValues !== null) {
+                foreach($getCustomFieldValues as $customFieldValue) {
+                    $oldValueIds[] = $customFieldValue->id;
+                }
+            }
+
+            foreach($fieldData['value'] as $iValue=>$value) {
+
+                $saveValueId = false;
+                if (isset($oldValueIds[$iValue])) {
+                    $saveValueId = $oldValueIds[$iValue];
+                    unset($oldValueIds[$iValue]);
+                }
+
+                $customFieldValue = CustomFieldValue::where('id', $saveValueId)->first();
+                if ($customFieldValue == null) {
                     $customFieldValue = new CustomFieldValue();
-                }*/
-                $customFieldValue = new CustomFieldValue();
+                    $customFieldValue->custom_field_id = $customField->id;
+                }
 
-                $customFieldValue->custom_field_id = $customField->id;
-                $customFieldValue->position = 0;
-
+                $customFieldValue->position = $iValue;
                 $customFieldValue->value = $value;
+
                 if (is_array($value)) {
                     $customFieldValue->value = implode(',', array_values($value));
                 }
 
                 $customFieldValue->save();
+            }
+
+            if (!empty($oldValueIds)) {
+                foreach ($oldValueIds as $customFieldValueId) {
+                    CustomFieldValue::where('id', $customFieldValueId)->delete();
+                }
             }
         }
 
@@ -392,10 +412,25 @@ class FieldsManager
     {
         $values = [];
 
-        if ($fieldData['type'] == 'radio' || $fieldData['type'] == 'checkbox' || $fieldData['type'] == 'dropdown') {
-            $values[] = 'Option 1';
-            $values[] = 'Option 2';
-            $values[] = 'Option 3';
+        if ($fieldData['type'] == 'radio') {
+            $typeText = _e('Option', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        if ($fieldData['type'] == 'checkbox') {
+            $typeText = _e('Check', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        if ($fieldData['type'] == 'dropdown') {
+            $typeText = _e('Select', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
         }
 
         return $values;
