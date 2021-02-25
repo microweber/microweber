@@ -3,9 +3,12 @@ namespace MicroweberPackages\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Country\Models\Country;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Address extends Model
 {
+    use CacheableQueryBuilderTrait;
+
     const BILLING_TYPE = 'billing';
     const SHIPPING_TYPE = 'shipping';
 

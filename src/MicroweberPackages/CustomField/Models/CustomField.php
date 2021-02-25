@@ -2,12 +2,14 @@
 namespace MicroweberPackages\CustomField\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
 class CustomField extends Model
 {
     //use MaxPositionTrait;
+    use CacheableQueryBuilderTrait;
 
     use HasCreatedByFieldsTrait;
 

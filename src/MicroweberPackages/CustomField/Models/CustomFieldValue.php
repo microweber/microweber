@@ -2,9 +2,12 @@
 namespace MicroweberPackages\CustomField\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class CustomFieldValue extends Model
 {
+    use CacheableQueryBuilderTrait;
+
     protected $table = 'custom_fields_values';
     protected $primaryKey = 'id';
 
