@@ -3,15 +3,18 @@ if($data['type'] !== 'breakline'):
 ?>
 
 <div class="custom-field-settings-show-label">
-    <div class="mw-custom-field-form-controls">
-        <label class="mw-ui-check">
-            <input type="hidden" value="0" name="show_label">
-            <input type="checkbox" class="custom-control-input"  name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="1" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
-            <span></span><span><?php _e('Show label'); ?></span>
-            <small class="text-muted d-block my-2"><?php _e('Display the name of title/field name');?></small>
-            <span></span>
-        </label>
-    </div>
+   <div class="d-flex">
+       <div class="mw-custom-field-form-controls p-0">
+            <label class="mw-ui-check">
+                   <input type="hidden" value="0" name="show_label">
+                   <input type="checkbox" class="custom-control-input"  name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="1" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
+                   <span></span>
+                   <span></span>
+            </label>
+           <span class="align-self-center col-6 pl-0"><?php _e('Show label'); ?></span>
+       </div>
+   </div>
+    <small class="text-muted d-block mb-2"><?php _e('Display the name of title/field name');?></small>
 </div>
 
 <?php 
@@ -78,15 +81,15 @@ $fields = mw()->ui->custom_fields();
 
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
     <label class="control-label mt-3" ><?php _e('Required'); ?></label>
-       <div class="d-flex">
-           <div class="mw-custom-field-form-controls p-0">
-               <label class="mw-ui-check">
-                   <input type="checkbox" class="mw-ui-field checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
-                   <span></span>
-           </div>
-           <span class="align-self-center col-6 pl-0"><?php _e('Is this field required?'); ?></span>
-        </div>
-    </label>
+   <div class="d-flex">
+       <div class="mw-custom-field-form-controls p-0">
+           <label class="mw-ui-check">
+               <input type="checkbox" class="mw-ui-field checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
+               <span></span>
+           </label>
+       </div>
+       <span class="align-self-center col-6 pl-0"><?php _e('Is this field required?'); ?></span>
+   </div>
 </div>
 
 <div class="mw-custom-field-group" id="required_checkbox">

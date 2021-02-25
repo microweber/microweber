@@ -2,38 +2,28 @@
 
 
 <div class="custom-field-settings-name">
-
     <div class="mw-custom-field-group ">
        <div class="mb-3">
            <label class="control-label" for="input_field_label<?php print $rand; ?>">
                <?php _e('Title'); ?>
            </label>
            <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
-           <input type="text" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+           <input type="text" class="form-control" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
        </div>
 
         <div class="mb-3">
             <label class="mw-ui-check left" style="margin-right: 7px;">
-                <input type="checkbox"
-                       data-option-group="custom_fields"
-                       name="options[multiple]"
-                       value="1"
-                    <?php if ($settings["multiple"]): ?> checked="checked" <?php endif; ?>
-                />
-
+                <input type="checkbox" data-option-group="custom_fields" name="options[multiple]" value="1" <?php if ($settings["multiple"]): ?> checked="checked" <?php endif; ?>/>
                 <span></span>
                 <span> <?php _e("Multiple Choices"); ?></span>
             </label>
             <small class="text-muted d-block mb-2"><?php _e('Allow multiple choices');?></small>
-
         </div>
-
     </div>
 </div>
 
 <div class="custom-field-settings-values">
-
-    <label class="mw-ui-label"><?php _e("Values"); ?></label>
+    <label class="control-label"><?php _e("Values"); ?></label>
     <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
         <?php if (is_array($data['values'])) : ?>
             <?php foreach ($data['values'] as $v): ?>
@@ -41,16 +31,16 @@
             <?php if (is_array($v)) {
                 $v = implode(',', $v);
             } ?>
-            <div class="mw-custom-field-form-controls">
+            <div class="mw-custom-field-form-controls d-flex">
                 <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center mr-2"></i>
-                <input type="text" class="mw-ui-field <?php if(empty($add_remove_controls)):?>mw-full-width<?php endif; ?>" name="value[]" value="<?php print $v; ?>">
+                <input type="text" class="form-control col-5 <?php if(empty($add_remove_controls)):?>mw-full-width<?php endif; ?>" name="value[]" value="<?php print $v; ?>">
                 <?php print $add_remove_controls; ?>
             </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <div class="mw-custom-field-form-controls">
+            <div class="mw-custom-field-form-controls d-flex">
                 <i class="mdi mdi-cursor-move custom-fields-handle-field align-self-center mr-2"></i>
-                <input type="text" name="value[]" class="mw-ui-field <?php if(empty($add_remove_controls)):?>mw-full-width<?php endif; ?>" value=""/>
+                <input type="text" name="value[]" class="form-control col-5 <?php if(empty($add_remove_controls)):?>mw-full-width<?php endif; ?>" value=""/>
                 <?php print $add_remove_controls; ?>
             </div>
         <?php endif; ?>

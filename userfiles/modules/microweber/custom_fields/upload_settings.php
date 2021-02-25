@@ -1,6 +1,5 @@
 <?php include('settings_header.php'); ?>
  <div class="custom-field-settings-name">
-
     <div class="mw-custom-field-group ">
       <label class="control-label" for="input_field_label<?php echo  $rand; ?>">
         <?php _e('Title'); ?>
@@ -10,50 +9,49 @@
         <input type="hidden" class="control-label" value="<?php echo  ($data['value']) ?>" name="value">
     </div>
     <div class="mw-custom-fields-upload-filetypes">
-    <label class="control-label"><small><?php _e("Allowable Format for upload"); ?></small></label>
-      <div class="mw-ui-field-holder">
-        <label class="mw-ui-check">
-        <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('images',$settings['options']['file_types'])) : ?> checked <?php endif; ?> value="images"  />
-            <span></span>
-            <span><?php _e("Images Files"); ?></span>
-        </label>
-      </div>
+            <label class="control-label"><small><?php _e("Allowable Format for upload"); ?></small></label>
+          <div class="mw-ui-field-holder">
+                <label class="mw-ui-check">
+                    <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('images',$settings['options']['file_types'])) : ?> checked <?php endif; ?> value="images"  />
+                    <span></span>
+                    <span><?php _e("Images Files"); ?></span>
+                </label>
+          </div>
 
-      <div class="mw-ui-field-holder">
-        <label class="mw-ui-check">
-            <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('documents',$settings['options']['file_types'])) : ?> checked <?php endif; ?>  value="documents" />
-            <span></span>
-            <span><?php _e("Document Files"); ?></span>
-        </label>
-      </div>
-       
-      <div class="mw-ui-field-holder">
-        <label class="mw-ui-check">
-            <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('archives',$settings['options']['file_types'])) : ?> checked <?php endif; ?>  value="archives" />
-            <span></span>
-            <span><?php _e("Archive Files"); ?></span>
-        </label>
-      </div>
+          <div class="mw-ui-field-holder">
+            <label class="mw-ui-check">
+                <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('documents',$settings['options']['file_types'])) : ?> checked <?php endif; ?>  value="documents" />
+                <span></span>
+                <span><?php _e("Document Files"); ?></span>
+            </label>
+          </div>
 
-     <div class="mw-ui-field-holder">
-      <label class="control-label"><?php _e("Custom File Types"); ?></label>
-         <small class="text-muted d-block mb-2"><?php _e('Specifies the custom file type');?></small>
-         <input type="text" class="form-control"  name="options[file_types]" value="<?php if(isset($settings['options']) and isset($settings['options']['file_types']) and is_array($settings['options']['file_types'])) : ?><?php
+          <div class="mw-ui-field-holder">
+            <label class="mw-ui-check">
+                <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('archives',$settings['options']['file_types'])) : ?> checked <?php endif; ?>  value="archives" />
+                <span></span>
+                <span><?php _e("Archive Files"); ?></span>
+            </label>
+          </div>
 
-      $array2 = array("images", "documents", "archives");
+         <div class="mw-ui-field-holder">
+            <label class="control-label"><?php _e("Custom File Types"); ?></label>
+             <small class="text-muted d-block mb-2"><?php _e('Specifies the custom file type');?></small>
+             <input type="text" class="form-control"  name="options[file_types]" value="<?php if(isset($settings['options']) and isset($settings['options']['file_types']) and is_array($settings['options']['file_types'])) : ?><?php
 
-      $oresult = array_diff( $settings['options']['file_types'], $array2 );
-      $xresult = [];
-      foreach ($oresult as $restype) {
-          $restype = trim($restype);
-          if (empty($restype)) {
-              continue;
-          }
-          $xresult[] = $restype;
-      }
+              $array2 = array("images", "documents", "archives");
 
-      echo implode(',', $xresult); ?><?php endif; ?>" placeholder='psd,html,css' />
-      </div>
+              $oresult = array_diff( $settings['options']['file_types'], $array2 );
+              $xresult = [];
+              foreach ($oresult as $restype) {
+                  $restype = trim($restype);
+                  if (empty($restype)) {
+                      continue;
+                  }
+                  $xresult[] = $restype;
+              }
+              echo implode(',', $xresult); ?><?php endif; ?>" placeholder='psd,html,css' />
+         </div>
     </div>
 </div>
 <div class="custom-field-settings-values">
