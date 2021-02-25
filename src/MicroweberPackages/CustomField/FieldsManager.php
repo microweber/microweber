@@ -366,41 +366,54 @@ class FieldsManager
 
         if (!empty($fieldData['value'])) {
 
-            $oldValueIds = [];
-            $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->get();
-            if ($getCustomFieldValues !== null) {
-                foreach($getCustomFieldValues as $customFieldValue) {
-                    $oldValueIds[] = $customFieldValue->id;
+            // Save value string
+            if (is_string($fieldData['value'])) {
+                $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->first();
+                if ($getCustomFieldValues == null) {
+                    $getCustomFieldValues = new CustomFieldValue();
+                    $getCustomFieldValues->custom_field_id = $customField->id;
                 }
+                $getCustomFieldValues->value = $fieldData['value'];
+                $getCustomFieldValues->save();
             }
 
-            foreach($fieldData['value'] as $iValue=>$value) {
+            // Save array string
+            else if (is_array($fieldData['value'])) {
+                $oldValueIds = [];
+                $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->get();
+                if ($getCustomFieldValues !== null) {
+                    foreach ($getCustomFieldValues as $customFieldValue) {
+                        $oldValueIds[] = $customFieldValue->id;
+                    }
+                }
+                foreach ($fieldData['value'] as $iValue => $value) {
 
-                $saveValueId = false;
-                if (isset($oldValueIds[$iValue])) {
-                    $saveValueId = $oldValueIds[$iValue];
-                    unset($oldValueIds[$iValue]);
+                    $saveValueId = false;
+                    if (isset($oldValueIds[$iValue])) {
+                        $saveValueId = $oldValueIds[$iValue];
+                        unset($oldValueIds[$iValue]);
+                    }
+
+                    $customFieldValue = CustomFieldValue::where('id', $saveValueId)->first();
+                    if ($customFieldValue == null) {
+                        $customFieldValue = new CustomFieldValue();
+                        $customFieldValue->custom_field_id = $customField->id;
+                    }
+
+                    $customFieldValue->position = $iValue;
+                    $customFieldValue->value = $value;
+
+                    if (is_array($value)) {
+                        $customFieldValue->value = implode(',', array_values($value));
+                    }
+
+                    $customFieldValue->save();
                 }
 
-                $customFieldValue = CustomFieldValue::where('id', $saveValueId)->first();
-                if ($customFieldValue == null) {
-                    $customFieldValue = new CustomFieldValue();
-                    $customFieldValue->custom_field_id = $customField->id;
-                }
-
-                $customFieldValue->position = $iValue;
-                $customFieldValue->value = $value;
-
-                if (is_array($value)) {
-                    $customFieldValue->value = implode(',', array_values($value));
-                }
-
-                $customFieldValue->save();
-            }
-
-            if (!empty($oldValueIds)) {
-                foreach ($oldValueIds as $customFieldValueId) {
-                    CustomFieldValue::where('id', $customFieldValueId)->delete();
+                if (!empty($oldValueIds)) {
+                    foreach ($oldValueIds as $customFieldValueId) {
+                        CustomFieldValue::where('id', $customFieldValueId)->delete();
+                    }
                 }
             }
         }
