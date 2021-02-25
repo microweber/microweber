@@ -14,14 +14,6 @@ if($data['type'] !== 'breakline'):
     </div>
 </div>
 
-<div class="mw-custom-field-group">
-    <label class="control-label" ><?php _e('Error text'); ?></label>
-    <small class="text-muted d-block mb-2"><?php _e('This error will be shown when fields are required but not filled');?></small>
-    <div class="mw-custom-field-form-controls">
-        <input type="text"  name="error_text" class="form-control" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
-    </div>
-</div>
-
 <?php 
 $fields = mw()->ui->custom_fields();
 ?>
@@ -60,10 +52,18 @@ $fields = mw()->ui->custom_fields();
     <label class="mw-custom-field-label" for="custom_field_required<?php print $rand; ?>"><?php _e('Required'); ?></label>
     <div class="mw-custom-field-form-controls mw-full-width">
         <label class="mw-ui-check">
-              <input type="checkbox" class="mw-ui-field mw-full-width" name="required" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
+              <input type="checkbox" class="mw-ui-field mw-full-width checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
               <span></span>
         </label>
             <?php _e('Is this field Required?'); ?>
+    </div>
+</div>
+
+<div class="mw-custom-field-group" id="required_checkbox">
+    <label class="control-label" ><?php _e('Error text'); ?></label>
+    <small class="text-muted d-block mb-2"><?php _e('This error will be shown when fields are required but not filled');?></small>
+    <div class="mw-custom-field-form-controls">
+        <input type="text"  name="error_text" class="form-control" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
     </div>
 </div>
 
@@ -101,6 +101,25 @@ $fields = mw()->ui->custom_fields();
            }
 
         });
+
+
+         // function showMe (box) {
+         //     var chboxs = document.getElementById("required_checkbox").style.display;
+         //     var vis = "none";
+         //     if(chboxs=="none"){
+         //         vis = "block"; }
+         //     if(chboxs=="block"){
+         //         vis = "none"; }
+         //     document.getElementById(box).style.display = vis;
+         // }
+
+         function valueChanged()
+         {
+             if($('.checkbox').is(":checked"))
+                 $("#required_checkbox").show();
+             else
+                 $("#required_checkbox").hide();
+         }
     </script>
 </div>
 <?php endif; ?> 
