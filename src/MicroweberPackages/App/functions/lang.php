@@ -40,7 +40,7 @@ function _lang($key, $namespace = false, $return = false)
         return lang($key, $namespace);
     }
 
-    echo lang($key, $namespace);
+    print lang($key, $namespace);
 }
 
 function lang($key, $namespace = false)
@@ -49,6 +49,18 @@ function lang($key, $namespace = false)
     if (!$namespace) {
         $namespace = '*';
     }
+
+
+
+    // replace control chars https://stackoverflow.com/a/10133237/731166
+    $pairs = array(
+        "\x03" => "",
+        "\x05" => "",
+        "\x0E" => "",
+        "\x16" => "",
+    );
+    $key = strtr($key, $pairs);
+
 
     $namespace = url_title($namespace);
     $trans = trans($namespace . '::'.$group.'.'.$key);
@@ -93,6 +105,15 @@ function _output_trans_key($key) {
  */
 function _e($k, $to_return = false, $replace = [])
 {
+    // replace control chars https://stackoverflow.com/a/10133237/731166
+    $pairs = array(
+        "\x03" => "",
+        "\x05" => "",
+        "\x0E" => "",
+        "\x16" => "",
+    );
+    $k = strtr($k, $pairs);
+
     $trans = trans('*.'.$k, $replace);
     $trans = ltrim($trans, '*.');
 
