@@ -4841,3 +4841,7 @@ div.element {
     top: -30px;
      animation: mw_dropable_arr_down 2s linear infinite;
 }
+
+.mw-dialog-module-settings .mw-dialog-container{
+    padding: 0 !important;
+}

@@ -1,28 +1,5 @@
 <?php include('settings_header.php'); ?>
 
-<script type="text/javascript">
-
-//if(typeof mw.custom_fields.text === 'undefined'){
-//    mw.custom_fields.text = {}
-//    mw.custom_fields.text._globalinput = document.createElement('input');
-//    mw.custom_fields.text._globalinput.type = 'text';
-//    mw.custom_fields.text._globalarea = document.createElement('textarea');
-//}
-//
-//$(document).ready(function(){
-//  mw.$("#mw-custom-fields-text-switch").commuter(function(){
-//    var curr = document.querySelector('#mw-custom-fields-text-holder input');
-//    mw.tools.copyAttributes(curr, mw.custom_fields.text._globalarea, ['type']);
-//    curr.parentNode.replaceChild(mw.custom_fields.text._globalarea, curr);
-//  }, function(){
-//     var curr = document.querySelector('#mw-custom-fields-text-holder textarea');
-//     mw.tools.copyAttributes(curr, mw.custom_fields.text._globalinput, ['type']);
-//     curr.parentNode.replaceChild(mw.custom_fields.text._globalinput, curr);
-//  });
-//});
-
-
-</script>
 <style>
     #mw-custom-fields-text-holder textarea{
       resize:both;
@@ -33,12 +10,7 @@
 
   <label class="control-label" for="input_field_label<?php print $rand; ?>"><?php _e('Title'); ?></label>
       <small class="text-muted d-block mb-3"><?php _e('Title label of the field');?></small>
-
     <input type="text" onkeyup="" class="form-control" value="<?php echo $data['name']; ?>" name="name" id="input_field_label<?php print $rand; ?>">
-
-
-
-
 </div>
 
 <div class="mw-ui-field-holder">

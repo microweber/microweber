@@ -31,7 +31,6 @@
                         mw.reload_module('custom_fields/values_edit');
                     }
                 }, 333)
-
             });
 
             mw.$($selector + " input").on('focus blur', function (e) {
