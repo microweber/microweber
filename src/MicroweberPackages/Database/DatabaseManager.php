@@ -30,7 +30,7 @@ use function Opis\Closure\unserialize as unserializeClosure;
 class DatabaseManager extends DbUtils
 {
     public $use_cache = true;
-    public $use_model_cache = true;
+    public $use_model_cache = [];
 
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
@@ -215,9 +215,10 @@ class DatabaseManager extends DbUtils
         } else {
             $use_cache = $this->use_cache = true;
         }
-
-        if ($this->use_model_cache == false) {
+        $cache_from_model = false;
+        if (isset($this->use_model_cache[$table]) and $this->use_model_cache[$table]) {
             $use_cache = false;
+            $cache_from_model = true;
         }
 
         if (!isset($params['filter'])) {
@@ -254,7 +255,7 @@ class DatabaseManager extends DbUtils
         }
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {
-            if ($use_cache == false) {
+            if ($use_cache == false and $cache_from_model == false) {
                 $query = $query->count();
             } else {
                 $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
@@ -862,11 +863,11 @@ class DatabaseManager extends DbUtils
 
     public function table($table, $params = [])
     {
-        $this->use_model_cache = true;
+        $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
         if ($table == 'content' || $table == 'categories') {
 
-            $this->use_model_cache = false;
+            $this->use_model_cache[$table]= true;
 
             if ($table == 'content') {
                 $model = new Content($params);
@@ -904,17 +905,17 @@ class DatabaseManager extends DbUtils
         }
 
         if ($table == 'custom_fields') {
-            $this->use_model_cache = false;
+            $this->use_model_cache[$table] = true;
             return CustomField::query();
         }
 
         if ($table == 'custom_fields_values') {
-            $this->use_model_cache = false;
+            $this->use_model_cache[$table] = true;
             return CustomFieldValue::query();
         }
 
         if ($table == 'media') {
-            $this->use_model_cache = false;
+            $this->use_model_cache[$table]= true;
             return Media::query();
         }
 
