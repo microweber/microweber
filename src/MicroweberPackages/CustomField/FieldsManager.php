@@ -306,12 +306,159 @@ class FieldsManager
         return $saved_fields;
     }
 
-    /**
-     * @deprecated
-     * @param $data
-     * @return mixed
-     */
-    public function save($data)
+    public function save($fieldData)
+    {
+        if (!is_array($fieldData)) {
+            return false;
+        }
+
+        $customField = null;
+        if (!empty($fieldData['id'])) {
+            $customField = CustomField::where('id', $fieldData['id'])->first();
+        }
+        if ($customField == null) {
+            $customField = new CustomField();
+            $customField->name = _e($this->getFieldNameByType($fieldData['type']), true);
+            $fieldData['value'] = $this->generateFieldNameValues($fieldData);
+        }
+
+        $customField->type = $fieldData['type'];
+        $customField->rel_type = $fieldData['rel_type'];
+        $customField->rel_id = $fieldData['rel_id'];
+
+        if (!empty($fieldData['error_text'])) {
+            $customField->error_text = $fieldData['error_text'];
+        }
+
+        if (!empty($fieldData['name'])) {
+            $customField->name = $fieldData['name'];
+        }
+
+        if (!empty($fieldData['name_key'])) {
+            $customField->name_key = $fieldData['name_key'];
+        }
+
+        if (!empty($fieldData['show_label'])) {
+            $customField->show_label = $fieldData['show_label'];
+        }
+
+        if (!empty($fieldData['options'])) {
+            $customField->options = $fieldData['options'];
+        }
+
+        if (!empty($fieldData['placeholder'])) {
+            $customField->placeholder = $fieldData['placeholder'];
+        }
+
+        if (!empty($fieldData['show_label'])) {
+            $customField->show_label = $fieldData['show_label'];
+        }
+
+        if (!empty($fieldData['required'])) {
+            $customField->required = $fieldData['required'];
+        }
+
+        if (!empty($fieldData['is_active'])) {
+            $customField->is_active = $fieldData['is_active'];
+        }
+
+        $customField->save();
+
+        if (!empty($fieldData['value'])) {
+
+            // Save value string
+            if (is_string($fieldData['value'])) {
+                $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->first();
+                if ($getCustomFieldValues == null) {
+                    $getCustomFieldValues = new CustomFieldValue();
+                    $getCustomFieldValues->custom_field_id = $customField->id;
+                }
+                $getCustomFieldValues->value = $fieldData['value'];
+                $getCustomFieldValues->save();
+            }
+
+            // Save array string
+            else if (is_array($fieldData['value'])) {
+                $oldValueIds = [];
+                $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->get();
+                if ($getCustomFieldValues !== null) {
+                    foreach ($getCustomFieldValues as $customFieldValue) {
+                        $oldValueIds[] = $customFieldValue->id;
+                    }
+                }
+                foreach ($fieldData['value'] as $iValue => $value) {
+
+                    $saveValueId = false;
+                    if (isset($oldValueIds[$iValue])) {
+                        $saveValueId = $oldValueIds[$iValue];
+                        unset($oldValueIds[$iValue]);
+                    }
+
+                    $customFieldValue = CustomFieldValue::where('id', $saveValueId)->first();
+                    if ($customFieldValue == null) {
+                        $customFieldValue = new CustomFieldValue();
+                        $customFieldValue->custom_field_id = $customField->id;
+                    }
+
+                    $customFieldValue->position = $iValue;
+                    $customFieldValue->value = $value;
+
+                    if (is_array($value)) {
+                        $customFieldValue->value = implode(',', array_values($value));
+                    }
+
+                    $customFieldValue->save();
+                }
+
+                if (!empty($oldValueIds)) {
+                    foreach ($oldValueIds as $customFieldValueId) {
+                        CustomFieldValue::where('id', $customFieldValueId)->delete();
+                    }
+                }
+            }
+        }
+
+        return $customField->id;
+    }
+
+    public function generateFieldNameValues($fieldData)
+    {
+        $values = [];
+
+        if ($fieldData['type'] == 'radio') {
+            $typeText = _e('Option', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        if ($fieldData['type'] == 'checkbox') {
+            $typeText = _e('Check', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        if ($fieldData['type'] == 'dropdown') {
+            $typeText = _e('Select', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        return $values;
+    }
+
+    public function getFieldNameByType($type)
+    {
+        $fields = mw()->ui->custom_fields();
+
+        if (isset($fields[$type])) {
+            return $fields[$type];
+        }
+    }
+
+    public function __save_deprecated($data)
     {
         if (is_string($data)) {
             $data = parse_params($data);
@@ -592,7 +739,11 @@ class FieldsManager
     public function get_value($content_id, $field_name, $return_full = false, $table = 'content')
     {
         $val = false;
-        $data = $this->get($table, $id = $content_id, $return_full, $field_for = false, $debug = false, $field_type = false, $for_session = false);
+        $data = $this->get([
+            'rel_type'=>$table,
+            'rel_id'=>$content_id,
+            'return_full'=>$return_full,
+        ]);
         foreach ($data as $item) {
             if (isset($item['name']) and
                 ((strtolower($item['name']) == strtolower($field_name))
@@ -984,6 +1135,10 @@ class FieldsManager
         return $data;
     }
 
+    /**
+     * @param $it
+     * @return mixed
+     */
     public function decode_array_vals($it)
     {
         if (isset($it['value'])) {
@@ -1017,6 +1172,10 @@ class FieldsManager
         return $it;
     }
 
+    /**
+     * @param $data
+     * @return bool
+     */
     public function reorder($data)
     {
         $adm = $this->app->user_manager->is_admin();
@@ -1042,6 +1201,10 @@ class FieldsManager
         }
     }
 
+    /**
+     * @param $id
+     * @return bool|int
+     */
     public function delete($id)
     {
         $uid = $this->app->user_manager->is_admin();
@@ -1077,41 +1240,29 @@ class FieldsManager
         return $id;
     }
 
-    public function make_field($field_id = 0, $field_type = 'text', $settings = false)
+    /**
+     * @param int $field_id
+     * @return false|mixed|string
+     */
+    public function make_field($field_id = 0)
     {
-        $data = false;
-        $form_data = array();
         if (is_array($field_id)) {
             if (!empty($field_id)) {
-                $data = $field_id;
-
                 return $this->make($field_id, false, 'y');
             }
         } else {
             if ($field_id != 0) {
                 return $this->make($field_id);
-
-                //
-                // $this->app->error('no permission to get data');
-                //  $form_data = $this->app->database_manager->get_by_id('custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
     }
 
     /**
-     * make_field.
-     *
-     * @desc        make_field
-     *
-     * @category    forms
-     *
-     * @author      Microweber
-     *
-     * @link        http://microweber.com
-     *
+     * @param int $field_id
      * @param string $field_type
-     * @param string $field_id
-     * @param array $settings
+     * @param bool $settings
+     * @return false|mixed|string
+     * @throws \Exception
      */
     public function make($field_id = 0, $field_type = 'text', $settings = false)
     {
@@ -1216,7 +1367,7 @@ class FieldsManager
             return;
         }
 
-        $field_data = array();
+        $field_data = $data;
         $field_data['name'] = false;
         $field_data['name_key'] = false;
         $field_data['type'] = false;
@@ -1226,7 +1377,7 @@ class FieldsManager
         $field_data['help'] = false;
         $field_data['values'] = array();
         $field_data['value'] = false;
-        $field_data['options'] = array();
+        $field_data['options'] = $data['options'];
         $field_data['options']['old_price'] = false;
 
         $field_settings = array();
@@ -1343,7 +1494,7 @@ class FieldsManager
         // For file upload
         if ($data['type'] == 'upload') {
             if (is_array($data['options']) && isset($data['options']['file_types'])) {
-                $field_settings['options']['file_types'] = array_merge($field_data['options'], $data['options']['file_types']);
+                $field_settings['options']['file_types'] = array_merge($field_data['options']['file_types'], $data['options']['file_types']);
             }
         }
 
@@ -1515,7 +1666,6 @@ class FieldsManager
 
     public function get_default_template_name()
     {
-
         $template_name = false;
 
         if (!$template_name) {
@@ -1527,49 +1677,5 @@ class FieldsManager
         }
 
         return $template_name;
-    }
-
-    /**
-     * names_for_table.
-     *
-     * @desc        names_for_table
-     *
-     * @category    forms
-     *
-     * @author      Microweber
-     *
-     * @link        http://microweber.com
-     *
-     * @param string $table
-     */
-    public function names_for_table($table)
-    {
-        $table = $this->app->database_manager->escape_string($table);
-        $table1 = $this->app->database_manager->assoc_table_name($table);
-
-        $table = $this->table;
-        $q = false;
-        $results = false;
-
-        $q = "SELECT *, count(id) AS qty FROM $table WHERE   type IS NOT NULL AND rel_type='{$table1}' AND name!='' GROUP BY name, type ORDER BY qty DESC LIMIT 100";
-        $crc = (crc32($q));
-
-        $cache_id = __FUNCTION__ . '_' . $crc;
-
-        $results = $this->app->database_manager->query($q, $cache_id, 'custom_fields');
-
-        if (is_array($results)) {
-            return $results;
-        }
-    }
-
-    private function _encode_options($data)
-    {
-        return json_encode($data);
-    }
-
-    private function _decode_options($data)
-    {
-        return @json_decode($data, true);
     }
 }

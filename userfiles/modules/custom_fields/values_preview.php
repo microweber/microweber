@@ -63,9 +63,9 @@ if (isset($params['field-id'])) {
     }
     ?>
 
-    <span class="custom-fields-values-holder d-flex flex-wrap">
+    <small class="custom-fields-values-holder d-flex flex-wrap">
         <?php echo implode(', ', $vals); ?>
-    </span>
+    </small>
 
 
 <?php elseif (isset($field['type']) and ($field['type'] == 'text' or $field['type'] == 'message' or $field['type'] == 'textarea' or $field['type'] == 'title')): ?>

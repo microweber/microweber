@@ -4865,14 +4865,18 @@ mw-field[data-size="large"][data-after]:after {
   font-size: 0.875rem;
   height: 40px;
   border-radius: 5px;
-  color: #686868;
-  background-color: #eeefef;
-  border: 1px solid #cfcfcf;
+  color: white;
+  background-color: #2B2B2B;
   outline: none;
   transition: 0.3s;
   white-space: nowrap;
   vertical-align: middle;
 }
+
+.mw-ui-btn:hover {
+  color: white;
+}
+
 .mw-ui-link {
   border: 0 !important;
   background: none;
@@ -5061,11 +5065,7 @@ input.mw-ui-btn {
   background-color: #f7857c;
   border-color: #f7857c;
 }
-.mw-ui-btn-info:hover,
-.mw-ui-btn-info.active {
-  background-color: #abceff;
-  border-color: #abceff;
-}
+
 .mw-ui-btn-notification:hover,
 .mw-ui-btn-notification.active {
   background-color: #7acb6b;

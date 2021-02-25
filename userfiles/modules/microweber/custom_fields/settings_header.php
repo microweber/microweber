@@ -26,7 +26,7 @@ $hidden_class = '';
 if (intval($settings) == 2) {
 
 }
-$hidden_class = ' mw-hide ';
+//$hidden_class = ' mw-hide ';
 $is_for_module = mw()->url_manager->param('for_module_id', 1);
 $for = mw()->url_manager->param('for', 1);
 
@@ -215,7 +215,7 @@ if ($for == false) {
     <?php endif; ?>
 
     <?php if ($for): ?>
-        <input type="hidden" name="rel" value="<?php echo  ($for); ?>"/>
+        <input type="hidden" name="rel_type" value="<?php echo  ($for); ?>"/>
         <input type="hidden" name="rel_id" value="<?php echo  strval($for_module_id) ?>"/>
     <?php endif; ?>
 

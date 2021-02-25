@@ -102,7 +102,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         copyof = false;
                         if (copyof == false) {
                             var make_field = {}
-                            make_field.rel = '<?php print $for; ?>';
+                            make_field.rel_type = '<?php print $for; ?>';
                             make_field.rel_id = '<?php print $for_id; ?>';
                             make_field.type = val;
                             mw.custom_fields.create(make_field, mw_custom_fileds_changed_callback);

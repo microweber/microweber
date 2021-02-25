@@ -1,6 +1,5 @@
 <?php
 
-
 function get_custom_field_by_id($id)
 {
     return mw()->fields_manager->get_by_id($id);

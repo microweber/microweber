@@ -186,13 +186,10 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                     <div class="col-md-12">
                         <div class="form-group js-count-letters">
-                            <div class="d-flex justify-content-between">
-                                <label><?php _e("Meta description"); ?>
-                                    <small data-toggle="tooltip" title="Short description for yor content."></small>
-                                </label>
-                             </div>
+                                <label class="control-label"><?php _e("Meta description"); ?></label>
+                                <small data-toggle="tooltip" title="Short description for yor content."></small>
+
                             <textarea class="form-control" name="description" placeholder=""><?php if ($data['description'] != '') print ($data['description']) ?></textarea>
-                            <small class="text-muted"><?php _e("Describe your page in short"); ?></small>
                         </div>
                     </div>
 
