@@ -38,7 +38,7 @@
      <div class="mw-ui-field-holder">
       <label class="control-label"><?php _e("Custom File Types"); ?></label>
          <small class="text-muted d-block mb-2"><?php _e('Specifies the custom file type');?></small>
-         <input type="text" class="form-control"  name="options[file_types]" value="<?php if(isset($settings['options']) and isset($settings['options']['file_types']) and is_array($settings['options']['file_types'])) : ?><?php
+         <input type="text" class="form-control js-custom-field-types" value="<?php if(isset($settings['options']) and isset($settings['options']['file_types']) and is_array($settings['options']['file_types'])) : ?><?php
 
       $array2 = array("images", "documents", "archives");
 
@@ -54,6 +54,17 @@
 
       echo implode(',', $xresult); ?><?php endif; ?>" placeholder='psd,html,css' />
       </div>
+        <div class="js-custom-field-types-append"></div>
+        <script>
+            $('.js-custom-field-types').change(function() {
+                $('.js-custom-field-types-append').html('');
+                var customFieldTypesText = $(this).val();
+                var customFieldTypes = customFieldTypesText.split(',');
+                $.each(customFieldTypes, function(index, customFieldType) {
+                    $('.js-custom-field-types-append').append('<input type="text" name="options[file_types]" value="'+customFieldType+'" />');
+                });
+            });
+        </script>
     </div>
 </div>
 <div class="custom-field-settings-values">
