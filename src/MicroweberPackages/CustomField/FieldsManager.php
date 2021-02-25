@@ -657,7 +657,11 @@ class FieldsManager
     public function get_value($content_id, $field_name, $return_full = false, $table = 'content')
     {
         $val = false;
-        $data = $this->get($table, $id = $content_id, $return_full, $field_for = false, $debug = false, $field_type = false, $for_session = false);
+        $data = $this->get([
+            'rel_type'=>$table,
+            'rel_id'=>$content_id,
+            'return_full'=>$return_full,
+        ]);
         foreach ($data as $item) {
             if (isset($item['name']) and
                 ((strtolower($item['name']) == strtolower($field_name))
@@ -1049,6 +1053,10 @@ class FieldsManager
         return $data;
     }
 
+    /**
+     * @param $it
+     * @return mixed
+     */
     public function decode_array_vals($it)
     {
         if (isset($it['value'])) {
@@ -1082,6 +1090,10 @@ class FieldsManager
         return $it;
     }
 
+    /**
+     * @param $data
+     * @return bool
+     */
     public function reorder($data)
     {
         $adm = $this->app->user_manager->is_admin();
@@ -1107,6 +1119,10 @@ class FieldsManager
         }
     }
 
+    /**
+     * @param $id
+     * @return bool|int
+     */
     public function delete($id)
     {
         $uid = $this->app->user_manager->is_admin();
@@ -1142,41 +1158,29 @@ class FieldsManager
         return $id;
     }
 
-    public function make_field($field_id = 0, $field_type = 'text', $settings = false)
+    /**
+     * @param int $field_id
+     * @return false|mixed|string
+     */
+    public function make_field($field_id = 0)
     {
-        $data = false;
-        $form_data = array();
         if (is_array($field_id)) {
             if (!empty($field_id)) {
-                $data = $field_id;
-
                 return $this->make($field_id, false, 'y');
             }
         } else {
             if ($field_id != 0) {
                 return $this->make($field_id);
-
-                //
-                // $this->app->error('no permission to get data');
-                //  $form_data = $this->app->database_manager->get_by_id('custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
     }
 
     /**
-     * make_field.
-     *
-     * @desc        make_field
-     *
-     * @category    forms
-     *
-     * @author      Microweber
-     *
-     * @link        http://microweber.com
-     *
+     * @param int $field_id
      * @param string $field_type
-     * @param string $field_id
-     * @param array $settings
+     * @param bool $settings
+     * @return false|mixed|string
+     * @throws \Exception
      */
     public function make($field_id = 0, $field_type = 'text', $settings = false)
     {
@@ -1580,7 +1584,6 @@ class FieldsManager
 
     public function get_default_template_name()
     {
-
         $template_name = false;
 
         if (!$template_name) {
@@ -1592,49 +1595,5 @@ class FieldsManager
         }
 
         return $template_name;
-    }
-
-    /**
-     * names_for_table.
-     *
-     * @desc        names_for_table
-     *
-     * @category    forms
-     *
-     * @author      Microweber
-     *
-     * @link        http://microweber.com
-     *
-     * @param string $table
-     */
-    public function names_for_table($table)
-    {
-        $table = $this->app->database_manager->escape_string($table);
-        $table1 = $this->app->database_manager->assoc_table_name($table);
-
-        $table = $this->table;
-        $q = false;
-        $results = false;
-
-        $q = "SELECT *, count(id) AS qty FROM $table WHERE   type IS NOT NULL AND rel_type='{$table1}' AND name!='' GROUP BY name, type ORDER BY qty DESC LIMIT 100";
-        $crc = (crc32($q));
-
-        $cache_id = __FUNCTION__ . '_' . $crc;
-
-        $results = $this->app->database_manager->query($q, $cache_id, 'custom_fields');
-
-        if (is_array($results)) {
-            return $results;
-        }
-    }
-
-    private function _encode_options($data)
-    {
-        return json_encode($data);
-    }
-
-    private function _decode_options($data)
-    {
-        return @json_decode($data, true);
     }
 }
