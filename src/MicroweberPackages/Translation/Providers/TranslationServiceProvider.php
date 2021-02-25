@@ -50,34 +50,44 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
                     \Config::set('microweber.disable_model_cache', 1);
 
-                    try {
-                        $toSave = [];
-                        foreach ($getNewKeys as $newKey) {
+
+                    $toSave = [];
+                    foreach ($getNewKeys as $newKey) {
 // do not trim  see https://stackoverflow.com/a/10133237/731166
 
 //                            $newKey['translation_key'] = trim($newKey['translation_key']);
 //                            $newKey['translation_group'] = trim($newKey['translation_group']);
 //                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
 //                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
+                        //\Log::debug($newKey);
 
-                            $findTranslationKey = TranslationKey::where('translation_namespace', $newKey['translation_namespace'])
-                                ->where('translation_group', $newKey['translation_group'])
-                                ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
-                                ->limit(1)
-                                ->first();
-                            if ($findTranslationKey == null) {
-                                $toSave[] = $newKey;
-                            }
+                        $findTranslationKey = TranslationKey::where('translation_namespace', $newKey['translation_namespace'])
+                            ->where('translation_group', $newKey['translation_group'])
+                            ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
+                            ->limit(1)
+                            ->first();
+                        //   \Log::debug($findTranslationKey);
+                        if ($findTranslationKey == null) {
+                            $toSave[] = $newKey;
+                            // TranslationKey::insert($newKey);
                         }
+                    }
+
+
+                    try {
                         if ($toSave) {
-                            //     \Log::debug($getNewKeys);
+                            \Log::debug($getNewKeys);
                             DB::beginTransaction();
-                            TranslationKey::insert($toSave);
+
+                            $toSave_chunked = array_chunk($toSave, 100);
+                            foreach ($toSave_chunked as $k => $toSave_chunk) {
+                                TranslationKey::insert($toSave_chunk);
+                            }
+
+
                             DB::commit();
                             \Cache::tags('translation_keys')->flush();
                         }
-
-
                         // all good
                     } catch (\Exception $e) {
                         DB::rollback();
