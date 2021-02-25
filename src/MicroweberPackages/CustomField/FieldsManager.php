@@ -306,7 +306,6 @@ class FieldsManager
         return $saved_fields;
     }
 
-
     public function save($fieldData)
     {
         if (!is_array($fieldData)) {
@@ -320,6 +319,7 @@ class FieldsManager
         if ($customField == null) {
             $customField = new CustomField();
             $customField->name = _e($this->getFieldNameByType($fieldData['type']), true);
+            $fieldData['values'] = $this->generateFieldNameValues($fieldData);
         }
 
         $customField->type = $fieldData['type'];
@@ -364,7 +364,41 @@ class FieldsManager
 
         $customField->save();
 
+        if (!empty($fieldData['values'])) {
+            foreach($fieldData['values'] as $value) {
+
+                /*$customFieldValue = CustomFieldValue::where('id', $saveValueId)->first();
+                if ($saveValueId == null) {
+                    $customFieldValue = new CustomFieldValue();
+                }*/
+                $customFieldValue = new CustomFieldValue();
+
+                $customFieldValue->custom_field_id = $customField->id;
+                $customFieldValue->position = 0;
+
+                $customFieldValue->value = $value;
+                if (is_array($value)) {
+                    $customFieldValue->value = implode(',', array_values($value));
+                }
+
+                $customFieldValue->save();
+            }
+        }
+
         return $customField->id;
+    }
+
+    public function generateFieldNameValues($fieldData)
+    {
+        $values = [];
+
+        if ($fieldData['type'] == 'radio' || $fieldData['type'] == 'checkbox' || $fieldData['type'] == 'dropdown') {
+            $values[] = 'Option 1';
+            $values[] = 'Option 2';
+            $values[] = 'Option 3';
+        }
+
+        return $values;
     }
 
     public function getFieldNameByType($type)
