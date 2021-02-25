@@ -412,10 +412,25 @@ class FieldsManager
     {
         $values = [];
 
-        if ($fieldData['type'] == 'radio' || $fieldData['type'] == 'checkbox' || $fieldData['type'] == 'dropdown') {
-            $values[] = 'Option 1';
-            $values[] = 'Option 2';
-            $values[] = 'Option 3';
+        if ($fieldData['type'] == 'radio') {
+            $typeText = _e('Option', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        if ($fieldData['type'] == 'checkbox') {
+            $typeText = _e('Check', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
+        }
+
+        if ($fieldData['type'] == 'dropdown') {
+            $typeText = _e('Select', true);
+            $values[] = $typeText . ' 1';
+            $values[] = $typeText . ' 2';
+            $values[] = $typeText . ' 3';
         }
 
         return $values;
