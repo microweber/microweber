@@ -19,6 +19,7 @@ $mw_all_langs = array();
 class Lang
 {
     public $is_enabled = null;
+    public $lang = null;
     private $__default_lang_option = false;
 
 
@@ -51,7 +52,7 @@ class Lang
             $lang = $loc_data['locale'];
         }
 
-
+        $this->lang = $lang;
         //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
         return app()->setLocale($lang);
     }
@@ -68,6 +69,9 @@ class Lang
      */
     function current_lang()
     {
+        if($this->lang){
+            return $this->lang;
+        }
         $app_locale = app()->getLocale();
 
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
@@ -260,7 +264,7 @@ class Lang
 
     function lang_attributes()
     {
-        $lang =$lang_curr= current_lang();
+        $lang = $lang_curr = current_lang();
 
         /*  if (mb_strlen($lang) > 2) {
               $lang = mb_substr($lang, 0, 2);
@@ -273,7 +277,7 @@ class Lang
         );
         $dir = 'ltr';
         $is_rtl = $this->lang_is_rtl($lang_curr);
-        if($is_rtl){
+        if ($is_rtl) {
             $dir = 'rtl';
 
         }
