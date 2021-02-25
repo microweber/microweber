@@ -76,7 +76,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
                     try {
                         if ($toSave) {
-                            \Log::debug($getNewKeys);
+                          //  \Log::debug($getNewKeys);
                             DB::beginTransaction();
 
                             $toSave_chunked = array_chunk($toSave, 100);

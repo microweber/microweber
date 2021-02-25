@@ -47,16 +47,21 @@ class TranslationLoader extends FileLoader
 //                    ->get();
 //            });
 
-            $getDefaultKeys = TranslationKeyCached::where('translation_group', $group)
+            $getNonTranslatedKeys = TranslationKeyCached::where('translation_group', $group)
                 ->where('translation_namespace', $namespace)
+                ->whereNotIn('translation_keys.id', function ($query) use($locale,$namespace) {
+                    $query->select('translation_key_id')->from('translation_texts')->where('translation_texts.translation_locale', $locale) ->where('translation_namespace', $namespace);
+                })
                 ->select('translation_key')
                 ->get();
-             if ($getDefaultKeys !== null) {
-                foreach ($getDefaultKeys as $translation) {
+
+             if ($getNonTranslatedKeys !== null) {
+                foreach ($getNonTranslatedKeys as $translation) {
                     $translationText = $translation->translation_key;
                     $this->allTranslationsCached[$translation->translation_key] = $translationText;
                 }
             }
+
             $getTranslations = TranslationKeyCached::where('translation_group', $group)
                 ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
                 ->where('translation_texts.translation_locale', $locale)
@@ -65,6 +70,9 @@ class TranslationLoader extends FileLoader
              if ($getTranslations !== null) {
                 foreach ($getTranslations as $translation) {
                     $translationText = $translation->translation_text;
+                    if(!$translationText){
+                        $translationText = $translation->translation_key;
+                    }
                     //   $translationText = str_ireplace('{{app_name}}', 'Microweber', $translationText);
                     $this->allTranslationsCached[$translation->translation_key] = $translationText;
                 }
