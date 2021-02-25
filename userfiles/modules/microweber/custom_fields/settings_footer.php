@@ -76,9 +76,7 @@ $fields = mw()->ui->custom_fields();
   </div>
 </div>
 
-
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
-
     <label class="control-label mt-3" ><?php _e('Required'); ?></label>
        <div class="d-flex">
            <div class="mw-custom-field-form-controls p-0">
@@ -86,9 +84,9 @@ $fields = mw()->ui->custom_fields();
                    <input type="checkbox" class="mw-ui-field checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
                    <span></span>
            </div>
+           <span class="align-self-center col-6 pl-0"><?php _e('Is this field required?'); ?></span>
+        </div>
     </label>
-           <span class="align-self-center col-6 pl-1"><?php _e('Is this field required?'); ?></span>
-       </div>
 </div>
 
 <div class="mw-custom-field-group" id="required_checkbox">
