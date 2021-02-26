@@ -696,12 +696,19 @@ class FieldsManager
             $settings = true;
         }
 
-        $fieldClass = 'MicroweberPackages\\CustomField\\Fields\\' . ucfirst($data['type']);
-        $field = new $fieldClass ();
+        $field = $this->instanceField($data['type']);
         $field->setData($data);
         $field->setAdminView($settings);
 
         return $field->render();
+    }
+
+    public function instanceField($type)
+    {
+        $fieldClass = 'MicroweberPackages\\CustomField\\Fields\\' . ucfirst($type);
+        $field = new $fieldClass ();
+
+        return $field;
     }
 
     /**

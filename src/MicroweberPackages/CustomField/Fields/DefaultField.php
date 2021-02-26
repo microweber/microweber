@@ -16,6 +16,7 @@ class DefaultField
 {
     use TemplateLoader;
 
+    public $hasShowLabelOptions = false;
     public $hasResponsiveOptions = false;
     public $hasErrorTextOptions = false;
     public $hasRequiredOptions = false;

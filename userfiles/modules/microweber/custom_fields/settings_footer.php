@@ -1,7 +1,10 @@
 <?php
-if($data['type'] !== 'breakline'):
+$instanceField = mw()->fields_manager->instanceField($data['type']);
 ?>
 
+<?php
+if ($instanceField->hasShowLabelOptions):
+?>
 <div class="custom-field-settings-show-label">
    <div class="d-flex">
        <div class="mw-custom-field-form-controls p-0">
@@ -16,6 +19,9 @@ if($data['type'] !== 'breakline'):
    </div>
     <small class="text-muted d-block mb-2"><?php _e('Display the name of title/field name');?></small>
 </div>
+<?php
+endif;
+?>
 
 <?php 
 $fields = mw()->ui->custom_fields();
@@ -32,9 +38,12 @@ $fields = mw()->ui->custom_fields();
    </select>
 </div>
 
+
+<?php
+if ($instanceField->hasResponsiveOptions):
+?>
 <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Organize in columns on different resolutions'); ?></label>
 <small class="text-muted d-block mb-2"><?php _e('Used for templates based on bootstrap');?></small>
-
 
 <div class="d-flex">
   <div class="col-4 px-1">
@@ -65,7 +74,13 @@ $fields = mw()->ui->custom_fields();
       </select>
   </div>
 </div>
+<?php
+endif;
+?>
 
+<?php
+if ($instanceField->hasRequiredOptions):
+?>
 <div class="mw-custom-field-group<?php print $hidden_class ?>">
     <label class="control-label mt-3" ><?php _e('Required'); ?></label>
    <div class="d-flex">
@@ -78,7 +93,13 @@ $fields = mw()->ui->custom_fields();
        <span class="align-self-center col-6 pl-0"><?php _e('Is this field required?'); ?></span>
    </div>
 </div>
+<?php
+endif;
+?>
 
+<?php
+if ($instanceField->hasErrorTextOptions):
+?>
 <div class="mw-custom-field-group" id="required_checkbox">
     <label class="control-label" ><?php _e('Error text'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('This error will be shown when fields are required but not filled');?></small>
@@ -86,6 +107,9 @@ $fields = mw()->ui->custom_fields();
         <input type="text" name="error_text" class="form-control" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">
     </div>
 </div>
+<?php
+endif;
+?>
 
 <!--<div class="mw-custom-field-group<?php /*print $hidden_class */?>">
     <label class="mw-custom-field-label"><?php /*_e('Active'); */?></label>
@@ -129,5 +153,4 @@ $fields = mw()->ui->custom_fields();
                }
         </script>
     </div>
-<?php endif; ?>
 </div>
