@@ -41,6 +41,11 @@ class DefaultField
         'field_size_tablet'=>12,
         'field_size_mobile'=>12,
     ];
+
+    public $defaultDataOptions = [
+
+    ];
+
     public $adminView = false;
 
     public $renderData = false;
@@ -64,6 +69,12 @@ class DefaultField
         foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
             if (!isset($renderData[$defaultDataKey])) {
                 $renderData[$defaultDataKey] = $defaultDataValue;
+            }
+        }
+        // Set default data options if not exists
+        foreach($this->defaultDataOptions as $defaultDataOptionKey=>$defaultDataOptionValue) {
+            if (!isset($renderData['options'][$defaultDataOptionKey])) {
+                $renderData['options'][$defaultDataOptionKey] = $defaultDataOptionValue;
             }
         }
         $this->renderData = $renderData;

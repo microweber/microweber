@@ -280,6 +280,9 @@ class FieldsManager
                         $make_field['type'] = $field_type;
                         $make_field['options']['field_type'] = $field_type;
                         $make_field['options']['field_size'] = $field_size;
+                        $make_field['options']['field_size_desktop'] = $field_size;
+                        $make_field['options']['field_size_tablet'] = $field_size;
+                        $make_field['options']['field_size_mobile'] = $field_size;
 
                         if ($as_text_area) {
                             $make_field['options']['as_text_area'] = $as_text_area;
@@ -323,8 +326,11 @@ class FieldsManager
         }
 
         $customField->type = $fieldData['type'];
-        $customField->rel_type = $fieldData['rel_type'];
-        $customField->rel_id = $fieldData['rel_id'];
+
+        if (!empty($fieldData['rel_type'])) {
+            $customField->rel_type = $fieldData['rel_type'];
+            $customField->rel_id = $fieldData['rel_id'];
+        }
 
         if (!empty($fieldData['error_text'])) {
             $customField->error_text = $fieldData['error_text'];

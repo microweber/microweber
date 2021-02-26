@@ -14,4 +14,14 @@ class Price extends DefaultField
     public $hasResponsiveOptions = false;
     public $hasErrorTextOptions = false;
     public $hasRequiredOptions = false;
+
+    public $defaultSettings = [
+        'required'=>false,
+        'make_select'=>false
+    ];
+
+    public $defaultDataOptions = [
+        'old_price'=>false
+    ];
+
 }
