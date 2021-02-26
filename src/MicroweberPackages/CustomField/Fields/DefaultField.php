@@ -18,57 +18,91 @@ class DefaultField
 
     public $data;
     public $defaultData = [
-        'help'=> ''
+        'id'=> '',
+        'help'=> '',
+        'error_text'=> '',
+        'name'=> 'Textfield',
+        'value'=> '',
+        'placeholder'=> '',
     ];
     public $settings;
     public $defaultSettings = [
-
+        'as_text_area'=>'',
+        'required'=>true,
+        'multiple'=>'',
+        'show_label'=>true,
+        'field_size'=>12,
+        'field_size_desktop'=>12,
+        'field_size_tablet'=>12,
+        'field_size_mobile'=>12,
     ];
+    public $adminView = false;
+
+    public $renderData = false;
+    public $renderSettings = false;
 
     public function setData($data){
         $this->data = $data;
     }
 
-    public function render()
+    public function setAdminView($adminView){
+        $this->adminView = $adminView;
+    }
+
+    public function preparePreview()
     {
-
-       $templateFiles = $this->getTemplateFiles($this->data);
-
-        $settings = false;
-        if ($settings || isset($data['settings'])) {
-            $file = $templateFiles['settings_file'];
-        } else {
-            $file = $templateFiles['preview_file'];
+        $renderData = [];
+        if (!empty($this->data)) {
+            $renderData = array_merge($renderData, $this->data);
         }
-
-        if (!is_file($file)) {
-            return false;
-        }
-
-        $renderData = $this->data;
-        $renderSettings = $this->settings;
-
         // Set default data if not exists
-        if (!empty($renderData) && is_array($renderData)) {
-            foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
-                if (!isset($renderData[$defaultDataKey])) {
-                    $renderData[$defaultDataKey] = $defaultDataValue;
-                }
+        foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
+            if (!isset($renderData[$defaultDataKey])) {
+                $renderData[$defaultDataKey] = $defaultDataValue;
             }
+        }
+        $this->renderData = $renderData;
+
+        $renderSettings = [];
+        if (!empty($this->settings)) {
+            $renderSettings = array_merge($renderSettings, $this->settings);
+        }
+        if (!empty($this->data['options'])) {
+            $renderSettings = array_merge($renderSettings, $this->data['options']);
+        }
+
+        if (isset($this->data['show_label'])) {
+            $renderSettings['show_label'] = $this->data['show_label'];
         }
 
         // Set default settings if not exists
-        if (!empty($renderSettings) && is_array($renderSettings)) {
-            foreach($this->defaultSettings as $defaultSettingsKey=>$defaultSettingsValue) {
-                if (!isset($renderSettings[$defaultSettingsKey])) {
-                    $renderSettings[$defaultSettingsKey] = $defaultSettingsValue;
-                }
+        foreach($this->defaultSettings as $defaultSettingsKey=>$defaultSettingsValue) {
+            if (!isset($renderSettings[$defaultSettingsKey])) {
+                $renderSettings[$defaultSettingsKey] = $defaultSettingsValue;
             }
         }
 
+        $this->renderSettings = $renderSettings;
+    }
+
+    public function render()
+    {
+       $templateFiles = $this->getTemplateFiles($this->data);
+
+        $file = $templateFiles['preview_file'];
+        if ($this->adminView) {
+            $file = $templateFiles['settings_file'];
+        }
+
+        if (!is_file($file)) {
+            return $file;
+        }
+
+        $this->preparePreview();
+
         $parseView = new View($file);
-        $parseView->assign('data', $renderData);
-        $parseView->assign('settings', $renderSettings);
+        $parseView->assign('data', $this->renderData);
+        $parseView->assign('settings', $this->renderSettings);
 
         $customFieldHtml = $parseView->__toString();
 

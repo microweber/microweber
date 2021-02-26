@@ -7,7 +7,7 @@
         var $selector = '#mw-custom-fields-list-settings-<?php print $params['id']; ?>';
         var data = {};
         data.settings = 'y';
-        data.field_id = '<?php print $params['field_id']; ?>';
+        data.id = '<?php print $params['id']; ?>';
 
         mw.$($selector).load(mw.settings.api_html + 'fields/make', data, function (a) {
             mw.custom_fields.sort($selector);

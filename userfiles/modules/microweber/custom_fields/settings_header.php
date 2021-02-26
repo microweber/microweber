@@ -6,8 +6,8 @@ $rand = rand();
 $data_orig = $data;
 //$rand = round($rand);
 
- if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']) )) {
-	$data_orig['field_id'] = $_REQUEST['field_id'];
+ if ((isset($_REQUEST['id']) and ($_REQUEST['id']) )) {
+	$data_orig['id'] = $_REQUEST['id'];
 }
  $add_remove_controls = '' .
     '<button class="btn btn-outline-success btn-sm mx-2" onclick="mw.custom_fields.add(this);">Add</button>' .
@@ -210,8 +210,8 @@ if ($for == false) {
         <input type="hidden" name="id" value="<?php echo  ($data['id']) ?>"/>
     <?php endif; ?>
 
-     <?php if (isset($data_orig['field_id']) and ($data_orig['field_id']) ): ?>
-         <input type="hidden" name="id" value="<?php echo  ($data_orig['field_id']) ?>"/>
+     <?php if (isset($data_orig['id']) and ($data_orig['id']) ): ?>
+         <input type="hidden" name="id" value="<?php echo  ($data_orig['id']) ?>"/>
     <?php endif; ?>
 
     <?php if ($for): ?>

@@ -3,14 +3,13 @@
  * Created by PhpStorm.
  * User: Bojidar
  * Date: 2/26/2021
- * Time: 11:29 AM
+ * Time: 2:12 PM
  */
 
 namespace MicroweberPackages\CustomField\Fields;
 
 
-class Text extends DefaultField
+class Price extends DefaultField
 {
-
 
 }

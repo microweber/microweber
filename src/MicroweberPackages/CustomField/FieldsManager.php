@@ -675,20 +675,31 @@ class FieldsManager
         }
     }
 
-    public function make($field_id = 0, $field_type = false, $settings = false)
+    public function make($params, $field_type = 'text', $settings = false)
     {
-        if (is_array($field_id) && !empty($field_id)) {
-            $data = $field_id;
-        } else {
-            if ($field_id < 0) {
-                return false;
+
+        $id = false;
+        if (is_array($params)) {
+            if (isset($params['id'])) {
+                $id = $params['id'];
             }
-            $data = $this->get_by_id($field_id);
+        }
+
+        $data = $this->get_by_id($id);
+
+        if (!isset($data['type'])) {
+            $data['type'] = $field_type;
+        }
+
+        // If is edit custom field from admin
+        if (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y') {
+            $settings = true;
         }
 
         $fieldClass = 'MicroweberPackages\\CustomField\\Fields\\' . ucfirst($data['type']);
         $field = new $fieldClass ();
         $field->setData($data);
+        $field->setAdminView($settings);
 
         return $field->render();
     }

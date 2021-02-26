@@ -7,7 +7,7 @@ if($data['type'] !== 'breakline'):
        <div class="mw-custom-field-form-controls p-0">
             <label class="mw-ui-check">
                    <input type="hidden" value="0" name="show_label">
-                   <input type="checkbox" class="custom-control-input"  name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="1" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
+                   <input type="checkbox" class="custom-control-input" name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="1" <?php if ($settings['show_label']): ?> checked="checked"  <?php endif; ?> >
                    <span></span>
                    <span></span>
             </label>
@@ -35,9 +35,7 @@ $fields = mw()->ui->custom_fields();
 <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Organize in columns on different resolutions'); ?></label>
 <small class="text-muted d-block mb-2"><?php _e('Used for templates based on bootstrap');?></small>
 
-    <?php
-    dd($settings);
-    ?>
+
 <div class="d-flex">
   <div class="col-4 px-1">
       <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Desktop'); ?></label>
