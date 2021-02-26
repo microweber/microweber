@@ -98,7 +98,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
                             $selected = ($offer_product_price_id == $option_id ? ' selected="selected"' : '');
                             ?>
 
-                            <option value="<?php print $option_id; ?>"<?php print $selected; ?>><?php print $product['title'] . ' | ' . $a_price['name'] . ' : ' . mw()->shop_manager->currency_symbol() . ' ' . $a_price['value_plain']; ?></option>
+                            <option value="<?php print $option_id; ?>"<?php print $selected; ?>><?php print $product['title'] . ' | ' . $a_price['name'] . ' : ' . mw()->shop_manager->currency_symbol() . ' ' . $a_price['values_plain']; ?></option>
                             <?php
                         }
                     }

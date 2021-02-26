@@ -550,6 +550,10 @@ class FieldsManager
                     }
                 }
 
+                if (!empty($readyCustomField['values'])) {
+                    $readyCustomField['values_plain'] = implode(',', $readyCustomField['values']);
+                }
+
                 $customFields[] = $readyCustomField;
             }
         }
