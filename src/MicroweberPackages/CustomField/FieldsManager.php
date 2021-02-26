@@ -683,6 +683,8 @@ class FieldsManager
             if (isset($params['id'])) {
                 $id = $params['id'];
             }
+        } else if (is_numeric($params)) {
+            $id = $params;
         }
 
         $data = $this->get_by_id($id);

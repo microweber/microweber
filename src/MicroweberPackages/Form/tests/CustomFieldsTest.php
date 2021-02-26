@@ -34,6 +34,8 @@ class CustomFieldsTest extends TestCase
             $field2 = mw()->fields_manager->make($fields[1]);
             $field3 = mw()->fields_manager->make($fields[2]);
 
+           // var_dump($field1);
+
             // Check person name
             $check_input_if_exists = false;
             if (strpos($field1, 'placeholder="PersonName"') !== false) {
