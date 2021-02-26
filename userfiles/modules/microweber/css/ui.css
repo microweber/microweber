@@ -5067,6 +5067,12 @@ input.mw-ui-btn {
   border-color: #f7857c;
 }
 
+.mw-ui-btn-info:hover,
+.mw-ui-btn-info.active {
+  background-color: #abceff;
+  border-color: #abceff;
+}
+
 .mw-ui-btn-notification:hover,
 .mw-ui-btn-notification.active {
   background-color: #7acb6b;
