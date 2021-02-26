@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Jenssegers\Agent\Agent;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -354,6 +355,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('parser', function ($app) {
             return new Parser($app);
+        });
+
+        $this->app->singleton('browser_agent', function ($app) {
+            return new Agent();
         });
     }
 
