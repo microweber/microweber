@@ -17,6 +17,10 @@ class DefaultField
     use TemplateLoader;
 
     public $data;
+    public $defaultData = [
+        'help'=> ''
+    ];
+    public $settings;
     public $defaultSettings = [
 
     ];
@@ -41,11 +45,30 @@ class DefaultField
             return false;
         }
 
-        return $file;
+        $renderData = $this->data;
+        $renderSettings = $this->settings;
+
+        // Set default data if not exists
+        if (!empty($renderData) && is_array($renderData)) {
+            foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
+                if (!isset($renderData[$defaultDataKey])) {
+                    $renderData[$defaultDataKey] = $defaultDataValue;
+                }
+            }
+        }
+
+        // Set default settings if not exists
+        if (!empty($renderSettings) && is_array($renderSettings)) {
+            foreach($this->defaultSettings as $defaultSettingsKey=>$defaultSettingsValue) {
+                if (!isset($renderSettings[$defaultSettingsKey])) {
+                    $renderSettings[$defaultSettingsKey] = $defaultSettingsValue;
+                }
+            }
+        }
 
         $parseView = new View($file);
-        $parseView->assign('data', $data);
-        $parseView->assign('settings', $data);
+        $parseView->assign('data', $renderData);
+        $parseView->assign('settings', $renderSettings);
 
         $customFieldHtml = $parseView->__toString();
 

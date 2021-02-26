@@ -12,27 +12,12 @@ namespace MicroweberPackages\CustomField\Fields\Traits;
 trait TemplateLoader
 {
 
-    public function getDefaultTemplateName()
-    {
-        $template_name = false;
-
-        if (!$template_name) {
-            $template_name = template_framework();
-        }
-
-        if (!$template_name) {
-            $template_name = 'mw-ui';
-        }
-
-        return $template_name;
-    }
-
     public function getTemplateFilesByType($data, $type)
     {
         $preview_file = false;
 
         $template_name = $this->getTemplateName($data);
-        $default_template_name = $this->getDefaultTempalteName($data);
+        $default_template_name = $this->getDefaultTemplateName();
 
         $ovewrite_templates_path = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields' . DS . 'templates';
         $original_tempaltes_path = modules_path() . 'custom_fields' . DS . 'templates';
@@ -125,7 +110,22 @@ trait TemplateLoader
         }
 
         if (!$template_name) {
-            return $this->getDefaultTempalteName();
+            return $this->getDefaultTemplateName();
+        }
+
+        return $template_name;
+    }
+
+    public function getDefaultTemplateName()
+    {
+        $template_name = false;
+
+        if (!$template_name) {
+            $template_name = template_framework();
+        }
+
+        if (!$template_name) {
+            $template_name = 'mw-ui';
         }
 
         return $template_name;
