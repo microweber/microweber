@@ -243,7 +243,7 @@ class CustomFieldsTest extends TestCase
             'name' => 'My test price',
             'value' => 10,
             'type' => 'price',
-            'content_id' => $my_product_id,
+            'content_id' => $my_product_id, 
         );
 
         // adding a custom field "price" to product

@@ -269,7 +269,6 @@ class FieldsManager
                         $make_field['rel_id'] = $rel_id;
                         $make_field['position'] = $pos;
                         $make_field['name'] = ucfirst($field_name);
-                        $make_field['value'] = '';
                         $make_field['show_label'] = $show_label;
 
                         $make_field['show_placeholder'] = $show_placeholder;
@@ -311,6 +310,9 @@ class FieldsManager
 
     public function save($fieldData)
     {
+
+        var_dump($fieldData);
+
         if (!is_array($fieldData)) {
             return false;
         }
@@ -322,7 +324,9 @@ class FieldsManager
         if ($customField == null) {
             $customField = new CustomField();
             $customField->name = _e($this->getFieldNameByType($fieldData['type']), true);
-            $fieldData['value'] = $this->generateFieldNameValues($fieldData);
+            if (!isset($fieldData['value'])) {
+               $fieldData['value'] = $this->generateFieldNameValues($fieldData);
+            }
         }
 
         $customField->type = $fieldData['type'];
@@ -372,19 +376,8 @@ class FieldsManager
 
         if (!empty($fieldData['value'])) {
 
-            // Save value string
-            if (is_string($fieldData['value'])) {
-                $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->first();
-                if ($getCustomFieldValues == null) {
-                    $getCustomFieldValues = new CustomFieldValue();
-                    $getCustomFieldValues->custom_field_id = $customField->id;
-                }
-                $getCustomFieldValues->value = $fieldData['value'];
-                $getCustomFieldValues->save();
-            }
-
             // Save array string
-            else if (is_array($fieldData['value'])) {
+            if (is_array($fieldData['value'])) {
                 $oldValueIds = [];
                 $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->get();
                 if ($getCustomFieldValues !== null) {
@@ -421,6 +414,14 @@ class FieldsManager
                         CustomFieldValue::where('id', $customFieldValueId)->delete();
                     }
                 }
+            } else {
+                $getCustomFieldValues = CustomFieldValue::where('custom_field_id', $customField->id)->first();
+                if ($getCustomFieldValues == null) {
+                    $getCustomFieldValues = new CustomFieldValue();
+                    $getCustomFieldValues->custom_field_id = $customField->id;
+                }
+                $getCustomFieldValues->value = $fieldData['value'];
+                $getCustomFieldValues->save();
             }
         }
 
