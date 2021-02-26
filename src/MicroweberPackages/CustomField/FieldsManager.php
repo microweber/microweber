@@ -310,9 +310,6 @@ class FieldsManager
 
     public function save($fieldData)
     {
-
-        var_dump($fieldData);
-
         if (!is_array($fieldData)) {
             return false;
         }
