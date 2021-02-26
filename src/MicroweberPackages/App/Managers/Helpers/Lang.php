@@ -69,9 +69,9 @@ class Lang
      */
     function current_lang()
     {
-        if($this->lang){
-            return $this->lang;
-        }
+//        if($this->lang){
+//            return $this->lang;
+//        }
         $app_locale = app()->getLocale();
 
         if (isset($_COOKIE['lang']) and $_COOKIE['lang'] != false) {
