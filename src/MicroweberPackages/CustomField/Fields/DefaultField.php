@@ -87,23 +87,7 @@ class DefaultField
             }
         }
 
-        if (mw()->browser_agent->isMobile()) {
-            if (isset($renderSettings['field_size_mobile'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_mobile'];
-            }
-        }
-
-        if (mw()->browser_agent->isDesktop()) {
-            if (isset($renderSettings['field_size_desktop'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_desktop'];
-            }
-        }
-
-        if (mw()->browser_agent->isTablet()) {
-            if (isset($renderSettings['field_size_tablet'])) {
-                $renderSettings['field_size'] = $renderSettings['field_size_tablet'];
-            }
-        }
+        $renderSettings = $this->_calculateFieldSize($renderSettings);
 
         $this->renderSettings = $renderSettings;
     }
@@ -131,5 +115,28 @@ class DefaultField
         $customFieldHtml = $parseView->__toString();
 
         return $customFieldHtml;
+    }
+
+    private function _calculateFieldSize($renderSettings)
+    {
+        if (mw()->browser_agent->isMobile()) {
+            if (isset($renderSettings['field_size_mobile'])) {
+                $renderSettings['field_size'] = $renderSettings['field_size_mobile'];
+            }
+        }
+
+        if (mw()->browser_agent->isDesktop()) {
+            if (isset($renderSettings['field_size_desktop'])) {
+                $renderSettings['field_size'] = $renderSettings['field_size_desktop'];
+            }
+        }
+
+        if (mw()->browser_agent->isTablet()) {
+            if (isset($renderSettings['field_size_tablet'])) {
+                $renderSettings['field_size'] = $renderSettings['field_size_tablet'];
+            }
+        }
+
+        return $renderSettings;
     }
 }
