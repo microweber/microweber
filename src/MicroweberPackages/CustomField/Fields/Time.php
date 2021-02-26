@@ -11,5 +11,7 @@ namespace MicroweberPackages\CustomField\Fields;
 
 class Time extends DefaultField
 {
-
+    public $hasResponsiveOptions = true;
+    public $hasErrorTextOptions = true;
+    public $hasRequiredOptions = true;
 }

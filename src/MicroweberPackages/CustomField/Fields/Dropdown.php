@@ -9,7 +9,8 @@
 namespace MicroweberPackages\CustomField\Fields;
 
 
-class Dropdown extends DefaultField
-{
-
+class Dropdown extends DefaultField {
+    public $hasResponsiveOptions = true;
+    public $hasErrorTextOptions = true;
+    public $hasRequiredOptions = true;
 }

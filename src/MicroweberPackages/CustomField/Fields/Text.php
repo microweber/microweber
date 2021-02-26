@@ -11,6 +11,7 @@ namespace MicroweberPackages\CustomField\Fields;
 
 class Text extends DefaultField
 {
-
-
+    public $hasResponsiveOptions = true;
+    public $hasErrorTextOptions = true;
+    public $hasRequiredOptions = true;
 }

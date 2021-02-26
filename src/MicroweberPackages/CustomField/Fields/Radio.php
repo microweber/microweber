@@ -11,5 +11,7 @@ namespace MicroweberPackages\CustomField\Fields;
 
 class Radio extends DefaultField
 {
-
+    public $hasResponsiveOptions = true;
+    public $hasErrorTextOptions = true;
+    public $hasRequiredOptions = true;
 }

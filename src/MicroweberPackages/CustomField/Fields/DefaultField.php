@@ -16,6 +16,10 @@ class DefaultField
 {
     use TemplateLoader;
 
+    public $hasResponsiveOptions = false;
+    public $hasErrorTextOptions = false;
+    public $hasRequiredOptions = false;
+
     public $data;
     public $defaultData = [
         'id'=> '',

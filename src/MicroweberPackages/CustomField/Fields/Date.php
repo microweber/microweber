@@ -9,7 +9,8 @@
 namespace MicroweberPackages\CustomField\Fields;
 
 
-class Date extends DefaultField
-{
-
+class Date extends DefaultField {
+    public $hasResponsiveOptions = true;
+    public $hasErrorTextOptions = true;
+    public $hasRequiredOptions = true;
 }

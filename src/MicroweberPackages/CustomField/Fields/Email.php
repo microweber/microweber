@@ -11,5 +11,7 @@ namespace MicroweberPackages\CustomField\Fields;
 
 class Email extends DefaultField
 {
-
+    public $hasResponsiveOptions = true;
+    public $hasErrorTextOptions = true;
+    public $hasRequiredOptions = true;
 }

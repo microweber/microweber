@@ -11,5 +11,7 @@ namespace MicroweberPackages\CustomField\Fields;
 
 class Price extends DefaultField
 {
-
+    public $hasResponsiveOptions = false;
+    public $hasErrorTextOptions = false;
+    public $hasRequiredOptions = false;
 }
