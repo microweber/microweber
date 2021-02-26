@@ -468,9 +468,9 @@ if (array_key_exists('title', $_GET)) {
 
 <style type="text/css">
 
-    body, html {
+/*    body, html {
         overflow: hidden;
-    }
+    }*/
 
     .mw-upload-filetypes {
         list-style: none;

@@ -324,4 +324,25 @@ div.form-control {
 
 }
 
+.datetimepicker .prev *,
+.datetimepicker .next *{
+    display: none;
+}
+.datetimepicker .prev:after{
+    content: "\F013D";
+}
+.datetimepicker .next:after{
+    content: "\F013E";
+}
+.datetimepicker .prev:after,
+.datetimepicker .next:after{
+    font-family: "Material Design Icons";
+}
+
+ .datetimepicker th {
+     width: auto;
+     height: auto;
+    padding: 8px;
+}
+
 
