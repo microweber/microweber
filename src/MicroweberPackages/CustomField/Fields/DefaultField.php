@@ -33,7 +33,7 @@ class DefaultField
     public $settings;
     public $defaultSettings = [
         'as_text_area'=>'',
-        'required'=>true,
+        'required'=>false,
         'multiple'=>'',
         'show_label'=>true,
         'field_size'=>12,
@@ -87,16 +87,35 @@ class DefaultField
             }
         }
 
+        if (mw()->browser_agent->isMobile()) {
+            if (isset($renderSettings['field_size_mobile'])) {
+                $renderSettings['field_size'] = $renderSettings['field_size_mobile'];
+            }
+        }
+
+        if (mw()->browser_agent->isDesktop()) {
+            if (isset($renderSettings['field_size_desktop'])) {
+                $renderSettings['field_size'] = $renderSettings['field_size_desktop'];
+            }
+        }
+
+        if (mw()->browser_agent->isTablet()) {
+            if (isset($renderSettings['field_size_tablet'])) {
+                $renderSettings['field_size'] = $renderSettings['field_size_tablet'];
+            }
+        }
+
         $this->renderSettings = $renderSettings;
     }
 
     public function render()
     {
-       $templateFiles = $this->getTemplateFiles($this->data);
+       $template = $this->getTemplateFiles($this->data);
 
-        $file = $templateFiles['preview_file'];
         if ($this->adminView) {
-            $file = $templateFiles['settings_file'];
+            $file = $template['settings_file'];
+        } else {
+            $file = $template['preview_file'];
         }
 
         if (!is_file($file)) {
