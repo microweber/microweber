@@ -60,7 +60,10 @@ class TranslationKey extends Model
                 $subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
                 $subQuery->orWhere('translation_text', 'like', '%' . $filter['search'] . '%');
             });
-            $queryModel->orWhere('translation_key', 'like', '%' . $filter['search'] . '%');
+
+
+            $queryModel->orWhere('translation_key', 'like', '%' . $filter['search'] . '%')
+                ->where('translation_namespace', $filter['translation_namespace']);
 
 
 
