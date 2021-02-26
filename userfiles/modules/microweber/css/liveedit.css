@@ -1326,7 +1326,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 
 .toolbar-sections-tabs .mw-dropdown-list li a {
     display: block;
-    background-color: whitesmoke;
+    background-color: white;
     background-repeat: no-repeat;
     background-position: 15px 50%;
     padding: 12px;
@@ -1429,7 +1429,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a:hover {
     color: #fff;
-    background: #0086db;
+    background: #3dc47e;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li li a {
@@ -2128,7 +2128,8 @@ body.dragStart .empty-element {
 .mw-toolbar-btn-menu > a.mw-ui-btn {
     margin: 10px 8px 0;
     background-color: #fff;
-    color: #212121;
+    color: #3dc47e;
+    border-color: #3dc47e;
 }
 
 .editor-template-settings .ed-ico {
@@ -2434,9 +2435,13 @@ body.dragStart .empty-element {
 
 #main-save-btn {
     margin: 0 0 0 4px;
-    border-color: #5CA230;
-    background-color: #5CA230;
+    border-color: #3dc47e;
+    background-color: #3dc47e;
     color: white;
+}
+
+#main-save-btn .mdi{
+    color: #fff;
 }
 
 html.mw_pages #mw_toolbar_nav {
@@ -3294,7 +3299,7 @@ body.touchscreen-device .module-item-module {
 }
 
 .mw-toolbar-add-new-content-ctrl i {
-    color: #0086db;
+    color: #3dc47e;
     font-size: 16px;
 }
 

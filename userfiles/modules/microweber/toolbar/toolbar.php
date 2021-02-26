@@ -355,7 +355,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             <a href="javascript:;"
                                class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button mw-toolbar-add-new-content-ctrl"
                                title="Create or manage your content">
-                                <i class="mw-icon-plus"></i><span> <?php _e("Add New"); ?> </span>
+                                <i class="mdi mdi-plus mr-0"></i><span> <?php _e("Add New"); ?> </span>
                             </a>
                             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                                 style="width: 200px; text-transform:uppercase;top: 51px;">
@@ -426,7 +426,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             <i class="mdi mdi-arrow-left"></i>
                             <?php _e("Admin"); ?>
                         </a>
-                        <button disabled class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></button>
+                        <button disabled class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><i class="mdi mdi-floppy savebtn"></i><?php _e("Save"); ?></button>
 
                         <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" >
                             <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span
