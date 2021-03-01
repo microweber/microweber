@@ -348,7 +348,6 @@ class FieldsManager
         $customField->save();
 
         if (isset($fieldData['value'])) {
-
             // Save array string
             if (is_array($fieldData['value'])) {
                 $oldValueIds = [];
