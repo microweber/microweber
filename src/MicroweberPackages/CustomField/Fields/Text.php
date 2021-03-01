@@ -27,7 +27,7 @@ class Text extends DefaultField
         }
 
         if (isset($this->data['required'])) {
-            $renderSettings['required'] = $this->data['required'];
+            $this->renderSettings['required'] = $this->data['required'];
         }
     }
 }

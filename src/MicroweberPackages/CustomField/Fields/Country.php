@@ -22,7 +22,7 @@ class Country extends DefaultField
         $this->renderSettings['required'] = false;
 
         if (isset($this->data['required'])) {
-            $renderSettings['required'] = $this->data['required'];
+            $this->renderSettings['required'] = $this->data['required'];
         }
 
         $this->renderData['values'] =  mw()->forms_manager->countries_list();
