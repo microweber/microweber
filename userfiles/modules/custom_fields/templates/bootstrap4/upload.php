@@ -94,7 +94,7 @@
 
             <?php if (($settings['rel_type'] == 'module' || $settings['rel_type'] == 'modules') && $settings['rel_id']) : ?>
             uploader.urlParams({
-                rel:"<?php echo($settings['rel_type']); ?>",
+                rel_type:"<?php echo($settings['rel_type']); ?>",
                 custom_field_id:"<?php echo($data['id']); ?>",
                 rel_id:"<?php echo($settings['rel_id']); ?>"
             });
