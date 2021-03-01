@@ -661,7 +661,6 @@ class FieldsManager
 
     public function make($params, $field_type = 'text', $settings = false)
     {
-
         $id = false;
         if (is_array($params)) {
             if (isset($params['id'])) {

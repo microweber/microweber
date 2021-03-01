@@ -106,7 +106,20 @@ class DefaultField
 
     public function render()
     {
-       $template = $this->getTemplateFiles($this->data);
+        $this->preparePreview();
+
+        $parseView = new View($this->getTempalteFile());
+        $parseView->assign('data', $this->renderData);
+        $parseView->assign('settings', $this->renderSettings);
+
+        $customFieldHtml = $parseView->__toString();
+
+        return $customFieldHtml;
+    }
+
+    public function getTempalteFile()
+    {
+        $template = $this->getTemplateFiles($this->data);
 
         if ($this->adminView) {
             $file = $template['settings_file'];
@@ -115,18 +128,10 @@ class DefaultField
         }
 
         if (!is_file($file)) {
-            return $file;
+            return '';
         }
 
-        $this->preparePreview();
-
-        $parseView = new View($file);
-        $parseView->assign('data', $this->renderData);
-        $parseView->assign('settings', $this->renderSettings);
-
-        $customFieldHtml = $parseView->__toString();
-
-        return $customFieldHtml;
+        return $file;
     }
 
     public function calculateFieldSize($renderSettings)
