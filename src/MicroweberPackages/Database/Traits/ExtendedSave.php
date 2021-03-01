@@ -413,7 +413,7 @@ trait ExtendedSave
 
             if (isset($params['table'])) {
                 $model = $this->table($params['table']);
-                $supports_tags = $this->supports($model,'tags');
+                $supports_tags = $this->supports($params['table'],'tags');
             }
 
             if (!$supports_tags) {

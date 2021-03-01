@@ -240,9 +240,9 @@ class Unzip
             $archive = zip_open($filename);
 
             if (is_resource($archive)) {
-                if (function_exists('set_time_limit')) {
-                    @set_time_limit(600);
-                }
+//                if (php_can_use_func('set_time_limit')) {
+//                    set_time_limit(0);
+//                }
 
                 while ($entry = zip_read($archive)) {
                     $size = zip_entry_filesize($entry);

@@ -924,7 +924,11 @@ class DatabaseManager extends DbUtils
 
     public function supports($table, $feature)
     {
-        $model = $this->table($table);
+        if(is_object($table)){
+            $model = $table;
+        } else {
+            $model = $this->table($table);
+        }
         $methodVariable = array($model, $feature);
         if (is_callable($methodVariable, true, $callable_name)) {
             return true;
