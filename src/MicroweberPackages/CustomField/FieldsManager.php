@@ -237,7 +237,7 @@ class FieldsManager
                     $existing['rel_type'] = $rel;
                     $existing['rel_id'] = $rel_id;
                     // $existing['no_cache'] = $rel_id;
-                    $existing = $this->get_all($existing);
+                    $existing = $this->getAll($existing);
                     if ($existing == false or is_array($existing) == false) {
 
                         $make_field = array();
