@@ -3,6 +3,7 @@
 namespace MicroweberPackages\CustomField;
 
 use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
+use MicroweberPackages\CustomField\Fields\Address;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\View\View;
@@ -290,10 +291,25 @@ class FieldsManager
             return false;
         }
 
+        if ($fieldData['type'] == 'address') {
+
+            // Generate address fields
+            $fields_csv_str = 'Country[type=country,field_size=12,show_placeholder=true],';
+            $fields_csv_str .= 'City[type=text,field_size=4,show_placeholder=true],';
+            $fields_csv_str .= 'State/Province[type=text,field_size=4,show_placeholder=true],';
+            $fields_csv_str .= 'Zip/Post code[type=text,field_size=4,show_placeholder=true],';
+            $fields_csv_str .= 'Address[type=textarea,field_size=12,show_placeholder=true]';
+
+            $saved[] = mw()->fields_manager->makeDefault($fieldData['rel_type'], $fieldData['rel_id'], $fields_csv_str);
+
+            return $saved;
+        }
+
         $customField = null;
         if (!empty($fieldData['id'])) {
             $customField = CustomField::where('id', $fieldData['id'])->first();
         }
+
         if ($customField == null) {
             $customField = new CustomField();
             $customField->name = _e($this->getFieldNameByType($fieldData['type']), true);

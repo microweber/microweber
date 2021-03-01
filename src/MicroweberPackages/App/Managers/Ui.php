@@ -154,6 +154,7 @@ class Ui
             'site' => 'Web Site',
             'email' => 'E-mail',
             'address' => 'Address',
+            'country' => 'Country',
             'date' => 'Date',
             'time' => 'Time',
             'upload' => 'File Upload',
