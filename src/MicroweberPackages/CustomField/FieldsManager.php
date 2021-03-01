@@ -339,6 +339,8 @@ class FieldsManager
 
         if (!empty($fieldData['required'])) {
             $customField->required = $fieldData['required'];
+        } else {
+            $customField->required = false;
         }
 
         if (!empty($fieldData['is_active'])) {
