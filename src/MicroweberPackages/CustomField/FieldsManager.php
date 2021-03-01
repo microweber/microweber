@@ -522,6 +522,8 @@ class FieldsManager
             $getCustomFields->where('session_id', $params['session_id']);
         }
 
+        $getCustomFields->orderBy('position', 'asc');
+
         $getCustomFields = $getCustomFields->get();
 
         $customFields = [];
@@ -602,20 +604,15 @@ class FieldsManager
             $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $table = $this->table;
-
         foreach ($data as $value) {
             if (is_array($value)) {
-                $indx = array();
-                $i = 0;
-                foreach ($value as $value2) {
-                    $indx[$i] = $value2;
-                    ++$i;
+                foreach ($value as $position=>$customFieldId) {
+                    $findCustomField = CustomField::where('id', $customFieldId)->first();
+                    if ($findCustomField) {
+                        $findCustomField->position = $position;
+                        $findCustomField->save();
+                    }
                 }
-
-                $this->app->database_manager->update_position_field($table, $indx);
-
-                return true;
             }
         }
     }
