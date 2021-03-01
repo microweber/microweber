@@ -46,7 +46,6 @@ $instanceField = mw()->fields_manager->instanceField($data['type']);
     <input type="text" class="form-control" value="<?php echo ($data['name']) ?>" name="name" id="input_field_label<?php echo $rand; ?>">
     
     <div id="mw-custom-fields-address-fields-selector">
-
      <?php foreach($instanceField->fields as $key=>$value): ?>
       <div>
         <label class="mw-ui-check">
