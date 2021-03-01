@@ -19,6 +19,8 @@ class CustomFieldValue extends Model
 
     public $timestamps = false;
 
+    public $translatable = ['value'];
+
     public function customField()
     {
         return $this->belongsTo(CustomField::class);

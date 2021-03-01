@@ -24,15 +24,16 @@ class CustomField extends Model
     ];
 
     protected $table = 'custom_fields';
-
     public $timestamps = true;
+
+    public $translatable = ['name','options'];
 
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
-    protected $casts = [
+    public $casts = [
         'options' => 'json',
     ];
 

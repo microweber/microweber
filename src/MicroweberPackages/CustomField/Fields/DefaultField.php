@@ -83,7 +83,7 @@ class DefaultField
         if (!empty($this->settings)) {
             $renderSettings = array_merge($renderSettings, $this->settings);
         }
-        if (!empty($this->data['options'])) {
+        if (!empty($this->data['options']) && is_array($this->data['options'])) {
             $renderSettings = array_merge($renderSettings, $this->data['options']);
         }
 
