@@ -51,6 +51,11 @@ class DefaultField
     public $renderData = false;
     public $renderSettings = false;
 
+    public function __construct()
+    {
+        //
+    }
+
     public function setData($data){
         $this->data = $data;
     }

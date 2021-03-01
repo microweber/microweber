@@ -33,7 +33,7 @@ class FieldsManager
         $this->tables = $this->app->content_manager->tables;
     }
 
-    public function get_by_id($field_id)
+    public function getById($field_id)
     {
         if ($field_id != 0) {
             $params = array();
@@ -48,31 +48,7 @@ class FieldsManager
         }
     }
 
-    /* public function get_by_id($field_id)
-     {
-         if ($field_id != 0) {
-             $find = CustomField::where('id', $field_id)->first();
-             if ($find) {
-
-                 $customField = $find->toArray();
-                 $customField['value'] = '';
-
-                 $findValues = $find->fieldValue()->get();
-                 if ($findValues) {
-                     $values = [];
-                     foreach($findValues as $findValue) {
-                         $values[] = $findValue->value;
-                     }
-                     $customField['field_values'] = $values;
-                 }
-
-                 return $customField;
-             }
-         }
-     }*/
-
-
-    public function parse_field_settings($fieldParse)
+    public function parseFieldSettings($fieldParse)
     {
 
         preg_match_all(
@@ -96,7 +72,7 @@ class FieldsManager
         return false;
     }
 
-    public function parse_fields_html($fieldParseInput)
+    public function parseFieldsHtml($fieldParseInput)
     {
 
         if (is_array($fieldParseInput)) {
@@ -129,7 +105,7 @@ class FieldsManager
         if (is_array($explodeFields) && !empty($explodeFields)) {
             foreach ($explodeFields as $field) {
 
-                $fieldsSettings = $this->parse_field_settings($field);
+                $fieldsSettings = $this->parseFieldSettings($field);
                 $fieldName = preg_replace('/(\[.*?\])/', false, $field);
                 $readyFields[] = array(
                     'name' => $fieldName,
@@ -141,7 +117,7 @@ class FieldsManager
         return $readyFields;
     }
 
-    public function make_default($rel, $rel_id, $fields_csv_str)
+    public function makeDefault($rel, $rel_id, $fields_csv_str)
     {
         global $_mw_made_default_fields_register;
 
@@ -195,7 +171,7 @@ class FieldsManager
             $rel = $this->app->database_manager->assoc_table_name($rel);
             $rel_id = $this->app->database_manager->escape_string($rel_id);
 
-            $fields_csv_str = $this->parse_fields_html($fields_csv_str);
+            $fields_csv_str = $this->parseFieldsHtml($fields_csv_str);
 
             $pos = 0;
             if (is_array($fields_csv_str)) {
@@ -462,7 +438,7 @@ class FieldsManager
         }
     }
 
-    public function get_values($custom_field_id)
+    public function getValues($custom_field_id)
     {
         $id = $custom_field_id;
         if (is_array($custom_field_id)) {
@@ -477,7 +453,7 @@ class FieldsManager
         return false;
     }
 
-    public function get_value($content_id, $field_name, $return_full = false, $table = 'content')
+    public function getValue($content_id, $field_name, $return_full = false, $table = 'content')
     {
         $val = false;
         $data = $this->get([
@@ -497,7 +473,7 @@ class FieldsManager
         return $val;
     }
 
-    public function get_all($params)
+    public function getAll($params)
     {
         if (!is_array($params)) {
             $params = parse_params($params);
@@ -565,7 +541,7 @@ class FieldsManager
      * @param $it
      * @return mixed
      */
-    public function decode_array_vals($it)
+    public function decodeArrayVals($it)
     {
         if (isset($it['value'])) {
             if (isset($it['value']) and is_string($it['value']) and strtolower($it['value']) == 'array') {
@@ -670,7 +646,7 @@ class FieldsManager
      * @param int $field_id
      * @return false|mixed|string
      */
-    public function make_field($field_id = 0)
+    public function makeField($field_id = 0)
     {
         if (is_array($field_id)) {
             if (!empty($field_id)) {
@@ -695,7 +671,7 @@ class FieldsManager
             $id = $params;
         }
 
-        $data = $this->get_by_id($id);
+        $data = $this->getById($id);
 
         if (!isset($data['type'])) {
             $data['type'] = $field_type;
@@ -719,308 +695,5 @@ class FieldsManager
         $field = new $fieldClass ();
 
         return $field;
-    }
-
-    /**
-     * @param int $field_id
-     * @param string $field_type
-     * @param bool $settings
-     * @return false|mixed|string
-     * @throws \Exception
-     */
-    public function make__deprecated($field_id = 0, $field_type = 'text', $settings = false)
-    {
-        if (is_array($field_id)) {
-            if (!empty($field_id)) {
-                $data = $field_id;
-            }
-        } else {
-            if ($field_id != 0) {
-                $data = $this->get_by_id($id = $field_id);
-            }
-        }
-        if (isset($data['settings']) or (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y')) {
-            $settings = true;
-        }
-
-        $params = false;
-        if ((isset($_REQUEST['params']) and ($_REQUEST['params']))) {
-            $params = $_REQUEST['params'];
-        }
-
-        if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']))) {
-            $data['field_id'] = $_REQUEST['field_id'];
-        }
-
-        //d($data);
-        //input_class
-
-        if (isset($data['copy_from'])) {
-            $copy_from = intval($data['copy_from']);
-            if (is_admin() == true) {
-                $form_data = $this->get_by_id($id = $copy_from);
-                if (is_array($form_data)) {
-                    $field_type = $form_data['type'];
-                    $data['id'] = 0;
-                    if (isset($data['save_on_copy'])) {
-                        $cp = $form_data;
-                        $cp['id'] = 0;
-                        $cp['copy_of_field'] = $copy_from;
-                        if (isset($data['rel_type'])) {
-                            $cp['rel_type'] = ($data['rel_type']);
-                        }
-                        if (isset($data['rel_id'])) {
-                            $cp['rel_id'] = ($data['rel_id']);
-                        }
-                        $this->save($cp);
-                        $data = $cp;
-                    } else {
-                        $data = $form_data;
-                    }
-                }
-            }
-        } elseif (isset($data['field_id'])) {
-            $data = $this->get_by_id($id = $data['field_id']);
-        }
-
-        if (isset($data['type'])) {
-            $field_type = $data['type'];
-        }
-
-        if (!isset($data['custom_field_required'])) {
-            $data['custom_field_required'] = 'n';
-        }
-
-        if (isset($data['type'])) {
-            $field_type = $data['type'];
-        }
-
-        if (isset($data['field_type'])) {
-            $field_type = $data['field_type'];
-        }
-
-        if (isset($data['field_values']) and !isset($data['value'])) {
-            $data['values'] = $data['field_values'];
-        } else {
-            //  $data['values'] = false;
-        }
-
-        if (isset($data['value']) and is_array($data['value'])) {
-            $data['value'] = implode(',', $data['value']);
-        } else {
-            //  $data['value'] = false;
-        }
-
-        $data['type'] = $field_type;
-
-        if (isset($data['options']) and is_string($data['options'])) {
-            $data['options'] = $data['options'];
-        }
-         $data = $this->app->url_manager->replace_site_url_back($data);
-
-
-        $template_files = $this->get_template_files($data);
-
-        if ($settings || isset($data['settings'])) {
-            $file = $template_files['settings_file'];
-        } else {
-            $file = $template_files['preview_file'];
-        }
-
-        if (!is_file($file)) {
-            return;
-        }
-
-        $field_data = $data;
-        $field_data['name'] = false;
-        $field_data['name_key'] = false;
-        $field_data['type'] = false;
-        $field_data['id'] = 0;
-        $field_data['placeholder'] = false;
-        $field_data['error_text'] = false;
-        $field_data['help'] = false;
-        $field_data['values'] = array();
-        $field_data['value'] = false;
-        $field_data['options'] = $data['options'];
-        $field_data['options']['old_price'] = false;
-
-        $field_settings = array();
-        $field_settings['rel_id'] = false;
-        $field_settings['rel_type'] = false;
-        $field_settings['required'] = false;
-        $field_settings['class'] = false;
-        $field_settings['field_size'] = 12;
-        $field_settings['as_text_area'] = false;
-        $field_settings['multiple'] = false;
-        $field_settings['type'] = 'button';
-        $field_settings['rows'] = '5';
-        $field_settings['make_select'] = false;
-        $field_settings['options']['file_types'] = array();
-        $field_settings['show_label'] = true;
-
-        if (isset($data['id'])) {
-            $field_data['id'] = $data['id'];
-        }
-
-        if (isset($data['placeholder'])) {
-            $field_data['placeholder'] = $data['placeholder'];
-        }
-
-        if (isset($data['make_select'])) {
-            $field_settings['make_select'] = $data['make_select'];
-        }
-
-        if (isset($data['name'])) {
-            $field_data['name'] = $data['name'];
-        }
-
-        if (isset($data['name_key'])) {
-            $field_data['name_key'] = $data['name_key'];
-        }
-
-        if (isset($data['type'])) {
-            $field_data['type'] = $data['type'];
-        }
-
-        if (isset($data['rel_type'])) {
-            $field_settings['rel_type'] = $data['rel_type'];
-        }
-        if (isset($data['rel_id'])) {
-            $field_settings['rel_id'] = $data['rel_id'];
-        }
-
-        if (isset($data['help'])) {
-            $field_data['help'] = $data['help'];
-        }
-
-        if (isset($data['options']['old_price'])) {
-            $field_data['options']['old_price'] = $data['options']['old_price'];
-        }
-
-        if (isset($data['options']['field_size_class'])) {
-            $field_settings['class'] = $data['options']['field_size_class'];
-        }
-
-        if (isset($data['options']['field_size'])) {
-            $field_settings['field_size'] = $data['options']['field_size'];
-        }
-
-        if (isset($data['options']['required'])) {
-            $field_settings['required'] = true;
-            $field_settings['options']['required'] = true;
-        }
-
-        if (isset($data['show_label'])) {
-            $field_settings['show_label'] = $data['show_label'];
-        }
-
-        if (isset($data['params']['input_class'])) {
-            $field_settings['class'] = $data['params']['input_class'];
-        }
-
-        // For input to textarea
-        if (isset($data['options']['as_text_area'])) {
-            $field_settings['as_text_area'] = true;
-        }
-
-        // For dropdown select
-        if (isset($data['options']['multiple'])) {
-            $field_settings['multiple'] = true;
-        }
-
-        // For textarea
-        if (isset($data['options']['rows'])) {
-            $field_settings['rows'] = $data['options']['rows'];
-        }
-
-        if (isset($data['value'])) {
-            $field_data['value'] = $data['value'];
-        } else {
-            //     $field_data['value'] = false;
-        }
-
-        if (isset($data['error_text'])) {
-            $field_data['error_text'] = $data['error_text'];
-        }
-
-        if (is_array($data['value'])) {
-            $field_data['value'] = implode(',', $data['value']);
-        }
-
-        if (is_array($data['values']) && !empty($data['values'])) {
-            $field_data['values'] = $data['values'];
-        }
-
-        if (isset($data['options']['field_type'])) {
-            $field_settings['type'] = $data['options']['field_type'];
-        }
-
-        // For file upload
-        if ($data['type'] == 'upload') {
-            if (is_array($data['options']) && isset($data['options']['file_types'])) {
-                $field_settings['options']['file_types'] = array_merge($field_data['options']['file_types'], $data['options']['file_types']);
-            }
-        }
-
-
-
-        // For address type options
-        if ($data['type'] == 'address') {
-
-            if ($data['values'] == false || !is_array($data['values']) || !is_array($data['values'][0])) {
-
-                $default_address_fields = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip/Post code', 'state' => 'State/Province', 'address' => 'Address');
-
-                $field_data['default_address_fields'] = $default_address_fields;
-
-                $skip_fields = array();
-                if (isset($params['skip-fields']) and $params['skip-fields'] != '') {
-                    $skip_fields = explode(',', $params['skip-fields']);
-                    $skip_fields = array_trim($skip_fields);
-                }
-
-                $selected_address_fields = array();
-                if (isset($data['options']['country'])) {
-                    $selected_address_fields[] = 'country';
-                }
-                if (isset($data['options']['city'])) {
-                    $selected_address_fields[] = 'city';
-                }
-                if (isset($data['options']['zip'])) {
-                    $selected_address_fields[] = 'zip';
-                }
-                if (isset($data['options']['state'])) {
-                    $selected_address_fields[] = 'state';
-                }
-                if (isset($data['options']['address'])) {
-                    $selected_address_fields[] = 'address';
-                }
-
-                if (!empty($selected_address_fields)) {
-                    $new_address_fields = array();
-                    foreach ($selected_address_fields as $field) {
-                        if (isset($default_address_fields[$field])) {
-                            $new_address_fields[$field] = $default_address_fields[$field];
-                        }
-                    }
-                    $default_address_fields = $new_address_fields;
-                }
-                $field_data['values'] = array_merge($field_data['values'], $default_address_fields);
-            }
-            $field_data['countries'] = mw()->forms_manager->countries_list();
-        }
-
-        $parseView = new View($file);
-        $parseView->assign('data', $field_data);
-        $parseView->assign('settings', $field_settings);
-
-        $layout = $parseView->__toString();
-
-        if ($settings and defined('MW_API_HTML_OUTPUT')) {
-            $layout = $this->app->parser->process($layout, $options = false);
-        }
-
-        return $layout;
-
     }
 }

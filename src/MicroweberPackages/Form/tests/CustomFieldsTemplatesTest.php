@@ -58,7 +58,7 @@ class CustomFieldsTemplatesTest extends TestCase
         $fields_csv_str = 'text, email';
         $fields_csv_array = explode(',', $fields_csv_str);
 
-        $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+        $fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
         foreach ($fields as $key => $field_id) {
 
             $option = array();
@@ -68,7 +68,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $save = save_option($option);
 
             $output = mw()->fields_manager->make($field_id);
-            $field = mw()->fields_manager->get_by_id($field_id);
+            $field = mw()->fields_manager->getById($field_id);
 
             if ($field['type'] == 'text') {
                 $checkInputClass = false;
@@ -101,7 +101,7 @@ class CustomFieldsTemplatesTest extends TestCase
         $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';
         $fields_csv_array = explode(',', $fields_csv_str);
 
-        $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+        $fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
 
         foreach ($fields as $key => $field_id) {
 
@@ -112,7 +112,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $save = save_option($option);
 
             $output = mw()->fields_manager->make($field_id);
-            $field = mw()->fields_manager->get_by_id($field_id);
+            $field = mw()->fields_manager->getById($field_id);
 
             $checkRow = false;
             if (strpos($output, 'class="col-md-12') !== false) {
@@ -156,7 +156,7 @@ class CustomFieldsTemplatesTest extends TestCase
         $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';
         $fields_csv_array = explode(',', $fields_csv_str);
 
-        $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+        $fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
         foreach ($fields as $key => $field_id) {
 
             $option = array();
@@ -166,7 +166,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $save = save_option($option);
 
             $output = mw()->fields_manager->make($field_id);
-            $field = mw()->fields_manager->get_by_id($field_id);
+            $field = mw()->fields_manager->getById($field_id);
 
             $checkRow = false;
             if (strpos($output, 'class="col-12') !== false) {
@@ -206,7 +206,7 @@ class CustomFieldsTemplatesTest extends TestCase
         $fields_csv_str = 'text, dropdown, number, phone, website, email, fileupload, message';
         $fields_csv_array = explode(',', $fields_csv_str);
 
-        $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+        $fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
         foreach ($fields as $key => $field_id) {
 
             $option = array();
@@ -216,7 +216,7 @@ class CustomFieldsTemplatesTest extends TestCase
             $save = save_option($option);
 
             $output = mw()->fields_manager->make($field_id);
-            $field = mw()->fields_manager->get_by_id($field_id);
+            $field = mw()->fields_manager->getById($field_id);
 
             $checkRow = false;
             if (strpos($output, 'class="mw-flex-col-md-12') !== false) {

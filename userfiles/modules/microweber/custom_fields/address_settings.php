@@ -33,9 +33,10 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   top: 3px;
 }
 </style>
-<?php 
-//  var_dump($data['values']);var_dump($settings);die();
+<?php
+$instanceField = mw()->fields_manager->instanceField($data['type']);
 ?>
+
 <div class="custom-field-settings-name">
   <div class="mw-custom-field-group ">
     <label class="control-label" for="input_field_label<?php echo $rand; ?>">
@@ -45,11 +46,11 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
     <input type="text" class="form-control" value="<?php echo ($data['name']) ?>" name="name" id="input_field_label<?php echo $rand; ?>">
     
     <div id="mw-custom-fields-address-fields-selector">
-    
-     <?php foreach($data['default_address_fields'] as $key=>$value): ?>
+
+     <?php foreach($instanceField->fields as $key=>$value): ?>
       <div>
         <label class="mw-ui-check">
-          <input data-for="<?php echo $key; ?>" type="checkbox" value="true" name="options[<?php echo $key; ?>]" <?php if(isset($data['values'][$key])) : ?> checked="checked" <?php endif; ?>  />
+          <input data-for="<?php echo $key; ?>" type="checkbox" value="true" name="options[<?php echo $key; ?>]" <?php if(isset($data['options'][$key])) : ?> checked="checked" <?php endif; ?>  />
           <span></span>
           <span><?php echo $value; ?></span>
          </label> 

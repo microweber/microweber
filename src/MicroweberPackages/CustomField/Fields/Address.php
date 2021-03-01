@@ -15,11 +15,22 @@ class Address extends DefaultField
     public $hasErrorTextOptions = true;
     public $hasRequiredOptions = true;
 
-    public $defaultDataOptions = [
+    public $fields = [
         'country' => 'Country',
         'city' => 'City',
         'zip' => 'Zip/Post code',
         'state' => 'State/Province',
         'address' => 'Address'
     ];
+
+    public $appendAdditionalData = [
+       'countries' => ''
+    ];
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->appendAdditionalData['countries'] = mw()->forms_manager->countries_list();
+    }
 }
