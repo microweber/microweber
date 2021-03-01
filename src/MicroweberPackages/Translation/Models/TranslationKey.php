@@ -53,19 +53,20 @@ class TranslationKey extends Model
 
         $queryModel = static::query();
         $queryModel->where('translation_namespace', $filter['translation_namespace']);
-        $queryModel->groupBy(\DB::raw("MD5(translation_key)"));
+       $queryModel->groupBy("translation_key");
+       //$queryModel->groupBy(\DB::raw("MD5(translation_key)"));
 
         if (isset($filter['search']) && !empty($filter['search'])) {
             $queryModel->whereHas('texts', function($subQuery) use ($filter) {
                 $subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
                 $subQuery->orWhere('translation_text', 'like', '%' . $filter['search'] . '%');
             });
-    /*
+
 
         $queryModel->orWhere('translation_key', 'like', '%' . $filter['search'] . '%')
             ->where('translation_namespace', $filter['translation_namespace']);
 
-    */
+
 
         }
          Paginator::currentPageResolver(function() use ($filter) {
