@@ -240,10 +240,11 @@ class CustomFieldsTest extends TestCase
         $my_product_id = 3;
 
         $custom_field = array(
-            'field_name' => 'My test price',
-            'field_value' => 10,
-            'field_type' => 'price',
-            'content_id' => $my_product_id,);
+            'name' => 'My test price',
+            'value' => 10,
+            'type' => 'price',
+            'content_id' => $my_product_id, 
+        );
 
         // adding a custom field "price" to product
         $new_id = save_custom_field($custom_field);
@@ -273,9 +274,9 @@ class CustomFieldsTest extends TestCase
         $my_product_id = 21;
         $vals = array('Red', 'Blue', 'Green');
         $custom_field = array(
-            'field_name' => 'Color',
-            'field_value' => $vals,
-            'field_type' => 'dropdown',
+            'name' => 'Color',
+            'value' => $vals,
+            'type' => 'dropdown',
             'content_id' => $my_product_id,);
 
         //adding a custom field "Color" to product

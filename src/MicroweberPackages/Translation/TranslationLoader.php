@@ -12,6 +12,7 @@ class TranslationLoader extends FileLoader
 {
 
     public $translatedLanguageLines = [];
+    public $allTranslationsCached = [];
 
     /**
      * Load the messages for the given locale.
@@ -24,31 +25,61 @@ class TranslationLoader extends FileLoader
      */
     public function load($locale, $group, $namespace = null): array
     {
-        $allTranslations = [];
+        if ($this->allTranslationsCached) {
+            // return cached array
+         //   return $this->allTranslationsCached;
+        }
 
         // Load translations from files
         $fileTranslations = parent::load($locale, $group, $namespace);
         if (!is_null($fileTranslations)) {
-            $allTranslations = $fileTranslations;
+            $this->allTranslationsCached = $fileTranslations;
         }
 
         // Load translations from database
         if (mw_is_installed()) {
+
+//            $getTranslations = \Cache::tags('translation_keys')->remember('translation_keys-'.$locale, 99999,function() use($locale,$namespace,$group){
+//                 return TranslationKeyCached::where('translation_group', $group)
+//                    ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
+//                    ->where('translation_texts.translation_locale', $locale)
+//                    ->where('translation_namespace', $namespace)
+//                    ->get();
+//            });
+
+            $getNonTranslatedKeys = TranslationKeyCached::where('translation_group', $group)
+                ->where('translation_namespace', $namespace)
+                ->whereNotIn('translation_keys.id', function ($query) use($locale,$namespace) {
+                    $query->select('translation_key_id')->from('translation_texts')->where('translation_texts.translation_locale', $locale) ->where('translation_namespace', $namespace);
+                })
+                ->select('translation_key')
+                ->get();
+
+             if ($getNonTranslatedKeys !== null) {
+                foreach ($getNonTranslatedKeys as $translation) {
+                    $translationText = $translation->translation_key;
+                    $this->allTranslationsCached[$translation->translation_key] = $translationText;
+                }
+            }
+
             $getTranslations = TranslationKeyCached::where('translation_group', $group)
                 ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
                 ->where('translation_texts.translation_locale', $locale)
                 ->where('translation_namespace', $namespace)
                 ->get();
-            if ($getTranslations !== null) {
+             if ($getTranslations !== null) {
                 foreach ($getTranslations as $translation) {
                     $translationText = $translation->translation_text;
-                    $translationText = str_ireplace('{{app_name}}', 'Microweber', $translationText);
-                    $allTranslations[$translation->translation_key] = $translationText;
+                    if(!$translationText){
+                        $translationText = $translation->translation_key;
+                    }
+                    //   $translationText = str_ireplace('{{app_name}}', 'Microweber', $translationText);
+                    $this->allTranslationsCached[$translation->translation_key] = $translationText;
                 }
             }
         }
 
-        return $allTranslations;
+        return $this->allTranslationsCached;
     }
 
     /*

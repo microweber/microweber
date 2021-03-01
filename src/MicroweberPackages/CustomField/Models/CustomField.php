@@ -2,12 +2,14 @@
 namespace MicroweberPackages\CustomField\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
 class CustomField extends Model
 {
     //use MaxPositionTrait;
+    use CacheableQueryBuilderTrait;
 
     use HasCreatedByFieldsTrait;
 
@@ -22,15 +24,16 @@ class CustomField extends Model
     ];
 
     protected $table = 'custom_fields';
-
     public $timestamps = true;
+
+    public $translatable = ['name','options'];
 
     /**
      * The attributes that should be cast.
      *
      * @var array
      */
-    protected $casts = [
+    public $casts = [
         'options' => 'json',
     ];
 

@@ -18,6 +18,14 @@ class Translator extends \Illuminate\Translation\Translator
      */
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
+//        $pairs = array(
+//            "\x03" => "",
+//            "\x05" => "",
+//            "\x0E" => "",
+//            "\x16" => "",
+//        );
+//        $key = strtr($key, $pairs);
+
         $locale = $locale ?: $this->locale;
 
         // For JSON translations, there is only one file per locale, so we will simply load
@@ -36,7 +44,8 @@ class Translator extends \Illuminate\Translation\Translator
 
             if (empty($item)) {
                 // echo 'This is without namespace, only key ->'.$key . '<br />';
-                self::$newKeys[md5($key . '**')] = [
+               // self::$newKeys[md5($key . '**')] = [
+                self::$newKeys[md5('**' . $key)] = [
                     'translation_namespace' => '*',
                     'translation_group' => '*',
                     'translation_key' => $key

@@ -8,7 +8,7 @@ if (!empty($this->config['textColor'])) {
 }
 ?>
 
-<link href="<?php print modules_url(); ?>/cookie_notice/scwCookie/output/assets/scwCookie.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print modules_url(); ?>/cookie_notice/scwCookie/output/assets/scwCookie.css" rel="stylesheet" type="text/css"/>
 
 <style>
     .scw-cookie-panel-toggle::before {

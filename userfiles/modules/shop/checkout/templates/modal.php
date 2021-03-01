@@ -42,26 +42,26 @@ description: Checkout
                                <div class="col-3 step-button">
                                    <a href="#" class="js-show-step js-show-step-shopping-cart" data-step="shopping-cart">
                                        <i class="material-icons">shopping_cart</i>
-                                       <h6 class="font-weight-bold"><?php _e("Shopping Cart"); ?></h6>
+                                       <h6 class="font-weight-bold mb-1"><?php _e("Shopping Cart"); ?></h6>
 
                                    </a>
                                </div>
                                <div class="col-3 step-button muted">
                                    <a href="#" class="js-show-step js-show-step-delivery-address" data-step="delivery-address">
                                        <i class="material-icons">local_shipping</i>
-                                       <h6 class="font-weight-bold"><?php _e("Delivery Address"); ?> </h6>
+                                       <h6 class="font-weight-bold mb-1"><?php _e("Delivery Address"); ?> </h6>
                                    </a>
                                </div>
                                <div class="col-3 step-button muted">
                                    <a href="#" class="js-show-step js-show-step-payment-method" data-step="payment-method">
                                        <i class="material-icons">payment</i>
-                                       <h6 class="font-weight-bold"><?php _e("Payment Method"); ?></h6>
+                                       <h6 class="font-weight-bold mb-1"><?php _e("Payment Method"); ?></h6>
                                    </a>
                                </div>
                                <div class="col-3 step-button muted">
                                    <a href="#" class="js-show-step js-show-step-checkout-complete" data-step="checkout-complete">
                                        <i class="material-icons">check_circle</i>
-                                       <h6 class="font-weight-bold"><?php _e("Complete"); ?></h6>
+                                       <h6 class="font-weight-bold mb-1"><?php _e("Complete"); ?></h6>
                                    </a>
                                </div>
                            </div>

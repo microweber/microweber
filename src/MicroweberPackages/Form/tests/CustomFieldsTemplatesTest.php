@@ -70,7 +70,6 @@ class CustomFieldsTemplatesTest extends TestCase
             $output = mw()->fields_manager->make($field_id);
             $field = mw()->fields_manager->get_by_id($field_id);
 
-
             if ($field['type'] == 'text') {
                 $checkInputClass = false;
                 if (strpos($output, 'class="unit-test"') !== false) {

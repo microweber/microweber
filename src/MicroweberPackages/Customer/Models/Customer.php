@@ -4,11 +4,15 @@ namespace MicroweberPackages\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Currency\Currency;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Payment\Payment;
 
 class Customer extends Model
 {
+    use CacheableQueryBuilderTrait;
+    public $cacheTagsToClear = ['countries','address'];
+
+
     public $fillable = [
         'name',
         'first_name',
@@ -43,10 +47,10 @@ class Customer extends Model
         return $this->hasMany(Address::class);
     }
 
-    public function currency()
-    {
-        return $this->belongsTo(Currency::class);
-    }
+//    public function currency()
+//    {
+//        return $this->belongsTo(Currency::class);
+//    }
 
     public function billingAddress()
     {
@@ -58,10 +62,10 @@ class Customer extends Model
         return $this->hasOne(Address::class)->where('type', Address::SHIPPING_TYPE);
     }
 
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
+//    public function payments()
+//    {
+//        return $this->hasMany(Payment::class);
+//    }
 
     public function orders()
     {

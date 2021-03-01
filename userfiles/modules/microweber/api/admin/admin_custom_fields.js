@@ -232,14 +232,13 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 
     var data = {};
     data.settings = 'y';
-    data.field_id = id;
+    data.id = id;
     data.live_edit = true;
     data.module_settings = true;
-    data.id = id;
 
 
     data.params = {};
-    data.params.field_id = id;
+    data.params.id = id;
 
     editModal = mw.top().tools.open_module_modal('custom_fields/values_edit', data, {
         overlay: false,

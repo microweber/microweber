@@ -153,7 +153,7 @@ class TranslationController {
                    $getTranslationText->translation_locale = $translation['translation_locale'];
                }
 
-               $getTranslationText->translation_text = $translation['translation_text'];
+               $getTranslationText->translation_text = trim($translation['translation_text']);
                $getTranslationText->save();
 
            }
