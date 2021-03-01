@@ -14,4 +14,12 @@ class Address extends DefaultField
     public $hasResponsiveOptions = true;
     public $hasErrorTextOptions = true;
     public $hasRequiredOptions = true;
+
+    public $defaultDataOptions = [
+        'country' => 'Country',
+        'city' => 'City',
+        'zip' => 'Zip/Post code',
+        'state' => 'State/Province',
+        'address' => 'Address'
+    ];
 }
