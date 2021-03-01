@@ -51,11 +51,6 @@ class DefaultField
     public $renderData = false;
     public $renderSettings = false;
 
-    public function __construct()
-    {
-        //
-    }
-
     public function setData($data){
         $this->data = $data;
     }
@@ -70,6 +65,7 @@ class DefaultField
         if (!empty($this->data)) {
             $renderData = array_merge($renderData, $this->data);
         }
+
         // Set default data if not exists
         foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
             if (!isset($renderData[$defaultDataKey])) {
@@ -103,7 +99,7 @@ class DefaultField
             }
         }
 
-        $renderSettings = $this->_calculateFieldSize($renderSettings);
+        $renderSettings = $this->calculateFieldSize($renderSettings);
 
         $this->renderSettings = $renderSettings;
     }
@@ -133,8 +129,10 @@ class DefaultField
         return $customFieldHtml;
     }
 
-    private function _calculateFieldSize($renderSettings)
+    public function calculateFieldSize($renderSettings)
     {
+        $renderSettings['field_size'] = 12;
+
         if (mw()->browser_agent->isMobile()) {
             if (isset($renderSettings['field_size_mobile'])) {
                 $renderSettings['field_size'] = $renderSettings['field_size_mobile'];

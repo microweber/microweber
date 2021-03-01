@@ -23,14 +23,24 @@ class Address extends DefaultField
         'address' => 'Address'
     ];
 
-    public $appendAdditionalData = [
-       'countries' => ''
-    ];
-
-    public function __construct()
+    public function preparePreview()
     {
-        parent::__construct();
+        $this->renderData = $this->data;
 
-        $this->appendAdditionalData['countries'] = mw()->forms_manager->countries_list();
+        $addressFields = [];
+        if (!empty($this->data['options'])) {
+            foreach ($this->fields as $fieldKey=>$fieldValue) {
+                if (isset($this->data['options'][$fieldKey])) {
+                    $addressFields[$fieldKey] = $fieldValue;
+                }
+            }
+        }
+
+        $this->renderData['countries'] = mw()->forms_manager->countries_list();
+        $this->renderData['values'] = $addressFields;
+
+        $this->renderSettings['required'] = true;
+        $this->renderSettings['show_label'] = true;
+        $this->renderSettings = $this->calculateFieldSize($this->renderSettings);
     }
 }
