@@ -1026,6 +1026,7 @@ class Format
 
    public function render_item_custom_fields_data($item)
     {
+
         if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
             $item['custom_fields_data'] = $this->base64_to_array($item['custom_fields_data']);
             if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data']) and !empty($item['custom_fields_data'])) {
@@ -1034,11 +1035,11 @@ class Format
                 $getCustom_fields = CustomField::where('rel_id', $item['rel_id'])->get();
                 if ($getCustom_fields !== null) {
                     foreach($getCustom_fields as $customField) {
-                        if (isset($itemCustomFields[$customField->name_key])) {
+                        if (isset($itemCustomFields[$customField->name])) {
                             $customFieldValues = $customField->fieldValue()->get();
                             if ($customFieldValues !== null) {
                                 foreach ($customFieldValues as $customFieldValue) {
-                                    $itemCustomFields[$customField->name_key] = $customFieldValue->value;
+                                    $itemCustomFields[$customField->name] = $customFieldValue->value;
                                 }
                             }
                         }
