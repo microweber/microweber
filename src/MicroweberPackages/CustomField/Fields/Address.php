@@ -36,6 +36,7 @@ class Address extends DefaultField
             }
         }
 
+        $this->renderData['help'] = '';
         $this->renderData['countries'] = mw()->forms_manager->countries_list();
         $this->renderData['values'] = $addressFields;
 
