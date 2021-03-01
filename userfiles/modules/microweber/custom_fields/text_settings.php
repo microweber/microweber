@@ -5,6 +5,7 @@
         resize:both;
     }
 </style>
+
 <div class="custom-field-settings-name mb-2">
     <label class="control-label" for="input_field_label<?php print $rand; ?>"><?php _e('Title'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Title label of the field');?></small>
@@ -13,7 +14,7 @@
 
 <div class="mw-ui-field-holder">
     <label class="mw-ui-check">
-        <input type="checkbox"  class="mw-custom-field-option js-custom-field-as-textarea" name="options[as_text_area]" <?php if($settings["as_text_area"]): ?> checked="checked" <?php endif; ?> value="1" id="mw-custom-fields-text-switch">
+        <input type="checkbox" class="mw-custom-field-option js-custom-field-as-textarea" name="options[as_text_area]" <?php if($settings["as_text_area"]): ?> checked="checked" <?php endif; ?> value="1" id="mw-custom-fields-text-switch">
         <span></span>
         <span><?php _e("Use as Text Area"); ?></span>
     </label>
@@ -40,10 +41,10 @@
         <label class="control-label" for="value<?php echo $rand; ?>"><?php _e("Value"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the value of description');?></small>
         <div id="mw-custom-fields-text-holder" class="js-custom-field-text-settings">
-            <?php if($settings["as_text_area"]): ?>
-            <input type="text" class="form-control js-custom-field-value" name="value" value="<?php print ($data['value']) ?>" />
+            <?php if($settings["as_text_area"] == '1'): ?>
+                <textarea class="form-control js-custom-field-value" name="value"><?php echo $data['value']; ?></textarea>
             <?php else: ?>
-            <textarea class="form-control js-custom-field-value" name="value"><?php echo $data['value']; ?></textarea>
+                <input type="text" class="form-control js-custom-field-value" name="value" value="<?php print ($data['value']) ?>" />
             <?php endif; ?>
         </div>
     </div>

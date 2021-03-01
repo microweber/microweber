@@ -14,4 +14,15 @@ class Text extends DefaultField
     public $hasResponsiveOptions = true;
     public $hasErrorTextOptions = true;
     public $hasRequiredOptions = true;
+
+    public function preparePreview()
+    {
+        parent::preparePreview();
+
+        $this->renderSettings['as_text_area'] = false;
+
+        if (isset($this->data['options']['as_text_area'])) {
+            $this->renderSettings['as_text_area'] = $this->data['options']['as_text_area'];
+        }
+    }
 }

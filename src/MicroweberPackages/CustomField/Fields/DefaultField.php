@@ -30,9 +30,9 @@ class DefaultField
         'value'=> '',
         'placeholder'=> '',
     ];
+
     public $settings;
     public $defaultSettings = [
-        'as_text_area'=>'',
         'required'=>false,
         'multiple'=>'',
         'show_label'=>true,
