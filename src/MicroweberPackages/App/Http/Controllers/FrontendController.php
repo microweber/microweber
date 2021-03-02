@@ -2314,7 +2314,6 @@ class FrontendController extends Controller
             if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and $is_editmode) {
                 $this->app->user_manager->session_set('last_content_id', CONTENT_ID);
             }
-
             if (isset($output_cache_content) and $enable_full_page_cache and $output_cache_timeout != false) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
                     $output_cache_content_save = [];
@@ -2324,6 +2323,8 @@ class FrontendController extends Controller
                     $output_cache_content_save['time']  = now();
                     if (!str_contains($output_cache_content, 'image-generate-tn-request')) {
                         $this->app->cache_manager->save($output_cache_content_save, $output_cache_id, $output_cache_group, $output_cache_timeout);
+                    } else {
+                        $this->app->cache_manager->save(null, $output_cache_id, $output_cache_group, $output_cache_timeout);
                     }
                 }
             }
