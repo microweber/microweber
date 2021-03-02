@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Translation;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 
@@ -170,13 +171,30 @@ class TranslationImport
 
                         }
                     }
+
                     if ($textsToUpdateBulk) {
-                        $forImportTextDbBulk_chunked = array_chunk($textsToUpdateBulk, 100);
-                        foreach ($forImportTextDbBulk_chunked as $k => $forImportTextDbBulk_chunk) {
-                            $this->log("Updating translation texts chunk " . $k);
-                            $insertTranslationText = new TranslationText();
-                            $insertTranslationText->update($forImportTextDbBulk_chunk);
+
+
+                        DB::beginTransaction();
+
+                        try {
+                            foreach ($textsToUpdateBulk as $k => $forImportTextDbBulk_chunk) {
+                                $this->log("Updating translation texts chunk " . $k);
+                                $insertTranslationText = new TranslationText();
+                                $insertTranslationText->where('id', $forImportTextDbBulk_chunk['id'])->update($forImportTextDbBulk_chunk);
+                            }
+
+                            DB::commit();
+                            // all good
+                        } catch (\Exception $e) {
+                            DB::rollback();
+                            // something went wrong
                         }
+
+
+
+
+
                     }
 
                 }
@@ -185,6 +203,8 @@ class TranslationImport
             }
 
             \Cache::tags('translation_keys')->flush();
+            \Cache::tags('translation_texts')->flush();
+
             $msg = 'Importing language file success.';
             if ($textsToInsertBulk) {
                 $msg .= ' Inserted values ' . count($textsToInsertBulk);
