@@ -144,6 +144,16 @@ class TranslationController {
                // Get translation text
                $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
                    ->where('translation_locale', $translation['translation_locale'])
+                   ->get();
+               
+               if ($getTranslationText->count() > 1) {
+                   foreach($getTranslationText as $dublicatedText) {
+                       $dublicatedText->delete();
+                   }
+               }
+
+               $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
+                   ->where('translation_locale', $translation['translation_locale'])
                    ->first();
 
                // Save new translation text

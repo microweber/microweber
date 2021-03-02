@@ -92,6 +92,10 @@ class DefaultField
             $renderSettings['show_label'] = $this->data['show_label'];
         }
 
+        if (isset($this->data['required'])) {
+            $renderSettings['required'] = $this->data['required'];
+        }
+
         // Set default settings if not exists
         foreach($this->defaultSettings as $defaultSettingsKey=>$defaultSettingsValue) {
             if (!isset($renderSettings[$defaultSettingsKey])) {

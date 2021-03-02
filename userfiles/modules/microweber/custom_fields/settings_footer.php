@@ -81,7 +81,7 @@ endif;
 <?php
 if ($instanceField->hasRequiredOptions):
 ?>
-<div class="mw-custom-field-group<?php print $hidden_class ?>">
+<div class="mw-custom-field-group">
     <label class="control-label mt-3" ><?php _e('Required'); ?></label>
    <div class="d-flex">
        <div class="mw-custom-field-form-controls p-0">
@@ -98,9 +98,21 @@ endif;
 ?>
 
 <?php
+if ($data['required']) {
+    ?>
+    <script>
+        $(document).ready(function() {
+            $("#required_checkbox").show();
+        });
+    </script>
+<?php
+}
+?>
+
+<?php
 if ($instanceField->hasErrorTextOptions):
 ?>
-<div class="mw-custom-field-group" id="required_checkbox">
+<div class="mw-custom-field-group" id="required_checkbox" style="display: none;">
     <label class="control-label" ><?php _e('Error text'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('This error will be shown when fields are required but not filled');?></small>
     <div class="mw-custom-field-form-controls">
@@ -111,26 +123,6 @@ if ($instanceField->hasErrorTextOptions):
 endif;
 ?>
 
-<!--<div class="mw-custom-field-group<?php /*print $hidden_class */?>">
-    <label class="mw-custom-field-label"><?php /*_e('Active'); */?></label>
-    <div class="mw-custom-field-form-controls">
-        <label class="radio">
-            <input type="radio" class="mw-ui-field mw-full-width" name="is_active"   <?php /*if (trim($data['is_active']) == '1'): */?> checked="checked"  <?php /*endif; */?>  value="1">
-            <?php /*_e('Yes'); */?> </label>
-        <label class="radio">
-            <input type="radio" class="mw-ui-field mw-full-width" name="is_active" <?php /*if (trim($data['is_active']) == '0'): */?> checked="checked"  <?php /*endif; */?>   value="0">
-            <?php /*_e('No'); */?> </label>
-    </div>
-</div>
--->
-
-<!--<div class="mw-custom-field-group<?php /*print $hidden_class */?>">
-    <label class="mw-custom-field-label" ><?php /*_e('Help text'); */?></label>
-    <div class="mw-custom-field-form-controls">
-        <input type="text" name="options[help_text]" class="mw-ui-field mw-full-width" value="<?php /*if (isset($data['options']['help_text'])) { echo $data['options']['help_text']; } */?>"  id="custom_field_help_text<?php /*print $rand; */?>">
-    </div>
-</div>
--->
     <div class="form-actions custom-fields-form-actions">
         <script>
             __save__global_id = '#custom_fields_edit<?php print $rand; ?>';
@@ -146,10 +138,11 @@ endif;
                 $('.selectpicker').selectpicker();
             });
                function valueChanged() {
-                 if($('.checkbox').is(":checked"))
-                     $("#required_checkbox").show();
-                 else
-                     $("#required_checkbox").hide();
+                   if ($('.checkbox').is(":checked")) {
+                       $("#required_checkbox").show();
+                   } else {
+                       $("#required_checkbox").hide();
+                   }
                }
         </script>
     </div>

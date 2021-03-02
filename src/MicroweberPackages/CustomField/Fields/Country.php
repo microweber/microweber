@@ -9,7 +9,7 @@
 namespace MicroweberPackages\CustomField\Fields;
 
 
-class Text extends DefaultField
+class Country extends DefaultField
 {
     public $hasResponsiveOptions = true;
     public $hasErrorTextOptions = true;
@@ -20,14 +20,11 @@ class Text extends DefaultField
         parent::preparePreview();
 
         $this->renderSettings['required'] = false;
-        $this->renderSettings['as_text_area'] = false;
-
-        if (isset($this->data['options']['as_text_area'])) {
-            $this->renderSettings['as_text_area'] = $this->data['options']['as_text_area'];
-        }
 
         if (isset($this->data['required'])) {
             $this->renderSettings['required'] = $this->data['required'];
         }
+
+        $this->renderData['values'] =  mw()->forms_manager->countries_list();
     }
 }
