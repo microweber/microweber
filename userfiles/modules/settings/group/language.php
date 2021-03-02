@@ -59,6 +59,8 @@ if (is_module('multilanguage')) {
                                         <div class="form-group mb-4">
                                             <label class="control-label"><?php _e("Website Language"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
+                                            <div class="row">
+                                                <div class="col-md-7">
                                             <?php
                                             $langs = mw()->lang_helper->get_all_lang_codes();
 
@@ -74,6 +76,12 @@ if (is_module('multilanguage')) {
                                                     <?php endforeach; ?>
                                                 </select>
                                             <?php endif; ?>
+
+                                                </div>
+                                                <div class="col-md-5">
+                                                <a href="<?php echo admin_url('view:modules/load_module:multilanguage?activate=true'); ?>" class="btn btn-primary text-center btn-block"><?php _e('Activate Multilanguage Module'); ?></a>
+                                            </div>
+                                            </div>
                                         </div>
                                     <?php if ($hasMultilanguageModuleActivated): ?>
                                         <script>
