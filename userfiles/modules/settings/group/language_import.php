@@ -21,6 +21,11 @@ $(document).ready(function () {
     	postData = {}
     	postData.src = data.src;
 
+        var replace_values = $('#replace_valuesCheck1:checked').val();
+
+        if(replace_values){
+    	postData.replace_values = 1;
+        }
 		$.post("<?php echo route('admin.language.import'); ?>", postData,
 			function(msg) {
 				if (msg.success) {
@@ -46,6 +51,12 @@ $(document).ready(function () {
 <div class="my-2">
 <label class="control-label"><?php _e('Upload Your Language File');?></label>
     <small class="text-muted d-block mb-3"><?php _e('If you have a .xlsx translated file you can import it by uploading it here.');?></small>
+
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" name="replace_values" value="1" class="custom-control-input" id="replace_valuesCheck1"  >
+        <label class="custom-control-label" for="replace_valuesCheck1"><?php _e('Replace language values');?></label>
+    </div>
+
 
 <span id="upload_file_info" style="font-size:14px;"></span>
  <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info">

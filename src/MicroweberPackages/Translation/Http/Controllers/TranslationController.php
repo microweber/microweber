@@ -34,7 +34,8 @@ class TranslationController {
         $translations = $data['content'];
 
         $import = new TranslationImport();
-        return $import->import($translations);
+        $replace_values = intval($request->post('replace_values'));
+        return $import->import($translations,$replace_values);
 
     }
 
