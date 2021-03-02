@@ -320,7 +320,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     }
                                     $count = count($pkitems);
                                     $total += $count;
-                                    $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-danger badge-sm badge-pill">' . $count . '</sup></a>';
+                                    $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-danger badge-sm badge-pill ml-2">' . $count . '</sup></a>';
                                 endforeach;
                                 ?>
                                 <?php print $items; ?>
