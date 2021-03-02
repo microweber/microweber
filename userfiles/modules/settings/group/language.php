@@ -52,15 +52,17 @@ if (is_module('multilanguage')) {
                                 <div class="col-12">
 
 
-
-
-                                    <?php if (!$isMultilanguageActivated): ?>
-
                                         <div class="form-group mb-4">
                                             <label class="control-label"><?php _e("Website Language"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
                                             <div class="row">
                                                 <div class="col-md-7">
+
+                                                    <?php if ($hasMultilanguageModuleActivated): ?>
+
+                                                  <module type="multilanguage" template="admin" show_settings_link="true" />
+
+                                                    <?php else: ?>
                                             <?php
                                             $langs = mw()->lang_helper->get_all_lang_codes();
 
@@ -76,36 +78,34 @@ if (is_module('multilanguage')) {
                                                     <?php endforeach; ?>
                                                 </select>
                                             <?php endif; ?>
+                                                    <?php endif;?>
 
                                                 </div>
                                                 <div class="col-md-5">
-                                                <a href="<?php echo admin_url('view:modules/load_module:multilanguage?activate=true'); ?>" class="btn btn-primary text-center btn-block"><?php _e('Activate Multilanguage Module'); ?></a>
-                                            </div>
+                                                    <script>
+                                                        function openMultilangEditModal() {
+                                                            var data = {};
+                                                            data.show_settings_link = "true";
+                                                            openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
+                                                                overlay: true,
+                                                                skin: 'simple',
+                                                                height: 600,
+                                                                title: 'Edit'
+                                                            })
+                                                        }
+                                                    </script>
+                                                    <a onclick="openMultilangEditModal()" class="btn btn-primary btn-block">
+                                                        <?php if ($hasMultilanguageModuleActivated): ?>
+                                                        <?php _e('Multilanguage settings'); ?>
+                                                        <?php else: ?>
+                                                        <?php _e('Activate Multilanguage Module'); ?>
+                                                        <?php endif;?>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    <?php if ($hasMultilanguageModuleActivated): ?>
-                                        <script>
-                                            function openMultilangEditModal() {
-                                                var data = {};
-
-                                                data.show_settings_link = "true";
-                                                openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
-                                                    overlay: true,
-                                                    skin: 'simple',
-                                                    title: 'Edit'
-                                                })
-                                            }
-                                        </script>
-
-                                        <a onclick="openMultilangEditModal()" class="btn btn-secondary"><?php _e('Multilanguage settings'); ?></a>
-                                       <?php endif; ?>
-
-                                    <?php else: ?>
 
 
-                                    <module type="multilanguage" template="admin" show_settings_link="true" />
-
-                                    <?php endif; ?>
 
                                 </div>
                             </div>
