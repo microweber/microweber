@@ -148,7 +148,7 @@ class TranslationController {
 
                // Save new translation text
                if ($getTranslationText == null) {
-                   $getTranslationText = new TranslationText();
+                   $getTranslationText = new TranslationText(); 
                    $getTranslationText->translation_key_id = $getTranslationKey->id;
                    $getTranslationText->translation_locale = $translation['translation_locale'];
                }
