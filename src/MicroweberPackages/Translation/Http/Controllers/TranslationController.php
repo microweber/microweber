@@ -141,6 +141,7 @@ class TranslationController {
                }
                $getTranslationKey->save();
 
+               
                // Get translation text
                $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
                    ->where('translation_locale', $translation['translation_locale'])
