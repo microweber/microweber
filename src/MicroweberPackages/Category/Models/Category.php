@@ -25,9 +25,9 @@ class Category extends Model
     ];
 
     public $fillable = [
-        "rel",
+        "rel_type",
         "rel_id",
-        "date_type",
+        "data_type",
         "parent_id",
         "title",
         "content",
