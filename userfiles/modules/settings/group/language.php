@@ -94,7 +94,7 @@ if (is_module('multilanguage')) {
                                                             })
                                                         }
                                                     </script>
-                                                    
+
                                                     <a onclick="openMultilangEditModal()" class="btn btn-primary btn-block">
                                                         <?php if ($hasMultilanguageModuleActivated): ?>
                                                         <?php _e('Multilanguage settings'); ?>
