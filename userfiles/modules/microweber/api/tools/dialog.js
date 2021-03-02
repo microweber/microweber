@@ -131,7 +131,7 @@
             overlayClose: false,
             autoCenter: true,
             root: document,
-            id: mw.id('mw-dialog-'),
+            id: options.name || options.id || mw.id('mw-dialog-'),
             content: '',
             closeOnEscape: true,
             closeButton: true,
@@ -149,6 +149,8 @@
         });
 
         this.id = this.options.id;
+
+
         var exist = document.getElementById(this.id);
         if (exist) {
             return exist._dialog;

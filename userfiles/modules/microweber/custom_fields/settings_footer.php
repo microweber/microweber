@@ -23,7 +23,7 @@ if ($instanceField->hasShowLabelOptions):
 endif;
 ?>
 
-<?php 
+<?php
 $fields = mw()->ui->custom_fields();
 ?>
 <div class="mw-custom-field-group">
@@ -144,6 +144,44 @@ endif;
                        $("#required_checkbox").hide();
                    }
                }
+
+
+
+
+
         </script>
+    </div>
+</div>
+
+<style>
+
+    #save-menu-container{
+        height: 60px;
+    }
+    #save-menu-wrapper{
+
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        padding: 10px 20px;
+        background-color: #FAFAFA;
+        border-top: 1px solid #cfcfcf;
+    }
+    #save-menu{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+</style>
+
+
+<div id="save-menu-container">
+    <div id="save-menu-wrapper">
+        <nav id="save-menu">
+            <span class="btn btn-outline-secondary"><?php print _e('Cancel'); ?></span>
+            <button disabled class="btn btn-primary custom-fields-settings-save-btn"><?php print _e('Save'); ?></button>
+        </nav>
     </div>
 </div>

@@ -370,7 +370,7 @@
 
             var editor2 = new MWEditor({
                 selector: '#editortest2',
-                mode: 'div',
+                mode: 'iframe',
                 controls: [
                     [
                         ...ctrl1,

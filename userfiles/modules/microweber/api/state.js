@@ -21,6 +21,9 @@
             this._state = state;
             return this;
         };
+        var _e = {};
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
 
         this.active = function(active){
@@ -73,6 +76,7 @@
             this._activeIndex = -1;
             this.afterChange(false);
             mw.$(this).trigger('stateRecord', [this.eventData()]);
+            this.dispatch('record', [this.eventData()]);
             return this;
         };
 
@@ -86,6 +90,7 @@
             this._activeIndex--;
             this._active = this._state[this._activeIndex];
             this.afterChange('stateRedo');
+            this.dispatch('redo');
             return this;
         };
 
@@ -98,6 +103,7 @@
             }
             this._active = this._state[this._activeIndex];
             this.afterChange('stateUndo');
+            this.dispatch('undo');
             return this;
         };
 
