@@ -142,7 +142,7 @@ var MWEditor = function (options) {
         scope.actionWindow.document.body.appendChild(node);
     };
     this.addDependency = function (obj) {
-        targetWindow = obj.targetWindow || scope.actionWindow;
+        var targetWindow = obj.targetWindow || scope.actionWindow;
         if (!type) {
             type = url.split('.').pop();
         }
@@ -166,6 +166,91 @@ var MWEditor = function (options) {
         });
     };
 
+    var _observe = function(e){
+        e = e || {type: 'action'};
+        var max = 78;
+        var eventIsActionLike = e.type === 'click' || e.type === 'execCommand' || e.type === 'keydown' || e.type === 'action';
+        var event = e.originaleEvent ? e.originaleEvent : e;
+        var localTarget = event.target;
+
+        if (!e.target) {
+            localTarget = scope.getSelection().focusNode;
+         }
+        var wTarget = localTarget;
+        if(eventIsActionLike) {
+            var shouldCloseSelects = false;
+            while (wTarget) {
+                var cc = wTarget.classList;
+                if(cc) {
+                    if(cc.contains('mw-editor-controller-component-select')) {
+                        break;
+                    } else if(cc.contains('mw-bar-control-item-group')) {
+                        break;
+                    } else if(cc.contains('mw-editor-area')) {
+                        shouldCloseSelects = true;
+                        break;
+                    } else if(cc.contains('mw-editor-frame-area')) {
+                        shouldCloseSelects = true;
+                        break;
+                    } else if(cc.contains('mw-editor-wrapper')) {
+                        shouldCloseSelects = true;
+                        break;
+                    }
+                }
+                wTarget = wTarget.parentNode;
+            }
+            if(shouldCloseSelects) {
+                MWEditor.core._preSelect();
+            }
+        }
+        var time = new Date().getTime();
+        if(eventIsActionLike || (time - scope._interactionTime) > max){
+            if (e.pageX) {
+                scope.interactionData.pageX = e.pageX;
+                scope.interactionData.pageY = e.pageY;
+            }
+            scope._interactionTime = time;
+            scope.selection = scope.getSelection();
+            if (scope.selection.rangeCount === 0) {
+                return;
+            }
+            var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
+            var css = mw.CSSParser(target);
+            var api = scope.api;
+
+
+            var iterData = {
+                selection: scope.selection,
+                target: target,
+                localTarget: localTarget,
+                isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
+                css: css.get,
+                cssNative: css.css,
+                event: event,
+                api: api,
+                scope: scope,
+                isEditable: scope.api.isSelectionEditable(),
+                eventIsActionLike: eventIsActionLike,
+            };
+
+            scope.interactionControlsRun(iterData);
+            scope.controls.forEach(function (ctrl) {
+                if(ctrl.checkSelection) {
+                    ctrl.checkSelection({
+                        selection: scope.selection,
+                        controller: ctrl,
+                        target: target,
+                        css: css.get,
+                        cssNative: css.css,
+                        api: api,
+                        eventIsActionLike: eventIsActionLike,
+                        scope: scope,
+                        isEditable: scope.api.isSelectionEditable()
+                    });
+                }
+            });
+        }
+    }
 
     this.initInteraction = function () {
         var ait = 100,
@@ -177,88 +262,24 @@ var MWEditor = function (options) {
                 interactionData: scope.interactionData
             }]);
         });
-        var max = 78;
-        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', function(e){
-            var eventIsActionLike = e.type === 'click' || e.type === 'execCommand' || e.type === 'keydown';
-            var event = e.originaleEvent ? e.originaleEvent : e;
-            var localTarget = event.target;
 
-            var wTarget = localTarget;
-            if(eventIsActionLike) {
-                var shouldCloseSelects = false;
-                while (wTarget) {
-                    var cc = wTarget.classList;
-                    if(cc) {
-                        if(cc.contains('mw-editor-controller-component-select')) {
-                            break;
-                        } else if(cc.contains('mw-bar-control-item-group')) {
-                            break;
-                        } else if(cc.contains('mw-editor-area')) {
-                            shouldCloseSelects = true;
-                            break;
-                        } else if(cc.contains('mw-editor-frame-area')) {
-                            shouldCloseSelects = true;
-                            break;
-                        } else if(cc.contains('mw-editor-wrapper')) {
-                            shouldCloseSelects = true;
-                            break;
-                        }
-                    }
-                    wTarget = wTarget.parentNode;
-                }
-                if(shouldCloseSelects) {
-                    MWEditor.core._preSelect();
-                }
-            }
-            var time = new Date().getTime();
-            if(eventIsActionLike || (time - scope._interactionTime) > max){
-                if (e.pageX) {
-                    scope.interactionData.pageX = e.pageX;
-                    scope.interactionData.pageY = e.pageY;
-                }
-                scope._interactionTime = time;
-                scope.selection = scope.getSelection();
-                if (scope.selection.rangeCount === 0) {
-                    return;
-                }
-                var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
-                var css = mw.CSSParser(target);
-                var api = scope.api;
-
-
-                var iterData = {
-                    selection: scope.selection,
-                    target: target,
-                    localTarget: localTarget,
-                    isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
-                    css: css.get,
-                    cssNative: css.css,
-                    event: event,
-                    api: api,
-                    scope: scope,
-                    isEditable: scope.api.isSelectionEditable(),
-                    eventIsActionLike: eventIsActionLike,
-                };
-
-                scope.interactionControlsRun(iterData);
-                scope.controls.forEach(function (ctrl) {
-                    if(ctrl.checkSelection) {
-                        ctrl.checkSelection({
-                            selection: scope.selection,
-                            controller: ctrl,
-                            target: target,
-                            css: css.get,
-                            cssNative: css.css,
-                            api: api,
-                            eventIsActionLike: eventIsActionLike,
-                            scope: scope,
-                            isEditable: scope.api.isSelectionEditable()
-                        });
-                    }
-                });
-            }
+        $(scope).on('execCommand', function (){
+            _observe();
         });
-        this.createInteractionControls()
+        scope.state.on('undo', function (){
+            setTimeout(function (){
+                _observe();
+            }, 123);
+        });
+        scope.state.on('redo', function (){
+            var active = scope.state.active();
+            var target = active ? active.target : scope.getSelection().focusNode();
+            setTimeout(function (){
+                _observe();
+            }, 123);
+        });
+        scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove', _observe);
+        this.createInteractionControls();
     };
 
     this._preventEvents = [];
@@ -697,7 +718,6 @@ if (window.mw) {
                options.selector = (options.document || document).querySelector(options.selector);
            }
            if (options.selector && options.selector.__MWEditor) {
-               console.log(options.selector.__MWEditor)
                return options.selector.__MWEditor;
            }
        }
