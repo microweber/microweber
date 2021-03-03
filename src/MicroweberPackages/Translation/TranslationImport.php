@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Translation;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 
@@ -11,12 +12,15 @@ class TranslationImport
     public $logger = null;
 
 
-    public function import($translations)
+    public function import($translations, $replace_values = false)
     {
 
         $forImportKeysAndText = [];
         $foundLangKeys = [];
         $textsToImport = [];
+        $textsToInsertBulk = [];
+        $textsToUpdateBulk = [];
+
         $allLangKeysDb = TranslationKey::select(['id', 'translation_key'])->get();
         if ($allLangKeysDb != null) {
             $allLangKeysDb = $allLangKeysDb->toArray();
@@ -122,7 +126,7 @@ class TranslationImport
 
                 $allLangKeysDb = TranslationKey::select(['id', 'translation_key'])->get();
                 if ($allLangKeysDb != null) {
-                    $textsToInsertBulk = [];
+
                     $allLangKeysDb = $allLangKeysDb->toArray();
                     if ($allLangKeysDb) {
                         foreach ($allLangKeysDb as $allLangKey) {
@@ -134,13 +138,26 @@ class TranslationImport
                             if (isset($forImportKeysAndText[$translation_key_md5])) {
                                 $importTextData = $forImportKeysAndText[$translation_key_md5];
 
-                                $getTranslationText = TranslationText::where('translation_key_id', $allLangKey['id'])->where('translation_locale', $importTextData['translation_locale'])->limit(1)->first();
+                                $getTranslationText = TranslationText::where('translation_key_id', $allLangKey['id'])
+                                    ->where('translation_locale', $importTextData['translation_locale'])
+                                    ->limit(1)->first();
+
+
                                 if ($getTranslationText == null) {
                                     $importText = [];
                                     $importText['translation_key_id'] = $allLangKey['id'];
                                     $importText['translation_text'] = $importTextData['translation_text'];
                                     $importText['translation_locale'] = $importTextData['translation_locale'];
                                     $textsToInsertBulk[] = $importText;
+                                } else {
+                                    if ($replace_values) {
+                                        $replaceText = [];
+                                        $replaceText['translation_key_id'] = $allLangKey['id'];
+                                        $replaceText['id'] = $getTranslationText['id'];
+                                        $replaceText['translation_text'] = $importTextData['translation_text'];
+                                        $replaceText['translation_locale'] = $importTextData['translation_locale'];
+                                        $textsToUpdateBulk[] = $replaceText;
+                                    }
                                 }
                             }
                         }
@@ -149,10 +166,35 @@ class TranslationImport
                         $forImportTextDbBulk_chunked = array_chunk($textsToInsertBulk, 100);
                         foreach ($forImportTextDbBulk_chunked as $k => $forImportTextDbBulk_chunk) {
                             $this->log("Importing translation texts chunk " . $k);
-
                             $insertTranslationText = new TranslationText();
                             $insertTranslationText->insert($forImportTextDbBulk_chunk);
+
                         }
+                    }
+
+                    if ($textsToUpdateBulk) {
+
+
+                        DB::beginTransaction();
+
+                        try {
+                            foreach ($textsToUpdateBulk as $k => $forImportTextDbBulk_chunk) {
+                                $this->log("Updating translation texts chunk " . $k);
+                                $insertTranslationText = new TranslationText();
+                                $insertTranslationText->where('id', $forImportTextDbBulk_chunk['id'])->update($forImportTextDbBulk_chunk);
+                            }
+
+                            DB::commit();
+                            // all good
+                        } catch (\Exception $e) {
+                            DB::rollback();
+                            // something went wrong
+                        }
+
+
+
+
+
                     }
 
                 }
@@ -161,8 +203,17 @@ class TranslationImport
             }
 
             \Cache::tags('translation_keys')->flush();
+            \Cache::tags('translation_texts')->flush();
 
-            return ['success' => 'Importing language file success.'];
+            $msg = 'Importing language file success.';
+            if ($textsToInsertBulk) {
+                $msg .= ' Inserted values ' . count($textsToInsertBulk);
+            }
+            if ($textsToUpdateBulk) {
+                $msg .= ' Replaced values ' . count($textsToUpdateBulk);
+            }
+
+            return ['success' => $msg];
         }
 
         return ['error' => 'Can\'t import this language file.'];

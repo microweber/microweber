@@ -902,13 +902,21 @@ class MediaManager
             $cache_id_data['mtime'] = filemtime($base_src);
         }
         $cache_id_data['base_src'] = $base_src;
-        $cache_id_data['src'] = $src;
+
+
+        $src_for_db  = $src;
+        if (!$is_remote) {
+            $src_for_db = str_replace(site_url(), '{SITE_URL}', $src);
+        }
+
+        $cache_id_data['src'] = $src_for_db;
+
         $cache_id_data['width'] = $width;
         $cache_id_data['height'] = $height;
         if ($crop) {
             $cache_id_data['crop'] = $crop;
         }
-        $cache_id_without_ext = 'tn-' . md5(serialize($cache_id_data));
+        $cache_id_without_ext = 'tn-' . $this->tn_cache_id($cache_id_data);
         $cache_id = $cache_id_without_ext . '.' . $ext;
         $cache_path = $cd . $cache_id;
         $cache_path_relative = $cd_relative . $cache_id;
@@ -934,7 +942,7 @@ class MediaManager
 //               define('MW_NO_OUTPUT_CACHE', true);
 //            }
 
-           // $cache_id_data['cache_path'] = $cache_path;
+            // $cache_id_data['cache_path'] = $cache_path;
             $cache_id_data['cache_path_relative'] = $cache_path_relative;
 //            if (!get_option($cache_id_without_ext, 'media_tn_temp')) {
 //                save_option($cache_id_without_ext, @json_encode($cache_id_data), 'media_tn_temp');
@@ -1053,14 +1061,14 @@ class MediaManager
         if (!isset($ext)) {
             $ext = strtolower(get_file_extension($src));
         }
-        $cache = md5(serialize($params)) . '.' . $ext;
+       // $cache = md5(serialize($params)) . '.' . $ext;
+        $cache = $this->tn_cache_id($params) . '.' . $ext;
 
-        $cache = str_replace(' ', '_', $cache);
+        $cache = str_slug($cache);
 
         if (isset($cache_id)) {
-            $cache = str_replace(' ', '_', $cache_id);
-            $cache = str_replace('..', '', $cache);
-        }
+            $cache = str_slug($cache_id);
+         }
 //        if(!isset($cache_path)){
 //            $cache_path = $cd . $cache;
 //        }
@@ -1143,7 +1151,7 @@ class MediaManager
         }
 
 
-        if(isset($return_cache_path) and $return_cache_path){
+        if (isset($return_cache_path) and $return_cache_path) {
             return $cache_path;
         }
 
@@ -1247,6 +1255,20 @@ class MediaManager
         return $resp;
     }
 
+    public function tn_cache_id($params){
+
+        $tnhash = crc32(json_encode($params));
+        if(isset($params['src'])){
+            $src = basename($params['src']);
+            $src = no_ext($src);
+            if($src){
+                $src = str_slug($src);
+                $tnhash = $src.'-'.$tnhash;
+            }
+        }
+
+        return $tnhash;
+    }
     public function relative_media_start_path()
     {
 

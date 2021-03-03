@@ -41,7 +41,7 @@ if (isset($params['content-id'])) {
 if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
     $data = mw()->fields_manager->get(['rel_type'=>$for,'rel_id'=>$for_id, 'return_full'=>true]);
     if (!$data) {
-        mw()->fields_manager->make_default($for, $for_id, $params['default-fields']);
+        mw()->fields_manager->makeDefault($for, $for_id, $params['default-fields']);
     }
 }
 

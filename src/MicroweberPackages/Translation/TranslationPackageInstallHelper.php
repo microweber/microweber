@@ -26,6 +26,9 @@ class TranslationPackageInstallHelper
             $item = no_ext($item);
             $translations[$item] = LanguageHelper::getDisplayLanguage($item);
         }
+        if($translations){
+           asort($translations);
+        }
 
         if (!$translations) {
             $translations = ['en_US'];

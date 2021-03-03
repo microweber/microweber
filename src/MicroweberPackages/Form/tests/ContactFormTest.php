@@ -81,19 +81,12 @@ class ContactFormTest extends TestCase
 
             $subject = $email->getSubject();
             $body = $email->getBody();
-            dump(__FILE__);
-            dump($subject);
-// dump($body);
+
+            $this->assertTrue(str_contains($subject,'New form entry'));
+
         }
 
 
     }
-    public function testFormSubmitWithUpload()
-    {
 
-
-
-
-
-    }
 }

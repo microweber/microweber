@@ -366,7 +366,7 @@
 
             var editor2 = new mw.Editor({
                 selector: '#editortest2',
-                mode: 'div',
+                mode: 'iframe',
                 controls: [
                     [
                         ...ctrl1,

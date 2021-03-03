@@ -30,9 +30,9 @@ class DefaultField
         'value'=> '',
         'placeholder'=> '',
     ];
+
     public $settings;
     public $defaultSettings = [
-        'as_text_area'=>'',
         'required'=>false,
         'multiple'=>'',
         'show_label'=>true,
@@ -65,6 +65,7 @@ class DefaultField
         if (!empty($this->data)) {
             $renderData = array_merge($renderData, $this->data);
         }
+
         // Set default data if not exists
         foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
             if (!isset($renderData[$defaultDataKey])) {
@@ -91,6 +92,10 @@ class DefaultField
             $renderSettings['show_label'] = $this->data['show_label'];
         }
 
+        if (isset($this->data['required'])) {
+            $renderSettings['required'] = $this->data['required'];
+        }
+
         // Set default settings if not exists
         foreach($this->defaultSettings as $defaultSettingsKey=>$defaultSettingsValue) {
             if (!isset($renderSettings[$defaultSettingsKey])) {
@@ -98,28 +103,16 @@ class DefaultField
             }
         }
 
-        $renderSettings = $this->_calculateFieldSize($renderSettings);
+        $renderSettings = $this->calculateFieldSize($renderSettings);
 
         $this->renderSettings = $renderSettings;
     }
 
     public function render()
     {
-       $template = $this->getTemplateFiles($this->data);
-
-        if ($this->adminView) {
-            $file = $template['settings_file'];
-        } else {
-            $file = $template['preview_file'];
-        }
-
-        if (!is_file($file)) {
-            return $file;
-        }
-
         $this->preparePreview();
 
-        $parseView = new View($file);
+        $parseView = new View($this->getTempalteFile());
         $parseView->assign('data', $this->renderData);
         $parseView->assign('settings', $this->renderSettings);
 
@@ -128,8 +121,27 @@ class DefaultField
         return $customFieldHtml;
     }
 
-    private function _calculateFieldSize($renderSettings)
+    public function getTempalteFile()
     {
+        $template = $this->getTemplateFiles($this->data);
+
+        if ($this->adminView) {
+            $file = $template['settings_file'];
+        } else {
+            $file = $template['preview_file'];
+        }
+
+        if (!is_file($file)) {
+            return '';
+        }
+
+        return $file;
+    }
+
+    public function calculateFieldSize($renderSettings)
+    {
+        $renderSettings['field_size'] = 12;
+
         if (mw()->browser_agent->isMobile()) {
             if (isset($renderSettings['field_size_mobile'])) {
                 $renderSettings['field_size'] = $renderSettings['field_size_mobile'];

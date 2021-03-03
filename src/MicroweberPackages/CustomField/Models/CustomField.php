@@ -26,7 +26,7 @@ class CustomField extends Model
     protected $table = 'custom_fields';
     public $timestamps = true;
 
-    public $translatable = ['name','options'];
+    public $translatable = ['name','options', 'placeholder','error_text'];
 
     /**
      * The attributes that should be cast.

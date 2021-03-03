@@ -19,6 +19,6 @@ class ThumbnailTemp extends Model
     ];
 
     protected $attributes = [
-        'media_type' => 'picture',
+        'media_type' => 'media_tn_temp',
     ];
 }

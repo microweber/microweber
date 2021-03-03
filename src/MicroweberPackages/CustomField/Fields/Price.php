@@ -8,7 +8,6 @@
 
 namespace MicroweberPackages\CustomField\Fields;
 
-
 class Price extends DefaultField
 {
     public $hasResponsiveOptions = false;
@@ -24,4 +23,16 @@ class Price extends DefaultField
         'old_price'=>false
     ];
 
+
+    public function render()
+    {
+        $outputHtml = parent::render();
+
+        // This will append special offers module to price custom fields in admin
+        if ($this->adminView) {
+            $outputHtml = mw()->parser->process($outputHtml, $options = false);
+        }
+
+        return $outputHtml;
+    }
 }

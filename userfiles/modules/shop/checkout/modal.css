@@ -82,9 +82,12 @@
     padding: 10px 0;
     align-items: center;
     justify-content: center;
-
 }
 
+.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .ul {
+    list-style-type: none;
+    margin-bottom: 0.4rem;
+}
 
 @media screen and (max-width: 767px) {
     .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item img {

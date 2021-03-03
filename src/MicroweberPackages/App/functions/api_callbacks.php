@@ -176,7 +176,9 @@ api_expose('thumbnail_img');
         ->first();
 
     if ($check) {
-        $cache_id_data_json = $check->image_options;
+        $opts = $check->image_options;
+        $opts = app()->url_manager->replace_site_url_back($opts);
+        $cache_id_data_json = $opts;
         $cache_id_data_json['cache_id'] = $check->rel_id;
 
         $tn = mw()->media_manager->thumbnail_img($cache_id_data_json);
