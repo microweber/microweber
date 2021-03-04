@@ -171,7 +171,6 @@ class Tracker
                         $item['url_id'] = $related_data->id;
                     }
 
-
                 }
 
 
@@ -179,11 +178,10 @@ class Tracker
 
                 if (isset($item['url_id']) and isset($item['session_id_key'])) {
 
-
                     $existing_log = new Log();
 
                     $check_existing = $existing_log->where('url_id', $item['url_id'])
-                        ->where('session_id_key', $item['session_id_key'])
+                          ->where('session_id_key', $item['session_id_key'])
                         ->limit(1)->first();
 
                     if ($check_existing and $check_existing->id) {
