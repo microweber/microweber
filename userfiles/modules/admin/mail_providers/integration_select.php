@@ -11,8 +11,8 @@ $mailProviders = get_modules('type=mail_provider');
 ?>
 <?php if (!empty($mailProviders)): ?>
     <div class="form-group mb-1">
-        <label class="control-label">Mail providers</label>
-        <small class="text-muted d-block mb-2">Choose mail providers to save your contacts information data</small>
+        <label class="control-label"><?php _e("Mail providers"); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e("Choose mail providers to save your contacts information data"); ?></small>
     </div>
 
     <div>
@@ -23,7 +23,7 @@ $mailProviders = get_modules('type=mail_provider');
                     <label class="custom-control-label" for="use_integration_with_<?php echo strtolower($mailProvider['name']); ?>"><?php echo $mailProvider['name']; ?></label>
                 </div>
 
-                <button type="button" class="btn btn-link btn-sm px-0" onclick="mw.tools.open_module_modal('<?php print $mailProvider['module'] ?>/admin', {}, {title: '<?php print $mailProvider['name'] ?>',height:500,overlay: true, skin: 'simple'}); return false;">Settings</button>
+                <button type="button" class="btn btn-link btn-sm px-0" onclick="mw.tools.open_module_modal('<?php print $mailProvider['module'] ?>/admin', {}, {title: '<?php print $mailProvider['name'] ?>',height:500,overlay: true, skin: 'simple'}); return false;"><?php _e("Settings"); ?></button>
             </div>
         <?php endforeach; ?>
     </div>

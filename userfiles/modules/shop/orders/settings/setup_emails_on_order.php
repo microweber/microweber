@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="form-group">
             <label class="control-label"><?php _e("Send email to"); ?></label>
-            <small class="text-muted d-block mb-2">Send the autorespond emails to</small>
+            <small class="text-muted d-block mb-2"><?php _e('Send the autorespond emails to'); ?></small>
             <select class="mw_option_field selectpicker" data-width="100%" data-option-group="orders" name="send_email_on_new_order">
                 <option value="" <?php if ($send_email_on_new_order == ''): ?>selected="selected"<?php endif; ?>><?php _e('Default (Admins & Client)'); ?></option>
                 <option value="admins" <?php if ($send_email_on_new_order == 'admins'): ?>selected="selected"<?php endif; ?>><?php _e('Only Admins'); ?></option>

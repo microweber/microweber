@@ -129,7 +129,7 @@ if (isset($params['for_module_id'])) {
 
         <div class="form-group mb-3">
             <label class="control-label"><?php _e("Enable auto-respond message"); ?></label>
-            <small class="text-muted d-block mb-2"> <?php _e('Allow users to receive <b>Thank you</b> emails after subscribtion.'); ?></small>
+            <small class="text-muted d-block mb-2"> <?php _e('Allow users to receive Thank you emails after subscription.'); ?></small>
         </div>
 
         <div class="form-group mb-4">
