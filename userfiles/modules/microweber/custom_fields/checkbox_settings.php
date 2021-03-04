@@ -9,14 +9,6 @@
    // p ($data['values'])
 
    ?>
-
-
- <div class="custom-field-settings-name">
-      <label class="control-label" for="input_field_label<?php print $rand; ?>"><?php _e('Title'); ?></label>
-        <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
-        <input type="text" class="mw-ui-field mw-full-width mb-2" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
-
-</div>
 <div class="custom-field-settings-values">
   <label class="mw-ui-label"><?php _e("Values"); ?></label>
   <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
