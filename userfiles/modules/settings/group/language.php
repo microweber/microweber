@@ -81,7 +81,7 @@ if (is_module('multilanguage')) {
                                                     <?php endif;?>
 
                                                 </div>
-                                                <div class="col-md-5">
+                                                <div class="col-md-5 text-right">
                                                     <script>
                                                         function openMultilangEditModal() {
                                                             var data = {};
@@ -95,9 +95,9 @@ if (is_module('multilanguage')) {
                                                         }
                                                     </script>
 
-                                                    <a onclick="openMultilangEditModal()" class="btn btn-primary btn-block">
+                                                    <a onclick="openMultilangEditModal()" class="btn btn-primary">
                                                         <?php if ($hasMultilanguageModuleActivated): ?>
-                                                        <?php _e('Multilanguage settings'); ?>
+                                                        <?php _e('Manage Multilanguage'); ?>
                                                         <?php else: ?>
                                                         <?php _e('Activate Multilanguage Module'); ?>
                                                         <?php endif;?>
