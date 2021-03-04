@@ -3,7 +3,6 @@
 namespace MicroweberPackages\User\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class UserRegisterControllerTest extends TestCase
@@ -242,6 +241,7 @@ class UserRegisterControllerTest extends TestCase
         $this->_disableEmailVerify();
 
 
+
         $user_email = 'testuser_invalid_email_' . uniqid() . '.invalid.email';
 
         $response = $this->json(
@@ -260,6 +260,7 @@ class UserRegisterControllerTest extends TestCase
         $this->assertEquals('The email must be a valid email address.', $userData['errors']['email'][0]);
 
     }
+
 
 
 }
