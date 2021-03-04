@@ -194,12 +194,9 @@ class UserRegisterControllerTest extends TestCase
     public function testUserRegisterEmailSend()
     {
         \Config::set('mail.transport', 'array');
-        $data = [];
-        $data['option_value'] = 1;
-        $data['option_key'] = 'register_email_enabled';
-        $data['option_group'] = 'users';
-        $save = save_option($data);
 
+
+        $this->_enableRegisterWelcomeEmail();
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
         $this->_disableEmailVerify();
@@ -240,8 +237,11 @@ class UserRegisterControllerTest extends TestCase
 
     public function testUserRegisterValidationMessages()
     {
+        $this->_enableUserRegistration();
+        $this->_disableCaptcha();
+        $this->_disableEmailVerify();
 
-        $username = 'testuser_invalid_email_' . uniqid();
+
         $user_email = 'testuser_invalid_email_' . uniqid() . '.invalid.email';
 
         $response = $this->json(
@@ -249,7 +249,6 @@ class UserRegisterControllerTest extends TestCase
             route('api.user.register'),
             [
                 'email' => $user_email,
-                'username' => $username,
                 'password' => $user_email,
             ]
         );
