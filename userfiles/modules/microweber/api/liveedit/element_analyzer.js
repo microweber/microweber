@@ -12,7 +12,6 @@ mw.AfterDrop = function(){
                 var xhr = mw._({
                     selector: el,
                     done: function(module) {
-                        mw.drag.fancynateLoading(module);
                         mw.pauseSave = false;
                         mw.wysiwyg.init_editables();
                         if(mw.liveEditDomTree) {
@@ -419,7 +418,6 @@ mw.ElementAnalyzer = function(options){
                 var xhr = mw._({
                     selector: el,
                     done: function(module) {
-                        mw.drag.fancynateLoading(module);
                         mw.pauseSave = false;
                         mw.wysiwyg.init_editables();
                     },
