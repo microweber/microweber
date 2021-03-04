@@ -65,7 +65,6 @@ $data = $products;
         addCartModal = mw.tools.open_module_modal('shop/cart_add', data, {overlay: true, skin: 'simple', title: 'Add to cart'})
     }
 
-
     mw_admin_custom_order_item_add = function ($form) {
         mw.cart.add($form);
     }
@@ -106,10 +105,7 @@ $data = $products;
 </style>
 
 <div id="mw-add-order">
-
-
         <!-- Add to cart -->
-
             <div class="row">
                 <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs m-1 w-100">
                     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
@@ -200,12 +196,10 @@ $data = $products;
                     ?>
                 </div>
             </div>
-
     <!-- My cart's content -->
     <div class="mw-ui-box-content" style="display: block;">
         <module type="shop/cart" data-checkout-link-enabled="n" template="mw_default">
     </div>
-
     <!-- Checkout -->
     <div class="mw-ui-box-content" style="display: none;">
         <module type="shop/checkout" data-checkout-link-enabled="n" template="mw_default" id="mw-admin-custom-checkout-add-order"/>
