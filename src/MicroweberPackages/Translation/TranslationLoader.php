@@ -47,20 +47,22 @@ class TranslationLoader extends FileLoader
 //                    ->get();
 //            });
 
-            $getNonTranslatedKeys = TranslationKeyCached::where('translation_group', $group)
-                ->where('translation_namespace', $namespace)
-                ->whereNotIn('translation_keys.id', function ($query) use($locale,$namespace) {
-                    $query->select('translation_key_id')->from('translation_texts')->where('translation_texts.translation_locale', $locale) ->where('translation_namespace', $namespace);
-                })
-                ->select('translation_key')
-                ->get();
-
-             if ($getNonTranslatedKeys !== null) {
-                foreach ($getNonTranslatedKeys as $translation) {
-                    $translationText = $translation->translation_key;
-                    $this->allTranslationsCached[$translation->translation_key] = $translationText;
-                }
-            }
+//            $getNonTranslatedKeys = TranslationKeyCached::where('translation_group', $group)
+//                ->where('translation_namespace', $namespace)
+//                ->whereNotIn('translation_keys.id', function ($query) use($locale,$namespace) {
+//                    $query->select('translation_key_id')->from('translation_texts')->where('translation_texts.translation_locale', $locale) ->where('translation_namespace', $namespace);
+//                })
+//                ->select('translation_key')
+//                ->get();
+//
+//             if ($getNonTranslatedKeys !== null) {
+//                foreach ($getNonTranslatedKeys as $translation) {
+//                    $translationText = $translation->translation_key;
+//                    if(!isset($this->allTranslationsCached[$translation->translation_key])){
+//                    $this->allTranslationsCached[$translation->translation_key] = $translationText;
+//                    }
+//                }
+//            }
 
             $getTranslations = TranslationKeyCached::where('translation_group', $group)
                 ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')

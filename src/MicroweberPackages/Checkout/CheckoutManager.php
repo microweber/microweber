@@ -689,14 +689,12 @@ class CheckoutManager
         if (  is_logged()) {
             $shipping_address_from_profile = app()->user_manager->get_shipping_address();
          }
-
-
-         if ($checkout_session) {
+        if ($checkout_session) {
             foreach ($all_field_keys as $field_key) {
                 if (!empty($checkout_session) and !isset($ready[$field_key])) {
                     foreach ($checkout_session as $k => $v) {
                         if ($field_key == $k and $v) {
-                          $ready[$k] = $v;
+                            $ready[$k] = $v;
                         }
                     }
                 }
@@ -706,7 +704,8 @@ class CheckoutManager
 
             }
         }
-         if ($shipping_address_from_profile) {
+
+          if ($shipping_address_from_profile) {
             foreach ($all_field_keys as $field_key) {
                 if (!empty($shipping_address_from_profile) and !isset($ready[$field_key])) {
                     foreach ($shipping_address_from_profile as $k => $v) {
@@ -718,6 +717,9 @@ class CheckoutManager
                 }
             }
         }
+
+
+
 
         if ($shipping_address_from_profile) {
             $logged_user_data = get_user();
