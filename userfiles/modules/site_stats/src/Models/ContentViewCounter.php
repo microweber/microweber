@@ -10,9 +10,9 @@ class ContentViewCounter
 
     public function getCountViewsForContent($content_id)
     {
-        $use_cache = get_option('stats_views_counter_live_stats', 'site_stats')  != 1;
+        $use_cache = get_option('stats_views_counter_live_stats', 'site_stats') != 1;
 
-         if ($use_cache) {
+        if ($use_cache) {
             $cacheTags = ['stats_visits_log'];
             $cacheKey = 'stats_view_count_' . $content_id;
 
@@ -21,6 +21,7 @@ class ContentViewCounter
             if ($cacheFind !== null) {
                 return $cacheFind;
             }
+            
         }
         $related_data = new Urls();
         $related_data = $related_data->where('stats_urls.content_id', $content_id);;
