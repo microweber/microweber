@@ -65,7 +65,7 @@ class TranslationKey extends Model
             $queryModel->orWhereHas('texts', function($subQuery) use ($filter) {
                 $subQuery->where('translation_text', 'like', '%' . $filter['search'] . '%');
 				$subQuery->where('translation_namespace', $filter['translation_namespace']);
-            }); 
+            });
 			
         }
 
