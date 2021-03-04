@@ -212,7 +212,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <div class="custom-fields-add-buttons">
                                     <?php if (is_array($exiisting_fields)): ?>
                                         <?php foreach ($exiisting_fields as $item): ?>
-                                            <button class="btn btn-link text-dark px-1" onclick="javascript:addCustomFieldByVal('<?php print $item['type']; ?>');">
+                                            <button type="button" class="btn btn-link text-dark px-1"  onclick="javascript:addCustomFieldByVal('<?php print $item['type']; ?>');">
                                                 <div>
                                                     <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
                                                     <span class="mw-custom-field-title text-break-line-1 small" title="<?php print htmlspecialchars($item['name']); ?>"><?php print $item['name']; ?></span>
@@ -222,7 +222,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <?php endif; ?>
 
                                     <?php foreach ($fields as $field => $value): ?>
-                                        <button class="btn btn-link text-dark px-1" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
+                                        <button type="button" class="btn btn-link text-dark px-1"  onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                             <div>
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
                                                 <span class="mw-custom-field-title text-break-line-1 text-center small"><?php _e($value); ?></span>

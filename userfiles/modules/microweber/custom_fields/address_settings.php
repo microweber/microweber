@@ -36,28 +36,18 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
 <?php
 $instanceField = mw()->fields_manager->instanceField($data['type']);
 ?>
-
-<div class="custom-field-settings-name">
-  <div class="mw-custom-field-group ">
-    <label class="control-label" for="input_field_label<?php echo $rand; ?>">
-      <?php _e('Title'); ?>
-    </label>
-        <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
-    <input type="text" class="form-control" value="<?php echo ($data['name']) ?>" name="name" id="input_field_label<?php echo $rand; ?>">
-    
-    <div id="mw-custom-fields-address-fields-selector">
-     <?php foreach($instanceField->fields as $key=>$value): ?>
-      <div>
-        <label class="mw-ui-check">
-          <input data-for="<?php echo $key; ?>" type="checkbox" value="true" name="options[<?php echo $key; ?>]" <?php if(isset($data['options'][$key])) : ?> checked="checked" <?php endif; ?>  />
-          <span></span>
-          <span><?php echo $value; ?></span>
-         </label> 
-      </div>
-      <?php endforeach; ?> 
-    </div>
+<div id="mw-custom-fields-address-fields-selector">
+ <?php foreach($instanceField->fields as $key=>$value): ?>
+ <div>
+    <label class="mw-ui-check">
+      <input data-for="<?php echo $key; ?>" type="checkbox" value="true" name="options[<?php echo $key; ?>]" <?php if(isset($data['options'][$key])) : ?> checked="checked" <?php endif; ?>  />
+      <span></span>
+      <span><?php echo $value; ?></span>
+     </label>
   </div>
+  <?php endforeach; ?>
 </div>
+
 
 <div class="custom-field-settings-values">
   <?php echo $savebtn; ?>

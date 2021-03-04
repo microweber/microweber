@@ -1,17 +1,4 @@
 <?php include('settings_header.php'); ?>
-
-<div class="custom-field-settings-name">
-
-  <div class="mw-custom-field-group ">
-  <label class="control-label" for="input_field_label<?php print $rand; ?>">
-    <?php _e('Field name'); ?>
-  </label>
-      <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
-    <input type="text" class="form-control" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
-
-</div>
-</div>
-
  <div class="custom-field-settings-values">
    <label class="control-label"><?php _e('Values'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Add, remove and change positions of your values');?></small>
@@ -29,15 +16,11 @@
   <?php endforeach; ?>
 
   <?php else: ?>
-
-
     <div class="mw-custom-field-form-controls">
         <input type="text" name="value[]" class="mw-ui-field mw-full-width"  value="" />
         <?php print $add_remove_controls; ?>
-      </div>
+    </div>
   <?php endif; ?>
-
-
 
   <script type="text/javascript">
     mw.custom_fields.sort("fields<?php print $rand; ?>");

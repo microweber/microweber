@@ -3,15 +3,6 @@
 <?php
 $curr_symbol = mw()->shop_manager->currency_symbol();
 ?>
-
-    <div class="mw-ui-field-holder">
-        <label class="control-label" for="input_field_label<?php print $rand; ?>">
-            <?php _e('Title'); ?>
-            <small class="text-muted d-block mb-2"><?php _e('The name of your field'); ?></small>
-        </label>
-        <input type="text" class="form-control" value="<?php print _e(($data['name'])) ?>" name="name"
-               id="input_field_label<?php print $rand; ?>">
-    </div>
 <?php
 if ($data['value'] == '') {
     $data['value'] = 0;

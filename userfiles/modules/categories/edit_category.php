@@ -81,8 +81,6 @@ if (isset($params['live_edit'])) {
 
         make_new_cat_after_save = function (el) {
 
-
-
             $('#<?php print $params['id'] ?>').removeClass('loading');
             $('#<?php print $params['id'] ?>').removeAttr('just-saved');
             $('#<?php print $params['id'] ?>').removeAttr('selected-category-id');
@@ -111,8 +109,6 @@ if (isset($params['live_edit'])) {
         <?php endif; ?>
         $(document).ready(function () {
 
-
-
             var all = $(window);
             var header = document.querySelector('#mw-admin-container header');
             var postHeader = mw.element(document.querySelector('.card-header'));
@@ -128,7 +124,6 @@ if (isset($params['live_edit'])) {
                 var isFixed = (stop > (postHeader.get(0).offsetHeight + (header ? header.offsetHeight : 0) + $(postHeader).offset().top));
                 postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
                 postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
-
 
             });
 
@@ -150,8 +145,6 @@ if (isset($params['live_edit'])) {
                 $('.mw-cat-save-submit').addClass('disabled');
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
                 mw.form.post(mw.$('#admin_edit_category_form'), '<?php print api_link('category/save') ?>', function (val) {
-
-
 
                     //todo: move method to separate service
                     var dialog = mw.dialog.get(mw.$('#admin_edit_category_form'));
@@ -188,11 +181,8 @@ if (isset($params['live_edit'])) {
                     document.querySelector('.btn-save').disabled = true;
                     mw.askusertostay = false;
 
-
-
                 <?php if(intval($data['id']) == 0): ?>
                    // mw.url.windowHashParam("new_content", "true");
-
 
                     <?php endif; ?>
                    // mw.reload_module('#<?php print $params['id'] ?>');
@@ -202,11 +192,7 @@ if (isset($params['live_edit'])) {
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
 
-
-
                     mw.url.windowHashParam('action', 'editcategory:' + this)
-
-
                 });
 
                 return false;
@@ -279,23 +265,8 @@ if (isset($params['live_edit'])) {
                     <?php if (isset($params['parent-module']) and $params['parent-module']  == 'categories/admin_backend_modal' ): ?>
 
                         <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
-
-
-
                     <?php endif; ?>
-
-
-
-
-
-
-
-
-
                          <a href="#action=addsubcategory:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
-
-
-
                     <?php endif; ?>
                 </div>
             </div>
@@ -462,8 +433,6 @@ if (isset($params['live_edit'])) {
                                     document.querySelector('button[form="quickform-edit-content"]').disabled = true;
                                 }, 999)
                             });
-
-
 
 
                             var dropdownUploader;
