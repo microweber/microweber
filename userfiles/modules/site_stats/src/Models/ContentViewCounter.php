@@ -21,7 +21,7 @@ class ContentViewCounter
             if ($cacheFind !== null) {
                 return $cacheFind;
             }
-            
+
         }
         $related_data = new Urls();
         $related_data = $related_data->where('stats_urls.content_id', $content_id);;
