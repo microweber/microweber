@@ -696,7 +696,7 @@ class CheckoutManager
                 if (!empty($checkout_session) and !isset($ready[$field_key])) {
                     foreach ($checkout_session as $k => $v) {
                         if ($field_key == $k and $v) {
-                           // $ready[$k] = $v;
+                          $ready[$k] = $v;
                         }
                     }
                 }
@@ -811,7 +811,7 @@ class CheckoutManager
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
-        $this->confirm_email_send($orderId);
+       // $this->confirm_email_send($orderId);
     }
 
 
