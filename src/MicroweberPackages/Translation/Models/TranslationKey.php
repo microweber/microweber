@@ -52,15 +52,21 @@ class TranslationKey extends Model
         }
 
         $queryModel = static::query();
-        $queryModel->where('translation_namespace', $filter['translation_namespace']);
         $queryModel->groupBy("translation_key");
+		
 
         if (isset($filter['search']) && !empty($filter['search'])) {
-            $queryModel->where('translation_key', 'like', '%' . $filter['search'] . '%');
-            $queryModel->whereHas('texts', function($subQuery) use ($filter) {
-                $subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
-                $subQuery->orWhere('translation_text', 'like', '%' . $filter['search'] . '%');
-            });
+			
+			$queryModel->where(function($subQuery) use ($filter) {
+				$subQuery->where('translation_key', 'like', '%' . $filter['search'] . '%');
+				$subQuery->where('translation_namespace', $filter['translation_namespace']);
+			});
+			
+            $queryModel->orWhereHas('texts', function($subQuery) use ($filter) {
+                $subQuery->where('translation_text', 'like', '%' . $filter['search'] . '%');
+				$subQuery->where('translation_namespace', $filter['translation_namespace']);
+            }); 
+			
         }
 
         $queryModel->orderBy('id', 'asc');
@@ -69,7 +75,7 @@ class TranslationKey extends Model
             return $filter['page'];
         });
 
-        $getTranslationsKeys = $queryModel->paginate(100);
+        $getTranslationsKeys = $queryModel->paginate(50);
         $pagination = $getTranslationsKeys->links("pagination::bootstrap-4-flex");
 
         $group = [];
