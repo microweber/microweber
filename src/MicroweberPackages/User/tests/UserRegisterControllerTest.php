@@ -16,7 +16,7 @@ class UserRegisterControllerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
 
-        $username = 'testuser_' .uniqid();
+        $username = 'testuser_' . uniqid();
 
         $response = $this->json(
             'POST',
@@ -29,7 +29,7 @@ class UserRegisterControllerTest extends TestCase
 
         $userData = $response->getData();
 
-         $this->assertEquals($username, $userData->data->username);
+        $this->assertEquals($username, $userData->data->username);
         $this->assertNotEmpty($userData->data->id);
 
         $this->assertTrue(($userData->data->id > 0));
@@ -156,7 +156,7 @@ class UserRegisterControllerTest extends TestCase
 
 
         $captchaAnswer = uniqid();
-        $captchaWrongAnswer = $captchaAnswer.uniqid();
+        $captchaWrongAnswer = $captchaAnswer . uniqid();
 
         $userData = $response->getData();
         $this->assertEquals(422, $response->status());
@@ -169,7 +169,7 @@ class UserRegisterControllerTest extends TestCase
             'POST',
             route('api.user.register'),
             [
-                'captcha' =>$captchaWrongAnswer,
+                'captcha' => $captchaWrongAnswer,
                 'username' => $username,
                 'password' => $email,
             ]
@@ -182,7 +182,7 @@ class UserRegisterControllerTest extends TestCase
             'POST',
             route('api.user.register'),
             [
-                'captcha' =>$captchaAnswer,
+                'captcha' => $captchaAnswer,
                 'username' => $username,
                 'password' => $email,
             ]
@@ -191,6 +191,52 @@ class UserRegisterControllerTest extends TestCase
 
     }
 
+    public function testUserRegisterEmailSend()
+    {
+        \Config::set('mail.transport', 'array');
+        $data = [];
+        $data['option_value'] = 1;
+        $data['option_key'] = 'register_email_enabled';
+        $data['option_group'] = 'users';
+        $save = save_option($data);
+
+        $this->_enableUserRegistration();
+        $this->_disableCaptcha();
+        $this->_disableEmailVerify();
+
+        $username = 'testuser_email_send_' . uniqid();
+        $user_email = 'testuser_email_send_' . uniqid() . '@mail.test';
+
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'email' => $user_email,
+                'username' => $username,
+                'password' => $user_email,
+            ]
+        );
+
+        $userData = $response->getData();
+        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $findEmail = false;
+
+        foreach ($emails as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+            if (str_contains($body, $user_email)) {
+                $findEmail = true;
+            }
+
+
+        }
+
+
+        $this->assertEquals(true, $findEmail);
+
+
+    }
 
 
 }
