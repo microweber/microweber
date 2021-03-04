@@ -15,7 +15,7 @@ class AddIndexToTranslationTables extends Migration
         try {
             Schema::table('translation_texts', function (Blueprint $table) {
                 $table->index('translation_key_id');
-                $table->string('translation_text')->unique()->change();
+                $table->index('translation_text');
                 $table->index('translation_locale');
             });
         } catch (Exception $e) {
