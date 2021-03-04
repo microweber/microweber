@@ -238,5 +238,29 @@ class UserRegisterControllerTest extends TestCase
 
     }
 
+    public function testUserRegisterValidationMessages()
+    {
+
+        $username = 'testuser_invalid_email_' . uniqid();
+        $user_email = 'testuser_invalid_email_' . uniqid() . '.invalid.email';
+
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'email' => $user_email,
+                'username' => $username,
+                'password' => $user_email,
+            ]
+        );
+
+        $userData = $response->getData(true);
+
+        $this->assertEquals(true, isset($userData['errors']['email']));
+        $this->assertEquals(422, $response->status());
+        $this->assertEquals('The email must be a valid email address.', $userData['errors']['email'][0]);
+
+    }
+
 
 }
