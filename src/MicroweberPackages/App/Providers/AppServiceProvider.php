@@ -284,7 +284,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register($provider);
         }
 
-        $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
+      //  $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
