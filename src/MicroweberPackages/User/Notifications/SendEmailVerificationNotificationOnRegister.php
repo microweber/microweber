@@ -12,12 +12,10 @@ class SendEmailVerificationNotificationOnRegister extends SendEmailVerificationN
 {
     public function handle(Registered $event)
     {
-
         $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
 
         if ($isVerfiedEmailRequired) {
             parent::handle($event);
-
         }
     }
 }
