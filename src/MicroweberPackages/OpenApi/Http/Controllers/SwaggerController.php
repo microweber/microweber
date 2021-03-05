@@ -17,6 +17,18 @@ class SwaggerController extends L5SwaggerController
 
         $host = (parse_url(site_url()));
 
+        if(!is_array($host)){
+            $host = [];
+        }
+
+        if(!isset($host['host'])){
+            $host['host'] = 'localhost';
+        }
+
+        if(!isset($host['path'])){
+            $host['path'] = '';
+        }
+
 
         $config = [];
         $config['title'] = 'Api';
