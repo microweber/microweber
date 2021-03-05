@@ -26,11 +26,12 @@ endif;
 <?php
 $fields = mw()->ui->custom_fields();
 ?>
+
 <div class="mw-custom-field-group">
     <label class="control-label" for="custom_field_width_type<?php print $rand; ?>"><?php _e('Field type'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Choose type of the fields');?></small>
 
-   <select class="selectpicker w-100" data-width="100%" data-size="5" name="options[field_type]" onChange="$(this).addClass('mw-needs-reload');">
+   <select class="selectpicker w-100" data-width="100%" data-size="5" name="type" onChange="$(this).addClass('mw-needs-reload');">
         <?php foreach($fields as $fieldType=>$fieldName): ?>
            <?php if($fieldType=='breakline') { continue; } ?>
            <option <?php if($data['type'] == $fieldType):?>selected="selected"<?php endif; ?> value="<?php echo $fieldType; ?>"><?php echo $fieldName; ?></option>

@@ -1032,14 +1032,20 @@ class Format
             if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data']) and !empty($item['custom_fields_data'])) {
 
                 $itemCustomFields = $item['custom_fields_data'];
-                $getCustom_fields = CustomField::where('rel_id', $item['rel_id'])->get();
-                if ($getCustom_fields !== null) {
-                    foreach($getCustom_fields as $customField) {
-                        if (isset($itemCustomFields[$customField->name])) {
+
+                $getCustomFields = CustomField::where('rel_id', $item['rel_id'])->get();
+                if ($getCustomFields !== null) {
+                    foreach($getCustomFields as $customField) {
+                       if (isset($itemCustomFields[$customField->name])) {
                             $customFieldValues = $customField->fieldValue()->get();
                             if ($customFieldValues !== null) {
+                                $selectedCustomField = $itemCustomFields[$customField->name];
+                                $customFieldValuesOrdered = [];
                                 foreach ($customFieldValues as $customFieldValue) {
-                                    $itemCustomFields[$customField->name] = $customFieldValue->value;
+                                    $customFieldValuesOrdered[] = $customFieldValue->value;
+                                }
+                                if (isset($customFieldValuesOrdered[$selectedCustomField])) {
+                                    $itemCustomFields[$customField->name] = $customFieldValuesOrdered[$selectedCustomField];
                                 }
                             }
                         }
