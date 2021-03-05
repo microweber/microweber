@@ -859,7 +859,27 @@ class CartManager extends Crud
                 $cart_return['currency'] = $cart['currency'] = $this->app->format->clean_html($data['link']);
             }
 
-            $cart_saved_id = $this->app->database_manager->save($table, $cart);
+
+            $findCart = Cart::where('custom_fields_data', $cart['custom_fields_data'])
+                        ->where('rel_id', $cart['rel_id'])
+                        ->where('rel_type', $cart['rel_type'])
+                        ->first();
+            if ($findCart == null) {
+                $findCart = new Cart();
+                $findCart->rel_id = $cart['rel_id'];
+                $findCart->rel_type = $cart['rel_type'];
+                $findCart->custom_fields_data = $cart['custom_fields_data'];
+                $findCart->custom_fields_json = $cart['custom_fields_json'];
+            }
+            
+            $findCart->qty = $cart['qty'];
+            $findCart->title = $cart['title'];
+            $findCart->price = $cart['price'];
+            $findCart->session_id = $cart['session_id'];
+            $findCart->order_completed = $cart['order_completed'];
+            $findCart->session_id = $cart['session_id'];
+            $findCart->save();
+
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
 
