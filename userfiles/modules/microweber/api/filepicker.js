@@ -57,7 +57,7 @@ mw.filePicker = function (options) {
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
-            $input.before('<label class="mw-ui-label">Insert file url</label>');
+            $input.before('<label class="mw-ui-label">'+mw.lang('Insert file url')+'</label>');
             $input.on('input', function () {
                 var val = this.value.trim();
                 scope.setSectionValue(val || null);
@@ -80,10 +80,11 @@ mw.filePicker = function (options) {
                     '</div>' +
                     '</div>');
             } else if(scope.settings.uploaderType === 'small') {
-                $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">Add file</span> <p>or drop file to upload</p> </div> </div>')
+                $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">'+mw.lang('Add file')+'</span> ' +
+                    '<p>'+mw.lang('or drop files to upload')+'</p>' +
+                    '</div>' +
+                    '</div>')
             }
-
-
             var $el = $(scope.settings.element).eq(0);
             $el.removeClass('mw-filepicker-desktop-type-big mw-filepicker-desktop-type-small');
             $el.addClass('mw-filepicker-desktop-type-' + scope.settings.uploaderType);
@@ -103,7 +104,7 @@ mw.filePicker = function (options) {
                         scope.uploaderHolder.find('.mw-ui-progress-bar').stop().animate({width: prg.percent + '%'}, 'fast');
                     },
                     fileUploadError: function (file) {
-                         $(scope).trigger('FileUploadError', [file]);
+                        $(scope).trigger('FileUploadError', [file]);
                     },
                     fileAdded: function (file) {
                         $(scope).trigger('FileAdded', [file]);
@@ -348,7 +349,7 @@ mw.filePicker = function (options) {
         if(this.settings.onResult) {
             this.settings.onResult.call(this, activeSection._filePickerValue);
         }
-         $(scope).trigger('Result', [activeSection._filePickerValue]);
+        $(scope).trigger('Result', [activeSection._filePickerValue]);
     };
 
     this.getValue = function () {
@@ -418,8 +419,8 @@ mw.filePicker = function (options) {
     };
 
     this.setSectionValue = function (val) {
-         var activeSection = this.activeSection();
-         if(activeSection) {
+        var activeSection = this.activeSection();
+        if(activeSection) {
             activeSection._filePickerValue = val;
         }
 

@@ -38,7 +38,6 @@ $fields = mw()->ui->custom_fields();
    </select>
 </div>
 
-
 <?php
 if ($instanceField->hasResponsiveOptions):
 ?>
@@ -147,17 +146,11 @@ endif;
                        $("#required_checkbox").hide();
                    }
                }
-
-
-
-
-
         </script>
     </div>
 </div>
 
 <style>
-
     #save-menu-container{
         height: 60px;
     }
@@ -176,9 +169,7 @@ endif;
         width: 100%;
         justify-content: space-between;
     }
-
 </style>
-
 
 <div id="save-menu-container">
     <div id="save-menu-wrapper">

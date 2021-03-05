@@ -32,7 +32,7 @@
 <div class="form-group">
     <label class="control-label"><?php _e('Media cleanup'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('This module will remove media from database, which is not present on the hard drive'); ?>.</small>
-    <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('admin/developer_tools/media_cleanup', 'Media cleanup')">Cleanup the images</a>
+    <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('admin/developer_tools/media_cleanup', 'Media cleanup')"><?php _e("Cleanup the images"); ?></a>
 </div>
 
 <div class="form-group">

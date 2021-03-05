@@ -7,7 +7,7 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Address extends Model
 {
-    use CacheableQueryBuilderTrait;
+    //use CacheableQueryBuilderTrait;
 
     const BILLING_TYPE = 'billing';
     const SHIPPING_TYPE = 'shipping';

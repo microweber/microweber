@@ -37,18 +37,18 @@ event_bind('mw.pageview', function ($params = false) {
         }
 
 
-        $src_code = '$(document).ready(function () {
-            setTimeout(function () {
-                 var mwtrackpageview = document.createElement(\'script\'); mwtrackpageview.type = \'text/javascript\'; mwtrackpageview.async = true; mwtrackpageview.defer = true;
-                  mwtrackpageview.src = "' . api_url('pingstats') . '";
-                  var s = document.getElementsByTagName(\'head\')[0]; s.parentNode.insertBefore(mwtrackpageview, s);
-            }, 3337);
-        });';
-
-        $src = '<script defer>' . $src_code . '</script>';
-
-
-        return $src;
+//        $src_code = '$(document).ready(function () {
+//            setTimeout(function () {
+//                 var mwtrackpageview = document.createElement(\'script\'); mwtrackpageview.type = \'text/javascript\'; mwtrackpageview.async = true; mwtrackpageview.defer = true;
+//                  mwtrackpageview.src = "' . api_url('pingstats') . '";
+//                  var s = document.getElementsByTagName(\'head\')[0]; s.parentNode.insertBefore(mwtrackpageview, s);
+//            }, 3337);
+//        });';
+//
+//        $src = '<script defer>' . $src_code . '</script>';
+//
+//
+//        return $src;
 
         $src_code = '$(document).ready(function () {
             setTimeout(function () {
@@ -150,9 +150,9 @@ api_expose('pingstats', function ($params = false) {
         $ref_page = $_SERVER['HTTP_REFERER'];
         //if (stristr(site_url(), $ref_page)) {
         if (starts_with($ref_page, site_url())) {
-            // if (is_ajax()) {
+             if (is_ajax()) {
             $to_track = true;
-            // }
+             }
         }
     }
     if (!$to_track) {

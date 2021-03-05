@@ -503,6 +503,23 @@ if ($registration_approval_required == false) {
                                             </div>
                                         </div>
 
+
+
+                                        <div class="form-group mb-3">
+                                            <label class="control-label"><?php _e("Send email on new user registration to admin users"); ?></label>
+                                            <small class="text-muted d-block mb-2"><?php _e("Do you want adminitrators to receive an e-mail when new user is registered?"); ?></small>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <div class="custom-control custom-switch pl-0">
+                                                <label class="d-inline-block mr-5" for="register_email_to_admins_enabled"><?php _e("No"); ?></label>
+                                                <input name="register_email_to_admins_enabled" id="register_email_to_admins_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_to_admins_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <label class="custom-control-label" for="register_email_to_admins_enabled"><?php _e("Yes"); ?></label>
+                                            </div>
+                                        </div>
+
+
+
                                         <div class="form-group mb-3">
                                             <label class="control-label"><?php _e("Require e-mail verification on new user registration"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Do you want users to verify their e-mail address when registering?"); ?></small>

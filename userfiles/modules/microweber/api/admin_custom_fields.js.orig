@@ -189,8 +189,13 @@ mw.admin.custom_fields.make_fields_sortable = function () {
     return sortable_holder;
 };
 mw.admin.custom_fields.del = function (id, toremove) {
+<<<<<<< HEAD
      mw.tools.confirm(  function () {
 
+=======
+    var q = mw.lang("Are you sure you want to delete") + mw.$('#mw-custom-list-element-' + id + ' .mw-admin-custom-field-name-edit-inline').text() + " ?";
+    mw.tools.confirm(q, function () {
+>>>>>>> 3146ca9b43e96d19dba4673e670215e39772a8db
         mw.custom_fields.remove(id, function (data) {
             mw.$('#mw-custom-list-element-' + id).addClass('scale-out');
             setTimeout(function () {

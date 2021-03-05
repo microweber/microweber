@@ -112,19 +112,13 @@ $rand = uniqid();
     $(document).ready(function () {
 
         mw.options.form('#mw-pic-scope', __mw_pics_save_msg);
-
-
         mw.tabs({
             tabs: '.tab',
             nav: '.mw-ui-btn-nav-tabs a'
         });
     });
 </script>
-
-
 <div class="pictures-admin-container">
-
-
     <?php if ($quick_add == false): ?>
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("My pictures"); ?></a>
@@ -132,9 +126,7 @@ $rand = uniqid();
                 <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
             <?php endif; ?>
         </nav>
-
     <?php endif; ?>
-
 
     <div class="tab-content py-3">
         <div class="tab-pane fade show active" id="list">
@@ -155,10 +147,7 @@ $rand = uniqid();
                             </td>
                         </tr>
                     </table>
-
-
                 </div>
-
             <?php endif; ?>
 
             <module type="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" id="mw-pics-list-live-ed"/>

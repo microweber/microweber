@@ -58,11 +58,21 @@ class CheckoutTest extends TestCase
         $this->_addProductToCart('Product 2');
         $this->_addProductToCart('Product 3');
         $this->_addProductToCart('Product 4');
-
+        $data = [];
         $data['option_value'] = 'y';
         $data['option_key'] = 'order_email_enabled';
         $data['option_group'] = 'orders';
         $save = save_option($data);
+
+        $data = [];
+        $data['option_value'] = 'order_received';
+        $data['option_key'] = 'order_email_send_when';
+        $data['option_group'] = 'orders';
+        $save = save_option($data);
+
+
+
+
 
         $checkoutDetails = array();
         $checkoutDetails['email'] = 'client@microweber.com';
@@ -87,7 +97,6 @@ class CheckoutTest extends TestCase
 
         $checkEmailContent = '';
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
-
         foreach ($emails as $email) {
 
             $subject = $email->getSubject();
