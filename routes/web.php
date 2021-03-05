@@ -14,13 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('aaa', function(){
+/*Route::get('test123', function(){
 
 
-   event($event = new \Illuminate\Auth\Events\Registered(\App\Models\User::where('id', 2)->first(), []));
 
 
-  // event($event = new \MicroweberPackages\Order\Events\OrderWasCreated(\MicroweberPackages\Order\Models\Order::where('id', 129)->first(), []));
-});
+});*/
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
