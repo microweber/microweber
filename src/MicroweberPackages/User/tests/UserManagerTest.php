@@ -164,17 +164,24 @@ class UserManagerTest extends TestCase
     {
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
+        $this->_disableRegistrationApprovalByAdmin();
 
+        $user = 'testUserAddress' . uniqid().'@example.com';
+        $pass = 'testUserAddress' . uniqid();
+
+        $this->_registerUserWithEmail($user, $pass);
 
         $userDetails = array();
-        $userDetails['username'] = self::$_username;
-        $userDetails['email'] = self::$_email;
+        $userDetails['email'] = $user;
 
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
 
         $this->assertArrayHasKey('success', $requestStatus);
         $this->assertTrue($requestStatus['success']);
+        $this->assertContains('We have emailed your password reset link!', $requestStatus['message']);
+
+
         $this->assertContains('reset link', $requestStatus['message']);
 
         $userDetails['email'] = 'wrong@gmail.com';
