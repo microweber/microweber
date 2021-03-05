@@ -1061,14 +1061,16 @@ class MediaManager
         if (!isset($ext)) {
             $ext = strtolower(get_file_extension($src));
         }
-       // $cache = md5(serialize($params)) . '.' . $ext;
+        // $cache = md5(serialize($params)) . '.' . $ext;
         $cache = $this->tn_cache_id($params) . '.' . $ext;
 
-        $cache = str_slug($cache);
+        $cache = str_replace('..','',$cache);
 
         if (isset($cache_id)) {
-            $cache = str_slug($cache_id);
-         }
+            $cache = str_replace('..','',$cache_id);
+
+            // $cache = url_title($cache_id);
+        }
 //        if(!isset($cache_path)){
 //            $cache_path = $cd . $cache;
 //        }
