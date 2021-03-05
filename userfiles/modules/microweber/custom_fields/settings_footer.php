@@ -38,7 +38,6 @@ $fields = mw()->ui->custom_fields();
    </select>
 </div>
 
-
 <?php
 if ($instanceField->hasResponsiveOptions):
 ?>
@@ -136,6 +135,9 @@ endif;
                     });
                }
                 $('.selectpicker').selectpicker();
+                $('.custom-fields-settings-cancel-btn').on('click', function (){
+                    thismodal.remove()
+                });
             });
                function valueChanged() {
                    if ($('.checkbox').is(":checked")) {
@@ -144,17 +146,11 @@ endif;
                        $("#required_checkbox").hide();
                    }
                }
-
-
-
-
-
         </script>
     </div>
 </div>
 
 <style>
-
     #save-menu-container{
         height: 60px;
     }
@@ -173,14 +169,12 @@ endif;
         width: 100%;
         justify-content: space-between;
     }
-
 </style>
-
 
 <div id="save-menu-container">
     <div id="save-menu-wrapper">
         <nav id="save-menu">
-            <span class="btn btn-outline-secondary"><?php print _e('Cancel'); ?></span>
+            <span class="btn btn-outline-secondary custom-fields-settings-cancel-btn"><?php print _e('Cancel'); ?></span>
             <button disabled class="btn btn-primary custom-fields-settings-save-btn"><?php print _e('Save'); ?></button>
         </nav>
     </div>

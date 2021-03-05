@@ -54,7 +54,6 @@
             overflow: hidden;
             position: relative;
             min-height: 300px;
-            padding: 25px;
         }
 
         #settings-container:after {
@@ -65,7 +64,6 @@
             line-height: 0;
             height: 0;
         }
-
     </style>
 
     <?php

@@ -109,13 +109,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <?php if ($load_list): ?>
                         <script type="text/javascript">
-                            mw.on.hashParam('search', function () {
+                            mw.on.hashParam('search', function (pval) {
                                 var field = document.getElementById('forms_data_keyword');
                                 if (!field.focused) {
-                                    field.value = this;
+                                    field.value = pval;
                                 }
-                                if (this != '') {
-                                    $('#forms_data_module').attr('keyword', this);
+                                if (pval != '') {
+                                    $('#forms_data_module').attr('keyword', pval);
                                 }
                                 else {
                                     $('#forms_data_module').removeAttr('keyword');

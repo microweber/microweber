@@ -50,64 +50,60 @@ if (is_module('multilanguage')) {
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-12">
+                                    <div class="form-group mb-4">
+                                        <label class="control-label"><?php _e("Website Language"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
+                                        <div class="row">
+                                            <div class="col-md-7">
 
+                                                <?php if ($hasMultilanguageModuleActivated): ?>
 
-                                        <div class="form-group mb-4">
-                                            <label class="control-label"><?php _e("Website Language"); ?></label>
-                                            <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
-                                            <div class="row">
-                                                <div class="col-md-7">
+                                              <module type="multilanguage" template="admin" show_settings_link="true" />
 
+                                                <?php else: ?>
+                                        <?php
+                                        $langs = mw()->lang_helper->get_all_lang_codes();
+
+                                        if ($def_language == false) {
+                                            $def_language = 'en';
+                                        }
+                                        ?>
+                                        <?php if ($langs) : ?>
+                                            <select id="user_lang" name="language" class="mw_option_field selectpicker" data-size="7" data-width="100%" option-group="website" data-also-reload="settings/group/language_edit">
+                                                <option disabled="disabled"><?php _e('Select Language'); ?></option>
+                                                <?php foreach ($langs as $key => $lang): ?>
+                                                    <option <?php if ($def_language == $key): ?> selected="" <?php endif; ?> value="<?php print $key ?>"><?php print $lang ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        <?php endif; ?>
+                                                <?php endif;?>
+
+                                            </div>
+                                            <div class="col-md-5 text-right">
+                                                <script>
+                                                    function openMultilangEditModal() {
+                                                        var data = {};
+                                                        data.show_settings_link = "true";
+                                                        openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
+                                                            overlay: true,
+                                                            skin: 'simple',
+                                                            height: 'auto',
+                                                            width: 750,
+                                                            title: 'Edit'
+                                                        })
+                                                    }
+                                                </script>
+
+                                                <a onclick="openMultilangEditModal()" class="btn btn-primary">
                                                     <?php if ($hasMultilanguageModuleActivated): ?>
-
-                                                  <module type="multilanguage" template="admin" show_settings_link="true" />
-
+                                                    <?php _e('Manage Multilanguage'); ?>
                                                     <?php else: ?>
-                                            <?php
-                                            $langs = mw()->lang_helper->get_all_lang_codes();
-
-                                            if ($def_language == false) {
-                                                $def_language = 'en';
-                                            }
-                                            ?>
-                                            <?php if ($langs) : ?>
-                                                <select id="user_lang" name="language" class="mw_option_field selectpicker" data-size="7" data-width="100%" option-group="website" data-also-reload="settings/group/language_edit">
-                                                    <option disabled="disabled"><?php _e('Select Language'); ?></option>
-                                                    <?php foreach ($langs as $key => $lang): ?>
-                                                        <option <?php if ($def_language == $key): ?> selected="" <?php endif; ?> value="<?php print $key ?>"><?php print $lang ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            <?php endif; ?>
+                                                    <?php _e('Activate Multilanguage Module'); ?>
                                                     <?php endif;?>
-
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <script>
-                                                        function openMultilangEditModal() {
-                                                            var data = {};
-                                                            data.show_settings_link = "true";
-                                                            openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
-                                                                overlay: true,
-                                                                skin: 'simple',
-                                                                height: 600,
-                                                                title: 'Edit'
-                                                            })
-                                                        }
-                                                    </script>
-
-                                                    <a onclick="openMultilangEditModal()" class="btn btn-primary btn-block">
-                                                        <?php if ($hasMultilanguageModuleActivated): ?>
-                                                        <?php _e('Multilanguage settings'); ?>
-                                                        <?php else: ?>
-                                                        <?php _e('Activate Multilanguage Module'); ?>
-                                                        <?php endif;?>
-                                                    </a>
-                                                </div>
+                                                </a>
                                             </div>
                                         </div>
-
-
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -116,9 +112,7 @@ if (is_module('multilanguage')) {
             </div>
         </div>
     </div>
-
     <hr class="thin mx-4"/>
-
     <module type="settings/group/language_edit" id="mw_lang_file_edit"  edit-lang="<?php print $def_language ?>"  />
 </div>
 

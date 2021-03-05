@@ -1,12 +1,4 @@
 <?php include('settings_header.php'); ?>
-
-<div class="custom-field-settings-name">
-  <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
-    <?php _e('Title'); ?>
-  </label>
-  <input type="text" onkeyup="" class="mw-ui-field mw-full-width" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
-</div>
-
 <div class="custom-field-settings-values">
 <div class="mw-custom-field-group">
     <label class="mw-custom-field-label" for="custom_field_width_size<?php print $rand; ?>"><b><?php _e('Type'); ?></b></label>

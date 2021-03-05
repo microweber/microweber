@@ -366,7 +366,7 @@
 
             var editor2 = new mw.Editor({
                 selector: '#editortest2',
-                mode: 'iframe',
+                mode: 'div',
                 controls: [
                     [
                         ...ctrl1,
@@ -406,7 +406,7 @@
     </script>
     <h2>Editor</h2>
     <br>
-<div style="display: none"><b>Iframe</b>
+<div  ><b>Iframe</b>
     <div id="editortest"></div></div>
     <br>
     <br>

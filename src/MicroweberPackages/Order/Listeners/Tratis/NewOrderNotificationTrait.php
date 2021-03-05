@@ -22,7 +22,7 @@ trait NewOrderNotificationTrait {
 
         $newOrderEvent = new NewOrderNotification($order);
 
-        // Ss logged
+        // Is logged
         $notifiable = false;
         if (isset($order->created_by) && $order->created_by > 0) {
             $customer = User::where('id', $order->created_by)->first();
@@ -35,6 +35,7 @@ trait NewOrderNotificationTrait {
 
         if (!$notifiable) {
             $notifiable = OrderAnonymousClient::find($orderId);
+
         }
 
         if ($notifiable) {

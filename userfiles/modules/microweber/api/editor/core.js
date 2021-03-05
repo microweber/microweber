@@ -118,13 +118,13 @@ MWEditor.core = {
 
         }
 
-        this.select.on('click', function (e){
+        this.select.on('click', function (e) {
             e.stopPropagation();
-            var wrapper = mw.tools.firstParentWithClass(this.node, 'mw-editor-wrapper');
+            var wrapper = mw.tools.firstParentWithClass(this, 'mw-editor-wrapper');
             if (wrapper) {
                 var edOff = wrapper.getBoundingClientRect();
-                var selOff = this.node.getBoundingClientRect();
-                this.valueHolder.css({
+                var selOff = this.getBoundingClientRect();
+                lscope.select.valueHolder.css({
                     maxHeight: edOff.height - (selOff.top - edOff.top)
                 });
             }

@@ -4,6 +4,9 @@ if(defined('LARAVEL_START')){
     return;
 }
 
+ini_set('memory_limit', '1024M');
+
+
 if (version_compare(phpversion(), "7.3.0", "<=")) {
     exit("Error: You must have PHP version 7.3 or greater to run Microweber");
 }

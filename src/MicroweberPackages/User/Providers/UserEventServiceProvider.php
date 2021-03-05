@@ -17,13 +17,14 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use MicroweberPackages\User\Listeners\RecordAuthenticatedLoginListener;
 use MicroweberPackages\User\Listeners\RecordFailedLoginAttemptListener;
 use MicroweberPackages\User\Listeners\UserRegisteredListener;
+use MicroweberPackages\User\Notifications\SendEmailVerificationNotificationOnRegister;
 
 class UserEventServiceProvider extends EventServiceProvider
 {
 
     protected $listen = [
         Registered::class => [
-            SendEmailVerificationNotification::class,
+            SendEmailVerificationNotificationOnRegister::class,
             UserRegisteredListener::class
         ],
         \Illuminate\Auth\Events\Failed::class => [

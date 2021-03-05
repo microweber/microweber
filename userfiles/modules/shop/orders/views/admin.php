@@ -85,11 +85,6 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
                 <script>
                     $(document).ready(function () {
                         $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
-                    });
-                </script>
-
-                <script>
-                    $(document).ready(function () {
                         $('.manage-toobar').hide();
                         $('.top-search').hide();
                     });

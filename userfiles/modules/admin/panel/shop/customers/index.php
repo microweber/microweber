@@ -26,10 +26,8 @@ $(window).on('load', function () {
 
 
 
-	mw.on.hashParam('clients_search', function () {
+	mw.on.hashParam('clients_search', function (dis) {
 
-
-	 var dis = this;
    if( dis!=='' ){
      mw.$('#<?php print $params['id'] ?>').attr("data-keyword", dis);
 

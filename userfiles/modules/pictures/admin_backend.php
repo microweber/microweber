@@ -142,10 +142,10 @@ if ($for_id != false) {
         });
 
         $(dialog.iframe).on('load', function () {
-            this.contentWindow.mw.on.hashParam('select-file', function () {
-                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+            this.contentWindow.mw.on.hashParam('select-file', function (pval) {
+                after_upld(pval, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
 
-                after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                after_upld(pval, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 mw.notification.success('<?php _ejs('The image is added to the gallery') ?>');
 
                 dialog.remove();
@@ -157,9 +157,9 @@ if ($for_id != false) {
         var dialog = mw.top().tools.moduleFrame('pictures/media_library');
         dialog.title('Media library');
         $(dialog.iframe).on('load', function () {
-            this.contentWindow.mw.on.hashParam('select-file', function () {
-                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+            this.contentWindow.mw.on.hashParam('select-file', function (pval) {
+                after_upld(pval, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                after_upld(pval, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 mw.notification.success('<?php _ejs('The image is added to the gallery') ?>');
                 dialog.remove();
             });
