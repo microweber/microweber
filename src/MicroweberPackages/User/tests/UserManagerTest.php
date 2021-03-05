@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Testing\Fakes\MailFake;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Customer\Models\Address;
+use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
 use MicroweberPackages\Option\Facades\Option;
@@ -26,6 +28,7 @@ use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+
 /**
  * Run test
  * @author Bobi Slaveykvo Microweber
@@ -256,7 +259,6 @@ class UserManagerTest extends TestCase
         $this->_disableLoginCaptcha();
 
 
-
         $randomInt = rand(1111, 9999);
         $password = md5($randomInt);
 
@@ -269,7 +271,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-         $this->assertArrayHasKey('success', $registerStatus);
+        $this->assertArrayHasKey('success', $registerStatus);
 
 
         $loginDetails = array();
@@ -331,7 +333,7 @@ class UserManagerTest extends TestCase
 
 
         $newUser = array();
-        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['username'] = 'xxx' . uniqid();
         $newUser['email'] = uniqid() . '@mail.test';
         $newUser['password'] = uniqid();
 
@@ -345,7 +347,7 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $forgotPass = $userManager->send_forgot_password($newUser);
         $this->assertArrayHasKey('success', $forgotPass);
-        $this->assertTrue( $forgotPass['success']);
+        $this->assertTrue($forgotPass['success']);
 
         $this->assertContains('reset link', $forgotPass['message']);
 
@@ -359,31 +361,31 @@ class UserManagerTest extends TestCase
         // Lets change the password
         $token = Password::getRepository()->create($user);
         $update_pass_request = [
-            'token' =>$token,
-            'email' =>$newUser['email'],
+            'token' => $token,
+            'email' => $newUser['email'],
             'password' => '1234',
             'password_confirmation' => '1234'
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
         $this->assertArrayHasKey('success', $updatePasswordWithToken);
-        $this->assertTrue( $updatePasswordWithToken['success']);
+        $this->assertTrue($updatePasswordWithToken['success']);
         $this->assertContains('has been reset', $updatePasswordWithToken['message']);
 
 
         // Lets expire email token
         $token = Password::getRepository()->create($user);
-        DB::table('password_resets')->where('email','=',$check->email)->update([
-            'created_at'=>'1997'
+        DB::table('password_resets')->where('email', '=', $check->email)->update([
+            'created_at' => '1997'
         ]);
         $update_pass_request = [
-            'token' =>$token,
-            'email' =>$newUser['email'],
+            'token' => $token,
+            'email' => $newUser['email'],
             'password' => '1234',
             'password_confirmation' => '1234'
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
         $this->assertArrayHasKey('error', $updatePasswordWithToken);
-        $this->assertTrue( $updatePasswordWithToken['error']);
+        $this->assertTrue($updatePasswordWithToken['error']);
         $this->assertContains('token is invalid', $updatePasswordWithToken['message']);
 
 
@@ -399,7 +401,7 @@ class UserManagerTest extends TestCase
         $this->_disableLoginCaptcha();
 
         $newUser = array();
-        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['username'] = 'xxx' . uniqid();
         $newUser['email'] = uniqid() . '@mail.test';
         $newUser['password'] = uniqid();
 
@@ -411,8 +413,8 @@ class UserManagerTest extends TestCase
 
         // Save custom mail template and test it
         $templateId = save_mail_template([
-            'type'=>'forgot_password',
-            'message'=> '{{username}}--unit-testingRESET_passwordlink-{{reset_password_link}}'
+            'type' => 'forgot_password',
+            'message' => '{{username}}--unit-testingRESET_passwordlink-{{reset_password_link}}'
         ]);
 
         Option::setValue('forgot_password_mail_template', $templateId, 'users');
@@ -420,7 +422,7 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $forgotPass = $userManager->send_forgot_password($newUser);
         $this->assertArrayHasKey('success', $forgotPass);
-        $this->assertTrue( $forgotPass['success']);
+        $this->assertTrue($forgotPass['success']);
         $this->assertContains('reset link', $forgotPass['message']);
 
         $findResetPasswordLink = false;
@@ -450,15 +452,15 @@ class UserManagerTest extends TestCase
         $this->_disableLoginCaptcha();
 
         $newUser = array();
-        $newUser['username'] = 'xxx'.uniqid();
+        $newUser['username'] = 'xxx' . uniqid();
         $newUser['email'] = uniqid() . '@mail.test';
         $newUser['password'] = uniqid();
 
 
         // Save custom mail template and test it
         $templateId = save_mail_template([
-            'type'=>'new_user_registration',
-            'message'=> '{{username}}--unit-testing-welcome-{{email}}'
+            'type' => 'new_user_registration',
+            'message' => '{{username}}--unit-testing-welcome-{{email}}'
         ]);
         Option::setValue('new_user_registration_mail_template', $templateId, 'users');
 
@@ -467,7 +469,6 @@ class UserManagerTest extends TestCase
         $registerStatus = $userManager->register($newUser);
         $this->assertArrayHasKey('success', $registerStatus);
         $user = User::find($registerStatus['data']['id']);
-
 
 
         $findUnitTestingText = false;
@@ -496,4 +497,81 @@ class UserManagerTest extends TestCase
         $this->assertTrue($findUnitTestingText);
         $this->assertTrue($checkMailIsFound);
     }
+
+
+    public function testUserAddressIsCachedAfterSave()
+    {
+        $this->_disableCaptcha();
+        $this->_disableLoginCaptcha();
+        $this->_disableRegistrationApprovalByAdmin();
+        $this->_disableEmailVerify();
+
+
+        $user = 'testUserAddress' . uniqid();
+        $pass = 'testUserAddress' . uniqid();
+
+        $this->_registerUserWithUsername($user, $pass);
+
+
+        $loginDetails = array();
+        $loginDetails['username'] = $user;
+        $loginDetails['password'] = $pass;
+
+        $userManager = new UserManager();
+        $loginStatus = $userManager->login($loginDetails);
+
+        $this->assertArrayHasKey('success', $loginStatus);
+
+
+        $address = [];
+        // $address['country'] = 'country' . uniqid();
+        $address['city'] = 'city' . uniqid();
+        $address['street'] = 'street' . uniqid();
+
+        $findCustomerByUser = Customer::where('user_id', \Auth::id())->first();
+
+        if (!$findCustomerByUser) {
+            $createNewCustomer = Customer::create([
+                'user_id' => \Auth::id(),
+            ]);
+            //  $createNewCustomer->save();
+            $findCustomerByUser = $createNewCustomer;
+        }
+
+        $findCustomerAddressByCustomerId = Address::where('customer_id', $findCustomerByUser->id)->first();
+        if (!$findCustomerAddressByCustomerId) {
+            $findCustomerAddressByCustomerId = Address::create([
+                'name' => 'Default',
+                'type' => 'shipping',
+                'customer_id' => $findCustomerByUser->id,
+                //    'country' => $address['country'],
+                'city' => $address['city'],
+                'street' => $address['street'],
+
+            ]);
+            $findCustomerAddressByCustomerId->save();
+        }
+
+        $user_data_checkout = checkout_get_user_info();
+
+
+        $this->assertEquals($address['city'], $findCustomerAddressByCustomerId->city);
+        $this->assertEquals($address['city'], $user_data_checkout['city']);
+
+        $city2 = 'city2' . uniqid();
+        $findCustomerAddressByCustomerId->city = $city2;
+        $findCustomerAddressByCustomerId->save();
+
+        $user = auth()->user();
+
+        $shippingAddress = $user->customer()->first()->shippingAddress()->first();
+        $user_data_checkout = checkout_get_user_info();
+
+        $this->assertEquals($city2, $shippingAddress->city);
+        $this->assertEquals($city2, $user_data_checkout['city']);
+
+
+    }
+
+
 }

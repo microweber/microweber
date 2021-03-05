@@ -54,7 +54,7 @@ class CustomerCheckoutTest extends TestCase
     public function testCheckout()
     {
 
-        //  \Config::set('mail.transport', 'array');
+         \Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
@@ -102,6 +102,8 @@ class CustomerCheckoutTest extends TestCase
         $this->assertEquals($address->city, $checkoutDetails['city']);
         $this->assertEquals($address->zip, $checkoutDetails['zip']);
         $this->assertEquals($address->state, $checkoutDetails['state']);
+
+
 
     }
 

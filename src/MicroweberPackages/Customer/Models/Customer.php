@@ -9,8 +9,10 @@ use MicroweberPackages\Order\Models\Order;
 
 class Customer extends Model
 {
- //   use CacheableQueryBuilderTrait;
-    public $cacheTagsToClear = ['countries','address'];
+    public $table = 'customers';
+
+    use CacheableQueryBuilderTrait;
+    public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users'];
 
 
     public $fillable = [
@@ -25,7 +27,7 @@ class Customer extends Model
         'company_id'
     ];
 
-    public $translatable = ['first_name','last_name'];
+    public $translatable = ['first_name', 'last_name'];
 
     public function getActiveAttribute($attribute)
     {
@@ -79,12 +81,12 @@ class Customer extends Model
 
     public function scopeWhereDisplayName($query, $displayName)
     {
-        return $query->where('name', 'LIKE', '%'.$displayName.'%');
+        return $query->where('name', 'LIKE', '%' . $displayName . '%');
     }
 
     public function scopeWherePhone($query, $phone)
     {
-        return $query->where('phone', 'LIKE', '%'.$phone.'%');
+        return $query->where('phone', 'LIKE', '%' . $phone . '%');
     }
 
     public function scopeApplyFilters($query, array $filters)
@@ -93,12 +95,12 @@ class Customer extends Model
 
         if ($filters->get('search')) {
             $search = $filters->get('search');
-            $query->where(function($query) use($search) {
-                $query->where('name', 'like', '%' .$search. '%');
-                $query->orWhere('first_name','like', '%' .$search. '%');
-                $query->orWhere('last_name','like', '%' .$search. '%');
-                $query->orWhere('phone','like', '%' .$search. '%');
-                $query->orWhere('email','like', '%' .$search. '%');
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+                $query->orWhere('first_name', 'like', '%' . $search . '%');
+                $query->orWhere('last_name', 'like', '%' . $search . '%');
+                $query->orWhere('phone', 'like', '%' . $search . '%');
+                $query->orWhere('email', 'like', '%' . $search . '%');
             });
         }
 
@@ -131,18 +133,18 @@ class Customer extends Model
         ];
     }
 
-   /* public function delete()
-    {
-        if ($this->payments()->exists()) {
-            $this->payments()->delete();
-        }
+    /* public function delete()
+     {
+         if ($this->payments()->exists()) {
+             $this->payments()->delete();
+         }
 
-        if ($this->addresses()->exists()) {
-            $this->addresses()->delete();
-        }
+         if ($this->addresses()->exists()) {
+             $this->addresses()->delete();
+         }
 
-        $this->delete();
+         $this->delete();
 
-        return true;
-    }*/
+         return true;
+     }*/
 }
