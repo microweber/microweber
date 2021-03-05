@@ -28,13 +28,12 @@ class TranslationLoader extends FileLoader
 
         // Load translations from files
         $fileTranslations = parent::load($locale, $group, $namespace);
-        if (!is_array($fileTranslations) and !empty($fileTranslations)) {
+        if (is_array($fileTranslations) and !empty($fileTranslations)) {
             $translations  = $fileTranslations;
         }
 
         // Load translations from database
         if (mw_is_installed()) {
-
              $getTranslations = TranslationKeyCached::where('translation_group', $group)
                 ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
                 ->where('translation_texts.translation_locale', $locale)
