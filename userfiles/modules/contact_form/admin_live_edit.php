@@ -6,9 +6,9 @@ if (!user_can_access('module.contact_form.index')) {
 
 
 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings" id="form_options"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings-advanced"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Advanced Settings'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#custom-fields"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Custom Fields'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings" id="form_options"><i class="mdi mdi-email-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings-advanced"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Advanced Settings'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#custom-fields"><i class="mdi mdi-pencil-box-outline mr-1"></i> <?php print _e('Custom Fields'); ?></a>
     <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
 </nav>
 

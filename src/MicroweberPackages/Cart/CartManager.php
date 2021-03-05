@@ -553,7 +553,6 @@ class CartManager extends Crud
 
     public function update_cart($data)
     {
-
         if (!isset($data['for']) and isset($data['rel_type'])) {
             $data['for'] = $data['rel_type'];
         }
@@ -576,7 +575,6 @@ class CartManager extends Crud
                 }
             }
         }
-
 
         $update_qty = 0;
         $update_qty_new = 0;
@@ -774,7 +772,6 @@ class CartManager extends Crud
             $cart['allow_html'] = 1;
             $cart['price'] = doubleval($found_price);
             $cart['limit'] = 1;
-
             $cart['title'] = mw()->format->clean_html($data['title']);
 
             $cart_return['custom_fields_data'] = $add;
@@ -862,7 +859,7 @@ class CartManager extends Crud
             $findCart->price = $cart['price'];
             $findCart->session_id = $cart['session_id'];
             $findCart->order_completed = $cart['order_completed'];
-            $findCart->session_id = $cart['session_id'];
+            $findCart->session_id = $cart['session_id']; 
             $findCart->save();
 
             $this->app->cache_manager->delete('cart');
