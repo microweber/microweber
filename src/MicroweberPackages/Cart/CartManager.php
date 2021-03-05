@@ -428,31 +428,31 @@ class CartManager extends Crud
 
         $cart = array();
         $cart['id'] = intval($data['id']);
+
         if ($this->app->user_manager->is_admin() == false) {
             $cart['session_id'] = mw()->user_manager->session_id();
         }
+
         $cart['order_completed'] = 0;
         $cart['one'] = 1;
         $cart['limit'] = 1;
-        $check_cart = $this->get($cart);
-        if ($check_cart != false and is_array($check_cart)) {
-            $table = $this->table;
-            $this->app->database_manager->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
 
-            $cart_return = $check_cart;
+        $checkCart = $this->get($cart);
+
+        if ($checkCart != false and is_array($checkCart)) {
+
+            $findCart = Cart::where('id', $cart['id'])->first();
+            if ($findCart) {
+                $findCart->delete();
+            }
 
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
 
-            return array('success' => _e('Item quantity changed', true), 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
-
-
-            return array('success' => _e('Item removed from cart', true));
+            return array('success' => _e('Item was removed from cart', true), 'product' => $checkCart, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
         } else {
             return array('error' => _e('Item not removed from cart', true));
-
         }
-
     }
 
     public function update_item_qty($data)
@@ -760,6 +760,8 @@ class CartManager extends Crud
             asort($add);
             $add = mw()->format->clean_xss($add);
             $table = $this->table;
+
+
             $cart = array();
             $cart['rel_type'] = trim($data['for']);
             $cart['rel_id'] = intval($data['for_id']);
@@ -767,29 +769,6 @@ class CartManager extends Crud
             $cart['no_cache'] = 1;
             $cart['disable_triggers'] = 1;
             $cart['order_completed'] = 0;
-
-            // $cart['price'] = doubleval($found_price);
-            //  $cart_check_db =  \DB::table('cart')->where($cart)->first();
-
-
-//            $cart_check = $cart;
-//            $cart_return = $cart;
-//            $check_cart = [];
-//
-//            if($cart_check_db){
-//                $check_cart = (array) $cart_check_db;
-//
-//            }
-
-            //  $check_cart = $this->app->database_manager->get('cart',$cart_check);
-            //     d($cart_check);
-
-//  d($check_cart);
-            //  d($cart_check);
-            $cart_check_q = $cart;
-            $check_cart = $this->app->database_manager->get('cart', $cart_check_q);
-
-
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['custom_fields_json'] = json_encode($add);
             $cart['allow_html'] = 1;
@@ -801,6 +780,16 @@ class CartManager extends Crud
             $cart_return['custom_fields_data'] = $add;
             $cart_return['price'] = $cart['price'];
 
+            $findCart = Cart::where('custom_fields_data', $cart['custom_fields_data'])
+                ->where('session_id', $cart['session_id'])
+                ->where('order_completed', $cart['order_completed'])
+                ->where('rel_id', $cart['rel_id'])
+                ->where('rel_type', $cart['rel_type'])
+                ->first();
+            $check_cart = false;
+            if ($findCart !== null) {
+                $check_cart = $findCart->toArray();
+            }
 
             if ($found_price and $check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
 
@@ -859,11 +848,7 @@ class CartManager extends Crud
                 $cart_return['currency'] = $cart['currency'] = $this->app->format->clean_html($data['link']);
             }
 
-
-            $findCart = Cart::where('custom_fields_data', $cart['custom_fields_data'])
-                        ->where('rel_id', $cart['rel_id'])
-                        ->where('rel_type', $cart['rel_type'])
-                        ->first();
+            // Update cart in database
             if ($findCart == null) {
                 $findCart = new Cart();
                 $findCart->rel_id = $cart['rel_id'];
@@ -871,7 +856,7 @@ class CartManager extends Crud
                 $findCart->custom_fields_data = $cart['custom_fields_data'];
                 $findCart->custom_fields_json = $cart['custom_fields_json'];
             }
-            
+
             $findCart->qty = $cart['qty'];
             $findCart->title = $cart['title'];
             $findCart->price = $cart['price'];
