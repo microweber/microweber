@@ -151,9 +151,9 @@ $params_module = $params;
         }
     }
 
-    mw.on.hashParam("pg", function () {
+    mw.on.hashParam("pg", function (pval) {
         var act = mw.url.windowHashParam("action");
-        var dis = $p_id = this;
+        var dis = $p_id = pval;
 
         if (!!act) {
             var arr = act.split(":");

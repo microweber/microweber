@@ -64,23 +64,24 @@ mw._on = {
   _hashparams : this._hashparams || [],
   _hashparam_funcs : [],
   hashParam : function(param, callback, trigger, isManual){
-
+    var index;
     if(isManual){
-        var index = mw.on._hashparams.indexOf(param);
+        index = mw.on._hashparams.indexOf(param);
         if (mw.on._hashparam_funcs[index] !== undefined){
-          mw.on._hashparam_funcs[index].call(false);
+          mw.on._hashparam_funcs[index].call(false, false);
         }
         return false;
     }
     if(trigger === true){
-        var index = mw.on._hashparams.indexOf(param);
+        index = mw.on._hashparams.indexOf(param);
 
         if(index !== -1){
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
 
-          if(typeof params[param] === 'string' && mw.on._hashparam_funcs[index] !== undefined){
-              mw.on._hashparam_funcs[index].call(decodeURIComponent(params[param]));
+          if (typeof params[param] === 'string' && mw.on._hashparam_funcs[index] !== undefined) {
+              var pval = decodeURIComponent(params[param]);
+              mw.on._hashparam_funcs[index].call(pval, pval);
 
           }
         }

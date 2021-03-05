@@ -121,17 +121,17 @@
 
 
 
-        mw.on.hashParam("action", function () {
+        mw.on.hashParam("action", function (pval) {
             //mw_clear_edit_module_attrs()
 
-            if (this == false) {
+            if (pval === false) {
 
                 cat_edit_load_from_modal('categories/admin_backend_modal');
                 return false;
             } else {
 
 
-                var arr = this.split(":");
+                var arr = pval.split(":");
 
                 if (arr[0] === 'managecats' ) {
                    // alert(2222)

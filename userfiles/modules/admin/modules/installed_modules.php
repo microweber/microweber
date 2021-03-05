@@ -125,12 +125,12 @@
         mw.on.hashParam('ui', _modulesSort);
         mw.on.hashParam('installed', _modulesSort);
 
-        mw.on.hashParam('search', function () {
+        mw.on.hashParam('search', function (value) {
             _modulesSort();
             var field = document.getElementById('module_keyword');
 
             if (!field.focused) {
-                field.value = this;
+                field.value = value;
             }
         });
 
@@ -138,10 +138,10 @@
             _modulesSort();
         });
 
-        mw.on.hashParam('category', function () {
+        mw.on.hashParam('category', function (value) {
             _modulesSort();
             mw.$("#mw_index_modules a.active").removeClass('active');
-            mw.$("#mw_index_modules .cat-" + this).addClass('active');
+            mw.$("#mw_index_modules .cat-" + value).addClass('active');
         });
         mw.on.hashParam('installed', function () {
             _modulesSort();
@@ -170,8 +170,8 @@
 
     $(document).ready(function () {
         _modulesSort();
-        mw.on.hashParam('market', function () {
-            if (this != false) {
+        mw.on.hashParam('market', function (value) {
+            if (value !== false) {
                 mw.$('html').addClass('market-init');
                 mw.load_module('admin/modules/market', '#modules_market_<?php print $params['id']; ?>');
                 /*        $("#modules_admin_<?php print $params['id']; ?>").hide();

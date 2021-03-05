@@ -107,20 +107,20 @@ if (array_key_exists('title', $_GET)) {
     $(document).ready(function () {
 
 
-        mw.on.hashParam('select-file', function () {
+        mw.on.hashParam('select-file', function (pval) {
 
             if (hash === 'fileWindow') {
-                $('body').trigger('change', [this]);
+                $('body').trigger('change', [pval]);
                 return false;
             }
 
-            var type = mw.url.type(this);
-            GlobalEmbed = mw.embed.generate(type, this);
+            var type = mw.url.type(pval);
+            GlobalEmbed = mw.embed.generate(type, pval);
             if (typeof parent.mw.iframecallbacks[hash] === 'function') {
                 if (hash === 'editimage') {
 
 
-                    parent.mw.iframecallbacks[hash](this);
+                    parent.mw.iframecallbacks[hash](pval);
                     if(parent.mw.image.currentResizing && parent.mw.image.currentResizing){
                         parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
 
@@ -140,7 +140,7 @@ if (array_key_exists('title', $_GET)) {
             }
 
             if(window.thismodal) {
-                thismodal.result(this)
+                thismodal.result(pval
             }
 
             parent.mw.dialog.remove('mw_rte_image');

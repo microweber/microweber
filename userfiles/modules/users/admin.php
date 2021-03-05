@@ -122,25 +122,25 @@ if ($action == 'profile') {
         }
     });
 
-    mw.on.hashParam('is_admin', function () {
-        if (this === false) return false;
+    mw.on.hashParam('is_admin', function (pval) {
+        if (pval === false) return false;
         _mw_admin_users_manage();
         mw.url.hashParamToActiveNode('is_admin', 'mw-users-is-admin');
     });
 
-    mw.on.hashParam('search', function () {
-        if (this === false) return false;
+    mw.on.hashParam('search', function (pval) {
+        if (pval === false) return false;
         _mw_admin_users_manage();
     });
 
-    mw.on.hashParam('is_active', function () {
-        if (this === false) return false;
+    mw.on.hashParam('is_active', function (pval) {
+        if (pval === false) return false;
         _mw_admin_users_manage();
         mw.url.hashParamToActiveNode('is_active', 'mw-users-is-active');
     });
 
-    mw.on.hashParam('sortby', function () {
-        if (this === false) return false;
+    mw.on.hashParam('sortby', function (pval) {
+        if (pval === false) return false;
         _mw_admin_users_manage();
     });
 

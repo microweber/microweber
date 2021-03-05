@@ -37,9 +37,9 @@ description: Default Search template
 <script>
     $(document).ready(function () {
 
-        mw.on.hashParam("keyword<?php print $seach_prefix ?>", function () {
+        mw.on.hashParam("keyword<?php print $seach_prefix ?>", function (pval) {
             mw.$("#search_box_holder_<?php  print $params['id'] ?>").addClass("loading");
-            var key = this;
+            var key = pval;
             if (key != '') {
                 var holder = mw.$('#search_results_holder_<?php  print $params['id'] ?>');
                 mw.search(key, holder, {

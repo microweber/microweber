@@ -50,18 +50,16 @@ if (isset($_GET['group'])) {
 
     mw.on.hashParam('ui', _settingsSort);
 
-    mw.on.hashParam('option_group', function () {
+    mw.on.hashParam('option_group', function (pval) {
 
-        if (this != false) {
+        if (pval != false) {
 
-         //   mw.$("#settings_admin_categories_<?php print $rand; ?> a").removeClass("active");
-       //     mw.$("#settings_admin_categories_<?php print $rand; ?> a.item-" + this).addClass("active");
         }
         else {
             mw.url.windowHashParam('option_group', 'admin__modules');
         }
-        if (this != false) {
-            _settingsSort(this)
+        if (pval != false) {
+            _settingsSort(pval)
 
         }  else {
             _settingsSort();

@@ -122,13 +122,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     title: "Browse pictures",
                     id: 'mw_admin_image_rollover_upload_browse_existing_modal<?php print $params['id'] ?>',
                     onload: function () {
-                        this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
+                        this.iframe.contentWindow.mw.on.hashParam('select-file', function (pval) {
                             dialog.remove();
                             mw.notification.success('<?php _ejs('Image selected') ?>');
                             if (rollover) {
-                                setNewImageRollover(this);
+                                setNewImageRollover(pval);
                             } else {
-                                setNewImage(this);
+                                setNewImage(pval);
                             }
                         })
                         this.iframe.contentWindow.document.body.style.padding = '15px';

@@ -165,12 +165,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             title: "Browse pictures",
                             id: modal_id,
                             onload: function () {
-                                this.iframe.contentWindow.mw.on.hashParam('select-file', function () {
+                                this.iframe.contentWindow.mw.on.hashParam('select-file', function (pval) {
                                     mw.notification.success('<?php _ejs('Logo image selected') ?>');
                                     if (inverse) {
-                                        setNewImageInv(this);
+                                        setNewImageInv(pval);
                                     } else {
-                                        setNewImage(this);
+                                        setNewImage(pval);
                                     }
                                     dialog.remove();
                                 });

@@ -59,10 +59,10 @@ $order_id = url_param('vieworder');
    });
 
 
-   mw.on.hashParam('orderstype', function(){
+   mw.on.hashParam('orderstype', function(value){
         mw.$("#cartsnav a").removeClass('active');
         mw.$("#cartsnav a[href='#orderstype="+this+"']").addClass('active');
-        if(this == 'carts'){
+        if(value === 'carts'){
     		mw.$('.mw-admin-order-sort-carts').show();
     		mw.$('.mw-admin-order-sort-completed').hide();
     	} else {
@@ -123,16 +123,16 @@ ordersSort = function(obj){
 	}
   }
 
-	 mw.on.hashParam('search', function(){
+	 mw.on.hashParam('search', function(value){
 
 
   var field = document.getElementById('mw-search-field-orders');
   $(field).addClass('loading')
 
-  if(!field.focused){ field.value = this; }
+  if(!field.focused){ field.value = value; }
 
-  if(this  != ''){
-    $('#mw-admin-manage-orders-list').attr('keyword',this);
+  if(value  != ''){
+    $('#mw-admin-manage-orders-list').attr('keyword',value);
 	$(field).addClass('active')
   } else {
     $('#mw-admin-manage-orders-list').removeAttr('keyword' );

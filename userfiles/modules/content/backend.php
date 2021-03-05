@@ -18,9 +18,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 </script>
 <script>
 
-    mw.on.hashParam("search", function () {
+    mw.on.hashParam("search", function (pval) {
         mw.$('#pages_edit_container').attr("data-type", 'content/manager');
-        var dis = this;
+        var dis = pval;
         if (dis !== '') {
             mw.$('#pages_edit_container').attr("data-keyword", dis);
             mw.url.windowDeleteHashParam('pg')
@@ -71,8 +71,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
     $(document).ready(function () {
 
-        mw.on.hashParam("page-posts", function () {
-            mw_set_edit_posts(this);
+        mw.on.hashParam("page-posts", function (pval) {
+            mw_set_edit_posts(pval);
         });
         mw.on.moduleReload("pages_tree_toolbar", function (e) {
 
@@ -187,15 +187,15 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         edit_load('content/edit');
     }
 
-    mw.on.hashParam("action", function () {
+    mw.on.hashParam("action", function (pval) {
 
-        if (this === false) {
+        if (pval === false) {
             mw.tools.classNamespaceDelete(document.body, 'action-')
         }
 
         mainTreeSetActiveItems()
 
-        if (this === false) {
+        if (pval === false) {
             mw.$('#pages_edit_container').removeAttr('page-id');
             mw_clear_edit_module_attrs();
             mw.$(".fix-tabs").removeClass('fix-tabs');
@@ -209,12 +209,12 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
 
-        if (this === false) {
+        if (pval === false) {
             mw.$(".mw_edit_page_right").css("overflow", "hidden");
             edit_load('content/manager');
             return false;
         }
-        var arr = this.split(":");
+        var arr = pval.split(":");
         mw.tools.classNamespaceDelete(document.body, 'action-');
         if (arr[0] === 'new') {
             mw.contentAction.create(arr[1]);

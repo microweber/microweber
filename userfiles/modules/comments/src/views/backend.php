@@ -31,9 +31,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </script>
 
                 <script type="text/javascript">
-                    mw.on.hashParam("search", function () {
-                        if (this !== '') {
-                            $('#mw_admin_posts_with_comments').attr('data-search-keyword', this);
+                    mw.on.hashParam("search", function (pval) {
+                        if (pval !== '') {
+                            $('#mw_admin_posts_with_comments').attr('data-search-keyword', pval);
                         } else {
                             $('#mw_admin_posts_with_comments').removeAttr('data-search-keyword');
                         }
@@ -43,15 +43,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
                     });
 
-                    mw.on.hashParam("content_id", function () {
+                    mw.on.hashParam("content_id", function (pval) {
                         mw.$("a.comments-group").removeClass("active");
-                        mw.$("a[href*='content_id=" + this + "']").addClass("active");
+                        mw.$("a[href*='content_id=" + pval + "']").addClass("active");
 
-                        if (this == 'settings') {
+                        if (pval == 'settings') {
                             mw.$('.comments-settings').show();
                             mw.$('.comments-items').hide();
                             mw.$('.comments-templates').hide();
-                        } else if (this == 'templates') {
+                        } else if (pval == 'templates') {
                             mw.$('.comments-settings').hide();
                             mw.$('.comments-items').hide();
                             mw.$('.comments-templates').show();
@@ -61,7 +61,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             mw.$('.comments-templates').hide();
                         }
 
-                        if (this !== '' && this != '0') {
+                        if (pval !== '' && pval != '0') {
                             $('#mw_comments_admin_dashboard').hide();
                             $('#mw_admin_posts_with_comments').show();
                             $('#mw_admin_posts_with_comments').attr('content_id', this);
@@ -79,8 +79,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             mw.reload_module('#mw_admin_posts_with_comments');
                         }
                     });
-                    mw.on.hashParam("rel_id", function () {
-                        if (this !== '' && this != '0') {
+                    mw.on.hashParam("rel_id", function (pval) {
+                        if (pval !== '' && pval != '0') {
                             mw.$('#mw_comments_admin_dashboard').hide();
                             mw.$('#mw_admin_posts_with_comments').show();
                             mw.$('#mw_admin_posts_with_comments').attr('rel_id', this);
@@ -105,13 +105,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <script type="text/javascript">
                     mw.adminComments = {
                         action: function (form, val) {
-                            var form = $(form);
+                              form = $(form);
                             var field = form.find('.comment_state');
                             var connected_id = mw.$('[name="connected_id"]', form[0]).val();
                             field.val(val);
                             var conf = true;
                             if (val == 'delete') {
-                                var conf = confirm(mw.msg.to_delete_comment);
+                                  conf = confirm(mw.msg.to_delete_comment);
                             }
                             if (conf) {
                                 var id = form.attr('id');

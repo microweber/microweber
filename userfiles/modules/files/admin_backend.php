@@ -401,8 +401,8 @@
             <?php }  ?>
         });
 
-        mw.on.hashParam('viewsize', function () {
-            _mw_admin_files_manage('viewsize', this);
+        mw.on.hashParam('viewsize', function (pval) {
+            _mw_admin_files_manage('viewsize', pval);
         });
 
         createPopHTML = function (sourceUrl, type) {
@@ -473,10 +473,10 @@
         }
 
         if (self === parent) {
-            mw.on.hashParam('select-file', function () {
+            mw.on.hashParam('select-file', function (pval) {
                 var dialog;
-                if (this.valueOf()) {
-                    var type = this.valueOf().split(".").pop();
+                if (pval.valueOf()) {
+                    var type = pval.valueOf().split(".").pop();
                     type = type.toLowerCase();
 
                     var is = function (a) {
@@ -490,7 +490,7 @@
                         || is('bmp')
                         || is('gif')
                         || is('webp')
-                        || this.indexOf('images.unsplash.com') !== -1;
+                        || pval.indexOf('images.unsplash.com') !== -1;
 
                     var isText = is('txt')
                         || is('xml')
@@ -502,19 +502,19 @@
                     if (isImage) {
                         if (mw.$("#prfile").length === 0) {
                             dialog = mw.dialog({
-                                html: createPopHTML(this),
+                                html: createPopHTML(pval),
                                 width: 500,
                                 height: 'auto',
                                 autoHeight: true,
                                 name: "prfile",
-                                title: this.split("/").pop()
+                                title: pval.split("/").pop()
                             });
                             $(dialog).on('Remove', function () {
                                 mw.url.windowDeleteHashParam('select-file')
                             })
                         } else {
-                            mw.$("#prfile .mw_modal_container").html(createPopHTML(this));
-                            mw.$("#prfile .mw_modal_title").html(this.split("/").pop())
+                            mw.$("#prfile .mw_modal_container").html(createPopHTML(pval));
+                            mw.$("#prfile .mw_modal_title").html(pval.split("/").pop())
                         }
                     } else if (type === 'mp3' || type === 'avi' || type === 'mp4' || type === 'wmv' || type === 'swf') {
                         dialog = mw.dialog({
@@ -523,7 +523,7 @@
                             height: 'auto',
                             autoHeight: true,
                             name: "prfile",
-                            title: this.split("/").pop()
+                            title: pval.split("/").pop()
                         });
                         $(dialog).on('Remove', function () {
                             mw.url.windowDeleteHashParam('select-file')
@@ -535,29 +535,29 @@
 
                         if (type === 'pdf') {
                             dialog = mw.dialog({
-                                html: createPopHTML(this, 'pdf'),
+                                html: createPopHTML(pval, 'pdf'),
                                 width: '80vw',
                                 height: 'auto',
                                 autoHeight: true,
                                 name: "prfile",
-                                title: this.split("/").pop()
+                                title: pval.split("/").pop()
                             });
                         } else if (isText) {
                             dialog = mw.dialogIframe({
-                                url: this,
+                                url: pval,
                                 width: 500,
                                 height: 'auto',
                                 name: "prfile",
-                                title: this.split("/").pop()
+                                title: pval.split("/").pop()
                             });
                         } else {
                             dialog = mw.dialog({
-                                html: createPopHTML(this, 'nopreview'),
+                                html: createPopHTML(pval, 'nopreview'),
                                 width: 500,
                                 height: 'auto',
                                 autoHeight: true,
                                 name: "prfile",
-                                title: this.split("/").pop()
+                                title: pval.split("/").pop()
                             });
                         }
                     }
@@ -570,7 +570,7 @@
         }
 
         saveNewFolder = function (a) {
-            console.log(a)
+
 
             if (a) {
                 var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
@@ -615,19 +615,19 @@
         }
 
 
-        mw.on.hashParam('search', function () {
+        mw.on.hashParam('search', function (pval) {
 
-            _mw_admin_files_manage('search', this);
+            _mw_admin_files_manage('search', pval);
 
         });
-        mw.on.hashParam('sort_by', function () {
-            if (this != false && this != '') {
-                _mw_admin_files_manage('sort_by', this);
+        mw.on.hashParam('sort_by', function (pval) {
+            if (pval != false && pval != '') {
+                _mw_admin_files_manage('sort_by', pval);
             }
         });
-        mw.on.hashParam('sort_order', function () {
-            if (this != false && this != '') {
-                _mw_admin_files_manage('sort_order', this);
+        mw.on.hashParam('sort_order', function pval() {
+            if (pval != false && pval != '') {
+                _mw_admin_files_manage('sort_order', pval);
             }
 
         });
@@ -691,12 +691,12 @@
             })
 
 
-            mw.on.hashParam('path', function () {
-                _mw_admin_files_manage('path', this);
+            mw.on.hashParam('path', function (pval) {
+                _mw_admin_files_manage('path', pval);
 
 
 
-                Uploader.urlParam('path', this);
+                Uploader.urlParam('path', pval);
 
 
             });

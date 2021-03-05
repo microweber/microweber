@@ -2,7 +2,7 @@ mw.tools.alert = function (text) {
     var html = ''
         + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'
         + '<tr>'
-        + '<td align="center" valign="middle"><div class="mw_alert_holder">' + text + '</div></td>'
+        + '<td align="center" valign="middle"><div class="mw-alert-holder">' + text + '</div></td>'
         + '</tr>'
         + '<tr>'
         + '<td align="center" height="25"><span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></td>'
@@ -19,7 +19,7 @@ mw.tools.alert = function (text) {
         });
     }
     else {
-        mw.$("#mw_alert .mw_alert_holder").html(text);
+        mw.$("#mw_alert .mw-alert-holder").html(text);
         return mw.$("#mw_alert")[0].modal;
     }
 };
@@ -77,7 +77,7 @@ mw.tools.confirm = function (question, callback, onCancel) {
         var html = ''
             + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'
             + '<tr>'
-            + '<td valign="middle"><div class="mw_alert_holder">' + question + '</div></td>'
+            + '<td valign="middle"><div class="mw-alert-holder">' + question + '</div></td>'
             + '</tr>'
             + '</table>';
 
@@ -98,7 +98,7 @@ mw.tools.confirm = function (question, callback, onCancel) {
             });
         }
         else {
-            mw.$("#mw_confirm_modal .mw_alert_holder").html(question);
+            mw.$("#mw_confirm_modal .mw-alert-holder").html(question);
             modal = mw.$("#mw_confirm_modal")[0].modal;
         }
 

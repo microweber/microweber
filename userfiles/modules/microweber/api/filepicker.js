@@ -174,8 +174,8 @@ mw.filePicker = function (options) {
                     }
                     fr.onload = function () {
                         mw.tools.loading(el, false);
-                        this.contentWindow.mw.on.hashParam('select-file', function () {
-                            var url = this.toString();
+                        this.contentWindow.mw.on.hashParam('select-file', function (pval) {
+                            var url = pval.toString();
                             scope.setSectionValue(url);
                             if (scope.settings.autoSelect) {
                                 scope.result();

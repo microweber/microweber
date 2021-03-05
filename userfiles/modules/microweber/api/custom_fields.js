@@ -41,17 +41,16 @@ mw.custom_fields = {
             mw.$(group).sortable({
                 handle: '.custom-fields-handle-field',
                 placeholder: 'custom-fields-placeholder',
-                //containment: "parent",
                 axis: 'y',
                 items: ".mw-custom-field-form-controls",
                 start: function (a, ui) {
                     mw.$(ui.placeholder).height($(ui.item).outerHeight())
                 },
-                //scroll:false,
                 update: function () {
                     var par = mw.tools.firstParentWithClass(group, 'mw-admin-custom-field-edit-item-wrapper');
                     if (!!par) {
-                        mw.custom_fields.save(par);
+                        // mw.custom_fields.save(par);
+                        mw.$(".custom-fields-settings-save-btn").attr('disabled', false)
                     }
                 }
             });

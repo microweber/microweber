@@ -192,8 +192,7 @@ mw.admin.custom_fields.make_fields_sortable = function () {
     return sortable_holder;
 };
 mw.admin.custom_fields.del = function (id, toremove) {
-    var q = "Are you sure you want to delete '" + mw.$('#mw-custom-list-element-' + id + ' .mw-admin-custom-field-name-edit-inline').text() + "' ?";
-    mw.tools.confirm(q, function () {
+     mw.tools.confirm(  function () {
 
         mw.custom_fields.remove(id, function (data) {
             mw.$('#mw-custom-list-element-' + id).addClass('scale-out');

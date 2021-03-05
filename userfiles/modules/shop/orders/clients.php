@@ -19,8 +19,8 @@ must_have_access();
 
 <script>
     $(window).bind('load', function () {
-        mw.on.hashParam('clients_search', function () {
-            var dis = this;
+        mw.on.hashParam('clients_search', function (pval) {
+            var dis = pval;
             if (dis !== '') {
                 mw.$('#<?php print $params['id'] ?>').attr("data-keyword", dis);
 
