@@ -16,131 +16,96 @@ class TranslationImport
         $this->replaceValues = $replace;
     }
 
-    public function import($translations)
+    public function import($inputTranslations)
     {
-
         $validateImport = false;
+
+        if (!empty($inputTranslations) && is_array($inputTranslations)) {
+            $validateImport = true;
+        }
+
+        if (empty($inputTranslations[0]['translation_key'])
+            || empty($inputTranslations[0]['translation_namespace'])
+            || empty($inputTranslations[0]['translation_group'])
+            || empty($inputTranslations[0]['translation_locale'])
+            || empty($inputTranslations[0]['translation_text'])
+        ) {
+            $validateImport = false;
+        }
 
         if (!$validateImport) {
             return ['error' => 'Can\'t import this language file.'];
         }
 
+        $insertedTexts = [];
+        $updatedTexts = [];
 
-        $insertedValues = [];
-        $updatedValues = [];
+        // Get All Database Translation Keys
+        $dbTranslationKeysMap = [];
+        $getTranslationKeys = TranslationKey::select(['id', 'translation_key'])->get();
+        if ($getTranslationKeys != null) {
+            foreach($getTranslationKeys as $translationKey) {
+                $dbTranslationKeysMap[md5($translationKey->translation_key)] = $translationKey->id;
+            }
+        }
 
+        // Get All input Translation Keys
+        $inputTranslationMap = [];
+        foreach($inputTranslations as $inputTranslation) {
+            $inputTranslationMap[md5($inputTranslation['translation_key'])] = $inputTranslation;
+        }
+
+        // Insert missing keys in database
+        $missingTranslationKeys = [];
+        foreach ($inputTranslationMap as $md5InputTranslationKey=>$inputTranslation) {
+            if (!isset($dbTranslationKeysMap[$md5InputTranslationKey])) {
+                $missingTranslationKeys[] = [
+                    'translation_group'=>$inputTranslation['translation_group'],
+                    'translation_namespace'=>$inputTranslation['translation_namespace'],
+                    'translation_key'=>$inputTranslation['translation_key'],
+                ];
+            }
+        }
+
+        try {
+            $insertedKeys = $this->_importTranslationKeys($missingTranslationKeys);
+        } catch (Exception $e) {
+            return ['error' => 'Error when trying to import translation keys.'];
+        }
+
+
+        //dd($missingTranslationKeys);
 
         \Cache::tags('translation_keys')->flush();
         \Cache::tags('translation_texts')->flush();
 
-        $msg = 'Importing language file success.';
-        if ($insertedValues) {
-            $msg .= ' Inserted values ' . count($insertedValues);
+        $responseText = 'Importing language file success.';
+        if ($insertedKeys) {
+            $responseText .= ' Inserted keys ' . count($insertedKeys);
         }
-        if ($updatedValues) {
-            $msg .= ' Replaced values ' . count($updatedValues);
+        if ($insertedTexts) {
+            $responseText .= ' Inserted texts ' . count($insertedTexts);
+        }
+        if ($updatedTexts) {
+            $responseText .= ' Replaced texts ' . count($updatedTexts);
         }
 
-        return ['success' => $msg];
+        return ['success' => $responseText];
 
     }
 
-    /*
-        public function _importSlow($translations)
-        {
+    private function _importTranslationKeys($translationKeys)
+    {
+        $insertedTranslationKeys = [];
 
-            $foundLangKeys = [];
-            $textsToImport = [];
-            $allLangKeysDb = TranslationKey::select(['id', 'translation_key'])->get();
-            if ($allLangKeysDb != null) {
-                $allLangKeysDb = $allLangKeysDb->toArray();
-                if ($allLangKeysDb) {
-                    foreach ($allLangKeysDb as $allLangKey) {
-                        if (!isset($allLangKey['translation_key']) or !$allLangKey['translation_key']) {
-                            continue;
-                        }
-                        $allLangKey['translation_key_md5'] = md5($allLangKey['translation_key']);
-                        $foundLangKeys[$allLangKey['translation_key_md5']] = $allLangKey;
-                    }
-                }
-            }
+        $translationKeysCunks = array_chunk($translationKeys, 50);
 
+        foreach ($translationKeysCunks as $translationKeysChunk) {
+            $insertedTranslationKeys[] = TranslationKey::insert($translationKeysChunk);
+        }
 
-            if (is_array($translations)) {
-                foreach ($translations as $translation) {
-
-                    if (!isset($translation['translation_text'])) {
-                        continue;
-                    }
-                    if (!isset($translation['translation_locale'])) {
-                        continue;
-                    }
-                    $translationText = trim($translation['translation_text']);
-                    if (empty($translationText)) {
-                        continue;
-                    }
-                    $getTranslationKey = null;
-                    $getTranslationKeyId = null;
-
-
-    //                $getTranslationKey = TranslationKey::where(\DB::raw('md5(translation_key)'), md5($translation['translation_key']))
-    //                    ->select('id')
-    //                    ->where('translation_namespace', $translation['translation_namespace'])
-    //                    ->where('translation_group', $translation['translation_group'])
-    //                    ->limit(1)
-    //                    ->first();
-
-
-                    if ($foundLangKeys) {
-                        $md5Text = md5($translation['translation_key']);;
-                        if (isset($foundLangKeys[$md5Text])) {
-                            $getTranslationKey = $foundLangKeys[$md5Text];
-                            $getTranslationKeyId = $foundLangKeys[$md5Text]['id'];
-                        }
-                    }
-
-
-                    if ($getTranslationKey == null) {
-                        $getTranslationKey = new TranslationKey();
-                        $getTranslationKey->translation_key = $translation['translation_key'];
-                        $getTranslationKey->translation_namespace = $translation['translation_namespace'];
-                        $getTranslationKey->translation_group = $translation['translation_group'];
-                        $getTranslationKey->save();
-                        $getTranslationKeyId = $getTranslationKey->id;
-                        $this->log("Imported translation key " . $getTranslationKeyId);
-
-                    }
-
-                    if ($getTranslationKeyId) {
-                        // Get translation text
-                        $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKeyId)
-                            ->where('translation_locale', $translation['translation_locale'])
-                            ->limit(1)
-                            ->first();
-
-                        // Save new translation text
-                        if ($getTranslationText == null) {
-                            $this->log("Importing translation text for key " . $getTranslationKeyId);
-                            $getTranslationText = new TranslationText();
-                            $getTranslationText->translation_key_id = $getTranslationKeyId;
-                            $getTranslationText->translation_locale = $translation['translation_locale'];
-                            $getTranslationText->translation_text = $translationText;
-                            $getTranslationText->save();
-
-                        }
-                    }
-
-
-                }
-
-
-                \Cache::tags('translation_keys')->flush();
-
-                return ['success' => 'Importing language file success.'];
-            }
-
-            return ['error' => 'Can\'t import this language file.'];
-        }*/
+        return $insertedTranslationKeys;
+    }
 
     public function log($text)
     {
