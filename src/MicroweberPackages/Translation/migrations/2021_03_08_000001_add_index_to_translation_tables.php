@@ -53,14 +53,22 @@ class AddIndexToTranslationTables extends Migration
 
         }
 
-        // Add new unique
+       /* // Add new unique
         try {
+
+            // If we support utf8 bin
+            Schema::table('translation_keys', function (Blueprint $table) {
+                $table->text('translation_key')->collation('utf8_bin')->change();
+            });
+
+            // Then make unique
             Schema::table('translation_keys', function (Blueprint $table) {
                 $table->unique(['translation_key', 'translation_group', 'translation_namespace'], 'translation_kgn_unique')->change();
             });
+
         } catch (Exception $e) {
 
-        }
+        }*/
     }
 
     /**

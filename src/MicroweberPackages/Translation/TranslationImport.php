@@ -24,6 +24,9 @@ class TranslationImport
             $validateImport = true;
         }
 
+        // Clear input translation
+        $inputTranslations = $this->_clearInputTranslation($inputTranslations);
+
         if (empty($inputTranslations[0]['translation_key'])
             || empty($inputTranslations[0]['translation_namespace'])
             || empty($inputTranslations[0]['translation_group'])
@@ -97,13 +100,24 @@ class TranslationImport
 
     }
 
+    private function _clearInputTranslation($translations) {
+
+        foreach($translations as &$translation) {
+            $translation['translation_namespace'] = trim($translation['translation_namespace']);
+            $translation['translation_group'] = trim($translation['translation_group']);
+            $translation['translation_key'] = trim($translation['translation_key']);
+        }
+
+        return $translations;
+    }
+
     private function _importTranslationKeys($translationKeys)
     {
         $insertedTranslationKeys = [];
 
         $translationKeysChunks = array_chunk($translationKeys, 15);
 
-        foreach ($translationKeys as $translationKeysChunk) {
+        foreach ($translationKeysChunks as $translationKeysChunk) {
             $insertedTranslationKeys[] = TranslationKey::insert($translationKeysChunk);
         }
 
