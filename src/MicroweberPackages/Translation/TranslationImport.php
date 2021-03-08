@@ -45,7 +45,7 @@ class TranslationImport
         $getTranslationKeys = TranslationKey::select(['id', 'translation_key','translation_group','translation_namespace'])->get();
         if ($getTranslationKeys != null) {
             foreach($getTranslationKeys as $translationKey) {
-                $dbTranslationKeysMap[md5($translationKey->translation_key.$translationKey->translation_group.$translationKey->translation_namespace)] = $translationKey->id;
+                $dbTranslationKeysMap[md5($translationKey->translation_key.$translationKey->translation_group.$translationKey->translation_namespace)] = $translationKey;
             }
         }
 
@@ -66,8 +66,6 @@ class TranslationImport
                 ];
             }
         }
-
-
 
         $insertedKeys = $this->_importTranslationKeys($missingTranslationKeys);
 
@@ -105,12 +103,9 @@ class TranslationImport
 
         $translationKeysChunks = array_chunk($translationKeys, 15);
 
-        foreach ($translationKeysChunks as $translationKeysChunk) {
+        foreach ($translationKeys as $translationKeysChunk) {
             $insertedTranslationKeys[] = TranslationKey::insert($translationKeysChunk);
         }
-
-        dd($insertedTranslationKeys);
-        die();
 
         return $insertedTranslationKeys;
     }
