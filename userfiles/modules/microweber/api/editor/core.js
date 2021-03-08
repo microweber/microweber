@@ -117,7 +117,7 @@ MWEditor.core = {
             })(dt);
 
         }
-
+        var curr = lscope.select.get(0);
         this.select.on('click', function (e) {
             e.stopPropagation();
             var wrapper = mw.tools.firstParentWithClass(this, 'mw-editor-wrapper');
@@ -128,6 +128,12 @@ MWEditor.core = {
                     maxHeight: edOff.height - (selOff.top - edOff.top)
                 });
             }
+
+            mw.element('.mw-editor-controller-component-select').each(function (){
+                if (this !== curr ) {
+                    this.classList.remove('active');
+                }
+            });
             mw.element(this).toggleClass('active');
         });
         this.root.append(this.select);

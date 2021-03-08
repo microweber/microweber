@@ -651,10 +651,8 @@ class TaggableFileStore implements Store
     private function isTagFlushed()
     {
         if (self::$flushedTags and $this->tags) {
-            foreach ($this->tags as $tag) {
-                if (in_array($tag, self::$flushedTags)) {
-                    return true;
-                }
+            if (in_array($this->tags, self::$flushedTags)) {
+                return true;
             }
         }
     }

@@ -61,6 +61,8 @@ class NewRegistration extends Notification implements ShouldQueue
             $parsedEmail = $twig->render($template['message'], [
                     'email' => $notifiable->getEmailForPasswordReset(),
                     'username' => $notifiable->username,
+                    'first_name' => $notifiable->first_name,
+                    'last_name' => $notifiable->last_name,
                     'url' => url('/'),
                     'created_at' => date('Y-m-d H:i:s')
                 ]

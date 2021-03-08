@@ -86,7 +86,6 @@ class CheckoutManager
                         $should_mark_as_paid = false;
 
 
-
                         $this->_verify_request_params($update_order);
 
 
@@ -100,10 +99,9 @@ class CheckoutManager
                         $this->app->order_manager->save($update_order);
 
 
-                        if($should_mark_as_paid){
+                        if ($should_mark_as_paid) {
                             $this->app->checkout_manager->mark_order_as_paid($update_order['id']);
                         }
-
 
 
                         if (isset($update_order['id'])) {
@@ -158,9 +156,9 @@ class CheckoutManager
         $additional_fields = false;
         if (isset($data['for']) and isset($data['for_id'])) {
             $additional_fields = $this->app->fields_manager->get([
-                'rel_type'=>$data['for'],
-                'rel_id'=>$data['for_id'],
-                'return_full'=>true,
+                'rel_type' => $data['for'],
+                'rel_id' => $data['for_id'],
+                'return_full' => true,
             ]);
         }
 
@@ -281,16 +279,15 @@ class CheckoutManager
             $coupon_code = false;
             $shipping_cost = 0;
 
-          /*  if (($this->app->user_manager->session_get('shipping_country'))) {
-                $shipping_country = $this->app->user_manager->session_get('shipping_country');
-            }
-            if (($this->app->user_manager->session_get('shipping_cost_max'))) {
-                $shipping_cost_max = $this->app->user_manager->session_get('shipping_cost_max');
-            }
-            if (($this->app->user_manager->session_get('shipping_cost_above'))) {
-                $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
-            }*/
-
+            /*  if (($this->app->user_manager->session_get('shipping_country'))) {
+                  $shipping_country = $this->app->user_manager->session_get('shipping_country');
+              }
+              if (($this->app->user_manager->session_get('shipping_cost_max'))) {
+                  $shipping_cost_max = $this->app->user_manager->session_get('shipping_cost_max');
+              }
+              if (($this->app->user_manager->session_get('shipping_cost_above'))) {
+                  $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
+              }*/
 
 
 //
@@ -329,7 +326,6 @@ class CheckoutManager
             if (($this->app->user_manager->session_get('coupon_code'))) {
                 $coupon_code = $this->app->user_manager->session_get('coupon_code');
             }
-
 
 
             //post any of those on the form
@@ -546,30 +542,30 @@ class CheckoutManager
                     $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key') . $place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
 
                     $vkey_data = array();
-                   // $vkey_data['payment_amount'] = $place_order['payment_amount'];
-                   // $vkey_data['payment_currency'] = $place_order['payment_currency'];
-                $vkey_data['payment_verify_token'] = $place_order['payment_verify_token'];
-                 //   $vkey_data['id'] = $place_order['id'];
+                    // $vkey_data['payment_amount'] = $place_order['payment_amount'];
+                    // $vkey_data['payment_currency'] = $place_order['payment_currency'];
+                    $vkey_data['payment_verify_token'] = $place_order['payment_verify_token'];
+                    //   $vkey_data['id'] = $place_order['id'];
 // dd($vkey_data);
-                  //  $enc_key_hash = md5($encrypter->encrypt(json_encode($vkey_data)));
+                    //  $enc_key_hash = md5($encrypter->encrypt(json_encode($vkey_data)));
 
-                  //  $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
+                    //  $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
                     $enc_key_hash = md5(json_encode($vkey_data));
                     $enc_key_hash = $encrypter->encrypt($enc_key_hash);
 
-                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'].'&payment_verify_token=' . $place_order['payment_verify_token']  . '&_vkey_url=' . $enc_key_hash . $return_url_after;
+                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                   // $vkey_data_temp['url'] = $mw_return_url;
+                    // $vkey_data_temp['url'] = $mw_return_url;
                     //$mw_return_url .= '&_vkey_url=' . $enc_key_hash;
 
 
-                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&_vkey_url=' . $enc_key_hash .  '&recart=' . $sid . $return_url_after;
+                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&_vkey_url=' . $enc_key_hash . '&recart=' . $sid . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                   // $vkey_data_temp['url'] = $mw_cancel_url;
-                   // $mw_cancel_url .= '&_vkey_url=' . $enc_key_hash;
+                    // $vkey_data_temp['url'] = $mw_cancel_url;
+                    // $mw_cancel_url .= '&_vkey_url=' . $enc_key_hash;
 
 
-                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id']  .  '&payment_verify_token=' . $place_order['payment_verify_token']  . '&_vkey_url=' . $enc_key_hash . $return_url_after;
+                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
                     $vkey_data_temp = $vkey_data;
                     //$vkey_data_temp['url'] = $mw_ipn_url;
                     //$mw_ipn_url .= '&_vkey_url=' . $enc_key_hash;
@@ -686,9 +682,9 @@ class CheckoutManager
         $all_field_keys = array_merge($user_fields_from_profile, $shipping_fields_keys);
 
 
-        if (  is_logged()) {
+        if (is_logged()) {
             $shipping_address_from_profile = app()->user_manager->get_shipping_address();
-         }
+        }
         if ($checkout_session) {
             foreach ($all_field_keys as $field_key) {
                 if (!empty($checkout_session) and !isset($ready[$field_key])) {
@@ -705,7 +701,7 @@ class CheckoutManager
             }
         }
 
-          if ($shipping_address_from_profile) {
+        if ($shipping_address_from_profile) {
             foreach ($all_field_keys as $field_key) {
                 if (!empty($shipping_address_from_profile) and !isset($ready[$field_key])) {
                     foreach ($shipping_address_from_profile as $k => $v) {
@@ -719,8 +715,6 @@ class CheckoutManager
         }
 
 
-
-
         if ($shipping_address_from_profile) {
             $logged_user_data = get_user();
             if ($logged_user_data) {
@@ -728,7 +722,7 @@ class CheckoutManager
                     if (!empty($logged_user_data) and !isset($ready[$field_key])) {
                         foreach ($logged_user_data as $k => $v) {
                             if ($field_key == $k and $v) {
-                               $ready[$k] = $v;
+                                $ready[$k] = $v;
                             }
 
                         }
@@ -813,15 +807,16 @@ class CheckoutManager
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
-       // $this->confirm_email_send($orderId);
+        // $this->confirm_email_send($orderId);
     }
 
 
-    public function mark_order_as_paid($orderId){
+    public function mark_order_as_paid($orderId)
+    {
 
         $order = Order::find($orderId);
         if (!$order) {
-           return;
+            return;
         }
 
         $update_order_event_data = $order->toArray();
@@ -833,9 +828,6 @@ class CheckoutManager
             $order->is_paid = 1;
             $order->save();
         }
-
-
-
 
 
     }
@@ -1078,10 +1070,6 @@ class CheckoutManager
         }
 
 
-
-
-
-
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
@@ -1098,11 +1086,6 @@ class CheckoutManager
         }
 
 
-
-
-
-
-
         if (!empty($update_order_event_data) and isset($update_order_event_data['order_completed']) and $update_order_event_data['order_completed'] == 1) {
             $this->after_checkout($ord);
 
@@ -1112,11 +1095,9 @@ class CheckoutManager
                 }
             }
 
-            if($should_mark_as_paid){
+            if ($should_mark_as_paid) {
                 $this->app->checkout_manager->mark_order_as_paid($ord);
             }
-
-
 
 
             //            $update_order_event_data['id'] = $ord;
@@ -1236,6 +1217,9 @@ class CheckoutManager
         if (!isset($data['payment_currency'])) {
             $error = true;
         }
+        if (!isset($data['id'])) {
+            $error = true;
+        }
 
         $vkey = false;
 
@@ -1268,30 +1252,28 @@ class CheckoutManager
         $order_data = get_order_by_id($data['id']);
 
 
-
-
         if ($order_data and $vkey) {
 
             $vkey_data = array();
-          //  $vkey_data['payment_amount'] = $order_data['payment_amount'];
-           // $vkey_data['payment_currency'] = $order_data['payment_currency'];
-           $vkey_data['payment_verify_token'] = $order_data['payment_verify_token'];
-           //  $vkey_data['id'] = $order_data['id'];
+            //  $vkey_data['payment_amount'] = $order_data['payment_amount'];
+            // $vkey_data['payment_currency'] = $order_data['payment_currency'];
+            $vkey_data['payment_verify_token'] = $order_data['payment_verify_token'];
+            //  $vkey_data['id'] = $order_data['id'];
 //dd($order_data);
             $enc_key_hash = md5(json_encode($vkey_data));
-         //   $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
+            //   $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
 
-          // dd(2222,$vkey,$enc_key_hash,$data,$order_data);
+            // dd(2222,$vkey,$enc_key_hash,$data,$order_data);
 
             // $vkey = urldecode($vkey);
 
-           $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Config::get('app.key') . $order_data['payment_verify_token']), \Config::get('app.cipher'));
+            $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Config::get('app.key') . $order_data['payment_verify_token']), \Config::get('app.cipher'));
 
             $decrypt_data = $encrypter->decrypt($vkey);
 
-        //    dd($enc_key_hash,$decrypt_data);
+            //    dd($enc_key_hash,$decrypt_data);
 
-         //  $enc_key_hash = $encrypter->encrypt(json_encode($vkey_data));
+            //  $enc_key_hash = $encrypter->encrypt(json_encode($vkey_data));
 
             //dd($vkey, $enc_key_hash,$order_data,$vkey_data);
             if ($enc_key_hash === $decrypt_data) {
@@ -1334,13 +1316,16 @@ class CheckoutManager
 
     }
 
-    public function getShippingModules(){
+    public function getShippingModules()
+    {
         return $this->app->shipping_manager->getShippingModules();
 
     }
-    public function getShippingCost($data=[]){
 
-        if(!is_array($data)){
+    public function getShippingCost($data = [])
+    {
+
+        if (!is_array($data)) {
             $data = [];
         }
         $shipping_cost = 0;
@@ -1350,17 +1335,15 @@ class CheckoutManager
         }
 
 
-
-
         $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
-        if(!isset($data['shipping_gw']) and $shipping_gw_from_session){
+        if (!isset($data['shipping_gw']) and $shipping_gw_from_session) {
             $data['shipping_gw'] = $shipping_gw_from_session;
         } else {
             $data['shipping_gw'] = 'default';
 
         }
-        if(isset($data['shipping_gw']) and $data['shipping_gw']){
-           // $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+        if (isset($data['shipping_gw']) and $data['shipping_gw']) {
+            // $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
 
             try {
                 $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
