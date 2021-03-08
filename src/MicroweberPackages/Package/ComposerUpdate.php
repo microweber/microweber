@@ -4,7 +4,6 @@ namespace MicroweberPackages\Package;
 
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
-use Composer\Config;
 use Composer\Console\Application;
 use Composer\Installers\Installer;
 use Composer\Plugin\PluginManager;
@@ -62,7 +61,7 @@ class ComposerUpdate
         $input = new ArgvInput(array());
         $output = new ConsoleOutput();
         $helper = new HelperSet();
-        $config = new Config();
+        $config = new ComposerConfig();
 
         if (!empty($config_params)) {
             $config_composer = array('config' => $config_params);
@@ -111,7 +110,7 @@ class ComposerUpdate
         $input = new ArgvInput(array());
         $output = new ConsoleOutput();
         $helper = new HelperSet();
-        $config = new Config();
+        $config = new ComposerConfig();
 
         $output->setVerbosity(0);
         $io = new ConsoleIO($input, $output, $helper);
@@ -188,12 +187,11 @@ class ComposerUpdate
         $io = new InstallerIO('', 32, null);
         //$io->setVerbosity(32);
 
-        $config = new Config(false, $temp_folder);
+        $config = new ComposerConfig(false, $temp_folder);
 
         if ($composer_temp) {
             $config->merge($composer_temp);
         }
-
 
         // ob_start();
 
@@ -585,7 +583,7 @@ class ComposerUpdate
             $input = new ArrayInput($argv);
             $output = new ConsoleOutput();
             $helper = new HelperSet();
-            $config = new Config(false, $temp_folder);
+            $config = new ComposerConfig(false, $temp_folder);
 //dd($temp_folder);
             if ($composer_temp) {
                 $config->merge($composer_temp);
