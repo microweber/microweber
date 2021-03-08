@@ -71,7 +71,7 @@ class TranslationTest extends TestCase
             'translation_namespace' =>'*',
             'translation_group' =>'*',
             'translation_key' =>'Are you okay?',
-            'translation_text' =>'Всичко точно ли е?',
+            'translation_text' =>'точно ама е те',
             'translation_locale' =>$newLocale,
         ]; // This must be not broke the importing and dublicating on translation_texts table
 
@@ -105,7 +105,6 @@ class TranslationTest extends TestCase
             $this->assertNotEmpty($installResponse);
             $this->assertArrayHasKey('success', $installResponse);
         }
-
 
     }
 }
