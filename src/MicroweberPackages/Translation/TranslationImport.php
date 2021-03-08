@@ -44,13 +44,7 @@ class TranslationImport
         $updatedTexts = [];
 
         // Get All Database Translation Keys
-        $dbTranslationKeysMap = [];
-        $getTranslationKeys = TranslationKey::select(['id', 'translation_key','translation_group','translation_namespace'])->get();
-        if ($getTranslationKeys != null) {
-            foreach($getTranslationKeys as $translationKey) {
-                $dbTranslationKeysMap[md5($translationKey->translation_key.$translationKey->translation_group.$translationKey->translation_namespace)] = $translationKey;
-            }
-        }
+        $dbTranslationKeysMap = $this->_getTranslationKeysMap();
 
         // Get All input Translation Keys
         $inputTranslationMap = [];
@@ -70,17 +64,25 @@ class TranslationImport
             }
         }
 
-        $insertedKeys = $this->_importTranslationKeys($missingTranslationKeys);
-
-        /*
         try {
             $insertedKeys = $this->_importTranslationKeys($missingTranslationKeys);
         } catch (Exception $e) {
             return ['error' => 'Error when trying to import translation keys.'];
-        }*/
+        }
 
+        // Get New Database Translation Keys Map if we are inserted new
+        if (count($insertedKeys) > 0) {
+            $dbTranslationKeysMap = $this->_getTranslationKeysMap();
+        }
 
-        //dd($missingTranslationKeys);
+        $dbTranslationTextsMap = [];
+        $getTranslationTexts = TranslationText::select(['id', 'translation_locale','translation_key_id'])->get();
+        if ($getTranslationTexts != null) {
+            foreach($getTranslationTexts as $translationText) {
+                //
+            }
+        }
+
 
         \Cache::tags('translation_keys')->flush();
         \Cache::tags('translation_texts')->flush();
@@ -100,15 +102,16 @@ class TranslationImport
 
     }
 
-    private function _clearInputTranslation($translations) {
-
-        foreach($translations as &$translation) {
-            $translation['translation_namespace'] = trim($translation['translation_namespace']);
-            $translation['translation_group'] = trim($translation['translation_group']);
-            $translation['translation_key'] = trim($translation['translation_key']);
+    private function _getTranslationKeysMap()
+    {
+        $dbTranslationKeysMap = [];
+        $getTranslationKeys = TranslationKey::select(['id', 'translation_key','translation_group','translation_namespace'])->get();
+        if ($getTranslationKeys != null) {
+            foreach($getTranslationKeys as $translationKey) {
+                $dbTranslationKeysMap[md5($translationKey->translation_key.$translationKey->translation_group.$translationKey->translation_namespace)] = $translationKey->id;
+            }
         }
-
-        return $translations;
+        return $dbTranslationKeysMap;
     }
 
     private function _importTranslationKeys($translationKeys)
@@ -122,6 +125,17 @@ class TranslationImport
         }
 
         return $insertedTranslationKeys;
+    }
+
+    private function _clearInputTranslation($translations) {
+
+        foreach($translations as &$translation) {
+            $translation['translation_namespace'] = trim($translation['translation_namespace']);
+            $translation['translation_group'] = trim($translation['translation_group']);
+            $translation['translation_key'] = trim($translation['translation_key']);
+        }
+
+        return $translations;
     }
 
     public function log($text)
