@@ -112,6 +112,36 @@ body.state-element .mw-row .element {
   -o-transition: color 0 ease-in !important;
   transition: none !important;
 }
+
+/*Footers Big Template*/
+.element,
+.edit .module ul{
+  list-style-type: none;
+}
+
+.element,
+.edit .module ul li{
+  padding: 10px 0;
+}
+
+.element,
+.edit .module ul li a{
+  color: #2B2B2B;
+  padding: 20px 0;
+}
+
+#footer-skin-2 ul {
+  display: flex;
+  justify-content: center;
+}
+
+#footer-skin-2 ul li a {
+  padding: 0 10px;
+  color: #0055ff;
+}
+
+/*END Footers Big Template*/
+
 .mw-live-edit .module {
   min-height: 20px;
 }
@@ -8205,3 +8235,4 @@ body.bup.dragStart.state-element .edit .element:empty {
 .mw-static-element.mw-features-boxes .text h4 {
   text-align: left;
 }
+
