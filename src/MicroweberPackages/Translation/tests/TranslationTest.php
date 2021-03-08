@@ -66,6 +66,15 @@ class TranslationTest extends TestCase
           'translation_locale' =>$newLocale,
         ];
 
+        // Try to add the same text and key
+        $newTranslations[] = [
+            'translation_namespace' =>'*',
+            'translation_group' =>'*',
+            'translation_key' =>'Are you okay?',
+            'translation_text' =>'Всичко точно ли е?',
+            'translation_locale' =>$newLocale,
+        ]; // This must be not broke the importing and dublicating on translation_texts table
+
         $import = new TranslationImport();
         $importResponse = $import->import($newTranslations);
 
