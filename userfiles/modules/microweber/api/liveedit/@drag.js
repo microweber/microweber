@@ -755,15 +755,7 @@ mw.drag = {
         }
     },
 
-    fancynateLoading: function(module) {
-        mw.$(module).addClass("module_loading");
-        setTimeout(function() {
-            mw.$(module).addClass("module_activated");
-            setTimeout(function() {
-                mw.$(module).removeClass("module_loading module_activated");
-            }, 510);
-        }, 150);
-    },
+
 
     /**
      * Scans for new dropped modules and loads them

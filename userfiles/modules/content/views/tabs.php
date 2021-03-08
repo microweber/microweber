@@ -91,7 +91,6 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
 
     <div class="mt-9">
-        <br><br><br><br>
         <!--  -->
     </div>
 

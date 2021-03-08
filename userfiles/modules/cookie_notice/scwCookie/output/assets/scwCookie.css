@@ -98,14 +98,16 @@ body.scw-cookie-in {
     float: left;
     width: 30%;
 }
+
 .scw-cookie-btn {
     background: #20BF6B;
     cursor: pointer;
-    display: inline-block;
     line-height: 30px;
     text-align: center;
-    width: 40px;
+    display: inline-block;
+    padding: 2px 10px;
 }
+
 .scw-cookie-btn:hover {
     background: #169853;
 }

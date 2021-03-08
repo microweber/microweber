@@ -2,7 +2,7 @@
     <div class="card-header no-border">
         <h6><strong><?php _e("Media"); ?></strong></h6>
         <div>
-            <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto">
+            <select class="selectpicker" data-title="<?php _e("Add media from"); ?>" data-style="btn-sm" data-width="auto">
                 <option><?php _e("Add image from URL"); ?></option>
                 <option><?php _e("Browse uploaded"); ?></option>
                 <option><?php _e("Add file"); ?></option>
@@ -22,7 +22,7 @@
                         </div>
 
                         <button type="button" class="btn btn-primary btn-rounded"><?php _e("Add file"); ?></button>
-                        <p><?php _e("or drop files to upload"); ?></p>
+                        <p><?php _e("or drop here"); ?></p>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 <div class="dropable-zone small-zone square-zone">
                     <div class="holder">
                         <button type="button" class="btn btn-link"><?php _e("Add file"); ?></button>
-                        <p><?php _e("or drop file to upload"); ?></p>
+                        <p><?php _e("or drop"); ?></p>
                     </div>
                 </div>
             </div>

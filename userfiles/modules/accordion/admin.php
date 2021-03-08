@@ -79,15 +79,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             id: 'title'
                         },
                         {
-                            interface: 'text',
+                            interface: 'textArea',
                             label: ['<?php  _e('Content'); ?>'],
                             id: 'content'
                         },
-                        // {
-                        //     interface: 'icon',
-                        //     label: ['Icon'],
-                        //     id: 'icon'
-                        // },
+                        {
+                            interface: 'icon',
+                            label: ['Icon'],
+                            id: 'icon'
+                        },
                         {
                             interface: 'hidden',
                             label: [''],

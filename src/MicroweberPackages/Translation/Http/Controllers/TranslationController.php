@@ -34,7 +34,8 @@ class TranslationController {
         $translations = $data['content'];
 
         $import = new TranslationImport();
-        return $import->import($translations);
+        $replace_values = intval($request->post('replace_values'));
+        return $import->import($translations,$replace_values);
 
     }
 
@@ -141,7 +142,18 @@ class TranslationController {
                }
                $getTranslationKey->save();
 
+               
                // Get translation text
+               $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
+                   ->where('translation_locale', $translation['translation_locale'])
+                   ->get();
+               
+               if ($getTranslationText->count() > 1) {
+                   foreach($getTranslationText as $dublicatedText) {
+                       $dublicatedText->delete();
+                   }
+               }
+
                $getTranslationText = TranslationText::where('translation_key_id', $getTranslationKey->id)
                    ->where('translation_locale', $translation['translation_locale'])
                    ->first();
@@ -153,12 +165,14 @@ class TranslationController {
                    $getTranslationText->translation_locale = $translation['translation_locale'];
                }
 
-               $getTranslationText->translation_text = $translation['translation_text'];
+               $getTranslationText->translation_text = trim($translation['translation_text']);
                $getTranslationText->save();
 
            }
        }
+        \Cache::tags('translation_keys')->flush();
 
     }
+
 
 }

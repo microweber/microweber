@@ -804,19 +804,6 @@ class FormsManager
             }
         }
 
-        if (!empty($data) && class_exists(Country::class)) {
-            foreach ($data as $country) {
-                $findCountry = Country::where('code', $country[0])->where('name', $country[1])->first();
-                if (!$findCountry) {
-                    $newCountry = new Country();
-                    $newCountry->code = $country[0];
-                    $newCountry->name = $country[1];
-                    $newCountry->phonecode = $country[2];
-                    $newCountry->save();
-                }
-            }
-        }
-
         if ($full == false and !empty($data)) {
             $res = array();
             foreach ($data as $item) {

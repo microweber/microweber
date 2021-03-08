@@ -3,6 +3,7 @@
     $(document).ready(function () {
 
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
+
             mw.clear_cache();
             mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
 
@@ -46,13 +47,13 @@
         <ul class="mw-ui-inline-list">
             <li>
                 <label class="mw-ui-check">
-                    <input class="form-control" type="radio" id="img_resize_choice1" name="optimize_asset_loading" <?php if ($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+                    <input class="form-control mw_option_field" type="radio" id="img_resize_choice1" name="optimize_asset_loading" <?php if ($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
                     <span></span><span><?php _e("Yes"); ?></span>
                 </label>
             </li>
             <li>
                 <label class="mw-ui-check">
-                    <input class="form-control" type="radio" id="img_resize_choice2" name="optimize_asset_loading" <?php if (!$optimize_asset_loading or $optimize_asset_loading != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
+                    <input class="form-control mw_option_field" type="radio" id="img_resize_choice2" name="optimize_asset_loading" <?php if (!$optimize_asset_loading or $optimize_asset_loading != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
                     <span></span><span><?php _e("No"); ?></span>
                 </label>
             </li>
@@ -66,13 +67,13 @@
         <ul class="mw-ui-inline-list">
             <li>
                 <label class="mw-ui-check">
-                    <input class="form-control" type="radio" id="img_resize_choice1" name="enable_full_page_cache" <?php if ($enable_full_page_cache == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+                    <input class="form-control mw_option_field" type="radio"   name="enable_full_page_cache" <?php if ($enable_full_page_cache == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
                     <span></span><span><?php _e("Yes"); ?></span>
                 </label>
             </li>
             <li>
                 <label class="mw-ui-check">
-                    <input class="form-control" type="radio" id="img_resize_choice2" name="enable_full_page_cache" <?php if (!$enable_full_page_cache or $enable_full_page_cache != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
+                    <input class="form-control mw_option_field" type="radio"  name="enable_full_page_cache" <?php if (!$enable_full_page_cache or $enable_full_page_cache != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
                     <span></span><span><?php _e("No"); ?></span>
                 </label>
             </li>

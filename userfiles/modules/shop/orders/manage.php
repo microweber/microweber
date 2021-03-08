@@ -14,10 +14,10 @@
         })
     });
 
-    mw.on.hashParam('orderstype', function () {
+    mw.on.hashParam('orderstype', function (pval) {
         mw.$("#cartsnav a").removeClass('active');
-        mw.$("#cartsnav a[href='#orderstype=" + this + "']").addClass('active');
-        if (this == 'carts') {
+        mw.$("#cartsnav a[href='#orderstype=" + pval + "']").addClass('active');
+        if (pval == 'carts') {
             mw.$('.mw-admin-order-sort-carts').show();
             mw.$('.mw-admin-order-sort-completed').hide();
         } else {
@@ -25,7 +25,7 @@
             mw.$('.mw-admin-order-sort-completed').show();
         }
 
-        mw.$('#mw-admin-manage-orders-list').attr('order-type', this);
+        mw.$('#mw-admin-manage-orders-list').attr('order-type', pval);
         mw.$('#mw-admin-manage-orders-list').removeAttr('keyword');
         mw.$('#mw-admin-manage-orders-list').removeAttr('order');
         mw.reload_module("#mw-admin-manage-orders-list", function () {
@@ -94,16 +94,16 @@
         }
     }
 
-    mw.on.hashParam('search', function () {
+    mw.on.hashParam('search', function (pval) {
         var field = document.getElementById('orders-search-field');
         $(field).addClass('loading')
 
         if (!field.focused) {
-            field.value = this;
+            field.value = pval;
         }
 
-        if (this != '') {
-            $('#mw-admin-manage-orders-list').attr('keyword', this);
+        if (pval != '') {
+            $('#mw-admin-manage-orders-list').attr('keyword', pval);
         } else {
             $('#mw-admin-manage-orders-list').removeAttr('keyword');
         }
@@ -170,7 +170,7 @@
                 <?php if ($is_orders != 0) { ?>
                     <div id="cartsnav">
                         <a href="#orderstype=completed" class="btn btn-link btn-sm px-0 text-dark active"><?php _e("Completed orders"); ?></a>
-                        <a href="#orderstype=carts" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned carts"); ?></a>
+                        <a href="#orderstype=carts" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned cart's"); ?></a>
                     </div>
 
                     <div class="js-table-sorting text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">

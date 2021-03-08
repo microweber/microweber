@@ -19,13 +19,14 @@
 </script>
 
 <div class="mw-ui-btn-nav" id="mw-site-preview-navigation">
-<a href="<?php
+    <a href="<?php print site_url() . 'admin/view:content'; ?>" id="back_to_admin" class="mw-ui-btn mw-ui-btn-medium"> <span class="mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
+
+    <a href="<?php
   if(defined('CONTENT_ID') and CONTENT_ID != 0){
 	  $u  = mw()->content_manager->link(CONTENT_ID);
   } else {
 	  $u  =mw()->url_manager->current(1,1);
   }
- print $u ?>?editmode:y"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><span class="mai-eye2"></span> &nbsp;&nbsp;<?php _e("Live Edit"); ?></a>
-<a href="<?php print site_url() . 'admin/view:content'; ?>" class="mw-ui-btn mw-ui-btn-medium"><?php _e("Admin"); ?></a>
+ print $u ?>?editmode:y"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><span class="mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
 </div>
 

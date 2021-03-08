@@ -4,10 +4,15 @@ namespace MicroweberPackages\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Currency\Currency;
-use MicroweberPackages\Payment\Payment;
+use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use MicroweberPackages\Order\Models\Order;
 
 class Customer extends Model
 {
+ //   use CacheableQueryBuilderTrait;
+    public $cacheTagsToClear = ['countries','address'];
+
+
     public $fillable = [
         'name',
         'first_name',
@@ -42,10 +47,10 @@ class Customer extends Model
         return $this->hasMany(Address::class);
     }
 
-    public function currency()
-    {
-        return $this->belongsTo(Currency::class);
-    }
+//    public function currency()
+//    {
+//        return $this->belongsTo(Currency::class);
+//    }
 
     public function billingAddress()
     {
@@ -57,9 +62,14 @@ class Customer extends Model
         return $this->hasOne(Address::class)->where('type', Address::SHIPPING_TYPE);
     }
 
-    public function payments()
+//    public function payments()
+//    {
+//        return $this->hasMany(Payment::class);
+//    }
+
+    public function orders()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasMany(Order::class);
     }
 
     public function user()
@@ -82,11 +92,18 @@ class Customer extends Model
         $filters = collect($filters);
 
         if ($filters->get('search')) {
-            $query->whereSearch($filters->get('search'));
+            $search = $filters->get('search');
+            $query->where(function($query) use($search) {
+                $query->where('name', 'like', '%' .$search. '%');
+                $query->orWhere('first_name','like', '%' .$search. '%');
+                $query->orWhere('last_name','like', '%' .$search. '%');
+                $query->orWhere('phone','like', '%' .$search. '%');
+                $query->orWhere('email','like', '%' .$search. '%');
+            });
         }
 
-        if ($filters->get('contact_name')) {
-            $query->whereContactName($filters->get('contact_name'));
+        if ($filters->get('name')) {
+            $query->whereName($filters->get('name'));
         }
 
         if ($filters->get('name')) {

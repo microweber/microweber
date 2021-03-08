@@ -71,13 +71,13 @@ if (isset($item['created_by'])) {
                         <?php foreach ($form_values_1 as $key => $val1): ?>
                             <?php if (!is_array($val1)): ?>
                                 <div>
-                                    <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
-                                    <p><?php print _e($val1); ?></p>
+                                    <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
+                                    <p><?php print $val1; ?></p>
                                 </div>
                             <?php else: ?>
-                                <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
+                                <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                 <?php foreach ($val1 as $val1_1): ?>
-                                    <p><?php print e(($val1_1)) . '<br />'; ?></p>
+                                    <p><?php print $val1_1 . '<br />'; ?></p>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -89,13 +89,13 @@ if (isset($item['created_by'])) {
                         <?php foreach ($form_values_2 as $key => $val2): ?>
                             <?php if (!is_array($val2)): ?>
                                 <div>
-                                    <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
-                                    <p><?php print e($val2); ?></p>
+                                    <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
+                                    <p><?php print $val2; ?></p>
                                 </div>
                             <?php else: ?>
-                                <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
+                                <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                 <?php foreach ($val2 as $val2_1): ?>
-                                    <p><?php print e(($val2_1)) . '<br />'; ?></p>
+                                    <p><?php print ($val2_1). '<br />'; ?></p>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>

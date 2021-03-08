@@ -18,15 +18,17 @@
         text-shadow: 0 0 2px rgba(0, 0, 0, .5);
     }
 
-    .image-settings.remove-image {
-        right: 1px;
-        bottom: 0;
-        top: auto;
-        opacity: 1;
+
+    .image-settings.settings-img {
+        margin-right: 23px
     }
 
     .admin-thumb-item:hover .image-settings {
         opacity: 1;
+    }
+
+    .admin-thumb-item:hover .image-settings.remove-image {
+        color: #ff4f52;
     }
 </style>
 
@@ -100,7 +102,7 @@ if ($for_id != false) {
                     load_iframe_editor();
                 }
                 // mw.reload_module('#' + module_id);
-                mw.reload_module('pictures/admin_backend_sortable_pics_list');
+                mw.reload_module_everywhere('pictures/admin_backend_sortable_pics_list');
 
                 //
 
@@ -110,11 +112,11 @@ if ($for_id != false) {
                     parent.mw.reload_module('pictures');
                     mw.reload_module_parent("pictures/admin");
                     if (self !== top && typeof parent.mw === 'object') {
-                        parent.mw.reload_module('posts');
-                        parent.mw.reload_module('shop/products');
-                        parent.mw.reload_module('content', function () {
-                            mw.reload_module('#' + module_id);
-                            parent.mw.reload_module('pictures');
+                        parent.mw.reload_module_everywhere('posts');
+                        parent.mw.reload_module_everywhere('shop/products');
+                        parent.mw.reload_module_everywhere('content', function () {
+                            mw.reload_module_everywhere('#' + module_id);
+                            parent.mw.reload_module_everywhere('pictures');
                         });
                     }
                 }
@@ -140,10 +142,10 @@ if ($for_id != false) {
         });
 
         $(dialog.iframe).on('load', function () {
-            this.contentWindow.mw.on.hashParam('select-file', function () {
-                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+            this.contentWindow.mw.on.hashParam('select-file', function (pval) {
+                after_upld(pval, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
 
-                after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                after_upld(pval, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 mw.notification.success('<?php _ejs('The image is added to the gallery') ?>');
 
                 dialog.remove();
@@ -155,9 +157,9 @@ if ($for_id != false) {
         var dialog = mw.top().tools.moduleFrame('pictures/media_library');
         dialog.title('Media library');
         $(dialog.iframe).on('load', function () {
-            this.contentWindow.mw.on.hashParam('select-file', function () {
-                after_upld(this, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
-                after_upld(this, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+            this.contentWindow.mw.on.hashParam('select-file', function (pval) {
+                after_upld(pval, 'save', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
+                after_upld(pval, 'done', '<?php print $for ?>', '<?php print $for_id ?>', '<?php print $params['id'] ?>');
                 mw.notification.success('<?php _ejs('The image is added to the gallery') ?>');
                 dialog.remove();
             });

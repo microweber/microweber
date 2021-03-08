@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="form-group">
             <label class="control-label"><?php _e("Send email to"); ?></label>
-            <small class="text-muted d-block mb-2">Send the autorespond emails to</small>
+            <small class="text-muted d-block mb-2"><?php _e('Send the autorespond emails to'); ?></small>
             <select class="mw_option_field selectpicker" data-width="100%" data-option-group="orders" name="send_email_on_new_order">
                 <option value="" <?php if ($send_email_on_new_order == ''): ?>selected="selected"<?php endif; ?>><?php _e('Default (Admins & Client)'); ?></option>
                 <option value="admins" <?php if ($send_email_on_new_order == 'admins'): ?>selected="selected"<?php endif; ?>><?php _e('Only Admins'); ?></option>
@@ -55,7 +55,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <label class="control-label d-block"><?php _e("Send email when"); ?></label>
 
             <div class="custom-control custom-radio d-inline-block mr-3">
-                <input name="order_email_send_when" id="order_email_send_when_1" class="mw_option_field custom-control-input" data-option-group="orders" value="order_received" type="radio" <?php if (get_option('order_email_send_when', 'orders') == 'order_received' || get_option('order_email_send_when', 'orders') == ''): ?> checked="checked" <?php endif; ?> >
+                <input name="order_email_send_when" id="order_email_send_when_0" class="mw_option_field custom-control-input" data-option-group="orders" value="" type="radio" <?php if (get_option('order_email_send_when', 'orders') == ''): ?> checked="checked" <?php endif; ?> >
+                <label class="custom-control-label" for="order_email_send_when_0"><?php _e('Disable'); ?></label>
+            </div>
+
+
+            <div class="custom-control custom-radio d-inline-block mr-3">
+                <input name="order_email_send_when" id="order_email_send_when_1" class="mw_option_field custom-control-input" data-option-group="orders" value="order_received" type="radio" <?php if (get_option('order_email_send_when', 'orders') == 'order_received' ): ?> checked="checked" <?php endif; ?> >
                 <label class="custom-control-label" for="order_email_send_when_1"><?php _e('Order is received'); ?></label>
             </div>
 

@@ -50,7 +50,7 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+        $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations/');
 
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('Option', OptionFacade::class);

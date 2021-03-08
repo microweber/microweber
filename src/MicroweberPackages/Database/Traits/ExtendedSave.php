@@ -220,13 +220,21 @@ trait ExtendedSave
                             $check = $save_cat_item;
                             $check['single'] = true;
 
-                            $check = $this->app->fields_manager->get_all($check);
+                            $check = $this->app->fields_manager->getAll($check);
 
                             if (isset($check['id'])) {
                                 $save_cat_item['id'] = $check['id'];
                             }
+                            if (isset($v['value'])) {
+                                $save_cat_item['value'] = $v['value'];
+                            }
+                            if (isset($v['values'])) {
+                                $save_cat_item['values'] = $v['values'];
+                            }
+
                             $save_cat_item = array_merge($save_cat_item, $v);
                             $save_field = $this->app->fields_manager->save($save_cat_item);
+
                         }
                     }
                 }
@@ -405,7 +413,7 @@ trait ExtendedSave
 
             if (isset($params['table'])) {
                 $model = $this->table($params['table']);
-                $supports_tags = $this->supports($model,'tags');
+                $supports_tags = $this->supports($params['table'],'tags');
             }
 
             if (!$supports_tags) {

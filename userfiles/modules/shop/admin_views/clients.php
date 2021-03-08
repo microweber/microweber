@@ -20,8 +20,8 @@
             clientorderHandleParam(ord)
         }
 
-        mw.on.hashParam("clientorder", function () {
-            clientorderHandleParam(this)
+        mw.on.hashParam("clientorder", function (pval) {
+            clientorderHandleParam(pval)
         });
     });
 

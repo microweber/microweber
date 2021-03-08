@@ -41,17 +41,16 @@ mw.custom_fields = {
             mw.$(group).sortable({
                 handle: '.custom-fields-handle-field',
                 placeholder: 'custom-fields-placeholder',
-                //containment: "parent",
                 axis: 'y',
                 items: ".mw-custom-field-form-controls",
                 start: function (a, ui) {
                     mw.$(ui.placeholder).height($(ui.item).outerHeight())
                 },
-                //scroll:false,
                 update: function () {
                     var par = mw.tools.firstParentWithClass(group, 'mw-admin-custom-field-edit-item-wrapper');
                     if (!!par) {
-                        mw.custom_fields.save(par);
+                        // mw.custom_fields.save(par);
+                        mw.$(".custom-fields-settings-save-btn").attr('disabled', false)
                     }
                 }
             });
@@ -148,7 +147,7 @@ mw.custom_fields = {
             "textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
         var data = {};
         data.options = {};
-        mw.$(fields, el).not(':disabled').each(function () {
+        mw.$(fields, el).not(':disabled').filter(function() { return !!this.name; }).each(function () {
             var el = this, _el = mw.$(el);
             var val = _el.val();
             var name = el.name;

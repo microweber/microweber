@@ -24,7 +24,7 @@ class CheckoutTest extends TestCase
             'title' => $title,
             'content_type' => 'product',
             'subtype' => 'product',
-            'custom_fields' => array(
+            'custom_fields_advanced' => array(
                 array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
                 array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
 
@@ -52,17 +52,27 @@ class CheckoutTest extends TestCase
     public function testCheckout()
     {
 
-        //  \Config::set('mail.transport', 'array');
+     \Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
         $this->_addProductToCart('Product 3');
         $this->_addProductToCart('Product 4');
-
+        $data = [];
         $data['option_value'] = 'y';
         $data['option_key'] = 'order_email_enabled';
         $data['option_group'] = 'orders';
         $save = save_option($data);
+
+        $data = [];
+        $data['option_value'] = 'order_received';
+        $data['option_key'] = 'order_email_send_when';
+        $data['option_group'] = 'orders';
+        $save = save_option($data);
+
+
+
+
 
         $checkoutDetails = array();
         $checkoutDetails['email'] = 'client@microweber.com';
@@ -96,7 +106,6 @@ class CheckoutTest extends TestCase
                 $checkEmailContent = $body;
             }
         }
-
         $findFirstName = false;
         if (strpos($checkEmailContent, $checkoutDetails['first_name']) !== false) {
             $findFirstName = true;
@@ -165,7 +174,7 @@ class CheckoutTest extends TestCase
             'title' => $title,
             'content_type' => 'product',
             'subtype' => 'product',
-            'custom_fields' => array(
+            'custom_fields_advanced' => array(
                 array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
                 array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
 

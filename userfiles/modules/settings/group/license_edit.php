@@ -54,19 +54,19 @@ if (!isset($params['prefix'])) {
     });
 </script>
 <?php
-//d($params);
+//d($params);Please confirm the installation of
 
 ?>
 
 <form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
     <?php if (isset($lic['status'])): ?>
-        <div class="alert alert-dismissible <?php if ($lic['status'] == 'active'): ?>alert-success<?php else: ?>alert-danger<?php endif; ?>"><?php _e('License Status:'); ?><?php print ucwords($lic['status']) ?></div>
+        <div class="alert alert-dismissible <?php if ($lic['status'] == 'active'): ?>alert-success<?php else: ?>alert-danger<?php endif; ?>"><?php _e('License Status:'); ?><?php print _e(ucwords($lic['status'])) ?></div>
     <?php endif; ?>
 
     <div class="form-group">
         <label class="control-label"><?php _e('Enter the License Key'); ?><?php print ' ' . $params['prefix'] ?></label>
         <small class="text-muted d-block mb-2"><?php _e('Don\'t have a license key? You can get it from here:'); ?> <a target="_blank" href="https://microweber.com/goto?prefix=<?php print $params['prefix']; ?>"><?php _e('Get license key'); ?></a></small>
-        <input type="hidden" name="rel" value="<?php print $params['prefix']; ?>">
+        <input type="hidden" name="rel_type" value="<?php print $params['prefix']; ?>">
         <input name="activate_on_save" type="hidden" value="1"/>
         <?php if ($id): ?>
             <input name="id" type="hidden" value="<?php print $id; ?>"/>

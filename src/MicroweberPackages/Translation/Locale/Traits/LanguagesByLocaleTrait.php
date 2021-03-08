@@ -5,11 +5,15 @@
  * Date: 2/12/2021
  * Time: 1:35 PM
  */
+
 namespace MicroweberPackages\Translation\Locale\Traits;
 
-trait LanguagesByLocaleTrait {
-
-    private static $languagesByLocale = array(
+trait LanguagesByLocaleTrait
+{
+    /**
+     * @deprecated please use LanguageHelper class
+     */
+    public static $languagesByLocale = array(
         'af' => 'Afrikaans',
         'af_NA' => 'Afrikaans',
         'af_ZA' => 'Afrikaans',
@@ -105,6 +109,8 @@ trait LanguagesByLocaleTrait {
         'el_CY' => 'Greek',
         'el_GR' => 'Greek',
         'en' => 'English',
+        'en_US' => 'English',
+
         'en_001' => 'English',
         'en_150' => 'English',
         'en_AE' => 'English',
@@ -203,7 +209,6 @@ trait LanguagesByLocaleTrait {
         'en_TZ' => 'English',
         'en_UG' => 'English',
         'en_UM' => 'English',
-        'en_US' => 'English',
         'en_US_POSIX' => 'English',
         'en_VC' => 'English',
         'en_VG' => 'English',
@@ -216,6 +221,7 @@ trait LanguagesByLocaleTrait {
         'eo' => 'Esperanto',
         'eo_001' => 'Esperanto',
         'es' => 'Spanish',
+        'es_ES' => 'Spanish',
         'es_419' => 'Spanish',
         'es_AR' => 'Spanish',
         'es_BO' => 'Spanish',
@@ -228,7 +234,7 @@ trait LanguagesByLocaleTrait {
         'es_DO' => 'Spanish',
         'es_EA' => 'Spanish',
         'es_EC' => 'Spanish',
-        'es_ES' => 'Spanish',
+
         'es_GQ' => 'Spanish',
         'es_GT' => 'Spanish',
         'es_HN' => 'Spanish',
@@ -664,4 +670,6 @@ trait LanguagesByLocaleTrait {
         'zu' => 'Zulu',
         'zu_ZA' => 'Zulu'
     );
+
+
 }

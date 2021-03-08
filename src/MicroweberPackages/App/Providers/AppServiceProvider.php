@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Jenssegers\Agent\Agent;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -102,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Hashing\HashServiceProvider::class,
         \Illuminate\Mail\MailServiceProvider::class,
         \Illuminate\Notifications\NotificationServiceProvider::class,
-        \Illuminate\Pagination\PaginationServiceProvider::class,
+        \MicroweberPackages\Pagination\PaginationServiceProvider::class,
         \Illuminate\Pipeline\PipelineServiceProvider::class,
         \Illuminate\Queue\QueueServiceProvider::class,
         \Illuminate\Redis\RedisServiceProvider::class,
@@ -283,7 +284,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register($provider);
         }
 
-        $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
+      //  $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
@@ -354,6 +355,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('parser', function ($app) {
             return new Parser($app);
+        });
+
+        $this->app->singleton('browser_agent', function ($app) {
+            return new Agent();
         });
     }
 

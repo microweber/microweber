@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Customer\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
@@ -27,34 +28,32 @@ class CustomersController extends AdminController
         $limit = $request->has('limit') ? $request->limit : 10;
 
         $customers = Customer::applyFilters($request->only([
-                'search',
-                'contact_name',
-                'name',
-                'phone',
-                'orderByField',
-                'orderBy'
-            ]))
+            'search',
+            'contact_name',
+            'name',
+            'phone',
+            'orderByField',
+            'orderBy'
+        ]))
             //->whereCompany($request->header('company'))
             ->select('customers.*',
-              //  DB::raw('sum(due_amount) as due_amount')
+            //  DB::raw('sum(due_amount) as due_amount')
             )
+            ->orderBy('id', 'desc')
             ->groupBy('customers.id')
             //->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
             ->paginate($limit);
 
-        $siteData = [
+        return $this->view('customer::admin.customers.index', [
             'customers' => $customers
-        ];
-
-        return $this->view('customer::admin.customers.index', $siteData);
+        ]);
     }
-
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Requests\CustomerRequest $request)
@@ -69,13 +68,13 @@ class CustomersController extends AdminController
         $customer->company_id = $request->header('company');
         $customer->email = $request->email;
         $customer->phone = $request->phone;
-     //  $customer->company_name = $request->company_name;
-    //    $customer->contact_name = $request->contact_name;
-     //   $customer->website = $request->website;
-     //   $customer->enable_portal = $request->enable_portal;
-      //  $customer->role = 'customer';
-       // $customer->password = Hash::make($request->password);
-        $customer->active =1;
+        //  $customer->company_name = $request->company_name;
+        //    $customer->contact_name = $request->contact_name;
+        //   $customer->website = $request->website;
+        //   $customer->enable_portal = $request->enable_portal;
+        //  $customer->role = 'customer';
+        // $customer->password = Hash::make($request->password);
+        $customer->active = 1;
         $customer->save();
 
         if ($request->addresses) {
@@ -91,9 +90,13 @@ class CustomersController extends AdminController
                 // $newAddress->address_street_2 = $address["address_street_2"];
                 $newAddress->city = $address["city"];
                 $newAddress->state = $address["state"];
-                $newAddress->country_id = (int) $address["country_id"];
+                $newAddress->country_id = (int)$address["country_id"];
                 $newAddress->zip = $address["zip"];
-                $newAddress->phone = $address["phone"];
+
+                if (isset($address["phone"])) {
+                    $newAddress->phone = $address["phone"];
+                }
+
                 $newAddress->type = $address["type"];
                 $newAddress->customer_id = $customer->id;
                 $newAddress->save();
@@ -101,25 +104,26 @@ class CustomersController extends AdminController
             }
         }
 
-        return redirect(route('customers'));
+        return redirect(route('admin.customers.index'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
         $customer = Customer::with([
+            'orders',
             'billingAddress',
             'shippingAddress',
             'billingAddress.country',
             'shippingAddress.country',
         ])->find($id);
 
-        return redirect(route('customers.index'))->with('status', 'Customer is created success.');
+        return redirect(route('admin.customers.index'))->with('status', 'Customer is created success.');
     }
 
 
@@ -133,9 +137,9 @@ class CustomersController extends AdminController
             $countries = Country::all();
         }
 
-        return $this->view('customer::admin.customers.edit',[
+        return $this->view('customer::admin.customers.edit', [
             'customer' => false,
-            'countries'=>$countries,
+            'countries' => $countries,
             'currencies' => $currencies,
             'currency' => false
         ]);
@@ -144,7 +148,7 @@ class CustomersController extends AdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function edit($id)
@@ -154,8 +158,8 @@ class CustomersController extends AdminController
         $currencies = Currency::all();
         $orders = Order::where('customer_id', $customer->id)->get();
 
-        return $this->view('customer::admin.customers.edit',[
-            'countries'=>Country::all(),
+        return $this->view('customer::admin.customers.edit', [
+            'countries' => Country::all(),
             'customer' => $customer,
             'orders' => $orders,
             'currencies' => $currencies,
@@ -166,8 +170,8 @@ class CustomersController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update($id, Requests\CustomerRequest $request)
@@ -197,10 +201,10 @@ class CustomersController extends AdminController
         $customer->currency_id = $request->currency_id;
         $customer->email = $request->email;
         $customer->phone = $request->phone;
-    //    $customer->company_name = $request->company_name;
-       // $customer->contact_name = $request->contact_name;
-      //  $customer->website_url = $request->website;
-       // $customer->enable_portal = $request->enable_portal;
+        //    $customer->company_name = $request->company_name;
+        // $customer->contact_name = $request->contact_name;
+        //  $customer->website_url = $request->website;
+        // $customer->enable_portal = $request->enable_portal;
         $customer->save();
 
         $customer->addresses()->delete();
@@ -214,25 +218,41 @@ class CustomersController extends AdminController
                 $newAddress = $customer->addresses()->firstOrNew(['type' => $address["type"]]);
                 $newAddress->name = $address["name"];
                 $newAddress->address_street_1 = $address["address_street_1"];
-                $newAddress->address_street_2 = $address["address_street_2"];
+                if (isset($address["address_street_2"])) {
+                    $newAddress->address_street_2 = $address["address_street_2"];
+                }
+                if (isset($address["phone"])) {
+                    $newAddress->phone = $address["phone"];
+                }
+                if (isset($address["company_name"])) {
+                    $newAddress->company_name = $address["company_name"];
+                }
+                if (isset($address["company_id"])) {
+                    $newAddress->company_id = $address["company_id"];
+                }
+                if (isset($address["company_vat"])) {
+                    $newAddress->company_vat = $address["company_vat"];
+                }
+                if (isset($address["company_vat_registered"])) {
+                    $newAddress->company_vat_registered = $address["company_vat_registered"];
+                }
                 $newAddress->city = $address["city"];
                 $newAddress->state = $address["state"];
                 $newAddress->country_id = $address["country_id"];
                 $newAddress->zip = $address["zip"];
-                $newAddress->phone = $address["phone"];
                 $newAddress->type = $address["type"];
                 $newAddress->customer_id = $customer->id;
                 $newAddress->save();
             }
         }
 
-        return redirect(route('customers.edit', $customer->id));
+        return redirect(route('admin.customers.edit', $customer->id));
     }
 
     /**
      * Remove the specified Customer along side all his/her resources (ie. Estimates, Invoices, Payments and Addresses)
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
@@ -243,7 +263,7 @@ class CustomersController extends AdminController
             $findCustomer->delete();
         }
 
-        return redirect(route('customers.index'));
+        return redirect(route('admin.customers.index'));
     }
 
 
@@ -255,14 +275,16 @@ class CustomersController extends AdminController
      */
     public function delete(Request $request)
     {
-        foreach ($request->id as $id) {
-            try {
-                Customer::find($id)->delete();
-            } catch (\Exception $e) {
-                //
+        if (is_array($request->id)) {
+            foreach ($request->id as $id) {
+                try {
+                    Customer::find($id)->delete();
+                } catch (\Exception $e) {
+                    //
+                }
             }
         }
 
-        return redirect(route('customers.index'));
+        return redirect(route('admin.customers.index'));
     }
 }

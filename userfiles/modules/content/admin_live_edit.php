@@ -128,12 +128,12 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
         }
     };
 
-    mw.on.hashParam("action", function () {
-        var id = (this.split(':')[1]);
+    mw.on.hashParam("action", function (pval) {
+        var id = (pval.split(':')[1]);
 
-        if (this == 'new:post' || this == 'new:page' || this == 'new:product') {
+        if (pval == 'new:post' || pval == 'new:page' || pval == 'new:product') {
             mw.add_new_content_live_edit(id);
-        } else if (this == 'editpage') {
+        } else if (pval == 'editpage') {
             // $('#mw_posts_create_live_edit').html("Content is added");
         } else {
             mw.edit_content_live_edit(id);

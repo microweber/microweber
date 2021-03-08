@@ -396,8 +396,8 @@
             <?php }  ?>
         });
 
-        mw.on.hashParam('viewsize', function () {
-            _mw_admin_files_manage('viewsize', this);
+        mw.on.hashParam('viewsize', function (pval) {
+            _mw_admin_files_manage('viewsize', pval);
         });
 
         createPopHTML = function (sourceUrl, type) {
@@ -448,7 +448,7 @@
                 msg = "<?php _ejs("Are you sure you want to delete"); ?> " + name + "?";
             } else if (url.constructor === [].constructor) {
                 obj = {path: url}
-                msg = "<?php _ejs("Are you sure you want to delete these files"); ?>?";
+                msg = "<?php _e("Are you sure you want to delete these files"); ?>?";
             } else {
                 return false;
             }
@@ -468,10 +468,10 @@
         }
 
         if (self === parent) {
-            mw.on.hashParam('select-file', function () {
+            mw.on.hashParam('select-file', function (pval) {
                 var dialog;
-                if (this.valueOf()) {
-                    var type = this.valueOf().split(".").pop();
+                if (pval.valueOf()) {
+                    var type = pval.valueOf().split(".").pop();
                     type = type.toLowerCase();
 
                     var is = function (a) {
@@ -485,7 +485,7 @@
                         || is('bmp')
                         || is('gif')
                         || is('webp')
-                        || this.indexOf('images.unsplash.com') !== -1;
+                        || pval.indexOf('images.unsplash.com') !== -1;
 
                     var isText = is('txt')
                         || is('xml')
@@ -497,19 +497,19 @@
                     if (isImage) {
                         if (mw.$("#prfile").length === 0) {
                             dialog = mw.dialog({
-                                html: createPopHTML(this),
+                                html: createPopHTML(pval),
                                 width: 500,
                                 height: 'auto',
                                 autoHeight: true,
                                 name: "prfile",
-                                title: this.split("/").pop()
+                                title: pval.split("/").pop()
                             });
                             $(dialog).on('Remove', function () {
                                 mw.url.windowDeleteHashParam('select-file')
                             })
                         } else {
-                            mw.$("#prfile .mw_modal_container").html(createPopHTML(this));
-                            mw.$("#prfile .mw_modal_title").html(this.split("/").pop())
+                            mw.$("#prfile .mw_modal_container").html(createPopHTML(pval));
+                            mw.$("#prfile .mw_modal_title").html(pval.split("/").pop())
                         }
                     } else if (type === 'mp3' || type === 'avi' || type === 'mp4' || type === 'wmv' || type === 'swf') {
                         dialog = mw.dialog({
@@ -518,7 +518,7 @@
                             height: 'auto',
                             autoHeight: true,
                             name: "prfile",
-                            title: this.split("/").pop()
+                            title: pval.split("/").pop()
                         });
                         $(dialog).on('Remove', function () {
                             mw.url.windowDeleteHashParam('select-file')
@@ -530,29 +530,29 @@
 
                         if (type === 'pdf') {
                             dialog = mw.dialog({
-                                html: createPopHTML(this, 'pdf'),
+                                html: createPopHTML(pval, 'pdf'),
                                 width: '80vw',
                                 height: 'auto',
                                 autoHeight: true,
                                 name: "prfile",
-                                title: this.split("/").pop()
+                                title: pval.split("/").pop()
                             });
                         } else if (isText) {
                             dialog = mw.dialogIframe({
-                                url: this,
+                                url: pval,
                                 width: 500,
                                 height: 'auto',
                                 name: "prfile",
-                                title: this.split("/").pop()
+                                title: pval.split("/").pop()
                             });
                         } else {
                             dialog = mw.dialog({
-                                html: createPopHTML(this, 'nopreview'),
+                                html: createPopHTML(pval, 'nopreview'),
                                 width: 500,
                                 height: 'auto',
                                 autoHeight: true,
                                 name: "prfile",
-                                title: this.split("/").pop()
+                                title: pval.split("/").pop()
                             });
                         }
                     }
@@ -565,7 +565,7 @@
         }
 
         saveNewFolder = function (a) {
-            console.log(a)
+
 
             if (a) {
                 var path = mw.url.windowHashParam("path") != undefined ? mw.url.windowHashParam("path") : "";
@@ -594,7 +594,7 @@
         }
 
         createFolder = function () {
-            mw.prompt('Folder name', function (val, cc) {
+            mw.prompt('<?php _ejs("Folder name"); ?>', function (val, cc) {
                 console.log(val, cc)
                 saveNewFolder(val);
             });
@@ -605,24 +605,24 @@
             $('.mw_files_admin_search').toggle();
             $('#mw_files_admin').toggle();
             $('#mw_files_media_library').toggle();
-            $('#mw_files_media_library').html('<?php _e("Loading"); ?>...');
+            $('#mw_files_media_library').html('<?php _ejs("Loading"); ?>...');
             $('#mw_files_media_library').reload_module();
         }
 
 
-        mw.on.hashParam('search', function () {
+        mw.on.hashParam('search', function (pval) {
 
-            _mw_admin_files_manage('search', this);
+            _mw_admin_files_manage('search', pval);
 
         });
-        mw.on.hashParam('sort_by', function () {
-            if (this != false && this != '') {
-                _mw_admin_files_manage('sort_by', this);
+        mw.on.hashParam('sort_by', function (pval) {
+            if (pval != false && pval != '') {
+                _mw_admin_files_manage('sort_by', pval);
             }
         });
-        mw.on.hashParam('sort_order', function () {
-            if (this != false && this != '') {
-                _mw_admin_files_manage('sort_order', this);
+        mw.on.hashParam('sort_order', function pval() {
+            if (pval != false && pval != '') {
+                _mw_admin_files_manage('sort_order', pval);
             }
 
         });
@@ -632,7 +632,7 @@
             _mw_admin_files_manage('all');
 
             ProgressBar = mw.progress({
-                action: '<?php _e("Uploading"); ?>...',
+                action: '<?php _ejs("Uploading"); ?>...',
                 element: document.getElementById('progressbar'),
                 skin: 'mw-ui-progress-small'
             });
@@ -686,12 +686,12 @@
             })
 
 
-            mw.on.hashParam('path', function () {
-                _mw_admin_files_manage('path', this);
+            mw.on.hashParam('path', function (pval) {
+                _mw_admin_files_manage('path', pval);
 
 
 
-                Uploader.urlParam('path', this);
+                Uploader.urlParam('path', pval);
 
 
             });
@@ -738,17 +738,12 @@
 
 
     ?>
-
-
     <div class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
-
         <div class="admin-side-content">
             <div id="files_ctrl_holder">
                 <div class="modules-index-bar modules-index-bar-transparent">
                     <div class="browser-ctrl-bar">
-
                         <div>
-
                             <div class="dropdown d-inline-block">
                                 <button class="btn btn-success icon-left dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-plus"></i> <?php _e("Create folder"); ?>
@@ -758,16 +753,12 @@
                                     <span class="dropdown-item position-relative" onclick="createFolder()"><?php _e("Create folder"); ?></span>
                                 </div>
                             </div>
-
                             <button type="button" disabled class="btn btn-danger icon-left delete_item file-browser-multiple-delete"><i class="mdi mdi-trash-can-outline"></i> <?php _e("Delete"); ?></button>
                             <button type="button" disabled class="btn btn-primary icon-left file-browser-multiple-download" onclick="downloadSelected()"><i class="mdi mdi-cloud-download"></i> <?php _e("Download"); ?></button>
-
                         </div>
 
                         <div class="form-inline">
                             <div class="form-group mr-1">
-
-
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" style="background-color: white"><i class="mdi mdi-magnify" style="font-size: 20px"></i></span>
@@ -778,25 +769,17 @@
                                         class="form-control  mw_files_admin_search"
                                         type="text" placeholder="<?php _e("Search"); ?>"
                                     />
-
                                 </div>
                             </div>
                             <button type="button" class="btn btn-outline-primary align-self-baseline" onclick="search()"><?php _e("Search"); ?></button>
                         </div>
-
-
                     </div>
                     <div id="progressbar" style=""></div>
                 </div>
             </div>
-
-
             <div id="mw_files_admin"></div>
-
-
             <div id="mw_files_media_library" style="display: none" type="pictures/media_library"></div>
             <div id="mw_user_edit_admin"></div>
-
         </div>
     </div>
 </div>

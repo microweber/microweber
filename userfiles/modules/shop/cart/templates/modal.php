@@ -19,9 +19,18 @@ description: Small Modal
             //   cartModalBindButtons();
 
         });
-
-
     </script>
+
+    <style>
+        .mw-order-custom-fields ul {
+            list-style-type: none;
+            margin-bottom: 0.4rem;
+        }
+
+        .mw-order-custom-fields ul li {
+            margin-bottom: 3px;
+        }
+    </style>
 <?php endif; ?>
 
 <?php
@@ -29,9 +38,9 @@ $total = cart_total();
 ?>
        <div class="checkout-modal-products-wrapper">
            <?php if (is_array($data) and $data) : ?>
-               <?php foreach ($data as $item) : ?>
-                   <div class="form-row checkout-modal-product-list-item ">
-                       <div class="col-auto">
+               <?php foreach ($data as $item) :?>
+                   <div class="form-row checkout-modal-product-list-item">
+                       <div class="col-lg-5 col-auto d-flex">
                            <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                <?php $p = $item['item_image']; ?>
                            <?php else: ?>
@@ -40,12 +49,19 @@ $total = cart_total();
                            <?php if ($p != false): ?>
                                <img style="max-width:70px; max-height:70px;" src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/>
                            <?php endif; ?>
+
+                           <div class="mw-order-custom-fields font-weight-bold mx-4">
+                               <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
+                                   <?php print $item['custom_fields'] ?>
+                               <?php endif ?>
+                           </div>
                        </div>
-                       <div class="col">
+
+                       <div class="col-auto col-lg">
                            <div class="form-row h-100">
                                <div class="col-10">
-                                   <div class="form-row align-items-md-center h-100">
-                                       <div class="col-12 col-md-7">
+                                   <div class="form-row align-items-md-center h-100 ">
+                                       <div class="col-12 col-md-5">
                                            <h6><?php print _e($item['title']) ?></h6>
                                        </div>
                                        <div class="col-6 col-md-3 align-self-center justify-content-md-center">
@@ -81,7 +97,7 @@ $total = cart_total();
                        <div class="d-flex justify-content-md-end align-items-center">
                            <module type="shop/cart" template="totals" />
                        </div>
-                   </div >
+                   </div>
 
                    <div class="w-100 mt-2">
                        <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step" data-step="delivery-address"><?php _e('Checkout'); ?></a>

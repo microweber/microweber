@@ -40,7 +40,7 @@ function _lang($key, $namespace = false, $return = false)
         return lang($key, $namespace);
     }
 
-    echo lang($key, $namespace);
+    print lang($key, $namespace);
 }
 
 function lang($key, $namespace = false)
@@ -49,6 +49,18 @@ function lang($key, $namespace = false)
     if (!$namespace) {
         $namespace = '*';
     }
+
+
+
+    // replace control chars https://stackoverflow.com/a/10133237/731166
+    $pairs = array(
+        "\x03" => "",
+        "\x05" => "",
+        "\x0E" => "",
+        "\x16" => "",
+    );
+    $key = strtr($key, $pairs);
+
 
     $namespace = url_title($namespace);
     $trans = trans($namespace . '::'.$group.'.'.$key);
@@ -91,10 +103,14 @@ function _output_trans_key($key) {
  *
  * @use current_lang()
  */
-function _e($k, $to_return = false)
+function _e($k, $to_return = false, $replace = [])
 {
-    $trans = trans('*.'.$k);
+
+
+    $trans = trans('*.'.$k, $replace);
     $trans = ltrim($trans, '*.');
+
+ //   $trans = str_ireplace('{{app_name}}', 'Microweber', $trans);
 
     if ($to_return) {
         return $trans;
@@ -120,9 +136,18 @@ function _e($k, $to_return = false)
  *
  * @use current_lang()
  */
-function _ejs($k, $to_return = false)
+function _ejs($k, $to_return = false, $replace = [])
 {
-    return mw()->lang_helper->ejs($k, $to_return);
+    $trans = trans('*.'.$k, $replace);
+    $trans = ltrim($trans, '*.');
+
+    $trans = htmlspecialchars($trans, ENT_QUOTES);
+
+    if ($to_return) {
+        return $trans;
+    }
+
+    echo $trans;
 }
 
 /**

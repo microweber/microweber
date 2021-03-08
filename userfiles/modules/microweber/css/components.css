@@ -717,8 +717,9 @@ body.mw-external-loading:after {
     color: #4D7301;
 }
 
-.mw_alert_holder {
+.mw-alert-holder {
     font-size: 17px;
+    text-align: center;
 }
 
 .add-edit-page-post .toggle-active {

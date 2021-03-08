@@ -6,13 +6,12 @@ $rand = rand();
 $data_orig = $data;
 //$rand = round($rand);
 
- if ((isset($_REQUEST['field_id']) and ($_REQUEST['field_id']) )) {
-	$data_orig['field_id'] = $_REQUEST['field_id'];
+ if ((isset($_REQUEST['id']) and ($_REQUEST['id']) )) {
+	$data_orig['id'] = $_REQUEST['id'];
 }
  $add_remove_controls = '' .
-    '<span class="mw-icon-plus" onclick="mw.custom_fields.add(this);" title="' . _e("Add", true) . '"></span>' .
-    '<span class="mw-icon-close" onclick="var parent = mw.tools.firstParentWithClass(this, \'mw-admin-custom-field-edit-item-wrapper\'); $(this).parents(\'.mw-custom-field-form-controls\').remove();mw.custom_fields.save(parent);" title="' . _e("Remove", true) . '"></span>' .
-    '<span class="mw-icon-drag custom-fields-handle-field" title="' . _e("Move", true) . '"></span>';
+    '<button class="btn btn-outline-success btn-sm mx-2" onclick="mw.custom_fields.add(this);">Add</button>' .
+    '<button class="btn btn-outline-danger btn-sm" onclick="var parent = mw.tools.firstParentWithClass(this, \'mw-admin-custom-field-edit-item-wrapper\'); $(this).parents(\'.mw-custom-field-form-controls\').remove();mw.custom_fields.save(parent); ">Delete</button>';
 
 
 $savebtn = '';
@@ -27,7 +26,7 @@ $hidden_class = '';
 if (intval($settings) == 2) {
 
 }
-$hidden_class = ' mw-hide ';
+//$hidden_class = ' mw-hide ';
 $is_for_module = mw()->url_manager->param('for_module_id', 1);
 $for = mw()->url_manager->param('for', 1);
 
@@ -208,15 +207,15 @@ if ($for == false) {
 
 <div class="mw-field-type-<?php echo  trim($field_type) ?>" id="custom_fields_edit<?php echo  $rand; ?>">
     <?php if (isset($data['id']) and ($data['id']) != 0): ?>
-        <input type="hidden" name="cf_id" value="<?php echo  ($data['id']) ?>"/>
+        <input type="hidden" name="id" value="<?php echo  ($data['id']) ?>"/>
     <?php endif; ?>
 
-     <?php if (isset($data_orig['field_id']) and ($data_orig['field_id']) ): ?>
-         <input type="hidden" name="cf_id" value="<?php echo  ($data_orig['field_id']) ?>"/>
+     <?php if (isset($data_orig['id']) and ($data_orig['id']) ): ?>
+         <input type="hidden" name="id" value="<?php echo  ($data_orig['id']) ?>"/>
     <?php endif; ?>
 
     <?php if ($for): ?>
-        <input type="hidden" name="rel" value="<?php echo  ($for); ?>"/>
+        <input type="hidden" name="rel_type" value="<?php echo  ($for); ?>"/>
         <input type="hidden" name="rel_id" value="<?php echo  strval($for_module_id) ?>"/>
     <?php endif; ?>
 
@@ -230,16 +229,14 @@ if ($for == false) {
     /*<input type="hidden" name="position" value="<?php echo  $data['position'] ?>" /> */
     ?>
 
-    <script>
-        $(document).ready(function () {
+</div>
 
-            var master = document.getElementById('custom_fields_edit<?php echo  $rand; ?>');
-            var fields = master.querySelector('input[type="text"], input[type="email"], textarea, input[type="checkbox"], input[type="radio"], select');
-
-            if (typeof is_body_click_binded === 'undefined') {
-                is_body_click_binded = true;
-            }
-
-        });
-    </script>
+<div class="custom-field-settings-name">
+    <div class="mw-custom-field-group ">
+        <label class="control-label" for="input_field_label<?php print $rand; ?>">
+            <?php _e('Title'); ?>
+        </label>
+        <small class="text-muted d-block mb-2"><?php _e('The name of your field');?></small>
+        <input type="text" class="form-control" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
+    </div>
 </div>

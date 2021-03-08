@@ -16,9 +16,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 <script>
 
-    mw.on.hashParam("search", function () {
+    mw.on.hashParam("search", function (pval) {
         mw.$('#pages_edit_container').attr("data-type", 'content/manager');
-        var dis = this;
+        var dis = pval;
         if (dis !== '') {
             mw.$('#pages_edit_container').attr("data-keyword", dis);
             mw.url.windowDeleteHashParam('pg')
@@ -69,8 +69,8 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
     $(document).ready(function () {
 
-        mw.on.hashParam("page-posts", function () {
-            mw_set_edit_posts(this);
+        mw.on.hashParam("page-posts", function (pval) {
+            mw_set_edit_posts(pval);
         });
         mw.on.moduleReload("pages_tree_toolbar", function (e) {
 
@@ -141,18 +141,18 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         active_item.addClass('active-bg');
 
-        mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
-
         mw.$('.mw-admin-go-live-now-btn').attr('content-id', active_item_is_parent);
-        mw.$('#pages_edit_container').attr('content_type', 'page');
-        mw.$('#pages_edit_container').removeAttr('subtype');
-        mw.$('#pages_edit_container').removeAttr('content_type_filter');
-        mw.$('#pages_edit_container').removeAttr('subtype_filter');
-        mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
-        mw.$('#pages_edit_container').removeAttr('categories_active_ids');
-        mw.$('#pages_edit_container').removeAttr('data-categories_active_ids');
-        mw.$('#pages_edit_container').removeAttr('data-active_ids');
-        mw.$('#pages_edit_container').removeAttr('active_ids');
+        mw.$('#pages_edit_container')
+            .removeAttr('data-parent-page-id')
+            .attr('content_type', 'page')
+            .removeAttr('subtype')
+            .removeAttr('content_type_filter')
+            .removeAttr('subtype_filter')
+            .removeAttr('data-parent-category-id')
+            .removeAttr('categories_active_ids')
+            .removeAttr('data-categories_active_ids')
+            .removeAttr('data-active_ids')
+            .removeAttr('active_ids');
 
 
         if (active_item_is_category != undefined) {
@@ -185,17 +185,15 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         edit_load('content/edit');
     }
 
-    mw.on.hashParam("action", function () {
+    mw.on.hashParam("action", function (pval) {
 
-        if (this == false) {
+        if (pval === false) {
             mw.tools.classNamespaceDelete(document.body, 'action-')
         }
 
-
-
         mainTreeSetActiveItems()
 
-        if (this == false) {
+        if (pval === false) {
             mw.$('#pages_edit_container').removeAttr('page-id');
             mw_clear_edit_module_attrs();
             mw.$(".fix-tabs").removeClass('fix-tabs');
@@ -204,33 +202,18 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.$(".js-top-save").hide();
 
-
-        //  mw.tools.loading(document.body, true)
         window.scrollTo(0, 0);
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
 
-        if (this == false) {
+        if (pval === false) {
             mw.$(".mw_edit_page_right").css("overflow", "hidden");
             edit_load('content/manager');
             return false;
         }
-        var arr = this.split(":");
-       // $(document.body).removeClass("action-Array");
-        // $(document.body).removeClass("action-");
-        // $(document.body).removeClass("action-showposts");
-        // $(document.body).removeClass("action-showpostscat");
-        // $(document.body).removeClass("action-editpage");
-        // $(document.body).removeClass("action-trash");
-        // $(document.body).removeClass("action-editcategory");
-        // $(document.body).removeClass("action-editpost");
-        // $(document.body).removeClass("action-addsubcategory");
-        mw.tools.classNamespaceDelete(document.body, 'action-')
-
-
-
-
+        var arr = pval.split(":");
+        mw.tools.classNamespaceDelete(document.body, 'action-');
         if (arr[0] === 'new') {
             mw.contentAction.create(arr[1]);
             if (arr[0]) {

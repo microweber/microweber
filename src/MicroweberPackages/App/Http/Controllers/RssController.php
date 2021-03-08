@@ -22,7 +22,7 @@ class RssController extends Controller
         $contentData = [];
 
         if($request->lang && $this->isMutilangOn() && is_lang_supported($request->lang)) {
-            change_language_by_locale($request->lang);
+            change_language_by_locale($request->lang,false);
         }
 
         $cont = get_content('is_active=1&is_deleted=0&limit=2500&orderby=updated_at desc');
@@ -33,7 +33,7 @@ class RssController extends Controller
         if (!empty($cont)) {
             foreach ($cont as $k => $item) {
                 $tmp = [];
-                $tmp['url'] = $item['url'];
+                $tmp['url'] = content_link($item['id']);
                 $tmp['title'] = $item['title'];
                 $tmp['description'] = content_description($item['id']);
 
@@ -68,7 +68,7 @@ class RssController extends Controller
         $contentData = [];
 
         if($request->lang && $this->isMutilangOn() && is_lang_supported($request->lang)) {
-            change_language_by_locale($request->lang);
+            change_language_by_locale($request->lang,false);
         }
 
         $siteTitle = app()->option_manager->get('website_title', 'website');
@@ -86,7 +86,7 @@ class RssController extends Controller
 
                 $tmp['title'] = $product['title'];
                 $tmp['description'] = $product['description'];
-                $tmp['url'] = $product['url'];
+                $tmp['url'] = content_link($product['id']);
                 $tmp['image'] = $picture;
                 $tmp['price'] = $price;
 

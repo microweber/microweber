@@ -8,7 +8,7 @@ if (!empty($this->config['textColor'])) {
 }
 ?>
 
-<link href="<?php print modules_url(); ?>/cookie_notice/scwCookie/output/assets/scwCookie.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print modules_url(); ?>/cookie_notice/scwCookie/output/assets/scwCookie.css" rel="stylesheet" type="text/css"/>
 
 <style>
     .scw-cookie-panel-toggle::before {
@@ -41,7 +41,7 @@ if (!empty($this->config['textColor'])) {
                 <span class="icon icon-settings"></span>
             </div>
             <div class="scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php print _e('Cookie policy', 'modules/cookie_notice'); ?>">
-                <a href="<?php print $this->config['cookiePolicyURL']; ?>">
+                <a href="<?php print $this->config['cookiePolicyURL']; ?>" target="_blank">
                     <span class="icon icon-policy"></span>
                 </a>
             </div>

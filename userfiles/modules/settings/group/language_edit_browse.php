@@ -27,7 +27,8 @@ if(empty($supportedLanguages)){
 
     $supportedLanguages[] = [
         'icon'=>$currentLanguageAbr,
-        'locale'=>$currentLanguageAbr
+        'locale'=>$currentLanguageAbr,
+        'language'=>$currentLanguageAbr
     ];
 }
 
@@ -62,23 +63,42 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
      */
     !function(e,i){if("function"==typeof define&&define.amd)define(["exports","jquery"],function(e,r){return i(e,r)});else if("undefined"!=typeof exports){var r=require("jquery");i(exports,r)}else i(e,e.jQuery||e.Zepto||e.ender||e.$)}(this,function(e,i){function r(e,r){function n(e,i,r){return e[i]=r,e}function a(e,i){for(var r,a=e.match(t.key);void 0!==(r=a.pop());)if(t.push.test(r)){var u=s(e.replace(/\[\]$/,""));i=n([],u,i)}else t.fixed.test(r)?i=n([],r,i):t.named.test(r)&&(i=n({},r,i));return i}function s(e){return void 0===h[e]&&(h[e]=0),h[e]++}function u(e){switch(i('[name="'+e.name+'"]',r).attr("type")){case"checkbox":return"on"===e.value?!0:e.value;default:return e.value}}function f(i){if(!t.validate.test(i.name))return this;var r=a(i.name,u(i));return l=e.extend(!0,l,r),this}function d(i){if(!e.isArray(i))throw new Error("formSerializer.addPairs expects an Array");for(var r=0,t=i.length;t>r;r++)this.addPair(i[r]);return this}function o(){return l}function c(){return JSON.stringify(o())}var l={},h={};this.addPair=f,this.addPairs=d,this.serialize=o,this.serializeJSON=c}var t={validate:/^[a-z_][a-z0-9_]*(?:\[(?:\d*|[a-z0-9_]+)\])*$/i,key:/[a-z0-9_]+|(?=\[\])/gi,push:/^$/,fixed:/^\d+$/,named:/^[a-z0-9_]+$/i};return r.patterns=t,r.serializeObject=function(){return new r(i,this).addPairs(this.serializeArray()).serialize()},r.serializeJSON=function(){return new r(i,this).addPairs(this.serializeArray()).serializeJSON()},"undefined"!=typeof i.fn&&(i.fn.serializeObject=r.serializeObject,i.fn.serializeJSON=r.serializeJSON),e.FormSerializer=r,r});
 
+    //$(document).keypress(function(e) {
+    //    if (e.which == 13) {
+    //        searchLangauges<?php //echo $namespaceMd5;?>//();
+    //    }
+    //});
+
+    function searchLangauges<?php echo $namespaceMd5;?>()
+    {
+        var searchText = $('.js-search-lang-text').val();
+
+        $('.js-language-edit-browse-module').attr('page', 1);
+        $('.js-language-edit-browse-module').attr('search', searchText);
+
+      //  mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
+
+        mw.tools.loading('.js-language-edit-browse-module',true)
+        mw.reload_module('.js-language-edit-browse-module',function () {
+            mw.tools.loading('.js-language-edit-browse-module',false)
+
+        });
+
+
+        setTimeout(function() {
+            $('.js-lang-edit-form-messages').html('');
+            if ($('.js-language-edit-browse-module:hidden').size() == $('.js-language-edit-browse-module').size()) {
+                $('.js-lang-edit-form-messages').html('<div class="alert alert-warning"><?php _e('No results found');?></div>');
+            }
+        }, 2000);
+    }
 
     $(document).ready(function () {
-
+        $('.js-search-lang-text').off('input');
         $('.js-search-lang-text').on('input', function () {
-            var searchText = $(this).val();
-            $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('page', 1);
-            $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('search', searchText);
-            mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
-
-
-            setTimeout(function() {
-                $('.js-lang-edit-form-messages').html('');
-                if ($('.js-language-edit-browse-module:hidden').size() == $('.js-language-edit-browse-module').size()) {
-                    $('.js-lang-edit-form-messages').html('<div class="alert alert-warning"><?php _e('No results found');?></div>');
-                }
-            }, 2000);
-
+            mw.on.stopWriting(this,function() {
+                searchLangauges<?php echo $namespaceMd5;?>();
+            });
         });
 
         $('.mw_lang_item_textarea_edit').on('input', function () {
@@ -175,27 +195,44 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
                         <?php
                         foreach ($supportedLanguages as $supportedLanguage):
                             ?>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
+
+                            <div class="form-group">
+                                 <small  class="form-text text-muted"><?php echo $supportedLanguage['language'];?></small>
+
+
+                                <div class="input-group mb-3">
+
+
+                                    <div class="input-group-prepend">
+                                <span class="input-group-text" >
                                  <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
                                 </span>
-                                </div>
-                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
-                                <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
-                                <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
-                                    if(isset($translationByLocales[$supportedLanguage['locale']])) {
-                                        echo $translationByLocales[$supportedLanguage['locale']];
-                                    } else {
-                                        if (strpos($supportedLanguage['locale'], 'en') !== false) {
-                                            echo $translationKey;
+                                    </div>
+                                    <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
+                                    <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
+
+
+                                    <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
+                                    <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
+                                        if(isset($translationByLocales[$supportedLanguage['locale']])) {
+                                            echo $translationByLocales[$supportedLanguage['locale']];
                                         } else {
-                                            echo '';
+                                            if (strpos($supportedLanguage['locale'], 'en') !== false) {
+                                                echo $translationKey;
+                                            } else {
+                                                echo '';
+                                            }
                                         }
-                                    }
-                                    ?></textarea>
+                                        ?></textarea>
+
+
+                                </div>
+
                             </div>
+
+
+
+
                         <?php endforeach; ?>
                     </td>
                 </tr>

@@ -103,20 +103,17 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 </script>
 
 <script>
+
+    var contentChanged = function (state) {
+        document.querySelector('.btn-save').disabled = !state;
+        mw.askusertostay = state;
+        document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
+    }
+
     $(document).ready(function () {
         $('[name]').on('change input', function (){
-            document.querySelector('.btn-save').disabled = false;
-            mw.askusertostay = true;
+            contentChanged(true)
         })
-
-
-
-        askToStayIntervalEdit  = setInterval(function(){
-            if(mw.askusertostay){
-                document.querySelector('.btn-save').disabled = false;
-                clearInterval(askToStayIntervalEdit);
-            }
-        }, 1000);
 
 
 
@@ -260,8 +257,7 @@ if (isset($params['quick_edit'])) {
                                             if(this.innerHTML.length > mw.slug.max) {
                                                 this.innerHTML = this.innerHTML.substring(0, mw.slug.max)
                                             }
-                                            document.querySelector('.btn-save').disabled = false;
-                                            mw.askusertostay = true;
+                                            contentChanged(true)
                                             slugEdited = true;
                                         })
                                         .on('keydown', function (e) {
@@ -269,8 +265,7 @@ if (isset($params['quick_edit'])) {
                                             var fn = sel.focusNode.nodeType === 1 ? sel.focusNode : sel.focusNode.parentNode;
                                             var collapsedIn = fn === this && sel.isCollapsed;
                                             slugEdited = true;
-                                            document.querySelector('.btn-save').disabled = false;
-                                            mw.askusertostay = true;
+                                            contentChanged(true)
                                             if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
                                                 if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
                                                     e.preventDefault();
@@ -375,7 +370,7 @@ if (isset($params['quick_edit'])) {
                                                     type: 'page'
                                                 })
                                             }
-                                            mw.askusertostay = false
+                                            contentChanged(false)
                                         }, 100);
                                     });
                                 </script>

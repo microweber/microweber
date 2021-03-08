@@ -49,7 +49,7 @@ $data = array();
 if (isset($params['for_module_id'])): ?>
     <?php
     if (isset($params['default-fields'])) {
-        mw()->fields_manager->make_default($for, $params['for_module_id'], $params['default-fields']);
+        mw()->fields_manager->makeDefault($for, $params['for_module_id'], $params['default-fields']);
     }
 
     $more = get_custom_fields($for, $params['for_module_id'], 1, false, false);

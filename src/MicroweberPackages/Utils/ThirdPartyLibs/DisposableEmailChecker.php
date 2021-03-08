@@ -20,8 +20,8 @@ class DisposableEmailChecker
         }
 
         foreach ($mail_domains_ko as $ko_mail) {
-            list(, $mail_domain) = explode('@', $mail);
-            if (strcasecmp($mail_domain, trim($ko_mail)) == 0) {
+            $dom = explode('@', $mail);
+            if (isset($dom[1]) and strcasecmp($dom[1], trim($ko_mail)) == 0) {
                 return TRUE;
             }
         }

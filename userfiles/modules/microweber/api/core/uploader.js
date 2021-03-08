@@ -326,7 +326,6 @@
                                 $(scope).trigger('FilesUploaded');
                             }
                         }, function (xhr){
-                            console.log(1)
                             if(scope.settings.on.fileUploadError) {
                                 scope.settings.on.fileUploadError(xhr)
                             }

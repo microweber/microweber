@@ -157,7 +157,11 @@ class CheckoutManager
 
         $additional_fields = false;
         if (isset($data['for']) and isset($data['for_id'])) {
-            $additional_fields = $this->app->fields_manager->get($data['for'], $data['for_id'], 1);
+            $additional_fields = $this->app->fields_manager->get([
+                'rel_type'=>$data['for'],
+                'rel_id'=>$data['for_id'],
+                'return_full'=>true,
+            ]);
         }
 
         $seach_address_keys = array('country', 'city', 'address', 'state', 'zip');
@@ -685,14 +689,12 @@ class CheckoutManager
         if (  is_logged()) {
             $shipping_address_from_profile = app()->user_manager->get_shipping_address();
          }
-
-
-         if ($checkout_session) {
+        if ($checkout_session) {
             foreach ($all_field_keys as $field_key) {
                 if (!empty($checkout_session) and !isset($ready[$field_key])) {
                     foreach ($checkout_session as $k => $v) {
                         if ($field_key == $k and $v) {
-                           // $ready[$k] = $v;
+                            $ready[$k] = $v;
                         }
                     }
                 }
@@ -702,7 +704,8 @@ class CheckoutManager
 
             }
         }
-         if ($shipping_address_from_profile) {
+
+          if ($shipping_address_from_profile) {
             foreach ($all_field_keys as $field_key) {
                 if (!empty($shipping_address_from_profile) and !isset($ready[$field_key])) {
                     foreach ($shipping_address_from_profile as $k => $v) {
@@ -714,6 +717,9 @@ class CheckoutManager
                 }
             }
         }
+
+
+
 
         if ($shipping_address_from_profile) {
             $logged_user_data = get_user();
@@ -807,6 +813,7 @@ class CheckoutManager
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
+       // $this->confirm_email_send($orderId);
     }
 
 

@@ -64,7 +64,6 @@
             line-height: 0;
             height: 0;
         }
-
     </style>
 
     <?php

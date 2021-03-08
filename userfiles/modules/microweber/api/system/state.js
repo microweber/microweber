@@ -21,6 +21,9 @@
             this._state = state;
             return this;
         };
+        var _e = {};
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
 
         this.active = function(active){
@@ -73,6 +76,7 @@
             this._activeIndex = -1;
             this.afterChange(false);
             mw.$(this).trigger('stateRecord', [this.eventData()]);
+            this.dispatch('record', [this.eventData()]);
             return this;
         };
 
@@ -86,6 +90,7 @@
             this._activeIndex--;
             this._active = this._state[this._activeIndex];
             this.afterChange('stateRedo');
+            this.dispatch('redo');
             return this;
         };
 
@@ -98,6 +103,7 @@
             }
             this._active = this._state[this._activeIndex];
             this.afterChange('stateUndo');
+            this.dispatch('undo');
             return this;
         };
 
@@ -198,12 +204,10 @@
 
         for ( var i = 0; i < edits.length; i++ ) {
             if(!mw.tools.hasParentsWithClass(this, 'edit')) {
-                edits[i].addEventListener('keydown', function (e) {
+                edits[i].addEventListener('beforeinput', function (e) {
                     var sel = getSelection();
                     var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
-                    if(target && !target.__initialRecord) {
-                        target.__initialRecord = true;
-
+                     if(target) {
                         mw.liveEditState.record({
                             target: target,
                             value: target.innerHTML
@@ -211,8 +215,6 @@
                     }
                 });
                 edits[i].addEventListener('input', function (e) {
-                    clearTimeout(editstime);
-                    editstime = setTimeout(function () {
                         var sel = getSelection();
                         var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
                         if(!target) return;
@@ -221,7 +223,6 @@
                             value: target.innerHTML
                         });
                         this.__initialRecord = false;
-                    }, 1234);
                 });
             }
         }
@@ -231,8 +232,6 @@
             mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
-
-
 
             if(!data.active || (!data.active.target && !data.active.action)) {
                 mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
@@ -259,22 +258,17 @@
         mw.$('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
         mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);
 
-
-
-
-
         mw.element(document.body).on('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'z') {
+            var key = e.key.toLowerCase();
+            if (e.ctrlKey && key === 'z' && !e.shiftKey) {
                 e.preventDefault();
                 mw.liveEditState.undo();
-            } else if (e.ctrlKey && e.key === 'y') {
+            } else if ((e.ctrlKey && key === 'y') || (e.ctrlKey && e.shiftKey && key === 'z')) {
                 e.preventDefault();
                 mw.liveEditState.redo();
             }
         });
-
     });
-
 })();
 
 

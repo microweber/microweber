@@ -183,8 +183,7 @@ class KnpCustomListRenderer extends Renderer implements RendererInterface
 
         }
 
-
-        // retrieve the attributes and put the final class string back on it
+         // retrieve the attributes and put the final class string back on it
         $attributes = $item->getAttributes();
         if (!empty($class)) {
             $attributes['class'] = implode(' ', $class);
