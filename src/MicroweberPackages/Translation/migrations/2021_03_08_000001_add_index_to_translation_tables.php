@@ -12,23 +12,51 @@ class AddIndexToTranslationTables extends Migration
      */
     public function up()
     {
+        // Addd indexes
         try {
             Schema::table('translation_texts', function (Blueprint $table) {
                 $table->index('translation_key_id');
                 $table->index('translation_text');
                 $table->index('translation_locale');
+            });
+        } catch (Exception $e) {
+
+        }
+
+        // Add unique
+        try {
+            Schema::table('translation_texts', function (Blueprint $table) {
                 $table->unique(['translation_key_id', 'translation_locale'])->change();
             });
         } catch (Exception $e) {
 
         }
 
+        // Add new indexes
         try {
             Schema::table('translation_keys', function (Blueprint $table) {
                 $table->index('translation_namespace');
                 $table->index('translation_key');
                 $table->index('translation_group');
-                $table->unique(['translation_key', 'translation_group', 'translation_namespace'])->change();
+            });
+        } catch (Exception $e) {
+
+        }
+
+
+        // Drop old uniques
+        try {
+            Schema::table('translation_keys', function (Blueprint $table) {
+                $table->dropUnique('translation_keys_translation_key_unique');
+            });
+        } catch (Exception $e) {
+
+        }
+
+        // Add new unique
+        try {
+            Schema::table('translation_keys', function (Blueprint $table) {
+                $table->unique(['translation_key', 'translation_group', 'translation_namespace'], 'translation_kgn_unique')->change();
             });
         } catch (Exception $e) {
 
