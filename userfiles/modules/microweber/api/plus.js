@@ -110,12 +110,13 @@ mw.drag.plus = {
     },
     rendModules: function (el) {
         var other = el === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
-        if (!mw.tools.hasClass(el, 'active')) {
+         if (!mw.tools.hasClass(el, 'active')) {
             mw.tools.addClass(el, 'active');
             mw.tools.removeClass(other, 'active');
             mw.drag.plus.locked = true;
             mw.$('.mw-tooltip-insert-module').remove();
             mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
+
             var tip = new mw.tooltip({
                 content: document.getElementById('plus-modules-list').innerHTML,
                 element: el,
@@ -144,9 +145,9 @@ mw.drag.plus = {
                 var name = mw.$(this).attr('data-module-name');
                 if(name === 'layout'){
                     var template = mw.$(this).attr('template');
-                    mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className, template:"'+template+'"})');
+                    mw.$(this).attr('onclick', 'mw.insertModule("' + name + '", {class:this.className, template:"'+template+'"})');
                 } else {
-                    mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className})');
+                    mw.$(this).attr('onclick', 'mw.insertModule("' + name + '", {class:this.className})');
                 }
             });
 
@@ -218,7 +219,7 @@ var insertModule = function (target, module, config, pos) {
     });
 };
 
-InsertModule = function (module, cls, action) {
+mw.insertModule = function (module, cls) {
 
     var position = mw.drag.plusActive === 'top' ? 'top' : 'bottom';
 

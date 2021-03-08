@@ -82,7 +82,7 @@ mw.admin = {
     },
     manageToolbarQuickNav: null,
     insertModule: function (module) {
-        document.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
+        document.querySelector('.mw-iframe-editor').contentWindow.mw.insertModule(module);
     },
 
 

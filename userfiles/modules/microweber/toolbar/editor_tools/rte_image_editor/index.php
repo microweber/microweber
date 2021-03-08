@@ -140,7 +140,7 @@ if (array_key_exists('title', $_GET)) {
             }
 
             if(window.thismodal) {
-                thismodal.result(pval
+                thismodal.result(pval)
             }
 
             parent.mw.dialog.remove('mw_rte_image');
