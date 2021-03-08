@@ -14,10 +14,10 @@ description: Admin login style
 
 <?php
 $user = user_id();
-$selected_lang = 'en';
+$selectedLang = 'en';
 
 if (isset($_COOKIE['lang'])) {
-    $selected_lang = $_COOKIE['lang'];
+    $selectedLang = $_COOKIE['lang'];
 }
 
 $currentLang = current_lang();
@@ -109,20 +109,18 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                                         <div class="col-sm-6">
                                         <?php
-                                        $supportedLanguages = [];
-                                        if (function_exists('get_supported_languages')) {
-                                            $supportedLanguages = get_supported_languages(true);
-                                        }
-                                        if (!empty($supportedLanguages)) {
+                                        $supportedLanguages = \MicroweberPackages\Translation\Models\TranslationText::groupBy('translation_locale')->get();
+                                        if ($supportedLanguages !== null) {
                                         ?>
                                         <div class="form-group">
                                             <label class="text-muted"><?php _e("Language"); ?>:</label>
 
-                                            <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($currentLang != 'en' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
+                                            <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
 
                                                 <?php foreach ($supportedLanguages as $supportedLanguage): ?>
-                                                    <option value="<?php print $supportedLanguage['locale']; ?>" <?php if ($selected_lang == $supportedLanguage['locale']) { ?> selected <?php } ?>>
-                                                        <?php print $supportedLanguage['language']; ?>
+                                                    <option value="<?php print $supportedLanguage->translation_locale; ?>"
+                                                        <?php if ($selectedLang == $supportedLanguage->translation_locale) { ?> selected <?php } ?>>
+                                                        <?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($supportedLanguage->translation_locale); ?>
                                                     </option>
                                                 <?php endforeach; ?>
                                             </select>
