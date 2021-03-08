@@ -71,11 +71,23 @@ class TranslationTest extends TestCase
             'translation_namespace' =>'*',
             'translation_group' =>'*',
             'translation_key' =>'Are you okay?',
-            'translation_text' =>'точно ама е те',
+            'translation_text' =>'аа де',
             'translation_locale' =>$newLocale,
         ]; // This must be not broke the importing and dublicating on translation_texts table
 
+
+        // Try to overwrite existing translation
+        $newTranslations[] = [
+            'translation_namespace' =>'*',
+            'translation_group' =>'*',
+            'translation_key' =>'Comments',
+            'translation_text' =>'Клюки',
+            'translation_locale' =>$newLocale,
+        ];
+
         $import = new TranslationImport();
+        $import->replaceValues(true);
+
         $importResponse = $import->import($newTranslations);
 
         $this->assertNotEmpty($importResponse);
@@ -83,14 +95,17 @@ class TranslationTest extends TestCase
 
         mw()->lang_helper->set_current_lang($newLocale);
 
+
         $this->assertEquals('Как си?', _e('How are you?', 'true'));
         $this->assertEquals('Всичко точно ли е?', _e('Are you okay?', 'true'));
+        $this->assertEquals('Клюки', _e('Comments', 'true'));
 
 
         mw()->lang_helper->set_current_lang('en_US');
 
         $this->assertEquals('How are you?', _e('How are you?', 'true'));
         $this->assertEquals('Are you okay?', _e('Are you okay?', 'true'));
+        $this->assertEquals('Comments', _e('Comments', 'true'));
 
     }
 

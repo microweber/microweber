@@ -9,10 +9,14 @@ use MicroweberPackages\Translation\Models\TranslationText;
 
 class TranslationImport
 {
+    public $replaceValues = false;
     public $logger = null;
 
+    public function replaceValues($replace) {
+        $this->replaceValues = $replace;
+    }
 
-    public function import($translations, $replace_values = false)
+    public function import($translations)
     {
 
         $forImportKeysAndText = [];
@@ -150,7 +154,7 @@ class TranslationImport
                                     $importText['translation_locale'] = $importTextData['translation_locale'];
                                     $textsToInsertBulk[] = $importText;
                                 } else {
-                                    if ($replace_values) {
+                                    if ($this->replaceValues) {
                                         $replaceText = [];
                                         $replaceText['translation_key_id'] = $allLangKey['id'];
                                         $replaceText['id'] = $getTranslationText['id'];
