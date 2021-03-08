@@ -42,17 +42,17 @@ class TranslationImport
 
         // Get All Database Translation Keys
         $dbTranslationKeysMap = [];
-        $getTranslationKeys = TranslationKey::select(['id', 'translation_key'])->get();
+        $getTranslationKeys = TranslationKey::select(['id', 'translation_key','translation_group','translation_namespace'])->get();
         if ($getTranslationKeys != null) {
             foreach($getTranslationKeys as $translationKey) {
-                $dbTranslationKeysMap[md5($translationKey->translation_key)] = $translationKey->id;
+                $dbTranslationKeysMap[md5($translationKey->translation_key.$translationKey->translation_group.$translationKey->translation_namespace)] = $translationKey->id;
             }
         }
 
         // Get All input Translation Keys
         $inputTranslationMap = [];
         foreach($inputTranslations as $inputTranslation) {
-            $inputTranslationMap[md5($inputTranslation['translation_key'])] = $inputTranslation;
+            $inputTranslationMap[md5($inputTranslation['translation_key'].$inputTranslation['translation_group'].$inputTranslation['translation_namespace'])] = $inputTranslation;
         }
 
         // Insert missing keys in database
@@ -67,11 +67,16 @@ class TranslationImport
             }
         }
 
+
+
+        $insertedKeys = $this->_importTranslationKeys($missingTranslationKeys);
+
+        /*
         try {
             $insertedKeys = $this->_importTranslationKeys($missingTranslationKeys);
         } catch (Exception $e) {
             return ['error' => 'Error when trying to import translation keys.'];
-        }
+        }*/
 
 
         //dd($missingTranslationKeys);
@@ -98,11 +103,14 @@ class TranslationImport
     {
         $insertedTranslationKeys = [];
 
-        $translationKeysCunks = array_chunk($translationKeys, 50);
+        $translationKeysChunks = array_chunk($translationKeys, 15);
 
-        foreach ($translationKeysCunks as $translationKeysChunk) {
+        foreach ($translationKeysChunks as $translationKeysChunk) {
             $insertedTranslationKeys[] = TranslationKey::insert($translationKeysChunk);
         }
+
+        dd($insertedTranslationKeys);
+        die();
 
         return $insertedTranslationKeys;
     }
