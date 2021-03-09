@@ -135,6 +135,7 @@ padding-bottom: 5px;
 .footer-skin-link ul {
   display: flex;
   justify-content: center;
+  margin-bottom: 0px;
 }
 
 .footer-skin-link ul li a {
@@ -145,7 +146,7 @@ padding-bottom: 5px;
 .footer_skin ul {
   display: flex;
   justify-content: center;
-  margin-bottom: 0px!;
+  margin-bottom: 0px;
 }
 
 .footer_skin ul li a {
