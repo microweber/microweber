@@ -56,23 +56,20 @@ if (is_module('multilanguage')) {
                                         <div class="row">
                                             <div class="col-md-7">
 
-                                                <?php if ($hasMultilanguageModuleActivated): ?>
-
-                                              <module type="multilanguage" template="admin" show_settings_link="true" />
-
-                                                <?php else: ?>
-                                        <?php
-                                        $langs = mw()->lang_helper->get_all_lang_codes();
-
-                                        if ($def_language == false) {
-                                            $def_language = 'en';
-                                        }
-                                        ?>
+                                            <?php if ($hasMultilanguageModuleActivated): ?>
+                                            <module type="multilanguage" template="admin" show_settings_link="true" />
+                                            <?php else: ?>
+                                            <?php
+                                            $langs = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+                                            if ($def_language == false) {
+                                                $def_language = 'en_US';
+                                            }
+                                            ?>
                                         <?php if ($langs) : ?>
                                             <select id="user_lang" name="language" class="mw_option_field selectpicker" data-size="7" data-width="100%" option-group="website" data-also-reload="settings/group/language_edit">
                                                 <option disabled="disabled"><?php _e('Select Language'); ?></option>
-                                                <?php foreach ($langs as $key => $lang): ?>
-                                                    <option <?php if ($def_language == $key): ?> selected="" <?php endif; ?> value="<?php print $key ?>"><?php print $lang ?></option>
+                                                <?php foreach ($langs as $languageName => $languageDetails): ?>
+                                                    <option <?php if ($def_language == $languageDetails['locale']): ?> selected="" <?php endif; ?> value="<?php print $languageDetails['locale'] ?>"><?php print $languageName ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         <?php endif; ?>
