@@ -40,17 +40,14 @@ class TranslationImport
             return ['error' => 'Can\'t import this language file.'];
         }
 
-        $insertedTexts = [];
-        $updatedTexts = [];
-
-        // Get All Database Translation Keys
-        $dbTranslationKeysMap = $this->_getTranslationKeysMap();
-
         // Get All input Translation Keys
         $inputTranslationMap = [];
         foreach($inputTranslations as $inputTranslation) {
-            $inputTranslationMap[md5($inputTranslation['translation_key'].$inputTranslation['translation_group'].$inputTranslation['translation_namespace'])] = $inputTranslation;
+            $inputTranslationMap[$this->_hashFields($inputTranslation)] = $inputTranslation;
         }
+
+        // Get All Database Translation Keys
+        $dbTranslationKeysMap = $this->_getTranslationKeysMap();
 
         // Insert missing keys in database
         $missingTranslationKeys = [];
@@ -75,14 +72,37 @@ class TranslationImport
             $dbTranslationKeysMap = $this->_getTranslationKeysMap();
         }
 
-        $dbTranslationTextsMap = [];
-        $getTranslationTexts = TranslationText::select(['id', 'translation_locale','translation_key_id'])->get();
-        if ($getTranslationTexts != null) {
-            foreach($getTranslationTexts as $translationText) {
-                //
+        // Add translation ids to translation texts
+        $translationTextsMapWithId = [];
+        foreach($inputTranslations as &$inputTranslation) {
+            $inputTranslationMd5 = $this->_hashFields($inputTranslation);
+            $inputTranslation['translation_key_id'] = $dbTranslationKeysMap[$inputTranslationMd5];
+            $translationTextsMapWithId[$this->_hashFields($inputTranslation, ['translation_key','translation_group', 'translation_namespace','translation_key_id'])] = true;
+        }
+
+        dd($translationTextsMapWithId);
+
+        $updatedTexts = [];
+        $foundedTranslationTexts = [];
+        $missingTranslationTexts = [];
+        $dbTranslationTexts = TranslationText::join('translation_keys', 'translation_texts.translation_key_id', '=', 'translation_keys.id')->get();
+        if ($dbTranslationTexts != null) {
+            foreach($dbTranslationTexts as $dbTranslationText) {
+                $dbTranslationTextMd5 = $this->_hashFields($dbTranslationText, ['translation_key','translation_group', 'translation_namespace','translation_key_id']);
+                if (isset($translationTextsMapWithId[$dbTranslationTextMd5])) {
+                    $foundedTranslationTexts[] = $dbTranslationText;
+                }
             }
         }
 
+        $insertedTexts = [];
+        if (!empty($missingTranslationTexts)) {
+            try {
+                $insertedTexts = $this->_importTranslationTexts($missingTranslationTexts);
+            } catch (Exception $e) {
+                return ['error' => 'Error when trying to import translation texts.'];
+            }
+        }
 
         \Cache::tags('translation_keys')->flush();
         \Cache::tags('translation_texts')->flush();
@@ -102,16 +122,44 @@ class TranslationImport
 
     }
 
+    private function _hashFields($array, $fields = ['translation_key','translation_group', 'translation_namespace'])
+    {
+        $hashString = '';
+
+        foreach($fields as $field) {
+            if (isset($array[$field])) {
+                $hashString .= $array[$field];
+            } else {
+                throw new Exception('The field missing in array.');
+            }
+        }
+
+        return md5($hashString);
+    }
+
     private function _getTranslationKeysMap()
     {
         $dbTranslationKeysMap = [];
         $getTranslationKeys = TranslationKey::select(['id', 'translation_key','translation_group','translation_namespace'])->get();
         if ($getTranslationKeys != null) {
             foreach($getTranslationKeys as $translationKey) {
-                $dbTranslationKeysMap[md5($translationKey->translation_key.$translationKey->translation_group.$translationKey->translation_namespace)] = $translationKey->id;
+                $dbTranslationKeysMap[$this->_hashFields($translationKey)] = $translationKey->id;
             }
         }
         return $dbTranslationKeysMap;
+    }
+
+    private function _importTranslationTexts($translationTexts)
+    {
+        $insertedTranslationTexts = [];
+
+        $translationTextsChunks = array_chunk($translationTexts, 15);
+
+        foreach ($translationTexts as $translationTextsChunk) {
+            $insertedTranslationTexts[] = TranslationText::insert($translationTextsChunk);
+        }
+
+        return $insertedTranslationTexts;
     }
 
     private function _importTranslationKeys($translationKeys)
