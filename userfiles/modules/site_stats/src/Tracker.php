@@ -419,14 +419,14 @@ class Tracker
             return $return;
         }
 
-        $mmdb = normalize_path(MW_PATH . 'Utils/lib/geoip_lite/GeoLite2-Country.mmdb', false);
+        $mmdb = normalize_path(MW_PATH . 'Utils/ThirdPartyLibs/geoip_lite/GeoLite2-Country.mmdb', false);
+
         if (is_file($mmdb)) {
 
             try {
                 $reader = new Reader($mmdb);
                 $record = $reader->country($ip);
-
-                if ($record) {
+                 if ($record) {
                     $return['country_code'] = $record->country->isoCode;
                     $return['country_name'] = $record->country->name;
                 }

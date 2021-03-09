@@ -21,7 +21,7 @@ if (!defined('DS')) {
 }
 
 if (!defined('MW_PATH')) {
-    define('MW_PATH', realpath(__DIR__.'/../').DS);
+    define('MW_PATH', realpath(__DIR__.'/../../').DS);
 }
 
 if (!defined('MW_ROOTPATH')) {
