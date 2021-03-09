@@ -10,6 +10,8 @@ namespace MicroweberPackages\Translation\tests;
 
 
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Translation\Models\TranslationKey;
+use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationImport;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 
@@ -17,6 +19,10 @@ class TranslationTest extends TestCase
 {
 
     public function testImportLanguage() {
+
+        // Truncate translation texts
+        TranslationKey::get()->delete();
+        TranslationText::get()->delete();
 
         $installLanguage = 'bg_BG';
 
