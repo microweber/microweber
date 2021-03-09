@@ -506,7 +506,7 @@ class FieldsManager
     {
         $getCustomFields = CustomField::query();
 
-        if (isset($params['id'])) {
+        if (!empty($params['id'])) {
             $getCustomFields->where('id', $params['id']);
         }
 
@@ -519,11 +519,12 @@ class FieldsManager
             $getCustomFields->where('type', $params['type']);
         }
 
-        if (isset($params['session_id'])) {
+        if (!empty($params['session_id'])) {
             $getCustomFields->where('session_id', $params['session_id']);
         }
 
         $getCustomFields->orderBy('position', 'asc');
+
         $getCustomFields = $getCustomFields->get();
 
         $customFields = [];
