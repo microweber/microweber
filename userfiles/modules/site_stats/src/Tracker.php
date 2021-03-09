@@ -419,7 +419,7 @@ class Tracker
             return $return;
         }
 
-        $mmdb = normalize_path(MW_PATH . 'Utils/ThirdPartyLibs/geoip_lite/GeoLite2-Country.mmdb', false);
+        $mmdb = normalize_path(dirname(MW_PATH) . 'Utils/ThirdPartyLibs/geoip_lite/GeoLite2-Country.mmdb', false);
 
         if (is_file($mmdb)) {
 
