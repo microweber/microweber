@@ -21,8 +21,8 @@ class TranslationTest extends TestCase
     public function testImportLanguage() {
 
         // Truncate translation texts
-        TranslationKey::get()->delete();
-        TranslationText::get()->delete();
+        TranslationKey::truncate();
+        TranslationText::truncate();
 
         $installLanguage = 'bg_BG';
 
