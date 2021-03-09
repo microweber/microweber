@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('test123', function(){
 
+    $availableTranslations = \MicroweberPackages\Translation\TranslationPackageInstallHelper::getAvailableTranslations();
+
+    foreach($availableTranslations as $availableLocale=>$availableLanguage) {
+        $installResponse = \MicroweberPackages\Translation\TranslationPackageInstallHelper::installLanguage($availableLocale);
+    }
 
     \MicroweberPackages\Translation\TranslationPackageInstallHelper::installLanguage('bg_BG');
 
