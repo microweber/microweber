@@ -50,7 +50,6 @@ class TranslationPackageInstallHelper
 
     public static function installLanguage($locale)
     {
-
         $file = __DIR__ . '/resources/lang_xlsx/' . $locale . '.xlsx';
 
         if (is_file($file)) {

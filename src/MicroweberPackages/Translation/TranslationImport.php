@@ -2,18 +2,16 @@
 
 namespace MicroweberPackages\Translation;
 
-
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 
 class TranslationImport
 {
-    public $replaceValues = false;
+    public $replaceTexts = false;
     public $logger = null;
 
-    public function replaceValues($replace) {
-        $this->replaceValues = $replace;
+    public function replaceTexts($replace) {
+        $this->replaceTexts = $replace;
     }
 
     public function import($inputTranslations)
@@ -73,7 +71,8 @@ class TranslationImport
         }
 
         $dbTranslationMap = [];
-        $dbTranslationTexts = TranslationText::join('translation_keys', 'translation_texts.translation_key_id', '=', 'translation_keys.id')->get();
+        $dbTranslationTexts = TranslationText::select(['translation_texts.*', 'translation_texts.id AS translation_text_id'])
+                                                ->join('translation_keys', 'translation_texts.translation_key_id', '=', 'translation_keys.id')->get();
         if ($dbTranslationTexts != null) {
             foreach($dbTranslationTexts as $dbTranslationText) {
                 $dbTranslationTextMd5 = $this->_hashFields($dbTranslationText, ['translation_locale','translation_key_id']);
@@ -90,28 +89,37 @@ class TranslationImport
 
             $inputTranslationTextMd5 = $this->_hashFields($inputTranslation, ['translation_locale','translation_key_id']);
 
-            unset($inputTranslation['id']);
             unset($inputTranslation['translation_group']);
             unset($inputTranslation['translation_namespace']);
             unset($inputTranslation['translation_key']);
 
             if (isset($dbTranslationMap[$inputTranslationTextMd5])) {
+                $inputTranslation['translation_text_id'] = $dbTranslationMap[$inputTranslationTextMd5]->translation_text_id;
                 $foundedTranslationTexts[] = $inputTranslation;
             } else {
+                // The id must be removed!!
+                unset($inputTranslation['id']);
                 $missingTranslationTexts[] = $inputTranslation;
             }
         }
 
-       /* dump($missingTranslationTexts);
-        dump($foundedTranslationTexts); */
-
-        $updatedTexts = [];
         $insertedTexts = [];
         if (!empty($missingTranslationTexts)) {
             try {
                 $insertedTexts = $this->_importTranslationTexts($missingTranslationTexts);
             } catch (Exception $e) {
                 return ['error' => 'Error when trying to import translation texts.'];
+            }
+        }
+
+        $updatedTexts = [];
+
+        // Overwrite existing texts
+        if ($this->replaceTexts) {
+            try {
+                $updatedTexts = $this->_updateTranslationTexts($foundedTranslationTexts);
+            } catch (Exception $e) {
+                return ['error' => 'Error when trying to replace translation texts.'];
             }
         }
 
@@ -158,6 +166,25 @@ class TranslationImport
             }
         }
         return $dbTranslationKeysMap;
+    }
+
+    private function _updateTranslationTexts($translationTexts)
+    {
+        $updatedTranslationTexts = [];
+
+        foreach ($translationTexts as $translationText) {
+
+            $findTranslationText = TranslationText::where('id', $translationText['translation_text_id'])->first();
+            if ($findTranslationText !== null) {
+
+                $findTranslationText->translation_text = $translationText['translation_text'];
+                $findTranslationText->save();
+
+                $updatedTranslationTexts[] = $findTranslationText->id;
+            }
+        }
+
+        return $updatedTranslationTexts;
     }
 
     private function _importTranslationTexts($translationTexts)

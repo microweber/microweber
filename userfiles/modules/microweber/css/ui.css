@@ -142,6 +142,27 @@ body.state-element .mw-row .element {
   color: #0055ff;
 }
 
+#footer_skin_6 ul {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+#footer_skin_6 ul li a {
+  padding: 0 10px;
+}
+
+#footer_skin_7 ul {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+#footer_skin_7 ul li a {
+  padding: 0 10px;
+  color: #0055ff;
+}
+
 /*END Footers Big Template*/
 
 .mw-live-edit .module {
