@@ -197,7 +197,8 @@ class ComposerUpdate
 
 
         //  $manager = new InstallationManager($loop,  $io, $eventDispatcher );
-        $composer = Factory::create($io, $composer_temp);
+       // $composer = Factory::create($io, $composer_temp);
+        $composer = ComposerFactory::create($io, $composer_temp);
         //  $composer->setInstallationManager($manager);
         $composer->setConfig($config);
 

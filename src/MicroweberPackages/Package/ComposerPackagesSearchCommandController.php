@@ -108,7 +108,6 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
         } catch (\Composer\Downloader\TransportException $e) {
             $err_msg = $e->getMessage();
             $err_code = $e->getCode();
-
             $has_error = true;
             foreach ($known_repos as $rk => $known_repo) {
                 $u = $known_repo->getRepoConfig();
