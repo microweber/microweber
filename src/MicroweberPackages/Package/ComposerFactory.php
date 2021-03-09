@@ -8,6 +8,7 @@ use Composer\Downloader;
 use Composer\Package\Archiver;
 use Composer\IO;
 use Composer\Cache as Cache;
+use Composer\Package\Locker;
 use Composer\Util\Filesystem;
 use Composer\Util\ProcessExecutor;
 use Composer\EventDispatcher\EventDispatcher;
@@ -281,7 +282,7 @@ class ComposerFactory extends Factory {
                 ? substr($composerFile, 0, -4).'lock'
                 : $composerFile . '.lock';
 
-            $locker = new Package\Locker($io, new JsonFile($lockFile, null, $io), $rm, $im, file_get_contents($composerFile));
+            $locker = new Locker($io, new JsonFile($lockFile, null, $io), $rm, $im, file_get_contents($composerFile));
             $composer->setLocker($locker);
         }
 
