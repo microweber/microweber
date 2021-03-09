@@ -1044,7 +1044,7 @@ class Format
                                 foreach ($customFieldValues as $customFieldValue) {
                                     $customFieldValuesOrdered[] = $customFieldValue->value;
                                 }
-                                if (isset($customFieldValuesOrdered[$selectedCustomField])) {
+                                if (!is_array($selectedCustomField) && isset($customFieldValuesOrdered[$selectedCustomField])) {
                                     $itemCustomFields[$customField->name] = $customFieldValuesOrdered[$selectedCustomField];
                                 }
                             }

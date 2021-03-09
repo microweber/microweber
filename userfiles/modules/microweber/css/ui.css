@@ -126,41 +126,30 @@ body.state-element .mw-row .element {
 
 .element,
 .edit .module ul li a{
-  color: #2B2B2B;
-  padding: 20px 0;
-  padding-top: 5px;
-  padding-bottom: 5px;
+color: #2B2B2B;
+padding: 20px 0;
+padding-top: 5px;
+padding-bottom: 5px;
 }
 
-#footer-skin-2 ul {
+.footer-skin-link ul {
   display: flex;
   justify-content: center;
 }
 
-#footer-skin-2 ul li a {
-  padding: 0 10px;
-  color: #0055ff;
+.footer-skin-link ul li a {
+  padding: 0 10px!important;
+  color: #0055ff!important;
 }
 
-#footer_skin_6 ul {
+.footer_skin ul {
   display: flex;
   justify-content: center;
-  margin-bottom: 0px;
+  margin-bottom: 0px!;
 }
 
-#footer_skin_6 ul li a {
-  padding: 0 10px;
-}
-
-#footer_skin_7 ul {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0px;
-}
-
-#footer_skin_7 ul li a {
-  padding: 0 10px;
-  color: #0055ff;
+.footer_skin ul li a {
+  padding: 0 10px!important;
 }
 
 /*END Footers Big Template*/

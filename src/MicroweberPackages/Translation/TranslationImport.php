@@ -22,9 +22,6 @@ class TranslationImport
             $validateImport = true;
         }
 
-        // Clear input translation
-        $inputTranslations = $this->_prepareInputTranslation($inputTranslations);
-
         if (empty($inputTranslations[0]['translation_key'])
             || empty($inputTranslations[0]['translation_namespace'])
             || empty($inputTranslations[0]['translation_group'])
@@ -35,8 +32,11 @@ class TranslationImport
         }
 
         if (!$validateImport) {
-            return ['error' => 'Can\'t import this language file.'];
+            return ['error' => 'Can\'t import this language file.', 'input'=>$inputTranslations[0]];
         }
+
+        // Clear input translation
+        $inputTranslations = $this->_prepareInputTranslation($inputTranslations);
 
         // Get All input Translation Keys
         $inputTranslationMap = [];
@@ -89,17 +89,20 @@ class TranslationImport
 
             $inputTranslationTextMd5 = $this->_hashFields($inputTranslation, ['translation_locale','translation_key_id']);
 
-            unset($inputTranslation['translation_group']);
-            unset($inputTranslation['translation_namespace']);
-            unset($inputTranslation['translation_key']);
-
             if (isset($dbTranslationMap[$inputTranslationTextMd5])) {
                 $inputTranslation['translation_text_id'] = $dbTranslationMap[$inputTranslationTextMd5]->translation_text_id;
-                $foundedTranslationTexts[] = $inputTranslation;
+                $foundedTranslationTexts[] = [
+                    'translation_key_id'=>$inputTranslation['translation_key_id'],
+                    'translation_text_id'=>$inputTranslation['translation_text_id'],
+                    'translation_text'=>$inputTranslation['translation_text'],
+                    'translation_locale'=>$inputTranslation['translation_locale'],
+                ];;
             } else {
-                // The id must be removed!!
-                unset($inputTranslation['id']);
-                $missingTranslationTexts[] = $inputTranslation;
+                $missingTranslationTexts[] = [
+                    'translation_key_id'=>$inputTranslation['translation_key_id'],
+                    'translation_text'=>$inputTranslation['translation_text'],
+                    'translation_locale'=>$inputTranslation['translation_locale'],
+                ];
             }
         }
 
@@ -225,6 +228,7 @@ class TranslationImport
             $translation['translation_namespace'] = trim($translation['translation_namespace']);
             $translation['translation_group'] = trim($translation['translation_group']);
             $translation['translation_key'] = trim($translation['translation_key']);
+            $translation['translation_text'] = trim($translation['translation_text']);
 
             $readyTranslations[$this->_hashFields($translation)] = $translation;
         }

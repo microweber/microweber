@@ -2447,6 +2447,7 @@ class ContentManager
         if ($field_type) {
             $filter['type'] = $field_type;
         }
+
         return $this->app->fields_manager->get($filter);
     }
 

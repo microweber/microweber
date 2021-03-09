@@ -10,6 +10,8 @@ namespace MicroweberPackages\Translation\tests;
 
 
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Translation\Models\TranslationKey;
+use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationImport;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 
@@ -17,6 +19,10 @@ class TranslationTest extends TestCase
 {
 
     public function testImportLanguage() {
+
+        // Truncate translation texts
+        TranslationKey::truncate();
+        TranslationText::truncate();
 
         $installLanguage = 'bg_BG';
 
@@ -62,7 +68,7 @@ class TranslationTest extends TestCase
           'translation_namespace' =>'*',
           'translation_group' =>'*',
           'translation_key' =>'Are you okay?',
-          'translation_text' =>'Всичко точно ли е?',
+          'translation_text' =>'Добре ли си?',
           'translation_locale' =>$newLocale,
         ];
 
@@ -71,7 +77,7 @@ class TranslationTest extends TestCase
             'translation_namespace' =>'*',
             'translation_group' =>'*',
             'translation_key' =>'Are you okay?',
-            'translation_text' =>'аа де',
+            'translation_text' =>'Добре ли си?-презаписано',
             'translation_locale' =>$newLocale,
         ]; // This must be not broke the importing and dublicating on translation_texts table
 
@@ -97,7 +103,7 @@ class TranslationTest extends TestCase
 
 
         $this->assertEquals('Как си?', _e('How are you?', 'true'));
-        $this->assertEquals('Всичко точно ли е?', _e('Are you okay?', 'true'));
+        $this->assertEquals('Добре ли си?-презаписано', _e('Are you okay?', 'true'));
         $this->assertEquals('Клюки', _e('Comments', 'true'));
 
 
