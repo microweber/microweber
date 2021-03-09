@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-/*Route::get('test123', function(){
+Route::get('test123', function(){
 
 
+    \MicroweberPackages\Translation\TranslationPackageInstallHelper::installLanguage('bg_BG');
 
-
-});*/
+});
 
 // Route::get('favorite-drink', '\App\Http\Controllers\Controller@favoriteDrink');
