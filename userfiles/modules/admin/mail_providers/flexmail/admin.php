@@ -33,6 +33,16 @@
         <p class="mb-0"><?php _e("This module work only with the SOAP API, not the new one that is using REST."); ?> </p>
     </div>
 
+    <?php
+    if (!extension_loaded('soap')) {
+        ?>
+        <div class="alert alert-danger">
+            <p class="mb-0"><?php _e("Contact your hosting provider to enable PHP SOAP extension."); ?> </p>
+        </div>
+    <?php
+        return false;
+    }
+    ?>
 
     <input type="hidden" name="mail_provider_name" value="flexmail"/>
     <?php foreach (get_flexmail_api_fields() as $field): ?>
