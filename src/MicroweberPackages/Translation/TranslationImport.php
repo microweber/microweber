@@ -25,7 +25,7 @@ class TranslationImport
         }
 
         // Clear input translation
-        $inputTranslations = $this->_clearInputTranslation($inputTranslations);
+        $inputTranslations = $this->_prepareInputTranslation($inputTranslations);
 
         if (empty($inputTranslations[0]['translation_key'])
             || empty($inputTranslations[0]['translation_namespace'])
@@ -72,29 +72,40 @@ class TranslationImport
             $dbTranslationKeysMap = $this->_getTranslationKeysMap();
         }
 
-        // Add translation ids to translation texts
-        $translationTextsMapWithId = [];
-        foreach($inputTranslations as &$inputTranslation) {
-            $inputTranslationMd5 = $this->_hashFields($inputTranslation);
-            $inputTranslation['translation_key_id'] = $dbTranslationKeysMap[$inputTranslationMd5];
-            $translationTextsMapWithId[$this->_hashFields($inputTranslation, ['translation_key','translation_group', 'translation_namespace','translation_key_id'])] = true;
-        }
-
-        dd($translationTextsMapWithId);
-
-        $updatedTexts = [];
-        $foundedTranslationTexts = [];
-        $missingTranslationTexts = [];
+        $dbTranslationMap = [];
         $dbTranslationTexts = TranslationText::join('translation_keys', 'translation_texts.translation_key_id', '=', 'translation_keys.id')->get();
         if ($dbTranslationTexts != null) {
             foreach($dbTranslationTexts as $dbTranslationText) {
-                $dbTranslationTextMd5 = $this->_hashFields($dbTranslationText, ['translation_key','translation_group', 'translation_namespace','translation_key_id']);
-                if (isset($translationTextsMapWithId[$dbTranslationTextMd5])) {
-                    $foundedTranslationTexts[] = $dbTranslationText;
-                }
+                $dbTranslationTextMd5 = $this->_hashFields($dbTranslationText, ['translation_locale','translation_key_id']);
+                $dbTranslationMap[$dbTranslationTextMd5] = $dbTranslationText;
             }
         }
 
+        $foundedTranslationTexts = [];
+        $missingTranslationTexts = [];
+        foreach($inputTranslations as $inputTranslation) {
+
+            $inputTranslationMd5 = $this->_hashFields($inputTranslation);
+            $inputTranslation['translation_key_id'] = $dbTranslationKeysMap[$inputTranslationMd5];
+
+            $inputTranslationTextMd5 = $this->_hashFields($inputTranslation, ['translation_locale','translation_key_id']);
+
+            unset($inputTranslation['id']);
+            unset($inputTranslation['translation_group']);
+            unset($inputTranslation['translation_namespace']);
+            unset($inputTranslation['translation_key']);
+
+            if (isset($dbTranslationMap[$inputTranslationTextMd5])) {
+                $foundedTranslationTexts[] = $inputTranslation;
+            } else {
+                $missingTranslationTexts[] = $inputTranslation;
+            }
+        }
+
+       /* dump($missingTranslationTexts);
+        dump($foundedTranslationTexts); */
+
+        $updatedTexts = [];
         $insertedTexts = [];
         if (!empty($missingTranslationTexts)) {
             try {
@@ -134,7 +145,7 @@ class TranslationImport
             }
         }
 
-        return md5($hashString);
+        return $hashString;
     }
 
     private function _getTranslationKeysMap()
@@ -155,7 +166,7 @@ class TranslationImport
 
         $translationTextsChunks = array_chunk($translationTexts, 15);
 
-        foreach ($translationTexts as $translationTextsChunk) {
+        foreach ($translationTextsChunks as $translationTextsChunk) {
             $insertedTranslationTexts[] = TranslationText::insert($translationTextsChunk);
         }
 
@@ -175,15 +186,25 @@ class TranslationImport
         return $insertedTranslationKeys;
     }
 
-    private function _clearInputTranslation($translations) {
+    private function _prepareInputTranslation($translations) {
 
-        foreach($translations as &$translation) {
+        /**
+         * Clear inputs and make unique keys
+         */
+
+        $readyTranslations = [];
+        foreach($translations as $translation) {
+
             $translation['translation_namespace'] = trim($translation['translation_namespace']);
             $translation['translation_group'] = trim($translation['translation_group']);
             $translation['translation_key'] = trim($translation['translation_key']);
+
+            $readyTranslations[$this->_hashFields($translation)] = $translation;
         }
 
-        return $translations;
+        $readyTranslations = array_values(array_filter($readyTranslations));
+
+        return $readyTranslations;
     }
 
     public function log($text)
