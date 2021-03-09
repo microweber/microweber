@@ -128,6 +128,8 @@ body.state-element .mw-row .element {
 .edit .module ul li a{
   color: #2B2B2B;
   padding: 20px 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 #footer-skin-2 ul {
