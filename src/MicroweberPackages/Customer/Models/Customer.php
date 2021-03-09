@@ -94,13 +94,17 @@ class Customer extends Model
         $filters = collect($filters);
 
         if ($filters->get('search')) {
-            $search = $filters->get('search');
-            $query->where(function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
-                $query->orWhere('first_name', 'like', '%' . $search . '%');
-                $query->orWhere('last_name', 'like', '%' . $search . '%');
-                $query->orWhere('phone', 'like', '%' . $search . '%');
-                $query->orWhere('email', 'like', '%' . $search . '%');
+
+            $keywords = explode(' ', $filters->get('search'));
+
+            $query->where(function ($query) use ($keywords) {
+                foreach ($keywords as $search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                    $query->orWhere('first_name', 'like', '%' . $search . '%');
+                    $query->orWhere('last_name', 'like', '%' . $search . '%');
+                    $query->orWhere('phone', 'like', '%' . $search . '%');
+                    $query->orWhere('email', 'like', '%' . $search . '%');
+                }
             });
         }
 

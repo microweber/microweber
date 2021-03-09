@@ -76,24 +76,13 @@
     <div class="collapse @if(request()->get('filter') == 'true') show @endif" id="show-filter">
         <div class="bg-primary-opacity-1 rounded px-3 py-2 pb-3 mt-3">
             <div class="row">
-                <div class="col">
+                <div class="col-md-10">
                     <label><?php _e('Search'); ?></label>
                     <input type="text" class="form-control" value="@if(request()->get('search')){{request()->get('search')}}@endif" name="search">
                 </div>
-
-                <div class="col">
-                    <label><?php _e('Name'); ?></label>
-                    <input type="text" class="form-control" value="@if(request()->get('name')){{request()->get('name')}}@endif" name="name">
-                </div>
-
-                <div class="col">
-                    <label><?php _e('Phone'); ?></label>
-                    <input type="text" class="form-control" value="@if(request()->get('phone')){{request()->get('phone')}}@endif" name="phone">
-                </div>
-
-                <div class="col">
+                <div class="col-md-2">
                     <label>&nbsp;</label>
-                    <button type="submit" class="btn btn-outline-primary icon-left btn-md d-block"><?php _e('Apply'); ?></button>
+                    <button type="submit" class="btn btn-outline-primary btn-block icon-left btn-md d-block"><i class="fa fa-filter"></i> <?php _e('Apply'); ?></button>
                 </div>
             </div>
         </div>
