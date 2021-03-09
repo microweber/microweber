@@ -2,8 +2,6 @@
 
 namespace MicroweberPackages\Translation;
 
-
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 

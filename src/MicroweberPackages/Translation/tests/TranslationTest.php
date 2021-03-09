@@ -86,7 +86,7 @@ class TranslationTest extends TestCase
         ];
 
         $import = new TranslationImport();
-        $import->replaceValues(true);
+        $import->replaceTexts(true);
 
         $importResponse = $import->import($newTranslations);
 
