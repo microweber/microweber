@@ -72,6 +72,7 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
     //$packages_by_type_with_update['microweber-core-update'][] = $core_update;
 }
 
+
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 // dd($packages_by_type_all,$packages_by_type_with_update);
 ?>
@@ -299,6 +300,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     $pkkeys = explode('-', $pkkey);
                                     array_shift($pkkeys);
                                     $pkkeys = implode('-', $pkkeys);
+                                    $pkkeys = url_title($pkkeys);
+
                                     ?>
                                     <a class="btn btn-outline-secondary justify-content-center <?php if ($count == 1): ?>active<?php endif; ?>" data-toggle="tab" href="#<?php echo $pkkeys; ?>"><i class="mdi mr-1 <?php if ($pkkeys == 'template'): ?>mdi-pencil-ruler<?php elseif ($pkkeys == 'module'): ?>mdi-view-grid-plus<?php elseif ($pkkeys == 'update'): ?>mdi-flash-outline<?php endif; ?>"></i> <?php print titlelize($pkkeys) ?></a>
                                 <?php endforeach; ?>
@@ -318,6 +321,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                     } else {
                                         $pkkeys = $pkkeys . ' updates';
                                     }
+                                    $pkkeys = url_title($pkkeys);
+
                                     $count = count($pkitems);
                                     $total += $count;
                                     $items .= '<a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#' . $pkkeys . '">' . titlelize($pkkeys) . '&nbsp; <sup class="badge badge-danger badge-sm badge-pill ml-2">' . $count . '</sup></a>';
@@ -337,6 +342,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 $pkkeys = explode('-', $pkkey);
                                 array_shift($pkkeys);
                                 $pkkeys = implode('-', $pkkeys);
+                                $pkkeys = url_title($pkkeys);
+
                                 ?>
                                 <div class="tab-pane fade <?php if ($count == 1): ?>show active<?php endif; ?>" id="<?php echo $pkkeys; ?>">
                                     <?php if ($pkitems) : ?>
@@ -361,6 +368,9 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                                 $pkkeys = explode('-', $pkkey);
                                 array_shift($pkkeys);
                                 $pkkeys = implode('-', $pkkeys);
+                                $pkkeys = $pkkeys . ' updates';
+
+                                $pkkeys = url_title($pkkeys);
                                 ?>
                                 <div class="tab-pane fade" id="<?php echo $pkkeys; ?>">
                                     <?php if ($pkitems) : ?>
