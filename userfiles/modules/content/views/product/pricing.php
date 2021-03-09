@@ -16,6 +16,18 @@
                 </div>
             </div>
 
+            <script>
+                $(document).ready(function () {
+                    $('.js-product-price').on('input', function () {
+                        mw.on.stopWriting(this, function () {
+                            var textPrice = $('.js-product-price').val();
+                            var formatPrice = textPrice.replace(",", "");
+                            $('.js-product-price').val(formatPrice);
+                        });
+                    });
+                });
+            </script>
+
             <?php
             if (is_module('shop/offers')):
             ?>
