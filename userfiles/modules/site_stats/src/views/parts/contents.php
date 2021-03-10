@@ -29,7 +29,7 @@ if (!$data) {
                 <div class="slug"><a href="<?php print $url; ?>" target="_blank" rel="noreferrer noopener"><?php print $item['url_slug']; ?></a></div>
             </div>
 
-            <div class=" mw-ui-col" style="width:30px;">
+            <div class=" mw-ui-col w-25";">
                 <div class="cnt"><?php print $item['sessions_count']; ?></div>
             </div>
         </div>

@@ -3,7 +3,6 @@ if (!$data) {
     return;
 }
 ?>
-
     <script>
         $(document).ready(function () {
             $('.more-info-show').on('click', function () {
@@ -58,8 +57,8 @@ if (!$data) {
 
     <div class="item visitor more-info-show" data-id="more-<?php print $item['id']; ?>">
         <div class="top-row">
-            <div class="flag"><span class="flag-icon flag-icon-<?php print strtolower($item['country_code']); ?> tip" data-tip="<?php print $item['country_name']; ?>"></span></div>
-            <div class="visitor-name"><?php print $item['user_ip']; ?></div>
+            <div class="flag"><span class="flag-icon flag-icon-<?php print strtolower($item['country_code']) == "unknown" ? "bg" : print strtolower($item['country_code']) ; ?> tip"></span></div>
+            <div class="visitor-name text-left"><?php print $item['user_ip']; ?></div>
             <div class="timestamp tip" data-tip="<?php print $item['updated_at']; ?>"><?php print mw()->format->ago($item['updated_at']); ?></div>
         </div>
         <div class="clearfix"></div>
@@ -74,10 +73,10 @@ if (!$data) {
                     echo 'Undefined';
                 }
                 ?>
-                <div class="tip pull-right" data-tip="Browser: <?php print $item['browser_name']; ?>">
+                <div class="tip pull-right mx-1" data-tip="Browser: <?php print $item['browser_name']; ?>">
                     <i class="fab fa-<?php print $browser; ?>"></i>
                 </div>
-                <div class="tip pull-right m-r-5" data-tip="OS: <?php print $item['browser_os']; ?>">
+                <div class="tip pull-right mx-1" data-tip="OS: <?php print $item['browser_os']; ?>">
                     <i class="fab fa-<?php print $os; ?>"></i>
                 </div>
             </div>
