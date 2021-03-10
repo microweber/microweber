@@ -182,26 +182,29 @@ if (isset($params['quick_edit'])) {
 <div class="<?php echo $wrapper_class; ?>">
 
     <?php
+
     $data['id'] = intval($data['id']);
     $formActionUrl = site_url() . 'api/save_content_admin';
-    if ($type == 'Page' or $type == 'Shop') {
+    if (isset($data['content_type']) and $data['content_type'] == 'page') {
         $formActionUrl = route('api.page.index');
         if ($data['id'] > 0) {
             $formActionUrl = route('api.page.update', $data['id']);
         }
     }
-    if ($type == 'Product') {
+    if (isset($data['content_type']) and $data['content_type'] == 'product') {
         $formActionUrl = route('api.product.index');
         if ($data['id'] > 0) {
             $formActionUrl = route('api.product.update', $data['id']);
         }
     }
-    if ($type == 'Post') {
+    if (isset($data['content_type']) and $data['content_type'] == 'post') {
         $formActionUrl = route('api.post.index');
         if ($data['id'] > 0) {
             $formActionUrl = route('api.post.update', $data['id']);
         }
     }
+
+
     ?>
 
     <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form <?php if($wrapper_class=='in-popup'){ ?> mw_admin_edit_content_form_in_popup <?php } ?> " action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">

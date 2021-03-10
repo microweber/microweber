@@ -92,10 +92,11 @@ class CategoryManager
         if(isset($params['use_cache']) and intval($params['use_cache']) == 0){
             $renderer->setUseCache(0);
 
-        } else {
+        } else { 
             $renderer->setUseCache(1);
 
         }
+      //  $renderer->setUseCache(0);
 
 
 //        if (isset($params['tree_data']) && is_array($params['tree_data'])) {
