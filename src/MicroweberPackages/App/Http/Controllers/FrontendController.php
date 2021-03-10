@@ -2164,9 +2164,19 @@ class FrontendController extends Controller
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
 
-            $liv_ed_css = $this->app->template->get_custom_css_url();
-            if ($liv_ed_css != false) {
+
+
+
+            $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
+            if(!$liv_ed_css_get_custom_css_content){
+                $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
+            } else {
+                $liv_ed_css = $this->app->template->get_custom_css_url();
+
                 $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
+            }
+
+            if ($liv_ed_css != false) {
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
             //    }

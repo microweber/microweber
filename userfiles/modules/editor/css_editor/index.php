@@ -111,7 +111,12 @@
             },
             function(){
                 var el = (window.opener || top).$('#mw-custom-user-css')[0];
+
+                if(el){
+                var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
+                el.href = custom_fonts_stylesheet_restyled;
                 mw.tools.refresh(el)
+                }
             });
         }
 
