@@ -79,13 +79,14 @@
                     mw.tools.classNamespaceDelete(target, 'mw-micon-', undefined, undefined, []);
                 },
                 icons: function () {
-                    var scope = this;
+                     var scope = this;console.log(1212)
                     var parse = function (cssLink) {
                         if(!cssLink.sheet){
                             return;
                         }
                         var icons = cssLink.sheet.cssRules;
-                        var l = icons.length, i = 0, mindIcons = [];
+                         var l = icons.length, i = 0, mindIcons = [];
+                         console.log(icons)
                         for (; i < l; i++) {
                             var sel = icons[i].selectorText;
                             if (!!sel && sel.indexOf('.mw-micon-') === 0) {
@@ -93,6 +94,7 @@
                                 mindIcons.push(cls);
                             }
                         }
+                        return mindIcons
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/line"]');
@@ -145,9 +147,11 @@
                                 mindIcons.push(cls);
                             }
                         }
+                        return mindIcons
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]');
+                        console.log(cssLink)
                         if(cssLink) {
                             cb.call(undefined, cssLink);
                         }  else {
@@ -282,6 +286,7 @@
         var addFontIconSet = function (options) {
             options.version = options.version || defaultVersion;
             iconSetPush(options);
+
             if (typeof options.load === 'string') {
                 mw.require(options.load);
             } else if (typeof options.load === 'function') {
@@ -289,6 +294,7 @@
             }
         };
         var addIconSet = function (conf) {
+
             if(typeof conf === 'string') {
                 if (common[conf]) {
                     conf = common[conf];
@@ -297,7 +303,7 @@
                     return;
                 }
             }
-            if(!conf) return;
+             if(!conf) return;
             conf.type = conf.type || 'font';
             if (conf.type === 'font') {
                 return addFontIconSet(conf);
@@ -453,7 +459,7 @@
             var sets = loader.storage();
             var all = sets.length;
             var i = 0;
-            sets.forEach(function (set){
+             sets.forEach(function (set){
                  if (!set._iconsLists) {
                      (function (aset){
                          aset.icons().then(function (data){

@@ -2732,13 +2732,7 @@ mw.wysiwyg.dropdowns = function () {
         mw.$(this).find('.mw-dropdown-content').hide()
     })
 };
-$(mwd).ready(function () {
-
-
-    mw.wysiwyg.initClassApplier();
-
-    mw.wysiwyg.dropdowns();
-
+$(window).on('load', function () {
     mw.editorIconPicker = mw.iconPicker({
         iconOptions: { reset: true }
     });
@@ -2765,6 +2759,15 @@ $(mwd).ready(function () {
 
         mw.wysiwyg.change(mw.editorIconPicker.target)
     });
+})
+$(mwd).ready(function () {
+
+
+    mw.wysiwyg.initClassApplier();
+
+    mw.wysiwyg.dropdowns();
+
+
 
 
     if (!mw.wysiwyg._fontcolorpicker) {
