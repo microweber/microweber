@@ -549,9 +549,9 @@ class ContentManager
         if (is_array($data)) {
 
             if ($no_wrap) {
-                $to_print = "";
+                $to_print = "<ul class='{$class}'>";
             } else {
-                $to_print = "";
+                $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
             }
 
             if ($current_page_from_url > 1 && isset($params['show_first_last'])) {
@@ -693,9 +693,9 @@ class ContentManager
             $to_print .= implode("\n", $paging_items);
 
             if ($no_wrap) {
-                $to_print .= '';
+                $to_print .= '</ul>';
             } else {
-                $to_print .= '';
+                $to_print .= '</ul></div>';
             }
 
             return $to_print;
