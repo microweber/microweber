@@ -394,7 +394,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <div class="mw-ui-field-holder"><br/>
                                 <span class="font-weight-bold"><?php _e("Content type"); ?>: &nbsp;</span>
 
-                                <button class="btn btn-outline-warning btn-sm" data-toggle="collapse" data-target="#content-type-settings"><?php print($data['content_type']) ?></button>
+                                <button class="btn btn-outline-warning btn-sm" type="button" data-toggle="collapse" data-target="#content-type-settings"><?php print($data['content_type']) ?></button>
 
                                 <div class="collapse" id="content-type-settings">
                                     <div class="alert alert-dismissible alert-warning mt-3">

@@ -140,7 +140,7 @@ class ContentManagerCrud extends Crud
             $do_not_replace_site_url = $params['do_not_replace_site_url'];
         }
 
-        $cache_group = 'content/global';
+        $cache_group = 'content';
         if (isset($params['cache_group'])) {
             $cache_group = $params['cache_group'];
         }
