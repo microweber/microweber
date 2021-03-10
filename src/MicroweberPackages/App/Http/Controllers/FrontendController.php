@@ -32,8 +32,6 @@ class FrontendController extends Controller
     public $debugbarEnabled = false;
 
 
-
-
     public function __construct($app = null)
     {
         if (!is_object($this->app)) {
@@ -979,9 +977,7 @@ class FrontendController extends Controller
 
             unset($data['ondrop']);
         }
-       // d($data);
-
-
+        // d($data);
 
 
         $opts = array();
@@ -990,7 +986,7 @@ class FrontendController extends Controller
         }
 
 
-        if(isset($opts['class']) and is_string($opts['class']) and strstr($opts['class'],'module-as-element')){
+        if (isset($opts['class']) and is_string($opts['class']) and strstr($opts['class'], 'module-as-element')) {
             $opts['module_as_element'] = true;
             $opts['populate_module_ids_in_elements'] = true;
         }
@@ -1005,7 +1001,7 @@ class FrontendController extends Controller
             if (is_file($possible_layout)) {
                 $l = new View($possible_layout);
                 $layout = $l->__toString();
-                $layout = $this->app->parser->process($layout, $opts );
+                $layout = $this->app->parser->process($layout, $opts);
                 return response($layout);
             }
         }
@@ -1017,7 +1013,7 @@ class FrontendController extends Controller
             if (is_file($possible_layout)) {
                 $l = new View($possible_layout);
                 $layout = $l->__toString();
-                $layout = $this->app->parser->process($layout, $opts );
+                $layout = $this->app->parser->process($layout, $opts);
                 return response($layout);
 
 
@@ -1061,7 +1057,6 @@ class FrontendController extends Controller
         $tags = "<module {$tags} />";
 
 
-
         if (isset($request_data['live_edit'])) {
             event_trigger('mw.live_edit');
         }
@@ -1102,7 +1097,7 @@ class FrontendController extends Controller
 
         $aj = $this->app->url_manager->is_ajax();
 
-        if ((isset($request_data['live_edit']) or isset($request_data['admin'])  ) and $aj == false) {
+        if ((isset($request_data['live_edit']) or isset($request_data['admin'])) and $aj == false) {
             $p_index = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
             $p_index = normalize_path($p_index, false);
             $l = new View($p_index);
@@ -1404,21 +1399,21 @@ class FrontendController extends Controller
                 $compile_assets = \Config::get('microweber.compile_assets');
 
                 $output_cache_content = false;
-                $output_cache_id = 'full_page_cache_'.__FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
+                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
-                $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group,$output_cache_timeout);
+                $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 
-                if($output_cache_content_data and isset($output_cache_content_data['layout']) and isset($output_cache_content_data['time'])){
+                if ($output_cache_content_data and isset($output_cache_content_data['layout']) and isset($output_cache_content_data['time'])) {
                     $output_cache_content = $output_cache_content_data['layout'];
                 }
 
                 if ($output_cache_content != false and !str_contains($output_cache_content, 'image-generate-tn-request')) {
                     return \Response::make($output_cache_content)
-                         ->header('Cache-Control', 'public, max-age=10800, pre-check=10800')
-                         ->header('Last-Modified', \Carbon::parse($output_cache_content_data['time'])->toRfc850String())
-                         ->header('Pragma', 'public')
-                         ->setEtag(md5($output_cache_id))
-                         ->header('X-App-Full-Page-Cache', true);
+                        ->header('Cache-Control', 'public, max-age=10800, pre-check=10800')
+                        ->header('Last-Modified', \Carbon::parse($output_cache_content_data['time'])->toRfc850String())
+                        ->header('Pragma', 'public')
+                        ->setEtag(md5($output_cache_id))
+                        ->header('X-App-Full-Page-Cache', true);
                 }
 
             }
@@ -1512,8 +1507,6 @@ class FrontendController extends Controller
                 }
 
 
-
-
                 // if ($found_mod == false) {
                 if (empty($page)) {
                     $the_new_page_file = false;
@@ -1545,8 +1538,8 @@ class FrontendController extends Controller
                         $td_f = $td_base . DS . $page_url_segment_3_str;
                         $td_fd = $td_base . DS . $page_url_segment_3_str_copy;
                         $td_fd2 = $td_base . DS . $page_url_segment_3[0];
-                        $td_fd2_file = $td_fd2.'.php';
-                    //
+                        $td_fd2_file = $td_fd2 . '.php';
+                        //
 
                         if (is_file($td_fd2_file)) {
                             $the_new_page_file = $td_fd2_file;
@@ -1639,7 +1632,6 @@ class FrontendController extends Controller
                             $enable_full_page_cache = false;
 
 
-
                             if ($show_404_to_non_admin) {
 //                                $content_from_event = event_trigger('mw.frontend.404', $page);
 //                                if($content_from_event and !empty($content_from_event)){
@@ -1676,12 +1668,11 @@ class FrontendController extends Controller
 
                                     $file_for_module = 'module.php';
                                     $render_file_for_module = $td_base . $file_for_module;
-                                    if(is_file($render_file_for_module)){
+                                    if (is_file($render_file_for_module)) {
                                         $file_for_module = 'module.php';
-                                    } else if(is_file($render_file_for_module)){
+                                    } else if (is_file($render_file_for_module)) {
                                         $file_for_module = 'clean.php';
                                     }
-
 
 
                                     template_var('no_edit', 1);
@@ -1694,7 +1685,7 @@ class FrontendController extends Controller
                                         $mod_params = $mod_params . " id='{$preview_module_id}' ";
                                     }
                                     $found_mod = $page_url;
-                                    $page['simply_a_file'] =$file_for_module;
+                                    $page['simply_a_file'] = $file_for_module;
                                     $page['layout_file'] = $file_for_module;
                                     $page['content'] = '<module type="' . $page_url . '" ' . $mod_params . '  />';
 
@@ -1751,7 +1742,7 @@ class FrontendController extends Controller
                         $page['simply_a_file'] = $simply_a_file;
                         template_var('new_page', $page);
                         template_var('simply_a_file', $simply_a_file);
-                         $show_404_to_non_admin = false;
+                        $show_404_to_non_admin = false;
 
                         $enable_full_page_cache = false;
 
@@ -1761,7 +1752,7 @@ class FrontendController extends Controller
             }
         }
 
-         if ($show_404_to_non_admin and !$is_admin) {
+        if ($show_404_to_non_admin and !$is_admin) {
             $page['simply_a_file'] = '404.php';
             $page['layout_file'] = '404.php';
 
@@ -1796,7 +1787,6 @@ class FrontendController extends Controller
 
             $content['active_site_template'] = $is_preview_template;
         }
-
 
 
         if ($is_layout_file != false and $is_admin == true) {
@@ -2061,6 +2051,7 @@ class FrontendController extends Controller
             $is_admin = $this->app->user_manager->is_admin();
             // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
 
+
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
@@ -2124,7 +2115,6 @@ class FrontendController extends Controller
                 $l = str_ireplace('</body>', $template_footer_src . '</body>', $l, $one);
             }
 
-            $l = str_ireplace('<head>', '<head>' . $default_css, $l);
 
 
             $l = $this->app->template->append_api_js_to_layout($l);
@@ -2189,7 +2179,7 @@ class FrontendController extends Controller
             }
 
             if (defined('MW_VERSION')) {
-                $generator_tag = "\n" . '<meta name="generator" content="'.addslashes(mw()->ui->brand_name()).'" />' . "\n";
+                $generator_tag = "\n" . '<meta name="generator" content="' . addslashes(mw()->ui->brand_name()) . '" />' . "\n";
                 $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
             }
 
@@ -2208,6 +2198,23 @@ class FrontendController extends Controller
 
 
             }
+
+
+            $template_config = $this->app->template->get_config();
+
+            $enable_default_css = true;
+            if ($template_config and isset($template_config["standalone_ui"]) and $template_config["standalone_ui"]) {
+                if(!$is_editmode and !$back_to_editmode) {
+                    $enable_default_css = false;
+                }
+            }
+            if ($enable_default_css) {
+                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+            }
+
+
+
+
 
 
             if (isset($content['original_link']) and $content['original_link'] != '') {
@@ -2277,12 +2284,6 @@ class FrontendController extends Controller
             }
 
 
-
-
-
-
-
-
             $l = $this->app->parser->replace_url_placeholders($l);
 
 
@@ -2319,8 +2320,8 @@ class FrontendController extends Controller
                     $output_cache_content_save = [];
                     $l = $this->app->parser->replace_non_cached_modules_with_placeholders($l);
 
-                    $output_cache_content_save['layout']  = $l;
-                    $output_cache_content_save['time']  = now();
+                    $output_cache_content_save['layout'] = $l;
+                    $output_cache_content_save['time'] = now();
                     if (!str_contains($output_cache_content, 'image-generate-tn-request')) {
                         $this->app->cache_manager->save($output_cache_content_save, $output_cache_id, $output_cache_group, $output_cache_timeout);
                     } else {
@@ -2396,7 +2397,7 @@ class FrontendController extends Controller
 
             // >>> Add categories
             $categories = get_categories('no_limit=1');
-            foreach($categories as $category) {
+            foreach ($categories as $category) {
                 $link = category_link($category['id']);
                 $map->addPage($link, 'daily', 1, $category['updated_at']);
             }
@@ -2405,7 +2406,7 @@ class FrontendController extends Controller
 
             if (!empty($cont)) {
                 foreach ($cont as $item) {
-                    if(!empty($item['content_type']) && !empty($item['url']) && in_array($item['content_type'], ['page', 'product', 'post'])) {
+                    if (!empty($item['content_type']) && !empty($item['url']) && in_array($item['content_type'], ['page', 'product', 'post'])) {
                         $map->addPage($this->app->content_manager->link($item['id']), 'daily', 1, $item['updated_at']);
                     }
                 }
@@ -2458,7 +2459,7 @@ class FrontendController extends Controller
             if (is_array($res)) {
                 $res = json_encode($res);
             } else if (is_bool($res)) {
-                $res = (bool) $res;
+                $res = (bool)$res;
             }
             $response = \Response::make($res, $status_code);
             return $response;
@@ -2656,7 +2657,7 @@ class FrontendController extends Controller
 
 
             // $is_admin = $this->app->user_manager->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
+            // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
 
@@ -2730,8 +2731,8 @@ class FrontendController extends Controller
         if (!$standalone_edit) {
             if (isset($page['render_file'])) {
                 if (!isset($page['layout_file'])) {
-                    $page['layout_file'] = str_replace(template_dir(),'',$page['render_file']);
-                 }
+                    $page['layout_file'] = str_replace(template_dir(), '', $page['render_file']);
+                }
                 event_trigger('mw.front', $page);
                 $l = new View($page['render_file']);
                 $l->page_id = PAGE_ID;
