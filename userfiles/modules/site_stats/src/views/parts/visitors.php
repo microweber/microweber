@@ -57,7 +57,14 @@ if (!$data) {
 
     <div class="item visitor more-info-show" data-id="more-<?php print $item['id']; ?>">
         <div class="top-row">
-            <div class="flag"><span class="flag-icon flag-icon-<?php print strtolower($item['country_code']) == "unknown" ? "bg" : print strtolower($item['country_code']) ; ?> tip"></span></div>
+            <div class="flag"><span
+                <?php
+                if (strtolower($item['country_code']) == "unknown") {
+                    print "class='mdi mdi-earth tip'";
+                   }  else {
+                     ?> class='flag-icon flag-icon-<?php print strtolower($item['country_code'] . " " . "tip");
+                    }
+                    ?>'></span></div>
             <div class="visitor-name text-left"><?php print $item['user_ip']; ?></div>
             <div class="timestamp tip" data-tip="<?php print $item['updated_at']; ?>"><?php print mw()->format->ago($item['updated_at']); ?></div>
         </div>
