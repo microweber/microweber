@@ -6,7 +6,7 @@
         var scope = this;
 
         var defaultVersion = '-1';
-        
+
         var common = {
             'fontAwesome': {
                 cssSelector: '.fa',
