@@ -13,7 +13,7 @@ if (!$data) {
                 <div class="title"><?php print $item['country_name']; ?></div>
             </div>
 
-            <div class=" mw-ui-col" style="width:30px;">
+            <div class=" mw-ui-col">
                 <div class="cnt"><?php print $item['sessions_count']; ?></div>
             </div>
         </div>
