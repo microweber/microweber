@@ -92,7 +92,7 @@ class CategoryManager
         if(isset($params['use_cache']) and intval($params['use_cache']) == 0){
             $renderer->setUseCache(0);
 
-        } else { 
+        } else {
             $renderer->setUseCache(1);
 
         }
