@@ -221,11 +221,8 @@ class Template
         }
     }
 
-    public function get_custom_css()
+    public function get_custom_css_content()
     {
-        if (!defined('MW_NO_SESSION')) {
-            define('MW_NO_SESSION', 1);
-        }
         ob_start();
 
         event_trigger('mw.template.print_custom_css_includes');
@@ -244,7 +241,16 @@ class Template
         $output = ob_get_contents();
         ob_end_clean();
 
-        $l = $output;
+
+        return $output;
+    }
+
+
+    public function get_custom_css()
+    {
+
+
+        $l = $this->get_custom_css_content();
         $compile_assets = \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
@@ -266,7 +272,7 @@ class Template
             }
         }
 
-        return $output;
+        return $l;
     }
 
 
@@ -367,7 +373,7 @@ class Template
          });
         </script> 
        ';
-        $ajax = $ajax .  ' <meta name="csrf-token" content="" />';
+        $ajax = $ajax . ' <meta name="csrf-token" content="" />';
 
         $one = 1;
         //   $layout = str_ireplace('</head>', $add . '</head>', $layout, $one);
