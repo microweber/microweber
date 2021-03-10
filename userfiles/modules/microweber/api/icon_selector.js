@@ -6,10 +6,7 @@
         var scope = this;
 
         var defaultVersion = '-1';
-
-        var iconsCache = {};
-
-
+        
         var common = {
             'fontAwesome': {
                 cssSelector: '.fa',
@@ -79,15 +76,14 @@
                     mw.tools.classNamespaceDelete(target, 'mw-micon-', undefined, undefined, []);
                 },
                 icons: function () {
-                     var scope = this;console.log(1212)
+                    var scope = this;
                     var parse = function (cssLink) {
                         if(!cssLink.sheet){
                             return;
                         }
                         var icons = cssLink.sheet.cssRules;
                          var l = icons.length, i = 0, mindIcons = [];
-                         console.log(icons)
-                        for (; i < l; i++) {
+                         for (; i < l; i++) {
                             var sel = icons[i].selectorText;
                             if (!!sel && sel.indexOf('.mw-micon-') === 0) {
                                 var cls = sel.replace(".", '').split(':')[0];
