@@ -311,6 +311,9 @@ if (isset($params['quick_edit'])) {
                                             var collapsedIn = fn === this && sel.isCollapsed;
                                             slugEdited = true;
                                             contentChanged(true)
+                                            if (mw.event.is.enter(e)  ) {
+                                                e.preventDefault();
+                                            }
                                             if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
                                                 if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
                                                     e.preventDefault();
