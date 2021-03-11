@@ -78,3 +78,15 @@ if (!function_exists('lipsum')) {
         return character_limiter($lipsum, $number_of_characters, '');
     }
 }
+
+if (!function_exists('get_flag_icon')) {
+    function get_flag_icon($locale)
+    {
+
+        $flagIcon = \MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
+        if ($flagIcon) {
+            return $flagIcon;
+        }
+
+    }
+}

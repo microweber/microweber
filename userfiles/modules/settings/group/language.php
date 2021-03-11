@@ -81,7 +81,7 @@ if (is_module('multilanguage')) {
                                                 <script>mw.require('admin_package_manager.js');</script>
                                                 <script>
                                                     function openMultilangEditModal() {
-                                                        <?php if(is_module('multilanguage')): ?>
+                                                        <?php if (is_module('multilanguage')): ?>
                                                         var data = {};
                                                         data.show_settings_link = "true";
                                                         openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
@@ -92,7 +92,11 @@ if (is_module('multilanguage')) {
                                                             title: 'Edit'
                                                         });
                                                         <?php else: ?>
-                                                        mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/multilanguage', $(this).attr('vkey'), this);
+                                                        mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/multilanguage', $(this).attr('vkey'), this, function(response) {
+
+                                                            alert('QKOO');
+
+                                                        });
                                                         <?php endif; ?>
                                                     }
                                                 </script>
