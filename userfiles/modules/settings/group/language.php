@@ -101,13 +101,21 @@ if (is_module('multilanguage')) {
                                                     }
                                                 </script>
 
-                                                <a onclick="openMultilangEditModal()" class="btn btn-primary">
                                                     <?php if ($hasMultilanguageModuleActivated): ?>
+                                                        <a onclick="openMultilangEditModal()" class="btn btn-primary">
                                                     <?php _e('Manage Multilanguage'); ?>
+                                                     </a>
                                                     <?php else: ?>
-                                                    <?php _e('Activate Multilanguage Module'); ?>
+                                                     <?php if (is_module('multilanguage')): ?>
+                                                    <a onclick="openMultilangEditModal()" class="btn btn-primary">
+                                                        <?php _e('Activate Multilanguage Module'); ?>
+                                                    </a>
+                                                        <?php else: ?>
+                                                            <a onclick="openMultilangEditModal()" class="btn btn-success">
+                                                               <i class="fa fa-download"></i> <?php _e('Install Multilanguage Module'); ?>
+                                                            </a>
+                                                        <?php endif; ?>
                                                     <?php endif;?>
-                                                </a>
                                             </div>
                                         </div>
                                     </div>
