@@ -74,7 +74,7 @@
             <div class="card style-1 h-100">
                 <div class="card-header"><?php _e('Locations'); ?></div>
                 <div class="card-body overflow-auto locations">
-                    <module type="site_stats/admin2" view="locations_list" period="<?php print $period; ?>"/>
+                    <module type="site_stats/admin" view="locations_list" period="<?php print $period; ?>"/>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
             <div class="card style-1 h-100">
                 <div class="card-header"><?php _e('Browser language'); ?></div>
                 <div class="card-body overflow-auto locations">
-                    <module type="site_stats/admin2" view="languages_list" period="<?php print $period; ?>"/>
+                    <module type="site_stats/admin" view="languages_list" period="<?php print $period; ?>"/>
                 </div>
             </div>
         </div>

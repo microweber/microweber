@@ -121,8 +121,7 @@ Primary style
   display: block;
   padding: 15px;
   opacity: 1;
-  -webkit-transition: opacity width 0.2s;
-  transition: opacity width 0.2s;
+
 }
 .microweber menu:hover panel img {
   box-sizing: content-box;
@@ -169,65 +168,8 @@ Primary style
 .microweber img {
   max-width: 100%;
 }
-.microweber droppableArea {
-  height: 100px;
-  width: 100%;
-  display: block;
-  position: relative;
-  background-color: rgba(21, 14, 21, 0.9);
-  -webkit-transition: height 0.4s, color 0.3s;
-  transition: height 0.4s, color 0.3s;
-}
-.microweber droppableArea.hover {
-  background-color: #1ACC2F;
-  height: 300px;
-  -webkit-transition: height 0.4s, color 0.3s;
-  transition: height 0.4s, color 0.3s;
-}
-.microweber options {
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.microweber options:hover nav {
-  opacity: 1;
-}
-.microweber options nav,
-.microweber options nav:hover {
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-}
-.microweber options nav.toggled {
-  opacity: 1;
-}
-.microweber options.options1 {
-  background: URL("../img/1.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-  background-position: center center;
-  height: 100%;
-  position: relative;
-}
-.microweber options.options2 {
-  background: URL("../img/bg.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.microweber options.options3 {
-  background: URL("../img/3.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
-  height: 60%;
-  position: relative;
-}
+
+
 .microweber nav {
   position: absolute;
   z-index: 2;

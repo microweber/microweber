@@ -25,9 +25,13 @@ if (isset($item['created_by'])) {
     }
 }
 
+$is_new = false;
+if(($order and isset($order['order_status']) and $order['order_status'] == 'new') or (isset($params['new']) AND $params['new'] == true) OR isset($item['is_read']) AND $item['is_read'] == 0){
+    $is_new = true;
 
+}
 ?>
-<div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ((isset($params['new']) AND $params['new'] == true) OR isset($item['is_read']) AND $item['is_read'] == 0): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ($is_new): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">
             <div class="col-12 col-md-6">
@@ -62,7 +66,7 @@ if (isset($item['created_by'])) {
             <div class="col-12 col-md-6">
                 <div class="row align-items-center h-100">
                     <div class="col-6 col-sm-4 col-md item-amount">
-                        <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?><br/><?php endif; ?>
+                        <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount'], $order['currency']) ; ?><br/><?php endif; ?>
                         <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?>
 
                            <?php if (isset($item['payment_status']) && $item['payment_status']): ?>
@@ -159,7 +163,18 @@ if (isset($item['created_by'])) {
                         <small class="text-muted"><?php _e("Amount"); ?>:</small>
                         <p>
                             <?php if (isset($order['amount'])): ?>
-                                <?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?>
+                                <?php echo currency_format($order['amount'], $order['currency']) ; ?>
+                            <?php else: ?>
+                                    N/A
+                            <?php endif; ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <small class="text-muted"><?php _e("Payment Amount"); ?>:</small>
+                        <p>
+                            <?php if (isset($order['payment_amount'])): ?>
+                                <?php echo currency_format($order['payment_amount'], $order['payment_currency']) ; ?>
                             <?php else: ?>
                                     N/A
                             <?php endif; ?>

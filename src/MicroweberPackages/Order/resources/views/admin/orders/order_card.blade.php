@@ -1,19 +1,37 @@
 <?php
+
+
+if(!$order){
+    return;
+}
+
 $orderUser = $order->user()->first();
 if ($order->customer_id > 0) {
     $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $order->customer_id)->first();
 }
 
-$carts = $order->cart()->with('products')->get();
-$firstProduct = [];
-foreach ($carts as $cart) {
-    if(isset($cart->products[0])){
-    $firstProduct = $cart->products[0];
-    break;
+if($order){
+    $carts = $order->cart()->with('products')->get();
+    $firstProduct = [];
+    foreach ($carts as $cart) {
+        if(isset($cart->products[0])){
+            $firstProduct = $cart->products[0];
+            break;
+        }
     }
+
+    $item = $order->toArray();
+
+    $is_order = true;
+
+    include module_dir('admin/notifications') . 'notif_order.php';
 }
+
+return;
 ?>
-<div class="card mb-3 not-collapsed-border collapsed card-order-holder <?php if ($order['order_status'] == 'new'): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>
+<?php
+
+/*<div class="card mb-3 not-collapsed-border collapsed card-order-holder <?php if ($order['order_status'] == 'new'): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>
 
         " data-toggle="collapse" data-target="#notif-order-item-<?php echo $order['id'];?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
@@ -219,4 +237,5 @@ foreach ($carts as $cart) {
             </div>
         </div>
     </div>
-</div>
+</div>*/
+?>

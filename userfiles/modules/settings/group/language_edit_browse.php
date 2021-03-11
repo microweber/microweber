@@ -26,7 +26,7 @@ if(empty($supportedLanguages)){
     $currentLanguageAbr = mw()->lang_helper->default_lang();
 
     $supportedLanguages[] = [
-        'icon'=>$currentLanguageAbr,
+        'icon'=>get_flag_icon($currentLanguageAbr),
         'locale'=>$currentLanguageAbr,
         'language'=>$currentLanguageAbr
     ];
@@ -202,11 +202,10 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
 
                                 <div class="input-group mb-3">
 
-
                                     <div class="input-group-prepend">
-                                <span class="input-group-text" >
-                                 <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
-                                </span>
+                                        <span class="input-group-text" >
+                                         <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
+                                        </span>
                                     </div>
                                     <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
                                     <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">

@@ -1246,7 +1246,7 @@ mw._initHandles = {
             }
 
 
-            mw.handleColumns.show()
+            mw.handleColumns.show();
 
             mw.$(mw.handleColumns.wrapper).css({
                 top: htop,
@@ -1261,9 +1261,6 @@ mw._initHandles = {
             if(!element.id){
                 element.id = "element_row_" + mw.random() ;
             }
-
-
-
 
         });
     },

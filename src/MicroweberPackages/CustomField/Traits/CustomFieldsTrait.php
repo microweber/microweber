@@ -40,6 +40,9 @@ trait CustomFieldsTrait {
 
         static::saved(function($model) {
 
+            // Append custom fields to content when content is created
+            CustomField::where('rel_id', 0)->update(['rel_id'=>$model->id]);
+
             if (!empty($model->_addCustomFields)) {
                 foreach ($model->_addCustomFields as $customField) {
 

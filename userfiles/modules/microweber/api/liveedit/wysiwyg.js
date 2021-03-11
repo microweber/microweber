@@ -2690,7 +2690,7 @@ mw.wysiwyg.dropdowns = function () {
         mw.$(this).find('.mw-dropdown-content').hide()
     })
 };
-$(document).ready(function () {
+$(mwd).ready(function () {
 
 
     mw.wysiwyg.initClassApplier();
@@ -2723,6 +2723,15 @@ $(document).ready(function () {
 
         mw.wysiwyg.change(mw.editorIconPicker.target)
     });
+})
+$(mwd).ready(function () {
+
+
+    mw.wysiwyg.initClassApplier();
+
+    mw.wysiwyg.dropdowns();
+
+
 
 
     if (!mw.wysiwyg._fontcolorpicker) {
