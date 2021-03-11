@@ -89,7 +89,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
                     values.unzip_cache_key =  msg.unzip_cache_key;
                     mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals = values;
                     setTimeout(function(){
-                        mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values);
+                        mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values, callback);
 
                     }, 500);
 
@@ -99,7 +99,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
                 }
             } else {
 
-                if (typeof callback === "function") {
+                if (callback) {
                     return callback;
                 }
 
