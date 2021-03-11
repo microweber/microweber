@@ -100,7 +100,7 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
             } else {
 
                 if (callback) {
-                    return callback(msg);
+                    return callback(msg); 
                 }
 
                 mw.notification.msg(msg);
