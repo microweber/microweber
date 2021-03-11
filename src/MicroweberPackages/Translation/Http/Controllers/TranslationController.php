@@ -35,7 +35,10 @@ class TranslationController {
 
         $import = new TranslationImport();
         $replace_values = intval($request->post('replace_values'));
-        return $import->import($translations,$replace_values);
+
+        $import->replaceTexts($replace_values);
+
+        return $import->import($translations);
 
     }
 

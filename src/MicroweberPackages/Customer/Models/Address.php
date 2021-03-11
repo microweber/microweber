@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,7 +8,10 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Address extends Model
 {
-    //use CacheableQueryBuilderTrait;
+    public $table = 'addresses';
+
+    use CacheableQueryBuilderTrait;
+    public $cacheTagsToClear = [ 'addresses', 'customers', 'users','countries'];
 
     const BILLING_TYPE = 'billing';
     const SHIPPING_TYPE = 'shipping';

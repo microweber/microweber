@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Database\Casts\StripTagsCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
@@ -164,11 +165,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return (\Auth::attempt(array('email' => $email, 'password' => $password), $remember));
     }
 
-    public function getFormattedCreatedAtAttribute($value)
-    {
-        $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
-        return Carbon::parse($this->created_at)->format($dateFormat);
-    }
+//    public function getFormattedCreatedAtAttribute($value)
+//    {
+//        $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
+//        return Carbon::parse($this->created_at)->format($dateFormat);
+//    }
 
     /**
      * Override the mail body for reset password notification mail.
@@ -200,13 +201,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->hasOne(Customer::class);
     }
 
-    public function scopeWhereCompany($query, $company_id)
-    {
-        $query->where('users.company_id', $company_id);
-    }
+//    public function scopeWhereCompany($query, $company_id)
+//    {
+//        $query->where('users.company_id', $company_id);
+//    }
 
     public function scopeApplyInvoiceFilters($query, array $filters)
     {
@@ -271,5 +272,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return true;
     }
+
+
 
 }

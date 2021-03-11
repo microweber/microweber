@@ -2,8 +2,7 @@
     mw.require('ui.css')
     mw.lib.require('material_icons')
 </script>
-<link rel="stylesheet" href="http://localhost/mw1/userfiles/modules/microweber/css/fonts/mw-icons-mind/line/style.css">
-<link rel="stylesheet" href="http://localhost/mw1/userfiles/modules/microweber/css/fonts/mw-icons-mind/solid/style.css">
+
 <style>
     body {
         font-family: 'Open Sans', sans-serif !important;

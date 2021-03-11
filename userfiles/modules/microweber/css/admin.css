@@ -349,3 +349,8 @@ div.form-control {
 .mw-dialog-module-settings .mw-dialog-container{
     padding: 0 !important;
 }
+
+
+.copyright .text-muted a {
+    color: var(--gray);
+}

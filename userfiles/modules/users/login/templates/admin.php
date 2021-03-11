@@ -14,14 +14,14 @@ description: Admin login style
 
 <?php
 $user = user_id();
-$selected_lang = 'en';
+$selectedLang = 'en';
 
 if (isset($_COOKIE['lang'])) {
-    $selected_lang = $_COOKIE['lang'];
+    $selectedLang = $_COOKIE['lang'];
 }
 
-$current_lang = current_lang();
-//$current_lang = app()->lang_helper->default_lang();
+$currentLang = current_lang();
+//$currentLang = app()->lang_helper->default_lang();
 
 
 if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link == false) {
@@ -104,21 +104,29 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                                 <module type="captcha" template="admin"/>
                                             </div>
                                         <?php endif; ?>
+
+
                                         <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label class="text-muted"><?php _e("Language"); ?>:</label>
+                                        <?php
+                                        $supportedLanguages = \MicroweberPackages\Translation\Models\TranslationText::groupBy('translation_locale')->get();
+                                        if ($supportedLanguages !== null) {
+                                        ?>
+                                        <div class="form-group">
+                                            <label class="text-muted"><?php _e("Language"); ?>:</label>
 
-                                                <?php
-                                                $langs = \MicroweberPackages\Translation\TranslationPackageInstallHelper::getAvailableTranslations();
-                                                ?>
+                                            <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
 
-                                                <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($current_lang != 'en' and $current_lang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($current_lang); ?><?php else: ?>English<?php endif; ?>">
-
-                                                    <?php foreach ($langs as $langKey=>$langValue): ?>
-                                                        <option value="<?php print $langKey; ?>" <?php if ($selected_lang == $langKey) { ?> selected <?php } ?>><?php print $langValue; ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
+                                                <?php foreach ($supportedLanguages as $supportedLanguage): ?>
+                                                    <option value="<?php print $supportedLanguage->translation_locale; ?>"
+                                                        <?php if ($selectedLang == $supportedLanguage->translation_locale) { ?> selected <?php } ?>>
+                                                        <?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($supportedLanguage->translation_locale); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <?php
+                                        }
+                                        ?>
                                         </div>
 
                                         <div class="col-sm-6 text-center text-sm-right">

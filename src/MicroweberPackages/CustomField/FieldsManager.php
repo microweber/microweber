@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\CustomField;
 
+use function Matrix\trace;
 use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
 use MicroweberPackages\CustomField\Fields\Address;
 use MicroweberPackages\CustomField\Models\CustomField;
@@ -509,7 +510,7 @@ class FieldsManager
             $getCustomFields->where('id', $params['id']);
         }
 
-        if (!empty($params['rel_id'])) {
+        if (isset($params['rel_id'])) {
             $getCustomFields->where('rel_id', $params['rel_id']);
             $getCustomFields->where('rel_type', $params['rel_type']);
         }

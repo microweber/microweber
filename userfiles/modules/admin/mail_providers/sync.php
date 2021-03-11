@@ -3,14 +3,16 @@
 <?php
 $foundedEmailsUnique = [];
 $formEntires = mw()->forms_manager->get_entires();
-foreach ($formEntires as $formEntire) {
-    $decodedValues = json_decode($formEntire['form_values'], true);
-    if (is_array($decodedValues)) {
-        foreach ($decodedValues as $value) {
-            if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                $decodedValues['email'] = $value;
-                $decodedValues['md5_email'] = md5($value);
-                $foundedEmailsUnique[$value] = $decodedValues;
+if (!empty($formEntires)) {
+    foreach ($formEntires as $formEntire) {
+        $decodedValues = json_decode($formEntire['form_values'], true);
+        if (is_array($decodedValues)) {
+            foreach ($decodedValues as $value) {
+                if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $decodedValues['email'] = $value;
+                    $decodedValues['md5_email'] = md5($value);
+                    $foundedEmailsUnique[$value] = $decodedValues;
+                }
             }
         }
     }
@@ -22,6 +24,7 @@ if (empty($foundedEmailsUnique)):
 ?>
 No emails found.
 <?php
+return;
 endif;
 ?>
 

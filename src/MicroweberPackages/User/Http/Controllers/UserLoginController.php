@@ -61,8 +61,14 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
+
+        $requestLang = $request->post('lang');
 		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
 
+		if (!empty($requestLang)) {
+            mw()->lang_helper->set_current_lang($requestLang);
+            \Cookie::queue('lang', $requestLang, 86400 * 30);
+        }
 
         if (Auth::check()) {
 

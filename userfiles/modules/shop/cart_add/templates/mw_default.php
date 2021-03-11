@@ -2,7 +2,13 @@
 $product = false;
 if (isset($params['content-id'])) {
     $product = get_content_by_id($params["content-id"]);
-    $title = $product['title'];
+    if($product){
+        $title = $product['title'];
+
+    } else {
+        $title = _e("Product", true);
+
+    }
 } else {
     $title = _e("Product", true);
 }
@@ -35,8 +41,8 @@ if ($product and isset($product['id'])) {
     <br class="mw-add-to-cart-spacer"/>
 
     <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price" input-class="mw-ui-field mw-full-width" id="cart_fields_<?php print $params['id'] ?>"/>
-<br />
-<br />
+    <br />
+    <br />
     <?php if (is_array($data)): ?>
         <div class="price">
             <?php $i = 1;

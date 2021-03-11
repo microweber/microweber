@@ -2,12 +2,31 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.2.1] - 2020-03-05
+- Added cached model queries
+- Fix language translations and locales
+- Fix design on the checkout popup
+- Fix custom fields bugs
+- Fix add order from admin
+- Fix offers and discounted price
+- Fix backup module
+- Fix mail templates are now translatable
+- Fix email sending on user registration
+- Fix shop bugs related to quantity management
+- Added client and address management for users
+- Added support for more shipping providers
+- Many other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.0...1.2.1 "")
+
+
 ## [1.2.0] - 2020-12-17
 - Migrated to Laravel 8
 - Refactored the internal code to Laravel style 
 - New admin template
 - Many other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.1.20...1.2.0 "")
+
 
 ## [1.1.20] - 2020-06-22
 - Fix Module Menu Not working properly 

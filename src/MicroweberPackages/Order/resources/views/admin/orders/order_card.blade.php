@@ -1,19 +1,39 @@
 <?php
+
+
+if(!$order){
+    return;
+}
+
 $orderUser = $order->user()->first();
 if ($order->customer_id > 0) {
     $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $order->customer_id)->first();
 }
 
-$carts = $order->cart()->with('products')->get();
-$firstProduct = [];
-foreach ($carts as $cart) {
-    $firstProduct = $cart->products[0];
-    break;
-}
-?>
-<div class="card mb-3 not-collapsed-border collapsed card-order-holder <?php if ($order['order_status'] == 'new'): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>
+if($order){
+    $carts = $order->cart()->with('products')->get();
+    $firstProduct = [];
+    foreach ($carts as $cart) {
+        if(isset($cart->products[0])){
+            $firstProduct = $cart->products[0];
+            break;
+        }
+    }
 
-" data-toggle="collapse" data-target="#notif-order-item-<?php echo $order['id'];?>" aria-expanded="false" aria-controls="collapseExample">
+    $item = $order->toArray();
+
+    $is_order = true;
+
+    include module_dir('admin/notifications') . 'notif_order.php';
+}
+
+return;
+?>
+<?php
+
+/*<div class="card mb-3 not-collapsed-border collapsed card-order-holder <?php if ($order['order_status'] == 'new'): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>
+
+        " data-toggle="collapse" data-target="#notif-order-item-<?php echo $order['id'];?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">
             <div class="col-12 col-md-6">
@@ -21,18 +41,21 @@ foreach ($carts as $cart) {
 
                     <div class="col item-image">
                         <?php if (count($carts) > 1): ?>
-                            <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;">
-                                <?php echo count($carts); ?>
-                            </button>
+                        <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;">
+                            <?php echo count($carts); ?>
+                        </button>
                         <?php endif; ?>
                         <div class="img-circle-holder img-absolute">
                             <?php
-                            $firstProductImage = $firstProduct->media()->first()->filename;
+                            $firstProductImage = '';
+                            if(is_object($firstProduct) and is_object($firstProduct->media()->first())){
+                                $firstProductImage = $firstProduct->media()->first()->filename;
+                            }
                             ?>
                             <?php if (!empty($firstProductImage)): ?>
-                                <img src="<?php echo thumbnail($firstProductImage, 160, 160); ?>"/>
+                            <img src="<?php echo thumbnail($firstProductImage, 160, 160); ?>"/>
                             <?php else: ?>
-                                <img src="<?php echo thumbnail(''); ?>"/>
+                            <img src="<?php echo thumbnail(''); ?>"/>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -41,22 +64,22 @@ foreach ($carts as $cart) {
 
                     <div class="col item-title" style="min-width: 210px;">
                         <?php if (!empty($firstProduct['title'])): ?>
-                            <span class="text-primary text-break-line-2"><?php echo $firstProduct['title']; ?></span>
+                        <span class="text-primary text-break-line-2"><?php echo $firstProduct['title']; ?></span>
                         <?php endif; ?>
 
                         <?php if ($orderUser): ?>
-                            <small class="text-muted"><?php _e("Created by"); ?>:
-                                <?php
-                                if ($orderUser->first_name) {
-                                    echo $orderUser->first_name;
-                                    if ($orderUser->last_name) {
-                                        echo " " . $orderUser->last_name;
-                                    }
-                                } else if ($orderUser) {
-                                    echo $orderUser->username;
+                        <small class="text-muted"><?php _e("Created by"); ?>:
+                            <?php
+                            if ($orderUser->first_name) {
+                                echo $orderUser->first_name;
+                                if ($orderUser->last_name) {
+                                    echo " " . $orderUser->last_name;
                                 }
-                                ?>
-                            </small>
+                            } else if ($orderUser) {
+                                echo $orderUser->username;
+                            }
+                            ?>
+                        </small>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -68,19 +91,19 @@ foreach ($carts as $cart) {
                         <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?><br/><?php endif; ?>
                         <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?>
 
-                            <?php if (isset($order['payment_status']) && $order['payment_status']): ?>
-                                <small class="text-success"><?php _e($order['payment_status']); ?></small>
-                            <?php else: ?>
-                                <small class="text-success"><?php _e('Paid'); ?></small>
-                            <?php endif; ?>
+                        <?php if (isset($order['payment_status']) && $order['payment_status']): ?>
+                        <small class="text-success"><?php _e($order['payment_status']); ?></small>
+                        <?php else: ?>
+                        <small class="text-success"><?php _e('Paid'); ?></small>
+                        <?php endif; ?>
 
                         <?php else: ?>
 
-                            <?php if (isset($order['payment_status']) && $order['payment_status']): ?>
-                                <small class="text-muted"><?php _e($order['payment_status']); ?></small>
-                            <?php else: ?>
-                                <small class="text-muted"><?php _e('Unpaid'); ?></small>
-                            <?php endif; ?>
+                        <?php if (isset($order['payment_status']) && $order['payment_status']): ?>
+                        <small class="text-muted"><?php _e($order['payment_status']); ?></small>
+                        <?php else: ?>
+                        <small class="text-muted"><?php _e('Unpaid'); ?></small>
+                        <?php endif; ?>
 
                         <?php endif; ?>
                     </div>
@@ -92,7 +115,7 @@ foreach ($carts as $cart) {
 
                     <div class="col-12 col-sm-4 col-md item-status">
                         <?php if (isset($order['is_read']) && $order['is_read'] == '0'): ?>
-                            <span class="text-success"><?php _e("New"); ?></span><br/>
+                        <span class="text-success"><?php _e("New"); ?></span><br/>
                         <?php endif; ?>
                         <small class="text-muted">&nbsp;</small>
                     </div>
@@ -122,7 +145,7 @@ foreach ($carts as $cart) {
                                 <?php if (isset($order['first_name'])): ?><?php echo $order['first_name'] . ' '; ?><?php endif; ?>
                                 <?php if (isset($order['last_name'])): ?><?php echo $order['last_name']; ?><?php endif; ?>
                             <?php else: ?>
-                                N/A
+                            N/A
                             <?php endif; ?>
                         </p>
                     </div>
@@ -133,7 +156,7 @@ foreach ($carts as $cart) {
                             <?php if (isset($order['email'])): ?>
                                 <?php echo $order['email']; ?>
                             <?php else: ?>
-                                N/A
+                            N/A
                             <?php endif; ?>
                         </p>
                     </div>
@@ -144,7 +167,7 @@ foreach ($carts as $cart) {
                             <?php if (isset($order['phone'])): ?>
                                 <?php echo $order['phone']; ?>
                             <?php else: ?>
-                                N/A
+                            N/A
                             <?php endif; ?>
                         </p>
                     </div>
@@ -160,7 +183,7 @@ foreach ($carts as $cart) {
                             <?php if (isset($order['amount'])): ?>
                                 <?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?>
                             <?php else: ?>
-                                N/A
+                            N/A
                             <?php endif; ?>
                         </p>
                     </div>
@@ -171,7 +194,7 @@ foreach ($carts as $cart) {
                             <?php if (isset($order['payment_type'])): ?>
                                 <?php echo $order['payment_type']; ?>
                             <?php else: ?>
-                                N/A
+                            N/A
                             <?php endif; ?>
                         </p>
                     </div>
@@ -190,7 +213,7 @@ foreach ($carts as $cart) {
                                     <?php echo $order['shipping_service']; ?>
                                 <?php endif; ?>
                             <?php else: ?>
-                                N/A
+                            N/A
                             <?php endif; ?>
                         </p>
                     </div>
@@ -214,4 +237,5 @@ foreach ($carts as $cart) {
             </div>
         </div>
     </div>
-</div>
+</div>*/
+?>
