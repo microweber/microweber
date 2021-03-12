@@ -82,7 +82,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
                     mw.admin.admin_package_manager.set_loading(false)
                     mw.admin.admin_package_manager.reload_packages_list();
                 }
-
+                mw.trigger('install_composer_package_success', msg);
             },
             always: function () {
 

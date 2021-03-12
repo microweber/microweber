@@ -220,4 +220,7 @@ api_expose_admin('save_language_file_content', function ($data) {
     return mw()->lang_helper->save_language_file_content($data);
 });
 
+function get_flag_icon($locale) {
+    return \MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
+}
 
