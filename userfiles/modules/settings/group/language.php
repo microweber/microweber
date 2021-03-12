@@ -112,7 +112,7 @@ if (is_module('multilanguage')) {
                                                     </a>
                                                         <?php else: ?>
                                                             <a onclick="openMultilangEditModal()" class="btn btn-success">
-                                                               <i class="fa fa-download"></i> <?php _e('Install Multilanguage Module'); ?>
+                                                               <i class="mdi mdi-download"></i> <?php _e('Install Multilanguage Module'); ?>
                                                             </a>
                                                         <?php endif; ?>
                                                     <?php endif;?>
