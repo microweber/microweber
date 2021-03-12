@@ -83,7 +83,7 @@ if (is_module('multilanguage')) {
 
                                                     $(document).ready(function () {
                                                         mw.on('install_composer_package_success', function(response) {
-                                                           window.location = window.location;
+                                                           window.location.href = window.location.href;
                                                         });
                                                     });
 
