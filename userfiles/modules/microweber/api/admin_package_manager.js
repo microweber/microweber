@@ -50,7 +50,6 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
     mw.notification.success('Loading...', 25000);
     //mw.load_module('updates/worker', '#mw-updates-queue');
 
-
     var update_queue_set_modal = mw.dialog({
         content: '<div class="module" type="updates/worker" id="update_queue_process_alert"></div>',
         overlay: false,
@@ -60,17 +59,13 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
 
     mw.reload_module('#update_queue_process_alert');
 
-
     mw.admin.admin_package_manager.set_loading(50)
-
 
     var values = {require_name: $key, require_version: $version};
 
     mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax(values, $callback);
 
-
 }
-
 
 mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax_last_step_vals = null;
 
@@ -99,8 +94,8 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
                 }
             } else {
 
-                if (callback) {
-                    return callback(msg);  
+                if (typeof callback === 'function') {
+                    return callback(msg);
                 }
 
                 mw.notification.msg(msg);
@@ -117,6 +112,8 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
+
+
             mw.admin.admin_package_manager.set_loading(false);
 
             setTimeout(function(){
@@ -127,6 +124,9 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
 
     }).always(function (jqXHR, textStatus) {
 
+        if (typeof callback === 'function') {
+            return callback(jqXHR);
+        }
 
         if(typeof(context) != 'undefined' ) {
             mw.spinner({ element: $(context).next() }).hide();
