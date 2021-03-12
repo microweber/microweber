@@ -5,9 +5,9 @@ event_bind('mw.admin.dashboard.content.before', function ($params = false) {
 
 
     if (isset($_GET['install_done']) and mw()->ui->disable_marketplace != true) {
-        print '<h1 style="font-size: 24px; color: #555555;">Welcome to Microweber ' . MW_VERSION . '</h1>';
-        print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom: 5px;">Use Microweber to build your website, online shop or blog.</p>';
-        print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom:30px;">Create and  edit content, sell online, manage orders and clients with Open Source CMS Microweber.</p>';
+        print '<p style="font-size: 24px; color: #555555;"> ' . _e("Welcome to {{app_name}}") . MW_VERSION . '</p>';
+        print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom: 5px;"> ' . _e("Use Microweber to build your website, online shop or blog.") . ' </p>';
+        print '<p style="font-size: 13px; color: #999999; line-height: 1.6; margin-bottom:30px;">' . _e("Create and edit content, sell online, manage orders and clients.") . ' </p>';
     }
 });
 
@@ -35,7 +35,6 @@ event_bind(
     }
 }
 );
-
 
 event_bind(
     'mw.admin.sidebar.li.last', function ($item) {
@@ -106,17 +105,13 @@ function __mw_check_core_system_update()
                 }
             }
 
-
             cache_save($last_check, $cache_id, $cache_group);
-
 
         } catch (Exception $e) {
             $last_check = 'noupdate';
 
             cache_save($last_check, $cache_id, $cache_group);
         }
-
-
     }
 
     if ($last_check and $last_check == 'noupdate') {
@@ -124,8 +119,6 @@ function __mw_check_core_system_update()
     }
 
     return $last_check;
-
-
 }
 
 event_bind('mw_admin_settings_menu', 'mw_print_admin_updates_settings_link');
