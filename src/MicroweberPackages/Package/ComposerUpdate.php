@@ -1097,6 +1097,9 @@ class ComposerUpdate
 
         }
 
+        $new_composer_config['repositories']['packagist'] = false;
+        $new_composer_config['repositories']['packagist.org'] = false;
+
         if (!isset($composer_orig['config'])) {
             $composer_orig['config'] = [];
         }
