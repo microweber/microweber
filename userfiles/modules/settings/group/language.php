@@ -84,8 +84,10 @@ if (is_module('multilanguage')) {
                                                             mw.notification.success('Adding language...',10000);
                                                             $.post(mw.settings.api_url + "multilanguage/add_language", {locale: '<?php echo $def_language; ?>', language: '<?php echo $def_language; ?>'}).done(function (data) {
                                                                 mw.notification.success('Language added...',10000);
-                                                                $.get(mw.settings.api_url + "clearcache",{}, function() {
-                                                                    location.reload();
+                                                                $.post(mw.settings.api_url + "save_option", {option_key:'is_active', option_value:'y', option_group:'multilanguage_settings'}, function() {
+                                                                    $.get(mw.settings.api_url + "clearcache", {}, function () {
+                                                                        location.reload();
+                                                                    });
                                                                 });
                                                             });
                                                         });
