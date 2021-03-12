@@ -52,3 +52,4 @@ node_modules/
 /bootstrap/cache/packages.php
 /webpack/dist/*
 /.rnd
+/userfiles/modules/multilanguage
