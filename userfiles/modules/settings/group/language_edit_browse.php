@@ -25,7 +25,7 @@ if (function_exists('get_supported_languages')) {
 if(empty($supportedLanguages)){
     $currentLanguageAbr = mw()->lang_helper->default_lang();
     $supportedLanguages[] = [
-        'icon'=>\MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($currentLanguageAbr),
+        'icon'=>get_flag_icon($currentLanguageAbr),
         'locale'=>$currentLanguageAbr,
         'language'=>$currentLanguageAbr
     ];
