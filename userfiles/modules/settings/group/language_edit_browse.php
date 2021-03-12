@@ -24,15 +24,12 @@ if (function_exists('get_supported_languages')) {
 
 if(empty($supportedLanguages)){
     $currentLanguageAbr = mw()->lang_helper->default_lang();
-
     $supportedLanguages[] = [
-        'icon'=>get_flag_icon($currentLanguageAbr),
+        'icon'=>\MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($currentLanguageAbr),
         'locale'=>$currentLanguageAbr,
         'language'=>$currentLanguageAbr
     ];
 }
-
-
 $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGroupedTranslations($filter);
 ?>
 <script>

@@ -83,7 +83,7 @@ if (is_module('multilanguage')) {
 
                                                     $(document).ready(function () {
                                                         mw.on('install_composer_package_success', function(response) {
-                                                           window.location.href = window.location.href;
+                                                            location.reload();
                                                         });
                                                     });
 
@@ -106,12 +106,12 @@ if (is_module('multilanguage')) {
 
                                                     <?php if ($hasMultilanguageModuleActivated): ?>
                                                         <a onclick="openMultilangEditModal()" class="btn btn-primary">
-                                                    <?php _e('Manage Multilanguage'); ?>
+                                                            <i class="mdi mdi-cogs"></i> <?php _e('Manage Multilanguage'); ?>
                                                      </a>
                                                     <?php else: ?>
                                                      <?php if (is_module('multilanguage')): ?>
                                                     <a onclick="openMultilangEditModal()" class="btn btn-primary">
-                                                        <?php _e('Activate Multilanguage Module'); ?>
+                                                        <i class="mdi mdi-enable"></i> <?php _e('Activate Multilanguage Module'); ?>
                                                     </a>
                                                         <?php else: ?>
                                                             <a onclick="openMultilangEditModal()" class="btn btn-success">
