@@ -77,13 +77,15 @@ if (is_module('multilanguage')) {
 
                                             </div>
                                             <div class="col-md-5 text-right">
-
                                                 <script>mw.require('admin_package_manager.js');</script>
                                                 <script>
-
                                                     $(document).ready(function () {
                                                         mw.on('install_composer_package_success', function(response) {
-                                                            location.reload();
+                                                            mw.notification.success('Adding language...',10000);
+                                                            $.post(mw.settings.api_url + "multilanguage/add_language", {locale: '<?php echo $def_language; ?>', language: '<?php echo $def_language; ?>'}).done(function (data) {
+                                                                mw.notification.success('Language added...',10000);
+                                                                location.reload();
+                                                            });
                                                         });
                                                     });
 
