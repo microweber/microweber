@@ -112,7 +112,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                             <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                         </div>
 
-                        <input type="text" class="form-control form-control-sm" name="module_keyword" style="width: 100px;" value="" placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false">
+                        <input type="text" class="form-control form-control-sm" name="module_keyword" style="width: 100px;" value="" placeholder="<?php _e("Search"); ?>" onkeyup="mw.url.windowHashParam('search',this.value)">
                     </div>
 
                     <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
@@ -122,9 +122,39 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         </div>
     </div>
 
+
+
+
     <div class="card-body pt-3">
 
         <script>
+
+            $(document).ready(function () {
+                mw.on.hashParam('search', function (pval) {
+                    if (pval === false) return false;
+
+                    var search_kw = pval;
+                    var items = document.querySelectorAll('.text-dark');
+                    var foundlen = 0;
+
+
+                    mw.tools.search(search_kw, items, function (found) {
+                        if (found) {
+                            foundlen++;
+                            $(this).parents('.js-package-install-content').show();
+                        } else {
+                            $(this).parents('.js-package-install-content').hide();
+                        }
+                    });
+
+
+                });
+            },$('.module-packages'));
+
+
+
+
+
             $(document).ready(function () {
                 mw.tabs({
                     nav: '#mw-packages-browser-nav-tabs-nav .mw-ui-navigation a.tablink',
