@@ -77,8 +77,24 @@ if (is_module('multilanguage')) {
 
                                             </div>
                                             <div class="col-md-5 text-right">
+                                                <script>mw.require('admin_package_manager.js');</script>
                                                 <script>
+                                                    $(document).ready(function () {
+                                                        mw.on('install_composer_package_success', function(response) {
+                                                            mw.notification.success('Adding language...',10000);
+                                                            $.post(mw.settings.api_url + "multilanguage/add_language", {locale: '<?php echo $def_language; ?>', language: '<?php echo $def_language; ?>'}).done(function (data) {
+                                                                mw.notification.success('Language added...',10000);
+                                                                $.post(mw.settings.api_url + "save_option", {option_key:'is_active', option_value:'y', option_group:'multilanguage_settings'}, function() {
+                                                                    $.get(mw.settings.api_url + "clearcache", {}, function () {
+                                                                        location.reload();
+                                                                    });
+                                                                });
+                                                            });
+                                                        });
+                                                    });
+
                                                     function openMultilangEditModal() {
+                                                        <?php if (is_module('multilanguage')): ?>
                                                         var data = {};
                                                         data.show_settings_link = "true";
                                                         openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
@@ -87,17 +103,28 @@ if (is_module('multilanguage')) {
                                                             height: 'auto',
                                                             width: 750,
                                                             title: 'Edit'
-                                                        })
+                                                        });
+                                                        <?php else: ?>
+                                                        mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/multilanguage', $(this).attr('vkey'), this);
+                                                        <?php endif; ?>
                                                     }
                                                 </script>
 
-                                                <a onclick="openMultilangEditModal()" class="btn btn-primary">
                                                     <?php if ($hasMultilanguageModuleActivated): ?>
-                                                    <?php _e('Manage Multilanguage'); ?>
+                                                        <a onclick="openMultilangEditModal()" class="btn btn-primary">
+                                                            <i class="mdi mdi-cogs"></i> <?php _e('Manage Multilanguage'); ?>
+                                                     </a>
                                                     <?php else: ?>
-                                                    <?php _e('Activate Multilanguage Module'); ?>
+                                                     <?php if (is_module('multilanguage')): ?>
+                                                    <a onclick="openMultilangEditModal()" class="btn btn-primary">
+                                                        <i class="mdi mdi-enable"></i> <?php _e('Activate Multilanguage Module'); ?>
+                                                    </a>
+                                                        <?php else: ?>
+                                                            <a onclick="openMultilangEditModal()" class="btn btn-success">
+                                                               <i class="mdi mdi-download"></i> <?php _e('Install Multilanguage Module'); ?>
+                                                            </a>
+                                                        <?php endif; ?>
                                                     <?php endif;?>
-                                                </a>
                                             </div>
                                         </div>
                                     </div>

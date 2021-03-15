@@ -428,7 +428,7 @@ class Comments extends Crud
             if (isset($comment['rel_id']) and $comment['rel_id']) {
                 $report['rel_id'] = $comment['rel_id'];
             }
-            $http = new Http();
+            $http = new \MicroweberPackages\Utils\Http\Http();
             $http->url($report_url);
             $http->set_timeout(10);
             return $http->post($report);

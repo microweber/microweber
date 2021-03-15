@@ -5,22 +5,20 @@ if (!user_can_access('module.marketplace.index')) {
 ?>
 <?php
 
-
-
 include(__DIR__ . '/package_data.php');
-
 
 ?>
 <?php $tooltipid = uniqid('tooltip'); ?>
 
 <?php if ($item['type'] === 'microweber-module'): ?>
-    <div class="js-package-install-content d-flex h-100">
+    <div class="js-package-install-content h-100">
         <div class="card style-1 bg-light h-100 w-100">
             <div class="card-body p-3 d-flex flex-column justify-content-between h-100">
                 <div>
                     <?php if ($item['type'] != 'microweber-core-update'): ?>
                         <?php if ($screenshot): ?>
-                            <img src="<?php print thumbnail($screenshot, 70, 70); ?>" style="width: 65px;" class="pl-2 pb-2 float-right"/>
+                            <img src="<?php print thumbnail($screenshot, 70, 70); ?>" style="width: 65px;"
+                                 class="pl-2 pb-2 float-right"/>
                         <?php else: ?>
                             <div class="pl-2 pb-2 float-right">
                                 <i class="mdi mdi-view-grid-plus mdi-64px text-muted lh-1_0" style="opacity:0.5"></i>
@@ -28,35 +26,21 @@ include(__DIR__ . '/package_data.php');
                         <?php endif; ?>
                     <?php endif; ?>
 
-                    <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?> class="btn btn-md btn-link text-dark p-0 font-weight-bold"><?php print $item['description'] ?></a>
-                    <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>" data-trigger="click"><i class="mdi mdi-information-outline"></i></span>
-
-
-
+                    <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?>
+                        class="btn btn-md btn-link text-dark p-0 font-weight-bold"><?php print $item['description'] ?></a>
+                    <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>"
+                          data-trigger="click"><i class="mdi mdi-information-outline"></i></span>
 
                     <?php if (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
                         <p class="mt-3 text-success">
-
-
-<?php
-
-$href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode($item['current_install']['module'].'/admin');
-
-
-
-?>
-                            <a  href="<?php print $href_open_mod ?>"   class="btn btn-sm btn-info"><?php _e('Open'); ?></a>
-
-
-
+                            <?php
+                            $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode($item['current_install']['module'] . '/admin');
+                            ?>
+                            <a href="<?php print $href_open_mod ?>" class="btn btn-sm btn-info"><?php _e('Open'); ?></a
                         </p>
                     <?php else : ?>
-                        <p class="mt-3"> </p>
-
+                        <p class="mt-3"></p>
                     <?php endif; ?>
-
-
-
                 </div>
 
                 <div class="package-item-footer">
@@ -77,8 +61,10 @@ $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode(
                             <div>
                                 <small class="text-muted">v.</small>
                                 <div class="d-inline-block">
-                                    <select class="mw-sel-item-key-install selectpicker" data-style="btn-sm" data-width="80px" data-size="5" data-vkey="<?php print $key; ?>">
-                                        <option value="<?php print $item['latest_version']['version'] ?>"><?php print $item['latest_version']['version'] ?></option>
+                                    <select class="mw-sel-item-key-install selectpicker" data-style="btn-sm"
+                                            data-width="80px" data-size="5" data-vkey="<?php print $key; ?>">
+                                        <option
+                                            value="<?php print $item['latest_version']['version'] ?>"><?php print $item['latest_version']['version'] ?></option>
                                         <?php if (isset($item['versions']) and is_array($item['versions'])): ?>
                                             <?php $item['versions'] = array_reverse($item['versions']) ?>
                                             <?php foreach ($item['versions'] as $v_sel): ?>
@@ -96,12 +82,20 @@ $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode(
 
                         <div class="col text-right">
                             <?php if ($has_update): ?>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)" class="btn btn-sm btn-warning js-package-install-btn"><?php _e('Update'); ?></a>
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                   onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                                   class="btn btn-sm btn-warning js-package-install-btn"><?php _e('Update'); ?></a>
                             <?php elseif (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
-                                <div class="text-success js-package-install-btn-help-text"><?php _e('Installed'); ?></div>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)" class="btn btn-sm btn-outline-primary js-package-install-btn" style="display: none"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
+                                <div
+                                    class="text-success js-package-install-btn-help-text"><?php _e('Installed'); ?></div>
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                   onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                                   class="btn btn-sm btn-outline-primary js-package-install-btn"
+                                   style="display: none"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php else: ?>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)" class="btn btn-sm btn-outline-primary js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                   onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                                   class="btn btn-sm btn-outline-primary js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php endif; ?>
 
                             <div class="js-package-install-preload"></div>
@@ -117,7 +111,9 @@ $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode(
             <div class="card-body pb-3">
                 <?php if ($item['type'] != 'microweber-core-update'): ?>
                     <?php if ($screenshot): ?>
-                        <a target="_blank" href="<?php print $item['homepage']; ?>" class="package-image package-<?php print $item['type'] ?>" style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">
+                        <a target="_blank" href="<?php print $item['homepage']; ?>"
+                           class="package-image package-<?php print $item['type'] ?>"
+                           style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">
                             <img src="<?php print thumbnail($screenshot, 400); ?>" alt="">
                         </a>
 
@@ -131,15 +127,18 @@ $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode(
                 <div class="package-item-footer">
                     <div class="row">
                         <div class="col">
-                            <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?> class="btn btn-lg btn-link text-dark p-0"><?php print $item['description'] ?></a>
+                            <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?>
+                                class="btn btn-lg btn-link text-dark p-0"><?php print $item['description'] ?></a>
                         </div>
 
                         <div class="col text-right">
                             <div>
                                 <small class="text-muted"><?php _e('v.'); ?></small>
                                 <div class="d-inline-block">
-                                    <select class="mw-sel-item-key-install selectpicker" data-style="btn-sm" data-width="80px" data-size="5" data-vkey="<?php print $key; ?>">
-                                        <option value="<?php print $item['latest_version']['version'] ?>"><?php print $item['latest_version']['version'] ?></option>
+                                    <select class="mw-sel-item-key-install selectpicker" data-style="btn-sm"
+                                            data-width="80px" data-size="5" data-vkey="<?php print $key; ?>">
+                                        <option
+                                            value="<?php print $item['latest_version']['version'] ?>"><?php print $item['latest_version']['version'] ?></option>
                                         <?php if (isset($item['versions']) and is_array($item['versions'])): ?>
                                             <?php $item['versions'] = array_reverse($item['versions']) ?>
                                             <?php foreach ($item['versions'] as $v_sel): ?>
@@ -164,7 +163,8 @@ $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode(
                                 </div>
                             <?php endif; ?>
                             <?php $tooltipid = uniqid('tooltip'); ?>
-                            <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>" data-trigger="click"><?php _e("Information"); ?></span>
+                            <span class="btn btn-link btn-sm p-0 text-muted tip" data-tip="#<?php print $tooltipid ?>"
+                                  data-trigger="click"><?php _e("Information"); ?></span>
                             <div id="<?php print $tooltipid ?>" style="display: none">
                                 <?php include(__DIR__ . '/package_data_tooltip.php'); ?>
                             </div>
@@ -172,12 +172,20 @@ $href_open_mod = admin_url() . 'view:modules/load_module:' . module_name_encode(
 
                         <div class="col text-right">
                             <?php if ($has_update): ?>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)" class="btn btn-sm btn-warning js-package-install-btn"><?php _e('Update'); ?></a>
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                   onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                                   class="btn btn-sm btn-warning js-package-install-btn"><?php _e('Update'); ?></a>
                             <?php elseif (!$has_update AND isset($item['current_install']) and $item['current_install']): ?>
-                                <div class="text-success js-package-install-btn-help-text"><?php _e('Installed'); ?></div>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)" class="btn btn-sm btn-success js-package-install-btn" style="display: none"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
+                                <div
+                                    class="text-success js-package-install-btn-help-text"><?php _e('Installed'); ?></div>
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                   onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                                   class="btn btn-sm btn-success js-package-install-btn"
+                                   style="display: none"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php else: ?>
-                                <a vkey="<?php print $vkey; ?>" href="javascript:;" onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)" class="btn btn-sm btn-success js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
+                                <a vkey="<?php print $vkey; ?>" href="javascript:;"
+                                   onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('<?php print $key; ?>',$(this).attr('vkey'), this)"
+                                   class="btn btn-sm btn-success js-package-install-btn"><?php if ($is_commercial): ?>Buy & <?php endif; ?> <?php _e('Install'); ?></a>
                             <?php endif; ?>
 
                             <div class="js-package-install-preload"></div>
