@@ -21,7 +21,7 @@ description: Full width shop template with filters
     <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2">
         <div class="edit allow-drop" field="default_shop_sidebar" rel="inherit">
             <div class="sidebar">
-                
+
                 <div class="sidebar__widget m-b-40">
                     <h4 class="m-b-20"><?php _lang("Filters" ); ?></h4>
                     <module type="shop/products/filter" content-id="<?php print PAGE_ID; ?>" />

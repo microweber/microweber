@@ -105,10 +105,6 @@
 
         $current_page = '';
 
-        asort($prices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
-        $minPrice = $prices[0];
-        $maxPrice = end($prices);
-
         $pages_count = $getProducts->total();
         $paging_param = 'page&laravel_pagination=1&laravel_pagination_limit='.$limit.'&laravel_total='.$pages_count;
 
@@ -123,14 +119,6 @@
         }
 
         if (is_file($template_file) != false) {
-
-            echo '
-                <script>
-                    SHOP_PRODUCTS_MIN_PRICE = '. $minPrice.';
-                    SHOP_PRODUCTS_MAX_PRICE = '. $maxPrice.';
-                </script>
-            ';
-
             include($template_file);
         } else {
             print lnotif("No template found. Please choose template.");
