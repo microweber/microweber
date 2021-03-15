@@ -14,16 +14,10 @@ class ProductFilterController
     public function index(Request $request)
     {
         $pageId = $request->get('content-id');
-
-        $limit = '';
-        if (isset($_GET['limit'])) {
-            $limit = (int) $_GET['limit'];
-        }
-
-        $orderBy = '';
-        if (isset($_GET['orderBy'])) {
-            $orderBy = $_GET['orderBy'];
-        }
+        $orderBy = $request->get('orderBy','');
+        $limit = $request->get('limit','');
+        $priceBetween = $request->get('priceBetween','');
+        $customField = $request->get('customField','');
 
         $filters = [];
         $productPrices = [];
@@ -31,9 +25,9 @@ class ProductFilterController
         if (!empty($getProducts)) {
             foreach ($getProducts as $product) {
                 $productPrices[] = $product->price;
-                $customFields = $product->customField()->with('fieldValue')->get();
-                foreach ($customFields as $customField) {
-                    $customFieldValues = $customField->fieldValue()->get();
+                $productCustomFields = $product->customField()->with('fieldValue')->get();
+                foreach ($productCustomFields as $productCustomField) {
+                    $customFieldValues = $productCustomField->fieldValue()->get();
                     if (empty($customFieldValues)) {
                         continue;
                     }
@@ -44,9 +38,9 @@ class ProductFilterController
                             'value'=>$customFieldValue->value,
                         ];
                     }
-                    $filters[$customField->name_key] = [
-                        'type'=>$customField->type,
-                        'name'=>$customField->name,
+                    $filters[$productCustomField->name_key] = [
+                        'type'=>$productCustomField->type,
+                        'name'=>$productCustomField->name,
                         'options'=>$filterOptions
                     ];
                 }
@@ -57,14 +51,8 @@ class ProductFilterController
         $productsMinPrice = $productPrices[0];
         $productsMaxPrice = end($productPrices);
 
-        $priceBetween = '';
-        if (isset($_GET['priceBetween'])) {
-            $priceBetween = $_GET['priceBetween'];
-        }
-
         $getMinPrice = $priceBetween;
         $getMaxPrice = false;
-
         if (strpos($priceBetween, ',') !== false) {
             $priceRange = explode(',', $priceBetween);
             $getMinPrice = $priceRange[0];
@@ -83,6 +71,7 @@ class ProductFilterController
             'productsMaxPriceRounded'=>round($productsMaxPrice),
             'filters'=>$filters,
             'orderBy'=>$orderBy,
+            'customField'=>$customField,
             'limit'=>$limit,
         ]);
     }
