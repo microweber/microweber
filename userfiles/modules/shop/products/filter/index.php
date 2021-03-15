@@ -3,9 +3,7 @@
 
 <?php
 
-
-
-
+$pageId = $params['content-id'];
 
 
 $currencySymbol = mw()->shop_manager->currency_symbol();
