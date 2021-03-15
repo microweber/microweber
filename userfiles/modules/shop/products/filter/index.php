@@ -146,7 +146,7 @@ $maxPrice = intval($maxPrice);
                 foreach($filter['options'] as $options):
                 ?>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="custom_fields[<?php echo $filterKey; ?>]" value="<?php echo $options['id']; ?>" id="defaultCheck<?php echo $options['id']; ?>">
+                    <input class="form-check-input" type="checkbox" name="<?php echo $filterKey; ?>" value="<?php echo $options['id']; ?>" id="defaultCheck<?php echo $options['id']; ?>">
                     <label class="form-check-label" for="defaultCheck<?php echo $options['id']; ?>">
                         <?php echo $options['value']; ?>
                     </label>
