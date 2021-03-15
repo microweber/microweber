@@ -27,6 +27,11 @@ description: Full width shop template with filters
                 </div>
 
                 <div class="sidebar__widget m-b-40">
+                    <h4 class="m-b-20"><?php _lang("Filters" ); ?></h4>
+                    <module type="shop/products/filter" content-id="<?php print PAGE_ID; ?>" />
+                </div>
+
+                <div class="sidebar__widget m-b-40">
                     <h4 class="m-b-20"><?php _lang("Categories"); ?></h4>
 
                     <module type="categories" content-id="<?php print PAGE_ID; ?>" />
@@ -35,12 +40,6 @@ description: Full width shop template with filters
                 <div class="sidebar__widget m-b-40">
                     <h4 class="m-b-20"><?php _lang("Tags" ); ?></h4>
                     <module type="tags" content-id="<?php print PAGE_ID; ?>" />
-                </div>
-
-
-                <div class="sidebar__widget m-b-40">
-                    <h4 class="m-b-20"><?php _lang("Filters" ); ?></h4>
-                    <module type="shop/products/filter"  content-id="<?php print PAGE_ID; ?>" />
                 </div>
 
             </div>

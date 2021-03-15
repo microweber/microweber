@@ -2,61 +2,66 @@
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <?php
-$currencySymbol = mw()->shop_manager->currency_symbol();
 
-$price = 0;
+
+
+
+
+
+$currencySymbol = mw()->shop_manager->currency_symbol();
+$priceBetween = '30.60';
 if (isset($_GET['priceBetween'])) {
-    $price = $_GET['priceBetween'];
+    $priceBetween = $_GET['priceBetween'];
 }
 
-$minPrice = $price;
+$minPrice = $priceBetween;
 $maxPrice = false;
 
-if (strpos($price, ',') !== false) {
-    $price = explode(',', $price);
-    $minPrice = $price[0];
-    $maxPrice = $price[1];
+if (strpos($priceBetween, '.') !== false) {
+    $priceRange = explode('.', $priceBetween);
+    $minPrice = $priceRange[0];
+    $maxPrice = $priceRange[1];
 }
 
 $minPrice = intval($minPrice);
 $maxPrice = intval($maxPrice);
-
 ?>
 
 <script>
-    SHOP_PRODUCTS_MIN_PRICE = 0;
-    SHOP_PRODUCTS_MAX_PRICE = 100;
-    $( function() {
+    $(function() {
         $( "#slider-range" ).slider({
             range: true,
-            min: SHOP_PRODUCTS_MIN_PRICE,
-            max: SHOP_PRODUCTS_MAX_PRICE,
+            min: 30,
+            max: 60,
             values: [ <?php echo $minPrice;?>, <?php echo $maxPrice;?> ],
             slide: function( event, ui ) {
 
-                $('.js-shop-products-price-between').val(ui.values[ 0 ] +','+ ui.values[ 1 ]);
+                $('.js-shop-products-price-between').val(ui.values[ 0 ] +'.'+ ui.values[ 1 ]);
 
                 $( "#amount" ).val( "<?php echo $currencySymbol;?>" + ui.values[ 0 ] + " - <?php echo $currencySymbol;?>" + ui.values[ 1 ] );
             }
         });
         $( "#amount" ).val( "<?php echo $currencySymbol;?>" + $( "#slider-range" ).slider( "values", 0 ) +
             " - <?php echo $currencySymbol;?>" + $( "#slider-range" ).slider( "values", 1 ) );
-    } );
+    });
 </script>
-
 
 <div class="js-shop-product-filter">
 
-    <form method="get" action="">
 
-    <p>
-        <label for="amount">Price range:</label>
-        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-    </p>
+    <form method="get" action="" class="form-horizontal">
+        <div class="row">
 
-        <input type="hidden" class="js-shop-products-price-between" name="priceBetween" />
+        <div class="col-md-12">
+        <p>
+            <label for="amount">Price range:</label>
+            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+        </p>
 
-    <div id="slider-range" class="mb-4"></div>
+        <input type="hidden" class="js-shop-products-price-between" value="<?php echo $priceBetween; ?>" name="priceBetween" />
+
+         <div id="slider-range" class="mb-4"></div>
+        </div>
 
 
     <?php
@@ -70,18 +75,17 @@ $maxPrice = intval($maxPrice);
     ?>
 
 
+
         <?php
         $orderBy = '';
         if (isset($_GET['orderBy'])) {
             $orderBy = $_GET['orderBy'];
         }
         ?>
-        <div class="form-group mb-4">
-            <span>Sort</span>
-            <select class="form-control" onchange="location = this.value;">
-                <option value="<?php echo $currentUrl; ?>">Select</option>
-                <option value="<?php echo $currentUrl; ?>?orderBy=id,desc" <?php if ($orderBy=='id,desc'):?> selected="selected" <?php endif;?>>Newest</option>
-                <option value="<?php echo $currentUrl; ?>?orderBy=id,asc" <?php if ($orderBy=='id,asc'):?> selected="selected" <?php endif;?>>Oldest</option>
+        <div class="col-md-6">
+            <select class="form-control" name="orderBy">
+                <option value="id.desc" <?php if ($orderBy=='id.desc'):?> selected="selected" <?php endif;?>>Sort: Newest</option>
+                <option value="id.asc" <?php if ($orderBy=='id.asc'):?> selected="selected" <?php endif;?>>Sort: Oldest</option>
             </select>
         </div>
 
@@ -92,20 +96,21 @@ $maxPrice = intval($maxPrice);
             $limit = (int) $_GET['limit'];
         }
         ?>
-        <div class="form-group mb-4">
-            <span>Limit</span>
-            <select class="form-control" onchange="location = this.value;">
-                <option value="<?php echo $currentUrl; ?>">Select</option>
-                <option value="<?php echo $currentUrl; ?>?limit=5" <?php if ($limit==5):?> selected="selected" <?php endif;?>>5</option>
-                <option value="<?php echo $currentUrl ?>?limit=10" <?php if ($limit==10):?> selected="selected" <?php endif;?>>10</option>
-                <option value="<?php echo $currentUrl; ?>?limit=15" <?php if ($limit==15):?> selected="selected" <?php endif;?>>15</option>
-                <option value="<?php echo $currentUrl; ?>?limit=20" <?php if ($limit==20):?> selected="selected" <?php endif;?>>20</option>
+        <div class="col-md-6">
+            <select class="form-control" name="limit">
+                <option value="5" <?php if ($limit==1):?> selected="selected" <?php endif;?>>Limit: 1</option>
+                <option value="5" <?php if ($limit==2):?> selected="selected" <?php endif;?>>Limit: 2</option>
+                <option value="5" <?php if ($limit==3):?> selected="selected" <?php endif;?>>Limit: 3</option>
+                <option value="5" <?php if ($limit==5):?> selected="selected" <?php endif;?>>Limit: 5</option>
+                <option value="10" <?php if ($limit==10):?> selected="selected" <?php endif;?>>Limit: 10</option>
+                <option value="15" <?php if ($limit==15):?> selected="selected" <?php endif;?>>Limit: 15</option>
+                <option value="20" <?php if ($limit==20):?> selected="selected" <?php endif;?>>Limit: 20</option>
             </select>
         </div>
-
-        <button type="submit" class="btn btn-primary mb-4"><i class="fa fa-filter"></i> Filter</button>
-
-
-
+            <div class="col-md-12">
+        <button type="submit" class="btn btn-primary btn-block mt-2"><i class="fa fa-filter"></i> Filter</button>
+        </div>
+        </div>
     </form>
+
 </div>
