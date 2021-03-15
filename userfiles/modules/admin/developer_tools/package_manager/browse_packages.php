@@ -72,7 +72,6 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
     //$packages_by_type_with_update['microweber-core-update'][] = $core_update;
 }
 
-
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 // dd($packages_by_type_all,$packages_by_type_with_update);
 ?>
@@ -89,8 +88,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         </h5>
 
         <div clsas="d-flex align-items-center">
-            <div class="d-inline-block">
-                <div class="dropdown">
+            <div class="d-inline-block dropleft">
                     <button class="btn btn-outline-primary btn-sm btn-icon" type="button" id="moreSettings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-cog"></i></button>
                     <div class="dropdown-menu" aria-labelledby="moreSettings">
                         <?php if ($is_update_mode) { ?>
@@ -101,9 +99,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                         <a href="javascript:;" class="dropdown-item" onclick="mw.admin.admin_package_manager.reload_packages_list();"><?php _e("Reload packages"); ?></a>
                         <a href="javascript:;" class="dropdown-item" onclick="mw.admin.admin_package_manager.show_licenses_modal ();"><?php _e("Licenses"); ?></a>
                     </div>
-                </div>
             </div>
-
 
             <div class="d-inline-block">
                 <div class="form-inline">
@@ -118,12 +114,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                     <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
                 </div>
             </div>
-
         </div>
     </div>
-
-
-
 
     <div class="card-body pt-3">
 
@@ -137,7 +129,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                     var items = document.querySelectorAll('.text-dark');
                     var foundlen = 0;
 
-
                     mw.tools.search(search_kw, items, function (found) {
                         if (found) {
                             foundlen++;
@@ -146,14 +137,8 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                             $(this).parents('.js-package-install-content').hide();
                         }
                     });
-
-
                 });
             },$('.module-packages'));
-
-
-
-
 
             $(document).ready(function () {
                 mw.tabs({
@@ -223,7 +208,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 overflow: hidden;
 
             }
-
             .package-item-footer {
                 padding: 12px 0 0 0;
             }
@@ -297,7 +281,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         <?php if (!$is_update_mode) : ?>
             <p><?php _e('Welcome to the marketplace');?> <?php _e('Here you will find new modules, templates and updates'); ?></p>
         <?php endif; ?>
-
 
         <div id="mw-packages-browser-nav-tabs-nav">
             <div class="row">
@@ -443,8 +426,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                     <?php endif; ?>
                 </div>
             </div>
-
-
             <?php endif; ?>
         </div>
     </div>
