@@ -105,7 +105,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                         <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                     </div>
 
-                    <input type="text" class="form-control form-control-sm" name="module_keyword" style="width: 100px;" value="" placeholder="<?php _e("Search"); ?>" onkeyup="mw.url.windowHashParam('search',this.value)">
+                    <input type="text" class="form-control form-control-sm" name="module_keyword" value="" placeholder="<?php _e("Search"); ?>" onkeyup="mw.url.windowHashParam('search',this.value)">
                 </div>
 
                 <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>
