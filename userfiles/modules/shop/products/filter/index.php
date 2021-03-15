@@ -5,6 +5,31 @@
 
 $pageId = $params['content-id'];
 
+$filters = [];
+$getProducts = \MicroweberPackages\Product\Models\Product::where('parent', $pageId)->get();
+if (!empty($getProducts)) {
+    foreach ($getProducts as $product) {
+        $customFields = $product->customField()->with('fieldValue')->get();
+        foreach ($customFields as $customField) {
+            $customFieldValues = $customField->fieldValue()->get();
+            if (empty($customFieldValues)) {
+                continue;
+            }
+            $filterOptions = [];
+            foreach ($customFieldValues as $customFieldValue) {
+                $filterOptions[] = [
+                    'id'=>$customFieldValue->id,
+                    'value'=>$customFieldValue->value,
+                ];
+            }
+            $filters[$customField->name_key] = [
+                'type'=>$customField->type,
+                'name'=>$customField->name,
+                'options'=>$filterOptions
+            ];
+        }
+    }
+}
 
 $currencySymbol = mw()->shop_manager->currency_symbol();
 $priceBetween = '30.60';
@@ -105,6 +130,39 @@ $maxPrice = intval($maxPrice);
                 <option value="20" <?php if ($limit==20):?> selected="selected" <?php endif;?>>Limit: 20</option>
             </select>
         </div>
+
+
+            <?php
+            foreach($filters as $filterKey=>$filter):
+            ?>
+            <div class="col-md-12 pb-3">
+
+                <?php
+                if ($filter['type'] == 'dropdown' || $filter['type'] == 'radio'):
+                ?>
+                <b><?php echo $filter['name']; ?></b>
+
+                <?php
+                foreach($filter['options'] as $options):
+                ?>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="custom_fields[<?php echo $filterKey; ?>]" value="<?php echo $options['id']; ?>" id="defaultCheck<?php echo $options['id']; ?>">
+                    <label class="form-check-label" for="defaultCheck<?php echo $options['id']; ?>">
+                        <?php echo $options['value']; ?>
+                    </label>
+                </div>
+                <?php
+                endforeach;
+                ?>
+            <?php
+            endif;
+            ?>
+            </div>
+            <?php
+            endforeach;
+            ?>
+
+
             <div class="col-md-12">
         <button type="submit" class="btn btn-primary btn-block mt-2"><i class="fa fa-filter"></i> Filter</button>
         </div>
