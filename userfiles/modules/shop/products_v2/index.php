@@ -20,7 +20,7 @@
 
     $params['content_type'] = 'product';
     $params['is_shop'] = 1;
-	 
+
 
     $old_method = false;
     // OLD METHOD
@@ -57,10 +57,17 @@
         if (isset($_GET['priceBetween'])) {
             $priceBetween = $_GET['priceBetween'];
             $priceBetween = str_replace('%2C', ',', $priceBetween);
-            $filter['priceBetween'] = $priceBetween;
+           $filter['priceBetween'] = $priceBetween;
         }
 
-        $getProducts = \MicroweberPackages\Product\Models\Product::filter($filter)->paginate($limit);
+        $getProductsQuery = \MicroweberPackages\Product\Models\Product::query();
+
+        if (isset($_GET['custom_field'])) {
+            $getProductsQuery->whereCustomField($_GET['custom_field']);
+        }
+
+        $getProductsQuery->filter($filter);
+        $getProducts = $getProductsQuery->paginate($limit);
 
         if ($getProducts->total() == 0) {
             echo 'No products found';
@@ -87,6 +94,7 @@
 
 
             $data[] = [
+                'description'=>'',
                 'id' => $product->id,
                 'image' => $img,
                 'link' => $product->url,
@@ -94,6 +102,8 @@
                 'prices' => [$product->price],
             ];
         }
+
+        $current_page = '';
 
         asort($prices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
         $minPrice = $prices[0];

@@ -32,7 +32,7 @@ if (!empty($getProducts)) {
 }
 
 $currencySymbol = mw()->shop_manager->currency_symbol();
-$priceBetween = '30.60';
+$priceBetween = '0,10000';
 if (isset($_GET['priceBetween'])) {
     $priceBetween = $_GET['priceBetween'];
 }
@@ -40,8 +40,8 @@ if (isset($_GET['priceBetween'])) {
 $minPrice = $priceBetween;
 $maxPrice = false;
 
-if (strpos($priceBetween, '.') !== false) {
-    $priceRange = explode('.', $priceBetween);
+if (strpos($priceBetween, ',') !== false) {
+    $priceRange = explode(',', $priceBetween);
     $minPrice = $priceRange[0];
     $maxPrice = $priceRange[1];
 }
@@ -54,12 +54,12 @@ $maxPrice = intval($maxPrice);
     $(function() {
         $( "#slider-range" ).slider({
             range: true,
-            min: 30,
-            max: 60,
+            min: 0,
+            max: 300,
             values: [ <?php echo $minPrice;?>, <?php echo $maxPrice;?> ],
             slide: function( event, ui ) {
 
-                $('.js-shop-products-price-between').val(ui.values[ 0 ] +'.'+ ui.values[ 1 ]);
+                $('.js-shop-products-price-between').val(ui.values[ 0 ] +','+ ui.values[ 1 ]);
 
                 $( "#amount" ).val( "<?php echo $currencySymbol;?>" + ui.values[ 0 ] + " - <?php echo $currencySymbol;?>" + ui.values[ 1 ] );
             }
@@ -107,8 +107,8 @@ $maxPrice = intval($maxPrice);
         ?>
         <div class="col-md-6">
             <select class="form-control" name="orderBy">
-                <option value="id.desc" <?php if ($orderBy=='id.desc'):?> selected="selected" <?php endif;?>>Sort: Newest</option>
-                <option value="id.asc" <?php if ($orderBy=='id.asc'):?> selected="selected" <?php endif;?>>Sort: Oldest</option>
+                <option value="id,desc" <?php if ($orderBy=='id,desc'):?> selected="selected" <?php endif;?>>Sort: Newest</option>
+                <option value="id,asc" <?php if ($orderBy=='id,asc'):?> selected="selected" <?php endif;?>>Sort: Oldest</option>
             </select>
         </div>
 
@@ -121,9 +121,9 @@ $maxPrice = intval($maxPrice);
         ?>
         <div class="col-md-6">
             <select class="form-control" name="limit">
-                <option value="5" <?php if ($limit==1):?> selected="selected" <?php endif;?>>Limit: 1</option>
-                <option value="5" <?php if ($limit==2):?> selected="selected" <?php endif;?>>Limit: 2</option>
-                <option value="5" <?php if ($limit==3):?> selected="selected" <?php endif;?>>Limit: 3</option>
+                <option value="1" <?php if ($limit==1):?> selected="selected" <?php endif;?>>Limit: 1</option>
+                <option value="2" <?php if ($limit==2):?> selected="selected" <?php endif;?>>Limit: 2</option>
+                <option value="3" <?php if ($limit==3):?> selected="selected" <?php endif;?>>Limit: 3</option>
                 <option value="5" <?php if ($limit==5):?> selected="selected" <?php endif;?>>Limit: 5</option>
                 <option value="10" <?php if ($limit==10):?> selected="selected" <?php endif;?>>Limit: 10</option>
                 <option value="15" <?php if ($limit==15):?> selected="selected" <?php endif;?>>Limit: 15</option>
@@ -146,7 +146,7 @@ $maxPrice = intval($maxPrice);
                 foreach($filter['options'] as $options):
                 ?>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="<?php echo $filterKey; ?>" value="<?php echo $options['id']; ?>" id="defaultCheck<?php echo $options['id']; ?>">
+                    <input class="form-check-input" type="checkbox" name="custom_field[<?php echo $filterKey; ?>]" value="<?php echo $options['value']; ?>" id="defaultCheck<?php echo $options['id']; ?>">
                     <label class="form-check-label" for="defaultCheck<?php echo $options['id']; ?>">
                         <?php echo $options['value']; ?>
                     </label>
@@ -162,10 +162,9 @@ $maxPrice = intval($maxPrice);
             endforeach;
             ?>
 
-
             <div class="col-md-12">
-        <button type="submit" class="btn btn-primary btn-block mt-2"><i class="fa fa-filter"></i> Filter</button>
-        </div>
+                <button type="submit" class="btn btn-primary btn-block mt-2"><i class="fa fa-filter"></i> Filter</button>
+            </div>
         </div>
     </form>
 
