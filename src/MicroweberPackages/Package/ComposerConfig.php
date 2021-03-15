@@ -13,8 +13,5 @@ use Composer\Config;
 
 class ComposerConfig extends Config
 {
-    public static $defaultRepositories = array(
-
-    );
-
+    public static $defaultRepositories = array();
 }

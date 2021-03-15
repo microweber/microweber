@@ -2,8 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.2] - 2021-03-12
+- Added cached model queries
+- Fix multilanguage module 
+- Fix stats module styling
+- Fix Currency display in order list
+- Fix Search in Client
+- Fix backup module to include mutli language 
+- Fix Reloading pictures module loop  
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.1...1.2.2 "")
 
-## [1.2.1] - 2020-03-05
+
+## [1.2.1] - 2021-03-05
 - Added cached model queries
 - Fix language translations and locales
 - Fix design on the checkout popup

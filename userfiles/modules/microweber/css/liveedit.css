@@ -2922,6 +2922,8 @@ div[id*='SSDIVEL'] {
 
 #mw-text-editor #main-save-btn {
     color: #fff;
+    font-family: Verdana, Geneva, sans-serif;
+
 }
 
 #mw-text-editor .mw-dropdown-list-search {
