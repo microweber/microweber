@@ -66,7 +66,7 @@ mw.admin = {
     },
     manageToolbarQuickNav: null,
     insertModule: function (module) {
-        document.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
+        document.querySelector('.mw-iframe-editor').contentWindow.mw.insertModule(module);
     },
     simpleRotator: function (rotator) {
         if (rotator === null) {
@@ -495,7 +495,6 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 };
 
 $(window).on('load', function () {
-    console.log(  mw.admin)
     mw.admin.custom_fields.initValues();
 });
 
@@ -3626,7 +3625,80 @@ mw.msg = mw._lang = {
   \**************************/
 /***/ (() => {
 
+
+(function (){
+
+    // https://github.com/axios/axios#request-config
+    var Ajax = function (options) {
+        var scope = this;
+
+        var _e = {};
+
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+        var instance;
+
+        this.config = function (options) {
+            instance = axios.create(options);
+        };
+
+        this.config(options);
+
+        this.request = function (config) {
+            return instance.request(config);
+        };
+        this.get = function (url, config){
+            return instance.get(url, config);
+        };
+        this.delete = function (url, config){
+            return instance.delete(url, config);
+        };
+        this.head = function (url, config){
+            return instance.head(url, config);
+        };
+        this.options = function (url, config) {
+            return instance.options(url, config);
+        };
+        this.post = function (url, data, config) {
+            return instance.post(url, config);
+        };
+        this.put = function (url, data, config) {
+            return instance.put(url, config);
+        };
+        this.patch = function (url, data, config) {
+            return instance.patch(url, config);
+        };
+
+    };
+
+
+    mw.xhr = function (options) {
+        return new Ajax(options);
+    };
+
+    mw.apiXHR = mw.xhr({
+        baseURL: mw.settings.api_url.slice(0, -1)
+    });
+
+
+
+})();
+
+
 mw.module = {
+    xhr: mw.xhr({
+        baseURL: mw.settings.modules_url
+    }),
+    getData: function (module, options) {
+        if(typeof module === 'object') {
+            options = module;
+            module = options.module;
+        }
+        options = options || {};
+        options.module = module || options.module;
+        return mw.module.xhr.post('/', options);
+    },
     insert: function(target, module, config, pos) {
         return new Promise(function (resolve) {
             pos = pos || 'bottom';
@@ -3645,7 +3717,7 @@ mw.module = {
                     action = 'append';
                 }
             }
-            mw.$(target)[action](el);
+            mw.element(target)[action](el);
             mw.load_module(module, '#' + id, function () {
                 resolve(this);
             }, config);
@@ -6459,9 +6531,6 @@ mw.filePicker = function (options) {
 
         var defaultVersion = '-1';
 
-        var iconsCache = {};
-
-
         var common = {
             'fontAwesome': {
                 cssSelector: '.fa',
@@ -6533,15 +6602,19 @@ mw.filePicker = function (options) {
                 icons: function () {
                     var scope = this;
                     var parse = function (cssLink) {
+                        if(!cssLink.sheet){
+                            return;
+                        }
                         var icons = cssLink.sheet.cssRules;
-                        var l = icons.length, i = 0, mindIcons = [];
-                        for (; i < l; i++) {
+                         var l = icons.length, i = 0, mindIcons = [];
+                         for (; i < l; i++) {
                             var sel = icons[i].selectorText;
                             if (!!sel && sel.indexOf('.mw-micon-') === 0) {
                                 var cls = sel.replace(".", '').split(':')[0];
                                 mindIcons.push(cls);
                             }
                         }
+                        return mindIcons
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/line"]');
@@ -6594,9 +6667,11 @@ mw.filePicker = function (options) {
                                 mindIcons.push(cls);
                             }
                         }
+                        return mindIcons
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]');
+                        console.log(cssLink)
                         if(cssLink) {
                             cb.call(undefined, cssLink);
                         }  else {
@@ -6731,6 +6806,7 @@ mw.filePicker = function (options) {
         var addFontIconSet = function (options) {
             options.version = options.version || defaultVersion;
             iconSetPush(options);
+
             if (typeof options.load === 'string') {
                 mw.require(options.load);
             } else if (typeof options.load === 'function') {
@@ -6738,6 +6814,7 @@ mw.filePicker = function (options) {
             }
         };
         var addIconSet = function (conf) {
+
             if(typeof conf === 'string') {
                 if (common[conf]) {
                     conf = common[conf];
@@ -6746,7 +6823,7 @@ mw.filePicker = function (options) {
                     return;
                 }
             }
-            if(!conf) return;
+             if(!conf) return;
             conf.type = conf.type || 'font';
             if (conf.type === 'font') {
                 return addFontIconSet(conf);
@@ -6902,7 +6979,7 @@ mw.filePicker = function (options) {
             var sets = loader.storage();
             var all = sets.length;
             var i = 0;
-            sets.forEach(function (set){
+             sets.forEach(function (set){
                  if (!set._iconsLists) {
                      (function (aset){
                          aset.icons().then(function (data){
@@ -9518,7 +9595,7 @@ var domHelp = {
     },
     firstChildWithTag: function (parent, tag) {
         var toreturn;
-        var tag = tag.toLowerCase();
+        tag = tag.toLowerCase();
         mw.tools.foreachChildren(parent, function (loop) {
             if (this.nodeName.toLowerCase() === tag) {
                 toreturn = this;
@@ -10149,9 +10226,9 @@ mw.dropdown = mw.tools.dropdown;
 
         this.offset = function () {
             var rect = this._active().getBoundingClientRect();
-            rect.offsetTop = rect.top + pageYOffset;
-            rect.offsetBottom = rect.bottom + pageYOffset;
-            rect.offsetLeft = rect.left + pageXOffset;
+            rect.offsetTop = rect.top + window.pageYOffset;
+            rect.offsetBottom = rect.bottom + window.pageYOffset;
+            rect.offsetLeft = rect.left + window.pageXOffset;
             return rect;
         };
 
@@ -10266,8 +10343,12 @@ mw.dropdown = mw.tools.dropdown;
             this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
             options = options || {};
-
-            if(options.nodeName && options.nodeType) {
+            if (options.each && options.toArray) {
+                this.nodes = options.toArray();
+                this.node = this.nodes[this.nodes.length - 1];
+                options = {};
+                this._asElement = true;
+            } else if(options.nodeName && options.nodeType) {
                 this.nodes.push(options);
                 this.node = (options);
                 options = {};

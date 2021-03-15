@@ -388,8 +388,12 @@
             this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
             options = options || {};
-
-            if(options.nodeName && options.nodeType) {
+            if (options.each && options.toArray) {
+                this.nodes = options.toArray();
+                this.node = this.nodes[this.nodes.length - 1];
+                options = {};
+                this._asElement = true;
+            } else if(options.nodeName && options.nodeType) {
                 this.nodes.push(options);
                 this.node = (options);
                 options = {};

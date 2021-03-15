@@ -276,6 +276,7 @@ div.form-control {
 }
 .mw-admin-post-slug .contenteditable{
     position: relative;
+    min-width: 30px;
 }
 .mw-admin-post-slug .contenteditable:after{
     position: absolute;
