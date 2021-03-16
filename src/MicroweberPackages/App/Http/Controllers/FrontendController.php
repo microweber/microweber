@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\App\Http\Controllers;
 
+use MicroweberPackages\Option\Models\ModuleOption;
+use MicroweberPackages\Option\Models\Option;
 use function GuzzleHttp\Psr7\parse_query;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +19,7 @@ class FrontendController extends Controller
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
+    public $websiteOptions = [];
     public $return_data = false;
     public $content_data = false;
     public $page_url = false;
@@ -41,6 +44,8 @@ class FrontendController extends Controller
                 $this->app = mw();
             }
         }
+
+        $this->websiteOptions = Option::getWebsiteOptions();
 
         event_trigger('mw.init');
 
@@ -84,8 +89,8 @@ class FrontendController extends Controller
 
         $cont = get_content('is_active=1&is_deleted=0&limit=2500&orderby=updated_at desc');
 
-        $site_title = $this->app->option_manager->get('website_title', 'website');
-        $site_desc = $this->app->option_manager->get('website_description', 'website');
+        $site_title = $this->websiteOptions['website_title'];
+        $site_desc = $this->websiteOptions['website_description'];
 
         $views = MW_PATH . 'Views' . DS;
 
@@ -1166,8 +1171,7 @@ class FrontendController extends Controller
             $page_url = $this->page_url;
         }
 
-
-        $favicon_image = get_option('favicon_image', 'website');
+        $favicon_image = $this->websiteOptions['favicon_image'];
 
         if (!$favicon_image) {
             $ui_favicon = mw()->ui->brand_favicon();
@@ -1361,7 +1365,7 @@ class FrontendController extends Controller
             }
         } else {
 
-            $enable_full_page_cache = get_option('enable_full_page_cache', 'website') == 'y';
+            $enable_full_page_cache = $this->websiteOptions['enable_full_page_cache'] == 'y';
 
             if ($is_editmode == false
                 and !$is_preview_template
@@ -1420,12 +1424,12 @@ class FrontendController extends Controller
         }
         $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
 
-        $date_format = $this->app->option_manager->get('date_format', 'website');
+        $date_format = $this->websiteOptions['date_format'];
         if ($date_format == false) {
             $date_format = 'Y-m-d H:i:s';
         }
 
-        $maintenance_mode = get_option('maintenance_mode', 'website');
+        $maintenance_mode = $this->websiteOptions['maintenance_mode'];
 
 
         if ($maintenance_mode == 'y' && !is_admin()) {
@@ -1433,7 +1437,7 @@ class FrontendController extends Controller
                 $this->app->content_manager->define_constants();
             }
             $maintenance_template = TEMPLATES_DIR . ACTIVE_SITE_TEMPLATE . DS . '503.php';
-            $maintenance_mode_text = get_option('maintenance_mode_text', 'website');
+            $maintenance_mode_text = $this->websiteOptions['maintenance_mode_text'];
             $content_503 = 'Error 503 The website is under maintenance.';
 
             if ($maintenance_mode_text and trim($maintenance_mode_text) != '') {
@@ -2106,7 +2110,7 @@ class FrontendController extends Controller
             }
 
             // Add custom footer tags
-            $website_footer_tags = $this->app->option_manager->get('website_footer', 'website');
+            $website_footer_tags = $this->websiteOptions['website_footer'];
             if ($website_footer_tags != false) {
                 $template_footer_src .= $website_footer_tags . "\n";
             }
@@ -2182,7 +2186,7 @@ class FrontendController extends Controller
             //    }
 
             // Add custom head tags
-            $website_head_tags = $this->app->option_manager->get('website_head', 'website');
+            $website_head_tags = $this->websiteOptions['website_head'];
             $rep_count = 1;
             if ($website_head_tags != false) {
                 $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
@@ -2850,7 +2854,7 @@ class FrontendController extends Controller
     public function robotstxt()
     {
         header('Content-Type: text/plain');
-        $robots = get_option('robots_txt', 'website');
+        $robots = $this->websiteOptions['robots_txt'];
 
         if ($robots == false) {
             $robots = "User-agent: *\nAllow: /" . "\n";
