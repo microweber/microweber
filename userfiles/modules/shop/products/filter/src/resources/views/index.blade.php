@@ -15,8 +15,21 @@
                 <b>{{$filter['name']}}</b>
 
                 @foreach($filter['options'] as $options)
+                @php
+                $checked = false;
+                if (!empty($customFields)) {
+                    foreach ($customFields as $customFieldKey=>$customFieldValues) {
+                        foreach($customFieldValues as $customFieldValue) {
+                            if ($customFieldKey == $filterKey && $customFieldValue == $options['value']) {
+                                $checked = true;
+                            }
+                        }
+                    }
+                }
+                @endphp
+
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="custom_field[{{$filterKey}}]" value="{{$options['value']}}" id="customFieldFilterCheck{{$options['id']}}">
+                    <input class="form-check-input" @if ($checked) checked @endif type="checkbox" name="customFields[{{$filterKey}}][]" value="{{$options['value']}}" id="customFieldFilterCheck{{$options['id']}}">
                     <label class="form-check-label" for="customFieldFilterCheck{{ $options['id'] }}">
                         {{ $options['value'] }}
                     </label>

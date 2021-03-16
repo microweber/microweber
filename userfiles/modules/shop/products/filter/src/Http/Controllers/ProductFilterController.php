@@ -17,7 +17,7 @@ class ProductFilterController
         $orderBy = $request->get('orderBy','');
         $limit = $request->get('limit','');
         $priceBetween = $request->get('priceBetween','');
-        $customField = $request->get('customField','');
+        $customFields = $request->get('customFields','');
 
         $filters = [];
         $productPrices = [];
@@ -71,7 +71,7 @@ class ProductFilterController
             'productsMaxPriceRounded'=>round($productsMaxPrice),
             'filters'=>$filters,
             'orderBy'=>$orderBy,
-            'customField'=>$customField,
+            'customFields'=>$customFields,
             'limit'=>$limit,
         ]);
     }
