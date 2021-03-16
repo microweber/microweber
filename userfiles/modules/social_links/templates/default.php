@@ -21,7 +21,6 @@ description: Default
 
     <?php if ($facebook_enabled) { ?>
 
-
         <a href="//facebook.com/<?php print $facebook_url; ?>" target="_blank"><span class="mw-icon-facebook"></span></a>
 
     <?php } ?>
@@ -32,20 +31,6 @@ description: Default
 
     <?php } ?>
 
-    <?php if ($discord_enabled) { ?>
-
-        <a href="//discord.gg/<?php print $discord_url; ?>" target="_blank"><span class="mw-icon-web-star"></span></a>
-
-    <?php } ?>
-
-
-
-
-    <?php if ($pinterest_enabled) { ?>
-
-        <a href="//pinterest.com/<?php print $pinterest_url; ?>" target="_blank"><span class="mw-icon-social-pinterest"></span></a>
-
-    <?php } ?>
 
     <?php if ($youtube_enabled) { ?>
 
@@ -56,6 +41,15 @@ description: Default
     <?php if ($instagram_enabled) { ?>
 
         <a href="https://instagram.com/<?php print $instagram_url; ?>" target="_blank"><span class="mw-icon-social-instagram"></span></a>
+
+    <?php } ?>
+
+
+
+
+    <?php if ($pinterest_enabled) { ?>
+
+        <a href="//pinterest.com/<?php print $pinterest_url; ?>" target="_blank"><span class="mw-icon-social-pinterest"></span></a>
 
     <?php } ?>
 
@@ -86,6 +80,12 @@ description: Default
     <?php if ($medium_enabled) { ?>
 
         <a href="//medium.com/<?php print $medium_url; ?>" target="_blank"><span class="fab fa-medium mw-icon-social-medium"></span></a>
+
+    <?php } ?>
+
+    <?php if ($discord_enabled) { ?>
+
+        <a href="//discord.gg/<?php print $discord_url; ?>" target="_blank"><span class="mw-icon-web-star"></span></a>
 
     <?php } ?>
 

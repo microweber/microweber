@@ -107,31 +107,32 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                     </div>
 
-
                     <div class="form-group">
                         <div class="custom-control custom-checkbox d-flex align-items-center">
-                            <input type="checkbox" class="mw_option_field custom-control-input" name="discord_enabled" id="discord_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($discord_enabled) print 'checked="checked"'; ?>>
-                            <label class="custom-control-label mr-2 d-flex" for="discord_enabled"><i class="mdi mdi-discord mdi-20px lh-1_0 mr-2"></i> discord.gg/</label>
-                            <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="discord_url" value="<?php print $discord_url; ?>">
+                            <input type="checkbox" class="mw_option_field custom-control-input" name="youtube_enabled" id="youtube_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($youtube_enabled) print 'checked="checked"'; ?>>
+                            <label class="custom-control-label mr-2 d-flex" for="youtube_enabled"><i class="mdi mdi-youtube mdi-20px lh-1_0 mr-2"></i> youtube.com/</label>
+                            <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="youtube_url" value="<?php print $youtube_url; ?>"/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="custom-control custom-checkbox d-flex align-items-center">
-                            <input type="checkbox" class="mw_option_field custom-control-input" name="pinterest_enabled" id="pinterest_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>>
-                            <label class="custom-control-label mr-2 d-flex" for="pinterest_enabled"><i class="mdi mdi-pinterest mdi-20px lh-1_0 mr-2"></i> pinterest.com/</label>
-                            <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="pinterest_url" value="<?php print $pinterest_url; ?>"/><span></span>
+                            <input type="checkbox" class="mw_option_field custom-control-input" name="instagram_enabled" id="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($instagram_enabled) print 'checked="checked"'; ?>>
+                            <label class="custom-control-label mr-2 d-flex" for="instagram_enabled"><i class="mdi mdi-instagram mdi-20px lh-1_0 mr-2"></i> instagram.com/</label>
+                            <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="instagram_url" value="<?php print $instagram_url; ?>"/>
                         </div>
                     </div>
+
 
                     <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-3" data-toggle="collapse" data-target="#more-socials-settings" aria-expanded="true"><?php _e("Show more"); ?></a>
 
                     <div class="collapse" id="more-socials-settings">
+
                         <div class="form-group">
                             <div class="custom-control custom-checkbox d-flex align-items-center">
-                                <input type="checkbox" class="mw_option_field custom-control-input" name="youtube_enabled" id="youtube_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($youtube_enabled) print 'checked="checked"'; ?>>
-                                <label class="custom-control-label mr-2 d-flex" for="youtube_enabled"><i class="mdi mdi-youtube mdi-20px lh-1_0 mr-2"></i> youtube.com/</label>
-                                <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="youtube_url" value="<?php print $youtube_url; ?>"/>
+                                <input type="checkbox" class="mw_option_field custom-control-input" name="pinterest_enabled" id="pinterest_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="pinterest_enabled"><i class="mdi mdi-pinterest mdi-20px lh-1_0 mr-2"></i> pinterest.com/</label>
+                                <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="pinterest_url" value="<?php print $pinterest_url; ?>"/><span></span>
                             </div>
                         </div>
 
@@ -151,13 +152,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox d-flex align-items-center">
-                                <input type="checkbox" class="mw_option_field custom-control-input" name="instagram_enabled" id="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($instagram_enabled) print 'checked="checked"'; ?>>
-                                <label class="custom-control-label mr-2 d-flex" for="instagram_enabled"><i class="mdi mdi-instagram mdi-20px lh-1_0 mr-2"></i> instagram.com/</label>
-                                <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="instagram_url" value="<?php print $instagram_url; ?>"/>
-                            </div>
-                        </div>
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox d-flex align-items-center">
@@ -187,6 +181,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div class="custom-control custom-checkbox d-flex align-items-center">
                                 <input type="checkbox" class="mw_option_field custom-control-input" name="rss_enabled" id="rss_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($rss_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="rss_enabled"><i class="mdi mdi-rss mdi-20px lh-1_0 mr-2"></i> RSS</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox d-flex align-items-center">
+                                <input type="checkbox" class="mw_option_field custom-control-input" name="discord_enabled" id="discord_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($discord_enabled) print 'checked="checked"'; ?>>
+                                <label class="custom-control-label mr-2 d-flex" for="discord_enabled"><i class="mdi mdi-discord mdi-20px lh-1_0 mr-2"></i> discord.gg/</label>
+                                <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="discord_url" value="<?php print $discord_url; ?>">
                             </div>
                         </div>
                     </div>
