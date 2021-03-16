@@ -60,7 +60,7 @@ if (!isset($params['prefix'])) {
 
 <form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
     <?php if (isset($lic['status'])): ?>
-        <div class="alert alert-dismissible <?php if ($lic['status'] == 'active'): ?>alert-success<?php else: ?>alert-danger<?php endif; ?>"><?php _e('License Status:'); ?><?php print _e(ucwords($lic['status'])) ?></div>
+        <div class="alert alert-dismissible <?php if ($lic['status'] == 'active'): ?>alert-success<?php else: ?>alert-danger<?php endif; ?>"><?php _e('License Status:'); ?><?<?php _e(ucwords($lic['status'])) ?></div>
     <?php endif; ?>
 
     <div class="form-group">

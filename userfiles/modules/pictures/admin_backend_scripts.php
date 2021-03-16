@@ -21,7 +21,7 @@
             template: 'default',
             height: 'auto',
 
-            title: '<?php print _e('Image Settings'); ?>',
+            title: '<?<?php _e('Image Settings'); ?>',
             onResult: function (id) {
                 saveOptions(id);
                 this.remove()

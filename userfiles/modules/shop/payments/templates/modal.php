@@ -48,7 +48,7 @@ description: Payments 1
 
                                    <label class="btn btn-outline-primary btn-lg <?php if($count == 1) { print 'btn-primary';}   ?>  custom-control custom-radio mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?> mx-1">
                                        <input style="display: none;" value="<?php print  $payment_option['gw_file']; ?>" name="payment_gw" type="radio" class="custom-control-input" <?php if($count == 1) { print 'checked';} ?>>
-                                       <span for="customRadio1"><?php print _e($payment_option['name']); ?></span>
+                                       <span for="customRadio1"><?<?php _e($payment_option['name']); ?></span>
                                    </label>
                                <?php endforeach; ?>
                            </div>

@@ -28,8 +28,8 @@ if ($menu_name == false and isset($params['menu_name'])) {
 
 
 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?<?php _e('Settings'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?<?php _e('Templates'); ?></a>
 </nav>
 
 <div class="tab-content py-3">
@@ -46,14 +46,14 @@ if ($menu_name == false and isset($params['menu_name'])) {
 <div class="  mw-modules-tabs">
     <div class="mw-accordion-item-block mw-live-edit-module-manage-and-list-top">
         <a href="javascript:openMenuManagerModal('<?php print $params['id'] ?>');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded">
-            <span class="fas fa-list"></span> &nbsp;<?php print _e('Manage menu'); ?>
+            <span class="fas fa-list"></span> &nbsp;<?<?php _e('Manage menu'); ?>
         </a>
     </div>
 
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-gear"></i> <?php print _e('Settings'); ?>
+                <i class="mw-icon-gear"></i> <?<?php _e('Settings'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -68,7 +68,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-beaker"></i> <?php print _e('Templates'); ?>
+                <i class="mw-icon-beaker"></i> <?<?php _e('Templates'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">

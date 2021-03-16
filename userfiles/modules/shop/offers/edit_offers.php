@@ -7,13 +7,13 @@ $allOffers = \MicroweberPackages\Offer\Models\Offer::getAll();
         <thead>
         <tr>
             <th>#</th>
-            <th><?php print _e('Product'); ?></th>
-            <th><?php print _e('Label'); ?></th>
-            <th><?php print _e('Price'); ?></th>
-            <th><?php print _e('Offer'); ?></th>
-            <th><?php print _e('Expire at'); ?></th>
-            <th><?php print _e('Status'); ?></th>
-            <th class="text-center" style="width:200px;"><?php print _e('Action'); ?></th>
+            <th><?<?php _e('Product'); ?></th>
+            <th><?<?php _e('Label'); ?></th>
+            <th><?<?php _e('Price'); ?></th>
+            <th><?<?php _e('Offer'); ?></th>
+            <th><?<?php _e('Expire at'); ?></th>
+            <th><?<?php _e('Status'); ?></th>
+            <th class="text-center" style="width:200px;"><?<?php _e('Action'); ?></th>
         </tr>
         </thead>
         <?php
@@ -34,9 +34,9 @@ $allOffers = \MicroweberPackages\Offer\Models\Offer::getAll();
                     <td><?php if ($offer['expires_at'] and $offer['expires_at'] != '0000-00-00 00:00:00' ): ?><?php print date_system_format($offer['expires_at']) ?><?php else: ?>-<?php endif; ?></td>
                     <td class="<?php print $class_status; ?>"><?php print($offer['is_active'] == 1 ? 'Active' : 'Inactive') ?></td>
                     <td class="action-buttons">
-                        <button onclick="editOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit"><?php print _e('Edit'); ?></button>
-                        <button onclick="deleteOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-danger btn-sm" title="Delete"><?php print _e('Delete'); ?></button>
-                        <a href="<?php echo content_link($offer['product_id']) ?>" target="_new" class="btn btn-primary btn-sm" title="View"><?php print _e('View'); ?></a>
+                        <button onclick="editOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit"><?<?php _e('Edit'); ?></button>
+                        <button onclick="deleteOffer(<?php print($offer['id']) ?>)" class="btn btn-outline-danger btn-sm" title="Delete"><?<?php _e('Delete'); ?></button>
+                        <a href="<?php echo content_link($offer['product_id']) ?>" target="_new" class="btn btn-primary btn-sm" title="View"><?<?php _e('View'); ?></a>
                     </td>
                 </tr>
                 <?php

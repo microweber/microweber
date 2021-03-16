@@ -421,11 +421,11 @@ if (isset($data[0]) == false) {
                                     </script>
 
                                     <div class="export-label d-flex align-items-center justify-content-center-x">
-                                        <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>" class="btn btn-link px-0"><?php print _e('Export user data'); ?></a>
+                                        <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>" class="btn btn-link px-0"><?<?php _e('Export user data'); ?></a>
                                         &nbsp;
-                                        <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php print _e('Terms agreement log'); ?></a>
+                                        <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?<?php _e('Terms agreement log'); ?></a>
                                         &nbsp;
-                                        <a href="javascript:mw_admin_login_attempts_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php print _e('Login attempts'); ?></a>
+                                        <a href="javascript:mw_admin_login_attempts_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?<?php _e('Login attempts'); ?></a>
                                     </div>
                                 <?php endif; ?>
                             </div>

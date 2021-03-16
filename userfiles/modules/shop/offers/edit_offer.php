@@ -150,7 +150,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="expiration-checkbox" <?php echo (!empty($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') ? 'checked' : '' ?> >
-            <label class="custom-control-label" for="expiration-checkbox"><?php echo _e('Has expiration date');?></label>
+            <label class="custom-control-label" for="expiration-checkbox"><?<?php _e('Has expiration date');?></label>
         </div>
 
         <div class="js-exp-date-holder">

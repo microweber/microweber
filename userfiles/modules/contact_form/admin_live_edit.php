@@ -6,10 +6,10 @@ if (!user_can_access('module.contact_form.index')) {
 
 
 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings" id="form_options"><i class="mdi mdi-email-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings-advanced"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Advanced Settings'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#custom-fields"><i class="mdi mdi-pencil-box-outline mr-1"></i> <?php print _e('Custom Fields'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings" id="form_options"><i class="mdi mdi-email-outline mr-1"></i> <?<?php _e('Settings'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings-advanced"><i class="mdi mdi-cog-outline mr-1"></i> <?<?php _e('Advanced Settings'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#custom-fields"><i class="mdi mdi-pencil-box-outline mr-1"></i> <?<?php _e('Custom Fields'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?<?php _e('Templates'); ?></a>
 </nav>
 
 <div class="tab-content py-3">
@@ -36,7 +36,7 @@ if (!user_can_access('module.contact_form.index')) {
     <div class="tab-pane fade show active" id="settings">
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
-            <module type="settings/list" for_module="<?php print _e($config['module']) ?>" for_module_id="<?php print $params['id'] ?>"/>
+            <module type="settings/list" for_module="<?<?php _e($config['module']) ?>" for_module_id="<?php print $params['id'] ?>"/>
 
             <module type="contact_form/settings" for_module_id="<?php print $params['id'] ?>"/>
 
@@ -54,7 +54,7 @@ if (!user_can_access('module.contact_form.index')) {
             }
             ?>
 
-            <module type="contact_form/manager/assign_list_to_module" data-for-module="<?php print _e($config['module_name']) ?>" data-for-module-id="<?php print $params['id'] ?>"/>
+            <module type="contact_form/manager/assign_list_to_module" data-for-module="<?<?php _e($config['module_name']) ?>" data-for-module-id="<?php print $params['id'] ?>"/>
             <hr class="thin"/>
 
             <h5 class="font-weight-bold mb-3"><?php _e("Contact form advanced settings") ?></h5>

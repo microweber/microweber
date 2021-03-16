@@ -2,7 +2,7 @@
     <div class="card style-1">
         <div class="card-header">
             <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("List of orders"); ?></strong>
-                <button onclick="mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?php print _e('Add new order'); ?></button>
+                <button onclick="mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?<?php _e('Add new order'); ?></button>
             </h5>
 
             @include('order::admin.orders.partials.order_search')
@@ -13,14 +13,14 @@
             @include('order::admin.orders.partials.order_filtering')
 
             <?php if (count($newOrders) > 0): ?>
-                 <label class="control-label mb-3 mt-3"><?php print _e('New orders'); ?></label>
+                 <label class="control-label mb-3 mt-3"><?<?php _e('New orders'); ?></label>
             <?php foreach ($newOrders as $order): ?>
                 @include('order::admin.orders.order_card')
             <?php endforeach;?>
             <?php endif; ?>
 
             <?php if (count($orders) > 0): ?>
-            <label class="control-label mb-3 mt-3"><?php print _e('All orders'); ?></label>
+            <label class="control-label mb-3 mt-3"><?<?php _e('All orders'); ?></label>
             <?php foreach ($orders as $order): ?>
                 @include('order::admin.orders.order_card')
             <?php endforeach;?>

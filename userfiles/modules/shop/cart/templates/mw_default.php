@@ -18,7 +18,7 @@
                                 <div class="col-10">
                                     <div class="form-row align-items-md-center h-100">
                                         <div class="col-12 col-md-5">
-                                            <div><?php print _e($item['title']) ?></div>
+                                            <div><?<?php _e($item['title']) ?></div>
                                         </div>
                                         <div class="col-6 col-md-4 align-self-center justify-content-md-center">
                                             <?php print currency_format($item['price']); ?>

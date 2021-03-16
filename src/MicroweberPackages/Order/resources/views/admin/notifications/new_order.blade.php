@@ -76,9 +76,9 @@ if(!$order){
                     </div>
 
                     <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip"
-                         title="<?php print _e(mw('format')->ago($item['created_at'])); ?>">
-                        <?php print _e(date('M d, Y', strtotime($item['created_at']))); ?><br/>
-                        <small class="text-muted"><?php print _e(date('h:s', strtotime($item['created_at']))); ?>h
+                         title="<?<?php _e(mw('format')->ago($item['created_at'])); ?>">
+                        <?<?php _e(date('M d, Y', strtotime($item['created_at']))); ?><br/>
+                        <small class="text-muted"><?<?php _e(date('h:s', strtotime($item['created_at']))); ?>h
                         </small>
                     </div>
 

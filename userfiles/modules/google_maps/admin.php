@@ -13,7 +13,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _e($module_info['name']); ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?<?php _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -27,7 +27,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="module-live-edit-settings  module-google-maps-settings">
             <div class="form-group">
                 <label class="control-label"><?php _e("Enter Your Address"); ?></label>
-                <input name="data-address" class="mw_option_field form-control" id="addr" type="text" value="<?php print get_option('data-address', $params['id']) ?>" placeholder="<?php print _e('Example: Bulgaria, Sofia, bul. Cherni Vrah 47'); ?>"/>
+                <input name="data-address" class="mw_option_field form-control" id="addr" type="text" value="<?php print get_option('data-address', $params['id']) ?>" placeholder="<?<?php _e('Example: Bulgaria, Sofia, bul. Cherni Vrah 47'); ?>"/>
             </div>
 
             <div class="form-group">

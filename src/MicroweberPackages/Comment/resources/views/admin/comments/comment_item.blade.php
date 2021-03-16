@@ -22,14 +22,14 @@
                             </script>
                             <div>
                                 <select class="selectpicker js-change-color js-modify-comment d-inline-block" data-style="btn-success btn-sm" data-width="fit" data-title="<?php _e($status); ?>">
-                                    <option class="js-comment-approved-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-success"><?php print _e('Published'); ?></option>
-                                    <option class="js-comment-unpublished-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-warning"><?php print _e('Unpublish'); ?></option>
-                                    <option class="js-mark-spam-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-secondary"><?php print _e('Mark as Spam'); ?></option>
-                                    <option class="js-delete-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-danger"><?php print _e('Delete'); ?></option>
+                                    <option class="js-comment-approved-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-success"><?<?php _e('Published'); ?></option>
+                                    <option class="js-comment-unpublished-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-warning"><?<?php _e('Unpublish'); ?></option>
+                                    <option class="js-mark-spam-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-secondary"><?<?php _e('Mark as Spam'); ?></option>
+                                    <option class="js-delete-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-danger"><?<?php _e('Delete'); ?></option>
                                 </select>
 
                                 <button class="js-edit-comment-btn btn btn-outline-secondary btn-sm" data-id="<?php print $comment['id'] ?>"><?php _e('Edit'); ?></button>
-                                <button class="js-save-comment-btn btn btn-success btn-sm" data-id="<?php print $comment['id'] ?>" style="display: none;"><i class="mw-icon-pen"></i><?php print _e('Save'); ?></button>
+                                <button class="js-save-comment-btn btn btn-success btn-sm" data-id="<?php print $comment['id'] ?>" style="display: none;"><i class="mw-icon-pen"></i><?<?php _e('Save'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -114,10 +114,10 @@
                                     <form id="comment-form-reply-<?php print $comment['id'] ?>" class="js-reply-comment-form">
                                         <div class="form-group">
                                             <input type="hidden" name="reply_to_comment_id" value="<?php print $comment['id'] ?>">
-                                            <textarea placeholder="<?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?>" name="comment_body"></textarea>
+                                            <textarea placeholder="<?<?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?>" name="comment_body"></textarea>
                                         </div>
                                         <div class="text-right">
-                                            <button class="btn btn-outline-secondary btn-sm" type="submit"><?php print _e('Post Comment'); ?></button>
+                                            <button class="btn btn-outline-secondary btn-sm" type="submit"><?<?php _e('Post Comment'); ?></button>
                                         </div>
                                     </form>
                                 </div>

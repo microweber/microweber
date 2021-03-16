@@ -58,9 +58,9 @@ if (!empty($template_config)) {
 
                             ?>
                             <div class="form-group col-6">
-                                <label> <?php print _e($title); ?></label>
+                                <label> <?<?php _e($title); ?></label>
                                 <?php if ($help) { ?>
-                                    <small class="text-muted d-block mb-2"><?php print _e($help); ?></small>
+                                    <small class="text-muted d-block mb-2"><?<?php _e($help); ?></small>
                                 <?php } ?>
 
                                 <?php if ($type == 'textarea') { ?>
