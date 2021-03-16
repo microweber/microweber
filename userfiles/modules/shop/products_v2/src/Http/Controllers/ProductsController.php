@@ -44,7 +44,7 @@ class ProductsController extends ModuleFrontController
         }
 
         $getProductsQuery->filter($filter);
-        $getProducts = $getProductsQuery->paginate($limit);
+        $getProducts = $getProductsQuery->paginate($limit)->withQueryString();
 
         if ($getProducts->total() == 0) {
             echo 'No products found';
@@ -74,7 +74,15 @@ class ProductsController extends ModuleFrontController
             ];
         }
 
-        return $this->view(false, ['data'=>$data, 'pagination'=>$getProducts->links()]);
+        $pagesCount = 30;
+
+        return $this->view(false, [
+            'data'=>$data,
+            'pages_count'=>$pagesCount,
+            'paging_param'=>'page',
+            'pagination'=>$getProducts->links('pagination::bootstrap-4')
+            ]
+        );
     }
 
 }
