@@ -66,7 +66,7 @@ mw.tools.iframeAutoHeight = function(frame, opt){
         frame.style.overflow = 'auto';
         frame.scrolling="auto"
     } else {
-        frame.scrolling="no";
+        frame.scrolling="auto";
         frame.style.overflow = 'hidden';
     }
     mw.$(frame).on('load resize', function(){
@@ -87,7 +87,7 @@ mw.tools.iframeAutoHeight = function(frame, opt){
             frame.style.overflow = 'auto';
             frame.scrolling="auto";
         } else {
-            frame.scrolling="no";
+            frame.scrolling="auto";
             frame.style.overflow = 'hidden';
         }
     });
