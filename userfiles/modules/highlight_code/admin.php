@@ -31,7 +31,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="module-live-edit-settings module-highlight-code-settings">
             <div class="form-group">
                 <label class="control-label"><?php _lang('Enter some text', "modules/highlight_code"); ?></label>
-                <textarea class="mw_option_field form-control" rows="20" name="text"><?php print _lang($text, 'modules/highlight_code'); ?></textarea>
+                <textarea class="mw_option_field form-control" rows="20" name="text"><?php _lang($text, 'modules/highlight_code'); ?></textarea>
             </div>
         </div>
     </div>
