@@ -26,7 +26,7 @@ $prev = prev_content();
             <div id="next-tip" style="display: none">
                 <div class="next-previous-tip-content">
                     <img src="<?php print get_picture($next['id']); ?>" alt="" width="90"/>
-                    <h6><?php print _e($next['title']); ?></h6>
+                    <h6><?php _e($next['title']); ?></h6>
                 </div>
             </div>
         <?php } ?>

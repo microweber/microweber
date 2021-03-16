@@ -29,7 +29,7 @@
 <div class="<?php print $config['module_class'] ?> js-anchorific">
     <div class="card bg-none style-1 mb-0 card-settings">
         <div class="card-header px-0">
-            <h5 class="w-100"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><?php echo _e('General'); ?></strong></h5>
+            <h5 class="w-100"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><?php _e('General'); ?></strong></h5>
             <div class="d-block w-100">
                 <nav class="anchorific"></nav>
             </div>
@@ -38,8 +38,8 @@
         <div class="card-body pt-3 px-0">
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php echo _e('Seo Settings'); ?></h5>
-                    <small class="text-muted"><?php echo _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
+                    <h5 class="font-weight-bold"><?php _e('Seo Settings'); ?></h5>
+                    <small class="text-muted"><?php _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -116,8 +116,8 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php echo _e('General Settings'); ?></h5>
-                    <small class="text-muted"><?php echo _e('Set regional settings for your website or online store');?> <?php _e('They will also affect the language you use and the fees for the orders.'); ?></small>
+                    <h5 class="font-weight-bold"><?php _e('General Settings'); ?></h5>
+                    <small class="text-muted"><?php _e('Set regional settings for your website or online store');?> <?php _e('They will also affect the language you use and the fees for the orders.'); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -188,7 +188,7 @@
                                         </script>
 
                                         <label class="control-label"><?php _e("Change Favicon"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php echo _e('Select an icon for your website. It is best to be part of your logo.'); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e('Select an icon for your website. It is best to be part of your logo.'); ?></small>
                                         <div class="d-flex">
                                             <div class="img-circle-holder img-absolute w-40 border-radius-0 border-silver mr-3">
                                                 <img src="<?php print $favicon_image; ?>" class="js-icoimage"/>
@@ -229,7 +229,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Fonts"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php echo _e('Select fonts you want to install for your website.'); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e('Select fonts you want to install for your website.'); ?></small>
 
                                         <div class="table-responsive">
                                             <?php
@@ -270,8 +270,8 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php echo _e('Social Networks links'); ?></h5>
-                    <small class="text-muted"><?php echo _e('Add links to your social media accounts. Once set up, you can use them anywhere on your site using the "social networks" module with drag and drop technology.'); ?></small>
+                    <h5 class="font-weight-bold"><?php _e('Social Networks links'); ?></h5>
+                    <small class="text-muted"><?php _e('Add links to your social media accounts. Once set up, you can use them anywhere on your site using the "social networks" module with drag and drop technology.'); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -293,7 +293,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e('Online Shop'); ?></h5>
-                    <small class="text-muted"><?php echo _e('Enable or disable your online shop'); ?></small>
+                    <small class="text-muted"><?php _e('Enable or disable your online shop'); ?></small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">

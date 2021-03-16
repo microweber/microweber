@@ -36,6 +36,8 @@ if ($btn_options['icon']) {
     $icon = '';
 }
 
+$icon = html_entity_decode($icon);
+
 if (isset($params['button_id'])) {
     $btn_id = $params['button_id'];
 }
@@ -55,8 +57,11 @@ if ($text == false and isset($params['text'])) {
 } elseif ($text == '') {
     $text = lang('Button', 'templates/dream/modules/btn');
 }
+if ($text === '$notext') {
+    $text = '';
+}
 if($icon){
-    $text = $icon . '&nbsp;' . $text;
+    $text = $icon . ($text !== '' ? '&nbsp;' : '') . $text;
 }
 
 if ($url == false and isset($params['url'])) {

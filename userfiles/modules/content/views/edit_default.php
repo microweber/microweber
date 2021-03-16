@@ -236,7 +236,7 @@ if (isset($params['quick_edit'])) {
                                 $type_icon = 'mdi-file-document';
                             }
                             ?>
-                            <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php print _e($action_text); ?></strong></h5>
+                            <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
 
                             <div id="content-title-field-buttons">
@@ -256,7 +256,7 @@ if (isset($params['quick_edit'])) {
 
 
 
-                                <button id="js-admin-save-content-main-btn" type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php print _e('Save'); ?></span></button>
+                                <button id="js-admin-save-content-main-btn" type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
                             </div>
                         </div>
                     </div>
@@ -264,7 +264,7 @@ if (isset($params['quick_edit'])) {
                     <?php if (isset($edit_page_info['title'])): ?>
                         <div class="card-body pt-3">
                             <div class="form-group" id="slug-field-holder">
-                                <label class="control-label"><?php print _e($type) ?> <?php print _e("title"); ?></label>
+                                <label class="control-label"><?php _e($type) ?> <?php _e("title"); ?></label>
                                 <input type="text" autocomplete="off" class="form-control" name="title" onkeyup="slugFromTitle();" id="content-title-field" value="<?php print ($title_for_input) ?>">
                                 <div class="mw-admin-post-slug">
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left" title="Copy link"  onclick="copy_url_of_page();" style="cursor: copy"></i>

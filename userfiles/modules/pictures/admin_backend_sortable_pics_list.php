@@ -188,7 +188,7 @@ $rand = 'pic-sorter-' . uniqid();
                 <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
                 <?php if ($key == 0): ?>
 
-                    <div class="featured-image"><?php print _e('featured image'); ?></div>
+                    <div class="featured-image"><?php _e('featured image'); ?></div>
 
                 <?php endif; ?>
 

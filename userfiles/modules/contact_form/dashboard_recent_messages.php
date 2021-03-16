@@ -15,7 +15,7 @@ $last_messages_count = mw()->forms_manager->get_entires('count=true');
 <div class="card style-1 mb-3 card-message-holder">
     <div class="card-header">
         <h5><i class="mdi mdi-email-check text-primary mr-3"></i> <strong><?php _e("Recent Messages") ?></strong></h5>
-        <div><a href="<?php print admin_url('view:modules/load_module:contact_form'); ?>" class="btn btn-outline-secondary btn-sm"><?php print _e('View all'); ?></a></div>
+        <div><a href="<?php print admin_url('view:modules/load_module:contact_form'); ?>" class="btn btn-outline-secondary btn-sm"><?php _e('View all'); ?></a></div>
     </div>
 
     <div class="card-body">

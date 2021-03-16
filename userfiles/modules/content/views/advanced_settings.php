@@ -332,7 +332,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 </script>
                 <div class="row d-flex align-items-center">
                     <div class="col-md-8">
-                        <label class="control-label"><?php print _e('Related Content'); ?>:</label>
+                        <label class="control-label"><?php _e('Related Content'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('You can add related content to your post or product');?></small>
                         <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit related"); ?></a>
                     </div>
@@ -341,7 +341,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 </div>
                 <div class="row d-flex align-items-center">
                     <div class="col-md-12 text-center text-md-left">
-                        <label class="control-label mt-3"><?php print _e('More options'); ?>:</label>
+                        <label class="control-label mt-3"><?php _e('More options'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>

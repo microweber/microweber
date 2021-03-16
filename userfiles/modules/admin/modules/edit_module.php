@@ -103,7 +103,7 @@ if ($id != false) {
                         <div class="admin-modules-list-description mt-0">
                             <h6>
                                 <?php if (isset($data['name'])): ?>
-                                    <?php print _e($data['name']) ?>
+                                    <?php _e($data['name']) ?>
                                 <?php endif; ?>
                             </h6>
                         </div>

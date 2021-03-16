@@ -13,13 +13,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo _lang($module_info['name'], "modules/audio"); ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _lang($module_info['name'], "modules/audio"); ?></strong>
         </h5>
     </div>
 
     <div class="card-body pt-3">
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings', "modules/audio"); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings', "modules/audio"); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -63,7 +63,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="form-group">
                         <label class="control-label"><?php _lang("Paste URL", "modules/audio"); ?></label>
-                        <small class="text-muted d-block mb-2"><?php print _lang('You can <strong>Upload your audio file</strong> or you can <strong>Paste URL</strong> to the file. It\'s possible to use <strong > only one option</strong>.', "modules/audio"); ?></small>
+                        <small class="text-muted d-block mb-2"><?php _lang('You can <strong>Upload your audio file</strong> or you can <strong>Paste URL</strong> to the file. It\'s possible to use <strong > only one option</strong>.', "modules/audio"); ?></small>
                         <input name="data-audio-url" class="mw_option_field form-control" id="audio" type="text" value="<?php print get_option('data-audio-url', $params['id']) ?>"/>
                     </div>
 

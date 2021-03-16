@@ -173,8 +173,8 @@
                 <div>
                     <h4 class="pull-left m-0"><?php _e("Orders from"); ?><?php print ' ' . $client['first_name'] . ' ' . $client['last_name'] ?></h4>
                     <div class="pull-right">
-                        <button class="open-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-medium"><?php print _e('Open all'); ?></button>
-                        <button class="close-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium"><?php print _e('Close all'); ?></button>
+                        <button class="open-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-medium"><?php _e('Open all'); ?></button>
+                        <button class="close-all-orders mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-medium"><?php _e('Close all'); ?></button>
                     </div>
 
                     <script>
