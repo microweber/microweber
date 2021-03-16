@@ -13,6 +13,7 @@ class ProductFilterController
      */
     public function index(Request $request)
     {
+        return '';
         $pageId = $request->get('content-id');
         $orderBy = $request->get('orderBy','');
         $limit = $request->get('limit','');
