@@ -1403,7 +1403,7 @@ class FrontendController extends Controller
                 $compile_assets = \Config::get('microweber.compile_assets');
 
                 $output_cache_content = false;
-                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
+                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) .intval(is_https()). $_SERVER['REQUEST_URI']. current_lang().site_url()) ;
                 $output_cache_group = 'global';
                 $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 

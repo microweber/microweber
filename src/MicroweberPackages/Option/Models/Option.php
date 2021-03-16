@@ -68,6 +68,8 @@ class Option extends Model
             'maintenance_mode'=>'',
             'website_footer'=>'',
             'website_head'=>'',
+            'website_keywords'=>'',
+            'website_description'=>'',
             'date_format'=>'',
             'enable_full_page_cache'=>'',
             'google-site-verification-code'=>'',
@@ -75,6 +77,7 @@ class Option extends Model
             'alexa-site-verification-code'=>'',
             'pinterest-site-verification-code'=>'',
             'yandex-site-verification-code'=>'',
+            'facebook-pixel-id'=>'',
         ];
 
         $getWebsiteOptions = ModuleOption::where('option_group', 'website')->get();
