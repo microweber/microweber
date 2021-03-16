@@ -10,3 +10,6 @@ $config['version'] = 0.41;
 $config['position'] = 21;
 
 
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Shop\Products\ProductsServiceProvider::class
+];
