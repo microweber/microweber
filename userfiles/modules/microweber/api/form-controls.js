@@ -370,6 +370,8 @@ mw.emitter = {
                 $(li).find('input').on('click', function(){
                     mw.top().tools.scrollTo(el);
                     scope.link = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
+                    scope.url = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
+                    scope.src = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
                     console.log(scope.link)
                     scope.valid();
                 });
@@ -412,6 +414,7 @@ mw.emitter = {
             this.getValue = function () {
                 var val = {};
                 if(textField) val.text = textField.value;
+                if(textField) val.url = scope.link;
                   return val;
             };
 
