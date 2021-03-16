@@ -85,7 +85,7 @@ if (isset($params['for-content-id'])) {
 <div class="mw-accordion-item-block   mw-live-edit-module-manage-and-list-top">
     <a  href="javascript:;" onClick="editCategoriesShowManageWindow('<?php print $params['id'] ?>',{mode:'modal', liveedit:false});"
        class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-ui-btn-rounded" style="margin-bottom: 10px;"><span class="fas fa-list"></span>
-        &nbsp; <?<?php _e('Manage categories') ?></a>
+        &nbsp; <?php _e('Manage categories') ?></a>
 
 
 
@@ -96,7 +96,7 @@ if (isset($params['for-content-id'])) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-gear"></i> <?<?php _e('Settings'); ?>
+                <i class="mw-icon-gear"></i> <?php _e('Settings'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -168,7 +168,7 @@ if (isset($params['for-content-id'])) {
     /*  <div class="mw-accordion-item">
           <div class="mw-ui-box-header mw-accordion-title">
               <div class="header-holder" id="mw-live-edit-cats-tab" onclick="mw.live_edit_load_cats_list()">
-                  <i class="mw-icon-navicon-round"></i> <?<?php _e('List of Categories'); ?>
+                  <i class="mw-icon-navicon-round"></i> <?php _e('List of Categories'); ?>
               </div>
           </div>
           <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
@@ -181,7 +181,7 @@ if (isset($params['for-content-id'])) {
     <div class="mw-accordion-item">
         <div class="mw-ui-box-header mw-accordion-title">
             <div class="header-holder">
-                <i class="mw-icon-beaker"></i> <?<?php _e('Templates'); ?>
+                <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
             </div>
         </div>
         <div class="mw-accordion-content mw-ui-box mw-ui-box-content">

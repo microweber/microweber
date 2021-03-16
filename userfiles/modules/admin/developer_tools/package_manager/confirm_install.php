@@ -123,7 +123,7 @@ if (is_array($get_existing_files_for_confirm_all) and isset($get_existing_files_
 <div class="js-install-package-loading-container-confirm">
     <div class="text-center">
         <div class="mb-3">
-            <h5><?php _e("Please confirm the installation of") ?> <br/> <strong><?<?php _e($require_name) ?></strong></h5>
+            <h5><?php _e("Please confirm the installation of") ?> <br/> <strong><?php _e($require_name) ?></strong></h5>
             <h6>Version <?php print $require_version ?> </h6>
             <small class="text-muted"><?php print count($get_existing_files_for_confirm); ?> <?php _e("files will be installed") ?></small>
         </div>

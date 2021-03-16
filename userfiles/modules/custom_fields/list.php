@@ -214,12 +214,12 @@ if (isset($params['for_module_id'])): ?>
                             </td>
                             <td class="text-center">
                                 <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" class="btn btn-outline-primary btn-sm">
-                                    <?<?php _e('Settings'); ?>
+                                    <?php _e('Settings'); ?>
                                 </a>
                             </td>
 
                             <td class="text-center">
-                                <a class="text-danger" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-toggle="tooltip" title="<?<?php _e('Delete'); ?>"><i class="mdi mdi-close mdi-20px"></i></a>
+                                <a class="text-danger" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-toggle="tooltip" title="<?php _e('Delete'); ?>"><i class="mdi mdi-close mdi-20px"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

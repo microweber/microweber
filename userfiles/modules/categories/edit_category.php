@@ -313,7 +313,7 @@ if (isset($params['live_edit'])) {
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="bootstrap-select form-control">
-                                    <label class="control-label"><?<?php _e('Choose a parent'); ?>:</label>
+                                    <label class="control-label"><?php _e('Choose a parent'); ?>:</label>
                                     <small class="text-muted d-block mb-2"><?php _e('Choose a parent page or category') ?></small>
 
                                     <span class="btn dropdown-toggle btn-light" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>

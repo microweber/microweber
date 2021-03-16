@@ -47,11 +47,11 @@
         <div class="col">
             <div class="form-group mb-0">
                 <?php if ($active_or_disabled == 'active'): ?>
-                    <label class="control-label"><?<?php _e('Allowed countries for shipping'); ?></label>
-                    <small class="text-muted d-block mb-0"> <?<?php _e('List of countries to which shipping is performed'); ?></small>
+                    <label class="control-label"><?php _e('Allowed countries for shipping'); ?></label>
+                    <small class="text-muted d-block mb-0"> <?php _e('List of countries to which shipping is performed'); ?></small>
                 <?php else: ?>
-                    <label class="control-label"><?<?php _e('Denied countries for shipping'); ?></label>
-                    <small class="text-muted d-block mb-0"><?<?php _e('List of countries where deliveries are not allowed'); ?></small>
+                    <label class="control-label"><?php _e('Denied countries for shipping'); ?></label>
+                    <small class="text-muted d-block mb-0"><?php _e('List of countries where deliveries are not allowed'); ?></small>
                 <?php endif; ?>
             </div>
         </div>
@@ -65,10 +65,10 @@
             <thead class="<?php if ($active_or_disabled == 'active'): ?>table-success<?php else: ?>table-danger<?php endif; ?>">
             <tr>
                 <th style="width: 10px; padding-right: 0;"></th>
-                <th><?php if ($active_or_disabled == 'active'): ?><?<?php _e('Allowed'); ?><?php else: ?><?<?php _e('Denied'); ?><?php endif; ?> <?<?php _e('Country'); ?></th>
-                <th><?<?php _e('Shipping Type'); ?></th>
-                <th><?<?php _e('Shipping Cost'); ?></th>
-                <th class="text-right" style="width: 200px;"><?<?php _e('Actions'); ?></th>
+                <th><?php if ($active_or_disabled == 'active'): ?><?php _e('Allowed'); ?><?php else: ?><?php _e('Denied'); ?><?php endif; ?> <?php _e('Country'); ?></th>
+                <th><?php _e('Shipping Type'); ?></th>
+                <th><?php _e('Shipping Cost'); ?></th>
+                <th class="text-right" style="width: 200px;"><?php _e('Actions'); ?></th>
             </tr>
             </thead>
             <?php if (is_array($data) and !empty($data)): ?>

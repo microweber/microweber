@@ -61,7 +61,7 @@
                                                 <li style="width: 100%;">
                                                     <label class="mw-ui-check">
                                                         <input type="checkbox" class="js-export-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
-                                                        <span></span><span><?<?php _e($module['name']); ?></span>
+                                                        <span></span><span><?php _e($module['name']); ?></span>
                                                     </label>
                                                 </li>
                                             <?php endforeach; ?>

@@ -56,7 +56,7 @@ if (!is_array($data) or empty($data)) {
                     <?php endforeach; ?>
                 <?php else: ?>
                     <li>
-                        <span class="subsource-url"><?<?php _e('No paths'); ?></span>
+                        <span class="subsource-url"><?php _e('No paths'); ?></span>
                         <span class="subsource-cnt"></span>
                         <div class="clearfix"></div>
                     </li>

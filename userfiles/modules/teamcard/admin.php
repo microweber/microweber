@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?<?php _e($module_info['name']); ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -186,7 +186,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 $count++;
                                 ?>
                                 <div class="mw-ui-box teamcard-setting-item" id="teamcard-setting-item-<?php print $count; ?>">
-                                    <div class="mw-ui-box-header"><i class="mw-icon-drag"></i> <?<?php _e('Move'); ?> <a class="pull-right" href="javascript:teamcards.remove('#teamcard-setting-item-<?php print $count; ?>');"><i class="mw-icon-close"></i></a></div>
+                                    <div class="mw-ui-box-header"><i class="mw-icon-drag"></i> <?php _e('Move'); ?> <a class="pull-right" href="javascript:teamcards.remove('#teamcard-setting-item-<?php print $count; ?>');"><i class="mw-icon-close"></i></a></div>
                                     <div class="mw-ui-box-content mw-accordion-content">
                                         <div class="mw-ui-field-holder">
                                             <label class="control-label"><?php _e('Member Image'); ?></label>
@@ -236,7 +236,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="mw-accordion-item">
                 <div class="mw-ui-box-header mw-accordion-title">
                     <div class="header-holder">
-                        <i class="mw-icon-beaker"></i> <?<?php _e('Templates'); ?>
+                        <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
                     </div>
                 </div>
                 <div class="mw-accordion-content mw-ui-box mw-ui-box-content">

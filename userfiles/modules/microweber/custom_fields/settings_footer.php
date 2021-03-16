@@ -175,8 +175,8 @@ endif;
 <div id="save-menu-container">
     <div id="save-menu-wrapper">
         <nav id="save-menu">
-            <span class="btn btn-outline-secondary custom-fields-settings-cancel-btn"><?<?php _e('Cancel'); ?></span>
-            <button disabled class="btn btn-primary custom-fields-settings-save-btn"><?<?php _e('Save'); ?></button>
+            <span class="btn btn-outline-secondary custom-fields-settings-cancel-btn"><?php _e('Cancel'); ?></span>
+            <button disabled class="btn btn-primary custom-fields-settings-save-btn"><?php _e('Save'); ?></button>
         </nav>
     </div>
 </div>

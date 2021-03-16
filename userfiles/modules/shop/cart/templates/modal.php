@@ -62,7 +62,7 @@ $total = cart_total();
                                <div class="col-10">
                                    <div class="form-row align-items-md-center h-100 ">
                                        <div class="col-12 col-md-5">
-                                           <h6><?<?php _e($item['title']) ?></h6>
+                                           <h6><?php _e($item['title']) ?></h6>
                                        </div>
                                        <div class="col-6 col-md-3 align-self-center justify-content-md-center">
                                            <h6><?php print currency_format($item['price']); ?></h6>

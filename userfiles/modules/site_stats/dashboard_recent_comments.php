@@ -105,7 +105,7 @@ if (is_array($comments_for_content)) {
 <div class="dashboard-recent">
     <div class="dr-head">
         <span class="drh-activity-name"><i class="mai-comment"></i> <?php _e("Last comments") ?></span>
-        <a href="<?php print admin_url('view:content/action:posts'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><strong><?php print $ccount; ?></strong> <?<?php _e('New comments'); ?></a>
+        <a href="<?php print admin_url('view:content/action:posts'); ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><strong><?php print $ccount; ?></strong> <?php _e('New comments'); ?></a>
     </div>
     <div class="dr-list">
         <div class="comments-holder">
@@ -153,7 +153,7 @@ if (is_array($comments_for_content)) {
 
                         <div class="order-data-more mw-accordion-content">
                             <div>
-                                <p class="title"><?<?php _e('Last comments:'); ?></p>
+                                <p class="title"><?php _e('Last comments:'); ?></p>
                                 <hr class="m-0"/>
                                 <?php
                                 if (is_array($postComments)) {
@@ -189,10 +189,10 @@ if (is_array($comments_for_content)) {
                                                         </div>
                                                     </div>
 
-                                                    <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-edit-comment-btn" data-id="<?php print $comment['id'] ?>"><?<?php _e('Edit'); ?></a>
-                                                    <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-save-comment-btn" data-id="<?php print $comment['id'] ?>" style="display: none;" onclick="save_comment_form('#comment-form-<?php print $comment['id'] ?>');return false;"><?<?php _e('Save'); ?></a>
-                                                    <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-spam"><i class="mai-warn"></i> <?<?php _e('Spam'); ?></a>
-                                                    <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-remove"><i class="mai-bin"></i> <?<?php _e('Delete'); ?></a>
+                                                    <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-edit-comment-btn" data-id="<?php print $comment['id'] ?>"><?php _e('Edit'); ?></a>
+                                                    <a href="#" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info mw-ui-btn-outline m-l-10 js-save-comment-btn" data-id="<?php print $comment['id'] ?>" style="display: none;" onclick="save_comment_form('#comment-form-<?php print $comment['id'] ?>');return false;"><?php _e('Save'); ?></a>
+                                                    <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-spam"><i class="mai-warn"></i> <?php _e('Spam'); ?></a>
+                                                    <a href="#" class="mw-ui-link mw-ui-btn-small m-l-10 mw-btn-remove"><i class="mai-bin"></i> <?php _e('Delete'); ?></a>
 
                                                     <span class="date"><?php print mw()->format->ago($comment['created_at']); ?></span>
                                                 </div>
@@ -202,7 +202,7 @@ if (is_array($comments_for_content)) {
 
 
                                             <div class="author-name">
-                                                <span><?php print $comment['comment_name']; ?></span> <?<?php _e('says'); ?>:
+                                                <span><?php print $comment['comment_name']; ?></span> <?php _e('says'); ?>:
                                             </div>
 
                                             <form id="comment-form-<?php print $comment['id'] ?>">
@@ -230,12 +230,12 @@ if (is_array($comments_for_content)) {
                                                         <?php endif; ?>
                                                     </div>
                                                     <form>
-                                                        <textarea placeholder="<?<?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?>"></textarea>
-                                                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small pull-right" style="margin-top:6px;"><?<?php _e('Send'); ?></button>
+                                                        <textarea placeholder="<?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?>"></textarea>
+                                                        <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small pull-right" style="margin-top:6px;"><?php _e('Send'); ?></button>
                                                     </form>
                                                 </div>
 
-                                                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small mw-reply-btn"><i class="mw-icon-reply"></i> <?<?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?></button>
+                                                <button class="mw-ui-btn mw-ui-btn-info mw-ui-btn-outline mw-ui-btn-small mw-reply-btn"><i class="mw-icon-reply"></i> <?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?></button>
                                             </div>
                                         </div>
                                     <?php } ?>
