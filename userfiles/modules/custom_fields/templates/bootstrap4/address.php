@@ -4,12 +4,12 @@
 <div class="col-md-<?php echo $settings['field_size']; ?>">
     <?php foreach($data['values'] as $key=>$value): ?>
         <?php if($settings['show_label']): ?>
-            <label class="col-form-label" for="inputDefault"><?php _e($value); ?></label>
+            <label class="col-form-label edit" for="inputDefault"><?php _e($value); ?></label>
         <?php endif; ?>
         <?php if ($key == 'address')  : ?>
             <?php if ($data['countries']) { ?>
-                <div class="form-group">
-                    <select class="form-control" id="exampleSelect1">
+                <div class="form-group edit">
+                    <select class="form-control edit" id="exampleSelect1">
                         <option><?php _e('Choose address') ?></option>
                         <option><?php foreach ($data['countries'] as $country): ?>
                         <option value="<?php echo $country ?>"><?php echo $country ?></option>
