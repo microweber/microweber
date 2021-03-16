@@ -74,7 +74,7 @@ class ProductsController extends ModuleFrontController
             ];
         }
 
-        return $this->view(false, ['data'=>$data]);
+        return $this->view(false, ['data'=>$data, 'pagination'=>$getProducts->links()]);
     }
 
 }
