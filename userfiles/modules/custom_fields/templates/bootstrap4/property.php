@@ -1,8 +1,8 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="form-group">
+    <div class="form-group edit">
 
         <?php if($settings['show_label']): ?>
-        <label class="control-label">
+        <label class="control-label text-left edit">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>
@@ -10,7 +10,7 @@
         </label>
         <?php endif; ?>
 
-        <input type="hidden" class="form-control" data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>"/>
+        <input type="hidden" class="form-control edit" data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>"/>
 
         <div class="controls">
             <?php echo $data["value"]; ?>

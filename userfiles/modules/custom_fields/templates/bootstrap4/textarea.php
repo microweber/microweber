@@ -1,8 +1,8 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="form-group">
+    <div class="form-group edit">
 
         <?php if($settings['show_label']): ?>
-        <label class="control-label">
+        <label class="control-label text-left edit">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>
@@ -10,7 +10,7 @@
         </label>
         <?php endif; ?>
 
-        <textarea type="text" rows="<?php echo $settings['rows']; ?>" class="form-control" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>"><?php echo $data['value']; ?></textarea>
+        <textarea type="text" rows="<?php echo $settings['rows']; ?>" class="form-control edit" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name']; ?>" placeholder="<?php echo $data['placeholder']; ?>"><?php echo $data['value']; ?></textarea>
         <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
         <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>
 
