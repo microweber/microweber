@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 namespace MicroweberPackages\Pagination;
 
 

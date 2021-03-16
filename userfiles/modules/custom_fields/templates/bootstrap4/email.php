@@ -1,8 +1,8 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="form-group">
+    <div class="form-group edit">
 
         <?php if($settings['show_label']): ?>
-        <label class="control-label">
+        <label class="control-label edit text-left">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>
@@ -10,7 +10,7 @@
         </label>
         <?php endif; ?>
 
-        <input type="email" class="form-control" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
+        <input type="email" class="form-control edit" <?php if ($settings['required']): ?>required="true"<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
         <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
         <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>
 

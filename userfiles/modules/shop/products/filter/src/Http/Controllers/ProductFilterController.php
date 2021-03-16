@@ -17,11 +17,18 @@ class ProductFilterController
         $orderBy = $request->get('orderBy','');
         $limit = $request->get('limit','');
         $priceBetween = $request->get('priceBetween','');
-        $customField = $request->get('customField','');
+        $customFields = $request->get('customFields','');
 
         $filters = [];
         $productPrices = [];
-        $getProducts = \MicroweberPackages\Product\Models\Product::where('parent', $pageId)->get();
+        $queryProduct = \MicroweberPackages\Product\Models\Product::query();
+
+        if ($pageId > 0) {
+            $queryProduct->where('parent', $pageId);
+        }
+
+        $getProducts = $queryProduct->get();
+
         if (!empty($getProducts)) {
             foreach ($getProducts as $product) {
                 $productPrices[] = $product->price;
@@ -47,9 +54,14 @@ class ProductFilterController
             }
         }
 
-        asort($productPrices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
-        $productsMinPrice = $productPrices[0];
-        $productsMaxPrice = end($productPrices);
+
+        $productsMinPrice = 0;
+        $productsMaxPrice = 0;
+        if (isset($productPrices[0])) {
+            asort($productPrices, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
+            $productsMinPrice = $productPrices[0];
+            $productsMaxPrice = end($productPrices);
+        }
 
         $getMinPrice = $priceBetween;
         $getMaxPrice = false;
@@ -71,7 +83,7 @@ class ProductFilterController
             'productsMaxPriceRounded'=>round($productsMaxPrice),
             'filters'=>$filters,
             'orderBy'=>$orderBy,
-            'customField'=>$customField,
+            'customFields'=>$customFields,
             'limit'=>$limit,
         ]);
     }

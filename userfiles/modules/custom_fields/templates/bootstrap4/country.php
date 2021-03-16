@@ -1,8 +1,8 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="form-group">
+    <div class="form-group edit">
 
         <?php if($settings['show_label']): ?>
-            <label class="control-label">
+            <label class="control-label text-left edit">
                 <?php echo $data['name']; ?>
                 <?php if ($settings['required']): ?>
                     <span style="color: red;">*</span>
@@ -10,8 +10,8 @@
             </label>
         <?php endif; ?>
 
-            <div class="form-group">
-                <select class="form-control">
+            <div class="form-group edit">
+                <select class="form-control edit">
                     <option><?php _e($data['placeholder']) ?></option>
                     <option><?php foreach ($data['values'] as $country): ?>
                     <option value="<?php echo $country ?>"><?php echo $country ?></option>

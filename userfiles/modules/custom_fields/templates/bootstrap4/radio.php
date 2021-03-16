@@ -1,8 +1,8 @@
 <div class="col-<?php echo $settings['field_size']; ?>">
-    <div class="form-group">
+    <div class="form-group edit">
 
         <?php if ($settings['show_label']): ?>
-            <label class="control-label">
+            <label class="control-label text-left edit">
                 <?php echo $data['name']; ?>
                 <?php if ($settings['required']): ?>
                     <span style="color: red;">*</span>
@@ -15,7 +15,7 @@
         foreach ($data['values'] as $key => $value):
             $i++;
             ?>
-            <div class="custom-control custom-radio d-inline-block">
+            <div class="custom-control  editcustom-radio d-inline-block">
                 <input type="radio" id="custom-radio-<?php echo $data['id'] . '-' . $key; ?>" class="custom-control-input" <?php if ($settings['required'] && $i == 1): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" value="<?php echo $value; ?>"
                        name="<?php echo $data['name']; ?>">
                 <label class="custom-control-label" for="custom-radio-<?php echo $data['id'] . '-' . $key; ?>"><?php echo $value; ?></label>
