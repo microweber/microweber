@@ -11,7 +11,7 @@
             frame.className = 'mw-editor-frame';
             frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
             frame.allowFullscreen = true;
-            frame.scrolling = "yes";
+            frame.scrolling = "auto";
             frame.width = "100%";
             frame.frameBorder = "0";
             frame.src = mw.external_tool('module') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
