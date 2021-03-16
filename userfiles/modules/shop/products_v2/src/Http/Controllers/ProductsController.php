@@ -27,6 +27,7 @@ class ProductsController extends ModuleFrontController
         $limit = (int) $request->get('limit', $defaultLimit);
         $orderBy = $request->get('orderBy');
         $priceBetween = $request->get('priceBetween');
+        $customFields = $request->get('customFields');
 
         $filter = [];
         if ($orderBy) {
@@ -39,8 +40,8 @@ class ProductsController extends ModuleFrontController
 
         $getProductsQuery = \MicroweberPackages\Product\Models\Product::query();
 
-        if (isset($_GET['custom_field'])) {
-            $getProductsQuery->whereCustomField($_GET['custom_field']);
+        if ($customFields) {
+            $getProductsQuery->whereCustomField($customFields);
         }
 
         $getProductsQuery->filter($filter);
@@ -74,13 +75,14 @@ class ProductsController extends ModuleFrontController
             ];
         }
 
-        $pagesCount = 30;
+        $pagesCount = ceil($getProducts->total() / $limit);
 
-        return $this->view(false, [
-            'data'=>$data,
-            'pages_count'=>$pagesCount,
-            'paging_param'=>'page',
-            'pagination'=>$getProducts->links('pagination::bootstrap-4')
+        return $this->view(false,
+            [
+                'data'=>$data,
+                'pages_count'=>$pagesCount,
+                'paging_param'=>'page',
+                'pagination'=>$getProducts->links('pagination::bootstrap-4')
             ]
         );
     }
