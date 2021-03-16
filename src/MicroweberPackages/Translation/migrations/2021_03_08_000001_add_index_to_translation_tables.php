@@ -3,6 +3,11 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+
+
+if(class_exists('AddIndexToTranslationTables', false)){
+    return;
+}
 class AddIndexToTranslationTables extends Migration
 {
     /**
