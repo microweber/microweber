@@ -393,7 +393,7 @@ if (isset($notif_params['quick'])) {
                                 <?php include('notif_comment.php'); ?>
                             <?php else: ?>
 
-                            Petko dizaini go!
+
 
                             <?php endif; ?>
                         </div>

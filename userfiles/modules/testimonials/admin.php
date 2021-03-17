@@ -134,7 +134,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <a class="btn btn-outline-secondary justify-content-center active js-list-testimonials" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("List of Testimonials") ?></a>
                 <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
                 <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center js-add-new-testimonials" data-toggle="tab" href="#new" style="display: none;"><i class="mdi mdi-card-plus mr-1"></i><?php _e(" Add New / Edit") ?></a>
+                <a class="btn btn-outline-secondary justify-content-center js-add-new-testimonials" data-toggle="tab" href="#new" style="display: none;"><i class="mdi mdi-card-plus mr-1"></i><?php _e("Add New / Edit") ?></a>
             </nav>
 
             <div id="mw-modules-tabs" class="tab-content py-3">

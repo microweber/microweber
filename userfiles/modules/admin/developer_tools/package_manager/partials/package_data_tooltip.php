@@ -22,7 +22,7 @@
             <?php if ($license): ?>
                 <?php print $license; ?>
             <?php else: ?>
-                <?php _e(' N/A'); ?>
+                <?php _e('N/A'); ?>
             <?php endif; ?>
         </td>
     </tr>
@@ -34,7 +34,7 @@
                 <a href="<?php print $item['homepage']; ?>" target="_blank"
                    class="mw-blue package-ext-link"><?php print $item['homepage']; ?></a>
             <?php else: ?>
-                <?php _e(' N/A'); ?>
+                <?php _e('N/A'); ?>
             <?php endif; ?>
         </td>
     </tr>
