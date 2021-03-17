@@ -52,6 +52,7 @@
 <div class="card bg-light style-1 mb-3">
     <div class="card-header">
         <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Order"); ?> #<?php print $order['id'] ?></strong></h5>
+        <?php print $order['created_at'] ?>
         {{--<div>
             <a href="#" class="btn btn-sm btn-outline-secondary"><?php _e('Edit order'); ?></a>
         </div>--}}
