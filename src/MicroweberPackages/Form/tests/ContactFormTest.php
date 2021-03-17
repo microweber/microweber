@@ -34,6 +34,7 @@ class ContactFormTest extends TestCase
         $optionGroup = md5(time().'mw'.rand(1111,9999));
 
         \Config::set('mail.transport', 'array');
+
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'disable_captcha',
@@ -48,8 +49,30 @@ class ContactFormTest extends TestCase
 
         save_option(array(
             'option_group' => $optionGroup,
+            'option_key' => 'email_from_name',
+            'option_value' => 'Email From Name'
+        ));
+
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_to',
+            'option_value' => 'EmailTo@UnitTest.com'
+        ));
+
+        save_option(array(
+            'option_group' => $optionGroup,
             'option_key' => 'append_files',
             'option_value' => 'file1.jpg,file2.jpg'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_reply',
+            'option_value' => 'EmailReply1@UnitTest.com'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_bcc',
+            'option_value' => 'Email1@UnitTest.com, Email2@UnitTest.com, Email3@UnitTest.com'
         ));
         save_option(array(
             'option_group' => $optionGroup,
@@ -80,6 +103,10 @@ class ContactFormTest extends TestCase
 
             $subject = $email->getSubject();
             $body = $email->getBody();
+            $to = $email->getTo();
+            $from = $email->getFrom();
+
+            dump($from, $to);
 
             if (str_contains($body, 'HELLO CONTACT FORM THIS IS MY MESSAGE')) {
                 $findBody = true;
