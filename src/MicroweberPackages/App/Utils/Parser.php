@@ -1557,7 +1557,7 @@ class Parser
                                     // $field_content = $this->_replace_editable_fields($field_content);
                                     $field_content = $this->_replace_editable_fields($field_content, $no_cache = false, $from_parent = $layout);
                                     if ($field_content) {
-                                         $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
+                                        // $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                         pq($elem_clone)->html($field_content);
                                     }
                                 } else {
