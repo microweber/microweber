@@ -83,11 +83,11 @@ if (isset($item['created_by'])) {
                     </div>
 
 
-                    <h6><strong><?php _e('Boris Sokolov'); ?></strong>
+                    <h6><strong>John Doe</strong>
                         <small class="text-muted"><?php _e('says:'); ?></small>
                     </h6>
                     <div>
-                        <p><?php _e('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'); ?></p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
                     </div>
                     <a href="#reply-message-1" class="btn btn-outline-secondary btn-sm icon-left js-show-more"><i class="mdi mdi-comment-account text-primary"></i> <?php _e('Reply'); ?></a>
 
