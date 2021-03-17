@@ -9,7 +9,7 @@
   description: Home layout
 
 */
-
+//echo 10199; return;
 ?>
 
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
@@ -23,7 +23,7 @@
     </div>
     <div class="mw-col" style="width: 50%">
       <div class="mw-col-container" id="mw-welcome">
-         
+
           <h2 class="element">Welcome to Microweber</h2>
           <p class="element">This is the default theme of (MW). </p>
           <br>

@@ -167,178 +167,36 @@ class OptionManager
      * Getting options from the database.
      *
      * @param $key array|string - if array it will replace the db params
-     * @param $option_group string - your option group
-     * @param $return_full bool - if true it will return the whole db row as array rather then just the value
+     * @param $optionGroup string - your option group
+     * @param $returnFull bool - if true it will return the whole db row as array rather then just the value
      * @param $module string - if set it will store option for module
      * Example usage:
      * $this->get('my_key', 'my_group');
      */
-    public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
-    {
-        if ($option_group != false) {
-            $cache_group = 'options/' . $option_group;
-        } else {
-            $cache_group = 'options/global';
-        }
-        if ($this->options_memory == null) {
-            $this->options_memory = array();
+    public $memoryOptionGroup = [];
+    public function get($key, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false) {
+
+        if (isset($this->memoryOptionGroup[$optionGroup])) {
+            return $this->getOptionFromOptionsArray($key, $this->memoryOptionGroup[$optionGroup], $returnFull);
         }
 
-        if ($this->is_use and isset($this->override_memory[$option_group]) and isset($this->override_memory[$option_group][$key])) {
-            return $this->override_memory[$option_group][$key];
+        if ($optionGroup) {
+            $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
+            $this->memoryOptionGroup[$optionGroup] = $allOptions;
+            return $this->getOptionFromOptionsArray($key, $allOptions, $returnFull);
         }
 
-        if(!$key){
-            return;
-        }
+        return false;
+    }
 
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'option_' . __FUNCTION__ . '_' . $option_group . '_' . crc32($function_cache_id);
-        if ($this->is_use and isset($this->options_memory[$function_cache_id])) {
-            return $this->options_memory[$function_cache_id];
-        }
-
-        $table = $this->tables['options'];
-
-        $data = array();
-
-        if (is_array($key)) {
-            $data = $key;
-        } else {
-            $data['option_key'] = $key;
-        }
-        $option_key_1 = '';
-        $option_key_2 = '';
-        if ($option_group != false) {
-            $option_group = $this->app->database_manager->escape_string($option_group);
-            $data['option_group'] = $option_group;
-        }
-
-        if ($module != false) {
-            $module = $this->app->database_manager->escape_string($module);
-            $data['module'] = $module;
-        }
-
-
-
-
-       // $ok = $this->app->database_manager->escape_string($data['option_key']);
-
-        // set limit
-        if (!isset($data['limit'])) {
-            $data['limit'] = 1;
-        }
-
-
-
-        $filter = array();
-
-        if(!$this->is_use){
-         $filter['no_cache'] = 1;
-        }
-     //   $filter['limit'] = 1;
-        $filter['option_key'] = $key;
-        if ($option_group != false) {
-            $filter['option_group'] = $option_group;
-        }
-
-        if ($module != false) {
-            $filter['module'] = $module;
-        }
-        $filter['table'] = $table;
-        if (isset($data['limit'])) {
-            $filter['limit'] = $data['limit'];
-        }
-
-
-
-        if($option_group){
-            $get_all = Option::where('option_group',$option_group)->get()->toArray();
-           } else {
-            $get_all = mw()->database_manager->get($filter);
-        }
-
-//        $get_all = cache()->remember($table.'full_cache_table'.$option_group, 1000000, function () use ($option_group) {
-//            if($option_group){
-//                return Option::where('option_group',$option_group)->get()->toArray();
-//            } else {
-//                return Option::get()->toArray();
-//            }
-//
-//
-//        }) ;
-   //     $get_all = mw()->database_manager->get($filter);
-        if (!is_array($get_all)) {
-            return false;
-        }
-
-
-
-
-
-        $get = array();
-        foreach ($get_all as $get_opt) {
-
-            if (isset($get_opt['option_value']) and is_string($get_opt['option_value']) and strval($get_opt['option_value']) != '') {
-                $get_opt['option_value'] = $this->app->url_manager->replace_site_url_back($get_opt['option_value']);
+    private function getOptionFromOptionsArray($key, $options, $returnFull) {
+        foreach ($options as $option) {
+            if ($option['option_key'] == $key) {
+                if ($returnFull) {
+                    return $option;
+                }
+                return $option['option_value'];
             }
-
-
-            if ($key == $get_opt['option_key']) { //  && $get_opt['option_group'] == $option_group && $get_opt['module'] == $module
-/*
-                $override = $this->app->event_manager->trigger('option.after.get', $get_opt);
-                if (is_array($override) && isset($override[0])) {
-                    $get_opt = $override[0];
-                }*/
-
-                if ($option_group != false) {
-                    if ($option_group == $get_opt['option_group']) {
-                        $get[] = $get_opt;
-                    }
-                } else {
-                    $get[] = $get_opt;
-
-                }
-            }
-        }
-
-        if (!empty($get)) {
-            if ($return_full == false) {
-                if (!is_array($get)) {
-                    return false;
-                }
-
-                $get = $get[0]['option_value'];
-
-
-                $this->options_memory[$function_cache_id] = $get;
-
-                return $get;
-            } else {
-                $get = $get[0];
-
-                if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = $this->app->url_manager->replace_site_url_back($get['option_value']);
-                }
-
-                if (isset($get['field_values']) and $get['field_values'] != false) {
-                    $get['field_values'] = unserialize(base64_decode($get['field_values']));
-                }
-                $this->options_memory[$function_cache_id] = $get;
-
-                return $get;
-            }
-        } else {
-            $this->options_memory[$function_cache_id] = false;
-
-            return false;
         }
     }
 
