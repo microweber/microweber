@@ -85,6 +85,10 @@ class ContactFormTest extends TestCase
             $this->assertTrue(str_contains($subject,'New form entry'));
 
         }
+    }
+
+    public function testFromSubmitFromModule()
+    {
 
 
     }

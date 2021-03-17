@@ -176,6 +176,10 @@ class OptionManager
     public $memoryOptionGroup = [];
     public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false) {
 
+        if (!mw_is_installed()) {
+            return false;
+        }
+
         if (isset($this->memoryOptionGroup[$optionGroup])) {
             return $this->getOptionFromOptionsArray($optionKey, $this->memoryOptionGroup[$optionGroup], $returnFull);
         }
@@ -433,5 +437,7 @@ class OptionManager
     {
         $this->options_memory = array();
         $this->override_memory = array();
+        $this->memoryOptionGroup = array();
+        $this->memoryModuleOptionGroup = array();
     }
 }
