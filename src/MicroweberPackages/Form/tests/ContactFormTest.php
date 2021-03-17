@@ -67,12 +67,12 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_reply',
-            'option_value' => 'EmailReply1@UnitTest.com'
+            'option_value' => 'EmailReply1@UnitTest.com,EmailReply2@UnitTest.com,EmailReply3@UnitTest.com'
         ));
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_bcc',
-            'option_value' => 'Email1@UnitTest.com, Email2@UnitTest.com, Email3@UnitTest.com'
+            'option_value' => 'BCC1@UnitTest.com, BCC2@UnitTest.com, BCC3@UnitTest.com'
         ));
         save_option(array(
             'option_group' => $optionGroup,
@@ -107,6 +107,7 @@ class ContactFormTest extends TestCase
         $findBody = false;
         $findSubject = false;
 
+        $bccMails = [];
         $sendedToMails = [];
         $sendedFromMails = [];
 
@@ -117,11 +118,16 @@ class ContactFormTest extends TestCase
             $body = $email->getBody();
             $to = key($email->getTo());
             $from = key($email->getFrom());
+            $bcc = $email->getBcc();
+
+            if (!empty($bcc)) {
+                foreach ($bcc as $emailBcc) {
+                    $bccMails[] = $emailBcc;
+                }
+            }
 
             $sendedToMails[] = $to;
             $sendedFromMails[] = $from;
-
-            // var_dump($subject);
 
             if (str_contains($body, 'HELLO CONTACT FORM THIS IS MY MESSAGE')) {
                 $findBody = true;
@@ -137,26 +143,15 @@ class ContactFormTest extends TestCase
 
         $this->assertTrue(in_array('unit.b.slaveykov@unittest.com', $sendedToMails));
 
-        /// CHECK BCCS
-        $findBcc1 = false;
-        $findBcc2 = false;
-        $findBcc3 = false;
+        // Check Reply Emails
+        $this->assertTrue(in_array('EmailReply1@UnitTest.com', $sendedToMails));
+        $this->assertTrue(in_array('EmailReply2@UnitTest.com', $sendedToMails));
+        $this->assertTrue(in_array('EmailReply3@UnitTest.com', $sendedToMails));
 
-        if (in_array('Email1@UnitTest.com', $sendedToMails)) {
-            $findBcc1 = true;
-        }
-
-        if (in_array('Email2@UnitTest.com', $sendedToMails)) {
-            $findBcc2 = true;
-        }
-
-        if (in_array('Email3@UnitTest.com', $sendedToMails)) {
-            $findBcc3 = true;
-        }
-
-        $this->assertTrue($findBcc1);
-        $this->assertTrue($findBcc2);
-        $this->assertTrue($findBcc3);
+        // Check BCCS Emails
+        $this->assertTrue(in_array('BCC1@UnitTest.com', $bccMails));
+        $this->assertTrue(in_array('BCC2@UnitTest.com', $bccMails));
+        $this->assertTrue(in_array('BCC3@UnitTest.com', $bccMails));
 
     }
 
