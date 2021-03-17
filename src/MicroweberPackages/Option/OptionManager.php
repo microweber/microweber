@@ -166,7 +166,7 @@ class OptionManager
     /**
      * Getting options from the database.
      *
-     * @param $key array|string - if array it will replace the db params
+     * @param $optionKey array|string - if array it will replace the db params
      * @param $optionGroup string - your option group
      * @param $returnFull bool - if true it will return the whole db row as array rather then just the value
      * @param $module string - if set it will store option for module
@@ -174,16 +174,47 @@ class OptionManager
      * $this->get('my_key', 'my_group');
      */
     public $memoryOptionGroup = [];
-    public function get($key, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false) {
+    public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false) {
 
         if (isset($this->memoryOptionGroup[$optionGroup])) {
-            return $this->getOptionFromOptionsArray($key, $this->memoryOptionGroup[$optionGroup], $returnFull);
+            return $this->getOptionFromOptionsArray($optionKey, $this->memoryOptionGroup[$optionGroup], $returnFull);
         }
 
         if ($optionGroup) {
             $allOptions = Option::where('option_group', $optionGroup)->get()->toArray();
             $this->memoryOptionGroup[$optionGroup] = $allOptions;
-            return $this->getOptionFromOptionsArray($key, $allOptions, $returnFull);
+            return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
+        }
+
+        return false;
+    }
+
+    public $memoryModuleOptionGroup = [];
+    public function getModuleOptions($optionGroup)
+    {
+        if (isset($this->memoryOptionGroup[$optionGroup])) {
+            return $this->memoryOptionGroup[$optionGroup];
+        }
+
+        if ($optionGroup) {
+            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
+            $this->memoryOptionGroup[$optionGroup] = $allOptions;
+            return $allOptions;
+        }
+
+        return false;
+    }
+
+    public function getModuleOption($optionKey, $optionGroup, $returnFull)
+    {
+        if (isset($this->memoryModuleOptionGroup[$optionGroup])) {
+            return $this->getOptionFromOptionsArray($optionKey, $this->memoryModuleOptionGroup[$optionGroup], $returnFull);
+        }
+
+        if ($optionGroup) {
+            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
+            $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
+            return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
         }
 
         return false;
