@@ -89,6 +89,10 @@ class ContactFormTest extends TestCase
         $params['for_id'] = $optionGroup;
         $params['for'] = 'contact-form-test-module';
         $params['message'] = 'HELLO CONTACT FORM THIS IS MY MESSAGE';
+        $params['email'] = 'unit.b.slaveykov@unittest.com';
+        $params['Company'] = 'CloudVisionLtd';
+        $params['Phone'] = '0885451012';
+        $params['Your Name'] = 'Bozhidar Slaveykov';
         $params['module_name'] = 'contact_form';
 
         $response = mw()->forms_manager->post($params);
