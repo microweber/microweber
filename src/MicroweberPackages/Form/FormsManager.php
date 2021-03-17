@@ -524,7 +524,7 @@ class FormsManager
                         $validatorMessages = reset($inputFieldErros);
                     }
                     return array(
-                        'error' => _e($validatorMessages, true)
+                        'error' => $validatorMessages
                     );
                 }
 
