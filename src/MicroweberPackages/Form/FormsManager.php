@@ -201,6 +201,9 @@ class FormsManager
         if (!$email_to) {
             $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
         }
+        if (!$email_to) {
+            $email_to = $this->app->option_manager->get('email_from', 'email');
+        }
 
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
         if (!$email_autorespond) {
@@ -635,10 +638,6 @@ class FormsManager
 
             if (isset($save) and $save) {
 
-                if ($email_to == false) {
-                    $email_to = $this->app->option_manager->get('email_from', 'email');
-                }
-
 
                 /* $admin_user_mails = array();
 
@@ -658,7 +657,7 @@ class FormsManager
                 if (is_array($params) and !empty($params)) {
                     foreach ($params as $param) {
                         if (is_string($param) and (filter_var($param, FILTER_VALIDATE_EMAIL))) {
-                            $user_mails[] = $param;
+                            $user_mails[$param] = $param;
                         }
                     }
 
@@ -681,7 +680,7 @@ class FormsManager
                         }
                     }
 
-                    $user_mails[] = $email_to;
+                    $user_mails[$email_to] = $email_to;
 
                     // $email_from = false;
                     if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
@@ -693,7 +692,7 @@ class FormsManager
                             }
 
                             if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                                $user_mails[] = $to;
+                                $user_mails[$to] = $to;
                                 $email_from = $to;
                             }
                         }
@@ -708,9 +707,12 @@ class FormsManager
                         $from_name = $params['from_name'];
                     }
 
-                    if (!empty($user_mails)) {
+                    if (empty($user_mails)) {
+                        $email_from = $this->app->option_manager->get('email_from', 'email');
+                        $user_mails[$email_from] = $email_from; 
+                    }
 
-                        array_unique($user_mails);
+                    if (!empty($user_mails)) {
 
                         $append_files = $this->app->option_manager->get('append_files', $for_id);
                         if (!$append_files) {
@@ -721,7 +723,6 @@ class FormsManager
                         if (!empty($append_files)) {
                             $append_files_ready = explode(",", $append_files);
                         }
-                        //  var_dump($user_mails);
 
                         $enableAutoRespond = Option::getValue('enable_auto_respond', $for_id);
 

@@ -88,9 +88,10 @@ class NewFormEntryAutorespond extends Notification
         if (!$emailAutorespondSubject) {
             $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
         }
-        if ($emailAutorespondSubject) {
+        if (!$emailAutorespondSubject) {
             $emailAutorespondSubject = _e('Thank you for your message.', true);
         }
+
         $appendFiles = Option::getValue('append_files', $formId);
 
         if (!$appendFiles) {
