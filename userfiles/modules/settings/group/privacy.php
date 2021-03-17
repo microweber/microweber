@@ -23,7 +23,7 @@
                 </small>
 
                 <small class="text-muted d-block">
-                    <?php _e('The General Data Protection Regulation (EU) 2016/679 (GDPR) is a regulation in EU law on data protection and privacy in the European Union (EU) and the European Economic Area (EEA). It also addresses the transfer of personal data outside the EU and EEA areas.'); ?>
+                    <?php _e('The General Data Protection Regulation (EU) 2016/679 (GDPR) is a regulation in EU law on data protection and privacy in the European Union (EU) and the European Economic Area (EEA).'); ?>
                 </small>
             </div>
 
