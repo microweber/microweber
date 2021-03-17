@@ -329,7 +329,7 @@ class UserManager
         if (!mw_is_installed()) {
             return false;
         }
-        
+
         if (Auth::check()) {
             return true;
         } else {
