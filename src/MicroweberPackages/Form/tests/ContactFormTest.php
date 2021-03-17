@@ -67,12 +67,17 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_reply',
-            'option_value' => 'EmailReply1@UnitTest.com'
+            'option_value' => 'EmailReply1@UnitTest.com,EmailReply2@UnitTest.com,EmailReply3@UnitTest.com'
         ));
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_bcc',
-            'option_value' => 'Email1@UnitTest.com, Email2@UnitTest.com, Email3@UnitTest.com'
+            'option_value' => 'BCC1@UnitTest.com, BCC2@UnitTest.com, BCC3@UnitTest.com'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'enable_auto_respond',
+            'option_value' => 1
         ));
         save_option(array(
             'option_group' => $optionGroup,
@@ -102,15 +107,34 @@ class ContactFormTest extends TestCase
         $findBody = false;
         $findSubject = false;
 
+        $bccMails = [];
+        $replyToMails = [];
+        $sendedToMails = [];
+        $sendedFromMails = [];
+
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
         foreach ($emails as $email) {
 
             $subject = $email->getSubject();
             $body = $email->getBody();
-            $to = $email->getTo();
-            $from = $email->getFrom();
+            $to = key($email->getTo());
+            $from = key($email->getFrom());
+            $bcc = $email->getBcc();
+            $replyTo = $email->getReplyTo();
 
-            dump($from, $to);
+            if (!empty($bcc)) {
+                foreach ($bcc as $emailBcc=>$bccName) {
+                    $bccMails[] = $emailBcc;
+                }
+            }
+            if (!empty($replyTo)) {
+                foreach ($replyTo as $replyTo=>$replyToName) {
+                    $replyToMails[] = $replyTo;
+                }
+            }
+
+            $sendedToMails[] = $to;
+            $sendedFromMails[] = $from;
 
             if (str_contains($body, 'HELLO CONTACT FORM THIS IS MY MESSAGE')) {
                 $findBody = true;
@@ -123,6 +147,19 @@ class ContactFormTest extends TestCase
 
         $this->assertTrue($findBody);
         $this->assertTrue($findSubject);
+
+        $this->assertTrue(in_array('unit.b.slaveykov@unittest.com', $sendedToMails));
+
+        // Check Reply Emails
+        $this->assertTrue(in_array('EmailReply1@UnitTest.com', $replyToMails));
+        $this->assertTrue(in_array('EmailReply2@UnitTest.com', $replyToMails));
+        $this->assertTrue(in_array('EmailReply3@UnitTest.com', $replyToMails));
+
+        // Check BCCS Emails
+        $this->assertTrue(in_array('BCC1@UnitTest.com', $bccMails));
+        $this->assertTrue(in_array('BCC2@UnitTest.com', $bccMails));
+        $this->assertTrue(in_array('BCC3@UnitTest.com', $bccMails));
+
     }
 
 }

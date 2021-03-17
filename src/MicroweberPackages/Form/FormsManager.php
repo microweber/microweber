@@ -2,15 +2,15 @@
 
 namespace MicroweberPackages\Form;
 
-use Illuminate\Http\File;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use League\Csv\Writer;
-use MicroweberPackages\Country\Models\Country;
 use MicroweberPackages\Form\Models\Form;
+use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Form\Notifications\NewFormEntryAutorespond;
+use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
 
@@ -201,15 +201,8 @@ class FormsManager
         if (!$email_to) {
             $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
         }
-
-        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
-        if (!$email_bcc) {
-            $email_bcc = $this->app->option_manager->get('email_bcc', $default_mod_id);
-        }
-
-        $email_reply = $this->app->option_manager->get('email_reply', $for_id);
-        if (!$email_reply) {
-            $email_reply = $this->app->option_manager->get('email_reply', $default_mod_id);
+        if (!$email_to) {
+            $email_to = $this->app->option_manager->get('email_from', 'email');
         }
 
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
@@ -645,10 +638,6 @@ class FormsManager
 
             if (isset($save) and $save) {
 
-                if ($email_to == false) {
-                    $email_to = $this->app->option_manager->get('email_from', 'email');
-                }
-
 
                 /* $admin_user_mails = array();
 
@@ -668,7 +657,7 @@ class FormsManager
                 if (is_array($params) and !empty($params)) {
                     foreach ($params as $param) {
                         if (is_string($param) and (filter_var($param, FILTER_VALIDATE_EMAIL))) {
-                            $user_mails[] = $param;
+                            $user_mails[$param] = $param;
                         }
                     }
 
@@ -691,24 +680,7 @@ class FormsManager
                         }
                     }
 
-
-                    $user_mails[] = $email_to;
-                    if (!empty($email_bcc)) {
-                        if (strpos($email_bcc, ',') !== false) {
-                            $email_bcc_mails = explode(',', $email_bcc);
-                            if (is_array($email_bcc_mails)) {
-                                foreach ($email_bcc_mails as $email_bcc) {
-                                    if (filter_var($email_bcc, FILTER_VALIDATE_EMAIL)) {
-                                        $user_mails[] = $email_bcc;
-                                    }
-                                }
-                            }
-                        } else {
-                            if (filter_var($email_bcc, FILTER_VALIDATE_EMAIL)) {
-                                $user_mails[] = $email_bcc;
-                            }
-                        }
-                    }
+                    $user_mails[$email_to] = $email_to;
 
                     // $email_from = false;
                     if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
@@ -720,7 +692,7 @@ class FormsManager
                             }
 
                             if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                                $user_mails[] = $to;
+                                $user_mails[$to] = $to;
                                 $email_from = $to;
                             }
                         }
@@ -735,9 +707,12 @@ class FormsManager
                         $from_name = $params['from_name'];
                     }
 
-                    if (!empty($user_mails)) {
+                    if (empty($user_mails)) {
+                        $email_from = $this->app->option_manager->get('email_from', 'email');
+                        $user_mails[$email_from] = $email_from; 
+                    }
 
-                        array_unique($user_mails);
+                    if (!empty($user_mails)) {
 
                         $append_files = $this->app->option_manager->get('append_files', $for_id);
                         if (!$append_files) {
@@ -748,17 +723,20 @@ class FormsManager
                         if (!empty($append_files)) {
                             $append_files_ready = explode(",", $append_files);
                         }
-                        //  var_dump($user_mails);
 
-                        $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
+                        $enableAutoRespond = Option::getValue('enable_auto_respond', $for_id);
 
-                        if ($user_mails) {
+                        if ($enableAutoRespond && is_array($user_mails)) {
                             foreach ($user_mails as $user_mail) {
-                                try {
-                                    Notification::route('mail', $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
-                                } catch (\Exception $e) {
 
+                                $findFormRecipient = FormRecipient::where('email', $user_mail)->first();
+                                if ($findFormRecipient == null) {
+                                    $findFormRecipient = new FormRecipient();
+                                    $findFormRecipient->email = $user_mail;
+                                    $findFormRecipient->save();
                                 }
+
+                                $findFormRecipient->notifyNow(new NewFormEntryAutorespond($form_model));
                             }
                         }
                     }

@@ -43,10 +43,10 @@ class FormServiceProvider extends ServiceProvider
 
         Validator::extendImplicit('valid_image', 'MicroweberPackages\Form\Validators\ImageValidator@validate', 'Invalid image file');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api_public.php');
+        $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
+        $this->loadRoutesFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'routes/api_public.php');
 
-        View::addNamespace('form', __DIR__ . '/../resources/views');
+        View::addNamespace('form', dirname(__DIR__) . '/resources/views');
 
     }
 }
