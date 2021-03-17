@@ -1557,6 +1557,7 @@ class Parser
                                     // $field_content = $this->_replace_editable_fields($field_content);
                                     $field_content = $this->_replace_editable_fields($field_content, $no_cache = false, $from_parent = $layout);
                                     if ($field_content) {
+                                         $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                         pq($elem_clone)->html($field_content);
                                     }
                                 } else {
@@ -1572,7 +1573,7 @@ class Parser
                                 }
                                 pq($elem)->replaceWith($elem_clone);
 
-                                $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
+                            // $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
                                 $this->_mw_edit_field_map[$parser_mem_crc] = array(
                                     'field' => $field,
                                     'rel' => $rel,
@@ -1615,7 +1616,7 @@ class Parser
                             $reps_arr[] = $v['s'];
                             $reps_arr2[] = $v['r'];
 
-                            $layout = $this->_str_replace_first($v['s'], $v['r'], $layout);
+                         $layout = $this->_str_replace_first($v['s'], $v['r'], $layout);
                             // $layout = str_ireplace($v['s'], $v['r'], $layout, $repc);
 
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
@@ -1634,6 +1635,7 @@ class Parser
                 }
             }
         }
+        //dd($layout);
         if (isset($mw_elements_array) and !empty($mw_elements_array)) {
             if (isset($mw_elements_array['elems']) and isset($mw_elements_array['to_replace']) and isset($mw_elements_array['new'])) {
                 $modified_layout = $mw_elements_array['new'];
