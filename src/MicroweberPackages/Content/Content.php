@@ -17,7 +17,7 @@ use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {
-    /*use Taggable;
+    use Taggable;
     use TaggableTrait;
     use ContentDataTrait;
     use CustomFieldsTrait;
@@ -25,8 +25,8 @@ class Content extends Model
     use HasSlugTrait;
     use MediaTrait;
     use Filterable;
-    use HasCreatedByFieldsTrait;*/
-   // use CacheableQueryBuilderTrait;
+    use HasCreatedByFieldsTrait;
+    use CacheableQueryBuilderTrait;
 
 
     protected $table = 'content';
