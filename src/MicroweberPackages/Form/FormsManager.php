@@ -2,13 +2,12 @@
 
 namespace MicroweberPackages\Form;
 
-use Illuminate\Http\File;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use League\Csv\Writer;
-use MicroweberPackages\Country\Models\Country;
 use MicroweberPackages\Form\Models\Form;
+use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Form\Notifications\NewFormEntryAutorespond;
 use MicroweberPackages\User\Models\User;
@@ -755,8 +754,14 @@ class FormsManager
                         if ($user_mails) {
                             foreach ($user_mails as $user_mail) {
                                 try {
-                                    Notification::route('mail', $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
-                                } catch (\Exception $e) {
+                                    $findFormRecipient = FormRecipient::where('email', $user_mail)->first();
+                                    if ($findFormRecipient == null) {
+                                        $findFormRecipient = new FormRecipient();
+                                        $findFormRecipient->email = $user_mail;
+                                        $findFormRecipient->save();
+                                    }
+                                    $findFormRecipient->notifyNow(new NewFormEntryAutorespond($form_model));
+                                } catch (Exception $e) {
 
                                 }
                             }
