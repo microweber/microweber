@@ -50,9 +50,9 @@ class NewFormEntryAutorespond extends Notification
     public function toMail($notifiable)
     {
 
-        $form_id = $this->formEntry->rel_id;
+        $formId = $this->formEntry->rel_id;
 
-        $enableAutoRespond = Option::getValue('enable_auto_respond', $form_id);
+        $enableAutoRespond = Option::getValue('enable_auto_respond', $formId);
         if ($enableAutoRespond !== true) {
             // Dont send mail
             return;
@@ -60,10 +60,7 @@ class NewFormEntryAutorespond extends Notification
 
         $mail = new MailMessage();
 
-
-        $emailAutorespond = Option::getValue('email_autorespond', $form_id);
-
-
+        $emailAutorespond = Option::getValue('email_autorespond', $formId);
         if (!$emailAutorespond) {
             $emailAutorespond = Option::getValue('email_autorespond', 'contact_form_default');
         }
@@ -75,7 +72,7 @@ class NewFormEntryAutorespond extends Notification
             $emailAutorespond = _e('Thank you for your subscription!', true);
         }
 
-        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $form_id);
+        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $formId);
         if (!$emailAutorespondSubject) {
             $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'contact_form_default');
         }
@@ -85,12 +82,11 @@ class NewFormEntryAutorespond extends Notification
         if ($emailAutorespondSubject) {
             $emailAutorespondSubject = _e('Thank you for your message.', true);
         }
-        $appendFiles = Option::getValue('append_files', $form_id);
+        $appendFiles = Option::getValue('append_files', $formId);
 
         if (!$appendFiles) {
             $appendFiles = Option::getValue('append_files', 'email');
         }
-
 
         if ($appendFiles) {
             $appendFilesAll = explode(',', $appendFiles);
@@ -109,7 +105,6 @@ class NewFormEntryAutorespond extends Notification
         }
 
         $mail->line($emailAutorespondSubject);
-
 
         $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
         $parsedEmail = $twig->render($emailAutorespond, [
@@ -142,8 +137,6 @@ class NewFormEntryAutorespond extends Notification
     public function message()
     {
         $toView = $this->notification->data;
-
-
         $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
 
         return view('form::admin.notifications.new_form_entry', $toView);
