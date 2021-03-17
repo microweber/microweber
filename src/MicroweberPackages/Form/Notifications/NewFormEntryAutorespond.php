@@ -49,6 +49,7 @@ class NewFormEntryAutorespond extends Notification
      */
     public function toMail($notifiable)
     {
+
         $formId = $this->formEntry->rel_id;
 
         $enableAutoRespond = Option::getValue('enable_auto_respond', $formId);
@@ -87,6 +88,7 @@ class NewFormEntryAutorespond extends Notification
             $appendFiles = Option::getValue('append_files', 'email');
         }
 
+
         if ($appendFiles) {
             $appendFilesAll = explode(',', $appendFiles);
 
@@ -104,6 +106,7 @@ class NewFormEntryAutorespond extends Notification
         }
 
         $mail->line($emailAutorespondSubject);
+
 
         $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
         $parsedEmail = $twig->render($emailAutorespond, [

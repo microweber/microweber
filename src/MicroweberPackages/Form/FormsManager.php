@@ -754,12 +754,11 @@ class FormsManager
 
                         if ($user_mails) {
                             foreach ($user_mails as $user_mail) {
-                                Notification::route('mail', $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
-                                /*try {
+                                try {
                                     Notification::route('mail', $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
                                 } catch (\Exception $e) {
 
-                                }*/
+                                }
                             }
                         }
                     }
