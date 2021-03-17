@@ -108,6 +108,7 @@ class ContactFormTest extends TestCase
         $findSubject = false;
 
         $bccMails = [];
+        $replyToMails = [];
         $sendedToMails = [];
         $sendedFromMails = [];
 
@@ -119,10 +120,16 @@ class ContactFormTest extends TestCase
             $to = key($email->getTo());
             $from = key($email->getFrom());
             $bcc = $email->getBcc();
+            $replyTo = $email->getReplyTo();
 
             if (!empty($bcc)) {
-                foreach ($bcc as $emailBcc) {
+                foreach ($bcc as $emailBcc=>$bccName) {
                     $bccMails[] = $emailBcc;
+                }
+            }
+            if (!empty($replyTo)) {
+                foreach ($replyTo as $replyTo=>$replyToName) {
+                    $replyToMails[] = $replyTo;
                 }
             }
 
@@ -144,9 +151,9 @@ class ContactFormTest extends TestCase
         $this->assertTrue(in_array('unit.b.slaveykov@unittest.com', $sendedToMails));
 
         // Check Reply Emails
-        $this->assertTrue(in_array('EmailReply1@UnitTest.com', $sendedToMails));
-        $this->assertTrue(in_array('EmailReply2@UnitTest.com', $sendedToMails));
-        $this->assertTrue(in_array('EmailReply3@UnitTest.com', $sendedToMails));
+        $this->assertTrue(in_array('EmailReply1@UnitTest.com', $replyToMails));
+        $this->assertTrue(in_array('EmailReply2@UnitTest.com', $replyToMails));
+        $this->assertTrue(in_array('EmailReply3@UnitTest.com', $replyToMails));
 
         // Check BCCS Emails
         $this->assertTrue(in_array('BCC1@UnitTest.com', $bccMails));

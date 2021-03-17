@@ -202,16 +202,6 @@ class FormsManager
             $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
         }
 
-        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
-        if (!$email_bcc) {
-            $email_bcc = $this->app->option_manager->get('email_bcc', $default_mod_id);
-        }
-
-        $email_reply = $this->app->option_manager->get('email_reply', $for_id);
-        if (!$email_reply) {
-            $email_reply = $this->app->option_manager->get('email_reply', $default_mod_id);
-        }
-
         $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
         if (!$email_autorespond) {
             $email_autorespond = $this->app->option_manager->get('email_autorespond', $default_mod_id);
@@ -691,49 +681,7 @@ class FormsManager
                         }
                     }
 
-
                     $user_mails[] = $email_to;
-
-                    $emails_bcc_list = [];
-                    if (!empty($email_bcc)) {
-                        if (strpos($email_bcc, ',') !== false) {
-                            $email_bcc_mails = explode(',', $email_bcc);
-                            if (is_array($email_bcc_mails)) {
-                                foreach ($email_bcc_mails as $email_bcc) {
-                                    $email_bcc = trim($email_bcc);
-                                    if (filter_var($email_bcc, FILTER_VALIDATE_EMAIL)) {
-                                        $emails_bcc_list[] = $email_bcc;
-                                    }
-                                }
-                            }
-                        } else {
-                            if (filter_var($email_bcc, FILTER_VALIDATE_EMAIL)) {
-                                $emails_bcc_list[] = $email_bcc;
-                            }
-                        }
-                    }
-
-
-                    if (!empty($email_reply)) {
-                        $emails_reply_list = [];
-                        if (strpos($email_reply, ',') !== false) {
-                            $email_reply_mails = explode(',', $email_reply);
-                            if (is_array($email_reply_mails)) {
-                                foreach ($email_reply_mails as $email_reply) {
-                                    $email_reply = trim($email_reply);
-                                    if (filter_var($email_reply, FILTER_VALIDATE_EMAIL)) {
-                                        $emails_reply_list[] = $email_reply;
-                                    }
-                                }
-                            }
-                        } else {
-                            if (filter_var($email_reply, FILTER_VALIDATE_EMAIL)) {
-                                $emails_reply_list[] = $email_reply;
-                            }
-                        }
-                        $user_mails = array_merge($user_mails, $emails_reply_list);
-                    }
-
 
                     // $email_from = false;
                     if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
@@ -785,10 +733,6 @@ class FormsManager
                                     $findFormRecipient = new FormRecipient();
                                     $findFormRecipient->email = $user_mail;
                                     $findFormRecipient->save();
-                                }
-var_dump($emails_bcc_list);
-                                if (!empty($emails_bcc_list)) {
-                                    $findFormRecipient->bcc = $emails_bcc_list;
                                 }
 
                                 $findFormRecipient->notifyNow(new NewFormEntryAutorespond($form_model));
