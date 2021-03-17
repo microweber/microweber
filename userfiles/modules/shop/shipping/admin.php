@@ -130,7 +130,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                         <div class="form-group m-0">
                                             <div class="custom-control custom-switch m-0">
                                                 <input onchange="shippingSetActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" data-value-unchecked="n" data-value-checked="y"  class="mw_option_field custom-control-input" id="ccheckbox-shipping_gw_<?php print $shipping_module['module'] ?>" name="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?> checked="checked" <?php endif; ?> value="y">
-                                                <label class="custom-control-label" for="ccheckbox-shipping_gw_<?php _e($shipping_module['module']) ?>"></label>
+                                                <label class="custom-control-label" for="ccheckbox-shipping_gw_<?php print($shipping_module['module']) ?>"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                     </div>
 
                                     <div class="col text-right">
-                                        <button type="button" onclick="shippingMethodModal('#module-db-id-<?php print $module_info['id'] ?>', '<?php _e($shipping_module['module']) ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
+                                        <button type="button" onclick="shippingMethodModal('#module-db-id-<?php print $module_info['id'] ?>', '<?php print($shipping_module['module']) ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
                                     </div>
                                 </div>
                             </div>
