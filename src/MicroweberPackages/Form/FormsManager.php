@@ -160,7 +160,7 @@ class FormsManager
             $for_id = $params['data-id'];
         } elseif (isset($params['id'])) {
             $for_id = $params['id'];
-        }  
+        }
 
         if (isset($params['rel_id'])) {
             $for_id = $params['rel_id'];
@@ -691,11 +691,24 @@ class FormsManager
                         }
                     }
 
-//@todo
-//                    $user_mails[] = $email_to;
-//                    if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
-//                        $user_mails[] = $email_bcc;
-//                    }
+
+                    $user_mails[] = $email_to;
+                    if (!empty($email_bcc)) {
+                        if (strpos($email_bcc, ',') !== false) {
+                            $email_bcc_mails = explode(',', $email_bcc);
+                            if (is_array($email_bcc_mails)) {
+                                foreach ($email_bcc_mails as $email_bcc) {
+                                    if (filter_var($email_bcc, FILTER_VALIDATE_EMAIL)) {
+                                        $user_mails[] = $email_bcc;
+                                    }
+                                }
+                            }
+                        } else {
+                            if (filter_var($email_bcc, FILTER_VALIDATE_EMAIL)) {
+                                $user_mails[] = $email_bcc;
+                            }
+                        }
+                    }
 
                     // $email_from = false;
                     if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
@@ -723,6 +736,7 @@ class FormsManager
                     }
 
                     if (!empty($user_mails)) {
+
                         array_unique($user_mails);
 
                         $append_files = $this->app->option_manager->get('append_files', $for_id);
