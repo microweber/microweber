@@ -80,6 +80,10 @@ class Option extends Model
             'facebook-pixel-id'=>'',
         ];
 
+        if (!mw_is_installed()) {
+            return $websiteOptions;
+        }
+
         $getWebsiteOptions = ModuleOption::where('option_group', 'website')->get();
         if (!empty($getWebsiteOptions)) {
             foreach ($getWebsiteOptions as $websiteOption) {
