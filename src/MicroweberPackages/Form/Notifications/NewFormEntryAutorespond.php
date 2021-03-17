@@ -49,14 +49,7 @@ class NewFormEntryAutorespond extends Notification
      */
     public function toMail($notifiable)
     {
-
         $formId = $this->formEntry->rel_id;
-
-        $enableAutoRespond = Option::getValue('enable_auto_respond', $formId);
-        if ($enableAutoRespond !== true) {
-            // Dont send mail
-            return;
-        }
 
         $mail = new MailMessage();
 

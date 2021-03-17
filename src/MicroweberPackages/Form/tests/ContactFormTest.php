@@ -76,6 +76,11 @@ class ContactFormTest extends TestCase
         ));
         save_option(array(
             'option_group' => $optionGroup,
+            'option_key' => 'enable_auto_respond',
+            'option_value' => 1
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
             'option_key' => 'email_autorespond',
             'option_value' => 'This is the autorespond text'
         ));
@@ -102,15 +107,21 @@ class ContactFormTest extends TestCase
         $findBody = false;
         $findSubject = false;
 
+        $sendedToMails = [];
+        $sendedFromMails = [];
+
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
         foreach ($emails as $email) {
 
             $subject = $email->getSubject();
             $body = $email->getBody();
-            $to = $email->getTo();
-            $from = $email->getFrom();
+            $to = key($email->getTo());
+            $from = key($email->getFrom());
 
-            dump($from, $to);
+            $sendedToMails[] = $to;
+            $sendedFromMails[] = $from;
+
+            // var_dump($subject);
 
             if (str_contains($body, 'HELLO CONTACT FORM THIS IS MY MESSAGE')) {
                 $findBody = true;
@@ -123,6 +134,30 @@ class ContactFormTest extends TestCase
 
         $this->assertTrue($findBody);
         $this->assertTrue($findSubject);
+
+        $this->assertTrue(in_array('unit.b.slaveykov@unittest.com', $sendedToMails));
+
+        /// CHECK BCCS
+        $findBcc1 = false;
+        $findBcc2 = false;
+        $findBcc3 = false;
+
+        if (in_array('Email1@UnitTest.com', $sendedToMails)) {
+            $findBcc1 = true;
+        }
+
+        if (in_array('Email2@UnitTest.com', $sendedToMails)) {
+            $findBcc2 = true;
+        }
+
+        if (in_array('Email3@UnitTest.com', $sendedToMails)) {
+            $findBcc3 = true;
+        }
+
+        $this->assertTrue($findBcc1);
+        $this->assertTrue($findBcc2);
+        $this->assertTrue($findBcc3);
+
     }
 
 }

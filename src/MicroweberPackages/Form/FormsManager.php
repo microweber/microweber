@@ -10,6 +10,7 @@ use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
 use MicroweberPackages\Form\Notifications\NewFormEntryAutorespond;
+use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
 
@@ -697,6 +698,7 @@ class FormsManager
                             $email_bcc_mails = explode(',', $email_bcc);
                             if (is_array($email_bcc_mails)) {
                                 foreach ($email_bcc_mails as $email_bcc) {
+                                    $email_bcc = trim($email_bcc);
                                     if (filter_var($email_bcc, FILTER_VALIDATE_EMAIL)) {
                                         $user_mails[] = $email_bcc;
                                     }
@@ -749,21 +751,19 @@ class FormsManager
                         }
                         //  var_dump($user_mails);
 
-                        $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
+                        $enableAutoRespond = Option::getValue('enable_auto_respond', $for_id);
 
-                        if ($user_mails) {
+                        if ($enableAutoRespond && is_array($user_mails)) {
                             foreach ($user_mails as $user_mail) {
-                                try {
-                                    $findFormRecipient = FormRecipient::where('email', $user_mail)->first();
-                                    if ($findFormRecipient == null) {
-                                        $findFormRecipient = new FormRecipient();
-                                        $findFormRecipient->email = $user_mail;
-                                        $findFormRecipient->save();
-                                    }
-                                    $findFormRecipient->notifyNow(new NewFormEntryAutorespond($form_model));
-                                } catch (Exception $e) {
 
+                                $findFormRecipient = FormRecipient::where('email', $user_mail)->first();
+                                if ($findFormRecipient == null) {
+                                    $findFormRecipient = new FormRecipient();
+                                    $findFormRecipient->email = $user_mail;
+                                    $findFormRecipient->save();
                                 }
+
+                                $findFormRecipient->notifyNow(new NewFormEntryAutorespond($form_model));
                             }
                         }
                     }
