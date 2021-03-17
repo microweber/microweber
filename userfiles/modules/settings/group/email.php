@@ -200,7 +200,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <?php if ($email_transport == 'php'): ?>
-                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("PHP mail is the built in PHP function that is used to send emails from PHP scripts. <br />It's a cost effective way of notifying users on important events."); ?></small>
+                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("PHP mail is the built in PHP function that is used to send emails from PHP scripts."); ?></small>
                                             <?php elseif ($email_transport == 'gmail'): ?>
                                                 <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your gmail account to use a Gmail provider."); ?></small>
                                             <?php elseif ($email_transport == 'smtp'): ?>
