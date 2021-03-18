@@ -109,16 +109,51 @@ if (isset($params['for_module_id'])) {
 
         <h5 class="font-weight-bold"><?php _e("Sender") ?></h5>
 
-        <div class="form-group">
-            <label class="control-label"><?php _e("From e-mail address"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("The e-mail address which will send the message"); ?></small>
-            <input name="email_from" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+        <!-- LIVE EDIT-->
+        <div class="form-group mb-3">
+            <label class="control-label"><?php _e("Use custom sender settings"); ?></label>
+            <small class="text-muted d-block mb-2">
+                <?php _e('Use custom sender settings for the current contact form.'); ?>
+                <br />
+                <?php _e('By default we will use contact form global settings.'); ?>
+                <a href="<?php print admin_url('/view:modules/load_module:contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the contact form global settings here.'); ?></a>
+            </small>
         </div>
 
-        <div class="form-group">
-            <label class="control-label"><?php _e("From name"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("e.x. your name, company or brand name"); ?></small>
-            <input name="email_from_name" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from_name', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+        <div class="form-group mb-4">
+            <?php  $enableCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('enable_custom_sender', $mod_id); ?>
+            <div class="custom-control custom-switch pl-0">
+                <label class="d-inline-block mr-5" for="enable_custom_sender">No</label>
+                <input type="checkbox" onchange="toggleCustomSender(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_custom_sender" option-group="<?php print $mod_id ?>" id="enable_custom_sender" value="y" <?php if ($enableCustomSender): ?>checked<?php endif; ?>>
+                <label class="custom-control-label" for="enable_custom_sender">Yes</label>
+            </div>
+        </div>
+        <!-- LIVE EDIT-->
+
+        <script type="text/javascript">
+            toggleCustomSender = function (e) {
+                var el = e.target;
+                if ($(el).is(":checked")) {
+                    $('.js-custom-sender').fadeIn();
+                } else {
+                    $('.js-custom-sender').fadeOut();
+                }
+
+            };
+        </script>
+
+        <div class="js-custom-sender" <?php if (!$enableCustomSender): ?> style="display:none"<?php endif; ?>>
+            <div class="form-group">
+                <label class="control-label"><?php _e("From e-mail address"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("The e-mail address which will send the message"); ?></small>
+                <input name="email_from" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><?php _e("From name"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("e.x. your name, company or brand name"); ?></small>
+                <input name="email_from_name" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from_name', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            </div>
         </div>
 
         <h5 class="font-weight-bold"><?php _e("Receivers") ?></h5>
@@ -130,15 +165,15 @@ if (isset($params['for_module_id'])) {
                 <?php _e('Use custom receivers settings for the current contact form.'); ?>
                 <br />
                 <?php _e('By default we will use contact form global settings.'); ?>
-                <a href="<?php print admin_url('/view:modules/load_module:contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the global settings here.'); ?></a>
+                <a href="<?php print admin_url('/view:modules/load_module:contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the contact form global settings here.'); ?></a>
             </small>
         </div>
 
         <div class="form-group mb-4">
-            <?php  $enableCustomRecevbers = get_option('enable_custom_receivers', $mod_id); ?>
+            <?php  $enableCustomReceivers = \MicroweberPackages\Option\Facades\Option::getValue('enable_custom_receivers', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
                 <label class="d-inline-block mr-5" for="enable_custom_receivers">No</label>
-                <input type="checkbox" onchange="toggleCustomReceivers(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_custom_receivers" option-group="<?php print $mod_id ?>" id="enable_custom_receivers" value="y" <?php if ($enableCustomRecevbers !== 'n'): ?>checked<?php endif; ?>>
+                <input type="checkbox" onchange="toggleCustomReceivers(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_custom_receivers" option-group="<?php print $mod_id ?>" id="enable_custom_receivers" value="y" <?php if ($enableCustomReceivers): ?>checked<?php endif; ?>>
                 <label class="custom-control-label" for="enable_custom_receivers">Yes</label>
             </div>
         </div>
@@ -156,7 +191,7 @@ if (isset($params['for_module_id'])) {
             };
         </script>
 
-        <div class="js-custom-receivers" <?php if ($enableCustomRecevbers !== 'y'): ?> style="display:none"<?php endif; ?>>
+        <div class="js-custom-receivers" <?php if (!$enableCustomReceivers): ?> style="display:none"<?php endif; ?>>
         <div class="form-group">
             <label class="control-label"><?php _e("To e-mail address"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
@@ -189,10 +224,10 @@ if (isset($params['for_module_id'])) {
         </div>
 
         <div class="form-group mb-4">
-            <?php  $enableAutoRespond = get_option('enable_auto_respond', $mod_id); ?>
+            <?php  $enableAutoRespond = \MicroweberPackages\Option\Facades\Option::getValue('enable_auto_respond', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
                 <label class="d-inline-block mr-5" for="enable_auto_respond">No</label>
-                <input type="checkbox" onchange="toggleAutoRespondFields(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_auto_respond" option-group="<?php print $mod_id ?>" id="enable_auto_respond" value="y" <?php if ($enableAutoRespond !== 'n'): ?>checked<?php endif; ?>>
+                <input type="checkbox" onchange="toggleAutoRespondFields(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_auto_respond" option-group="<?php print $mod_id ?>" id="enable_auto_respond" value="y" <?php if ($enableAutoRespond): ?>checked<?php endif; ?>>
                 <label class="custom-control-label" for="enable_auto_respond">Yes</label>
             </div>
         </div>
@@ -209,7 +244,7 @@ if (isset($params['for_module_id'])) {
             };
         </script>
 
-        <div class="js-auto-respond-fields" <?php if ($enableAutoRespond !== 'y'): ?> style="display:none"<?php endif; ?>>
+        <div class="js-auto-respond-fields" <?php if (!$enableAutoRespond): ?> style="display:none"<?php endif; ?>>
             <div class="form-group">
                 <label class="control-label"><?php _e("Autorespond Subject"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("Auto-responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>

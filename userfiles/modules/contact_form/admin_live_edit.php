@@ -101,7 +101,7 @@ if (!user_can_access('module.contact_form.index')) {
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
             <h5 class="font-weight-bold"><?php _e("Contact Form Fields"); ?></h5>
-            <small class="text-muted d-block"><?php _e("Add / Edit fieldes of the form using the custom fields") ?></small>
+            <small class="text-muted d-block"><?php _e("Add / Edit fields of the form using the custom fields") ?></small>
             <module type="custom_fields" view="admin" data-for="module" for-id="<?php print $params['id'] ?>"/>
         </div>
         <!-- Settings Content - End -->
