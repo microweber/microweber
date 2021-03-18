@@ -35,7 +35,7 @@ if (!user_can_access('module.contact_form.index')) {
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
             <module type="settings/list" for_module="<?php _e($config['module']) ?>" for_module_id="<?php print $params['id'] ?>"/>
-            <module type="contact_form/settings" for_module_id="<?php print $params['id'] ?>"/>
+            <module type="contact_form/settings_live_edit" for_module_id="<?php print $params['id'] ?>"/>
         </div>
         <!-- Settings Content - End -->
     </div>
