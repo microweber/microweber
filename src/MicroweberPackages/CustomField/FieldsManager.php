@@ -313,7 +313,7 @@ class FieldsManager
 
         if ($customField == null) {
             $customField = new CustomField();
-            $customField->name = _e($this->getFieldNameByType($fieldData['type']), true);
+            $customField->name = $this->getFieldNameByType($fieldData['type']);
             if (!isset($fieldData['value'])) {
                $fieldData['value'] = $this->generateFieldNameValues($fieldData);
             }

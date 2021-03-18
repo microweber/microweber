@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html <?php print lang_attributes(); ?>>
 <head>
-    <title><?php echo _e('Login'); ?></title>
+    <title><?php _e('Login'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

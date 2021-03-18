@@ -1,11 +1,14 @@
 <?php
 require_once __DIR__ . DS . 'vendor/autoload.php';
 
-$prior = get_option('prior', $params['id']);
+$upload = get_option('upload', $params['id']);
+$upload = trim($upload);
 
+$prior = get_option('prior', $params['id']);
 $code = get_option('embed_url', $params['id']);
+
 if ($code == false) {
-    if (isset($params['url'])) {
+    if ($upload == false && isset($params['url'])) {
         $code = $params['url'];
     }
 }
@@ -16,9 +19,6 @@ $enable_full_page_cache = get_option('enable_full_page_cache','website');
 $lazyload = get_option('lazyload', $params['id']);
 
 $lazyload = ((!empty($lazyload) && $lazyload == 'y')? true : false);
-
-$upload = get_option('upload', $params['id']);
-$upload = trim($upload);
 
 $thumb = get_option('upload_thumb', $params['id']);
 

@@ -73,7 +73,7 @@
     mw.notif_delete_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php echo route('admin.notification.delete') ?>", {ids: selectedNotificationIds}, function () {
 
                 $.each(selectedNotificationIds, function (k,notifid) {
@@ -92,7 +92,7 @@
     mw.notif_read_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php echo route('admin.notification.read') ?>", {ids: selectedNotificationIds}, function () {
 
                 $.each(selectedNotificationIds, function (k,notifid) {
@@ -113,7 +113,7 @@
     mw.notif_reset_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php echo route('admin.notification.reset') ?>", {ids: selectedNotificationIds}, function () {
 
                 $.each(selectedNotificationIds, function (k,notifid) {

@@ -38,7 +38,7 @@ $mail_template_type = $params['mail_template_type'];
 <div class="form-group mb-3">
     <label class="control-label"><?php _e("Select email template"); ?></label>
     <small class="text-muted d-flex justify-content-between align-items-center mb-2"><?php _e("Choose template to send for users"); ?>.
-        <button onclick="mw_admin_add_mail_template('<?php echo $mail_template_type; ?>')" class="btn btn-sm btn-outline-primary"><?php print _e('Add new email template'); ?></button>
+        <button onclick="mw_admin_add_mail_template('<?php echo $mail_template_type; ?>')" class="btn btn-sm btn-outline-primary"><?php _e('Add new email template'); ?></button>
     </small>
     <small class="text-muted d-block mb-2"><?php _e("If you add few emails for same functionality they will be showing in dropdown box"); ?>.</small>
 </div>
@@ -54,6 +54,6 @@ $mail_template_type = $params['mail_template_type'];
     </div>
 
     <div class="col-md-4">
-        <button onclick="mw_admin_edit_mail_templates('<?php echo $mail_template_type; ?>')" class="btn btn-outline-success btn-sm" title="<?php print _e('Edit Templates'); ?>"><?php print _e('Edit Templates'); ?></button>
+        <button onclick="mw_admin_edit_mail_templates('<?php echo $mail_template_type; ?>')" class="btn btn-outline-success btn-sm" title="<?php _e('Edit Templates'); ?>"><?php _e('Edit Templates'); ?></button>
     </div>
 </div>

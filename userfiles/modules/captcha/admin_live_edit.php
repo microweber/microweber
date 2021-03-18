@@ -11,7 +11,7 @@ if (empty($captcha_name)) {
 <div class="module-live-edit-settings module-captcha-settings">
 
     <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php print _e('Captcha Name'); ?></label>
+        <label class="mw-ui-label"><?php _e('Captcha Name'); ?></label>
         <input class="mw-ui-field mw_option_field mw-full-width" name="captcha_name" value="<?php echo $captcha_name; ?>" id="captcha_name" placeholder="<?php _e('Enter captcha name..'); ?>">
     </div>
 

@@ -19,7 +19,7 @@
                 <?php endif; ?>
             </div>
 
-            <div class="col-12 col-sm text-right"><?php print _e(mw('format')->ago($notification['created_at'])); ?></div>
+            <div class="col-12 col-sm text-right"><?php _e(mw('format')->ago($notification['created_at'])); ?></div>
         </div>
         <div class="collapse" id="notif-item-<?php print $id ?>">
             <?php if (isset($article['full_url'])): ?>

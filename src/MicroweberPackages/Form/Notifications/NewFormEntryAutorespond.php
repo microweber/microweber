@@ -49,21 +49,27 @@ class NewFormEntryAutorespond extends Notification
      */
     public function toMail($notifiable)
     {
-
-        $form_id = $this->formEntry->rel_id;
-
-        $enableAutoRespond = Option::getValue('enable_auto_respond', $form_id);
-        if ($enableAutoRespond !== true) {
-            // Dont send mail
-            return;
-        }
+        $formId = $this->formEntry->rel_id;
 
         $mail = new MailMessage();
 
+        $emailBcc = Option::getValue('email_bcc', $formId);
+        if (!$emailBcc) {
+            $emailBcc = Option::getValue('email_bcc', 'contact_form_default');
+        }
+        if (!$emailBcc) {
+            $emailBcc = Option::getValue('email_bcc', 'email');
+        }
 
-        $emailAutorespond = Option::getValue('email_autorespond', $form_id);
+        $emailReply = Option::getValue('email_reply', $formId);
+        if (!$emailReply) {
+            $emailReply = Option::getValue('email_reply', 'contact_form_default');
+        }
+        if (!$emailReply) {
+            $emailReply = Option::getValue('email_reply', 'email');
+        }
 
-
+        $emailAutorespond = Option::getValue('email_autorespond', $formId);
         if (!$emailAutorespond) {
             $emailAutorespond = Option::getValue('email_autorespond', 'contact_form_default');
         }
@@ -75,17 +81,18 @@ class NewFormEntryAutorespond extends Notification
             $emailAutorespond = _e('Thank you for your subscription!', true);
         }
 
-        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $form_id);
+        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $formId);
         if (!$emailAutorespondSubject) {
             $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'contact_form_default');
         }
         if (!$emailAutorespondSubject) {
             $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
         }
-        if ($emailAutorespondSubject) {
+        if (!$emailAutorespondSubject) {
             $emailAutorespondSubject = _e('Thank you for your message.', true);
         }
-        $appendFiles = Option::getValue('append_files', $form_id);
+
+        $appendFiles = Option::getValue('append_files', $formId);
 
         if (!$appendFiles) {
             $appendFiles = Option::getValue('append_files', 'email');
@@ -108,8 +115,18 @@ class NewFormEntryAutorespond extends Notification
             }
         }
 
-        $mail->line($emailAutorespondSubject);
 
+        $emailsBccList = $this->_explodeMailsFromString($emailBcc);
+        if (!empty($emailsBccList)) {
+            $mail->bcc($emailsBccList);
+        }
+
+        $emailsReplyList = $this->_explodeMailsFromString($emailReply);
+        if (!empty($emailsBccList)) {
+            $mail->replyTo($emailsReplyList);
+        }
+
+        $mail->line($emailAutorespondSubject);
 
         $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
         $parsedEmail = $twig->render($emailAutorespond, [
@@ -121,6 +138,30 @@ class NewFormEntryAutorespond extends Notification
         $mail->view('app::email.simple', ['content' => $parsedEmail]);
 
         return $mail;
+    }
+
+    private function _explodeMailsFromString($emailsListString)
+    {
+        $emailsList = [];
+        if (!empty($emailsListString)) {
+            if (strpos($emailsListString, ',') !== false) {
+                $explodedMails = explode(',', $emailsListString);
+                if (is_array($explodedMails)) {
+                    foreach ($explodedMails as $email) {
+                        $email = trim($email);
+                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            $emailsList[] = $email;
+                        }
+                    }
+                }
+            } else {
+                if (filter_var($emailsListString, FILTER_VALIDATE_EMAIL)) {
+                    $emailsList[] = $emailsListString;
+                }
+            }
+        }
+
+        return $emailsList;
     }
 
     /**
@@ -142,8 +183,6 @@ class NewFormEntryAutorespond extends Notification
     public function message()
     {
         $toView = $this->notification->data;
-
-
         $toView['ago'] = app()->format->ago($this->notification->data['created_at']);
 
         return view('form::admin.notifications.new_form_entry', $toView);

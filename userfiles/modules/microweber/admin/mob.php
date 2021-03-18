@@ -97,10 +97,8 @@ if(array_key_exists('post', $_GET)){     ?>
 if (!empty($content)) {
      foreach($content as $item){   ?>
 
-     <pre><?php d($item); exit(); ?></pre>
-
        <div class="mob-post">
-        <img width="50" src="<?php print thumbnail($item['image']); ?>" alt="" />  <?php print _e($item['title']); ?>
+        <img width="50" src="<?php print thumbnail($item['image']); ?>" alt="" />  <?php print($item['title']); ?>
        </div>
 
 
