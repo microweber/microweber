@@ -25,7 +25,7 @@ if (!user_can_access('module.contact_form.index')) {
         };
         this.element = this.render();
     };
-    
+
     $(document).ready(function () {
         mweditor = mw.Editor({
             selector: '#editorAM',
@@ -81,42 +81,42 @@ if (isset($params['for_module_id'])) {
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
         <div class="col">
-            <h5 class="font-weight-bold mb-3"><?php _e("Contact Form") ?></h5>
+            <h5 class="font-weight-bold mb-3"><?php _e("Global settings") ?></h5>
         </div>
 
         <div class="col text-right">
-            <a class="btn btn-primary btn-sm" href="<?php print admin_url('view:') . $params['module'] ?>" target="_blank"><?php _e("Check your Inbox"); ?></a>
+            <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings#option_group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail/SMTP sending options"); ?></a>
         </div>
     </div>
 
     <div class="">
         <div class="form-group">
-            <label class="control-label"><?php _e("E-mail address from"); ?></label>
+            <label class="control-label"><?php _e("From e-mail address"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("The e-mail address which will send the message"); ?></small>
             <input name="email_from" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
 
         <div class="form-group">
-            <label class="control-label"><?php _e("E-mail sender name"); ?></label>
+            <label class="control-label"><?php _e("From name"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("e.x. your name, company or brand name"); ?></small>
             <input name="email_from_name" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from_name', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
 
-        <div class="form-group">
-            <label class="control-label"><?php _e("Receiver e-mail address"); ?></label>
+        <div class="form-group" style="display:none">
+            <label class="control-label"><?php _e("To e-mail address"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
             <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
 
         <div class="form-group">
-            <label class="control-label"><?php _e("E-mail Reply To"); ?></label>
+            <label class="control-label"><?php _e("Reply to e-mail"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("Send a copy of the email to one more email address"); ?></small>
             <input name="email_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
 
         <div class="form-group">
-            <label class="control-label"><?php _e("BCC E-mail To"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("Those addresses are invisible to the recipients of the email"); ?></small>
+            <label class="control-label"><?php _e("BCC e-mails"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("Those addresses seperated with comma are invisible to the recipients of the email"); ?></small>
             <input name="email_bcc" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_bcc', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
     </div>
@@ -142,6 +142,7 @@ if (isset($params['for_module_id'])) {
         </div>
 
 
+        <div class="js-auto-respond-fields" style="display:none">
         <div class="form-group">
             <label class="control-label"><?php _e("Autorespond Subject"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("Auto-responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
@@ -156,6 +157,7 @@ if (isset($params['for_module_id'])) {
             <label class="control-label"><span class="ico ismall_warn"></span>
                 <small><?php _e("Autorespond e-mail sent back to the user"); ?></small>
             </label>
+        </div>
         </div>
 
         <div class="form-group">
