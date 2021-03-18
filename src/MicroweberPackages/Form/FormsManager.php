@@ -536,7 +536,7 @@ class FormsManager
             $save = $this->app->database_manager->save($table, $to_save);
             $event_params = $params;
             $event_params['saved_form_entry_id'] = $save;
-            
+
             $form_model = Form::find($save);
             Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($form_model));
 
