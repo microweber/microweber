@@ -407,7 +407,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="js-logo-text-holder">
                         <div class="form-group">
                             <label class="control-label"><?php _e("Design your logo"); ?></label>
-                            <small class="text-muted d-block mb-2"><?php _e("Chooose fornt size for your logo"); ?></small>
+                            <small class="text-muted d-block mb-2"><?php _e("Choose font size for your logo"); ?></small>
 
 
                             <module  id="google-fonts" type="editor/fonts/select_option" group="<?php print $logo_name ?>"  name="font_family"  show_more_link="true" />

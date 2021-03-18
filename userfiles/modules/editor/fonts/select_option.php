@@ -10,7 +10,7 @@
 $name = 'font_family';
 $group = 'website';
 $show_more_link = false;
-
+ 
 if(isset($params['group'])){
     $group = $params['group'];
 }
@@ -52,6 +52,9 @@ if (is_string($enabled_custom_fonts) and $enabled_custom_fonts) {
                 var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
                 el.href = custom_fonts_stylesheet_restyled;
             }
+
+
+
 
         });
     }
