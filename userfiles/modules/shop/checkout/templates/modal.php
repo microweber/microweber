@@ -80,7 +80,7 @@ description: Checkout
 
                                <div class="my-4 edit nodrop" field="checkout_personal_information_title" rel="global"
                                     rel_id="<?php print $params['id'] ?>">
-                                   <small class="pull-right text-muted">*<?php _e("Fields are required<"); ?>/small>
+                                   <small class="pull-right text-muted">*<?php _e("Fields are required"); ?></small>
                                    <label class="control-label mb-2"><?php _e("Personal Information"); ?></label>
                                    <small class="text-muted d-block mb-2"> <?php _e("Add your personal information"); ?></small>
                                </div>

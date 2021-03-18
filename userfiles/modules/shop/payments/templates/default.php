@@ -27,7 +27,7 @@ description: Default
                         <?php if (isset($payment_option['icon']) and trim($payment_option['icon']) != '' and !stristr($payment_option['icon'], 'default.png')) : ?>
                             <span><img src="<?php print  $payment_option['icon']; ?>" alt=""/></span>
                         <?php else : ?>
-                            <span><?php print  _e($payment_option['name']); ?></span>
+                            <span><?php _e($payment_option['name']); ?></span>
                         <?php endif; ?>
                     </label>
                 </li>

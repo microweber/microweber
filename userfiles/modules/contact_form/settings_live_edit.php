@@ -11,18 +11,9 @@ if (isset($params['for_module_id'])) {
 
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
-
-        <?php  if ($mod_id == 'contact_form_default'): ?>
-            <div class="col">
-                <h5 class="font-weight-bold mb-3"><?php _e("Global contact form settings") ?></h5>
-            </div>
-        <?php else: ?>
-
-            <div class="col">
-                <h5 class="font-weight-bold"><?php _e("Current contact form settings") ?></h5>
-            </div>
-        <?php endif; ?>
-
+        <div class="col">
+            <h5 class="font-weight-bold"><?php _e("Current contact form settings") ?></h5>
+        </div>
         <div class="col text-right">
             <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings#option_group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail sending options"); ?></a>
         </div>
@@ -30,16 +21,21 @@ if (isset($params['for_module_id'])) {
 
     <div class="mt-2">
 
-        <h5 class="font-weight-bold"><?php _e("Global sender") ?></h5>
+        <div class="form-group">
+            <label class="control-label"><?php _e("Contact form name"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("What is the name of this contact form?"); ?></small>
+            <input name="form_name" option-group="<?php print $mod_id ?>" value="<?php print get_option('form_name', $mod_id); ?>" class="mw_option_field form-control col-6" type="text"/>
+        </div>
 
-        <!-- LIVE EDIT-->
+        <h5 class="font-weight-bold"><?php _e("Sender") ?></h5>
+
         <div class="form-group mb-3">
             <label class="control-label"><?php _e("Use custom sender settings"); ?></label>
             <small class="text-muted d-block mb-2">
-                <?php _e('Use custom sender settings for the global contact forms.'); ?>
+                <?php _e('Use custom sender settings for the current contact form.'); ?>
                 <br />
-                <?php _e('By default we will use website system e-mail settings.'); ?>
-                <a href="<?php print admin_url('view:settings#option_group=email'); ?>" target="_blank"><?php _e('You can change the system e-mail settings here.'); ?></a>
+                <?php _e('By default we will use contact form global settings.'); ?>
+                <a href="<?php print admin_url('/view:modules/load_module:contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the contact form global settings here.'); ?></a>
             </small>
         </div>
 
@@ -51,7 +47,6 @@ if (isset($params['for_module_id'])) {
                 <label class="custom-control-label" for="enable_custom_sender">Yes</label>
             </div>
         </div>
-        <!-- LIVE EDIT-->
 
         <script type="text/javascript">
             toggleCustomSender = function (e) {
@@ -79,10 +74,40 @@ if (isset($params['for_module_id'])) {
             </div>
         </div>
 
-        <hr class="thin"/>
+        <h5 class="font-weight-bold"><?php _e("Receivers") ?></h5>
 
-        <h5 class="font-weight-bold"><?php _e("Global Receivers") ?></h5>
+        <div class="form-group mb-3">
+            <label class="control-label"><?php _e("Use custom receivers settings"); ?></label>
+            <small class="text-muted d-block mb-2">
+                <?php _e('Use custom receivers settings for the current contact form.'); ?>
+                <br />
+                <?php _e('By default we will use contact form global settings.'); ?>
+                <a href="<?php print admin_url('/view:modules/load_module:contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the contact form global settings here.'); ?></a>
+            </small>
+        </div>
 
+        <div class="form-group mb-4">
+            <?php  $enableCustomReceivers = \MicroweberPackages\Option\Facades\Option::getValue('enable_custom_receivers', $mod_id); ?>
+            <div class="custom-control custom-switch pl-0">
+                <label class="d-inline-block mr-5" for="enable_custom_receivers">No</label>
+                <input type="checkbox" onchange="toggleCustomReceivers(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_custom_receivers" option-group="<?php print $mod_id ?>" id="enable_custom_receivers" value="y" <?php if ($enableCustomReceivers): ?>checked<?php endif; ?>>
+                <label class="custom-control-label" for="enable_custom_receivers">Yes</label>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            toggleCustomReceivers = function (e) {
+                var el = e.target;
+                if ($(el).is(":checked")) {
+                    $('.js-custom-receivers').fadeIn();
+                } else {
+                    $('.js-custom-receivers').fadeOut();
+                }
+
+            };
+        </script>
+
+        <div class="js-custom-receivers" <?php if (!$enableCustomReceivers): ?> style="display:none"<?php endif; ?>>
         <div class="form-group">
             <label class="control-label"><?php _e("To e-mail address"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
@@ -100,11 +125,12 @@ if (isset($params['for_module_id'])) {
             <small class="text-muted d-block mb-2"><?php _e("Those addresses seperated with comma are invisible to the recipients of the email"); ?></small>
             <input name="email_bcc" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_bcc', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
+        </div>
     </div>
 
     <hr class="thin"/>
 
-    <h5 class="font-weight-bold mb-3"><?php _e("Global auto-respond message to user"); ?></h5>
+    <h5 class="font-weight-bold mb-3"><?php _e("Auto-respond message to user"); ?></h5>
 
     <div class="">
 

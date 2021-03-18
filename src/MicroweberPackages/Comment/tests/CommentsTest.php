@@ -34,8 +34,7 @@ class CommentsTest extends TestCase
         );
 
         $commentData = $response->getData();
-
-        $this->assertEquals($save_post1, $commentData->data->rel_id);
+         $this->assertEquals($save_post1, $commentData->data->rel_id);
         $this->assertEquals('content', $commentData->data->rel_type);
         $this->assertEquals('Bozhidar', $commentData->data->comment_name);
         $this->assertEquals('selfworksbg@gmail.com', $commentData->data->comment_email);

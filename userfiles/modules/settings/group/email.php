@@ -24,7 +24,7 @@
                 });
 
         });
-     
+
 
 
 
@@ -127,8 +127,10 @@
         <div class="card-body pt-3 px-0">
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e("E-mail Settings"); ?></h5>
-                    <small class="text-muted"><?php _e("Set the email transport settings to your website."); ?></small>
+                    <h5 class="font-weight-bold"><?php _e("System e-mail website settings"); ?></h5>
+                    <small class="text-muted">
+                        <?php _e("Deliver messages related with new registration, password resets and others system functionalities."); ?>
+                    </small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -136,15 +138,15 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Your email address"); ?></label>
+                                        <label class="control-label"><?php _e("From e-mail address"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("The website will send emails on behalf of this address"); ?></small>
-                                        <input name="email_from" class="mw_option_field form-control" type="email" type="text" option-group="email" value="<?php print get_option('email_from', 'email'); ?>" placeholder="Ex. my@email.com"/>
+                                        <input name="email_from" class="mw_option_field form-control" type="email" type="text" option-group="email" value="<?php print get_option('email_from', 'email'); ?>" placeholder="Ex. noreply@yourwebsite.com"/>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("From name"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("The website will use this name for the emails"); ?></small>
-                                        <input name="email_from_name" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('email_from_name', 'email'); ?>" placeholder="<?php _e("ex. Website Support"); ?>"/>
+                                        <input name="email_from_name" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('email_from_name', 'email'); ?>" placeholder="<?php _e("Ex. Your Website Name"); ?>"/>
                                     </div>
                                 </div>
                             </div>
@@ -159,8 +161,11 @@
         <div class="card-body pt-3 px-0">
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e("Mail Send Settings"); ?></h5>
-                    <small class="text-muted"><?php _e("Set up your email provider so you can send emails through your site."); ?></small>
+                    <h5 class="font-weight-bold"><?php _e("General e-mail provider settings"); ?></h5>
+                    <small class="text-muted">
+                        <?php _e("Set up your email provider."); ?>
+                        <?php _e("The general e-mail provider will deliver all messages related with the website. Including system messages and contact form messages."); ?>
+                    </small>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">
@@ -200,7 +205,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <?php if ($email_transport == 'php'): ?>
-                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("PHP mail is the built in PHP function that is used to send emails from PHP scripts. <br />It's a cost effective way of notifying users on important events."); ?></small>
+                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("PHP mail is the built in PHP function that is used to send emails from PHP scripts."); ?></small>
                                             <?php elseif ($email_transport == 'gmail'): ?>
                                                 <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your gmail account to use a Gmail provider."); ?></small>
                                             <?php elseif ($email_transport == 'smtp'): ?>

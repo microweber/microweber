@@ -4,7 +4,7 @@
     <div class="control-group">
 
         <?php if($settings['show_label']): ?>
-            <label class="mw-ui-label edit"><?php echo $data["name"]; ?>
+            <label class="mw-ui-label"><?php echo $data["name"]; ?>
                 <?php if ($settings['required']): ?>
                     <span style="color:red;">*</span>
                 <?php endif; ?>
