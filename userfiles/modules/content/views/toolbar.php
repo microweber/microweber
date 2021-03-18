@@ -191,10 +191,10 @@ if ($last_page_front != false) {
                 <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Product"); ?></a>
             </h5>
         <?php else: ?>
-            <h5 class="d-inline-block">
-                <i class="mdi mdi-earth text-primary mr-3"></i>
+            <h5 class="d-md-inline-block d-flex align-items-center">
+                <i class="mdi mdi-earth text-primary mr-md-2 mr-1"></i>
                 <strong><?php _e("Website"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Page"); ?></a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items ml-md-2 ml-3"><?php _e("Add Page"); ?></a>
             </h5>
         <?php endif; ?>
 
@@ -290,7 +290,7 @@ if ($last_page_front != false) {
                     });
                 });
             </script>
-            <div class="d-inline-block">
+            <div class="d-none d-md-inline-block">
                 <select class="selectpicker js-search-by-selector" data-width="150" data-style="btn-sm">
                     <option value="keywords" selected><?php _e('search by keyword'); ?></option>
                     <option value="tags"><?php _e('search by tags'); ?></option>
@@ -300,7 +300,7 @@ if ($last_page_front != false) {
             <div class="js-search-by d-inline-block">
                 <div class="js-hide-when-no-items">
                     <div class="js-search-by-keywords">
-                        <div class="form-inline">
+                        <div class="form-inline flex-nowrap">
                             <div class="input-group mb-0 prepend-transparent mx-2">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
@@ -353,9 +353,9 @@ if ($last_page_front != false) {
 <?php if (!isset($edit_page_info)): ?>
     <div class="card-body pt-3 pb-0">
         <div class="toolbar row js-hide-when-no-items">
-            <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-1">
+            <div class="col-sm-6 d-md-flex d-none align-items-center justify-content-center justify-content-sm-start my-1">
                 <div class="custom-control custom-checkbox mb-0">
-                    <input type="checkbox" class="custom-control-input" id="posts-check">
+                    <input type="checkbox" class="custom-control-input " id="posts-check">
                     <label class="custom-control-label" for="posts-check"><?php _e('Check all'); ?></label>
                 </div>
 
@@ -417,7 +417,7 @@ if ($last_page_front != false) {
             ?>
 
             <div class="js-table-sorting col-sm-6 text-right my-1 d-flex justify-content-center justify-content-sm-end align-items-center">
-                <span><?php _e("Sort By"); ?>:</span>
+                <span class="d-md-block d-none"><?php _e("Sort By"); ?>:</span>
 
                 <div class="d-inline-block mx-1">
                     <button type="button" class="js-sort-btn btn btn-outline-secondary btn-sm icon-right" data-state="<?php if ($order_by_field == 'created_at'): ?><?php echo $order_by_type; ?><?php endif; ?>" data-sort-type="created_at" onclick="postsSort({id:'pages_edit_container_content_list', el:this});">
