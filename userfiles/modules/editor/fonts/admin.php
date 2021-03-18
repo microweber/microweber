@@ -9,10 +9,11 @@
         mw.options.form('#enabled_custom_fonts_settings_holder', function () {
 
 
-            if (mw.notification != undefined) {
-                mw.notification.success('<?php _ejs('Fonts updated'); ?>');
-                mw.clear_cache();
-            }
+
+            mw.clear_cache();
+
+
+
 
 
             if (typeof(window.parent.mw.wysiwyg) != 'undefined') {
@@ -43,6 +44,32 @@
             }
 
 
+            if (mw.notification != undefined) {
+
+                var el = mw.top().$('#mw-custom-user-css')[0];
+
+                if(el){
+                    var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
+                    el.href = custom_fonts_stylesheet_restyled;
+                }
+
+
+
+
+
+
+
+
+                mw.reload_module_everywhere('editor/fonts/select_option');
+
+                mw.notification.success('<?php _ejs('Fonts updated'); ?>');
+            }
+
+
+
+
+
+
         });
 
 
@@ -67,6 +94,7 @@
             fileref.setAttribute("type", "text/css")
             fileref.setAttribute("href", filename)
             document.getElementsByTagName("head")[0].appendChild(fileref)
+            mw.top().document.getElementsByTagName("head")[0].appendChild(fileref)
 
 
         }
@@ -171,6 +199,8 @@ if ($is_load_more) {
                 }
                 $('#enabled_custom_fonts_arr_impode').val(s).trigger('change');
                 mw.reload_module_everywhere("settings/template")
+                mw.reload_module_everywhere("editor/fonts/select_option")
+                //mw.reload_module_parent("editor/fonts")
                 //    window.parent.mw.wysiwyg.initExtendedFontFamilies(s)
 
             });
