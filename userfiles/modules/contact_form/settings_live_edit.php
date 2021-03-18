@@ -1,75 +1,6 @@
 <?php
-if (!user_can_access('module.contact_form.index')) {
-    return;
-}
+include(__DIR__ . '/settings_javascript.php');
 ?>
-<script>mw.require('editor.js')</script>
-<script>
-    MWEditor.controllers.contactFormInsertEmailVariable = function (scope, api, rootScope, data) {
-        this.checkSelection = function (opt) {
-            opt.controller.element.disabled = !opt.api.isSelectionEditable();
-        };
-        this.render = function () {
-            var dropdown = new MWEditor.core.dropdown({
-                data: [
-
-                    { label: 'email', value: '{email}' },
-
-                ],
-                placeholder: rootScope.lang('Insert variable')
-            });
-            dropdown.select.on('change', function (e, val) {
-                api.insertHTML(val.value);
-            });
-            return dropdown.root;
-        };
-        this.element = this.render();
-    };
-
-    $(document).ready(function () {
-        mweditor = mw.Editor({
-            selector: '#editorAM',
-            mode: 'div',
-            smallEditor: false,
-            minHeight: 250,
-            maxHeight: '70vh',
-            controls: [
-                [
-                    'undoRedo', '|', 'image', '|',
-                    {
-                        group: {
-                            icon: 'mdi mdi-format-bold',
-                            controls: ['bold', 'italic', 'underline', 'strikeThrough']
-                        }
-                    },
-                    '|',
-                    {
-                        group: {
-                            icon: 'mdi mdi-format-align-left',
-                            controls: ['align']
-                        }
-                    },
-                    '|', 'format',
-                    {
-                        group: {
-                            icon: 'mdi mdi-format-list-bulleted-square',
-                            controls: ['ul', 'ol']
-                        }
-                    },
-                    '|', 'link', 'unlink', 'wordPaste', 'table', 'contactFormInsertEmailVariable'
-                ],
-            ]
-        });
-    });
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _ejs("All changes are saved"); ?>.");
-        });
-    });
-</script>
 
 <?php
 $mod_id = $params['id'];
@@ -80,18 +11,9 @@ if (isset($params['for_module_id'])) {
 
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
-
-        <?php  if ($mod_id == 'contact_form_default'): ?>
-        <div class="col">
-            <h5 class="font-weight-bold mb-3"><?php _e("Global contact form settings") ?></h5>
-        </div>
-        <?php else: ?>
-
         <div class="col">
             <h5 class="font-weight-bold"><?php _e("Current contact form settings") ?></h5>
         </div>
-        <?php endif; ?>
-
         <div class="col text-right">
             <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings#option_group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail sending options"); ?></a>
         </div>
@@ -99,17 +21,14 @@ if (isset($params['for_module_id'])) {
 
     <div class="mt-2">
 
-        <?php  if ($mod_id !== 'contact_form_default'): ?>
         <div class="form-group">
             <label class="control-label"><?php _e("Contact form name"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("What is the name of this contact form?"); ?></small>
             <input name="form_name" option-group="<?php print $mod_id ?>" value="<?php print get_option('form_name', $mod_id); ?>" class="mw_option_field form-control col-6" type="text"/>
         </div>
-        <?php endif; ?>
 
         <h5 class="font-weight-bold"><?php _e("Sender") ?></h5>
 
-        <!-- LIVE EDIT-->
         <div class="form-group mb-3">
             <label class="control-label"><?php _e("Use custom sender settings"); ?></label>
             <small class="text-muted d-block mb-2">
@@ -128,7 +47,6 @@ if (isset($params['for_module_id'])) {
                 <label class="custom-control-label" for="enable_custom_sender">Yes</label>
             </div>
         </div>
-        <!-- LIVE EDIT-->
 
         <script type="text/javascript">
             toggleCustomSender = function (e) {
@@ -158,7 +76,6 @@ if (isset($params['for_module_id'])) {
 
         <h5 class="font-weight-bold"><?php _e("Receivers") ?></h5>
 
-        <!-- LIVE EDIT-->
         <div class="form-group mb-3">
             <label class="control-label"><?php _e("Use custom receivers settings"); ?></label>
             <small class="text-muted d-block mb-2">
@@ -177,7 +94,6 @@ if (isset($params['for_module_id'])) {
                 <label class="custom-control-label" for="enable_custom_receivers">Yes</label>
             </div>
         </div>
-        <!-- LIVE EDIT-->
 
         <script type="text/javascript">
             toggleCustomReceivers = function (e) {
