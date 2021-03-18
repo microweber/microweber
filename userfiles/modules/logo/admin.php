@@ -261,29 +261,29 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </script>
 
                 <div class="module-live-edit-settings module-logo-settings" id="module-logo-settings">
-                    <input type="hidden" class="mw_option_field" name="logoimage" id="logoimage"/>
-                    <input type="hidden" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse"/>
+                    <input type="hidden" class="mw_option_field" name="logoimage" id="logoimage" option-group="<?php print $logo_name ?>"  />
+                    <input type="hidden" class="mw_option_field" name="logoimage_inverse" id="logoimage_inverse" option-group="<?php print $logo_name ?>" />
 
                     <div class="logo-module-types">
                         <div class="form-group">
                             <label class="control-label mb-3"><?php _e("Choose Logo type"); ?></label>
 
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="logotype1" class="mw_option_field custom-control-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
+                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field custom-control-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
                                 <label class="custom-control-label" for="logotype1"><?php _e('Image Logo'); ?><br/>
                                     <small class="text-muted"><?php _e("Upload your logo image in .JPG or .PNG format"); ?></small>
                                 </label>
                             </div>
 
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="logotype2" class="mw_option_field custom-control-input" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
+                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="mw_option_field custom-control-input" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
                                 <label class="custom-control-label" for="logotype2"><?php _e('Text Logo'); ?><br/>
                                     <small class="text-muted"><?php _e("Type your brand and choose font size and style"); ?></small>
                                 </label>
                             </div>
 
                             <div class="custom-control custom-radio d-none">
-                                <input type="radio" id="logotype3" class="mw_option_field custom-control-input" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
+                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="mw_option_field custom-control-input" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
                                 <label class="custom-control-label" for="logotype3"><?php _e('Both'); ?><br/>
                                     <small class="text-muted"><?php _e("Type your brand and choose font size") ;?></small>
                                 </label>
@@ -369,9 +369,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <div>
                                 <p class="mb-1"><?php _e('Image size'); ?> - <span id="imagesizeval"></span></p>
                                 <div class="range-slider">
-                                    <input name="size-slider" id="size-slider" class="mw-ui-field-range" max="200" min="20" type="range" value="<?php print $size; ?>">
+                                    <input name="size-slider" id="size-slider" class="mw-ui-field-range" max="200" min="20" type="range" option-group="<?php print $logo_name ?>"  value="<?php print $size; ?>">
                                 </div>
-                                <input name="size" id="size" type="hidden" class="mw_option_field" value="<?php print $size; ?>">
+                                <input name="size" id="size" type="hidden"  option-group="<?php print $logo_name ?>"  class="mw_option_field" value="<?php print $size; ?>">
                             </div>
                         </div>
 
@@ -388,7 +388,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="control-label"><?php _e("Design your logo"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Chooose fornt size for your logo"); ?></small>
 
-                            <select id="google-fonts" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true" name="font_family">
+
+ 
+                            <select id="google-fonts" class="mw_option_field selectpicker" option-group="<?php print $logo_name ?>" data-width="100%" data-size="5" data-live-search="true" name="font_family">
                                 <option value=""><?php _e('Choose font'); ?></option>
                                 <option value="Aclonica">Aclonica</option>
                                 <option value="Allan">Allan</option>
@@ -638,7 +640,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 });
                             </script>
 
-                            <textarea class="mw_option_field form-control" placeholder="<?php _e('Enter Text'); ?>" row="5" name="text" id="text"><?php print $text; ?></textarea>
+                            <textarea class="mw_option_field form-control" option-group="<?php print $logo_name ?>"   placeholder="<?php _e('Enter Text'); ?>" row="5" name="text" id="text"><?php print $text; ?></textarea>
                         </div>
                     </div>
                 </div>

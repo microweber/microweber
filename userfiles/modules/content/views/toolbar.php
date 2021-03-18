@@ -145,7 +145,7 @@ if ($last_page_front != false) {
     }
     ?>
 
-    <div class="card-header d-flex justify-content-between">
+    <div class="card-header d-flex justify-content-between px-md-4 px-0">
         <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
             <h5>
                 <i class="mdi text-primary mr-2 <?php if ($type == 'shop'): ?>mdi-shopping<?php else: ?><?php print $type; ?><?php endif; ?>"></i>
@@ -167,34 +167,34 @@ if ($last_page_front != false) {
                 </h5>
             </div>
         <?php elseif ($act == 'pages'): ?>
-            <h5>
-                <i class="mdi mdi-post-outline text-primary mr-3"></i>
+            <h5 class="d-md-inline-block d-flex align-items-center">
+                <i class="mdi mdi-post-outline text-primary mr-md-3 mr-1"></i>
                 <strong><?php _e("Pages"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2"><?php _e("Add Page"); ?></a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-md-2 ml-3"><?php _e("Add Page"); ?></a>
             </h5>
         <?php elseif ($act == 'posts'): ?>
-            <h5>
-                <i class="mdi mdi-text text-primary mr-3"></i>
+            <h5 class="d-md-inline-block d-flex align-items-center">
+                <i class="mdi mdi-text text-primary mr-md-3 mr-1"></i>
                 <strong><?php _e("Posts"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:post" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Post"); ?></a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:post" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-3"><?php _e("Add Post"); ?></a>
             </h5>
         <?php elseif ($act == 'products'): ?>
-            <h5>
-                <i class="mdi mdi-shopping text-primary mr-3"></i>
+            <h5 class="d-md-inline-block d-flex align-items-center">
+                <i class="mdi mdi-shopping text-primary mr-md-3 mr-1"></i>
                 <strong><?php _e("Products"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Product"); ?></a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Product"); ?></a>
             </h5>
         <?php elseif (isset($params['is_shop'])): ?>
-            <h5>
-                <span class="mdi mdi-shopping text-primary mr-3"></span>
+            <h5 class="d-md-inline-block d-flex align-items-center">
+                <span class="mdi mdi-shopping text-primary mr-md-3 mr-1"></span>
                 <strong><?php _e("My Shop"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items"><?php _e("Add Product"); ?></a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:product" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1"><?php _e("Add Product"); ?></a>
             </h5>
         <?php else: ?>
             <h5 class="d-md-inline-block d-flex align-items-center">
-                <i class="mdi mdi-earth text-primary mr-md-2 mr-1"></i>
+                <i class="mdi mdi-earth text-primary mr-md-3 mr-1"></i>
                 <strong><?php _e("Website"); ?></strong>
-                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm ml-2 js-hide-when-no-items ml-md-2 ml-3"><?php _e("Add Page"); ?></a>
+                <a href="<?php echo admin_url(); ?>view:content#action=new:page" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-3"><?php _e("Add Page"); ?></a>
             </h5>
         <?php endif; ?>
 
