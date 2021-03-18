@@ -229,6 +229,7 @@ mw.insertModule = function (module, cls) {
         mw.drag.fixes();
         setTimeout(function () { mw.drag.fix_placeholders(); }, 40);
         mw.dropable.hide();
+        mw.wysiwyg.change(mw.drag.plusTop.currentNode);
     });
     mw.$('.mw-tooltip').hide();
 

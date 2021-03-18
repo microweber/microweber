@@ -147,8 +147,7 @@
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]');
-                        console.log(cssLink)
-                        if(cssLink) {
+                         if(cssLink) {
                             cb.call(undefined, cssLink);
                         }  else {
                             $.get(scope.load, function (data) {

@@ -440,6 +440,7 @@ mw._initHandles = {
                                             conf.template = mw.$(this).attr('template');
                                         }
                                         mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
+                                        mw.wysiwyg.change(mw._activeElementOver)
                                         tooltip.remove();
                                     };
                                 });
