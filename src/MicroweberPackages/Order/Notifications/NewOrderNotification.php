@@ -96,7 +96,7 @@ class NewOrderNotification extends Notification
             $parsedEmail = $twig->render($template['message'],
                 $data,
                 $twig_settings
-                );
+            );
 
             //cart_items
             $mail->subject($template['subject']);
@@ -116,17 +116,24 @@ class NewOrderNotification extends Notification
 
         if (!empty($cartItems)) {
             foreach ($cartItems as $cartItem) {
-
                 $item = array();
                 if (isset($cartItem['item_image']) and $cartItem['item_image']) {
                     $item['item_image'] = $cartItem['item_image'];
                     $item['item_image'] = '<img src="' . $item['item_image'] . '" width="100" />';
-                }
-                if (isset($cartItem['link'])) {
-                    $item['link'] = $cartItem['link'];
+                } elseif (!empty($cartItem['picture'])) {
+                    $item['item_image'] = "<img src='{$cartItem["picture"]}' alt = '{$cartItem["title"]}' width='100'";
                 }
                 if (isset($cartItem['title'])) {
                     $item['title'] = $cartItem['title'];
+                }
+
+                if (isset($cartItem['link'])) {
+                    $item['link'] = $cartItem['link'];
+                } elseif(!empty($cartItem['url'])) {
+                    $item['link'] = "<a href='{$cartItem['url']}'>{$cartItem['url']}</a>";
+                }
+                if (isset($cartItem['qty'])) {
+                    $item['qty'] = $cartItem['qty'];
                 }
                 if (isset($cartItem['custom_fields'])) {
                     $item['custom_fields'] = $cartItem['custom_fields'];
@@ -134,6 +141,7 @@ class NewOrderNotification extends Notification
 
                 $cartItemsInfo[] = $item;
             }
+
             return app()->format->array_to_table($cartItemsInfo);
         }
 
