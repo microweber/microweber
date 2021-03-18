@@ -94,7 +94,7 @@ class CustomFieldTestModelTest extends TestCase
 
 
         $prod = Product::whereCustomField([
-         'цвят'=>'red',
+            'цвят'=>'red',
             'size'=>'M',
             'material'=>'jeans',
         ])->get();

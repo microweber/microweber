@@ -241,6 +241,5 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 };
 
 $(window).on('load', function () {
-    console.log(  mw.admin)
     mw.admin.custom_fields.initValues();
 });

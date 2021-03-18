@@ -23,6 +23,7 @@
   "dependencies": {
     "@popperjs/core": "^2.6.0",
     "aos": "^2.3.4",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-select": "^1.13.18",
     "ion-rangeslider": "^2.3.1",
@@ -31,7 +32,7 @@
     "popper.js": "^1.16.1"
   },
   "scripts": {
-    "bild": "webpack --mode=development && gulp mwui",
+    "build": "webpack --mode=development && gulp mwui",
     "dev": "webpack --watch --mode=development && gulp watch",
     "prod": "webpack --mode=production"
   }

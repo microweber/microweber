@@ -12,7 +12,10 @@ const css = `${dir}/../../css`;
 
 
 const core = [
-    'tools','tools/core-tools','core','system'
+    'tools',
+    'tools/core-tools',
+    'core',
+    'system'
 ];
 
 
@@ -32,7 +35,10 @@ const liveedit = [
 
 const admin = [
     ...core,
-    'tools/system-tools','tools/widgets','widgets','admin'
+    'tools/system-tools',
+    'tools/widgets',
+    'widgets',
+    'admin'
 ];
 
 const guiEditor = [

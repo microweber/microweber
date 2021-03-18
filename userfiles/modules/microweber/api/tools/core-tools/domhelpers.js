@@ -462,7 +462,7 @@ var domHelp = {
     },
     firstChildWithTag: function (parent, tag) {
         var toreturn;
-        var tag = tag.toLowerCase();
+        tag = tag.toLowerCase();
         mw.tools.foreachChildren(parent, function (loop) {
             if (this.nodeName.toLowerCase() === tag) {
                 toreturn = this;

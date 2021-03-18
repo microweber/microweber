@@ -2716,7 +2716,80 @@ mw.msg = mw._lang = {
   \**************************/
 /***/ (() => {
 
+
+(function (){
+
+    // https://github.com/axios/axios#request-config
+    var Ajax = function (options) {
+        var scope = this;
+
+        var _e = {};
+
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+        var instance;
+
+        this.config = function (options) {
+            instance = axios.create(options);
+        };
+
+        this.config(options);
+
+        this.request = function (config) {
+            return instance.request(config);
+        };
+        this.get = function (url, config){
+            return instance.get(url, config);
+        };
+        this.delete = function (url, config){
+            return instance.delete(url, config);
+        };
+        this.head = function (url, config){
+            return instance.head(url, config);
+        };
+        this.options = function (url, config) {
+            return instance.options(url, config);
+        };
+        this.post = function (url, data, config) {
+            return instance.post(url, config);
+        };
+        this.put = function (url, data, config) {
+            return instance.put(url, config);
+        };
+        this.patch = function (url, data, config) {
+            return instance.patch(url, config);
+        };
+
+    };
+
+
+    mw.xhr = function (options) {
+        return new Ajax(options);
+    };
+
+    mw.apiXHR = mw.xhr({
+        baseURL: mw.settings.api_url.slice(0, -1)
+    });
+
+
+
+})();
+
+
 mw.module = {
+    xhr: mw.xhr({
+        baseURL: mw.settings.modules_url
+    }),
+    getData: function (module, options) {
+        if(typeof module === 'object') {
+            options = module;
+            module = options.module;
+        }
+        options = options || {};
+        options.module = module || options.module;
+        return mw.module.xhr.post('/', options);
+    },
     insert: function(target, module, config, pos) {
         return new Promise(function (resolve) {
             pos = pos || 'bottom';
@@ -2735,7 +2808,7 @@ mw.module = {
                     action = 'append';
                 }
             }
-            mw.$(target)[action](el);
+            mw.element(target)[action](el);
             mw.load_module(module, '#' + id, function () {
                 resolve(this);
             }, config);
@@ -9610,7 +9683,7 @@ mw._initHandles = {
             }
 
 
-            mw.handleColumns.show()
+            mw.handleColumns.show();
 
             mw.$(mw.handleColumns.wrapper).css({
                 top: htop,
@@ -9625,9 +9698,6 @@ mw._initHandles = {
             if(!element.id){
                 element.id = "element_row_" + mw.random() ;
             }
-
-
-
 
         });
     },
@@ -10100,28 +10170,155 @@ $(window).on('load', function () {
 /***/ (() => {
 
 (function () {
+    function Helpers(config) {
+        var scope = this;
+        this.isBlockLevel = function(node){
+            node = node || (this.data ? scope.data().target : null);
+            return mw.tools.isBlockLevel(node);
+        };
+        this._data = {};
+        this.data = function (data) {
+            if(!data) {
+                return this._data;
+            }
+            this._data = data;
+        };
+
+        this.isInlineLevel = function(node){
+            node = node || scope.data().target;
+            return mw.tools.isInlineLevel(node);
+        };
+
+        this.canAccept = function(target, what){
+            var accept = target.dataset('accept');
+            if(!accept) return true;
+            
+            accept = accept.trim().split(',').map(Function.prototype.call, String.prototype.trim);
+            var wtype = 'all';
+            if(mw.tools.hasClass(what, 'module-layout')){
+                wtype = 'layout';
+            }
+            else if(mw.tools.hasClass(what, 'module')){
+                wtype = 'module';
+            }
+            else if(mw.tools.hasClass(what, 'element')){
+                wtype = 'element';
+            }
+            if(wtype === 'all') return true
+
+            return accept.indexOf(wtype) !== -1;
+        };
+        this.getBlockElements = function(selector, root){
+            root = root || document.body;
+            selector = selector || '*';
+            var all = root.querySelectorAll(selector), i = 0, final = [];
+            for( ; i<all.length; i++){
+                if(this.scope.helpers.isBlockLevel(all[i])){
+                    final.push(all[i]);
+                }
+            }
+            return final;
+        };
+
+
+        this.getElementsLike = function(selector, root){
+            root = root || document.body;
+            selector = selector || '*';
+            var all = root.querySelectorAll(selector), i = 0, final = [];
+            for( ; i<all.length; i++){
+                if(!this.scope.helpers.isColLike(all[i]) &&
+                    !this.scope.helpers.isRowLike(all[i]) &&
+                    !this.scope.helpers.isEdit(all[i]) &&
+                    this.scope.helpers.isBlockLevel(all[i])){
+                    final.push(all[i]);
+                }
+            }
+            return final;
+        };
+
+        this.isEdit = function(node){
+            node = node || this.scope.data.target;
+            return mw.tools.hasClass(node, this.scope.cls.edit);
+        };
+
+        this.isModule = function(node){
+            node = node || this.scope.data.target;
+            return mw.tools.hasClass(node, this.scope.cls.module) && (mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node, [this.scope.cls.module, this.scope.cls.edit]));
+        };
+
+        this.isElement = function(node){
+            node = node || this.scope.data.target;
+            return mw.tools.hasClass(node, this.scope.cls.element);
+        };
+
+        this.isEmpty = function(node){
+            node = node || this.scope.data.target;
+            return mw.tools.hasClass(node, 'mw-empty');
+        };
+
+        this.isRowLike = function(node){
+            node = node || this.scope.data.target;
+            var is = false;
+            if(!node.className) return is;
+            is = mw.tools.hasAnyOfClasses(node, this.scope.settings.rows);
+            if(is){
+                return is;
+            }
+            return mw.tools.matches(node, this.scope.settings.rowMatches);
+        };
+
+        this.isColLike = function(node){
+            node = node || this.scope.data.target;
+            var is = false;
+            if(!node.className) return is;
+            is = mw.tools.hasAnyOfClasses(node, this.scope.settings.columns);
+            if(is){
+                return is;
+            }
+            if(mw.tools.hasAnyOfClasses(node, ['mw-col-container', 'mw-ui-col-container'])){
+                return false;
+            }
+            return mw.tools.matches(node, this.scope.settings.columnMatches);
+        };
+
+        this.isLayoutModule = function(node){
+            node = node || this.scope.data.target;
+            return false;
+
+        };
+
+        this.noop = function(){
+
+        };
+    }
     var LiveEdit = function (options) {
         options = options || {};
 
         var defaults = {
-            elementsTypesClasses: {
-                element: 'element',
-                edit: 'edit',
-                module: 'module',
-                row: 'mw-row',
-                col: 'mw-col',
-                safeElement: 'safe-element',
-                plain: 'plain-text',
-                empty: 'empty-element',
-                nodrop: 'nodrop'
+            elementsTypes: {
+                elementClass: 'element',
+                editClass: 'edit',
+                moduleClass: 'module',
+                rowClass: 'mw-row',
+                colClass: 'mw-col',
+                safeElementClass: 'safe-element',
+                plainElementClass: 'plain-text',
+                emptyElementClass: 'empty-element',
+                nodrop: 'nodrop',
+                unEditableModules: [
+                    '[type="template_settings"]'
+                ]
             },
             target: document.body
         };
+
+        this.helpers = new Helpers();
 
 
 
 
         this.targetAction = function (node) {
+
 
         };
 
@@ -11483,12 +11680,13 @@ mw.drag.plus = {
     },
     rendModules: function (el) {
         var other = el === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
-        if (!mw.tools.hasClass(el, 'active')) {
+         if (!mw.tools.hasClass(el, 'active')) {
             mw.tools.addClass(el, 'active');
             mw.tools.removeClass(other, 'active');
             mw.drag.plus.locked = true;
             mw.$('.mw-tooltip-insert-module').remove();
             mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
+
             var tip = new mw.tooltip({
                 content: document.getElementById('plus-modules-list').innerHTML,
                 element: el,
@@ -11517,9 +11715,9 @@ mw.drag.plus = {
                 var name = mw.$(this).attr('data-module-name');
                 if(name === 'layout'){
                     var template = mw.$(this).attr('template');
-                    mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className, template:"'+template+'"})');
+                    mw.$(this).attr('onclick', 'mw.insertModule("' + name + '", {class:this.className, template:"'+template+'"})');
                 } else {
-                    mw.$(this).attr('onclick', 'InsertModule("' + name + '", {class:this.className})');
+                    mw.$(this).attr('onclick', 'mw.insertModule("' + name + '", {class:this.className})');
                 }
             });
 
@@ -11591,7 +11789,7 @@ var insertModule = function (target, module, config, pos) {
     });
 };
 
-InsertModule = function (module, cls, action) {
+mw.insertModule = function (module, cls) {
 
     var position = mw.drag.plusActive === 'top' ? 'top' : 'bottom';
 
@@ -14929,7 +15127,7 @@ mw.wysiwyg.dropdowns = function () {
         mw.$(this).find('.mw-dropdown-content').hide()
     })
 };
-$(document).ready(function () {
+$(mwd).ready(function () {
 
 
     mw.wysiwyg.initClassApplier();
@@ -14962,6 +15160,15 @@ $(document).ready(function () {
 
         mw.wysiwyg.change(mw.editorIconPicker.target)
     });
+})
+$(mwd).ready(function () {
+
+
+    mw.wysiwyg.initClassApplier();
+
+    mw.wysiwyg.dropdowns();
+
+
 
 
     if (!mw.wysiwyg._fontcolorpicker) {
@@ -16184,9 +16391,6 @@ mw.filePicker = function (options) {
 
         var defaultVersion = '-1';
 
-        var iconsCache = {};
-
-
         var common = {
             'fontAwesome': {
                 cssSelector: '.fa',
@@ -16258,15 +16462,19 @@ mw.filePicker = function (options) {
                 icons: function () {
                     var scope = this;
                     var parse = function (cssLink) {
+                        if(!cssLink.sheet){
+                            return;
+                        }
                         var icons = cssLink.sheet.cssRules;
-                        var l = icons.length, i = 0, mindIcons = [];
-                        for (; i < l; i++) {
+                         var l = icons.length, i = 0, mindIcons = [];
+                         for (; i < l; i++) {
                             var sel = icons[i].selectorText;
                             if (!!sel && sel.indexOf('.mw-micon-') === 0) {
                                 var cls = sel.replace(".", '').split(':')[0];
                                 mindIcons.push(cls);
                             }
                         }
+                        return mindIcons
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/line"]');
@@ -16319,9 +16527,11 @@ mw.filePicker = function (options) {
                                 mindIcons.push(cls);
                             }
                         }
+                        return mindIcons
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]');
+                        console.log(cssLink)
                         if(cssLink) {
                             cb.call(undefined, cssLink);
                         }  else {
@@ -16456,6 +16666,7 @@ mw.filePicker = function (options) {
         var addFontIconSet = function (options) {
             options.version = options.version || defaultVersion;
             iconSetPush(options);
+
             if (typeof options.load === 'string') {
                 mw.require(options.load);
             } else if (typeof options.load === 'function') {
@@ -16463,6 +16674,7 @@ mw.filePicker = function (options) {
             }
         };
         var addIconSet = function (conf) {
+
             if(typeof conf === 'string') {
                 if (common[conf]) {
                     conf = common[conf];
@@ -16471,7 +16683,7 @@ mw.filePicker = function (options) {
                     return;
                 }
             }
-            if(!conf) return;
+             if(!conf) return;
             conf.type = conf.type || 'font';
             if (conf.type === 'font') {
                 return addFontIconSet(conf);
@@ -16627,7 +16839,7 @@ mw.filePicker = function (options) {
             var sets = loader.storage();
             var all = sets.length;
             var i = 0;
-            sets.forEach(function (set){
+             sets.forEach(function (set){
                  if (!set._iconsLists) {
                      (function (aset){
                          aset.icons().then(function (data){
@@ -19243,7 +19455,7 @@ var domHelp = {
     },
     firstChildWithTag: function (parent, tag) {
         var toreturn;
-        var tag = tag.toLowerCase();
+        tag = tag.toLowerCase();
         mw.tools.foreachChildren(parent, function (loop) {
             if (this.nodeName.toLowerCase() === tag) {
                 toreturn = this;
@@ -19874,9 +20086,9 @@ mw.dropdown = mw.tools.dropdown;
 
         this.offset = function () {
             var rect = this._active().getBoundingClientRect();
-            rect.offsetTop = rect.top + pageYOffset;
-            rect.offsetBottom = rect.bottom + pageYOffset;
-            rect.offsetLeft = rect.left + pageXOffset;
+            rect.offsetTop = rect.top + window.pageYOffset;
+            rect.offsetBottom = rect.bottom + window.pageYOffset;
+            rect.offsetLeft = rect.left + window.pageXOffset;
             return rect;
         };
 
@@ -19991,8 +20203,12 @@ mw.dropdown = mw.tools.dropdown;
             this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
             options = options || {};
-
-            if(options.nodeName && options.nodeType) {
+            if (options.each && options.toArray) {
+                this.nodes = options.toArray();
+                this.node = this.nodes[this.nodes.length - 1];
+                options = {};
+                this._asElement = true;
+            } else if(options.nodeName && options.nodeType) {
                 this.nodes.push(options);
                 this.node = (options);
                 options = {};
