@@ -4,7 +4,6 @@ if (!user_can_access('module.contact_form.index')) {
 }
 ?>
 
-
 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
     <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings" id="form_options"><i class="mdi mdi-email-outline mr-1"></i> <?php _e('Settings'); ?></a>
     <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings-advanced"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Advanced Settings'); ?></a>
@@ -24,7 +23,6 @@ if (!user_can_access('module.contact_form.index')) {
                 });
             }
         }
-
         $(document).ready(function () {
             $('#form_options').on('click', function () {
                 initEditor();
@@ -37,9 +35,7 @@ if (!user_can_access('module.contact_form.index')) {
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-contact-form-settings">
             <module type="settings/list" for_module="<?php _e($config['module']) ?>" for_module_id="<?php print $params['id'] ?>"/>
-
             <module type="contact_form/settings" for_module_id="<?php print $params['id'] ?>"/>
-
         </div>
         <!-- Settings Content - End -->
     </div>
@@ -80,8 +76,8 @@ if (!user_can_access('module.contact_form.index')) {
             <?php if ($mod_id != 'contact_form_default') : ?>
                 <br/>
                 <div class="form-group">
-                    <label class="control-label"><?php _e("Capcha settings") ?></label>
-                    <small class="text-muted d-block mb-2"><?php _e("Setup your capcha preferences from ") ?><a href="<?php print admin_url('view:modules/load_module:captcha'); ?>" target="_blank"><?php _e("Captcha module") ?></a></small>
+                    <label class="control-label"><?php _e("Captcha settings") ?></label>
+                    <small class="text-muted d-block mb-2"><?php _e("Setup your captcha preferences from ") ?><a href="<?php print admin_url('view:modules/load_module:captcha'); ?>" target="_blank"><?php _e("Captcha module") ?></a></small>
                 </div>
 
                 <div class="form-group">

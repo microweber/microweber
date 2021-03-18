@@ -80,12 +80,20 @@ if (isset($params['for_module_id'])) {
 
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
+
+        <?php  if ($mod_id == 'contact_form_default'): ?>
         <div class="col">
             <h5 class="font-weight-bold mb-3"><?php _e("Global settings") ?></h5>
         </div>
+        <?php else: ?>
+
+        <div class="col">
+            <h5 class="font-weight-bold mb-3"><?php _e("Contact form settings") ?></h5>
+        </div>
+        <?php endif; ?>
 
         <div class="col text-right">
-            <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings#option_group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail/SMTP sending options"); ?></a>
+            <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings#option_group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail sending options"); ?></a>
         </div>
     </div>
 
