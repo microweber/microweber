@@ -38,21 +38,20 @@ class NewFormEntry extends Notification
      */
     public function via($notifiable)
     {
-        $rel_id = ($this->formEntry->rel_id);
+        $relId = $this->formEntry->rel_id;
 
-        $skip_saving_emails = false;
+        $skipSavingEmails = false;
         $channels = [];
 
-        $default_mod_id = 'contact_form_default';
-
-        if ($rel_id) {
-            $skip_saving_emails = app()->option_manager->get('skip_saving_emails', $rel_id) == 'y';
-        }
-        if (!$skip_saving_emails) {
-            $skip_saving_emails = app()->option_manager->get('skip_saving_emails', $default_mod_id) == 'y';
+        if ($relId) {
+            $skipSavingEmails = Option::getValue('skip_saving_emails', $relId);
         }
 
-        if (!$skip_saving_emails) {
+        if (!$skipSavingEmails) {
+            $skipSavingEmails = Option::getValue('skip_saving_emails', 'contact_form_default');
+        }
+
+        if (!$skipSavingEmails) {
             $channels[] = 'database';
         }
 
@@ -71,8 +70,15 @@ class NewFormEntry extends Notification
     {
         $hostname = mw()->url_manager->hostname();
 
+        $formName = Option::getValue('form_name', $this->formEntry->rel_id);
+        if ($formName) {
+            $emailSubject = '[' . $hostname . '] ' . _e('New entry from ', true) . $formName;
+        } else {
+            $emailSubject = '[' . $hostname . '] ' . _e('New form entry', true);
+        }
+
         $mail = new MailMessage();
-        $mail->subject('[' . $hostname . '] ' . 'New form entry');
+        $mail->subject($emailSubject);
         $mail->view('app::email.simple', ['content' => app()->format->array_to_ul($this->formEntry->form_values)]);
 
         return $mail;

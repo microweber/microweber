@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Form;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -591,10 +592,12 @@ class FormsManager
 
                 if (!empty($userEmails)) {
 
-                   /* $receiverSettings = mw()->forms_manager->getReceiversSettings($for_id);
-                    if ($receiverSettings['enableCustomReceivers']) {
-
-                    }*/
+                    if (Option::getValue('email_custom_receivers', $for_id)) {
+                        $receivers =  $this->explodeMailsFromString(Option::getValue('email_to', $for_id));
+                        if (!empty($receivers)) {
+                            Notification::route('mail', $receivers)->notify(new NewFormEntry($formModel));
+                        }
+                    }
 
                     if (Option::getValue('email_autorespond_enable', $for_id) && is_array($userEmails)) {
                         foreach ($userEmails as $userEmail) {
@@ -634,6 +637,31 @@ class FormsManager
         return $success;
 
     }
+
+    public function explodeMailsFromString($emailsListString)
+    {
+        $emailsList = [];
+        if (!empty($emailsListString)) {
+            if (strpos($emailsListString, ',') !== false) {
+                $explodedMails = explode(',', $emailsListString);
+                if (is_array($explodedMails)) {
+                    foreach ($explodedMails as $email) {
+                        $email = trim($email);
+                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            $emailsList[] = $email;
+                        }
+                    }
+                }
+            } else {
+                if (filter_var($emailsListString, FILTER_VALIDATE_EMAIL)) {
+                    $emailsList[] = $emailsListString;
+                }
+            }
+        }
+
+        return $emailsList;
+    }
+
     public function getAutoRespondSettings($formId) {
 
         $systemEmailOptionGroup = 'email';

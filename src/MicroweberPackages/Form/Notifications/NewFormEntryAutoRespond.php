@@ -76,7 +76,7 @@ class NewFormEntryAutoRespond extends Notification
         }
 
         if ($autoRespondSettings['emailReplyTo']) {
-            $emailsReplyList = $this->_explodeMailsFromString($autoRespondSettings['emailReplyTo']);
+            $emailsReplyList = mw()->forms_manager->explodeMailsFromString($autoRespondSettings['emailReplyTo']);
             if (!empty($emailsReplyList)) {
                 $mail->replyTo($emailsReplyList);
             }
@@ -97,30 +97,6 @@ class NewFormEntryAutoRespond extends Notification
         $mail->view('app::email.simple', ['content' => $parsedEmail]);
 
         return $mail;
-    }
-
-    private function _explodeMailsFromString($emailsListString)
-    {
-        $emailsList = [];
-        if (!empty($emailsListString)) {
-            if (strpos($emailsListString, ',') !== false) {
-                $explodedMails = explode(',', $emailsListString);
-                if (is_array($explodedMails)) {
-                    foreach ($explodedMails as $email) {
-                        $email = trim($email);
-                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            $emailsList[] = $email;
-                        }
-                    }
-                }
-            } else {
-                if (filter_var($emailsListString, FILTER_VALIDATE_EMAIL)) {
-                    $emailsList[] = $emailsListString;
-                }
-            }
-        }
-
-        return $emailsList;
     }
 
     /**

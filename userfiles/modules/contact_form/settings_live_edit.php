@@ -40,11 +40,11 @@ if (isset($params['for_module_id'])) {
         </div>
 
         <div class="form-group mb-4">
-            <?php  $enableCustomReceivers = \MicroweberPackages\Option\Facades\Option::getValue('enable_custom_receivers', $mod_id); ?>
+            <?php $emailCustomReceivers = \MicroweberPackages\Option\Facades\Option::getValue('email_custom_receivers', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
-                <label class="d-inline-block mr-5" for="enable_custom_receivers">No</label>
-                <input type="checkbox" onchange="toggleCustomReceivers(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_custom_receivers" option-group="<?php print $mod_id ?>" id="enable_custom_receivers" value="y" <?php if ($enableCustomReceivers): ?>checked<?php endif; ?>>
-                <label class="custom-control-label" for="enable_custom_receivers">Yes</label>
+                <label class="d-inline-block mr-5" for="email_custom_receivers">No</label>
+                <input type="checkbox" onchange="toggleCustomReceivers(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="email_custom_receivers" option-group="<?php print $mod_id ?>" id="email_custom_receivers" value="y" <?php if ($emailCustomReceivers): ?>checked<?php endif; ?>>
+                <label class="custom-control-label" for="email_custom_receivers">Yes</label>
             </div>
         </div>
 
@@ -60,7 +60,7 @@ if (isset($params['for_module_id'])) {
             };
         </script>
 
-        <div class="js-custom-receivers" <?php if (!$enableCustomReceivers): ?> style="display:none"<?php endif; ?>>
+        <div class="js-custom-receivers" <?php if (!$emailCustomReceivers): ?> style="display:none"<?php endif; ?>>
             <div class="form-group">
                 <label class="control-label"><?php _e("To e-mail addresses"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers seperated with coma."); ?></small>
