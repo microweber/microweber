@@ -1,8 +1,8 @@
 /******/ (() => { // webpackBootstrap
 (() => {
-/*!************************************!*\
-  !*** ../gui-css-editor/domtree.js ***!
-  \************************************/
+/*!********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/gui-css-editor/domtree.js ***!
+  \********************************************************************/
 mw.DomTree = function (options) {
     var scope = this;
     this.prepare = function () {
@@ -309,9 +309,9 @@ mw.DomTree = function (options) {
 })();
 
 (() => {
-/*!**********************************************!*\
-  !*** ../gui-css-editor/stylesheet.editor.js ***!
-  \**********************************************/
+/*!******************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/gui-css-editor/stylesheet.editor.js ***!
+  \******************************************************************************/
 mw.require('libs/cssjson/cssjson.js');
 
 
@@ -425,9 +425,9 @@ mw.liveeditCSSEditor = function (config) {
 })();
 
 (() => {
-/*!***************************************!*\
-  !*** ../tools/system-tools/base64.js ***!
-  \***************************************/
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/system-tools/base64.js ***!
+  \***********************************************************************/
 mw.tools.base64 = {
 // private property
     _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
@@ -535,9 +535,9 @@ mw.tools.base64 = {
 })();
 
 (() => {
-/*!********************************************!*\
-  !*** ../tools/system-tools/image-tools.js ***!
-  \********************************************/
+/*!****************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/system-tools/image-tools.js ***!
+  \****************************************************************************/
 mw.image.description =  {
     add: function (text) {
         var img = document.querySelector("img.element-current");
@@ -847,9 +847,9 @@ mw.image.settings = function () {
 })();
 
 (() => {
-/*!************************************************!*\
-  !*** ../tools/system-tools/modules-dialogs.js ***!
-  \************************************************/
+/*!********************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/system-tools/modules-dialogs.js ***!
+  \********************************************************************************/
 (function(){
     var systemDialogs = {
         moduleFrame: function(type, params, autoHeight){
@@ -1069,9 +1069,9 @@ mw.image.settings = function () {
 })();
 
 (() => {
-/*!***************************************!*\
-  !*** ../tools/widgets/colorpicker.js ***!
-  \***************************************/
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/colorpicker.js ***!
+  \***********************************************************************/
 mw._colorPickerDefaults = {
     skin: 'mw-tooltip-default',
     position: 'bottom-center',
@@ -1260,9 +1260,9 @@ mw.colorPicker = function (o) {
 })();
 
 (() => {
-/*!**********************************!*\
-  !*** ../tools/widgets/dialog.js ***!
-  \**********************************/
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/dialog.js ***!
+  \******************************************************************/
 (function (mw) {
 
 
@@ -1906,9 +1906,9 @@ mw.colorPicker = function (o) {
 })();
 
 (() => {
-/*!***************************************!*\
-  !*** ../tools/widgets/elementedit.js ***!
-  \***************************************/
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/elementedit.js ***!
+  \***********************************************************************/
 mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
     if (!el || el.querySelector('.mw-live-edit-input') !== null) {
         return;
@@ -1977,9 +1977,9 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
 })();
 
 (() => {
-/*!***********************************!*\
-  !*** ../tools/widgets/gallery.js ***!
-  \***********************************/
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/gallery.js ***!
+  \*******************************************************************/
 (function(){
     mw.require('modal.css');
 
@@ -2117,9 +2117,9 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
 })();
 
 (() => {
-/*!****************************************!*\
-  !*** ../tools/widgets/iframe-tools.js ***!
-  \****************************************/
+/*!************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/iframe-tools.js ***!
+  \************************************************************************/
 mw.tools.createAutoHeight = function() {
     if(window.thismodal && thismodal.iframe) {
         mw.tools.iframeAutoHeight(thismodal.iframe);
@@ -2244,9 +2244,9 @@ mw.tools.iframeAutoHeight = function(frame, opt){
 })();
 
 (() => {
-/*!**************************************!*\
-  !*** ../tools/widgets/responsive.js ***!
-  \**************************************/
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/responsive.js ***!
+  \**********************************************************************/
 mw.responsive = {
     table: function (selector, options) {
         options = options || {};
@@ -2268,9 +2268,9 @@ mw.responsive = {
 })();
 
 (() => {
-/*!**********************************!*\
-  !*** ../tools/widgets/select.js ***!
-  \**********************************/
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/select.js ***!
+  \******************************************************************/
 /*
     options.data = [
         {
@@ -2732,9 +2732,9 @@ mw.select = function(options) {
 })();
 
 (() => {
-/*!***********************************!*\
-  !*** ../tools/widgets/spinner.js ***!
-  \***********************************/
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/spinner.js ***!
+  \*******************************************************************/
 mw.Spinner = function(options){
     if(!options || !options.element){
         return;
@@ -2817,9 +2817,9 @@ mw.spinner = function(options){
 })();
 
 (() => {
-/*!***********************************!*\
-  !*** ../tools/widgets/storage.js ***!
-  \***********************************/
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/storage.js ***!
+  \*******************************************************************/
 mw.storage = {
     init: function () {
         if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
@@ -2886,9 +2886,9 @@ mw.storage.init();
 })();
 
 (() => {
-/*!***************************************!*\
-  !*** ../tools/widgets/uiaccordion.js ***!
-  \***************************************/
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/uiaccordion.js ***!
+  \***********************************************************************/
 mw.uiAccordion = function (options) {
     if (!options) return;
     options.element = options.element || '.mw-accordion';
@@ -3092,9 +3092,9 @@ mw.tabAccordion = function (options, accordion) {
 })();
 
 (() => {
-/*!**********************************!*\
-  !*** ../widgets/autocomplete.js ***!
-  \**********************************/
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/autocomplete.js ***!
+  \******************************************************************/
 mw.autoComplete = function(options){
     var scope = this;
     this.prepare = function(options){
@@ -3365,9 +3365,9 @@ mw.autoComplete = function(options){
 })();
 
 (() => {
-/*!********************************!*\
-  !*** ../widgets/block-edit.js ***!
-  \********************************/
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/block-edit.js ***!
+  \****************************************************************/
 mw.blockEdit = function (options) {
     options = options || {};
     var defaults = {
@@ -3540,9 +3540,9 @@ mw.registerComponent('block-edit-editButton', function(el){
 })();
 
 (() => {
-/*!*********************************!*\
-  !*** ../widgets/control_box.js ***!
-  \*********************************/
+/*!*****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/control_box.js ***!
+  \*****************************************************************/
 mw.controlBox = function(options){
     var scope = this;
     this.options = options;
@@ -3620,9 +3620,9 @@ mw.controlBox = function(options){
 })();
 
 (() => {
-/*!***********************************!*\
-  !*** ../widgets/form-controls.js ***!
-  \***********************************/
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/form-controls.js ***!
+  \*******************************************************************/
 
 
 
@@ -4846,9 +4846,9 @@ mw.emitter = {
 })();
 
 (() => {
-/*!*********************************!*\
-  !*** ../widgets/link-editor.js ***!
-  \*********************************/
+/*!*****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/link-editor.js ***!
+  \*****************************************************************/
 
 mw.require('widgets.css');
  
@@ -5058,9 +5058,9 @@ console.log( mw.top().settings, this, this.settings );
 })();
 
 (() => {
-/*!**************************!*\
-  !*** ../widgets/tags.js ***!
-  \**************************/
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/tags.js ***!
+  \**********************************************************/
 
 
 mw.coreIcons = {
@@ -5331,9 +5331,9 @@ mw.treeTags = mw.treeChips = function(options){
 })();
 
 (() => {
-/*!**************************!*\
-  !*** ../widgets/tree.js ***!
-  \**************************/
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/tree.js ***!
+  \**********************************************************/
 
 /********************************************************
 

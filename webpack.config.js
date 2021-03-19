@@ -5,10 +5,10 @@ const glob = require("glob");
 
 const webpack = require('webpack');
 
-const dir = __dirname;
+const dir = `${__dirname}/userfiles/modules/microweber/api`;
 const output = `${dir}/dist`;
-const input = `${dir}/..`;
-const css = `${dir}/../../css`;
+const input = `${dir}`;
+const css = `${dir}/../css`;
 
 
 const core = [

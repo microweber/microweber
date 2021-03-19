@@ -1,10 +1,10 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "../core/@core.js":
-/*!************************!*\
-  !*** ../core/@core.js ***!
-  \************************/
+/***/ "./userfiles/modules/microweber/api/core/@core.js":
+/*!********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/@core.js ***!
+  \********************************************************/
 /***/ (() => {
 
 
@@ -131,10 +131,10 @@ mw.top = function() {
 
 /***/ }),
 
-/***/ "../core/ajax.js":
-/*!***********************!*\
-  !*** ../core/ajax.js ***!
-  \***********************/
+/***/ "./userfiles/modules/microweber/api/core/ajax.js":
+/*!*******************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/ajax.js ***!
+  \*******************************************************/
 /***/ (() => {
 
 var _jqxhr = jQuery.ajax;
@@ -631,10 +631,10 @@ get_content = function(params, callback){
 
 /***/ }),
 
-/***/ "../core/common.js":
-/*!*************************!*\
-  !*** ../core/common.js ***!
-  \*************************/
+/***/ "./userfiles/modules/microweber/api/core/common.js":
+/*!*********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/common.js ***!
+  \*********************************************************/
 /***/ (() => {
 
 $(document).ready(function(){
@@ -743,10 +743,10 @@ mw.common = {
 
 /***/ }),
 
-/***/ "../core/components.js":
-/*!*****************************!*\
-  !*** ../core/components.js ***!
-  \*****************************/
+/***/ "./userfiles/modules/microweber/api/core/components.js":
+/*!*************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/components.js ***!
+  \*************************************************************/
 /***/ (() => {
 
     mw.components = {
@@ -1040,10 +1040,10 @@ mw.registerComponent = function(name, func){
 
 /***/ }),
 
-/***/ "../core/custom_fields.js":
-/*!********************************!*\
-  !*** ../core/custom_fields.js ***!
-  \********************************/
+/***/ "./userfiles/modules/microweber/api/core/custom_fields.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/custom_fields.js ***!
+  \****************************************************************/
 /***/ (() => {
 
 mw.custom_fields = {
@@ -1268,10 +1268,10 @@ mw.custom_fields = {
 
 /***/ }),
 
-/***/ "../core/events.js":
-/*!*************************!*\
-  !*** ../core/events.js ***!
-  \*************************/
+/***/ "./userfiles/modules/microweber/api/core/events.js":
+/*!*********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/events.js ***!
+  \*********************************************************/
 /***/ (function() {
 
 
@@ -1696,10 +1696,10 @@ mw.event = {
 
 /***/ }),
 
-/***/ "../core/files.js":
-/*!************************!*\
-  !*** ../core/files.js ***!
-  \************************/
+/***/ "./userfiles/modules/microweber/api/core/files.js":
+/*!********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/files.js ***!
+  \********************************************************/
 /***/ (() => {
 
 
@@ -1777,10 +1777,10 @@ mw.files = {
 
 /***/ }),
 
-/***/ "../core/fonts.js":
-/*!************************!*\
-  !*** ../core/fonts.js ***!
-  \************************/
+/***/ "./userfiles/modules/microweber/api/core/fonts.js":
+/*!********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/fonts.js ***!
+  \********************************************************/
 /***/ (() => {
 
 
@@ -1959,10 +1959,10 @@ mw.font = function(){
 
 /***/ }),
 
-/***/ "../core/forms.js":
-/*!************************!*\
-  !*** ../core/forms.js ***!
-  \************************/
+/***/ "./userfiles/modules/microweber/api/core/forms.js":
+/*!********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/forms.js ***!
+  \********************************************************/
 /***/ (() => {
 
 mw.serializeFields =  function(id, ignorenopost){
@@ -2298,10 +2298,10 @@ mw.postForm = function(o){
 
 /***/ }),
 
-/***/ "../core/i18n.js":
-/*!***********************!*\
-  !*** ../core/i18n.js ***!
-  \***********************/
+/***/ "./userfiles/modules/microweber/api/core/i18n.js":
+/*!*******************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/i18n.js ***!
+  \*******************************************************/
 /***/ (() => {
 
 mw.lang = function (key) {
@@ -2407,10 +2407,10 @@ mw.msg = mw._lang = {
 
 /***/ }),
 
-/***/ "../core/libs.js":
-/*!***********************!*\
-  !*** ../core/libs.js ***!
-  \***********************/
+/***/ "./userfiles/modules/microweber/api/core/libs.js":
+/*!*******************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/libs.js ***!
+  \*******************************************************/
 /***/ (() => {
 
 (function (){
@@ -2710,10 +2710,10 @@ mw.msg = mw._lang = {
 
 /***/ }),
 
-/***/ "../core/modules.js":
-/*!**************************!*\
-  !*** ../core/modules.js ***!
-  \**************************/
+/***/ "./userfiles/modules/microweber/api/core/modules.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/modules.js ***!
+  \**********************************************************/
 /***/ (() => {
 
 
@@ -2819,10 +2819,10 @@ mw.module = {
 
 /***/ }),
 
-/***/ "../core/mw-require.js":
-/*!*****************************!*\
-  !*** ../core/mw-require.js ***!
-  \*****************************/
+/***/ "./userfiles/modules/microweber/api/core/mw-require.js":
+/*!*************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/mw-require.js ***!
+  \*************************************************************/
 /***/ (() => {
 
 mw.required = [] ;
@@ -2881,10 +2881,10 @@ mw.require = function(url, inHead, key) {
 
 /***/ }),
 
-/***/ "../core/options.js":
-/*!**************************!*\
-  !*** ../core/options.js ***!
-  \**************************/
+/***/ "./userfiles/modules/microweber/api/core/options.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/options.js ***!
+  \**********************************************************/
 /***/ (() => {
 
 // JavaScript Document
@@ -3498,10 +3498,10 @@ mw.options.___rebindAllFormsAfterReload = function () {
 
 /***/ }),
 
-/***/ "../core/polyfills.js":
-/*!****************************!*\
-  !*** ../core/polyfills.js ***!
-  \****************************/
+/***/ "./userfiles/modules/microweber/api/core/polyfills.js":
+/*!************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/polyfills.js ***!
+  \************************************************************/
 /***/ (() => {
 
 if (typeof Object.assign !== 'function') {
@@ -3554,10 +3554,10 @@ String.prototype.contains = function(a) {
 
 /***/ }),
 
-/***/ "../core/response.js":
-/*!***************************!*\
-  !*** ../core/response.js ***!
-  \***************************/
+/***/ "./userfiles/modules/microweber/api/core/response.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/response.js ***!
+  \***********************************************************/
 /***/ (() => {
 
 mw.response = function(form, data, messages_at_the_bottom){
@@ -3657,10 +3657,10 @@ mw._response = {
 
 /***/ }),
 
-/***/ "../core/session.js":
-/*!**************************!*\
-  !*** ../core/session.js ***!
-  \**************************/
+/***/ "./userfiles/modules/microweber/api/core/session.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/session.js ***!
+  \**********************************************************/
 /***/ (() => {
 
 mw.session = {
@@ -3738,10 +3738,10 @@ $(document).ready(function () {
 
 /***/ }),
 
-/***/ "../core/shop.js":
-/*!***********************!*\
-  !*** ../core/shop.js ***!
-  \***********************/
+/***/ "./userfiles/modules/microweber/api/core/shop.js":
+/*!*******************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/shop.js ***!
+  \*******************************************************/
 /***/ (() => {
 
 
@@ -4201,10 +4201,10 @@ mw.cart.modal.bindStepButtons__old = function (root_node) {
 
 /***/ }),
 
-/***/ "../core/upgrades.js":
-/*!***************************!*\
-  !*** ../core/upgrades.js ***!
-  \***************************/
+/***/ "./userfiles/modules/microweber/api/core/upgrades.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/upgrades.js ***!
+  \***********************************************************/
 /***/ (() => {
 
 window.onmessage = function (e) {
@@ -4255,10 +4255,10 @@ window.onmessage = function (e) {
 
 /***/ }),
 
-/***/ "../core/uploader.js":
-/*!***************************!*\
-  !*** ../core/uploader.js ***!
-  \***************************/
+/***/ "./userfiles/modules/microweber/api/core/uploader.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/uploader.js ***!
+  \***********************************************************/
 /***/ (() => {
 
 ;(function (){
@@ -4669,10 +4669,10 @@ window.onmessage = function (e) {
 
 /***/ }),
 
-/***/ "../core/url.js":
-/*!**********************!*\
-  !*** ../core/url.js ***!
-  \**********************/
+/***/ "./userfiles/modules/microweber/api/core/url.js":
+/*!******************************************************!*\
+  !*** ./userfiles/modules/microweber/api/core/url.js ***!
+  \******************************************************/
 /***/ (() => {
 
 // URL Strings - Manipulations
@@ -4855,10 +4855,10 @@ mw.slug = {
 
 /***/ }),
 
-/***/ "../gui-css-editor/domtree.js":
-/*!************************************!*\
-  !*** ../gui-css-editor/domtree.js ***!
-  \************************************/
+/***/ "./userfiles/modules/microweber/api/gui-css-editor/domtree.js":
+/*!********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/gui-css-editor/domtree.js ***!
+  \********************************************************************/
 /***/ (() => {
 
 mw.DomTree = function (options) {
@@ -5167,10 +5167,10 @@ mw.DomTree = function (options) {
 
 /***/ }),
 
-/***/ "../gui-css-editor/stylesheet.editor.js":
-/*!**********************************************!*\
-  !*** ../gui-css-editor/stylesheet.editor.js ***!
-  \**********************************************/
+/***/ "./userfiles/modules/microweber/api/gui-css-editor/stylesheet.editor.js":
+/*!******************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/gui-css-editor/stylesheet.editor.js ***!
+  \******************************************************************************/
 /***/ (() => {
 
 mw.require('libs/cssjson/cssjson.js');
@@ -5286,10 +5286,10 @@ mw.liveeditCSSEditor = function (config) {
 
 /***/ }),
 
-/***/ "../libs/rangy/rangy-core.js":
-/*!***********************************!*\
-  !*** ../libs/rangy/rangy-core.js ***!
-  \***********************************/
+/***/ "./userfiles/modules/microweber/api/libs/rangy/rangy-core.js":
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/libs/rangy/rangy-core.js ***!
+  \*******************************************************************/
 /***/ (() => {
 
 /*
@@ -5389,10 +5389,10 @@ function(){return v(this)};g.detach=function(){this.win=this.anchorNode=this.foc
 
 /***/ }),
 
-/***/ "../libs/rangy/rangy-cssclassapplier.js":
-/*!**********************************************!*\
-  !*** ../libs/rangy/rangy-cssclassapplier.js ***!
-  \**********************************************/
+/***/ "./userfiles/modules/microweber/api/libs/rangy/rangy-cssclassapplier.js":
+/*!******************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/libs/rangy/rangy-cssclassapplier.js ***!
+  \******************************************************************************/
 /***/ (() => {
 
 /*
@@ -5430,10 +5430,10 @@ this.undoToRange(a):this.applyToRange(a)},toggleSelection:function(a){this.isApp
 
 /***/ }),
 
-/***/ "../libs/rangy/rangy-selectionsaverestore.js":
-/*!***************************************************!*\
-  !*** ../libs/rangy/rangy-selectionsaverestore.js ***!
-  \***************************************************/
+/***/ "./userfiles/modules/microweber/api/libs/rangy/rangy-selectionsaverestore.js":
+/*!***********************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/libs/rangy/rangy-selectionsaverestore.js ***!
+  \***********************************************************************************/
 /***/ (() => {
 
 /*
@@ -5458,10 +5458,10 @@ true);o(a.doc,i,b.endMarkerId,false)}d==1&&i.normalizeBoundaries();f[j]=i}if(d==
 
 /***/ }),
 
-/***/ "../libs/rangy/rangy-serializer.js":
-/*!*****************************************!*\
-  !*** ../libs/rangy/rangy-serializer.js ***!
-  \*****************************************/
+/***/ "./userfiles/modules/microweber/api/libs/rangy/rangy-serializer.js":
+/*!*************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/libs/rangy/rangy-serializer.js ***!
+  \*************************************************************************/
 /***/ (() => {
 
 /*
@@ -5490,10 +5490,10 @@ a.expires.toUTCString():"",e=a.path?";path="+a.path:"",d=a.domain?";domain="+a.d
 
 /***/ }),
 
-/***/ "../liveedit/@drag.js":
-/*!****************************!*\
-  !*** ../liveedit/@drag.js ***!
-  \****************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/@drag.js":
+/*!************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/@drag.js ***!
+  \************************************************************/
 /***/ (() => {
 
 
@@ -6699,10 +6699,10 @@ mw.drag = {
 
 /***/ }),
 
-/***/ "../liveedit/@liveedit.js":
-/*!********************************!*\
-  !*** ../liveedit/@liveedit.js ***!
-  \********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/@liveedit.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/@liveedit.js ***!
+  \****************************************************************/
 /***/ (() => {
 
 
@@ -6772,10 +6772,10 @@ $(window).on('resize', function() {
 
 /***/ }),
 
-/***/ "../liveedit/beforeleave.js":
-/*!**********************************!*\
-  !*** ../liveedit/beforeleave.js ***!
-  \**********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/beforeleave.js":
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/beforeleave.js ***!
+  \******************************************************************/
 /***/ (() => {
 
 
@@ -6821,10 +6821,10 @@ mw.liveedit.beforeleave = function(url) {
 
 /***/ }),
 
-/***/ "../liveedit/cloneable.js":
-/*!********************************!*\
-  !*** ../liveedit/cloneable.js ***!
-  \********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/cloneable.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/cloneable.js ***!
+  \****************************************************************/
 /***/ (() => {
 
 mw.drag.onCloneableControl = function(target, isOverControl){
@@ -6958,10 +6958,10 @@ mw.drag.onCloneableControl = function(target, isOverControl){
 
 /***/ }),
 
-/***/ "../liveedit/columns.js":
-/*!******************************!*\
-  !*** ../liveedit/columns.js ***!
-  \******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/columns.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/columns.js ***!
+  \**************************************************************/
 /***/ (() => {
 
 mw.drag.columns = {
@@ -7075,10 +7075,10 @@ $(document).ready(function () {
 
 /***/ }),
 
-/***/ "../liveedit/data.js":
-/*!***************************!*\
-  !*** ../liveedit/data.js ***!
-  \***************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/data.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/data.js ***!
+  \***********************************************************/
 /***/ (() => {
 
 mw.liveedit.data = {
@@ -7114,10 +7114,10 @@ mw.liveedit.data = {
 
 /***/ }),
 
-/***/ "../liveedit/edit.fields.js":
-/*!**********************************!*\
-  !*** ../liveedit/edit.fields.js ***!
-  \**********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/edit.fields.js":
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/edit.fields.js ***!
+  \******************************************************************/
 /***/ (() => {
 
 mw.liveedit.editFields = {
@@ -7211,10 +7211,10 @@ mw.liveedit.editFields = {
 
 /***/ }),
 
-/***/ "../liveedit/editor_externals.js":
-/*!***************************************!*\
-  !*** ../liveedit/editor_externals.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/editor_externals.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/editor_externals.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
 
@@ -7236,10 +7236,10 @@ mw.liveedit.editFields = {
 
 /***/ }),
 
-/***/ "../liveedit/editors.js":
-/*!******************************!*\
-  !*** ../liveedit/editors.js ***!
-  \******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/editors.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/editors.js ***!
+  \**************************************************************/
 /***/ (() => {
 
 mw.liveedit.editors = {
@@ -7358,10 +7358,10 @@ mw.liveedit.editors = {
 
 /***/ }),
 
-/***/ "../liveedit/element_analyzer.js":
-/*!***************************************!*\
-  !*** ../liveedit/element_analyzer.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/element_analyzer.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/element_analyzer.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
 mw.AfterDrop = function(){
@@ -7909,10 +7909,10 @@ mw.ea = new mw.ElementAnalyzer();
 
 /***/ }),
 
-/***/ "../liveedit/events.custom.js":
-/*!************************************!*\
-  !*** ../liveedit/events.custom.js ***!
-  \************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/events.custom.js":
+/*!********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/events.custom.js ***!
+  \********************************************************************/
 /***/ (() => {
 
 mw.liveedit.handleCustomEvents = function() {
@@ -8092,10 +8092,10 @@ mw.liveedit.handleCustomEvents = function() {
 
 /***/ }),
 
-/***/ "../liveedit/events.js":
-/*!*****************************!*\
-  !*** ../liveedit/events.js ***!
-  \*****************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/events.js":
+/*!*************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/events.js ***!
+  \*************************************************************/
 /***/ (() => {
 
 mw.liveedit.handleEvents = function() {
@@ -8236,10 +8236,10 @@ mw.liveedit.handleEvents = function() {
 
 /***/ }),
 
-/***/ "../liveedit/external_callbacks.js":
-/*!*****************************************!*\
-  !*** ../liveedit/external_callbacks.js ***!
-  \*****************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/external_callbacks.js":
+/*!*************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/external_callbacks.js ***!
+  \*************************************************************************/
 /***/ (() => {
 
 mw.iframecallbacks = {
@@ -8429,10 +8429,10 @@ mw.iframecallbacks = {
 
 /***/ }),
 
-/***/ "../liveedit/handles.js":
-/*!******************************!*\
-  !*** ../liveedit/handles.js ***!
-  \******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/handles.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/handles.js ***!
+  \**************************************************************/
 /***/ (() => {
 
 
@@ -9738,10 +9738,10 @@ $(document).ready(function () {
 
 /***/ }),
 
-/***/ "../liveedit/initload.js":
-/*!*******************************!*\
-  !*** ../liveedit/initload.js ***!
-  \*******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/initload.js":
+/*!***************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/initload.js ***!
+  \***************************************************************/
 /***/ (() => {
 
 mw.liveedit.initLoad = function() {
@@ -9845,10 +9845,10 @@ mw.liveedit.initLoad = function() {
 
 /***/ }),
 
-/***/ "../liveedit/initready.js":
-/*!********************************!*\
-  !*** ../liveedit/initready.js ***!
-  \********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/initready.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/initready.js ***!
+  \****************************************************************/
 /***/ (() => {
 
 mw.liveedit.initReady = function() {
@@ -9887,10 +9887,10 @@ mw.liveedit.initReady = function() {
 
 /***/ }),
 
-/***/ "../liveedit/inline.js":
-/*!*****************************!*\
-  !*** ../liveedit/inline.js ***!
-  \*****************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/inline.js":
+/*!*************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/inline.js ***!
+  \*************************************************************/
 /***/ (() => {
 
 mw.liveedit.inline = {
@@ -10020,10 +10020,10 @@ mw.liveedit.inline = {
 
 /***/ }),
 
-/***/ "../liveedit/layoutplus.js":
-/*!*********************************!*\
-  !*** ../liveedit/layoutplus.js ***!
-  \*********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/layoutplus.js":
+/*!*****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/layoutplus.js ***!
+  \*****************************************************************/
 /***/ (() => {
 
 mw.layoutPlus = {
@@ -10163,10 +10163,10 @@ $(window).on('load', function () {
 
 /***/ }),
 
-/***/ "../liveedit/live.js":
-/*!***************************!*\
-  !*** ../liveedit/live.js ***!
-  \***************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/live.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/live.js ***!
+  \***********************************************************/
 /***/ (() => {
 
 (function () {
@@ -10330,10 +10330,10 @@ $(window).on('load', function () {
 
 /***/ }),
 
-/***/ "../liveedit/live_edit.js":
-/*!********************************!*\
-  !*** ../liveedit/live_edit.js ***!
-  \********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/live_edit.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/live_edit.js ***!
+  \****************************************************************/
 /***/ (() => {
 
 mw.live_edit = mw.live_edit || {};
@@ -10586,10 +10586,10 @@ mw.live_edit.getModuleDescription = function (module_type) {
 
 /***/ }),
 
-/***/ "../liveedit/liveedit_elements.js":
-/*!****************************************!*\
-  !*** ../liveedit/liveedit_elements.js ***!
-  \****************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/liveedit_elements.js":
+/*!************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/liveedit_elements.js ***!
+  \************************************************************************/
 /***/ (() => {
 
 
@@ -11016,10 +11016,10 @@ $(document).ready(function(){
 
 /***/ }),
 
-/***/ "../liveedit/liveedit_widgets.js":
-/*!***************************************!*\
-  !*** ../liveedit/liveedit_widgets.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/liveedit_widgets.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/liveedit_widgets.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
 mw.liveEditWidgets = {
@@ -11081,10 +11081,10 @@ mw.liveEditTools = {
 
 /***/ }),
 
-/***/ "../liveedit/manage.content.js":
-/*!*************************************!*\
-  !*** ../liveedit/manage.content.js ***!
-  \*************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/manage.content.js":
+/*!*********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/manage.content.js ***!
+  \*********************************************************************/
 /***/ (() => {
 
 mw.liveedit.manageContent = {
@@ -11212,10 +11212,10 @@ mw.liveedit.manageContent = {
 
 /***/ }),
 
-/***/ "../liveedit/modules.toolbar.js":
-/*!**************************************!*\
-  !*** ../liveedit/modules.toolbar.js ***!
-  \**************************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/modules.toolbar.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/modules.toolbar.js ***!
+  \**********************************************************************/
 /***/ (() => {
 
 mw.liveedit.modulesToolbar = {
@@ -11278,10 +11278,10 @@ mw.liveedit.modulesToolbar = {
 
 /***/ }),
 
-/***/ "../liveedit/padding.js":
-/*!******************************!*\
-  !*** ../liveedit/padding.js ***!
-  \******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/padding.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/padding.js ***!
+  \**************************************************************/
 /***/ (() => {
 
 
@@ -11563,10 +11563,10 @@ mw.liveedit.modulesToolbar = {
 
 /***/ }),
 
-/***/ "../liveedit/plus.js":
-/*!***************************!*\
-  !*** ../liveedit/plus.js ***!
-  \***************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/plus.js":
+/*!***********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/plus.js ***!
+  \***********************************************************/
 /***/ (() => {
 
 mw.drag.plus = {
@@ -11809,10 +11809,10 @@ mw.insertModule = function (module, cls) {
 
 /***/ }),
 
-/***/ "../liveedit/selector.js":
-/*!*******************************!*\
-  !*** ../liveedit/selector.js ***!
-  \*******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/selector.js":
+/*!***************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/selector.js ***!
+  \***************************************************************/
 /***/ (() => {
 
 (function (){
@@ -12083,10 +12083,10 @@ mw.insertModule = function (module, cls) {
 
 /***/ }),
 
-/***/ "../liveedit/source-edit.js":
-/*!**********************************!*\
-  !*** ../liveedit/source-edit.js ***!
-  \**********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/source-edit.js":
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/source-edit.js ***!
+  \******************************************************************/
 /***/ (() => {
 
 mw.editSource = function (node) {
@@ -12157,10 +12157,10 @@ mw.editSource = function (node) {
 
 /***/ }),
 
-/***/ "../liveedit/tempcss.js":
-/*!******************************!*\
-  !*** ../liveedit/tempcss.js ***!
-  \******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/tempcss.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/tempcss.js ***!
+  \**************************************************************/
 /***/ (() => {
 
 mw.tempCSS = function(options){
@@ -12201,10 +12201,10 @@ mw.tempCSS = function(options){
 
 /***/ }),
 
-/***/ "../liveedit/toolbar.js":
-/*!******************************!*\
-  !*** ../liveedit/toolbar.js ***!
-  \******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/toolbar.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/toolbar.js ***!
+  \**************************************************************/
 /***/ (() => {
 
 mw.liveedit.toolbar = {
@@ -12391,10 +12391,10 @@ mw.liveedit.toolbar = {
 
 /***/ }),
 
-/***/ "../liveedit/widgets.js":
-/*!******************************!*\
-  !*** ../liveedit/widgets.js ***!
-  \******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/widgets.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/widgets.js ***!
+  \**************************************************************/
 /***/ (() => {
 
 mw.liveedit = mw.liveedit || {};
@@ -12429,10 +12429,10 @@ mw.liveedit.widgets = {
 
 /***/ }),
 
-/***/ "../liveedit/wysiwyg.js":
-/*!******************************!*\
-  !*** ../liveedit/wysiwyg.js ***!
-  \******************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/wysiwyg.js":
+/*!**************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/wysiwyg.js ***!
+  \**************************************************************/
 /***/ (() => {
 
 /* WYSIWYG Editor */
@@ -15386,10 +15386,10 @@ mw.linkTip = {
 
 /***/ }),
 
-/***/ "../liveedit/wysiwygmdab.js":
-/*!**********************************!*\
-  !*** ../liveedit/wysiwygmdab.js ***!
-  \**********************************/
+/***/ "./userfiles/modules/microweber/api/liveedit/wysiwygmdab.js":
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/liveedit/wysiwygmdab.js ***!
+  \******************************************************************/
 /***/ (() => {
 
 
@@ -15624,10 +15624,10 @@ mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
 
 /***/ }),
 
-/***/ "../system/color.js":
-/*!**************************!*\
-  !*** ../system/color.js ***!
-  \**************************/
+/***/ "./userfiles/modules/microweber/api/system/color.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/system/color.js ***!
+  \**********************************************************/
 /***/ (() => {
 
 mw.color = {
@@ -15728,10 +15728,10 @@ mw.color = {
 
 /***/ }),
 
-/***/ "../system/css_parser.js":
-/*!*******************************!*\
-  !*** ../system/css_parser.js ***!
-  \*******************************/
+/***/ "./userfiles/modules/microweber/api/system/css_parser.js":
+/*!***************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/system/css_parser.js ***!
+  \***************************************************************/
 /***/ (() => {
 
 
@@ -15920,10 +15920,10 @@ mw.CSSParser = function(el){
 
 /***/ }),
 
-/***/ "../system/filepicker.js":
-/*!*******************************!*\
-  !*** ../system/filepicker.js ***!
-  \*******************************/
+/***/ "./userfiles/modules/microweber/api/system/filepicker.js":
+/*!***************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/system/filepicker.js ***!
+  \***************************************************************/
 /***/ (() => {
 
 
@@ -16376,10 +16376,10 @@ mw.filePicker = function (options) {
 
 /***/ }),
 
-/***/ "../system/icon_selector.js":
-/*!**********************************!*\
-  !*** ../system/icon_selector.js ***!
-  \**********************************/
+/***/ "./userfiles/modules/microweber/api/system/icon_selector.js":
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/system/icon_selector.js ***!
+  \******************************************************************/
 /***/ (() => {
 
 
@@ -17111,10 +17111,10 @@ mw.filePicker = function (options) {
 
 /***/ }),
 
-/***/ "../system/module_settings.js":
-/*!************************************!*\
-  !*** ../system/module_settings.js ***!
-  \************************************/
+/***/ "./userfiles/modules/microweber/api/system/module_settings.js":
+/*!********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/system/module_settings.js ***!
+  \********************************************************************/
 /***/ (() => {
 
 mw.moduleSettings = function(options){
@@ -17360,10 +17360,10 @@ mw.moduleSettings = function(options){
 
 /***/ }),
 
-/***/ "../system/prop_editor.js":
-/*!********************************!*\
-  !*** ../system/prop_editor.js ***!
-  \********************************/
+/***/ "./userfiles/modules/microweber/api/system/prop_editor.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/system/prop_editor.js ***!
+  \****************************************************************/
 /***/ (() => {
 
 mw.propEditor = {
@@ -18185,10 +18185,10 @@ mw.propEditor = {
 
 /***/ }),
 
-/***/ "../system/state.js":
-/*!**************************!*\
-  !*** ../system/state.js ***!
-  \**************************/
+/***/ "./userfiles/modules/microweber/api/system/state.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/system/state.js ***!
+  \**********************************************************/
 /***/ (() => {
 
 (function (){
@@ -18469,10 +18469,10 @@ mw.propEditor = {
 
 /***/ }),
 
-/***/ "../tools/@tools.js":
-/*!**************************!*\
-  !*** ../tools/@tools.js ***!
-  \**************************/
+/***/ "./userfiles/modules/microweber/api/tools/@tools.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/@tools.js ***!
+  \**********************************************************/
 /***/ (() => {
 
 mw.tools = {
@@ -18498,10 +18498,10 @@ mw.gallery = function (arr, start, modal) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/common-extend.js":
-/*!********************************************!*\
-  !*** ../tools/core-tools/common-extend.js ***!
-  \********************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/common-extend.js":
+/*!****************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/common-extend.js ***!
+  \****************************************************************************/
 /***/ (() => {
 
 mw.requestAnimationFrame = (function () {
@@ -18744,10 +18744,10 @@ mw.accordion = function (el, callback) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/common.js":
-/*!*************************************!*\
-  !*** ../tools/core-tools/common.js ***!
-  \*************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/common.js":
+/*!*********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/common.js ***!
+  \*********************************************************************/
 /***/ (() => {
 
 $(window).on('load', function () {
@@ -18905,10 +18905,10 @@ $(document).ready(function () {
 
 /***/ }),
 
-/***/ "../tools/core-tools/cookie.js":
-/*!*************************************!*\
-  !*** ../tools/core-tools/cookie.js ***!
-  \*************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/cookie.js":
+/*!*********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/cookie.js ***!
+  \*********************************************************************/
 /***/ (() => {
 
 mw.cookie = {
@@ -18985,10 +18985,10 @@ mw.cookie = {
 
 /***/ }),
 
-/***/ "../tools/core-tools/domhelpers.js":
-/*!*****************************************!*\
-  !*** ../tools/core-tools/domhelpers.js ***!
-  \*****************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/domhelpers.js":
+/*!*************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/domhelpers.js ***!
+  \*************************************************************************/
 /***/ (() => {
 
 (function(){
@@ -19690,10 +19690,10 @@ for (var i in domHelp) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/dropdown.js":
-/*!***************************************!*\
-  !*** ../tools/core-tools/dropdown.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/dropdown.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/dropdown.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
 mw.tools.dropdown = function (root) {
@@ -19807,10 +19807,10 @@ mw.dropdown = mw.tools.dropdown;
 
 /***/ }),
 
-/***/ "../tools/core-tools/element.js":
-/*!**************************************!*\
-  !*** ../tools/core-tools/element.js ***!
-  \**************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/element.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/element.js ***!
+  \**********************************************************************/
 /***/ (() => {
 
 (function(){
@@ -20253,10 +20253,10 @@ mw.dropdown = mw.tools.dropdown;
 
 /***/ }),
 
-/***/ "../tools/core-tools/external.js":
-/*!***************************************!*\
-  !*** ../tools/core-tools/external.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/external.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/external.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
     mw.tools.externalInstrument = {
@@ -20319,10 +20319,10 @@ mw.dropdown = mw.tools.dropdown;
 
 /***/ }),
 
-/***/ "../tools/core-tools/extradata-form.js":
-/*!*********************************************!*\
-  !*** ../tools/core-tools/extradata-form.js ***!
-  \*********************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/extradata-form.js":
+/*!*****************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/extradata-form.js ***!
+  \*****************************************************************************/
 /***/ (() => {
 
 mw.getExtradataFormData = function (data, call) {
@@ -20425,10 +20425,10 @@ mw.extradataForm = function (options, data, func) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/helpers.js":
-/*!**************************************!*\
-  !*** ../tools/core-tools/helpers.js ***!
-  \**************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/helpers.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/helpers.js ***!
+  \**********************************************************************/
 /***/ (() => {
 
 (function(expose){
@@ -21208,10 +21208,10 @@ mw.extradataForm = function (options, data, func) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/images.js":
-/*!*************************************!*\
-  !*** ../tools/core-tools/images.js ***!
-  \*************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/images.js":
+/*!*********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/images.js ***!
+  \*********************************************************************/
 /***/ (() => {
 
 mw.image = {
@@ -21272,10 +21272,10 @@ mw.image = {
 
 /***/ }),
 
-/***/ "../tools/core-tools/jquery.tools.js":
-/*!*******************************************!*\
-  !*** ../tools/core-tools/jquery.tools.js ***!
-  \*******************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/jquery.tools.js":
+/*!***************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/jquery.tools.js ***!
+  \***************************************************************************/
 /***/ (() => {
 
 
@@ -21441,10 +21441,10 @@ jQuery.each(["xhrGet", "xhrPost"], function (i, method) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/loading.js":
-/*!**************************************!*\
-  !*** ../tools/core-tools/loading.js ***!
-  \**************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/loading.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/loading.js ***!
+  \**********************************************************************/
 /***/ (() => {
 
 mw.tools.progressDefaults = {
@@ -21587,10 +21587,10 @@ mw.tools.loading = function (element, progress, speed) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/loops.js":
-/*!************************************!*\
-  !*** ../tools/core-tools/loops.js ***!
-  \************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/loops.js":
+/*!********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/loops.js ***!
+  \********************************************************************/
 /***/ (() => {
 
 (function(){
@@ -21650,10 +21650,10 @@ mw.tools.loading = function (element, progress, speed) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/notification.js":
-/*!*******************************************!*\
-  !*** ../tools/core-tools/notification.js ***!
-  \*******************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/notification.js":
+/*!***************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/notification.js ***!
+  \***************************************************************************/
 /***/ (() => {
 
 
@@ -21790,10 +21790,10 @@ mw.notification = {
 
 /***/ }),
 
-/***/ "../tools/core-tools/objects.js":
-/*!**************************************!*\
-  !*** ../tools/core-tools/objects.js ***!
-  \**************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/objects.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/objects.js ***!
+  \**********************************************************************/
 /***/ (() => {
 
 mw.object = {
@@ -21830,10 +21830,10 @@ mw.object = {
 
 /***/ }),
 
-/***/ "../tools/core-tools/system-dialogs.js":
-/*!*********************************************!*\
-  !*** ../tools/core-tools/system-dialogs.js ***!
-  \*********************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/system-dialogs.js":
+/*!*****************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/system-dialogs.js ***!
+  \*****************************************************************************/
 /***/ (() => {
 
 mw.tools.alert = function (text) {
@@ -21972,10 +21972,10 @@ mw.confirm = mw.tools.confirm;
 
 /***/ }),
 
-/***/ "../tools/core-tools/tabs.js":
-/*!***********************************!*\
-  !*** ../tools/core-tools/tabs.js ***!
-  \***********************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/tabs.js":
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/tabs.js ***!
+  \*******************************************************************/
 /***/ (() => {
 
 mw.tabs = function (obj, element, model) {
@@ -22098,10 +22098,10 @@ mw.tabs = function (obj, element, model) {
 
 /***/ }),
 
-/***/ "../tools/core-tools/tooltip.js":
-/*!**************************************!*\
-  !*** ../tools/core-tools/tooltip.js ***!
-  \**************************************/
+/***/ "./userfiles/modules/microweber/api/tools/core-tools/tooltip.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/core-tools/tooltip.js ***!
+  \**********************************************************************/
 /***/ (() => {
 
 (function(){
@@ -22636,10 +22636,10 @@ mw.tabs = function (obj, element, model) {
 
 /***/ }),
 
-/***/ "../tools/system-tools/base64.js":
-/*!***************************************!*\
-  !*** ../tools/system-tools/base64.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/tools/system-tools/base64.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/system-tools/base64.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
 mw.tools.base64 = {
@@ -22749,10 +22749,10 @@ mw.tools.base64 = {
 
 /***/ }),
 
-/***/ "../tools/system-tools/image-tools.js":
-/*!********************************************!*\
-  !*** ../tools/system-tools/image-tools.js ***!
-  \********************************************/
+/***/ "./userfiles/modules/microweber/api/tools/system-tools/image-tools.js":
+/*!****************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/system-tools/image-tools.js ***!
+  \****************************************************************************/
 /***/ (() => {
 
 mw.image.description =  {
@@ -23064,10 +23064,10 @@ mw.image.settings = function () {
 
 /***/ }),
 
-/***/ "../tools/system-tools/modules-dialogs.js":
-/*!************************************************!*\
-  !*** ../tools/system-tools/modules-dialogs.js ***!
-  \************************************************/
+/***/ "./userfiles/modules/microweber/api/tools/system-tools/modules-dialogs.js":
+/*!********************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/system-tools/modules-dialogs.js ***!
+  \********************************************************************************/
 /***/ (() => {
 
 (function(){
@@ -23289,10 +23289,10 @@ mw.image.settings = function () {
 
 /***/ }),
 
-/***/ "../tools/widgets/colorpicker.js":
-/*!***************************************!*\
-  !*** ../tools/widgets/colorpicker.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/colorpicker.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/colorpicker.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
 mw._colorPickerDefaults = {
@@ -23483,10 +23483,10 @@ mw.colorPicker = function (o) {
 
 /***/ }),
 
-/***/ "../tools/widgets/dialog.js":
-/*!**********************************!*\
-  !*** ../tools/widgets/dialog.js ***!
-  \**********************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/dialog.js":
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/dialog.js ***!
+  \******************************************************************/
 /***/ (() => {
 
 (function (mw) {
@@ -24132,10 +24132,10 @@ mw.colorPicker = function (o) {
 
 /***/ }),
 
-/***/ "../tools/widgets/elementedit.js":
-/*!***************************************!*\
-  !*** ../tools/widgets/elementedit.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/elementedit.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/elementedit.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
 mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
@@ -24206,10 +24206,10 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
 
 /***/ }),
 
-/***/ "../tools/widgets/gallery.js":
-/*!***********************************!*\
-  !*** ../tools/widgets/gallery.js ***!
-  \***********************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/gallery.js":
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/gallery.js ***!
+  \*******************************************************************/
 /***/ (() => {
 
 (function(){
@@ -24349,10 +24349,10 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
 
 /***/ }),
 
-/***/ "../tools/widgets/iframe-tools.js":
-/*!****************************************!*\
-  !*** ../tools/widgets/iframe-tools.js ***!
-  \****************************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/iframe-tools.js":
+/*!************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/iframe-tools.js ***!
+  \************************************************************************/
 /***/ (() => {
 
 mw.tools.createAutoHeight = function() {
@@ -24479,10 +24479,10 @@ mw.tools.iframeAutoHeight = function(frame, opt){
 
 /***/ }),
 
-/***/ "../tools/widgets/responsive.js":
-/*!**************************************!*\
-  !*** ../tools/widgets/responsive.js ***!
-  \**************************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/responsive.js":
+/*!**********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/responsive.js ***!
+  \**********************************************************************/
 /***/ (() => {
 
 mw.responsive = {
@@ -24506,10 +24506,10 @@ mw.responsive = {
 
 /***/ }),
 
-/***/ "../tools/widgets/select.js":
-/*!**********************************!*\
-  !*** ../tools/widgets/select.js ***!
-  \**********************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/select.js":
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/select.js ***!
+  \******************************************************************/
 /***/ (() => {
 
 /*
@@ -24973,10 +24973,10 @@ mw.select = function(options) {
 
 /***/ }),
 
-/***/ "../tools/widgets/spinner.js":
-/*!***********************************!*\
-  !*** ../tools/widgets/spinner.js ***!
-  \***********************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/spinner.js":
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/spinner.js ***!
+  \*******************************************************************/
 /***/ (() => {
 
 mw.Spinner = function(options){
@@ -25061,10 +25061,10 @@ mw.spinner = function(options){
 
 /***/ }),
 
-/***/ "../tools/widgets/storage.js":
-/*!***********************************!*\
-  !*** ../tools/widgets/storage.js ***!
-  \***********************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/storage.js":
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/storage.js ***!
+  \*******************************************************************/
 /***/ (() => {
 
 mw.storage = {
@@ -25133,10 +25133,10 @@ mw.storage.init();
 
 /***/ }),
 
-/***/ "../tools/widgets/uiaccordion.js":
-/*!***************************************!*\
-  !*** ../tools/widgets/uiaccordion.js ***!
-  \***************************************/
+/***/ "./userfiles/modules/microweber/api/tools/widgets/uiaccordion.js":
+/*!***********************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/tools/widgets/uiaccordion.js ***!
+  \***********************************************************************/
 /***/ (() => {
 
 mw.uiAccordion = function (options) {
@@ -25342,10 +25342,10 @@ mw.tabAccordion = function (options, accordion) {
 
 /***/ }),
 
-/***/ "../widgets/autocomplete.js":
-/*!**********************************!*\
-  !*** ../widgets/autocomplete.js ***!
-  \**********************************/
+/***/ "./userfiles/modules/microweber/api/widgets/autocomplete.js":
+/*!******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/autocomplete.js ***!
+  \******************************************************************/
 /***/ (() => {
 
 mw.autoComplete = function(options){
@@ -25618,10 +25618,10 @@ mw.autoComplete = function(options){
 
 /***/ }),
 
-/***/ "../widgets/block-edit.js":
-/*!********************************!*\
-  !*** ../widgets/block-edit.js ***!
-  \********************************/
+/***/ "./userfiles/modules/microweber/api/widgets/block-edit.js":
+/*!****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/block-edit.js ***!
+  \****************************************************************/
 /***/ (() => {
 
 mw.blockEdit = function (options) {
@@ -25796,10 +25796,10 @@ mw.registerComponent('block-edit-editButton', function(el){
 
 /***/ }),
 
-/***/ "../widgets/control_box.js":
-/*!*********************************!*\
-  !*** ../widgets/control_box.js ***!
-  \*********************************/
+/***/ "./userfiles/modules/microweber/api/widgets/control_box.js":
+/*!*****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/control_box.js ***!
+  \*****************************************************************/
 /***/ (() => {
 
 mw.controlBox = function(options){
@@ -25879,10 +25879,10 @@ mw.controlBox = function(options){
 
 /***/ }),
 
-/***/ "../widgets/form-controls.js":
-/*!***********************************!*\
-  !*** ../widgets/form-controls.js ***!
-  \***********************************/
+/***/ "./userfiles/modules/microweber/api/widgets/form-controls.js":
+/*!*******************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/form-controls.js ***!
+  \*******************************************************************/
 /***/ (() => {
 
 
@@ -27108,10 +27108,10 @@ mw.emitter = {
 
 /***/ }),
 
-/***/ "../widgets/link-editor.js":
-/*!*********************************!*\
-  !*** ../widgets/link-editor.js ***!
-  \*********************************/
+/***/ "./userfiles/modules/microweber/api/widgets/link-editor.js":
+/*!*****************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/link-editor.js ***!
+  \*****************************************************************/
 /***/ (() => {
 
 
@@ -27323,10 +27323,10 @@ console.log( mw.top().settings, this, this.settings );
 
 /***/ }),
 
-/***/ "../widgets/tags.js":
-/*!**************************!*\
-  !*** ../widgets/tags.js ***!
-  \**************************/
+/***/ "./userfiles/modules/microweber/api/widgets/tags.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/tags.js ***!
+  \**********************************************************/
 /***/ (() => {
 
 
@@ -27599,10 +27599,10 @@ mw.treeTags = mw.treeChips = function(options){
 
 /***/ }),
 
-/***/ "../widgets/tree.js":
-/*!**************************!*\
-  !*** ../widgets/tree.js ***!
-  \**************************/
+/***/ "./userfiles/modules/microweber/api/widgets/tree.js":
+/*!**********************************************************!*\
+  !*** ./userfiles/modules/microweber/api/widgets/tree.js ***!
+  \**********************************************************/
 /***/ (() => {
 
 
@@ -28436,113 +28436,113 @@ mw.treeTags = mw.treeChips = function(options){
 /************************************************************************/
 /******/ 	// startup
 /******/ 	// Load entry module
-/******/ 	__webpack_modules__["../core/@core.js"]();
-/******/ 	__webpack_modules__["../core/ajax.js"]();
-/******/ 	__webpack_modules__["../core/common.js"]();
-/******/ 	__webpack_modules__["../core/components.js"]();
-/******/ 	__webpack_modules__["../core/custom_fields.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/@core.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/ajax.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/common.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/components.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/custom_fields.js"]();
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_modules__["../core/events.js"]();
-/******/ 	__webpack_modules__["../core/files.js"]();
-/******/ 	__webpack_modules__["../core/fonts.js"]();
-/******/ 	__webpack_modules__["../core/forms.js"]();
-/******/ 	__webpack_modules__["../core/i18n.js"]();
-/******/ 	__webpack_modules__["../core/libs.js"]();
-/******/ 	__webpack_modules__["../core/modules.js"]();
-/******/ 	__webpack_modules__["../core/mw-require.js"]();
-/******/ 	__webpack_modules__["../core/options.js"]();
-/******/ 	__webpack_modules__["../core/polyfills.js"]();
-/******/ 	__webpack_modules__["../core/response.js"]();
-/******/ 	__webpack_modules__["../core/session.js"]();
-/******/ 	__webpack_modules__["../core/shop.js"]();
-/******/ 	__webpack_modules__["../core/upgrades.js"]();
-/******/ 	__webpack_modules__["../core/uploader.js"]();
-/******/ 	__webpack_modules__["../core/url.js"]();
-/******/ 	__webpack_modules__["../gui-css-editor/domtree.js"]();
-/******/ 	__webpack_modules__["../gui-css-editor/stylesheet.editor.js"]();
-/******/ 	__webpack_modules__["../libs/rangy/rangy-core.js"]();
-/******/ 	__webpack_modules__["../libs/rangy/rangy-cssclassapplier.js"]();
-/******/ 	__webpack_modules__["../libs/rangy/rangy-selectionsaverestore.js"]();
-/******/ 	__webpack_modules__["../libs/rangy/rangy-serializer.js"]();
-/******/ 	__webpack_modules__["../liveedit/@drag.js"]();
-/******/ 	__webpack_modules__["../liveedit/@liveedit.js"]();
-/******/ 	__webpack_modules__["../liveedit/beforeleave.js"]();
-/******/ 	__webpack_modules__["../liveedit/cloneable.js"]();
-/******/ 	__webpack_modules__["../liveedit/columns.js"]();
-/******/ 	__webpack_modules__["../liveedit/data.js"]();
-/******/ 	__webpack_modules__["../liveedit/edit.fields.js"]();
-/******/ 	__webpack_modules__["../liveedit/editor_externals.js"]();
-/******/ 	__webpack_modules__["../liveedit/editors.js"]();
-/******/ 	__webpack_modules__["../liveedit/element_analyzer.js"]();
-/******/ 	__webpack_modules__["../liveedit/events.custom.js"]();
-/******/ 	__webpack_modules__["../liveedit/events.js"]();
-/******/ 	__webpack_modules__["../liveedit/external_callbacks.js"]();
-/******/ 	__webpack_modules__["../liveedit/handles.js"]();
-/******/ 	__webpack_modules__["../liveedit/initload.js"]();
-/******/ 	__webpack_modules__["../liveedit/initready.js"]();
-/******/ 	__webpack_modules__["../liveedit/inline.js"]();
-/******/ 	__webpack_modules__["../liveedit/layoutplus.js"]();
-/******/ 	__webpack_modules__["../liveedit/live_edit.js"]();
-/******/ 	__webpack_modules__["../liveedit/live.js"]();
-/******/ 	__webpack_modules__["../liveedit/liveedit_elements.js"]();
-/******/ 	__webpack_modules__["../liveedit/liveedit_widgets.js"]();
-/******/ 	__webpack_modules__["../liveedit/manage.content.js"]();
-/******/ 	__webpack_modules__["../liveedit/modules.toolbar.js"]();
-/******/ 	__webpack_modules__["../liveedit/padding.js"]();
-/******/ 	__webpack_modules__["../liveedit/plus.js"]();
-/******/ 	__webpack_modules__["../liveedit/selector.js"]();
-/******/ 	__webpack_modules__["../liveedit/source-edit.js"]();
-/******/ 	__webpack_modules__["../liveedit/tempcss.js"]();
-/******/ 	__webpack_modules__["../liveedit/toolbar.js"]();
-/******/ 	__webpack_modules__["../liveedit/widgets.js"]();
-/******/ 	__webpack_modules__["../liveedit/wysiwyg.js"]();
-/******/ 	__webpack_modules__["../liveedit/wysiwygmdab.js"]();
-/******/ 	__webpack_modules__["../system/color.js"]();
-/******/ 	__webpack_modules__["../system/css_parser.js"]();
-/******/ 	__webpack_modules__["../system/filepicker.js"]();
-/******/ 	__webpack_modules__["../system/icon_selector.js"]();
-/******/ 	__webpack_modules__["../system/module_settings.js"]();
-/******/ 	__webpack_modules__["../system/prop_editor.js"]();
-/******/ 	__webpack_modules__["../system/state.js"]();
-/******/ 	__webpack_modules__["../tools/@tools.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/common-extend.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/common.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/cookie.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/domhelpers.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/dropdown.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/element.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/external.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/extradata-form.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/helpers.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/images.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/jquery.tools.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/loading.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/loops.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/notification.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/objects.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/system-dialogs.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/tabs.js"]();
-/******/ 	__webpack_modules__["../tools/core-tools/tooltip.js"]();
-/******/ 	__webpack_modules__["../tools/system-tools/base64.js"]();
-/******/ 	__webpack_modules__["../tools/system-tools/image-tools.js"]();
-/******/ 	__webpack_modules__["../tools/system-tools/modules-dialogs.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/colorpicker.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/dialog.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/elementedit.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/gallery.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/iframe-tools.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/responsive.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/select.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/spinner.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/storage.js"]();
-/******/ 	__webpack_modules__["../tools/widgets/uiaccordion.js"]();
-/******/ 	__webpack_modules__["../widgets/autocomplete.js"]();
-/******/ 	__webpack_modules__["../widgets/block-edit.js"]();
-/******/ 	__webpack_modules__["../widgets/control_box.js"]();
-/******/ 	__webpack_modules__["../widgets/form-controls.js"]();
-/******/ 	__webpack_modules__["../widgets/link-editor.js"]();
-/******/ 	__webpack_modules__["../widgets/tags.js"]();
-/******/ 	__webpack_modules__["../widgets/tree.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/events.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/files.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/fonts.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/forms.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/i18n.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/libs.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/modules.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/mw-require.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/options.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/polyfills.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/response.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/session.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/shop.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/upgrades.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/uploader.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/url.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/gui-css-editor/domtree.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/gui-css-editor/stylesheet.editor.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/libs/rangy/rangy-core.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/libs/rangy/rangy-cssclassapplier.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/libs/rangy/rangy-selectionsaverestore.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/libs/rangy/rangy-serializer.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/@drag.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/@liveedit.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/beforeleave.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/cloneable.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/columns.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/data.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/edit.fields.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/editor_externals.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/editors.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/element_analyzer.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/events.custom.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/events.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/external_callbacks.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/handles.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/initload.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/initready.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/inline.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/layoutplus.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/live_edit.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/live.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/liveedit_elements.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/liveedit_widgets.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/manage.content.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/modules.toolbar.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/padding.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/plus.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/selector.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/source-edit.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/tempcss.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/toolbar.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/widgets.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/wysiwyg.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/wysiwygmdab.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/color.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/css_parser.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/filepicker.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/icon_selector.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/module_settings.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/prop_editor.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/state.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/@tools.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/common-extend.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/common.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/cookie.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/domhelpers.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/dropdown.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/element.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/external.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/extradata-form.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/helpers.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/images.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/jquery.tools.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/loading.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/loops.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/notification.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/objects.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/system-dialogs.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/tabs.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/core-tools/tooltip.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/system-tools/base64.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/system-tools/image-tools.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/system-tools/modules-dialogs.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/colorpicker.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/dialog.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/elementedit.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/gallery.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/iframe-tools.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/responsive.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/select.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/spinner.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/storage.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/tools/widgets/uiaccordion.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/autocomplete.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/block-edit.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/control_box.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/form-controls.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/link-editor.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/tags.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/tree.js"]();
 /******/ })()
 ;
 //# sourceMappingURL=liveedit.js.map
