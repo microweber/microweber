@@ -75,26 +75,26 @@ class NewFormEntryAutorespond extends Notification
             $mail->from($formEmailSendingSettings['emailFrom'], $formEmailSendingSettings['emailFromName']);
         }
 
-        if ($formEmailSendingSettings['emailCc']) {
+    /*    if ($formEmailSendingSettings['emailCc']) {
             $emailsCcList = $this->_explodeMailsFromString($formEmailSendingSettings['emailCc']);
             if (!empty($emailsCcList)) {
                 $mail->cc($emailsCcList);
             }
-        }
+        }*/
 
-        if ($formEmailSendingSettings['emailBcc']) {
+     /*   if ($formEmailSendingSettings['emailBcc']) {
             $emailsBccList = $this->_explodeMailsFromString($formEmailSendingSettings['emailBcc']);
             if (!empty($emailsBccList)) {
-                $mail->bcc($emailsBccList);
+                $mail->bcc($emailsBccList); 
             }
-        }
-
+        }*/
+/*
         if ($formEmailSendingSettings['emailReply']) {
             $emailsReplyList = $this->_explodeMailsFromString($formEmailSendingSettings['emailReply']);
             if (!empty($emailsReplyList)) {
                 $mail->replyTo($emailsReplyList);
             }
-        }
+        }*/
 
         if ($formEmailSendingSettings['emailAutorespondSubject']) {
             $mail->line($formEmailSendingSettings['emailAutorespondSubject']);
