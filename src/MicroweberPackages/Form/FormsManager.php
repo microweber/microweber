@@ -117,6 +117,98 @@ class FormsManager
         return array('success' => 'List is updated', $params);
     }
 
+    public function getEmailSendingSettingsForFormId($formId) {
+
+        $currentFormOptionGroup = $formId;
+        $systemEmailOptionGroup = 'email';
+        $contactFormGlobalOptionGroup = 'contact_form_default';
+
+        /**
+         * Sending options
+         */
+        if (Option::getValue('enable_custom_sender', $contactFormGlobalOptionGroup)) {
+            // We will get the global contact form options
+            $emailFrom = Option::getValue('email_from', $contactFormGlobalOptionGroup);
+            $emailFromName = Option::getValue('email_from_name', $contactFormGlobalOptionGroup);
+        } else {
+            // We will get the system email options
+            $emailFrom = Option::getValue('email_from', $systemEmailOptionGroup);
+            $emailFromName = Option::getValue('email_from_name', $systemEmailOptionGroup);
+        }
+
+        // Top priority is the current form options
+        if (Option::getValue('enable_custom_sender', $currentFormOptionGroup)) {
+            $emailFrom = Option::getValue('email_from', $currentFormOptionGroup);
+            $emailFromName = Option::getValue('email_from_name', $currentFormOptionGroup);
+        }
+
+
+        /**
+         * Receivers options
+         */
+        if (Option::getValue('enable_custom_receivers', $currentFormOptionGroup)) {
+            // We will get the current form options
+            $emailFrom = Option::getValue('email_from', $currentFormOptionGroup);
+            $emailFromName = Option::getValue('email_from_name', $currentFormOptionGroup);
+        } else {
+            // Read from global contact form receivers
+        }
+
+        var_dump($emailFrom, $emailFromName);
+        die();
+        $emailBcc = Option::getValue('email_bcc', $formId);
+        if (!$emailBcc) {
+            $emailBcc = Option::getValue('email_bcc', 'contact_form_default');
+        }
+        if (!$emailBcc) {
+            $emailBcc = Option::getValue('email_bcc', 'email');
+        }
+
+        $emailReply = Option::getValue('email_reply', $formId);
+        if (!$emailReply) {
+            $emailReply = Option::getValue('email_reply', 'contact_form_default');
+        }
+        if (!$emailReply) {
+            $emailReply = Option::getValue('email_reply', 'email');
+        }
+
+        $emailAutorespond = Option::getValue('email_autorespond', $formId);
+        if (!$emailAutorespond) {
+            $emailAutorespond = Option::getValue('email_autorespond', 'contact_form_default');
+        }
+        if (!$emailAutorespond) {
+            $emailAutorespond = Option::getValue('email_autorespond', 'email');
+        }
+
+        if (!$emailAutorespond) {
+            $emailAutorespond = _e('Thank you for your subscription!', true);
+        }
+
+        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $formId);
+        if (!$emailAutorespondSubject) {
+            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'contact_form_default');
+        }
+        if (!$emailAutorespondSubject) {
+            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
+        }
+        if (!$emailAutorespondSubject) {
+            $emailAutorespondSubject = _e('Thank you for your message.', true);
+        }
+
+        $appendFiles = Option::getValue('append_files', $formId);
+        if (!$appendFiles) {
+            $appendFiles = Option::getValue('append_files', 'email');
+        }
+
+        return [
+            'emailBcc'=>$emailBcc,
+            'emailReply'=>$emailReply,
+            'emailAutorespond'=>$emailAutorespond,
+            'emailAutorespondSubject'=>$emailAutorespondSubject,
+            'appendFiles'=>$appendFiles,
+        ];
+    }
+
     public function post($params)
     {
         if (isset($params['for_id']) && !empty($params['for_id'])) {
@@ -590,6 +682,7 @@ class FormsManager
                 }
 
                 if (!empty($userEmails)) {
+
                     $enableAutoRespond = Option::getValue('enable_auto_respond', $for_id);
 
                     if ($enableAutoRespond && is_array($userEmails)) {
@@ -601,6 +694,7 @@ class FormsManager
                                 $findFormRecipient->email = $userEmail;
                                 $findFormRecipient->save();
                             }
+
                             $findFormRecipient->notifyNow(new NewFormEntryAutorespond($formModel));
                         }
                     }

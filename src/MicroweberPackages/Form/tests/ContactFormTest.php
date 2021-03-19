@@ -43,6 +43,12 @@ class ContactFormTest extends TestCase
 
         save_option(array(
             'option_group' => $optionGroup,
+            'option_key' => 'enable_custom_sender',
+            'option_value' => '1'
+        ));
+
+        save_option(array(
+            'option_group' => $optionGroup,
             'option_key' => 'email_from',
             'option_value' => 'EmailFrom@UnitTest.com'
         ));
