@@ -173,7 +173,7 @@ class FormsManager
 
         return [
             'emailFrom'=>$emailFrom,
-            'emailFromName'=>$emailFromName,
+            'emailFromName'=>$emailFromName, 
             'emailTo'=>$emailTo,
             'emailReply'=>$emailReply,
             'emailCc'=>$emailCc,

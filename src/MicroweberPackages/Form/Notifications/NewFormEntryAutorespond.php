@@ -71,6 +71,9 @@ class NewFormEntryAutorespond extends Notification
             }
         }
 
+        if ($formEmailSendingSettings['emailFrom']) {
+            $mail->from($formEmailSendingSettings['emailFrom'], $formEmailSendingSettings['emailFromName']);
+        }
 
         if ($formEmailSendingSettings['emailCc']) {
             $emailsCcList = $this->_explodeMailsFromString($formEmailSendingSettings['emailCc']);
