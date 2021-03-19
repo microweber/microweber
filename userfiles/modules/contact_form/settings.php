@@ -77,28 +77,17 @@ if (isset($params['for_module_id'])) {
             </div>
         </div>
 
-        <hr class="thin"/>
+        <hr class="thin" />
 
         <h5 class="font-weight-bold"><?php _e("Global Receivers") ?></h5>
         <b><?php _e("Send contact forms data to global receivers when is submited"); ?></b>
 
         <div class="form-group mt-3">
-            <label class="control-label"><?php _e("To e-mail address"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
+            <label class="control-label"><?php _e("To e-mail addresses"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers seperated with coma."); ?></small>
             <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
 
-        <div class="form-group">
-            <label class="control-label"><?php _e("Reply to e-mail"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("Send a copy of the email to one more email address"); ?></small>
-            <input name="email_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label"><?php _e("Carbon copy e-mails"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("This will send carbon copy of messages to the current e-mail addresses. The e-mail addresses must be seperated with a comma."); ?></small>
-            <input name="email_bcc" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_cc', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-        </div>
     </div>
 
     <hr class="thin"/>
