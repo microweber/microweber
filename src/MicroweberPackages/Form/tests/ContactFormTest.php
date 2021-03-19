@@ -28,7 +28,7 @@ class ContactFormTest extends TestCase
 
     }
 
-    public function testFormSubmitWithConfirm()
+    public function testCustomContactFormSubmit()
     {
 
         $optionGroup = md5(time().'mw'.rand(1111,9999));
@@ -61,6 +61,11 @@ class ContactFormTest extends TestCase
 
         save_option(array(
             'option_group' => $optionGroup,
+            'option_key' => 'enable_custom_receivers',
+            'option_value' => '1'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
             'option_key' => 'email_to',
             'option_value' => 'EmailTo@UnitTest.com'
         ));
@@ -73,7 +78,12 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_reply',
-            'option_value' => 'EmailReply1@UnitTest.com,EmailReply2@UnitTest.com,EmailReply3@UnitTest.com'
+            'option_value' => 'EmailReply1@UnitTest.com'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_ccc',
+            'option_value' => 'CC1@UnitTest.com, CC2@UnitTest.com, CC3@UnitTest.com'
         ));
         save_option(array(
             'option_group' => $optionGroup,
@@ -126,6 +136,7 @@ class ContactFormTest extends TestCase
             $to = key($email->getTo());
             $from = key($email->getFrom());
             $bcc = $email->getBcc();
+            $cc = $email->getCc();
             $replyTo = $email->getReplyTo();
 
             if (!empty($bcc)) {
@@ -133,6 +144,7 @@ class ContactFormTest extends TestCase
                     $bccMails[] = $emailBcc;
                 }
             }
+
             if (!empty($replyTo)) {
                 foreach ($replyTo as $replyTo=>$replyToName) {
                     $replyToMails[] = $replyTo;
