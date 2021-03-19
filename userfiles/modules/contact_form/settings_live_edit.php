@@ -122,11 +122,11 @@ if (isset($params['for_module_id'])) {
                 </div>
 
                 <div class="form-group mb-4">
-                    <?php  $enableAutorespondCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('enable_autorespond_custom_sender', $mod_id); ?>
+                    <?php  $emailAutorespondCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('email_autorespond_custom_sender', $mod_id); ?>
                     <div class="custom-control custom-switch pl-0">
-                        <label class="d-inline-block mr-5" for="enable_autorespond_custom_sender">No</label>
-                        <input type="checkbox" onchange="toggleAutorespondCustomSender(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="enable_autorespond_custom_sender" option-group="<?php print $mod_id ?>" id="enable_autorespond_custom_sender" value="y" <?php if ($enableAutorespondCustomSender): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="enable_autorespond_custom_sender">Yes</label>
+                        <label class="d-inline-block mr-5" for="email_autorespond_custom_sender">No</label>
+                        <input type="checkbox" onchange="toggleAutorespondCustomSender(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="email_autorespond_custom_sender" option-group="<?php print $mod_id ?>" id="email_autorespond_custom_sender" value="y" <?php if ($emailAutorespondCustomSender): ?>checked<?php endif; ?>>
+                        <label class="custom-control-label" for="email_autorespond_custom_sender">Yes</label>
                     </div>
                 </div>
 
@@ -142,7 +142,7 @@ if (isset($params['for_module_id'])) {
                     };
                 </script>
 
-                <div class="js-autorespond-custom-sender" <?php if (!$enableAutorespondCustomSender): ?> style="display:none"<?php endif; ?>>
+                <div class="js-autorespond-custom-sender" <?php if (!$emailAutorespondCustomSender): ?> style="display:none"<?php endif; ?>>
                     <div class="form-group">
                         <label class="control-label"><?php _e("Auto respond from e-mail address"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("The e-mail address which will send the message"); ?></small>

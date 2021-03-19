@@ -642,14 +642,14 @@ class FormsManager
         /**
          * Auto Respond custom sender
          */
-        if (Option::getValue('enable_autorespond_custom_sender', $formId)) {
+        if (Option::getValue('email_autorespond_custom_sender', $formId)) {
             $emailFrom = Option::getValue('email_autorespond_from', $formId);
             $emailFromName = Option::getValue('email_autorespond_from_name', $formId);
         } else {
             /**
              * Sending options if we dont have a custom auto respond sender
              */
-            if (Option::getValue('enable_custom_sender', $contactFormGlobalOptionGroup)) {
+            if (Option::getValue('email_custom_sender', $contactFormGlobalOptionGroup)) {
                 // We will get the global contact form options
                 $emailFrom = Option::getValue('email_from', $contactFormGlobalOptionGroup);
                 $emailFromName = Option::getValue('email_from_name', $contactFormGlobalOptionGroup);
