@@ -50,54 +50,11 @@ class NewFormEntryAutorespond extends Notification
     public function toMail($notifiable)
     {
         $formId = $this->formEntry->rel_id;
+        $formEmailSendingSettings = mw()->forms_manager->getEmailSendingSettingsForFormId($formId);
+
+        dd($formEmailSendingSettings);
 
         $mail = new MailMessage();
-
-        $emailBcc = Option::getValue('email_bcc', $formId);
-        if (!$emailBcc) {
-            $emailBcc = Option::getValue('email_bcc', 'contact_form_default');
-        }
-        if (!$emailBcc) {
-            $emailBcc = Option::getValue('email_bcc', 'email');
-        }
-
-        $emailReply = Option::getValue('email_reply', $formId);
-        if (!$emailReply) {
-            $emailReply = Option::getValue('email_reply', 'contact_form_default');
-        }
-        if (!$emailReply) {
-            $emailReply = Option::getValue('email_reply', 'email');
-        }
-
-        $emailAutorespond = Option::getValue('email_autorespond', $formId);
-        if (!$emailAutorespond) {
-            $emailAutorespond = Option::getValue('email_autorespond', 'contact_form_default');
-        }
-        if (!$emailAutorespond) {
-            $emailAutorespond = Option::getValue('email_autorespond', 'email');
-        }
-
-        if (!$emailAutorespond) {
-            $emailAutorespond = _e('Thank you for your subscription!', true);
-        }
-
-        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $formId);
-        if (!$emailAutorespondSubject) {
-            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'contact_form_default');
-        }
-        if (!$emailAutorespondSubject) {
-            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
-        }
-        if (!$emailAutorespondSubject) {
-            $emailAutorespondSubject = _e('Thank you for your message.', true);
-        }
-
-        $appendFiles = Option::getValue('append_files', $formId);
-
-        if (!$appendFiles) {
-            $appendFiles = Option::getValue('append_files', 'email');
-        }
-
 
         if ($appendFiles) {
             $appendFilesAll = explode(',', $appendFiles);

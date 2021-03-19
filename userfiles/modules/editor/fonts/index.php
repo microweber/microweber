@@ -3,6 +3,17 @@ if(isset($params['module_settings'])){
 return include(__DIR__.DS.'admin.php');
 }
 ?>
+<?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+
+
+$enabled_custom_fonts_array = array();
+
+if (is_string($enabled_custom_fonts) and $enabled_custom_fonts) {
+    $enabled_custom_fonts_array = explode(',', $enabled_custom_fonts);
+}
+
+?>
+
 <script>
 
     $( document ).ready(function() {
@@ -22,7 +33,14 @@ return include(__DIR__.DS.'admin.php');
       <li value="Verdana"><a href="#" style="font-family:Verdana">Verdana</a></li>
       <li value="Georgia"><a href="#" style="font-family:Georgia">Georgia</a></li>
       <li value="Times New Roman"><a href="#" style="font-family: 'Times New Roman'">Times New Roman</a></li>
+
+        <?php foreach ($enabled_custom_fonts_array as $font): ?>
+            <li value="<?php print $font; ?>'"><a href="#" style="font-family:'<?php print $font; ?>'"><?php print $font; ?></a></li>
+        <?php endforeach; ?>
+
+
+
     </ul>
-    <a href="javascript:;" onClick="mw.drag.module_settings('#<?php print $params['id'] ?>','admin');" style="background-color: #f5f5f5; text-align: center; padding-top: 2px; padding-bottom: 5px;"><small style="text-transform: lowercase; color: black;"><?php _e('more'); ?></small></a>
+    <a href="javascript:;" onClick="mw.top().drag.module_settings('#<?php print $params['id'] ?>','admin');" style="background-color: #f5f5f5; text-align: center; padding-top: 2px; padding-bottom: 5px;"><small style="text-transform: lowercase; color: black;"><?php _e('more'); ?></small></a>
   </div>
 </div>

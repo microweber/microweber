@@ -117,6 +117,98 @@ class FormsManager
         return array('success' => 'List is updated', $params);
     }
 
+    public function getEmailSendingSettingsForFormId($formId) {
+
+        $currentFormOptionGroup = $formId;
+        $systemEmailOptionGroup = 'email';
+        $contactFormGlobalOptionGroup = 'contact_form_default';
+
+        /**
+         * Sending options
+         */
+        if (Option::getValue('enable_custom_sender', $contactFormGlobalOptionGroup)) {
+            // We will get the global contact form options
+            $emailFrom = Option::getValue('email_from', $contactFormGlobalOptionGroup);
+            $emailFromName = Option::getValue('email_from_name', $contactFormGlobalOptionGroup);
+        } else {
+            // We will get the system email options
+            $emailFrom = Option::getValue('email_from', $systemEmailOptionGroup);
+            $emailFromName = Option::getValue('email_from_name', $systemEmailOptionGroup);
+        }
+
+        // Top priority is the current form options
+        if (Option::getValue('enable_custom_sender', $currentFormOptionGroup)) {
+            $emailFrom = Option::getValue('email_from', $currentFormOptionGroup);
+            $emailFromName = Option::getValue('email_from_name', $currentFormOptionGroup);
+        }
+
+
+        /**
+         * Receivers options
+         */
+        if (Option::getValue('enable_custom_receivers', $currentFormOptionGroup)) {
+            // We will get the current form options
+            $emailFrom = Option::getValue('email_from', $currentFormOptionGroup);
+            $emailFromName = Option::getValue('email_from_name', $currentFormOptionGroup);
+        } else {
+            // Read from global contact form receivers
+        }
+
+        var_dump($emailFrom, $emailFromName);
+        die();
+        $emailBcc = Option::getValue('email_bcc', $formId);
+        if (!$emailBcc) {
+            $emailBcc = Option::getValue('email_bcc', 'contact_form_default');
+        }
+        if (!$emailBcc) {
+            $emailBcc = Option::getValue('email_bcc', 'email');
+        }
+
+        $emailReply = Option::getValue('email_reply', $formId);
+        if (!$emailReply) {
+            $emailReply = Option::getValue('email_reply', 'contact_form_default');
+        }
+        if (!$emailReply) {
+            $emailReply = Option::getValue('email_reply', 'email');
+        }
+
+        $emailAutorespond = Option::getValue('email_autorespond', $formId);
+        if (!$emailAutorespond) {
+            $emailAutorespond = Option::getValue('email_autorespond', 'contact_form_default');
+        }
+        if (!$emailAutorespond) {
+            $emailAutorespond = Option::getValue('email_autorespond', 'email');
+        }
+
+        if (!$emailAutorespond) {
+            $emailAutorespond = _e('Thank you for your subscription!', true);
+        }
+
+        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $formId);
+        if (!$emailAutorespondSubject) {
+            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'contact_form_default');
+        }
+        if (!$emailAutorespondSubject) {
+            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
+        }
+        if (!$emailAutorespondSubject) {
+            $emailAutorespondSubject = _e('Thank you for your message.', true);
+        }
+
+        $appendFiles = Option::getValue('append_files', $formId);
+        if (!$appendFiles) {
+            $appendFiles = Option::getValue('append_files', 'email');
+        }
+
+        return [
+            'emailBcc'=>$emailBcc,
+            'emailReply'=>$emailReply,
+            'emailAutorespond'=>$emailAutorespond,
+            'emailAutorespondSubject'=>$emailAutorespondSubject,
+            'appendFiles'=>$appendFiles,
+        ];
+    }
+
     public function post($params)
     {
         if (isset($params['for_id']) && !empty($params['for_id'])) {
@@ -178,23 +270,9 @@ class FormsManager
             $dis_cap = $this->app->option_manager->get('disable_captcha', $default_mod_id) == 'y';
         }
 
-        $email_from = $this->app->option_manager->get('email_from', $for_id);
-        if (!$email_from) {
-            $email_from = $this->app->option_manager->get('email_from', $default_mod_id);
-        }
-
         $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $for_id) == 'y';
         if (!$newsletter_subscription) {
             $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $default_mod_id) == 'y';
-        }
-
-
-        $email_to = $this->app->option_manager->get('email_to', $for_id);
-        if (!$email_to) {
-            $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
-        }
-        if (!$email_to) {
-            $email_to = $this->app->option_manager->get('email_from', 'email');
         }
 
         $email_redirect_after_submit = $this->app->option_manager->get('email_redirect_after_submit', $for_id);
@@ -359,7 +437,7 @@ class FormsManager
 
         $more = $this->app->fields_manager->get($get_fields);
 
-        $cf_to_save = array();
+        $cfToSave = array();
         if (!empty($more)) {
             foreach ($more as $item) {
                 if (isset($item['name'])) {
@@ -370,16 +448,16 @@ class FormsManager
                     if (isset($params[$cfn2]) and $params[$cfn2] != false) {
                         $fields_data[$cfn2] = $params[$cfn2];
                         $item['value'] = $params[$cfn2];
-                        $cf_to_save[$cfn] = $item;
+                        $cfToSave[$cfn] = $item;
                     } elseif (isset($params[$cfn]) and $params[$cfn] != false) {
                         $fields_data[$cfn] = $params[$cfn];
                         $item['value'] = $params[$cfn2];
-                        $cf_to_save[$cfn] = $item;
+                        $cfToSave[$cfn] = $item;
                     }
                 }
             }
         } else {
-            $cf_to_save = $params;
+            $cfToSave = $params;
         }
         $save = 1;
 
@@ -537,16 +615,19 @@ class FormsManager
             $event_params = $params;
             $event_params['saved_form_entry_id'] = $save;
 
-            $form_model = Form::find($save);
-            Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($form_model));
+            $formModel = Form::find($save);
+
+            // Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
 
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
         }
 
         if (isset($params['module_name'])) {
+
             $pp_arr = $params;
             $pp_arr['ip'] = MW_USER_IP;
+
             unset($pp_arr['module_name']);
             if (isset($pp_arr['rel_type'])) {
                 unset($pp_arr['rel_type']);
@@ -575,69 +656,46 @@ class FormsManager
                 $pp_arr['message'] = $temp; // push to end of array
             }
 
-            $user_mails = array();
+            $userEmails = array();
 
             if (isset($save) and $save) {
 
                 if (is_array($params) and !empty($params)) {
                     foreach ($params as $param) {
                         if (is_string($param) and (filter_var($param, FILTER_VALIDATE_EMAIL))) {
-                            $user_mails[$param] = $param;
+                            $userEmails[$param] = $param;
                         }
                     }
                 }
 
-                if ($email_to != false) {
-
-                    $user_mails[$email_to] = $email_to;
-
-                    // $email_from = false;
-                    if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
-                        foreach ($cf_to_save as $value) {
-                            if (is_array($value) and isset($value['value'])) {
-                                $to = $value['value'];
-                            } else {
-                                $to = $value;
-                            }
-
-                            if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                                $user_mails[$to] = $to;
-                                $email_from = $to;
-                            }
+                if (isset($cfToSave) and !empty($cfToSave)) {
+                    foreach ($cfToSave as $value) {
+                        if (is_array($value) and isset($value['value'])) {
+                            $mailsFromForm = $value['value'];
+                        } else {
+                            $mailsFromForm = $value;
+                        }
+                        if (filter_var($mailsFromForm, FILTER_VALIDATE_EMAIL)) {
+                            $userEmails[$mailsFromForm] = $mailsFromForm;
                         }
                     }
+                }
 
-                    if (empty($user_mails)) {
-                        $email_from = $this->app->option_manager->get('email_from', 'email');
-                        $user_mails[$email_from] = $email_from;
-                    }
+                if (!empty($userEmails)) {
 
-                    if (!empty($user_mails)) {
+                    $enableAutoRespond = Option::getValue('enable_auto_respond', $for_id);
 
-                        $append_files = $this->app->option_manager->get('append_files', $for_id);
-                        if (!$append_files) {
-                            $append_files = $this->app->option_manager->get('append_files', $default_mod_id);
-                        }
+                    if ($enableAutoRespond && is_array($userEmails)) {
+                        foreach ($userEmails as $userEmail) {
 
-                        $append_files_ready = array();
-                        if (!empty($append_files)) {
-                            $append_files_ready = explode(",", $append_files);
-                        }
-
-                        $enableAutoRespond = Option::getValue('enable_auto_respond', $for_id);
-
-                        if ($enableAutoRespond && is_array($user_mails)) {
-                            foreach ($user_mails as $user_mail) {
-
-                                $findFormRecipient = FormRecipient::where('email', $user_mail)->first();
-                                if ($findFormRecipient == null) {
-                                    $findFormRecipient = new FormRecipient();
-                                    $findFormRecipient->email = $user_mail;
-                                    $findFormRecipient->save();
-                                }
-
-                                $findFormRecipient->notifyNow(new NewFormEntryAutorespond($form_model));
+                            $findFormRecipient = FormRecipient::where('email', $userEmail)->first();
+                            if ($findFormRecipient == null) {
+                                $findFormRecipient = new FormRecipient();
+                                $findFormRecipient->email = $userEmail;
+                                $findFormRecipient->save();
                             }
+
+                            $findFormRecipient->notifyNow(new NewFormEntryAutorespond($formModel));
                         }
                     }
                 }

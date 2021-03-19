@@ -41,7 +41,6 @@ $text = $logo_options['text'];
 $font_family = $logo_options['font_family'];
 $font_size = $logo_options['font_size'];
 
-
 $default = '';
 if (isset($params['data-defaultlogo'])) {
     $default = $params['data-defaultlogo'];
