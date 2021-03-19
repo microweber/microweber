@@ -88,11 +88,11 @@ if (isset($params['for_module_id'])) {
         </div>
 
         <div class="form-group mb-4">
-            <?php  $enableAutoRespond = \MicroweberPackages\Option\Facades\Option::getValue('enable_auto_respond', $mod_id); ?>
+            <?php $emailAutorespondEnable = \MicroweberPackages\Option\Facades\Option::getValue('email_autorespond_enable', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
-                <label class="d-inline-block mr-5" for="enable_auto_respond">No</label>
-                <input type="checkbox" onchange="toggleAutoRespondFields(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_auto_respond" option-group="<?php print $mod_id ?>" id="enable_auto_respond" value="y" <?php if ($enableAutoRespond): ?>checked<?php endif; ?>>
-                <label class="custom-control-label" for="enable_auto_respond">Yes</label>
+                <label class="d-inline-block mr-5" for="email_autorespond_enable">No</label>
+                <input type="checkbox" onchange="toggleAutoRespondFields(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="email_autorespond_enable" option-group="<?php print $mod_id ?>" id="email_autorespond_enable" value="y" <?php if ($emailAutorespondEnable): ?>checked<?php endif; ?>>
+                <label class="custom-control-label" for="email_autorespond_enable">Yes</label>
             </div>
         </div>
 
@@ -108,7 +108,7 @@ if (isset($params['for_module_id'])) {
             };
         </script>
 
-        <div class="js-auto-respond-fields" <?php if (!$enableAutoRespond): ?> style="display:none"<?php endif; ?>>
+        <div class="js-auto-respond-fields" <?php if (!$emailAutorespondEnable): ?> style="display:none"<?php endif; ?>>
 
             <div class="alert alert-primary">
                 <div class="form-group mb-3">

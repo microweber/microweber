@@ -12,7 +12,7 @@ use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
 
 
-class NewFormEntryAutorespond extends Notification
+class NewFormEntryAutoRespond extends Notification
 {
     use Queueable;
     use InteractsWithQueue, SerializesModels;
@@ -51,29 +51,30 @@ class NewFormEntryAutorespond extends Notification
     {
         $formId = $this->formEntry->rel_id;
 
-        $formEmailSendingSettings = mw()->forms_manager->getEmailSendingSettingsForFormId($formId);
+        $autoRespondSettings = mw()->forms_manager->getAutoRespondSettings($formId);
 
         $mail = new MailMessage();
 
-        if ($formEmailSendingSettings['emailAutorespondAppendFiles']) {
+        if ($autoRespondSettings['emailAutoRespondAppendFiles']) {
 
-            $appendFilesAll = explode(',', $formEmailSendingSettings['emailAutorespondAppendFiles']);
+            $appendFilesAll = explode(',', $autoRespondSettings['emailAutoRespondAppendFiles']);
 
             if ($appendFilesAll) {
                 foreach ($appendFilesAll as $appendFile) {
-                    $appendFile_path = url2dir($appendFile);
-
-                    $file_extension = \Illuminate\Support\Facades\File::extension($appendFile_path);
-                    $mail->attach($appendFile_path, [
-                        'as' => basename($appendFile_path),
-                        'mime' => $file_extension,
+                    $appendFilePath = url2dir($appendFile);
+                    $fileExtension = \Illuminate\Support\Facades\File::extension($appendFilePath);
+                    $mail->attach($appendFilePath, [
+                        'as' => basename($appendFilePath),
+                        'mime' => $fileExtension,
                     ]);
                 }
             }
         }
 
-        if ($formEmailSendingSettings['emailFrom']) {
-            $mail->from($formEmailSendingSettings['emailFrom'], $formEmailSendingSettings['emailFromName']);
+        if ($autoRespondSettings['emailAutoRespondEnable']) {
+            if ($autoRespondSettings['emailAutoRespondFrom']) {
+                $mail->from($autoRespondSettings['emailAutoRespondFrom'], $autoRespondSettings['emailAutoRespondFromName']);
+            }
         }
 
     /*    if ($formEmailSendingSettings['emailCc']) {
@@ -97,20 +98,20 @@ class NewFormEntryAutorespond extends Notification
             }
         }*/
 
-        if ($formEmailSendingSettings['emailAutorespondReply']) {
-            $emailsReplyList = $this->_explodeMailsFromString($formEmailSendingSettings['emailAutorespondReply']);
+        if ($autoRespondSettings['emailAutoRespondReply']) {
+            $emailsReplyList = $this->_explodeMailsFromString($autoRespondSettings['emailAutoRespondReply']);
             if (!empty($emailsReplyList)) {
                 $mail->replyTo($emailsReplyList);
             }
         }
 
-        if ($formEmailSendingSettings['emailAutorespondSubject']) {
-            $mail->line($formEmailSendingSettings['emailAutorespondSubject']);
-            $mail->subject($formEmailSendingSettings['emailAutorespondSubject']);
+        if ($autoRespondSettings['emailAutoRespondSubject']) {
+            $mail->line($autoRespondSettings['emailAutoRespondSubject']);
+            $mail->subject($autoRespondSettings['emailAutoRespondSubject']);
         }
 
         $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
-        $parsedEmail = $twig->render($formEmailSendingSettings['emailAutorespond'], [
+        $parsedEmail = $twig->render($autoRespondSettings['emailAutoRespond'], [
                 'url' => url('/'),
                 'created_at' => date('Y-m-d H:i:s')
             ]
