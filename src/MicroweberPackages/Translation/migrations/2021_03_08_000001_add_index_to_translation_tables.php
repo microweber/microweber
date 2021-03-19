@@ -27,14 +27,14 @@ if (!class_exists('AddIndexToTranslationTables', false)) {
 
             }
 
-            // Add unique
-            try {
-                Schema::table('translation_texts', function (Blueprint $table) {
-                    $table->unique(['translation_key_id', 'translation_locale'])->change();
-                });
-            } catch (Exception $e) {
-
-            }
+//            // Add unique
+//            try {
+//                Schema::table('translation_texts', function (Blueprint $table) {
+//                    $table->unique(['translation_key_id'])->change();
+//                });
+//            } catch (Exception $e) {
+//
+//            }
 
             // Add new indexes
             try {
@@ -48,14 +48,14 @@ if (!class_exists('AddIndexToTranslationTables', false)) {
             }
 
 
-            // Drop old uniques
-            try {
-                Schema::table('translation_keys', function (Blueprint $table) {
-                    $table->dropUnique('translation_keys_translation_key_unique');
-                });
-            } catch (Exception $e) {
-
-            }
+//            // Drop old uniques
+//            try {
+//                Schema::table('translation_keys', function (Blueprint $table) {
+//                    $table->dropUnique('translation_keys_translation_key_unique');
+//                });
+//            } catch (Exception $e) {
+//
+//            }
 
             /* // Add new unique
              try {
