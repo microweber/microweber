@@ -149,6 +149,8 @@ mw.filePicker = function (options) {
                         fr.style.maxHeight = '60vh';
                         fr.scrolling = 'yes';
                     }
+                    fr.scrolling = 'auto';
+
                     $wrap.append(fr);
                     fr.onload = function () {
                         mw.tools.loading(el, false);

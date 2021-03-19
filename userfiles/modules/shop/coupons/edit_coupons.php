@@ -4,11 +4,11 @@
         <thead>
         <tr>
             <th>#</th>
-            <th><?php print _e('Coupon'); ?></th>
-            <th><?php print _e('Code'); ?></th>
-            <th><?php print _e('Discount'); ?></th>
-            <th><?php print _e('Total'); ?></th>
-            <th  class="text-center"><?php print _e('Actions'); ?></th>
+            <th><?php _e('Coupon'); ?></th>
+            <th><?php _e('Code'); ?></th>
+            <th><?php _e('Discount'); ?></th>
+            <th><?php _e('Total'); ?></th>
+            <th  class="text-center"><?php _e('Actions'); ?></th>
         </tr>
         </thead>
         <?php
@@ -33,9 +33,9 @@
                     </td>
                     <td><?php print($coupon['total_amount']) ?></td>
                     <td class="text-center">
-                        <button onclick="editCoupon(<?php print($coupon['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit"><?php print _e('Edit'); ?></button>
+                        <button onclick="editCoupon(<?php print($coupon['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit"><?php _e('Edit'); ?></button>
                         &nbsp;
-                        <button onclick="deleteCoupon(<?php print($coupon['id']) ?>)" class="btn btn-outline-danger btn-sm" title="Delete"><?php print _e('Delete'); ?></button>
+                        <button onclick="deleteCoupon(<?php print($coupon['id']) ?>)" class="btn btn-outline-danger btn-sm" title="Delete"><?php _e('Delete'); ?></button>
                     </td>
                 </tr>
             <?php endforeach; ?>

@@ -143,7 +143,7 @@ class OrderManager
 
         $orderModel = Order::find($ord);
 
-        event($event = new OrderWasCreated($orderModel, $place_order));
+
 
 
         //get client
@@ -190,7 +190,7 @@ class OrderManager
                 $this->app->checkout_manager->after_checkout($ord);
             }
         });
-
+        event($event = new OrderWasCreated($orderModel, $place_order));
         mw()->user_manager->session_set('order_id', $ord);
 
         return $ord;

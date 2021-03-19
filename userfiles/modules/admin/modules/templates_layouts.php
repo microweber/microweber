@@ -185,8 +185,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <?php $default_item_names = array(); ?>
 
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#change-layout"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Change Layout'); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#change-layout"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Change Layout'); ?></a>
             </nav>
 
             <div class="tab-content py-3">
@@ -260,7 +260,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <!-- Current template - Start -->
                                 <div class="row">
                                     <div class="col-12 current-template">
-                                        <label class="control-label" title="<?php print $current_template['layout_file']; ?>"><?php print _e('Current layout'); ?></label>
+                                        <label class="control-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
                                         <div class="screenshot">
                                             <div class="holder">
                                                 <img src="<?php echo thumbnail($current_template['screenshot'], 300); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>

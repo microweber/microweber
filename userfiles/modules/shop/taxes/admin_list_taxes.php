@@ -35,9 +35,9 @@ $defined_taxes = mw()->tax_manager->get();
                     <td><?php print $item['type']; ?></td>
 
                     <td class="text-center" style="padding-left: 0; padding-right: 0;">
-                        <button onclick="mw_admin_edit_tax_item_popup('<?php print $item['id']; ?>')" class="btn btn-outline-primary btn-sm" title="Edit"><?php print _e('Edit'); ?></button>
+                        <button onclick="mw_admin_edit_tax_item_popup('<?php print $item['id']; ?>')" class="btn btn-outline-primary btn-sm" title="Edit"><?php _e('Edit'); ?></button>
                         &nbsp;
-                        <button onclick="mw_admin_delete_tax_item_confirm('<?php print $item['id']; ?>')" class="btn btn-outline-danger btn-sm" title="Delete"><?php print _e('Delete'); ?></button>
+                        <button onclick="mw_admin_delete_tax_item_confirm('<?php print $item['id']; ?>')" class="btn btn-outline-danger btn-sm" title="Delete"><?php _e('Delete'); ?></button>
                     </td>
                 </tr>
             <?php endforeach; ?>

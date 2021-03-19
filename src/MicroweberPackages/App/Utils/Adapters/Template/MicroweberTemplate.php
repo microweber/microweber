@@ -528,7 +528,7 @@ class MicroweberTemplate
                 $render_file = $render_file_test2;
             }
         }
- 
+
 
         if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
             if (isset($page['content_type']) and $page['content_type'] == 'page') {
