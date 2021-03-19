@@ -77,7 +77,7 @@ if (isset($params['for_module_id'])) {
         <h5 class="font-weight-bold"><?php _e("Receivers") ?></h5>
 
         <div class="form-group mb-3">
-            <label class="control-label"><?php _e("Send data from contact form to custom receivers"); ?></label>
+            <label class="control-label"><?php _e("Send contact form data to custom receivers when is submited"); ?></label>
             <small class="text-muted d-block mb-2">
                 <?php _e('Use custom receivers settings for the current contact form.'); ?>
                 <br />

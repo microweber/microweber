@@ -80,8 +80,9 @@ if (isset($params['for_module_id'])) {
         <hr class="thin"/>
 
         <h5 class="font-weight-bold"><?php _e("Global Receivers") ?></h5>
+        <b><?php _e("Send contact forms data to global receivers when is submited"); ?></b>
 
-        <div class="form-group">
+        <div class="form-group mt-3">
             <label class="control-label"><?php _e("To e-mail address"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
             <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
