@@ -142,7 +142,6 @@ class FormsManager
             $emailFromName = Option::getValue('email_from_name', $currentFormOptionGroup);
         }
 
-
         /**
          * Receivers options
          */
@@ -659,9 +658,9 @@ class FormsManager
 
                 if (!empty($userEmails)) {
 
-                    $enableAutoRespond = Option::getValue('enable_auto_respond', $for_id);
+                    $formEmailSendingSettings = mw()->forms_manager->getEmailSendingSettingsForFormId($for_id);
 
-                    if ($enableAutoRespond && is_array($userEmails)) {
+                    if ($formEmailSendingSettings['emailAutorespond'] && is_array($userEmails)) {
                         foreach ($userEmails as $userEmail) {
 
                             $findFormRecipient = FormRecipient::where('email', $userEmail)->first();
