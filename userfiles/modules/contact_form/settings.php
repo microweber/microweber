@@ -32,7 +32,6 @@ if (isset($params['for_module_id'])) {
 
         <h5 class="font-weight-bold"><?php _e("Global sender") ?></h5>
 
-        <!-- LIVE EDIT-->
         <div class="form-group mb-3">
             <label class="control-label"><?php _e("Use custom sender settings"); ?></label>
             <small class="text-muted d-block mb-2">
@@ -51,7 +50,6 @@ if (isset($params['for_module_id'])) {
                 <label class="custom-control-label" for="enable_custom_sender">Yes</label>
             </div>
         </div>
-        <!-- LIVE EDIT-->
 
         <script type="text/javascript">
             toggleCustomSender = function (e) {
