@@ -112,7 +112,7 @@ if (isset($params['for_module_id'])) {
 
             <div class="alert alert-primary">
                 <div class="form-group mb-3">
-                    <label class="control-label"><?php _e("Auto respond sender"); ?></label>
+                    <label class="control-label"><?php _e("Auto respond custom sender"); ?></label>
                     <small class="text-muted d-block mb-2">
                         <?php _e('Use custom sender settings for the current contact form.'); ?>
                         <br />

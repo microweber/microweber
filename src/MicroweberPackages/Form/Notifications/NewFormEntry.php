@@ -76,7 +76,7 @@ class NewFormEntry extends Notification
         } else {
             $emailSubject = '[' . $hostname . '] ' . _e('New form entry', true);
         }
-        
+
 
         $mail = new MailMessage();
         $mail->subject($emailSubject);
