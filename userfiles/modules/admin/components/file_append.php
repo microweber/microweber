@@ -88,7 +88,15 @@ $appendFiles = explode(",", get_option($option_key, $option_group));
 
 
 <div class="form-group mb-4">
-    <label class="control-label"><?php _e("E-mail attachments"); ?></label>
+    <label class="control-label">
+        <?php
+        if (isset($params['title'])) {
+            echo $params['title'];
+        } else {
+            _e("E-mail attachments");
+        }
+        ?>
+    </label>
     <small class="text-muted d-block mb-2"><?php _e("You can attach a file to the automatic email"); ?></small>
     <button type="button" id="mw_uploader" class="btn btn-sm btn-outline-primary"><?php _e("Upload file"); ?><span id="upload_info"></span></button>
 </div>
