@@ -148,64 +148,40 @@ class FormsManager
          */
         if (Option::getValue('enable_custom_receivers', $currentFormOptionGroup)) {
             // We will get the current form options
-            $emailFrom = Option::getValue('email_from', $currentFormOptionGroup);
-            $emailFromName = Option::getValue('email_from_name', $currentFormOptionGroup);
+            $emailTo = Option::getValue('email_to', $currentFormOptionGroup);
+            $emailReply = Option::getValue('email_reply', $currentFormOptionGroup);
+            $emailCc = Option::getValue('email_cc', $currentFormOptionGroup);
+            $emailBcc = Option::getValue('email_bcc', $currentFormOptionGroup);
         } else {
             // Read from global contact form receivers
+            $emailTo = Option::getValue('email_to', $contactFormGlobalOptionGroup);
+            $emailReply = Option::getValue('email_reply', $contactFormGlobalOptionGroup);
+            $emailCc = Option::getValue('email_cc', $contactFormGlobalOptionGroup);
+            $emailBcc = Option::getValue('email_bcc', $contactFormGlobalOptionGroup);
         }
 
-        var_dump($emailFrom, $emailFromName);
-        die();
-        $emailBcc = Option::getValue('email_bcc', $formId);
-        if (!$emailBcc) {
-            $emailBcc = Option::getValue('email_bcc', 'contact_form_default');
-        }
-        if (!$emailBcc) {
-            $emailBcc = Option::getValue('email_bcc', 'email');
-        }
-
-        $emailReply = Option::getValue('email_reply', $formId);
-        if (!$emailReply) {
-            $emailReply = Option::getValue('email_reply', 'contact_form_default');
-        }
-        if (!$emailReply) {
-            $emailReply = Option::getValue('email_reply', 'email');
-        }
-
-        $emailAutorespond = Option::getValue('email_autorespond', $formId);
-        if (!$emailAutorespond) {
-            $emailAutorespond = Option::getValue('email_autorespond', 'contact_form_default');
-        }
-        if (!$emailAutorespond) {
-            $emailAutorespond = Option::getValue('email_autorespond', 'email');
-        }
-
-        if (!$emailAutorespond) {
-            $emailAutorespond = _e('Thank you for your subscription!', true);
-        }
-
-        $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $formId);
-        if (!$emailAutorespondSubject) {
-            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'contact_form_default');
-        }
-        if (!$emailAutorespondSubject) {
-            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', 'email');
-        }
-        if (!$emailAutorespondSubject) {
-            $emailAutorespondSubject = _e('Thank you for your message.', true);
-        }
-
-        $appendFiles = Option::getValue('append_files', $formId);
-        if (!$appendFiles) {
-            $appendFiles = Option::getValue('append_files', 'email');
+        /**
+         * Auto respond to user
+         */
+        $emailAutorespond = false;
+        $emailAutorespondSubject = false;
+        $emailAppendFiles = false;
+        if (Option::getValue('enable_auto_respond', $currentFormOptionGroup)) {
+            $emailAutorespond = Option::getValue('email_autorespond', $currentFormOptionGroup);
+            $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $currentFormOptionGroup);
+            $emailAppendFiles = Option::getValue('append_files', $currentFormOptionGroup);
         }
 
         return [
-            'emailBcc'=>$emailBcc,
+            'emailFrom'=>$emailFrom,
+            'emailFromName'=>$emailFromName,
+            'emailTo'=>$emailTo,
             'emailReply'=>$emailReply,
+            'emailCc'=>$emailCc,
+            'emailBcc'=>$emailBcc,
             'emailAutorespond'=>$emailAutorespond,
             'emailAutorespondSubject'=>$emailAutorespondSubject,
-            'appendFiles'=>$appendFiles,
+            'emailAppendFiles'=>$emailAppendFiles,
         ];
     }
 

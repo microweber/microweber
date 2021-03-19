@@ -108,24 +108,25 @@ if (isset($params['for_module_id'])) {
         </script>
 
         <div class="js-custom-receivers" <?php if (!$enableCustomReceivers): ?> style="display:none"<?php endif; ?>>
-        <div class="form-group">
-            <label class="control-label"><?php _e("To e-mail address"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
-            <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            <div class="form-group">
+                <label class="control-label"><?php _e("To e-mail address"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
+                <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><?php _e("Reply to e-mail"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("Send a copy of the email to one more email address"); ?></small>
+                <input name="email_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><?php _e("Carbon copy e-mails"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("This will send carbon copy of messages to the current e-mail addresses. The e-mail addresses must be seperated with a comma."); ?></small>
+                <input name="email_bcc" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_cc', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label"><?php _e("Reply to e-mail"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("Send a copy of the email to one more email address"); ?></small>
-            <input name="email_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label"><?php _e("BCC e-mails"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("Those addresses seperated with comma are invisible to the recipients of the email"); ?></small>
-            <input name="email_bcc" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_bcc', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-        </div>
-        </div>
     </div>
 
     <hr class="thin"/>
