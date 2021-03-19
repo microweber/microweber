@@ -55,9 +55,9 @@ class NewFormEntryAutoRespond extends Notification
 
         $mail = new MailMessage();
 
-        if ($autoRespondSettings['emailAutoRespondAppendFiles']) {
+        if ($autoRespondSettings['emailAppendFiles']) {
 
-            $appendFilesAll = explode(',', $autoRespondSettings['emailAutoRespondAppendFiles']);
+            $appendFilesAll = explode(',', $autoRespondSettings['emailAppendFiles']);
 
             if ($appendFilesAll) {
                 foreach ($appendFilesAll as $appendFile) {
@@ -71,47 +71,24 @@ class NewFormEntryAutoRespond extends Notification
             }
         }
 
-        if ($autoRespondSettings['emailAutoRespondEnable']) {
-            if ($autoRespondSettings['emailAutoRespondFrom']) {
-                $mail->from($autoRespondSettings['emailAutoRespondFrom'], $autoRespondSettings['emailAutoRespondFromName']);
-            }
+        if ($autoRespondSettings['emailFrom']) {
+            $mail->from($autoRespondSettings['emailFrom'], $autoRespondSettings['emailFromName']);
         }
 
-    /*    if ($formEmailSendingSettings['emailCc']) {
-            $emailsCcList = $this->_explodeMailsFromString($formEmailSendingSettings['emailCc']);
-            if (!empty($emailsCcList)) {
-                $mail->cc($emailsCcList);
-            }
-        }*/
-
-     /*   if ($formEmailSendingSettings['emailBcc']) {
-            $emailsBccList = $this->_explodeMailsFromString($formEmailSendingSettings['emailBcc']);
-            if (!empty($emailsBccList)) {
-                $mail->bcc($emailsBccList);
-            }
-        }*/
-/*
-        if ($formEmailSendingSettings['emailReply']) {
-            $emailsReplyList = $this->_explodeMailsFromString($formEmailSendingSettings['emailReply']);
-            if (!empty($emailsReplyList)) {
-                $mail->replyTo($emailsReplyList);
-            }
-        }*/
-
-        if ($autoRespondSettings['emailAutoRespondReply']) {
-            $emailsReplyList = $this->_explodeMailsFromString($autoRespondSettings['emailAutoRespondReply']);
+        if ($autoRespondSettings['emailReplyTo']) {
+            $emailsReplyList = $this->_explodeMailsFromString($autoRespondSettings['emailReplyTo']);
             if (!empty($emailsReplyList)) {
                 $mail->replyTo($emailsReplyList);
             }
         }
 
-        if ($autoRespondSettings['emailAutoRespondSubject']) {
-            $mail->line($autoRespondSettings['emailAutoRespondSubject']);
-            $mail->subject($autoRespondSettings['emailAutoRespondSubject']);
+        if ($autoRespondSettings['emailSubject']) {
+            $mail->line($autoRespondSettings['emailSubject']);
+            $mail->subject($autoRespondSettings['emailSubject']);
         }
 
         $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
-        $parsedEmail = $twig->render($autoRespondSettings['emailAutoRespond'], [
+        $parsedEmail = $twig->render($autoRespondSettings['emailContent'], [
                 'url' => url('/'),
                 'created_at' => date('Y-m-d H:i:s')
             ]

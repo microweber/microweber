@@ -177,7 +177,7 @@ if (isset($params['for_module_id'])) {
             <div class="form-group">
                 <label class="control-label"><?php _e("Auto respond reply to e-mail"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("When the user receive the auto respond message they can response back to reply to email."); ?></small>
-                <input name="email_autorespond_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+                <input name="email_autorespond_reply_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_reply_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
             </div>
 
             <div class="form-group">
