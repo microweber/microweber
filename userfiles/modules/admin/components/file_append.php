@@ -1,5 +1,11 @@
 <?php
+$option_key = 'append_files';
 $option_group = 'file_append';
+
+if (isset($params['option_key'])) {
+    $option_key = $params['option_key'];
+
+}
 if (!isset($params['option_group'])) {
     _e('First you need to set option group.');
     return;
@@ -76,9 +82,9 @@ $option_group = $params['option_group'];
 </script>
 
 <?php
-$appendFiles = explode(",", get_option('append_files', $option_group));
+$appendFiles = explode(",", get_option($option_key, $option_group));
 ?>
-<input name="append_files" value="<?php print get_option('append_files', $option_group) ?>" class="mw-ui-field mw_option_field w100" id="append_files" option-group="<?php echo $option_group; ?>" data-option-group="<?php echo $option_group; ?>" type="hidden"/>
+<input name="<?php echo $option_key; ?>" value="<?php print get_option('append_files', $option_group) ?>" class="mw-ui-field mw_option_field w100" id="append_files" option-group="<?php echo $option_group; ?>" data-option-group="<?php echo $option_group; ?>" type="hidden"/>
 
 
 <div class="form-group mb-4">

@@ -164,11 +164,12 @@ class FormsManager
          */
         $emailAutorespond = false;
         $emailAutorespondSubject = false;
-        $emailAppendFiles = false;
+        $emailAutorespondAppendFiles = false;
         if (Option::getValue('enable_auto_respond', $currentFormOptionGroup)) {
             $emailAutorespond = Option::getValue('email_autorespond', $currentFormOptionGroup);
             $emailAutorespondSubject = Option::getValue('email_autorespond_subject', $currentFormOptionGroup);
-            $emailAppendFiles = Option::getValue('append_files', $currentFormOptionGroup);
+            $emailAutorespondReply = Option::getValue('email_autorespond_reply', $currentFormOptionGroup);
+            $emailAutorespondAppendFiles = Option::getValue('email_autorespond_append_files', $currentFormOptionGroup);
         }
 
         return [
@@ -179,8 +180,9 @@ class FormsManager
             'emailCc'=>$emailCc,
             'emailBcc'=>$emailBcc,
             'emailAutorespond'=>$emailAutorespond,
+            'emailAutorespondReply'=>$emailAutorespondReply,
             'emailAutorespondSubject'=>$emailAutorespondSubject,
-            'emailAppendFiles'=>$emailAppendFiles,
+            'emailAutorespondAppendFiles'=>$emailAutorespondAppendFiles,
         ];
     }
 

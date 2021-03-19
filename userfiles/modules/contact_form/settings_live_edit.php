@@ -77,7 +77,7 @@ if (isset($params['for_module_id'])) {
         <h5 class="font-weight-bold"><?php _e("Receivers") ?></h5>
 
         <div class="form-group mb-3">
-            <label class="control-label"><?php _e("Use custom receivers settings"); ?></label>
+            <label class="control-label"><?php _e("Send data from contact form to custom receivers"); ?></label>
             <small class="text-muted d-block mb-2">
                 <?php _e('Use custom receivers settings for the current contact form.'); ?>
                 <br />
@@ -112,12 +112,6 @@ if (isset($params['for_module_id'])) {
                 <label class="control-label"><?php _e("To e-mail address"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
                 <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label"><?php _e("Reply to e-mail"); ?></label>
-                <small class="text-muted d-block mb-2"><?php _e("Send a copy of the email to one more email address"); ?></small>
-                <input name="email_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
             </div>
 
             <div class="form-group">
@@ -162,10 +156,17 @@ if (isset($params['for_module_id'])) {
         </script>
 
         <div class="js-auto-respond-fields" <?php if (!$enableAutoRespond): ?> style="display:none"<?php endif; ?>>
+
             <div class="form-group">
                 <label class="control-label"><?php _e("Autorespond Subject"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("Auto-responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
                 <input name="email_autorespond_subject" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_subject', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><?php _e("Autorespond reply to e-mail"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("When the user receive the auto respond message they can response back to reply to email."); ?></small>
+                <input name="email_autorespond_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
             </div>
 
             <div class="form-group">
@@ -178,7 +179,7 @@ if (isset($params['for_module_id'])) {
                 </label>
             </div>
             <div class="form-group">
-                <module type="admin/components/file_append" option_group="<?php print $mod_id ?>"/>
+                <module type="admin/components/file_append" option_key="email_autorespond_append_files" option_group="<?php print $mod_id ?>"/>
             </div>
         </div>
 

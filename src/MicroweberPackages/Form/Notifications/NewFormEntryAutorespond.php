@@ -55,8 +55,9 @@ class NewFormEntryAutorespond extends Notification
 
         $mail = new MailMessage();
 
-        if ($formEmailSendingSettings['emailAppendFiles']) {
-            $appendFilesAll = explode(',', $formEmailSendingSettings['emailAppendFiles']);
+        if ($formEmailSendingSettings['emailAutorespondAppendFiles']) {
+
+            $appendFilesAll = explode(',', $formEmailSendingSettings['emailAutorespondAppendFiles']);
 
             if ($appendFilesAll) {
                 foreach ($appendFilesAll as $appendFile) {
@@ -85,7 +86,7 @@ class NewFormEntryAutorespond extends Notification
      /*   if ($formEmailSendingSettings['emailBcc']) {
             $emailsBccList = $this->_explodeMailsFromString($formEmailSendingSettings['emailBcc']);
             if (!empty($emailsBccList)) {
-                $mail->bcc($emailsBccList); 
+                $mail->bcc($emailsBccList);
             }
         }*/
 /*
@@ -95,6 +96,13 @@ class NewFormEntryAutorespond extends Notification
                 $mail->replyTo($emailsReplyList);
             }
         }*/
+
+        if ($formEmailSendingSettings['emailAutorespondReply']) {
+            $emailsReplyList = $this->_explodeMailsFromString($formEmailSendingSettings['emailAutorespondReply']);
+            if (!empty($emailsReplyList)) {
+                $mail->replyTo($emailsReplyList);
+            }
+        }
 
         if ($formEmailSendingSettings['emailAutorespondSubject']) {
             $mail->line($formEmailSendingSettings['emailAutorespondSubject']);
