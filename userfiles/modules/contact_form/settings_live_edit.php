@@ -110,7 +110,23 @@ if (isset($params['for_module_id'])) {
 
         <div class="js-auto-respond-fields" <?php if (!$emailAutorespondEnable): ?> style="display:none"<?php endif; ?>>
 
-            <div class="alert alert-primary">
+            <div class="form-group">
+                <label class="control-label"><?php _e("Auto respond subject"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("Auto responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
+                <input name="email_autorespond_subject" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_subject', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><?php _e("Auto respond message"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("Auto respond e-mail sent back to the user"); ?></small>
+                <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php print $mod_id ?>"><?php print get_option('email_autorespond', $mod_id); ?></textarea>
+
+                <label class="control-label"><span class="ico ismall_warn"></span>
+                    <small><?php _e("Auto respond e-mail sent back to the user"); ?></small>
+                </label>
+            </div>
+
+            <div class="alert alert-primary auto-respond-custom-sender">
                 <div class="form-group mb-3">
                     <label class="control-label"><?php _e("Auto respond custom sender"); ?></label>
                     <small class="text-muted d-block mb-2">
@@ -156,22 +172,6 @@ if (isset($params['for_module_id'])) {
                     </div>
 
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label"><?php _e("Auto respond subject"); ?></label>
-                <small class="text-muted d-block mb-2"><?php _e("Auto responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
-                <input name="email_autorespond_subject" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_subject', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label"><?php _e("Auto respond message"); ?></label>
-                <small class="text-muted d-block mb-2"><?php _e("Auto respond e-mail sent back to the user"); ?></small>
-                <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php print $mod_id ?>"><?php print get_option('email_autorespond', $mod_id); ?></textarea>
-
-                <label class="control-label"><span class="ico ismall_warn"></span>
-                    <small><?php _e("Auto respond e-mail sent back to the user"); ?></small>
-                </label>
             </div>
 
             <div class="form-group">
