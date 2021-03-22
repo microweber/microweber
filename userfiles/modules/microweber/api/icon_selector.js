@@ -534,6 +534,7 @@
                 tag: 'input',
                 props: {
                     className: 'mw-ui-searchfield w100',
+                    placeholder: 'Search',
                     oninput: function () {
                         clearTimeout(time);
                         time = setTimeout(function (){

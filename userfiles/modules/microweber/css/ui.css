@@ -4221,72 +4221,21 @@ div.mw-ui-field:after {
   outline: medium none;
   padding: 8px 8px 8px 33px;
   padding-left: 33px !important;
-  opacity: 0.5;
   height: 36px;
   -webkit-transition: width 0.1s, opacity 0.2s;
   -moz-transition: width 0.1s, opacity 0.2s;
   -o-transition: width 0.1s, opacity 0.2s;
   transition: width 0.1s, opacity 0.2s;
 }
-.mw-ui-searchfield::-webkit-input-placeholder {
-  color: transparent;
-}
-.mw-ui-searchfield:-moz-placeholder {
-  color: transparent;
-}
-.mw-ui-searchfield::-moz-placeholder {
-  color: transparent;
-}
-.mw-ui-searchfield:-ms-input-placeholder {
-  color: transparent;
-}
-.mw-ui-searchfield:focus::-webkit-input-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield:focus:-moz-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield:focus::-moz-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield:focus:-ms-input-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield:hover::-webkit-input-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield:hover:-moz-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield:hover::-moz-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield:hover:-ms-input-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield.active::-webkit-input-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield.active:-moz-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield.active::-moz-placeholder {
-  color: inherit;
-}
-.mw-ui-searchfield.active:-ms-input-placeholder {
-  color: inherit;
-}
 .mw-ui-searchfield.active,
 .mw-ui-searchfield:focus,
 .mw-ui-searchfield:focus:hover {
   border-color: #c6c6c6;
   width: 200px;
-  opacity: 1;
 }
 .mw-ui-searchfield:hover {
   border-color: #E6E6E6;
   width: 200px;
-  opacity: 1;
 }
 .mw-ui-searchfield.w100 {
   width: 100% !important;
