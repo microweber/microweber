@@ -28,6 +28,87 @@ class ContactFormTest extends TestCase
 
     }
 
+    public function testContactFormWithGlobalSettingsSubmit()
+    {
+        $optionGroup = md5(time().'mw'.rand(1111,9999));
+        $formName = md5(time().'mw'.rand(1111,9999));
+
+        \Config::set('mail.transport', 'array');
+
+        // Save global options
+        $customReceivers = ['GlobalContactFormEmailTo1@UnitTest.com','GlobalContactFormEmailTo2@UnitTest.com','GlobalContactFormEmailTo3@UnitTest.com','GlobalContactFormEmailTo4@UnitTest.com'];
+        save_option(array(
+            'option_group' => 'contact_form_default',
+            'option_key' => 'email_to',
+            'option_value' => implode(',', $customReceivers)
+        ));
+
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'disable_captcha',
+            'option_value' => 'y'
+        ));
+
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'form_name',
+            'option_value' => $formName
+        ));
+
+        $params = array();
+        $params['for_id'] = $optionGroup;
+        $params['for'] = 'contact-form-global-settings-test-module';
+        $params['message'] = 'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE';
+        $params['email'] = 'unit.b.slaveykov@unittest-global.com';
+        $params['Company'] = 'CloudVisionLtd-Global';
+        $params['Phone'] = '0885451012-Global';
+        $params['Your Name'] = 'Bozhidar Veselinov Slaveykov';
+        $params['module_name'] = 'contact_form_global_settings';
+
+        $response = mw()->forms_manager->post($params);
+        $this->assertArrayHasKey('success', $response);
+
+        $mailToUser = [];
+        $mailToReceivers = [];
+
+        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        foreach ($emails as $email) {
+
+            $subject = $email->getSubject();
+
+            if (strpos($subject, 'This is the autorespond subject') !== false) {
+                // Mail to user
+                $mailToUser[] = $email;
+            }
+
+            if (strpos($subject, $formName) !== false) {
+                // Mail to receivers
+                $mailToReceivers[] = $email;
+            }
+        }
+
+        // Receivers must receive the contact form data
+        $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
+        foreach ($mailToReceivers as $email) {
+
+            $to = key($email->getTo());
+            $body = $email->getBody();
+            $replyTo = key($email->getReplyTo()); // Reply to must be the user email
+
+            $this->assertEquals($replyTo, 'unit.b.slaveykov@unittest-global.com');
+            $this->assertContains('unit.b.slaveykov@unittest-global.com', $body);
+            $this->assertContains('0885451012-Global', $body);
+            $this->assertContains('CloudVisionLtd-Global', $body);
+            $this->assertContains('Bozhidar Veselinov Slaveykov', $body);
+            $this->assertContains('HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE', $body);
+
+            $this->assertTrue(in_array($to, $customReceivers));
+        }
+
+
+        die();
+    }
+
     public function testCustomContactFormSettingsSubmit()
     {
 
@@ -132,24 +213,6 @@ class ContactFormTest extends TestCase
         foreach ($emails as $email) {
 
             $subject = $email->getSubject();
-            $body = $email->getBody();
-            $to = key($email->getTo());
-            $from = key($email->getFrom());
-            $bcc = $email->getBcc();
-            $cc = $email->getCc();
-            $replyTo = $email->getReplyTo();
-
-            if (!empty($bcc)) {
-                foreach ($bcc as $emailBcc => $bccName) {
-                    $bccMails[] = $emailBcc;
-                }
-            }
-
-            if (!empty($replyTo)) {
-                foreach ($replyTo as $replyTo => $replyToName) {
-                    $replyToMails[] = $replyTo;
-                }
-            }
 
             if (strpos($subject, $formName) !== false) {
                 // Mail to receivers
@@ -163,7 +226,6 @@ class ContactFormTest extends TestCase
         }
 
         // Receivers must receive the contact form data
-
         $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
         foreach ($mailToReceivers as $email) {
 
