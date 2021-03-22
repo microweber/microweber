@@ -68,6 +68,10 @@ class NewFormEntry extends Notification
      */
     public function toMail($notifiable)
     {
+
+        $mail = new MailMessage();
+
+
         $hostname = mw()->url_manager->hostname();
 
         $formName = Option::getValue('form_name', $this->formEntry->rel_id);
@@ -77,10 +81,24 @@ class NewFormEntry extends Notification
             $emailSubject = '[' . $hostname . '] ' . _e('New form entry', true);
         }
 
+        $content = app()->format->array_to_ul($this->formEntry->form_values);
 
-        $mail = new MailMessage();
+        $userEmails = false;
+        $formValues = $this->formEntry->form_values;
+        if (!empty($formValues)) {
+            foreach ($formValues as $value) {
+                if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $userEmails[] = $value;
+                }
+            }
+        }
+
+        if (!empty($userEmails)) {
+            $mail->replyTo($userEmails);
+        }
+
         $mail->subject($emailSubject);
-        $mail->view('app::email.simple', ['content' => app()->format->array_to_ul($this->formEntry->form_values)]);
+        $mail->view('app::email.simple', ['content' => $content]);
 
         return $mail;
     }

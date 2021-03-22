@@ -169,7 +169,9 @@ class ContactFormTest extends TestCase
 
             $to = key($email->getTo());
             $body = $email->getBody();
+            $replyTo = key($email->getReplyTo()); // Reply to must be the user email
 
+            $this->assertEquals($replyTo, 'unit.b.slaveykov@unittest.com');
             $this->assertContains('unit.b.slaveykov@unittest.com', $body);
             $this->assertContains('0885451012', $body);
             $this->assertContains('CloudVisionLtd', $body);
