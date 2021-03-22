@@ -132,7 +132,11 @@ class OptionManager
             $query = $query->where('module', '=', $module_id);
         }
 
+        $this->memoryModuleOptionGroup = [];
+        $this->memoryOptionGroup = [];
+
         $query = $query->delete();
+
         $this->override($option_group,$key,false);
         $this->app->cache_manager->delete('options');
         return true;
@@ -310,6 +314,7 @@ class OptionManager
                     $findModuleOption->module = $data['module'];
                     $findModuleOption->option_value = $data['option_value'];
                     $save = $findModuleOption->save();
+                    $this->memoryModuleOptionGroup = [];
                 } else {
                     $findOption = Option::where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->first();
                     if ($findOption == null) {
@@ -319,6 +324,7 @@ class OptionManager
                     }
                     $findOption->option_value = $data['option_value'];
                     $save = $findOption->save();
+                    $this->memoryOptionGroup = [];
                 }
 
                 if ($option_group != false) {
