@@ -342,7 +342,7 @@
 
                 <div style="text-align: center">
                 @php
-                    $logo = get_option('logoimage', 'header-logo')
+                    $logo = get_option('favicon_image', 'website')
                 @endphp
                 @if (!empty($logo))
                         <img src="{{$logo}}" style="max-width: 200px">
