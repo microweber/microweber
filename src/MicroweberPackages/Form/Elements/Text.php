@@ -9,6 +9,12 @@ class Text extends Input
         'class'=>'form-control'
     ];
 
+    public function render()
+    {
+        return sprintf('<input%s>', $this->renderAttributes());
+    }
+
+
     public function placeholder($placeholder)
     {
         $this->setAttribute('placeholder', $placeholder);

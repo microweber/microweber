@@ -21,6 +21,9 @@ class FormElementBuilder
 {
     protected $oldInput;
     protected $boundData;
+    protected $formElementsClasses = [
+        'Text'=>Text::class
+    ];
 
     public function setOldInputProvider(OldInputInterface $oldInputProvider)
     {
@@ -29,7 +32,7 @@ class FormElementBuilder
 
     public function text($name)
     {
-        $text = new Text($name);
+        $text = new $this->formElementsClasses['Text']($name);
 
         if (!is_null($value = $this->getValueFor($name))) {
             $text->value($value);

@@ -109,7 +109,7 @@ if (isset($params['for_module_id'])) {
         </script>
 
         <?php
-        $formBuilder = new \MicroweberPackages\Form\FormElementBuilder();
+        $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
         ?>
 
         <div class="js-auto-respond-fields" <?php if (!$emailAutorespondEnable): ?> style="display:none"<?php endif; ?>>
@@ -119,6 +119,11 @@ if (isset($params['for_module_id'])) {
                 <small class="text-muted d-block mb-2"><?php _e("Auto responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
 
                 <?php
+
+                $optionMul = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', 'email_autorespond_subject')->where('option_group',$mod_id)->first();
+
+                 dd($optionMul);
+
                 echo $formBuilder->text('email_autorespond_subject')
                             ->value(get_option('email_autorespond_subject', $mod_id))
                             ->attribute('option-group', $mod_id)

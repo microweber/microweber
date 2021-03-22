@@ -5,6 +5,7 @@ namespace MicroweberPackages\Form\Elements;
 class TextArea extends FormControl
 {
     protected $attributes = [
+        'class'=>'form-control',
         'name' => '',
         'rows' => 10,
         'cols' => 50,
