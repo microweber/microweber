@@ -16,6 +16,7 @@ use DB;
 use Cache;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
+use MicroweberPackages\Option\Traits\ModuleOptionTrait;
 
 class OptionManager
 {
@@ -25,6 +26,8 @@ class OptionManager
     public $tables = array();
     public $table_prefix = false;
     public $adapters_dir = false;
+
+    use ModuleOptionTrait;
 
     public function __construct($app = null)
     {
@@ -193,40 +196,10 @@ class OptionManager
         return false;
     }
 
-    public $memoryModuleOptionGroup = [];
-    public function getModuleOptions($optionGroup)
-    {
-        if (isset($this->memoryOptionGroup[$optionGroup])) {
-            return $this->memoryOptionGroup[$optionGroup];
-        }
-
-        if ($optionGroup) {
-            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
-            $this->memoryOptionGroup[$optionGroup] = $allOptions;
-            return $allOptions;
-        }
-
-        return false;
-    }
-
-    public function getModuleOption($optionKey, $optionGroup, $returnFull)
-    {
-        if (isset($this->memoryModuleOptionGroup[$optionGroup])) {
-            return $this->getOptionFromOptionsArray($optionKey, $this->memoryModuleOptionGroup[$optionGroup], $returnFull);
-        }
-
-        if ($optionGroup) {
-            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
-            $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
-            return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
-        }
-
-        return false;
-    }
-
     private function getOptionFromOptionsArray($key, $options, $returnFull) {
         foreach ($options as $option) {
             if ($option['option_key'] == $key) {
+                $option['option_value'] = $this->app->url_manager->replace_site_url_back($option['option_value']);
                 if ($returnFull) {
                     return $option;
                 }
