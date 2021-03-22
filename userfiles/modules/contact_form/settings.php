@@ -63,7 +63,7 @@ if (isset($params['for_module_id'])) {
             };
         </script>
 
-        <div class="js-custom-sender" <?php if (!$enableCustomSender): ?> style="display:none"<?php endif; ?>>
+        <div class="js-custom-sender" <?php if (!$emailCustomSender): ?> style="display:none"<?php endif; ?>>
             <div class="form-group">
                 <label class="control-label"><?php _e("From e-mail address"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("The e-mail address which will send the message"); ?></small>
