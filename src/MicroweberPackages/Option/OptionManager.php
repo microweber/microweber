@@ -311,7 +311,14 @@ class OptionManager
                     $findModuleOption->option_value = $data['option_value'];
                     $save = $findModuleOption->save();
                 } else {
-                    $save = $this->app->database_manager->save($data);
+                    $findOption = Option::where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->first();
+                    if ($findOption == null) {
+                        $findOption = new Option();
+                        $findOption->option_key = $data['option_key'];
+                        $findOption->option_group = $data['option_group'];
+                    }
+                    $findOption->option_value = $data['option_value'];
+                    $save = $findOption->save();
                 }
 
                 if ($option_group != false) {
