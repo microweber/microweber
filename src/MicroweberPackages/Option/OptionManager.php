@@ -120,8 +120,8 @@ class OptionManager
     {
 
         $key = $this->app->database_manager->escape_string($key);
-        $table = $this->tables['options'];
-        $query = $this->app->database_manager->table($table);
+
+        $query = Option::query();
         $query = $query->where('option_key', '=', $key);
 
         if ($option_group != false) {
@@ -132,13 +132,11 @@ class OptionManager
             $query = $query->where('module', '=', $module_id);
         }
 
+        $query->delete();
+
         $this->memoryModuleOptionGroup = [];
         $this->memoryOptionGroup = [];
 
-        $query = $query->delete();
-
-        $this->override($option_group,$key,false);
-        $this->app->cache_manager->delete('options');
         return true;
     }
 
