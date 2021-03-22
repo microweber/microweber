@@ -108,18 +108,36 @@ if (isset($params['for_module_id'])) {
             };
         </script>
 
+        <?php
+        $formBuilder = new \MicroweberPackages\Form\FormElementBuilder();
+        ?>
+
         <div class="js-auto-respond-fields" <?php if (!$emailAutorespondEnable): ?> style="display:none"<?php endif; ?>>
 
             <div class="form-group">
                 <label class="control-label"><?php _e("Auto respond subject"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("Auto responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
-                <input name="email_autorespond_subject" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_subject', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+
+                <?php
+                echo $formBuilder->text('email_autorespond_subject')
+                            ->value(get_option('email_autorespond_subject', $mod_id))
+                            ->attribute('option-group', $mod_id)
+                            ->addClass('mw_option_field');
+                ?>
             </div>
 
             <div class="form-group">
                 <label class="control-label"><?php _e("Auto respond message"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("Auto respond e-mail sent back to the user"); ?></small>
-                <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php print $mod_id ?>"><?php print get_option('email_autorespond', $mod_id); ?></textarea>
+
+              <!--  <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php /*print $mod_id */?>"><?php /*print get_option('email_autorespond', $mod_id); */?></textarea>
+-->
+                <?php
+                echo $formBuilder->textarea('email_autorespond')
+                    ->value(get_option('email_autorespond', $mod_id))
+                    ->attribute('option-group', $mod_id)
+                    ->addClass('mw_option_field');
+                ?>
 
                 <label class="control-label"><span class="ico ismall_warn"></span>
                     <small><?php _e("Auto respond e-mail sent back to the user"); ?></small>
