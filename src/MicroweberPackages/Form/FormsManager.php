@@ -601,7 +601,9 @@ class FormsManager
                     if (empty(!$sendFormDataToReceivers)) {
                         $receivers =  $this->explodeMailsFromString($sendFormDataToReceivers);
                         if (!empty($receivers)) {
-                            Notification::route('mail', $receivers)->notify(new NewFormEntry($formModel));
+                            foreach($receivers as $receiver) {
+                                Notification::route('mail', $receiver)->notify(new NewFormEntry($formModel));
+                            }
                         }
                     }
 

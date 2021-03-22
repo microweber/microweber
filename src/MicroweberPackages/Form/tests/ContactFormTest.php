@@ -28,10 +28,11 @@ class ContactFormTest extends TestCase
 
     }
 
-    public function testCustomContactFormSubmit()
+    public function testCustomContactFormSettingsSubmit()
     {
 
         $optionGroup = md5(time().'mw'.rand(1111,9999));
+        $formName = md5(time().'mw'.rand(1111,9999));
 
         \Config::set('mail.transport', 'array');
 
@@ -43,56 +44,16 @@ class ContactFormTest extends TestCase
 
         save_option(array(
             'option_group' => $optionGroup,
-            'option_key' => 'enable_custom_sender',
-            'option_value' => '1'
+            'option_key' => 'form_name',
+            'option_value' => $formName
         ));
 
+        /**
+         * ENABLE AUTORESPOND CUSTOM SENDER
+         */
         save_option(array(
             'option_group' => $optionGroup,
-            'option_key' => 'email_from',
-            'option_value' => 'EmailFrom@UnitTest.com'
-        ));
-
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_from_name',
-            'option_value' => 'Email From Name'
-        ));
-
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'enable_custom_receivers',
-            'option_value' => '1'
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_to',
-            'option_value' => 'EmailTo@UnitTest.com'
-        ));
-
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'append_files',
-            'option_value' => 'file1.jpg,file2.jpg'
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_reply',
-            'option_value' => 'EmailReply1@UnitTest.com'
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_ccc',
-            'option_value' => 'CC1@UnitTest.com, CC2@UnitTest.com, CC3@UnitTest.com'
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_bcc',
-            'option_value' => 'BCC1@UnitTest.com, BCC2@UnitTest.com, BCC3@UnitTest.com'
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'enable_auto_respond',
+            'option_key' => 'email_autorespond_enable',
             'option_value' => 1
         ));
         save_option(array(
@@ -105,11 +66,55 @@ class ContactFormTest extends TestCase
             'option_key' => 'email_autorespond_subject',
             'option_value' => 'This is the autorespond subject'
         ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_append_files',
+            'option_value' => 'file1.jpg,file2.jpg'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_reply_to',
+            'option_value' => 'AutoRespondEmailReply1@UnitTest.com'
+        ));
+        // ENABLE CUSTOM SENDER
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_custom_sender',
+            'option_value' => '1'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_from',
+            'option_value' => 'AutoRespondEmailFrom@UnitTest.com'
+        ));
+
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_from_name',
+            'option_value' => 'Auto Respond Email From Name'
+        ));
+        // END OF CUSTOM SENDER AUTORESPOND
+
+
+        /**
+         * ENABLE CUSTOM RECEIVERS
+         */
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_custom_receivers',
+            'option_value' => '1'
+        ));
+        $customReceivers = ['EmailTo1@UnitTest.com','EmailTo2@UnitTest.com','EmailTo3@UnitTest.com','EmailTo4@UnitTest.com'];
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_to',
+            'option_value' => implode(',', $customReceivers)
+        ));
 
         $params = array();
         $params['for_id'] = $optionGroup;
         $params['for'] = 'contact-form-test-module';
-        $params['message'] = 'HELLO CONTACT FORM THIS IS MY MESSAGE';
+        $params['message'] = 'HELLO CONTACT FORM! THIS IS MY MESSAGE';
         $params['email'] = 'unit.b.slaveykov@unittest.com';
         $params['Company'] = 'CloudVisionLtd';
         $params['Phone'] = '0885451012';
@@ -120,13 +125,8 @@ class ContactFormTest extends TestCase
 
         $this->assertArrayHasKey('success', $response);
 
-        $findBody = false;
-        $findSubject = false;
-
-        $bccMails = [];
-        $replyToMails = [];
-        $sendedToMails = [];
-        $sendedFromMails = [];
+        $mailToUser = [];
+        $mailToReceivers = [];
 
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
         foreach ($emails as $email) {
@@ -140,44 +140,61 @@ class ContactFormTest extends TestCase
             $replyTo = $email->getReplyTo();
 
             if (!empty($bcc)) {
-                foreach ($bcc as $emailBcc=>$bccName) {
+                foreach ($bcc as $emailBcc => $bccName) {
                     $bccMails[] = $emailBcc;
                 }
             }
 
             if (!empty($replyTo)) {
-                foreach ($replyTo as $replyTo=>$replyToName) {
+                foreach ($replyTo as $replyTo => $replyToName) {
                     $replyToMails[] = $replyTo;
                 }
             }
 
-            $sendedToMails[] = $to;
-            $sendedFromMails[] = $from;
-
-            if (str_contains($body, 'HELLO CONTACT FORM THIS IS MY MESSAGE')) {
-                $findBody = true;
+            if (strpos($subject, $formName) !== false) {
+                // Mail to receivers
+                $mailToReceivers[] = $email;
             }
 
-            if (str_contains($subject, 'New form entry')) {
-                $findSubject = true;
+            if (strpos($subject, 'This is the autorespond subject') !== false) {
+                // Mail to user
+                $mailToUser[] = $email;
             }
         }
 
-       // $this->assertTrue($findBody);
-       // $this->assertTrue($findSubject);
+        // Receivers must receive the contact form data
 
-        $this->assertTrue(in_array('unit.b.slaveykov@unittest.com', $sendedToMails));
+        $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
+        foreach ($mailToReceivers as $email) {
 
-        // Check Reply Emails
-        $this->assertTrue(in_array('EmailReply1@UnitTest.com', $replyToMails));
-        $this->assertTrue(in_array('EmailReply2@UnitTest.com', $replyToMails));
-        $this->assertTrue(in_array('EmailReply3@UnitTest.com', $replyToMails));
+            $to = key($email->getTo());
+            $body = $email->getBody();
 
-        // Check BCCS Emails
-        $this->assertTrue(in_array('BCC1@UnitTest.com', $bccMails));
-        $this->assertTrue(in_array('BCC2@UnitTest.com', $bccMails));
-        $this->assertTrue(in_array('BCC3@UnitTest.com', $bccMails));
+            $this->assertContains('unit.b.slaveykov@unittest.com', $body);
+            $this->assertContains('0885451012', $body);
+            $this->assertContains('CloudVisionLtd', $body);
+            $this->assertContains('Bozhidar Slaveykov', $body);
+            $this->assertContains('HELLO CONTACT FORM! THIS IS MY MESSAGE', $body);
 
+            $this->assertTrue(in_array($to, $customReceivers));
+        }
+
+        // The User must receive auto respond data
+        $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
+        foreach ($mailToUser as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+            $to = key($email->getTo());
+            $from = key($email->getFrom());
+            $replyTo = key($email->getReplyTo());
+
+            $this->assertContains('This is the autorespond text', $body);
+            $this->assertSame($replyTo, 'AutoRespondEmailReply1@UnitTest.com');
+            $this->assertSame($subject, 'This is the autorespond subject');
+            $this->assertSame($from, 'AutoRespondEmailFrom@UnitTest.com');
+            $this->assertSame($to, 'unit.b.slaveykov@unittest.com');
+        }
     }
 
 }
