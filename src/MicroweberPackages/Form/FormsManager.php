@@ -593,7 +593,13 @@ class FormsManager
                 if (!empty($userEmails)) {
 
                     if (Option::getValue('email_custom_receivers', $for_id)) {
-                        $receivers =  $this->explodeMailsFromString(Option::getValue('email_to', $for_id));
+                        $sendFormDataToReceivers = Option::getValue('email_to', $for_id);
+                    } else {
+                        $sendFormDataToReceivers = Option::getValue('email_to', 'contact_form_default');
+                    }
+
+                    if (empty(!$sendFormDataToReceivers)) {
+                        $receivers =  $this->explodeMailsFromString($sendFormDataToReceivers);
                         if (!empty($receivers)) {
                             Notification::route('mail', $receivers)->notify(new NewFormEntry($formModel));
                         }
