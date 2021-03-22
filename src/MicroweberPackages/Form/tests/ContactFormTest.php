@@ -44,11 +44,60 @@ class ContactFormTest extends TestCase
         ));
 
         save_option(array(
-            'option_group' => $optionGroup,
+            'option_group' => 'contact_form_default',
             'option_key' => 'disable_captcha',
             'option_value' => 'y'
         ));
 
+        /**
+         * GLOBAL SENDER
+         */
+        save_option(array(
+            'option_group' => 'contact_form_default',
+            'option_key' => 'email_custom_sender',
+            'option_value' => 'y'
+        ));
+        save_option(array(
+            'option_group' => 'contact_form_default',
+            'option_key' => 'email_from',
+            'option_value' => 'global-sender-email-from@unittest.bg'
+        ));
+        save_option(array(
+            'option_group' => 'contact_form_default',
+            'option_key' => 'email_from_name',
+            'option_value' => 'Global Sender Test Email Name'
+        ));
+
+        /**
+         * ENABLE AUTORESPOND
+         */
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_enable',
+            'option_value' => 1
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond',
+            'option_value' => 'This is the autorespond text - global'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_subject',
+            'option_value' => 'This is the autorespond subject - global'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_append_files',
+            'option_value' => 'global1.jpg,global2.jpg'
+        ));
+        save_option(array(
+            'option_group' => $optionGroup,
+            'option_key' => 'email_autorespond_reply_to',
+            'option_value' => 'AutoRespondEmailReply1Global@UnitTest.com'
+        ));
+
+        // Current form settings
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'form_name',
@@ -87,6 +136,25 @@ class ContactFormTest extends TestCase
             }
         }
 
+        // The User must receive auto respond data
+        $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
+        foreach ($mailToUser as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+            $to = key($email->getTo());
+            $from = key($email->getFrom());
+            $replyTo = key($email->getReplyTo());
+
+            $this->assertContains('This is the autorespond text - global', $body);
+            $this->assertSame($subject, 'This is the autorespond subject - global');
+            $this->assertSame($replyTo, 'AutoRespondEmailReply1Global@UnitTest.com');
+            $this->assertSame($to, 'unit.b.slaveykov@unittest-global.com');
+            $this->assertSame($from, 'global-sender-email-from@unittest.bg');
+            $this->assertSame($email->getFrom()[$from], 'Global Sender Test Email Name');
+
+        }
+
         // Receivers must receive the contact form data
         $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
         foreach ($mailToReceivers as $email) {
@@ -105,8 +173,6 @@ class ContactFormTest extends TestCase
             $this->assertTrue(in_array($to, $customReceivers));
         }
 
-
-        die();
     }
 
     public function testCustomContactFormSettingsSubmit()
