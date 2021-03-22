@@ -17,8 +17,6 @@
 
 
 $size = $size . 'px';
-
-
  ?>
 
 <a href="<?php if (!in_live_edit()) {
@@ -29,8 +27,6 @@ $size = $size . 'px';
     } else {
           print site_url();
     }
-
-
 
 }; ?>" class="mw-ui-row-nodrop module-logo navbar-brand" style="width: auto;">
     <?php if ($logoimage == '' and $text == '') {
@@ -43,6 +39,5 @@ $size = $size . 'px';
                 class="module-logo-text"
                 style="font-family: '<?php print $font_family_safe; ?>';font-size:<?php print $font_size; ?>px;line-height:<?php print $font_size; ?>px;"><?php _e($text); ?></span>
             </span><?php } ?>
-
     <?php } ?>
 </a>
