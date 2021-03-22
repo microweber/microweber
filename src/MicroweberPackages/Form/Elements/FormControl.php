@@ -4,9 +4,23 @@ namespace MicroweberPackages\Form\Elements;
 
 abstract class FormControl extends Element
 {
+    protected $model = [];
+
     public function __construct($name)
     {
         $this->setName($name);
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 
     protected function setName($name)
