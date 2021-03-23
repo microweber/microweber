@@ -88,7 +88,7 @@ class Lang
 
     function default_lang()
     {
-        $lang = $this->current_lang();
+        $lang = 'en_US'; // dont use current language
         if ($this->is_enabled) {
             $lang_opt = get_option('language', 'website');
             if ($lang_opt) {
