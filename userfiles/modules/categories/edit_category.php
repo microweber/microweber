@@ -283,6 +283,10 @@ if (isset($params['live_edit'])) {
                     <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
                     <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>" id="parent_id"/>
 
+                    <?php
+                    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                    ?>
+
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group" id="content-title-field-row">
@@ -304,7 +308,19 @@ if (isset($params['live_edit'])) {
                                                 <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
                                             </div>
                                         <?php endif; ?>
+
                                         <input class="form-control" autofocus id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0): ?>placeholder<?php else: ?>value<?php endif ?>="<?php print ($data['title']); ?>"/>
+
+                                        <?php
+/*                                        $titleValue = '';
+                                        if ($data['id'] > 0) {
+                                            $titleValue = $data['title'];
+                                        }
+
+                                        echo $formBuilder->text('title')->value($titleValue)->id('content-title-field')->autofocus(true);
+                                        */
+                                        ?>
+
                                     <?php endif; ?>
                                 </div>
                             </div>
