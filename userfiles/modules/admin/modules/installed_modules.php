@@ -251,6 +251,7 @@
                                 <option value="live_edit"><?php _e("Live edit modules"); ?></option>
                                 <option value="admin" selected><?php _e("Admin modules"); ?></option>
                                 <option value="advanced"><?php _e("All modules"); ?></option>
+                                <option value="elements"><?php _e("Elements"); ?></option>
                             </select>
                         </div>
                     </div>
