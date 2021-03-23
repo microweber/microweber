@@ -2,10 +2,14 @@
 
 namespace MicroweberPackages\Form\Elements;
 
-class TextOption extends Text
+class TextAreaOption extends TextArea
 {
     protected $optionKey;
     protected $optionGroup;
+
+    public $attributes = [
+        'class'=>'form-control mw_option_field',
+    ];
 
     public function __construct($optionKey, $optionGroup) {
 

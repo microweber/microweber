@@ -62,7 +62,9 @@
                                     <div class="form-group mb-4">
                                         <label class="control-label"><?php _e("Website Description"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Describe what your website is about"); ?>.</small>
-                                        <textarea autocomplete="off" name="website_description" class="mw_option_field form-control" rows="7" type="text" option-group="website"><?php print get_option('website_description', 'website'); ?></textarea>
+                                        <?php
+                                        echo $formBuilder->textareaOption('website_description', 'website')->rows(7)->attribute('autocomplete', 'off');
+                                        ?>
                                     </div>
 
                                     <?php

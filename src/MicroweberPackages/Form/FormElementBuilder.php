@@ -15,6 +15,7 @@ use MicroweberPackages\Form\Elements\RadioButton;
 use MicroweberPackages\Form\Elements\Select;
 use MicroweberPackages\Form\Elements\Text;
 use MicroweberPackages\Form\Elements\TextArea;
+use MicroweberPackages\Form\Elements\TextAreaOption;
 use MicroweberPackages\Form\Elements\TextOption;
 use MicroweberPackages\Form\OldInput\OldInputInterface;
 
@@ -25,6 +26,8 @@ class FormElementBuilder
     protected $formElementsClasses = [
         'Text'=>Text::class,
         'TextOption'=>TextOption::class,
+        'TextArea'=>TextArea::class,
+        'TextAreaOption'=>TextAreaOption::class,
     ];
 
     public function setOldInputProvider(OldInputInterface $oldInputProvider)
@@ -46,6 +49,24 @@ class FormElementBuilder
     public function textOption($optionKey, $optionGroup)
     {
         $textOption = new $this->formElementsClasses['TextOption']($optionKey, $optionGroup);
+
+        return $textOption;
+    }
+
+    public function textarea($name)
+    {
+        $textarea = new TextArea($name);
+
+        if (!is_null($value = $this->getValueFor($name))) {
+            $textarea->value($value);
+        }
+
+        return $textarea;
+    }
+
+    public function textareaOption($optionKey, $optionGroup)
+    {
+        $textOption = new $this->formElementsClasses['TextAreaOption']($optionKey, $optionGroup);
 
         return $textOption;
     }
@@ -81,17 +102,6 @@ class FormElementBuilder
         }
 
         return $email;
-    }
-
-    public function textarea($name)
-    {
-        $textarea = new TextArea($name);
-
-        if (!is_null($value = $this->getValueFor($name))) {
-            $textarea->value($value);
-        }
-
-        return $textarea;
     }
 
     public function checkbox($name, $value = 1)
