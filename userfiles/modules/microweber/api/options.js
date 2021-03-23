@@ -224,6 +224,11 @@ mw.options = {
             o_data.lang = attrLang;
         }
 
+        var attrModule = el.attr('module');
+        if (typeof(attrModule) !== 'undefined') {
+            o_data.module = attrModule;
+        }
+
         $.ajax({
             type: "POST",
             url: mw.settings.site_url + "api/save_option",
