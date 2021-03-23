@@ -22,6 +22,11 @@ class TextOption extends Input
 
     public function render()
     {
+        $model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionKey)->where('option_group', $this->optionGroup)->first();
+        if ($model) {
+            $this->setValue($model->option_value);
+        }
+
         return sprintf('<input%s>', $this->renderAttributes());
     }
 }
