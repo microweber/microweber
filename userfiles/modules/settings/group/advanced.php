@@ -113,8 +113,12 @@
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Live Edit settings"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Configure Live Edit settings'); ?></small>
+
+
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a>
+                                        <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Live Edit elements','admin/elements')"><?php _e("Live Edit elements"); ?></a>
                                     </div>
+
 
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Setup statitics"); ?></label>

@@ -49,11 +49,27 @@ return false;
 function mw_reload_all_modules(){
 	mw.$('#modules_admin_<?php print $rand; ?>').attr('reload_modules',1);
 	mw.$('#modules_admin_<?php print $rand; ?>').attr('cleanup_db',1);
-  	mw.load_module('admin/modules/elements','#modules_admin_<?php print $rand; ?>');
+
+    mw.tools.loading('#modules_admin_<?php print $rand; ?>', true);
+
+    mw.notification.success('Reloading elements');
+
+  	mw.load_module('admin/modules/elements','#modules_admin_<?php print $rand; ?>',function () {
+        mw.tools.loading('#modules_admin_<?php print $rand; ?>', false);
+        mw.notification.success('Elements are reloaded');
+
+    });
 }
 
 
 </script>
+
+<style>
+    #modules_admin_<?php print $rand; ?> ul{
+        list-style: none;
+    }
+</style>
+
 <button onclick="mw_reload_all_modules()">Reload elements</button>
 
 <table width=" 100%" border="1">
