@@ -1578,15 +1578,6 @@ body.has-opened-sidebar #live_edit_toolbar {
     overflow-y: auto;
 }
 
-.mw_module_image {
-    /*display: block;*/
-    /*position: relative;*/
-    /*margin: 0 auto;*/
-    /*height: 44px;*/
-
-    height: auto;
-    text-align: center;
-}
 
 .mw_module_image img {
     position: relative;
