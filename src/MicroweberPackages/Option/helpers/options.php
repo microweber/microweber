@@ -43,12 +43,18 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
  */
 function save_option($dataOrKey, $value = false, $group = false)
 {
+    $lang = false;
+    if (isset($_POST['lang'])) {
+        $lang = $_POST['lang'];
+    }
+
     if ($dataOrKey && $value && $group) {
 
         $option = array();
         $option['option_value'] = $value;
         $option['option_key'] = $dataOrKey;
         $option['option_group'] = $group;
+        $option['lang'] = $lang;
 
         return app()->option_manager->save($option);
     } else {
