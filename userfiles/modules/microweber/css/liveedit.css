@@ -1606,13 +1606,6 @@ body.has-opened-sidebar #live_edit_toolbar {
     min-height: 30px;
 }
 
-.mw_module_image_holder {
-    display: inline-block;
-    position: relative;
-    max-width: 100%;
-    /*height: 40px;*/
-}
-
 .mw_module_image_shadow {
     display: inline-block;
     text-decoration: none;
@@ -3213,7 +3206,6 @@ body.touchscreen-device .module-item-module {
 
 .module-item-module .module_name {
     font-size: 11px;
-    margin-top: 5px;
     height: 22px;
     line-height: 16px !important;
     background: #2a2a2a;
