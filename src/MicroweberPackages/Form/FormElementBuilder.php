@@ -55,7 +55,7 @@ class FormElementBuilder
 
     public function textarea($name)
     {
-        $textarea = new TextArea($name);
+        $textarea = new $this->formElementsClasses['TextArea']($name);
 
         if (!is_null($value = $this->getValueFor($name))) {
             $textarea->value($value);

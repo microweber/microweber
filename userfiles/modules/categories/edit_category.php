@@ -355,7 +355,26 @@ if (isset($params['live_edit'])) {
                             <div class="form-group">
                                 <label class="control-label" for="description"><?php _e("Description"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
-                                <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php echo $data['description']; ?></textarea>
+                              <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
+
+                                <?php
+                                $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
+
+                                $descriptionValue = '';
+                                if ($data['id'] > 0) {
+                                    $descriptionValue = $data['description'];
+                                }
+
+                                echo $formBuilder
+                                    ->textarea('description')
+                                    ->setModel($categoryModel)
+                                    ->value($descriptionValue)
+                                    ->rows(3)
+                                    ->id('description')
+                                    ->spellcheck(false);
+
+                                ?>
+
                             </div>
                         </div>
 
