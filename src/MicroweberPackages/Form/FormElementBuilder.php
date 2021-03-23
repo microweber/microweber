@@ -15,6 +15,7 @@ use MicroweberPackages\Form\Elements\RadioButton;
 use MicroweberPackages\Form\Elements\Select;
 use MicroweberPackages\Form\Elements\Text;
 use MicroweberPackages\Form\Elements\TextArea;
+use MicroweberPackages\Form\Elements\TextOption;
 use MicroweberPackages\Form\OldInput\OldInputInterface;
 
 class FormElementBuilder
@@ -23,7 +24,7 @@ class FormElementBuilder
     protected $boundData;
     protected $formElementsClasses = [
         'Text'=>Text::class,
-        'TextOption'=>Text::class,
+        'TextOption'=>TextOption::class,
     ];
 
     public function setOldInputProvider(OldInputInterface $oldInputProvider)
