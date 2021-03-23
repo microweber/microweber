@@ -22,7 +22,8 @@ class FormElementBuilder
     protected $oldInput;
     protected $boundData;
     protected $formElementsClasses = [
-        'Text'=>Text::class
+        'Text'=>Text::class,
+        'TextOption'=>Text::class,
     ];
 
     public function setOldInputProvider(OldInputInterface $oldInputProvider)
@@ -39,6 +40,13 @@ class FormElementBuilder
         }
 
         return $text;
+    }
+
+    public function textOption($optionKey, $optionGroup)
+    {
+        $textOption = new $this->formElementsClasses['TextOption']($optionKey, $optionGroup);
+
+        return $textOption;
     }
 
     public function date($name)

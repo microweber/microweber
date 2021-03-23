@@ -49,20 +49,13 @@
 
                                     <?php
                                     $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
-
-                                    $websiteTitleModel = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', 'website_title')->where('option_group','website')->first();
                                     ?>
 
                                     <div class="form-group mb-4">
                                         <label class="control-label"><?php _e("Website Name"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("This is very important for search engines.") . ' '; ?><?php _e("Your website will be categorized by many criteria and its name is one of them."); ?></small>
-
                                         <?php
-                                        echo $formBuilder->text('website_title')
-                                            ->setModel($websiteTitleModel)
-                                            ->attribute('option-group', 'website')
-                                            ->attribute('autocomplete', 'off')
-                                            ->addClass('mw_option_field');
+                                        echo $formBuilder->textOption('website_title', 'website')->attribute('autocomplete', 'off');
                                         ?>
                                     </div>
 
@@ -94,7 +87,9 @@
                                     <div class="form-group">
                                         <label class="control-label"><?php _e("Website Keywords"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Ex.");?>: <?php _e("Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?></small>
-                                        <input autocomplete="off" name="website_keywords" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option('website_keywords', 'website'); ?>"/>
+                                        <?php
+                                        echo $formBuilder->textOption('website_keywords', 'website')->attribute('autocomplete', 'off');
+                                        ?>
                                     </div>
 
                                     <div class="form-group js-permalink-edit-option-hook">

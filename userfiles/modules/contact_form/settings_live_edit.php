@@ -119,15 +119,7 @@ if (isset($params['for_module_id'])) {
                 <small class="text-muted d-block mb-2"><?php _e("Auto responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
 
                 <?php
-
-                $optionMul = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', 'email_autorespond_subject')->where('option_group',$mod_id)->first();
-
-                 dd($optionMul);
-
-                echo $formBuilder->text('email_autorespond_subject')
-                            ->value(get_option('email_autorespond_subject', $mod_id))
-                            ->attribute('option-group', $mod_id)
-                            ->addClass('mw_option_field');
+                echo $formBuilder->textOption('email_autorespond_subject', $mod_id)->attribute('autocomplete', 'off');
                 ?>
             </div>
 
@@ -138,10 +130,7 @@ if (isset($params['for_module_id'])) {
               <!--  <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php /*print $mod_id */?>"><?php /*print get_option('email_autorespond', $mod_id); */?></textarea>
 -->
                 <?php
-                echo $formBuilder->textarea('email_autorespond')
-                    ->value(get_option('email_autorespond', $mod_id))
-                    ->attribute('option-group', $mod_id)
-                    ->addClass('mw_option_field');
+                echo $formBuilder->textOption('email_autorespond', $mod_id)->attribute('autocomplete', 'off');
                 ?>
 
                 <label class="control-label"><span class="ico ismall_warn"></span>
