@@ -9,6 +9,10 @@ if (isset($params['for_module_id'])) {
 }
 ?>
 
+<script>
+    mw.lib.require('flag_icons');
+</script>
+
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
         <div class="col">
@@ -130,7 +134,7 @@ if (isset($params['for_module_id'])) {
               <!--  <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php /*print $mod_id */?>"><?php /*print get_option('email_autorespond', $mod_id); */?></textarea>
 -->
                 <?php
-                echo $formBuilder->textOption('email_autorespond', $mod_id)->attribute('autocomplete', 'off');
+                echo $formBuilder->textareaOption('email_autorespond', $mod_id)->attribute('autocomplete', 'off');
                 ?>
 
                 <label class="control-label"><span class="ico ismall_warn"></span>
