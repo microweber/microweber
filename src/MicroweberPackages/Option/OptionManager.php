@@ -309,6 +309,9 @@ class OptionManager
                         $findModuleOption->option_key = $data['option_key'];
                         $findModuleOption->option_group = $data['option_group'];
                     }
+                    if (isset($data['lang'])) {
+                        $findModuleOption->lang = $data['lang'];
+                    }
                     $findModuleOption->module = $data['module'];
                     $findModuleOption->option_value = $data['option_value'];
                     $save = $findModuleOption->save();
@@ -319,6 +322,9 @@ class OptionManager
                         $findOption = new Option();
                         $findOption->option_key = $data['option_key'];
                         $findOption->option_group = $data['option_group'];
+                    }
+                    if (isset($data['lang'])) {
+                        $findOption->lang = $data['lang'];
                     }
                     $findOption->option_value = $data['option_value'];
                     $save = $findOption->save();
