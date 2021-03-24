@@ -176,6 +176,7 @@ body.mw-live-edit .plain-text {
     list-style: none !important;
     user-select: none;
     -webkit-user-select: none;
+    margin: 15px 0;
 }
 
 #mw-plus-tooltip-selector {
@@ -3202,9 +3203,10 @@ body.touchscreen-device .module-item-module {
     background: #2a2a2a;
     color: #fff;
     border-top: 1px solid #323232;
-    display: block;
     padding-top: 2px;
     padding-left: 15px;
+    position: absolute;
+    width: 100%;
 }
 
 .module-item-module:hover .module_name {
