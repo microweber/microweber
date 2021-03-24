@@ -87,7 +87,8 @@
         "florianv/exchanger": "2.x-dev",
         "symfony/intl": "5.x-dev",
         "geoip2/geoip2": "~2.0",
-        "whitecube/lingua": "1.1.0"
+        "whitecube/lingua": "1.1.0",
+        "fisharebest/laravel-assets": "dev-master"
 
 
     },
