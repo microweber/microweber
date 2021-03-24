@@ -77,27 +77,17 @@ if (isset($params['for_module_id'])) {
             </div>
         </div>
 
-        <hr class="thin"/>
+        <hr class="thin" />
 
         <h5 class="font-weight-bold"><?php _e("Global Receivers") ?></h5>
+        <b><?php _e("Send contact forms data to global receivers when is submited"); ?></b>
 
-        <div class="form-group">
-            <label class="control-label"><?php _e("To e-mail address"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receiver"); ?></small>
+        <div class="form-group mt-3">
+            <label class="control-label"><?php _e("To e-mail addresses"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers seperated with coma."); ?></small>
             <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
 
-        <div class="form-group">
-            <label class="control-label"><?php _e("Reply to e-mail"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("Send a copy of the email to one more email address"); ?></small>
-            <input name="email_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label"><?php _e("Carbon copy e-mails"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("This will send carbon copy of messages to the current e-mail addresses. The e-mail addresses must be seperated with a comma."); ?></small>
-            <input name="email_bcc" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_cc', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-        </div>
     </div>
 
     <hr class="thin"/>
@@ -140,6 +130,12 @@ if (isset($params['for_module_id'])) {
             </div>
 
             <div class="form-group">
+                <label class="control-label"><?php _e("Autorespond reply to e-mail"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("When the user receive the auto respond message they can response back to reply to email."); ?></small>
+                <input name="email_autorespond_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+            </div>
+
+            <div class="form-group">
                 <label class="control-label"><?php _e("Autorespond Message"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("Autorespond e-mail sent back to the user"); ?></small>
                 <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php print $mod_id ?>"><?php print get_option('email_autorespond', $mod_id); ?></textarea>
@@ -149,7 +145,7 @@ if (isset($params['for_module_id'])) {
                 </label>
             </div>
             <div class="form-group">
-                <module type="admin/components/file_append" option_group="<?php print $mod_id ?>"/>
+                <module type="admin/components/file_append" option_key="email_autorespond_append_files" option_group="<?php print $mod_id ?>"/>
             </div>
         </div>
 

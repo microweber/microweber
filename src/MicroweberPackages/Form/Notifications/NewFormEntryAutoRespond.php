@@ -12,7 +12,7 @@ use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Option\Facades\Option;
 
 
-class NewFormEntryAutorespond extends Notification
+class NewFormEntryAutoRespond extends Notification
 {
     use Queueable;
     use InteractsWithQueue, SerializesModels;
@@ -50,48 +50,73 @@ class NewFormEntryAutorespond extends Notification
     public function toMail($notifiable)
     {
         $formId = $this->formEntry->rel_id;
-        $formEmailSendingSettings = mw()->forms_manager->getEmailSendingSettingsForFormId($formId);
 
-        dd($formEmailSendingSettings);
+        $autoRespondSettings = mw()->forms_manager->getAutoRespondSettings($formId);
 
         $mail = new MailMessage();
 
-        if ($appendFiles) {
-            $appendFilesAll = explode(',', $appendFiles);
+        if ($autoRespondSettings['emailAutoRespondAppendFiles']) {
+
+            $appendFilesAll = explode(',', $autoRespondSettings['emailAutoRespondAppendFiles']);
 
             if ($appendFilesAll) {
                 foreach ($appendFilesAll as $appendFile) {
-                    $appendFile_path = url2dir($appendFile);
-
-                    $file_extension = \Illuminate\Support\Facades\File::extension($appendFile_path);
-                    $mail->attach($appendFile_path, [
-                        'as' => basename($appendFile_path),
-                        'mime' => $file_extension,
+                    $appendFilePath = url2dir($appendFile);
+                    $fileExtension = \Illuminate\Support\Facades\File::extension($appendFilePath);
+                    $mail->attach($appendFilePath, [
+                        'as' => basename($appendFilePath),
+                        'mime' => $fileExtension,
                     ]);
                 }
             }
         }
 
-
-        $emailsBccList = $this->_explodeMailsFromString($emailBcc);
-        if (!empty($emailsBccList)) {
-            $mail->bcc($emailsBccList);
+        if ($autoRespondSettings['emailAutoRespondEnable']) {
+            if ($autoRespondSettings['emailAutoRespondFrom']) {
+                $mail->from($autoRespondSettings['emailAutoRespondFrom'], $autoRespondSettings['emailAutoRespondFromName']);
+            }
         }
 
-        $emailsReplyList = $this->_explodeMailsFromString($emailReply);
-        if (!empty($emailsBccList)) {
-            $mail->replyTo($emailsReplyList);
+    /*    if ($formEmailSendingSettings['emailCc']) {
+            $emailsCcList = $this->_explodeMailsFromString($formEmailSendingSettings['emailCc']);
+            if (!empty($emailsCcList)) {
+                $mail->cc($emailsCcList);
+            }
+        }*/
+
+     /*   if ($formEmailSendingSettings['emailBcc']) {
+            $emailsBccList = $this->_explodeMailsFromString($formEmailSendingSettings['emailBcc']);
+            if (!empty($emailsBccList)) {
+                $mail->bcc($emailsBccList);
+            }
+        }*/
+/*
+        if ($formEmailSendingSettings['emailReply']) {
+            $emailsReplyList = $this->_explodeMailsFromString($formEmailSendingSettings['emailReply']);
+            if (!empty($emailsReplyList)) {
+                $mail->replyTo($emailsReplyList);
+            }
+        }*/
+
+        if ($autoRespondSettings['emailAutoRespondReply']) {
+            $emailsReplyList = $this->_explodeMailsFromString($autoRespondSettings['emailAutoRespondReply']);
+            if (!empty($emailsReplyList)) {
+                $mail->replyTo($emailsReplyList);
+            }
         }
 
-        $mail->line($emailAutorespondSubject);
+        if ($autoRespondSettings['emailAutoRespondSubject']) {
+            $mail->line($autoRespondSettings['emailAutoRespondSubject']);
+            $mail->subject($autoRespondSettings['emailAutoRespondSubject']);
+        }
 
         $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
-        $parsedEmail = $twig->render($emailAutorespond, [
+        $parsedEmail = $twig->render($autoRespondSettings['emailAutoRespond'], [
                 'url' => url('/'),
                 'created_at' => date('Y-m-d H:i:s')
             ]
         );
-        $mail->subject($emailAutorespondSubject);
+
         $mail->view('app::email.simple', ['content' => $parsedEmail]);
 
         return $mail;
