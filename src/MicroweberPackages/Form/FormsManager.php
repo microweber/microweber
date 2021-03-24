@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Form;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -591,13 +592,22 @@ class FormsManager
 
                 if (!empty($userEmails)) {
 
-                   /* $receiverSettings = mw()->forms_manager->getReceiversSettings($for_id);
-                    if ($receiverSettings['enableCustomReceivers']) {
+                    if (Option::getValue('email_custom_receivers', $for_id)) {
+                        $sendFormDataToReceivers = Option::getValue('email_to', $for_id);
+                    } else {
+                        $sendFormDataToReceivers = Option::getValue('email_to', 'contact_form_default');
+                    }
 
-                    }*/
+                    if (empty(!$sendFormDataToReceivers)) {
+                        $receivers =  $this->explodeMailsFromString($sendFormDataToReceivers);
+                        if (!empty($receivers)) {
+                            foreach($receivers as $receiver) {
+                                Notification::route('mail', $receiver)->notify(new NewFormEntry($formModel));
+                            }
+                        }
+                    }
 
-                    $autorespondSettings = mw()->forms_manager->getAutoRespondSettings($for_id);
-                    if ($autorespondSettings['emailAutoRespondEnable'] && is_array($userEmails)) {
+                    if (Option::getValue('email_autorespond_enable', $for_id) && is_array($userEmails)) {
                         foreach ($userEmails as $userEmail) {
 
                             $findFormRecipient = FormRecipient::where('email', $userEmail)->first();
@@ -635,33 +645,72 @@ class FormsManager
         return $success;
 
     }
+
+    public function explodeMailsFromString($emailsListString)
+    {
+        $emailsList = [];
+        if (!empty($emailsListString)) {
+            if (strpos($emailsListString, ',') !== false) {
+                $explodedMails = explode(',', $emailsListString);
+                if (is_array($explodedMails)) {
+                    foreach ($explodedMails as $email) {
+                        $email = trim($email);
+                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            $emailsList[] = $email;
+                        }
+                    }
+                }
+            } else {
+                if (filter_var($emailsListString, FILTER_VALIDATE_EMAIL)) {
+                    $emailsList[] = $emailsListString;
+                }
+            }
+        }
+
+        return $emailsList;
+    }
+
     public function getAutoRespondSettings($formId) {
 
-        /**
-         * Auto Respond to user
-         */
-        $emailAutoRespond = Option::getValue('email_autorespond', $formId);
-        $emailAutoRespondEnable = Option::getValue('email_autorespond_enable', $formId);
-        $emailAutoRespondSubject = Option::getValue('email_autorespond_subject', $formId);
-        $emailAutoRespondReply = Option::getValue('email_autorespond_reply', $formId);
-        $emailAutoRespondAppendFiles = Option::getValue('email_autorespond_append_files', $formId);
+        $systemEmailOptionGroup = 'email';
+        $contactFormGlobalOptionGroup = 'contact_form_default';
 
         /**
          * Auto Respond custom sender
          */
-        $emailAutoRespondCustomSenderEnable = Option::getValue('enable_autorespond_custom_sender', $formId);
-        $emailAutoRespondFrom = Option::getValue('email_autorespond_from', $formId);
-        $emailAutoRespondFromName = Option::getValue('email_autorespond_from_name', $formId);
+        if (Option::getValue('email_autorespond_custom_sender', $formId)) {
+            $emailFrom = Option::getValue('email_autorespond_from', $formId);
+            $emailFromName = Option::getValue('email_autorespond_from_name', $formId);
+        } else {
+            /**
+             * Sending options if we dont have a custom auto respond sender
+             */
+            if (Option::getValue('email_custom_sender', $contactFormGlobalOptionGroup)) {
+                // We will get the global contact form options
+                $emailFrom = Option::getValue('email_from', $contactFormGlobalOptionGroup);
+                $emailFromName = Option::getValue('email_from_name', $contactFormGlobalOptionGroup);
+            } else {
+                // We will get the system email options
+                $emailFrom = Option::getValue('email_from', $systemEmailOptionGroup);
+                $emailFromName = Option::getValue('email_from_name', $systemEmailOptionGroup);
+            }
+        }
+
+        /**
+         * Auto Respond to user
+         */
+        $emailContent = Option::getValue('email_autorespond', $formId);
+        $emailSubject = Option::getValue('email_autorespond_subject', $formId);
+        $emailReplyTo = Option::getValue('email_autorespond_reply_to', $formId);
+        $emailAppendFiles = Option::getValue('email_autorespond_append_files', $formId);
 
         return [
-            'emailAutoRespond'=>$emailAutoRespond,
-            'emailAutoRespondEnable'=>$emailAutoRespondEnable,
-            'emailAutoRespondSubject'=>$emailAutoRespondSubject,
-            'emailAutoRespondReply'=>$emailAutoRespondReply,
-            'emailAutoRespondAppendFiles'=>$emailAutoRespondAppendFiles,
-            'emailAutoRespondCustomSenderEnable'=>$emailAutoRespondCustomSenderEnable,
-            'emailAutoRespondFrom'=>$emailAutoRespondFrom,
-            'emailAutoRespondFromName'=>$emailAutoRespondFromName,
+            'emailContent'=>$emailContent,
+            'emailSubject'=>$emailSubject,
+            'emailReplyTo'=>$emailReplyTo,
+            'emailAppendFiles'=>$emailAppendFiles,
+            'emailFrom'=>$emailFrom,
+            'emailFromName'=>$emailFromName
         ];
     }
 

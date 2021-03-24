@@ -16,7 +16,9 @@ class OptionsTest extends TestCase
         $data['option_key'] = 'a_test';
         $data['option_group'] = 'test';
         $save = save_option($data);
-        $get = get_option('a_test', 'test');
+
+        $get = get_option('a_test', 'test'); // if this broke maybe you dont destroy MEMORY variable in Class when save OPTION
+
         $this->assertEquals($now, $get);
 
         $options = OptionFacade::getValue('a_test', 'test'); // static
@@ -48,13 +50,13 @@ class OptionsTest extends TestCase
 
 
         $delete = mw()->option_manager->delete('z_test', 'ztest');
-        $get = mw()->option_manager->get('z_test', 'ztest');
 
+        $get = mw()->option_manager->get('z_test', 'ztest'); // if this broke maybe you dont destroy MEMORY variable in Class when delete OPTION
 
         $this->assertTrue(in_array('website',$groups));
         $this->assertTrue(in_array('ztest',$groups2));
         $this->assertTrue($delete);
-        $this->assertFalse($get);
+        $this->assertTrue(empty($get));
 
 
     }

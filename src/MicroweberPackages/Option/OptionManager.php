@@ -16,6 +16,7 @@ use DB;
 use Cache;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
+use MicroweberPackages\Option\Traits\ModuleOptionTrait;
 
 class OptionManager
 {
@@ -25,6 +26,8 @@ class OptionManager
     public $tables = array();
     public $table_prefix = false;
     public $adapters_dir = false;
+
+    use ModuleOptionTrait;
 
     public function __construct($app = null)
     {
@@ -117,8 +120,8 @@ class OptionManager
     {
 
         $key = $this->app->database_manager->escape_string($key);
-        $table = $this->tables['options'];
-        $query = $this->app->database_manager->table($table);
+
+        $query = Option::query();
         $query = $query->where('option_key', '=', $key);
 
         if ($option_group != false) {
@@ -129,9 +132,11 @@ class OptionManager
             $query = $query->where('module', '=', $module_id);
         }
 
-        $query = $query->delete();
-        $this->override($option_group,$key,false);
-        $this->app->cache_manager->delete('options');
+        $query->delete();
+
+        $this->memoryModuleOptionGroup = [];
+        $this->memoryOptionGroup = [];
+
         return true;
     }
 
@@ -193,40 +198,10 @@ class OptionManager
         return false;
     }
 
-    public $memoryModuleOptionGroup = [];
-    public function getModuleOptions($optionGroup)
-    {
-        if (isset($this->memoryOptionGroup[$optionGroup])) {
-            return $this->memoryOptionGroup[$optionGroup];
-        }
-
-        if ($optionGroup) {
-            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
-            $this->memoryOptionGroup[$optionGroup] = $allOptions;
-            return $allOptions;
-        }
-
-        return false;
-    }
-
-    public function getModuleOption($optionKey, $optionGroup, $returnFull)
-    {
-        if (isset($this->memoryModuleOptionGroup[$optionGroup])) {
-            return $this->getOptionFromOptionsArray($optionKey, $this->memoryModuleOptionGroup[$optionGroup], $returnFull);
-        }
-
-        if ($optionGroup) {
-            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
-            $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
-            return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
-        }
-
-        return false;
-    }
-
     private function getOptionFromOptionsArray($key, $options, $returnFull) {
         foreach ($options as $option) {
             if ($option['option_key'] == $key) {
+                $option['option_value'] = $this->app->url_manager->replace_site_url_back($option['option_value']);
                 if ($returnFull) {
                     return $option;
                 }
@@ -334,11 +309,26 @@ class OptionManager
                         $findModuleOption->option_key = $data['option_key'];
                         $findModuleOption->option_group = $data['option_group'];
                     }
+                    if (isset($data['lang'])) {
+                        $findModuleOption->lang = $data['lang'];
+                    }
                     $findModuleOption->module = $data['module'];
                     $findModuleOption->option_value = $data['option_value'];
                     $save = $findModuleOption->save();
+                    $this->memoryModuleOptionGroup = [];
                 } else {
-                    $save = $this->app->database_manager->save($data);
+                    $findOption = Option::where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->first();
+                    if ($findOption == null) {
+                        $findOption = new Option();
+                        $findOption->option_key = $data['option_key'];
+                        $findOption->option_group = $data['option_group'];
+                    }
+                    if (isset($data['lang'])) {
+                        $findOption->lang = $data['lang'];
+                    }
+                    $findOption->option_value = $data['option_value'];
+                    $save = $findOption->save();
+                    $this->memoryOptionGroup = [];
                 }
 
                 if ($option_group != false) {

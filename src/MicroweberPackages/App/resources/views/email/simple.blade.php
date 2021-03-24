@@ -340,24 +340,29 @@
         <td class="container">
             <div class="content">
 
+                <div style="text-align: center">
+                @php
+                    $logo = get_option('favicon_image', 'website')
+                @endphp
+                @if (!empty($logo))
+                        <img src="{{$logo}}" style="max-width: 200px">
+                @endif
+                </div>
+
                 <!-- START CENTERED WHITE CONTAINER -->
                 <table role="presentation" class="main">
-
                     <!-- START MAIN CONTENT AREA -->
                     <tr>
                         <td class="wrapper">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-
                                         {!! $content !!}
-
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-
                     <!-- END MAIN CONTENT AREA -->
                 </table>
                 <!-- END CENTERED WHITE CONTAINER -->
@@ -367,9 +372,9 @@
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block powered-by">
-
-                               <a href="{{site_url()}}"> {{get_option('website_title', 'website')}}</a>
-
+                                <a href="{{site_url()}}"> {{get_option('website_title', 'website')}} </a>
+                                <br />
+                                {{get_option('website_description', 'website')}}
                             </td>
                         </tr>
                     </table>

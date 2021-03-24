@@ -9,6 +9,10 @@ if (isset($params['for_module_id'])) {
 }
 ?>
 
+<script>
+    mw.lib.require('flag_icons');
+</script>
+
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
         <div class="col">
@@ -40,11 +44,11 @@ if (isset($params['for_module_id'])) {
         </div>
 
         <div class="form-group mb-4">
-            <?php  $enableCustomReceivers = \MicroweberPackages\Option\Facades\Option::getValue('enable_custom_receivers', $mod_id); ?>
+            <?php $emailCustomReceivers = \MicroweberPackages\Option\Facades\Option::getValue('email_custom_receivers', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
-                <label class="d-inline-block mr-5" for="enable_custom_receivers">No</label>
-                <input type="checkbox" onchange="toggleCustomReceivers(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_custom_receivers" option-group="<?php print $mod_id ?>" id="enable_custom_receivers" value="y" <?php if ($enableCustomReceivers): ?>checked<?php endif; ?>>
-                <label class="custom-control-label" for="enable_custom_receivers">Yes</label>
+                <label class="d-inline-block mr-5" for="email_custom_receivers">No</label>
+                <input type="checkbox" module="contact_form" onchange="toggleCustomReceivers(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="email_custom_receivers" option-group="<?php print $mod_id ?>" id="email_custom_receivers" value="y" <?php if ($emailCustomReceivers): ?>checked<?php endif; ?>>
+                <label class="custom-control-label" for="email_custom_receivers">Yes</label>
             </div>
         </div>
 
@@ -60,7 +64,7 @@ if (isset($params['for_module_id'])) {
             };
         </script>
 
-        <div class="js-custom-receivers" <?php if (!$enableCustomReceivers): ?> style="display:none"<?php endif; ?>>
+        <div class="js-custom-receivers" <?php if (!$emailCustomReceivers): ?> style="display:none"<?php endif; ?>>
             <div class="form-group">
                 <label class="control-label"><?php _e("To e-mail addresses"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers seperated with coma."); ?></small>
@@ -91,7 +95,7 @@ if (isset($params['for_module_id'])) {
             <?php $emailAutorespondEnable = \MicroweberPackages\Option\Facades\Option::getValue('email_autorespond_enable', $mod_id); ?>
             <div class="custom-control custom-switch pl-0">
                 <label class="d-inline-block mr-5" for="email_autorespond_enable">No</label>
-                <input type="checkbox" onchange="toggleAutoRespondFields(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="email_autorespond_enable" option-group="<?php print $mod_id ?>" id="email_autorespond_enable" value="y" <?php if ($emailAutorespondEnable): ?>checked<?php endif; ?>>
+                <input type="checkbox" module="contact_form" onchange="toggleAutoRespondFields(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="email_autorespond_enable" option-group="<?php print $mod_id ?>" id="email_autorespond_enable" value="y" <?php if ($emailAutorespondEnable): ?>checked<?php endif; ?>>
                 <label class="custom-control-label" for="email_autorespond_enable">Yes</label>
             </div>
         </div>
@@ -108,11 +112,39 @@ if (isset($params['for_module_id'])) {
             };
         </script>
 
+        <?php
+        $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+        ?>
+
         <div class="js-auto-respond-fields" <?php if (!$emailAutorespondEnable): ?> style="display:none"<?php endif; ?>>
 
-            <div class="alert alert-primary">
+            <div class="form-group">
+                <label class="control-label"><?php _e("Auto respond subject"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("Auto responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
+
+                <?php
+                echo $formBuilder->textOption('email_autorespond_subject', $mod_id)->attribute('autocomplete', 'off')->module('contact_form');
+                ?>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><?php _e("Auto respond message"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("Auto respond e-mail sent back to the user"); ?></small>
+
+              <!--  <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php /*print $mod_id */?>"><?php /*print get_option('email_autorespond', $mod_id); */?></textarea>
+-->
+                <?php
+                echo $formBuilder->textareaOption('email_autorespond', $mod_id)->attribute('autocomplete', 'off')->module('contact_form');
+                ?>
+
+                <label class="control-label"><span class="ico ismall_warn"></span>
+                    <small><?php _e("Auto respond e-mail sent back to the user"); ?></small>
+                </label>
+            </div>
+
+            <div class="alert alert-primary auto-respond-custom-sender">
                 <div class="form-group mb-3">
-                    <label class="control-label"><?php _e("Auto respond sender"); ?></label>
+                    <label class="control-label"><?php _e("Auto respond custom sender"); ?></label>
                     <small class="text-muted d-block mb-2">
                         <?php _e('Use custom sender settings for the current contact form.'); ?>
                         <br />
@@ -122,11 +154,11 @@ if (isset($params['for_module_id'])) {
                 </div>
 
                 <div class="form-group mb-4">
-                    <?php  $enableAutorespondCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('enable_autorespond_custom_sender', $mod_id); ?>
+                    <?php  $emailAutorespondCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('email_autorespond_custom_sender', $mod_id); ?>
                     <div class="custom-control custom-switch pl-0">
-                        <label class="d-inline-block mr-5" for="enable_autorespond_custom_sender">No</label>
-                        <input type="checkbox" onchange="toggleAutorespondCustomSender(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="enable_autorespond_custom_sender" option-group="<?php print $mod_id ?>" id="enable_autorespond_custom_sender" value="y" <?php if ($enableAutorespondCustomSender): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="enable_autorespond_custom_sender">Yes</label>
+                        <label class="d-inline-block mr-5" for="email_autorespond_custom_sender">No</label>
+                        <input type="checkbox" onchange="toggleAutorespondCustomSender(event)" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" name="email_autorespond_custom_sender" option-group="<?php print $mod_id ?>" id="email_autorespond_custom_sender" value="y" <?php if ($emailAutorespondCustomSender): ?>checked<?php endif; ?>>
+                        <label class="custom-control-label" for="email_autorespond_custom_sender">Yes</label>
                     </div>
                 </div>
 
@@ -142,7 +174,7 @@ if (isset($params['for_module_id'])) {
                     };
                 </script>
 
-                <div class="js-autorespond-custom-sender" <?php if (!$enableAutorespondCustomSender): ?> style="display:none"<?php endif; ?>>
+                <div class="js-autorespond-custom-sender" <?php if (!$emailAutorespondCustomSender): ?> style="display:none"<?php endif; ?>>
                     <div class="form-group">
                         <label class="control-label"><?php _e("Auto respond from e-mail address"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("The e-mail address which will send the message"); ?></small>
@@ -159,25 +191,9 @@ if (isset($params['for_module_id'])) {
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Auto respond subject"); ?></label>
-                <small class="text-muted d-block mb-2"><?php _e("Auto responders allows you to set up automated replies to incoming email"); ?> <br/><?php _e("E.x. “Thank you for your request”"); ?></small>
-                <input name="email_autorespond_subject" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_subject', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label"><?php _e("Auto respond message"); ?></label>
-                <small class="text-muted d-block mb-2"><?php _e("Auto respond e-mail sent back to the user"); ?></small>
-                <textarea id="editorAM" name="email_autorespond" class="mw_option_field form-control" option-group="<?php print $mod_id ?>"><?php print get_option('email_autorespond', $mod_id); ?></textarea>
-
-                <label class="control-label"><span class="ico ismall_warn"></span>
-                    <small><?php _e("Auto respond e-mail sent back to the user"); ?></small>
-                </label>
-            </div>
-
-            <div class="form-group">
                 <label class="control-label"><?php _e("Auto respond reply to e-mail"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("When the user receive the auto respond message they can response back to reply to email."); ?></small>
-                <input name="email_autorespond_reply" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_reply', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
+                <input name="email_autorespond_reply_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_autorespond_reply_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
             </div>
 
             <div class="form-group">

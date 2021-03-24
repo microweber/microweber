@@ -1,4 +1,3 @@
-elements admin
 <?php
  
 $mod_params = array();
@@ -36,6 +35,7 @@ if(isset($params['category'])){
   <?php if(!empty($mods)): foreach($mods as $k=>$item): ?>
   <li>      
   <module type="admin/modules/edit_element" data-module-id="<?php print $item['id'] ?>" />
+      <hr>
     <?php // d($item); ?>
   </li>
   <?php endforeach; endif; ?>
