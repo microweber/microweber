@@ -29,6 +29,20 @@ class AssetsServiceProvider extends LaravelAssetsServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/assets.php', 'assets');
         $assets = config('assets');
 
+
+        // for CDN
+        if (isset($assets['use_cdn']) and $assets['use_cdn']) {
+            $this->mergeConfigFrom(__DIR__ . '/config/assets.cdn.php', 'assets.cdn');
+            $assets = config('assets');
+
+            if (isset($assets['cdn']['collections'])) {
+                $assets['collections'] = array_merge($assets['collections'], $assets['cdn']['collections']);
+                unset($assets['cdn']['collections']);
+            }
+        }
+
+
+
         // Bind our component into the IoC container.
         $this->app->singleton('assets', function ($app) use ($assets) {
             $config = [
@@ -42,13 +56,15 @@ class AssetsServiceProvider extends LaravelAssetsServiceProvider
             return $assets;
         });
 
-        // Command-line functions
-        // Don't use array access here - it is hard to mock / unit-test.  Use bind() and make() instead.
-        $this->app->bind('command.assets.purge', function (Application $app) {
-            return new Purge($app->make('assets'));
-        });
+        if (is_cli()) {
+            // Command-line functions
+            // Don't use array access here - it is hard to mock / unit-test.  Use bind() and make() instead.
+            $this->app->bind('command.assets.purge', function (Application $app) {
+                return new Purge($app->make('assets'));
+            });
 
-        $this->commands(['command.assets.purge']);
+            $this->commands(['command.assets.purge']);
+        }
     }
 
 
