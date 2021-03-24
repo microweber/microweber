@@ -221,8 +221,6 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     }
 
 }
-
-
 ?>  <?php if (!isset($params['clean'])) { ?>
     <script type="text/javascript">
 
@@ -350,7 +348,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php if ($mod_obj_str == 'elements'): ?>
                 <li unselectable="on">
                     <hr>
-                    <h4 onclick="$('.default-layouts', '.list-<?php print $mod_obj_str ?>').toggle()"><?php _e('Default static layouts'); ?> </h4>
+                    <h4 onclick="$('.default-layouts', '.list-<?php print $mod_obj_str ?>').toggle()"><?php _e('Default layouts'); ?> <span><i class="mdi mdi-arrow-down"></i></span></h4>
                     <hr>
                 </li>
 

@@ -98,10 +98,7 @@
                 <div class="mw-live-edit-tab-title">
                     <h6><?php _e("Template settings"); ?></h6>
                 </div>
-
-                    <div id="mw-live-edit-sidebar-settings-iframe-holder-template-settings" class="mw-live-edit-sidebar-iframe-holder"></div>
-
-
+                <div id="mw-live-edit-sidebar-settings-iframe-holder-template-settings" class="mw-live-edit-sidebar-iframe-holder"></div>
             </div>
             <?php } ?>
             <div class="tabitem ">
