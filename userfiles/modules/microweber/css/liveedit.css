@@ -1589,7 +1589,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 .mw_module_image img {
     position: relative;
     z-index: 1;
-    max-height: 30px;
+    /*max-height: 30px;*/
     margin-bottom: 0;
 }
 
@@ -4855,16 +4855,14 @@ div.element {
     padding: 0 !important;
 }
 
-
-
 /* Modules */
 .module-admin-modules-list-layouts .module-item-module {
     width: 100%;
     list-style: none;
+    padding-bottom: 25px;
 }
 
 .module-admin-modules-list-layouts .module-item-module .mw_module_hold {
-    padding-bottom: 15px;
     background: transparent;
     border: 1px solid transparent;
     border-image: initial;
@@ -4878,7 +4876,7 @@ div.element {
 }
 
 .module-admin-modules-list-layouts .mw_module_image_holder img {
-    max-height: none;
+    height: auto;
     width: 100%;
 }
 
@@ -4890,14 +4888,14 @@ div.element {
     background: #2a2a2a;
     color: #fff;
     border-top: none;
-    padding-top: 3px
+    position: absolute;
+    padding-top: 3px;
+    width: 90%;
 }
 
 .module-admin-modules-list-layouts .module_name {
     margin-top: 0px;
 }
-
-
 
 /*LIVE EDIT STATIC LAYOUTS*/
 
