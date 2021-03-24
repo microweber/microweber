@@ -179,13 +179,13 @@ return [
             asset('userfiles/modules/microweber/api/dist/site.js'),
         ],
         'live-edit' => [
-            'mw-ui',
+        //    'mw-ui',
 
-             asset('userfiles/modules/microweber/api/dist/liveedit-libs.js'),
+            asset('userfiles/modules/microweber/api/dist/liveedit-libs.js'),
             asset('userfiles/modules/microweber/api/dist/liveedit.js'),
             asset('userfiles/modules/microweber/css/wysiwyg.css'),
             asset('userfiles/modules/microweber/css/liveedit.css'),
-        //    asset('userfiles/modules/microweber/css/liveedit.rtl.css'),
+      //   asset('userfiles/modules/microweber/css/liveedit.rtl.css'),
         ],
     ],
 ];

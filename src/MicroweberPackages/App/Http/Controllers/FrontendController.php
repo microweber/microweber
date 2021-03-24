@@ -2020,13 +2020,12 @@ class FrontendController extends Controller
                 }
             }
 
-            Assets::add(['site']);
 
-            if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
-                if ($is_admin == true) {
-                    Assets::add(['live-edit']);
+            if ($is_admin == true and $is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
+                Assets::add(['live-edit']);
+            } else {
+                Assets::add(['site']);
 
-                }
             }
 
 
