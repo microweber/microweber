@@ -152,7 +152,7 @@ return [
         'admin' => [
 
             'mw-ui',
-            'jquery-ui',
+           // 'jquery-ui',
 
 
             asset('userfiles/modules/microweber/api/dist/admin-libs.js'),
@@ -164,13 +164,13 @@ return [
         ],
         'mw-ui-settings' => 'jquery',
         'mw-ui' => [
-            'mw-ui-settings',
-            'jquery',
+            //  'mw-ui-settings',
+            // 'jquery',
             asset('userfiles/modules/microweber/api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css'),
             asset('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css'),
-            asset('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js'),
-            asset('userfiles/modules/microweber/css/ui.css'),
+            // asset('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js'),
             asset('userfiles/modules/microweber/default.css'),
+            asset('userfiles/modules/microweber/css/ui.css'),
         ],
         'site' => [
 

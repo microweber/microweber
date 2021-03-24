@@ -164,8 +164,8 @@ class AdminController extends Controller
         //  if (!stristr($layout, $apijs_loaded)) {
         $rep = 0;
 
-        $layout = str_ireplace('<head>', '<head>' . $main_css_url, $layout, $rep);
-        $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
+       // $layout = str_ireplace('<head>', '<head>' . $main_css_url, $layout, $rep);
+      //  $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
 
 
 
