@@ -13,6 +13,8 @@ use Jenssegers\Agent\Agent;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
+use MicroweberPackages\Assets\Facades\Assets;
+use MicroweberPackages\Assets\AssetsServiceProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
@@ -127,6 +129,8 @@ class AppServiceProvider extends ServiceProvider
 
     public $laravel_aliases = [
         'App' => \Illuminate\Support\Facades\App::class,
+        'Assets' => Assets::class,
+
         'Arr' => \Illuminate\Support\Arr::class,
         'Artisan' => \Illuminate\Support\Facades\Artisan::class,
         'Auth' => \Illuminate\Support\Facades\Auth::class,
@@ -268,6 +272,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(OfferServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
+        $this->app->register(AssetsServiceProvider::class);
 
 
 

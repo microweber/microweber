@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
+use MicroweberPackages\Assets\Facades\Assets;
 use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
@@ -376,6 +377,9 @@ class InstallController extends Controller
 
             return 'done';
         }
+
+
+
 
         $layout = new View($view);
 

@@ -28,7 +28,6 @@ class AssetsServiceProvider extends LaravelAssetsServiceProvider
         // Merge our default configuration.
         $this->mergeConfigFrom(__DIR__ . '/config/assets.php', 'assets');
         $assets = config('assets');
-dd(12312);
 
         // Bind our component into the IoC container.
         $this->app->singleton('assets', function ($app) use ($assets) {

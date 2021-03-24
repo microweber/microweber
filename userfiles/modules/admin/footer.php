@@ -1,8 +1,13 @@
-            </div>
-            <!--  /.main.container -->
-        </div>
-        <!--  /#mw-admin-main-block -->
+</div>
+<!--  /.main.container -->
+</div>
+<!--  /#mw-admin-main-block -->
 
 
-    </body>
-</html>
+<?php
+
+
+print \Illuminate\Support\Facades\View::make('admin::partials.footer', [])->render();
+
+
+?>

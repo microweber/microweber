@@ -8,6 +8,7 @@ use function GuzzleHttp\Psr7\parse_query;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\Assets\Facades\Assets;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -1403,7 +1404,7 @@ class FrontendController extends Controller
                 $compile_assets = \Config::get('microweber.compile_assets');
 
                 $output_cache_content = false;
-                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) .intval(is_https()). $_SERVER['REQUEST_URI']. current_lang().site_url()) ;
+                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
                 $output_cache_group = 'global';
                 $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 
@@ -2018,6 +2019,17 @@ class FrontendController extends Controller
                     }
                 }
             }
+
+            Assets::add(['site']);
+
+            if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
+                if ($is_admin == true) {
+                    Assets::add(['live-edit']);
+
+                }
+            }
+
+
             $modify_content = event_trigger('on_load', $content);
 
             if ($this->debugbarEnabled) {
@@ -2121,7 +2133,8 @@ class FrontendController extends Controller
 
 
 
-            $l = $this->app->template->append_api_js_to_layout($l);
+
+
 
 
             //   if (!stristr($l, $apijs_loaded)) {
@@ -2129,7 +2142,7 @@ class FrontendController extends Controller
 //            $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
 //            $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
 //            $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-//            $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
+//
             //  }
 
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
@@ -2307,6 +2320,18 @@ class FrontendController extends Controller
             $l = execute_document_ready($l);
 
             event_trigger('frontend');
+
+
+
+
+            $assets_html =  Assets::all();
+
+            $l = str_ireplace('<head>', '<head>' . $assets_html, $l);
+
+            $l = $this->app->template->append_api_js_to_layout($l);
+
+
+
 
 
             $l = mw()->template->add_csrf_token_meta_tags($l);
@@ -2854,7 +2879,7 @@ class FrontendController extends Controller
     public function robotstxt()
     {
         header('Content-Type: text/plain');
-        $robots = $this->websiteOptions['robots_txt'];
+        $robots = get_option('robots_txt', 'website');
 
         if ($robots == false) {
             $robots = "User-agent: *\nAllow: /" . "\n";

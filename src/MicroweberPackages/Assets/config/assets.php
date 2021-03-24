@@ -134,7 +134,7 @@ return [
         'jquery1' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js',
         'jquery2' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
         'jquery3' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js',
-        'jquery-local' => 'userfiles/modules/microweber/api/libs/mw-ui/assets/ui/plugins/js/jquery-3.4.1.min.js',
+        'jquery-local' => asset('userfiles/modules/microweber/api/libs/mw-ui/assets/ui/plugins/js/jquery-3.4.1.min.js'),
         'smalot-bootstrap-datetimepicker' => [
             'bootstrap',
             'https://cdnjs.cloudflare.com/ajax/libs/smalot-bootstrap-datetimepicker/2.3.4/css/bootstrap-datetimepicker.min.css',
@@ -145,40 +145,47 @@ return [
         'jquery-ui' => [
             'jquery',
 
-            'userfiles/modules/microweber/api/libs/jqueryui/jquery-ui.js',
-            'userfiles/modules/microweber/api/libs/jqueryui/jquery-ui.css',
+            asset('userfiles/modules/microweber/api/libs/jqueryui/jquery-ui.js'),
+            asset('userfiles/modules/microweber/api/libs/jqueryui/jquery-ui.css'),
         ],
 
         'admin' => [
-            'mw-ui-settings',
 
-            'jquery',
+            'mw-ui',
+            'jquery-ui',
 
-            'userfiles/modules/microweber/api/webpack/dist/admin.js',
-            'userfiles/modules/microweber/api/webpack/dist/admin-libs.js',
+
+            asset('userfiles/modules/microweber/api/dist/admin-libs.js'),
+            asset('userfiles/modules/microweber/api/dist/admin.js'),
+            asset('userfiles/modules/microweber/api/dist/editor.js'),
+            asset('userfiles/modules/microweber/css/wysiwyg.css'),
+            asset('userfiles/modules/microweber/css/admin.css'),
+
         ],
-        'mw-ui-settings' => mw()->template->get_apijs_settings_url(),
+        'mw-ui-settings' => 'jquery',
         'mw-ui' => [
             'mw-ui-settings',
             'jquery',
-            'userfiles/modules/microweber/api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css',
-            'userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main.css',
-            'userfiles/modules/microweber/api/libs/mw-ui/assets/ui/plugins/js/plugins.js',
-            'userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js',
+            asset('userfiles/modules/microweber/api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css'),
+            asset('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css'),
+            asset('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js'),
+            asset('userfiles/modules/microweber/css/ui.css'),
+            asset('userfiles/modules/microweber/default.css'),
         ],
         'site' => [
-            'mw-ui-settings',
 
-            'jquery',
 
-            'userfiles/modules/microweber/api/webpack/dist/site.js',
-            'userfiles/modules/microweber/api/webpack/dist/site-libs.js',
+            asset('userfiles/modules/microweber/api/dist/site-libs.js'),
+            asset('userfiles/modules/microweber/api/dist/site.js'),
         ],
         'live-edit' => [
-            'jquery',
+            'mw-ui',
 
-            'userfiles/modules/microweber/api/webpack/dist/liveedit.js',
-            'userfiles/modules/microweber/api/webpack/dist/liveedit-libs.js',
+             asset('userfiles/modules/microweber/api/dist/liveedit-libs.js'),
+            asset('userfiles/modules/microweber/api/dist/liveedit.js'),
+            asset('userfiles/modules/microweber/css/wysiwyg.css'),
+            asset('userfiles/modules/microweber/css/liveedit.css'),
+        //    asset('userfiles/modules/microweber/css/liveedit.rtl.css'),
         ],
     ],
 ];

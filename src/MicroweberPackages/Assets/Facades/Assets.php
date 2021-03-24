@@ -11,6 +11,12 @@ namespace MicroweberPackages\Assets\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
+
+
+
+/**
+ * @mixin \MicroweberPackages\Assets\Assets
+ */
 class Assets extends Facade
 {
     /**

@@ -17,9 +17,18 @@ if (isset($_COOKIE['mw_exp'])) {
     <script>
         mw.settings.liveEdit = true;
     </script>
-    <script src="<?php print mw_includes_url(); ?>api/webpack/dist/liveedit.js"></script>
 
 
+    <?php
+
+    /* <script src="<?php print mw_includes_url(); ?>api/webpack/dist/liveedit.js"></script>
+
+    <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+    <?php if (_lang_is_rtl()) { ?>
+        <link href="<?php print(mw_includes_url()); ?>css/liveedit.rtl.css" rel="stylesheet" type="text/css"/>
+    <?php } ?>*/
+    ?>
 
     <script type="text/javascript">
         $(window).on('load', function () {
@@ -33,11 +42,7 @@ if (isset($_COOKIE['mw_exp'])) {
         });
 
     </script>
-    <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
-    <link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
-    <?php if (_lang_is_rtl()) { ?>
-        <link href="<?php print(mw_includes_url()); ?>css/liveedit.rtl.css" rel="stylesheet" type="text/css"/>
-    <?php } ?>
+
     <?php
 
     $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");

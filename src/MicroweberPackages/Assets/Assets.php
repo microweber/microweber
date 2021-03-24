@@ -190,6 +190,9 @@ class Assets
      */
     private $js_assets = array();
 
+
+    private $callback_assets = array();
+
     /**
      * The filesystem corresponding to our public path.
      *
@@ -485,20 +488,21 @@ class Assets
             foreach ($asset as $a) {
                 $this->add($a, $type, $group);
             }
-        } elseif ($type === self::TYPE_CSS || $type === self::TYPE_AUTO && preg_match(self::REGEX_CSS, $asset)) {
+        } elseif (is_string($type) and $type === self::TYPE_CSS || $type === self::TYPE_AUTO && preg_match(self::REGEX_CSS, $asset)) {
             if (!in_array($asset, $this->css_assets[$group])) {
                 $this->css_assets[$group][] = $asset;
                 $this->all_assets[$group][] = $asset;
             }
-        } elseif ($type === self::TYPE_JS || $type === self::TYPE_AUTO && preg_match(self::REGEX_JS, $asset)) {
+        } elseif (is_string($type) and  $type === self::TYPE_JS || $type === self::TYPE_AUTO && preg_match(self::REGEX_JS, $asset)) {
             if (!in_array($asset, $this->js_assets[$group])) {
                 $this->js_assets[$group][] = $asset;
                 $this->all_assets[$group][] = $asset;
 
             }
-        } elseif (array_key_exists($asset, $this->collections)) {
+        } elseif (is_string($type) and  array_key_exists($asset, $this->collections)) {
             $this->add($this->collections[$asset], $type, $group);
         } else {
+         //   dd(debug_backtrace(1));
             throw new InvalidArgumentException('Unknown asset type: ' . $asset);
         }
 
@@ -507,18 +511,47 @@ class Assets
 
     public function all($group = self::GROUP_DEFAULT, array $attributes = [])
     {
-        if (isset($this->all_assets[$group])) {
-            return $this->processAssets(
-                $attributes,
-                $this->all_assets[$group],
-                false,
-                false,
-                false,
-                false,
-                self::FORMAT_CSS_INLINE,
-                $group
-            );
+
+        $internal = $this->getInternalScripts();
+
+
+
+        $return = $this->processAssets(
+            $attributes,
+            $this->all_assets[$group],
+            false,
+            false,
+            false,
+            false,
+            self::FORMAT_CSS_INLINE,
+            $group
+        );
+        if($group == self::GROUP_DEFAULT){
+            $return = $internal.$return;
         }
+        if (isset($this->all_assets[$group])) {
+            return $return;
+        }
+
+    }
+
+    public function getInternalScripts()
+    {
+        return '';
+
+        $html_out = '';
+
+        $internals_js = array(
+            mw()->template->get_apijs_settings_url(),
+         //   mw()->template->get_apijs_url()
+        );
+
+
+        foreach ($internals_js as $file) {
+            $html_out .= '<script type="text/javascript" src="' . $file . '"></script>' . "\n";
+        }
+
+        return $html_out;
 
     }
 

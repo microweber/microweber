@@ -1,58 +1,56 @@
-<!DOCTYPE html>
-<html <?php print lang_attributes(); ?>>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="robots" content="noindex">
-
-    <script src="<?php print mw_includes_url(); ?>api/webpack/dist/admin-libs.js"></script>
-    <script src="<?php print mw_includes_url(); ?>api/webpack/dist/admin.js"></script>
-    <script src="<?php print mw_includes_url(); ?>api/webpack/dist/editor.js"></script>
-    <script>
-        mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
-        mw.require("<?php print mw_includes_url(); ?>css/components.css");
-
-        mw.lib.require('flag_icons', true);
-        mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
+<?php
 
 
-        <?php if(_lang_is_rtl()){ ?>
-        mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
-        <?php } ?>
-    </script>
-    <?php if (!isset($_REQUEST['no_toolbar'])): ?>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.mw-lazy-load-module').reload_module();
 
-                if (self === top) {
-                    window.onhashchange = function () {
-                        mw.cookie.set('back_to_admin', location.href);
-                    }
+print \Illuminate\Support\Facades\View::make('admin::partials.header', [])->render();
+
+
+?>
+
+<script>
+   // mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
+  //  mw.require("<?php print mw_includes_url(); ?>css/components.css");
+
+    mw.lib.require('flag_icons', true);
+ //   mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
+
+
+    <?php if(_lang_is_rtl()){ ?>
+   // mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
+    <?php } ?>
+</script>
+<?php if (!isset($_REQUEST['no_toolbar'])): ?>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.mw-lazy-load-module').reload_module();
+
+            if (self === top) {
+                window.onhashchange = function () {
                     mw.cookie.set('back_to_admin', location.href);
                 }
+                mw.cookie.set('back_to_admin', location.href);
+            }
 
-                mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function () {
-                    if (mw.helpinfo != undefined) {
-                        mw.cookie.set('helpinfo', false, 4380);
-                        $(".helpinfo_helper").fadeOut();
-                    }
-                });
-            });
-            // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
-
-            $(window).on('load', function () {
-                if ($(".bootstrap3ns").size() > 0) {
-                    mw.lib.require("bootstrap3ns");
+            mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function () {
+                if (mw.helpinfo != undefined) {
+                    mw.cookie.set('helpinfo', false, 4380);
+                    $(".helpinfo_helper").fadeOut();
                 }
             });
-        </script>
-    <?php endif; ?>
-    <?php event_trigger('admin_head'); ?>
-</head>
+        });
+        // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
 
-<body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
+        $(window).on('load', function () {
+            if ($(".bootstrap3ns").size() > 0) {
+                mw.lib.require("bootstrap3ns");
+            }
+        });
+    </script>
+<?php endif; ?>
+
+
+
+
 
 <?php $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates'); ?>
 
