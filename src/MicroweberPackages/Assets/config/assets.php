@@ -152,7 +152,7 @@ return [
         'admin' => [
 
             'mw-ui',
-           // 'jquery-ui',
+            'jquery-ui',
 
 
             asset('userfiles/modules/microweber/api/dist/admin-libs.js'),
@@ -165,7 +165,7 @@ return [
         'mw-ui-settings' => 'jquery',
         'mw-ui' => [
             //  'mw-ui-settings',
-            // 'jquery',
+            'jquery',
 
             asset('userfiles/modules/microweber/api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css'),
             asset('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css'),
@@ -174,21 +174,22 @@ return [
             asset('userfiles/modules/microweber/css/ui.css'),
         ],
         'site' => [
-
+            'jquery',
             asset('userfiles/modules/microweber/default.css'),
 
             asset('userfiles/modules/microweber/api/dist/site-libs.js'),
             asset('userfiles/modules/microweber/api/dist/site.js'),
         ],
         'live-edit' => [
-        //    'mw-ui',
+            'jquery',
+            //    'mw-ui',
             asset('userfiles/modules/microweber/default.css'),
 
             asset('userfiles/modules/microweber/api/dist/liveedit-libs.js'),
             asset('userfiles/modules/microweber/api/dist/liveedit.js'),
             asset('userfiles/modules/microweber/css/wysiwyg.css'),
             asset('userfiles/modules/microweber/css/liveedit.css'),
-      //   asset('userfiles/modules/microweber/css/liveedit.rtl.css'),
+            //   asset('userfiles/modules/microweber/css/liveedit.rtl.css'),
         ],
     ],
 ];

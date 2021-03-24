@@ -2235,7 +2235,7 @@ class FrontendController extends Controller
                 }
             }
             if ($enable_default_css) {
-                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+             //   $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
 
 
