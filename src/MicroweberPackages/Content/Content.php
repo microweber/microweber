@@ -17,7 +17,6 @@ use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {
-    use Taggable;
     use TaggableTrait;
     use ContentDataTrait;
     use CustomFieldsTrait;
