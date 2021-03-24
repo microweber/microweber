@@ -152,12 +152,12 @@ class AdminController extends Controller
 
 
 
-        $default_css_url = $this->app->template->get_default_system_ui_css_url();
-        $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
-
-
-        $main_css_url = $this->app->template->get_admin_system_ui_css_url();
-        $main_css_url = '<link rel="stylesheet" id="admin-main-css-style" href="' . $main_css_url . '" type="text/css" />';
+//        $default_css_url = $this->app->template->get_default_system_ui_css_url();
+//        $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
+//
+//
+//        $main_css_url = $this->app->template->get_admin_system_ui_css_url();
+//        $main_css_url = '<link rel="stylesheet" id="admin-main-css-style" href="' . $main_css_url . '" type="text/css" />';
 
 
         //$default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
