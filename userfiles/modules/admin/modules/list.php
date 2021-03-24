@@ -348,7 +348,13 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             <?php if ($mod_obj_str == 'elements'): ?>
                 <li unselectable="on">
                     <hr>
-                    <h4 onclick="$('.default-layouts', '.list-<?php print $mod_obj_str ?>').toggle()"><?php _e('Default layouts'); ?> <span><i class="mdi mdi-arrow-down"></i></span></h4>
+                    <h6 class="text-uppercase" style="font-size: 11px;
+                    text-transform: uppercase;
+                    margin: 0;
+                    letter-spacing: 0;
+                    padding-bottom: 5px;
+                    line-height: 28px;"
+                    ><?php _e('Default layouts and elements'); ?></span></h6>
                     <hr>
                 </li>
 
