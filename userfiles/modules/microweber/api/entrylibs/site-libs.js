@@ -1,2 +1,2 @@
-global.jQuery = global.$ = require ('../webpack/node_modules/jquery');
-global.axios = require ('../webpack/node_modules/axios');
+global.jQuery = global.$ = require ('/node_modules/jquery');
+global.axios = require ('/node_modules/axios');

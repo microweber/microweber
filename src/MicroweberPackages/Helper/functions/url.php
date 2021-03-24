@@ -3,13 +3,22 @@
 if (!function_exists('is_https')) {
     function is_https()
     {
-        if (isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) == 'on')) {
+        if (isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) == 'on' or $_SERVER['HTTPS'] == '1')) {
             return true;
         } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) and (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) {
+            return true;
+        } else if (isset($_SERVER['HTTP_X_FORWARDED_SSL']) and (strtolower($_SERVER['HTTP_X_FORWARDED_SSL']) == 'on' or $_SERVER['HTTP_X_FORWARDED_SSL'] == '1')) {
+            return true;
+        } else if (isset($_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO']) and (strtolower($_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO']) == 'https')) {
+            return true;
+        } else if (isset($_SERVER['HTTP_X_PROTO']) and (strtolower($_SERVER['HTTP_X_PROTO']) == 'ssl')) {
+            return true;
+        } else if (isset($_SERVER['HTTP_CF_VISITOR']) and strpos($_SERVER["HTTP_CF_VISITOR"], "https")) {
             return true;
         }
         return false;
     }
+
 }
 
 if (!function_exists('site_url')) {

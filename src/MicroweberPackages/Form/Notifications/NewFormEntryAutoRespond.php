@@ -55,9 +55,9 @@ class NewFormEntryAutoRespond extends Notification
 
         $mail = new MailMessage();
 
-        if ($autoRespondSettings['emailAutoRespondAppendFiles']) {
+        if ($autoRespondSettings['emailAppendFiles']) {
 
-            $appendFilesAll = explode(',', $autoRespondSettings['emailAutoRespondAppendFiles']);
+            $appendFilesAll = explode(',', $autoRespondSettings['emailAppendFiles']);
 
             if ($appendFilesAll) {
                 foreach ($appendFilesAll as $appendFile) {
@@ -71,47 +71,24 @@ class NewFormEntryAutoRespond extends Notification
             }
         }
 
-        if ($autoRespondSettings['emailAutoRespondEnable']) {
-            if ($autoRespondSettings['emailAutoRespondFrom']) {
-                $mail->from($autoRespondSettings['emailAutoRespondFrom'], $autoRespondSettings['emailAutoRespondFromName']);
-            }
+        if ($autoRespondSettings['emailFrom']) {
+            $mail->from($autoRespondSettings['emailFrom'], $autoRespondSettings['emailFromName']);
         }
 
-    /*    if ($formEmailSendingSettings['emailCc']) {
-            $emailsCcList = $this->_explodeMailsFromString($formEmailSendingSettings['emailCc']);
-            if (!empty($emailsCcList)) {
-                $mail->cc($emailsCcList);
-            }
-        }*/
-
-     /*   if ($formEmailSendingSettings['emailBcc']) {
-            $emailsBccList = $this->_explodeMailsFromString($formEmailSendingSettings['emailBcc']);
-            if (!empty($emailsBccList)) {
-                $mail->bcc($emailsBccList);
-            }
-        }*/
-/*
-        if ($formEmailSendingSettings['emailReply']) {
-            $emailsReplyList = $this->_explodeMailsFromString($formEmailSendingSettings['emailReply']);
-            if (!empty($emailsReplyList)) {
-                $mail->replyTo($emailsReplyList);
-            }
-        }*/
-
-        if ($autoRespondSettings['emailAutoRespondReply']) {
-            $emailsReplyList = $this->_explodeMailsFromString($autoRespondSettings['emailAutoRespondReply']);
+        if ($autoRespondSettings['emailReplyTo']) {
+            $emailsReplyList = mw()->forms_manager->explodeMailsFromString($autoRespondSettings['emailReplyTo']);
             if (!empty($emailsReplyList)) {
                 $mail->replyTo($emailsReplyList);
             }
         }
 
-        if ($autoRespondSettings['emailAutoRespondSubject']) {
-            $mail->line($autoRespondSettings['emailAutoRespondSubject']);
-            $mail->subject($autoRespondSettings['emailAutoRespondSubject']);
+        if ($autoRespondSettings['emailSubject']) {
+            $mail->line($autoRespondSettings['emailSubject']);
+            $mail->subject($autoRespondSettings['emailSubject']);
         }
 
         $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
-        $parsedEmail = $twig->render($autoRespondSettings['emailAutoRespond'], [
+        $parsedEmail = $twig->render($autoRespondSettings['emailContent'], [
                 'url' => url('/'),
                 'created_at' => date('Y-m-d H:i:s')
             ]
@@ -120,30 +97,6 @@ class NewFormEntryAutoRespond extends Notification
         $mail->view('app::email.simple', ['content' => $parsedEmail]);
 
         return $mail;
-    }
-
-    private function _explodeMailsFromString($emailsListString)
-    {
-        $emailsList = [];
-        if (!empty($emailsListString)) {
-            if (strpos($emailsListString, ',') !== false) {
-                $explodedMails = explode(',', $emailsListString);
-                if (is_array($explodedMails)) {
-                    foreach ($explodedMails as $email) {
-                        $email = trim($email);
-                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                            $emailsList[] = $email;
-                        }
-                    }
-                }
-            } else {
-                if (filter_var($emailsListString, FILTER_VALIDATE_EMAIL)) {
-                    $emailsList[] = $emailsListString;
-                }
-            }
-        }
-
-        return $emailsList;
     }
 
     /**

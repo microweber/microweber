@@ -1,904 +1,10 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js":
-/*!*******************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js ***!
-  \*******************************************************************************/
-/***/ (() => {
-
-/* UI */
-$(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('.selectpicker').selectpicker({
-        container: 'body'
-    });
-
-    $(".js-range").each(function (index) {
-        var from = $(this).find('.js-from');
-        var to = $(this).find('.js-to');
-        var slider = $(this).find('.js-slider');
-
-        slider.ionRangeSlider({
-            onChange: function (data) {
-                from.val(data.from);
-                to.val(data.to);
-            }
-        });
-
-        this_range = slider.data("ionRangeSlider");
-
-        from.on('change', function () {
-            this_range.update({
-                from: from.val()
-            });
-        });
-
-        to.on('change', function () {
-            this_range.update({
-                to: to.val()
-            });
-        });
-    });
-
-    $('body').on('change', 'select.js-change-color', function () {
-        var color = $(this).find('option:selected').data('change-color');
-        $(this).parent().removeClass('btn-primary').removeClass('btn-secondary').removeClass('btn-success').removeClass('btn-warning').removeClass('btn-danger').addClass(color);
-        $(this).parent().find('.dropdown-toggle').removeClass('btn-primary').removeClass('btn-secondary').removeClass('btn-success').removeClass('btn-warning').removeClass('btn-danger').addClass(color);
-    });
-
-    $(".btn-minus", '.btn-group-quantity').on("click", function (m) {
-        var i = $(this).parent().find('input[type="text"]');
-        if (i.val() <= 1) {
-            i.val("1").change();
-        } else {
-            var l = i.val() - 1;
-            i.val(l).change();
-        }
-    });
-
-    $(".btn-plus", '.btn-group-quantity').on("click", function (m) {
-        var i = $(this).parent().find('input[type="text"]');
-        if (i.val() <= 100) {
-            var l = +i.val() + +1;
-            i.val(l).change();
-        }
-    });
-
-    $(".minus", '.input-group-quantity').on("click", function (m) {
-        var i = $(this).parent().parent().parent().find('input[type="text"]');
-        if (i.val() <= 1) {
-            i.val("1").change();
-        } else {
-            var l = i.val() - 1;
-            i.val(l).change();
-        }
-    });
-
-    $(".plus", '.input-group-quantity').on("click", function (m) {
-        var i = $(this).parent().parent().parent().find('input[type="text"]');
-        if (i.val() <= 100) {
-            var l = +i.val() + +1;
-            i.val(l).change();
-        }
-    });
-
-    $(".js-show-password", '.input-group-password').on("click", function (m) {
-        var field = $(this).parent().parent().find('input');
-
-        if ('password' == field.attr('type')) {
-            field.prop('type', 'text');
-            $(this).find('i').removeClass('text-muted').addClass('text-primary');
-        } else {
-            field.prop('type', 'password');
-            $(this).find('i').removeClass('text-primary').addClass('text-muted');
-        }
-    });
-
-    $('.dropdown .dropdown-toggle', 'aside').on('click', function () {
-        $(this).parent().toggleClass('show');
-        $(this).parent().find('.dropdown-menu').toggleClass('show');
-    });
-
-    $('.js-toggle-mobile-nav').on('click', function () {
-        $(this).toggleClass('opened');
-        $('body').find('aside').toggleClass('opened');
-        $('body').find('.tree').toggleClass('opened');
-        $('html, body').toggleClass('prevent-scroll');
-    });
-
-    $('.js-show-more').on('click', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var replaceWhat = $(this).attr('href');
-
-        if ($(replaceWhat).is(":visible")) {
-            $(replaceWhat).hide();
-        } else {
-            $(replaceWhat).show();
-        }
-    });
-
-    /*    $('button, a, input, textarea', '.collapse').on('click', function (e) {
-     e.stopPropagation();
-     e.preventDefault();
-     });*/
-
-    $('body').on('click', '[data-toggle="collapse-mw"]', function (e) {
-        var has = mw.tools.firstMatchesOnNodeOrParent(e.target, [
-            'a', 'button', '.btn', '.mw-ui-btn', 'input', 'select', 'textarea', 'img', 'label', '.mdi'
-        ]);
-        if (!has) {
-            var target = $(this).data('target');
-            $(target).toggleClass('show');
-        }
-    });
-
-
-    $(".selectpicker").each(function (index) {
-        if ($(this).data('style')) {
-            $(this).parent().addClass($(this).data('style') + '-dropdown');
-        }
-    });
-
-    //Custom checkboxes and radios in .collapse fix
-    $('.collapse .custom-control-label').on('click', function () {
-        // var checkBox = $(this).prev('input');
-        //
-        // if ($(checkBox).attr('checked')) {
-        //     $(checkBox).removeAttr('checked');
-        // } else {
-        //     $(checkBox).attr('checked', 'checked');
-        // }
-        // $(checkBox).trigger('change');
-        // return;
-    });
-
-    $('input, textarea', '.js-count-letters').on('keyup', function () {
-        var countLettersParent = $(this).closest('.js-count-letters');
-        var countLettersNumber = countLettersParent.find('.js-typed-letters').text($(this).val().length);
-    });
-
-    theProductHasVariants();
-
-    $('.js-product-has-variants').on('change', function () {
-        theProductHasVariants($(this));
-    });
-
-    $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
-});
-
-function theProductHasVariants(field) {
-    if (typeof field !== 'undefined') {
-        console.log($(this).closest('.js-product-variants'));
-        var theProductHasVariant = $('.js-product-has-variants').prop("checked");
-        if (theProductHasVariant) {
-            $(this).closest('.js-product-variants').show('slow');
-        } else {
-            $(this).closest('.js-product-variants').hide('slow');
-        }
-    } else {
-        $(".js-product-has-variants").each(function (index) {
-            theProductHasVariants($(this));
-        });
-    }
-}
-
-/**
- * Replace all SVG images with inline SVG
- */
-window.SVGtoCode = function() {
-    $('img.svg[src*=".svg"]').each(function () {
-        var $img = $(this);
-        var imgID = $img.attr('id');
-        var imgClass = $img.attr('class');
-        var imgURL = $img.attr('src');
-
-        $.get({
-            url: imgURL,
-            cache: true
-        }).then(function (data) {
-            var $svg = $(data).find('svg');
-
-            // Add replaced image's ID to the new SVG
-            if (typeof imgID !== 'undefined') {
-                $svg = $svg.attr('id', imgID);
-            }
-            // Add replaced image's classes to the new SVG
-            if (typeof imgClass !== 'undefined') {
-                $svg = $svg.attr('class', imgClass + ' replaced-svg');
-            }
-
-            // Remove any invalid XML tags as per http://validator.w3.org
-            $svg = $svg.removeAttr('xmlns:a');
-
-            // Replace image with new SVG
-            $img.replaceWith($svg);
-        });
-    });
-}
-
-
-/***/ }),
-
-/***/ "./userfiles/modules/microweber/api/libs/tags/bootstrap-tagsinput.js":
-/*!***************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/libs/tags/bootstrap-tagsinput.js ***!
-  \***************************************************************************/
-/***/ (() => {
-
-(function ($) {
-    "use strict";
-
-    var defaultOptions = {
-        tagClass: function (item) {
-            return 'btn btn-primary';
-        },
-        itemValue: function (item) {
-            return item ? item.toString() : item;
-        },
-        itemText: function (item) {
-            return this.itemValue(item);
-        },
-        itemTitle: function (item) {
-            return null;
-        },
-        freeInput: true,
-        addOnBlur: true,
-        maxTags: undefined,
-        maxChars: undefined,
-        confirmKeys: [13, 44],
-        delimiter: ',',
-        delimiterRegex: null,
-        cancelConfirmKeysOnEmpty: true,
-        onTagExists: function (item, $tag) {
-            $tag.hide().fadeIn();
-        },
-        trimValue: false,
-        allowDuplicates: false
-    };
-
-    /**
-     * Constructor function
-     */
-    function TagsInput(element, options) {
-        this.itemsArray = [];
-
-        this.$element = $(element);
-        this.$element.hide();
-
-        this.isSelect = (element.tagName === 'SELECT');
-        this.multiple = (this.isSelect && element.hasAttribute('multiple'));
-        this.objectItems = options && options.itemValue;
-        this.placeholderText = element.hasAttribute('placeholder') ? this.$element.attr('placeholder') : '';
-        this.inputSize = Math.max(1, this.placeholderText.length);
-
-        this.$container = $('<div class="bootstrap-tagsinput"></div>');
-        this.$input = $('<input type="text" placeholder="' + this.placeholderText + '"/>').appendTo(this.$container);
-
-        this.$element.before(this.$container);
-
-        this.build(options);
-    }
-
-    TagsInput.prototype = {
-        constructor: TagsInput,
-
-        /**
-         * Adds the given item as a new tag. Pass true to dontPushVal to prevent
-         * updating the elements val()
-         */
-        add: function (item, dontPushVal, options) {
-            var self = this;
-
-            if (self.options.maxTags && self.itemsArray.length >= self.options.maxTags)
-                return;
-
-            // Ignore falsey values, except false
-            if (item !== false && !item)
-                return;
-
-            // Trim value
-            if (typeof item === "string" && self.options.trimValue) {
-                item = $.trim(item);
-            }
-
-            // Throw an error when trying to add an object while the itemValue option was not set
-            if (typeof item === "object" && !self.objectItems)
-                throw("Can't add objects when itemValue option is not set");
-
-            // Ignore strings only containg whitespace
-            if (item.toString().match(/^\s*$/))
-                return;
-
-            // If SELECT but not multiple, remove current tag
-            if (self.isSelect && !self.multiple && self.itemsArray.length > 0)
-                self.remove(self.itemsArray[0]);
-
-            if (typeof item === "string" && this.$element[0].tagName === 'INPUT') {
-                var delimiter = (self.options.delimiterRegex) ? self.options.delimiterRegex : self.options.delimiter;
-                var items = item.split(delimiter);
-                if (items.length > 1) {
-                    for (var i = 0; i < items.length; i++) {
-                        this.add(items[i], true);
-                    }
-
-                    if (!dontPushVal)
-                        self.pushVal();
-                    return;
-                }
-            }
-
-            var itemValue = self.options.itemValue(item),
-                    itemText = self.options.itemText(item),
-                    tagClass = self.options.tagClass(item),
-                    itemTitle = self.options.itemTitle(item);
-
-            // Ignore items allready added
-            var existing = $.grep(self.itemsArray, function (item) {
-                return self.options.itemValue(item) === itemValue;
-            })[0];
-            if (existing && !self.options.allowDuplicates) {
-                // Invoke onTagExists
-                if (self.options.onTagExists) {
-                    var $existingTag = $(".tag", self.$container).filter(function () {
-                        return $(this).data("item") === existing;
-                    });
-                    self.options.onTagExists(item, $existingTag);
-                }
-                return;
-            }
-
-            // if length greater than limit
-            if (self.items().toString().length + item.length + 1 > self.options.maxInputLength)
-                return;
-
-            // raise beforeItemAdd arg
-            var beforeItemAddEvent = $.Event('beforeItemAdd', {item: item, cancel: false, options: options});
-            self.$element.trigger(beforeItemAddEvent);
-            if (beforeItemAddEvent.cancel)
-                return;
-
-            // register item in internal array and map
-            self.itemsArray.push(item);
-
-            // add a tag element
-
-            var $tag = $('<div class="btn-group tag tag-xs mb-2 mr-1"><span class="btn-sm icon-left no-hover ' + htmlEncode(tagClass) + (itemTitle !== null ? ('" title="' + itemTitle) : '') + '">' + htmlEncode(itemText) + '</span><button type="button" data-role="remove" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-close"></i></button></div>');
-            $tag.data('item', item);
-            self.findInputWrapper().before($tag);
-            $tag.after(' ');
-
-            // add <option /> if item represents a value not present in one of the <select />'s options
-            if (self.isSelect && !$('option[value="' + encodeURIComponent(itemValue) + '"]', self.$element)[0]) {
-                var $option = $('<option selected>' + htmlEncode(itemText) + '</option>');
-                $option.data('item', item);
-                $option.attr('value', itemValue);
-                self.$element.append($option);
-            }
-
-            if (!dontPushVal)
-                self.pushVal();
-
-            // Add class when reached maxTags
-            if (self.options.maxTags === self.itemsArray.length || self.items().toString().length === self.options.maxInputLength)
-                self.$container.addClass('bootstrap-tagsinput-max');
-
-            self.$element.trigger($.Event('itemAdded', {item: item, options: options}));
-        },
-
-        /**
-         * Removes the given item. Pass true to dontPushVal to prevent updating the
-         * elements val()
-         */
-        remove: function (item, dontPushVal, options) {
-            var self = this;
-
-            if (self.objectItems) {
-                if (typeof item === "object")
-                    item = $.grep(self.itemsArray, function (other) {
-                        return self.options.itemValue(other) == self.options.itemValue(item);
-                    });
-                else
-                    item = $.grep(self.itemsArray, function (other) {
-                        return self.options.itemValue(other) == item;
-                    });
-
-                item = item[item.length - 1];
-            }
-
-            if (item) {
-                var beforeItemRemoveEvent = $.Event('beforeItemRemove', {item: item, cancel: false, options: options});
-                self.$element.trigger(beforeItemRemoveEvent);
-                if (beforeItemRemoveEvent.cancel)
-                    return;
-
-                $('.tag', self.$container).filter(function () {
-                    return $(this).data('item') === item;
-                }).remove();
-                $('option', self.$element).filter(function () {
-                    return $(this).data('item') === item;
-                }).remove();
-                if ($.inArray(item, self.itemsArray) !== -1)
-                    self.itemsArray.splice($.inArray(item, self.itemsArray), 1);
-            }
-
-            if (!dontPushVal)
-                self.pushVal();
-
-            // Remove class when reached maxTags
-            if (self.options.maxTags > self.itemsArray.length)
-                self.$container.removeClass('bootstrap-tagsinput-max');
-
-            self.$element.trigger($.Event('itemRemoved', {item: item, options: options}));
-        },
-
-        /**
-         * Removes all items
-         */
-        removeAll: function () {
-            var self = this;
-
-            $('.tag', self.$container).remove();
-            $('option', self.$element).remove();
-
-            while (self.itemsArray.length > 0)
-                self.itemsArray.pop();
-
-            self.pushVal();
-        },
-
-        /**
-         * Refreshes the tags so they match the text/value of their corresponding
-         * item.
-         */
-        refresh: function () {
-            var self = this;
-            $('.tag', self.$container).each(function () {
-                var $tag = $(this),
-                        item = $tag.data('item'),
-                        itemValue = self.options.itemValue(item),
-                        itemText = self.options.itemText(item),
-                        tagClass = self.options.tagClass(item);
-
-                // Update tag's class and inner text
-                $tag.attr('class', null);
-                $tag.addClass('tag ' + htmlEncode(tagClass));
-                $tag.contents().filter(function () {
-                    return this.nodeType == 3;
-                })[0].nodeValue = htmlEncode(itemText);
-
-                if (self.isSelect) {
-                    var option = $('option', self.$element).filter(function () {
-                        return $(this).data('item') === item;
-                    });
-                    option.attr('value', itemValue);
-                }
-            });
-        },
-
-        /**
-         * Returns the items added as tags
-         */
-        items: function () {
-            return this.itemsArray;
-        },
-
-        /**
-         * Assembly value by retrieving the value of each item, and set it on the
-         * element.
-         */
-        pushVal: function () {
-            var self = this,
-                    val = $.map(self.items(), function (item) {
-                        return self.options.itemValue(item).toString();
-                    });
-
-            self.$element.val(val, true).trigger('change');
-        },
-
-        /**
-         * Initializes the tags input behaviour on the element
-         */
-        build: function (options) {
-            var self = this;
-
-            self.options = $.extend({}, defaultOptions, options);
-            // When itemValue is set, freeInput should always be false
-            if (self.objectItems)
-                self.options.freeInput = false;
-
-            makeOptionItemFunction(self.options, 'itemValue');
-            makeOptionItemFunction(self.options, 'itemText');
-            makeOptionFunction(self.options, 'tagClass');
-
-            // Typeahead Bootstrap version 2.3.2
-            if (self.options.typeahead) {
-                var typeahead = self.options.typeahead || {};
-
-                makeOptionFunction(typeahead, 'source');
-
-                self.$input.typeahead($.extend({}, typeahead, {
-                    source: function (query, process) {
-                        function processItems(items) {
-                            var texts = [];
-
-                            for (var i = 0; i < items.length; i++) {
-                                var text = self.options.itemText(items[i]);
-                                map[text] = items[i];
-                                texts.push(text);
-                            }
-                            process(texts);
-                        }
-
-                        this.map = {};
-                        var map = this.map,
-                                data = typeahead.source(query);
-
-                        if ($.isFunction(data.success)) {
-                            // support for Angular callbacks
-                            data.success(processItems);
-                        } else if ($.isFunction(data.then)) {
-                            // support for Angular promises
-                            data.then(processItems);
-                        } else {
-                            // support for functions and jquery promises
-                            $.when(data)
-                                    .then(processItems);
-                        }
-                    },
-                    updater: function (text) {
-                        self.add(this.map[text]);
-                        return this.map[text];
-                    },
-                    matcher: function (text) {
-                        return (text.toLowerCase().indexOf(this.query.trim().toLowerCase()) !== -1);
-                    },
-                    sorter: function (texts) {
-                        return texts.sort();
-                    },
-                    highlighter: function (text) {
-                        var regex = new RegExp('(' + this.query + ')', 'gi');
-                        return text.replace(regex, "<strong>$1</strong>");
-                    }
-                }));
-            }
-
-            // typeahead.js
-            if (self.options.typeaheadjs) {
-                var typeaheadConfig = null;
-                var typeaheadDatasets = {};
-
-                // Determine if main configurations were passed or simply a dataset
-                var typeaheadjs = self.options.typeaheadjs;
-                if ($.isArray(typeaheadjs)) {
-                    typeaheadConfig = typeaheadjs[0];
-                    typeaheadDatasets = typeaheadjs[1];
-                } else {
-                    typeaheadDatasets = typeaheadjs;
-                }
-
-                self.$input.typeahead(typeaheadConfig, typeaheadDatasets).on('typeahead:selected', $.proxy(function (obj, datum) {
-                    if (typeaheadDatasets.valueKey)
-                        self.add(datum[typeaheadDatasets.valueKey]);
-                    else
-                        self.add(datum);
-                    self.$input.typeahead('val', '');
-                }, self));
-            }
-
-            self.$container.on('click', $.proxy(function (event) {
-                if (!self.$element.attr('disabled')) {
-                    self.$input.removeAttr('disabled');
-                }
-                self.$input.focus();
-            }, self));
-
-            if (self.options.addOnBlur && self.options.freeInput) {
-                self.$input.on('focusout', $.proxy(function (event) {
-                    // HACK: only process on focusout when no typeahead opened, to
-                    //       avoid adding the typeahead text as tag
-                    if ($('.typeahead, .twitter-typeahead', self.$container).length === 0) {
-                        self.add(self.$input.val());
-                        self.$input.val('');
-                    }
-                }, self));
-            }
-
-
-            self.$container.on('keydown', 'input', $.proxy(function (event) {
-                var $input = $(event.target),
-                        $inputWrapper = self.findInputWrapper();
-
-                if (self.$element.attr('disabled')) {
-                    self.$input.attr('disabled', 'disabled');
-                    return;
-                }
-
-                switch (event.which) {
-                    // BACKSPACE
-                    case 8:
-                        if (doGetCaretPosition($input[0]) === 0) {
-                            var prev = $inputWrapper.prev();
-                            if (prev.length) {
-                                self.remove(prev.data('item'));
-                            }
-                        }
-                        break;
-
-                        // DELETE
-                    case 46:
-                        if (doGetCaretPosition($input[0]) === 0) {
-                            var next = $inputWrapper.next();
-                            if (next.length) {
-                                self.remove(next.data('item'));
-                            }
-                        }
-                        break;
-
-                        // LEFT ARROW
-                    case 37:
-                        // Try to move the input before the previous tag
-                        var $prevTag = $inputWrapper.prev();
-                        if ($input.val().length === 0 && $prevTag[0]) {
-                            $prevTag.before($inputWrapper);
-                            $input.focus();
-                        }
-                        break;
-                        // RIGHT ARROW
-                    case 39:
-                        // Try to move the input after the next tag
-                        var $nextTag = $inputWrapper.next();
-                        if ($input.val().length === 0 && $nextTag[0]) {
-                            $nextTag.after($inputWrapper);
-                            $input.focus();
-                        }
-                        break;
-                    default:
-                    // ignore
-                }
-
-                // Reset internal input's size
-                var textLength = $input.val().length,
-                        wordSpace = Math.ceil(textLength / 5),
-                        size = textLength + wordSpace + 1;
-                $input.attr('size', Math.max(this.inputSize, $input.val().length));
-            }, self));
-
-            self.$container.on('keypress', 'input', $.proxy(function (event) {
-                var $input = $(event.target);
-
-                if (self.$element.attr('disabled')) {
-                    self.$input.attr('disabled', 'disabled');
-                    return;
-                }
-
-                var text = $input.val(),
-                        maxLengthReached = self.options.maxChars && text.length >= self.options.maxChars;
-                if (self.options.freeInput && (keyCombinationInList(event, self.options.confirmKeys) || maxLengthReached)) {
-                    // Only attempt to add a tag if there is data in the field
-                    if (text.length !== 0) {
-                        self.add(maxLengthReached ? text.substr(0, self.options.maxChars) : text);
-                        $input.val('');
-                    }
-
-                    // If the field is empty, let the event triggered fire as usual
-                    if (self.options.cancelConfirmKeysOnEmpty === false) {
-                        event.preventDefault();
-                    }
-                }
-
-                // Reset internal input's size
-                var textLength = $input.val().length,
-                        wordSpace = Math.ceil(textLength / 5),
-                        size = textLength + wordSpace + 1;
-                $input.attr('size', Math.max(this.inputSize, $input.val().length));
-            }, self));
-
-            // Remove icon clicked
-            self.$container.on('click', '[data-role=remove]', $.proxy(function (event) {
-                if (self.$element.attr('disabled')) {
-                    return;
-                }
-                self.remove($(event.target).closest('.tag').data('item'));
-            }, self));
-
-            // Only add existing value as tags when using strings as tags
-            if (self.options.itemValue === defaultOptions.itemValue) {
-                if (self.$element[0].tagName === 'INPUT') {
-                    self.add(self.$element.val());
-                } else {
-                    $('option', self.$element).each(function () {
-                        self.add($(this).attr('value'), true);
-                    });
-                }
-            }
-        },
-
-        /**
-         * Removes all tagsinput behaviour and unregsiter all event handlers
-         */
-        destroy: function () {
-            var self = this;
-
-            // Unbind events
-            self.$container.off('keypress', 'input');
-            self.$container.off('click', '[role=remove]');
-
-            self.$container.remove();
-            self.$element.removeData('tagsinput');
-            self.$element.show();
-        },
-
-        /**
-         * Sets focus on the tagsinput
-         */
-        focus: function () {
-            this.$input.focus();
-        },
-
-        /**
-         * Returns the internal input element
-         */
-        input: function () {
-            return this.$input;
-        },
-
-        /**
-         * Returns the element which is wrapped around the internal input. This
-         * is normally the $container, but typeahead.js moves the $input element.
-         */
-        findInputWrapper: function () {
-            var elt = this.$input[0],
-                    container = this.$container[0];
-            while (elt && elt.parentNode !== container)
-                elt = elt.parentNode;
-
-            return $(elt);
-        }
-    };
-
-    /**
-     * Register JQuery plugin
-     */
-    $.fn.tagsinput = function (arg1, arg2, arg3) {
-        var results = [];
-
-        this.each(function () {
-            var tagsinput = $(this).data('tagsinput');
-            // Initialize a new tags input
-            if (!tagsinput) {
-                tagsinput = new TagsInput(this, arg1);
-                $(this).data('tagsinput', tagsinput);
-                results.push(tagsinput);
-
-                if (this.tagName === 'SELECT') {
-                    $('option', $(this)).attr('selected', 'selected');
-                }
-
-                // Init tags from $(this).val()
-                $(this).val($(this).val());
-            } else if (!arg1 && !arg2) {
-                // tagsinput already exists
-                // no function, trying to init
-                results.push(tagsinput);
-            } else if (tagsinput[arg1] !== undefined) {
-                // Invoke function on existing tags input
-                if (tagsinput[arg1].length === 3 && arg3 !== undefined) {
-                    var retVal = tagsinput[arg1](arg2, null, arg3);
-                } else {
-                    var retVal = tagsinput[arg1](arg2);
-                }
-                if (retVal !== undefined)
-                    results.push(retVal);
-            }
-        });
-
-        if (typeof arg1 == 'string') {
-            // Return the results from the invoked function calls
-            return results.length > 1 ? results : results[0];
-        } else {
-            return results;
-        }
-    };
-
-    $.fn.tagsinput.Constructor = TagsInput;
-
-    /**
-     * Most options support both a string or number as well as a function as
-     * option value. This function makes sure that the option with the given
-     * key in the given options is wrapped in a function
-     */
-    function makeOptionItemFunction(options, key) {
-        if (typeof options[key] !== 'function') {
-            var propertyName = options[key];
-            options[key] = function (item) {
-                return item[propertyName];
-            };
-        }
-    }
-    function makeOptionFunction(options, key) {
-        if (typeof options[key] !== 'function') {
-            var value = options[key];
-            options[key] = function () {
-                return value;
-            };
-        }
-    }
-    /**
-     * HtmlEncodes the given value
-     */
-    var htmlEncodeContainer = $('<div />');
-    function htmlEncode(value) {
-        if (value) {
-            return htmlEncodeContainer.text(value).html();
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * Returns the position of the caret in the given input field
-     * http://flightschool.acylt.com/devnotes/caret-position-woes/
-     */
-    function doGetCaretPosition(oField) {
-        var iCaretPos = 0;
-        if (document.selection) {
-            oField.focus();
-            var oSel = document.selection.createRange();
-            oSel.moveStart('character', -oField.value.length);
-            iCaretPos = oSel.text.length;
-        } else if (oField.selectionStart || oField.selectionStart == '0') {
-            iCaretPos = oField.selectionStart;
-        }
-        return (iCaretPos);
-    }
-
-    /**
-     * Returns boolean indicates whether user has pressed an expected key combination.
-     * @param object keyPressEvent: JavaScript event object, refer
-     *     http://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
-     * @param object lookupList: expected key combinations, as in:
-     *     [13, {which: 188, shiftKey: true}]
-     */
-    function keyCombinationInList(keyPressEvent, lookupList) {
-        var found = false;
-        $.each(lookupList, function (index, keyCombination) {
-            if (typeof (keyCombination) === 'number' && keyPressEvent.which === keyCombination) {
-                found = true;
-                return false;
-            }
-
-            if (keyPressEvent.which === keyCombination.which) {
-                var alt = !keyCombination.hasOwnProperty('altKey') || keyPressEvent.altKey === keyCombination.altKey,
-                        shift = !keyCombination.hasOwnProperty('shiftKey') || keyPressEvent.shiftKey === keyCombination.shiftKey,
-                        ctrl = !keyCombination.hasOwnProperty('ctrlKey') || keyPressEvent.ctrlKey === keyCombination.ctrlKey;
-                if (alt && shift && ctrl) {
-                    found = true;
-                    return false;
-                }
-            }
-        });
-
-        return found;
-    }
-
-    /**
-     * Initialize tagsinput behaviour on inputs and selects which have
-     * data-role=tagsinput
-     */
-    // $(function () {
-    //     $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
-    // });
-})(window.jQuery);
-
-
-/***/ }),
-
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/createPopper.js":
-/*!**************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/createPopper.js ***!
-  \**************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/createPopper.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/createPopper.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -908,20 +14,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "createPopper": () => (/* binding */ createPopper),
 /* harmony export */   "detectOverflow": () => (/* reexport safe */ _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_13__.default)
 /* harmony export */ });
-/* harmony import */ var _dom_utils_getCompositeRect_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dom-utils/getCompositeRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js");
-/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./dom-utils/getLayoutRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
-/* harmony import */ var _dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom-utils/listScrollParents.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js");
-/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./dom-utils/getOffsetParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./dom-utils/getComputedStyle.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _utils_orderModifiers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/orderModifiers.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/orderModifiers.js");
-/* harmony import */ var _utils_debounce_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils/debounce.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/debounce.js");
-/* harmony import */ var _utils_validateModifiers_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/validateModifiers.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/validateModifiers.js");
-/* harmony import */ var _utils_uniqueBy_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/uniqueBy.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/uniqueBy.js");
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/getBasePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _utils_mergeByName_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/mergeByName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/mergeByName.js");
-/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./utils/detectOverflow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom-utils/instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _dom_utils_getCompositeRect_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dom-utils/getCompositeRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js");
+/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
+/* harmony import */ var _dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom-utils/listScrollParents.js */ "./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js");
+/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./dom-utils/getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _utils_orderModifiers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/orderModifiers.js */ "./node_modules/@popperjs/core/lib/utils/orderModifiers.js");
+/* harmony import */ var _utils_debounce_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./utils/debounce.js */ "./node_modules/@popperjs/core/lib/utils/debounce.js");
+/* harmony import */ var _utils_validateModifiers_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/validateModifiers.js */ "./node_modules/@popperjs/core/lib/utils/validateModifiers.js");
+/* harmony import */ var _utils_uniqueBy_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/uniqueBy.js */ "./node_modules/@popperjs/core/lib/utils/uniqueBy.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _utils_mergeByName_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/mergeByName.js */ "./node_modules/@popperjs/core/lib/utils/mergeByName.js");
+/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
 
 
 
@@ -1183,10 +289,10 @@ var createPopper = /*#__PURE__*/popperGenerator(); // eslint-disable-next-line i
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/contains.js":
-/*!********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/contains.js ***!
-  \********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/contains.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/contains.js ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1194,7 +300,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ contains)
 /* harmony export */ });
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
 function contains(parent, child) {
   var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method
@@ -1221,10 +327,10 @@ function contains(parent, child) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js":
-/*!*********************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js ***!
-  \*********************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js ***!
+  \****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1248,10 +354,10 @@ function getBoundingClientRect(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js":
-/*!***************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js ***!
-  \***************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1259,19 +365,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getClippingRect)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _getViewportRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getViewportRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js");
-/* harmony import */ var _getDocumentRect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getDocumentRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js");
-/* harmony import */ var _listScrollParents_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./listScrollParents.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js");
-/* harmony import */ var _getOffsetParent_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./getOffsetParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./getComputedStyle.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
-/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./getParentNode.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
-/* harmony import */ var _contains_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./contains.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/contains.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./getNodeName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/rectToClientRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/rectToClientRect.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _getViewportRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getViewportRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js");
+/* harmony import */ var _getDocumentRect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getDocumentRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js");
+/* harmony import */ var _listScrollParents_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./listScrollParents.js */ "./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js");
+/* harmony import */ var _getOffsetParent_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
+/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
+/* harmony import */ var _contains_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./contains.js */ "./node_modules/@popperjs/core/lib/dom-utils/contains.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/rectToClientRect.js */ "./node_modules/@popperjs/core/lib/utils/rectToClientRect.js");
 
 
 
@@ -1344,10 +450,10 @@ function getClippingRect(element, boundary, rootBoundary) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js":
-/*!****************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js ***!
-  \****************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1355,13 +461,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getCompositeRect)
 /* harmony export */ });
-/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
-/* harmony import */ var _getNodeScroll_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getNodeScroll.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getNodeName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./isScrollParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
+/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
+/* harmony import */ var _getNodeScroll_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getNodeScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
 
 
 
@@ -1413,10 +519,10 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js":
-/*!****************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js ***!
-  \****************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1424,7 +530,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getComputedStyle)
 /* harmony export */ });
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
 
 function getComputedStyle(element) {
   return (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__.default)(element).getComputedStyle(element);
@@ -1432,10 +538,10 @@ function getComputedStyle(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js":
-/*!******************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js ***!
-  \******************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js ***!
+  \*************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1443,7 +549,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getDocumentElement)
 /* harmony export */ });
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
 function getDocumentElement(element) {
   // $FlowFixMe[incompatible-return]: assume body is always available
@@ -1453,10 +559,10 @@ function getDocumentElement(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js":
-/*!***************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js ***!
-  \***************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1464,10 +570,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getDocumentRect)
 /* harmony export */ });
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getComputedStyle.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
-/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getWindowScroll.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
+/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getWindowScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
 
 
 
@@ -1497,10 +603,10 @@ function getDocumentRect(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js":
-/*!********************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js ***!
-  \********************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js ***!
+  \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1517,10 +623,10 @@ function getHTMLElementScroll(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js":
-/*!*************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js ***!
-  \*************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1541,10 +647,10 @@ function getLayoutRect(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js":
-/*!***********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js ***!
-  \***********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1558,10 +664,10 @@ function getNodeName(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js":
-/*!*************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js ***!
-  \*************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1569,10 +675,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getNodeScroll)
 /* harmony export */ });
-/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScroll.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _getHTMLElementScroll_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getHTMLElementScroll.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js");
+/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getHTMLElementScroll_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getHTMLElementScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js");
 
 
 
@@ -1587,10 +693,10 @@ function getNodeScroll(node) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js":
-/*!***************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js ***!
-  \***************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1598,13 +704,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getOffsetParent)
 /* harmony export */ });
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getNodeName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getComputedStyle.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _isTableElement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./isTableElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/isTableElement.js");
-/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getParentNode.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _isTableElement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./isTableElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js");
+/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
 
 
 
@@ -1670,10 +776,10 @@ function getOffsetParent(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getParentNode.js":
-/*!*************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getParentNode.js ***!
-  \*************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1681,8 +787,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getParentNode)
 /* harmony export */ });
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
 
 
 function getParentNode(element) {
@@ -1705,10 +811,10 @@ function getParentNode(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js":
-/*!***************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js ***!
-  \***************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1716,10 +822,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getScrollParent)
 /* harmony export */ });
-/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getParentNode.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
-/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isScrollParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
+/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
 
 
@@ -1739,10 +845,10 @@ function getScrollParent(node) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js":
-/*!***************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js ***!
-  \***************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1750,9 +856,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getViewportRect)
 /* harmony export */ });
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
 
 
 
@@ -1796,10 +902,10 @@ function getViewportRect(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js":
-/*!*********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js ***!
-  \*********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getWindow.js ***!
+  \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1821,10 +927,10 @@ function getWindow(node) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js":
-/*!***************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js ***!
-  \***************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1832,7 +938,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getWindowScroll)
 /* harmony export */ });
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
 
 function getWindowScroll(node) {
   var win = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__.default)(node);
@@ -1846,10 +952,10 @@ function getWindowScroll(node) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js":
-/*!*******************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js ***!
-  \*******************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js ***!
+  \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1857,9 +963,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getWindowScrollBarX)
 /* harmony export */ });
-/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScroll.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
+/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
 
 
 
@@ -1876,10 +982,10 @@ function getWindowScrollBarX(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js":
-/*!**********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js ***!
-  \**********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1889,7 +995,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "isHTMLElement": () => (/* binding */ isHTMLElement),
 /* harmony export */   "isShadowRoot": () => (/* binding */ isShadowRoot)
 /* harmony export */ });
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
 
 /*:: declare function isElement(node: mixed): boolean %checks(node instanceof
   Element); */
@@ -1919,10 +1025,10 @@ function isShadowRoot(node) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js":
-/*!**************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js ***!
-  \**************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js ***!
+  \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1930,7 +1036,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isScrollParent)
 /* harmony export */ });
-/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getComputedStyle.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
 
 function isScrollParent(element) {
   // Firefox wants us to check `-x` and `-y` variations as well
@@ -1944,10 +1050,10 @@ function isScrollParent(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/isTableElement.js":
-/*!**************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/isTableElement.js ***!
-  \**************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js ***!
+  \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1955,7 +1061,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isTableElement)
 /* harmony export */ });
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
 
 function isTableElement(element) {
   return ['table', 'td', 'th'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__.default)(element)) >= 0;
@@ -1963,10 +1069,10 @@ function isTableElement(element) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js":
-/*!*****************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js ***!
-  \*****************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js ***!
+  \************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1974,11 +1080,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ listScrollParents)
 /* harmony export */ });
-/* harmony import */ var _getScrollParent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getScrollParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js");
-/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getParentNode.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getNodeName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./isScrollParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
+/* harmony import */ var _getScrollParent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js");
+/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
 
 
 
@@ -2007,10 +1113,10 @@ function listScrollParents(element, list) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js":
-/*!*******************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js ***!
-  \*******************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/enums.js":
+/*!**************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/enums.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2075,10 +1181,10 @@ var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, 
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/index.js":
-/*!*******************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/index.js ***!
-  \*******************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/index.js":
+/*!**************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/index.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2123,12 +1229,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "createPopper": () => (/* reexport safe */ _popper_js__WEBPACK_IMPORTED_MODULE_4__.createPopper),
 /* harmony export */   "createPopperLite": () => (/* reexport safe */ _popper_lite_js__WEBPACK_IMPORTED_MODULE_5__.createPopper)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _modifiers_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/index.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/index.js");
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createPopper.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/createPopper.js");
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createPopper.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _popper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./popper.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/popper.js");
-/* harmony import */ var _popper_lite_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./popper-lite.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/popper-lite.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _modifiers_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/index.js */ "./node_modules/@popperjs/core/lib/modifiers/index.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _popper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./popper.js */ "./node_modules/@popperjs/core/lib/popper.js");
+/* harmony import */ var _popper_lite_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./popper-lite.js */ "./node_modules/@popperjs/core/lib/popper-lite.js");
 
  // eslint-disable-next-line import/no-unused-modules
 
@@ -2140,10 +1246,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/applyStyles.js":
-/*!***********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/applyStyles.js ***!
-  \***********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/applyStyles.js ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2151,8 +1257,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getNodeName.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
  // This modifier takes the styles prepared by the `computeStyles` modifier
 // and applies them to the HTMLElements such as popper and arrow
@@ -2239,10 +1345,10 @@ function effect(_ref2) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/arrow.js":
-/*!*****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/arrow.js ***!
-  \*****************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/arrow.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/arrow.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2250,16 +1356,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
-/* harmony import */ var _dom_utils_contains_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../dom-utils/contains.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/contains.js");
-/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
-/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/within.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/within.js");
-/* harmony import */ var _utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/mergePaddingObject.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/mergePaddingObject.js");
-/* harmony import */ var _utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/expandToHashMap.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/expandToHashMap.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
+/* harmony import */ var _dom_utils_contains_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../dom-utils/contains.js */ "./node_modules/@popperjs/core/lib/dom-utils/contains.js");
+/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
+/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/within.js */ "./node_modules/@popperjs/core/lib/utils/within.js");
+/* harmony import */ var _utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/mergePaddingObject.js */ "./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js");
+/* harmony import */ var _utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/expandToHashMap.js */ "./node_modules/@popperjs/core/lib/utils/expandToHashMap.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
 
 
@@ -2362,10 +1468,10 @@ function effect(_ref2) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/computeStyles.js":
-/*!*************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/computeStyles.js ***!
-  \*************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/computeStyles.js ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2374,12 +1480,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "mapToStyles": () => (/* binding */ mapToStyles),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom-utils/getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/getComputedStyle.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom-utils/getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
 
 
 
@@ -2528,10 +1634,10 @@ function computeStyles(_ref4) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/eventListeners.js":
-/*!**************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/eventListeners.js ***!
-  \**************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/eventListeners.js ***!
+  \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2539,7 +1645,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/getWindow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
  // eslint-disable-next-line import/no-unused-modules
 
 var passive = {
@@ -2592,10 +1698,10 @@ function effect(_ref) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/flip.js":
-/*!****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/flip.js ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/flip.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/flip.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2603,13 +1709,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getOppositePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getOppositePlacement.js");
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getOppositeVariationPlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js");
-/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _utils_computeAutoPlacement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/computeAutoPlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/getVariation.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getVariation.js");
+/* harmony import */ var _utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getOppositePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getOppositeVariationPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js");
+/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _utils_computeAutoPlacement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/computeAutoPlacement.js */ "./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
 
 
 
@@ -2760,10 +1866,10 @@ function flip(_ref) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/hide.js":
-/*!****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/hide.js ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/hide.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/hide.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2771,8 +1877,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
 
 
 
@@ -2837,10 +1943,10 @@ function hide(_ref) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/index.js":
-/*!*****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/index.js ***!
-  \*****************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/index.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2856,15 +1962,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "popperOffsets": () => (/* reexport safe */ _popperOffsets_js__WEBPACK_IMPORTED_MODULE_7__.default),
 /* harmony export */   "preventOverflow": () => (/* reexport safe */ _preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__.default)
 /* harmony export */ });
-/* harmony import */ var _applyStyles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./applyStyles.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
-/* harmony import */ var _arrow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./arrow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/arrow.js");
-/* harmony import */ var _computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./computeStyles.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
-/* harmony import */ var _eventListeners_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./eventListeners.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
-/* harmony import */ var _flip_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./flip.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/flip.js");
-/* harmony import */ var _hide_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hide.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/hide.js");
-/* harmony import */ var _offset_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./offset.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/offset.js");
-/* harmony import */ var _popperOffsets_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./popperOffsets.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
-/* harmony import */ var _preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./preventOverflow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/preventOverflow.js");
+/* harmony import */ var _applyStyles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
+/* harmony import */ var _arrow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./arrow.js */ "./node_modules/@popperjs/core/lib/modifiers/arrow.js");
+/* harmony import */ var _computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
+/* harmony import */ var _eventListeners_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
+/* harmony import */ var _flip_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./flip.js */ "./node_modules/@popperjs/core/lib/modifiers/flip.js");
+/* harmony import */ var _hide_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hide.js */ "./node_modules/@popperjs/core/lib/modifiers/hide.js");
+/* harmony import */ var _offset_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./offset.js */ "./node_modules/@popperjs/core/lib/modifiers/offset.js");
+/* harmony import */ var _popperOffsets_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
+/* harmony import */ var _preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./preventOverflow.js */ "./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js");
 
 
 
@@ -2877,10 +1983,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/offset.js":
-/*!******************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/offset.js ***!
-  \******************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/offset.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/offset.js ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2889,8 +1995,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "distanceAndSkiddingToXY": () => (/* binding */ distanceAndSkiddingToXY),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
 
 
 function distanceAndSkiddingToXY(placement, rects, offset) {
@@ -2947,10 +2053,10 @@ function offset(_ref2) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/popperOffsets.js":
-/*!*************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/popperOffsets.js ***!
-  \*************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2958,7 +2064,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_computeOffsets_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/computeOffsets.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/computeOffsets.js");
+/* harmony import */ var _utils_computeOffsets_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/computeOffsets.js */ "./node_modules/@popperjs/core/lib/utils/computeOffsets.js");
 
 
 function popperOffsets(_ref) {
@@ -2987,10 +2093,10 @@ function popperOffsets(_ref) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/preventOverflow.js":
-/*!***************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/preventOverflow.js ***!
-  \***************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js ***!
+  \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2998,16 +2104,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
-/* harmony import */ var _utils_getAltAxis_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/getAltAxis.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getAltAxis.js");
-/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/within.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/within.js");
-/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
-/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getVariation.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getVariation.js");
-/* harmony import */ var _utils_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/getFreshSideObject.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getFreshSideObject.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
+/* harmony import */ var _utils_getAltAxis_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/getAltAxis.js */ "./node_modules/@popperjs/core/lib/utils/getAltAxis.js");
+/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/within.js */ "./node_modules/@popperjs/core/lib/utils/within.js");
+/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
+/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
+/* harmony import */ var _utils_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/getFreshSideObject.js */ "./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js");
 
 
 
@@ -3130,10 +2236,10 @@ function preventOverflow(_ref) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/popper-lite.js":
-/*!*************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/popper-lite.js ***!
-  \*************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/popper-lite.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/popper-lite.js ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3144,12 +2250,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "defaultModifiers": () => (/* binding */ defaultModifiers),
 /* harmony export */   "detectOverflow": () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_5__.default)
 /* harmony export */ });
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createPopper.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/createPopper.js");
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createPopper.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
-/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
-/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
-/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
+/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
+/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
+/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
 
 
 
@@ -3164,10 +2270,10 @@ var createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_4__
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/popper.js":
-/*!********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/popper.js ***!
-  \********************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/popper.js":
+/*!***************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/popper.js ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3188,19 +2294,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "popperOffsets": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.popperOffsets),
 /* harmony export */   "preventOverflow": () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.preventOverflow)
 /* harmony export */ });
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./createPopper.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/createPopper.js");
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./createPopper.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
-/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
-/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
-/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
-/* harmony import */ var _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modifiers/offset.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/offset.js");
-/* harmony import */ var _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modifiers/flip.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/flip.js");
-/* harmony import */ var _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modifiers/preventOverflow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/preventOverflow.js");
-/* harmony import */ var _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modifiers/arrow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/arrow.js");
-/* harmony import */ var _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modifiers/hide.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/hide.js");
-/* harmony import */ var _popper_lite_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./popper-lite.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/popper-lite.js");
-/* harmony import */ var _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modifiers/index.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/modifiers/index.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
+/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
+/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
+/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
+/* harmony import */ var _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modifiers/offset.js */ "./node_modules/@popperjs/core/lib/modifiers/offset.js");
+/* harmony import */ var _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modifiers/flip.js */ "./node_modules/@popperjs/core/lib/modifiers/flip.js");
+/* harmony import */ var _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modifiers/preventOverflow.js */ "./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js");
+/* harmony import */ var _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modifiers/arrow.js */ "./node_modules/@popperjs/core/lib/modifiers/arrow.js");
+/* harmony import */ var _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modifiers/hide.js */ "./node_modules/@popperjs/core/lib/modifiers/hide.js");
+/* harmony import */ var _popper_lite_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./popper-lite.js */ "./node_modules/@popperjs/core/lib/popper-lite.js");
+/* harmony import */ var _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modifiers/index.js */ "./node_modules/@popperjs/core/lib/modifiers/index.js");
 
 
 
@@ -3224,10 +2330,10 @@ var createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_9__
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js":
-/*!****************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js ***!
-  \****************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3235,10 +2341,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ computeAutoPlacement)
 /* harmony export */ });
-/* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getVariation.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getVariation.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _detectOverflow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./detectOverflow.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getBasePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _detectOverflow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
 
 
 
@@ -3293,10 +2399,10 @@ function computeAutoPlacement(state, options) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/computeOffsets.js":
-/*!**********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/computeOffsets.js ***!
-  \**********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/computeOffsets.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/computeOffsets.js ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3304,10 +2410,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ computeOffsets)
 /* harmony export */ });
-/* harmony import */ var _getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBasePlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getVariation.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getVariation.js");
-/* harmony import */ var _getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getMainAxisFromPlacement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
+/* harmony import */ var _getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getMainAxisFromPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
 
 
 
@@ -3381,10 +2487,10 @@ function computeOffsets(_ref) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/debounce.js":
-/*!****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/debounce.js ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/debounce.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/debounce.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3410,10 +2516,10 @@ function debounce(fn) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js":
-/*!**********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/detectOverflow.js ***!
-  \**********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/detectOverflow.js ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3421,15 +2527,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ detectOverflow)
 /* harmony export */ });
-/* harmony import */ var _dom_utils_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getBoundingClientRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
-/* harmony import */ var _dom_utils_getClippingRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getClippingRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js");
-/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _computeOffsets_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./computeOffsets.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/computeOffsets.js");
-/* harmony import */ var _rectToClientRect_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./rectToClientRect.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/rectToClientRect.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mergePaddingObject.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/mergePaddingObject.js");
-/* harmony import */ var _expandToHashMap_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./expandToHashMap.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/expandToHashMap.js");
+/* harmony import */ var _dom_utils_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
+/* harmony import */ var _dom_utils_getClippingRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getClippingRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js");
+/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _computeOffsets_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./computeOffsets.js */ "./node_modules/@popperjs/core/lib/utils/computeOffsets.js");
+/* harmony import */ var _rectToClientRect_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./rectToClientRect.js */ "./node_modules/@popperjs/core/lib/utils/rectToClientRect.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mergePaddingObject.js */ "./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js");
+/* harmony import */ var _expandToHashMap_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./expandToHashMap.js */ "./node_modules/@popperjs/core/lib/utils/expandToHashMap.js");
 
 
 
@@ -3497,10 +2603,10 @@ function detectOverflow(state, options) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/expandToHashMap.js":
-/*!***********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/expandToHashMap.js ***!
-  \***********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/expandToHashMap.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/expandToHashMap.js ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3517,10 +2623,10 @@ function expandToHashMap(value, keys) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/format.js":
-/*!**************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/format.js ***!
-  \**************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/format.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/format.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3540,10 +2646,10 @@ function format(str) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getAltAxis.js":
-/*!******************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getAltAxis.js ***!
-  \******************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/getAltAxis.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getAltAxis.js ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3557,10 +2663,10 @@ function getAltAxis(axis) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js":
-/*!************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getBasePlacement.js ***!
-  \************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getBasePlacement.js ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3575,10 +2681,10 @@ function getBasePlacement(placement) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getFreshSideObject.js":
-/*!**************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getFreshSideObject.js ***!
-  \**************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js ***!
+  \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3597,10 +2703,10 @@ function getFreshSideObject() {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js":
-/*!********************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js ***!
-  \********************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js ***!
+  \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3614,10 +2720,10 @@ function getMainAxisFromPlacement(placement) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getOppositePlacement.js":
-/*!****************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getOppositePlacement.js ***!
-  \****************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3639,10 +2745,10 @@ function getOppositePlacement(placement) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js":
-/*!*************************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js ***!
-  \*************************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js ***!
+  \********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3662,10 +2768,10 @@ function getOppositeVariationPlacement(placement) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getVariation.js":
-/*!********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getVariation.js ***!
-  \********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/getVariation.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getVariation.js ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3679,10 +2785,10 @@ function getVariation(placement) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/mergeByName.js":
-/*!*******************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/mergeByName.js ***!
-  \*******************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/mergeByName.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/mergeByName.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3707,10 +2813,10 @@ function mergeByName(modifiers) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/mergePaddingObject.js":
-/*!**************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/mergePaddingObject.js ***!
-  \**************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js ***!
+  \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3718,7 +2824,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ mergePaddingObject)
 /* harmony export */ });
-/* harmony import */ var _getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getFreshSideObject.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/getFreshSideObject.js");
+/* harmony import */ var _getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getFreshSideObject.js */ "./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js");
 
 function mergePaddingObject(paddingObject) {
   return Object.assign(Object.assign({}, (0,_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_0__.default)()), paddingObject);
@@ -3726,10 +2832,10 @@ function mergePaddingObject(paddingObject) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/orderModifiers.js":
-/*!**********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/orderModifiers.js ***!
-  \**********************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/orderModifiers.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/orderModifiers.js ***!
+  \*****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3737,7 +2843,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ orderModifiers)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
  // source: https://stackoverflow.com/questions/49875255
 
 function order(modifiers) {
@@ -3785,10 +2891,10 @@ function orderModifiers(modifiers) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/rectToClientRect.js":
-/*!************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/rectToClientRect.js ***!
-  \************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/rectToClientRect.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/rectToClientRect.js ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3807,10 +2913,10 @@ function rectToClientRect(rect) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/uniqueBy.js":
-/*!****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/uniqueBy.js ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/uniqueBy.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/uniqueBy.js ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3832,10 +2938,10 @@ function uniqueBy(arr, fn) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/validateModifiers.js":
-/*!*************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/validateModifiers.js ***!
-  \*************************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/validateModifiers.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/validateModifiers.js ***!
+  \********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3843,8 +2949,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ validateModifiers)
 /* harmony export */ });
-/* harmony import */ var _format_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./format.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/format.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _format_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./format.js */ "./node_modules/@popperjs/core/lib/utils/format.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
 
 
 var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
@@ -3924,10 +3030,10 @@ function validateModifiers(modifiers) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/within.js":
-/*!**************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/utils/within.js ***!
-  \**************************************************************************************************/
+/***/ "./node_modules/@popperjs/core/lib/utils/within.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/within.js ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3941,43 +3047,43 @@ function within(min, value, max) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/aos/dist/aos.js":
-/*!*******************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/aos/dist/aos.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/aos/dist/aos.js":
+/*!**************************************!*\
+  !*** ./node_modules/aos/dist/aos.js ***!
+  \**************************************/
 /***/ (function(module) {
 
 !function(e,t){ true?module.exports=t():0}(this,function(){return function(e){function t(o){if(n[o])return n[o].exports;var i=n[o]={exports:{},id:o,loaded:!1};return e[o].call(i.exports,i,i.exports,t),i.loaded=!0,i.exports}var n={};return t.m=e,t.c=n,t.p="dist/",t(0)}([function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}var i=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},r=n(1),a=(o(r),n(6)),u=o(a),c=n(7),s=o(c),f=n(8),d=o(f),l=n(9),p=o(l),m=n(10),b=o(m),v=n(11),y=o(v),g=n(14),h=o(g),w=[],k=!1,x={offset:120,delay:0,easing:"ease",duration:400,disable:!1,once:!1,startEvent:"DOMContentLoaded",throttleDelay:99,debounceDelay:50,disableMutationObserver:!1},j=function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];if(e&&(k=!0),k)return w=(0,y.default)(w,x),(0,b.default)(w,x.once),w},O=function(){w=(0,h.default)(),j()},M=function(){w.forEach(function(e,t){e.node.removeAttribute("data-aos"),e.node.removeAttribute("data-aos-easing"),e.node.removeAttribute("data-aos-duration"),e.node.removeAttribute("data-aos-delay")})},S=function(e){return e===!0||"mobile"===e&&p.default.mobile()||"phone"===e&&p.default.phone()||"tablet"===e&&p.default.tablet()||"function"==typeof e&&e()===!0},_=function(e){x=i(x,e),w=(0,h.default)();var t=document.all&&!window.atob;return S(x.disable)||t?M():(x.disableMutationObserver||d.default.isSupported()||(console.info('\n      aos: MutationObserver is not supported on this browser,\n      code mutations observing has been disabled.\n      You may have to call "refreshHard()" by yourself.\n    '),x.disableMutationObserver=!0),document.querySelector("body").setAttribute("data-aos-easing",x.easing),document.querySelector("body").setAttribute("data-aos-duration",x.duration),document.querySelector("body").setAttribute("data-aos-delay",x.delay),"DOMContentLoaded"===x.startEvent&&["complete","interactive"].indexOf(document.readyState)>-1?j(!0):"load"===x.startEvent?window.addEventListener(x.startEvent,function(){j(!0)}):document.addEventListener(x.startEvent,function(){j(!0)}),window.addEventListener("resize",(0,s.default)(j,x.debounceDelay,!0)),window.addEventListener("orientationchange",(0,s.default)(j,x.debounceDelay,!0)),window.addEventListener("scroll",(0,u.default)(function(){(0,b.default)(w,x.once)},x.throttleDelay)),x.disableMutationObserver||d.default.ready("[data-aos]",O),w)};e.exports={init:_,refresh:j,refreshHard:O}},function(e,t){},,,,,function(e,t){(function(t){"use strict";function n(e,t,n){function o(t){var n=b,o=v;return b=v=void 0,k=t,g=e.apply(o,n)}function r(e){return k=e,h=setTimeout(f,t),M?o(e):g}function a(e){var n=e-w,o=e-k,i=t-n;return S?j(i,y-o):i}function c(e){var n=e-w,o=e-k;return void 0===w||n>=t||n<0||S&&o>=y}function f(){var e=O();return c(e)?d(e):void(h=setTimeout(f,a(e)))}function d(e){return h=void 0,_&&b?o(e):(b=v=void 0,g)}function l(){void 0!==h&&clearTimeout(h),k=0,b=w=v=h=void 0}function p(){return void 0===h?g:d(O())}function m(){var e=O(),n=c(e);if(b=arguments,v=this,w=e,n){if(void 0===h)return r(w);if(S)return h=setTimeout(f,t),o(w)}return void 0===h&&(h=setTimeout(f,t)),g}var b,v,y,g,h,w,k=0,M=!1,S=!1,_=!0;if("function"!=typeof e)throw new TypeError(s);return t=u(t)||0,i(n)&&(M=!!n.leading,S="maxWait"in n,y=S?x(u(n.maxWait)||0,t):y,_="trailing"in n?!!n.trailing:_),m.cancel=l,m.flush=p,m}function o(e,t,o){var r=!0,a=!0;if("function"!=typeof e)throw new TypeError(s);return i(o)&&(r="leading"in o?!!o.leading:r,a="trailing"in o?!!o.trailing:a),n(e,t,{leading:r,maxWait:t,trailing:a})}function i(e){var t="undefined"==typeof e?"undefined":c(e);return!!e&&("object"==t||"function"==t)}function r(e){return!!e&&"object"==("undefined"==typeof e?"undefined":c(e))}function a(e){return"symbol"==("undefined"==typeof e?"undefined":c(e))||r(e)&&k.call(e)==d}function u(e){if("number"==typeof e)return e;if(a(e))return f;if(i(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=i(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(l,"");var n=m.test(e);return n||b.test(e)?v(e.slice(2),n?2:8):p.test(e)?f:+e}var c="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},s="Expected a function",f=NaN,d="[object Symbol]",l=/^\s+|\s+$/g,p=/^[-+]0x[0-9a-f]+$/i,m=/^0b[01]+$/i,b=/^0o[0-7]+$/i,v=parseInt,y="object"==("undefined"==typeof t?"undefined":c(t))&&t&&t.Object===Object&&t,g="object"==("undefined"==typeof self?"undefined":c(self))&&self&&self.Object===Object&&self,h=y||g||Function("return this")(),w=Object.prototype,k=w.toString,x=Math.max,j=Math.min,O=function(){return h.Date.now()};e.exports=o}).call(t,function(){return this}())},function(e,t){(function(t){"use strict";function n(e,t,n){function i(t){var n=b,o=v;return b=v=void 0,O=t,g=e.apply(o,n)}function r(e){return O=e,h=setTimeout(f,t),M?i(e):g}function u(e){var n=e-w,o=e-O,i=t-n;return S?x(i,y-o):i}function s(e){var n=e-w,o=e-O;return void 0===w||n>=t||n<0||S&&o>=y}function f(){var e=j();return s(e)?d(e):void(h=setTimeout(f,u(e)))}function d(e){return h=void 0,_&&b?i(e):(b=v=void 0,g)}function l(){void 0!==h&&clearTimeout(h),O=0,b=w=v=h=void 0}function p(){return void 0===h?g:d(j())}function m(){var e=j(),n=s(e);if(b=arguments,v=this,w=e,n){if(void 0===h)return r(w);if(S)return h=setTimeout(f,t),i(w)}return void 0===h&&(h=setTimeout(f,t)),g}var b,v,y,g,h,w,O=0,M=!1,S=!1,_=!0;if("function"!=typeof e)throw new TypeError(c);return t=a(t)||0,o(n)&&(M=!!n.leading,S="maxWait"in n,y=S?k(a(n.maxWait)||0,t):y,_="trailing"in n?!!n.trailing:_),m.cancel=l,m.flush=p,m}function o(e){var t="undefined"==typeof e?"undefined":u(e);return!!e&&("object"==t||"function"==t)}function i(e){return!!e&&"object"==("undefined"==typeof e?"undefined":u(e))}function r(e){return"symbol"==("undefined"==typeof e?"undefined":u(e))||i(e)&&w.call(e)==f}function a(e){if("number"==typeof e)return e;if(r(e))return s;if(o(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=o(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(d,"");var n=p.test(e);return n||m.test(e)?b(e.slice(2),n?2:8):l.test(e)?s:+e}var u="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},c="Expected a function",s=NaN,f="[object Symbol]",d=/^\s+|\s+$/g,l=/^[-+]0x[0-9a-f]+$/i,p=/^0b[01]+$/i,m=/^0o[0-7]+$/i,b=parseInt,v="object"==("undefined"==typeof t?"undefined":u(t))&&t&&t.Object===Object&&t,y="object"==("undefined"==typeof self?"undefined":u(self))&&self&&self.Object===Object&&self,g=v||y||Function("return this")(),h=Object.prototype,w=h.toString,k=Math.max,x=Math.min,j=function(){return g.Date.now()};e.exports=n}).call(t,function(){return this}())},function(e,t){"use strict";function n(e){var t=void 0,o=void 0,i=void 0;for(t=0;t<e.length;t+=1){if(o=e[t],o.dataset&&o.dataset.aos)return!0;if(i=o.children&&n(o.children))return!0}return!1}function o(){return window.MutationObserver||window.WebKitMutationObserver||window.MozMutationObserver}function i(){return!!o()}function r(e,t){var n=window.document,i=o(),r=new i(a);u=t,r.observe(n.documentElement,{childList:!0,subtree:!0,removedNodes:!0})}function a(e){e&&e.forEach(function(e){var t=Array.prototype.slice.call(e.addedNodes),o=Array.prototype.slice.call(e.removedNodes),i=t.concat(o);if(n(i))return u()})}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){};t.default={isSupported:i,ready:r}},function(e,t){"use strict";function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(){return navigator.userAgent||navigator.vendor||window.opera||""}Object.defineProperty(t,"__esModule",{value:!0});var i=function(){function e(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(t,n,o){return n&&e(t.prototype,n),o&&e(t,o),t}}(),r=/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i,a=/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i,u=/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i,c=/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i,s=function(){function e(){n(this,e)}return i(e,[{key:"phone",value:function(){var e=o();return!(!r.test(e)&&!a.test(e.substr(0,4)))}},{key:"mobile",value:function(){var e=o();return!(!u.test(e)&&!c.test(e.substr(0,4)))}},{key:"tablet",value:function(){return this.mobile()&&!this.phone()}}]),e}();t.default=new s},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=function(e,t,n){var o=e.node.getAttribute("data-aos-once");t>e.position?e.node.classList.add("aos-animate"):"undefined"!=typeof o&&("false"===o||!n&&"true"!==o)&&e.node.classList.remove("aos-animate")},o=function(e,t){var o=window.pageYOffset,i=window.innerHeight;e.forEach(function(e,r){n(e,i+o,t)})};t.default=o},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var i=n(12),r=o(i),a=function(e,t){return e.forEach(function(e,n){e.node.classList.add("aos-init"),e.position=(0,r.default)(e.node,t.offset)}),e};t.default=a},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var i=n(13),r=o(i),a=function(e,t){var n=0,o=0,i=window.innerHeight,a={offset:e.getAttribute("data-aos-offset"),anchor:e.getAttribute("data-aos-anchor"),anchorPlacement:e.getAttribute("data-aos-anchor-placement")};switch(a.offset&&!isNaN(a.offset)&&(o=parseInt(a.offset)),a.anchor&&document.querySelectorAll(a.anchor)&&(e=document.querySelectorAll(a.anchor)[0]),n=(0,r.default)(e).top,a.anchorPlacement){case"top-bottom":break;case"center-bottom":n+=e.offsetHeight/2;break;case"bottom-bottom":n+=e.offsetHeight;break;case"top-center":n+=i/2;break;case"bottom-center":n+=i/2+e.offsetHeight;break;case"center-center":n+=i/2+e.offsetHeight/2;break;case"top-top":n+=i;break;case"bottom-top":n+=e.offsetHeight+i;break;case"center-top":n+=e.offsetHeight/2+i}return a.anchorPlacement||a.offset||isNaN(t)||(o=t),n+o};t.default=a},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=function(e){for(var t=0,n=0;e&&!isNaN(e.offsetLeft)&&!isNaN(e.offsetTop);)t+=e.offsetLeft-("BODY"!=e.tagName?e.scrollLeft:0),n+=e.offsetTop-("BODY"!=e.tagName?e.scrollTop:0),e=e.offsetParent;return{top:n,left:t}};t.default=n},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=function(e){return e=e||document.querySelectorAll("[data-aos]"),Array.prototype.map.call(e,function(e){return{node:e}})};t.default=n}])});
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/index.js":
-/*!******************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/index.js ***!
-  \******************************************************************************/
+/***/ "./node_modules/axios/index.js":
+/*!*************************************!*\
+  !*** ./node_modules/axios/index.js ***!
+  \*************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__(/*! ./lib/axios */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/axios.js");
+module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/axios/lib/axios.js");
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/adapters/xhr.js":
-/*!*****************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/adapters/xhr.js ***!
-  \*****************************************************************************************/
+/***/ "./node_modules/axios/lib/adapters/xhr.js":
+/*!************************************************!*\
+  !*** ./node_modules/axios/lib/adapters/xhr.js ***!
+  \************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
-var settle = __webpack_require__(/*! ./../core/settle */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/settle.js");
-var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/cookies.js");
-var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/buildURL.js");
-var buildFullPath = __webpack_require__(/*! ../core/buildFullPath */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/buildFullPath.js");
-var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/parseHeaders.js");
-var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isURLSameOrigin.js");
-var createError = __webpack_require__(/*! ../core/createError */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/createError.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
+var settle = __webpack_require__(/*! ./../core/settle */ "./node_modules/axios/lib/core/settle.js");
+var cookies = __webpack_require__(/*! ./../helpers/cookies */ "./node_modules/axios/lib/helpers/cookies.js");
+var buildURL = __webpack_require__(/*! ./../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js");
+var buildFullPath = __webpack_require__(/*! ../core/buildFullPath */ "./node_modules/axios/lib/core/buildFullPath.js");
+var parseHeaders = __webpack_require__(/*! ./../helpers/parseHeaders */ "./node_modules/axios/lib/helpers/parseHeaders.js");
+var isURLSameOrigin = __webpack_require__(/*! ./../helpers/isURLSameOrigin */ "./node_modules/axios/lib/helpers/isURLSameOrigin.js");
+var createError = __webpack_require__(/*! ../core/createError */ "./node_modules/axios/lib/core/createError.js");
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -4151,20 +3257,20 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/axios.js":
-/*!**********************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/axios.js ***!
-  \**********************************************************************************/
+/***/ "./node_modules/axios/lib/axios.js":
+/*!*****************************************!*\
+  !*** ./node_modules/axios/lib/axios.js ***!
+  \*****************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
-var bind = __webpack_require__(/*! ./helpers/bind */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/bind.js");
-var Axios = __webpack_require__(/*! ./core/Axios */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/Axios.js");
-var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/mergeConfig.js");
-var defaults = __webpack_require__(/*! ./defaults */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/defaults.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js");
+var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
+var Axios = __webpack_require__(/*! ./core/Axios */ "./node_modules/axios/lib/core/Axios.js");
+var mergeConfig = __webpack_require__(/*! ./core/mergeConfig */ "./node_modules/axios/lib/core/mergeConfig.js");
+var defaults = __webpack_require__(/*! ./defaults */ "./node_modules/axios/lib/defaults.js");
 
 /**
  * Create an instance of Axios
@@ -4197,18 +3303,18 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/Cancel.js");
-axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/CancelToken.js");
-axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/isCancel.js");
+axios.Cancel = __webpack_require__(/*! ./cancel/Cancel */ "./node_modules/axios/lib/cancel/Cancel.js");
+axios.CancelToken = __webpack_require__(/*! ./cancel/CancelToken */ "./node_modules/axios/lib/cancel/CancelToken.js");
+axios.isCancel = __webpack_require__(/*! ./cancel/isCancel */ "./node_modules/axios/lib/cancel/isCancel.js");
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(/*! ./helpers/spread */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/spread.js");
+axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/axios/lib/helpers/spread.js");
 
 // Expose isAxiosError
-axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isAxiosError.js");
+axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./node_modules/axios/lib/helpers/isAxiosError.js");
 
 module.exports = axios;
 
@@ -4218,10 +3324,10 @@ module.exports.default = axios;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/Cancel.js":
-/*!******************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/Cancel.js ***!
-  \******************************************************************************************/
+/***/ "./node_modules/axios/lib/cancel/Cancel.js":
+/*!*************************************************!*\
+  !*** ./node_modules/axios/lib/cancel/Cancel.js ***!
+  \*************************************************/
 /***/ ((module) => {
 
 "use strict";
@@ -4248,16 +3354,16 @@ module.exports = Cancel;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/CancelToken.js":
-/*!***********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/CancelToken.js ***!
-  \***********************************************************************************************/
+/***/ "./node_modules/axios/lib/cancel/CancelToken.js":
+/*!******************************************************!*\
+  !*** ./node_modules/axios/lib/cancel/CancelToken.js ***!
+  \******************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(/*! ./Cancel */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/Cancel.js");
+var Cancel = __webpack_require__(/*! ./Cancel */ "./node_modules/axios/lib/cancel/Cancel.js");
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -4316,10 +3422,10 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/isCancel.js":
-/*!********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/isCancel.js ***!
-  \********************************************************************************************/
+/***/ "./node_modules/axios/lib/cancel/isCancel.js":
+/*!***************************************************!*\
+  !*** ./node_modules/axios/lib/cancel/isCancel.js ***!
+  \***************************************************/
 /***/ ((module) => {
 
 "use strict";
@@ -4332,20 +3438,20 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/Axios.js":
-/*!***************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/Axios.js ***!
-  \***************************************************************************************/
+/***/ "./node_modules/axios/lib/core/Axios.js":
+/*!**********************************************!*\
+  !*** ./node_modules/axios/lib/core/Axios.js ***!
+  \**********************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
-var buildURL = __webpack_require__(/*! ../helpers/buildURL */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/buildURL.js");
-var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/InterceptorManager.js");
-var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/dispatchRequest.js");
-var mergeConfig = __webpack_require__(/*! ./mergeConfig */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/mergeConfig.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
+var buildURL = __webpack_require__(/*! ../helpers/buildURL */ "./node_modules/axios/lib/helpers/buildURL.js");
+var InterceptorManager = __webpack_require__(/*! ./InterceptorManager */ "./node_modules/axios/lib/core/InterceptorManager.js");
+var dispatchRequest = __webpack_require__(/*! ./dispatchRequest */ "./node_modules/axios/lib/core/dispatchRequest.js");
+var mergeConfig = __webpack_require__(/*! ./mergeConfig */ "./node_modules/axios/lib/core/mergeConfig.js");
 
 /**
  * Create a new instance of Axios
@@ -4438,16 +3544,16 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/InterceptorManager.js":
-/*!****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/InterceptorManager.js ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/axios/lib/core/InterceptorManager.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/axios/lib/core/InterceptorManager.js ***!
+  \***********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 
 function InterceptorManager() {
   this.handlers = [];
@@ -4501,17 +3607,17 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/buildFullPath.js":
-/*!***********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/buildFullPath.js ***!
-  \***********************************************************************************************/
+/***/ "./node_modules/axios/lib/core/buildFullPath.js":
+/*!******************************************************!*\
+  !*** ./node_modules/axios/lib/core/buildFullPath.js ***!
+  \******************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var isAbsoluteURL = __webpack_require__(/*! ../helpers/isAbsoluteURL */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isAbsoluteURL.js");
-var combineURLs = __webpack_require__(/*! ../helpers/combineURLs */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/combineURLs.js");
+var isAbsoluteURL = __webpack_require__(/*! ../helpers/isAbsoluteURL */ "./node_modules/axios/lib/helpers/isAbsoluteURL.js");
+var combineURLs = __webpack_require__(/*! ../helpers/combineURLs */ "./node_modules/axios/lib/helpers/combineURLs.js");
 
 /**
  * Creates a new URL by combining the baseURL with the requestedURL,
@@ -4532,16 +3638,16 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/createError.js":
-/*!*********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/createError.js ***!
-  \*********************************************************************************************/
+/***/ "./node_modules/axios/lib/core/createError.js":
+/*!****************************************************!*\
+  !*** ./node_modules/axios/lib/core/createError.js ***!
+  \****************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(/*! ./enhanceError */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/enhanceError.js");
+var enhanceError = __webpack_require__(/*! ./enhanceError */ "./node_modules/axios/lib/core/enhanceError.js");
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -4561,19 +3667,19 @@ module.exports = function createError(message, config, code, request, response) 
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/dispatchRequest.js":
-/*!*************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/dispatchRequest.js ***!
-  \*************************************************************************************************/
+/***/ "./node_modules/axios/lib/core/dispatchRequest.js":
+/*!********************************************************!*\
+  !*** ./node_modules/axios/lib/core/dispatchRequest.js ***!
+  \********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
-var transformData = __webpack_require__(/*! ./transformData */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/transformData.js");
-var isCancel = __webpack_require__(/*! ../cancel/isCancel */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/cancel/isCancel.js");
-var defaults = __webpack_require__(/*! ../defaults */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/defaults.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
+var transformData = __webpack_require__(/*! ./transformData */ "./node_modules/axios/lib/core/transformData.js");
+var isCancel = __webpack_require__(/*! ../cancel/isCancel */ "./node_modules/axios/lib/cancel/isCancel.js");
+var defaults = __webpack_require__(/*! ../defaults */ "./node_modules/axios/lib/defaults.js");
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -4651,10 +3757,10 @@ module.exports = function dispatchRequest(config) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/enhanceError.js":
-/*!**********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/enhanceError.js ***!
-  \**********************************************************************************************/
+/***/ "./node_modules/axios/lib/core/enhanceError.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/axios/lib/core/enhanceError.js ***!
+  \*****************************************************/
 /***/ ((module) => {
 
 "use strict";
@@ -4704,16 +3810,16 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/mergeConfig.js":
-/*!*********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/mergeConfig.js ***!
-  \*********************************************************************************************/
+/***/ "./node_modules/axios/lib/core/mergeConfig.js":
+/*!****************************************************!*\
+  !*** ./node_modules/axios/lib/core/mergeConfig.js ***!
+  \****************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/axios/lib/utils.js");
 
 /**
  * Config-specific merge-function which creates a new config-object
@@ -4802,16 +3908,16 @@ module.exports = function mergeConfig(config1, config2) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/settle.js":
-/*!****************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/settle.js ***!
-  \****************************************************************************************/
+/***/ "./node_modules/axios/lib/core/settle.js":
+/*!***********************************************!*\
+  !*** ./node_modules/axios/lib/core/settle.js ***!
+  \***********************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var createError = __webpack_require__(/*! ./createError */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/createError.js");
+var createError = __webpack_require__(/*! ./createError */ "./node_modules/axios/lib/core/createError.js");
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -4838,16 +3944,16 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/transformData.js":
-/*!***********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/core/transformData.js ***!
-  \***********************************************************************************************/
+/***/ "./node_modules/axios/lib/core/transformData.js":
+/*!******************************************************!*\
+  !*** ./node_modules/axios/lib/core/transformData.js ***!
+  \******************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 
 /**
  * Transform the data for a request or a response
@@ -4869,17 +3975,17 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/defaults.js":
-/*!*************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/defaults.js ***!
-  \*************************************************************************************/
+/***/ "./node_modules/axios/lib/defaults.js":
+/*!********************************************!*\
+  !*** ./node_modules/axios/lib/defaults.js ***!
+  \********************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
-var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/normalizeHeaderName.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js");
+var normalizeHeaderName = __webpack_require__(/*! ./helpers/normalizeHeaderName */ "./node_modules/axios/lib/helpers/normalizeHeaderName.js");
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -4895,10 +4001,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(/*! ./adapters/xhr */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/adapters/xhr.js");
+    adapter = __webpack_require__(/*! ./adapters/xhr */ "./node_modules/axios/lib/adapters/xhr.js");
   } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(/*! ./adapters/http */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/adapters/xhr.js");
+    adapter = __webpack_require__(/*! ./adapters/http */ "./node_modules/axios/lib/adapters/xhr.js");
   }
   return adapter;
 }
@@ -4978,10 +4084,10 @@ module.exports = defaults;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/bind.js":
-/*!*****************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/bind.js ***!
-  \*****************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/bind.js":
+/*!************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/bind.js ***!
+  \************************************************/
 /***/ ((module) => {
 
 "use strict";
@@ -5000,16 +4106,16 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/buildURL.js":
-/*!*********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/buildURL.js ***!
-  \*********************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/buildURL.js":
+/*!****************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/buildURL.js ***!
+  \****************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -5081,10 +4187,10 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/combineURLs.js":
-/*!************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/combineURLs.js ***!
-  \************************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/combineURLs.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/combineURLs.js ***!
+  \*******************************************************/
 /***/ ((module) => {
 
 "use strict";
@@ -5106,16 +4212,16 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/cookies.js":
-/*!********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/cookies.js ***!
-  \********************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/cookies.js":
+/*!***************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/cookies.js ***!
+  \***************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -5170,10 +4276,10 @@ module.exports = (
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isAbsoluteURL.js":
-/*!**************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
-  \**************************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/isAbsoluteURL.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
+  \*********************************************************/
 /***/ ((module) => {
 
 "use strict";
@@ -5195,10 +4301,10 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isAxiosError.js":
-/*!*************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isAxiosError.js ***!
-  \*************************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/isAxiosError.js":
+/*!********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/isAxiosError.js ***!
+  \********************************************************/
 /***/ ((module) => {
 
 "use strict";
@@ -5217,16 +4323,16 @@ module.exports = function isAxiosError(payload) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isURLSameOrigin.js":
-/*!****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/isURLSameOrigin.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
+  \***********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -5296,16 +4402,16 @@ module.exports = (
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/normalizeHeaderName.js":
-/*!********************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
-  \********************************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/normalizeHeaderName.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
+  \***************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/axios/lib/utils.js");
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -5319,16 +4425,16 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/parseHeaders.js":
-/*!*************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/parseHeaders.js ***!
-  \*************************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/parseHeaders.js":
+/*!********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/parseHeaders.js ***!
+  \********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./../utils */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js");
+var utils = __webpack_require__(/*! ./../utils */ "./node_modules/axios/lib/utils.js");
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -5383,10 +4489,10 @@ module.exports = function parseHeaders(headers) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/spread.js":
-/*!*******************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/spread.js ***!
-  \*******************************************************************************************/
+/***/ "./node_modules/axios/lib/helpers/spread.js":
+/*!**************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/spread.js ***!
+  \**************************************************/
 /***/ ((module) => {
 
 "use strict";
@@ -5421,16 +4527,16 @@ module.exports = function spread(callback) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js":
-/*!**********************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/utils.js ***!
-  \**********************************************************************************/
+/***/ "./node_modules/axios/lib/utils.js":
+/*!*****************************************!*\
+  !*** ./node_modules/axios/lib/utils.js ***!
+  \*****************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 
-var bind = __webpack_require__(/*! ./helpers/bind */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/lib/helpers/bind.js");
+var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
 
 /*global toString:true*/
 
@@ -5783,10 +4889,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/bootstrap-select/dist/js/bootstrap-select.js":
-/*!************************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/bootstrap-select/dist/js/bootstrap-select.js ***!
-  \************************************************************************************************************/
+/***/ "./node_modules/bootstrap-select/dist/js/bootstrap-select.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/bootstrap-select/dist/js/bootstrap-select.js ***!
+  \*******************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -5800,7 +4906,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   if (root === undefined && window !== undefined) root = window;
   if (true) {
     // AMD. Register as an anonymous module unless amdModuleId is set
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (a0) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (a0) {
       return (factory(a0));
     }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -9034,10 +8140,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/bootstrap/dist/js/bootstrap.js":
-/*!**********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/bootstrap/dist/js/bootstrap.js ***!
-  \**********************************************************************************************/
+/***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/bootstrap/dist/js/bootstrap.js ***!
+  \*****************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 /*!
@@ -9046,7 +8152,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 (function (global, factory) {
-   true ? factory(exports, __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! popper.js */ "./userfiles/modules/microweber/api/webpack/node_modules/popper.js/dist/esm/popper.js")) :
+   true ? factory(exports, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")) :
   0;
 }(this, (function (exports, $, Popper) { 'use strict';
 
@@ -13475,10 +12581,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/ion-rangeslider/js/ion.rangeSlider.js":
-/*!*****************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/ion-rangeslider/js/ion.rangeSlider.js ***!
-  \*****************************************************************************************************/
+/***/ "./node_modules/ion-rangeslider/js/ion.rangeSlider.js":
+/*!************************************************************!*\
+  !*** ./node_modules/ion-rangeslider/js/ion.rangeSlider.js ***!
+  \************************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Ion.RangeSlider
@@ -13495,12 +12601,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Ion.RangeSlid
 
 ;(function(factory) {
     if ((typeof jQuery === 'undefined' || !jQuery) && "function" === "function" && __webpack_require__.amdO) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (jQuery) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (jQuery) {
             return factory(jQuery, document, window, navigator);
         }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
     } else if ((typeof jQuery === 'undefined' || !jQuery) && typeof exports === "object") {
-        factory(__webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), document, window, navigator);
+        factory(__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), document, window, navigator);
     } else {
         factory(jQuery, document, window, navigator);
     }
@@ -15935,10 +15041,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Ion.RangeSlid
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/data.js":
-/*!************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/data.js ***!
-  \************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/data.js":
+/*!*******************************************!*\
+  !*** ./node_modules/jquery-ui/ui/data.js ***!
+  \*******************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -15959,7 +15065,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -15983,10 +15089,10 @@ return $.extend( $.expr[ ":" ], {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/disable-selection.js":
-/*!*************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/disable-selection.js ***!
-  \*************************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/disable-selection.js":
+/*!********************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/disable-selection.js ***!
+  \********************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -16008,7 +15114,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16038,17 +15144,17 @@ return $.fn.extend( {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/ie.js":
-/*!**********************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/ie.js ***!
-  \**********************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/ie.js":
+/*!*****************************************!*\
+  !*** ./node_modules/jquery-ui/ui/ie.js ***!
+  \*****************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16062,10 +15168,10 @@ return $.ui.ie = !!/msie [\w.]+/.exec( navigator.userAgent.toLowerCase() );
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/keycode.js":
-/*!***************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/keycode.js ***!
-  \***************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/keycode.js":
+/*!**********************************************!*\
+  !*** ./node_modules/jquery-ui/ui/keycode.js ***!
+  \**********************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -16086,7 +15192,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16116,17 +15222,17 @@ return $.ui.keyCode = {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/plugin.js":
-/*!**************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/plugin.js ***!
-  \**************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/plugin.js":
+/*!*********************************************!*\
+  !*** ./node_modules/jquery-ui/ui/plugin.js ***!
+  \*********************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16169,17 +15275,17 @@ return $.ui.plugin = {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/safe-active-element.js":
-/*!***************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/safe-active-element.js ***!
-  \***************************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/safe-active-element.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/safe-active-element.js ***!
+  \**********************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16218,17 +15324,17 @@ return $.ui.safeActiveElement = function( document ) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/safe-blur.js":
-/*!*****************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/safe-blur.js ***!
-  \*****************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/safe-blur.js":
+/*!************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/safe-blur.js ***!
+  \************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16248,10 +15354,10 @@ return $.ui.safeBlur = function( element ) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/scroll-parent.js":
-/*!*********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/scroll-parent.js ***!
-  \*********************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/scroll-parent.js":
+/*!****************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/scroll-parent.js ***!
+  \****************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -16272,7 +15378,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16302,17 +15408,17 @@ return $.fn.scrollParent = function( includeHidden ) {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js":
-/*!***************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js ***!
-  \***************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/version.js":
+/*!**********************************************!*\
+  !*** ./node_modules/jquery-ui/ui/version.js ***!
+  \**********************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -16328,10 +15434,10 @@ return $.ui.version = "1.12.1";
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widget.js":
-/*!**************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widget.js ***!
-  \**************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/widget.js":
+/*!*********************************************!*\
+  !*** ./node_modules/jquery-ui/ui/widget.js ***!
+  \*********************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -16353,7 +15459,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! ./version */ "./node_modules/jquery-ui/ui/version.js") ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -17070,10 +16176,10 @@ return $.widget;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/draggable.js":
-/*!*************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/draggable.js ***!
-  \*************************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/widgets/draggable.js":
+/*!********************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/widgets/draggable.js ***!
+  \********************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -17097,15 +16203,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 		// AMD. Register as an anonymous module.
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-			__webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"),
-			__webpack_require__(/*! ./mouse */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/mouse.js"),
-			__webpack_require__(/*! ../data */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/data.js"),
-			__webpack_require__(/*! ../plugin */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/plugin.js"),
-			__webpack_require__(/*! ../safe-active-element */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/safe-active-element.js"),
-			__webpack_require__(/*! ../safe-blur */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/safe-blur.js"),
-			__webpack_require__(/*! ../scroll-parent */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/scroll-parent.js"),
-			__webpack_require__(/*! ../version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js"),
-			__webpack_require__(/*! ../widget */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widget.js")
+			__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"),
+			__webpack_require__(/*! ./mouse */ "./node_modules/jquery-ui/ui/widgets/mouse.js"),
+			__webpack_require__(/*! ../data */ "./node_modules/jquery-ui/ui/data.js"),
+			__webpack_require__(/*! ../plugin */ "./node_modules/jquery-ui/ui/plugin.js"),
+			__webpack_require__(/*! ../safe-active-element */ "./node_modules/jquery-ui/ui/safe-active-element.js"),
+			__webpack_require__(/*! ../safe-blur */ "./node_modules/jquery-ui/ui/safe-blur.js"),
+			__webpack_require__(/*! ../scroll-parent */ "./node_modules/jquery-ui/ui/scroll-parent.js"),
+			__webpack_require__(/*! ../version */ "./node_modules/jquery-ui/ui/version.js"),
+			__webpack_require__(/*! ../widget */ "./node_modules/jquery-ui/ui/widget.js")
 		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
@@ -18329,10 +17435,10 @@ return $.ui.draggable;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/mouse.js":
-/*!*********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/mouse.js ***!
-  \*********************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/widgets/mouse.js":
+/*!****************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/widgets/mouse.js ***!
+  \****************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -18354,10 +17460,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 		// AMD. Register as an anonymous module.
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-			__webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"),
-			__webpack_require__(/*! ../ie */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/ie.js"),
-			__webpack_require__(/*! ../version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js"),
-			__webpack_require__(/*! ../widget */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widget.js")
+			__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"),
+			__webpack_require__(/*! ../ie */ "./node_modules/jquery-ui/ui/ie.js"),
+			__webpack_require__(/*! ../version */ "./node_modules/jquery-ui/ui/version.js"),
+			__webpack_require__(/*! ../widget */ "./node_modules/jquery-ui/ui/widget.js")
 		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
@@ -18564,10 +17670,10 @@ return $.widget( "ui.mouse", {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/resizable.js":
-/*!*************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/resizable.js ***!
-  \*************************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/widgets/resizable.js":
+/*!********************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/widgets/resizable.js ***!
+  \********************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -18593,12 +17699,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 		// AMD. Register as an anonymous module.
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-			__webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"),
-			__webpack_require__(/*! ./mouse */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/mouse.js"),
-			__webpack_require__(/*! ../disable-selection */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/disable-selection.js"),
-			__webpack_require__(/*! ../plugin */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/plugin.js"),
-			__webpack_require__(/*! ../version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js"),
-			__webpack_require__(/*! ../widget */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widget.js")
+			__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"),
+			__webpack_require__(/*! ./mouse */ "./node_modules/jquery-ui/ui/widgets/mouse.js"),
+			__webpack_require__(/*! ../disable-selection */ "./node_modules/jquery-ui/ui/disable-selection.js"),
+			__webpack_require__(/*! ../plugin */ "./node_modules/jquery-ui/ui/plugin.js"),
+			__webpack_require__(/*! ../version */ "./node_modules/jquery-ui/ui/version.js"),
+			__webpack_require__(/*! ../widget */ "./node_modules/jquery-ui/ui/widget.js")
 		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
@@ -19774,10 +18880,10 @@ return $.ui.resizable;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/slider.js":
-/*!**********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/slider.js ***!
-  \**********************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/widgets/slider.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/widgets/slider.js ***!
+  \*****************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -19803,11 +18909,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 		// AMD. Register as an anonymous module.
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-			__webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"),
-			__webpack_require__(/*! ./mouse */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/mouse.js"),
-			__webpack_require__(/*! ../keycode */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/keycode.js"),
-			__webpack_require__(/*! ../version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js"),
-			__webpack_require__(/*! ../widget */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widget.js")
+			__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"),
+			__webpack_require__(/*! ./mouse */ "./node_modules/jquery-ui/ui/widgets/mouse.js"),
+			__webpack_require__(/*! ../keycode */ "./node_modules/jquery-ui/ui/keycode.js"),
+			__webpack_require__(/*! ../version */ "./node_modules/jquery-ui/ui/version.js"),
+			__webpack_require__(/*! ../widget */ "./node_modules/jquery-ui/ui/widget.js")
 		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
@@ -20535,10 +19641,10 @@ return $.widget( "ui.slider", $.ui.mouse, {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/sortable.js":
-/*!************************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/sortable.js ***!
-  \************************************************************************************************/
+/***/ "./node_modules/jquery-ui/ui/widgets/sortable.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/jquery-ui/ui/widgets/sortable.js ***!
+  \*******************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -20562,13 +19668,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 		// AMD. Register as an anonymous module.
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-			__webpack_require__(/*! jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js"),
-			__webpack_require__(/*! ./mouse */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/mouse.js"),
-			__webpack_require__(/*! ../data */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/data.js"),
-			__webpack_require__(/*! ../ie */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/ie.js"),
-			__webpack_require__(/*! ../scroll-parent */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/scroll-parent.js"),
-			__webpack_require__(/*! ../version */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/version.js"),
-			__webpack_require__(/*! ../widget */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widget.js")
+			__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"),
+			__webpack_require__(/*! ./mouse */ "./node_modules/jquery-ui/ui/widgets/mouse.js"),
+			__webpack_require__(/*! ../data */ "./node_modules/jquery-ui/ui/data.js"),
+			__webpack_require__(/*! ../ie */ "./node_modules/jquery-ui/ui/ie.js"),
+			__webpack_require__(/*! ../scroll-parent */ "./node_modules/jquery-ui/ui/scroll-parent.js"),
+			__webpack_require__(/*! ../version */ "./node_modules/jquery-ui/ui/version.js"),
+			__webpack_require__(/*! ../widget */ "./node_modules/jquery-ui/ui/widget.js")
 		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
@@ -22098,24 +21204,24 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js":
-/*!*************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js ***!
-  \*************************************************************************************/
+/***/ "./node_modules/jquery/dist/jquery.js":
+/*!********************************************!*\
+  !*** ./node_modules/jquery/dist/jquery.js ***!
+  \********************************************/
 /***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.5.1
+ * jQuery JavaScript Library v3.6.0
  * https://jquery.com/
  *
  * Includes Sizzle.js
  * https://sizzlejs.com/
  *
- * Copyright JS Foundation and other contributors
+ * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2020-05-04T22:49Z
+ * Date: 2021-03-02T17:08Z
  */
 ( function( global, factory ) {
 
@@ -22182,12 +21288,16 @@ var support = {};
 
 var isFunction = function isFunction( obj ) {
 
-      // Support: Chrome <=57, Firefox <=52
-      // In some browsers, typeof returns "function" for HTML <object> elements
-      // (i.e., `typeof document.createElement( "object" ) === "function"`).
-      // We don't want to classify *any* DOM node as a function.
-      return typeof obj === "function" && typeof obj.nodeType !== "number";
-  };
+		// Support: Chrome <=57, Firefox <=52
+		// In some browsers, typeof returns "function" for HTML <object> elements
+		// (i.e., `typeof document.createElement( "object" ) === "function"`).
+		// We don't want to classify *any* DOM node as a function.
+		// Support: QtWeb <=3.8.5, WebKit <=534.34, wkhtmltopdf tool <=0.12.5
+		// Plus for old WebKit, typeof returns "function" for HTML collections
+		// (e.g., `typeof document.getElementsByTagName("div") === "function"`). (gh-4756)
+		return typeof obj === "function" && typeof obj.nodeType !== "number" &&
+			typeof obj.item !== "function";
+	};
 
 
 var isWindow = function isWindow( obj ) {
@@ -22253,7 +21363,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.5.1",
+	version = "3.6.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -22507,7 +21617,7 @@ jQuery.extend( {
 			if ( isArrayLike( Object( arr ) ) ) {
 				jQuery.merge( ret,
 					typeof arr === "string" ?
-					[ arr ] : arr
+						[ arr ] : arr
 				);
 			} else {
 				push.call( ret, arr );
@@ -22602,9 +21712,9 @@ if ( typeof Symbol === "function" ) {
 
 // Populate the class2type map
 jQuery.each( "Boolean Number String Function Array Date RegExp Object Error Symbol".split( " " ),
-function( _i, name ) {
-	class2type[ "[object " + name + "]" ] = name.toLowerCase();
-} );
+	function( _i, name ) {
+		class2type[ "[object " + name + "]" ] = name.toLowerCase();
+	} );
 
 function isArrayLike( obj ) {
 
@@ -22624,14 +21734,14 @@ function isArrayLike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.3.5
+ * Sizzle CSS Selector Engine v2.3.6
  * https://sizzlejs.com/
  *
  * Copyright JS Foundation and other contributors
  * Released under the MIT license
  * https://js.foundation/
  *
- * Date: 2020-03-14
+ * Date: 2021-02-16
  */
 ( function( window ) {
 var i,
@@ -23214,8 +22324,8 @@ support = Sizzle.support = {};
  * @returns {Boolean} True iff elem is a non-HTML XML node
  */
 isXML = Sizzle.isXML = function( elem ) {
-	var namespace = elem.namespaceURI,
-		docElem = ( elem.ownerDocument || elem ).documentElement;
+	var namespace = elem && elem.namespaceURI,
+		docElem = elem && ( elem.ownerDocument || elem ).documentElement;
 
 	// Support: IE <=8
 	// Assume HTML when documentElement doesn't yet exist, such as inside loading iframes
@@ -25130,9 +24240,9 @@ var rneedsContext = jQuery.expr.match.needsContext;
 
 function nodeName( elem, name ) {
 
-  return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
+	return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
 
-};
+}
 var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
 
 
@@ -26103,8 +25213,8 @@ jQuery.extend( {
 			resolveContexts = Array( i ),
 			resolveValues = slice.call( arguments ),
 
-			// the master Deferred
-			master = jQuery.Deferred(),
+			// the primary Deferred
+			primary = jQuery.Deferred(),
 
 			// subordinate callback factory
 			updateFunc = function( i ) {
@@ -26112,30 +25222,30 @@ jQuery.extend( {
 					resolveContexts[ i ] = this;
 					resolveValues[ i ] = arguments.length > 1 ? slice.call( arguments ) : value;
 					if ( !( --remaining ) ) {
-						master.resolveWith( resolveContexts, resolveValues );
+						primary.resolveWith( resolveContexts, resolveValues );
 					}
 				};
 			};
 
 		// Single- and empty arguments are adopted like Promise.resolve
 		if ( remaining <= 1 ) {
-			adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject,
+			adoptValue( singleValue, primary.done( updateFunc( i ) ).resolve, primary.reject,
 				!remaining );
 
 			// Use .then() to unwrap secondary thenables (cf. gh-3000)
-			if ( master.state() === "pending" ||
+			if ( primary.state() === "pending" ||
 				isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
 
-				return master.then();
+				return primary.then();
 			}
 		}
 
 		// Multiple arguments are aggregated like Promise.all array elements
 		while ( i-- ) {
-			adoptValue( resolveValues[ i ], updateFunc( i ), master.reject );
+			adoptValue( resolveValues[ i ], updateFunc( i ), primary.reject );
 		}
 
-		return master.promise();
+		return primary.promise();
 	}
 } );
 
@@ -26286,8 +25396,8 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 			for ( ; i < len; i++ ) {
 				fn(
 					elems[ i ], key, raw ?
-					value :
-					value.call( elems[ i ], i, fn( elems[ i ], key ) )
+						value :
+						value.call( elems[ i ], i, fn( elems[ i ], key ) )
 				);
 			}
 		}
@@ -27195,10 +26305,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 }
 
 
-var
-	rkeyEvent = /^key/,
-	rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
-	rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
+var rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
 
 function returnTrue() {
 	return true;
@@ -27493,8 +26600,8 @@ jQuery.event = {
 			event = jQuery.event.fix( nativeEvent ),
 
 			handlers = (
-					dataPriv.get( this, "events" ) || Object.create( null )
-				)[ event.type ] || [],
+				dataPriv.get( this, "events" ) || Object.create( null )
+			)[ event.type ] || [],
 			special = jQuery.event.special[ event.type ] || {};
 
 		// Use the fix-ed jQuery.Event rather than the (read-only) native event
@@ -27618,12 +26725,12 @@ jQuery.event = {
 			get: isFunction( hook ) ?
 				function() {
 					if ( this.originalEvent ) {
-							return hook( this.originalEvent );
+						return hook( this.originalEvent );
 					}
 				} :
 				function() {
 					if ( this.originalEvent ) {
-							return this.originalEvent[ name ];
+						return this.originalEvent[ name ];
 					}
 				},
 
@@ -27762,7 +26869,13 @@ function leverageNative( el, type, expectSync ) {
 						// Cancel the outer synthetic event
 						event.stopImmediatePropagation();
 						event.preventDefault();
-						return result.value;
+
+						// Support: Chrome 86+
+						// In Chrome, if an element having a focusout handler is blurred by
+						// clicking outside of it, it invokes the handler synchronously. If
+						// that handler calls `.remove()` on the element, the data is cleared,
+						// leaving `result` undefined. We need to guard against this.
+						return result && result.value;
 					}
 
 				// If this is an inner synthetic event for an event with a bubbling surrogate
@@ -27927,34 +27040,7 @@ jQuery.each( {
 	targetTouches: true,
 	toElement: true,
 	touches: true,
-
-	which: function( event ) {
-		var button = event.button;
-
-		// Add which for key events
-		if ( event.which == null && rkeyEvent.test( event.type ) ) {
-			return event.charCode != null ? event.charCode : event.keyCode;
-		}
-
-		// Add which for click: 1 === left; 2 === middle; 3 === right
-		if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
-			if ( button & 1 ) {
-				return 1;
-			}
-
-			if ( button & 2 ) {
-				return 3;
-			}
-
-			if ( button & 4 ) {
-				return 2;
-			}
-
-			return 0;
-		}
-
-		return event.which;
-	}
+	which: true
 }, jQuery.event.addProp );
 
 jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateType ) {
@@ -27977,6 +27063,12 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 			leverageNative( this, type );
 
 			// Return non-false to allow normal event-path propagation
+			return true;
+		},
+
+		// Suppress native focus or blur as it's already being fired
+		// in leverageNative.
+		_default: function() {
 			return true;
 		},
 
@@ -28647,6 +27739,10 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 		// set in CSS while `offset*` properties report correct values.
 		// Behavior in IE 9 is more subtle than in newer versions & it passes
 		// some versions of this test; make sure not to make it pass there!
+		//
+		// Support: Firefox 70+
+		// Only Firefox includes border widths
+		// in computed dimensions. (gh-4529)
 		reliableTrDimensions: function() {
 			var table, tr, trChild, trStyle;
 			if ( reliableTrDimensionsVal == null ) {
@@ -28654,9 +27750,22 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 				tr = document.createElement( "tr" );
 				trChild = document.createElement( "div" );
 
-				table.style.cssText = "position:absolute;left:-11111px";
+				table.style.cssText = "position:absolute;left:-11111px;border-collapse:separate";
+				tr.style.cssText = "border:1px solid";
+
+				// Support: Chrome 86+
+				// Height set through cssText does not get applied.
+				// Computed height then comes back as 0.
 				tr.style.height = "1px";
 				trChild.style.height = "9px";
+
+				// Support: Android 8 Chrome 86+
+				// In our bodyBackground.html iframe,
+				// display for all div elements is set to "inline",
+				// which causes a problem only in Android 8 Chrome 86.
+				// Ensuring the div is display: block
+				// gets around this issue.
+				trChild.style.display = "block";
 
 				documentElement
 					.appendChild( table )
@@ -28664,7 +27773,9 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 					.appendChild( trChild );
 
 				trStyle = window.getComputedStyle( tr );
-				reliableTrDimensionsVal = parseInt( trStyle.height ) > 3;
+				reliableTrDimensionsVal = ( parseInt( trStyle.height, 10 ) +
+					parseInt( trStyle.borderTopWidth, 10 ) +
+					parseInt( trStyle.borderBottomWidth, 10 ) ) === tr.offsetHeight;
 
 				documentElement.removeChild( table );
 			}
@@ -29128,10 +28239,10 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 					// Running getBoundingClientRect on a disconnected node
 					// in IE throws an error.
 					( !elem.getClientRects().length || !elem.getBoundingClientRect().width ) ?
-						swap( elem, cssShow, function() {
-							return getWidthOrHeight( elem, dimension, extra );
-						} ) :
-						getWidthOrHeight( elem, dimension, extra );
+					swap( elem, cssShow, function() {
+						return getWidthOrHeight( elem, dimension, extra );
+					} ) :
+					getWidthOrHeight( elem, dimension, extra );
 			}
 		},
 
@@ -29190,7 +28301,7 @@ jQuery.cssHooks.marginLeft = addGetHookIf( support.reliableMarginLeft,
 					swap( elem, { marginLeft: 0 }, function() {
 						return elem.getBoundingClientRect().left;
 					} )
-				) + "px";
+			) + "px";
 		}
 	}
 );
@@ -29329,7 +28440,7 @@ Tween.propHooks = {
 			if ( jQuery.fx.step[ tween.prop ] ) {
 				jQuery.fx.step[ tween.prop ]( tween );
 			} else if ( tween.elem.nodeType === 1 && (
-					jQuery.cssHooks[ tween.prop ] ||
+				jQuery.cssHooks[ tween.prop ] ||
 					tween.elem.style[ finalPropName( tween.prop ) ] != null ) ) {
 				jQuery.style( tween.elem, tween.prop, tween.now + tween.unit );
 			} else {
@@ -29574,7 +28685,7 @@ function defaultPrefilter( elem, props, opts ) {
 
 			anim.done( function() {
 
-			/* eslint-enable no-loop-func */
+				/* eslint-enable no-loop-func */
 
 				// The final step of a "hide" animation is actually hiding the element
 				if ( !hidden ) {
@@ -29694,7 +28805,7 @@ function Animation( elem, properties, options ) {
 			tweens: [],
 			createTween: function( prop, end ) {
 				var tween = jQuery.Tween( elem, animation.opts, prop, end,
-						animation.opts.specialEasing[ prop ] || animation.opts.easing );
+					animation.opts.specialEasing[ prop ] || animation.opts.easing );
 				animation.tweens.push( tween );
 				return tween;
 			},
@@ -29867,7 +28978,8 @@ jQuery.fn.extend( {
 					anim.stop( true );
 				}
 			};
-			doAnimation.finish = doAnimation;
+
+		doAnimation.finish = doAnimation;
 
 		return empty || optall.queue === false ?
 			this.each( doAnimation ) :
@@ -30507,8 +29619,8 @@ jQuery.fn.extend( {
 				if ( this.setAttribute ) {
 					this.setAttribute( "class",
 						className || value === false ?
-						"" :
-						dataPriv.get( this, "__className__" ) || ""
+							"" :
+							dataPriv.get( this, "__className__" ) || ""
 					);
 				}
 			}
@@ -30523,7 +29635,7 @@ jQuery.fn.extend( {
 		while ( ( elem = this[ i++ ] ) ) {
 			if ( elem.nodeType === 1 &&
 				( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
-					return true;
+				return true;
 			}
 		}
 
@@ -30813,9 +29925,7 @@ jQuery.extend( jQuery.event, {
 				special.bindType || type;
 
 			// jQuery handler
-			handle = (
-					dataPriv.get( cur, "events" ) || Object.create( null )
-				)[ event.type ] &&
+			handle = ( dataPriv.get( cur, "events" ) || Object.create( null ) )[ event.type ] &&
 				dataPriv.get( cur, "handle" );
 			if ( handle ) {
 				handle.apply( cur, data );
@@ -30962,7 +30072,7 @@ var rquery = ( /\?/ );
 
 // Cross-browser xml parsing
 jQuery.parseXML = function( data ) {
-	var xml;
+	var xml, parserErrorElem;
 	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
@@ -30971,12 +30081,17 @@ jQuery.parseXML = function( data ) {
 	// IE throws on parseFromString with invalid input.
 	try {
 		xml = ( new window.DOMParser() ).parseFromString( data, "text/xml" );
-	} catch ( e ) {
-		xml = undefined;
-	}
+	} catch ( e ) {}
 
-	if ( !xml || xml.getElementsByTagName( "parsererror" ).length ) {
-		jQuery.error( "Invalid XML: " + data );
+	parserErrorElem = xml && xml.getElementsByTagName( "parsererror" )[ 0 ];
+	if ( !xml || parserErrorElem ) {
+		jQuery.error( "Invalid XML: " + (
+			parserErrorElem ?
+				jQuery.map( parserErrorElem.childNodes, function( el ) {
+					return el.textContent;
+				} ).join( "\n" ) :
+				data
+		) );
 	}
 	return xml;
 };
@@ -31077,16 +30192,14 @@ jQuery.fn.extend( {
 			// Can add propHook for "elements" to filter or add form elements
 			var elements = jQuery.prop( this, "elements" );
 			return elements ? jQuery.makeArray( elements ) : this;
-		} )
-		.filter( function() {
+		} ).filter( function() {
 			var type = this.type;
 
 			// Use .is( ":disabled" ) so that fieldset[disabled] works
 			return this.name && !jQuery( this ).is( ":disabled" ) &&
 				rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
 				( this.checked || !rcheckableType.test( type ) );
-		} )
-		.map( function( _i, elem ) {
+		} ).map( function( _i, elem ) {
 			var val = jQuery( this ).val();
 
 			if ( val == null ) {
@@ -31139,7 +30252,8 @@ var
 
 	// Anchor tag for parsing the document origin
 	originAnchor = document.createElement( "a" );
-	originAnchor.href = location.href;
+
+originAnchor.href = location.href;
 
 // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
 function addToPrefiltersOrTransports( structure ) {
@@ -31520,8 +30634,8 @@ jQuery.extend( {
 			// Context for global events is callbackContext if it is a DOM node or jQuery collection
 			globalEventContext = s.context &&
 				( callbackContext.nodeType || callbackContext.jquery ) ?
-					jQuery( callbackContext ) :
-					jQuery.event,
+				jQuery( callbackContext ) :
+				jQuery.event,
 
 			// Deferreds
 			deferred = jQuery.Deferred(),
@@ -31833,8 +30947,10 @@ jQuery.extend( {
 				response = ajaxHandleResponses( s, jqXHR, responses );
 			}
 
-			// Use a noop converter for missing script
-			if ( !isSuccess && jQuery.inArray( "script", s.dataTypes ) > -1 ) {
+			// Use a noop converter for missing script but not if jsonp
+			if ( !isSuccess &&
+				jQuery.inArray( "script", s.dataTypes ) > -1 &&
+				jQuery.inArray( "json", s.dataTypes ) < 0 ) {
 				s.converters[ "text script" ] = function() {};
 			}
 
@@ -32572,12 +31688,6 @@ jQuery.offset = {
 			options.using.call( elem, props );
 
 		} else {
-			if ( typeof props.top === "number" ) {
-				props.top += "px";
-			}
-			if ( typeof props.left === "number" ) {
-				props.left += "px";
-			}
 			curElem.css( props );
 		}
 	}
@@ -32746,8 +31856,11 @@ jQuery.each( [ "top", "left" ], function( _i, prop ) {
 
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
 jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
-	jQuery.each( { padding: "inner" + name, content: type, "": "outer" + name },
-		function( defaultExtra, funcName ) {
+	jQuery.each( {
+		padding: "inner" + name,
+		content: type,
+		"": "outer" + name
+	}, function( defaultExtra, funcName ) {
 
 		// Margin is only for outerHeight, outerWidth
 		jQuery.fn[ funcName ] = function( margin, value ) {
@@ -32832,7 +31945,8 @@ jQuery.fn.extend( {
 	}
 } );
 
-jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
+jQuery.each(
+	( "blur focus focusin focusout resize scroll click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
 	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
 	function( _i, name ) {
@@ -32843,7 +31957,8 @@ jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
 				this.on( name, null, data, fn ) :
 				this.trigger( name );
 		};
-	} );
+	}
+);
 
 
 
@@ -32981,10 +32096,10 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./userfiles/modules/microweber/api/webpack/node_modules/popper.js/dist/esm/popper.js":
-/*!********************************************************************************************!*\
-  !*** ./userfiles/modules/microweber/api/webpack/node_modules/popper.js/dist/esm/popper.js ***!
-  \********************************************************************************************/
+/***/ "./node_modules/popper.js/dist/esm/popper.js":
+/*!***************************************************!*\
+  !*** ./node_modules/popper.js/dist/esm/popper.js ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -35610,6 +34725,900 @@ Popper.Defaults = Defaults;
 //# sourceMappingURL=popper.js.map
 
 
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js":
+/*!*******************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js ***!
+  \*******************************************************************************/
+/***/ (() => {
+
+/* UI */
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.selectpicker').selectpicker({
+        container: 'body'
+    });
+
+    $(".js-range").each(function (index) {
+        var from = $(this).find('.js-from');
+        var to = $(this).find('.js-to');
+        var slider = $(this).find('.js-slider');
+
+        slider.ionRangeSlider({
+            onChange: function (data) {
+                from.val(data.from);
+                to.val(data.to);
+            }
+        });
+
+        this_range = slider.data("ionRangeSlider");
+
+        from.on('change', function () {
+            this_range.update({
+                from: from.val()
+            });
+        });
+
+        to.on('change', function () {
+            this_range.update({
+                to: to.val()
+            });
+        });
+    });
+
+    $('body').on('change', 'select.js-change-color', function () {
+        var color = $(this).find('option:selected').data('change-color');
+        $(this).parent().removeClass('btn-primary').removeClass('btn-secondary').removeClass('btn-success').removeClass('btn-warning').removeClass('btn-danger').addClass(color);
+        $(this).parent().find('.dropdown-toggle').removeClass('btn-primary').removeClass('btn-secondary').removeClass('btn-success').removeClass('btn-warning').removeClass('btn-danger').addClass(color);
+    });
+
+    $(".btn-minus", '.btn-group-quantity').on("click", function (m) {
+        var i = $(this).parent().find('input[type="text"]');
+        if (i.val() <= 1) {
+            i.val("1").change();
+        } else {
+            var l = i.val() - 1;
+            i.val(l).change();
+        }
+    });
+
+    $(".btn-plus", '.btn-group-quantity').on("click", function (m) {
+        var i = $(this).parent().find('input[type="text"]');
+        if (i.val() <= 100) {
+            var l = +i.val() + +1;
+            i.val(l).change();
+        }
+    });
+
+    $(".minus", '.input-group-quantity').on("click", function (m) {
+        var i = $(this).parent().parent().parent().find('input[type="text"]');
+        if (i.val() <= 1) {
+            i.val("1").change();
+        } else {
+            var l = i.val() - 1;
+            i.val(l).change();
+        }
+    });
+
+    $(".plus", '.input-group-quantity').on("click", function (m) {
+        var i = $(this).parent().parent().parent().find('input[type="text"]');
+        if (i.val() <= 100) {
+            var l = +i.val() + +1;
+            i.val(l).change();
+        }
+    });
+
+    $(".js-show-password", '.input-group-password').on("click", function (m) {
+        var field = $(this).parent().parent().find('input');
+
+        if ('password' == field.attr('type')) {
+            field.prop('type', 'text');
+            $(this).find('i').removeClass('text-muted').addClass('text-primary');
+        } else {
+            field.prop('type', 'password');
+            $(this).find('i').removeClass('text-primary').addClass('text-muted');
+        }
+    });
+
+    $('.dropdown .dropdown-toggle', 'aside').on('click', function () {
+        $(this).parent().toggleClass('show');
+        $(this).parent().find('.dropdown-menu').toggleClass('show');
+    });
+
+    $('.js-toggle-mobile-nav').on('click', function () {
+        $(this).toggleClass('opened');
+        $('body').find('aside').toggleClass('opened');
+        $('body').find('.tree').toggleClass('opened');
+        $('html, body').toggleClass('prevent-scroll');
+    });
+
+    $('.js-show-more').on('click', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var replaceWhat = $(this).attr('href');
+
+        if ($(replaceWhat).is(":visible")) {
+            $(replaceWhat).hide();
+        } else {
+            $(replaceWhat).show();
+        }
+    });
+
+    /*    $('button, a, input, textarea', '.collapse').on('click', function (e) {
+     e.stopPropagation();
+     e.preventDefault();
+     });*/
+
+    $('body').on('click', '[data-toggle="collapse-mw"]', function (e) {
+        var has = mw.tools.firstMatchesOnNodeOrParent(e.target, [
+            'a', 'button', '.btn', '.mw-ui-btn', 'input', 'select', 'textarea', 'img', 'label', '.mdi'
+        ]);
+        if (!has) {
+            var target = $(this).data('target');
+            $(target).toggleClass('show');
+        }
+    });
+
+
+    $(".selectpicker").each(function (index) {
+        if ($(this).data('style')) {
+            $(this).parent().addClass($(this).data('style') + '-dropdown');
+        }
+    });
+
+    //Custom checkboxes and radios in .collapse fix
+    $('.collapse .custom-control-label').on('click', function () {
+        // var checkBox = $(this).prev('input');
+        //
+        // if ($(checkBox).attr('checked')) {
+        //     $(checkBox).removeAttr('checked');
+        // } else {
+        //     $(checkBox).attr('checked', 'checked');
+        // }
+        // $(checkBox).trigger('change');
+        // return;
+    });
+
+    $('input, textarea', '.js-count-letters').on('keyup', function () {
+        var countLettersParent = $(this).closest('.js-count-letters');
+        var countLettersNumber = countLettersParent.find('.js-typed-letters').text($(this).val().length);
+    });
+
+    theProductHasVariants();
+
+    $('.js-product-has-variants').on('change', function () {
+        theProductHasVariants($(this));
+    });
+
+    $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+});
+
+function theProductHasVariants(field) {
+    if (typeof field !== 'undefined') {
+        console.log($(this).closest('.js-product-variants'));
+        var theProductHasVariant = $('.js-product-has-variants').prop("checked");
+        if (theProductHasVariant) {
+            $(this).closest('.js-product-variants').show('slow');
+        } else {
+            $(this).closest('.js-product-variants').hide('slow');
+        }
+    } else {
+        $(".js-product-has-variants").each(function (index) {
+            theProductHasVariants($(this));
+        });
+    }
+}
+
+/**
+ * Replace all SVG images with inline SVG
+ */
+window.SVGtoCode = function() {
+    $('img.svg[src*=".svg"]').each(function () {
+        var $img = $(this);
+        var imgID = $img.attr('id');
+        var imgClass = $img.attr('class');
+        var imgURL = $img.attr('src');
+
+        $.get({
+            url: imgURL,
+            cache: true
+        }).then(function (data) {
+            var $svg = $(data).find('svg');
+
+            // Add replaced image's ID to the new SVG
+            if (typeof imgID !== 'undefined') {
+                $svg = $svg.attr('id', imgID);
+            }
+            // Add replaced image's classes to the new SVG
+            if (typeof imgClass !== 'undefined') {
+                $svg = $svg.attr('class', imgClass + ' replaced-svg');
+            }
+
+            // Remove any invalid XML tags as per http://validator.w3.org
+            $svg = $svg.removeAttr('xmlns:a');
+
+            // Replace image with new SVG
+            $img.replaceWith($svg);
+        });
+    });
+}
+
+
+/***/ }),
+
+/***/ "./userfiles/modules/microweber/api/libs/tags/bootstrap-tagsinput.js":
+/*!***************************************************************************!*\
+  !*** ./userfiles/modules/microweber/api/libs/tags/bootstrap-tagsinput.js ***!
+  \***************************************************************************/
+/***/ (() => {
+
+(function ($) {
+    "use strict";
+
+    var defaultOptions = {
+        tagClass: function (item) {
+            return 'btn btn-primary';
+        },
+        itemValue: function (item) {
+            return item ? item.toString() : item;
+        },
+        itemText: function (item) {
+            return this.itemValue(item);
+        },
+        itemTitle: function (item) {
+            return null;
+        },
+        freeInput: true,
+        addOnBlur: true,
+        maxTags: undefined,
+        maxChars: undefined,
+        confirmKeys: [13, 44],
+        delimiter: ',',
+        delimiterRegex: null,
+        cancelConfirmKeysOnEmpty: true,
+        onTagExists: function (item, $tag) {
+            $tag.hide().fadeIn();
+        },
+        trimValue: false,
+        allowDuplicates: false
+    };
+
+    /**
+     * Constructor function
+     */
+    function TagsInput(element, options) {
+        this.itemsArray = [];
+
+        this.$element = $(element);
+        this.$element.hide();
+
+        this.isSelect = (element.tagName === 'SELECT');
+        this.multiple = (this.isSelect && element.hasAttribute('multiple'));
+        this.objectItems = options && options.itemValue;
+        this.placeholderText = element.hasAttribute('placeholder') ? this.$element.attr('placeholder') : '';
+        this.inputSize = Math.max(1, this.placeholderText.length);
+
+        this.$container = $('<div class="bootstrap-tagsinput"></div>');
+        this.$input = $('<input type="text" placeholder="' + this.placeholderText + '"/>').appendTo(this.$container);
+
+        this.$element.before(this.$container);
+
+        this.build(options);
+    }
+
+    TagsInput.prototype = {
+        constructor: TagsInput,
+
+        /**
+         * Adds the given item as a new tag. Pass true to dontPushVal to prevent
+         * updating the elements val()
+         */
+        add: function (item, dontPushVal, options) {
+            var self = this;
+
+            if (self.options.maxTags && self.itemsArray.length >= self.options.maxTags)
+                return;
+
+            // Ignore falsey values, except false
+            if (item !== false && !item)
+                return;
+
+            // Trim value
+            if (typeof item === "string" && self.options.trimValue) {
+                item = $.trim(item);
+            }
+
+            // Throw an error when trying to add an object while the itemValue option was not set
+            if (typeof item === "object" && !self.objectItems)
+                throw("Can't add objects when itemValue option is not set");
+
+            // Ignore strings only containg whitespace
+            if (item.toString().match(/^\s*$/))
+                return;
+
+            // If SELECT but not multiple, remove current tag
+            if (self.isSelect && !self.multiple && self.itemsArray.length > 0)
+                self.remove(self.itemsArray[0]);
+
+            if (typeof item === "string" && this.$element[0].tagName === 'INPUT') {
+                var delimiter = (self.options.delimiterRegex) ? self.options.delimiterRegex : self.options.delimiter;
+                var items = item.split(delimiter);
+                if (items.length > 1) {
+                    for (var i = 0; i < items.length; i++) {
+                        this.add(items[i], true);
+                    }
+
+                    if (!dontPushVal)
+                        self.pushVal();
+                    return;
+                }
+            }
+
+            var itemValue = self.options.itemValue(item),
+                    itemText = self.options.itemText(item),
+                    tagClass = self.options.tagClass(item),
+                    itemTitle = self.options.itemTitle(item);
+
+            // Ignore items allready added
+            var existing = $.grep(self.itemsArray, function (item) {
+                return self.options.itemValue(item) === itemValue;
+            })[0];
+            if (existing && !self.options.allowDuplicates) {
+                // Invoke onTagExists
+                if (self.options.onTagExists) {
+                    var $existingTag = $(".tag", self.$container).filter(function () {
+                        return $(this).data("item") === existing;
+                    });
+                    self.options.onTagExists(item, $existingTag);
+                }
+                return;
+            }
+
+            // if length greater than limit
+            if (self.items().toString().length + item.length + 1 > self.options.maxInputLength)
+                return;
+
+            // raise beforeItemAdd arg
+            var beforeItemAddEvent = $.Event('beforeItemAdd', {item: item, cancel: false, options: options});
+            self.$element.trigger(beforeItemAddEvent);
+            if (beforeItemAddEvent.cancel)
+                return;
+
+            // register item in internal array and map
+            self.itemsArray.push(item);
+
+            // add a tag element
+
+            var $tag = $('<div class="btn-group tag tag-xs mb-2 mr-1"><span class="btn-sm icon-left no-hover ' + htmlEncode(tagClass) + (itemTitle !== null ? ('" title="' + itemTitle) : '') + '">' + htmlEncode(itemText) + '</span><button type="button" data-role="remove" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-close"></i></button></div>');
+            $tag.data('item', item);
+            self.findInputWrapper().before($tag);
+            $tag.after(' ');
+
+            // add <option /> if item represents a value not present in one of the <select />'s options
+            if (self.isSelect && !$('option[value="' + encodeURIComponent(itemValue) + '"]', self.$element)[0]) {
+                var $option = $('<option selected>' + htmlEncode(itemText) + '</option>');
+                $option.data('item', item);
+                $option.attr('value', itemValue);
+                self.$element.append($option);
+            }
+
+            if (!dontPushVal)
+                self.pushVal();
+
+            // Add class when reached maxTags
+            if (self.options.maxTags === self.itemsArray.length || self.items().toString().length === self.options.maxInputLength)
+                self.$container.addClass('bootstrap-tagsinput-max');
+
+            self.$element.trigger($.Event('itemAdded', {item: item, options: options}));
+        },
+
+        /**
+         * Removes the given item. Pass true to dontPushVal to prevent updating the
+         * elements val()
+         */
+        remove: function (item, dontPushVal, options) {
+            var self = this;
+
+            if (self.objectItems) {
+                if (typeof item === "object")
+                    item = $.grep(self.itemsArray, function (other) {
+                        return self.options.itemValue(other) == self.options.itemValue(item);
+                    });
+                else
+                    item = $.grep(self.itemsArray, function (other) {
+                        return self.options.itemValue(other) == item;
+                    });
+
+                item = item[item.length - 1];
+            }
+
+            if (item) {
+                var beforeItemRemoveEvent = $.Event('beforeItemRemove', {item: item, cancel: false, options: options});
+                self.$element.trigger(beforeItemRemoveEvent);
+                if (beforeItemRemoveEvent.cancel)
+                    return;
+
+                $('.tag', self.$container).filter(function () {
+                    return $(this).data('item') === item;
+                }).remove();
+                $('option', self.$element).filter(function () {
+                    return $(this).data('item') === item;
+                }).remove();
+                if ($.inArray(item, self.itemsArray) !== -1)
+                    self.itemsArray.splice($.inArray(item, self.itemsArray), 1);
+            }
+
+            if (!dontPushVal)
+                self.pushVal();
+
+            // Remove class when reached maxTags
+            if (self.options.maxTags > self.itemsArray.length)
+                self.$container.removeClass('bootstrap-tagsinput-max');
+
+            self.$element.trigger($.Event('itemRemoved', {item: item, options: options}));
+        },
+
+        /**
+         * Removes all items
+         */
+        removeAll: function () {
+            var self = this;
+
+            $('.tag', self.$container).remove();
+            $('option', self.$element).remove();
+
+            while (self.itemsArray.length > 0)
+                self.itemsArray.pop();
+
+            self.pushVal();
+        },
+
+        /**
+         * Refreshes the tags so they match the text/value of their corresponding
+         * item.
+         */
+        refresh: function () {
+            var self = this;
+            $('.tag', self.$container).each(function () {
+                var $tag = $(this),
+                        item = $tag.data('item'),
+                        itemValue = self.options.itemValue(item),
+                        itemText = self.options.itemText(item),
+                        tagClass = self.options.tagClass(item);
+
+                // Update tag's class and inner text
+                $tag.attr('class', null);
+                $tag.addClass('tag ' + htmlEncode(tagClass));
+                $tag.contents().filter(function () {
+                    return this.nodeType == 3;
+                })[0].nodeValue = htmlEncode(itemText);
+
+                if (self.isSelect) {
+                    var option = $('option', self.$element).filter(function () {
+                        return $(this).data('item') === item;
+                    });
+                    option.attr('value', itemValue);
+                }
+            });
+        },
+
+        /**
+         * Returns the items added as tags
+         */
+        items: function () {
+            return this.itemsArray;
+        },
+
+        /**
+         * Assembly value by retrieving the value of each item, and set it on the
+         * element.
+         */
+        pushVal: function () {
+            var self = this,
+                    val = $.map(self.items(), function (item) {
+                        return self.options.itemValue(item).toString();
+                    });
+
+            self.$element.val(val, true).trigger('change');
+        },
+
+        /**
+         * Initializes the tags input behaviour on the element
+         */
+        build: function (options) {
+            var self = this;
+
+            self.options = $.extend({}, defaultOptions, options);
+            // When itemValue is set, freeInput should always be false
+            if (self.objectItems)
+                self.options.freeInput = false;
+
+            makeOptionItemFunction(self.options, 'itemValue');
+            makeOptionItemFunction(self.options, 'itemText');
+            makeOptionFunction(self.options, 'tagClass');
+
+            // Typeahead Bootstrap version 2.3.2
+            if (self.options.typeahead) {
+                var typeahead = self.options.typeahead || {};
+
+                makeOptionFunction(typeahead, 'source');
+
+                self.$input.typeahead($.extend({}, typeahead, {
+                    source: function (query, process) {
+                        function processItems(items) {
+                            var texts = [];
+
+                            for (var i = 0; i < items.length; i++) {
+                                var text = self.options.itemText(items[i]);
+                                map[text] = items[i];
+                                texts.push(text);
+                            }
+                            process(texts);
+                        }
+
+                        this.map = {};
+                        var map = this.map,
+                                data = typeahead.source(query);
+
+                        if ($.isFunction(data.success)) {
+                            // support for Angular callbacks
+                            data.success(processItems);
+                        } else if ($.isFunction(data.then)) {
+                            // support for Angular promises
+                            data.then(processItems);
+                        } else {
+                            // support for functions and jquery promises
+                            $.when(data)
+                                    .then(processItems);
+                        }
+                    },
+                    updater: function (text) {
+                        self.add(this.map[text]);
+                        return this.map[text];
+                    },
+                    matcher: function (text) {
+                        return (text.toLowerCase().indexOf(this.query.trim().toLowerCase()) !== -1);
+                    },
+                    sorter: function (texts) {
+                        return texts.sort();
+                    },
+                    highlighter: function (text) {
+                        var regex = new RegExp('(' + this.query + ')', 'gi');
+                        return text.replace(regex, "<strong>$1</strong>");
+                    }
+                }));
+            }
+
+            // typeahead.js
+            if (self.options.typeaheadjs) {
+                var typeaheadConfig = null;
+                var typeaheadDatasets = {};
+
+                // Determine if main configurations were passed or simply a dataset
+                var typeaheadjs = self.options.typeaheadjs;
+                if ($.isArray(typeaheadjs)) {
+                    typeaheadConfig = typeaheadjs[0];
+                    typeaheadDatasets = typeaheadjs[1];
+                } else {
+                    typeaheadDatasets = typeaheadjs;
+                }
+
+                self.$input.typeahead(typeaheadConfig, typeaheadDatasets).on('typeahead:selected', $.proxy(function (obj, datum) {
+                    if (typeaheadDatasets.valueKey)
+                        self.add(datum[typeaheadDatasets.valueKey]);
+                    else
+                        self.add(datum);
+                    self.$input.typeahead('val', '');
+                }, self));
+            }
+
+            self.$container.on('click', $.proxy(function (event) {
+                if (!self.$element.attr('disabled')) {
+                    self.$input.removeAttr('disabled');
+                }
+                self.$input.focus();
+            }, self));
+
+            if (self.options.addOnBlur && self.options.freeInput) {
+                self.$input.on('focusout', $.proxy(function (event) {
+                    // HACK: only process on focusout when no typeahead opened, to
+                    //       avoid adding the typeahead text as tag
+                    if ($('.typeahead, .twitter-typeahead', self.$container).length === 0) {
+                        self.add(self.$input.val());
+                        self.$input.val('');
+                    }
+                }, self));
+            }
+
+
+            self.$container.on('keydown', 'input', $.proxy(function (event) {
+                var $input = $(event.target),
+                        $inputWrapper = self.findInputWrapper();
+
+                if (self.$element.attr('disabled')) {
+                    self.$input.attr('disabled', 'disabled');
+                    return;
+                }
+
+                switch (event.which) {
+                    // BACKSPACE
+                    case 8:
+                        if (doGetCaretPosition($input[0]) === 0) {
+                            var prev = $inputWrapper.prev();
+                            if (prev.length) {
+                                self.remove(prev.data('item'));
+                            }
+                        }
+                        break;
+
+                        // DELETE
+                    case 46:
+                        if (doGetCaretPosition($input[0]) === 0) {
+                            var next = $inputWrapper.next();
+                            if (next.length) {
+                                self.remove(next.data('item'));
+                            }
+                        }
+                        break;
+
+                        // LEFT ARROW
+                    case 37:
+                        // Try to move the input before the previous tag
+                        var $prevTag = $inputWrapper.prev();
+                        if ($input.val().length === 0 && $prevTag[0]) {
+                            $prevTag.before($inputWrapper);
+                            $input.focus();
+                        }
+                        break;
+                        // RIGHT ARROW
+                    case 39:
+                        // Try to move the input after the next tag
+                        var $nextTag = $inputWrapper.next();
+                        if ($input.val().length === 0 && $nextTag[0]) {
+                            $nextTag.after($inputWrapper);
+                            $input.focus();
+                        }
+                        break;
+                    default:
+                    // ignore
+                }
+
+                // Reset internal input's size
+                var textLength = $input.val().length,
+                        wordSpace = Math.ceil(textLength / 5),
+                        size = textLength + wordSpace + 1;
+                $input.attr('size', Math.max(this.inputSize, $input.val().length));
+            }, self));
+
+            self.$container.on('keypress', 'input', $.proxy(function (event) {
+                var $input = $(event.target);
+
+                if (self.$element.attr('disabled')) {
+                    self.$input.attr('disabled', 'disabled');
+                    return;
+                }
+
+                var text = $input.val(),
+                        maxLengthReached = self.options.maxChars && text.length >= self.options.maxChars;
+                if (self.options.freeInput && (keyCombinationInList(event, self.options.confirmKeys) || maxLengthReached)) {
+                    // Only attempt to add a tag if there is data in the field
+                    if (text.length !== 0) {
+                        self.add(maxLengthReached ? text.substr(0, self.options.maxChars) : text);
+                        $input.val('');
+                    }
+
+                    // If the field is empty, let the event triggered fire as usual
+                    if (self.options.cancelConfirmKeysOnEmpty === false) {
+                        event.preventDefault();
+                    }
+                }
+
+                // Reset internal input's size
+                var textLength = $input.val().length,
+                        wordSpace = Math.ceil(textLength / 5),
+                        size = textLength + wordSpace + 1;
+                $input.attr('size', Math.max(this.inputSize, $input.val().length));
+            }, self));
+
+            // Remove icon clicked
+            self.$container.on('click', '[data-role=remove]', $.proxy(function (event) {
+                if (self.$element.attr('disabled')) {
+                    return;
+                }
+                self.remove($(event.target).closest('.tag').data('item'));
+            }, self));
+
+            // Only add existing value as tags when using strings as tags
+            if (self.options.itemValue === defaultOptions.itemValue) {
+                if (self.$element[0].tagName === 'INPUT') {
+                    self.add(self.$element.val());
+                } else {
+                    $('option', self.$element).each(function () {
+                        self.add($(this).attr('value'), true);
+                    });
+                }
+            }
+        },
+
+        /**
+         * Removes all tagsinput behaviour and unregsiter all event handlers
+         */
+        destroy: function () {
+            var self = this;
+
+            // Unbind events
+            self.$container.off('keypress', 'input');
+            self.$container.off('click', '[role=remove]');
+
+            self.$container.remove();
+            self.$element.removeData('tagsinput');
+            self.$element.show();
+        },
+
+        /**
+         * Sets focus on the tagsinput
+         */
+        focus: function () {
+            this.$input.focus();
+        },
+
+        /**
+         * Returns the internal input element
+         */
+        input: function () {
+            return this.$input;
+        },
+
+        /**
+         * Returns the element which is wrapped around the internal input. This
+         * is normally the $container, but typeahead.js moves the $input element.
+         */
+        findInputWrapper: function () {
+            var elt = this.$input[0],
+                    container = this.$container[0];
+            while (elt && elt.parentNode !== container)
+                elt = elt.parentNode;
+
+            return $(elt);
+        }
+    };
+
+    /**
+     * Register JQuery plugin
+     */
+    $.fn.tagsinput = function (arg1, arg2, arg3) {
+        var results = [];
+
+        this.each(function () {
+            var tagsinput = $(this).data('tagsinput');
+            // Initialize a new tags input
+            if (!tagsinput) {
+                tagsinput = new TagsInput(this, arg1);
+                $(this).data('tagsinput', tagsinput);
+                results.push(tagsinput);
+
+                if (this.tagName === 'SELECT') {
+                    $('option', $(this)).attr('selected', 'selected');
+                }
+
+                // Init tags from $(this).val()
+                $(this).val($(this).val());
+            } else if (!arg1 && !arg2) {
+                // tagsinput already exists
+                // no function, trying to init
+                results.push(tagsinput);
+            } else if (tagsinput[arg1] !== undefined) {
+                // Invoke function on existing tags input
+                if (tagsinput[arg1].length === 3 && arg3 !== undefined) {
+                    var retVal = tagsinput[arg1](arg2, null, arg3);
+                } else {
+                    var retVal = tagsinput[arg1](arg2);
+                }
+                if (retVal !== undefined)
+                    results.push(retVal);
+            }
+        });
+
+        if (typeof arg1 == 'string') {
+            // Return the results from the invoked function calls
+            return results.length > 1 ? results : results[0];
+        } else {
+            return results;
+        }
+    };
+
+    $.fn.tagsinput.Constructor = TagsInput;
+
+    /**
+     * Most options support both a string or number as well as a function as
+     * option value. This function makes sure that the option with the given
+     * key in the given options is wrapped in a function
+     */
+    function makeOptionItemFunction(options, key) {
+        if (typeof options[key] !== 'function') {
+            var propertyName = options[key];
+            options[key] = function (item) {
+                return item[propertyName];
+            };
+        }
+    }
+    function makeOptionFunction(options, key) {
+        if (typeof options[key] !== 'function') {
+            var value = options[key];
+            options[key] = function () {
+                return value;
+            };
+        }
+    }
+    /**
+     * HtmlEncodes the given value
+     */
+    var htmlEncodeContainer = $('<div />');
+    function htmlEncode(value) {
+        if (value) {
+            return htmlEncodeContainer.text(value).html();
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Returns the position of the caret in the given input field
+     * http://flightschool.acylt.com/devnotes/caret-position-woes/
+     */
+    function doGetCaretPosition(oField) {
+        var iCaretPos = 0;
+        if (document.selection) {
+            oField.focus();
+            var oSel = document.selection.createRange();
+            oSel.moveStart('character', -oField.value.length);
+            iCaretPos = oSel.text.length;
+        } else if (oField.selectionStart || oField.selectionStart == '0') {
+            iCaretPos = oField.selectionStart;
+        }
+        return (iCaretPos);
+    }
+
+    /**
+     * Returns boolean indicates whether user has pressed an expected key combination.
+     * @param object keyPressEvent: JavaScript event object, refer
+     *     http://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
+     * @param object lookupList: expected key combinations, as in:
+     *     [13, {which: 188, shiftKey: true}]
+     */
+    function keyCombinationInList(keyPressEvent, lookupList) {
+        var found = false;
+        $.each(lookupList, function (index, keyCombination) {
+            if (typeof (keyCombination) === 'number' && keyPressEvent.which === keyCombination) {
+                found = true;
+                return false;
+            }
+
+            if (keyPressEvent.which === keyCombination.which) {
+                var alt = !keyCombination.hasOwnProperty('altKey') || keyPressEvent.altKey === keyCombination.altKey,
+                        shift = !keyCombination.hasOwnProperty('shiftKey') || keyPressEvent.shiftKey === keyCombination.shiftKey,
+                        ctrl = !keyCombination.hasOwnProperty('ctrlKey') || keyPressEvent.ctrlKey === keyCombination.ctrlKey;
+                if (alt && shift && ctrl) {
+                    found = true;
+                    return false;
+                }
+            }
+        });
+
+        return found;
+    }
+
+    /**
+     * Initialize tagsinput behaviour on inputs and selects which have
+     * data-role=tagsinput
+     */
+    // $(function () {
+    //     $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+    // });
+})(window.jQuery);
+
+
 /***/ })
 
 /******/ 	});
@@ -35688,21 +35697,21 @@ Popper.Defaults = Defaults;
 /*!*************************************************************!*\
   !*** ./userfiles/modules/microweber/api/entrylibs/admin.js ***!
   \*************************************************************/
-__webpack_require__.g.jQuery = __webpack_require__.g.$ = __webpack_require__ (/*! ../webpack/node_modules/jquery */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery/dist/jquery.js");
-__webpack_require__.g.axios = __webpack_require__ (/*! ../webpack/node_modules/axios */ "./userfiles/modules/microweber/api/webpack/node_modules/axios/index.js");
-__webpack_require__(/*! ../webpack/node_modules/jquery-ui/ui/widgets/draggable */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/draggable.js");
-__webpack_require__(/*! ../webpack/node_modules/jquery-ui/ui/widgets/resizable */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/resizable.js");
-__webpack_require__(/*! ../webpack/node_modules/jquery-ui/ui/widgets/sortable */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/sortable.js");
-__webpack_require__(/*! ../webpack/node_modules/jquery-ui/ui/widgets/slider */ "./userfiles/modules/microweber/api/webpack/node_modules/jquery-ui/ui/widgets/slider.js");
+__webpack_require__.g.jQuery = __webpack_require__.g.$ = __webpack_require__ (/*! ../../node_modules/jquery */ "./node_modules/jquery/dist/jquery.js");
+__webpack_require__.g.axios = __webpack_require__ (/*! ../../node_modules/axios */ "./node_modules/axios/index.js");
+__webpack_require__(/*! ../../node_modules/jquery-ui/ui/widgets/draggable */ "./node_modules/jquery-ui/ui/widgets/draggable.js");
+__webpack_require__(/*! ../../node_modules/jquery-ui/ui/widgets/resizable */ "./node_modules/jquery-ui/ui/widgets/resizable.js");
+__webpack_require__(/*! ../../node_modules/jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
+__webpack_require__(/*! ../../node_modules/jquery-ui/ui/widgets/slider */ "./node_modules/jquery-ui/ui/widgets/slider.js");
 
 // ui
-__webpack_require__(/*! ../webpack/node_modules/@popperjs/core */ "./userfiles/modules/microweber/api/webpack/node_modules/@popperjs/core/lib/index.js");
-__webpack_require__(/*! ../webpack/node_modules/bootstrap/dist/js/bootstrap */ "./userfiles/modules/microweber/api/webpack/node_modules/bootstrap/dist/js/bootstrap.js");
-__webpack_require__(/*! ../webpack/node_modules/bootstrap-select/dist/js/bootstrap-select */ "./userfiles/modules/microweber/api/webpack/node_modules/bootstrap-select/dist/js/bootstrap-select.js");
-__webpack_require__(/*! ../webpack/node_modules/ion-rangeslider/js/ion.rangeSlider */ "./userfiles/modules/microweber/api/webpack/node_modules/ion-rangeslider/js/ion.rangeSlider.js");
-__webpack_require__(/*! ../webpack/node_modules/aos/dist/aos */ "./userfiles/modules/microweber/api/webpack/node_modules/aos/dist/aos.js");
-__webpack_require__(/*! ../libs/tags/bootstrap-tagsinput.js */ "./userfiles/modules/microweber/api/libs/tags/bootstrap-tagsinput.js");
-__webpack_require__(/*! ../libs/mw-ui/grunt/plugins/ui/js/ui.js */ "./userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js");
+__webpack_require__(/*! ../../node_modules/@popperjs/core */ "./node_modules/@popperjs/core/lib/index.js");
+__webpack_require__(/*! ../../node_modules/bootstrap/dist/js/bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
+__webpack_require__(/*! ../../node_modules/bootstrap-select/dist/js/bootstrap-select */ "./node_modules/bootstrap-select/dist/js/bootstrap-select.js");
+__webpack_require__(/*! ../../node_modules/ion-rangeslider/js/ion.rangeSlider */ "./node_modules/ion-rangeslider/js/ion.rangeSlider.js");
+__webpack_require__(/*! ../../node_modules/aos/dist/aos */ "./node_modules/aos/dist/aos.js");
+__webpack_require__(/*! ../../userfiles/modules/microweber/api/libs/tags/bootstrap-tagsinput.js */ "./userfiles/modules/microweber/api/libs/tags/bootstrap-tagsinput.js");
+__webpack_require__(/*! ../../userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js */ "./userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/js/ui.js");
 
 })();
 

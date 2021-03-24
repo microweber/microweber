@@ -79,22 +79,7 @@ mw.form = {
             el.value = arr.join('');
         }
     },
-    dstatic:function(event, d){
-        d = d || mw.$(event.target).dataset('default') || false;
-        var type = event.type;
-        var target = event.target;
-        if(!!d){
-            if(type === 'focus'){
-                target.value==d?target.value='':'';
-            }
-            else if(type=='blur'){
-                target.value==''?target.value=d:'';
-            }
-        }
-        if(type=='keyup'){
-            mw.$(target).addClass('loading');
-        }
-    },
+
     post: function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
         mw.session.checkPause = true;
         if(selector.constructor === {}.constructor){
@@ -110,18 +95,12 @@ mw.form = {
             url_to_post = mw.settings.site_url + 'api/post_form';
 
         }
-
-
         if(is_form_valid){
-
             var form = mw.$(selector)[0];
-
             if(form._isSubmitting){
                 return;
             }
             form._isSubmitting = true;
-
-
             var when = form.$beforepost ? form.$beforepost : function () {};
             $.when(when()).then(function() {
                 setTimeout(function () {

@@ -21,7 +21,7 @@
         this.canAccept = function(target, what){
             var accept = target.dataset('accept');
             if(!accept) return true;
-            
+
             accept = accept.trim().split(',').map(Function.prototype.call, String.prototype.trim);
             var wtype = 'all';
             if(mw.tools.hasClass(what, 'module-layout')){
@@ -144,8 +144,6 @@
         this.helpers = new Helpers();
 
 
-
-
         this.targetAction = function (node) {
 
 
@@ -155,3 +153,5 @@
 
     };
 })();
+
+

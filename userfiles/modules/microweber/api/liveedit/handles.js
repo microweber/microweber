@@ -1,4 +1,20 @@
 
+
+
+var singleHandle = function (target) {
+    if (target.target ) {
+        target = target.target;
+    }
+
+    var targets = [];
+
+};
+
+
+
+
+
+
 var _handleInsertTargetDisplay;
 var handleInsertTargetDisplay = function (target, pos) {
      if(!_handleInsertTargetDisplay) {
@@ -295,9 +311,9 @@ mw._activeModuleOver = {
 mw._initHandles = {
     getNodeHandler:function (node) {
         if(mw._activeElementOver === node){
-            return mw.handleElement
+            return mw.handleElement;
         } else if(mw._activeModuleOver === node) {
-            return mw.handleModule
+            return mw.handleModule;
         } else if(mw._activeRowOver === node) {
             return mw.handleColumns;
         }
@@ -390,8 +406,12 @@ mw._initHandles = {
                         icon: 'mdi-plus-circle',
                         className: 'mw-handle-insert-button',
                         hover: [
-                            function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
-                            function (e){  handleInsertTargetDisplay('hide')  }
+                            function (e){
+                                handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt);
+                            },
+                            function (e){
+                                handleInsertTargetDisplay('hide');
+                            }
                         ],
                         action: function (el) {
                              if (!mw.tools.hasClass(el, 'active')) {

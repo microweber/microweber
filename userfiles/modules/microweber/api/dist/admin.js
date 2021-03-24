@@ -2958,22 +2958,7 @@ mw.form = {
             el.value = arr.join('');
         }
     },
-    dstatic:function(event, d){
-        d = d || mw.$(event.target).dataset('default') || false;
-        var type = event.type;
-        var target = event.target;
-        if(!!d){
-            if(type === 'focus'){
-                target.value==d?target.value='':'';
-            }
-            else if(type=='blur'){
-                target.value==''?target.value=d:'';
-            }
-        }
-        if(type=='keyup'){
-            mw.$(target).addClass('loading');
-        }
-    },
+
     post: function(selector, url_to_post, callback, ignorenopost, callback_error, callback_user_cancel, before_send){
         mw.session.checkPause = true;
         if(selector.constructor === {}.constructor){
@@ -2989,18 +2974,12 @@ mw.form = {
             url_to_post = mw.settings.site_url + 'api/post_form';
 
         }
-
-
         if(is_form_valid){
-
             var form = mw.$(selector)[0];
-
             if(form._isSubmitting){
                 return;
             }
             form._isSubmitting = true;
-
-
             var when = form.$beforepost ? form.$beforepost : function () {};
             $.when(when()).then(function() {
                 setTimeout(function () {
@@ -3689,6 +3668,23 @@ mw.msg = mw._lang = {
 })();
 
 
+
+
+mw.load_module = function(name, selector, callback, attributes) {
+    attributes = attributes || {};
+    attributes.module = name;
+    return mw._({
+        selector: selector,
+        params: attributes,
+        done: function() {
+            mw.settings.sortables_created = false;
+            if (typeof callback === 'function') {
+                callback.call(mw.$(selector)[0]);
+            }
+        }
+    });
+};
+
 mw.module = {
     xhr: mw.xhr({
         baseURL: mw.settings.modules_url
@@ -3701,6 +3697,22 @@ mw.module = {
         options = options || {};
         options.module = module || options.module;
         return mw.module.xhr.post('/', options);
+    },
+    getAttributes: function (target) {
+        var node = mw.element(target).get(0);
+        if (!target) return;
+        var attrs = node.attributes;
+        var data = {};
+        for (var i in attrs) {
+            if(attrs.hasOwnProperty(i) && attrs[i] !== undefined){
+                var name = attrs[i].name;
+                var val = attrs[i].nodeValue;
+                if(typeof data[name] === 'undefined'){
+                    data[name]  = val;
+                }
+            }
+        }
+        return data;
     },
     insert: function(target, module, config, pos) {
         return new Promise(function (resolve) {
@@ -6220,6 +6232,8 @@ mw.filePicker = function (options) {
                         fr.style.maxHeight = '60vh';
                         fr.scrolling = 'yes';
                     }
+                    fr.scrolling = 'auto';
+
                     $wrap.append(fr);
                     fr.onload = function () {
                         mw.tools.loading(el, false);
@@ -6674,8 +6688,7 @@ mw.filePicker = function (options) {
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]');
-                        console.log(cssLink)
-                        if(cssLink) {
+                         if(cssLink) {
                             cb.call(undefined, cssLink);
                         }  else {
                             $.get(scope.load, function (data) {
@@ -13226,7 +13239,7 @@ mw.image.settings = function () {
             frame.className = 'mw-editor-frame';
             frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
             frame.allowFullscreen = true;
-            frame.scrolling = "yes";
+            frame.scrolling = "auto";
             frame.width = "100%";
             frame.frameBorder = "0";
             frame.src = mw.external_tool('module') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
@@ -14566,7 +14579,7 @@ mw.tools.iframeAutoHeight = function(frame, opt){
         frame.style.overflow = 'auto';
         frame.scrolling="auto"
     } else {
-        frame.scrolling="no";
+        frame.scrolling="auto";
         frame.style.overflow = 'hidden';
     }
     mw.$(frame).on('load resize', function(){
@@ -14587,7 +14600,7 @@ mw.tools.iframeAutoHeight = function(frame, opt){
             frame.style.overflow = 'auto';
             frame.scrolling="auto";
         } else {
-            frame.scrolling="no";
+            frame.scrolling="auto";
             frame.style.overflow = 'hidden';
         }
     });
@@ -16399,6 +16412,8 @@ mw.emitter = {
                 $(li).find('input').on('click', function(){
                     mw.top().tools.scrollTo(el);
                     scope.link = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
+                    scope.url = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
+                    scope.src = mw.top().win.location.href.split('#')[0] + '#mw@' + el.id;
                     console.log(scope.link)
                     scope.valid();
                 });
@@ -16441,6 +16456,7 @@ mw.emitter = {
             this.getValue = function () {
                 var val = {};
                 if(textField) val.text = textField.value;
+                if(textField) val.url = scope.link;
                   return val;
             };
 
