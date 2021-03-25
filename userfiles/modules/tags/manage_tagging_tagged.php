@@ -222,14 +222,17 @@
             content_type = 'post';
         }
 
+        // Search in tags
         $.get(mw.settings.api_url + 'get_content_admin', {
-            search_in_tags_keyword: keyword,
-            search_in_tags: true,
             keyword: keyword,
             order_by: 'updated_at+desc',
             content_type: content_type,
             search_in_fields: 'title'
         }, function (data) {
+            renderContent(data);
+        });
+
+        function renderContent(data) {
             for (i = 0; i < data.length; i++) {
                 posts += '<div class="mw-ui-box mw-ui-box-content js-post-box">\n' +
                     '                            <label class="mw-ui-check">\n' +
@@ -243,7 +246,7 @@
                     '                        </div>';
             }
             $('.js-select-posts').html(posts);
-        });
+        }
 
     }
 </script>
@@ -283,7 +286,7 @@
 
                 <div class="form-group">
                     <label class="control-label d-block"><?php _e('Filter:'); ?></label>
-                    <select class="js-posts-filter-by selectpicker" data-width="100%">
+                    <select class="js-posts-filter-by form-control" data-width="100%">
                         <option value="posts"><?php _e('Posts'); ?></option>
                         <option value="products"><?php _e('Products'); ?></option>
                     </select>

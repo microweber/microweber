@@ -42,9 +42,6 @@ if ($content_tags_data) {
         }
     }
 }
-
-
-
 ?>
 
 <?php if ($content_tags == true): ?>
