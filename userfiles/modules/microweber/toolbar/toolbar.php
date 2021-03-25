@@ -492,6 +492,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <ul>
                                             <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
+                                            <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Api Clear Cache"); ?></a></li>
                                         </ul>
                                     </li>
 

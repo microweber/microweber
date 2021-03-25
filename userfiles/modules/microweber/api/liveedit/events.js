@@ -28,6 +28,14 @@ mw.liveedit.handleEvents = function() {
         mw.liveedit.widgets.htmlEditorDialog();
     });
 
+    mw.$("#mw-toolbar-api-clear-cache-btn").click(function() {
+        mw.notification.warning("Clearing cache...");
+        $.get(mw.settings.api_url + "clearcache", {}, function () {
+            mw.notification.warning("Cache is cleared! reloading the page...");
+            location.reload();
+        });
+    });
+
     mw.$("#mw-toolbar-reset-content-editor-btn").click(function() {
         mw.tools.open_reset_content_editor();
     });
