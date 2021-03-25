@@ -1,42 +1,22 @@
-<div class="mw-static-element mw-icons-with-info" id="mw-icons-with-info-<?php print CONTENT_ID; ?>">
-    <div class="mw-ui-row">
-        <div class="mw-ui-col cloneable">
-            <div class="mw-icon">
-                <i class="mw-micon-Add-UserStar mw-wysiwyg-custom-icon text-primary"></i>
-            </div>
-            <div class="mw-text">
-                <h4>We love our customers</h4>
-                <p>
-                    Template layout is ready for edit in ream time with Microweber. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some
-                    form, by injected humour, or randomised words which don't look even slightly believable.
-                </p>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md col-12 text-md-left text-center cloneable my-4">
+                <i class="layout-icon mw-micon-Add-UserStar mw-wysiwyg-custom-icon text-primary"></i>
+                <h4 class="my-2">We love our customers</h4>
+                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
         </div>
 
-        <div class="mw-ui-col cloneable">
-            <div class="mw-icon">
-                <i class="mw-micon-Approved-Window mw-wysiwyg-custom-icon text-primary"></i>
-            </div>
-            <div class="mw-text">
-                <h4>We love our customers</h4>
-                <p>
-                    Template layout is ready for edit in ream time with Microweber. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some
-                    form, by injected humour, or randomised words which don't look even slightly believable.
-                </p>
-            </div>
+        <div class="col-md col-12 text-md-left text-center cloneable my-4">
+                <i class="layout-icon mw-micon-Approved-Window mw-wysiwyg-custom-icon text-primary"></i>
+                <h4 class="my-2">We love our customers</h4>
+                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
         </div>
 
-        <div class="mw-ui-col cloneable">
-            <div class="mw-icon">
-                <i class="mw-micon-Astronaut mw-wysiwyg-custom-icon text-primary"></i>
-            </div>
-            <div class="mw-text">
-                <h4>We love our customers</h4>
-                <p>
-                    Template layout is ready for edit in ream time with Microweber. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some
-                    form, by injected humour, or randomised words which don't look even slightly believable.
-                </p>
-            </div>
+        <div class="col-md col-12 text-md-left text-center cloneable my-4">
+                <i class="layout-icon mw-micon-Astronaut mw-wysiwyg-custom-icon text-primary"></i>
+
+                <h4 class="my-2">We love our customers</h4>
+                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
         </div>
     </div>
 </div>
