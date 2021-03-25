@@ -56,7 +56,7 @@ if (!empty($this->config['textColor'])) {
                     <span class="mdi mdi-file-document"></span>
                 </a>
             </div>
-            <div class="scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php _lang('Close', 'modules/cookie_notice'); ?>">
+            <div class="scw-cookie-policy scw-cookie-tooltip-trigger">
                 <a href="#" onclick="scwCookiePanelToggle()">
                     <span class="mdi mdi-close-thick"></span>
                 </a>
