@@ -17,11 +17,11 @@ if (!empty($this->config['textColor'])) {
     .scw-cookie-panel-toggle:hover::before {
         width:200px !important;
     }
-    .scw-cookie-tooltip-trigger .mdi {
+    .scw-btn .mdi {
         font-size:24px;
         color:#fff;
     }
-    .scw-cookie-tooltip-trigger .mdi-close-thick {
+    .scw-btn .mdi-close-thick {
         color: #d51818;
     }
     .scw-cookie-panel-toggle .mdi {
@@ -45,18 +45,18 @@ if (!empty($this->config['textColor'])) {
             <div class="scw-cookie-btn" onclick="scwCookieHide('<?php print $this->mod_id; ?>')">
                 <?php _lang('Accept all cookies', 'modules/cookie_notice'); ?>
             </div>
-            <div class="scw-cookie-settings scw-cookie-tooltip-trigger"
+            <div class="scw-btn scw-cookie-settings scw-cookie-tooltip-trigger"
                  onclick="scwCookieDetails()"
                  data-label="<?php _lang('Cookie settings', 'modules/cookie_notice'); ?>"
             >
                 <span class="mdi mdi-cog"></span>
             </div>
-            <div class="scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php _lang('Cookie policy', 'modules/cookie_notice'); ?>">
+            <div class="scw-btn scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php _lang('Cookie policy', 'modules/cookie_notice'); ?>">
                 <a href="<?php print $this->config['cookiePolicyURL']; ?>" target="_blank">
                     <span class="mdi mdi-file-document"></span>
                 </a>
             </div>
-            <div class="scw-cookie-policy scw-cookie-tooltip-trigger">
+            <div class="scw-btn scw-cookie-policy">
                 <a href="#" onclick="scwCookiePanelToggle()">
                     <span class="mdi mdi-close-thick"></span>
                 </a>
