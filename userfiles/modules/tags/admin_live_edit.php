@@ -13,8 +13,8 @@ if (isset($params['for-content-id'])) {
 <script type="text/javascript">
     function editTagsShowManageWindow(module_id) {
         var opts = {};
-        opts.width = '800';
-        opts.height = '600';
+        opts.width = '900';
+        opts.height = '800';
 
         opts.liveedit = true;
         opts.mode = 'modal';
@@ -23,6 +23,8 @@ if (isset($params['for-content-id'])) {
         additional_params.manage_tags = 'yes';
 
         return window.parent.mw.tools.open_global_module_settings_modal('tags/admin_backend', module_id, opts, additional_params);
+
+
     }
 </script>
 

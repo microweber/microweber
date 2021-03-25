@@ -691,8 +691,6 @@ class Front
 
         if ($posts_parent_related != false and empty($content) and isset($post_params['category'])) {
             unset($post_params['category']);
-
-            //dd($post_params);
             $content = get_content($post_params);
         }
 
