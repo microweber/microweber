@@ -1,9 +1,3 @@
-<style>
-    div.number {
-        font-size: 24px;
-    }
-</style>
-
 <div class="container">
     <h2 class="text-center mb-3">How it Works?</h2>
     <div class="row">
