@@ -17,13 +17,24 @@ if (!empty($this->config['textColor'])) {
     .scw-cookie-panel-toggle:hover::before {
         width:200px !important;
     }
+    .scw-cookie-tooltip-trigger .mdi {
+        font-size:24px;
+        color:#fff;
+    }
+    .scw-cookie-tooltip-trigger .mdi-close-thick {
+        color: #d51818;
+    }
+    .scw-cookie-panel-toggle .mdi {
+        font-size:24px;
+        color:#fff;
+    }
 </style>
 
 <div class="scw-cookie<?php print ($this->decisionMade ? ' scw-cookie-out' : ''); ?>" style="<?php print $scw_cookie_style; ?>">
     <div class="scw-cookie-panel-toggle scw-cookie-panel-toggle-<?php print $this->config['panelTogglePosition']; ?>"
          onclick="scwCookiePanelToggle()"
     >
-        <span class="icon icon-cookie"></span>
+        <span class="mdi mdi-cookie"></span>
     </div>
     <div class="scw-cookie-content">
         <div class="scw-cookie-message">
@@ -38,11 +49,16 @@ if (!empty($this->config['textColor'])) {
                  onclick="scwCookieDetails()"
                  data-label="<?php _lang('Cookie settings', 'modules/cookie_notice'); ?>"
             >
-                <span class="icon icon-settings"></span>
+                <span class="mdi mdi-cog"></span>
             </div>
             <div class="scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php _lang('Cookie policy', 'modules/cookie_notice'); ?>">
                 <a href="<?php print $this->config['cookiePolicyURL']; ?>" target="_blank">
-                    <span class="icon icon-policy"></span>
+                    <span class="mdi mdi-file-document"></span>
+                </a>
+            </div>
+            <div class="scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php _lang('Close', 'modules/cookie_notice'); ?>">
+                <a href="#" onclick="scwCookiePanelToggle()">
+                    <span class="mdi mdi-close-thick"></span>
                 </a>
             </div>
         </div>
