@@ -77,6 +77,7 @@ class Option extends Model
             'alexa-site-verification-code'=>'',
             'pinterest-site-verification-code'=>'',
             'yandex-site-verification-code'=>'',
+            'google-analytics-id'=>'',
             'facebook-pixel-id'=>'',
         ];
 

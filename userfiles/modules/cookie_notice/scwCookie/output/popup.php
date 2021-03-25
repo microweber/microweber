@@ -12,7 +12,7 @@ if (!empty($this->config['textColor'])) {
 
 <style>
     .scw-cookie-panel-toggle::before {
-        content: '<?php _e('Turn cookies on / off', 'modules/cookie_notice'); ?>';
+        content: '<?php _lang('Turn cookies on / off', 'modules/cookie_notice'); ?>';
     }
     .scw-cookie-panel-toggle:hover::before {
         width:200px !important;
@@ -28,28 +28,28 @@ if (!empty($this->config['textColor'])) {
     <div class="scw-cookie-content">
         <div class="scw-cookie-message">
             <?php $liveChatMessage = $this->config['showLiveChatMessage'] ? ', provide live chat' : ''; ?>
-            <?php _e('We use cookies to personalise content ' . $liveChatMessage.' and to analyse our web traffic.', 'modules/cookie_notice'); ?>
+            <?php _lang('We use cookies to personalise content ' . $liveChatMessage.' and to analyse our web traffic.', 'modules/cookie_notice'); ?>
         </div>
         <div class="scw-cookie-decision">
             <div class="scw-cookie-btn" onclick="scwCookieHide('<?php print $this->mod_id; ?>')">
-                <?php _e('OK', 'modules/cookie_notice'); ?>
+                <?php _lang('Accept all cookies', 'modules/cookie_notice'); ?>
             </div>
             <div class="scw-cookie-settings scw-cookie-tooltip-trigger"
                  onclick="scwCookieDetails()"
-                 data-label="<?php _e('Cookie settings', 'modules/cookie_notice'); ?>"
+                 data-label="<?php _lang('Cookie settings', 'modules/cookie_notice'); ?>"
             >
                 <span class="icon icon-settings"></span>
             </div>
-            <div class="scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php _e('Cookie policy', 'modules/cookie_notice'); ?>">
+            <div class="scw-cookie-policy scw-cookie-tooltip-trigger" data-label="<?php _lang('Cookie policy', 'modules/cookie_notice'); ?>">
                 <a href="<?php print $this->config['cookiePolicyURL']; ?>" target="_blank">
                     <span class="icon icon-policy"></span>
                 </a>
             </div>
         </div>
         <div class="scw-cookie-details">
-            <div class="scw-cookie-details-title"><?php _e('Manage your cookies', 'modules/cookie_notice'); ?></div>
+            <div class="scw-cookie-details-title"><?php _lang('Manage your cookies', 'modules/cookie_notice'); ?></div>
             <div class="scw-cookie-toggle">
-                <div class="scw-cookie-name"><?php _e('Essential site cookies', 'modules/cookie_notice'); ?></div>
+                <div class="scw-cookie-name"><?php _lang('Essential site cookies', 'modules/cookie_notice'); ?></div>
                 <label class="scw-cookie-switch checked disabled">
                     <input type="checkbox" name="essential" checked="checked" disabled="disabled"/>
                     <div></div>
