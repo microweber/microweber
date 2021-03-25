@@ -23,13 +23,17 @@ const prod = [
     ...core
 ];
 
-const liveedit = [
+const liveeditCore = [
     ...core,
-    'liveedit',
     'libs/rangy',
     'tools/widgets',
     'tools/system-tools',
     'widgets',
+];
+const liveedit = [
+
+
+    'liveedit',
     'gui-css-editor'
 ];
 
@@ -55,7 +59,7 @@ const config = {
         'admin-libs.js': input + '/entrylibs/admin.js',
 
         'site.js': glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
-        'liveedit.js': glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`)),
+        'liveedit.js': [].concat(glob.sync(path.resolve(`${input}/{${liveeditCore.join(',')}}/*.js`)), glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`))),
         'admin.js': glob.sync(path.resolve(`${input}/{${admin.join(',')}}/*.js`)),
         'gui-css-editor.js': glob.sync(path.resolve(`${input}/{${guiEditor.join(',')}}/*.js`)),
         'editor.js': [

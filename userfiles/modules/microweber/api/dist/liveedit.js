@@ -2858,6 +2858,9 @@ mw.require = function(url, inHead, key) {
     }
     var t = url.split('.').pop();
     var scope =  mw.settings.modules_url + '/microweber';
+    if(!url.contains('/')) {
+        return;
+    }
     url = url.contains('//') ? url : (t !== 'css' ? ( scope + '/api/' + url)  :  scope + '/css/' + url);
     if(!urlModified) toPush = url;
     if (!~mw.required.indexOf(toPush)) {
@@ -28511,45 +28514,10 @@ mw.treeTags = mw.treeChips = function(options){
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/upgrades.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/uploader.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/core/url.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/gui-css-editor/domtree.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/gui-css-editor/stylesheet.editor.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/libs/rangy/rangy-core.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/libs/rangy/rangy-cssclassapplier.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/libs/rangy/rangy-selectionsaverestore.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/libs/rangy/rangy-serializer.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/@drag.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/@liveedit.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/beforeleave.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/cloneable.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/columns.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/data.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/edit.fields.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/editor_externals.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/editors.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/element_analyzer.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/events.custom.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/events.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/external_callbacks.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/handles.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/initload.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/initready.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/inline.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/layoutplus.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/live_edit.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/live.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/liveedit_elements.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/liveedit_widgets.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/manage.content.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/modules.toolbar.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/padding.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/plus.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/selector.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/source-edit.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/tempcss.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/toolbar.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/widgets.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/wysiwyg.js"]();
-/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/wysiwygmdab.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/color.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/css_parser.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/system/filepicker.js"]();
@@ -28596,6 +28564,41 @@ mw.treeTags = mw.treeChips = function(options){
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/link-editor.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/tags.js"]();
 /******/ 	__webpack_modules__["./userfiles/modules/microweber/api/widgets/tree.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/gui-css-editor/domtree.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/gui-css-editor/stylesheet.editor.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/@drag.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/@liveedit.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/beforeleave.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/cloneable.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/columns.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/data.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/edit.fields.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/editor_externals.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/editors.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/element_analyzer.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/events.custom.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/events.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/external_callbacks.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/handles.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/initload.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/initready.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/inline.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/layoutplus.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/live_edit.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/live.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/liveedit_elements.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/liveedit_widgets.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/manage.content.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/modules.toolbar.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/padding.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/plus.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/selector.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/source-edit.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/tempcss.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/toolbar.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/widgets.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/wysiwyg.js"]();
+/******/ 	__webpack_modules__["./userfiles/modules/microweber/api/liveedit/wysiwygmdab.js"]();
 /******/ })()
 ;
 //# sourceMappingURL=liveedit.js.map

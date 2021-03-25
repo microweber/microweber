@@ -177,6 +177,7 @@ return [
         ],
         'live-edit' => [
             'jquery',
+            'jquery-ui',
             //    'mw-ui',
             asset('userfiles/modules/microweber/default.css'),
 

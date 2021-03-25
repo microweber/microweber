@@ -2858,6 +2858,9 @@ mw.require = function(url, inHead, key) {
     }
     var t = url.split('.').pop();
     var scope =  mw.settings.modules_url + '/microweber';
+    if(!url.contains('/')) {
+        return;
+    }
     url = url.contains('//') ? url : (t !== 'css' ? ( scope + '/api/' + url)  :  scope + '/css/' + url);
     if(!urlModified) toPush = url;
     if (!~mw.required.indexOf(toPush)) {
