@@ -22,55 +22,44 @@ if ($id != false) {
 
         mw.require('forms.js');
 
-
         $(document).ready(function () {
-
-
             mw.$('#module_admin_settings_form_{rand}').submit(function () {
-
-
                 mw.form.post(mw.$('#module_admin_settings_form_{rand}'), '<?php print site_url('api') ?>/layouts/save', function () {
-
-
                     // mw.reload_module('[data-type="categories"]');
                     // mw.reload_module('[data-type="pages"]');
                 });
 
                 return false;
-
-
             });
-
-
         });
     </script>
 
-
     <form id="module_admin_settings_form_{rand}">
-        <?php if (isset($data['icon'])): ?>
-            <img src="<?php print $data['icon'] ?>"> <br/>
-        <?php endif; ?>
+        <div class="row">
+            <?php if (isset($data['icon'])): ?>
+                <img class="w-100 border border-dark" src="<?php print $data['icon'] ?>">
+            <?php endif; ?>
 
-        <?php if (isset($data['name'])): ?>
-            <?php _e('Name :'); ?><?php print $data['name'] ?><br/>
-        <?php endif; ?>
+            <?php if (isset($data['name'])): ?>
+                <?php _e('Name :'); ?><?php print $data['name'] ?>
+            <?php endif; ?>
 
-        <?php if (isset($data['description'])): ?>
-            <?php _e('description :'); ?><?php print $data['description'] ?><br/>
-        <?php endif; ?>
+            <?php if (isset($data['description'])): ?>
+                <?php _e('Description :'); ?><?php print $data['description'] ?>
+            <?php endif; ?>
 
-        <?php if (isset($data['author'])): ?>
-            <?php _e('author :'); ?><?php print $data['author'] ?><br/>
-        <?php endif; ?>
+            <?php if (isset($data['author'])): ?>
+                <?php _e('Author :'); ?><?php print $data['author'] ?>
+            <?php endif; ?>
 
-        <?php if (isset($data['website'])): ?>
-            <?php _e('website :'); ?><?php print $data['website'] ?><br/>
-        <?php endif; ?>
+            <?php if (isset($data['website'])): ?>
+                <?php _e('Website :'); ?><?php print $data['website'] ?>
+            <?php endif; ?>
 
-        <?php if (isset($data['help'])): ?>
-            <?php _e('help :'); ?><?php print $data['help'] ?><br/>
-        <?php endif; ?>
-
+            <?php if (isset($data['help'])): ?>
+                <?php _e('Help :'); ?><?php print $data['help'] ?>
+            <?php endif; ?>
+        </div>
 
         <?php
 
@@ -84,5 +73,4 @@ if ($id != false) {
             <input name="save" type="submit" value="save">*/
         ?>
     </form>
-
 <?php endif; ?>
