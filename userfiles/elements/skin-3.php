@@ -1,12 +1,7 @@
-<div class="container">
-    <div class="row background-image-holder bg-image text-center rounded text-white"
+<div class="container" data-parallax="" data-background-position="center top"">
+    <div class="row background-image-holder parallax text-center rounded text-white d-flex w-100"
          style="background-image: url('<?php print elements_url() ?>images/image-for-layouts.png');">
-        <div class="h-100 d-flex align-items-center element">
-            <div class="col-12">
-                <h1 class="pt-3 mb-3">Our Services</h1>
-                <p class="mb-3">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                <module type="btn" text="Button" />
-            </div>
-        </div>
+        <div class="w-100 align-self-center text-center info-holder allow-drop"></div>
     </div>
 </div>
+
