@@ -1,10 +1,4 @@
 <?php
-
-
-
-
-
-
 $template = get_option('data-template', $params['id']);
 
 $templateFile = false;

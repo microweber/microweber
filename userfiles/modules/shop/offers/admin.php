@@ -33,23 +33,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 editModal = mw.tools.open_module_modal('shop/offers/edit_offer', data, {overlay: true, skin: 'simple', title: mTitle})
             }
 
-            function deleteOffer(offer_id) {
-                var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
-                if (confirmUser == true) {
-                    $.ajax({
-                        url: '<?php print route('api.offer.delete');?>',
-                        data: 'offer_id=' + offer_id,
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (response) {
-                            if (typeof(reload_offer_after_save) != 'undefined') {
-                                reload_offer_after_save();
-                            }
-                        }
-                    });
-                }
-            }
-
             function reload_offer_after_save() {
                 mw.reload_module_parent('#<?php print $params['id'] ?>');
                 mw.reload_module('shop/offers/edit_offers');

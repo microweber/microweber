@@ -3,9 +3,7 @@
 /*
 
 type: layout
-
 name: Default
-
 description: Full width shop template with filters
 
 */
