@@ -23,7 +23,6 @@ class TranslationLoader extends FileLoader
      */
     public function load($locale, $group, $namespace = null): array
     {
-
         $translations  = [];
 
         // Load translations from files

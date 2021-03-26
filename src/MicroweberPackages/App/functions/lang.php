@@ -105,9 +105,8 @@ function _output_trans_key($key) {
  */
 function _e($k, $to_return = false, $replace = [])
 {
-
-
-    $trans = trans('*.'.$k, $replace);
+    $locale = mw()->lang_helper->current_lang();
+    $trans = trans('*.'.$k, $replace, $locale);
     $trans = ltrim($trans, '*.');
 
     $trans = str_ireplace('{{app_name}}', 'Microweber', $trans);

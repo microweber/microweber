@@ -1,9 +1,4 @@
 <?php include('partials/header.php'); ?>
-<?php
-function _e($param){
-    echo $param;
-}
-?>
     <main>
         <div class="card style-1 mb-3">
             <div class="card-header">
