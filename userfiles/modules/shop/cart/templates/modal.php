@@ -14,6 +14,13 @@ description: Small Modal
 <?php if (is_ajax()) : ?>
 
     <script>
+        function check_qty(el) {
+
+            if(el.value <= 0) {
+                el.value = 1;
+            }
+        }
+
         $(document).ready(function () {
 
             //   cartModalBindButtons();
@@ -68,7 +75,7 @@ $total = cart_total();
                                            <h6><?php print currency_format($item['price']); ?></h6>
                                        </div>
                                        <div class="col-6 col-md-2 align-self-center justify-content-md-center mw-qty-field">
-                                           <input min=0 type="number" class="form-control input-sm " name="qty" value="<?php print $item['qty'] ?>"  onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/>
+                                           <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/>
                                        </div>
                                    </div>
                                </div>
