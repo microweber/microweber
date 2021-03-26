@@ -35,32 +35,41 @@ if ($id != false) {
     </script>
 
     <form id="module_admin_settings_form_{rand}">
-        <div class="row">
-            <?php if (isset($data['icon'])): ?>
-                <img class="w-100 border border-dark" src="<?php print $data['icon'] ?>">
-            <?php endif; ?>
+        <?php if (isset($data['icon'])): ?>
+            <img class="w-100 border border-dark" src="<?php print $data['icon'] ?>">
+        <?php endif; ?>
 
-            <?php if (isset($data['name'])): ?>
-                <?php _e('Name :'); ?><?php print $data['name'] ?>
-            <?php endif; ?>
+        <div>
+            <div class="d-block my-1">
+                <?php if (isset($data['name'])): ?>
+                    <?php _e('Name: '); ?><?php print $data['name'] ?>
+                <?php endif; ?>
+            </div>
 
-            <?php if (isset($data['description'])): ?>
-                <?php _e('Description :'); ?><?php print $data['description'] ?>
-            <?php endif; ?>
+            <div class="d-block my-1">
+                <?php if (isset($data['description'])): ?>
+                    <?php _e('Description: '); ?><?php print $data['description'] ?>
+                <?php endif; ?>
+            </div>
 
-            <?php if (isset($data['author'])): ?>
-                <?php _e('Author :'); ?><?php print $data['author'] ?>
-            <?php endif; ?>
+            <div class="d-block my-1">
+                <?php if (isset($data['author'])): ?>
+                    <?php _e('Author: '); ?><?php print $data['author'] ?>
+                <?php endif; ?>
+            </div>
 
-            <?php if (isset($data['website'])): ?>
-                <?php _e('Website :'); ?><?php print $data['website'] ?>
-            <?php endif; ?>
+            <div class="d-block my-1">
+                <?php if (isset($data['website'])): ?>
+                    <?php _e('Website: '); ?><?php print $data['website'] ?>
+                <?php endif; ?>
+            </div>
 
-            <?php if (isset($data['help'])): ?>
-                <?php _e('Help :'); ?><?php print $data['help'] ?>
-            <?php endif; ?>
+            <div class="d-block my-1">
+                <?php if (isset($data['help'])): ?>
+                    <?php _e('Help: '); ?><?php print $data['help'] ?>
+                <?php endif; ?>
+            </div>
         </div>
-
         <?php
 
         /*<input type="hidden" name="id" value="<?php print $data['id'] ?>"/>

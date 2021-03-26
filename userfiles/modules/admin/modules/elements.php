@@ -20,16 +20,10 @@ if(isset($params['category'])){
 	 $mod_params['category'] = $params['category'];
 }
 
-
  $mods = mw()->layouts_manager->get($mod_params); 
  if( $mods == false){
  	  $mods = mw()->layouts_manager->get($mod_params);
  }
-  //d( $params );
- 
-//
-
-
 ?>
 
 <?php if(!empty($mods)): foreach($mods as $k=>$item): ?>

@@ -44,10 +44,9 @@ function mw_reload_all_modules(){
     }
 </style>
 
-
 <div class="container">
-    <div class="row justify-content-end">
-        <button onclick="mw_reload_all_modules()" class="btn btn-primary mb-2 float-right"><?php _e('Reload elements'); ?></button>
+    <div class="row">
+        <button onclick="mw_reload_all_modules()" class="btn btn-primary mb-2 float-right"><i class="mdi mdi-refresh icon-left mr-2"></i><?php _e('Reload elements'); ?></button>
         <module type="admin/modules/elements" id="modules_admin_<?php print $rand; ?>"/>
     </div>
 </div>
