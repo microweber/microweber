@@ -5,7 +5,7 @@
         </div>
 
         <div class="col-md-6 col-12 text-md-left text-center">
-            <h2 class="mb-3">Who we are?</h2>
+            <h1 class="mb-3">Who we are?</h1>
             <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
         </div>
     </div>
