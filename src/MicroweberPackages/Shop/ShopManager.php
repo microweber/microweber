@@ -391,6 +391,11 @@ class ShopManager
         if ($curr == false) {
             $curr = $this->app->option_manager->get('currency', 'payments');
         }
+
+        if (is_null($curr)) {
+            $curr = 'USD';
+        }
+
         $need_float = true;
         if (strstr($amount, '.')) {
             $need_float = false;
