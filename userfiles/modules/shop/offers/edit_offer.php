@@ -61,6 +61,25 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     $(document).ready(function () {
         // editOferrSetExpirationDate();
     });
+
+    function deleteOffer(offer_id) {
+        var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
+        if (confirmUser == true) {
+            $.ajax({
+                url: '<?php print route('api.offer.delete');?>',
+                data: 'offer_id=' + offer_id,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (typeof(reload_offer_after_save) != 'undefined') {
+                        reload_offer_after_save();
+                    }
+                    mw.reload_module_everywhere('shop/offers/special_price_field');
+                    editModal.modal.remove();
+                }
+            });
+        }
+    }
 </script>
 
 <div class="js-validation-messages"></div>
@@ -165,7 +184,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     <div class="d-flex justify-content-between">
         <div>
             <?php if (!$addNew) { ?>
-                <a class="btn btn-outline-danger btn-sm" href="javascript:deleteOffer('<?php print $data['id'] ?>')"><?php _e("Delete"); ?></a>
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteOffer('<?php print $data['id'] ?>')"><?php _e("Delete"); ?></button>
             <?php } ?>
         </div>
 
@@ -193,7 +212,6 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
             } else {
                 if( calendarInputEl.attr('data-old-val')){
                     calendarInputEl.val(calendarInputEl.attr('data-old-val')).trigger('change');
-
                 }
             }
         });
