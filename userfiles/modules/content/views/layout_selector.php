@@ -502,13 +502,29 @@ if (!empty($recomended_layouts)) {
                         <div class="card bg-light style-1 mb-3">
                             <div class="card-body pt-4 pb-5">
                                 <div class="row">
+
                                     <div class="col-12">
-                                        <div class="form-group mb-3  js-template-selector">
+
+                                        <?php
+                                        $showAllowSelectTemplate = false;
+                                        if (get_option('allow_multiple_templates', 'system') == 'y'){
+                                            $showAllowSelectTemplate = true;
+                                        }
+                                        if (isset($params['show_allow_multiple_template'])) {
+                                            $showAllowSelectTemplate = true;
+                                        }
+                                        ?>
+
+                                        <?php
+                                        if ($showAllowSelectTemplate):
+                                        ?>
+
+                                        <div class="form-group mb-3 js-template-selector">
                                             <label class="control-label"><?php _e("Template name"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("You are using this template. The change will be affected only on the current page"); ?>.</small>
                                             <div>
                                                 <?php if ($templates != false and !empty($templates)): ?>
-                                                    <select <?php if (!(get_option('allow_multiple_templates', 'system') == 'y')): ?>disabled="disabled"<?php endif; ?> name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="selectpicker mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
+                                                    <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="selectpicker mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
                                                         <?php foreach ($templates as $item): ?>
                                                             <?php
                                                             if ($global_template != 'default' and $item['dir_name'] == 'default') {
@@ -533,6 +549,9 @@ if (!empty($recomended_layouts)) {
                                                 <?php endif; ?>
                                             </div>
                                         </div>
+                                        <?php
+                                        endif;
+                                        ?>
 
                                         <?php
                                         if(isset($params['show_allow_multiple_template'])):
