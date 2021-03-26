@@ -509,7 +509,7 @@ if (!empty($recomended_layouts)) {
                                             <small class="text-muted d-block mb-2"><?php _e("You are using this template. The change will be affected only on the current page"); ?>.</small>
                                             <div>
                                                 <?php if ($templates != false and !empty($templates)): ?>
-                                                    <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="selectpicker mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
+                                                    <select <?php if (!(get_option('allow_multiple_templates', 'system') == 'y')): ?>disabled="disabled"<?php endif; ?> name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="selectpicker mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
                                                         <?php foreach ($templates as $item): ?>
                                                             <?php
                                                             if ($global_template != 'default' and $item['dir_name'] == 'default') {
@@ -534,6 +534,24 @@ if (!empty($recomended_layouts)) {
                                                 <?php endif; ?>
                                             </div>
                                         </div>
+
+                                        <?php
+                                        if(isset($params['show_allow_multiple_template'])):
+                                        ?>
+                                        <div class="form-group mb-3">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="mw_option_field custom-control-input" id="allow_multiple_templates"
+                                                       parent-reload="true" name="allow_multiple_templates" value="y" data-value-unchecked="n" data-value-checked="y" option-group="system"
+                                                       <?php if (get_option('allow_multiple_templates', 'system') == 'y'): ?>checked<?php endif; ?> />
+                                                <label class="custom-control-label" for="allow_multiple_templates">
+                                                    <?php _e("Allow multiple templates"); ?>
+                                                </label>
+                                                <small class="text-muted d-block mb-2">
+                                                    <?php _e("If you allow multiple templates, you will be abble to use different templates when you create a new pages."); ?>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
 
                                         <div class="form-group mb-3">
                                             <label class="control-label"><?php _e("Choose Page Layout"); ?></label>
