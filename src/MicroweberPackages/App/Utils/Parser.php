@@ -795,7 +795,7 @@ class Parser
                                 //    var_dump($options);
 
                                     if ($mod_as_element == false) {
-                                        if (isset($options['module_as_element']) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
+                                        if (!$coming_from_parent_id and isset($options['module_as_element']) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_CLASS__', 'module ' . $module_class, $module_html);
