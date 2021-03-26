@@ -38,7 +38,7 @@ if (isset($item['created_by'])) {
 }
 ?>
 
-<div class="card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="js-form-entry-<?php print $item_id ?> card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
             <div class="row align-items-center mb-3">
@@ -110,7 +110,22 @@ if (isset($item['created_by'])) {
                     </div>*/
                     ?>
 
+                </div>
+                <div class="col-md-12">
+                    <script type="text/javascript">
+                        function deleteFormEntry(e, entryId) {
+                            e.stopPropagation();
+                            mw.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
+                                $('.js-form-entry-' + entryId).fadeOut();
 
+                                $.post(mw.settings.api_url+'delete_form_entry', {id: entryId}, function(msg) {
+
+                                });
+
+                            });
+                        }
+                    </script>
+                    <button type="button" class="btn btn-outline-danger pull-right" onclick="deleteFormEntry(event,<?php echo $item_id; ?>)"><i class="mdi mdi-delete-outline"></i> <?php _e('Delete'); ?></button>
                 </div>
             </div>
         </div>

@@ -67,16 +67,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             if ($mod_action == 'integrations') {
                 $load_list = false;
             }
+
+            $showTab = 'list';
+            if (isset($_GET['tab'])) {
+                $showTab = $_GET['tab'];
+            }
             ?>
 
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Your form lists"); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Global settings'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#integrations"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e("E-mail Integrations"); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='list'):?> active <?php endif; ?>" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Your form lists"); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='settings'):?> active <?php endif; ?>" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Global settings'); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='integrations'):?> active <?php endif; ?>" data-toggle="tab" href="#integrations"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e("E-mail Integrations"); ?></a>
             </nav>
 
             <div class="tab-content py-3">
-                <div class="tab-pane fade show active" id="list">
+                <div class="tab-pane fade <?php if ($showTab =='list'):?> show active <?php endif; ?>" id="list">
 
                     <div class=" mb-3">
                         <div class="form-group">
@@ -140,12 +145,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <?php endif; ?>
                 </div>
 
-                <div class="tab-pane fade" id="settings">
+                <div class="tab-pane fade <?php if ($showTab =='settings'):?> show active <?php endif; ?>" id="settings">
                     <module type="settings/list" for_module="contact_form" for_module_id="contact_form_default"/>
                     <module type="contact_form/settings" for_module_id="contact_form_default"/>
                 </div>
 
-                <div class="tab-pane fade" id="integrations">
+                <div class="tab-pane fade <?php if ($showTab =='integrations'):?> show active <?php endif; ?>" id="integrations">
                     <module type="admin/mail_providers/show_all"/>
                 </div>
             </div>

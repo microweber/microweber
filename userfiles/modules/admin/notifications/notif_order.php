@@ -107,7 +107,7 @@ if(($order and isset($order['order_status']) and $order['order_status'] == 'new'
 
         <div class="row mt-3">
             <div class="col-12 text-center text-sm-left js-change-button-styles">
-                <a href="<?php echo route('admin.order.show', $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
+                <a href="<?php echo route('admin.order.show', $order['id']); ?>" onclick="event.stopPropagation()" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
             </div>
         </div>
 

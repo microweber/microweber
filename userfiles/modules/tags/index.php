@@ -23,22 +23,17 @@ if($root_page_id){
 
 if($root_page_id){
     $tags_url_base = content_link($root_page_id_tags);
-
 } else {
-
     $tags_url_base = content_link($root_page_id_tags);
 }
 
 if ($cont_id) {
     $tags_url_base = content_link($cont_id);
-
     $content_tags_data = content_tags($cont_id, true);
-
 } else {
-   // $content_tags_data = content_tags(null, true);
     $content_tags_data = content_tags(MAIN_PAGE_ID, true);
 }
-$content_tags_data = content_tags(9, true);
+
 $content_tags = []; // ALLWAYS MUST BE ARRAY WITH STRING
 if ($content_tags_data) {
     foreach ($content_tags_data as $content_tag_data_item) {
@@ -47,9 +42,6 @@ if ($content_tags_data) {
         }
     }
 }
-
-
-
 ?>
 
 <?php if ($content_tags == true): ?>

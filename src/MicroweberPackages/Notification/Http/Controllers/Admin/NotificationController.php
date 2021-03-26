@@ -27,6 +27,7 @@ class NotificationController extends AdminController
 
         $notifications = Notification::filter($request->all())
             ->where('notifiable_id', $admin->id)
+            ->orderBy('created_at', 'desc')
             ->paginate($request->get('limit', 30))
             ->appends($request->except('page'));
 
@@ -46,7 +47,7 @@ class NotificationController extends AdminController
 
                 continue;
             }
-            
+
             if (method_exists($messageType, 'setNotification')) {
                 $messageType->setNotification($notification);
             }

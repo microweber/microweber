@@ -1,18 +1,14 @@
-<div class="mw-static-element mw-vertical-centered-text-and-image" id="text-image-right-<?php print CONTENT_ID; ?>">
-    <div class="info">
-        <h4>Our Experience</h4>
-        <p>
-            It is a long est`ablished fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
-            more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
-        </p>
-        <div class="element">
-        <module type="btn" text="Button" />
-    </div>
-    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-12 text-md-left text-center p-3">
+            <h1 class="mb-3">Our Experience</h1>
+            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
 
-    <div class="image">
-        <div class="mw-image-holder-div" style="background-image: url('<?php print elements_url() ?>images/default-9.jpg');">
-            <span class="mw-image-holder-div-overlay"></span>
+            <module class="pl-sm-0" type="btn" text="Button" />
+        </div>
+
+        <div class="col-md-6 col-12 my-md-0 my-2">
+            <img class="rounded-xl w-100" src="<?php print elements_url(); ?>images/image-for-layouts.png">
         </div>
     </div>
 </div>
