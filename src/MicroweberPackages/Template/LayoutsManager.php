@@ -400,14 +400,15 @@ class LayoutsManager
                 if (!empty($sorted_by_pos)) {
                     $configs = $sorted_by_pos;
                 }
-
-                if ($sorted_by_pos_in_folder_items and !empty($sorted_by_pos_in_folder_items)) {
-                    // sort by inner folders position
-                    $configs = array();
-                    foreach ($sorted_by_pos_in_folder_items as $sort) {
-                        foreach ($sort as $item) {
-                            foreach ($item as $item1) {
-                                $configs[] = $item1;
+                if (!isset($options['no_folder_sort'])) {
+                    if ($sorted_by_pos_in_folder_items and !empty($sorted_by_pos_in_folder_items)) {
+                        // sort by inner folders position
+                        $configs = array();
+                        foreach ($sorted_by_pos_in_folder_items as $sort) {
+                            foreach ($sort as $item) {
+                                foreach ($item as $item1) {
+                                    $configs[] = $item1;
+                                }
                             }
                         }
                     }
