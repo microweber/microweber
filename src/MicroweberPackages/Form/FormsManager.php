@@ -10,7 +10,7 @@ use League\Csv\Writer;
 use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
-use MicroweberPackages\Form\Notifications\NewFormEntryAutorespond;
+use MicroweberPackages\Form\Notifications\NewFormEntryAutoRespond;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
@@ -617,7 +617,7 @@ class FormsManager
                                 $findFormRecipient->save();
                             }
 
-                            $findFormRecipient->notifyNow(new NewFormEntryAutoRespond($formModel));
+                            $findFormRecipient->notifyNow((new NewFormEntryAutoRespond($formModel)));
                         }
                     }
                 }

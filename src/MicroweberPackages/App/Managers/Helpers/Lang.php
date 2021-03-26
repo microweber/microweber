@@ -45,12 +45,12 @@ class Lang
 
         mw()->option_manager->clear_memory();
 
-        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($lang);
-
-        if ($loc_data and isset($loc_data['locale'])) {
-            // en = en_US
-            $lang = $loc_data['locale'];
-        }
+//        $loc_data = \MicroweberPackages\Translation\LanguageHelper::getLangData($lang);
+//
+//        if ($loc_data and isset($loc_data['locale'])) {
+//            // en = en_US
+//            $lang = $loc_data['locale'];
+//        }
 
         $this->lang = $lang;
         //$mw_language_content = $mw_new_language_entries_ns = $mw_new_language_entries= [];
