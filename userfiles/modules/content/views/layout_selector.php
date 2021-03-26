@@ -458,17 +458,38 @@ if (!empty($recomended_layouts)) {
     ?>
 
     <?php
+    $showAllowSelectTemplate = false;
+    if (get_option('allow_multiple_templates', 'system') == 'y'){
+        $showAllowSelectTemplate = true;
+    }
+    if (isset($params['show_allow_multiple_template'])) {
+        $showAllowSelectTemplate = true;
+    }
+    ?>
+
+    <?php
 
     $show_save_changes_buttons = false;
     if (isset($params['show_save_changes_buttons']) AND $params['show_save_changes_buttons'] == 'true') {
         $show_save_changes_buttons = true;
     }
+
+    $templateName = template_name();
+    $templateName = str_replace('-', ' ', $templateName);
+    $templateName = ucwords($templateName);
     ?>
 
     <div class="layouts_box_holder">
         <div class="card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
             <div class="card-header">
-                <h5><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i> <strong><?php _e("Templates"); ?></strong></h5>
+                <h5><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i>
+
+                    <?php if (!$showAllowSelectTemplate): ?>
+                        <strong><?php _e("Template"); ?></strong> - <?php echo $templateName ?>
+                    <?php else: ?>
+                        <strong><?php _e("Templates"); ?></strong>
+                    <?php endif; ?>
+                </h5>
                 <div></div>
             </div>
 
@@ -505,16 +526,6 @@ if (!empty($recomended_layouts)) {
                                 <div class="row">
 
                                     <div class="col-12">
-
-                                        <?php
-                                        $showAllowSelectTemplate = false;
-                                        if (get_option('allow_multiple_templates', 'system') == 'y'){
-                                            $showAllowSelectTemplate = true;
-                                        }
-                                        if (isset($params['show_allow_multiple_template'])) {
-                                            $showAllowSelectTemplate = true;
-                                        }
-                                        ?>
 
                                         <?php
                                         if ($showAllowSelectTemplate):
