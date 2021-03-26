@@ -57,7 +57,7 @@ $total = cart_total();
                                <img style="max-width:70px; max-height:70px;" src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/>
                            <?php endif; ?>
 
-                           <div class="mw-order-custom-fields font-weight-bold mx-4">
+                           <div class="mw-order-custom-fields font-weight-bold align-self-center mx-4">
                                <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
                                    <?php print $item['custom_fields'] ?>
                                <?php endif ?>
