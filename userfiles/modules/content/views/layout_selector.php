@@ -121,6 +121,7 @@ $layout_options = array();
 
 $layout_options['site_template'] = $data['active_site_template'];
 $layout_options['no_cache'] = true;
+$layout_options['no_folder_sort'] = true;
 
 $layouts = mw()->layouts_manager->get_all($layout_options);
 
