@@ -57,7 +57,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-var_dump($registerStatus);
+
         $this->assertArrayHasKey('success', $registerStatus);
 
         self::$_username = $newUser['username'];
