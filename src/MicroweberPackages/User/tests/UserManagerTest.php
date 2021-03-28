@@ -360,6 +360,9 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $forgotPass = $userManager->send_forgot_password($newUser);
+
+
+        var_dump($forgotPass);
         $this->assertArrayHasKey('success', $forgotPass);
         $this->assertTrue($forgotPass['success']);
 
