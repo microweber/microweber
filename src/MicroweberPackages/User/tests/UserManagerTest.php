@@ -339,6 +339,7 @@ class UserManagerTest extends TestCase
     public function testUserRegistrationForgotPasswordEmail()
     {
         $this->_enableUserRegistration();
+        $this->_disableEmailVerify();
         $this->_disableRegistrationApprovalByAdmin();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
