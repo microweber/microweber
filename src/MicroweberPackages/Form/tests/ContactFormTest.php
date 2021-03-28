@@ -146,7 +146,7 @@ class ContactFormTest extends TestCase
             $from = key($email->getFrom());
             $replyTo = key($email->getReplyTo());
 
-            $this->assertContains('This is the autorespond text - global', $body);
+            $this->assertTrue(str_contains($body,'This is the autorespond text - global'));
             $this->assertSame($subject, 'This is the autorespond subject - global');
             $this->assertSame($replyTo, 'AutoRespondEmailReply1Global@UnitTest.com');
             $this->assertSame($to, 'unit.b.slaveykov@unittest-global.com');
@@ -164,11 +164,16 @@ class ContactFormTest extends TestCase
             $replyTo = key($email->getReplyTo()); // Reply to must be the user email
 
             $this->assertEquals($replyTo, 'unit.b.slaveykov@unittest-global.com');
-            $this->assertContains('unit.b.slaveykov@unittest-global.com', $body);
-            $this->assertContains('0885451012-Global', $body);
-            $this->assertContains('CloudVisionLtd-Global', $body);
-            $this->assertContains('Bozhidar Veselinov Slaveykov', $body);
-            $this->assertContains('HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE', $body);
+
+
+
+            $this->assertTrue(str_contains($body,'unit.b.slaveykov@unittest-global.com'));
+            $this->assertTrue(str_contains($body,'0885451012-Global'));
+            $this->assertTrue(str_contains($body,'CloudVisionLtd-Global'));
+            $this->assertTrue(str_contains($body,'Bozhidar Veselinov Slaveykov'));
+            $this->assertTrue(str_contains($body,'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE'));
+
+
 
             $this->assertTrue(in_array($to, $customReceivers));
         }
@@ -300,11 +305,15 @@ class ContactFormTest extends TestCase
             $replyTo = key($email->getReplyTo()); // Reply to must be the user email
 
             $this->assertEquals($replyTo, 'unit.b.slaveykov@unittest.com');
-            $this->assertContains('unit.b.slaveykov@unittest.com', $body);
-            $this->assertContains('0885451012', $body);
-            $this->assertContains('CloudVisionLtd', $body);
-            $this->assertContains('Bozhidar Slaveykov', $body);
-            $this->assertContains('HELLO CONTACT FORM! THIS IS MY MESSAGE', $body);
+
+
+            $this->assertTrue(str_contains($body,'unit.b.slaveykov@unittest.com'));
+            $this->assertTrue(str_contains($body,'0885451012'));
+            $this->assertTrue(str_contains($body,'CloudVisionLtd'));
+            $this->assertTrue(str_contains($body,'Bozhidar Slaveykov'));
+            $this->assertTrue(str_contains($body,'HELLO CONTACT FORM! THIS IS MY MESSAGE'));
+
+
 
             $this->assertTrue(in_array($to, $customReceivers));
         }
@@ -319,7 +328,10 @@ class ContactFormTest extends TestCase
             $from = key($email->getFrom());
             $replyTo = key($email->getReplyTo());
 
-            $this->assertContains('This is the autorespond text', $body);
+
+            $this->assertTrue(str_contains($body,'This is the autorespond text'));
+
+
             $this->assertSame($replyTo, 'AutoRespondEmailReply1@UnitTest.com');
             $this->assertSame($subject, 'This is the autorespond subject');
             $this->assertSame($from, 'AutoRespondEmailFrom@UnitTest.com');

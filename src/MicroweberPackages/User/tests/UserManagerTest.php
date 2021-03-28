@@ -179,10 +179,13 @@ class UserManagerTest extends TestCase
 
         $this->assertArrayHasKey('success', $requestStatus);
         $this->assertTrue($requestStatus['success']);
-        $this->assertContains('We have emailed your password reset link!', $requestStatus['message']);
 
 
-        $this->assertContains('reset link', $requestStatus['message']);
+
+        $this->assertTrue(str_contains($requestStatus['message'],'We have emailed your password reset link!'));
+        $this->assertTrue(str_contains($requestStatus['message'],'reset link'));
+
+
 
         $userDetails['email'] = 'wrong@gmail.com';
 
@@ -191,7 +194,7 @@ class UserManagerTest extends TestCase
 
         $this->assertArrayHasKey('error', $requestStatus);
         $this->assertTrue($requestStatus['error']);
-        $this->assertContains('user with that', $requestStatus['message']);
+        $this->assertTrue(str_contains($requestStatus['message'],'user with that'));
 
 
     }
@@ -289,7 +292,10 @@ class UserManagerTest extends TestCase
         $loginStatus = $userManager->login($loginDetails);
 //dump($loginStatus);
         $this->assertArrayHasKey('error', $loginStatus);
-        $this->assertContains('verify', $loginStatus['error']);
+
+        $this->assertTrue(str_contains($loginStatus['error'],'verify'));
+
+
 
         $user = User::find($registerStatus['data']['id']);
 
@@ -356,7 +362,10 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('success', $forgotPass);
         $this->assertTrue($forgotPass['success']);
 
-        $this->assertContains('reset link', $forgotPass['message']);
+
+        $this->assertTrue(str_contains($forgotPass['message'],'reset link'));
+
+
 
         $check = DB::table('password_resets')
             ->where('email', '=', $newUser['email'])
@@ -376,7 +385,8 @@ class UserManagerTest extends TestCase
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
         $this->assertArrayHasKey('success', $updatePasswordWithToken);
         $this->assertTrue($updatePasswordWithToken['success']);
-        $this->assertContains('has been reset', $updatePasswordWithToken['message']);
+
+        $this->assertTrue(str_contains($updatePasswordWithToken['message'],'has been reset'));
 
 
         // Lets expire email token
@@ -393,8 +403,8 @@ class UserManagerTest extends TestCase
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
         $this->assertArrayHasKey('error', $updatePasswordWithToken);
         $this->assertTrue($updatePasswordWithToken['error']);
-        $this->assertContains('token is invalid', $updatePasswordWithToken['message']);
 
+        $this->assertTrue(str_contains($updatePasswordWithToken['message'],'token is invalid'));
 
     }
 
@@ -430,7 +440,10 @@ class UserManagerTest extends TestCase
         $forgotPass = $userManager->send_forgot_password($newUser);
         $this->assertArrayHasKey('success', $forgotPass);
         $this->assertTrue($forgotPass['success']);
-        $this->assertContains('reset link', $forgotPass['message']);
+
+        $this->assertTrue(str_contains($forgotPass['message'],'reset link'));
+
+
 
         $findResetPasswordLink = false;
         $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
