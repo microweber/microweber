@@ -386,12 +386,11 @@ class UserManagerTest extends TestCase
             'password_confirmation' => '1234'
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
-        $this->assertArrayHasKey('success', $updatePasswordWithToken);
-
 
         var_dump($updatePasswordWithToken);
 
 
+        $this->assertArrayHasKey('success', $updatePasswordWithToken);
 
         $this->assertTrue($updatePasswordWithToken['success']);
 
