@@ -362,7 +362,6 @@ class UserManagerTest extends TestCase
         $forgotPass = $userManager->send_forgot_password($newUser);
 
 
-        var_dump($forgotPass);
         $this->assertArrayHasKey('success', $forgotPass);
         $this->assertTrue($forgotPass['success']);
 
@@ -388,6 +387,12 @@ class UserManagerTest extends TestCase
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
         $this->assertArrayHasKey('success', $updatePasswordWithToken);
+
+
+        var_dump($updatePasswordWithToken);
+
+
+
         $this->assertTrue($updatePasswordWithToken['success']);
 
         $this->assertTrue(str_contains($updatePasswordWithToken['message'],'has been reset'));
