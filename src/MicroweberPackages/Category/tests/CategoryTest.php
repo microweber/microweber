@@ -22,8 +22,10 @@ class CategoryTest extends TestCase
     public function testAddcategoriesToModel()
     {
 
+        $title = 'New cat for my custom model'.uniqid();
+
         $category = new Category();
-        $category->title = 'New cat for my custom model';
+        $category->title = $title;
         $category->save();
 
 
@@ -42,9 +44,11 @@ class CategoryTest extends TestCase
 
         $newPage->save();
 
-     //   dd($newPage->categories()->get() );
+        $cat = $newPage->categories->first();
 
-     //   dd('DONE');
+        $this->assertNotEmpty($cat );
+        $this->assertEquals($cat->parent->title,$title );
+
     }
 
 
