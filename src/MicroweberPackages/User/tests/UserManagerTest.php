@@ -382,12 +382,11 @@ class UserManagerTest extends TestCase
         $update_pass_request = [
             'token' => $token,
             'email' => $newUser['email'],
-            'password' => '1234',
-            'password_confirmation' => '1234'
+            'password' => 'pass1234',
+            'password_confirmation' => 'pass1234'
         ];
         $updatePasswordWithToken = RequestRoute::postJson(route('api.user.password.update'), $update_pass_request);
 
-        var_dump($updatePasswordWithToken);
 
 
         $this->assertArrayHasKey('success', $updatePasswordWithToken);
@@ -395,6 +394,17 @@ class UserManagerTest extends TestCase
         $this->assertTrue($updatePasswordWithToken['success']);
 
         $this->assertTrue(str_contains($updatePasswordWithToken['message'],'has been reset'));
+
+
+        logout();
+
+        $loginDetails = array();
+        $loginDetails['email'] = $newUser['email'];
+        $loginDetails['password'] = 'pass1234';
+
+        $userManager = new UserManager();
+        $loginStatus = $userManager->login($loginDetails);
+        $this->assertArrayHasKey('success', $loginStatus);
 
 
         // Lets expire email token
