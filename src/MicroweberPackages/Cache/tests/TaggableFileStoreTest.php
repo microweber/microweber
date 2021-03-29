@@ -1,6 +1,6 @@
 <?php
 
-class TaggableFileStoreTest extends BaseTest
+class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
 {
 
     public function testSimple()

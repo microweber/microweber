@@ -14,9 +14,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
 
+
+
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
+
 
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
@@ -31,8 +34,10 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             mkdir($config_folder);
         }
 
+
         $mw_file = $config_folder . 'microweber.php';
-        $mw_file =  $this->normalizePath($mw_file, false);
+        $mw_file_database = $config_folder . 'database.php';
+        $mw_file = $this->normalizePath($mw_file, false);
 
         $test_env_from_conf = env('APP_ENV_TEST_FROM_CONFIG');
         if ($test_env_from_conf) {
@@ -46,22 +51,8 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             }
         }
 
-        $app = require __DIR__ . '/../../../../bootstrap/app.php';
-        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
-        //  $app['env'] = $testing_env_name;
-        $environment = $app->environment();
-
-        $this->assertEquals(true, is_dir($config_folder));
-
-        $app->detectEnvironment(function () use ($testing_env_name) {
-            return $testing_env_name;
-        });
-
-        $environment = $app->environment();
-        $this->sqlite_file = $this->normalizePath(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
-
-
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
+            file_put_contents($mw_file_database, "");
             file_put_contents($mw_file, "<?php return array (
             'is_installed' => 0, 
             'compile_assets' => 0,
@@ -69,95 +60,138 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             'install_default_template_content' => 1,
             );"
             );
-            define('MW_UNIT_TEST_CONF_FILE_CREATED', true);
 
-            if (is_file($this->sqlite_file)) {
-                @unlink($this->sqlite_file);
 
-            }
-
+            rmdir_recursive($config_folder, 1);
         }
 
-        $db_driver = env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite';
-        $db_host = env('DB_HOST', '127.0.0.1');
-        $db_port = env('DB_PORT', '');
-
-        $db_user = env('DB_USERNAME', 'forge');
-        $db_pass = env('DB_PASSWORD', '');
-        $db_prefix = env('DB_PREFIX', 'phpunit_test_');
-        $db_name = env('DB_DATABASE', $this->sqlite_file);
 
 
-        //  $db_name = $this->sqlite_file;
-        if ($test_env_from_conf) {
-            $dbEngines = \Config::get('database.connections');
-            $defaultDbEngine = \Config::get('database.default');
-            $default = \Config::get('database');
 
-            if ($defaultDbEngine) {
-                $db_driver = $defaultDbEngine;
-                if (isset($dbEngines[$defaultDbEngine]) and is_array($dbEngines[$defaultDbEngine])) {
-                    $config = $dbEngines[$defaultDbEngine];
-                    if (isset($config['database'])) {
-                        $db_name = $config['database'];
-                    }
-                    if (isset($config['host'])) {
-                        $db_host = $config['host'];
-                    }
-                    if (isset($config['host'])) {
-                        $db_host = $config['host'];
-                    }
-                    if (isset($config['username'])) {
-                        $db_user = $config['username'];
-                    }
-                    if (isset($config['password'])) {
-                        $db_pass = $config['password'];
-                    }
-                    if (isset($config['prefix'])) {
-                        $db_prefix = $config['prefix'];
-                    }
-                }
-            }
+        $app = require __DIR__ . '/../../../../bootstrap/app.php';
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
-        }
-
-        // make fresh install
-        $install_params = array(
-            'username' => 'test' . uniqid(),
-            'password' => 'test',
-            'email' => 'test' . uniqid() . '@example.com',
-            'db_driver' => $db_driver,
-            'db_host' => $db_host,
-            'db_user' => $db_user,
-            'db_pass' => $db_pass,
-            'db_name' => $db_name,
-            'prefix' => $db_prefix,
-            //  'db_name' => ':memory:',
-            '--env' => $environment,
+        $app->detectEnvironment(function () use ($testing_env_name) {
+            return $testing_env_name;
+        });
+        $app['config']->set('cache.default', 'file');
+        $app['config']->set('cache.stores.file',
+            [
+                'driver' => 'file',
+                'path' => storage_path('framework/cache'),
+                'separator' => '~#~'
+            ]
         );
 
-        $is_installed = mw_is_installed();
+        if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
+
+            define('MW_UNIT_TEST_CONF_FILE_CREATED', true);
+
+            $this->assertEquals(true, is_dir($config_folder));
 
 
-        if (!$is_installed) {
+            $environment = $app->environment();
+            $this->sqlite_file = $this->normalizePath(storage_path() . '/phpunit.' . $environment . '.sqlite', false);
 
-            $install = \Artisan::call('microweber:install', $install_params);
 
-            $this->assertEquals(0, $install);
+            if (!defined('MW_UNIT_TEST_DB_CLEANED')) {
+                if (is_file($this->sqlite_file)) {
+                    @unlink($this->sqlite_file);
+                }
+                define('MW_UNIT_TEST_DB_CLEANED', true);
 
-            // Clear caches
-            \Artisan::call('config:cache');
-            \Artisan::call('config:clear');
-            \Artisan::call('cache:clear');
+            }
 
-            $is_installed = mw_is_installed();
-            $this->assertEquals(1, $is_installed);
+            $db_driver = env('DB_DRIVER') ? env('DB_DRIVER') : 'sqlite';
+            $db_host = env('DB_HOST', '127.0.0.1');
+            $db_port = env('DB_PORT', '');
+
+            $db_user = env('DB_USERNAME', 'forge');
+            $db_pass = env('DB_PASSWORD', '');
+            $db_prefix = env('DB_PREFIX', 'phpunit_test_');
+          //  $db_name = env('DB_DATABASE', $this->sqlite_file);
+            $db_name = env('DB_DATABASE') ? env('DB_DATABASE') :  $this->sqlite_file;
+
+
+            //  $db_name = $this->sqlite_file;
+            if ($test_env_from_conf) {
+                $dbEngines = \Config::get('database.connections');
+                $defaultDbEngine = \Config::get('database.default');
+                $default = \Config::get('database');
+
+                if ($defaultDbEngine) {
+                    $db_driver = $defaultDbEngine;
+                    if (isset($dbEngines[$defaultDbEngine]) and is_array($dbEngines[$defaultDbEngine])) {
+                        $config = $dbEngines[$defaultDbEngine];
+                        if (isset($config['database'])) {
+                            $db_name = $config['database'];
+                        }
+                        if (isset($config['host'])) {
+                            $db_host = $config['host'];
+                        }
+                        if (isset($config['host'])) {
+                            $db_host = $config['host'];
+                        }
+                        if (isset($config['username'])) {
+                            $db_user = $config['username'];
+                        }
+                        if (isset($config['password'])) {
+                            $db_pass = $config['password'];
+                        }
+                        if (isset($config['prefix'])) {
+                            $db_prefix = $config['prefix'];
+                        }
+                    }
+                }
+
+            }
+
+            // make fresh install
+            $install_params = array(
+                'username' => 'test' . uniqid(),
+                'password' => 'test',
+                'email' => 'test' . uniqid() . '@example.com',
+                'db_driver' => $db_driver,
+                'db_host' => $db_host,
+                'db_user' => $db_user,
+                'db_pass' => $db_pass,
+                'db_name' => $db_name,
+                'prefix' => $db_prefix,
+                //  'db_name' => ':memory:',
+                '--env' => $environment,
+            );
+
+          //  $is_installed = mw_is_installed();
+
+            //if (!$is_installed) {
+
+                $install = \Artisan::call('microweber:install', $install_params);
+
+                $this->assertEquals(0, $install);
+
+                // Clear caches
+                \Artisan::call('config:cache');
+                \Artisan::call('config:clear');
+                \Artisan::call('cache:clear');
+
+                $is_installed = mw_is_installed();
+                $this->assertEquals(1, $is_installed);
+          //  }
+            // }
+
+            \Config::set('mail.driver', 'array');
+            \Config::set('queue.driver', 'sync');
+            \Config::set('mail.transport', 'array');
+
+
+
         }
 
 
-        \Config::set('mail.driver', 'array');
-        \Config::set('queue.driver', 'sync');
-        \Config::set('mail.transport', 'array');
+
+        //  $app['env'] = $testing_env_name;
+       // $environment = $app->environment();
+
 
         return $app;
     }
@@ -238,7 +272,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
      *
      * @return string
      */
-private function reduce_double_slashes($str)
+    private function reduce_double_slashes($str)
     {
         return preg_replace('#([^:])//+#', '\\1/', $str);
     }

@@ -594,6 +594,13 @@ class DatabaseManager extends DbUtils
         $criteria = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
         $criteria = $this->map_array_to_table($table, $criteria);
 
+        if(!$criteria){
+            return;
+        }
+
+//        $auto_fields = ['created_by','edited_by','created_at','updated_at','created_by','session_id','id'];
+
+
         if (intval($criteria['id']) == 0) {
             unset($criteria['id']);
             $engine = $this->get_sql_engine();

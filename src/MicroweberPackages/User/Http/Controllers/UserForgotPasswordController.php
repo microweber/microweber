@@ -123,18 +123,22 @@ class UserForgotPasswordController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:1|confirmed',
         ]);
-
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-
             function ($user, $password) use ($request) {
+
+
+                tap($request->user()->forceFill([
+                    'password' => Hash::make($password),
+                ]))->save();
+
+
+                app()->auth->logoutOtherDevices($password);
+                event(new PasswordReset($user));
+
 
                 Auth::loginUsingId($user->id);
                 $user->setRememberToken(Str::random(60));
-
-                app()->auth->logoutOtherDevices($password);
-
-                event(new PasswordReset($user));
             }
         );
 

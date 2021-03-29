@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Category\Traits;
 
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 
 trait CategoryTrait
@@ -77,6 +78,15 @@ trait CategoryTrait
         }
 
     }
+
+
+//    public function categories()
+//    {
+//        return $this->hasMany(Category::class, 'rel_id');
+//    }
+//
+
+
 
     public function categoryItems()
     {

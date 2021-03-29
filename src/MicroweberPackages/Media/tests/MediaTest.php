@@ -40,8 +40,9 @@ class MediaTest extends TestCase
 
         $newPage->save();
 
+        $this->assertNotEmpty($newPage->media());
+        $this->assertNotEmpty($newPage->media);
 
-     //   dd('DONE');
     }
 
     public function testDeleteMediaToModel()

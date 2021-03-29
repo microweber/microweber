@@ -68,7 +68,7 @@ class OptionManager
         if (!isset($data['limit'])) {
             $data['limit'] = 1000;
         }
-     //   $data['cache_group'] = 'options/global';
+        //   $data['cache_group'] = 'options/global';
         $data['table'] = $table;
 
         $get = $this->app->database_manager->get($data);
@@ -134,8 +134,7 @@ class OptionManager
 
         $query->delete();
 
-        $this->memoryModuleOptionGroup = [];
-        $this->memoryOptionGroup = [];
+        $this->clear_memory();
 
         return true;
     }
@@ -164,7 +163,9 @@ class OptionManager
 
 
     private $is_use = true;
-    public function setUseCache($is_use = false){
+
+    public function setUseCache($is_use = false)
+    {
         $this->is_use = $is_use;
     }
 
@@ -179,7 +180,9 @@ class OptionManager
      * $this->get('my_key', 'my_group');
      */
     public $memoryOptionGroup = [];
-    public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false) {
+
+    public function get($optionKey, $optionGroup = false, $returnFull = false, $orderBy = false, $module = false)
+    {
 
         if (!mw_is_installed()) {
             return false;
@@ -198,7 +201,8 @@ class OptionManager
         return false;
     }
 
-    private function getOptionFromOptionsArray($key, $options, $returnFull) {
+    private function getOptionFromOptionsArray($key, $options, $returnFull)
+    {
         foreach ($options as $option) {
             if ($option['option_key'] == $key) {
                 $option['option_value'] = $this->app->url_manager->replace_site_url_back($option['option_value']);
@@ -360,6 +364,7 @@ class OptionManager
 
                 $this->app->cache_manager->delete('options');
                 $this->app->cache_manager->delete('content');
+                $this->clear_memory();
 
                 return $save;
             }
@@ -425,9 +430,16 @@ class OptionManager
 
     public function clear_memory()
     {
+
+
         $this->options_memory = array();
         $this->override_memory = array();
-        $this->memoryOptionGroup = array();
-        $this->memoryModuleOptionGroup = array();
+        if (isset($this->memoryOptionGroup)) {
+            $this->memoryOptionGroup = array();
+        }
+        if (isset($this->memoryModuleOptionGroup)) {
+
+            $this->memoryModuleOptionGroup = array();
+        }
     }
 }

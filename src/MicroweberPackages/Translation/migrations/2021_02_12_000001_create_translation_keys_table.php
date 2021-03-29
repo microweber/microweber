@@ -12,6 +12,9 @@ class CreateTranslationKeysTable extends Migration
     public function up()
     {
         Schema::create('translation_keys', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_bin';
+
             $table->bigIncrements('id');
             $table->string('translation_namespace')->nullable();
             $table->string('translation_group');
