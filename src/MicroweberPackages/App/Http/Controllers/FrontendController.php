@@ -4,7 +4,6 @@ namespace MicroweberPackages\App\Http\Controllers;
 
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
-use function GuzzleHttp\Psr7\parse_query;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;

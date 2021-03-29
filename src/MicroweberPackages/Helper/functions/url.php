@@ -256,3 +256,10 @@ if (!function_exists('parse_params')) {
     }
 }
 
+if (!function_exists('parse_query')) {
+    function parse_query($params)
+    {
+        return \GuzzleHttp\Psr7\Query::parse($params);
+    }
+
+}
