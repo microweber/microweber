@@ -22,6 +22,10 @@ if (window.top === window){
     };
 }
 
+$(document).ready(function (){
+    mw.require('http://localhost/mw/userfiles/modules/microweber/api/liveedit2/neighbours.js');
+})
+
 
 window.mwd = document;
 window.mww  = window;
@@ -6638,7 +6642,8 @@ mw.drag = {
         mw.trigger('saveStart', mw._liveeditData);
 
         var xhr = mw.drag.coreSave(mw._liveeditData);
-        xhr.error(function(){
+        console.log(xhr)
+        xhr.fail(function(){
 
             if(xhr.status == 403){
                 var modal = mw.dialog({
@@ -8154,6 +8159,14 @@ mw.liveedit.handleEvents = function() {
     });
     mw.$("#mw-toolbar-html-editor-btn").click(function() {
         mw.liveedit.widgets.htmlEditorDialog();
+    });
+
+    mw.$("#mw-toolbar-api-clear-cache-btn").click(function() {
+        mw.notification.warning("Clearing cache...");
+        $.get(mw.settings.api_url + "clearcache", {}, function () {
+            mw.notification.warning("Cache is cleared! reloading the page...");
+            location.reload();
+        });
     });
 
     mw.$("#mw-toolbar-reset-content-editor-btn").click(function() {
@@ -21472,8 +21485,6 @@ mw.ajax = function (options) {
     var xhr = $.ajax(options);
     return xhr;
 };
-
-mw.ajax = $.ajax;
 
 jQuery.each(["xhrGet", "xhrPost"], function (i, method) {
     mw[method] = function (url, data, callback, type) {

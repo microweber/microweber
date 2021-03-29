@@ -139,8 +139,6 @@ mw.ajax = function (options) {
     return xhr;
 };
 
-mw.ajax = $.ajax;
-
 jQuery.each(["xhrGet", "xhrPost"], function (i, method) {
     mw[method] = function (url, data, callback, type) {
         if (jQuery.isFunction(data)) {

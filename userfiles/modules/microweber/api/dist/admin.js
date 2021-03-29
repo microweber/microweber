@@ -934,6 +934,10 @@ if (window.top === window){
     };
 }
 
+$(document).ready(function (){
+    mw.require('http://localhost/mw/userfiles/modules/microweber/api/liveedit2/neighbours.js');
+})
+
 
 window.mwd = document;
 window.mww  = window;
@@ -11590,8 +11594,6 @@ mw.ajax = function (options) {
     var xhr = $.ajax(options);
     return xhr;
 };
-
-mw.ajax = $.ajax;
 
 jQuery.each(["xhrGet", "xhrPost"], function (i, method) {
     mw[method] = function (url, data, callback, type) {

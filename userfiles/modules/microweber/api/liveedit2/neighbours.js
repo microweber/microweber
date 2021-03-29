@@ -3,15 +3,10 @@
 
         var distanceMax = 20;
 
-        function distance(el1, el2) {
-            var rect1 = el1.getBoundingClientRect();
-            var rect2 = el2.getBoundingClientRect();
-            var x1 = rect1.left + rect1.width/2;
-            var y1 = rect1.top + rect1.height/2;
-            var x2 = rect2.left + rect2.width/2;
-            var y2 = rect2.top + rect2.height/2;
-            return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+        function distance(x1, y1, x2, y2) {
+            return Math.hypot(x2-x1, y2-y1);
         }
+
         function isInRange(el1, el2) {
             return distance(el1, el2) <= distanceMax;
         }
@@ -66,6 +61,8 @@
             }
             return res;
         };
+        this.getParents = getParents;
+        this.getBelow = getBelow;
 
         this.getNeighbours = function (event) {
             var target = event.target;
@@ -73,8 +70,50 @@
         };
 
 
+        var round5 = function (x){
+            return (x % 5) >= 2.5 ? (x / 5) * 5 + 5 : (x / 5) * 5;
+        };
+
+        var getNearCoordinates = function (x, y) {
+            x = round5(x);
+            y = round5(y);
+            var res = [];
+            var x1 = x - distanceMax;
+            var x1Max = x + distanceMax;
+            var y1 = y - distanceMax;
+            var y1Max = y + distanceMax;
+            for ( ; x1 < x1Max; x1 += 5) {
+                for ( ; y1 <= y1Max; y1 += 5 ) {
+                    res.push([x1, y1]);
+                }
+            }
+            return res;
+        };
+
+        this.fromPoint = function (x, y) {
+            var res = [];
+            var el = document.elementFromPoint(x, y);
+            if (!el ) return [];
+            res.push(el);
+            var dots = getNearCoordinates(x, y);
+            dots.forEach(function (coords){
+                 var el = document.elementFromPoint(coords[0], coords[1]);
+                if(res.indexOf(el) === -1) {
+                    res.push(el);
+                }
+            });
+
+            return res;
+        };
+
+
     };
 
     window.Neighbours = Neighbours;
+    mw.n = new Neighbours();
+
+    mw.element('body').on('mousemove', function (e){
+        console.log( mw.n.fromPoint(e.x, e.y) )
+    })
 
 })();

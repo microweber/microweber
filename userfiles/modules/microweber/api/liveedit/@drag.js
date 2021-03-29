@@ -1054,6 +1054,7 @@ mw.drag = {
                 mw.$('.module-over', helper.item).each(function(){
                     mw.$(this).removeClass('module-over');
                 });
+                
                 mw.$('[class]', helper.item).each(function(){
                     var cls = this.getAttribute("class");
                     if(typeof cls === 'string'){
@@ -1113,7 +1114,7 @@ mw.drag = {
         mw.trigger('saveStart', mw._liveeditData);
 
         var xhr = mw.drag.coreSave(mw._liveeditData);
-        xhr.error(function(){
+        xhr.fail(function(){
 
             if(xhr.status == 403){
                 var modal = mw.dialog({

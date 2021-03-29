@@ -117,48 +117,11 @@ if (isset($_COOKIE['mw_exp'])) {
 
     <script>
         $(document).ready(function () {
-
-
-
             if (!mw.cookie.get('mw-back-to-live-edit')) {
                 mw.cookie.set('mw-back-to-live-edit', true)
             }
-
-
-     /*       function mw_live_edit_opensidebar() {
-                if (mw.liveEditSettings.active) {
-                } else {
-                    $('#live_edit_side_holder').addClass('sidebar_opened');
-                    $('a[data-id="mw-toolbar-show-sidebar-btn"]').addClass('opened');
-                    mw.cookie.set("show-sidebar-layouts", '1');
-                }
-            }
-
-            var $li = $("#sidebar-hidden-area").hover(
-                function () {
-                    var self = this;
-                    hovertimer = setTimeout(function () {
-
-                        mw_live_edit_opensidebar();
-
-                    }, 1700);
-                },
-                function () {
-                    clearTimeout(hovertimer);
-                }
-            );*/
         });
-
-    </script>
-
-
-    <script>
-
-
         mw.on('liveEditSettingsReady', function () {
-
-            //     $('a','#live_edit_toolbar_holder').off('click')
-
 
             mw.drag.init();
             $('[data-id="mw-toolbar-show-sidebar-btn"]').click(function () {
@@ -192,7 +155,7 @@ if (isset($_COOKIE['mw_exp'])) {
         $(window).on("load", function () {
             mw.liveEditSettings = new mw.controlBox({
                 content: '<div class="module" type="admin/modules/sidebar_live_edit"></div>',
-                position: !mw.tools.isRtl() ? 'right' : 'right',
+                position: 'right',
                 id: 'live_edit_side_holder',
                 closeButton: true
             });
