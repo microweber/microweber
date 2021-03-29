@@ -26,6 +26,7 @@ class Order extends Model
 
     public $table = 'cart_orders';
     public $fillable = [
+        'id',
         'email',
         'first_name',
         'last_name',
