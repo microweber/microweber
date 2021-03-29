@@ -112,4 +112,103 @@ ol.mw-richtext-list ol li, ul.mw-richtext-list ol li {
 }
 
 
+/*LIVE EDIT STATIC LAYOUTS*/
+
+/*ORDERED LIST*/
+ol.mw-default-layout-ordered-t1 li {
+
+    list-style-type: decimal;
+    list-style-position: inside;
+    margin-inline-start: 17px;
+    text-indent: -17px;
+}
+ol.mw-default-layout-ordered-t1 li ol li{
+    list-style-type: lower-alpha;
+}
+
+/*UNORDERED LIST*/
+ul.mw-default-layout-un-ordered-t2 li {
+    list-style-position: inside;
+    margin-inline-start: 17px;
+    text-indent: -17px;
+}
+
+
+ul.mw-default-layout-un-ordered-t2 li:before {
+    content: '\2714';
+}
+
+/*DOTS LIST*/
+
+ul.mw-default-layout-un-ordered-t4 li {
+    list-style-type: disc;
+    list-style-position: inside;
+    margin-inline-start: 17px;
+    text-indent: -17px;
+}
+
+ul.mw-default-layout-un-ordered-t4 li ul li {
+    list-style-type: circle;
+}
+
+
+
+/*PARAGRAPH*/
+.mw-default-layout-highlight-line{
+    border-left: 4px solid black;
+    padding-left: 10px;
+    display: inline-block;
+}
+
+/*CHECKED*/
+
+ul.mw-default-layout-un-ordered-checked li {
+    list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
+    list-style-position: inside;
+    margin-inline-start: 17px;
+    text-indent: -17px;
+}
+
+
+
+/*ARROWS*/
+ul.mw-default-layout-un-ordered-arrows {
+    position: relative;
+
+}
+
+ul.mw-default-layout-un-ordered-arrows li {
+    list-style-position: inside;
+    list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M4,15V9H12V4.16L19.84,12L12,19.84V15H4Z' /%3E%3C/svg%3E");
+    margin-inline-start: 17px;
+    text-indent: -17px;
+}
+
+/*Blockquote*/
+ul.mw-default-layout-blockquote li {
+    position: relative;
+    padding-left: 20px;
+}
+
+ul.mw-default-layout-blockquote li:before {
+    content: '\275D';
+    font-size: 22px;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+small:before {
+    content: "\2014 \00A0";
+}
+
+/*Background Text*/
+ul.mw-default-layout-background-text {
+    background-color: rgba(0, 0, 0, 0.01);
+    border: 1px solid rgba(51, 51, 51, 0.1);
+    padding: 0.8em;
+}
+/*END LIVE EDIT STATIC LAYOUTS*/
+
+
 
