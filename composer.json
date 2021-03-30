@@ -22,10 +22,6 @@
         {
             "type": "composer",
             "url": "https://packages-satis.microweberapi.com/"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/microweber-deps/composer-merge-plugin.git"
         }
     ],
     "require": {

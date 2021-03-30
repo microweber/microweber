@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39a837bfff39c558cfd9c669bb885a44",
+    "content-hash": "6be5825afd4aff7c3293a97a734770e3",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -13084,13 +13084,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-deps/composer-merge-plugin.git",
-                "reference": "07122bd5d0fc76b1c2441a039bd638ea82a9d465"
+                "url": "https://github.com/wikimedia/composer-merge-plugin.git",
+                "reference": "1d8842fbcfa4bee69939ecedba24b0cb2cef9b24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-deps/composer-merge-plugin/zipball/07122bd5d0fc76b1c2441a039bd638ea82a9d465",
-                "reference": "07122bd5d0fc76b1c2441a039bd638ea82a9d465",
+                "url": "https://api.github.com/repos/wikimedia/composer-merge-plugin/zipball/1d8842fbcfa4bee69939ecedba24b0cb2cef9b24",
+                "reference": "1d8842fbcfa4bee69939ecedba24b0cb2cef9b24",
                 "shasum": ""
             },
             "require": {
@@ -13098,32 +13098,26 @@
                 "php": ">=7.2.0"
             },
             "require-dev": {
-                "composer/composer": "^1.1",
-                "php-parallel-lint/php-parallel-lint": "~1.1.0",
+                "composer/composer": "^1.1||^2.0",
+                "mediawiki/mediawiki-phan-config": "0.10.6",
+                "php-parallel-lint/php-parallel-lint": "~1.2.0",
                 "phpunit/phpunit": "^8.5||^9.0",
-                "squizlabs/php_codesniffer": "~3.5.4"
+                "squizlabs/php_codesniffer": "~3.5.8"
             },
             "default-branch": true,
             "type": "composer-plugin",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5.x-dev"
+                    "dev-master": "2.x-dev"
                 },
-                "class": "Wikimedia\\Composer\\MergePlugin"
+                "class": "Wikimedia\\Composer\\Merge\\V2\\MergePlugin"
             },
             "autoload": {
                 "psr-4": {
-                    "Wikimedia\\Composer\\": "src/"
+                    "Wikimedia\\Composer\\Merge\\V2\\": "src/"
                 }
             },
-            "scripts": {
-                "test": [
-                    "composer validate --no-interaction",
-                    "parallel-lint src tests",
-                    "phpunit --log-junit=reports/unitreport.xml --coverage-text --coverage-html=reports/coverage --coverage-clover=reports/coverage.xml",
-                    "phpcs --encoding=utf-8 --standard=PSR2 --report-checkstyle=reports/checkstyle-phpcs.xml --report-full --extensions=php src/* tests/phpunit/*"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -13135,9 +13129,10 @@
             ],
             "description": "Composer plugin to merge multiple composer.json files",
             "support": {
-                "source": "https://github.com/microweber-deps/composer-merge-plugin/tree/composer-2-fix-fix"
+                "issues": "https://github.com/wikimedia/composer-merge-plugin/issues",
+                "source": "https://github.com/wikimedia/composer-merge-plugin/tree/master"
             },
-            "time": "2020-11-16T20:19:36+00:00"
+            "time": "2021-02-25T00:36:57+00:00"
         },
         {
             "name": "wikimedia/less.php",
@@ -13548,16 +13543,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.11.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "f6e14679f948d8a5cfb866fa7065a30c66bd64d3"
+                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/f6e14679f948d8a5cfb866fa7065a30c66bd64d3",
-                "reference": "f6e14679f948d8a5cfb866fa7065a30c66bd64d3",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/d501fd2658d55491a2295ff600ae5978eaad7403",
+                "reference": "d501fd2658d55491a2295ff600ae5978eaad7403",
                 "shasum": ""
             },
             "require": {
@@ -13607,7 +13602,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.11.0"
+                "source": "https://github.com/filp/whoops/tree/2.12.0"
             },
             "funding": [
                 {
@@ -13615,7 +13610,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-19T12:00:00+00:00"
+            "time": "2021-03-30T12:00:00+00:00"
         },
         {
             "name": "fzaninotto/faker",
