@@ -252,7 +252,7 @@ class BackupV2
 
         if (isset($query['items']) && $query['items'] == 'template') {
             $manager->setExportIncludeMedia(true);
-            $manager->setExportIncludeTemplates(template_name());
+            $manager->setExportIncludeTemplates([template_name()]);
         }
 
 		$manager->setExportData('tables', $tables);
