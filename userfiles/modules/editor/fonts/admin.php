@@ -87,14 +87,11 @@
             mw_fonts_preview_loaded_stylesheets.push(family);
 
             var filename = "//fonts.googleapis.com/css?family=" + encodeURIComponent(family) + "&text=" + encodeURIComponent(family);
-
-
             var fileref = document.createElement("link")
             fileref.setAttribute("rel", "stylesheet")
             fileref.setAttribute("type", "text/css")
             fileref.setAttribute("href", filename)
-            document.getElementsByTagName("head")[0].appendChild(fileref)
-            mw.top().document.getElementsByTagName("head")[0].appendChild(fileref)
+            mw.top().doc.getElementsByTagName("head")[0].appendChild(fileref)
 
 
         }
