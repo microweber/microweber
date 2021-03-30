@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.3] - 2021-03-30
+- Update to Laravel 8.3
+- Fix Tags problem
+- Fix Offer price 
+- Fix Contact form bugs
+- Fix Multilanguage bugs 
+- Fix https bug behind proxy 
+- Fix Live edit bugs linking to layout
+- Fix Live edit bugs related to cloudflare caching
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.2...1.2.3 "")
+
 ## [1.2.2] - 2021-03-12
 - Added cached model queries
 - Fix multilanguage module 
