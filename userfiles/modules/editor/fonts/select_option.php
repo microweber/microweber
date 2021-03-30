@@ -1,5 +1,5 @@
 <?php must_have_access(); ?>
-<script type="text/javascript">
+<script>
     mw.require('options.js');
 </script>
 
@@ -10,7 +10,7 @@
 $name = 'font_family';
 $group = 'website';
 $show_more_link = false;
- 
+
 if(isset($params['group'])){
     $group = $params['group'];
 }
@@ -38,48 +38,21 @@ if (is_string($enabled_custom_fonts) and $enabled_custom_fonts) {
 
 ?>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-
-
-        mw.options.form('#<?php print $params['id'] ?>', function () {
-
-
-
-            var el = mw.top().$('#mw-custom-user-css')[0];
-
-            if(el){
-                var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
-                el.href = custom_fonts_stylesheet_restyled;
-            }
-
-
-
-
-        });
-    }
-
-</script>
-
-
 <script>
     $(document).ready(function () {
-
-
-
-
-
+        mw.options.form('#<?php print $params['id'] ?>', function () {
+            var el = mw.top().$('#mw-custom-user-css')[0];
+            if(el){
+                el.href = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
+            }
+        });
         mw.$("[name=<?php print $name ?>] option").each(function () {
-        var val = $(this).text();
-
-        if (val != '') {
-            mw.require('//fonts.googleapis.com/css?family=' + val + '&filetype=.css', true);
-            $(this).css({"font-family": val, "font-size": "100%"});
-
-
-          //  $(this).css('fontFamily', val);
-        }
-    });
+            var val = $(this).text().trim();
+            if (val) {
+                mw.require('//fonts.googleapis.com/css?family=' + val + '&filetype=.css', true);
+                $(this).css({"font-family": val, "font-size": "100%"});
+            }
+        });
     });
 
 </script>

@@ -187,7 +187,7 @@
                     </div>
 
                     <div class="step-actions step-actions-3">
-                        <a class="mw-ui-btn mw-ui-btn-info" onclick="mw.backup_export.export_start()">Export selected data</a>
+                        <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.backup_export.export_start()">Export selected data</button>
                     </div>
 
                 </div>

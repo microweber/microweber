@@ -260,7 +260,7 @@ mw.log(mw.$(template_holder).html())
             element: '#backup-select-options-to-export',
             data: [
                 {
-                    input: {name: 'export_items', value: 'media'},
+                    input: {name: 'export_items', value: 'orders'},
                     icon: { className: 'mdi mdi-shopping-outline'  },
                     title: 'Export all orders',
                     description: 'If you check this checkbox then all of your orders will be added into the backup export'
@@ -296,10 +296,16 @@ mw.log(mw.$(template_holder).html())
                     description: 'Export all posts & contents of your website'
                 },
                 {
-                    input: {name: 'export_items', value: ''},
+                    input: {name: 'export_items', value: 'options'},
                     icon: { className: 'mdi mdi-cog-outline'  },
                     title: 'Export  website settings',
                     description: 'All settings lik, website name, company details etc, '
+                },
+                {
+                    input: {name: 'export_items', value: 'template'},
+                    icon: { className: 'mdi mdi-text-box-check-outline'  },
+                    title: 'Export  website template',
+                    description: 'All data from website template settings, pages and media'
                 },
                 {
                     input: {name: 'export_media', value: true, checked: true},
