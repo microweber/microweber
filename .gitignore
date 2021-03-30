@@ -53,3 +53,5 @@ node_modules/
 /webpack/dist/*
 /.rnd
 /userfiles/modules/multilanguage
+config/app.php
+config/database.php
