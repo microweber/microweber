@@ -302,13 +302,13 @@ mw.log(mw.$(template_holder).html())
                     description: 'All settings lik, website name, company details etc, '
                 },
                 {
-                    input: {name: 'export_items', value: 'template'},
+                    input: {name: 'export_items', value: 'template_data'},
                     icon: { className: 'mdi mdi-text-box-check-outline'  },
                     title: 'Export data website template',
                     description: 'All data from website template settings, pages and media'
                 },
                 {
-                    input: {name: 'export_media', value: true, checked: true},
+                    input: {name: 'include_media', value: 'true'},
                     icon: { className: 'mdi mdi-image-multiple-outline'  },
                     title: 'Include media files  <span>(images, videos, etc..)</span>',
                     description: ''
@@ -432,7 +432,7 @@ mw.log(mw.$(template_holder).html())
         mw.backup_export.export_selected(send_uri);
         mw.backup_export.stepper.last();
 
-        $('.export-step-4-action').html('Exporting your content')
+        $('.export-step-4-action').html('Exporting your content');
 	},
 
 	export_start: function () {
@@ -459,8 +459,12 @@ mw.log(mw.$(template_holder).html())
         export_manifest.categories_ids = [];
         export_manifest.items = selected;
 
+        if ($("[name='include_media']:checked")) {
+            export_manifest.include_media = true;
+        }
+
         selected_content.forEach(function(item, i){
-            if(item.type === 'category' ){
+            if(item.type === 'category'){
                 export_manifest.categories_ids.push(item.id);
             } else {
                 export_manifest.content_ids.push(item.id);

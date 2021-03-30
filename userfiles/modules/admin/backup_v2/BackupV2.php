@@ -240,13 +240,23 @@ class BackupV2
 		$categoriesIds = array();
 		$contentIds = array();
 
+		$exportThemeData = false;
 		if (isset($query['items'])) {
 			foreach(explode(',', $query['items']) as $item) {
 				if (!empty($item)) {
-					$tables[] = trim($item);
+                    $item = trim($item);
+				    if ($item == 'template_data') {
+                        $exportThemeData = true;
+                        continue;
+				    }
+					$tables[] = $item;
 				}
 			}
 		}
+
+		if ($exportThemeData) {
+            $query['include_media'] = 'true';
+        }
 
 		$manager = new \MicroweberPackages\Backup\BackupManager();
 		$manager->setExportData('tables', $tables);
@@ -255,10 +265,15 @@ class BackupV2
 			$manager->setExportType($query['format']);
 		}
 
+        if (isset($query['include_media']) && $query['include_media'] == 'true') {
+            $manager->setExportIncludeMedia(true);
+        }
+
+        if ($exportThemeData) {
+            $manager->setExportIncludeTemplateData(true);
+        }
+
 		if (isset($query['all'])) {
-			if (isset($query['include_media']) && $query['include_media'] == 'true') {
-				$manager->setExportIncludeMedia(true);
-			}
 			$manager->setExportAllData(true);
 		}
 

@@ -18,20 +18,21 @@ class Export
 	public $includeMedia = false;
 	public $includeModules = false;
 	public $includeTemplates = false;
+	public $includeTemplateData = false;
 
 	public function setType($type)
 	{
 		$this->type = $type;
 	}
-	
+
 	public function setExportData($data) {
 		$this->exportData = $data;
 	}
-	
+
 	public function setExportAllData($exportAllData) {
 		$this->exportAllData = $exportAllData;
 	}
-	
+
 	public function setIncludeMedia($includeMedia) {
 		$this->includeMedia = $includeMedia;
 	}
@@ -43,7 +44,11 @@ class Export
 	public function setIncludeTemplates($includeTemplates) {
 		$this->includeTemplates = $includeTemplates;
 	}
-	
+
+	public function setIncludeTemplateData($includeTemplateData) {
+		$this->includeTemplateData = $includeTemplateData;
+	}
+
 	public function exportAsType($data)
 	{
         $backupManager = new BackupManager();
@@ -55,7 +60,7 @@ class Export
 		if (array_key_exists('media', $data)) {
 			$exportMediaUserFiles = true;
 		}
-		
+
 		$export = $this->_getExporter($data);
 
 		if (isset($export['files']) && count($export['files']) > 1) {
@@ -67,7 +72,12 @@ class Export
         }
 
         if ($this->includeTemplates) {
-            $exportWithZip = true;  
+            $exportWithZip = true;
+        }
+
+        if ($this->includeMedia) {
+            $exportMediaUserFiles = true;
+            $exportWithZip = true;
         }
 
 		if ($exportWithZip || $exportMediaUserFiles) {
@@ -90,7 +100,7 @@ class Export
 			if ($exportMediaUserFiles) {
 				$zipExport->setExportMedia(true);
 			}
-			
+
 			if ($this->includeMedia == false) {
 				$zipExport->setExportMedia(false);
 			}
@@ -120,15 +130,15 @@ class Export
 				return $zipExportReady;
 			}
 		}
-		
+
 		if (isset($export['files'])) {
-		
+
 			$exportSingleFile = false;
-			
+
 			if (count($export['files']) == 1) {
 				$exportSingleFile = true;
 			}
-			
+
 			if ($exportSingleFile && isset($export['files']) && !empty($export['files'])) {
 				return array(
 					'success' => 'Items are exported',
@@ -138,35 +148,35 @@ class Export
 			} else {
 				return $export;
 			}
-			
+
 		}
-		
+
 	}
 
 	public function start() {
-		
+
 		$readyData = $this->_getReadyDataCached();
-		
+
 		if (empty($readyData)) {
 			return array("error"=>"Empty content data.");
 		}
-		
+
 		return $this->exportAsType($readyData);
 	}
-	
+
 	private function _getExportDataHash() {
 		return md5(json_encode($this->exportData));
 	}
-	
+
 	private function _getReadyDataCached() {
-		
+
 		return $this->_getReadyData();
-		
+
 		/* $exportDataHash = $this->_getExportDataHash();
-		
+
 		$zipExport = new ZipExport();
 		$currentStep = $zipExport->getCurrentStep();
-		
+
 		if ($currentStep == 0) {
 			// This is frist step
 			Cache::forget($exportDataHash);
@@ -179,9 +189,9 @@ class Export
 			return Cache::get($exportDataHash);
 		} */
 	}
-	
+
 	private function _getReadyData() {
-		
+
 		$exportTables = new ExportTables();
 
         $tablesStructures = array();
@@ -209,13 +219,13 @@ class Export
             }
 
 			$ids = array();
-			
+
 			if ($table == 'categories') {
-				
+
 				if (!empty($this->exportData['categoryIds'])) {
 					$ids = $this->exportData['categoryIds'];
 				}
-				
+
 				// Get all posts for this category
 				$contentForCategories = get_content(array(
 					"categories"=>$ids,
@@ -227,40 +237,40 @@ class Export
 					$exportTables->addItemsToTable('content', $contentForCategories);
 				}
 			}
-			
+
 			if ($table == 'content') {
 				if (!empty($this->exportData['contentIds'])) {
 					$ids = $this->exportData['contentIds'];
 				}
 			}
-			
+
 			$tableContent = $this->_getTableContent($table, $ids);
-			
+
 			if (!empty($tableContent)) {
-				
+
 				$exportTables->addItemsToTable($table, $tableContent);
-				
+
 				$relations = array();
 				foreach($tableContent as $content) {
 					if (isset($content['rel_type']) && isset($content['rel_id'])) {
 						$relations[$content['rel_type']][$content['rel_id']] = $content['rel_id'];
 					}
 				}
-				
+
 				if (!empty($relations)) {
-					
+
 					BackupExportLogger::setLogInfo('Get relations from table: <b>' . $table . '</b>');
-					
+
 					foreach($relations as $relationTable=>$relationIds) {
-						
+
 						BackupExportLogger::setLogInfo('Get data from relations table: <b>' . $relationTable. '</b>');
-						
+
 						$relationTableContent = $this->_getTableContent($relationTable, $relationIds);
-						
+
 						$exportTables->addItemsToTable($relationTable, $relationTableContent);
 					}
 				}
-				
+
 			}
 		}
 
@@ -269,29 +279,29 @@ class Export
 
 		return $exportTablesReady;
 	}
-	
+
 	private function _getTableContent($table, $ids = array()) {
-		
+
 		$exportFilter = array();
 		$exportFilter['no_limit'] = 1;
 		$exportFilter['do_not_replace_site_url'] = 1;
-		
+
 		if (!empty($ids)) {
 			$exportFilter['ids'] = implode(',', $ids);
 		}
-		
+
 		$tableExists = mw()->database_manager->table_exists($table);
 		if (!$tableExists) {
 			return;
 		}
-		
+
 		$dbGet = db_get($table, $exportFilter);
-		
+
 		return $dbGet;
 	}
-	
+
 	private function _skipTables() {
-		
+
 		$this->skipTables[] = 'modules';
 		$this->skipTables[] = 'elements';
 		$this->skipTables[] = 'users';
@@ -310,28 +320,28 @@ class Export
 		$this->skipTables[] = 'users_oauth';
 		$this->skipTables[] = 'sessions';
 		$this->skipTables[] = 'global';
-		
+
 		return $this->skipTables;
 	}
-	
+
 	private function _prepareSkipTables() {
-		
+
 		$skipTables = $this->_skipTables();
-		
+
 		// Add table categories if we have category ids
 		if (!empty($this->exportData['categoryIds'])) {
 			if (!in_array('categories',$this->exportData['tables'])) {
 				$this->exportData['tables'][] = 'categories';
 			}
 		}
-		
+
 		// Add table categories if we have content ids
 		if (!empty($this->exportData['contentIds'])) {
 			if (!in_array('content', $this->exportData['tables'])) {
 				$this->exportData['tables'][] = 'content';
 			}
 		}
-		
+
 		if (!empty($this->exportData['tables'])) {
 			if (in_array('users', $this->exportData['tables'])) {
 				$keyOfSkipTable = array_search('users', $skipTables);
@@ -340,28 +350,28 @@ class Export
 				}
 			}
 		}
-		
+
 		return $skipTables;
 	}
-	
+
 	private function _getTablesForExport() {
-		
+
 		$skipTables = $this->_prepareSkipTables();
-		
+
 		$tablesList = mw()->database_manager->get_tables_list(true);
 		$tablePrefix = mw()->database_manager->get_prefix();
-		
+
 		$readyTableList = array();
 		foreach ($tablesList as $tableName) {
-			
+
 			if ($tablePrefix) {
 				$tableName = str_replace_first($tablePrefix, '', $tableName);
 			}
-			
+
 			if (in_array($tableName, $skipTables)) {
 				continue;
 			}
-			
+
 			if (!empty($this->exportData) && $this->exportAllData == false) {
 				if (isset($this->exportData['tables'])) {
 					if (!in_array($tableName, $this->exportData['tables'])) {
@@ -369,46 +379,51 @@ class Export
 					}
 				}
 			}
-			
+
 			$readyTableList[] = $tableName;
-			
+
 		}
-		
+
 		return $readyTableList;
 	}
-	
+
 	private function _getExporter($data) {
-		
+
 		$export = false;
-		
+
 		switch ($this->type) {
 			case 'json':
 				$export = new JsonExport($data);
+
+                if ($this->includeTemplateData) {
+                    $export->setFilename('mw_content');
+                }
+
 				break;
-				
+
 			case 'csv':
 				$export = new CsvExport($data);
 				break;
-				
+
 			case 'xml':
 				$export = new XmlExport($data);
 				break;
-				
+
 			case 'xlsx':
 				$export = new XlsxExport($data);
 				break;
-				
+
 			/* case 'zip':
 				$export = new ZipExport($data);
 				break; */
-				
+
 			default:
 				throw new \Exception('Format not supported for exporting.');
 		}
-		
+
 		$export->setType($this->type);
-		
+
 		return $export->start();
 	}
-	
+
 }
