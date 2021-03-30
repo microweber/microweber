@@ -198,9 +198,9 @@ ul.mw-default-layout-blockquote li:before {
     position: absolute;
 }
 
-small:before {
-    content: "\2014 \00A0";
-}
+/*small:before {*/
+    /*content: "\2014 \00A0";*/
+/*}*/
 
 /*Background Text*/
 ul.mw-default-layout-background-text {
