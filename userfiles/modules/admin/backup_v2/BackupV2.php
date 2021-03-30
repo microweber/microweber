@@ -240,21 +240,15 @@ class BackupV2
 		$categoriesIds = array();
 		$contentIds = array();
 
-        $manager = new \MicroweberPackages\Backup\BackupManager();
-
 		if (isset($query['items'])) {
-            foreach (explode(',', $query['items']) as $item) {
-                if (!empty($item)) {
-                    $tables[] = trim($item);
-                }
-            }
-        }
+			foreach(explode(',', $query['items']) as $item) {
+				if (!empty($item)) {
+					$tables[] = trim($item);
+				}
+			}
+		}
 
-        if (isset($query['items']) && $query['items'] == 'template') {
-            $manager->setExportIncludeMedia(true);
-            $manager->setExportIncludeTemplates([template_name()]);
-        }
-
+		$manager = new \MicroweberPackages\Backup\BackupManager();
 		$manager->setExportData('tables', $tables);
 
 		if (isset($query['format'])) {
