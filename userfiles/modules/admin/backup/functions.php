@@ -1,7 +1,5 @@
 <?php
-
 autoload_add_namespace(__DIR__ . '/src/', 'MicroweberPackages\\LegacyBackup\\');
-
 
 api_expose_admin('MicroweberPackages\LegacyBackup\Backup\create', function ($params) {
     $backup = new \MicroweberPackages\LegacyBackup\Backup();
