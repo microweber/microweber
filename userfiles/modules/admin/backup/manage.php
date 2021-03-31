@@ -3,15 +3,15 @@
     return;
 
 }
- 
+
 $keyword = false;
 if(isset($params['keyword'])){
-$keyword = $params['keyword'];	
+$keyword = $params['keyword'];
 }
  ?>
- 
 
- 
+
+
 <style>
 .restore-loading-indicator {
 	display:none;
@@ -72,7 +72,7 @@ transform:rotate(360deg);
     </tfoot>
     <tbody>
       <?php
-      $backups = false; //mw('Microweber\Utils\Backup')->get($keyword);
+      $backups = mw(\MicroweberPackages\LegacyBackup\Backup::class)->get($keyword);
 		  if(isarr($backups )): ?>
       <?php
 	  $i = 1;
