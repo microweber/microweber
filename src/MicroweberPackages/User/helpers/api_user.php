@@ -129,7 +129,7 @@ api_expose_user('users/export_my_data', function ($params) {
         return array('error' => 'You must be logged');
     }
 
-    include_once modules_path().'admin/backup/classes/Backup.php';
+    include_once modules_path().'admin/backup/src/Backup.php';
 
     $user_id = user_id();
     if (isset($params['user_id']) and $params['user_id'] and is_admin()) {

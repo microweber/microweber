@@ -1258,9 +1258,11 @@ class Backup
         $cache_id = 'backup_queue';
         $cache_id_loc = 'backup_progress';
         $cache_state_id = 'backup_zip_state';
+
         $this->app->cache_manager->save($backup_actions, $cache_id, 'backup');
         $this->app->cache_manager->save(false, $cache_id_loc, 'backup');
         $this->app->cache_manager->save(false, $cache_state_id, 'backup');
+
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
