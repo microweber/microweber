@@ -1,7 +1,6 @@
     mw.components = {
     _rangeOnce: false,
-    'range': function(el){
-         var options = this._options(el);
+    'range': function(el, options){
         var defaults = {
             range: 'min',
             animate: "fast"
@@ -50,8 +49,7 @@
             });
         }
     },
-    'color-picker': function(el){
-        var options = this._options(el);
+    'color-picker': function(el, options){
         var defaults = {
             position: 'bottom-center'
         };
@@ -85,9 +83,8 @@
             }, 10);
         });
     },
-    'file-uploader':function(el){
-        var options = this._options(el);
-        var defaults = {
+    'file-uploader':function(el, options){
+         var defaults = {
             element: el
         };
         var settings = $.extend({}, defaults, options);
@@ -103,9 +100,8 @@
             }
         });
     },
-    'modules-tabs':function(el){
-        var options = this._options(el);
-        options.breakPoint = 100; //makes accordion if less then 100px
+    'modules-tabs':function(el, options){
+         options.breakPoint = 100; //makes accordion if less then 100px
         if(window.live_edit_sidebar) {
             mw.$(el).addClass('mw-accordion-window-height')
             options.breakPoint = 800; //makes accordion if less then 800px
@@ -113,12 +109,11 @@
         var accordion = this.accordion(el);
         var tb = new mw.tabAccordion(options, accordion);
     },
-    'tab-accordion':function(el){
-       var options = this._options(el);
-       var accordion = this.accordion(el);
+    'tab-accordion':function(el, options){
+        var accordion = this.accordion(el);
        var tb = new mw.tabAccordion(options, accordion);
     },
-    accordion:function(el){
+    accordion:function(el, options){
         if(!el || el._accordion) return;
         if(!$(el).is(':visible')){
             setTimeout(function(){
@@ -127,8 +122,7 @@
             return;
         }
         el._accordion = true;
-        var options = this._options(el);
-        var settings = $.extend(options, {element:el})
+         var settings = $.extend(options, {element:el})
         var accordion = new mw.uiAccordion(settings);
         if($(el).hasClass('mw-accordion-window-height')){
             accordion._setHeight = function(){
@@ -166,7 +160,7 @@
         }
         return accordion;
     },
-    postSearch: function (el) {
+    postSearch: function (el, options) {
         var defaults = {keyword: el.value, limit: 4};
         el._setValue = function (id) {
             mw.tools.ajaxSearch(this._settings, function () {
@@ -175,8 +169,7 @@
         };
 
         el = mw.$(el);
-        var options = JSON.parse(el.attr("data-options") || '{}');
-        settings = $.extend({}, defaults, options);
+         settings = $.extend({}, defaults, options);
         el[0]._settings = settings;
 
         el.wrap("<div class='mw-component-post-search'></div>");
@@ -239,15 +232,15 @@
         mw.$('[data-mwcomponent]').each(function () {
             var component = mw.$(this).attr("data-mwcomponent");
             if (mw.components[component]) {
-                mw.components[component](this);
-                mw.$(this).removeAttr('data-mwcomponent')
+                mw.components[component](this, mw.components._options(this));
+                mw.$(this).removeAttr('data-mwcomponent');
             }
         });
         $.each(this, function(key){
             if(key.indexOf('_') === -1){
                 mw.$('.mw-'+key+', mw-'+key).not(".mw-component-ready").each(function () {
                     mw.$(this).addClass('mw-component-ready');
-                    mw.components[key](this);
+                    mw.components[key](this, mw.components._options(this));
                 });
             }
         });

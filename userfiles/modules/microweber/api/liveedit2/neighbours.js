@@ -113,7 +113,7 @@
     mw.n = new Neighbours();
 
     mw.element('body').on('mousemove', function (e){
-        console.log( mw.n.fromPoint(e.x, e.y) )
+        // console.log( mw.n.fromPoint(e.x, e.y) )
     })
 
 })();

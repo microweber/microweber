@@ -879,16 +879,7 @@ html.mw_pages #items_handle {
     width: 100%;
 }
 
-.ts_main_a {
-    display: block;
-    cursor: default;
-    text-decoration: none;
-    color: #595959;
-    font-size: 10px;
-    padding: 5px 0 5px 42px;
-    background: url(../images/toobar_dropdown_design_icons.png) no-repeat;
-    cursor: pointer;
-}
+
 
 .dd_design_size {
     background-position: 14px 8px;
@@ -935,10 +926,7 @@ html.mw_pages #items_handle {
     background: #f7f7f7;
 }
 
-.ts_main_a:hover {
-    text-decoration: none;
-    color: #595959;
-}
+
 
 div.ts_action {
     background: white;
