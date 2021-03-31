@@ -3,16 +3,16 @@
  * Class used to import and restore the database or the userfiles directory.
  */
 
-namespace Microweber\Utils;
+namespace MicroweberPackages\LegacyBackup;
 
-api_expose_admin('Microweber\Utils\Import\delete');
-//api_expose_admin('Microweber\Utils\Import\create');
-api_expose_admin('Microweber\Utils\Import\download');
-//api_expose_admin('Microweber\Utils\Import\create_full');
-api_expose_admin('Microweber\Utils\Import\move_uploaded_file_to_import');
-api_expose_admin('Microweber\Utils\Import\restore');
-api_expose_admin('Microweber\Utils\Import\export');
-api_expose_admin('Microweber\Utils\Import\batch_process');
+api_expose_admin('MicroweberPackages\LegacyBackup\Import\delete');
+//api_expose_admin('MicroweberPackages\LegacyBackup\Import\create');
+api_expose_admin('MicroweberPackages\LegacyBackup\Import\download');
+//api_expose_admin('MicroweberPackages\LegacyBackup\Import\create_full');
+api_expose_admin('MicroweberPackages\LegacyBackup\Import\move_uploaded_file_to_import');
+api_expose_admin('MicroweberPackages\LegacyBackup\Import\restore');
+api_expose_admin('MicroweberPackages\LegacyBackup\Import\export');
+api_expose_admin('MicroweberPackages\LegacyBackup\Import\batch_process');
 
 class Import
 {
@@ -277,7 +277,7 @@ class Import
         if (!is_file($filename)) {
             return array('error' => 'You have not provided a existing backup to restore.');
         } else {
-            return $this->import_file($filename);     
+            return $this->import_file($filename);
         }
 
         return $params;
@@ -1477,7 +1477,7 @@ class SimpleXmlStreamer extends \MicroweberPackages\Utils\lib\XmlStreamer
      */
     public function chunkCompleted()
     {
-        $import = mw('Microweber\Utils\Import')->batch_save($this->content_items);
+        $import = mw('MicroweberPackages\LegacyBackup\Import')->batch_save($this->content_items);
         $this->content_items = array();
 
         return true;

@@ -14,14 +14,6 @@ use MicroweberPackages\Utils\System\Files;
 use ZipArchive;
 use Illuminate\Database\QueryException;
 
-api_expose_admin('MicroweberPackages\Backup\BackupManager\delete');
-api_expose_admin('MicroweberPackages\Backup\BackupManager\create');
-api_expose_admin('MicroweberPackages\Backup\BackupManager\download');
-api_expose_admin('MicroweberPackages\Backup\BackupManager\create_full');
-api_expose_admin('MicroweberPackages\Backup\BackupManager\move_uploaded_file_to_backup');
-
-api_expose_admin('MicroweberPackages\Backup\BackupManager\restore');
-api_expose_admin('MicroweberPackages\Backup\BackupManager\cronjob');
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
     define('INI_SYSTEM_CHECK_DISABLED', ini_get('disable_functions'));
@@ -1266,9 +1258,11 @@ class Backup
         $cache_id = 'backup_queue';
         $cache_id_loc = 'backup_progress';
         $cache_state_id = 'backup_zip_state';
+
         $this->app->cache_manager->save($backup_actions, $cache_id, 'backup');
         $this->app->cache_manager->save(false, $cache_id_loc, 'backup');
         $this->app->cache_manager->save(false, $cache_state_id, 'backup');
+
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }

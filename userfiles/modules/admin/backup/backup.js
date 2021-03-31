@@ -12,7 +12,7 @@ mw.admin_backup = {
 
 
 
-	 $.post(mw.settings.api_url+'Microweber/Utils/Backup/create', false ,
+	 $.post(mw.settings.api_url+'MicroweberPackages/LegacyBackup/Backup/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/backup/manage');
 	 		mw.notification.msg(msg);
@@ -39,7 +39,7 @@ mw.admin_backup = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	 mw.notification.success("Backup started...");
-	 $.post(mw.settings.api_url+'Microweber/Utils/Backup/create', false ,
+	 $.post(mw.settings.api_url+'MicroweberPackages/LegacyBackup/Backup/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/backup/manage');
 	 		mw.notification.msg(msg);
@@ -77,7 +77,7 @@ mw.admin_backup = {
 		   mw.notification.success("Backup restoration started",17000);
 				data = {}
 				data.id=src;
-				$.post(mw.settings.api_url+'Microweber/Utils/Backup/restore', data ,
+				$.post(mw.settings.api_url+'MicroweberPackages/LegacyBackup/Backup/restore', data ,
 					function(msg) {
 
 						if(typeof(loading_element) != 'undefined'){
@@ -99,7 +99,7 @@ mw.admin_backup = {
 
 		data = {}
 		data.src=src;
-		$.post(mw.settings.api_url+'Microweber/Utils/Backup/move_uploaded_file_to_backup', data ,
+		$.post(mw.settings.api_url+'MicroweberPackages/LegacyBackup/Backup/move_uploaded_file_to_backup', data ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');
 				mw.notification.msg(msg);
@@ -119,7 +119,7 @@ mw.admin_backup = {
 
 		mw.notification.success("Full Backup is started...",7000);
 
-		$.post(mw.settings.api_url+'Microweber/Utils/Backup/create_full', false ,
+		$.post(mw.settings.api_url+'MicroweberPackages/LegacyBackup/Backup/create_full', false ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');
 				mw.notification.msg(msg);
@@ -136,7 +136,7 @@ mw.admin_backup = {
       		data.id=$id;
 
 
-      		$.post(mw.settings.api_url+'Microweber/Utils/Backup/delete', data ,
+      		$.post(mw.settings.api_url+'MicroweberPackages/LegacyBackup/Backup/delete', data ,
       			function(resp) {
       			 //mw.reload_module('admin/backup/manage');
       			 mw.notification.msg(resp);
