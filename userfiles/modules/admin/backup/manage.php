@@ -3,15 +3,15 @@
     return;
 
 }
- 
+
 $keyword = false;
 if(isset($params['keyword'])){
-$keyword = $params['keyword'];	
+$keyword = $params['keyword'];
 }
  ?>
- 
 
- 
+
+
 <style>
 .restore-loading-indicator {
 	display:none;
@@ -72,7 +72,7 @@ transform:rotate(360deg);
     </tfoot>
     <tbody>
       <?php
-      $backups = false; //mw('Microweber\Utils\Backup')->get($keyword);
+      $backups = mw(\MicroweberPackages\LegacyBackup\Backup::class)->get($keyword);
 		  if(isarr($backups )): ?>
       <?php
 	  $i = 1;
@@ -91,14 +91,12 @@ transform:rotate(360deg);
         <td><span class="mw-date"><?php print $item['date']  ?></span></td>
         <td><span class="mw-date"><?php print $item['time']  ?></span></td>
         <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
-        <td class="mw-backup-download"><a class="show-on-hover mw-ui-btn tip mw-ui-btn-icon mw-ui-btn-<?php print ($extension == 'sql' ? 'warn' : 'notification'); ?>" data-tip="<?php print $tip; ?>" data-tipposition="top-center" target="_blank" title="<?php _e("Download"); ?>" href="<?php print api_url('Microweber/Utils/Backup/download'); ?>?file=<?php print $item['filename']  ?>"><span class="mw-icon-download"></span></a></td>
+        <td class="mw-backup-download">
+            <a class="mw-ui-btn tip mw-ui-btn-icon mw-ui-btn-<?php print ($extension == 'sql' ? 'warn' : 'notification'); ?>" data-tip="<?php print $tip; ?>" data-tipposition="top-center" target="_blank" title="<?php _e("Download"); ?>"
+               href="<?php print api_url('MicroweberPackages/LegacyBackup/Backup/download'); ?>?file=<?php print $item['filename']  ?>"><span class="mw-icon-download"></span></a></td>
         <td class="mw-backup-restore">
-
-
-
-
-          <a title="<?php _e("Restore"); ?>" class="show-on-hover mw-icon-reload" href="javascript:mw.admin_backup.restore('<?php print $item['filename']  ?>','#restore-<?php print md5($item['filename']) ?>')"></a></td>
-        <td class="mw-backup-delete"><span title="<?php _e("Delete"); ?>" class="mw-icon-bin show-on-hover" onclick="mw.admin_backup.remove('<?php print $item['filename']  ?>', '.mw_admin_backup_item_<?php print $i ?>');"></span></td>
+          <a title="<?php _e("Restore"); ?>" class="mw-icon-reload" href="javascript:mw.admin_backup.restore('<?php print $item['filename']  ?>','#restore-<?php print md5($item['filename']) ?>')"></a></td>
+        <td class="mw-backup-delete"><span title="<?php _e("Delete"); ?>" class="mw-icon-bin" onclick="mw.admin_backup.remove('<?php print $item['filename']  ?>', '.mw_admin_backup_item_<?php print $i ?>');"></span></td>
       </tr>
       <?php $i++; endforeach ; ?>
       <?php endif; ?>

@@ -2,11 +2,10 @@
 $config = array();
 $config['name'] ="Backup";
 $config['author'] = "Microweber";
- 
-$config['categories'] = "admin"; 
+
+$config['categories'] = "admin";
 $config['version'] = 0.3;
-$config['ui_admin'] = false;
-$config['ui_false'] = false;
+$config['ui_admin'] = true;
 $config['position'] = 500;
 
 
@@ -45,7 +44,3 @@ $option['option_value'] = 'default';
 $option['position'] = '3';
 $option['field_type'] = 'text';
 $config['options'][] = $option;
-
-
-
- 
