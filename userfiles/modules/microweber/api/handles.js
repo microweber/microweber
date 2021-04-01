@@ -932,7 +932,7 @@ mw._initHandles = {
             if(topPos<(ws+minTop)){
                 topPos=(ws+minTop);
                 // marginTop =  -15;
-                if(el[0].offsetHeight <100){
+                if(el[0].offsetHeight < 100){
                     topPos = o.top+el[0].offsetHeight;
                     marginTop =  0;
                 }
@@ -952,16 +952,17 @@ mw._initHandles = {
                 topPosFinal = (o.top + outheight) - (outheight > 100 ? 0 : handle.wrapper.clientHeight);
             }
 
-            if(el.attr('data-type') === 'layouts') {
-                topPosFinal = o.top + 10;
-                handleLeft = handleLeft + 10;
-            }
+
             var elHeight = el.height();
 
             handle.positionedAt = 'top';
             if (event.pageY > (o.top + elHeight/2)) {
                 topPosFinal += elHeight;
                 handle.positionedAt = 'bottom';
+            }
+             if (element.dataset.type === 'layouts') {
+                topPosFinal = o.top + 10;
+                 handleLeft = handleLeft + 10;
             }
 
             clearTimeout(handle._hideTime);
@@ -1072,8 +1073,10 @@ mw._initHandles = {
 
         mw.on('moduleOver', function (e, pelement, event) {
             if(mw.handleModuleActive._element === pelement) {
+                mw.handleModule.hide();
                 return;
             }
+
             positionModuleHandle(e, pelement, mw.handleModule, event);
             if(mw._activeModuleOver === mw.handleModuleActive._target) {
                 mw.handleModule.hide();
