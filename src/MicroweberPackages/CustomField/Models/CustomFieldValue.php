@@ -19,7 +19,7 @@ class CustomFieldValue extends Model
 
     public $timestamps = false;
 
-    public $translatable = ['value'];
+   // public $translatable = ['value'];
 
     public function customField()
     {
