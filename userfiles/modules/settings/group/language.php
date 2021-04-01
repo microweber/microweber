@@ -23,8 +23,15 @@ if (is_module('multilanguage')) {
             mw.notification.success("<?php _ejs("Language settings are saved"); ?>.");
         }, function () {
             <?php if(!$isMultilanguageActivated): ?>
-            var cooklie_lang = $("#user_lang").val();
-            mw.cookie.set('lang', cooklie_lang);
+            var selectedLang = $("#user_lang").val();
+            $.ajax({
+                type: "POST",
+                url: mw.settings.api_url + "apply_change_language",
+                data: {lang: selectedLang},
+                success: function (data) {
+                    location.reload();
+                }
+            });
             <?php endif; ?>
         });
     });
