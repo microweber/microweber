@@ -13,6 +13,9 @@ description: Admin login style
 ?>
 
 <?php
+
+use MicroweberPackages\Translation\TranslationPackageInstallHelper;
+
 $user = user_id();
 $selectedLang = 'en';
 
@@ -109,7 +112,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                                         <div class="col-sm-6">
                                         <?php
-                                        $supportedLanguages = \MicroweberPackages\Translation\Models\TranslationText::groupBy('translation_locale')->get();
+                                        $supportedLanguages = TranslationPackageInstallHelper::getAvailableTranslations('json');
                                         if ($supportedLanguages !== null) {
                                         ?>
                                         <div class="form-group">
@@ -117,10 +120,10 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                                             <select class="selectpicker d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector"    data-width="100%" data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
 
-                                                <?php foreach ($supportedLanguages as $supportedLanguage): ?>
-                                                    <option value="<?php print $supportedLanguage->translation_locale; ?>"
-                                                        <?php if ($selectedLang == $supportedLanguage->translation_locale) { ?> selected <?php } ?>>
-                                                        <?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($supportedLanguage->translation_locale); ?>
+                                                <?php foreach ($supportedLanguages as $languageLocale=>$languageDisplayName): ?>
+                                                    <option value="<?php print$languageLocale; ?>"
+                                                        <?php if ($selectedLang == $languageLocale) { ?> selected <?php } ?>>
+                                                        <?php echo $languageDisplayName; ?>
                                                     </option>
                                                 <?php endforeach; ?>
                                             </select>
