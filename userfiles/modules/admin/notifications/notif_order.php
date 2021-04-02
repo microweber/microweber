@@ -9,9 +9,13 @@ if (isset($item['rel_id']) AND !isset($is_order)) {
     $item_id = $item['id'];
 }
 
+$order_products_qty = 0;
 $order = get_order_by_id($item_id);
 $order_products = mw()->shop_manager->order_items($item_id);
 if ($order_products) {
+    foreach ($order_products as $order_product) {
+        $order_products_qty = $order_products_qty + $order_product['qty'];
+    }
     $order_first_product = $order_products[0];
 }
 
@@ -37,8 +41,10 @@ if(($order and isset($order['order_status']) and $order['order_status'] == 'new'
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">
-                        <?php if (is_array($order_products) && count($order_products) > 1): ?>
-                            <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;"><?php echo count($order_products); ?></button>
+                        <?php if ($order_products_qty > 1): ?>
+                            <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;">
+                                <?php echo $order_products_qty; ?>
+                            </button>
                         <?php endif; ?>
                         <div class="img-circle-holder img-absolute">
                             <?php if ($order_first_product AND isset($order_first_product['item_image'])): ?>

@@ -31,7 +31,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
          * Example:
          *  trans('translation::all.name')
          */
-        Lang::addNamespace('translation', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/lang');
+        //Lang::addNamespace('translation', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/lang');
+        Lang::addJsonPath(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources/lang');
 
         $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 

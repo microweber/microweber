@@ -15,13 +15,17 @@ class TranslationPackageInstallHelper
 {
     static $logger = null;
 
-    public static function getAvailableTranslations()
+    public static function getAvailableTranslations($type = 'xlsx')
     {
         $translations = [];
 
-        $langFolder = __DIR__ . '/resources/lang_xlsx/';
+        if ($type == 'json') {
+            $langFolder = __DIR__ . '/resources/lang/';
+        } else {
+            $langFolder = __DIR__ . '/resources/lang_xlsx/';
+        }
 
-        foreach (glob($langFolder . '*.xlsx') as $filename) {
+        foreach (glob($langFolder . '*.'.$type) as $filename) {
             $item = basename($filename);
             $item = no_ext($item);
             $translations[$item] = LanguageHelper::getDisplayLanguage($item);

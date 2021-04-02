@@ -203,7 +203,8 @@ mw.Stepper = function (options) {
                 el.on('click', function () {
                     scope.next();
                     if(mw.Dialog.elementIsInDialog(this)) {
-                        mw.dialog.get(this).center()
+                        mw.dialog.get(this).center();
+                        //console.log(scope.step());
                     }
                 });
             }
