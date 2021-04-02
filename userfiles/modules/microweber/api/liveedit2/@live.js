@@ -1,0 +1,3 @@
+mw.live = function () {
+
+};

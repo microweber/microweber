@@ -583,9 +583,6 @@ mw.drag = {
                                 mw.liveEditState.record(rec);
                                 mw.$(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed);
 
-
-
-
                                 setTimeout(function(ed) {
                                     var nrec = {
                                         target: ed,
@@ -1054,7 +1051,7 @@ mw.drag = {
                 mw.$('.module-over', helper.item).each(function(){
                     mw.$(this).removeClass('module-over');
                 });
-                
+
                 mw.$('[class]', helper.item).each(function(){
                     var cls = this.getAttribute("class");
                     if(typeof cls === 'string'){
