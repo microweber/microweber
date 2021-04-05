@@ -1589,7 +1589,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 .mw_module_image img {
     position: relative;
     z-index: 1;
-    /*max-height: 30px;*/
+    max-height: 30px;
     margin-bottom: 0;
 }
 
@@ -4895,4 +4895,8 @@ div.element {
 
 .module-admin-modules-list-layouts .module_name {
     margin-top: 0px;
+}
+
+.mw-color-picker-live-edit-input{
+    opacity: 0;width: 100%;height: 100%;position:absolute;top:0;left: 0;z-index: 222
 }
