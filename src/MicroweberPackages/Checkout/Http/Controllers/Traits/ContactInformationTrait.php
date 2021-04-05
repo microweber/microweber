@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Checkout\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 trait ContactInformationTrait {
 
@@ -25,7 +26,7 @@ trait ContactInformationTrait {
             'phone'=> $request->get('phone')
         ]);
 
-        $validate = $this->_validateContactInformation();
+        $validate = $this->_validateContactInformation($request->all());
         if ($validate['valid'] == false) {
             session_set('errors', $validate['errors']);
             return redirect()->back();
@@ -35,7 +36,7 @@ trait ContactInformationTrait {
         return redirect(route('checkout.shipping_method'));
     }
 
-    private function _validateContactInformation()
+    private function _validateContactInformation($inputData = [])
     {
         $rules = [];
 
@@ -61,7 +62,20 @@ trait ContactInformationTrait {
             return ['valid'=>true];
         }
 
-        $validator = \Validator::make(session_get('checkout'), $rules);
+        if (empty($inputData)) {
+            $inputData = session_get('checkout');
+        }
+
+        if (empty($inputData)) {
+            return [
+                'valid'=>false,
+                'errors'=>[
+                   'form_errors'=>['error'=>_e('Please, fill the contact information data.', true)]
+                ]
+            ];
+        }
+
+        $validator = Validator::make($inputData, $rules);
 
         if ($validator->fails()) {
             $errors = $validator->messages()->toArray();

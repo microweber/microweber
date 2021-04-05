@@ -10,14 +10,15 @@ namespace MicroweberPackages\Checkout\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Session;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ContactInformationTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\PaymentTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ShippingTrait;
 
 class CheckoutController extends Controller {
 
-    use ContactInformationTrait, ShippingTrait, PaymentTrait;
+    use ContactInformationTrait;
+    use ShippingTrait;
+    use PaymentTrait;
 
     public function index() {
 
