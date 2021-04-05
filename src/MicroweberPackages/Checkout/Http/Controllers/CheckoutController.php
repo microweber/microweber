@@ -15,7 +15,16 @@ class CheckoutController extends Controller {
 
     public function index(Request $request) {
 
-        $html = view('checkout::index');
+        return $this->_renderView('checkout::index');
+    }
+
+    public function contactInformation(Request $request) {
+        return $this->_renderView('checkout::contact_information');
+    }
+
+    public function _renderView($view, $data = [])
+    {
+        $html = view($view, $data);
 
         // Append api js
         $html = app()->template->append_api_js_to_layout($html);
