@@ -209,7 +209,29 @@
     <div class="wysiwyg-cell">
       <div class="relative">
           <span class="mw_editor_btn mw_editor_font_color wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1024"> <span class="ed-ico"></span> </span>
-        <div class="wysiwyg-convertible wysiwyg-convertible-1024"> <span class="mw_editor_btn mw_editor_font_color" id="mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span> </div>
+        <div class="wysiwyg-convertible wysiwyg-convertible-1024">
+
+            <span class="mw_editor_btn mw_editor_font_color" id="mw_editor_font_color" title="<?php _e("Font Color"); ?>">
+                <span class="ed-ico"></span>
+                <input type="color"
+                       class="mw-color-picker-live-edit-input"
+                       oninput="mw.wysiwyg.fontColor(this.value)"
+                       onmousedown="event.stopPropagation()"
+                       onclick="event.stopPropagation()"
+                       onmouseup="event.stopPropagation()"
+                       >
+            </span>
+            <span class="mw_editor_btn mw_editor_font_background_color" title="<?php _e("Font Background Color"); ?>">
+                <span class="ed-ico"></span>
+                <input type="color"
+                       class="mw-color-picker-live-edit-input"
+                       oninput="mw.wysiwyg.fontbg(this.value)"
+                       onmousedown="event.stopPropagation()"
+                       onclick="event.stopPropagation()"
+                       onmouseup="event.stopPropagation()"
+                       >
+            </span>
+        </div>
       </div>
     </div>
     <div class="wysiwyg-cell">
