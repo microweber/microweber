@@ -10,16 +10,22 @@ namespace MicroweberPackages\Checkout\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
+use MicroweberPackages\Checkout\Http\Controllers\Traits\ContactInformationTrait;
+use MicroweberPackages\Checkout\Http\Controllers\Traits\PaymentTrait;
+use MicroweberPackages\Checkout\Http\Controllers\Traits\ShippingTrait;
 
 class CheckoutController extends Controller {
 
-    public function index(Request $request) {
+    use ContactInformationTrait, ShippingTrait, PaymentTrait;
+
+    public function index() {
 
         return $this->_renderView('checkout::index');
     }
 
-    public function contactInformation(Request $request) {
-        return $this->_renderView('checkout::contact_information');
+    public function finish(Request $request) {
+        return $this->_renderView('checkout::finish');
     }
 
     public function _renderView($view, $data = [])
@@ -32,6 +38,11 @@ class CheckoutController extends Controller {
         return app()->parser->process($html);
     }
 
+    /**
+     * Description: THIS METHOD IS FOR OLD VERSION OF CHECKOUT MODULE
+     * @param Request $request
+     * @return bool[]
+     */
     public function validate(Request $request)
     {
 

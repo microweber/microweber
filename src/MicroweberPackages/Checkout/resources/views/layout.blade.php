@@ -51,6 +51,18 @@
                 <module type="logo" logo-name="header-logo" style="margin-top:50px;margin-bottom:50px;" />
             </div>
 
+            @if (isset($errors))
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors as $fields)
+                            @foreach ($fields as $field)
+                            <li>{!! $field !!}</li>
+                            @endforeach
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @hasSection('content')
                 @yield('content')
             @endif
