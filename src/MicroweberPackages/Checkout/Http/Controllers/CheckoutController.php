@@ -13,6 +13,16 @@ use Illuminate\Routing\Controller;
 
 class CheckoutController extends Controller {
 
+    public function index(Request $request) {
+
+        $html = view('checkout::index');
+
+        // Append api js
+        $html = app()->template->append_api_js_to_layout($html);
+
+        return app()->parser->process($html);
+    }
+
     public function validate(Request $request)
     {
 
