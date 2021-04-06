@@ -73,12 +73,30 @@ if (is_module('multilanguage')) {
                                             }
                                             ?>
                                         <?php if ($langs) : ?>
-                                            <select id="user_lang" name="language" class="mw_option_field selectpicker" data-size="7" data-width="100%" option-group="website" data-also-reload="settings/group/language_edit">
+                                            <?php
+                                            $disableSwitchDefaultLanguage = true;
+                                            ?>
+
+                                            <script type="text/javascript">
+                                            function confirmChangeDefaultLanguage(element) {
+                                                element.preventDefault();
+                                                mw.confirm('<?php _e('Warning! The changing default language maybe will break your site.'); ?>', function () {
+
+                                                });
+                                            }
+                                            </script>
+
+                                            <select id="user_lang" <?php if ($disableSwitchDefaultLanguage):?>onchange="confirmChangeDefaultLanguage(this)"<?php endif; ?> class="selectpicker" data-size="7" data-width="100%">
                                                 <option disabled="disabled"><?php _e('Select Language'); ?></option>
                                                 <?php foreach ($langs as $languageName => $languageDetails): ?>
                                                     <option <?php if ($def_language == $languageDetails['locale']): ?> selected="" <?php endif; ?> value="<?php print $languageDetails['locale'] ?>"><?php print $languageName ?></option>
                                                 <?php endforeach; ?>
                                             </select>
+                                                    <?php if ($disableSwitchDefaultLanguage):?>
+                                                    <small class="text-muted">
+                                                        <?php _e('Warning! The changing default language maybe will break your site.'); ?>
+                                                    </small>
+                                                    <?php endif;?>
                                         <?php endif; ?>
                                                 <?php endif;?>
 
