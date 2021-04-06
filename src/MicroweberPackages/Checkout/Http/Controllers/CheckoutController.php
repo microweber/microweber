@@ -23,6 +23,8 @@ class CheckoutController extends Controller {
 
     public function index() {
 
+        return redirect(route('checkout.contact_information'));
+
         return $this->_renderView('checkout::index');
     }
 
