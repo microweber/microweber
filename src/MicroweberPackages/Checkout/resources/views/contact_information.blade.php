@@ -54,7 +54,7 @@
             <button type="submit" class="btn btn-info">{{ _e('Continue') }}</button>
         </form>
     </div>
-    
+
     <div class="col-4">
         <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
     </div>
