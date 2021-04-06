@@ -25,7 +25,7 @@
                     </div>
                 </div>
 
-                <module type="shop/shipping" data-store-values="true" />
+                <module type="shop/shipping" template="modal" data-store-values="true" />
 
             </div>
 
