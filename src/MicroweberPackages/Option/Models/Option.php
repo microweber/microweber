@@ -65,9 +65,9 @@ class Option extends Model
     {
         $websiteOptions = [
             'favicon_image'=>'',
-            'maintenance_mode'=>'',
             'website_footer'=>'',
             'website_head'=>'',
+            'website_title'=>'',
             'website_keywords'=>'',
             'website_description'=>'',
             'date_format'=>'',
@@ -79,6 +79,9 @@ class Option extends Model
             'yandex-site-verification-code'=>'',
             'google-analytics-id'=>'',
             'facebook-pixel-id'=>'',
+            'robots_txt'=>'' ,
+            'maintenance_mode'=>'',
+            'maintenance_mode_text'=>''
         ];
 
         if (!mw_is_installed()) {
