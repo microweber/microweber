@@ -25,7 +25,7 @@ class CheckoutController extends Controller {
 
         return redirect(route('checkout.contact_information'));
 
-        return $this->_renderView('checkout::index');
+        //return $this->_renderView('checkout::index');
     }
 
     public function finish($id) {
