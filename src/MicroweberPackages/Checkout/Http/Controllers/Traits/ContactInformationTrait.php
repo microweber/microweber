@@ -29,7 +29,7 @@ trait ContactInformationTrait {
         $validate = $this->_validateContactInformation($request->all());
         if ($validate['valid'] == false) {
             session_set('errors', $validate['errors']);
-            return redirect()->back();
+            return redirect(route('checkout.contact_information'));
         }
 
         // Success
