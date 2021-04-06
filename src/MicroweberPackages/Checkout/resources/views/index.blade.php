@@ -4,7 +4,7 @@
 <div class="col-12">
     <a href="{{ site_url() }}" class="btn btn-outline-primary"><i class="mdi mdi-arrow-left"></i> {{ _e('Back to shopping') }}</a>
     <div class="shop-cart" style="margin-top:25px;">
-        <module type="shop/cart" template="modal" data-checkout-link-enabled="n" />
+        <module type="shop/cart" template="checkout_v2" data-checkout-link-enabled="n" />
     </div>
 </div>
 

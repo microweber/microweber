@@ -2,6 +2,8 @@
 
 @section('content')
 
+    faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php
+
     <div class="col-12">
         <form method="post" action="{{ route('checkout.contact_information_save') }}">
 

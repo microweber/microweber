@@ -4,6 +4,7 @@
 
     <div class="col-12">
 
+        faila se namira v: /src/MicroweberPackages/Checkout/resources/views/shipping_method.blade.php
 
         <form method="post" action="{{ route('checkout.shipping_method_save') }}">
 
@@ -28,7 +29,7 @@
                 </div>
 
                 <div class="shop-cart-shipping" style="margin-bottom:20px;">
-                     <module type="shop/shipping" template="modal" data-store-values="true" />
+                     <module type="shop/shipping" template="checkout_v2" data-store-values="true" />
                 </div>
             </div>
 
