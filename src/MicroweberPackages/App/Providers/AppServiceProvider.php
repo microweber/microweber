@@ -277,7 +277,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('mw_migrator', function ($app) {
             $repository = $app['migration.repository'];
-            return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events'], $app);
+            return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events']);
         });
 
         foreach ($this->laravel_providers as $provider) {

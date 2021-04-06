@@ -302,9 +302,10 @@ class InstallController extends Controller
                             \DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
                         }
 
-                        $this->log('Importing the language package..');
-                        TranslationPackageInstallHelper::$logger = $this;
-                        TranslationPackageInstallHelper::installLanguage($input['site_lang']);
+//                         language is moved to json files and does not require install anymore
+//                        $this->log('Importing the language package..');
+//                        TranslationPackageInstallHelper::$logger = $this;
+//                        TranslationPackageInstallHelper::installLanguage($input['site_lang']);
                     }
 
                 }
