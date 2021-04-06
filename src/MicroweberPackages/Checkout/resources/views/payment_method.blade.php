@@ -14,6 +14,7 @@
 
                 <module type="shop/payments" template="payments-1" />
 
+                <module type="shop/checkout/terms" />
 
             </div>
 

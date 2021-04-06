@@ -22,6 +22,8 @@
                         Phone: <?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>
                         <br />
                         E-mail: <?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>
+                        <br />
+                        <a href="{{ route('checkout.contact_information') }}" class="btn btn-outline-primary"><i class="mdi mdi-pencil"></i> {{ _e('Edit contact information') }}</a>
                     </div>
                 </div>
 
