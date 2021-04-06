@@ -9,6 +9,6 @@
 </div>
 
 <div class="col-12">
-    <a href="{{ route('checkout.contact_information') }}" class="btn btn-info">{{ _e('Continue') }}</a>
+    <a href="{{ route('checkout.contact_information') }}" class="btn btn-primary">{{ _e('Continue') }}</a>
 </div>
 @endsection

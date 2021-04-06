@@ -28,7 +28,6 @@
         });
     </script>
 
-
     <?php print get_template_stylesheet(); ?>
 
     <link href="<?php print template_url(); ?>dist/main.min.css" rel="stylesheet"/>
