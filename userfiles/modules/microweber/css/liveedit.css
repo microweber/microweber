@@ -1589,7 +1589,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 .mw_module_image img {
     position: relative;
     z-index: 1;
-    max-height: 30px;
+    /*max-height: 30px;*/
     margin-bottom: 0;
 }
 
