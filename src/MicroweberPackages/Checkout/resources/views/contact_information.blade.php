@@ -7,7 +7,7 @@
     <div class="col-8">
         <form method="post" action="{{ route('checkout.contact_information_save') }}">
 
-        <a href="{{ route('checkout.cart') }}" class="btn btn-outline-primary"><i class="mdi mdi-cart"></i> {{ _e('Back to cart') }}</a>
+        <a href="{{ site_url() }}" class="btn btn-outline-primary"><i class="mdi mdi-cart"></i> {{ _e('Back to website') }}</a>
         <div class="shop-cart" style="margin-top:25px;">
 
             <div class="m-t-20 edit nodrop" field="checkout_personal_information_title">
