@@ -12,7 +12,7 @@
             <a href="{{ route('checkout.contact_information') }}" class="btn btn-outline-primary"><i class="mdi mdi-phone"></i> {{ _e('Back to contact information') }}</a>
             <div class="shop-cart" style="margin-top:25px;">
 
-                <div class="card" style="margin-bottom:15px">
+                <div class="card" style="margin-bottom:15px;">
                     <div class="card-body">
                         Contact info:
                         <br />
@@ -27,8 +27,9 @@
                     </div>
                 </div>
 
-                <module type="shop/shipping" template="modal" data-store-values="true" />
-
+                <div class="shop-cart-shipping" style="margin-bottom:20px;">
+                     <module type="shop/shipping" template="modal" data-store-values="true" />
+                </div>
             </div>
 
             <button type="submit" class="btn btn-info">{{ _e('Continue') }}</button>

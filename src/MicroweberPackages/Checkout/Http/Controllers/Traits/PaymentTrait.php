@@ -8,6 +8,8 @@ trait PaymentTrait {
 
     public function paymentMethod() {
 
+        //dump(session_get('checkout'));
+
         // Validate Contact Information
         $validateContactInformation = $this->_validateContactInformation();;
         if ($validateContactInformation['valid'] == false) {
