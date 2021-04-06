@@ -18,23 +18,31 @@ if (is_module('multilanguage')) {
 ?>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        mw.options.form('.<?php print $config['module_class'] ?>', function () {
-            mw.notification.success("<?php _ejs("Language settings are saved"); ?>.");
-        }, function () {
-            <?php if(!$isMultilanguageActivated): ?>
-            var selectedLang = $("#user_lang").val();
-            $.ajax({
-                type: "POST",
-                url: mw.settings.api_url + "apply_change_language",
-                data: {lang: selectedLang},
-                success: function (data) {
-                    location.reload();
-                }
-            });
-            <?php endif; ?>
-        });
-    });
+       function saveDefaultMultilanguage(locale) {
+
+           mw.notification.success("<?php _ejs("Changing default language.."); ?>.");
+
+           $.post(mw.settings.api_url + "save_option", {option_key:'language', option_value:locale, option_group:'website'}, function() {
+               mw.notification.success("<?php _ejs("Language settings are saved"); ?>.");
+               <?php if(!$isMultilanguageActivated): ?>
+               aplyChangeLanguage(locale);
+               <?php endif; ?>
+           });
+       }
+
+       function aplyChangeLanguage(selectedLang) {
+           $.ajax({
+               type: "POST",
+               url: mw.settings.api_url + "apply_change_language",
+               data: {lang: selectedLang},
+               success: function (data) {
+                   $.get(mw.settings.api_url + "clearcache", {}, function () {
+                       mw.notification.success("<?php _ejs("Clear cache.."); ?>.");
+                       location.reload();
+                   });
+               }
+           });
+       }
 </script>
 
 <div class="<?php print $config['module_class'] ?>">
@@ -73,12 +81,42 @@ if (is_module('multilanguage')) {
                                             }
                                             ?>
                                         <?php if ($langs) : ?>
-                                            <select id="user_lang" name="language" class="mw_option_field selectpicker" data-size="7" data-width="100%" option-group="website" data-also-reload="settings/group/language_edit">
-                                                <option disabled="disabled"><?php _e('Select Language'); ?></option>
-                                                <?php foreach ($langs as $languageName => $languageDetails): ?>
-                                                    <option <?php if ($def_language == $languageDetails['locale']): ?> selected="" <?php endif; ?> value="<?php print $languageDetails['locale'] ?>"><?php print $languageName ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                            <?php
+                                            $foundedTranslations = 0;
+                                            $disableSwitchDefaultLanguage = false;
+                                            if (Schema::hasTable('multilanguage_translations')) {
+                                                $foundedTranslations = \Illuminate\Support\Facades\DB::table('multilanguage_translations')->count();
+                                                if ($foundedTranslations > 0) {
+                                                    $disableSwitchDefaultLanguage = true;
+                                                }
+                                            }
+                                            ?>
+
+                                            <script type="text/javascript">
+                                            function confirmChangeDefaultLanguage(element,event) {
+                                                <?php if ($disableSwitchDefaultLanguage):?>
+                                                event.preventDefault();
+                                                mw.confirm('<?php echo $foundedTranslations; ?> <?php _e('translations from the multilnaguage module have been found in your database.'); ?><br /><?php _e('Warning! Changing the default language can break translations on your site.'); ?><br /><?php _e('Are you sure want to continue?'); ?>', function () {
+                                                    saveDefaultMultilanguage($(element).val());
+                                                });
+                                                <?php else: ?>
+                                                   saveDefaultMultilanguage($(element).val());
+                                                <?php endif; ?>
+                                            }
+                                            </script>
+
+                                                    <select onchange="confirmChangeDefaultLanguage(this,event)" class="selectpicker" data-size="7" data-width="100%">
+                                                        <option disabled="disabled"><?php _e('Select Language'); ?></option>
+                                                        <?php foreach ($langs as $languageName => $languageDetails): ?>
+                                                            <option <?php if ($def_language == $languageDetails['locale']): ?> selected="" <?php endif; ?> value="<?php print $languageDetails['locale'] ?>"><?php print $languageName ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+
+                                                    <?php if ($disableSwitchDefaultLanguage):?>
+                                                    <small class="text-muted">
+                                                        <?php _e('Warning! The changing default language maybe will break your site.'); ?>
+                                                    </small>
+                                                    <?php endif;?>
                                         <?php endif; ?>
                                                 <?php endif;?>
 
@@ -88,19 +126,29 @@ if (is_module('multilanguage')) {
                                                 <script>
                                                     $(document).ready(function () {
                                                         mw.on('install_composer_package_success', function(response) {
-                                                            mw.notification.success('Adding language...',10000);
-                                                            $.post(mw.settings.api_url + "multilanguage/add_language", {locale: '<?php echo $def_language; ?>', language: '<?php echo $def_language; ?>'}).done(function (data) {
-                                                                mw.notification.success('Language added...',10000);
-                                                                $.post(mw.settings.api_url + "save_option", {option_key:'is_active', option_value:'y', option_group:'multilanguage_settings'}, function() {
-                                                                    $.get(mw.settings.api_url + "clearcache", {}, function () {
-                                                                        location.reload();
-                                                                    });
-                                                                });
-                                                            });
+                                                            addDefaultLanguageToMultilanguage();
                                                         });
                                                     });
 
-                                                    function openMultilangEditModal() {
+                                                    function addDefaultLanguageToMultilanguage()
+                                                    {
+                                                        mw.notification.success('Adding language...',10000);
+                                                        $.post(mw.settings.api_url + "multilanguage/add_language", {locale: '<?php echo $def_language; ?>', language: '<?php echo $def_language; ?>'}).done(function (data) {
+                                                            mw.notification.success('Language added...',10000);
+                                                            $.post(mw.settings.api_url + "save_option", {option_key:'is_active', option_value:'y', option_group:'multilanguage_settings'}, function() {
+                                                                $.get(mw.settings.api_url + "clearcache", {}, function () {
+                                                                    location.reload();
+                                                                });
+                                                            });
+                                                        });
+                                                    }
+
+                                                    function openMultilangEditModal(action) {
+
+                                                        if (action == 'activate') {
+                                                            addDefaultLanguageToMultilanguage();
+                                                        }
+
                                                         <?php if (is_module('multilanguage')): ?>
                                                         var data = {};
                                                         data.show_settings_link = "true";
@@ -118,16 +166,16 @@ if (is_module('multilanguage')) {
                                                 </script>
 
                                                     <?php if ($hasMultilanguageModuleActivated): ?>
-                                                        <a onclick="openMultilangEditModal()" class="btn btn-primary">
+                                                        <a onclick="openMultilangEditModal('manage')" class="btn btn-primary">
                                                             <i class="mdi mdi-cogs"></i> <?php _e('Manage Multilanguage'); ?>
                                                      </a>
                                                     <?php else: ?>
                                                      <?php if (is_module('multilanguage')): ?>
-                                                    <a onclick="openMultilangEditModal()" class="btn btn-primary">
+                                                    <a onclick="openMultilangEditModal('activate')" class="btn btn-primary">
                                                         <i class="mdi mdi-enable"></i> <?php _e('Activate Multilanguage Module'); ?>
                                                     </a>
                                                         <?php else: ?>
-                                                            <a onclick="openMultilangEditModal()" class="btn btn-success">
+                                                            <a onclick="openMultilangEditModal('install')" class="btn btn-success">
                                                                <i class="mdi mdi-download"></i> <?php _e('Install Multilanguage Module'); ?>
                                                             </a>
                                                         <?php endif; ?>
