@@ -21,7 +21,7 @@ class ShippingToCountry implements ShippingDriverInterface
 
     public function title()
     {
-        return 'Shipping to country';
+        return 'Shipping to address';
     }
 
 

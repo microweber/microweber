@@ -21,7 +21,7 @@ class PickupDriver implements ShippingDriverInterface
 
     public function title()
     {
-        return 'Pickup from office';
+        return 'Pickup from address';
     }
 
     public function cost()
