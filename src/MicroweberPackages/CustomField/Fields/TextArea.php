@@ -14,6 +14,17 @@ class TextArea extends DefaultField
     public $hasErrorTextOptions = true;
     public $hasRequiredOptions = true;
 
+    public $defaultSettings = [
+        'required'=>false,
+        'rows'=> 3,
+        'multiple'=>'',
+        'show_label'=>true,
+        'field_size'=>12,
+        'field_size_desktop'=>12,
+        'field_size_tablet'=>12,
+        'field_size_mobile'=>12,
+    ];
+
     public function preparePreview()
     {
         parent::preparePreview();
