@@ -9,7 +9,6 @@
         <form method="post" action="{{ route('checkout.shipping_method_save') }}">
 
             <a href="{{ route('checkout.cart') }}" class="btn btn-outline-primary"><i class="mdi mdi-cart"></i> {{ _e('Back to cart') }}</a>
-            <a href="{{ route('checkout.contact_information') }}" class="btn btn-outline-primary"><i class="mdi mdi-phone"></i> {{ _e('Back to contact information') }}</a>
             <div class="shop-cart" style="margin-top:25px;">
 
                 <div class="card" style="margin-bottom:15px;">
