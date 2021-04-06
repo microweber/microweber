@@ -8,7 +8,8 @@
 
         <form method="post" action="{{ route('checkout.shipping_method_save') }}">
 
-            <a href="{{ site_url() }}" class="btn btn-outline-primary"><i class="mdi mdi-cart"></i> {{ _e('Back to website') }}</a>
+            <a href="{{ route('checkout.contact_information') }}" class="btn btn-outline-primary"><i class="mdi mdi-arrow-left"></i> {{ _e('Back') }}</a>
+
             <div class="shop-cart" style="margin-top:25px;">
 
                 <div class="card" style="margin-bottom:15px;">
