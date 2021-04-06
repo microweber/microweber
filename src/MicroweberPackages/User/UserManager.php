@@ -126,6 +126,51 @@ class UserManager
     public function login($params)
     {
         $params = parse_params($params);
+
+
+        // So we use second parameter
+        if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
+            $decoded_username = @base64_decode($params['
+            ']);
+            if (!empty($decoded_username)) {
+                $params['username'] = $decoded_username;
+            } else {
+                $params['username'] = @base62_decode($params['username_encoded']);
+            }
+        }
+
+        if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
+            $decoded_password = @base64_decode($params['password_encoded']);
+            if (!empty($decoded_password)) {
+                $params['password'] = $decoded_password;
+            } else {
+                $params['password'] = @base62_decode($params['password_encoded']);
+            }
+        }
+
+        $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
+
+        $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
+        $overiden = false;
+        $return_resp = false;
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (isset($resp['error']) or isset($resp['success'])) {
+                    if (isset($resp['success']) and isset($resp['http_redirect'])) {
+                        $redirect_after = $resp['http_redirect'];
+                    }
+                    $return_resp = $resp;
+                    $overiden = true;
+                }
+            }
+        }
+        if ($overiden == true and $redirect_after != false) {
+            return $this->app->url_manager->redirect($redirect_after);
+        } elseif ($overiden == true) {
+            return $return_resp;
+        }
+
+
         $params['x-no-throttle'] = false; //allow throttle
         return RequestRoute::postJson(route('api.user.login'), $params);
     }
