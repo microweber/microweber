@@ -13,6 +13,7 @@ use Illuminate\Routing\Controller;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ContactInformationTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\PaymentTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ShippingTrait;
+use MicroweberPackages\Order\Models\Order;
 
 class CheckoutController extends Controller {
 
@@ -25,8 +26,19 @@ class CheckoutController extends Controller {
         return $this->_renderView('checkout::index');
     }
 
-    public function finish(Request $request) {
-        return $this->_renderView('checkout::finish');
+    public function finish($id) {
+
+        $id = intval($id);
+        if ($id < 1) {
+            return redirect(site_url());
+        }
+
+        $findOrder = Order::where('id', $id)->where('created_by', user_id())->first();
+        if ($findOrder == null) {
+            return redirect(site_url());
+        }
+
+        return $this->_renderView('checkout::finish', ['order'=>$findOrder->toArray()]);
     }
 
     public function _renderView($view, $data = [])

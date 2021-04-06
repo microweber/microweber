@@ -19,12 +19,12 @@ trait ShippingTrait {
         $data['errors'] = session_get('errors');
         $data['checkout_session'] = session_get('checkout');
 
+        session_del('errors');
+
         return $this->_renderView('checkout::shipping_method', $data);
     }
 
     public function shippingMethodSave(Request $request) {
-
-        session_del('errors');
 
         if (is_array($request->get('Address'))) {
             $request->merge([

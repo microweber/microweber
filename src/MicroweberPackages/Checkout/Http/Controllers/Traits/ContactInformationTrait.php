@@ -12,12 +12,12 @@ trait ContactInformationTrait {
         $data['errors'] = session_get('errors');
         $data['checkout_session'] = session_get('checkout');
 
+        session_del('errors');
+
         return $this->_renderView('checkout::contact_information',$data);
     }
 
     public function contactInformationSave(Request $request) {
-
-        session_del('errors');
 
         session_append_array('checkout', [
             'first_name'=> $request->get('first_name'),

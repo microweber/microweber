@@ -8,8 +8,6 @@ trait PaymentTrait {
 
     public function paymentMethod() {
 
-        //dump(session_get('checkout'));
-
         // Validate Contact Information
         $validateContactInformation = $this->_validateContactInformation();;
         if ($validateContactInformation['valid'] == false) {
@@ -24,10 +22,49 @@ trait PaymentTrait {
             return redirect(route('checkout.shipping_method'));
         }
 
-        return $this->_renderView('checkout::payment_method');
+        $data = [];
+        $data['errors'] = session_get('errors');
+        $data['checkout_session'] = session_get('checkout');
+
+        session_del('errors');
+
+        return $this->_renderView('checkout::payment_method', $data);
     }
 
     public function paymentMethodSave(Request $request) {
-        return redirect(route('checkout.finish'));
+
+        session_append_array('checkout', [
+            'payment_gw'=> $request->get('payment_gw'),
+            'terms'=> $request->get('terms'),
+        ]);
+
+        $checkoutData = session_get('checkout');
+
+        try {
+            $sendCheckout = app()->checkout_manager->checkout($checkoutData);
+        } catch (\Exception $e) {
+            session_set('errors', [
+                'payment_errors'=>['error'=>$e->getMessage()]
+            ]);
+            return redirect(route('checkout.payment_method'));
+        }
+
+        // Payment error
+        if (isset($sendCheckout['error'])) {
+            session_set('errors', [
+                'payment_errors'=>['error'=>$sendCheckout['error']]
+            ]);
+            return redirect(route('checkout.payment_method'));
+        }
+
+        // Cart is empty
+        if (isset($sendCheckout['error']['cart_empty'])) {
+            session_set('errors', [
+                'payment_errors'=>['error'=>$sendCheckout['error']['cart_empty']]
+            ]);
+            return redirect(route('checkout.cart'));
+        }
+
+        return redirect(route('checkout.finish', $sendCheckout['id']));
     }
 }
