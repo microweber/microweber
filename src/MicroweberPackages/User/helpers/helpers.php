@@ -81,7 +81,11 @@ function session_set($key, $val)
 function session_append_array($key, $array)
 {
     $oldArray = session_get($key);
-    $newArray = array_merge($oldArray, $array);
+    if (is_array($oldArray) && !empty($oldArray)) {
+        $newArray = array_merge($oldArray, $array);
+    } else {
+        $newArray = $array;
+    }
 
     return session_set($key, $newArray);
 }
