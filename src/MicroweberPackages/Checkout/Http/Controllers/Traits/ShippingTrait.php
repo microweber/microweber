@@ -26,7 +26,17 @@ trait ShippingTrait {
 
         session_del('errors');
 
-        session_set('checkout', [
+        if (is_array($request->get('Address'))) {
+            $request->merge([
+               'city'=>$request->get('Address')['city'],
+               'zip'=>$request->get('Address')['zip'],
+               'state'=>$request->get('Address')['state'],
+               'address'=>$request->get('Address')['address'],
+            ]);
+        }
+
+        $checkoutDetails = session_get('checkout');
+        $checkoutDetails = array_merge($checkoutDetails, [
             'shipping_gw'=> $request->get('shipping_gw'),
             'city'=> $request->get('city'),
             'address'=> $request->get('address'),
@@ -35,6 +45,8 @@ trait ShippingTrait {
             'zip'=> $request->get('zip'),
             'other_info'=> $request->get('other_info'),
         ]);
+
+        session_set('checkout', $checkoutDetails);
 
         $validate = $this->_validateShippingMethod();
         if ($validate['valid'] == false) {

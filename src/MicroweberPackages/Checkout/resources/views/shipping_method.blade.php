@@ -16,8 +16,12 @@
                     <div class="card-body">
                         Contact info:
                         <br />
-                        <?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>
+                        Name: <?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>
                         <?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>
+                        <br/>
+                        Phone: <?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>
+                        <br />
+                        E-mail: <?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>
                     </div>
                 </div>
 
