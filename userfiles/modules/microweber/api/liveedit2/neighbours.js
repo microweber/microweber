@@ -1,4 +1,4 @@
-(function (){
+
     var Neighbours = function (config) {
 
         var distanceMax = 20;
@@ -111,4 +111,3 @@
 
     window.Neighbours = Neighbours;
 
-})();

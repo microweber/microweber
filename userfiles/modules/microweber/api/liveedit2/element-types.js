@@ -130,7 +130,10 @@
             allowDrop: 'allow-drop',
             unEditableModules: [
                 '[type="template_settings"]'
-            ]
+            ],
+            frameworksClasses: {
+                col: []
+            }
         };
 
         this.settings = mw.object.extend({}, defaults, options);
