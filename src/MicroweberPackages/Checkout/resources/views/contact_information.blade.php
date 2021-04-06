@@ -4,7 +4,7 @@
 
     faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php
 
-    <div class="col-12">
+    <div class="col-8">
         <form method="post" action="{{ route('checkout.contact_information_save') }}">
 
         <a href="{{ site_url() }}" class="btn btn-outline-primary"><i class="mdi mdi-arrow-left"></i> {{ _e('Back to shopping') }}</a>
@@ -54,6 +54,9 @@
 
             <button type="submit" class="btn btn-info">{{ _e('Continue') }}</button>
         </form>
+    </div>
+    <div class="col-4">
+        <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
     </div>
 
 @endsection

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="col-12">
+    <div class="col-8">
 
         faila se namira v: /src/MicroweberPackages/Checkout/resources/views/shipping_method.blade.php
 
@@ -35,6 +35,10 @@
 
             <button type="submit" class="btn btn-info">{{ _e('Continue') }}</button>
         </form>
+    </div>
+
+    <div class="col-4">
+        <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
     </div>
 
 @endsection
