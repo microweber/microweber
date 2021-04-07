@@ -46,7 +46,7 @@ $total = cart_total();
        <div class="checkout-modal-products-wrapper">
            <?php if (is_array($data) and $data) : ?>
                <?php foreach ($data as $item) :?>
-                   <div class="form-row checkout-modal-product-list-item">
+                   <div class="form-row checkout-modal-product-list-item pb-5">
                        <div class="col-lg-3 col-auto d-flex">
                            <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                <?php $p = $item['item_image']; ?>
@@ -80,7 +80,7 @@ $total = cart_total();
                                    </div>
                                </div>
                                <div class="col-2 justify-content-center align-self-center">
-                                   <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center justify-content-md-end">delete_forever</i></a>
+                                   <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="mdi mdi-delete-outline text-dark d-flex justify-content-center justify-content-md-end" style="font-size: 24px"></i></a>
                                </div>
                            </div>
                        </div>
@@ -91,3 +91,6 @@ $total = cart_total();
            <?php endif; ?>
 
        </div>
+
+        <module type="shop/cart" template="totals" />
+
