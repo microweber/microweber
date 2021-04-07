@@ -57,6 +57,7 @@ trait ShippingTrait {
 
     private function _validateShippingMethod()
     {
+        /*
         if (get_option('shop_require_state', 'website') == 1) {
             $rules['state'] = 'required';
         }
@@ -93,6 +94,7 @@ trait ShippingTrait {
             $errors = $validator->messages()->toArray();
             return ['valid'=>false,'errors'=>$errors];
         }
+        */
 
         return ['valid'=>true];
     }

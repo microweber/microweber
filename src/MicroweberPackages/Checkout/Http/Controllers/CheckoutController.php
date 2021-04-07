@@ -27,13 +27,7 @@ class CheckoutController extends Controller {
 
     public function index() {
 
-        $requiresRegistration = get_option('shop_require_registration', 'website') == '1';
-        if ($requiresRegistration and is_logged() == false) {
-            return redirect(route('checkout.login'));
-        }
-
         return redirect(route('checkout.contact_information'));
-
         //return $this->_renderView('checkout::index');
     }
 
