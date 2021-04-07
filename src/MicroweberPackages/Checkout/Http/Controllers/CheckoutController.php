@@ -59,8 +59,8 @@ class CheckoutController extends Controller {
     /**
      * Description: THIS METHOD IS FOR OLD VERSION OF CHECKOUT MODULE
      * @param Request $request
-     * @return bool[]
-     */
+     * @return bool[] 
+
     public function validate(Request $request)
     {
 
@@ -135,6 +135,6 @@ class CheckoutController extends Controller {
             return $response;
         }
 
-    }
+    }*/
 
 }
