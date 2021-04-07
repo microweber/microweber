@@ -46,7 +46,7 @@ if ($content_tags_data) {
                     $paramsUrl[$getKey] = $getValue;
                 }
             }
-            $paramsUrl['tags'] =  $content_tag_data_item['tag_slug'];
+            $paramsUrl['tags'] =  $content_tag_data_item['slug'];
             $paramsUrl = http_build_query($paramsUrl);
 
             $content_tag_data_item['tag_url'] = $tags_url_base .'?'. $paramsUrl;
