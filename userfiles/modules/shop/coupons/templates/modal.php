@@ -29,25 +29,25 @@ $applied_code = '';
                         </div>
                     </div>
                 <?php endif; ?>
-                    <div class="ml-3">
-                        <div class="coupon_code_apply_wrapper" <?php if(isset($applied_coupon_data['coupon_code'])): ?>  style="display: none"    <?php endif; ?>  >
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <h5 class="mb-2"><?php _e("Enter coupon code"); ?></h5>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-xs-6 pr-4">
-                                        <input type="text" name="coupon_code" class="form-control js-coupon-code" placeholder="<?php _e("Enter coupon code"); ?>"/>
-                                        <div class="js-coupon-code-messages text-danger mt-2"></div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <button type="button" class="btn btn-outline-primary js-apply-coupon-code"><?php _e("Apply code"); ?></button>
-                                    </div>
+                    <div class="coupon_code_apply_wrapper" <?php if(isset($applied_coupon_data['coupon_code'])): ?>  style="display: none"    <?php endif; ?>  >
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label class="control-label font-weight-bold ml-3"><?php _e("Enter coupon code"); ?></label>
                                 </div>
-                        </div>
+                            </div>
+
+                            <div class="row col-12 px-0 mx-0">
+                                <div class="col-xs-6 pr-4">
+                                    <input type="text" name="coupon_code" class="form-control js-coupon-code" placeholder="<?php _e("Enter coupon code"); ?>"/>
+                                    <div class="js-coupon-code-messages text-danger mt-2"></div>
+                                </div>
+                                <div class="col-xs-6 ml-auto">
+                                    <button type="button" class="btn btn-outline-primary js-apply-coupon-code px-4"><?php _e("Apply"); ?></button>
+                                </div>
+                            </div>
                     </div>
+
             </div>
         </div>
     </div>

@@ -5,8 +5,8 @@
 {{--faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php--}}
     <form method="post" action="{{ route('checkout.contact_information_save') }}">
         <div class="m-t-20 edit nodrop" field="checkout_personal_information_title">
-            <h4><?php _e("Personal Information"); ?></h4>
-            <small class="text-muted d-block mb-2"> <?php _e("Add your personal information"); ?></small>
+            <h4 class="mb-0"><?php _e("Personal Information"); ?></h4>
+            <small class="text-muted d-block mb-2"> <?php _e("Please fill the fields bellow"); ?></small>
         </div>
 
         <div class="form-group">
@@ -38,6 +38,6 @@
         <module type="shop/coupons" template="modal" />
         <?php endif; ?>
 
-        <button type="submit" class="btn btn-primary w-100">{{ _e('Continue') }}</button>
+        <button type="submit" class="btn btn-primary w-100 mt-3">{{ _e('Continue') }}</button>
     </form>
 @endsection
