@@ -7,8 +7,6 @@
             <div class="shop-cart" style="margin-top:25px;">
 
                 <h1>Thank you, {{$order['first_name']}} {{$order['last_name']}}!</h1>
-                <br />
-                ORDER IS FINISHED!
 
              {{--   <br />
                 Order info:
@@ -16,7 +14,6 @@
 --}}
             </div>
 
-            <a href="{{ site_url() }}" class="btn btn-outline-primary"><i class="mdi mdi-shopping"></i> {{ _e('Back to shopping') }}</a>
         </form>
     </div>
 
