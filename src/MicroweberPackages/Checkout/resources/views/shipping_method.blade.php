@@ -8,6 +8,18 @@
 
 @section('content')
 
+    @if (isset($errors))
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors as $fields)
+                    @foreach ($fields as $field)
+                        <li>{!! $field !!}</li>
+                    @endforeach
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form method="post" action="{{ route('checkout.shipping_method_save') }}">
 
         <div class="shop-cart mt-3">
