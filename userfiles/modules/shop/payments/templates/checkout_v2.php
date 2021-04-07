@@ -10,13 +10,6 @@ description: Checkout V2
 
 */
 ?>
-
-<style>
-    input[type=radio] {
-        width: 20px;
-        height: 20px;
-    }
-</style>
 <div class="mw-shipping-and-payments">
     <?php if (count($payment_options) > 0): ?>
         <div class="row">

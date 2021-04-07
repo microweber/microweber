@@ -39,7 +39,16 @@
         }
 
         .checkout-v2-sidebar {
-            background-color: #f5f5f5;"
+            background-color: #f5f5f5;
+        }
+
+        input[type=radio] {
+            width: 20px;
+            height: 20px;
+        }
+
+        i.shipping-icons-checkout-v2.mdi{
+            font-size: 36px;
         }
     </style>
 
