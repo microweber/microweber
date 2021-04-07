@@ -25,6 +25,15 @@ class CheckoutController extends Controller {
         return $this->_renderView('checkout::login');
     }
 
+    public function register() {
+
+        if (is_logged()) {
+            return redirect(route('checkout.contact_information'));
+        }
+
+        return $this->_renderView('checkout::register');
+    }
+
     public function index() {
 
         return redirect(route('checkout.contact_information'));
@@ -59,7 +68,7 @@ class CheckoutController extends Controller {
     /**
      * Description: THIS METHOD IS FOR OLD VERSION OF CHECKOUT MODULE
      * @param Request $request
-     * @return bool[] 
+     * @return bool[]
 
     public function validate(Request $request)
     {

@@ -74,10 +74,13 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
 </head>
 <body>
+
+<script type="text/javascript">
+    mw.require("<?php print( mw_includes_url()); ?>css/ui.css");
+    mw.lib.require("bootstrap4");
+</script>
 
 <section>
     <div class="row">

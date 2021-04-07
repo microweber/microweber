@@ -4,9 +4,7 @@
 
     <div class="col-12">
 
-        <br />
-
-        <module type="users/login" template="checkout_v2" />
+        <module type="users/register" template="checkout_v2" />
 
     </div>
 
