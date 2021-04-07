@@ -13,7 +13,6 @@ Route::name('checkout.')
         Route::post('shipping-method-save', 'CheckoutController@shippingMethodSave')->name('shipping_method_save');
         Route::get('payment-method', 'CheckoutController@paymentMethod')->name('payment_method');
         Route::post('payment-method-save', 'CheckoutController@paymentMethodSave')->name('payment_method_save');
-        Route::get('finish/{id}', 'CheckoutController@finish')->name('finish');
     });
 
 // Public
@@ -22,4 +21,5 @@ Route::name('checkout.')
     ->namespace('\MicroweberPackages\Checkout\Http\Controllers')
     ->group(function () {
         Route::get('login', 'CheckoutController@login')->name('login');
+        Route::get('finish/{id}', 'CheckoutController@finish')->name('finish');
     });
