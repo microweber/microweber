@@ -48,7 +48,7 @@ $total = cart_total();
            <?php if (is_array($data) and $data) : ?>
                <?php foreach ($data as $item) :?>
                    <div class="form-row checkout-modal-product-list-item pb-5">
-                       <div class="col-lg-3 col-auto d-flex">
+                       <div class="col-lg-2 col-auto d-flex">
                            <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                <?php $p = $item['item_image']; ?>
                            <?php else: ?>
