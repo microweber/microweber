@@ -42,7 +42,7 @@
             background-color: #f5f5f5;
         }
 
-        input[type=radio] {
+        .checkout-v2-radio input[type=radio] {
             width: 20px;
             height: 20px;
         }
@@ -58,7 +58,7 @@
         .checkout-v2-remove-icon a:hover {
             text-decoration: none;
         }
-        a:active {
+        .checkout-v2-remove-icon a:active {
             text-decoration: none;
         }
 
