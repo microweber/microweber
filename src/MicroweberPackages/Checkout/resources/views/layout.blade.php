@@ -50,6 +50,23 @@
         i.shipping-icons-checkout-v2.mdi{
             font-size: 36px;
         }
+
+        .checkout-v2-logo {
+            width: 35%;
+        }
+
+        checkout-v2-remove-icon .a:hover {
+            text-decoration: none;
+        }
+        a:active {
+            text-decoration: none;
+        }
+
+        .checkout-v2-remove-icon:hover {
+            color: black!important;
+        }
+
+
     </style>
 
     <!--[if lt IE 9]>
@@ -75,7 +92,7 @@
                             <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
                         </h1>
                     @else
-                       <div class="w-50">
+                       <div class="checkout-v2-logo">
                            <img src="{{ $logo }}" />
                        </div>
                     @endif
