@@ -64,7 +64,7 @@ $total = cart_total();
                            <div class="form-row h-100">
                                <div class="col-10">
                                    <div class="form-row align-items-md-center h-100 ">
-                                       <div class="col-12 col-md-5">
+                                       <div class="col-12 col-md-6">
                                            <h6><?php _e($item['title']) ?></h6>
                                            <small class="text-muted mw-order-custom-fields">
                                                <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
