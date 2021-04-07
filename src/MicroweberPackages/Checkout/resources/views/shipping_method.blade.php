@@ -30,7 +30,7 @@
             <div class="card my-3">
                 <div class="card-body d-flex p-3">
 
-                    <div class="col-6">
+                    <div class="col-10">
                         <?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>
                         <?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>
                         <br/>
@@ -40,14 +40,14 @@
                         <br />
                     </div>
 
-                   <div class="col-6 justify-content-end text-right align-self-top px-0">
+                   <div class="col-2 justify-content-end text-right align-self-top px-0">
                        <a href="{{ route('checkout.contact_information') }}" class="btn btn-link text-right">{{ _e('Edit') }}</a>
                    </div>
 
                 </div>
             </div>
 
-            <div class="shop-cart-shipping" style="margin-bottom:20px;">
+            <div class="shop-cart-shipping mb-3">
                  <module type="shop/shipping" template="checkout_v2" data-store-values="true" />
             </div>
         </div>

@@ -58,11 +58,6 @@ $total = cart_total();
                                <img style="max-width:70px; max-height:70px;" src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/>
                            <?php endif; ?>
 
-                           <div class="mw-order-custom-fields font-weight-bold align-self-center mx-4">
-                               <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
-                                   <?php print $item['custom_fields'] ?>
-                               <?php endif ?>
-                           </div>
                        </div>
 
                        <div class="col-auto col-lg">
@@ -71,6 +66,11 @@ $total = cart_total();
                                    <div class="form-row align-items-md-center h-100 ">
                                        <div class="col-12 col-md-5">
                                            <h6><?php _e($item['title']) ?></h6>
+                                           <small class="text-muted mw-order-custom-fields">
+                                               <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
+                                                   <?php print $item['custom_fields'] ?>
+                                               <?php endif ?>
+                                           </small>
                                        </div>
                                        <div class="col-6 col-md-3 align-self-center justify-content-md-center">
                                            <h6><?php print currency_format($item['price']); ?></h6>
@@ -92,16 +92,6 @@ $total = cart_total();
            <?php endif; ?>
 
        </div>
-
-        <?php if (get_option('enable_coupons', 'shop') == 1): ?>
-            <?php
-            $discountData = app()->cart_manager->totals('discount');
-            ?>
-            <module type="shop/coupons" template="modal" />
-        <?php endif; ?>
-
-        <br />
-        <br />
 
         <module type="shop/cart" template="totals" />
 
