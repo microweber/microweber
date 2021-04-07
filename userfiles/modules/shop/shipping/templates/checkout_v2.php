@@ -7,7 +7,16 @@
                 <div class="form-group">
                     <div class="custom-control custom-radio pl-0 pt-3">
                         <input type="radio" onchange="Gateway(this);" <?php if ($count == 1): ?> checked="checked" <?php endif; ?> name="shipping_gw" value="<?php print  $item['module_base']; ?>" <?php if ($selected_shipping_gateway == $item['module_base']): ?> <?php endif; ?>">
-                        <label class="control-label"> <i class="shipping-icons-checkout-v2 mdi mdi-truck-check-outline"></i> <i class="shipping-icons-checkout-v2 mdi mdi-walk"></i>  <?php print  $item['name']; ?></label>
+                        <label class="control-label">
+                            <?php
+                            if (isset($item['settings']['icon_class'])):
+                            ?>
+                            <i class="shipping-icons-checkout-v2 <?php echo $item['settings']['icon_class']; ?>"></i>
+                            <?php
+                            endif;
+                            ?>
+                            <?php print $item['name']; ?>
+                        </label>
                     </div>
                 </div>
             <?php endforeach; ?>

@@ -98,7 +98,7 @@ $total = cart_total();
             ?>
             <module type="shop/coupons" template="modal" />
         <?php endif; ?>
-        
+
         <br />
         <br />
 

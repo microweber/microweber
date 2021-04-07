@@ -9,6 +9,7 @@ $config['categories'] = "online shop";
 $config['position'] = 100;
 $config['type'] = "shipping_gateway";
 $config['version'] = "0.2";
+$config['settings']['icon_class'] = "mdi mdi-walk";
 
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Shop\Shipping\Gateways\Country\ShippingToCountryEventServiceProvider::class,
