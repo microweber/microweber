@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
 use Cache;
+use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Package\ComposerUpdate;
@@ -149,6 +150,9 @@ class InstallController extends Controller
                 if (isset($input['db_name']) and $input['db_name'] != ':memory:' and  !file_exists($input['db_name'])) {
                     touch($input['db_name']);
                 }
+
+
+
             }
 
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
@@ -181,7 +185,10 @@ class InstallController extends Controller
                 Config::set('microweber.admin_url', $input['admin_url']);
             }
 
+            Config::set('app.fallback_locale', 'en');
+
             if (isset($input['site_lang'])) {
+                Config::set('app.locale', $input['site_lang']);
                 Config::set('microweber.site_lang', $input['site_lang']);
             }
 
@@ -267,6 +274,8 @@ class InstallController extends Controller
                     }
                     $installer->logger = $this;
                     $installer->run();
+
+
                 }
 
                 if (!$install_step or $install_step == 5) {
@@ -283,12 +292,28 @@ class InstallController extends Controller
                     $installer = new Install\ModulesInstaller();
                     $installer->logger = $this;
                     $installer->run();
+
+
+                }
+
+                if (!$install_step or $install_step == 7) {
+                    if (isset($input['site_lang'])) {
+                        if ($dbDriver == 'sqlite') {
+                            \DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
+                        }
+
+//                         language is moved to json files and does not require install anymore
+//                        $this->log('Importing the language package..');
+//                        TranslationPackageInstallHelper::$logger = $this;
+//                        TranslationPackageInstallHelper::installLanguage($input['site_lang']);
+                    }
+
                 }
 
                 if ($install_step) {
                     if ($install_step != 'finalize') {
                         $install_step_return = array('install_step' => $install_step + 1);
-                        if ($install_step == 6) {
+                        if ($install_step == 7) {
                             if (isset($input['admin_email']) and isset($input['subscribe_for_update_notification'])) {
                                 $this->reportInstall($input['admin_email'], $input['subscribe_for_update_notification']);
                             }
@@ -489,7 +514,7 @@ class InstallController extends Controller
 
         $ready = array();
         $runner = new ComposerUpdate();
-        $results = $runner->search_packages(['search_by_type' => 'microweber-template']);
+        $results = $runner->searchPackages(['search_by_type' => 'microweber-template']);
         if ($results) {
             foreach ($results as $k => $result) {
                 if (isset($result['latest_version']) and !isset($result['current_install'])) {
@@ -504,7 +529,7 @@ class InstallController extends Controller
     private function _install_package_by_name($package_name)
     {
         $runner = new ComposerUpdate();
-        $results = $runner->install_package_by_name(['require_name' => $package_name]);
+        $results = $runner->installPackageByName(['require_name' => $package_name]);
         return $results;
 
     }

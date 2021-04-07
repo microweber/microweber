@@ -1,7 +1,8 @@
 
 var canDestroy = function (event) {
     var target = event.target;
-    return !mw.tools.hasAnyOfClassesOnNodeOrParent(event, ['safe-element']) && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
+    return !mw.tools.hasAnyOfClassesOnNodeOrParent(event, ['safe-element'])
+        && mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(target, ['allow-drop', 'nodrop']);
 };
 
 

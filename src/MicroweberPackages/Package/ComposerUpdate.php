@@ -4,7 +4,6 @@ namespace MicroweberPackages\Package;
 
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
-use Composer\Config;
 use Composer\Console\Application;
 use Composer\Installers\Installer;
 use Composer\Plugin\PluginManager;
@@ -24,6 +23,10 @@ use Illuminate\Support\Str;
 
 class ComposerUpdate
 {
+    public $repos = [
+        ["type" => "composer", "url" => "https://packages.microweberapi.com/"]
+    ];
+
     public $licenses = array();
     public $updateChannel = null;
     public $composerPath;
@@ -56,13 +59,18 @@ class ComposerUpdate
         $this->targetPath = $path;
     }
 
+    public function setRepos($repos)
+    {
+        $this->repos = $repos;
+    }
+
     public function run($config_params = array())
     {
         ob_start();
         $input = new ArgvInput(array());
         $output = new ConsoleOutput();
         $helper = new HelperSet();
-        $config = new Config();
+        $config = new ComposerConfig();
 
         if (!empty($config_params)) {
             $config_composer = array('config' => $config_params);
@@ -111,7 +119,7 @@ class ComposerUpdate
         $input = new ArgvInput(array());
         $output = new ConsoleOutput();
         $helper = new HelperSet();
-        $config = new Config();
+        $config = new ComposerConfig();
 
         $output->setVerbosity(0);
         $io = new ConsoleIO($input, $output, $helper);
@@ -188,18 +196,18 @@ class ComposerUpdate
         $io = new InstallerIO('', 32, null);
         //$io->setVerbosity(32);
 
-        $config = new Config(false, $temp_folder);
+        $config = new ComposerConfig(false, $temp_folder);
 
         if ($composer_temp) {
             $config->merge($composer_temp);
         }
 
-
         // ob_start();
 
 
         //  $manager = new InstallationManager($loop,  $io, $eventDispatcher );
-        $composer = Factory::create($io, $composer_temp);
+        // $composer = Factory::create($io, $composer_temp);
+        $composer = ComposerFactory::create($io, $composer_temp);
         //  $composer->setInstallationManager($manager);
         $composer->setConfig($config);
 
@@ -307,7 +315,7 @@ class ComposerUpdate
                                         $local_package_item['local_type'] = $local_packages_type;
 
                                         $package['current_install'] = false;
-                                        
+
                                         if ($is_found_on_local) {
                                             $package['current_install'] = $local_package_item;
                                         }
@@ -585,7 +593,7 @@ class ComposerUpdate
             $input = new ArrayInput($argv);
             $output = new ConsoleOutput();
             $helper = new HelperSet();
-            $config = new Config(false, $temp_folder);
+            $config = new ComposerConfig(false, $temp_folder);
 //dd($temp_folder);
             if ($composer_temp) {
                 $config->merge($composer_temp);
@@ -1046,20 +1054,23 @@ class ComposerUpdate
         }
 
 
-        $system_repos = array();
+        $system_repos = $this->repos;
 
-        if ($this->updateChannel == 'dev') {
-            $system_repos[] = array("type" => "composer", "url" => "https://packages-dev.microweberapi.com/");
-            $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
-        } else {
-            $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
 
-            //  $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
-           // $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
-        }
+//        $system_repos = array();
+//
+//        if ($this->updateChannel == 'dev') {
+//            $system_repos[] = array("type" => "composer", "url" => "https://packages-dev.microweberapi.com/");
+//            $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
+//        } else {
+//            $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
+//            //  $system_repos[] = array("type" => "composer", "url" => "https://packages.microweberapi.com/");
+//            // $system_repos[] = array("type" => "composer", "url" => "https://private-packages.microweberapi.com/");
+//        }
 
-      //  $system_repos = array();
-     //   $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
+
+        //  $system_repos = array();
+        //   $system_repos[] = array("type" => "composer", "url" => "https://packages-satis.microweberapi.com/");
 
         $system_repos_custom = array();
 
@@ -1097,6 +1108,9 @@ class ComposerUpdate
             //   $new_composer_config['repositories']['packagist'] = true;
 
         }
+
+        $new_composer_config['repositories']['packagist'] = false;
+        $new_composer_config['repositories']['packagist.org'] = false;
 
         if (!isset($composer_orig['config'])) {
             $composer_orig['config'] = [];

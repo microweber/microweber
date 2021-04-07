@@ -56,8 +56,10 @@ class CustomFieldTestModelTest extends TestCase
 
     public function testGetCustomFieldModel()
     {
+        $title =  'Samo Levski3'.uniqid();
+
         $newProduct = new Product();
-        $newProduct->title = 'Samo Levski3';
+        $newProduct->title = $title;
 
         $newProduct->setCustomField(
             [
@@ -79,11 +81,16 @@ class CustomFieldTestModelTest extends TestCase
         );
 
 
+
+        $some_random =  'some-material-'.uniqid();
+
+
+
         $newProduct->setCustomField(
             [
                 'type'=>'dropdown',
                 'name'=>'material',
-                'value'=>['jeans', 'cotton'],
+                'value'=>['jeans', 'cotton',$some_random],
                 'options'=>[],
 
             ]
@@ -92,12 +99,11 @@ class CustomFieldTestModelTest extends TestCase
 
         $newProduct->save();
 
-
         $prod = Product::whereCustomField([
-         'цвят'=>'red',
-            'size'=>'M',
-            'material'=>'jeans',
-        ])->get();
+            'material'=>$some_random,
+        ])->first();
 
-    }
+        $this->assertEquals($prod->title, $title);
+
+     }
 }

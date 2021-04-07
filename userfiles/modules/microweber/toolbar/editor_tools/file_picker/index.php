@@ -38,8 +38,8 @@ if (array_key_exists('types', $_GET)) {
             return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "' + filename + '" - <?php _e("Invalid filetype"); ?>.';
         };
 
-        mw.on.hashParam('select-file', function () {
-            selectUrl(this.toString());
+        mw.on.hashParam('select-file', function (pval) {
+            selectUrl(pval.toString());
         });
 
 

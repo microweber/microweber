@@ -12,6 +12,7 @@ use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
 use MicroweberPackages\User\Http\Resources\UserResource;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\User\Socialite\MicroweberProvider;
 use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 
 
@@ -125,6 +126,51 @@ class UserManager
     public function login($params)
     {
         $params = parse_params($params);
+
+
+        // So we use second parameter
+        if (!isset($params['username']) and isset($params['username_encoded']) and $params['username_encoded']) {
+            $decoded_username = @base64_decode($params['
+            ']);
+            if (!empty($decoded_username)) {
+                $params['username'] = $decoded_username;
+            } else {
+                $params['username'] = @base62_decode($params['username_encoded']);
+            }
+        }
+
+        if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
+            $decoded_password = @base64_decode($params['password_encoded']);
+            if (!empty($decoded_password)) {
+                $params['password'] = $decoded_password;
+            } else {
+                $params['password'] = @base62_decode($params['password_encoded']);
+            }
+        }
+
+        $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
+
+        $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
+        $overiden = false;
+        $return_resp = false;
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (isset($resp['error']) or isset($resp['success'])) {
+                    if (isset($resp['success']) and isset($resp['http_redirect'])) {
+                        $redirect_after = $resp['http_redirect'];
+                    }
+                    $return_resp = $resp;
+                    $overiden = true;
+                }
+            }
+        }
+        if ($overiden == true and $redirect_after != false) {
+            return $this->app->url_manager->redirect($redirect_after);
+        } elseif ($overiden == true) {
+            return $return_resp;
+        }
+
+
         $params['x-no-throttle'] = false; //allow throttle
         return RequestRoute::postJson(route('api.user.login'), $params);
     }
@@ -325,6 +371,10 @@ class UserManager
 
     public function is_logged()
     {
+        if (!mw_is_installed()) {
+            return false;
+        }
+
         if (Auth::check()) {
             return true;
         } else {
@@ -1172,9 +1222,16 @@ class UserManager
                 if (isset($params['roles'][0])) {
                     if ($params['roles'][0] == 'Super Admin') {
                         $user->is_admin = 1;
+                    }  else  if ($params['roles'][0] == 'User') {
+                        $user->is_admin = 0;
                     } else {
+                        $user->is_admin = 0;
+
                         $user->assignRole($params['roles']);
                     }
+                }
+                if (isset($params['is_active'])) {
+                    $user->is_active =$params['is_active'];
                 }
             }
 
@@ -1438,7 +1495,6 @@ class UserManager
     public function send_forgot_password($params)
     {
         return RequestRoute::postJson(route('api.user.password.email'), $params);
-
     }
 
     public function send_forgot_password_OLD($params)
@@ -2070,7 +2126,7 @@ class UserManager
             $this->socialite->extend('microweber', function ($app) {
                 $config = $app['config']['services.microweber'];
 
-                return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);
+                return $this->socialite->buildProvider(MicroweberProvider::class, $config);
             });
         }
     }
@@ -2090,6 +2146,38 @@ class UserManager
 
     }
 
+
+    public function get_shipping_address()
+    {
+        $shipping_address_from_profile = [];
+        if ($this->is_logged()) {
+            $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
+            if ($findCustomer) {
+                $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+                if ($findAddressShipping) {
+                    $country_from_shipping_addr = $findAddressShipping->country()->first();
+                    foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {
+                        $shipping_address_from_profile[$addressKey] = $addressValue;
+                    }
+                    if ($country_from_shipping_addr and isset($country_from_shipping_addr->name)) {
+                        $shipping_address_from_profile['country'] = $country_from_shipping_addr->name;
+                    }
+
+                    if ($findAddressShipping and isset($findAddressShipping->address_street_1)) {
+                        $shipping_address_from_profile['address'] = $findAddressShipping->address_street_1;
+                    }
+
+                    if (!isset($shipping_address_from_profile['address']) and $findAddressShipping and isset($findAddressShipping->address_street_2)) {
+                        $shipping_address_from_profile['address'] = $findAddressShipping->address_street_2;
+                    }
+
+
+                    return $shipping_address_from_profile;
+                }
+            }
+
+        }
+    }
 
     private function __check_id_has_ability_to_edit_user($user_id)
     {

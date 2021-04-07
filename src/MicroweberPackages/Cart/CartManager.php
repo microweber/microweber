@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Cart;
 
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Database\Crud;
 
 class CartManager extends Crud
@@ -76,12 +77,36 @@ class CartManager extends Crud
         $all_totals = array('subtotal', 'shipping', 'tax', 'discount', 'total');
 
 
-        $tax = $shipping = $discount_sum = 0;
+        $tax = $shipping_cost = $discount_sum = 0;
 
-        $shipping_sess = $this->app->user_manager->session_get('shipping_cost');
-        if ($shipping_sess) {
-            $shipping = floatval($shipping_sess);
-        }
+//        $shipping_sess = $this->app->user_manager->session_get('shipping_cost');
+//        if ($shipping_sess) {
+//            $shipping_cost = floatval($shipping_sess);
+//        }
+
+        $shipping_cost = $this->app->checkout_manager->getShippingCost();
+        $shipping_modules = $this->app->checkout_manager->getShippingModules();
+
+//        if ($this->app->user_manager->session_get('shipping_cost')) {
+//            $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
+//        }
+
+
+//        $shipping_data = [];
+//        $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
+//        if(!isset($shipping_data['shipping_gw']) and $shipping_gw_from_session){
+//            $shipping_data['shipping_gw'] = $shipping_gw_from_session;
+//        }
+//        if(isset($shipping_data['shipping_gw']) and $shipping_data['shipping_gw']){
+//            try {
+//                $shipping_cost = $this->app->shipping_manager->driver($shipping_data['shipping_gw'])->cost();
+//
+//            } catch (\InvalidArgumentException $e) {
+//                $shipping_cost = 0;
+//                unset($shipping_data['shipping_gw']);
+//            }
+//        }
+
 
         // Coupon code discount
         $discount_value = $this->get_discount_value();
@@ -100,7 +125,7 @@ class CartManager extends Crud
         }
 
 
-        $total = $sum + $shipping;
+        $total = $sum + $shipping_cost;
 
         if (get_option('enable_taxes', 'shop') == 1) {
             if ($total > 0) {
@@ -142,13 +167,18 @@ class CartManager extends Crud
                     break;
 
                 case 'shipping':
-                    if ($shipping and $shipping > 0) {
-                        $totals[$total_key] = array(
-                            'label' => _e("Shipping", true),
-                            'value' => $shipping,
-                            'amount' => currency_format($shipping)
-                        );
+
+                    if ($shipping_modules) {
+                        if ($shipping_cost and $shipping_cost > 0) {
+                            $totals[$total_key] = array(
+                                'label' => _e("Shipping", true),
+                                'value' => $shipping_cost,
+                                'amount' => currency_format($shipping_cost)
+                            );
+                        }
                     }
+
+
                     break;
 
                 case 'total':
@@ -367,7 +397,7 @@ class CartManager extends Crud
             foreach ($get as $k => $item) {
 
                 if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-                    $item = $this->app->format->render_item_custom_fields_data($item);
+                    $item = $this->app->format->render_item_custom_fields_data($item); 
                 }
 
                 if (!isset($item['item_image']) and is_array($item) and isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
@@ -398,40 +428,40 @@ class CartManager extends Crud
 
         $cart = array();
         $cart['id'] = intval($data['id']);
+
         if ($this->app->user_manager->is_admin() == false) {
             $cart['session_id'] = mw()->user_manager->session_id();
         }
+
         $cart['order_completed'] = 0;
         $cart['one'] = 1;
         $cart['limit'] = 1;
-        $check_cart = $this->get($cart);
-        if ($check_cart != false and is_array($check_cart)) {
-            $table = $this->table;
-            $this->app->database_manager->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
 
-            $cart_return = $check_cart;
+        $checkCart = $this->get($cart);
+
+        if ($checkCart != false and is_array($checkCart)) {
+
+            $findCart = Cart::where('id', $cart['id'])->first();
+            if ($findCart) {
+                $findCart->delete();
+            }
 
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
 
-            return array('success' => 'Item quantity changed', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
-
-
-            return array('success' => 'Item removed from cart');
+            return array('success' => _e('Item was removed from cart', true), 'product' => $checkCart, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
         } else {
-            return array('error' => 'Item not removed from cart');
-
+            return array('error' => _e('Item not removed from cart', true));
         }
-
     }
 
     public function update_item_qty($data)
     {
         if (!isset($data['id'])) {
-            return array('error' => 'Invalid data');
+            return array('error' => _e('Invalid data', true));
         }
         if (!isset($data['qty'])) {
-            return array('error' => 'Invalid data');
+            return array('error' => _e('Invalid data', true));
         }
         $data_fields = false;
 
@@ -450,7 +480,7 @@ class CartManager extends Crud
             if (isset($check_cart['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
                 $old_qty = intval($data_fields['qty']);
                 if (intval($data['qty']) > $old_qty) {
-                    return false;
+                    return array('error' => true, 'message' => _e('Quantity not changed, because there are not enough items in stock.', true), 'cart_item_quantity_available' => $check_cart['qty']);
                 }
             }
         }
@@ -481,7 +511,7 @@ class CartManager extends Crud
 
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
-            return array('success' => 'Item quantity changed', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
+            return array('success' => _e('Item quantity changed', true), 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
 
 
         }
@@ -523,7 +553,6 @@ class CartManager extends Crud
 
     public function update_cart($data)
     {
-
         if (!isset($data['for']) and isset($data['rel_type'])) {
             $data['for'] = $data['rel_type'];
         }
@@ -546,7 +575,6 @@ class CartManager extends Crud
                 }
             }
         }
-
 
         $update_qty = 0;
         $update_qty_new = 0;
@@ -613,8 +641,11 @@ class CartManager extends Crud
 
         $skip_keys = array();
 
-        $content_custom_fields = array();
-        $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
+        $content_custom_fields = $this->app->fields_manager->get([
+            'rel_type'=>$for,
+            'rel_id'=>$for_id,
+            'return_full'=>true,
+        ]);
 
         $product_prices = array();
         if ($for == 'content') {
@@ -727,47 +758,35 @@ class CartManager extends Crud
             asort($add);
             $add = mw()->format->clean_xss($add);
             $table = $this->table;
+
+
             $cart = array();
             $cart['rel_type'] = trim($data['for']);
             $cart['rel_id'] = intval($data['for_id']);
             $cart['session_id'] = mw()->user_manager->session_id();
             $cart['no_cache'] = 1;
             $cart['disable_triggers'] = 1;
-
-            // $cart['price'] = doubleval($found_price);
-            //  $cart_check_db =  \DB::table('cart')->where($cart)->first();
-
-
-//            $cart_check = $cart;
-//            $cart_return = $cart;
-//            $check_cart = [];
-//
-//            if($cart_check_db){
-//                $check_cart = (array) $cart_check_db;
-//
-//            }
-
-            //  $check_cart = $this->app->database_manager->get('cart',$cart_check);
-            //     d($cart_check);
-
-//  d($check_cart);
-            //  d($cart_check);
-            $cart_check_q = $cart;
-            $check_cart = $this->app->database_manager->get('cart', $cart_check_q);
-
-
+            $cart['order_completed'] = 0;
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['custom_fields_json'] = json_encode($add);
             $cart['allow_html'] = 1;
             $cart['price'] = doubleval($found_price);
             $cart['limit'] = 1;
-
             $cart['title'] = mw()->format->clean_html($data['title']);
 
-            $cart['order_completed'] = 0;
             $cart_return['custom_fields_data'] = $add;
             $cart_return['price'] = $cart['price'];
 
+            $findCart = Cart::where('custom_fields_data', $cart['custom_fields_data'])
+                ->where('session_id', $cart['session_id'])
+                ->where('order_completed', $cart['order_completed'])
+                ->where('rel_id', $cart['rel_id'])
+                ->where('rel_type', $cart['rel_type'])
+                ->first();
+            $check_cart = false;
+            if ($findCart !== null) {
+                $check_cart = $findCart->toArray();
+            }
 
             if ($found_price and $check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
 
@@ -826,7 +845,23 @@ class CartManager extends Crud
                 $cart_return['currency'] = $cart['currency'] = $this->app->format->clean_html($data['link']);
             }
 
-            $cart_saved_id = $this->app->database_manager->save($table, $cart);
+            // Update cart in database
+            if ($findCart == null) {
+                $findCart = new Cart();
+                $findCart->rel_id = $cart['rel_id'];
+                $findCart->rel_type = $cart['rel_type'];
+                $findCart->custom_fields_data = $cart['custom_fields_data'];
+                $findCart->custom_fields_json = $cart['custom_fields_json'];
+            }
+
+            $findCart->qty = $cart['qty'];
+            $findCart->title = $cart['title'];
+            $findCart->price = $cart['price'];
+            $findCart->session_id = $cart['session_id'];
+            $findCart->order_completed = $cart['order_completed'];
+            $findCart->session_id = $cart['session_id']; 
+            $findCart->save();
+
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
 
@@ -852,11 +887,13 @@ class CartManager extends Crud
         if ($cur_sid == false) {
             return;
         } else {
+
+
             if ($cur_sid != false) {
                 $c_id = $sid;
                 $table = $this->table;
                 $params = array();
-                $params['order_completed'] = 0;
+                //   $params['order_completed'] = 0;
                 $params['session_id'] = $c_id;
                 $params['table'] = $table;
                 if ($ord_id != false) {
@@ -898,6 +935,14 @@ class CartManager extends Crud
                             }
                             $data['order_completed'] = 0;
                             $data['session_id'] = $cur_sid;
+
+                            if (isset($item['order_completed']) and intval($item['order_completed']) == 1) {
+                                if ($sid == $cur_sid) {
+                                    if (isset($item['is_paid']) and intval($item['is_paid']) == 0) {
+                                        $data['id'] = $item['id'];
+                                    }
+                                }
+                            }
                             if ($will_add == true) {
                                 $s = $this->app->database_manager->save($table, $data);
                             }
@@ -918,5 +963,23 @@ class CartManager extends Crud
         return $this->table;
     }
 
+
+    public function is_product_in_stock($content_id)
+    {
+
+        $item = content_data($content_id);
+        $isInStock = true;
+        if ($item) {
+                if (isset($item['qty']) and $item['qty'] != 'nolimit' ) {
+                    $quantity =intval( $item['qty']);
+                    if ($quantity < 1) {
+                        $isInStock = false;
+                    }
+                }
+
+        }
+
+        return $isInStock;
+    }
 
 }

@@ -2,13 +2,16 @@
 
 namespace MicroweberPackages\Form;
 
-use Illuminate\Http\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use League\Csv\Writer;
 use MicroweberPackages\Form\Models\Form;
+use MicroweberPackages\Form\Models\FormRecipient;
 use MicroweberPackages\Form\Notifications\NewFormEntry;
-use MicroweberPackages\Form\Notifications\NewFormEntryAutorespond;
+use MicroweberPackages\Form\Notifications\NewFormEntryAutoRespond;
+use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Models\User;
 
 
@@ -168,64 +171,18 @@ class FormsManager
             return array('error' => 'Please provide for_id parameter with module id');
         }
 
-
         $terms_and_conditions_name = 'terms_contact';
-
         $default_mod_id = 'contact_form_default';
-
 
         $dis_cap = $this->app->option_manager->get('disable_captcha', $for_id) == 'y';
         if (!$dis_cap) {
             $dis_cap = $this->app->option_manager->get('disable_captcha', $default_mod_id) == 'y';
         }
 
-        $email_from = $this->app->option_manager->get('email_from', $for_id);
-        if (!$email_from) {
-            $email_from = $this->app->option_manager->get('email_from', $default_mod_id);
-        }
-
-        $from_name = $this->app->option_manager->get('email_from_name', $for_id);
-        if (!$from_name) {
-            $from_name = $this->app->option_manager->get('email_from_name', $default_mod_id);
-        }
-
         $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $for_id) == 'y';
         if (!$newsletter_subscription) {
             $newsletter_subscription = $this->app->option_manager->get('newsletter_subscription', $default_mod_id) == 'y';
         }
-
-
-        $email_to = $this->app->option_manager->get('email_to', $for_id);
-        if (!$email_to) {
-            $email_to = $this->app->option_manager->get('email_to', $default_mod_id);
-        }
-
-        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
-        if (!$email_bcc) {
-            $email_bcc = $this->app->option_manager->get('email_bcc', $default_mod_id);
-        }
-
-        $email_reply = $this->app->option_manager->get('email_reply', $for_id);
-        if (!$email_reply) {
-            $email_reply = $this->app->option_manager->get('email_reply', $default_mod_id);
-        }
-
-        $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
-        if (!$email_autorespond) {
-            $email_autorespond = $this->app->option_manager->get('email_autorespond', $default_mod_id);
-        }
-
-        $email_autorespond_subject = $this->app->option_manager->get('email_autorespond_subject', $for_id);
-        $email_notification_subject = $this->app->option_manager->get('email_notification_subject', $for_id);
-
-        if (!$email_notification_subject) {
-            $email_notification_subject = $this->app->option_manager->get('email_notification_subject', $default_mod_id);
-        }
-
-        if (!$email_autorespond_subject) {
-            $email_autorespond_subject = $this->app->option_manager->get('email_autorespond_subject', $default_mod_id);
-        }
-
 
         $email_redirect_after_submit = $this->app->option_manager->get('email_redirect_after_submit', $for_id);
         if (!$email_redirect_after_submit) {
@@ -260,20 +217,10 @@ class FormsManager
                     'form_data_module' => 'captcha'
                 );
 
-
             } else {
-//                if ($for_id != false) {
-//                    $validate_captcha = mw()->captcha_manager->validate($params['captcha'], $for_id);
-//                    if (!$validate_captcha) {
-//                        $validate_captcha = mw()->captcha_manager->validate($params['captcha']);
-//                    }
-//                } else {
-//                    $validate_captcha = mw()->captcha_manager->validate($params['captcha']);
-//                }
 
                 $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], $for_id);
                 if (!$validate_captcha) {
-
                     return array(
                         'error' => _e('Invalid captcha answer!', true),
                         'captcha_error' => true,
@@ -281,7 +228,6 @@ class FormsManager
                         'form_data_required_params' => array('captcha_parent_for_id' => $for_id),
                         'form_data_module' => 'captcha'
                     );
-
 
                 }
             }
@@ -303,8 +249,6 @@ class FormsManager
 
 
         $user_require_terms = $this->app->option_manager->get('require_terms', $for_id);
-
-
         if (!$user_require_terms) {
             $user_require_terms = $this->app->option_manager->get('require_terms', $default_mod_id);
         }
@@ -387,16 +331,7 @@ class FormsManager
             }
         }
 
-
-        // if ($for=='module'){
         $list_id = $this->app->option_manager->get('list_id', $for_id);
-        //  }
-
-
-        if (isset($params['subject'])) {
-            $email_notification_subject = $params['subject'];
-        }
-
         if (!isset($list_id) or $list_id == false) {
             $list_id = 0;
         }
@@ -411,7 +346,7 @@ class FormsManager
 
         $more = $this->app->fields_manager->get($get_fields);
 
-        $cf_to_save = array();
+        $cfToSave = array();
         if (!empty($more)) {
             foreach ($more as $item) {
                 if (isset($item['name'])) {
@@ -422,24 +357,24 @@ class FormsManager
                     if (isset($params[$cfn2]) and $params[$cfn2] != false) {
                         $fields_data[$cfn2] = $params[$cfn2];
                         $item['value'] = $params[$cfn2];
-                        $cf_to_save[$cfn] = $item;
+                        $cfToSave[$cfn] = $item;
                     } elseif (isset($params[$cfn]) and $params[$cfn] != false) {
                         $fields_data[$cfn] = $params[$cfn];
                         $item['value'] = $params[$cfn2];
-                        $cf_to_save[$cfn] = $item;
+                        $cfToSave[$cfn] = $item;
                     }
                 }
             }
         } else {
-            $cf_to_save = $params;
+            $cfToSave = $params;
         }
         $save = 1;
 
         $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $for_id);
         if (!$skip_saving_emails) {
             $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $default_mod_id);
-            $skip_saving_emails = $this->app->option_manager->get('skip_saving_emails', $default_mod_id);
         }
+
         if ($skip_saving_emails !== 'y') {
 
             $to_save['list_id'] = $list_id;
@@ -522,7 +457,7 @@ class FormsManager
                         $validatorMessages = reset($inputFieldErros);
                     }
                     return array(
-                        'error' => _e($validatorMessages, true)
+                        'error' => $validatorMessages
                     );
                 }
 
@@ -589,17 +524,19 @@ class FormsManager
             $event_params = $params;
             $event_params['saved_form_entry_id'] = $save;
 
+            $formModel = Form::find($save);
 
-            $form_model = Form::find($save);
-            Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($form_model));
+            // Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
 
             $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
         }
 
         if (isset($params['module_name'])) {
+
             $pp_arr = $params;
             $pp_arr['ip'] = MW_USER_IP;
+
             unset($pp_arr['module_name']);
             if (isset($pp_arr['rel_type'])) {
                 unset($pp_arr['rel_type']);
@@ -621,129 +558,66 @@ class FormsManager
                 unset($pp_arr['for_id']);
             }
 
-
             if (isset($pp_arr['message'])) {
                 $temp = $pp_arr['message'];
                 $temp = nl2br($temp);
                 unset($pp_arr['message']);
                 $pp_arr['message'] = $temp; // push to end of array
             }
-            $user_mails = array();
 
-            /*        $notif = array();
-                    $notif['module'] = $params['module_name'];
-                    $notif['rel_type'] = 'forms_data';
-                    $notif['rel_id'] = $save;
-                    $notif['title'] = 'New form entry';
-                    $notif['description'] = $email_notification_subject ?: 'You have new form entry';
-                    $notif['content'] = 'You have new form entry from ' . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
-                    $this->app->notifications_manager->save($notif);
-
-        */
+            $userEmails = array();
 
             if (isset($save) and $save) {
 
-                if ($email_to == false) {
-                    $email_to = $this->app->option_manager->get('email_from', 'email');
-                }
-
-
-                /* $admin_user_mails = array();
-
-                 if ($email_to == false) {
-                     $admins = $this->app->user_manager->get_all('is_admin=1');
-                     if (is_array($admins) and !empty($admins)) {
-                         foreach ($admins as $admin) {
-                             if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
-                                 $admin_user_mails[] = $admin['email'];
-                                 $email_to = $admin['email'];
-                                 $user_mails[] = $admin['email'];
-                             }
-                         }
-                     }
-
-                 }*/
                 if (is_array($params) and !empty($params)) {
                     foreach ($params as $param) {
                         if (is_string($param) and (filter_var($param, FILTER_VALIDATE_EMAIL))) {
-                            $user_mails[] = $param;
+                            $userEmails[$param] = $param;
                         }
                     }
-
                 }
 
+                if (isset($cfToSave) and !empty($cfToSave)) {
+                    foreach ($cfToSave as $value) {
+                        if (is_array($value) and isset($value['value'])) {
+                            $mailsFromForm = $value['value'];
+                        } else {
+                            $mailsFromForm = $value;
+                        }
+                        if (filter_var($mailsFromForm, FILTER_VALIDATE_EMAIL)) {
+                            $userEmails[$mailsFromForm] = $mailsFromForm;
+                        }
+                    }
+                }
 
-                if ($email_to != false) {
-                    $mail_autoresp = 'Thank you for your request!';
+                if (!empty($userEmails)) {
 
-                    if ($email_autorespond != false) {
-                        $mail_autoresp = $email_autorespond;
+                    if (Option::getValue('email_custom_receivers', $for_id)) {
+                        $sendFormDataToReceivers = Option::getValue('email_to', $for_id);
+                    } else {
+                        $sendFormDataToReceivers = Option::getValue('email_to', 'contact_form_default');
                     }
 
-                    if ($mail_autoresp) {
-                        foreach ($params as $k => $v) {
-                            if (is_string($v) and !is_array($k)) {
-                                $rk = '{' . $k . '}';
-                                $mail_autoresp = str_replace($rk, $v, $mail_autoresp);
+                    if (empty(!$sendFormDataToReceivers)) {
+                        $receivers =  $this->explodeMailsFromString($sendFormDataToReceivers);
+                        if (!empty($receivers)) {
+                            foreach($receivers as $receiver) {
+                                Notification::route('mail', $receiver)->notify(new NewFormEntry($formModel));
                             }
                         }
                     }
 
-//@todo
-//                    $user_mails[] = $email_to;
-//                    if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
-//                        $user_mails[] = $email_bcc;
-//                    }
+                    if (Option::getValue('email_autorespond_enable', $for_id) && is_array($userEmails)) {
+                        foreach ($userEmails as $userEmail) {
 
-                    // $email_from = false;
-                    if (!$email_from and isset($cf_to_save) and !empty($cf_to_save)) {
-                        foreach ($cf_to_save as $value) {
-                            if (is_array($value) and isset($value['value'])) {
-                                $to = $value['value'];
-                            } else {
-                                $to = $value;
+                            $findFormRecipient = FormRecipient::where('email', $userEmail)->first();
+                            if ($findFormRecipient == null) {
+                                $findFormRecipient = new FormRecipient();
+                                $findFormRecipient->email = $userEmail;
+                                $findFormRecipient->save();
                             }
 
-                            if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                                $user_mails[] = $to;
-                                $email_from = $to;
-                            }
-                        }
-                    }
-
-
-                    //  $from_name = $email_from;
-                    if (isset($params['name']) and $params['name']) {
-                        $from_name = $params['name'];
-                    }
-                    if (isset($params['from_name']) and $params['from_name']) {
-                        $from_name = $params['from_name'];
-                    }
-
-                    if (!empty($user_mails)) {
-                        array_unique($user_mails);
-
-                        $append_files = $this->app->option_manager->get('append_files', $for_id);
-                        if (!$append_files) {
-                            $append_files = $this->app->option_manager->get('append_files', $default_mod_id);
-                        }
-
-                        $append_files_ready = array();
-                        if (!empty($append_files)) {
-                            $append_files_ready = explode(",", $append_files);
-                        }
-                        //  var_dump($user_mails);
-
-                        $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
-
-                        if ($user_mails) {
-                            foreach ($user_mails as $user_mail) {
-                                try {
-                                    Notification::route('mail', $user_mail)->notifyNow(new NewFormEntryAutorespond($form_model));
-                                } catch (\Exception $e) {
-
-                                }
-                            }
+                            $findFormRecipient->notifyNow((new NewFormEntryAutoRespond($formModel)));
                         }
                     }
                 }
@@ -772,6 +646,74 @@ class FormsManager
 
     }
 
+    public function explodeMailsFromString($emailsListString)
+    {
+        $emailsList = [];
+        if (!empty($emailsListString)) {
+            if (strpos($emailsListString, ',') !== false) {
+                $explodedMails = explode(',', $emailsListString);
+                if (is_array($explodedMails)) {
+                    foreach ($explodedMails as $email) {
+                        $email = trim($email);
+                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            $emailsList[] = $email;
+                        }
+                    }
+                }
+            } else {
+                if (filter_var($emailsListString, FILTER_VALIDATE_EMAIL)) {
+                    $emailsList[] = $emailsListString;
+                }
+            }
+        }
+
+        return $emailsList;
+    }
+
+    public function getAutoRespondSettings($formId) {
+
+        $systemEmailOptionGroup = 'email';
+        $contactFormGlobalOptionGroup = 'contact_form_default';
+
+        /**
+         * Auto Respond custom sender
+         */
+        if (Option::getValue('email_autorespond_custom_sender', $formId)) {
+            $emailFrom = Option::getValue('email_autorespond_from', $formId);
+            $emailFromName = Option::getValue('email_autorespond_from_name', $formId);
+        } else {
+            /**
+             * Sending options if we dont have a custom auto respond sender
+             */
+            if (Option::getValue('email_custom_sender', $contactFormGlobalOptionGroup)) {
+                // We will get the global contact form options
+                $emailFrom = Option::getValue('email_from', $contactFormGlobalOptionGroup);
+                $emailFromName = Option::getValue('email_from_name', $contactFormGlobalOptionGroup);
+            } else {
+                // We will get the system email options
+                $emailFrom = Option::getValue('email_from', $systemEmailOptionGroup);
+                $emailFromName = Option::getValue('email_from_name', $systemEmailOptionGroup);
+            }
+        }
+
+        /**
+         * Auto Respond to user
+         */
+        $emailContent = Option::getValue('email_autorespond', $formId);
+        $emailSubject = Option::getValue('email_autorespond_subject', $formId);
+        $emailReplyTo = Option::getValue('email_autorespond_reply_to', $formId);
+        $emailAppendFiles = Option::getValue('email_autorespond_append_files', $formId);
+
+        return [
+            'emailContent'=>$emailContent,
+            'emailSubject'=>$emailSubject,
+            'emailReplyTo'=>$emailReplyTo,
+            'emailAppendFiles'=>$emailAppendFiles,
+            'emailFrom'=>$emailFrom,
+            'emailFromName'=>$emailFromName
+        ];
+    }
+
     public function get_lists($params)
     {
         $params = parse_params($params);
@@ -798,19 +740,6 @@ class FormsManager
 
                 if (isset($data[0])) {
                     unset($data[0]);
-                }
-            }
-        }
-
-        if (!empty($data) && class_exists(Country::class)) {
-            foreach ($data as $country) {
-                $findCountry = Country::where('code', $country[0])->where('name', $country[1])->first();
-                if (!$findCountry) {
-                    $newCountry = new Country();
-                    $newCountry->code = $country[0];
-                    $newCountry->name = $country[1];
-                    $newCountry->phonecode = $country[2];
-                    $newCountry->save();
                 }
             }
         }
@@ -886,7 +815,8 @@ class FormsManager
             return array('error' => 'Please specify list id! By posting field id=the list id ');
         } else {
             $lid = intval($params['id']);
-            $data = get_form_entires('limit=100000&list_id=' . $lid);
+           // $data = get_form_entires('limit=100000&list_id=' . $lid);
+            $data = get_form_entires('limit=100000');
 
             $surl = $this->app->url_manager->site();
             $csv_output = '';

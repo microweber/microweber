@@ -1,13 +1,16 @@
 <?php if(!is_admin()){error("must be admin");}; ?>
  <?php $here = $config['url_to_module']; ?>
  
-<p><?php _e("Microweber supports importing content from"); ?>
+<p> <?php _e("Supported formats"); ?>
     <a href="<?php print $here; ?>samples/sample.csv" class="mw-ui-link">csv</a>,
     <a href="<?php print $here; ?>samples/sample.json" class="mw-ui-link">json</a>,
     <a href="<?php print $here; ?>samples/sample.xlsx" class="mw-ui-link">xls</a>,
     <a href="<?php print $here; ?>samples/other_cms.zip" class="mw-ui-link"><?php _e('other files'); ?></a>.
 </p>
 <div id="backups_list" >
+
+    <div class="alert alert-danger">This module is depricated.</div>
+
   <h2><?php _e("Avaiable import files"); ?></h2>
   <table   cellspacing="0" cellpadding="0" class="mw-ui-table">
     <thead>
@@ -33,8 +36,9 @@
       </tr>
     </tfoot>
     <tbody>
-      <?php $backups = mw('Microweber\Utils\Import')->get();
-		  if(isarr($backups )): ?>
+      <?php
+      $backups = false;// mw('Microweber\Utils\Import')->get();
+      if(isarr($backups )): ?>
       <?php
 	  $i = 1;
 	   foreach($backups  as $item): ?>

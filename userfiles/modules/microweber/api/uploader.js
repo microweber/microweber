@@ -151,8 +151,14 @@
             if(this.settings.element) {
                 this.$element = $(this.settings.element);
                 this.element = this.$element[0];
+
                 if(this.element) {
                     this.$element/*.empty()*/.append(this.input);
+                    var pos = getComputedStyle(this.element).position;
+                    if(pos === 'static') {
+                        this.element.style.position = 'relative';
+                    }
+                    this.element.style.overflow = 'hidden';
                 }
             }
         };
@@ -320,7 +326,6 @@
                                 $(scope).trigger('FilesUploaded');
                             }
                         }, function (xhr){
-                            console.log(1)
                             if(scope.settings.on.fileUploadError) {
                                 scope.settings.on.fileUploadError(xhr)
                             }

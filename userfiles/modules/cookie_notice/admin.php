@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -222,7 +222,9 @@ code:			'123456'
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <a href="<?php echo admin_url('view:settings#option_group=advanced');?>" target="_blank">Check Google Analytics Code</a>
+
+                        <div class="col-md-6" style="display: none;">
                             <div class="form-group">
                                 <label class="control-label"><?php _e('Google Analytics code'); ?>:</label>
                                 <input type="text" class="form-control Google_Analytics_code" value="<?php print $settings['Google_Analytics']['code']; ?>">
@@ -242,7 +244,7 @@ code:			'123456'
 
                     <div class="custom-control custom-radio d-inline-block mr-2">
                         <input type="radio" id="Facebook_Pixel_enabled2" name="Facebook_Pixel_enabled" class="custom-control-input enable" value="false" <?php if ('' == trim($settings['Facebook_Pixel']['enabled']) or 'false' == trim($settings['Facebook_Pixel']['enabled'])): ?>checked<?php endif; ?>>
-                        <label class="custom-control-label" for="Facebook_Pixel_enabled2"><?php _e("no"); ?></label>
+                        <label class="custom-control-label" for="Facebook_Pixel_enabled2"><?php _e("No"); ?></label>
                     </div>
                </div>
 
@@ -255,7 +257,9 @@ code:			'123456'
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <a href="<?php echo admin_url('view:settings#option_group=advanced');?>" target="_blank">Check Facebook Pixel Code</a>
+
+                        <div class="col-md-6" style="display: none;">
                             <div class="form-group">
                                 <label class="control-label"><?php _e('Facebook Pixel code'); ?>:</label>
                                 <input type="text" class="form-control Facebook_Pixel_code" value="<?php print $settings['Facebook_Pixel']['code']; ?>">

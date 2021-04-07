@@ -5,7 +5,6 @@
 <?php else: ?>
 <?php include_once($config['path_to_module'].'admin_live_edit.php'); ?>
 <?php endif; ?>
-
 <script>
 
     $(document).ready(function () {

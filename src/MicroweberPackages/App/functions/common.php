@@ -551,18 +551,18 @@ if (!function_exists('is_cli')) {
     }
 }
 
-
-if (!function_exists('is_https')) {
-    function is_https()
-    {
-        if (isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) == 'on')) {
-            return true;
-        } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) and (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) {
-            return true;
-        }
-        return false;
-    }
-}
+//
+//if (!function_exists('is_https')) {
+//    function is_https()
+//    {
+//        if (isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) == 'on')) {
+//            return true;
+//        } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) and (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) {
+//            return true;
+//        }
+//        return false;
+//    }
+//}
 if (!function_exists('is_closure')) {
     function is_closure($t)
     {

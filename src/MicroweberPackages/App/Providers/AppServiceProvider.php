@@ -6,8 +6,10 @@ use Hamcrest\Core\Is;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Jenssegers\Agent\Agent;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
@@ -16,14 +18,17 @@ use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
+use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
+use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
+use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
+use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
-use MicroweberPackages\Utils\Captcha\CaptchaManagerServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
@@ -56,7 +61,6 @@ use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Order\Providers\OrderServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
-use MicroweberPackages\Payment\PaymentServiceProvider;
 use MicroweberPackages\Post\PostServiceProvider;
 use MicroweberPackages\Product\ProductServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
@@ -65,6 +69,7 @@ use MicroweberPackages\Tax\TaxManagerServiceProvider;
 
 use MicroweberPackages\Tag\TagsManagerServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
+use MicroweberPackages\Utils\Captcha\Providers\CaptchaManagerServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use Spatie\Permission\PermissionServiceProvider;
@@ -98,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Hashing\HashServiceProvider::class,
         \Illuminate\Mail\MailServiceProvider::class,
         \Illuminate\Notifications\NotificationServiceProvider::class,
-        \Illuminate\Pagination\PaginationServiceProvider::class,
+        \MicroweberPackages\Pagination\PaginationServiceProvider::class,
         \Illuminate\Pipeline\PipelineServiceProvider::class,
         \Illuminate\Queue\QueueServiceProvider::class,
         \Illuminate\Redis\RedisServiceProvider::class,
@@ -198,9 +203,13 @@ class AppServiceProvider extends ServiceProvider
             define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
         }
 
-        //   $this->app->register(TaggableFileCacheServiceProvider::class);
+        if (config::get('microweber.force_https') && !is_cli()) {
+            URL::forceScheme("https");
+        }
+            //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
+        $this->app->register(TranslationServiceProvider::class);
         $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
@@ -224,9 +233,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ShopManagerServiceProvider::class);
         $this->app->register(TaxManagerServiceProvider::class);
         $this->app->register(OrderServiceProvider::class);
+        $this->app->register(OrderEventServiceProvider::class);
         $this->app->register(CurrencyServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
+        $this->app->register(ShippingManagerServiceProvider::class);
 
         $this->app->register(FileManagerServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
@@ -240,7 +251,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
-        $this->app->register(PaymentServiceProvider::class);
+        //$this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);
         $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
         //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
@@ -266,14 +277,14 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('mw_migrator', function ($app) {
             $repository = $app['migration.repository'];
-            return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events'], $app);
+            return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events']);
         });
 
         foreach ($this->laravel_providers as $provider) {
             $this->app->register($provider);
         }
 
-        $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
+      //  $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
@@ -345,6 +356,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('parser', function ($app) {
             return new Parser($app);
         });
+
+        $this->app->singleton('browser_agent', function ($app) {
+            return new Agent();
+        });
     }
 
     protected function registerSingletonProviders()
@@ -415,6 +430,8 @@ class AppServiceProvider extends ServiceProvider
                         return;
                     }
                 );
+
+                DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
 
@@ -493,7 +510,8 @@ class AppServiceProvider extends ServiceProvider
 
 
         if (mw_is_installed()) {
-            $this->app->event_manager->trigger('mw.after.boot', $this);
+
+             $this->app->event_manager->trigger('mw.after.boot', $this);
         }
 
         // >>> MW Kernel add

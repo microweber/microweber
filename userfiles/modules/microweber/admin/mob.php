@@ -44,7 +44,7 @@ if(array_key_exists('post', $_GET)){     ?>
 </div>
 
 <div class="mw-ui-field-holder">
-  <input type="text" name="title" class="mw-ui-field mw-ui-fieldtitle mw-ui-field-full" placeholder="Title" id="title"  />
+  <input type="text" name="title" class="mw-ui-field mw-ui-fieldtitle mw-ui-field-full" placeholder="<?php _e('Title'); ?>" id="title"  />
 </div>
 
 <div class="mw-ui-field-holder">
@@ -54,7 +54,7 @@ if(array_key_exists('post', $_GET)){     ?>
 
 </div>
 <div class="mw-ui-field-holder">
-    <textarea name="content" class="mw-ui-field mw-ui-field-full" style="height: 100px;"  placeholder="Content" id="content"></textarea>
+    <textarea name="content" class="mw-ui-field mw-ui-field-full" style="height: 100px;"  placeholder="<?php _e('Content'); ?>" id="content"></textarea>
 </div>
 <div class="mw-ui-field-holder">
 
@@ -97,10 +97,8 @@ if(array_key_exists('post', $_GET)){     ?>
 if (!empty($content)) {
      foreach($content as $item){   ?>
 
-     <pre><?php d($item); exit(); ?></pre>
-
        <div class="mob-post">
-        <img width="50" src="<?php print thumbnail($item['image']); ?>" alt="" />  <?php print $item['title']; ?>
+        <img width="50" src="<?php print thumbnail($item['image']); ?>" alt="" />  <?php print($item['title']); ?>
        </div>
 
 

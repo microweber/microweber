@@ -6,9 +6,9 @@
 </script>
 
 <script type="text/javascript">
-    mw.on.hashParam("search", function () {
+    mw.on.hashParam("search", function (pval) {
         if (this !== '') {
-            $('#mw_admin_posts_with_comments').attr('data-search-keyword', this);
+            $('#mw_admin_posts_with_comments').attr('data-search-keyword', pval);
         } else {
             $('#mw_admin_posts_with_comments').removeAttr('data-search-keyword');
         }
@@ -17,14 +17,14 @@
             mw.$(".mw-ui-searchfield, input[type='search']").removeClass('loading');
         });
     });
-    mw.on.hashParam("content_id", function () {
+    mw.on.hashParam("content_id", function (pval) {
         mw.$("a.comments-group").removeClass("active");
-        mw.$("a[href*='content_id=" + this + "']").addClass("active");
-        if (this == 'settings') {
+        mw.$("a[href*='content_id=" + pval + "']").addClass("active");
+        if (pval == 'settings') {
             $('.comments-settings').show();
             $('.comments-items').hide();
             $('.comments-templates').hide();
-        } else if (this == 'templates') {
+        } else if (pval == 'templates') {
             $('.comments-settings').hide();
             $('.comments-items').hide();
             $('.comments-templates').show();
@@ -33,10 +33,10 @@
             $('.comments-items').show();
             $('.comments-templates').hide();
         }
-        if (this !== '' && this != '0') {
+        if (pval !== '' && pval != '0') {
             $('#mw_comments_admin_dashboard').hide();
             $('#mw_admin_posts_with_comments').show();
-            $('#mw_admin_posts_with_comments').attr('content_id', this);
+            $('#mw_admin_posts_with_comments').attr('content_id', pval);
             mw.reload_module('#mw_admin_posts_with_comments', function () {
                 mw.adminComments.toggleMaster(document.querySelector('.comment-info-holder'));
             });
@@ -48,11 +48,11 @@
         }
     });
 
-    mw.on.hashParam("rel_id", function () {
-        if (this !== '' && this != '0') {
+    mw.on.hashParam("rel_id", function (pval) {
+        if (pval !== '' && pval != '0') {
             $('#mw_comments_admin_dashboard').hide();
             $('#mw_admin_posts_with_comments').show();
-            $('#mw_admin_posts_with_comments').attr('rel_id', this);
+            $('#mw_admin_posts_with_comments').attr('rel_id', pval);
             mw.reload_module('#mw_admin_posts_with_comments', function () {
                 mw.adminComments.toggleMaster(document.querySelector('.comment-info-holder'));
             });

@@ -17,6 +17,8 @@ use Composer\Installer\InstallationManager;
 use Composer\IO\NullIO;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
+use MicroweberPackages\Package\Helpers\ComposerAutoloadGenerator;
+use MicroweberPackages\Package\Helpers\ComposerInstaller;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -78,17 +80,21 @@ EOT
         }
 
         $composer = $this->getComposer(true, true);
-       // $composer->getDownloadManager()->setOutputProgress(false);
+        // $composer->getDownloadManager()->setOutputProgress(false);
         $composer->getDownloadManager()->setPreferDist(true);
         $composer->getDownloadManager()->setPreferSource(false);
 
+        $autoload_generator = new ComposerAutoloadGenerator($composer->getEventDispatcher(), $io);
+
+        $composer->setAutoloadGenerator($autoload_generator);
 
 
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'install', $input, $output);
         $composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent);
 
 
-        $install = Installer::create($io, $composer);
+        $install = ComposerInstaller::create($io, $composer);
+        //     $install->setauto
 
         $preferSource = false;
         $preferDist = false;
@@ -109,8 +115,8 @@ EOT
             ->setPreferDist(1)
             ->setDevMode(false)
             //->setDumpAutoloader(false)
-           // ->setRunScripts(false)
-           ->setSkipSuggest(true)
+            // ->setRunScripts(false)
+            ->setSkipSuggest(true)
             ->setOptimizeAutoloader(false)
             ->setPreferStable(true)
             ->setClassMapAuthoritative(false)

@@ -14,8 +14,9 @@ namespace MicroweberPackages\User\Providers;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use MicroweberPackages\User\Services\RSAKeys;
 use MicroweberPackages\User\UserManager;
-use phpseclib\Crypt\RSA;
+
 
 
 class UserServiceProvider extends AuthServiceProvider
@@ -49,8 +50,7 @@ class UserServiceProvider extends AuthServiceProvider
             $need_to_generate_keys = true;
         }
         if ($need_to_generate_keys) {
-            $rsa = new RSA();
-            $keys = $rsa->createKey( 4096);
+            $keys = RSAKeys::createKey( 4096);
             file_put_contents($publicKey, \Arr::get($keys, 'publickey'));
             file_put_contents($privateKey, \Arr::get($keys, 'privatekey'));
         }

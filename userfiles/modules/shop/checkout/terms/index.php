@@ -4,6 +4,26 @@ $terms = get_option('shop_require_terms', 'website') == 1;
 
 
 $template = get_option('data-template', $params['id']);
+
+
+
+
+$terms_label = get_option('terms_label', 'checkout');
+$terms_url = get_option('terms_url', 'checkout');
+
+if (!$terms_url) {
+    $terms_url = site_url() . 'terms';
+}
+
+
+if (!$terms_label) {
+    $terms_label = _e('I agree with the Terms and Conditions', true);
+} else {
+    $terms_label = _e($terms_label, true);
+
+}
+
+
 $template_file = false;
 $module_template = false;
 if ($template != false and strtolower($template) != 'none') {

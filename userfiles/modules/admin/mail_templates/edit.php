@@ -49,9 +49,27 @@ if (!empty($template_id)) {
     }
 </script>
 
-
+<?php // _e("These values will be replaced with the actual content"); ?>
 <script>mw.require('editor.js')</script>
 <script>
+
+    MWEditor.controllers.mailTemplateFormDropdownVariables = function (scope, api, rootScope, data) {
+        this.checkSelection = function (opt) {
+            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+        };
+        this.render = function () {
+            var dropdown = new MWEditor.core.dropdown({
+                data: <?php echo json_encode(get_mail_template_fields($template['type'])); ?>,
+                placeholder: rootScope.lang('<?php _e("E-mail Values"); ?>')
+            });
+            dropdown.select.on('change', function (e, val) {
+                api.insertHTML(val.value);
+            });
+            return dropdown.root;
+        };
+        this.element = this.render();
+    };
+
     $(document).ready(function () {
         mweditor = mw.Editor({
             selector: '#editorAM',
@@ -82,7 +100,7 @@ if (!empty($template_id)) {
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table'
+                    '|', 'link', 'unlink', 'wordPaste', 'table', 'mailTemplateFormDropdownVariables'
                 ],
             ]
         });
@@ -94,32 +112,10 @@ if (!empty($template_id)) {
     });
 </script>
 
-<div id="editorctrls" style="display: none">
-    <span class="mw_dlm"></span>
-    <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="email_content_dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
-        <span class="mw-dropdown-value">
-            <span class="mw-dropdown-val"><?php _e("E-mail Values"); ?></span>
-        </span>
-        <div class="mw-dropdown-content">
-            <ul>
-                <?php
-                $mailTypes = get_mail_template_fields($template['type']);
-                if (!empty($mailTypes)):
-                    ?>
-                    <?php foreach ($mailTypes as $field): ?>
-                    <li value="<?php echo $field['tag']; ?>"><a href="javascript:;"><?php _e($field['name']); ?></a></li>
-                <?php endforeach; ?>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </div>
-
-</div>
-
 <form id="edit-mail-template-form">
     <div class="card bg-light style-1 mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong>Mail Template</strong></h5>
+            <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong><?php _e("Mail Template"); ?></strong></h5>
             <div>
 
             </div>
@@ -131,13 +127,13 @@ if (!empty($template_id)) {
                 <div class="col-12">
                     <div class="form-group mb-4">
                         <label class="control-label"><?php _e("Template Name"); ?></label>
-                        <small class="text-muted d-block mb-2">Name the email template so you can recognize it more easily</small>
+                        <small class="text-muted d-block mb-2"><?php _e("Name the email template so you can recognize it more easily"); ?></small>
                         <input type="text" name="name" value="<?php echo $template['name']; ?>" class="form-control">
                     </div>
 
                     <div class="form-group mb-3">
                         <label class="control-label"><?php _e("Is this mail template Active?"); ?></label>
-                        <small class="text-muted d-block mb-2">Тurn off or turn on auto-reply for this email template</small>
+                        <small class="text-muted d-block mb-2"><?php _e("Тurn off or turn on auto-reply for this email template"); ?></small>
                     </div>
 
                     <div class="form-group mb-4">
@@ -150,7 +146,7 @@ if (!empty($template_id)) {
 
                     <div class="form-group mb-4">
                         <label class="control-label"><?php _e("Template type"); ?></label>
-                        <small class="text-muted d-block mb-2">Name the email template so you can recognize it more easily</small>
+                        <small class="text-muted d-block mb-2"><?php _e("Name the email template so you can recognize it more easily"); ?></small>
                         <div>
                             <select name="type" class="js-template-type selectpicker" data-width="100%">
                                 <?php foreach (get_mail_template_types() as $type): ?>
@@ -163,12 +159,12 @@ if (!empty($template_id)) {
             </div>
             <hr class="thin"/>
 
-            <h5 class="mb-3">Sendind the email</h5>
+            <h5 class="mb-3"><?php _e("Sendind the email"); ?></h5>
             <div class="row">
                 <div class="col-12">
                     <div class="form-group mb-4">
                         <label class="control-label"><?php _e("From Name"); ?></label>
-                        <small class="text-muted d-block mb-2">On what behalf will the e-mail be sent?</small>
+                        <small class="text-muted d-block mb-2"><?php _e("On what behalf will the e-mail be sent"); ?>?</small>
                         <input type="text" name="from_name" value="<?php echo $template['from_name']; ?>" class="form-control">
                     </div>
                 </div>
@@ -176,7 +172,7 @@ if (!empty($template_id)) {
                 <div class="col-md-6">
                     <div class="form-group mb-4">
                         <label class="control-label"><?php _e("From E-mail"); ?></label>
-                        <small class="text-muted d-block mb-2">From which email it will be sent?</small>
+                        <small class="text-muted d-block mb-2"><?php _e("From which email it will be sent"); ?>?</small>
                         <input type="text" name="from_email" value="<?php echo $template['from_email']; ?>" class="form-control" placeholder="Ex. your@mail.com">
                     </div>
                 </div>
@@ -184,7 +180,7 @@ if (!empty($template_id)) {
                 <div class="col-md-6">
                     <div class="form-group mb-4">
                         <label class="control-label"><?php _e("Copy To"); ?></label>
-                        <small class="text-muted d-block mb-2">To which email should you send a copy?</small>
+                        <small class="text-muted d-block mb-2"><?php _e("To which email should you send a copy"); ?>?</small>
                         <input type="text" name="copy_to" class="form-control" value="<?php echo $template['copy_to']; ?>" placeholder="Ex. your@mail.com">
 
                     </div>
@@ -192,12 +188,15 @@ if (!empty($template_id)) {
             </div>
             <hr class="thin"/>
 
-            <h5 class="mb-3">Message</h5>
+
+            <?php event_trigger('admin_mail_templates_message'); ?>
+
+            <h5 class="mb-3"><?php _e("Message"); ?></h5>
             <div class="row">
                 <div class="col-12">
                     <div class="form-group mb-4">
                         <label class="control-label"><?php _e("Subject"); ?></label>
-                        <small class="text-muted d-block mb-2">Subject of your email</small>
+                        <small class="text-muted d-block mb-2"><?php _e("Subject of your email"); ?></small>
                         <input type="text" name="subject" value="<?php echo $template['subject']; ?>" class="form-control">
                     </div>
 

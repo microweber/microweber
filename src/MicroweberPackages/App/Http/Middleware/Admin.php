@@ -30,13 +30,12 @@ class Admin
         if (!mw_is_installed()) {
             return redirect(site_url());
         }
-
-        if (Auth::check() && Auth::user()->is_admin == 1) {
+        if (Auth::check() && intval(Auth::user()->is_admin) === 1) {
             return $next($request);
         }
 
-        if ($this->inExceptArray($request) || Auth::check()) {
-            return $next($request);
+        if ($this->inExceptArray($request) || (Auth::check() && intval(Auth::user()->is_admin) === 1)) {
+             return $next($request);
         }
 
         return redirect()->guest(route('admin.login'));

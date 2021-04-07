@@ -68,12 +68,12 @@
                 <h5 class="text-primary text-break-line-2"><?php print content_title($comment['rel_id']); ?></h5>
             </div>
 
-            <div class="col-12 col-sm text-right"><?php print mw()->format->ago($comment['created_at']); ?></div>
+            <div class="col-12 col-sm text-right"><?php _e(mw()->format->ago($comment['created_at'])); ?></div>
         </div>
         <div class="collapse" id="comments-<?php print $comment['id'] ?>">
             <div class="row mt-3">
                 <div class="col-12">
-                    <a href="<?php print content_link($comment['rel_id']); ?>" class="btn btn-primary btn-sm btn-rounded" target="_blank">View article</a>
+                    <a href="<?php print content_link($comment['rel_id']); ?>" class="btn btn-primary btn-sm btn-rounded" target="_blank"><?php _e("View article"); ?></a>
                 </div>
             </div>
 
@@ -95,7 +95,7 @@
                         </div>
                         <div class="col">
                             <div class="mb-1">
-                                <small class="text-muted">Status</small>
+                                <small class="text-muted"><?php _e("Status"); ?></small>
                             </div>
                             <script>
                                 $(document).ready(function () {
@@ -106,14 +106,14 @@
                             </script>
                             <div>
                                 <select class="selectpicker js-change-color js-modify-comment d-inline-block" data-style="btn-success btn-sm" data-width="fit" data-title="<?php _e($status); ?>">
-                                    <option class="js-comment-approved-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-success"><?php print _e('Published'); ?></option>
-                                    <option class="js-comment-unpublished-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-warning"><?php print _e('Unpublish'); ?></option>
-                                    <option class="js-mark-spam-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-secondary"><?php print _e('Mark as Spam'); ?></option>
-                                    <option class="js-delete-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-danger"><?php print _e('Delete'); ?></option>
+                                    <option class="js-comment-approved-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-success"><?php _e('Published'); ?></option>
+                                    <option class="js-comment-unpublished-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-warning"><?php _e('Unpublish'); ?></option>
+                                    <option class="js-mark-spam-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-secondary"><?php _e('Mark as Spam'); ?></option>
+                                    <option class="js-delete-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-danger"><?php _e('Delete'); ?></option>
                                 </select>
 
                                 <button class="js-edit-comment-btn btn btn-outline-secondary btn-sm" data-id="<?php print $comment['id'] ?>"><?php _e('Edit'); ?></button>
-                                <button class="js-save-comment-btn btn btn-success btn-sm" data-id="<?php print $comment['id'] ?>" style="display: none;"><i class="mw-icon-pen"></i><?php print _e('Save'); ?></button>
+                                <button class="js-save-comment-btn btn btn-success btn-sm" data-id="<?php print $comment['id'] ?>" style="display: none;"><i class="mw-icon-pen"></i><?php _e('Save'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -128,27 +128,27 @@
                                 <?php if (isset($comment['comment_name'])): ?>
                                     <?php print $comment['comment_name']; ?>
                                 <?php else: ?>
-                                    Guest
+                                    <?php _e("Guest"); ?>
                                 <?php endif; ?>
                             </strong>
 
                             <span class="js-comment-name-input" style="display: none;">
                                 <input type="text" name="comment_name" class="mw_option_field form-control form-control-sm d-inline-block w-auto" value="<?php print $comment['comment_name']; ?>"/>
                             </span>
-                            <small class="text-muted">says:</small>
+                            <small class="text-muted"><?php _e("says"); ?>:</small>
                         </h6>
 
                     <div class="mb-3">
                         <div class="js-comment-body-text"><?php print $comment['comment_body']; ?></div>
                         <span class="js-comment-body-textarea" style="display: none;">
-                            <small class="text-muted">Comment:</small>
+                            <small class="text-muted"><?php _e("Comment"); ?>:</small>
                             <textarea name="comment_body" class="form-control"><?php print $comment['comment_body']; ?></textarea>
                         </span>
                     </div>
 
                     <div class="mb-3">
                         <?php if ($comment['comment_email']) { ?>
-                            <small class="text-muted">E-mail:</small>
+                            <small class="text-muted"><?php _e("E-mail"); ?>:</small>
                             <span class="js-comment-email-text"><a href="mailto:<?php print $comment['comment_email']; ?>"><?php print $comment['comment_email']; ?></a></span>
 
                             <span class="js-comment-email-input" style="display: none;">
@@ -157,7 +157,7 @@
                         <?php } ?>
 
                         <?php if ($comment['comment_website']) { ?>
-                            <span class="js-comment-website-text"> | <a href="<?php print mw()->format->prep_url($comment['comment_website']); ?>" target="_blank">Website</a></span>
+                            <span class="js-comment-website-text"> | <a href="<?php print mw()->format->prep_url($comment['comment_website']); ?>" target="_blank"><?php _e("Website"); ?></a></span>
 
                             <span class="js-comment-website-input" style="display: none;">
                                     <input type="text" name="comment_website" class="mw_option_field form-control form-control-sm d-inline-block w-auto" value="<?php print $comment['comment_website']; ?>"/>
@@ -174,7 +174,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-12 mb-3">
-                                    <h5><strong>Add a new comment</strong></h5>
+                                    <h5><strong><?php _e("Add a new comment"); ?></strong></h5>
                                 </div>
                                 <div class="col" style="max-width: 80px;">
                                     <?php
@@ -198,10 +198,10 @@
                                     <form id="comment-form-reply-<?php print $comment['id'] ?>" class="js-reply-comment-form">
                                         <div class="form-group">
                                             <input type="hidden" name="reply_to_comment_id" value="<?php print $comment['id'] ?>">
-                                            <textarea placeholder="<?php print _e('Reply to'); ?> <?php print $comment['comment_name']; ?>" name="comment_body"></textarea>
+                                            <textarea placeholder="<?php _e('Reply to'); ?> <?php print $comment['comment_name']; ?>" name="comment_body"></textarea>
                                         </div>
                                         <div class="text-right">
-                                            <button class="btn btn-outline-secondary btn-sm" type="submit"><?php print _e('Post Comment'); ?></button>
+                                            <button class="btn btn-outline-secondary btn-sm" type="submit"><?php _e('Post Comment'); ?></button>
                                         </div>
                                     </form>
                                 </div>

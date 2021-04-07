@@ -19,6 +19,9 @@ if ($template_settings) {
                 }
             } elseif ($$key == null) {
                 $$key = '';
+                if (isset($setting['default'])) {
+                    $$key = $setting['default'];
+                }
             }
 
         }
@@ -48,6 +51,9 @@ if ($template_less_settings) {
                 }
             } elseif ($$less_key == null) {
                 $$less_key = '';
+                if (isset($setting['default'])) {
+                    $$less_key = $setting['default'];
+                }
             }
 
         }

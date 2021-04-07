@@ -15,10 +15,10 @@
         })
     });
 
-    mw.on.hashParam('orderstype', function () {
+    mw.on.hashParam('orderstype', function (pval) {
         mw.$("#cartsnav a").removeClass('active');
-        mw.$("#cartsnav a[href='#orderstype=" + this + "']").addClass('active');
-        if (this == 'carts') {
+        mw.$("#cartsnav a[href='#orderstype=" + pval + "']").addClass('active');
+        if (pval == 'carts') {
             mw.$('.mw-admin-order-sort-carts').show();
             mw.$('.mw-admin-order-sort-completed').hide();
         } else {
@@ -26,7 +26,7 @@
             mw.$('.mw-admin-order-sort-completed').show();
         }
 
-        mw.$('#mw-admin-manage-orders-list').attr('order-type', this);
+        mw.$('#mw-admin-manage-orders-list').attr('order-type', pval);
         mw.$('#mw-admin-manage-orders-list').removeAttr('keyword');
         mw.$('#mw-admin-manage-orders-list').removeAttr('order');
         mw.reload_module("#mw-admin-manage-orders-list", function () {
@@ -95,16 +95,16 @@
         }
     }
 
-    mw.on.hashParam('search', function () {
+    mw.on.hashParam('search', function (pval) {
         var field = document.getElementById('orders-search-field');
         $(field).addClass('loading')
 
         if (!field.focused) {
-            field.value = this;
+            field.value = pval;
         }
 
-        if (this != '') {
-            $('#mw-admin-manage-orders-list').attr('keyword', this);
+        if (pval != '') {
+            $('#mw-admin-manage-orders-list').attr('keyword', pval);
         } else {
             $('#mw-admin-manage-orders-list').removeAttr('keyword');
         }
@@ -144,8 +144,8 @@
 
     <div class="card style-1">
         <div class="card-header">
-            <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>List of orders</strong>
-                <a href="javascript:mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?php print _e('Add new order'); ?></a>
+            <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("List of orders"); ?></strong>
+                <a href="javascript:mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?php _e('Add new order'); ?></a>
             </h5>
 
             <div class="js-hide-when-no-items">

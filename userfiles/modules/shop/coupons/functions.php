@@ -21,8 +21,8 @@ function coupon_apply($params = array())
 
     $coupon = coupon_get_by_code($coupon_code);
     if (empty($coupon)) {
-        $json['error_message'] = 'The coupon code is not valid.<br />';
-        return $json;
+        $json['error_message'] = _e('The coupon code is not valid.', true);
+        return $json; 
     }
 
     $customer_ip = user_ip();
@@ -30,17 +30,18 @@ function coupon_apply($params = array())
     $checkout = new MicroweberPackages\Checkout\CheckoutManager();
     $getCart = $checkout->app->shop_manager->get_cart(array(
         'session_id' => $checkout->app->user_manager->session_id()
+
     ));
 
     $coupon['total_amount'] = floatval($coupon['total_amount']);
     $cartTotal = floatval(cart_total());
 
     // Check rules
-    if ($coupon['uses_per_customer'] > 0) {
+     if ($coupon and isset($coupon['uses_per_customer']) and $coupon['uses_per_customer'] > 0) {
         $getLog = coupon_log_get_by_code_and_customer_ip($coupon_code, $customer_ip);
 
-        if ($getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
-            $errorMessage .= 'The coupon can\'t be applied cause maximum uses is ' . $coupon['uses_per_customer'] . "<br />";
+        if (is_array($getLog) and $getLog['uses_count'] !== false && $getLog['uses_count'] >= $coupon['uses_per_customer']) {
+            $errorMessage .= _e('The coupon can\'t be applied cause maximum uses is', true) .' '. $coupon['uses_per_customer'] . "<br />";
         }
     }
 
@@ -48,16 +49,16 @@ function coupon_apply($params = array())
         $getLogs = coupon_logs_get_by_code($coupon_code);
 
         if (count($getLogs) >= $coupon['uses_per_coupon']) {
-            $errorMessage .= 'The coupon code is expired.<br />';
+            $errorMessage .= _e('The coupon code is expired', true) . '.<br />';
         }
     }
 
-    if ($cartTotal < $coupon['total_amount']) {
-        $errorMessage .= 'The coupon can\'t be applied because the minimum total amount is ' . currency_format($coupon['total_amount']) . "<br />";
+    if ($coupon and isset($coupon['total_amount']) and  $cartTotal < $coupon['total_amount']) {
+        $errorMessage .= _e('The coupon can\'t be applied because the minimum total amount is ', true) . currency_format($coupon['total_amount']) . "<br />";
     }
 
     if (!is_array($getCart)) {
-        $errorMessage .= 'The coupon can\'t be applied. The shopping cart is empty.';
+        $errorMessage .= _e('The coupon can\'t be applied. The shopping cart is empty.', true);
     }
 
     if (empty($errorMessage)) {
@@ -102,24 +103,24 @@ function coupons_save_coupon($couponData = array())
     $check = coupon_get_by_code($couponData['coupon_code']);
     if (!empty($check)) {
         if ($check['id'] != $couponData['id']) {
-            $errorMessage .= 'This coupon code allready exists. Please, try with another.<br />';
+            $errorMessage .= _e('This coupon code allready exists. Please, try with another', true) . '.<br />';
         }
     }
 
     if (!is_numeric($couponData['uses_per_coupon'])) {
-        $errorMessage .= 'Uses per coupon must be number.<br />';
+        $errorMessage .= _e('Uses per coupon must be number', true) . '.<br />';
     }
 
     if (!is_numeric($couponData['uses_per_customer'])) {
-        $errorMessage .= 'Uses per customer must be number.<br />';
+        $errorMessage .= _e('Uses per customer must be number', true) . '.<br />';
     }
 
     if (!is_numeric($couponData['discount_value'])) {
-        $errorMessage .= 'Discount value must be number.<br />';
+        $errorMessage .= _e('Discount value must be number', true) . '.<br />';
     }
 
     if (!is_numeric($couponData['total_amount'])) {
-        $errorMessage .= 'Total amount must be number.<br />';
+        $errorMessage .= _e('Total amount must be number', true) . '.<br />';
     }
 
     if (empty($errorMessage)) {
@@ -279,11 +280,11 @@ function coupons_delete_session()
 
 event_bind('mw.admin.shop.settings.menu', function ($data) {
     print '<div class="col-12 col-sm-6 col-lg-4">
-                <a href="?group=coupons" class="d-flex my-3">
+                <a href="#option_group=shop/coupons/admin" class="d-flex my-3">
                     <div class="icon-holder"><i class="mdi mdi-scissors-cutting mdi-20px"></i></div>
                     <div class="info-holder">
                         <span class="text-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
-                        <small class="text-muted">Creating and managing coupon codes</small>
+                        <small class="text-muted">' . _e('Creating and managing coupon codes', true) . '</small>
                     </div>
                 </a>
             </div>';

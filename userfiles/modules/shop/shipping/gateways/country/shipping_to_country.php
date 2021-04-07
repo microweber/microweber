@@ -38,18 +38,53 @@ class shipping_to_country
     function get_cost()
     {
 
+
         // $defined_cost = $this->app->user_manager->session_get('shipping_cost');
-        $shipping_country = $this->app->user_manager->session_get('shipping_country');
+        $shipping_country_name = $shipping_country_session = $this->app->user_manager->session_get('shipping_country');
+
+        if ($shipping_country_name == false and is_logged()) {
+            $shipping_address_from_profile = app()->user_manager->get_shipping_address();
+            if ($shipping_address_from_profile and isset($shipping_address_from_profile['country'])) {
+                $shipping_country_name = $shipping_address_from_profile['country'];
+            }
+        }
+
+
+        //if(!$shipping_country_session){
+//dd($shipping_address_from_profile);
+        //  }
+
+
+//        if(!$shipping_country and is_logged()){
+//            $user_info = checkout_get_user_info();
+//            if($user_info and isset($user_info["country"]) and $user_info["country"]){
+//                $shipping_country = $user_info["country"];
+//            }
+//        }
+
+
+        //  var_dump($shipping_country_name);
+
         $defined_cost = 0;
-        $shipping_country = $this->get('one=1&is_active=1&shipping_country=' . $shipping_country);
         $is_worldwide = false;
-        if ($shipping_country == false) {
+        if ($shipping_country_name == false) {
             $shipping_country = $this->get('one=1&is_active=1&shipping_country=Worldwide');
             if (is_array($shipping_country)) {
                 $is_worldwide = true;
 
             }
+        } else {
+            $shipping_country = $this->get('one=1&is_active=1&shipping_country=' . $shipping_country_name);
+            if (!$shipping_country) {
+                $shipping_country = $this->get('one=1&is_active=1&shipping_country=Worldwide');
+                if (is_array($shipping_country)) {
+                    $is_worldwide = true;
+                }
+            }
+
         }
+
+
         if ($shipping_country == false) {
 
 
@@ -58,6 +93,7 @@ class shipping_to_country
 
             //
         }
+
 
         if ($shipping_country == false) {
             $this->app->user_manager->session_set('shipping_country', 'none');
@@ -190,17 +226,17 @@ class shipping_to_country
 
             }
 
-
         }
-
 
         $items_cart_amount = $this->app->shop_manager->cart_sum();
 
         if (isset($shipping_country['shipping_cost_above']) and intval($shipping_country['shipping_cost_above']) > 0) {
             $shipping_cost_above = floatval($shipping_country['shipping_cost_above']);
-            if (intval($shipping_cost_above) > 0 and intval($shipping_country['shipping_cost_max']) > 0) {
-                if ($items_cart_amount > $shipping_cost_above) {
+            // if (intval($shipping_cost_above) > 0 and intval($shipping_country['shipping_cost_max']) > 0) {
+            if (isset($shipping_country['shipping_cost_max']) and trim($shipping_country['shipping_cost_max']) != '') {
+                if ($items_cart_amount >= $shipping_cost_above) {
                     $defined_cost = floatval($shipping_country['shipping_cost_max']);
+                    //   }
                 }
             }
         }
@@ -212,11 +248,16 @@ class shipping_to_country
 
             }
         }
-        if ($is_worldwide == false) {
-            $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
-        }
 
+
+        if (!$shipping_country_session) {
+            //  if ($is_worldwide == false) {
+            //     $this->app->user_manager->session_set('shipping_country', $shipping_country['shipping_country']);
+            // }
+        }
+//var_dump($shipping_country);
         $this->app->user_manager->session_set('shipping_cost', $defined_cost);
+        app()->shipping_manager->setDefaultDriver('shop/shipping/gateways/country');
 
         return $defined_cost;
     }
@@ -298,6 +339,9 @@ class shipping_to_country
     function set($params = false)
     {
 
+        app()->shipping_manager->setDefaultDriver('shop/shipping/gateways/country');
+
+
         $active = array();
         if (isset($params['shipping_country'])) {
             $params['country'] = $params['shipping_country'];
@@ -316,22 +360,50 @@ class shipping_to_country
                 if ($is_worldwide == true) {
                     $active['shipping_country'] = $params['country'];
                 }
-                $this->app->user_manager->session_set('shipping_country', $active['shipping_country']);
+
+                session_set('shipping_country', $active['shipping_country']);
                 $active['cost'] = $this->get_cost();
             }
         }
         if (is_array($params) and !empty($params)) {
             foreach ($params as $k => $v) {
                 if ($k != 'country' and $k != 'shipping_country') {
-                    if (is_string($k)) {
+                    if (is_string($k) and is_string($v)) {
                         $k = strip_tags($k);
                         $v = strip_tags($v);
-                        $this->app->user_manager->session_set('shipping_' . $k, $v);
+                        //  session_set('shipping_' . $k, $v);
                     }
                 }
 
             }
         }
+
+        $shipping_fields_keys = ['country', 'address', 'city', 'state', 'zip', 'other_info'];
+        $shipping_fields_vals_session = [];
+        $shipping_fields_to_save = null;
+        $look_for_address_in_array = $params;
+        if (isset($params['Address']) and is_array($params['Address'])) {
+            $merge = $params['Address'];
+            unset($params['Address']);
+            $look_for_address_in_array = array_merge($params, $merge);
+        }
+
+        if (is_array($look_for_address_in_array) and !empty($look_for_address_in_array)) {
+            foreach ($look_for_address_in_array as $k => $v) {
+                foreach ($shipping_fields_keys as $k1) {
+                    if ($k == $k1 and !isset($shipping_fields_vals_session[$k1])) {
+                        $shipping_fields_vals_session[$k1] = $v;
+                    }
+                }
+            }
+        }
+        if ($shipping_fields_vals_session) {
+            session_set('checkout', $shipping_fields_vals_session);
+        }
+        session_set('shipping_country', $active['shipping_country']);
+        $selected_country_from_session = session_get('shipping_country');
+
+        //   session_set('shipping_country_data', $active);
 
         return $active;
 
@@ -363,6 +435,66 @@ class shipping_to_country
                 // d($indx);
             }
         }
+    }
+
+
+    public function get_available_countries()
+    {
+        $data_disabled = $this->get("is_active=0");
+        $data = $this->get("is_active=1");
+        $countries_all = mw()->forms_manager->countries_list();
+
+
+        if (is_array($data)) {
+            foreach ($data as $key => $item) {
+                if (trim(strtolower($item['shipping_country'])) == 'worldwide') {
+                    unset($data[$key]);
+                    if (is_array($countries_all)) {
+
+                        foreach ($countries_all as $countries_new) {
+                            $data[] = array('shipping_country' => $countries_new);
+                        }
+
+                    }
+                }
+            }
+
+
+        }
+
+        if (is_array($data)) {
+            foreach ($data as $key => $item) {
+                $skip = false;
+                if (is_array($data_disabled)) {
+                    foreach ($data_disabled as $item_disabled) {
+                        if (trim(strtolower($item_disabled['shipping_country'])) == 'worldwide') {
+                                foreach ($data as $key => $item) {
+                                    if ($item['shipping_country'] == $item_disabled['shipping_country']){
+                                        $skip = 1;
+                                        unset($data[$key]);
+                                    }
+                                }
+
+
+                        } else if ($item['shipping_country'] == $item_disabled['shipping_country']) {
+                            $skip = 1;
+                            unset($data[$key]);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        $ready = [];
+        if (is_array($data)) {
+            foreach ($data as $key => $item) {
+                $ready[] = $item['shipping_country'];
+            }
+        }
+
+        return $ready;
+
     }
 
 

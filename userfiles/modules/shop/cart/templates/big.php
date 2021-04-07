@@ -19,7 +19,7 @@ description: Full width cart template
         </h4>
     </div>
     <?php if (is_array($data)) : ?>
-        <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium mw-cart-big-table">
+        <table class="table">
             <colgroup>
                 <col width="60">
                 <col width="620">

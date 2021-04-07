@@ -10,9 +10,9 @@ $(document).ready(function(){
         mw_select_order_for_editing(ord)
     }
 
-      mw.on.hashParam("vieworder", function(){
-          if(this!=false){
-            mw_select_order_for_editing(this);
+      mw.on.hashParam("vieworder", function(pval){
+          if(pval!=false){
+            mw_select_order_for_editing(pval);
           }
           else{
             mw_select_order_for_editing(0);

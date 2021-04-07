@@ -26,7 +26,7 @@ class CustomFieldsTest extends TestCase
             $fields_csv_str .= 'PersonTelephone[type=phone,field_size=6,show_placeholder=true],';
             $fields_csv_str .= 'PersonMessage[type=textarea,field_size=12,show_placeholder=true]';
 
-            $fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+            $fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
 
             $this->assertTrue((count($fields) == 3), true);
 
@@ -119,7 +119,7 @@ class CustomFieldsTest extends TestCase
     	$fields_csv_str = 'price, text, radio, select, checkbox, number, phone, website, email, address, date, time, fileupload, property, hidden, message';
     	$fields_csv_array = explode(',', $fields_csv_str);
 
-    	$fields = mw()->fields_manager->make_default($rel, $rel_id, $fields_csv_str);
+    	$fields = mw()->fields_manager->makeDefault($rel, $rel_id, $fields_csv_str);
 
     	foreach ($fields as $key=>$field_id) {
 
@@ -240,10 +240,11 @@ class CustomFieldsTest extends TestCase
         $my_product_id = 3;
 
         $custom_field = array(
-            'field_name' => 'My test price',
-            'field_value' => 10,
-            'field_type' => 'price',
-            'content_id' => $my_product_id,);
+            'name' => 'My test price',
+            'value' => 10,
+            'type' => 'price',
+            'content_id' => $my_product_id, 
+        );
 
         // adding a custom field "price" to product
         $new_id = save_custom_field($custom_field);
@@ -273,9 +274,9 @@ class CustomFieldsTest extends TestCase
         $my_product_id = 21;
         $vals = array('Red', 'Blue', 'Green');
         $custom_field = array(
-            'field_name' => 'Color',
-            'field_value' => $vals,
-            'field_type' => 'dropdown',
+            'name' => 'Color',
+            'value' => $vals,
+            'type' => 'dropdown',
             'content_id' => $my_product_id,);
 
         //adding a custom field "Color" to product

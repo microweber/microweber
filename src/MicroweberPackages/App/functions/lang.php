@@ -34,18 +34,55 @@ function _lang_is_rtl($lang = false)
     return mw()->lang_helper->lang_is_rtl($lang);
 }
 
-function _lang($title, $namespace = false, $return = false)
+function _lang($key, $namespace = false, $return = false)
 {
     if ($return) {
-        return lang($title, $namespace);
+        return lang($key, $namespace);
     }
 
-    echo lang($title, $namespace);
+    print lang($key, $namespace);
 }
 
-function lang($title, $namespace = false)
+function lang($key, $namespace = false)
 {
-    return mw()->lang_helper->lang($title, $namespace);
+    $group = '*';
+    if (!$namespace) {
+        $namespace = '*';
+    }
+
+
+
+    // replace control chars https://stackoverflow.com/a/10133237/731166
+    $pairs = array(
+        "\x03" => "",
+        "\x05" => "",
+        "\x0E" => "",
+        "\x16" => "",
+    );
+    $key = strtr($key, $pairs);
+
+
+    $namespace = url_title($namespace);
+    $trans = trans($namespace . '::'.$group.'.'.$key);
+
+    $trans = str_replace($namespace . '::'.$group.'.', '', $trans);
+    $trans = trim($trans);
+
+    return $trans;
+}
+
+function _read_trans_key($key)
+{
+    $key = str_replace('::','__punc__', $key);
+
+    return $key;
+}
+
+function _output_trans_key($key) {
+
+    $key = str_replace('__punc__','::', $key);
+
+    return $key;
 }
 
 
@@ -66,9 +103,19 @@ function lang($title, $namespace = false)
  *
  * @use current_lang()
  */
-function _e($k, $to_return = false)
+function _e($k, $to_return = false, $replace = [])
 {
-    return mw()->lang_helper->e($k, $to_return);
+    $locale = mw()->lang_helper->current_lang();
+    $trans = trans('*.'.$k, $replace, $locale);
+    $trans = ltrim($trans, '*.');
+
+    $trans = str_ireplace('{{app_name}}', 'Microweber', $trans);
+
+    if ($to_return) {
+        return $trans;
+    }
+
+    echo $trans;
 }
 
 /**
@@ -88,9 +135,18 @@ function _e($k, $to_return = false)
  *
  * @use current_lang()
  */
-function _ejs($k, $to_return = false)
+function _ejs($k, $to_return = false, $replace = [])
 {
-    return mw()->lang_helper->ejs($k, $to_return);
+    $trans = trans('*.'.$k, $replace);
+    $trans = ltrim($trans, '*.');
+
+    $trans = htmlspecialchars($trans, ENT_QUOTES);
+
+    if ($to_return) {
+        return $trans;
+    }
+
+    echo $trans;
 }
 
 /**
@@ -163,4 +219,7 @@ api_expose_admin('save_language_file_content', function ($data) {
     return mw()->lang_helper->save_language_file_content($data);
 });
 
+function get_flag_icon($locale) {
+    return \MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
+}
 

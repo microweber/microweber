@@ -34,12 +34,12 @@ function mw_print_admin_dashboard_orders_btn()
         return;
     }
     $admin_dashboard_btn = array();
-    $admin_dashboard_btn['view'] = 'shop/action:orders';
+    $admin_dashboard_btn['link'] = route('admin.order.index');
     $admin_dashboard_btn['icon_class'] = 'mdi mdi-shopping';
     $notif_html = '';
     $notif_count = mw()->order_manager->get_count_of_new_orders();
     if ($notif_count > 0) {
-        $notif_html = '<span class="badge badge-danger badge-sm badge-pill">' . $notif_count . '</span>';
+        $notif_html = '<span class="badge badge-danger badge-sm badge-pill ml-2">' . $notif_count . '</span>';
     }
     $admin_dashboard_btn['text'] = _e("View Orders", true) . $notif_html;
     mw()->ui->module('admin.dashboard.menu', $admin_dashboard_btn);
@@ -75,14 +75,14 @@ event_bind('mw_edit_product_admin', function ($data) {
 });*/
 
 
-event_bind('mw.user.login', function ($data) {
-    if (is_array($data) and isset($data['old_sid'])) {
-        $cur_sid = mw()->user_manager->session_id();
-
-        \MicroweberPackages\Cart\Cart::where('session_id', $data['old_sid'])->update(array('session_id' => $cur_sid));
-        mw()->cache_manager->delete('cart');
-    }
-});
+//event_bind('mw.user.login', function ($data) {
+//    if (is_array($data) and isset($data['old_sid'])) {
+//        $cur_sid = mw()->user_manager->session_id();
+//
+//        \MicroweberPackages\Cart\Cart::where('session_id', $data['old_sid'])->update(array('session_id' => $cur_sid));
+//        mw()->cache_manager->delete('cart');
+//    }
+//});
 
 
 event_bind('recover_shopping_cart', function ($params = false) {

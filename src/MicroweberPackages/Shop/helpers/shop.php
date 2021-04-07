@@ -40,6 +40,10 @@ function cart_total()
 {
     return mw()->shop_manager->cart_total();
 }
+function cart_totals($return='all')
+{
+    return mw()->cart_manager->totals($return);
+}
 
 function cart_get_tax()
 {
@@ -50,6 +54,12 @@ function cart_get_discount()
 {
     return mw()->cart_manager->get_discount();
 }
+
+function is_product_in_stock($content_id)
+{
+    return mw()->cart_manager->is_product_in_stock($content_id);
+}
+
 
 function cart_get_discount_text()
 {
@@ -121,6 +131,12 @@ function get_order_by_id($params = false)
 function payment_options($option_key = false)
 {
     return mw()->shop_manager->payment_options($option_key);
+}
+
+
+function checkout_get_user_info()
+{
+    return mw()->checkout_manager->checkout_get_user_info();
 }
 
 

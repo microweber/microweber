@@ -38,12 +38,12 @@ if (isset($item['created_by'])) {
 }
 ?>
 
-<div class="card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="js-form-entry-<?php print $item_id ?> card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
             <div class="row align-items-center mb-3">
                 <div class="col text-left">
-                    <span class="text-primary text-break-line-2">New form entry</span>
+                    <span class="text-primary text-break-line-2"><?php _e("New form entry"); ?></span>
                 </div>
             </div>
         <?php endif; ?>
@@ -66,18 +66,18 @@ if (isset($item['created_by'])) {
             <hr class="thin"/>
             <div class="row">
                 <div class="col-md-6">
-                    <h6><strong>Fields</strong></h6>
+                    <h6><strong><?php _e("Fields"); ?></strong></h6>
                     <?php if ($form_values_1): ?>
                         <?php foreach ($form_values_1 as $key => $val1): ?>
                             <?php if (!is_array($val1)): ?>
                                 <div>
-                                    <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
-                                    <p><?php echo $val1; ?></p>
+                                    <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
+                                    <p><?php print $val1; ?></p>
                                 </div>
                             <?php else: ?>
-                                <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
+                                <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                 <?php foreach ($val1 as $val1_1): ?>
-                                    <p><?php echo ($val1_1) . '<br />'; ?></p>
+                                    <p><?php print $val1_1 . '<br />'; ?></p>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -89,23 +89,43 @@ if (isset($item['created_by'])) {
                         <?php foreach ($form_values_2 as $key => $val2): ?>
                             <?php if (!is_array($val2)): ?>
                                 <div>
-                                    <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
-                                    <p><?php echo $val2; ?></p>
+                                    <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
+                                    <p><?php print $val2; ?></p>
                                 </div>
                             <?php else: ?>
-                                <small class="text-muted"><?php echo(str_replace('_', ' ', $key)); ?>:</small>
+                                <small class="text-muted"><?php echo str_replace('_', ' ', $key); ?>:</small>
                                 <?php foreach ($val2 as $val2_1): ?>
-                                    <p><?php echo ($val2_1) . '<br />'; ?></p>
+                                    <p><?php print ($val2_1). '<br />'; ?></p>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
 
-                    <div>
+                    <?php
+
+                    /*<div>
                         <small class="text-muted">Attached files:</small>
                         <p><i class="mdi mdi-pdf-box text-primary mdi-18px"></i> Refactoring UI: Bad About</p>
                         <p><i class="mdi mdi-file-check text-primary mdi-18px"></i> Some of our files attached</p>
-                    </div>
+                    </div>*/
+                    ?>
+
+                </div>
+                <div class="col-md-12">
+                    <script type="text/javascript">
+                        function deleteFormEntry(e, entryId) {
+                            e.stopPropagation();
+                            mw.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
+                                $('.js-form-entry-' + entryId).fadeOut();
+
+                                $.post(mw.settings.api_url+'delete_form_entry', {id: entryId}, function(msg) {
+
+                                });
+
+                            });
+                        }
+                    </script>
+                    <button type="button" class="btn btn-outline-danger pull-right" onclick="deleteFormEntry(event,<?php echo $item_id; ?>)"><i class="mdi mdi-delete-outline"></i> <?php _e('Delete'); ?></button>
                 </div>
             </div>
         </div>

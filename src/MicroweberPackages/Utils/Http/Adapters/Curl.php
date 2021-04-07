@@ -207,7 +207,8 @@ class Curl
             curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_CAINFO, __DIR__.DS.'cacert.pem.txt');
-
+            curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
+            curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
 
             if ($this->timeout != false) {
                 if (function_exists('set_time_limit')) {
@@ -243,6 +244,8 @@ class Curl
                     curl_setopt($ch, CURLOPT_TIMEOUT, 50);
                     curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                    curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
+                    curl_setopt($ch, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
                 }
             }
             if ($dl == false) {

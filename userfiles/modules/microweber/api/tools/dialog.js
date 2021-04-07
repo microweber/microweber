@@ -11,7 +11,7 @@
         options.pauseInit = true;
         var attr = 'frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen';
         if (options.autoHeight) {
-            attr += ' scrolling="no"';
+            // attr += ' scrolling="no"';
             options.height = 'auto';
         }
         options.content = '<iframe src="' + mw.external_tool(options.url.trim()) + '" ' + attr + '><iframe>';
@@ -27,7 +27,7 @@
             var frame = dialog.dialogContainer.querySelector('iframe');
             frame.style.minHeight = 0; // reset in case of conflicts
             if (options.autoHeight) {
-                mw.tools.iframeAutoHeight(frame, {dialog: dialog});
+                mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: '75vh'});
             } else{
                 $(frame).height(options.height - 60);
                 frame.style.position = 'relative';
@@ -42,7 +42,7 @@
                     dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
                     frame.contentWindow.thismodal = dialog;
                     if (options.autoHeight) {
-                        mw.tools.iframeAutoHeight(frame, {dialog: dialog});
+                        mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: '75vh'});
                     }
                 }, 78);
                 if (mw.tools.canAccessIFrame(frame)) {
@@ -131,7 +131,7 @@
             overlayClose: false,
             autoCenter: true,
             root: document,
-            id: mw.id('mw-dialog-'),
+            id: options.name || options.id || mw.id('mw-dialog-'),
             content: '',
             closeOnEscape: true,
             closeButton: true,
@@ -149,6 +149,8 @@
         });
 
         this.id = this.options.id;
+
+
         var exist = document.getElementById(this.id);
         if (exist) {
             return exist._dialog;
@@ -227,8 +229,7 @@
                     root.html(title);
                 }
                 else {
-                    mw.$(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>');
-                }
+                    mw.$(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>');                }
             }
         };
 
@@ -420,6 +421,7 @@
                     break;
                 }
             }
+            clearInterval(this._observe.interval);
             return this;
         };
 
@@ -454,7 +456,7 @@
                 css.top = dtop > 0 ? dtop : 0;
             }
 
-            if(window !== mw.top().win && document.body.scrollHeight > mw.top().win.innerHeight){
+            /*if(window !== mw.top().win && document.body.scrollHeight > mw.top().win.innerHeight){
                 $win = $(mw.top());
 
                 css.top = $(document).scrollTop() + 50;
@@ -466,7 +468,7 @@
                     css.top += thismodal.dialogContainer.scrollTop;
                 }
 
-            }
+            }*/
 
 
             $holder.css(css);
@@ -533,6 +535,45 @@
                 });
             }
         };
+
+        this._observe = {};
+        this.observeDimensions = function(cb) {
+            if (!this._observe.interval) {
+                var changed = function () {
+                  var css = getComputedStyle(scope.dialogMain);
+                  if (!scope._observe.data) {
+                      scope._observe.data = {
+                          width: css.width,
+                          height: css.height
+                      };
+                      return {
+                          width: css.width,
+                          height: css.height
+                      };
+                  } else  {
+                      var curr = scope._observe.data;
+                      if(curr.width !== css.width || curr.height !== css.height) {
+                          scope._observe.data = {
+                              width: css.width,
+                              height: css.height
+                          };
+                          return {
+                              width: css.width,
+                              height: css.height
+                          };
+                      }
+                  }
+                };
+                this._observe.interval = setInterval(function (){
+                    var chg = changed();
+                    if (chg) {
+                        cb.call(scope, chg);
+                    }
+
+                }, 333);
+            }
+        };
+
         this.init = function () {
             this.build();
             this.contentMaxHeight();
@@ -549,29 +590,17 @@
             if (!this.options.pauseInit) {
                 mw.$(this).trigger('Init');
             }
-            setTimeout(function(){
+            this.observeDimensions(function (){
                 scope.center();
-                setTimeout(function(){
-                    scope.center();
-                    setTimeout(function(){
-                        scope.center();
-                    }, 3000);
-                }, 333);
-            }, 78);
-
-
+            });
             return this;
         };
         this.init();
-
     };
 
     mw.Dialog.elementIsInDialog = function (node) {
         return mw.tools.firstParentWithClass(node, 'mw-dialog');
     };
-
-
-
 
 })(window.mw);
 

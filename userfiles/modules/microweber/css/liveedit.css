@@ -57,16 +57,9 @@ body.mw-live-edit .mw-control-box-left {
 
 #back-to-admin-toolbar {
     border-color: #2b2b2b;
-    color: #2b2b2b !important;
     transition: .3s !important;
-    width: 34px;
-    padding: 0;
-    border-radius: 34px;
-}
-
-#back-to-admin-toolbar i {
-    color: #2b2b2b !important;
-    transition: .3s !important;
+    color: #fff!important;
+    background-color: #2b2b2b;
 }
 
 #back-to-admin-toolbar:hover {
@@ -76,10 +69,6 @@ body.mw-live-edit .mw-control-box-left {
     transition: .3s !important;
 }
 
-#back-to-admin-toolbar:hover i {
-    color: white !important;
-    transition: .3s !important;
-}
 
 #live_edit_toolbar,
 #mw_handle_module,
@@ -1337,7 +1326,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 
 .toolbar-sections-tabs .mw-dropdown-list li a {
     display: block;
-    background-color: whitesmoke;
+    background-color: white;
     background-repeat: no-repeat;
     background-position: 15px 50%;
     padding: 12px;
@@ -1440,7 +1429,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a:hover {
     color: #fff;
-    background: #0086db;
+    background: #3dc47e;
 }
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li li a {
@@ -1600,7 +1589,7 @@ body.has-opened-sidebar #live_edit_toolbar {
 .mw_module_image img {
     position: relative;
     z-index: 1;
-    max-height: 30px;
+    /*max-height: 30px;*/
     margin-bottom: 0;
 }
 
@@ -2139,7 +2128,8 @@ body.dragStart .empty-element {
 .mw-toolbar-btn-menu > a.mw-ui-btn {
     margin: 10px 8px 0;
     background-color: #fff;
-    color: #212121;
+    color: #3dc47e;
+    border-color: #3dc47e;
 }
 
 .editor-template-settings .ed-ico {
@@ -2445,9 +2435,13 @@ body.dragStart .empty-element {
 
 #main-save-btn {
     margin: 0 0 0 4px;
-    border-color: #5CA230;
-    background-color: #5CA230;
+    border-color: #3dc47e;
+    background-color: #3dc47e;
     color: white;
+}
+
+#main-save-btn .mdi{
+    color: #fff;
 }
 
 html.mw_pages #mw_toolbar_nav {
@@ -2907,10 +2901,14 @@ div[id*='SSDIVEL'] {
 
 #back-to-admin-toolbar {
     margin: 0px 8px;
-    color: #333333;
+    /*color: #333333;*/
     text-decoration: none;
     font-size: 12px;
     font-family: Verdana, Geneva, sans-serif;
+}
+
+#back-to-admin-toolbar .mdi {
+    color: #fff;
 }
 
 #back-to-admin-toolbar span {
@@ -2924,6 +2922,8 @@ div[id*='SSDIVEL'] {
 
 #mw-text-editor #main-save-btn {
     color: #fff;
+    font-family: Verdana, Geneva, sans-serif;
+
 }
 
 #mw-text-editor .mw-dropdown-list-search {
@@ -2944,15 +2944,21 @@ div[id*='SSDIVEL'] {
     padding-left: 23px;
 }
 
-#liveedit_wysiwyg {
+#liveedit_wysiwyg,
+.liveedit_wysiwyg_prev,
+.liveedit_wysiwyg_next {
     transition: opacity 0.6s, transform .3s;
     transform: translateY(-24%);
     opacity: 0;
+    visibility: hidden;
 }
 
+.mw-active-element-iseditable .liveedit_wysiwyg_prev,
+.mw-active-element-iseditable .liveedit_wysiwyg_next,
 .mw-active-element-iseditable #liveedit_wysiwyg {
     transform: translateY(0%);
     opacity: 1;
+    visibility: visible;
 }
 
 /*.mw-active-element-iseditable.mw-active-element-is-in-safe-mode #liveedit_wysiwyg,*/
@@ -3301,7 +3307,7 @@ body.touchscreen-device .module-item-module {
 }
 
 .mw-toolbar-add-new-content-ctrl i {
-    color: #0086db;
+    color: #3dc47e;
     font-size: 16px;
 }
 
@@ -4198,8 +4204,9 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-handle-menu-default .mw-handle-menu-item-icon,
 .mw-handle-menu-default .mw-edit-module-settings-tooltip-icon {
-    font-size: 19px;
+    font-size: 17px;
     margin-right: 6px;
+    vertical-align: middle;
 }
 
 .mw-handle-type-default .mw-handle-handler-icon {
@@ -4507,7 +4514,6 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 }
 
 .mw-live-edit-tab-title {
-    position: fixed;
     position: sticky;
     top: 0;
     padding: 7px 12px;
@@ -4516,6 +4522,22 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     z-index: 999;
 }
 
+
+.mw-inline-source-editor-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.2);
+    opacity: 0;
+    visibility: hidden;
+}
+.mw-inline-source-editor-overlay.active{
+    visibility: visible;
+    opacity: 1;
+    z-index: 99;
+}
 .mw-inline-source-editor.active {
     opacity: 1;
     visibility: visible;
@@ -4523,7 +4545,7 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
 
 .mw-inline-source-editor {
     z-index: 99;
-    position: absolute;
+    position: fixed;
     background-color: white;
     transition: opacity .3s;
     border: 1px solid #dcdcdc;
@@ -4533,6 +4555,10 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     opacity: 0;
     min-height: 70px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
 }
 
 .mw-inline-source-editor-buttons .mw-ui-btn {
@@ -4550,14 +4576,16 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     border: none;
     background-color: transparent;
     outline: none;
-    height: 100%;
+    height: 400px;
+    min-height: 60px;
+    max-height: calc(100vh - 200px);
     width: 100%;
-    resize: none;
     padding: 10px;
     font-size: 12px;
     font-family: monospace;
     margin: 0;
     border-radius: 3px 3px 0 0;
+    resize: vertical;
 }
 
 .mw-inline-source-editor-error {
@@ -4820,4 +4848,55 @@ div.element {
     transform: rotate(0);
     top: -30px;
      animation: mw_dropable_arr_down 2s linear infinite;
+}
+
+#mw-dialog-holder-mw-module-settings-editor-front .mw-dialog-container,
+.mw-dialog-module-settings .mw-dialog-container{
+    padding: 0 !important;
+}
+
+/* Modules */
+.module-admin-modules-list-layouts .module-item-module {
+    width: 100%;
+    list-style: none;
+    padding-bottom: 25px;
+}
+
+.module-admin-modules-list-layouts .module-item-module .mw_module_hold {
+    background: transparent;
+    border: 1px solid transparent;
+    border-image: initial;
+    border-radius: 2px;
+    transition: all 0.3s ease 0s;
+}
+
+.module-admin-modules-list-layouts .mw_module_image {
+    height: auto;
+    text-align: center;
+}
+
+.module-admin-modules-list-layouts .mw_module_image_holder img {
+    height: auto;
+    width: 100%;
+}
+
+.module-admin-modules-list-layouts .module-item-module:hover .module_name {
+    background-color: gray;
+}
+
+.module-admin-modules-list-layouts .module-item-module .module_name {
+    background: #2a2a2a;
+    color: #fff;
+    border-top: none;
+    position: absolute;
+    padding-top: 3px;
+    width: 90%;
+}
+
+.module-admin-modules-list-layouts .module_name {
+    margin-top: 0px;
+}
+
+.mw-color-picker-live-edit-input{
+    opacity: 0;width: 100%;height: 100%;position:absolute;top:0;left: 0;z-index: 222
 }

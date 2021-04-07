@@ -16,40 +16,51 @@ if ($data == false) {
     $data = array();
 }
 
-
-if (is_array($data)) {
-    foreach ($data as $key => $item) {
-        if (trim(strtolower($item['shipping_country'])) == 'worldwide') {
-            $countries_all = mw()->forms_manager->countries_list();
-            unset($data[$key]);
-            if (is_array($countries_all)) {
-
-                foreach ($countries_all as $countries_new) {
-                    $data[] = array('shipping_country' => $countries_new);
-                }
-
-            }
-        }
-    }
+$get_available_countries = mw('shop\shipping\gateways\country\shipping_to_country')->get_available_countries();
 
 
-}
-
-
-if (is_array($data)) {
-    foreach ($data as $key => $item) {
-        $skip = false;
-        if (is_array($data_disabled)) {
-            foreach ($data_disabled as $item_disabled) {
-                if ($item['shipping_country'] == $item_disabled['shipping_country']) {
-                    $skip = 1;
-                    unset($data[$key]);
-                }
-            }
-        }
-
+if($get_available_countries){
+    foreach ($get_available_countries as $key => $item) {
+        $data[] = array('shipping_country' => $item);
     }
 }
+
+
+
+//
+//if (is_array($data)) {
+//    foreach ($data as $key => $item) {
+//        if (trim(strtolower($item['shipping_country'])) == 'worldwide') {
+//            $countries_all = mw()->forms_manager->countries_list();
+//            unset($data[$key]);
+//            if (is_array($countries_all)) {
+//
+//                foreach ($countries_all as $countries_new) {
+//                    $data[] = array('shipping_country' => $countries_new);
+//                }
+//
+//            }
+//        }
+//    }
+//
+//
+//}
+//
+//
+//if (is_array($data)) {
+//    foreach ($data as $key => $item) {
+//        $skip = false;
+//        if (is_array($data_disabled)) {
+//            foreach ($data_disabled as $item_disabled) {
+//                if ($item['shipping_country'] == $item_disabled['shipping_country']) {
+//                    $skip = 1;
+//                    unset($data[$key]);
+//                }
+//            }
+//        }
+//
+//    }
+//}
 
 
 ?>
@@ -57,13 +68,18 @@ if (is_array($data)) {
         mw.require('forms.js', true);
     </script>
     <script type="text/javascript">
+        mw_shipping_country_last_val<?php print $rand; ?> = null;
+        function mw_shipping_<?php print $rand; ?>(data) {
 
-        function mw_shipping_<?php print $rand; ?>(country) {
 
+            // var data = {};
+            // data.country = country;
 
-            var data = {};
-            data.country = country;
+            if(mw_shipping_country_last_val<?php print $rand; ?>  === data){
+                return;
+            }
 
+            mw_shipping_country_last_val<?php print $rand; ?> = data
 
             $.post("<?php print $config['module_api']; ?>/shipping_to_country/set", data)
                 .done(function (msg) {
@@ -80,8 +96,15 @@ if (is_array($data)) {
 
 
         $(document).ready(function () {
+
             mw.$("#<?php print $rand; ?> [name='country']").change(function () {
-                mw_shipping_<?php print $rand; ?>($(this).val());
+                setTimeout(function(){
+
+                    var data = mw.serializeFields("#<?php print $rand; ?>");
+                    mw_shipping_<?php print $rand; ?>(data);
+                     },100);
+
+
             });
         });
 

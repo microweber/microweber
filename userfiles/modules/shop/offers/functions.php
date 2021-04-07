@@ -358,9 +358,9 @@ event_bind('mw.shop.get_product_prices', function ($custom_field_items) {
     }
 
 });
-event_bind('mw.admin.custom_fields.price_settings', function ($settings) {
-	if (isset($settings['id']) and isset($settings['rel_id']) and isset($settings['rel_type']) and $settings['rel_type'] == 'content') {
-		print '<module type="shop/offers/price_settings" price-id="' . $settings['id'] . '"  product-id="' . $settings['rel_id'] . '" />';
+event_bind('mw.admin.custom_fields.price_settings', function ($data) {
+	if (isset($data['id']) and isset($data['rel_id']) and isset($data['rel_type']) and $data['rel_type'] == 'content') {
+		echo '<module type="shop/offers/price_settings" price-id="' . $data['id'] . '"  product-id="' . $data['rel_id'] . '" />';
     }
 });
 
@@ -370,16 +370,14 @@ event_bind('mw.admin.shop.settings.offers', function ($data) {
 });
 
 
-
-
 event_bind('mw.admin.shop.settings.menu', function ($data) {
     print ' <div class="col-4">
-                <a href="?group=offers" class="d-flex my-3">
+                <a href="#option_group=shop/offers/admin_block" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-label-percent-outline mdi-20px"></i></div>
 
                     <div class="info-holder">
                         <span class="text-primary font-weight-bold">' . _e('Promotions', true) . '</span><br/>
-                        <small class="text-muted">Creating and managing promo campaigns</small>
+                        <small class="text-muted">'. _e('Creating and managing promo campaigns', true) .'</small>
                     </div>
                 </a>
             </div>';

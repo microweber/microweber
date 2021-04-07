@@ -16,11 +16,11 @@
 
 <div id="mw-admin-content">
     <div class="mw_edit_page_default" id="mw_edit_page_left">
-        <p>This module will remove categories, images and custom fields which are connected to a content that is manually deleted from the database.</p>
+        <p><?php _e("This module will remove categories, images and custom fields which are connected to a content that is manually deleted from the database"); ?>.</p>
 
         <div class="mw-admin-side-nav">
             <div class="back-up-nav-btns">
-                <a href="javascript:mw.database_cleanup.run()" class="btn btn-success btn-sm">Cleanup Database</a>
+                <a href="javascript:mw.database_cleanup.run()" class="btn btn-success btn-sm"><?php _e("Cleanup Database"); ?></a>
 
                 <div class="vSpace"></div>
             </div>

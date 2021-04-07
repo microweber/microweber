@@ -325,6 +325,31 @@ mw.propEditor = {
             };
             this.id = config.id;
         },
+        textArea:function(proto, config){
+            var val = '';
+            if(config.value){
+                if(typeof config.value === 'function'){
+                    val = config.value();
+                } else {
+                    val = config.value;
+                }
+            }
+            var field = mw.propEditor.helpers.field(val, 'textarea');
+            var holder = mw.propEditor.helpers.wrapper();
+            var label = mw.propEditor.helpers.label(config.label);
+            holder.appendChild(label);
+            holder.appendChild(field);
+            field.oninput = function(){
+                proto._valSchema[config.id] = this.value;
+                $(proto).trigger('change', [config.id, this.value]);
+            };
+            this.node = holder;
+            this.setValue = function(value){
+                field.value = value;
+                proto._valSchema[config.id] = value;
+            };
+            this.id = config.id;
+        },
         hidden:function(proto, config){
             var val = '';
             if(config.value){
@@ -694,25 +719,34 @@ mw.propEditor = {
             var holder = mw.propEditor.helpers.wrapper();
 
             var el = document.createElement('span');
-            el.className = "mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification mw-ui-btn-outline";
+            el.className = "btn btn-outline-primary";
+            el.innerHTML = "Icon";
             var elTarget = document.createElement('i');
-
-/*            var selector = mw.iconSelector.iconDropdown(holder, {
-                onchange: function (ic) {
-                    proto._valSchema[config.id] = ic;
-                    $(proto).trigger('change', [config.id, ic]);
-                },
-                mode: 'relative',
-                value: ''
-            });*/
 
             el.onclick = function () {
                 picker.dialog();
             };
+
+            var removeEl = document.createElement('span');
+            removeEl.className = "btn btn-outline-danger tip";
+            removeEl.dataset.tip = "Remove icon";
+            removeEl.innerHTML = "<span class='fa fa-trash'></span>";
+            removeEl.style.marginInlineStart = "10px";
+
+            removeEl.onclick = function () {
+                proto._valSchema[config.id] = '';
+                $(proto).trigger('change', [config.id, '']);
+                $(el.firstElementChild).hide();
+            };
+
+            $(el).prepend(elTarget);
+            $(holder).prepend(removeEl);
+            $(holder).prepend(el);
             mw.iconLoader().init();
             var picker = mw.iconPicker({iconOptions: false});
             picker.target = elTarget;
             picker.on('select', function (data) {
+                $(el.firstElementChild).show();
                 data.render();
                 proto._valSchema[config.id] = picker.target.outerHTML;
                 $(proto).trigger('change', [config.id, picker.target.outerHTML]);
@@ -721,16 +755,20 @@ mw.propEditor = {
 
             var label = mw.propEditor.helpers.label(config.label);
 
-            $(el).prepend(elTarget);
-            $(holder).prepend(el);
             $(holder).prepend(label);
 
             this.node = holder;
             this.setValue = function(value){
+
                 if(picker && picker.value) {
                     picker.value(value);
-
                 }
+                if(value) {
+                    $(elTarget).replaceWith(value);
+                } else {
+                    $(el.firstElementChild).hide();
+                }
+                picker.target = el.firstElementChild;
                 proto._valSchema[config.id] = value;
             };
             this.id = config.id;

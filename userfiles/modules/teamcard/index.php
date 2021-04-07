@@ -1,7 +1,7 @@
 <?php
 
 
-$settings = get_option('settings', $params['id']);
+$settings = get_module_option('settings', $params['id']);
 
 $defaults = array(
     'name' => 'Name',
@@ -24,7 +24,7 @@ if (count($data) == 0) {
 }
 
 
-$module_template = get_option('data-template', $params['id']);
+$module_template = get_module_option('data-template', $params['id']);
 
 
 if ($module_template == false and isset($params['template'])) {

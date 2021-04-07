@@ -121,6 +121,7 @@ $layout_options = array();
 
 $layout_options['site_template'] = $data['active_site_template'];
 $layout_options['no_cache'] = true;
+$layout_options['no_folder_sort'] = true;
 
 $layouts = mw()->layouts_manager->get_all($layout_options);
 
@@ -170,6 +171,12 @@ if (!empty($recomended_layouts)) {
         rend: function (url) {
             var holder = mw.$('.preview_frame_container');
             var wrapper = mw.$('.preview_frame_wrapper');
+
+            if (self !== top ) {
+                holder.addClass('preview-in-iframe');
+            } else {
+                holder.addClass('preview-in-self')
+            }
 
             var frame = document.createElement('iframe');
             frame.src = url;
@@ -451,17 +458,38 @@ if (!empty($recomended_layouts)) {
     ?>
 
     <?php
+    $showAllowSelectTemplate = false;
+    if (get_option('allow_multiple_templates', 'system') == 'y'){
+        $showAllowSelectTemplate = true;
+    }
+    if (isset($params['show_allow_multiple_template'])) {
+        $showAllowSelectTemplate = true;
+    }
+    ?>
+
+    <?php
 
     $show_save_changes_buttons = false;
     if (isset($params['show_save_changes_buttons']) AND $params['show_save_changes_buttons'] == 'true') {
         $show_save_changes_buttons = true;
     }
+
+    $templateName = template_name();
+    $templateName = str_replace('-', ' ', $templateName);
+    $templateName = ucwords($templateName);
     ?>
 
     <div class="layouts_box_holder">
         <div class="card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
             <div class="card-header">
-                <h5><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i> <strong>Templates</strong></h5>
+                <h5><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i>
+
+                    <?php if (!$showAllowSelectTemplate): ?>
+                        <strong><?php _e("Template"); ?></strong> - <?php echo $templateName ?>
+                    <?php else: ?>
+                        <strong><?php _e("Templates"); ?></strong>
+                    <?php endif; ?>
+                </h5>
                 <div></div>
             </div>
 
@@ -469,20 +497,20 @@ if (!empty($recomended_layouts)) {
                 <div class="row">
                     <?php if ($show_save_changes_buttons): ?>
                         <div class="col-md-4 mt-3">
-                            <h5 class="font-weight-bold">Settings</h5>
-                            <small class="text-muted d-block mb-3">Choose a new template or browse the pages of the current one.</small>
+                            <h5 class="font-weight-bold"><?php _e("Settings"); ?></h5>
+                            <small class="text-muted d-block mb-3"><?php _e("Choose a new template or browse the pages of the current one"); ?>.</small>
                             <br/>
 
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <label class="control-label">Want to upload template?</label>
-                                <small class="text-muted d-block mb-3">.zip file format allowed</small>
+                                <label class="control-label"><?php _e("Want to upload template"); ?>?</label>
+                                <small class="text-muted d-block mb-3">.zip <?php _e("file format allowed"); ?></small>
 
                                 <module type="admin/templates/upload_button"/>
                             <?php endif; ?>
 
 
-                            <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()">Apply this template</button>
+                            <button type="button" class="btn btn-primary mb-3 mw-action-change-template" onClick="mw_set_default_template()"><?php _e("Apply this template"); ?></button>
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
                                 <a class="btn btn-link px-0 mb-3" href="<?php print mw()->update->marketplace_admin_link('browse-templates=true'); ?>">
@@ -496,10 +524,16 @@ if (!empty($recomended_layouts)) {
                         <div class="card bg-light style-1 mb-3">
                             <div class="card-body pt-4 pb-5">
                                 <div class="row">
+
                                     <div class="col-12">
-                                        <div class="form-group mb-3  js-template-selector">
-                                            <label class="control-label">Template name</label>
-                                            <small class="text-muted d-block mb-2">You are using this template. The change will be affected only on the current page.</small>
+
+                                        <?php
+                                        if ($showAllowSelectTemplate):
+                                        ?>
+
+                                        <div class="form-group mb-3 js-template-selector">
+                                            <label class="control-label"><?php _e("Template name"); ?></label>
+                                            <small class="text-muted d-block mb-2"><?php _e("You are using this template. The change will be affected only on the current page"); ?>.</small>
                                             <div>
                                                 <?php if ($templates != false and !empty($templates)): ?>
                                                     <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="selectpicker mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
@@ -522,15 +556,36 @@ if (!empty($recomended_layouts)) {
                                                                 <option value="<?php print $item['dir_name'] ?>" <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>  selected="selected"  <?php endif; ?>   <?php print $attrs; ?> > <?php print $item['name'] ?> </option>
                                                             <?php endif ?>
                                                         <?php endforeach; ?>
-                                                        <option value="default">default</option>
+                                                        <option value="default"><?php _e("default"); ?></option>
                                                     </select>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
+                                        <?php
+                                        endif;
+                                        ?>
+
+                                        <?php
+                                        if(isset($params['show_allow_multiple_template'])):
+                                        ?>
+                                        <div class="form-group mb-3">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="mw_option_field custom-control-input" id="allow_multiple_templates"
+                                                       parent-reload="true" name="allow_multiple_templates" value="y" data-value-unchecked="n" data-value-checked="y" option-group="system"
+                                                       <?php if (get_option('allow_multiple_templates', 'system') == 'y'): ?>checked<?php endif; ?> />
+                                                <label class="custom-control-label" for="allow_multiple_templates">
+                                                    <?php _e("Allow multiple templates"); ?>
+                                                </label>
+                                                <small class="text-muted d-block mb-2">
+                                                    <?php _e("If you allow multiple templates, you will be abble to use different templates when you create a new pages."); ?>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <?php endif; ?>
 
                                         <div class="form-group mb-3">
                                             <label class="control-label"><?php _e("Choose Page Layout"); ?></label>
-                                            <small class="text-muted d-block mb-2">Select a page from the current template</small>
+                                            <small class="text-muted d-block mb-2"><?php _e("Select a page from the current template"); ?></small>
                                             <div>
                                                 <select name="preview_layout_file" class="selectpicker mw-edit-page-layout-selector" data-width="100%" data-live-search="true" data-size="7" id="active_site_layout_<?php print $rand; ?>" autocomplete="off">
                                                     <?php if (!empty($layouts)): ?>
@@ -588,8 +643,22 @@ if (!empty($recomended_layouts)) {
         <style>
             .preview_frame_container{
                 position: relative;
-                height: calc(80vh - 80px);
                 overflow: hidden;
+            }
+            .preview_frame_container.preview-in-self {
+                height: calc(80vh - 80px);
+
+            }
+            .preview_frame_container.preview-in-self iframe {
+                height: calc(160vh - 160px) !important;
+            }
+
+            .preview_frame_container.preview-in-iframe {
+                height: 800px;
+
+            }
+            .preview_frame_container.preview-in-iframe iframe {
+                height: 1600px !important;
             }
             .preview_frame_wrapper{
                 position: relative;
@@ -600,9 +669,9 @@ if (!empty($recomended_layouts)) {
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-            .preview_frame_container iframe {
+
+             .preview_frame_container iframe {
                 width: 200%;
-                height: calc(160vh - 160px) !important;
                 transform: scale(.5);
                 top: 0;
                 position: absolute;
@@ -625,8 +694,8 @@ if (!empty($recomended_layouts)) {
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h5 class="font-weight-bold">Template preview</h5>
-                        <small class="text-muted">Use the fields above to make changes.</small>
+                        <h5 class="font-weight-bold"><?php _e("Template preview"); ?></h5>
+                        <small class="text-muted"><?php _e("Use the fields above to make changes"); ?>.</small>
                     </div>
                 </div>
 

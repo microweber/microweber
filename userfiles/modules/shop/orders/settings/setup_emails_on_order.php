@@ -12,7 +12,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <h5>
-            <i class="mdi mdi-email-edit-outline module-icon-svg-fill"></i> <strong>Autorespond E-mail settings</strong>
+            <i class="mdi mdi-email-edit-outline module-icon-svg-fill"></i> <strong><?php _e("Autorespond E-mail settings"); ?></strong>
         </h5>
     </div>
 
@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="form-group">
             <label class="control-label"><?php _e("Send email to"); ?></label>
-            <small class="text-muted d-block mb-2">Send the autorespond emails to</small>
+            <small class="text-muted d-block mb-2"><?php _e('Send the autorespond emails to'); ?></small>
             <select class="mw_option_field selectpicker" data-width="100%" data-option-group="orders" name="send_email_on_new_order">
                 <option value="" <?php if ($send_email_on_new_order == ''): ?>selected="selected"<?php endif; ?>><?php _e('Default (Admins & Client)'); ?></option>
                 <option value="admins" <?php if ($send_email_on_new_order == 'admins'): ?>selected="selected"<?php endif; ?>><?php _e('Only Admins'); ?></option>
@@ -55,7 +55,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <label class="control-label d-block"><?php _e("Send email when"); ?></label>
 
             <div class="custom-control custom-radio d-inline-block mr-3">
-                <input name="order_email_send_when" id="order_email_send_when_1" class="mw_option_field custom-control-input" data-option-group="orders" value="order_received" type="radio" <?php if (get_option('order_email_send_when', 'orders') == 'order_received' || get_option('order_email_send_when', 'orders') == ''): ?> checked="checked" <?php endif; ?> >
+                <input name="order_email_send_when" id="order_email_send_when_0" class="mw_option_field custom-control-input" data-option-group="orders" value="" type="radio" <?php if (get_option('order_email_send_when', 'orders') == ''): ?> checked="checked" <?php endif; ?> >
+                <label class="custom-control-label" for="order_email_send_when_0"><?php _e('Disable'); ?></label>
+            </div>
+
+
+            <div class="custom-control custom-radio d-inline-block mr-3">
+                <input name="order_email_send_when" id="order_email_send_when_1" class="mw_option_field custom-control-input" data-option-group="orders" value="order_received" type="radio" <?php if (get_option('order_email_send_when', 'orders') == 'order_received' ): ?> checked="checked" <?php endif; ?> >
                 <label class="custom-control-label" for="order_email_send_when_1"><?php _e('Order is received'); ?></label>
             </div>
 
@@ -97,10 +103,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         email_to.to = $('#test_email_to').val();
         //email_to.subject = $('#test_email_subject').val();
         $.post("<?php print site_url('api_html/checkout_confirm_email_test'); ?>", email_to, function (msg) {
-            //mw.alert("<pre>"+msg+"</pre>")
-            mw.tools.modal.init({
-                html: "<pre>" + msg + "</pre>",
-                title: "<?php _e('Email send results...'); ?>"
-            });
+             mw.alert(msg);
+
         });
     }</script>

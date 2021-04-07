@@ -6,19 +6,16 @@ use Carbon\Carbon;
 use Illuminate\Encryption\MissingAppKeyException;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
-use Microweber\App\Providers\Illuminate\Support\Facades\Config;
-use Microweber\App\Providers\Illuminate\Support\Facades\Crypt;
+
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
-use MicroweberPackages\Customer\Customer;
-use MicroweberPackages\Form\Notifications\NewFormEntry;
-use MicroweberPackages\Invoice\Address;
-use MicroweberPackages\Invoice\Invoice;
-use MicroweberPackages\Notification\Channels\AppMailChannel;
+
+//use MicroweberPackages\Invoice\Address;
+//use MicroweberPackages\Invoice\Invoice;
+use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Order\Models\OrderAnonymousClient;
 use MicroweberPackages\Order\Notifications\NewOrder;
-use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -67,15 +64,51 @@ class CheckoutManager
         if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
 
             $update_order = $update_order_orig = $this->app->order_manager->get_by_id($sess_order_id);
-            if (isset($update_order['payment_gw'])) {
+            if (isset($update_order['payment_gw']) and isset($update_order['id'])) {
                 $gw_return = normalize_path(modules_path() . $update_order['payment_gw'] . DS . 'return.php', false);
                 if (is_file($gw_return)) {
                     include $gw_return;
 
                     if ($update_order != $update_order_orig) {
+
+                        if (isset($update_order['is_paid'])) {
+                            if (intval($update_order['is_paid']) == 1) {
+                                $_REQUEST['mw_payment_success'] = true;
+                                $_REQUEST['mw_payment_failure'] = null;
+                            } else {
+                                $_REQUEST['mw_payment_success'] = null;
+                                $_REQUEST['mw_payment_failure'] = true;
+                                //    mw()->cart_manager->recover_cart(session()->getId(), $update_order['id']);
+
+                            }
+                        }
+
+                        $should_mark_as_paid = false;
+
+
                         $this->_verify_request_params($update_order);
 
+
+                        if (!isset($update_order_orig['is_paid']) or (isset($update_order_orig['is_paid']) and intval($update_order_orig['is_paid']) == 0)) {
+                            if (isset($update_order['is_paid']) and intval($update_order['is_paid']) == 1) {
+                                $should_mark_as_paid = true;
+                                unset($update_order['is_paid']);
+                            }
+                        }
+
                         $this->app->order_manager->save($update_order);
+
+
+                        if ($should_mark_as_paid) {
+                            $this->app->checkout_manager->mark_order_as_paid($update_order['id']);
+                        }
+
+
+                        if (isset($update_order['id'])) {
+                            $this->after_checkout($update_order['id']);
+                        }
+
+
                     }
                 }
             }
@@ -85,6 +118,7 @@ class CheckoutManager
                 $mw_process_payment_success = true;
                 $exec_return = true;
             } elseif (isset($_REQUEST['mw_payment_failure'])) {
+
                 if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false and isset($_REQUEST['order_id'])) {
 
                     mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
@@ -121,7 +155,11 @@ class CheckoutManager
 
         $additional_fields = false;
         if (isset($data['for']) and isset($data['for_id'])) {
-            $additional_fields = $this->app->fields_manager->get($data['for'], $data['for_id'], 1);
+            $additional_fields = $this->app->fields_manager->get([
+                'rel_type' => $data['for'],
+                'rel_id' => $data['for_id'],
+                'return_full' => true,
+            ]);
         }
 
         $seach_address_keys = array('country', 'city', 'address', 'state', 'zip');
@@ -160,9 +198,18 @@ class CheckoutManager
 
         $validator = app()->make(CheckoutController::class);
 
-        $request = new Request();
-        $request->merge($data);
-        $is_valid = $validator->validate($request);
+        if (!empty($data)) {
+            $request = new Request();
+            $request->merge($data);
+            $is_valid = $validator->validate($request);
+        } else {
+            $is_valid['errors'] = 'Data not entered.';
+        }
+
+        if (is_object($is_valid)) {
+            return $is_valid;
+        }
+
         if (isset($is_valid['errors'])) {
             return $is_valid;
         }
@@ -230,19 +277,43 @@ class CheckoutManager
 
             $coupon_id = false;
             $coupon_code = false;
+            $shipping_cost = 0;
 
-            if (($this->app->user_manager->session_get('shipping_country'))) {
-                $shipping_country = $this->app->user_manager->session_get('shipping_country');
-            }
-            if (($this->app->user_manager->session_get('shipping_cost_max'))) {
-                $shipping_cost_max = $this->app->user_manager->session_get('shipping_cost_max');
-            }
-            if (($this->app->user_manager->session_get('shipping_cost'))) {
-                $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
-            }
-            if (($this->app->user_manager->session_get('shipping_cost_above'))) {
-                $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
-            }
+            /*  if (($this->app->user_manager->session_get('shipping_country'))) {
+                  $shipping_country = $this->app->user_manager->session_get('shipping_country');
+              }
+              if (($this->app->user_manager->session_get('shipping_cost_max'))) {
+                  $shipping_cost_max = $this->app->user_manager->session_get('shipping_cost_max');
+              }
+              if (($this->app->user_manager->session_get('shipping_cost_above'))) {
+                  $shipping_cost_above = $this->app->user_manager->session_get('shipping_cost_above');
+              }*/
+
+
+//
+//            if ($this->app->user_manager->session_get('shipping_cost')) {
+//                $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
+//            }
+//
+////
+////
+////
+////            $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
+////            if(!isset($data['shipping_gw']) and $shipping_gw_from_session){
+////                $data['shipping_gw'] = $shipping_gw_from_session;
+////            }
+////            if(isset($data['shipping_gw']) and $data['shipping_gw']){
+////                try {
+////                    $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+////
+////                } catch (\InvalidArgumentException $e) {
+////                    $shipping_cost = 0;
+////                    unset($data['shipping_gw']);
+////                }
+////             }
+
+            $shipping_cost = $this->getShippingCost($data);
+
             if (($this->app->user_manager->session_get('discount_value'))) {
                 $discount_value = $this->app->user_manager->session_get('discount_value');
             }
@@ -255,6 +326,7 @@ class CheckoutManager
             if (($this->app->user_manager->session_get('coupon_code'))) {
                 $coupon_code = $this->app->user_manager->session_get('coupon_code');
             }
+
 
             //post any of those on the form
             $flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw', 'other_info');
@@ -417,7 +489,7 @@ class CheckoutManager
             $payment_currency_rate = get_option('payment_currency_rate', 'payments');
 
             if (!isset($place_order['payment_currency'])) {
-            $place_order['payment_currency'] = $place_order['currency'];
+                $place_order['payment_currency'] = $place_order['currency'];
             }
 
             if ($payment_currency and $payment_currency != $currencyCode) {
@@ -467,29 +539,36 @@ class CheckoutManager
                         $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
                     }
 
-                    $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key').$place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
+                    $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key') . $place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
 
                     $vkey_data = array();
-                    $vkey_data['payment_amount'] = $place_order['payment_amount'];
-                    $vkey_data['payment_currency'] = $place_order['payment_currency'];
+                    // $vkey_data['payment_amount'] = $place_order['payment_amount'];
+                    // $vkey_data['payment_currency'] = $place_order['payment_currency'];
+                    $vkey_data['payment_verify_token'] = $place_order['payment_verify_token'];
+                    //   $vkey_data['id'] = $place_order['id'];
+// dd($vkey_data);
+                    //  $enc_key_hash = md5($encrypter->encrypt(json_encode($vkey_data)));
 
+                    //  $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
+                    $enc_key_hash = md5(json_encode($vkey_data));
+                    $enc_key_hash = $encrypter->encrypt($enc_key_hash);
 
-                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
+                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    $vkey_data_temp['url'] = $mw_return_url;
-                    $mw_return_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+                    // $vkey_data_temp['url'] = $mw_return_url;
+                    //$mw_return_url .= '&_vkey_url=' . $enc_key_hash;
 
 
-                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&recart=' . $sid . $return_url_after;
+                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&_vkey_url=' . $enc_key_hash . '&recart=' . $sid . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    $vkey_data_temp['url'] = $mw_cancel_url;
-                    $mw_cancel_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+                    // $vkey_data_temp['url'] = $mw_cancel_url;
+                    // $mw_cancel_url .= '&_vkey_url=' . $enc_key_hash;
 
 
-                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . $return_url_after;
+                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    $vkey_data_temp['url'] = $mw_ipn_url;
-                    $mw_ipn_url .= '&_vkey_url=' . urlencode($encrypter->encrypt(json_encode($vkey_data_temp)));
+                    //$vkey_data_temp['url'] = $mw_ipn_url;
+                    //$mw_ipn_url .= '&_vkey_url=' . $enc_key_hash;
 
 
                     if (is_file($gw_process)) {
@@ -517,45 +596,45 @@ class CheckoutManager
                 }
 
 
-           /*
-                $invoicePrefix = 'INV';
-                $nextInvoiceNumber = Invoice::getNextInvoiceNumber($invoicePrefix);
-                $invoiceDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
-                $dueDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))));
+                /*
+                     $invoicePrefix = 'INV';
+                     $nextInvoiceNumber = Invoice::getNextInvoiceNumber($invoicePrefix);
+                     $invoiceDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
+                     $dueDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d', strtotime('+6 days', strtotime(date('Y-m-d')))));
 
-                $invoiceTotal = ($place_order['amount'] * 100);
+                     $invoiceTotal = ($place_order['amount'] * 100);
 
-                $invoice = Invoice::create([
-                    'invoice_date' => $invoiceDate,
-                    'due_date' => $dueDate,
-                    'invoice_number' => $invoicePrefix . '-' . $nextInvoiceNumber,
-                    'reference_number' => '',
-                    'customer_id' => $findCustomer->id,
-                    'company_id' => 0,
-                    'invoice_template_id' => 1,
-                    'status' => Invoice::STATUS_DRAFT,
-                    'paid_status' => Invoice::STATUS_UNPAID,
-                    'sub_total' => $invoiceTotal,
-                    'discount' =>'',
-                    'discount_type' => $place_order['discount_type'],
-                    'discount_val' => ($place_order['discount_value'] * 100),
-                    'total' => $invoiceTotal,
-                    'due_amount' => $invoiceTotal,
-                    'tax_per_item' => '',
-                    'discount_per_item' => '',
-                    'tax' => '',
-                    'notes' => '',
-                    'unique_hash' => str_random(60)
-                ]);
+                     $invoice = Invoice::create([
+                         'invoice_date' => $invoiceDate,
+                         'due_date' => $dueDate,
+                         'invoice_number' => $invoicePrefix . '-' . $nextInvoiceNumber,
+                         'reference_number' => '',
+                         'customer_id' => $findCustomer->id,
+                         'company_id' => 0,
+                         'invoice_template_id' => 1,
+                         'status' => Invoice::STATUS_DRAFT,
+                         'paid_status' => Invoice::STATUS_UNPAID,
+                         'sub_total' => $invoiceTotal,
+                         'discount' =>'',
+                         'discount_type' => $place_order['discount_type'],
+                         'discount_val' => ($place_order['discount_value'] * 100),
+                         'total' => $invoiceTotal,
+                         'due_amount' => $invoiceTotal,
+                         'tax_per_item' => '',
+                         'discount_per_item' => '',
+                         'tax' => '',
+                         'notes' => '',
+                         'unique_hash' => str_random(60)
+                     ]);
 
-                foreach ($check_cart as $cartItem) {
-                    $invoice->items()->create([
-                        'name'=>$cartItem['title'],
-                        'description'=>$cartItem['description'],
-                        'price'=>($cartItem['price'] * 100),
-                        'quantity'=>$cartItem['qty'],
-                    ]);
-                }*/
+                     foreach ($check_cart as $cartItem) {
+                         $invoice->items()->create([
+                             'name'=>$cartItem['title'],
+                             'description'=>$cartItem['description'],
+                             'price'=>($cartItem['price'] * 100),
+                             'quantity'=>$cartItem['qty'],
+                         ]);
+                     }*/
 
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
@@ -583,6 +662,76 @@ class CheckoutManager
         if (!empty($checkout_errors)) {
             return array('error' => $checkout_errors);
         }
+    }
+
+    public function checkout_get_user_info()
+    {
+
+        $ready = [];
+        $logged_user_data = [];
+        $shipping_address_from_profile = [];
+        $logged_user_data = [];
+
+
+        $selected_country_from_session = session_get('shipping_country');
+        $checkout_session = session_get('checkout');
+
+        $user_fields_from_profile = ['email', 'last_name', 'first_name', 'phone', 'username', 'middle_name'];
+        $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_gw'];
+
+        $all_field_keys = array_merge($user_fields_from_profile, $shipping_fields_keys);
+
+
+        if (is_logged()) {
+            $shipping_address_from_profile = app()->user_manager->get_shipping_address();
+        }
+        if ($checkout_session) {
+            foreach ($all_field_keys as $field_key) {
+                if (!empty($checkout_session) and !isset($ready[$field_key])) {
+                    foreach ($checkout_session as $k => $v) {
+                        if ($field_key == $k and $v) {
+                            $ready[$k] = $v;
+                        }
+                    }
+                }
+            }
+            if (!isset($ready['country']) and $selected_country_from_session) {
+                $ready['country'] = $selected_country_from_session;
+
+            }
+        }
+
+        if ($shipping_address_from_profile) {
+            foreach ($all_field_keys as $field_key) {
+                if (!empty($shipping_address_from_profile) and !isset($ready[$field_key])) {
+                    foreach ($shipping_address_from_profile as $k => $v) {
+                        if ($field_key == $k and $v) {
+                            $ready[$k] = $v;
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+        if ($shipping_address_from_profile) {
+            $logged_user_data = get_user();
+            if ($logged_user_data) {
+                foreach ($all_field_keys as $field_key) {
+                    if (!empty($logged_user_data) and !isset($ready[$field_key])) {
+                        foreach ($logged_user_data as $k => $v) {
+                            if ($field_key == $k and $v) {
+                                $ready[$k] = $v;
+                            }
+
+                        }
+                    }
+                }
+            }
+
+        }
+        return $ready;
     }
 
     public function payment_options($option_key = false)
@@ -658,32 +807,33 @@ class CheckoutManager
         if (!$order) {
             return array('error' => _e('Order not found'));
         }
-
-        $newOrderEvent = new NewOrder($order);
-
-        // Ss logged
-        $notifiable = false;
-        if (isset($order->created_by) && $order->created_by > 0) {
-            $customer = User::where('id', $order->created_by)->first();
-            if ($customer) {
-                if (empty($order->email)) {
-                    $notifiable = $customer;
-                 }
-            }
-        }
-
-        if (!$notifiable) {
-            $notifiable = OrderAnonymousClient::find($orderId);
-        }
-
-        if ($notifiable) {
-            $notifiable->notifyNow($newOrderEvent);
-        }
-
-        Notification::send(User::whereIsAdmin(1)->get(), $newOrderEvent);
+        // $this->confirm_email_send($orderId);
     }
 
-    public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
+
+    public function mark_order_as_paid($orderId)
+    {
+
+        $order = Order::find($orderId);
+        if (!$order) {
+            return;
+        }
+
+        $update_order_event_data = $order->toArray();
+
+        if (!isset($update_order_event_data['is_paid']) or (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 0)) {
+            event($event = new OrderWasPaid($order, $update_order_event_data));
+            $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
+            $this->app->shop_manager->update_quantities($orderId);
+            $order->is_paid = 1;
+            $order->save();
+        }
+
+
+    }
+
+
+    public function confirm_email_send($order_id, $to = false, $no_cache = true, $skip_enabled_check = false)
     {
         $ord_data = $this->app->shop_manager->get_order_by_id($order_id);
 
@@ -859,6 +1009,8 @@ class CheckoutManager
                             }
                         }
                     }
+
+                    return true;
                 }
             }
         }
@@ -876,7 +1028,7 @@ class CheckoutManager
 
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
-
+        $should_mark_as_paid = false;
 
         $client_ip = user_ip();
 
@@ -917,6 +1069,7 @@ class CheckoutManager
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
         }
 
+
         $update_order = array();
         if (is_file($gw_process)) {
             include $gw_process;
@@ -934,27 +1087,40 @@ class CheckoutManager
 
 
         if (!empty($update_order_event_data) and isset($update_order_event_data['order_completed']) and $update_order_event_data['order_completed'] == 1) {
-            $update_order_event_data['id'] = $ord;
-            $update_order_event_data['payment_gw'] = $data['payment_gw'];
-            $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
+            $this->after_checkout($ord);
 
-
-            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
-                $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
+            if (!isset($ord_data['is_paid']) or (isset($ord_data['is_paid']) and intval($ord_data['is_paid']) == 0)) {
+                if (isset($update_order_event_data['is_paid']) and intval($update_order_event_data['is_paid']) == 1) {
+                    $should_mark_as_paid = true;
+                }
             }
 
-            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
-                $this->app->shop_manager->update_quantities($ord);
-
-
-            }
-            if ($ord > 0) {
-                $this->app->cache_manager->delete('cart');
-                $this->app->cache_manager->delete('cart_orders');
-                //return true;
+            if ($should_mark_as_paid) {
+                $this->app->checkout_manager->mark_order_as_paid($ord);
             }
 
-            $this->confirm_email_send($ord);
+
+            //            $update_order_event_data['id'] = $ord;
+//            $update_order_event_data['payment_gw'] = $data['payment_gw'];
+//            $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
+//
+//
+//            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid']) {
+//                $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $update_order_event_data);
+//            }
+//
+//            if (isset($update_order_event_data['is_paid']) and $update_order_event_data['is_paid'] == 1) {
+//                $this->app->shop_manager->update_quantities($ord);
+//
+//
+//            }
+//            if ($ord > 0) {
+//                $this->app->cache_manager->delete('cart');
+//                $this->app->cache_manager->delete('cart_orders');
+//                //return true;
+//            }
+//
+//            $this->confirm_email_send($ord);
 
         }
 
@@ -1037,7 +1203,7 @@ class CheckoutManager
     private function _verify_request_params($data)
     {
 
-        $error = false;
+        $error = true;
 
         if (!isset($data['payment_verify_token'])) {
             $error = true;
@@ -1051,63 +1217,95 @@ class CheckoutManager
         if (!isset($data['payment_currency'])) {
             $error = true;
         }
-
+        if (!isset($data['id'])) {
+            $error = true;
+        }
 
         $vkey = false;
 
-        $url = url_current();
-        $param = '_vkey_url';
-        $pieces = parse_url($url);
-        $query = [];
-        if ($pieces['query']) {
-            parse_str($pieces['query'], $query);
-            $data[$param] = $query[$param];
-            unset($query[$param]);
-            $pieces['query'] = http_build_query($query);
+        if (isset($_REQUEST['_vkey_url'])) {
+            $vkey = $_REQUEST['_vkey_url'];
         }
-        if (!isset($data['_vkey_url'])) {
-            $error = true;
-        } else {
-            $vkey = $data['_vkey_url'];
-        }
+
+
+//        $url = url_current();
+//        $param = '_vkey_url';
+//        $pieces = parse_url($url);
+//        $query = [];
+//        if ($pieces['query']) {
+//            parse_str($pieces['query'], $query);
+//            $data[$param] = $query[$param];
+//            unset($query[$param]);
+//            $pieces['query'] = http_build_query($query);
+//        }
+//        if (!isset($data['_vkey_url'])) {
+//            $error = true;
+//        } else {
+//            $vkey = $data['_vkey_url'];
+//        }
 
 
         if (!$vkey) {
             $error = true;
         }
 
+        $order_data = get_order_by_id($data['id']);
 
-        if (!$error) {
 
-            $vkey = urldecode($vkey);
+        if ($order_data and $vkey) {
 
-            $encrypter = new \Illuminate\Encryption\Encrypter(md5(Config::get('app.key').$data['payment_verify_token']), Config::get('app.cipher'));
+            $vkey_data = array();
+            //  $vkey_data['payment_amount'] = $order_data['payment_amount'];
+            // $vkey_data['payment_currency'] = $order_data['payment_currency'];
+            $vkey_data['payment_verify_token'] = $order_data['payment_verify_token'];
+            //  $vkey_data['id'] = $order_data['id'];
+//dd($order_data);
+            $enc_key_hash = md5(json_encode($vkey_data));
+            //   $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
 
-            $url_verify = $this->_build_url($pieces);
-            $decrypt_data = @json_decode($encrypter->decrypt($vkey), true);
+            // dd(2222,$vkey,$enc_key_hash,$data,$order_data);
 
-            if (!$decrypt_data) {
-                $error = true;
-            } else {
+            // $vkey = urldecode($vkey);
 
-                $decrypt_url = $decrypt_data['url'];
-                $decrypt_payment_amount = $decrypt_data['payment_amount'];
-                $decrypt_payment_currency = $decrypt_data['payment_currency'];
+            $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Config::get('app.key') . $order_data['payment_verify_token']), \Config::get('app.cipher'));
 
-                $url_verify = urldecode($url_verify);
-                $decrypt_url = urldecode($decrypt_url);
+            $decrypt_data = $encrypter->decrypt($vkey);
 
-                if (md5($url_verify) !== md5($decrypt_url)) {
-                    $error = true;
-                }
+            //    dd($enc_key_hash,$decrypt_data);
 
-                if (md5(floatval($decrypt_payment_amount)) !== md5(floatval($data['payment_amount']))) {
-                    $error = true;
-                }
-                if (md5(strtoupper($decrypt_payment_currency)) !== md5(strtoupper($data['payment_currency']))) {
-                    $error = true;
-                }
+            //  $enc_key_hash = $encrypter->encrypt(json_encode($vkey_data));
+
+            //dd($vkey, $enc_key_hash,$order_data,$vkey_data);
+            if ($enc_key_hash === $decrypt_data) {
+                $error = false;
+
             }
+
+            // $url_verify = $this->_build_url($pieces);
+            // $decrypt_data = @json_decode($encrypter->decrypt($vkey), true);
+
+//            if (!$decrypt_data) {
+//                $error = true;
+//            } else {
+//
+//                $decrypt_url = $decrypt_data['url'];
+//                $decrypt_payment_amount = $decrypt_data['payment_amount'];
+//                $decrypt_payment_currency = $decrypt_data['payment_currency'];
+//
+//                $url_verify = urldecode($url_verify);
+//                $decrypt_url = urldecode($decrypt_url);
+//
+//                if (md5($url_verify) !== md5($decrypt_url)) {
+//                    $error = true;
+//                }
+//
+//                if (md5(floatval($decrypt_payment_amount)) !== md5(floatval($data['payment_amount']))) {
+//                    $error = true;
+//                }
+//                if (md5(strtoupper($decrypt_payment_currency)) !== md5(strtoupper($data['payment_currency']))) {
+//                    $error = true;
+//                }
+//            }
         }
 
 
@@ -1115,6 +1313,47 @@ class CheckoutManager
 
             abort(403, 'Unauthorized action.');
         }
+
+    }
+
+    public function getShippingModules()
+    {
+        return $this->app->shipping_manager->getShippingModules();
+
+    }
+
+    public function getShippingCost($data = [])
+    {
+
+        if (!is_array($data)) {
+            $data = [];
+        }
+        $shipping_cost = 0;
+
+        if ($this->app->user_manager->session_get('shipping_cost')) {
+            $shipping_cost = $this->app->user_manager->session_get('shipping_cost');
+        }
+
+
+        $shipping_gw_from_session = $this->app->user_manager->session_get('shipping_provider');
+        if (!isset($data['shipping_gw']) and $shipping_gw_from_session) {
+            $data['shipping_gw'] = $shipping_gw_from_session;
+        } else {
+            $data['shipping_gw'] = 'default';
+
+        }
+        if (isset($data['shipping_gw']) and $data['shipping_gw']) {
+            // $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+
+            try {
+                $shipping_cost = $this->app->shipping_manager->driver($data['shipping_gw'])->cost();
+
+            } catch (\InvalidArgumentException $e) {
+                $shipping_cost = 0;
+                unset($data['shipping_gw']);
+            }
+        }
+        return $shipping_cost;
 
     }
 

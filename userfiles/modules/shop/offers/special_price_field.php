@@ -24,14 +24,13 @@ if (!isset($offer['price']['offer_price'])) {
             $('.js-offer-price-form-group').show();
         }
 
-      /*  $(specialPriceElement).on('input', function () {
+        $(specialPriceElement).on('input', function () {
             mw.on.stopWriting(this, function () {
-               if (parseFloat($(this).val()) >= parseFloat($('.js-product-price').val())) {
-                   $(this).val('');
-                    mw.notification.warning('<?php _e('Special price must be less than the original price!'); ?>');
-               }
+                var textPrice = $(specialPriceElement).val();
+                var formatPrice = textPrice.replace(",", "");
+                $(specialPriceElement).val(formatPrice);
             });
-        });*/
+        });
 
     });
 

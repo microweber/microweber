@@ -65,7 +65,7 @@ $rand = 'pic-sorter-' . uniqid();
 </style>
 
 
-<div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none">Drop here to upload</div>
+<div class="mw-drop-zone" id="admin-thumbs-drop-zone-<?php print $rand; ?>" style="display: none"><?php _e("Drop here"); ?></div>
 
 
 <script>
@@ -188,13 +188,18 @@ $rand = 'pic-sorter-' . uniqid();
                 <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
                 <?php if ($key == 0): ?>
 
-                    <div class="featured-image"><?php print _e('featured image'); ?></div>
+                    <div class="featured-image"><?php _e('featured image'); ?></div>
 
                 <?php endif; ?>
-                <span class="mdi mdi-cog image-settings tip" data-tip="Image Settings"
-                      onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
+
+
+
+                  <span class="mdi mdi-cog image-settings settings-img tip" data-tip="Image Settings"
+                          onclick="imageConfigDialog(<?php print $item['id'] ?>)"></span>
+
                 <span class="mdi mdi-delete image-settings remove-image tip" data-tip="Delete Image"
                       onclick="mw.module_pictures.del('<?php print $item['id'] ?>');"></span>
+
                 <label class="mw-ui-check">
                     <input type="checkbox" onchange="doselect()" data-url="<?php print $item['filename']; ?>"
                            value="<?php print $item['id'] ?>"><span></span>
@@ -219,8 +224,8 @@ $rand = 'pic-sorter-' . uniqid();
                                 <hr class="thin"/>
 
                                 <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()">Cancel</button>
-                                <button type="button" class="btn btn-success btn-sm" onclick="mw.dialog.get(this).result(<?php print $item['id'] ?>)">Update</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
+                                <button type="button" class="btn btn-success btn-sm" onclick="mw.dialog.get(this).result(<?php print $item['id'] ?>)"><?php _e("Update"); ?></button>
                                 </div>
                             </div>
                         </div>
@@ -231,8 +236,8 @@ $rand = 'pic-sorter-' . uniqid();
         <div class="admin-thumb-item-uploader-holder">
             <div class="dropable-zone small-zone square-zone">
                 <div class="holder">
-                    <button type="button" class="btn btn-link">Add file</button>
-                    <p>or drop file to upload</p></div>
+                    <button type="button" class="btn btn-link"><?php _e("Add file"); ?></button>
+                </div>
             </div>
             <div class="admin-thumb-item-uploader" id="admin-thumb-item-uploader<?php print $rand; ?>">
 

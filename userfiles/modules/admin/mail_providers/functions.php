@@ -31,6 +31,16 @@ function save_mail_provider()
 		'is_active' => 1
 	);
 
+	if(isset($providerSettings['active'])){
+
+        $option = array();
+        $option['option_value'] = $providerSettings['active'];
+        $option['option_key'] = 'active';
+        $option['option_group'] = 'mailerlite_provider';
+        save_option($option);
+    }
+
+
 	if (isset($check['id'])) {
 		$save['id'] = $check['id'];
 	}

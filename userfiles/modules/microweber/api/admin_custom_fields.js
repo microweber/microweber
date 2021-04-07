@@ -21,7 +21,6 @@ mw.admin.custom_fields.initValues = function () {
     }
 };
 
-
 mw.admin.custom_fields.initTextAreaValue = function (node) {
     if (!node.fieldBinded) {
         node.fieldBinded = true;
@@ -69,7 +68,6 @@ mw.admin.custom_fields.addValueButtons = function (root) {
             mw.admin.custom_fields.valueLiveEdit(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
         }
     }
-
 }
 
 mw.admin.custom_fields.valueLiveEdit = function (span) {
@@ -165,7 +163,6 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
 
 
 			 });*/
-
 		}
     });
 }
@@ -192,8 +189,7 @@ mw.admin.custom_fields.make_fields_sortable = function () {
     return sortable_holder;
 };
 mw.admin.custom_fields.del = function (id, toremove) {
-    var q = "Are you sure you want to delete '" + mw.$('#mw-custom-list-element-' + id + ' .mw-admin-custom-field-name-edit-inline').text() + "' ?";
-    mw.tools.confirm(q, function () {
+     mw.tools.confirm(  function () {
 
         mw.custom_fields.remove(id, function (data) {
             mw.$('#mw-custom-list-element-' + id).addClass('scale-out');
@@ -211,7 +207,6 @@ mw.admin.custom_fields.del = function (id, toremove) {
                     mw.admin.custom_fields.initValues();
                 });
             }, 300);
-
         });
     });
 };
@@ -220,11 +215,7 @@ mw.admin.custom_fields.deleteFieldValue = function (el) {
     mw.$(el.parentNode).remove();
     mw.admin.custom_fields.valueLiveEdit(xel.querySelector('.mw-admin-custom-field-value-edit-inline'));
 
-
-
 };
-
-
 
 mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callback, event) {
 
@@ -232,14 +223,12 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
 
     var data = {};
     data.settings = 'y';
-    data.field_id = id;
+    data.id = id;
     data.live_edit = true;
     data.module_settings = true;
-    data.id = id;
-
 
     data.params = {};
-    data.params.field_id = id;
+    data.params.id = id;
 
     editModal = mw.top().tools.open_module_modal('custom_fields/values_edit', data, {
         overlay: false,
@@ -249,7 +238,6 @@ mw.admin.custom_fields.edit_custom_field_item = function ($selector, id, callbac
         iframe: true,
         title: mTitle
     });
-
 };
 
 $(window).on('load', function () {

@@ -13,15 +13,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
     <div class="card-body pt-3">
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php print _e('Slides'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e('Slides'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -37,13 +37,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     'skin' => 'default'
                 );
 
-                $settings = get_option('settings', $params['id']);
+                $settings = get_module_option('settings', $params['id']);
                 $json = json_decode($settings, true);
 
                 if (isset($json) == false or count($json) == 0) {
                     $json = array(0 => $defaults);
                 }
-                $module_template = get_option('data-template', $params['id']);
+                $module_template = get_module_option('data-template', $params['id']);
                 if (!$module_template OR $module_template == 'default') {
                     $module_template = 'bxslider-skin-1';
                 }
@@ -63,7 +63,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 $count = 0;
 
-                $module_template_check = get_option('data-template', $params['id']);
+                $module_template_check = get_module_option('data-template', $params['id']);
                 if ($module_template_check == false AND isset($params['template'])) {
                     $module_template = $params['template'];
                 }
@@ -107,7 +107,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         this.bxSettings = new mw.moduleSettings({
                             element: '#settings-box',
-                            header: '<i class="mw-icon-drag"></i> Slide {count} <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
+                            header: '<i class="mw-icon-drag"></i> <?php _e('Slide {count}'); ?> <a class="pull-right" data-action="remove"><i class="mw-icon-close"></i></a>',
                             data: data,
                             key: 'settings',
                             group: '<?php print $params['id']; ?>',
@@ -164,7 +164,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         });
                     });
                 </script>
-                
+
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-bxslider-settings">
                     <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>

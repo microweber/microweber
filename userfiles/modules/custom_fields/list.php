@@ -64,7 +64,7 @@ $data = array();
 if (isset($params['for_module_id'])): ?>
     <?php
     if (isset($params['default-fields'])) {
-        mw()->fields_manager->make_default($for, $params['for_module_id'], $params['default-fields']);
+        mw()->fields_manager->makeDefault($for, $params['for_module_id'], $params['default-fields']);
     }
 
     $more = get_custom_fields($for, $params['for_module_id'], 1, false, false);
@@ -194,7 +194,7 @@ if (isset($params['for_module_id'])): ?>
                            <td data-id="<?php print $field['id']; ?>">
                                <span class="mobile-th"><?php _e("Name"); ?>: </span>
                                <span class="mw-custom-fields-list-preview">
-                                    <span class="mw-admin-custom-field-name-edit-inline text-capitalize mw-admin-custom-field-value-edit-inline-holder bg-secondary-opacity-8 d-inline-block px-3 py-1" data-id="<?php print $field['id']; ?>"><small class="mw-admin-custom-field-value-edit-inline px-1 py-1"><?php print $field['name']; ?></small></span>
+                                    <span class="text-capitalize d-inline-block px-3 py-1" data-id="<?php print $field['id']; ?>"><small class="px-1 py-1"><?php print $field['name']; ?></small></span>
                                 </span>
                            </td>
 
@@ -213,13 +213,13 @@ if (isset($params['for_module_id'])): ?>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" class="btn btn-link btn-sm px-0">
-                                    <?php print _e('Settings'); ?>
+                                <a href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);" class="btn btn-outline-primary btn-sm">
+                                    <?php _e('Settings'); ?>
                                 </a>
                             </td>
 
                             <td class="text-center">
-                                <a class="text-danger" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-toggle="tooltip" title="<?php print _e('Delete'); ?>"><i class="mdi mdi-close mdi-20px"></i></a>
+                                <a class="text-danger" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-toggle="tooltip" title="<?php _e('Delete'); ?>"><i class="mdi mdi-close mdi-20px"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

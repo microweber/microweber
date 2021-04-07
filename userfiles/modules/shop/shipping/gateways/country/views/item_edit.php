@@ -16,11 +16,11 @@ if (!isset($item['shipping_cost'])) {
 }
 
 if (!isset($item['shipping_cost_max'])) {
-    $item['shipping_cost_max'] = '0';
+    $item['shipping_cost_max'] = '';
 }
 
 if (!isset($item['shipping_cost_above'])) {
-    $item['shipping_cost_above'] = '0';
+    $item['shipping_cost_above'] = '';
 }
 
 if (!isset($item['position'])) {
@@ -32,11 +32,11 @@ if (!isset($item['shipping_type'])) {
 }
 
 if (!isset($item['shipping_price_per_size'])) {
-    $item['shipping_price_per_size'] = 0;
+    $item['shipping_price_per_size'] = '';
 }
 
 if (!isset($item['shipping_price_per_weight'])) {
-    $item['shipping_price_per_weight'] = 0;
+    $item['shipping_price_per_weight'] = '';
 }
 
 if (!isset($item['shipping_type'])) {
@@ -44,15 +44,15 @@ if (!isset($item['shipping_type'])) {
 }
 
 if (!isset($item['shipping_price_per_size'])) {
-    $item['shipping_price_per_size'] = 0;
+    $item['shipping_price_per_size'] = '';
 }
 
 if (!isset($item['shipping_price_per_weight'])) {
-    $item['shipping_price_per_weight'] = 0;
+    $item['shipping_price_per_weight'] = '';
 }
 
 if (!isset($item['shipping_price_per_item'])) {
-    $item['shipping_price_per_item'] = 0;
+    $item['shipping_price_per_item'] = '';
 }
 
 $size_units = get_option('shipping_size_units', 'orders');
@@ -63,6 +63,7 @@ if ($size_units == false) {
 if ($weight_units == false) {
     $weight_units = 'kg';
 }
+
 
 
 ?>
@@ -143,7 +144,6 @@ if ($weight_units == false) {
                     if (typeof(mw_admin_edit_country_item_popup_modal_opened) != "undefined") {
                         mw_admin_edit_country_item_popup_modal_opened.remove();
                     }
-                    mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
 
                 }
                 else {
@@ -152,6 +152,7 @@ if ($weight_units == false) {
                      });*/
                 }
                 mw.reload_module_everywhere('shop/shipping/gateways/country/admin_backend');
+                mw.reload_module_everywhere('shop/shipping/gateways/country/admin');
 
 
                 if (window.parent != undefined && window.parent.mw != undefined) {
@@ -159,6 +160,7 @@ if ($weight_units == false) {
                     mw.reload_module_everywhere('shop/shipping/gateways/country');
 
                 }
+            mw.notification.success("<?php _ejs("Shipping changes are saved"); ?>");
 
 
                 mw.reload_module('shop/shipping', function () {
@@ -298,7 +300,7 @@ if ($weight_units == false) {
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
                                 </div>
-                                <input class="form-control" type="text" onkeyup="mw.form.typeNumber(this);" onchange="SaveShippingForm()" placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
+                                <input class="form-control" type="text" oninput="mw.form.typeNumber(this);SaveShippingForm();"   placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
                             </div>
                         </div>
 
@@ -345,33 +347,49 @@ if ($weight_units == false) {
                 <hr class="thin"/>
 
                 <div class="js-shipping-item-edit-needs-id">
+
+
+
+
+
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Order amount to activate special shipping price"); ?></label>
+                        <small class="text-muted d-block mb-2"><?php _e("Minimum amount in the shopping cart to activate special shipping price"); ?></small>
+
+
+                        <div class="input-group input-group-sm mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
+                            </div>
+                            <input class="form-control" type="text" oninput="mw.form.typeNumber(this);SaveShippingForm();"  name="shipping_cost_above" value="<?php print $item['shipping_cost_above']; ?>"   placeholder="">
+                        </div>
+
+
+                         <small class="text-muted"><?php print  _e("Enter the amount to trigger the new shipping price") ; ?></small>
+<br>
+                        <small class="text-muted"> <?php print  _e("Example") . ' ' . currency_format(100); ?></small></small>
+
+
+                    </div>
+
+
                     <div class="form-group">
                         <label class="control-label"><?php _e("Shipping cost"); ?></label>
-                        <small class="text-muted d-block mb-2">What is the price of the shipping</small>
+
+                        <small class="text-muted d-block mb-2"><?php _e("Enter the cost if the special shipping price is activated"); ?></small>
+
 
                         <div class="input-group input-group-sm mb-2">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
                             </div>
-                            <input class="form-control shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_max" value="<?php print $item['shipping_cost_max']; ?>" onchange="SaveShippingForm();" placeholder="0"/>
+                            <input class="form-control shipping-price-field" type="text" oninput="mw.form.typeNumber(this);SaveShippingForm();"   name="shipping_cost_max" value="<?php print $item['shipping_cost_max']; ?>"  placeholder=""/>
                         </div>
 
-                        <small class="text-muted"><?php _e("Price per order"); ?></small>
+                        <small class="text-muted"><?php print  _e("example") . ' ' . currency_format(5); ?></small>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label"><?php _e("Shipping cost for Price above"); ?></label>
-                        <small class="text-muted d-block mb-2">Example: If the total price of the order is more than 100 dollars, your shipping price will be the entered</small>
-
-                        <div class="input-group input-group-sm mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
-                            </div>
-                            <input class="form-control" type="text" onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);" name="shipping_cost_above" value="<?php print $item['shipping_cost_above']; ?>" onchange="SaveShippingForm();" placeholder="0">
-                        </div>
-
-                        <small class="text-muted"><?php print  _e("example") . ' ' . currency_format(100); ?></small>
-                    </div>
 
                 </div>
             </div>

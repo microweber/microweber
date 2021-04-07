@@ -1,4 +1,6 @@
-<?php must_have_access() ?>
+<?php if(!has_access('admin.updates')){
+    return;
+} ?>
 
 <?php
 return;
@@ -8,7 +10,7 @@ if ($check and is_array($check) and !isset($_COOKIE['mw_dont_show_update_notif']
     ?>
 
     <a class="active" href="<?php print admin_url(); ?>view:settings#option_group=updates">
-        <span class="mai-thunder"></span> <sup class="badge badge-danger badge-sm badge-pill">1</sup> <strong>
+        <span class="mai-thunder"></span> <sup class="badge badge-danger badge-sm badge-pill ml-2">1</sup> <strong>
             <?php _e("Updates"); ?>
         </strong>
     </a>
@@ -69,17 +71,16 @@ if ($check and is_array($check) and !isset($_COOKIE['mw_dont_show_update_notif']
         </style>
         <div class="text-center js-modal-update-holder">
             <img src="<?php print modules_url(); ?>/updates/update_header.jpg" alt=""/>
-            <h1>New version is available.</h1>
+            <h1><?php _e("New version is available."); ?></h1>
             <a href="https://github.com/microweber/microweber/blob/master/CHANGELOG.md" target="_blank" class="link">version <?php echo MW_VERSION; ?></a>
-            <p>Please update the system to the latest bug-fixes and improvements.</p>
-            <p>Regular updating of the system helps to improve the performance of your website and increase it’s security.</p>            <br>
+            <p><?php _e("Please update the system to the latest bug-fixes and improvements."); ?></p>
+            <p><?php _e("Regular updating of the system helps to improve the performance of your website and increase it’s security."); ?></p>            <br>
 
             <a class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification"
-               href="<?php print admin_url(); ?>view:settings#option_group=updates">Click here to update</a>
+               href="<?php print admin_url(); ?>view:settings#option_group=updates"><?php _e("Click here to update"); ?></a>
             <br>
             <br>
-            <small class="text-muted"><a href="javascript:mw.set_dont_show_update_cookie()" class="mw-ui-link">Don't
-                    show again</a></small>
+            <small class="text-muted"><a href="javascript:mw.set_dont_show_update_cookie()" class="mw-ui-link"><?php _e("Don't show again"); ?></a></small>
         </div>
     </div>
     <?php

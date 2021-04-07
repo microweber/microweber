@@ -1,6 +1,6 @@
 <?php
-$settings = get_option('settings', $params['id']);
-$module_template = get_option('data-template', $params['id']);
+$settings = get_module_option('settings', $params['id']);
+$module_template = get_module_option('data-template', $params['id']);
 
 if (!$module_template and isset($params['template'])) {
     $module_template = $params['template'];
@@ -20,7 +20,7 @@ $defaults = array(
     'skin' => 'bxslider-skin-1'
 );
 $data = array();
-$settings = get_option('settings', $params['id']);
+$settings = get_module_option('settings', $params['id']);
 $json = json_decode($settings, true);
 
 if (isset($json) == false or count($json) == 0) {

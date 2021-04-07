@@ -6,6 +6,7 @@
     });
 </script>
 <?php
+
 $edit_page_info = $data;
 
 if (!isset($edit_page_info['title'])) {
@@ -108,6 +109,13 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 </script>
 
 <script>
+
+    var contentChanged = function (state) {
+        document.querySelector('.btn-save').disabled = !state;
+        mw.askusertostay = state;
+        document.querySelector('#content-title-field-row .card-header').classList[state ? 'add' : 'remove']('post-header-content-changed')
+    }
+
     $(document).ready(function () {
         var all = $(window);
         var header = document.querySelector('#mw-admin-container header');
@@ -146,9 +154,13 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
         });
 
         $('[name]').on('change input', function (){
-            document.querySelector('.btn-save').disabled = false;
-            mw.askusertostay = true;
+            contentChanged(true)
         })
+
+
+
+
+
     });
 </script>
 
@@ -170,26 +182,29 @@ if (isset($params['quick_edit'])) {
 <div class="<?php echo $wrapper_class; ?>">
 
     <?php
+
     $data['id'] = intval($data['id']);
     $formActionUrl = site_url() . 'api/save_content_admin';
-    if ($type == 'Page') {
+    if (isset($data['content_type']) and $data['content_type'] == 'page') {
         $formActionUrl = route('api.page.index');
         if ($data['id'] > 0) {
             $formActionUrl = route('api.page.update', $data['id']);
         }
     }
-    if ($type == 'Product') {
+    if (isset($data['content_type']) and $data['content_type'] == 'product') {
         $formActionUrl = route('api.product.index');
         if ($data['id'] > 0) {
             $formActionUrl = route('api.product.update', $data['id']);
         }
     }
-    if ($type == 'Post') {
+    if (isset($data['content_type']) and $data['content_type'] == 'post') {
         $formActionUrl = route('api.post.index');
         if ($data['id'] > 0) {
             $formActionUrl = route('api.post.update', $data['id']);
         }
     }
+
+
     ?>
 
     <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form <?php if($wrapper_class=='in-popup'){ ?> mw_admin_edit_content_form_in_popup <?php } ?> " action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
@@ -221,7 +236,7 @@ if (isset($params['quick_edit'])) {
                                 $type_icon = 'mdi-file-document';
                             }
                             ?>
-                            <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php echo $action_text; ?></strong></h5>
+                            <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
 
                             <div id="content-title-field-buttons">
@@ -241,7 +256,7 @@ if (isset($params['quick_edit'])) {
 
 
 
-                                <button type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php print _e('Save'); ?></span></button>
+                                <button id="js-admin-save-content-main-btn" type="submit" disabled class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
                             </div>
                         </div>
                     </div>
@@ -249,7 +264,7 @@ if (isset($params['quick_edit'])) {
                     <?php if (isset($edit_page_info['title'])): ?>
                         <div class="card-body pt-3">
                             <div class="form-group" id="slug-field-holder">
-                                <label class="control-label"><?php print $type ?> title</label>
+                                <label class="control-label"><?php _e($type) ?> <?php _e("title"); ?></label>
                                 <input type="text" autocomplete="off" class="form-control" name="title" onkeyup="slugFromTitle();" id="content-title-field" value="<?php print ($title_for_input) ?>">
                                 <div class="mw-admin-post-slug">
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left" title="Copy link"  onclick="copy_url_of_page();" style="cursor: copy"></i>
@@ -287,8 +302,7 @@ if (isset($params['quick_edit'])) {
                                             if(this.innerHTML.length > mw.slug.max) {
                                                 this.innerHTML = this.innerHTML.substring(0, mw.slug.max)
                                             }
-                                            document.querySelector('.btn-save').disabled = false;
-                                            mw.askusertostay = true;
+                                            contentChanged(true)
                                             slugEdited = true;
                                         })
                                         .on('keydown', function (e) {
@@ -296,8 +310,10 @@ if (isset($params['quick_edit'])) {
                                             var fn = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
                                             var collapsedIn = fn === this && sel.isCollapsed;
                                             slugEdited = true;
-                                            document.querySelector('.btn-save').disabled = false;
-                                            mw.askusertostay = true;
+                                            contentChanged(true)
+                                            if (mw.event.is.enter(e)  ) {
+                                                e.preventDefault();
+                                            }
                                             if (!mw.event.is.delete(e) && !mw.event.is.backSpace(e) && !e.ctrlKey) {
                                                 if ($('.js-slug-base-url').html().length >= mw.slug.max && collapsedIn) {
                                                     e.preventDefault();
@@ -368,7 +384,7 @@ if (isset($params['quick_edit'])) {
                                             <?php if (isset($data['content_type']) and ($data['content_type'] == 'product')): ?>
 
 
-                                            <label class="control-label" title="Content Body">Description</label>
+                                            <label class="control-label" title="Content Body"><?php  _e("Description"); ?></label>
 
                                             <div id="mw-admin-content-iframe-editor">
 
@@ -376,7 +392,7 @@ if (isset($params['quick_edit'])) {
 
                                             </div>
                                         <?php else: ?>
-                                                <label class="control-label">Content</label>
+                                                <label class="control-label"><?php  _e("Content"); ?></label>
 
                                                 <div id="mw-admin-content-iframe-editor">
 
@@ -402,7 +418,7 @@ if (isset($params['quick_edit'])) {
                                                     type: 'page'
                                                 })
                                             }
-                                            mw.askusertostay = false
+                                            contentChanged(false)
                                         }, 100);
                                     });
                                 </script>
@@ -436,6 +452,7 @@ if (isset($params['quick_edit'])) {
                 </div>
 
                 <div class="admin-manage-content-wrap">
+
                     <?php if (isset($data['content_type']) and ($data['content_type'] == 'page')): ?>
                         <?php if (isset($data['id']) and ($data['id'] == 0)): ?>
                             <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="top" live-edit-btn-overlay="true" content-id="<?php print $data['id']; ?>" edit_page_id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>"/>

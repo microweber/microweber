@@ -17,8 +17,6 @@
 
 
 $size = $size . 'px';
-
-
  ?>
 
 <a href="<?php if (!in_live_edit()) {
@@ -30,8 +28,6 @@ $size = $size . 'px';
           print site_url();
     }
 
-
-
 }; ?>" class="mw-ui-row-nodrop module-logo navbar-brand" style="width: auto;">
     <?php if ($logoimage == '' and $text == '') {
         if (is_live_edit()) { ?><span class="mw-logo-no-values"><?php _e('Click to add logo'); ?></span><?php }
@@ -41,8 +37,7 @@ $size = $size . 'px';
             </span><?php }} ?>
         <?php if ($logotype == 'text' or $logotype == false or $logotype == 'both') { ?><span class="mw-ui-col"><span
                 class="module-logo-text"
-                style="font-family: '<?php print $font_family_safe; ?>';font-size:<?php print $font_size; ?>px;line-height:<?php print $font_size; ?>px;"><?php print $text; ?></span>
+                style="font-family: '<?php print $font_family_safe; ?>';font-size:<?php print $font_size; ?>px;line-height:<?php print $font_size; ?>px;"><?php _e($text); ?></span>
             </span><?php } ?>
-
     <?php } ?>
 </a>

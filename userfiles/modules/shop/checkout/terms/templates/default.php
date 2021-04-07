@@ -16,7 +16,7 @@ description: Default terms template
     <script>
         $(document).ready(function () {
             $('#i_agree_with_terms_row').click(function () {
-                var el = $('#i_agree_with_terms');
+                var el = $('.i_agree_with_terms');
                 if (el.is(':checked')) {
                     $('#complete_order_button').removeAttr('disabled');
                 } else {
@@ -27,14 +27,12 @@ description: Default terms template
         });
     </script>
 
-    <div class="mw-ui-row" id="i_agree_with_terms_row">
-        <label class="mw-ui-check">
-            <input type="checkbox" name="terms" id="i_agree_with_terms" value="1" autocomplete="off"/>
-            <span></span>
-            <span>
-                <?php _e('I agree with the'); ?>
-                <a href="<?php print site_url('terms-and-conditions') ?>" target="_blank"><?php _e('Terms and Conditions'); ?></a>
-            </span>
-        </label>
+    <div class="form-group my-4">
+        <div class="custom-control custom-checkbox" id="i_agree_with_terms_row" style="line-height: normal;" >
+            <input type="checkbox" class="custom-control-input i_agree_with_terms" name="terms" id="customCheck1">
+            <label class="custom-control-label" for="customCheck1"><?php _e('I agree with the Terms and Conditiots'); ?>
+                <a href="<?php print $terms_url ?>" target="_blank" class="mw-checkout-terms-and-conditions-link-check"><?php _e('Terms and Conditions'); ?></a>
+            </label>
+        </div>
     </div>
 <?php endif; ?>

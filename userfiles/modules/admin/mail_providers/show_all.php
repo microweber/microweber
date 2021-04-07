@@ -31,11 +31,11 @@
         </script>
 
         <div class="alert alert-dismissible alert-primary">
-             <i class="mdi mdi-information"></i> We recommend to manually map fields of your contact forms, in order to get full integration with mail providers.
-            <button type="button" class="btn btn-primary js-map-contact-form-fields"><i class="mdi mdi-sitemap"></i> Map Fields</button>
+             <i class="mdi mdi-information"></i> <?php _e("We recommend to manually map fields of your contact forms, in order to get full integration with mail providers."); ?>
+            <button type="button" class="btn btn-primary js-map-contact-form-fields"><i class="mdi mdi-sitemap"></i> <?php _e("Map Fields"); ?></button>
         </div>
 
-        <button type="button" class="btn btn-primary mail-provider-sync pull-right"><i class="mdi mdi-cloud-sync"></i> Sync Subscribers</button>
+        <button type="button" class="btn btn-primary mail-provider-sync pull-right"><i class="mdi mdi-cloud-sync"></i> <?php _e("Sync Subscribers"); ?></button>
 
     </div>
 </div>

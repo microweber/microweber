@@ -8,7 +8,7 @@ if (!defined('USER_IP')) {
     }
 }
 $check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&user_ip=" . USER_IP);
-$job = mw('Microweber\Utils\Backup')->cronjob(array('type' => 'full'));
+$job = mw(\MicroweberPackages\LegacyBackup\Backup::class)->cronjob(array('type' => 'full'));
 $check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 if (isset($check['value'])) {
     if ($check['value'] == 'reload') {
@@ -34,7 +34,7 @@ if (isset($check['value'])) {
 } else {
     if (is_array($job) and !empty($job)) {
 
- 
+
     $total = $remaining = count($job);
 	if($total > 0){
 		if(!isset($_COOKIE['mw_backup_total_files'])){
@@ -42,13 +42,13 @@ if (isset($check['value'])) {
 		} else {
 			$total = $_COOKIE['mw_backup_total_files'];
 		}
-		
+
 	} else {
 	  setcookie('mw_backup_total_files',false);
 
 	}
  $perc =   100 - mw()->format->percent($remaining, $total);
- 
+
     ?>
 
 
@@ -60,8 +60,8 @@ if (isset($check['value'])) {
 
 
 
- 
-		
+
+
 		<script type="text/javascript">
 
             $(document).ready(function () {
@@ -71,10 +71,10 @@ if (isset($check['value'])) {
             });
 
         </script>
-		
-		
-		<?php 
-		
-		
+
+
+		<?php
+
+
     }
 }

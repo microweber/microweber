@@ -7,12 +7,12 @@
     <meta name="robots" content="noindex">
     <script type="text/javascript">
         if (!window.CanvasRenderingContext2D) {
-            var h = "<div id='UnsupportedBrowserMSG'><h1><?php _e("Your a need better browser to run Microweber>"); ?></h1></div>"
+            var h = "<div id='UnsupportedBrowserMSG'> </div>"
                 + "<div id='download_browsers_holder'><h2><?php _e("Update your browser"); ?></h2><p id='choose_browsers'>"
                 + "<a id='u__ie' target='_blank' href='http://windows.microsoft.com/en-us/internet-explorer/download-ie'></a>"
-                + "<a id='u__ff' target='_blank' href='http://www.mozilla.org/en-US/firefox/new/'></a>"
-                + "<a id='u__chr' target='_blank' href='https://www.google.com/intl/en/chrome/'></a>"
-                + "<a id='u__sf' target='_blank' href='http://support.apple.com/kb/DL1531'></a>"
+                + "<a id='u__ff' target='_blank' href='http://www.mozilla.org/en-US/firefox/new/'>x</a>"
+                + "<a id='u__chr' target='_blank' href='https://www.google.com/intl/en/chrome/'>x</a>"
+                + "<a id='u__sf' target='_blank' href='http://support.apple.com/kb/DL1531'>x</a>"
                 + "</p></div>";
             document.write(h);
             document.body.id = 'UnsupportedBrowser';
@@ -90,7 +90,7 @@
 <?php $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates'); ?>
 
 <?php
-$past_page = site_url() . '?editmode=y';
+$past_page = site_url();
 
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
@@ -282,7 +282,7 @@ $user = get_user_by_id($user_id);
 
                     <?php if ($new_orders_count != ''): ?>
                         <li class="mx-2">
-                            <a href="<?php print admin_url(); ?>view:shop/action:orders" class="btn btn-link btn-rounded icon-left text-dark px-0">
+                            <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>
                                 <i class="mdi mdi-shopping text-muted m-0"></i>
                                 <span class="d-none d-md-block">
@@ -335,12 +335,12 @@ $user = get_user_by_id($user_id);
                     <?php if (user_can_access('module.content.edit')): ?>
 
                         <li class="mx-1">
-                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set  go-live-edit-href-set-view" xxtarget="_top">
-                                <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("View"); ?></span>
+                            <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set go-live-edit-href-set-view">
+                                <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("Website"); ?></span>
                             </a>
                         </li>
                         <li class="mx-1">
-                            <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set" xxtarget="_top">
+                            <a href="<?php print $past_page ?>?editmode=y" class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set">
                                 <i class="mdi mdi-eye-outline"></i><span class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
                             </a>
                         </li>
@@ -393,6 +393,8 @@ $user = get_user_by_id($user_id);
             } elseif ($view == 'invoices') {
                 $shop_class = "active";
             } elseif ($view == 'customers') {
+                $shop_class = "active";
+            } elseif ($view == 'order') {
                 $shop_class = "active";
             }
             ?>
@@ -447,7 +449,7 @@ $user = get_user_by_id($user_id);
                     <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
                         <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
-                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($view != 'shop' and $notif_count > 0): ?><?php print $order_notif_html; ?><?php endif; ?></span>
+                            <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                         </a>
                         <div class="dropdown-menu">
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
@@ -459,11 +461,12 @@ $user = get_user_by_id($user_id);
                             endif;
                             ?>
 
-                            <?php if (user_can_view_module(['module' => 'shop.orders'])): ?>
-                                <a href="<?php print admin_url(); ?>view:shop/action:orders" class="dropdown-item <?php if ($action == 'orders'): ?> active <?php endif; ?>">
+                            <?php if (user_can_view_module(['module' => 'order.index'])): ?>
+                                <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if($view == 'order'): ?>active<?php endif;?>">
                                     <?php _e("Orders"); ?>
-                                    <?php if ($view == 'shop'): ?><?php print $order_notif_html; ?><?php endif; ?>
-                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
+                                    <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
+                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
+                                          data-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
                             <?php endif; ?>
 
@@ -473,7 +476,7 @@ $user = get_user_by_id($user_id);
                             </a>-->
 
                             <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
-                                <a href="<?php echo route('customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
+                                <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
                                     <?php _e("Clients"); ?>
                                 </a>
                             <?php endif; ?>
@@ -484,7 +487,7 @@ $user = get_user_by_id($user_id);
                                     </a>
                             <?php endif; ?>
 
-                            <a href="<?php print admin_url(); ?>view:shop/action:options/" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
+                            <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
                             </a>
                         </div>
@@ -513,6 +516,18 @@ $user = get_user_by_id($user_id);
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=all">
+                        <i class="mdi mdi-cog"></i>
+                        <span class="badge-holder"><?php _e("Settings"); ?></span>
+                    </a>
+
+                </li>
+
+
+
+
 
                 <?php /*
                 <li class="nav-item dropdown">
@@ -591,6 +606,22 @@ $user = get_user_by_id($user_id);
             </ul>
 
             <script>
+
+                var handleConfirmBeforeLeave = function (c) {
+                    if (mw.askusertostay) {
+                        mw.confirm(mw.lang("You have unsaved changes. Do you want to save them first") + '?',
+                            function () {
+
+                                c.call(undefined, true)
+                            },
+                            function (){
+                                mw.askusertostay = false;
+                                c.call(undefined, false)
+                            });
+                    } else {
+                        c.call(undefined, false)
+                    }
+                };
                 $(document).ready(function () {
 
 
@@ -602,37 +633,38 @@ $user = get_user_by_id($user_id);
 
                         if (href.indexOf("editmode") === -1) {
                             href = href + ((href.indexOf('?') === -1 ? '?' : '&') + 'editmode:y');
- 
+
                             el.attr('href', href);
 
                         }
-                    }).on('click', function (event){
-                        var edit_cont_form =  $('#quickform-edit-content');
-                        var edit_cont_title =  $('#content-title-field').val();
-                        if(edit_cont_form.length > 0 && (typeof(mw.edit_content) != 'undefined') && edit_cont_title){
-                            event.stopPropagation();
-                            event.preventDefault();
+                    }).on('mousedown touchstart', function (event){
+                        var el = this;
+                        if(event.which === 1 || event.type === 'touchstart') {
+                            handleConfirmBeforeLeave(function (shouldSave){
+                                if(shouldSave) {
+                                    var edit_cont_form =  $('#quickform-edit-content');
+                                    var edit_cont_form_is_disabled_btn =  $('#js-admin-save-content-main-btn').attr('disabled');
+                                    var edit_cont_title =  $('#content-title-field').val();
+                                    if (edit_cont_form.length && mw.edit_content && edit_cont_title && !edit_cont_form_is_disabled_btn) {
+                                        event.stopPropagation();
+                                        event.preventDefault();
+                                        mw.askusertostay = false;
+                                        mw.edit_content.saving = false;
+                                        if($(this).hasClass('go-live-edit-href-set-view')){
+                                            mw.edit_content.handle_form_submit('n');
+                                        } else {
+                                            mw.edit_content.handle_form_submit('y');
+                                        }
+                                    }
+                                } else {
+                                    mw.askusertostay = false;
+                                    location.href = el.getAttribute('href');
 
-
-
-                            window.parent.mw.askusertostay = false;
-
-                            mw.edit_content.saving = false;
-                            if($(this).hasClass('go-live-edit-href-set-view')){
-                                mw.edit_content.handle_form_submit('n');
-                            } else {
-                                mw.edit_content.handle_form_submit('y');
-
-                            }
-
-
+                                }
+                            });
                         }
 
-
-
                     });
-
-
                 });
             </script>
         </aside>

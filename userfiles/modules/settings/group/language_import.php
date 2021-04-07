@@ -20,13 +20,16 @@ $(document).ready(function () {
 
     	postData = {}
     	postData.src = data.src;
-    	postData.namespace = "<?php echo $params['namespace']; ?>";
-    	postData.language = "<?php echo $params['language']; ?>";
 
-		$.post("<?php echo route('admin.backup.language.upload'); ?>", postData,
+        var replace_values = $('#replace_valuesCheck1:checked').val();
+
+        if(replace_values){
+    	postData.replace_values = 1;
+        }
+		$.post("<?php echo route('admin.language.import'); ?>", postData,
 			function(msg) {
 				if (msg.success) {
-			    	mw.reload_module('settings/group/language_edit');
+			    	mw.reload_module('.js-language-edit-browse-<?php echo $_POST['namespaceMD5'];?>');
 			    }
 				mw.notification.msg(msg);
 		});
@@ -44,16 +47,20 @@ $(document).ready(function () {
 
 });
 </script>
-<br />
-<center>
-<h3>If you have a .xlsx translated file you can import it by uploading it here.</h3>
-<br />
+
+<div class="my-2">
+<label class="control-label"><?php _e('Upload Your Language File');?></label>
+    <small class="text-muted d-block mb-3"><?php _e('If you have a .xlsx translated file you can import it by uploading it here.');?></small>
+
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" name="replace_values" value="1" class="custom-control-input" id="replace_valuesCheck1"  >
+        <label class="custom-control-label" for="replace_valuesCheck1"><?php _e('Replace language values');?></label>
+    </div>
+
 
 <span id="upload_file_info" style="font-size:14px;"></span>
-
  <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info">
 	<i class="mw-icon-upload"></i> &nbsp;
 	<span><?php _e("Upload file"); ?></span>
 </span>
-
-</center>
+</div>

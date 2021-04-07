@@ -25,9 +25,9 @@ class Category extends Model
     ];
 
     public $fillable = [
-        "rel",
+        "rel_type",
         "rel_id",
-        "date_type",
+        "data_type",
         "parent_id",
         "title",
         "content",
@@ -42,6 +42,8 @@ class Category extends Model
         "category_meta_description",
         "category_meta_keywords"
     ];
+
+    public $cacheTagsToClear = ['content', 'content_fields_drafts', 'menu', 'content_fields', 'categories'];
 
     public $translatable = ['title','url','description','content'];
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Content;
 
 use Content;
@@ -536,7 +537,7 @@ class ContentManager
 
                 return $pagination_links;
             } else {
-                return  $paginate->links();
+                return $paginate->links();
             }
         }
 
@@ -548,9 +549,9 @@ class ContentManager
         if (is_array($data)) {
 
             if ($no_wrap) {
-                $to_print = "";
+                $to_print = "<ul class='{$class}'>";
             } else {
-                $to_print = "";
+                $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
             }
 
             if ($current_page_from_url > 1 && isset($params['show_first_last'])) {
@@ -692,9 +693,9 @@ class ContentManager
             $to_print .= implode("\n", $paging_items);
 
             if ($no_wrap) {
-                $to_print .= '';
+                $to_print .= '</ul>';
             } else {
-                $to_print .= '';
+                $to_print .= '</ul></div>';
             }
 
             return $to_print;
@@ -1575,7 +1576,6 @@ class ContentManager
     {
 
 
-
         if ((is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
             $ref_page = $_SERVER['HTTP_REFERER'];
         } else {
@@ -1620,8 +1620,8 @@ class ContentManager
                 define('CATEGORY_ID', intval($cat_url));
             }
         }
-       // dd(debug_backtrace(1));
-     //    dd(debug_backtrace(1));
+        // dd(debug_backtrace(1));
+        //    dd(debug_backtrace(1));
 //    //    dd(__METHOD__,$content,__LINE__);
 //
         if (is_array($page)) {
@@ -1732,8 +1732,7 @@ class ContentManager
         }
         if (!defined('CATEGORY_ID')) {
             define('CATEGORY_ID', false);
-        }
- ;
+        };
         if (defined('PAGE_ID') == false) {
             $getPageSlug = $this->app->permalink_manager->slug($ref_page, 'page');
             $pageFromSlug = $this->app->content_manager->get_by_url($getPageSlug);
@@ -1743,7 +1742,6 @@ class ContentManager
                 define('PAGE_ID', intval($page['id']));
             }
         }
-
 
 
         if (defined('CONTENT_ID') == false) {
@@ -2319,7 +2317,7 @@ class ContentManager
         $orig_data = $data;
         $stop = false;
         $data = $this->app->format->strip_unsafe($data);
-         if ($adm == false) {
+        if ($adm == false) {
             $stop = true;
             $author_id = user_id();
 
@@ -2410,7 +2408,7 @@ class ContentManager
         if ($stop == true) {
             return array('error' => 'You don\'t have permissions to save content here!');
         }
-         return $this->save_content($data, $delete_the_cache);
+        return $this->save_content($data, $delete_the_cache);
     }
 
     public function save_content($data, $delete_the_cache = true)
@@ -2433,7 +2431,6 @@ class ContentManager
         $after_save['id'] = $id;
 
         $this->app->event_manager->trigger('content.manager.after.save', $after_save);
-
         event_trigger('mw_save_content', $save);
 
         return $save;
@@ -2441,7 +2438,17 @@ class ContentManager
 
     public function custom_fields($content_id, $full = true, $field_type = false)
     {
-        return $this->app->fields_manager->get('content', $content_id, $full, false, false, $field_type);
+        $filter = [];
+        $filter['rel_type'] = 'content';
+        $filter['rel_id'] = $content_id;
+        if ($full) {
+            $filter['return_full'] = $full;
+        }
+        if ($field_type) {
+            $filter['type'] = $field_type;
+        }
+
+        return $this->app->fields_manager->get($filter);
     }
 
     public function save_content_field($data, $delete_the_cache = true)
@@ -2809,6 +2816,26 @@ class ContentManager
     {
         //shim for old versions
         return $this->app->template_manager->site_templates();
+    }
+
+
+    public function get_related_content_ids_for_content_id($content_id = false)
+    {
+
+        $related_ids = [];
+        $content = (new \MicroweberPackages\Content\Content())->where('id', $content_id)->first();
+
+        if ($content) {
+            $related_cont = $content->related()->get();
+            if ($related_cont) {
+                $related = $related_cont->toArray();
+                foreach ($related as $related_cont) {
+                    $related_ids[] = $related_cont['related_content_id'];
+                }
+            }
+        }
+        return $related_ids;
+
     }
 
 

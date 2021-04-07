@@ -271,9 +271,9 @@
 
         this.offset = function () {
             var rect = this._active().getBoundingClientRect();
-            rect.offsetTop = rect.top + pageYOffset;
-            rect.offsetBottom = rect.bottom + pageYOffset;
-            rect.offsetLeft = rect.left + pageXOffset;
+            rect.offsetTop = rect.top + window.pageYOffset;
+            rect.offsetBottom = rect.bottom + window.pageYOffset;
+            rect.offsetLeft = rect.left + window.pageXOffset;
             return rect;
         };
 

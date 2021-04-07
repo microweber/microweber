@@ -1,16 +1,19 @@
 <?php
 
-
+use \MicroweberPackages\Option\Models\Option;
 
 $cats = [];
-$parent = $selected_category = get_option('fromcategory', $params['id']);
-$selected_page = get_option('frompage', $params['id']);
+$options = Option::where('option_group', $params['id'])->get();
 
-$show_only_for_parent = get_option('single-only', $params['id']);
+$parent = $selected_category = Option::fetchFromCollection($options, 'fromcategory');
 
-$show_category_header = get_option('show_category_header', $params['id']);
-$show_subcats = get_option('show-subcats', $params['id']);
-$hide_pages = get_option('hide-pages', $params['id']);
+$selected_page = Option::fetchFromCollection($options, 'frompage');
+
+$show_only_for_parent = Option::fetchFromCollection($options, 'single-only');
+
+$show_category_header = Option::fetchFromCollection($options, 'show_category_header');
+$show_subcats = Option::fetchFromCollection($options, 'show-subcats');
+$hide_pages = Option::fetchFromCollection($options, 'hide-pages');
 
 
 $cfg_filter_in_stock = false;
@@ -19,7 +22,7 @@ $cfg_filter_in_stock = false;
 if(isset($params['filter-only-in-stock'])){
     $cfg_filter_in_stock = $params['filter-only-in-stock'];
 } else {
-    $cfg_filter_in_stock =  get_option('filter-only-in-stock', $params['id']) == '1';
+    $cfg_filter_in_stock =  Option::fetchFromCollection($options, 'filter-only-in-stock') == '1';
 }
 
 if ($parent == 'current') {
@@ -153,36 +156,41 @@ if ($results) {
         $selected_cats = array_unique($selected_cats);
 
         $selected_cats_ids = $selected_cats;
-        foreach ($selected_cats_ids as $selected_cats_id) {
-            $cat_data = get_category_by_id($selected_cats_id);
-            if ($cat_data) {
-                if (!in_array($cat_data['id'], $cat_ids)) {
-                    $cats[] = $cat_data;
-                    $cat_ids [] = $cat_data['id'];
-                }
-                //
+        $selectedCategories = \MicroweberPackages\Category\Models\Category::whereIn('id', $selected_cats_ids)->with('children')->get();
 
-                if ($show_subcats and !$show_only_for_parent) {
-                    $sub_cats = app()->category_manager->get_children($cat_data['id']);
-                    if ($sub_cats) {
-                        foreach ($sub_cats as $sub_cat) {
-                            $cat_data2 = get_category_by_id($sub_cat);
-                            if ($cat_data2) {
-                                if (!in_array($cat_data2['id'], $cat_ids)) {
-                                    $cats[] = $cat_data2;
-                                    $cat_ids [] = $cat_data2['id'];
+        if(!empty($selectedCategories)) {
+            foreach ($selectedCategories as $catData) {
+
+                if (isset($catData['id'])) {
+                    if (!in_array($catData->id, $cat_ids)) {
+                        $cats[] = $catData->toArray();
+                        $cat_ids [] = $catData->id;
+                    }
+
+                    if ($show_subcats and !$show_only_for_parent) {
+                        if ($catData->children) {
+                            foreach ($catData->children as $sub_cat) {
+
+                                if (!in_array($sub_cat->id, $cat_ids)) {
+                                    $cats[] = $sub_cat->toArray();
+                                    $cat_ids [] = $sub_cat->id;
                                 }
                             }
                         }
                     }
-                }
 
+                }
             }
         }
     }
 
 
     if (!empty($cats)) {
+
+        usort($cats, function($a, $b) {
+            return $a['position'] - $b['position'];
+        });
+
         foreach ($cats as $k => $cat) {
             $cat['content_items'] = false;
             $cat['content_items_count'] = false;

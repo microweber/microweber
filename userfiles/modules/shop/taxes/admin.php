@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -56,6 +56,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 mw.notification.success("<?php _ejs('Taxes are updated'); ?>");
                 // mw.reload_module('#mw_admin_shop_taxes_items_list');
                 mw.reload_module('shop/taxes');
+                mw.reload_module_everywhere('shop/taxes/admin_list_taxes')
+                mw.reload_module_everywhere('shop/cart')
             }
 
             $(document).ready(function () {
@@ -82,7 +84,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input type="checkbox" name="enable_taxes" id="enable_taxes" class="mw_option_field custom-control-input" data-option-group="shop" value="1" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == 1): ?>checked<?php endif; ?>>
                     <label class="custom-control-label" for="enable_taxes"><?php _e("Enable taxes support"); ?></label>
                 </div>
-                <small class="text-muted d-block">Setup different types of taxes and they will appear automatically in your cart</small>
+                <small class="text-muted d-block"><?php _e('Setup different types of taxes and they will appear automatically in your cart'); ?></small>
             </div>
 
             <div>

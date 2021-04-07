@@ -19,7 +19,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -67,20 +67,25 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             if ($mod_action == 'integrations') {
                 $load_list = false;
             }
+
+            $showTab = 'list';
+            if (isset($_GET['tab'])) {
+                $showTab = $_GET['tab'];
+            }
             ?>
 
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Your form lists"); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#integrations"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e("Mail Integrations"); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='list'):?> active <?php endif; ?>" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Your form lists"); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='settings'):?> active <?php endif; ?>" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Global settings'); ?></a>
+                <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='integrations'):?> active <?php endif; ?>" data-toggle="tab" href="#integrations"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e("E-mail Integrations"); ?></a>
             </nav>
 
             <div class="tab-content py-3">
-                <div class="tab-pane fade show active" id="list">
+                <div class="tab-pane fade <?php if ($showTab =='list'):?> show active <?php endif; ?>" id="list">
 
                     <div class=" mb-3">
                         <div class="form-group">
-                            <label class="control-label d-block mb-2">Your form lists</label>
+                            <label class="control-label d-block mb-2"><?php _e('Your form lists'); ?></label>
                             <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="selectpicker" data-width="100%">
                                 <option <?php if ($load_list === 'all_lists') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>"><?php _e('All lists'); ?></option>
                                 <option <?php if ($load_list === 'default') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:0"><?php _e('Default list'); ?>
@@ -109,13 +114,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <?php if ($load_list): ?>
                         <script type="text/javascript">
-                            mw.on.hashParam('search', function () {
+                            mw.on.hashParam('search', function (pval) {
                                 var field = document.getElementById('forms_data_keyword');
                                 if (!field.focused) {
-                                    field.value = this;
+                                    field.value = pval;
                                 }
-                                if (this != '') {
-                                    $('#forms_data_module').attr('keyword', this);
+                                if (pval != '') {
+                                    $('#forms_data_module').attr('keyword', pval);
                                 }
                                 else {
                                     $('#forms_data_module').removeAttr('keyword');
@@ -140,12 +145,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <?php endif; ?>
                 </div>
 
-                <div class="tab-pane fade" id="settings">
+                <div class="tab-pane fade <?php if ($showTab =='settings'):?> show active <?php endif; ?>" id="settings">
                     <module type="settings/list" for_module="contact_form" for_module_id="contact_form_default"/>
                     <module type="contact_form/settings" for_module_id="contact_form_default"/>
                 </div>
 
-                <div class="tab-pane fade" id="integrations">
+                <div class="tab-pane fade <?php if ($showTab =='integrations'):?> show active <?php endif; ?>" id="integrations">
                     <module type="admin/mail_providers/show_all"/>
                 </div>
             </div>

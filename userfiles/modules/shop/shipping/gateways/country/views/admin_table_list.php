@@ -3,21 +3,37 @@
         if (id) {
             var modalTitle = '<?php _e('Edit country'); ?>';
         } else {
+            id = 0;
             var modalTitle = '<?php _e('Add country'); ?>';
         }
 
-        mw_admin_edit_country_item_popup_modal_opened = mw.dialog({
-            content: '<div id="mw_admin_edit_country_item_module"></div>',
-            title: modalTitle,
-            id: 'mw_admin_edit_country_item_popup_modal'
-        });
+        // mw_admin_edit_country_item_popup_modal_opened = mw.dialog({
+        //     content: '<div id="mw_admin_edit_country_item_module"></div>',
+        //     title: modalTitle,
+        //
+        //     id: 'mw_admin_edit_country_item_popup_modal'
+        // });
+        //
+        // var params = {}
+        // if (id) {
+        //     params.edit_id = id
+        // }
+        //
+        // mw.load_module('shop/shipping/gateways/country/add_country', '#mw_admin_edit_country_item_module', null, params);
 
-        var params = {}
-        if (id) {
-            params.edit_id = id
-        }
 
-        mw.load_module('shop/shipping/gateways/country/add_country', '#mw_admin_edit_country_item_module', null, params);
+        var modal_id = 'mw_admin_edit_country_item_popup_modal_opened';
+        var dialog = mw.top().dialogIframe({
+            url: '<?php print site_url() ?>module/?type=shop/shipping/gateways/country/add_country&live_edit=true&id=mw_admin_edit_country_item_popup_modal_opened__module&edit_id='+id+'&from_url=<?php print site_url() ?>',
+            title:modalTitle,
+            id: modal_id,
+
+            height: 'auto',
+            autoHeight: true
+        })
+
+
+
     }
 </script>
 
@@ -31,11 +47,11 @@
         <div class="col">
             <div class="form-group mb-0">
                 <?php if ($active_or_disabled == 'active'): ?>
-                    <label class="control-label"><?php print _e('Allowed countries for shipping'); ?></label>
-                    <small class="text-muted d-block mb-0">List of countries to which shipping is performed</small>
+                    <label class="control-label"><?php _e('Allowed countries for shipping'); ?></label>
+                    <small class="text-muted d-block mb-0"> <?php _e('List of countries to which shipping is performed'); ?></small>
                 <?php else: ?>
-                    <label class="control-label"><?php print _e('Denied countries for shipping'); ?></label>
-                    <small class="text-muted d-block mb-0">List of countries where deliveries are not allowed</small>
+                    <label class="control-label"><?php _e('Denied countries for shipping'); ?></label>
+                    <small class="text-muted d-block mb-0"><?php _e('List of countries where deliveries are not allowed'); ?></small>
                 <?php endif; ?>
             </div>
         </div>
@@ -49,10 +65,10 @@
             <thead class="<?php if ($active_or_disabled == 'active'): ?>table-success<?php else: ?>table-danger<?php endif; ?>">
             <tr>
                 <th style="width: 10px; padding-right: 0;"></th>
-                <th><?php if ($active_or_disabled == 'active'): ?>Allowed<?php else: ?>Denied<?php endif; ?> Country</th>
-                <th>Shipping Type</th>
-                <th>Shipping Cost</th>
-                <th class="text-right" style="width: 200px;"><?php print _e('Actions'); ?></th>
+                <th><?php if ($active_or_disabled == 'active'): ?><?php _e('Allowed'); ?><?php else: ?><?php _e('Denied'); ?><?php endif; ?> <?php _e('Country'); ?></th>
+                <th><?php _e('Shipping Type'); ?></th>
+                <th><?php _e('Shipping Cost'); ?></th>
+                <th class="text-right" style="width: 200px;"><?php _e('Actions'); ?></th>
             </tr>
             </thead>
             <?php if (is_array($data) and !empty($data)): ?>
@@ -91,7 +107,7 @@
             <?php else: ?>
                 <tr class="vertical-align-middle">
                     <td colspan="5" class="bg-grey font-weight-bold">
-                        The list is empty
+                        <?php _e("The list is empty"); ?>
                     </td>
                 </tr>
             <?php endif; ?>

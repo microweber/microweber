@@ -40,7 +40,7 @@
                 }
 
                 if (user_can_access('module.categories.edit')) {
-                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'><span>Edit</span>  </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>Delete</span></span>";
+                    $mainFilterTree['link'] = "<span class='category_element mw-ui-category-tree-row'  value='{id}' ><span value='{id}' class='mdi mdi-folder text-muted mdi-18px mr-2' style='cursor: move'></span>&nbsp;{title}<span class=\"btn btn-outline-primary btn-sm\"  onclick='mw.quick_cat_edit({id})'>  <span>". _e("Edit", true) . "</span> </span>  <span class=\" mr-1 btn btn-outline-danger btn-sm\" onclick='event.stopPropagation();event.preventDefault();mw.quick_cat_delete({id})'>". _e("Delete", true) . "</span></span>";
                 } else {
                     $mainFilterTree['link'] = "<span class='mw-ui-category-tree-row'><span class='mdi mdi-folder text-muted mdi-18px mr-2'></span>&nbsp;{title}</span>";
                 }
@@ -65,7 +65,7 @@
                         ?>
                         <div class="card border-0">
                             <div class="card-header pl-0">
-                                <h6><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php echo $page['title']; ?></h6>
+                                <h6><i class="mdi mdi-post-outline text-primary mr-3"></i> <?php _e($page['title']); ?></h6>
                             </div>
 
                             <div class="card-body py-2">
@@ -81,11 +81,11 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_categories.svg'); ">
-                                    <h4>You don’t have any categories yet</h4>
-                                    <p>Create your first category right now.<br/>
-                                        You are able to do that in very easy way!</p>
+                                    <h4><?php _e('You don’t have any categories yet'); ?></h4>
+                                    <p><?php _e('Create your first category right now.'); ?><br/>
+                                        <?php _e('You are able to do that in very easy way!'); ?></p>
                                     <br/>
-                                    <a href="javascript:;" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-rounded">Create a Category</a>
+                                    <a href="javascript:;" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="card-header">
-                                <h5>Other</h5>
+                                <h5><?php _e('Other') ?></h5>
                             </div>
                             <?php echo $otherCategories; ?>
                         </div>
@@ -148,7 +148,26 @@
 
                 mw.quick_cat_edit_create = mw.quick_cat_edit_create || function (id) {
 
-                    mw.url.windowHashParam('action', 'editcategory:' + id)
+
+                    if(self !== top && mw.top().settings.liveEdit){
+
+
+                        var opts = {};
+                        opts.width = '800';
+                        opts.height =  '600';
+
+                        opts.liveedit = true;
+                        opts.mode = 'modal';
+
+                        var additional_params = {};
+                        additional_params.category_id = id;
+                        return mw.tools.open_global_module_settings_modal('categories/edit_category',  '#mw_edit_category_admin_holder_modal', opts,additional_params);
+
+
+                    } else {
+                        mw.url.windowHashParam('action', 'editcategory:' + id)
+
+                    }
 
                 }
 
@@ -192,9 +211,26 @@
                     //
                     // }
 
+                    if(self !== top && mw.top().settings.liveEdit){
+
+
+                        var opts = {};
+                        opts.width = '800';
+                        opts.height =  '600';
+
+                        opts.liveedit = true;
+                        opts.mode = 'modal';
+
+                        var additional_params = {};
+                        additional_params.category_id = id;
+                        return mw.tools.open_global_module_settings_modal('categories/edit_category',  '#mw_edit_category_admin_holder_modal', opts,additional_params);
+
+
+                    } else {
+
 
                     mw.url.windowHashParam('action', 'editcategory:' + id)
-
+                    }
                 }
 
                 mw.quick_cat_delete = function (id) {

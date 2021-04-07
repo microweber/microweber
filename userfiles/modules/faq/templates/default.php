@@ -18,7 +18,7 @@ description: Default
 <div class="faq-holder styled">
     <div class="row">
         <div class="col-xs-12 edit" rel="module-<?php print $params['id']; ?>" field="title-content">
-            <h3>Here’s a few answers to our most common questions</h3>
+            <h3><?php _e("Here’s a few answers to our most common questions"); ?></h3>
         </div>
     </div>
 

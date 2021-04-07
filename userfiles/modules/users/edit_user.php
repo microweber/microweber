@@ -175,7 +175,8 @@ if (isset($data[0]) == false) {
     if ($data['id'] == 0) {
         $action = 'Add new';
     }
-    ?>
+
+     ?>
 
     <div class="card style-1 bg-light mb-3">
         <div class="card-header">
@@ -228,7 +229,7 @@ if (isset($data[0]) == false) {
                         <input type="hidden" name="token" value="<?php print csrf_token() ?>" autocomplete="off">
 
                         <div class="d-block">
-                            <small class="d-block text-muted text-center mb-4 mt-2">Fill in the fields to create a new user</small>
+                            <small class="d-block text-muted text-center mb-4 mt-2"><?php _e("Fill in the fields to create a new user"); ?></small>
 
                             <div class="form-group">
                                 <label class="control-label"><?php _e("Username"); ?></label>
@@ -244,7 +245,7 @@ if (isset($data[0]) == false) {
                                 <div class="input-group input-group-password mb-3 append-transparent <?php if ($data['id'] != 0): ?>semi_hidden js-reset-password<?php endif; ?>">
                                     <input type="password" <?php if ($data['id'] != 0): ?>disabled="disabled"<?php endif; ?> name="password" class="form-control" id="reset_password"/>
                                     <div class="input-group-append">
-                                        <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
+                                        <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="<?php _e("Show/Hide Password"); ?>"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -254,13 +255,13 @@ if (isset($data[0]) == false) {
                                 <div class="input-group input-group-password mb-3 append-transparent">
                                     <input type="password" name="verify_password" class="form-control" id="verify_password"/>
                                     <div class="input-group-append">
-                                        <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="Show/Hide Password"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
+                                        <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="<?php _e("Show/Hide Password"); ?>"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
                                     </div>
                                 </div>
                             </div>
 
 
-                            <small class="d-block text-muted text-center mb-2">Personal data of the user</small>
+                            <small class="d-block text-muted text-center mb-2"><?php _e("Personal data of the user"); ?></small>
 
                             <div class="form-group">
                                 <label class="control-label"><?php _e("First Name"); ?></label>
@@ -285,30 +286,42 @@ if (isset($data[0]) == false) {
                             <div class="form-group mt-4 mb-4">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="send_new_user_email" checked="">
-                                    <label class="custom-control-label" for="send_new_user_email">Send the new user an email about their account. <br/>
+                                    <label class="custom-control-label" for="send_new_user_email"><?php _e("Send the new user an email about their account"); ?>. <br/>
                                     </label>
                                     <br />
-                                    <a href="<?php echo admin_url();?>/view:content/action:settings?group=login#email-notifications" target="_blank">Edit e-mail template.</a>
+                                    <a href="<?php echo admin_url();?>view:settings#option_group=users" target="_blank"><?php _e("Edit e-mail template"); ?>.</a>
                                 </div>
                             </div>
 
                             <?php
                             /*$userRoles = \Illuminate\Support\Facades\Auth::user()->with('roles')->get();
                             var_dump($userRoles->roles); */
-                            ?>
+
+
+                             ?>
 
                             <?php if (is_admin()) : ?>
-                                <small class="d-block text-muted text-center mb-3">User status and role</small>
+                                <small class="d-block text-muted text-center mb-3"><?php _e("User status and role"); ?></small>
 
                                 <div class="form-group">
-                                    <label class="control-label mb-1">Role of the user</label>
-                                    <small class="text-muted d-block mb-1">Choose the current role of the user. <a href="<?php echo route('admin.role.index');?>">Manage user roles</a></small>
+                                    <label class="control-label mb-1"><?php _e("Role of the user"); ?></label>
+                                    <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>. <a href="<?php echo route('admin.role.index');?>"><?php _e("Manage user roles"); ?></a></small>
                                     <select class="selectpicker" data-live-search="true" data-width="100%" name="roles[]">
+
                                         <?php
                                         $roles = \MicroweberPackages\Role\Repositories\Role::all();
                                         foreach ($roles as $role):
+
+
                                             ?>
-                                            <option <?php if(is_admin() && $role['name'] == 'Super Admin'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>
+                                        <?php if ($role['name'] == 'Super Admin') : ?>
+                                            <option <?php if( $data['is_admin'] == 1 && $role['name'] == 'Super Admin'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>
+
+                                        <?php endif; ?>
+                                           <?php if ( $role['name'] == 'User') : ?>
+                                            <option <?php if( $data['is_admin'] == 0 && $role['name'] == 'User'): ?> selected="selected" <?php endif; ?>><?php echo $role['name']; ?></option>
+                                        <?php endif; ?>
+
                                             <?php
                                         endforeach;
                                         ?>
@@ -317,7 +330,7 @@ if (isset($data[0]) == false) {
 
                                 <div class="form-group">
                                     <label class="control-label mb-1"><?php _e('Is Active'); ?>?</label>
-                                    <small class="text-muted d-block mb-1">Choose the current status of this user</small>
+                                    <small class="text-muted d-block mb-1"><?php _e("Choose the current status of this user"); ?></small>
 
                                     <div class="custom-control custom-radio d-inline-block mr-3">
                                         <input type="radio" id="is_active1" class="custom-control-input" value="1" name="is_active" <?php if ($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>
@@ -361,7 +374,7 @@ if (isset($data[0]) == false) {
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
-                            <a href="javascript:;" class="btn btn-link px-0" data-toggle="collapse" data-target="#advanced-settings">Advanced settings</a>
+                            <a href="javascript:;" class="btn btn-link px-0" data-toggle="collapse" data-target="#advanced-settings"><?php _e("Advanced settings"); ?></a>
 
                             <div class="collapse" id="advanced-settings">
                                 <div class="form-group">
@@ -408,11 +421,11 @@ if (isset($data[0]) == false) {
                                     </script>
 
                                     <div class="export-label d-flex align-items-center justify-content-center-x">
-                                        <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>" class="btn btn-link px-0"><?php print _e('Export user data'); ?></a>
+                                        <a href="<?php echo api_url('users/export_my_data'); ?>?user_id=<?php echo $data['id']; ?>" class="btn btn-link px-0"><?php _e('Export user data'); ?></a>
                                         &nbsp;
-                                        <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php print _e('Terms agreement log'); ?></a>
+                                        <a href="javascript:mw_admin_tos_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php _e('Terms agreement log'); ?></a>
                                         &nbsp;
-                                        <a href="javascript:mw_admin_login_attempts_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php print _e('Login attempts'); ?></a>
+                                        <a href="javascript:mw_admin_login_attempts_popup(<?php echo $data['id']; ?>)" class="btn btn-link px-0"><?php _e('Login attempts'); ?></a>
                                     </div>
                                 <?php endif; ?>
                             </div>

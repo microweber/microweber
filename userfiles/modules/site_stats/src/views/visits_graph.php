@@ -9,13 +9,17 @@ $period = 'daily';
 if ($params['period']) {
     $period = $params['period'];
 }
+
+
 ?>
 
 <script>
-    mw.admin.__statdata = <?php print json_encode($graph_data); ?>;
+    mw.require('<?php print modules_url() ?>microweber/api/libs/apexcharts/apexcharts.min.js');
 </script>
 
 <script>
+    mw.admin.__statdata = <?php print json_encode($graph_data); ?>;
+
     Date.prototype.getWeekNumber = function () {
         var d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
         d.setUTCDate(d.getUTCDate() - d.getUTCDay());
@@ -27,10 +31,7 @@ if ($params['period']) {
         var offsetDate = this.getDate() + firstWeekday - 1;
         return Math.floor(offsetDate / 7);
     }
-</script>
 
-
-<script>
     function mw_stats_period_switch($module_id, $period) {
         if (typeof(mw_stats_period_switch_main) != 'undefined') {
 
@@ -55,9 +56,7 @@ if ($params['period']) {
 
 
 
-</script>
 
-<script>
 
     var series = [];
 
@@ -132,8 +131,7 @@ if ($params['period']) {
             show: false,
         },
         xaxis: {
-            // tickAmount: series[0].data.length + series[1].data.length,
-            tickAmount: 12,
+            tickAmount: Math.min(series[0].data.length, series[1].data.length),
             tickPlacement: 'between',
             type: 'datetime',
             tooltip: {
@@ -231,12 +229,13 @@ if ($params['period']) {
 
     };
 
+
+
     $(document).ready(function () {
-        $.getScript('https://cdn.jsdelivr.net/npm/apexcharts', function () {
-            var el = document.querySelector('.dashboard_stats');
-            var chart = new ApexCharts(el, options);
-            chart.render();
-        })
+        var el = document.querySelector('.dashboard_stats');
+        var chart = new ApexCharts(el, options);
+        chart.render();
+
     })
 </script>
 
@@ -289,7 +288,7 @@ if ($params['period']) {
                     </div>
 
                     <div class="col-12 col-sm d-flex align-items-center  justify-content-center justify-content-sm-end">
-                        <a class="btn btn-outline-secondary btn-sm btn-rounded show-more-stats">Show more</a>
+                        <a class="btn btn-outline-secondary btn-sm btn-rounded show-more-stats"><?php _e('Show more'); ?></a>
                     </div>
                 </div>
 

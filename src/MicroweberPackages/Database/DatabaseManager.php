@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Traits\ExtendedSave;
@@ -28,6 +30,7 @@ use function Opis\Closure\unserialize as unserializeClosure;
 class DatabaseManager extends DbUtils
 {
     public $use_cache = true;
+    public $use_model_cache = [];
 
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
@@ -212,6 +215,11 @@ class DatabaseManager extends DbUtils
         } else {
             $use_cache = $this->use_cache = true;
         }
+        $cache_from_model = false;
+        if (isset($this->use_model_cache[$table]) and $this->use_model_cache[$table]) {
+            $use_cache = false;
+            $cache_from_model = true;
+        }
 
         if (!isset($params['filter'])) {
             $query = $this->map_filters($query, $params, $table);
@@ -247,7 +255,7 @@ class DatabaseManager extends DbUtils
         }
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {
-            if ($use_cache == false) {
+            if ($use_cache == false and $cache_from_model == false) {
                 $query = $query->count();
             } else {
                 $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
@@ -586,6 +594,13 @@ class DatabaseManager extends DbUtils
         $criteria = $criteria_overwrite = $this->app->event_manager->response('mw.database.' . $table . '.save.params', $criteria);
         $criteria = $this->map_array_to_table($table, $criteria);
 
+        if(!$criteria){
+            return;
+        }
+
+//        $auto_fields = ['created_by','edited_by','created_at','updated_at','created_by','session_id','id'];
+
+
         if (intval($criteria['id']) == 0) {
             unset($criteria['id']);
             $engine = $this->get_sql_engine();
@@ -855,8 +870,11 @@ class DatabaseManager extends DbUtils
 
     public function table($table, $params = [])
     {
+        $this->use_model_cache[$table] = false;
         //@todo move this to external resolver class or array
         if ($table == 'content' || $table == 'categories') {
+
+            $this->use_model_cache[$table]= true;
 
             if ($table == 'content') {
                 $model = new Content($params);
@@ -892,7 +910,19 @@ class DatabaseManager extends DbUtils
                 return $model->query();
             }
         }
+
+        if ($table == 'custom_fields') {
+            $this->use_model_cache[$table] = true;
+            return CustomField::query();
+        }
+
+        if ($table == 'custom_fields_values') {
+            $this->use_model_cache[$table] = true;
+            return CustomFieldValue::query();
+        }
+
         if ($table == 'media') {
+            $this->use_model_cache[$table]= true;
             return Media::query();
         }
 
@@ -901,7 +931,11 @@ class DatabaseManager extends DbUtils
 
     public function supports($table, $feature)
     {
-        $model = $this->table($table);
+        if(is_object($table)){
+            $model = $table;
+        } else {
+            $model = $this->table($table);
+        }
         $methodVariable = array($model, $feature);
         if (is_callable($methodVariable, true, $callable_name)) {
             return true;

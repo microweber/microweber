@@ -54,6 +54,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 $post_params = array();
 $post_params['is_deleted'] = 1;
 $post_params['limit'] = 250;
+
 $content = $data = get_content($post_params);
 $post_params_paging = $post_params;
 $post_params_paging['page_count'] = true;
@@ -112,7 +113,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-2">
                 <div class="custom-control custom-checkbox mb-0 trash-select-all">
                     <input type="checkbox" class="custom-control-input" id="check-all">
-                    <label class="custom-control-label" for="check-all">Check all</label>
+                    <label class="custom-control-label" for="check-all"><?php _e("Check all"); ?></label>
                 </div>
             </div>
 

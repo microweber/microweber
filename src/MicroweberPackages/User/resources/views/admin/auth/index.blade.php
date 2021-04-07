@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html <?php print lang_attributes(); ?>>
 <head>
-    <title><?php echo _e('Login'); ?></title>
+    <title><?php _e('Login'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +14,7 @@
 
     <script type="text/javascript">
         if (!window.CanvasRenderingContext2D) {
-            var h = "<div id='UnsupportedBrowserMSG'><h1><?php _e("Your a need better browser to run Microweber>"); ?></h1></div>"
+            var h = "<div id='UnsupportedBrowserMSG'></div>"
                 + "<div id='download_browsers_holder'><h2><?php _e("Update your browser"); ?></h2><p id='choose_browsers'>"
                 + "<a id='u__ie' target='_blank' href='http://windows.microsoft.com/en-us/internet-explorer/download-ie'></a>"
                 + "<a id='u__ff' target='_blank' href='http://www.mozilla.org/en-US/firefox/new/'></a>"

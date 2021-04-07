@@ -5,6 +5,7 @@ namespace content\controllers;
 
 use MicroweberPackages\View\View;
 use DB;
+use \MicroweberPackages\Option\Models\Option;
 
 class Front
 {
@@ -46,6 +47,7 @@ class Front
     function index($params, $config)
     {
         $params['exclude_shorthand'] = 'keyword, data-keyword';
+        $options = Option::where('option_group', $params['id'])->get();
 
         $current_page = $current_page = 1;
         $post_params = $params;
@@ -135,7 +137,7 @@ class Front
 
         }
         if (!$tags_val) {
-            $tags_val = get_option('data-tags', $params['id']);
+            $tags_val = Option::fetchFromCollection($options, 'data-tags');
         }
 
 
@@ -159,9 +161,10 @@ class Front
         }
 
 
-        $set_content_type_from_opt = get_option('data-content-type', $params['id']);
+        $set_content_type_from_opt = Option::fetchFromCollection($options, 'data-content-type');
 
-        $show_fields1 = get_option('data-show', $params['id']);
+        $show_fields1 = Option::fetchFromCollection($options, 'data-show');
+
         if ($show_fields1 != false and is_string($show_fields1) and trim($show_fields1) != '') {
             $show_fields = $show_fields1;
         }
@@ -178,13 +181,14 @@ class Front
 
 
         if (!isset($post_params['data-limit'])) {
-            $posts_limit = get_option('data-limit', $params['id']);
+            $posts_limit = Option::fetchFromCollection($options, 'data-limit');
+
             if ($posts_limit != false) {
                 $post_params['limit'] = $posts_limit;
             }
         }
 
-        $posts_parent_category = $posts_parent_category_cfg = get_option('data-category-id', $params['id']);
+        $posts_parent_category = $posts_parent_category_cfg = Option::fetchFromCollection($options, 'data-category-id');
         if ($posts_parent_category == '') {
             $posts_parent_category = false;
         }
@@ -192,11 +196,13 @@ class Front
 
         $set_category_for_posts = false;
 
-        $posts_limit = get_option('data-limit', $params['id']);
+        $posts_limit = Option::fetchFromCollection($options, 'data-limit');
+
         if ($posts_limit != false) {
             $post_params['data-limit'] = $post_params['limit'] = $posts_limit;
         }
-        $cfg_page_id = $cfg_page_id_force = get_option('data-page-id', $params['id']);
+        $cfg_page_id = $cfg_page_id_force = Option::fetchFromCollection($options, 'data-page-id');
+
         if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
             $cfg_page_id = intval($post_params['data-page-id']);
         } else if ($cfg_page_id == false and isset($post_params['content_id'])) {
@@ -238,7 +244,7 @@ class Front
             $posts_list_show_sub_pages = true;
         }
 
-         if ($posts_parent_category_cfg == 'current_category') {
+        if ($posts_parent_category_cfg == 'current_category') {
 
             if (defined('CATEGORY_ID') and CATEGORY_ID > 0) {
                 $posts_parent_category = CATEGORY_ID;
@@ -259,10 +265,19 @@ class Front
 
         }
 
+        $get_related_ids_for_content_id = false;
+
         if ($cfg_page_id == false and isset($post_params['related']) and $post_params['related'] != false and (!isset($post_params['parent']) or $post_params['parent'] == false)) {
             if (defined('PAGE_ID') and PAGE_ID > 0) {
                 $cfg_page_id = PAGE_ID;
                 $post_params['parent'] = $cfg_page_id;
+            }
+            if (defined('PAGE_ID') and PAGE_ID > 0) {
+                if (defined('CONTENT_ID') and CONTENT_ID > 0 and CONTENT_ID != PAGE_ID) {
+                    if ($post_params['parent']) {
+                        $get_related_ids_for_content_id = CONTENT_ID;
+                    }
+                }
             }
         }
 
@@ -298,6 +313,16 @@ class Front
         }
 
 
+        if ($get_related_ids_for_content_id) {
+            $related_ids = mw()->content_manager->get_related_content_ids_for_content_id($get_related_ids_for_content_id);
+            if ($related_ids) {
+                if ($related_ids) {
+                    $post_params['ids'] = $related_ids;
+                }
+            }
+        }
+
+
         if (!$related_category_ids) {
             if ($posts_parent_related == false) {
                 if (intval($cfg_page_id_force) or !isset($params['global'])) {
@@ -312,7 +337,7 @@ class Front
                             //$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
                             //$page_categories = db_get($str0);
 
-                           // $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+                            // $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
 
                             $page_categories = db_get('table=categories&limit=1&data_type=category&' . 'parent_id=0&rel_id=' . $cfg_page_id);
 
@@ -349,7 +374,7 @@ class Front
 
                         } else {
                             $post_params['parent'] = $cfg_page_id;
-                        //    d($post_params);
+                            //    d($post_params);
 
                             if (($cfg_page_id == PAGE_ID or $cfg_page_id == MAIN_PAGE_ID) and (!isset($post_params['category']) or $post_params['category'] == false) and $cat_from_url != false) {
                                 $post_params['category'] = $cat_from_url;
@@ -410,7 +435,7 @@ class Front
                 $tn_size = $temp;
             }
         } else {
-            $cfg_page_item = get_option('data-thumbnail-size', $params['id']);
+            $cfg_page_item = Option::fetchFromCollection($options, 'data-thumbnail-size');
             if ($cfg_page_item != false) {
                 $temp = explode('x', strtolower($cfg_page_item));
 
@@ -429,7 +454,8 @@ class Front
         }
 
         $character_limit = 120;
-        $cfg_character_limit = get_option('data-character-limit', $params['id']);
+        $cfg_character_limit = Option::fetchFromCollection($options, 'data-character-limit');
+
         if ($cfg_character_limit != false and trim($cfg_character_limit) != '') {
             $character_limit = intval($cfg_character_limit);
         } else if (isset($params['description-length'])) {
@@ -438,7 +464,8 @@ class Front
 
 
         $title_character_limit = 200;
-        $cfg_character_limit1 = get_option('data-title-limit', $params['id']);
+        $cfg_character_limit1 = Option::fetchFromCollection($options, 'data-title-limit');
+
         if ($cfg_character_limit1 != false and trim($cfg_character_limit1) != '') {
             $title_character_limit = intval($cfg_character_limit1);
         } else if (isset($params['title-length'])) {
@@ -514,9 +541,9 @@ class Front
             $schema_org_item_type_tag = 'http://schema.org/' . $schema_org_item_type;
         }
 
-        $ord_by = get_option('data-order-by', $params['id']);
-        $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
-        $cfg_show_only_in_stock= get_option('filter-only-in-stock', $params['id']);
+        $ord_by = Option::fetchFromCollection($options, 'data-order-by');
+        $cfg_data_hide_paging = Option::fetchFromCollection($options, 'data-hide-paging');
+        $cfg_show_only_in_stock= Option::fetchFromCollection($options, 'filter-only-in-stock');
 
 
         if ($ord_by != false and trim($ord_by) != '') {
@@ -611,7 +638,9 @@ class Front
         if (isset($params['strict_categories']) and $params['strict_categories'] != false) {
             $post_params['strict_categories'] = $params['strict_categories'];
         }
-
+        if (isset($params['keywords_exact_match'])) {
+            $post_params['keywords_exact_match'] = $params['keywords_exact_match'];
+        }
 
         $is_search = url_param('search');
         if ($is_search and isset($_GET['search_params'])) {
@@ -628,6 +657,18 @@ class Front
             }
 
         }
+
+        if (isset($params['keyword']) and $params['keyword'] != false) {
+            $post_params['keyword'] =$params['keyword'];
+         //   $post_params['no_cache'] = 1;
+
+            if (!isset($params['keywords_exact_match'])) {
+                $post_params['keywords_exact_match'] = true;
+            }
+         }
+
+
+
         if ($posts_list_show_sub_pages) {
             $post_params['content_type'] = 'page';
             $post_params['parent'] = PAGE_ID;
@@ -640,7 +681,7 @@ class Front
             unset($post_params['category']);
         }
 
-       // dd($post_params,$posts_parent_category);
+        // dd($post_params,$posts_parent_category);
 
         $content = get_content($post_params);
 
@@ -650,8 +691,6 @@ class Front
 
         if ($posts_parent_related != false and empty($content) and isset($post_params['category'])) {
             unset($post_params['category']);
-
-            //dd($post_params);
             $content = get_content($post_params);
         }
 
@@ -824,7 +863,7 @@ class Front
 
 
 
-        if ($cfg_data_hide_paging === false) {
+        if ($cfg_data_hide_paging === false || $cfg_data_hide_paging === null) {
             if (isset($post_params['hide_paging']) and trim($post_params['hide_paging']) != 'false') {
                 $post_params['hide-paging'] = $post_params['hide_paging'];
                 unset($post_params['hide_paging']);
@@ -841,7 +880,7 @@ class Front
 
             $pages_of_posts = get_content($post_params_paging);
             $pages_count = intval($pages_of_posts);
-       //   dd($pages_count,__FILE__,__LINE__);
+            //   dd($pages_count,__FILE__,__LINE__);
         } else {
             $pages_count = 0;
         }
@@ -852,8 +891,8 @@ class Front
             //$paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
         }
 
-        $read_more_text = get_option('data-read-more-text', $params['id']);
-        $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
+        $read_more_text = Option::fetchFromCollection($options, 'data-read-more-text');
+        $add_cart_text = Option::fetchFromCollection($options, 'data-add-to-cart-text');
         if ($add_cart_text == false or $add_cart_text == "Add to cart") {
             $add_cart_text = _e("Add to cart", true);
         }
@@ -864,7 +903,7 @@ class Front
 
         if (!isset($params['return'])) {
 
-            $module_template = get_option('data-template', $params['id']);
+            $module_template = Option::fetchFromCollection($options, 'data-template');
             if ($module_template == false and isset($params['template'])) {
                 $module_template = $params['template'];
             }

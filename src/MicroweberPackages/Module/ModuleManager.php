@@ -455,6 +455,8 @@ class ModuleManager
                     $configs[] = $config;
                 }
             }
+
+
             if ($skip_save == true) {
                 return $configs;
             }
@@ -531,18 +533,20 @@ class ModuleManager
                 $s['module'] = $data_to_save['module'];
 
                 if (!isset($s['module_id'])) {
-                    $save = $this->get_modules('ui=any&limit=1&module=' . $s['module']);
+                    $save = $this->get_modules('ui=any&no_cache=1&module=' . $s['module']);
 
-                    if ($save != false and isset($save[0]) and is_array($save[0]) and isset($save[0]['id']) and ($save[0]['id'])) {
+                    if ($save != false and isset($save[0]) and is_array($save[0]) and isset($save[0]['id'])) {
                         $s['id'] = intval($save[0]['id']);
                      //   $s['position'] = intval($save[0]['position']);
                         $s['installed'] = intval($save[0]['installed']);
 
                         $save = mw()->database_manager->save($table, $s);
+                       // print_r($save);
                         $mname_clen = str_replace('\\', '/', $s['module']);
                         if ($s['id'] > 0) {
+
                             //$delid = $s["id"];
-                            //DB::table($table)->where('id', '!=', $delid)->delete();
+                             DB::table($table)->where('id', '!=', $s['id'])->where('module',$s['module'])->delete();
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
                             //mw()->database_manager->q($del);
                         }
@@ -812,7 +816,7 @@ class ModuleManager
     public function license($module_name = false)
     {
         $module_name = str_replace('\\', '/', $module_name);
-        $lic = $this->app->update->get_licenses('status=active&one=1&rel_type=' . $module_name);
+        $lic = $this->app->update->get_licenses('limit=1&status=active&one=1&rel_type=' . $module_name);
 
         if (!empty($lic)) {
             return true;
@@ -844,10 +848,11 @@ class ModuleManager
             $replace_paths[] = $module_name_l;
         }
 
+        if(defined('ACTIVE_TEMPLATE_DIR')){
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
-
         $replace_paths[] = $module_name_l_theme;
+        }
         $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
 
         $template_config = mw()->template->get_config();

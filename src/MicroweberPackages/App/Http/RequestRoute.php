@@ -49,9 +49,16 @@ class RequestRoute extends Request
 
     public static function formatFrontendResponse($response)
     {
-        $messages = json_decode($response->getContent(), true);
 
         $status = $response->status();
+
+        if($status == 301 || $status == 302){
+            return $response;
+        }
+
+        $messages = json_decode($response->getContent(), true);
+
+
 
         $errors = [];
         if (!isset($messages['success'])) {

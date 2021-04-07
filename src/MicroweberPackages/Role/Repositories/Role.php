@@ -33,7 +33,9 @@ class Role
                 $roles[] = $role;
             }
         }
-
+        $roles[] = [
+            'name'=>'User'
+        ];
         $roles[] = [
           'name'=>'Super Admin'
         ];

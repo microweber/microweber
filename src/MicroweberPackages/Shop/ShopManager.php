@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Shop;
 
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 use MicroweberPackages\Currency\Currency;
@@ -146,54 +147,8 @@ class ShopManager
      */
     public function update_quantities($order_id = false)
     {
-        $order_id = intval($order_id);
-        if ($order_id == false) {
-            return;
-        }
-        $res = false;
-        $ord_data = $this->get_order_by_id($order_id);
+        return $this->app->order_manager->update_quantities($order_id);
 
-        $cart_data = $this->order_items($order_id);
-        if (empty($cart_data)) {
-            return $res;
-        }
-        $res = array();
-        foreach ($cart_data as $item) {
-            if (!isset($item['rel_type']) or !isset($item['rel_id']) or $item['rel_type'] !== 'content') {
-                continue;
-            }
-            $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
-            if (!isset($item['qty']) or !isset($data_fields['qty']) or $data_fields['qty'] == 'nolimit') {
-                continue;
-            }
-            $old_qty = intval($data_fields['qty']);
-            $new_qty = $old_qty - intval($item['qty']);
-            $new_qty = intval($new_qty);
-            $notify = false;
-            $new_q = array();
-            $new_q['field_name'] = 'qty';
-            $new_q['content_id'] = $item['rel_id'];
-            if ($new_qty > 0) {
-                $new_q['field_value'] = $new_qty;
-            } else {
-                $notify = true;
-                $new_q['field_value'] = '0';
-            }
-            $res[] = $new_q;
-            $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
-            $res = true;
-            if ($notify) {
-                $notifiables = User::whereIsAdmin(1)->get();
-                if($notifiables){
-                    $product = Product::find($item['rel_id']);
-                    if ($product) {
-                        Notification::send($notifiables, new ProductOutOfStockNotification($product));
-                    }
-                }
-            }
-        }
-
-        return $res;
     }
 
     public function order_items($order_id = false)
@@ -201,10 +156,6 @@ class ShopManager
         return $this->app->order_manager->get_items($order_id);
     }
 
-    public function after_checkout($order_id, $suppress_output = true)
-    {
-        return $this->app->checkout_manager->after_checkout($order_id, $suppress_output);
-    }
 
     public function get_orders($params = false)
     {
@@ -224,12 +175,13 @@ class ShopManager
         $for_id = $product_id;
 
         $cf_params = array();
-        $cf_params['for'] = $for;
-        $cf_params['for_id'] = $for_id;
-        $cf_params['field_type'] = 'price';
+        $cf_params['rel_type'] = $for;
+        $cf_params['rel_id'] = $for_id;
+        $cf_params['type'] = 'price';
         $cf_params['return_full'] = true;
 
         $prices = $this->app->fields_manager->get($cf_params);
+
         $custom_field_items = $prices;
         $override = $this->app->event_manager->trigger('mw.shop.get_product_prices', $custom_field_items);
         if (is_array($override)) {
@@ -294,7 +246,10 @@ class ShopManager
             shuffle($ord_data);
             $ord_test = $ord_data[0];
 
-            return $this->app->checkout_manager->confirm_email_send($ord_test['id'], $to = $email_from, true, true);
+            $send = $this->app->checkout_manager->confirm_email_send($ord_test['id'], $to = $email_from, true, true);
+            if ($send) {
+                return 'Email is send successfully to <b>'.$to.'</b>.';
+            }
         }
     }
 
@@ -436,6 +391,11 @@ class ShopManager
         if ($curr == false) {
             $curr = $this->app->option_manager->get('currency', 'payments');
         }
+
+        if (is_null($curr)) {
+            $curr = 'USD';
+        }
+
         $need_float = true;
         if (strstr($amount, '.')) {
             $need_float = false;

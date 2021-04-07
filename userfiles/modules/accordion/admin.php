@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php echo $module_info['name']; ?></strong>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/> <strong><?php _e($module_info['name']); ?></strong>
         </h5>
     </div>
 
@@ -27,7 +27,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             mw.require('module_settings.js');
         </script>
         <?php
-        $settings = get_option('settings', $params['id']);
+        $settings = get_module_option('settings', $params['id']);
 
         if ($settings == false) {
             if (isset($params['settings'])) {
@@ -73,24 +73,24 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             $(window).on('load', function () {
                 this.accordionSettings = new mw.moduleSettings({
                     element: '#accordion-settings',
-                    header: '<div class="show-on-hover-root"><div><i class="mdi mdi-cursor-move mdi-18px text-silver mr-2"></i> <span data-bind="title">Move</span></div> <a href="javascript:;" class="show-on-hover" data-action="remove"><i class="mdi mdi-close text-danger mdi-18px font-weight-bold"></i></a></div>',
+                    header: '<div class="show-on-hover-root"><div><i class="mdi mdi-cursor-move mdi-18px text-silver mr-2"></i> <span data-bind="title"><?php  _e('Move'); ?></span></div> <a href="javascript:;" class="show-on-hover" data-action="remove"><i class="mdi mdi-close text-danger mdi-18px font-weight-bold"></i></a></div>',
                     data: <?php print json_encode($data); ?>,
                     schema: [
                         {
                             interface: 'text',
-                            label: ['Title'],
+                            label: ['<?php  _e('Title'); ?>'],
                             id: 'title'
                         },
                         {
-                            interface: 'text',
-                            label: ['Content'],
+                            interface: 'textArea',
+                            label: ['<?php  _e('Content'); ?>'],
                             id: 'content'
                         },
-                        // {
-                        //     interface: 'icon',
-                        //     label: ['Icon'],
-                        //     id: 'icon'
-                        // },
+                        {
+                            interface: 'icon',
+                            label: ['Icon'],
+                            id: 'icon'
+                        },
                         {
                             interface: 'hidden',
                             label: [''],
@@ -108,8 +108,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </script>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -119,7 +119,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
                     <div class="mb-3 d-flex">
                         <label class="control-label align-self-center"> <?php  _e('Add new field'); ?></label>
-                        
+
                         <button type="button" class="btn btn-primary btn-rounded ml-auto" onclick="accordionSettings.addNew()"><i class="mdi mdi-plus"></i> <?php  _e('Add new'); ?></button>
                     </div>
 

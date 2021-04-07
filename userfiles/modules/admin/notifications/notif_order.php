@@ -9,9 +9,13 @@ if (isset($item['rel_id']) AND !isset($is_order)) {
     $item_id = $item['id'];
 }
 
+$order_products_qty = 0;
 $order = get_order_by_id($item_id);
 $order_products = mw()->shop_manager->order_items($item_id);
 if ($order_products) {
+    foreach ($order_products as $order_product) {
+        $order_products_qty = $order_products_qty + $order_product['qty'];
+    }
     $order_first_product = $order_products[0];
 }
 
@@ -25,16 +29,22 @@ if (isset($item['created_by'])) {
     }
 }
 
-?>
+$is_new = false;
+if(($order and isset($order['order_status']) and $order['order_status'] == 'new') or (isset($params['new']) AND $params['new'] == true) OR isset($item['is_read']) AND $item['is_read'] == 0){
+    $is_new = true;
 
-<div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ((isset($params['new']) AND $params['new'] == true) OR isset($item['is_read']) AND $item['is_read'] == 0): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
+}
+?>
+<div class="card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ($is_new): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">
-                        <?php if (is_array($order_products) && count($order_products) > 1): ?>
-                            <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;"><?php echo count($order_products); ?></button>
+                        <?php if ($order_products_qty > 1): ?>
+                            <button type="button" class="btn btn-primary btn-rounded position-absolute btn-sm" style="width: 30px; right: 0; z-index: 9;">
+                                <?php echo $order_products_qty; ?>
+                            </button>
                         <?php endif; ?>
                         <div class="img-circle-holder img-absolute">
                             <?php if ($order_first_product AND isset($order_first_product['item_image'])): ?>
@@ -53,7 +63,7 @@ if (isset($item['created_by'])) {
                         <?php endif; ?>
 
                         <?php if (isset($created_by_username)): ?>
-                            <small class="text-muted">Ordered by: <?php echo $created_by_username; ?></small>
+                            <small class="text-muted"><?php _e("Ordered by"); ?>: <?php echo $created_by_username; ?></small>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -62,22 +72,38 @@ if (isset($item['created_by'])) {
             <div class="col-12 col-md-6">
                 <div class="row align-items-center h-100">
                     <div class="col-6 col-sm-4 col-md item-amount">
-                        <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?><br/><?php endif; ?>
-                        <?php if (isset($order['is_paid'])): ?>
-                            <small class="text-success"><?php _e('Paid'); ?></small>
+                        <?php if (isset($order['amount'])): ?><?php echo currency_format($order['amount'], $order['currency']) ; ?><br/><?php endif; ?>
+                        <?php if (isset($order['is_paid']) and intval($order['is_paid']) == 1): ?>
+
+                           <?php if (isset($item['payment_status']) && $item['payment_status']): ?>
+                            <small class="text-success"><?php _e($item['payment_status']); ?></small>
+                            <?php else: ?>
+                             <small class="text-success"><?php _e('Paid'); ?></small>
+                            <?php endif; ?>
+
+
                         <?php else: ?>
-                            <small class="text-muted"><?php _e('Unpaid'); ?></small>
+
+                            <?php if (isset($item['payment_status']) && $item['payment_status']): ?>
+                                <small class="text-muted"><?php _e($item['payment_status']); ?></small>
+                            <?php else: ?>
+                                <small class="text-muted"><?php _e('Unpaid'); ?></small>
+                            <?php endif; ?>
+
+
+
+
                         <?php endif; ?>
                     </div>
 
                     <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip" title="<?php print mw('format')->ago($item['created_at']); ?>">
                         <?php print date('M d, Y', strtotime($item['created_at'])); ?><br/>
-                        <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?>h</small>
+                        <small class="text-muted"><?php print date('h:s', strtotime($item['created_at'])); ?><span class="text-success"><?php _e("h"); ?></span><br/></small>
                     </div>
 
                     <div class="col-12 col-sm-4 col-md item-status">
                         <?php if (isset($item['is_read']) && $item['is_read'] == '0'): ?>
-                            <span class="text-success">New</span><br/>
+                            <span class="text-success"><?php _e("New"); ?></span><br/>
                         <?php endif; ?>
                         <small class="text-muted">&nbsp;</small>
                     </div>
@@ -87,7 +113,7 @@ if (isset($item['created_by'])) {
 
         <div class="row mt-3">
             <div class="col-12 text-center text-sm-left js-change-button-styles">
-                <a href="<?php print admin_url('view:shop/action:orders#vieworder=' . $order['id']); ?>" class="btn btn-outline-primary btn-sm btn-rounded">View order</a>
+                <a href="<?php echo route('admin.order.show', $order['id']); ?>" onclick="event.stopPropagation()" class="btn btn-outline-primary btn-sm btn-rounded"><?php _e("View order"); ?></a>
             </div>
         </div>
 
@@ -98,10 +124,10 @@ if (isset($item['created_by'])) {
 
             <div class="row">
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Customer Information</strong></h6>
+                    <h6><strong><?php _e("Customer Information"); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Client name:</small>
+                        <small class="text-muted"><?php _e("Client name"); ?>:</small>
                         <p>
                             <?php if (isset($order['first_name']) OR isset($order['last_name'])): ?>
                                 <?php if (isset($order['first_name'])): ?><?php echo $order['first_name'] . ' '; ?><?php endif; ?>
@@ -113,18 +139,18 @@ if (isset($item['created_by'])) {
                     </div>
 
                     <div>
-                        <small class="text-muted">E-mail:</small>
+                        <small class="text-muted"><?php _e("E-mail"); ?>:</small>
                         <p>
                             <?php if (isset($order['email'])): ?>
                                 <?php echo $order['email']; ?>
                             <?php else: ?>
-                                N/A
+                                    N/A
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Phone:</small>
+                        <small class="text-muted"><?php _e("Phone"); ?>:</small>
                         <p>
                             <?php if (isset($order['phone'])): ?>
                                 <?php echo $order['phone']; ?>
@@ -137,21 +163,32 @@ if (isset($item['created_by'])) {
                 </div>
 
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Payment Information</strong></h6>
+                    <h6><strong><?php _e("Payment Information"); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Amount:</small>
+                        <small class="text-muted"><?php _e("Amount"); ?>:</small>
                         <p>
                             <?php if (isset($order['amount'])): ?>
-                                <?php echo currency_format($order['amount']) . ' ' . $order['payment_currency']; ?>
+                                <?php echo currency_format($order['amount'], $order['currency']) ; ?>
                             <?php else: ?>
-                                N/A
+                                    N/A
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Payment method:</small>
+                        <small class="text-muted"><?php _e("Payment Amount"); ?>:</small>
+                        <p>
+                            <?php if (isset($order['payment_amount'])): ?>
+                                <?php echo currency_format($order['payment_amount'], $order['payment_currency']) ; ?>
+                            <?php else: ?>
+                                    N/A
+                            <?php endif; ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <small class="text-muted"><?php _e("Payment method"); ?></small>
                         <p>
                             <?php if (isset($order['payment_type'])): ?>
                                 <?php echo $order['payment_type']; ?>
@@ -163,25 +200,25 @@ if (isset($item['created_by'])) {
                 </div>
 
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Shipping Information</strong></h6>
+                    <h6><strong><?php _e("Shipping Information"); ?></strong></h6>
 
                     <div>
-                        <small class="text-muted">Shipping method:</small>
+                        <small class="text-muted"><?php _e("Shipping method"); ?>:</small>
                         <p>
                             <?php if (isset($order['shipping_service'])): ?>
                                 <?php if ($order['shipping_service'] == 'shop/shipping/gateways/country'): ?>
-                                    Shipping to country
+                                    <?php _e("Shipping to country"); ?>
                                 <?php else: ?>
                                     <?php echo $order['shipping_service']; ?>
                                 <?php endif; ?>
                             <?php else: ?>
-                                N/A
+                                    N/A
                             <?php endif; ?>
                         </p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Address:</small>
+                        <small class="text-muted"><?php _e("Address"); ?>:</small>
                         <p>
                             <?php
                             $zip = '';

@@ -11,15 +11,21 @@ class JsonExport extends DefaultExport
      * @var string
      */
     public $type = 'json';
+    public $filename = false;
+    public $useEncodeFix = true;
 
     public function start()
     {
         $dump = $this->getDump();
-        $jsonFilename = $this->_generateFilename();
+        $jsonFilename = $this->_generateFilename($this->filename);
 
         file_put_contents($jsonFilename['filepath'], $dump);
 
         return array("files" => array($jsonFilename));
+    }
+
+    public function setFilename($filename) {
+        $this->filename = $filename;
     }
 
     public function getDump()
@@ -40,7 +46,11 @@ class JsonExport extends DefaultExport
             }
         }
 
-        return json_encode(EncodingFix::encode($data));
+        if ($this->useEncodeFix) {
+            return json_encode(EncodingFix::encode($data));
+        } else {
+            return json_encode($data);
+        }
     }
 
 }

@@ -7,9 +7,6 @@
 
         var defaultVersion = '-1';
 
-        var iconsCache = {};
-
-
         var common = {
             'fontAwesome': {
                 cssSelector: '.fa',
@@ -81,15 +78,19 @@
                 icons: function () {
                     var scope = this;
                     var parse = function (cssLink) {
+                        if(!cssLink.sheet){
+                            return;
+                        }
                         var icons = cssLink.sheet.cssRules;
-                        var l = icons.length, i = 0, mindIcons = [];
-                        for (; i < l; i++) {
+                         var l = icons.length, i = 0, mindIcons = [];
+                         for (; i < l; i++) {
                             var sel = icons[i].selectorText;
                             if (!!sel && sel.indexOf('.mw-micon-') === 0) {
                                 var cls = sel.replace(".", '').split(':')[0];
                                 mindIcons.push(cls);
                             }
                         }
+                        return mindIcons
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/line"]');
@@ -142,10 +143,11 @@
                                 mindIcons.push(cls);
                             }
                         }
+                        return mindIcons
                     };
                     var load = function (cb) {
                         var cssLink = mw.top().win.document.querySelector('link[href*="mw-icons-mind/solid"]');
-                        if(cssLink) {
+                         if(cssLink) {
                             cb.call(undefined, cssLink);
                         }  else {
                             $.get(scope.load, function (data) {
@@ -279,6 +281,7 @@
         var addFontIconSet = function (options) {
             options.version = options.version || defaultVersion;
             iconSetPush(options);
+
             if (typeof options.load === 'string') {
                 mw.require(options.load);
             } else if (typeof options.load === 'function') {
@@ -286,6 +289,7 @@
             }
         };
         var addIconSet = function (conf) {
+
             if(typeof conf === 'string') {
                 if (common[conf]) {
                     conf = common[conf];
@@ -294,7 +298,7 @@
                     return;
                 }
             }
-            if(!conf) return;
+             if(!conf) return;
             conf.type = conf.type || 'font';
             if (conf.type === 'font') {
                 return addFontIconSet(conf);
@@ -450,7 +454,7 @@
             var sets = loader.storage();
             var all = sets.length;
             var i = 0;
-            sets.forEach(function (set){
+             sets.forEach(function (set){
                  if (!set._iconsLists) {
                      (function (aset){
                          aset.icons().then(function (data){
@@ -530,6 +534,7 @@
                 tag: 'input',
                 props: {
                     className: 'mw-ui-searchfield w100',
+                    placeholder: 'Search',
                     oninput: function () {
                         clearTimeout(time);
                         time = setTimeout(function (){

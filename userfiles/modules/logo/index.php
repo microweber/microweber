@@ -27,7 +27,7 @@ $logo_options['font_size'] = '';
 $logo_options['size'] = '';
 $logo_options['data-template'] = '';
 
-$get_logo_options = \MicroweberPackages\Option\Models\Option::where('option_group', $logo_name)->get();
+$get_logo_options = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $logo_name)->get();
 if (!empty($get_logo_options)) {
     foreach ($get_logo_options as $logo_option) {
         $logo_options[$logo_option['option_key']] = $logo_option['option_value'];
@@ -40,7 +40,6 @@ $logoimage_inverse = $logo_options['logoimage_inverse'];
 $text = $logo_options['text'];
 $font_family = $logo_options['font_family'];
 $font_size = $logo_options['font_size'];
-
 
 $default = '';
 if (isset($params['data-defaultlogo'])) {
@@ -147,7 +146,7 @@ if ($module_template != false) {
 if (is_file($template_file) != false) {
     include($template_file);
 } else {
-    print lnotif("No template found. Please choose template.");
+    print lnotif(_e("No template found. Please choose template."));
 }
 
 if ($logoimage_inverse == false) {

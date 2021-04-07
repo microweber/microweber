@@ -1,52 +1,49 @@
 <?php
 $cart_show_payments = 'n';
 ?>
-<div class="mw-ui-row shipping-and-payment mw-shop-checkout-personal-info-holder">
-    <div class="mw-ui-col" style="width: 50%;">
-        <div class="mw-ui-col-container">
-            <?php $user = get_user(); ?>
-            <h5 style="margin-top:0 " class="edit nodrop" field="checkout_personal_inforomation_title"
-                rel="global" rel_id="<?php print $params['id'] ?>">
-                <?php _e("Personal Information"); ?>
-            </h5>
-            <hr/>
-
-
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("First Name"); ?></label>
-                <input name="first_name" class="mw-ui-field mw-full-width" type="text" value="<?php if (isset($user['first_name'])) {
-                    print $user['first_name'];
-                } ?>"/>
+        <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
+             rel_id="<?php print $params['id'] ?>">
+            <small class="pull-right text-muted">*Fields are required</small>
+            <label class="control-label">Personal Information</label>
+            <small class="text-muted d-block mb-2"> <?php _e("Add your personal information"); ?></small>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label for="exampleInputFirstName"><?php _e("First Name"); ?></label>
+                    <input required name="first_name" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>" class="form-control"
+                           placeholder="<?php _e("First Name"); ?>">
+                </div>
             </div>
-
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Last Name"); ?></label>
-                <input name="last_name" class="mw-ui-field mw-full-width" type="text" value="<?php if (isset($user['last_name'])) {
-                    print $user['last_name'];
-                } ?>"/>
-            </div>
-
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Email"); ?></label>
-                <input name="email" class="mw-ui-field mw-full-width" type="text" value="<?php if (isset($user['email'])) {
-                    print $user['email'];
-                } ?>"/>
-            </div>
-
-            <div class="mw-ui-field-holder">
-                <label class="mw-ui-label"><?php _e("Phone"); ?></label>
-                <input name="phone" class="mw-ui-field mw-full-width" type="text" value="<?php if (isset($user['phone'])) {
-                    print $user['phone'];
-                } ?>"/>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label for="exampleInputLastName"><?php _e("Last Name"); ?></label>
+                    <input required name="last_name" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>" class="form-control"
+                           placeholder="<?php _e("Last Name"); ?>">
+                </div>
             </div>
         </div>
-    </div>
 
-    <?php if ($cart_show_shipping != 'n'): ?>
-        <div class="mw-ui-col mw-shop-checkout-shipping-holder">
-            <div class="mw-ui-col-container">
-                <module type="shop/shipping" template="mw_default"/>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group m-0">
+                    <label for="exampleInputEmail1"><?php _e("Email"); ?></label>
+                    <input required name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control"
+                           placeholder="<?php _e("Enter email"); ?>">
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <label for="exampleInputPhone"><?php _e("Phone"); ?></label>
+                    <input required name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control"
+                           placeholder="<?php _e("Enter phone"); ?>">
+                </div>
             </div>
         </div>
-    <?php endif; ?>
-</div>
+
+        <?php if ($cart_show_shipping != 'n'): ?>
+            <module type="shop/shipping" data-store-values="true" template="modal"/>
+        <?php endif; ?>
+
+
+

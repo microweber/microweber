@@ -33,10 +33,16 @@ mw.options = {
         if (!group || !key || (typeof value === 'undefined')) {
             return false;
         }
+        var lang = false;
+        if (typeof(o.lang) !== 'undefined') {
+            lang = o.lang;
+        }
+
         var data = {
             option_group: group,
             option_key: key,
-            option_value: value
+            option_value: value,
+            lang: lang
         };
         return $.ajax({
             type: "POST",
@@ -163,8 +169,14 @@ mw.options = {
 
 
         if (mname === undefined) {
-            if (og_test !== undefined && og_test && $(og_test).attr('parent-module')) {
-                o_data.module = $(og_test).attr('parent-module');
+
+
+       if (mname === undefined && og_test !== undefined && og_test &&  $(og_test).attr('data-type')) {
+            var mname_from_type = $(og_test).attr('data-type');
+            mname = (mname_from_type.replace('/admin', ''));
+            o_data.module = mname;
+        } else if (og_test !== undefined && og_test && $(og_test).attr('parent-module')) {
+              o_data.module = $(og_test).attr('parent-module');
              }
         }
 
@@ -172,8 +184,6 @@ mw.options = {
         if (mname !== undefined) {
             o_data.module = mname;
         }
-
-
 
 
         if (for_m_id !== undefined) {
@@ -206,12 +216,18 @@ mw.options = {
         var reaload_in_parent = el.attr('parent-reload');
 
         if (opt_id !== undefined) {
-
-
             o_data.id = opt_id;
-
         }
 
+        var attrLang = el.attr('lang');
+        if (typeof(attrLang) !== 'undefined') {
+            o_data.lang = attrLang;
+        }
+
+        var attrModule = el.attr('module');
+        if (typeof(attrModule) !== 'undefined') {
+            o_data.module = attrModule;
+        }
 
         $.ajax({
             type: "POST",

@@ -36,6 +36,14 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     protected $cacheSeconds = 3600; // 1 hour
 
     /**
+     * Is cache disabled
+     *
+     * @var boolean
+     */
+    protected $cacheIsDisabled = false;
+
+
+    /**
      * Execute the query as a "select" statement.
      *
      * @param  array|string $columns
@@ -43,7 +51,17 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      */
     public function get($columns = ['*'])
     {
-        $is_disabled = \Config::get('microweber.disable_model_cache');
+        if (!defined('MW_INSTALL_CONTROLLER')) {
+            $is_disabled = \Config::get('microweber.disable_model_cache');
+
+            if (!$is_disabled) {
+                $is_disabled = $this->cacheIsDisabled;
+            }
+        } else {
+            $is_disabled = true;
+        }
+
+
 
         if (!$is_disabled) {
             $cacheKey = $this->getCacheKey($columns);
@@ -71,6 +89,45 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     }
 
 
+//
+//    /**
+//     * Get a base query builder instance.
+//     *
+//     * @return \Illuminate\Database\Query\Builder
+//     */
+//    public function toBase()
+//    {
+//
+//        $is_disabled = \Config::get('microweber.disable_model_cache');
+//
+//        if (!$is_disabled) {
+//            $cacheKey = $this->getCacheKey('toBase');
+//            $cacheTags = $this->generateCacheTags();
+//
+//            $cacheFind = \Cache::tags($cacheTags)->get($cacheKey);
+//            if ($cacheFind) {
+//                return $cacheFind;
+//            }
+//        }
+//        $query  = $this->applyScopes()->getQuery();
+//
+//        if (!$is_disabled) {
+//            \Cache::tags($cacheTags)->put($cacheKey, $query, $this->cacheSeconds);
+//        }
+//
+//
+//
+//        return $query;
+//    }
+
+
+
+
+    public function disableCache($isDisabled=true)
+    {
+        return $this->cacheIsDisabled  = $isDisabled;
+    }
+
     /**
      * Get a unique cache key for the complete query.
      *
@@ -89,7 +146,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     public function generateCacheKey($appends = [])
     {
         $name = $this->getConnection()->getDatabaseName();
-        $key = md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . serialize($this->getBindings()) . implode('_', $appends).app()->getLocale());
+        $key = md5($name . $this->toSql() . implode('_', $this->generateCacheTags()) . serialize($this->getBindings()) . implode('_', $appends) . app()->getLocale());
 
         // dump($this->toSql(),$this->getBindings());
 
@@ -115,6 +172,12 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
     {
         $this->_clearModelTaggedCache();
         return parent::insert($values);
+    }
+
+    public function delete()
+    {
+        $this->_clearModelTaggedCache();
+        return parent::delete();
     }
 
     public function update(array $values)

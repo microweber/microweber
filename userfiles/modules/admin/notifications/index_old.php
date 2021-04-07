@@ -120,7 +120,7 @@ if (isset($notif_params['quick'])) {
     mw.notif_delete_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/delete_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
@@ -130,7 +130,7 @@ if (isset($notif_params['quick'])) {
     mw.notif_read_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/read_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
@@ -148,7 +148,7 @@ if (isset($notif_params['quick'])) {
     mw.notif_reset_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e(' notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/reset_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
@@ -393,7 +393,7 @@ if (isset($notif_params['quick'])) {
                                 <?php include('notif_comment.php'); ?>
                             <?php else: ?>
 
-                            Petko dizaini go!
+
 
                             <?php endif; ?>
                         </div>

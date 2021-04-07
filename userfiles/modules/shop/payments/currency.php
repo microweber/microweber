@@ -15,7 +15,7 @@ $curencies = mw()->shop_manager->currency_get();
 <div class="card bg-none style-1 mb-0 card-settings">
     <div class="card-header px-0">
         <h5>
-            <i class="mdi mdi-cart-outline text-primary mr-3"></i> <strong>Shop General</strong>
+            <i class="mdi mdi-cart-outline text-primary mr-3"></i> <strong><?php _e('Shop General'); ?></strong>
         </h5>
         <div></div>
     </div>
@@ -24,7 +24,7 @@ $curencies = mw()->shop_manager->currency_get();
         <div class="row">
             <div class="col-md-3 pt-5">
                 <h5 class="font-weight-bold"><?php _e("Currency settings"); ?></h5>
-                <small class="text-muted">Set the currency in which your store will operate.</small>
+                <small class="text-muted"><?php _e('Set the currency in which your store will operate.'); ?></small>
             </div>
 
             <div class="col-md-9">
@@ -34,8 +34,8 @@ $curencies = mw()->shop_manager->currency_get();
                             <div class="col-12">
                                 <?php if (is_array($curencies)): ?>
                                     <div class="form-group mb-4">
-                                        <label class="control-label">Set default currency</label>
-                                        <small class="text-muted d-block mb-2">Default currency with which you will accept payments.</small>
+                                        <label class="control-label"><?php _e('Set default currency'); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e('Default currency with which you will accept payments.'); ?></small>
                                         <select name="currency" class="mw_option_field selectpicker" data-width="100%" data-size="7" data-option-group="payments" data-reload="mw_curr_rend" data-live-search="true" data-size="5">
                                             <?php if (!$cur): ?>
                                                 <option value="" disabled="disabled" selected="selected"><?php _e('Select currency'); ?></option>
@@ -52,7 +52,7 @@ $curencies = mw()->shop_manager->currency_get();
 
                                 <div class="form-group mb-4">
                                     <label class="control-label"><?php _e("Currency simbol position"); ?></label>
-                                    <small class="text-muted d-block mb-2">Where to display the currency symbol before, after or by default relative to the amount.</small>
+                                    <small class="text-muted d-block mb-2"><?php _e('Where to display the currency symbol before, after or by default relative to the amount.'); ?></small>
 
                                     <select name="currency_symbol_position" class="mw_option_field selectpicker" data-width="100%" data-option-group="payments" data-reload="mw_curr_rend">
                                         <option <?php if (!$cur_pos): ?> selected="selected" <?php endif; ?> value=""><?php _e('Default'); ?></option>

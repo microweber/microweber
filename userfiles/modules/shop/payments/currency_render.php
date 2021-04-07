@@ -28,7 +28,7 @@ $num = 1.00;
         <h5 class="font-weight-bold"><?php _e("Accept payments in currency"); ?></h5>
 
         <div class="form-group">
-            <label class="control-label">Select the currency accepted by payment provider</label>
+            <label class="control-label"><?php _e("Select the currency accepted by payment provider"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("If your payment provider does not support the default currency then the customer will pay in selected currency"); ?></small>
             <select name="payment_currency" class="mw_option_field selectpicker" data-width="100%" data-option-group="payments" data-reload="mw_curr_rend" autocomplete="off" data-live-search="true" data-size="5">
                 <option value="" <?php if ($payment_currency == false): ?> selected="selected" <?php endif; ?>><?php _e('Default'); ?></option>

@@ -2,12 +2,56 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.3] - 2021-03-30
+- Update to Laravel 8.3
+- Fix Tags problem
+- Fix Offer price 
+- Fix Contact form bugs
+- Fix Multilanguage bugs 
+- Fix https bug behind proxy 
+- Fix Live edit bugs linking to layout
+- Fix Live edit bugs related to cloudflare caching
+- Added new elements for live edit
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.2...1.2.3 "")
+
+
+## [1.2.2] - 2021-03-12
+- Added cached model queries
+- Fix multilanguage module 
+- Fix stats module styling
+- Fix Currency display in order list
+- Fix Search in Client
+- Fix backup module to include mutli language 
+- Fix Reloading pictures module loop  
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.1...1.2.2 "")
+
+
+## [1.2.1] - 2021-03-05
+- Added cached model queries
+- Fix language translations and locales
+- Fix design on the checkout popup
+- Fix custom fields bugs
+- Fix add order from admin
+- Fix offers and discounted price
+- Fix backup module
+- Fix mail templates are now translatable
+- Fix email sending on user registration
+- Fix shop bugs related to quantity management
+- Added client and address management for users
+- Added support for more shipping providers
+- Many other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.0...1.2.1 "")
+
+
 ## [1.2.0] - 2020-12-17
 - Migrated to Laravel 8
 - Refactored the internal code to Laravel style 
 - New admin template
 - Many other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.1.20...1.2.0 "")
+
 
 ## [1.1.20] - 2020-06-22
 - Fix Module Menu Not working properly 

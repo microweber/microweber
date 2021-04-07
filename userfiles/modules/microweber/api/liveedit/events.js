@@ -28,6 +28,14 @@ mw.liveedit.handleEvents = function() {
         mw.liveedit.widgets.htmlEditorDialog();
     });
 
+    mw.$("#mw-toolbar-api-clear-cache-btn").click(function() {
+        mw.notification.warning("Clearing cache...");
+        $.get(mw.settings.api_url + "clearcache", {}, function () {
+            mw.notification.warning("Cache is cleared! reloading the page...");
+            location.reload();
+        });
+    });
+
     mw.$("#mw-toolbar-reset-content-editor-btn").click(function() {
         mw.tools.open_reset_content_editor();
     });
@@ -36,7 +44,7 @@ mw.liveedit.handleEvents = function() {
             left: "",
             top: ""
         });
-        mw.on.stopWriting(e.target, function() {
+        /*mw.on.stopWriting(e.target, function() {
             if (mw.tools.hasClass(e.target, 'edit') || mw.tools.hasParentsWithClass(this, 'edit')) {
                 mw.liveEditState.record({
                     target:e.target,
@@ -44,7 +52,7 @@ mw.liveedit.handleEvents = function() {
                 });
                 mw.drag.saveDraft();
             }
-        });
+        });*/
     });
 
     mw.$(document.body).on("keydown", function(e) {
@@ -79,7 +87,9 @@ mw.liveedit.handleEvents = function() {
             if (!mw.wysiwyg.elementHasFontIconClass(e.target)
                 && !mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['tooltip-icon-picker', 'mw-tooltip'])) {
 
+                if(mw.editorIconPicker){
                 mw.editorIconPicker.tooltip('hide');
+                }
                 try {
                     $(mw.liveedit.widgets._iconEditor.tooltip).hide();
                 } catch(e) {
@@ -120,5 +130,15 @@ mw.liveedit.handleEvents = function() {
             }
         }
     });
+
+
+
+    mw.on('editChanged', function (target){
+        document.querySelector('#main-save-btn').disabled = false;
+    });
+
+    mw.on('saveEnd', function (data){
+        document.querySelector('#main-save-btn').disabled = true;
+    })
 
 };

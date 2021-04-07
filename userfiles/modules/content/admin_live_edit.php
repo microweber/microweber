@@ -128,12 +128,12 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
         }
     };
 
-    mw.on.hashParam("action", function () {
-        var id = (this.split(':')[1]);
+    mw.on.hashParam("action", function (pval) {
+        var id = (pval.split(':')[1]);
 
-        if (this == 'new:post' || this == 'new:page' || this == 'new:product') {
+        if (pval == 'new:post' || pval == 'new:page' || pval == 'new:product') {
             mw.add_new_content_live_edit(id);
-        } else if (this == 'editpage') {
+        } else if (pval == 'editpage') {
             // $('#mw_posts_create_live_edit').html("Content is added");
         } else {
             mw.edit_content_live_edit(id);
@@ -224,8 +224,8 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 <div class="post-settings-holder">
     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
         <a class="btn btn-outline-secondary justify-content-center active" onclick="mw.manage_live_edit_content('<?php print $params['id'] ?>');" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Manage"); ?></a>
-        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php print _e('Templates'); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         <a class="btn btn-outline-secondary justify-content-center" style="display: none;" data-toggle="tab" href="#last-1"></a>
         <a class="btn btn-outline-secondary justify-content-center" style="display: none;" data-toggle="tab" href="#last-2"></a>
     </nav>

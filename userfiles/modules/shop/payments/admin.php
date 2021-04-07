@@ -84,8 +84,14 @@
                 $.ajax({
                     url: mw.settings.api_url + 'module/reorder_modules',
                     type: "post",
-                    data: serial
+                    data: serial,
+                    success: function(data) {
+                        mw.notification.success("<?php _ejs("Shop settings are saved"); ?>.");
+
+                    }
                 });
+
+
             },
             stop: function () {
                 //  mw.alert("<?php _ejs("Saving"); ?> ... ");
@@ -116,13 +122,13 @@ $payment_modules = get_modules('type=payment_gateway');
 <div class="card bg-none style-1 mb-0">
     <div class="card-header px-0">
         <h5>
-            <i class="mdi mdi-cash-usd-outline text-primary mr-3"></i> <strong>Payment methods</strong>
+            <i class="mdi mdi-cash-usd-outline text-primary mr-3"></i> <strong><?php _e("Payment methods"); ?></strong>
         </h5>
         <div></div>
     </div>
 
     <div class="card-body pt-3 px-0">
-        <p class="text-muted">Enable and set up the payment method your customers will use to pay</p>
+        <p class="text-muted"><?php _e("Enable and set up the payment method your customers will use to pay"); ?></p>
 
         <div id="db-payment-methods">
             <?php if (is_array($payment_modules)): ?>
@@ -156,10 +162,10 @@ $payment_modules = get_modules('type=payment_gateway');
                                     <div class="col pl-0">
                                         <img src="<?php print $payment_module['icon']; ?>" alt="" class="d-none"/>
 
-                                        <h4 class="gateway-title font-weight-bold mb-0"><?php print $payment_module['name'] ?></h4>
+                                        <h4 class="gateway-title font-weight-bold mb-0"><?php _e($payment_module['name']) ?></h4>
 
                                         <small class="text-muted">
-                                            <?php print $payment_module['name'] ?> <span class="text-primary js-method-on <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') != 1): ?>d-none<?php endif; ?>">is ON</span>
+                                            <?php _e($payment_module['name']) ?> <span class="text-primary js-method-on <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') != 1): ?>d-none<?php endif; ?>"><?php _e("is ON"); ?></span>
                                         </small>
                                     </div>
 
@@ -170,7 +176,7 @@ $payment_modules = get_modules('type=payment_gateway');
 
                                 <template class="js-modal-content" style="display: none;">
                                     <h5 class="mb-0"><?php _e('Enter your API settings'); ?></h5>
-                                    <small class="text-muted mb-3 d-block">Ask your payment provider for this information and put it below</small>
+                                    <small class="text-muted mb-3 d-block"><?php _e("Ask your payment provider for this information and put it below"); ?></small>
 
                                     <div class="mw-set-payment-gw-options">
                                         <module type="<?php print $payment_module['module'] ?>" view="admin"/>

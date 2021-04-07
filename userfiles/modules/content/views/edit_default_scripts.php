@@ -96,6 +96,7 @@
 
 
         mw.askusertostay = false;
+        mw.$('.post-header-content-changed').removeClass('post-header-content-changed')
         var content_id = mw.$('#mw-content-id-value').val();
         var quick_add_holder = document.getElementById('mw-quick-content');
         if (quick_add_holder != null) {

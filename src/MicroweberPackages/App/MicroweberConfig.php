@@ -27,7 +27,7 @@ class MicroweberConfig
             \Illuminate\Hashing\HashServiceProvider::class,
             \Illuminate\Mail\MailServiceProvider::class,
             \Illuminate\Notifications\NotificationServiceProvider::class,
-            \Illuminate\Pagination\PaginationServiceProvider::class,
+            \MicroweberPackages\Pagination\PaginationServiceProvider::class,
             \Illuminate\Pipeline\PipelineServiceProvider::class,
             \Illuminate\Queue\QueueServiceProvider::class,
             \Illuminate\Redis\RedisServiceProvider::class,

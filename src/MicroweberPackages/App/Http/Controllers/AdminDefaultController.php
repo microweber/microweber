@@ -23,4 +23,8 @@ class AdminDefaultController extends Controller {
         ]
     ];
 
+    public function __construct()
+    {
+        event_trigger('mw.init');
+    }
 }

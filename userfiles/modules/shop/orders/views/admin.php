@@ -5,14 +5,16 @@ $hide_ctrls = false;
 if (isset($params['hide-controls']) and $params['hide-controls']) {
     $hide_ctrls = $params['hide-controls'];
 }
+
+
 ?>
 
 <div id="mw-order-table-holder">
-    <?php if ($orders_type == 'completed' and isset($orders) and is_array($orders) and !empty($orders)) : ?>
+    <?php if ($orders_type == 'completed' and  (!empty($orders)) or $has_new) : ?>
         <div class="orders-holder" id="shop-orders">
             <?php
             if ($has_new and !$current_page): ?>
-                <label class="control-label mb-3 mt-3"><?php print _e('New orders'); ?></label>
+                <label class="control-label mb-3 mt-3"><?php _e('New orders'); ?></label>
             <?php endif; ?>
             <?php
             if ($has_new and !$current_page) {
@@ -32,8 +34,10 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
                 </div>
             <?php endif; ?>
 
-            <label class="control-label mb-3 mt-3"><?php print _e('All orders'); ?></label>
+            <?php if ($orders and (!empty($orders))) : ?>
 
+            <label class="control-label mb-3 mt-3"><?php _e('All orders'); ?></label>
+            <?php endif; ?>
             <?php
             if ($orders) {
                 $view_file = __DIR__ . '/partials/orders-list.php';
@@ -70,10 +74,10 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
                 <div class="row">
                     <div class="col-12">
                         <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_orders.svg'); ">
-                            <h4>You don’t have any orders yet</h4>
-                            <p>Here you can track your orders</p>
+                            <h4><?php _e("You don’t have any orders yet"); ?></h4>
+                            <p><?php _e("Here you can track your orders"); ?></p>
                             <br/>
-                            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded">Add order</a>
+                            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded"><?php _e("Add order"); ?></a>
                         </div>
                     </div>
                 </div>
@@ -81,11 +85,6 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
                 <script>
                     $(document).ready(function () {
                         $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
-                    });
-                </script>
-
-                <script>
-                    $(document).ready(function () {
                         $('.manage-toobar').hide();
                         $('.top-search').hide();
                     });

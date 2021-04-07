@@ -4,6 +4,7 @@ namespace MicroweberPackages\Customer\Listeners;
 
 use MicroweberPackages\Customer\Models\Address;
 use MicroweberPackages\Customer\Models\Customer;
+use MicroweberPackages\Order\Models\Order;
 
 class CreateCustomerFromOrderListener
 {
@@ -35,6 +36,12 @@ class CreateCustomerFromOrderListener
                     'phone' => $order->phone
                 ]);
                 $findCustomer = $createNewCustomer;
+            }
+
+            $findOrder = Order::where('id', $order->id)->first();
+            if ($findOrder) {
+                $findOrder->customer_id = $findCustomer->id;
+                $findOrder->save();
             }
 
             $findCustomerAddressByCustomerId = Address::where('customer_id', $findCustomer->id)

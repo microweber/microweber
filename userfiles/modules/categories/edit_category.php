@@ -4,6 +4,8 @@ $form_rand_id = uniqid() . rand();
 $data = false;
 if (isset($params["data-category-id"])) {
     $data = get_category_by_id($params["data-category-id"]);
+} elseif (isset($params["category_id"])) {
+    $data = get_category_by_id($params["category_id"]);
 }
 
 if ($data == false or empty($data)) {
@@ -58,6 +60,10 @@ if (isset($params['live_edit'])) {
          top: 69px;
          z-index: 10;
      }
+     #settings-container .card-header.fixed{
+         top: 0;
+
+     }
 </style>
 <div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">
@@ -74,6 +80,7 @@ if (isset($params['live_edit'])) {
         }
 
         make_new_cat_after_save = function (el) {
+
             $('#<?php print $params['id'] ?>').removeClass('loading');
             $('#<?php print $params['id'] ?>').removeAttr('just-saved');
             $('#<?php print $params['id'] ?>').removeAttr('selected-category-id');
@@ -85,6 +92,9 @@ if (isset($params['live_edit'])) {
             mw.reload_module('#<?php print $params['id'] ?>');
 
             <?php endif; ?>
+
+            mw.reload_module_everywhere('content/manager');
+
         }
 
         continue_editing_cat = function () {
@@ -98,8 +108,6 @@ if (isset($params['live_edit'])) {
 
         <?php endif; ?>
         $(document).ready(function () {
-
-
 
             var all = $(window);
             var header = document.querySelector('#mw-admin-container header');
@@ -116,7 +124,6 @@ if (isset($params['live_edit'])) {
                 var isFixed = (stop > (postHeader.get(0).offsetHeight + (header ? header.offsetHeight : 0) + $(postHeader).offset().top));
                 postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
                 postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
-
 
             });
 
@@ -139,8 +146,6 @@ if (isset($params['live_edit'])) {
                 mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
                 mw.form.post(mw.$('#admin_edit_category_form'), '<?php print api_link('category/save') ?>', function (val) {
 
-
-
                     //todo: move method to separate service
                     var dialog = mw.dialog.get(mw.$('#admin_edit_category_form'));
                     if(dialog) {
@@ -157,12 +162,13 @@ if (isset($params['live_edit'])) {
                     var v = this.toString();
                     mw.$('#mw_admin_edit_cat_id').val(v);
                     mw.$('#mw-cat-pics-admin').attr("for-id", v);
-                    mw.reload_module('[data-type="categories"]');
-                    if (self !== parent && !!parent.mw) {
-                        parent.mw.reload_module('categories');
-                    }
-                    mw.reload_module('categories/manage');
-                    mw.reload_module('content/manager');
+                    //mw.reload_module('[data-type="categories"]');
+                    // if (self !== parent && !!parent.mw) {
+                    //     parent.mw.reload_module('categories');
+                    // }
+                    mw.reload_module_everywhere('categories');
+                    mw.reload_module_everywhere('categories/manage');
+                    mw.reload_module_everywhere('content/manager');
 
 
                     mw.parent().trigger('pagesTreeRefresh')
@@ -175,11 +181,8 @@ if (isset($params['live_edit'])) {
                     document.querySelector('.btn-save').disabled = true;
                     mw.askusertostay = false;
 
-
-
                 <?php if(intval($data['id']) == 0): ?>
                    // mw.url.windowHashParam("new_content", "true");
-
 
                     <?php endif; ?>
                    // mw.reload_module('#<?php print $params['id'] ?>');
@@ -189,11 +192,7 @@ if (isset($params['live_edit'])) {
                     mw.category_is_saving = false;
                     mw.$('.mw-cat-save-submit').removeClass('disabled');
 
-
-
                     mw.url.windowHashParam('action', 'editcategory:' + this)
-
-
                 });
 
                 return false;
@@ -266,23 +265,8 @@ if (isset($params['live_edit'])) {
                     <?php if (isset($params['parent-module']) and $params['parent-module']  == 'categories/admin_backend_modal' ): ?>
 
                         <a href="#action=managecats:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Manage"); ?></a> &nbsp;
-
-
-
                     <?php endif; ?>
-
-
-
-
-
-
-
-
-
                          <a href="#action=addsubcategory:<?php print $data['id'] ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
-
-
-
                     <?php endif; ?>
                 </div>
             </div>
@@ -290,14 +274,18 @@ if (isset($params['live_edit'])) {
 
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <p>Please fill the fields to create or edit a new category</p>
+                <p><?php _e('Please fill the fields to create or edit a new category') ?></p>
 
                 <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
                     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
-                    <input name="rel" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
+                    <input name="rel_type" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
                     <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>" id="rel_id"/>
                     <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
                     <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>" id="parent_id"/>
+
+                    <?php
+                    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                    ?>
 
                     <div class="row">
                         <div class="col-12">
@@ -320,7 +308,19 @@ if (isset($params['live_edit'])) {
                                                 <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
                                             </div>
                                         <?php endif; ?>
+
                                         <input class="form-control" autofocus id="content-title-field" name="title" type="text" <?php if ($data['id'] == 0): ?>placeholder<?php else: ?>value<?php endif ?>="<?php print ($data['title']); ?>"/>
+
+                                        <?php
+/*                                        $titleValue = '';
+                                        if ($data['id'] > 0) {
+                                            $titleValue = $data['title'];
+                                        }
+
+                                        echo $formBuilder->text('title')->value($titleValue)->id('content-title-field')->autofocus(true);
+                                        */
+                                        ?>
+
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -329,8 +329,8 @@ if (isset($params['live_edit'])) {
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="bootstrap-select form-control">
-                                    <label class="control-label"><?php print _e('Choose a parent'); ?>:</label>
-                                    <small class="text-muted d-block mb-2">Choose a parent page or category</small>
+                                    <label class="control-label"><?php _e('Choose a parent'); ?>:</label>
+                                    <small class="text-muted d-block mb-2"><?php _e('Choose a parent page or category') ?></small>
 
                                     <span class="btn dropdown-toggle btn-light" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
                                     <?php $is_shop = ''; ?>
@@ -355,7 +355,26 @@ if (isset($params['live_edit'])) {
                             <div class="form-group">
                                 <label class="control-label" for="description"><?php _e("Description"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
-                                <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php echo $data['description']; ?></textarea>
+                              <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
+
+                                <?php
+                                $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
+
+                                $descriptionValue = '';
+                                if ($data['id'] > 0) {
+                                    $descriptionValue = $data['description'];
+                                }
+
+                                echo $formBuilder
+                                    ->textarea('description')
+                                    ->setModel($categoryModel)
+                                    ->value($descriptionValue)
+                                    ->rows(3)
+                                    ->id('description')
+                                    ->spellcheck(false);
+
+                                ?>
+
                             </div>
                         </div>
 
@@ -451,8 +470,6 @@ if (isset($params['live_edit'])) {
                             });
 
 
-
-
                             var dropdownUploader;
 
                             mw.$('#mw-admin-post-media-type')
@@ -491,11 +508,11 @@ if (isset($params['live_edit'])) {
                         <div class="card-header no-border" id="post-media-card-header">
                             <h6><strong><?php _e('Pictures'); ?></strong></h6>
                             <div class="post-media-type-holder">
-                                <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
-                                    <option value="url">Add image from URL</option>
-                                    <option value="server">Browse uploaded</option>
-                                    <option value="library">Select from Unsplash</option>
-                                    <option value="file">Upload file</option>
+                                <select class="selectpicker" data-title="<?php _e("Add media from"); ?>" data-style="btn-sm" data-width="auto" id="mw-admin-post-media-type">
+                                    <option value="url"><?php _e("Add image from URL"); ?></option>
+                                    <option value="server"><?php _e("Browse uploaded"); ?></option>
+                                    <option value="library"><?php _e("Choose from Unsplash"); ?></option>
+                                    <option value="file"><?php _e("Upload file"); ?></option>
                                 </select>
                             </div>
                         </div>
@@ -511,10 +528,10 @@ if (isset($params['live_edit'])) {
                         </div>
 
                         <div class="col-12">
-                            <label class="control-label">Other settings</label>
-                            <small class="text-muted d-block mb-2">Discover more advanced options</small>
+                            <label class="control-label"><?php _e("Other settings"); ?></label>
+                            <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
 
-                            <button type="button" class="btn btn-link btn-sm px-0" data-toggle="collapse" data-target="#show-more">Show more</button>
+                            <button type="button" class="btn btn-link btn-sm px-0" data-toggle="collapse" data-target="#show-more"><?php _e("Show more"); ?></button>
 
                             <div class="collapse mt-3" id="show-more">
                                 <div class="row">
@@ -599,7 +616,7 @@ if (isset($params['live_edit'])) {
                                         <div class="form-group js-count-letters">
                                             <div class="d-flex justify-content-between">
                                                 <label class="control-label"><?php _e("Meta Title"); ?></label>
-                                                <span class="text-muted"><span class="js-typed-letters">0</span> of 70 characters used</span>
+                                                <span class="text-muted"><span class="js-typed-letters">0</span> <?php _e("of 70 characters used"); ?></span>
                                             </div>
                                             <input type="text" class="form-control" name="category_meta_title" value="<?php (isset($data['category_meta_title'])) ? print ($data['category_meta_title']) : '' ?>">
                                         </div>
@@ -608,8 +625,8 @@ if (isset($params['live_edit'])) {
                                     <div class="col-md-12">
                                         <div class="form-group js-count-letters">
                                             <div class="d-flex justify-content-between">
-                                                <label class="control-label">Meta descriptions</label>
-                                                <span class="text-muted"><span class="js-typed-letters">0</span> of 70 characters used</span>
+                                                <label class="control-label"><?php _e("Meta descriptions"); ?></label>
+                                                <span class="text-muted"><span class="js-typed-letters">0</span> <?php _e("of 70 characters used"); ?> </span>
                                             </div>
                                             <textarea class="form-control" name="category_meta_description"><?php (isset($data['category_meta_description'])) ? print ($data['category_meta_description']) : '' ?></textarea>
                                         </div>
@@ -618,7 +635,7 @@ if (isset($params['live_edit'])) {
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="control-label"><?php _e("Meta Keywords"); ?></label>
-                                            <small class="text-muted d-block mb-2">Separate keywords with a comma and space</small>
+                                            <small class="text-muted d-block mb-2"><?php _e("Separate keywords with a comma and space"); ?></small>
                                             <textarea class="form-control" name="category_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach"><?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?></textarea>
                                         </div>
                                     </div>

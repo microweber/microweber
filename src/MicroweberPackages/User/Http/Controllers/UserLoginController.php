@@ -24,6 +24,10 @@ class UserLoginController extends Controller
         ]
     ];
 
+    public function __construct()
+    {
+        event_trigger('mw.init');
+    }
 
     /**
      * Display a listing of Role.
@@ -57,13 +61,20 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
+
+        $requestLang = $request->post('lang');
 		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
-		
+
+		if (!empty($requestLang)) {
+            mw()->lang_helper->set_current_lang($requestLang);
+            \Cookie::queue('lang', $requestLang, 86400 * 30);
+        }
+
         if (Auth::check()) {
 
             // This will be used for whmcs login redirect
 			if (isset($redirectParams['http_redirect'])) {
-                if (Auth::user()->is_admin == 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
+                if (Auth::user()->is_admin === 1 && (isset($redirectParams['where_to']) && $redirectParams['where_to'] == 'admin_content')) {
                     return redirect(admin_url());
                 } else {
                     return redirect(site_url());
@@ -108,7 +119,7 @@ class UserLoginController extends Controller
 
                 if ($isVerfiedEmailRequired) {
 
-                    if (!$userData->is_verfied) {
+                    if (!$userData->hasVerifiedEmail()) {
                         $message = [];
                         $message['error'] = 'Please verify your email address. Please check your inbox for your account activation email';
                         Auth::logout();

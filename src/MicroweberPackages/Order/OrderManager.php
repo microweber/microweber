@@ -12,10 +12,15 @@
 namespace MicroweberPackages\Order;
 
 use DB;
+use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Order\Events\OrderIsCreating;
 use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Models\Order;
+use MicroweberPackages\Order\Notifications\NewOrderNotification;
+use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Product\Notifications\ProductOutOfStockNotification;
+use MicroweberPackages\User\Models\User;
 
 class OrderManager
 {
@@ -55,7 +60,10 @@ class OrderManager
         $params['table'] = $table;
         $params['no_cache'] = true;
 
-        return $this->app->database_manager->get($params);
+        $data =  $this->app->database_manager->get($params);
+
+
+        return $data;
     }
 
     public function get_by_id($id = false)
@@ -124,12 +132,19 @@ class OrderManager
         }
 
         event($event = new OrderIsCreating($place_order));
-
+        $should_mark_as_paid = false;
         $place_order = array_filter($place_order);
+        if (isset($place_order['is_paid']) and intval($place_order['is_paid']) == 1) {
+            unset($place_order['is_paid']);
+            $should_mark_as_paid = true;
+        }
         $ord = $this->app->database_manager->save($this->table, $place_order);
         $place_order['id'] = $ord;
 
-        event($event = new OrderWasCreated(Order::find($ord), $place_order));
+        $orderModel = Order::find($ord);
+
+
+
 
         //get client
 
@@ -142,7 +157,7 @@ class OrderManager
 //
 //            }
 //        }
-        DB::transaction(function () use ($sid, $ord, $place_order) {
+        DB::transaction(function () use ($sid, $ord, $place_order,$should_mark_as_paid) {
 
             DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
@@ -163,14 +178,19 @@ class OrderManager
                 }
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                    $this->app->shop_manager->update_quantities($ord);
+                  //  $this->app->shop_manager->update_quantities($ord);
 
-                    event($event = new OrderWasPaid(Order::find($ord), $place_order));
+                  //  event($event = new OrderWasPaid(Order::find($ord), $place_order));
                 }
-                $this->app->shop_manager->after_checkout($ord);
+
+                if($should_mark_as_paid){
+                    $this->app->checkout_manager->mark_order_as_paid($ord);
+                }
+
+                $this->app->checkout_manager->after_checkout($ord);
             }
         });
-
+        event($event = new OrderWasCreated($orderModel, $place_order));
         mw()->user_manager->session_set('order_id', $ord);
 
         return $ord;
@@ -194,21 +214,24 @@ class OrderManager
         }
 
         if (isset($params['is_paid'])) {
-            if ($params['is_paid'] == 'y') {
+            if ($params['is_paid'] === 'y') {
                 $params['is_paid'] = 1;
-            } elseif ($params['is_paid'] == 'n') {
+            } elseif ($params['is_paid'] === 'n') {
                 $params['is_paid'] = 0;
             }
         }
 
 
         if (isset($params['payment_data']) and !empty($params['payment_data'])) {
-            $params['payment_data'] = json_encode($params['payment_data']);
+            if(is_array($params['payment_data'])){
+               $params['payment_data'] = json_encode($params['payment_data']);
+            }
         }
         $table = $this->table;
         $params['table'] = $table;
         $this->app->cache_manager->delete('cart_orders');
         $this->app->cache_manager->delete('cart');
+        $this->app->cache_manager->delete('shop');
 
         return $this->app->database_manager->save($table, $params);
     }
@@ -278,49 +301,71 @@ class OrderManager
         return response()->download($filename_path_full);
     }
 
-    public function export_orders1()
+    /**
+     * Remove quantity from product.
+     *
+     * On completed order this function deducts the product quantities.
+     *
+     * @param bool|string $order_id
+     *                              The id of the order that is completed
+     *
+     * @return bool
+     *              True if quantity is updated
+     */
+    public function update_quantities($order_id = false)
     {
-        $data = get_orders('no_limit=true&order_completed=1');
-        if (!$data) {
-            return array('error' => 'You do not have any orders');
-        }
 
-        $csv_output = '';
-        $head = reset($data);
-        foreach ($head as $k => $v) {
-            $csv_output .= $this->app->format->no_dashes($k) . ',';
-            // $csv_output .= "\t";
+       // dd('update_quantities',123123123154555555,$order_id);
+        $order_id = intval($order_id);
+        if ($order_id == false) {
+            return;
         }
-        $csv_output .= "\n";
-        foreach ($data as $item) {
-            foreach ($item as $k => $v) {
-                $csv_output .= $this->app->format->no_dashes($v) . ',';
-                //  $csv_output .= "\t";
+        $res =  array();
+        $ord_data = $this->get_by_id($order_id);
+
+        $cart_data = $this->get_items($order_id);
+        if (empty($cart_data)) {
+            return $res;
+        }
+        $res = array();
+        foreach ($cart_data as $item) {
+            if (!isset($item['rel_type']) or !isset($item['rel_id']) or $item['rel_type'] !== 'content') {
+                continue;
             }
-            $cart_items = mw()->shop_manager->order_items($item['id']);
-            if (!empty($cart_items)) {
+            $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
+            if (!isset($item['qty']) or !isset($data_fields['qty']) or $data_fields['qty'] == 'nolimit') {
+                continue;
+            }
+            $old_qty = intval($data_fields['qty']);
+            $new_qty = $old_qty - intval($item['qty']);
+            $new_qty = intval($new_qty);
+            $notify = false;
+            $new_q = array();
+            $new_q['field_name'] = 'qty';
+            $new_q['content_id'] = $item['rel_id'];
+            if ($new_qty > 0) {
+                $new_q['field_value'] = $new_qty;
+            } else {
+                $notify = true;
+                $new_q['field_value'] = '0';
             }
 
-
-            $csv_output .= "\n";
+            $res[] = $new_q;
+            $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
+            if ($notify) {
+                $notifiables = User::whereIsAdmin(1)->get();
+                if($notifiables){
+                    $product = Product::find($item['rel_id']);
+                    if ($product) {
+                        Notification::send($notifiables, new ProductOutOfStockNotification($product));
+                    }
+                }
+            }
         }
 
+        return $res;
+    }
 
 
-        $filename = 'orders' . '_' . date('Y-m-d_H-i', time()) . uniqid() . '.csv';
-        $filename_path = userfiles_path() . 'export' . DS . 'orders' . DS;
-        $filename_path_index = userfiles_path() . 'export' . DS . 'orders' . DS . 'index.php';
-        if (!is_dir($filename_path)) {
-            mkdir_recursive($filename_path);
-        }
-        if (!is_file($filename_path_index)) {
-            @touch($filename_path_index);
-        }
-        $filename_path_full = $filename_path . $filename;
-        file_put_contents($filename_path_full, $csv_output);
-        $download = $this->app->url_manager->link_to_file($filename_path_full);
 
-        return array('success' => 'Your file has been exported!', 'download' => $download);
-
-     }
 }

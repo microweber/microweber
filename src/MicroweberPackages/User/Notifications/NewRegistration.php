@@ -49,6 +49,7 @@ class NewRegistration extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+
         $mail = new MailMessage();
 
         $templateId = Option::getValue('new_user_registration_mail_template', 'users');
@@ -56,11 +57,12 @@ class NewRegistration extends Notification implements ShouldQueue
 
         if ($template) {
 
-
             $twig = new \MicroweberPackages\Template\Adapters\RenderHelpers\TwigRenderHelper();
             $parsedEmail = $twig->render($template['message'], [
                     'email' => $notifiable->getEmailForPasswordReset(),
                     'username' => $notifiable->username,
+                    'first_name' => $notifiable->first_name,
+                    'last_name' => $notifiable->last_name,
                     'url' => url('/'),
                     'created_at' => date('Y-m-d H:i:s')
                 ]
@@ -110,7 +112,7 @@ class NewRegistration extends Notification implements ShouldQueue
         } else if (isset($this->notification->data['username']) && !empty($this->notification->data['username'])) {
             $toView['display_email'] = $this->notification->data['username'];
         }
-         if (empty($toView['display_name'])) {
+        if (empty($toView['display_name'])) {
             if (isset($this->notification->data['username']) && !empty($this->notification->data['username'])) {
                 $toView['display_name'] = $this->notification->data['username'];
             } else if (isset($this->notification->data['email']) && !empty($this->notification->data['email'])) {

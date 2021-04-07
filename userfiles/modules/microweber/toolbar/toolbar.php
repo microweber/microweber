@@ -355,7 +355,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             <a href="javascript:;"
                                class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button mw-toolbar-add-new-content-ctrl"
                                title="Create or manage your content">
-                                <i class="mw-icon-plus"></i><span> <?php _e("Add New"); ?> </span>
+                                <i class="mdi mdi-plus mr-0"></i><span> <?php _e("Add New"); ?> </span>
                             </a>
                             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                                 style="width: 200px; text-transform:uppercase;top: 51px;">
@@ -422,20 +422,11 @@ if (isset($_COOKIE['mw_exp'])) {
                     <div class="mw-toolbar-right-content">
                         <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
-
-
-
-                        <a
-                            id="back-to-admin-toolbar"
-                            href="<?php print $back_url; ?>"
-                            class="mw-ui-btn mw-ui-btn-medium tip"
-                            data-tip="<?php _e("Back to Admin"); ?>"
-                            data-tipposition="bottom-center">
-                            <i class="m-r mw-icon-arrow-left-c"></i>
+                        <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" data-tip="<?php _e("Back to Admin"); ?>" data-tipposition="bottom-center">
+                            <i class="mdi mdi-arrow-left"></i>
+                            <?php _e("Admin"); ?>
                         </a>
-                        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><?php _e("Save"); ?></span>
-
-
+                        <button disabled class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><i class="mdi mdi-floppy savebtn"></i><?php _e("Save"); ?></button>
 
                         <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" >
                             <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span
@@ -501,6 +492,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <ul>
                                             <li><a class="mw_ex_tools mw_editor_css_editor" id="mw-toolbar-css-editor-btn"><span class="mw-icon-css">{}</span><?php _e("CSS Editor"); ?></a></li>
                                             <li><a class="mw_ex_tools mw_editor_html_editor" id="mw-toolbar-html-editor-btn"><span class="mw-icon-code"></span><?php _e("HTML Editor"); ?></a></li>
+                                            <li><a class="mw_ex_tools" id="mw-toolbar-api-clear-cache-btn"><?php _e("Api Clear Cache"); ?></a></li>
                                         </ul>
                                     </li>
 

@@ -3,7 +3,6 @@
 namespace MicroweberPackages\User\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Utils\Mail\MailSender;
 
 
 class UserRegisterControllerTest extends TestCase
@@ -16,7 +15,7 @@ class UserRegisterControllerTest extends TestCase
         $this->_enableUserRegistration();
         $this->_disableCaptcha();
 
-        $username = 'testuser_' .uniqid();
+        $username = 'testuser_' . uniqid();
 
         $response = $this->json(
             'POST',
@@ -29,7 +28,7 @@ class UserRegisterControllerTest extends TestCase
 
         $userData = $response->getData();
 
-         $this->assertEquals($username, $userData->data->username);
+        $this->assertEquals($username, $userData->data->username);
         $this->assertNotEmpty($userData->data->id);
 
         $this->assertTrue(($userData->data->id > 0));
@@ -156,7 +155,7 @@ class UserRegisterControllerTest extends TestCase
 
 
         $captchaAnswer = uniqid();
-        $captchaWrongAnswer = $captchaAnswer.uniqid();
+        $captchaWrongAnswer = $captchaAnswer . uniqid();
 
         $userData = $response->getData();
         $this->assertEquals(422, $response->status());
@@ -169,7 +168,7 @@ class UserRegisterControllerTest extends TestCase
             'POST',
             route('api.user.register'),
             [
-                'captcha' =>$captchaWrongAnswer,
+                'captcha' => $captchaWrongAnswer,
                 'username' => $username,
                 'password' => $email,
             ]
@@ -182,12 +181,83 @@ class UserRegisterControllerTest extends TestCase
             'POST',
             route('api.user.register'),
             [
-                'captcha' =>$captchaAnswer,
+                'captcha' => $captchaAnswer,
                 'username' => $username,
                 'password' => $email,
             ]
         );
         $this->assertEquals(201, $response->status());
+
+    }
+
+    public function testUserRegisterEmailSend()
+    {
+        \Config::set('mail.transport', 'array');
+
+
+        $this->_enableRegisterWelcomeEmail();
+        $this->_enableUserRegistration();
+        $this->_disableCaptcha();
+        $this->_disableEmailVerify();
+
+        $username = 'testuser_email_send_' . uniqid();
+        $user_email = 'testuser_email_send_' . uniqid() . '@mail.test';
+
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'email' => $user_email,
+                'username' => $username,
+                'password' => $user_email,
+            ]
+        );
+
+        $userData = $response->getData();
+        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $findEmail = false;
+
+        foreach ($emails as $email) {
+
+            $subject = $email->getSubject();
+            $body = $email->getBody();
+            if (str_contains($body, $user_email)) {
+                $findEmail = true;
+            }
+
+
+        }
+
+
+        $this->assertEquals(true, $findEmail);
+
+
+    }
+
+    public function testUserRegisterValidationMessages()
+    {
+        $this->_enableUserRegistration();
+        $this->_disableCaptcha();
+        $this->_disableEmailVerify();
+
+
+
+        $user_email = 'testuser_invalid_email_' . uniqid() . '.invalid.email';
+
+        $response = $this->json(
+            'POST',
+            route('api.user.register'),
+            [
+                'email' => $user_email,
+                'password' => $user_email,
+            ]
+        );
+
+        $userData = $response->getData(true);
+
+        $this->assertEquals(true, isset($userData['errors']['email']));
+        $this->assertEquals(422, $response->status());
+        $this->assertEquals('The email must be a valid email address.', $userData['errors']['email'][0]);
 
     }
 

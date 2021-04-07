@@ -3,11 +3,7 @@
 <script>mw.moduleCSS("<?php print modules_url(); ?>shop/coupons/styles.css"); </script>
 
 <?php
-
-
-$applied_coupon_data=mw()->user_manager->session_get('applied_coupon_data');
-
-
+$applied_coupon_data = mw()->user_manager->session_get('applied_coupon_data');
 
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
@@ -44,12 +40,11 @@ if (is_file($template_file) != false) {
                         if (typeof(data.success_apply) !== "undefined") {
                             $('.js-coupon-code-messages').html('<div class="js-green-text">' + data.success_message + '</div>');
                         }
+                        mw.reload_module('shop/cart');
                         mw.reload_module('shop/checkout');
                         mw.reload_module('shop/payments');
 
                     }
-
-
 
                     $('.js-apply-coupon-code').removeAttr('disabled');
 

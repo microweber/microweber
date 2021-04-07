@@ -53,7 +53,7 @@
     <?php else: ?>
 
         <div class="icon-title">
-            <i class="mdi mdi-harddisk"></i> <h5>You don't have any backups</h5>
+            <i class="mdi mdi-harddisk"></i> <h5><?php _e('You don\'t have any backups'); ?></h5>
         </div>
     <?php endif; ?>
 </div>

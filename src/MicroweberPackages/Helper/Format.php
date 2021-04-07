@@ -4,6 +4,7 @@ namespace MicroweberPackages\Helper;
 use GrahamCampbell\SecurityCore\Security;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Crypt;
+use MicroweberPackages\CustomField\Models\CustomField;
 
 
 class Format
@@ -1025,10 +1026,33 @@ class Format
 
    public function render_item_custom_fields_data($item)
     {
+
         if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
             $item['custom_fields_data'] = $this->base64_to_array($item['custom_fields_data']);
             if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data']) and !empty($item['custom_fields_data'])) {
-                $tmp_val = $this->array_to_ul($item['custom_fields_data']);
+
+                $itemCustomFields = $item['custom_fields_data'];
+
+                $getCustomFields = CustomField::where('rel_id', $item['rel_id'])->get();
+                if ($getCustomFields !== null) {
+                    foreach($getCustomFields as $customField) {
+                       if (isset($itemCustomFields[$customField->name])) {
+                            $customFieldValues = $customField->fieldValue()->get();
+                            if ($customFieldValues !== null) {
+                                $selectedCustomField = $itemCustomFields[$customField->name];
+                                $customFieldValuesOrdered = [];
+                                foreach ($customFieldValues as $customFieldValue) {
+                                    $customFieldValuesOrdered[] = $customFieldValue->value;
+                                }
+                                if (!is_array($selectedCustomField) && isset($customFieldValuesOrdered[$selectedCustomField])) {
+                                    $itemCustomFields[$customField->name] = $customFieldValuesOrdered[$selectedCustomField];
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                $tmp_val = $this->array_to_ul($itemCustomFields);
                 $item['custom_fields'] = $tmp_val;
             }
         }

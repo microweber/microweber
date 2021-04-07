@@ -1,4 +1,3 @@
-elements admin
 <?php
  
 $mod_params = array();
@@ -21,22 +20,14 @@ if(isset($params['category'])){
 	 $mod_params['category'] = $params['category'];
 }
 
-
  $mods = mw()->layouts_manager->get($mod_params); 
  if( $mods == false){
  	  $mods = mw()->layouts_manager->get($mod_params);
  }
-  //d( $params );
- 
-//
-
- 
 ?>
-<ul>
-  <?php if(!empty($mods)): foreach($mods as $k=>$item): ?>
-  <li>      
-  <module type="admin/modules/edit_element" data-module-id="<?php print $item['id'] ?>" />
+
+<?php if(!empty($mods)): foreach($mods as $k=>$item): ?>
+    <module type="admin/modules/edit_element" data-module-id="<?php print $item['id'] ?>" />
+    <hr>
     <?php // d($item); ?>
-  </li>
-  <?php endforeach; endif; ?>
-</ul>
+<?php endforeach; endif; ?>

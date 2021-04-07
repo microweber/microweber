@@ -1,16 +1,16 @@
 <?php
 
-namespace Microweber\SiteStats;
+namespace MicroweberPackages\SiteStats;
 
 
-use Microweber\SiteStats\Models\Browsers;
-use Microweber\SiteStats\Models\Geoip;
-use Microweber\SiteStats\Models\Log;
-use Microweber\SiteStats\Models\Referrers;
-use Microweber\SiteStats\Models\ReferrersDomains;
-use Microweber\SiteStats\Models\ReferrersPaths;
-use Microweber\SiteStats\Models\Sessions;
-use Microweber\SiteStats\Models\Urls;
+use MicroweberPackages\SiteStats\Models\Browsers;
+use MicroweberPackages\SiteStats\Models\Geoip;
+use MicroweberPackages\SiteStats\Models\Log;
+use MicroweberPackages\SiteStats\Models\Referrers;
+use MicroweberPackages\SiteStats\Models\ReferrersDomains;
+use MicroweberPackages\SiteStats\Models\ReferrersPaths;
+use MicroweberPackages\SiteStats\Models\Sessions;
+use MicroweberPackages\SiteStats\Models\Urls;
 use Jenssegers\Agent\Agent;
 use GeoIp2\Database\Reader;
 
@@ -25,7 +25,6 @@ class Tracker
         $data['updated_at'] = date("Y-m-d H:i:s");
 
         $track[] = $data;
-
 
         return $this->process_buffer($track);
 
@@ -156,7 +155,6 @@ class Tracker
                     }
                 }
 
-
                 if (isset($item['visit_url']) and $item['visit_url']) {
                     $hash = md5($item['visit_url']);
                     $related_data = new Urls();
@@ -172,16 +170,18 @@ class Tracker
                     if ($related_data->id) {
                         $item['url_id'] = $related_data->id;
                     }
+
                 }
+
+
                 $existing = false;
 
                 if (isset($item['url_id']) and isset($item['session_id_key'])) {
 
-
                     $existing_log = new Log();
 
                     $check_existing = $existing_log->where('url_id', $item['url_id'])
-                        ->where('session_id_key', $item['session_id_key'])
+                          ->where('session_id_key', $item['session_id_key'])
                         ->limit(1)->first();
 
                     if ($check_existing and $check_existing->id) {
@@ -189,12 +189,25 @@ class Tracker
 
                     }
                     if ($check_existing and isset($item['updated_at'])) {
-                        $existing_log = new Log();
+                        $existing_log = $check_existing;
 
-                        $track = array(
-                            'updated_at' => $item['updated_at']
-                        );
-                        $existing_log->where('id', intval($existing))->increment('view_count', 1, $track);
+                       // $existing_log->where('id', intval($existing));
+                      //  $existing_log->where('id', intval($existing))->increment('view_count', 1, $track);
+                        $view_count_log =  $check_existing;
+                        $view_count = 0;
+
+                        if($view_count_log){
+                            $view_count  =intval( $existing_log->view_count);
+                        }
+
+                        $view_count = intval($view_count) + 1;
+
+                        $view_count_log->updated_at = $item['updated_at'];
+                        $view_count_log->view_count = $view_count;
+                        $view_count_log->save();
+
+
+
                     } else {
                         $log->create($item);
 
@@ -406,14 +419,14 @@ class Tracker
             return $return;
         }
 
-        $mmdb = normalize_path(MW_PATH . 'Utils/lib/geoip_lite/GeoLite2-Country.mmdb', false);
+        $mmdb = normalize_path(dirname(MW_PATH) . 'Utils/ThirdPartyLibs/geoip_lite/GeoLite2-Country.mmdb', false);
+
         if (is_file($mmdb)) {
 
             try {
                 $reader = new Reader($mmdb);
                 $record = $reader->country($ip);
-
-                if ($record) {
+                 if ($record) {
                     $return['country_code'] = $record->country->isoCode;
                     $return['country_name'] = $record->country->name;
                 }
