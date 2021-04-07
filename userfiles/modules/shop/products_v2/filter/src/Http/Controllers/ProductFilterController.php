@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Shop\Products\Filter\Http\Controllers;
+namespace MicroweberPackages\Shop\ProductsV2\Filter\Http\Controllers;
 
 use Illuminate\Http\Request;
 

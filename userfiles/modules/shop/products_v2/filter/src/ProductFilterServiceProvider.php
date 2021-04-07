@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Shop\Products\Filter;
+namespace MicroweberPackages\Shop\ProductsV2\Filter;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;

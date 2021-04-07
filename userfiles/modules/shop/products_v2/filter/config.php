@@ -9,5 +9,5 @@ $config['version'] = 0.1;
 $config['position'] = 21;
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Shop\Products\Filter\ProductFilterServiceProvider::class
+    \MicroweberPackages\Shop\ProductsV2\Filter\ProductFilterServiceProvider::class
 ];
