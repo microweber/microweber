@@ -55,7 +55,7 @@
             width: 35%;
         }
 
-        checkout-v2-remove-icon .a:hover {
+        .checkout-v2-remove-icon a:hover {
             text-decoration: none;
         }
         a:active {
