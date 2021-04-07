@@ -64,7 +64,7 @@ $total = cart_total();
                            <div class="form-row h-100">
                                <div class="col-10">
                                    <div class="form-row align-items-md-center h-100 ">
-                                       <div class="col-12 col-md-7">
+                                       <div class="col-12 col-md-8">
                                            <h6><?php _e($item['title']) ?></h6>
                                            <small class="text-muted mw-order-custom-fields">
                                                <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
@@ -72,7 +72,7 @@ $total = cart_total();
                                                <?php endif ?>
                                            </small>
                                        </div>
-                                       <div class="col-6 col-md-3 align-self-center justify-content-md-center">
+                                       <div class="col-6 col-md-2 align-self-center justify-content-md-center">
                                            <h6><?php print currency_format($item['price']); ?></h6>
                                        </div>
                                        <div class="col-6 col-md-2 align-self-center justify-content-md-center mw-qty-field">
