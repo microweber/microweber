@@ -36,8 +36,25 @@ if ($cont_id) {
 
 $content_tags = []; // ALLWAYS MUST BE ARRAY WITH STRING
 if ($content_tags_data) {
-    foreach ($content_tags_data as $content_tag_data_item) {
-            if (isset($content_tag_data_item['tag_name'])) {
+    foreach ($content_tags_data as &$content_tag_data_item) {
+
+        if (isset($params['append_to_get_params'])) {
+
+            $paramsUrl = [];
+            if (!empty($_GET)) {
+                foreach($_GET as $getKey => $getValue) {
+                    $paramsUrl[$getKey] = $getValue;
+                }
+            }
+            $paramsUrl['tags'] =  $content_tag_data_item['tag_slug'];
+            $paramsUrl = http_build_query($paramsUrl);
+
+            $content_tag_data_item['tag_url'] = $tags_url_base .'?'. $paramsUrl;
+        } else {
+            $content_tag_data_item['tag_url'] = $tags_url_base . '/tags:'.$content_tag_data_item['tag_slug'];
+        }
+
+        if (isset($content_tag_data_item['tag_name'])) {
             $content_tags[] = $content_tag_data_item['tag_name'];
         }
     }

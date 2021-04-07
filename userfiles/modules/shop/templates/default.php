@@ -31,7 +31,7 @@ description: Full width shop template with filters
 
                 <div class="sidebar__widget m-b-40">
                     <h4 class="m-b-20"><?php _lang("Tags" ); ?></h4>
-                    <module type="tags" content-id="<?php print PAGE_ID; ?>" />
+                    <module type="tags" template="default_v2" append_to_get_params="true" content-id="<?php print PAGE_ID; ?>" />
                 </div>
 
             </div>
