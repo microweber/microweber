@@ -82,7 +82,7 @@
 <section>
     <div class="row">
         <div class="col-lg-6 col">
-            <div class="col-lg-7 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
+            <div class="col-lg-8 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
                 <div class="d-flex">
                     @php
                         $logo = get_option('logo', 'website');
