@@ -21,9 +21,20 @@ class CheckoutController extends Controller {
     use ShippingTrait;
     use PaymentTrait;
 
+    public function login() {
+        return $this->_renderView('checkout::login');
+    }
+
     public function index() {
 
-        return $this->_renderView('checkout::index');
+        $requiresRegistration = get_option('shop_require_registration', 'website') == '1';
+        if ($requiresRegistration and is_logged() == false) {
+            return redirect(route('checkout.login'));
+        }
+
+        return redirect(route('checkout.contact_information'));
+
+        //return $this->_renderView('checkout::index');
     }
 
     public function finish($id) {

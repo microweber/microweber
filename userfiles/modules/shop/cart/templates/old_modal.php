@@ -4,14 +4,12 @@
 
 type: layout
 
-name: Checkout V2
+name: OLD Small Modal
 
-description: Checkout V2
+description: OLD Small Modal
 
 */
 ?>
-
-faila se namira v: /userfiles/modules/shop/cart/templates/checkout_v2.php
 
 <?php if (is_ajax()) : ?>
 
@@ -108,9 +106,9 @@ $total = cart_total();
                        </div>
                    </div>
 
-
+                   <div class="w-100 mt-2">
+                       <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step" data-step="delivery-address"><?php _e('Checkout'); ?></a>
+                   </div>
                </div>
            <?php endif; ?>
        </div>
-
-

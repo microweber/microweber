@@ -2,15 +2,14 @@
 
 @section('content')
 
-    <div class="col-12">
+    <div class="col-8">
 
         faila se namira v: /src/MicroweberPackages/Checkout/resources/views/shipping_method.blade.php
 
         <form method="post" action="{{ route('checkout.shipping_method_save') }}">
 
-            <a href="{{ site_url() }}" class="btn btn-outline-primary"><i class="mdi mdi-arrow-left"></i> {{ _e('Back to shopping') }}</a>
-            <a href="{{ route('checkout.cart') }}" class="btn btn-outline-primary"><i class="mdi mdi-cart"></i> {{ _e('Back to cart') }}</a>
-            <a href="{{ route('checkout.contact_information') }}" class="btn btn-outline-primary"><i class="mdi mdi-phone"></i> {{ _e('Back to contact information') }}</a>
+            <a href="{{ route('checkout.contact_information') }}" class="btn btn-outline-primary"><i class="mdi mdi-arrow-left"></i> {{ _e('Back') }}</a>
+
             <div class="shop-cart" style="margin-top:25px;">
 
                 <div class="card" style="margin-bottom:15px;">
@@ -35,6 +34,10 @@
 
             <button type="submit" class="btn btn-info">{{ _e('Continue') }}</button>
         </form>
+    </div>
+
+    <div class="col-4">
+        <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
     </div>
 
 @endsection

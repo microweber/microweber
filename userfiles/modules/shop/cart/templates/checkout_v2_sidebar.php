@@ -11,8 +11,6 @@ description: Checkout V2
 */
 ?>
 
-faila se namira v: /userfiles/modules/shop/cart/templates/checkout_v2.php
-
 <?php if (is_ajax()) : ?>
 
     <script>
@@ -49,7 +47,7 @@ $total = cart_total();
            <?php if (is_array($data) and $data) : ?>
                <?php foreach ($data as $item) :?>
                    <div class="form-row checkout-modal-product-list-item">
-                       <div class="col-lg-5 col-auto d-flex">
+                       <div class="col-lg-3 col-auto d-flex">
                            <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                <?php $p = $item['item_image']; ?>
                            <?php else: ?>
@@ -92,25 +90,4 @@ $total = cart_total();
                <h5><?php _e("Your cart is empty. Please add some products in the cart."); ?></h5>
            <?php endif; ?>
 
-           <?php if (is_array($data) and $data) : ?>
-               <div class="checkout-modal-amount-holder form-row mt-4">
-                   <div class="col-sm-6 checkout-modal-promocode-holder ml-auto">
-                       <?php if (get_option('enable_coupons', 'shop') == 1): ?>
-                           <?php
-                           $discountData = app()->cart_manager->totals('discount');
-                           ?>
-                           <module type="shop/coupons" template="modal" />
-                       <?php endif; ?>
-                   </div>
-                   <div class="col-sm-6 checkout-modal-total-holder ">
-                       <div class="d-flex justify-content-md-end align-items-center">
-                           <module type="shop/cart" template="totals" />
-                       </div>
-                   </div>
-
-
-               </div>
-           <?php endif; ?>
        </div>
-
-

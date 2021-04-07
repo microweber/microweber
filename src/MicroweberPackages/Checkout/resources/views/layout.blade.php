@@ -46,8 +46,17 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-12">
-                <module type="logo" logo-name="header-logo" style="margin-top:50px;margin-bottom:50px;" />
+            <div class="col-12 pb-4 pt-4">
+                @php
+                    $logo = get_option('logo', 'website');
+                @endphp
+                @if(empty($logo))
+                <h1 class="text-uppercase">
+                   <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
+                </h1>
+                 @else
+                    <img src="{{ $logo }}" style="max-width:300px" />
+                 @endif
             </div>
 
             @if (isset($errors))

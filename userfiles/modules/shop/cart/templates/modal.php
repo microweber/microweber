@@ -107,7 +107,9 @@ $total = cart_total();
                    </div>
 
                    <div class="w-100 mt-2">
-                       <a href="#" class="btn btn-primary d-flex justify-content-center btn-lg rounded mt-1 js-show-step" data-step="delivery-address"><?php _e('Checkout'); ?></a>
+                       <a href="#" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><i class="mdi mdi-shopping"></i> <?php _e('Continue shopping'); ?></a>
+
+                       <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary ml-3"><i class="mdi mdi-contactless-payment"></i> <?php _e('Checkout'); ?></a>
                    </div>
                </div>
            <?php endif; ?>

@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Pickup";
+$config['name'] = "Pickup from address";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['ui_admin'] = false;
