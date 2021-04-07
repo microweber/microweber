@@ -92,5 +92,15 @@ $total = cart_total();
 
        </div>
 
+        <?php if (get_option('enable_coupons', 'shop') == 1): ?>
+            <?php
+            $discountData = app()->cart_manager->totals('discount');
+            ?>
+            <module type="shop/coupons" template="modal" />
+        <?php endif; ?>
+        
+        <br />
+        <br />
+
         <module type="shop/cart" template="totals" />
 

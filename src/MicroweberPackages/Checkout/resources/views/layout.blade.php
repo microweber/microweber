@@ -105,6 +105,7 @@
                 <div class="pt-3">
                     <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
                 </div>
+
              @endif
 
             </div>
