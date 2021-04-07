@@ -11,7 +11,6 @@ description: Default
 */
 ?>
 
-
 <script>
     $(document).ready(function () {
 

@@ -75,7 +75,9 @@
                             <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
                         </h1>
                     @else
-                        <img src="{{ $logo }}" />
+                       <div class="w-50">
+                           <img src="{{ $logo }}" />
+                       </div>
                     @endif
 
                     @hasSection('logo-right-link')
