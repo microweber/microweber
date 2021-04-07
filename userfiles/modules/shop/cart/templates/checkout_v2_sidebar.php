@@ -28,17 +28,6 @@ description: Checkout V2
         });
     </script>
 
-    <style>
-        .mw-order-custom-fields ul {
-            list-style-type: none;
-            margin-bottom: 0.4rem;
-        }
-
-        .mw-order-custom-fields ul li {
-            margin-bottom: 3px;
-        }
-
-    </style>
 <?php endif; ?>
 
 <?php
@@ -48,7 +37,7 @@ $total = cart_total();
            <?php if (is_array($data) and $data) : ?>
                <?php foreach ($data as $item) :?>
                    <div class="form-row checkout-modal-product-list-item pb-5">
-                       <div class="col-lg-3 col-auto d-flex">
+                       <div class="col-lg-2 col-auto d-flex">
                            <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                <?php $p = $item['item_image']; ?>
                            <?php else: ?>
@@ -58,21 +47,21 @@ $total = cart_total();
                                <img style="max-width:70px; max-height:70px;" src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/>
                            <?php endif; ?>
 
-                           <div class="mw-order-custom-fields font-weight-bold align-self-center mx-4">
-                               <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
-                                   <?php print $item['custom_fields'] ?>
-                               <?php endif ?>
-                           </div>
                        </div>
 
                        <div class="col-auto col-lg">
                            <div class="form-row h-100">
                                <div class="col-10">
                                    <div class="form-row align-items-md-center h-100 ">
-                                       <div class="col-12 col-md-5">
+                                       <div class="col-12 col-md-8">
                                            <h6><?php _e($item['title']) ?></h6>
+                                           <small class="text-muted mw-order-custom-fields">
+                                               <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
+                                                   <?php print $item['custom_fields'] ?>
+                                               <?php endif ?>
+                                           </small>
                                        </div>
-                                       <div class="col-6 col-md-3 align-self-center justify-content-md-center">
+                                       <div class="col-6 col-md-2 align-self-center justify-content-md-center">
                                            <h6><?php print currency_format($item['price']); ?></h6>
                                        </div>
                                        <div class="col-6 col-md-2 align-self-center justify-content-md-center mw-qty-field">
@@ -80,7 +69,7 @@ $total = cart_total();
                                        </div>
                                    </div>
                                </div>
-                               <div class="checkout-v2-remove-icon col-2 justify-content-center align-self-center">
+                               <div class="checkout-v2-remove-icon col-auto justify-content-end align-self-center">
                                        <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end" style="font-size: 24px"></i></a>
                                </div>
                            </div>
@@ -92,16 +81,6 @@ $total = cart_total();
            <?php endif; ?>
 
        </div>
-
-        <?php if (get_option('enable_coupons', 'shop') == 1): ?>
-            <?php
-            $discountData = app()->cart_manager->totals('discount');
-            ?>
-            <module type="shop/coupons" template="modal" />
-        <?php endif; ?>
-
-        <br />
-        <br />
 
         <module type="shop/cart" template="totals" />
 

@@ -66,6 +66,14 @@
             color: black!important;
         }
 
+        .mw-order-custom-fields ul {
+            list-style-type: none;
+            margin-bottom: 0.4rem;
+        }
+
+        .mw-order-custom-fields ul li {
+            margin-bottom: 5px;
+        }
 
     </style>
 
@@ -85,7 +93,7 @@
 <section>
     <div class="row">
         <div class="col-lg-6 col">
-            <div class="col-lg-7 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
+            <div class="col-lg-8 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
                 <div class="d-flex">
                     @php
                         $logo = get_option('logo', 'website');
@@ -112,7 +120,7 @@
         </div>
 
         <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
-            <div class="col-9 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
+            <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
 
                 @hasSection('checkout_sidebar')
                     @yield('checkout_sidebar')
