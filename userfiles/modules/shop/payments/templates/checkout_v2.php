@@ -27,7 +27,7 @@ description: Checkout V2
                         foreach ($payment_options as $payment_option) : $count++; ?>
                             <li>
                                 <div class="form-group my-1">
-                                    <div class="custom-control custom-radio d-flex align-self-center pl-0 pt-3 ">
+                                    <div class="custom-control custom-radio checkout-v2-radio d-flex align-self-center pl-0 pt-3 ">
                                         <input type="radio" id="option-<?php print $count; ?>" <?php if ($count == 1): ?> checked="checked" <?php endif; ?>
                                                value="<?php print  $payment_option['gw_file']; ?>"
                                                name="payment_gw"/>

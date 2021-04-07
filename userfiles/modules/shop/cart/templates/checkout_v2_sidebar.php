@@ -37,6 +37,7 @@ description: Checkout V2
         .mw-order-custom-fields ul li {
             margin-bottom: 3px;
         }
+
     </style>
 <?php endif; ?>
 
@@ -79,8 +80,8 @@ $total = cart_total();
                                        </div>
                                    </div>
                                </div>
-                               <div class="col-2 justify-content-center align-self-center">
-                                       <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="mdi mdi-delete-outline text-dark d-flex justify-content-center justify-content-md-end" style="font-size: 24px"></i></a>
+                               <div class="checkout-v2-remove-icon col-2 justify-content-center align-self-center">
+                                       <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end" style="font-size: 24px"></i></a>
                                </div>
                            </div>
                        </div>

@@ -5,7 +5,7 @@
         <?php $count = 0;
          foreach ($shipping_options as $item) : $count++; ?>
                 <div class="form-group">
-                    <div class="custom-control custom-radio pl-0 pt-3">
+                    <div class="custom-control custom-radio checkout-v2-radio pl-0 pt-3">
                         <input type="radio" onchange="Gateway(this);" <?php if ($count == 1): ?> checked="checked" <?php endif; ?> name="shipping_gw" value="<?php print  $item['module_base']; ?>" <?php if ($selected_shipping_gateway == $item['module_base']): ?> <?php endif; ?>">
                         <label class="control-label">
                             <?php
