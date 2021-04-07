@@ -48,12 +48,7 @@
 
         </div>
 
-        <button type="submit" class="btn btn-info">{{ _e('Continue') }}</button>
+        <button type="submit" class="btn btn-primary w-100">{{ _e('Finish your order') }}</button>
     </form>
-
-
-    <div class="col-4">
-        <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
-    </div>
 
 @endsection
