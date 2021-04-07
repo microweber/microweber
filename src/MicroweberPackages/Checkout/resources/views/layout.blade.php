@@ -83,18 +83,6 @@
                     @endif
                 </div>
 
-                @if (isset($errors))
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors as $fields)
-                                @foreach ($fields as $field)
-                                    <li>{!! $field !!}</li>
-                                @endforeach
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                 @hasSection('content')
                     @yield('content')
                 @endif
@@ -103,6 +91,10 @@
 
         <div class="checkout-v2-sidebar col-6">
             <div class="col-9 checkout-v2-right-column float-left p-5">
+
+                @hasSection('checkout_sidebar')
+                    @yield('checkout_sidebar')
+                @else
                 <div class="text-left">
                     <h6 class="m-t-80"><?php _e("Your order"); ?></h6>
                     <small class="text-muted d-block mb-2"> <?php _e("List with products"); ?></small>
@@ -111,6 +103,8 @@
                 <div class="pt-3">
                     <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
                 </div>
+             @endif
+
             </div>
         </div>
     </div>

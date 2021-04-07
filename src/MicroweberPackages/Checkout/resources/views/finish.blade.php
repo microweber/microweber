@@ -1,5 +1,11 @@
 @extends('checkout::layout')
 
+@section('checkout_sidebar')
+    Order info:
+    @dump($order)
+@endsection
+
+
 @section('content')
 
     <div class="col-12">
@@ -8,10 +14,10 @@
 
                 <h1>Thank you, {{$order['first_name']}} {{$order['last_name']}}!</h1>
 
-             {{--   <br />
-                Order info:
-             @dump($order)
---}}
+                <h2 class="text-uppercase">
+                    <a href="{{ site_url() }}">Back to {{get_option('website_title', 'website')}}</a>
+                </h2>
+
             </div>
 
         </form>
