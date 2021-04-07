@@ -1,5 +1,11 @@
 @extends('checkout::layout')
 
+@section('logo-right-link')
+<div class="ml-auto align-self-center">
+    <a href="{{ site_url() }}shop" class="btn btn-link text-right">{{ _e('Continue shopping') }}</a>
+</div>
+@endsection
+
 @section('content')
 
 {{--faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php--}}

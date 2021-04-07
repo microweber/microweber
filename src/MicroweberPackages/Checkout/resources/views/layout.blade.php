@@ -75,11 +75,12 @@
                             <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
                         </h1>
                     @else
-                        <img src="{{ $logo }}" style="max-width:300px" />
+                        <img src="{{ $logo }}" />
                     @endif
-                    <div class="ml-auto align-self-center">
-                        <a href="{{ site_url() }}shop" class="btn btn-link text-right">{{ _e('Continue shopping') }}</a>
-                    </div>
+
+                    @hasSection('logo-right-link')
+                        @yield('logo-right-link')
+                    @endif
                 </div>
 
                 @if (isset($errors))

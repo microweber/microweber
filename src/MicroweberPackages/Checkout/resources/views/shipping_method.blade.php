@@ -1,10 +1,14 @@
 @extends('checkout::layout')
 
+@section('logo-right-link')
+    <div class="ml-auto align-self-center">
+        <a href="{{ route('checkout.contact_information') }}" class="btn btn-link text-right">{{ _e('Back') }}</a>
+    </div>
+@endsection
+
 @section('content')
 
     <form method="post" action="{{ route('checkout.shipping_method_save') }}">
-
-        <a href="{{ route('checkout.contact_information') }}" class="btn btn-outline-primary"><i class="mdi mdi-arrow-left"></i> {{ _e('Back') }}</a>
 
         <div class="shop-cart mt-3">
             <label class="font-weight-bold control-label mb-0"><?php _e("Personal information"); ?></label>
