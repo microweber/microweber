@@ -45,4 +45,11 @@ description: Checkout V2
         </div>
     <?php endif; ?>
 
+    <div id="mw-payment-gateway-selected-<?php print $params['id']; ?>">
+        <?php //var_dump($payment_options); ?>
+        <?php if (isset($payment_options[0])): ?>
+            <module type="<?php print $payment_options[0]['gw_file'] ?>"/>
+        <?php endif; ?>
+    </div>
+
 </div>
