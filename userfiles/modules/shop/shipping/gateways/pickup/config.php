@@ -9,7 +9,7 @@ $config['categories'] = "online shop";
 $config['position'] = 900;
 $config['type'] = "shipping_gateway";
 $config['version'] = "0.2";
-
+$config['settings']['icon_class'] = "mdi mdi-truck-check-outline";
 
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Shop\Shipping\Gateways\Pickup\PickupEventServiceProvider::class,

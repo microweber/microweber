@@ -42,13 +42,6 @@
             @if(isset($errors['phone']))<span class="invalid-feedback">{{$errors['phone'][0]}}</span>@endif
         </div>
 
-        <?php if (get_option('enable_coupons', 'shop') == 1): ?>
-        <?php
-        $discountData = app()->cart_manager->totals('discount');
-        ?>
-        <module type="shop/coupons" template="modal" />
-        <?php endif; ?>
-
         <button type="submit" class="btn btn-primary w-100 mt-3">{{ _e('Continue') }}</button>
     </form>
 @endsection
