@@ -2,61 +2,42 @@
 
 @section('content')
 
-    faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php
-
-    <div class="col-8">
-        <form method="post" action="{{ route('checkout.contact_information_save') }}">
-
-        <a href="{{ site_url() }}shop" class="btn btn-outline-primary"><i class="mdi mdi-cart"></i> {{ _e('Continue shopping') }}</a>
-        <div class="shop-cart" style="margin-top:25px;">
-
-            <div class="m-t-20 edit nodrop" field="checkout_personal_information_title">
-                <small class="pull-right text-muted">*Fields are required</small>
-                <label class="control-label">Personal Information</label>
-                <small class="text-muted d-block mb-2"> <?php _e("Add your personal information"); ?></small>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleInputFirstName"><?php _e("First Name"); ?></label>
-                        <input name="first_name" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>" class="form-control"
-                               placeholder="<?php _e("First Name"); ?>">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleInputLastName"><?php _e("Last Name"); ?></label>
-                        <input name="last_name" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>" class="form-control"
-                               placeholder="<?php _e("Last Name"); ?>">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group m-0">
-                        <label for="exampleInputEmail1"><?php _e("Email"); ?></label>
-                        <input name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control"
-                               placeholder="<?php _e("Enter email"); ?>">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleInputPhone"><?php _e("Phone"); ?></label>
-                        <input name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control"
-                               placeholder="<?php _e("Enter phone"); ?>">
-                    </div>
-                </div>
-            </div>
-
+{{--faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php--}}
+    <form method="post" action="{{ route('checkout.contact_information_save') }}">
+        <div class="m-t-20 edit nodrop" field="checkout_personal_information_title">
+            <h4><?php _e("Personal Information"); ?></h4>
+            <small class="text-muted d-block mb-2"> <?php _e("Add your personal information"); ?></small>
         </div>
 
-            <button type="submit" class="btn btn-info">{{ _e('Continue') }}</button>
-        </form>
-    </div>
+        <div class="form-group">
+            <label for="exampleInputFirstName"><?php _e("First Name"); ?></label>
+            <input name="first_name" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>" class="form-control"
+                   placeholder="<?php _e("First Name"); ?>">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputLastName"><?php _e("Last Name"); ?></label>
+            <input name="last_name" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>" class="form-control"
+                   placeholder="<?php _e("Last Name"); ?>">
+        </div>
 
-    <div class="col-4">
-        <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
-    </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1"><?php _e("Email"); ?></label>
+            <input name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control"
+                   placeholder="<?php _e("Enter email"); ?>">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPhone"><?php _e("Phone"); ?></label>
+            <input name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control"
+                   placeholder="<?php _e("Enter phone"); ?>">
+        </div>
 
+        <?php if (get_option('enable_coupons', 'shop') == 1): ?>
+        <?php
+        $discountData = app()->cart_manager->totals('discount');
+        ?>
+        <module type="shop/coupons" template="modal" />
+        <?php endif; ?>
+
+        <button type="submit" class="btn btn-primary w-100">{{ _e('Continue') }}</button>
+    </form>
 @endsection
