@@ -28,17 +28,6 @@ description: Checkout V2
         });
     </script>
 
-    <style>
-        .mw-order-custom-fields ul {
-            list-style-type: none;
-            margin-bottom: 0.4rem;
-        }
-
-        .mw-order-custom-fields ul li {
-            margin-bottom: 3px;
-        }
-
-    </style>
 <?php endif; ?>
 
 <?php

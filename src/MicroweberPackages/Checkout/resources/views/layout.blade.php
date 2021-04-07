@@ -66,6 +66,14 @@
             color: black!important;
         }
 
+        .mw-order-custom-fields ul {
+            list-style-type: none;
+            margin-bottom: 0.4rem;
+        }
+
+        .mw-order-custom-fields ul li {
+            margin-bottom: 5px;
+        }
 
     </style>
 
