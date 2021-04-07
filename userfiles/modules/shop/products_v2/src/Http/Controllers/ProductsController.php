@@ -7,6 +7,7 @@ use MicroweberPackages\App\Http\Controllers\ModuleFrontController;
 use MicroweberPackages\App\Http\Controllers\Traits\ContentSchemaOrg;
 use MicroweberPackages\App\Http\Controllers\Traits\ContentShowFields;
 use MicroweberPackages\App\Http\Controllers\Traits\ContentThumbnailSize;
+use MicroweberPackages\App\Managers\PermalinkManager;
 
 class ProductsController extends ModuleFrontController
 {
@@ -77,14 +78,12 @@ class ProductsController extends ModuleFrontController
 
         $pagesCount = ceil($getProducts->total() / $limit);
 
-        return $this->view(false,
-            [
+        return $this->view(false, [
                 'data'=>$data,
                 'pages_count'=>$pagesCount,
                 'paging_param'=>'page',
                 'pagination'=>$getProducts->links('pagination::bootstrap-4')
-            ]
-        );
+        ]);
     }
 
 }
