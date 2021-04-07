@@ -109,7 +109,7 @@
         </div>
 
         <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
-            <div class="col-9 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
+            <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
 
                 @hasSection('checkout_sidebar')
                     @yield('checkout_sidebar')
