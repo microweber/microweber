@@ -22,6 +22,11 @@ class CheckoutController extends Controller {
     use PaymentTrait;
 
     public function login() {
+
+        if (is_logged()) {
+            return redirect(route('checkout.contact_information'));
+        }
+
         return $this->_renderView('checkout::login');
     }
 

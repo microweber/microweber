@@ -12,6 +12,23 @@ trait ContactInformationTrait {
         $data['errors'] = session_get('errors');
         $data['checkout_session'] = session_get('checkout');
 
+        if (is_logged()) {
+            $user = get_user();
+            if (empty($data['checkout_session']['first_name'])) {
+                $data['checkout_session']['first_name'] = $user['first_name'];
+            }
+            if (empty($data['checkout_session']['last_name'])) {
+                $data['checkout_session']['last_name'] = $user['last_name'];
+
+            }
+            if (empty($data['checkout_session']['email'])) {
+                $data['checkout_session']['email'] = $user['email'];
+            }
+            if (empty($data['checkout_session']['phone'])) {
+                $data['checkout_session']['phone'] = $user['phone'];
+            }
+        }
+
         session_del('errors');
 
         return $this->_renderView('checkout::contact_information',$data);

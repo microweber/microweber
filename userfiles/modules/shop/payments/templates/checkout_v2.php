@@ -28,10 +28,16 @@ description: Checkout V2
                             <li>
                                 <div class="form-group my-1">
                                     <div class="custom-control custom-radio checkout-v2-radio d-flex align-self-center pl-0 pt-3 ">
-                                        <input type="radio" id="option-<?php print $count; ?>" <?php if ($count == 1): ?> checked="checked" <?php endif; ?>
-                                               value="<?php print  $payment_option['gw_file']; ?>"
-                                               name="payment_gw"/>
-                                        <label class="mx-2 mb-0" for="control-label option-<?php print $count; ?>"><?php print  _e($payment_option['name']); ?></label>
+
+                                        <label class="mx-2 mb-0" for="payment-option-<?php print $count; ?>">
+
+                                        <input type="radio" id="payment-option-<?php print $count; ?>" <?php if ($count == 1): ?> checked="checked" <?php endif; ?>  value="<?php print  $payment_option['gw_file']; ?>"  name="payment_gw"/>
+
+                                            <img src="<?php echo $payment_option['icon']; ?>" style="width:32px;" />
+
+                                           <?php print  _e($payment_option['name']); ?>
+
+                                        </label>
 
                                     </div>
                                 </div>
