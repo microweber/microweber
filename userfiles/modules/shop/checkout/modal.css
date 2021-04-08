@@ -76,7 +76,7 @@
     border-radius: 2px
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item {
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item {
     font-size: 14px;
     border-bottom: 1px solid #c3c3c3;
     padding: 10px 0;
@@ -84,78 +84,81 @@
     justify-content: center;
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .ul {
+
+.checkout-modal .checkout-modal-products-wrapper .products {
+    height: 400px;
+    max-height: 400px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item .ul {
     list-style-type: none;
     margin-bottom: 0.4rem;
 }
 
 @media screen and (max-width: 767px) {
-    .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item img {
+    .checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item img {
         max-width: 200px;
         margin: 0 auto;
         display: block
     }
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item:hover {
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item:hover {
     background: #fff
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action {
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action {
     padding-left: 0;
     padding-right: 0
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action a {
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action a {
     color: #282627;
     opacity: 1;
     display: inline-block
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-qty {
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-qty {
     padding-left: 0;
     padding-right: 0;
     text-align: center
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-qty select {
+ .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-qty select {
     margin-top: 25px
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action .tooltip {
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action .tooltip {
     margin-top: 5px
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
     /*padding-top: 35px;*/
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price {
+.checkout-modal  .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal .js-shopping-cart .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price {
     text-align: center
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder, .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder {
+.checkout-modal  .checkout-modal-amount-holder .checkout-modal-promocode-holder, .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder {
     /*padding-top: 35px*/
 }
 
 
-.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder p, .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder p {
+.checkout-modal  .checkout-modal-amount-holder .checkout-modal-promocode-holder p, .checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder p {
     margin-bottom: 20px
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder .btn {
-    border-bottom-right-radius: 2px;
-    border-top-right-radius: 2px
-}
-
-.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-promocode-holder .form-control {
+.checkout-modal  .checkout-modal-amount-holder .checkout-modal-promocode-holder .form-control {
     margin: 0
 }
 
-.checkout-modal .js-shopping-cart .checkout-modal-amount-holder .checkout-modal-total-holder, .checkout-modal .js-step-content {
+.checkout-modal  .checkout-modal-amount-holder .checkout-modal-total-holder, .checkout-modal .js-step-content {
     font-size: 16px
 }
 
@@ -164,7 +167,7 @@
     font-weight: bold;
 }
 
-.checkout-modal .js-step-content .form-control {
+.checkout-modal .form-control {
     margin-bottom: 10px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -172,15 +175,15 @@
     font-size: 14px
 }
 
-.checkout-modal .js-step-content .row .field-holder {
+.checkout-modal .row .field-holder {
     margin-bottom: 0
 }
 
-.checkout-modal .js-step-content .row .field-holder .bootstrap-select, .checkout-modal .js-step-content .row .field-holder .form-control {
+.checkout-modal .row .field-holder .bootstrap-select, .checkout-modal .js-step-content .row .field-holder .form-control {
     width: 100% !important
 }
 
-.checkout-modal .js-step-content .row .field-holder .bootstrap-select .btn {
+.checkout-modal .row .field-holder .bootstrap-select .btn {
     margin-bottom: 10px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -188,23 +191,23 @@
     border: 0
 }
 
-.checkout-modal .js-step-content .row:after {
+.checkout-modal .row:after {
     display: block;
     clear: both;
     content: ''
 }
 
-.checkout-modal .js-step-content .row.x2, .checkout-modal .js-step-content .row.x3 {
+.checkout-modal .row.x2, .checkout-modal .js-step-content .row.x3 {
     margin: 0 -5px
 }
 
-.checkout-modal .js-step-content .row.x2 .field-holder {
+.checkout-modal .row.x2 .field-holder {
     float: left;
     width: 50%;
     padding: 0 5px
 }
 
-.checkout-modal .js-step-content .row.x3 .field-holder {
+.checkout-modal .row.x3 .field-holder {
     float: left;
     width: 33.3%;
     padding: 0 5px
@@ -242,11 +245,6 @@
 
 }
 
-.modal-content .form-control {
-    height: calc(1.5em + .75rem + 2px);
-    text-transform: none;
-    padding: 5px 10px;
-}
 
 /* End of .modal-content */
 
