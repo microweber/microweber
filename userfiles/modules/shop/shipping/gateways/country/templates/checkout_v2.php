@@ -11,17 +11,6 @@ description: Default
 */
 ?>
 
-<script>
-    $(document).ready(function () {
-
-        if (!!$.fn.selectpicker) {
-            $('.selectpicker').selectpicker();
-        }
-
-    });
-</script>
-
-
 <div class="<?php print $config['module_class'] ?>" id="<?php print $module_wrapper_id ?>">
 
     <?php $selected_country = mw()->user_manager->session_get('shipping_country'); ?>
@@ -40,7 +29,7 @@ description: Default
                    <?php if ($data) { ?>
                        <div class="form-group">
                            <label><?php _e("Country"); ?></label>
-                           <select required name="country" class="selectpicker shipping-country-select w-100">
+                           <select required name="country" class="form-control shipping-country-select w-100">
                                <option value=""><?php _e("Country"); ?></option>
                                <?php foreach ($data as $item): ?>
                                    <option value="<?php print $item['shipping_country'] ?>" <?php if (isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
