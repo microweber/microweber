@@ -15,23 +15,30 @@ description: Login default
 <?php $have_social_login = false; ?>
 <script>mw.moduleCSS("<?php print modules_url(); ?>users/login/templates.css")</script>
 
-<div id="mw-login" class="module-login card mt-5">
+<div id="mw-login" class="module-login mt-5 col-12">
     <?php if ($user != false): ?>
         <div>
             <module type="users/profile"/>
         </div>
     <?php else: ?>
-        <div id="user_login_holder_<?php print $params['id'] ?>" class="card-body">
+        <div id="user_login_holder_<?php print $params['id'] ?>">
 
-            <h5><?php _e("Login"); ?></h5>
+            <div class="d-flex pb-4">
+                <h4><?php _e("Login"); ?></h4>
+                <a class="ml-auto align-self-center" href="<?php print route('checkout.register'); ?>">
+                    <?php _e("New registration"); ?>
+                </a>
+            </div>
             <br />
 
             <form method="post" id="user_login_<?php print $params['id'] ?>" class="clearfix" action="#">
                 <div class="control-group form-group">
-                    <input class="large-field form-control" name="username" <?php if (isset($input['username']) != false): ?> value="<?php print $input['username'] ?>"  <?php endif;  ?> type="text" placeholder="<?php _e("Email or username"); ?>"/>
+                    <label class="control-label"><?php _e("Email or username"); ?></label>
+                    <input class="large-field form-control" name="username" <?php if (isset($input['username']) != false): ?> value="<?php print $input['username'] ?>"  <?php endif;  ?> type="text" />
                 </div>
                 <div class="control-group form-group">
-                    <input class="large-field form-control" name="password" <?php if (isset($input['password']) != false): ?> value="<?php print $input['password'] ?>"  <?php endif;  ?> type="password" placeholder="<?php _e("Password"); ?>"/>
+                    <label class="control-label"><?php _e("Password"); ?></label>
+                    <input class="large-field form-control" name="password" <?php if (isset($input['password']) != false): ?> value="<?php print $input['password'] ?>"  <?php endif;  ?> type="password" />
                 </div>
                 <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
                     <module type="captcha" template="admin" />
@@ -39,12 +46,6 @@ description: Login default
                 <a class="reset-password-link" href="<?php print forgot_password_url(); ?>">
                     <?php _e("Forgot password"); ?>
                     ?</a>
-
-                <br />
-                <br />
-                <a href="<?php print route('checkout.register'); ?>">
-                    <?php _e("I don't have account?"); ?>
-                </a>
 
                 <div class="alert" style="margin: 0;display: none;"></div>
                 <div class="social-login">
@@ -90,7 +91,7 @@ description: Login default
                     </ul>
                 <?php } ?>
                 </div>
-                <button class="btn btn-primary pull-right" type="submit"><i class="mdi mdi-key"></i> <?php _e("Login"); ?></button>
+                <button class="btn btn-outline-primary pull-right px-5" type="submit"> <?php _e("Login"); ?></button>
 
                 <?php if (isset($_GET['redirect'])): ?>
                 <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
