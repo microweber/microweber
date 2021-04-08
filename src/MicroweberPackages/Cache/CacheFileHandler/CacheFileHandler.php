@@ -18,20 +18,20 @@ class CacheFileHandler
         NAMESPACES = 'namespaces',
         ALL = 'all';
 
-    /** @internal cache file structure: meta-struct size + serialized meta-struct + data */
-    private const META_HEADER_LEN = 6;
-    private const META_TIME = 'time'; // timestamp
-    private const META_EXPIRE = 'expire'; // expiration timestamp
-    private const META_DELTA = 'delta'; // relative (sliding) expiration
-    private const META_CALLBACKS = 'callbacks'; // array of callbacks (function, args)
-    private const META_ITEMS = 'di'; // array of dependent items (file => timestamp)
-    private const META_SERIALIZED = 'serialized'; // is content serialized?
+    /** @public cache file structure: meta-struct size + serialized meta-struct + data */
+    public const META_HEADER_LEN = 6;
+    public const META_TIME = 'time'; // timestamp
+    public const META_EXPIRE = 'expire'; // expiration timestamp
+    public const META_DELTA = 'delta'; // relative (sliding) expiration
+    public const META_CALLBACKS = 'callbacks'; // array of callbacks (function, args)
+    public const META_ITEMS = 'di'; // array of dependent items (file => timestamp)
+    public const META_SERIALIZED = 'serialized'; // is content serialized?
 
     /** @var array */
-    private $locks;
+    public $locks;
 
     /** additional cache structure */
-    private const
+    public const
         FILE = 'file',
         HANDLE = 'handle';
 
