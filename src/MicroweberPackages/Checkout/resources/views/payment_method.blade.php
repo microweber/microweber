@@ -40,8 +40,17 @@
                         $shippingGatewayModuleInfo = module_info($checkout_session['shipping_gw']);
                         ?>
                             <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:38px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
-
                         <?php } ?>
+                        <?php if(!empty($checkout_session['country'])):?>
+                            <hr />
+                            <?php if (!empty($checkout_session['country'])) { echo $checkout_session['country']; } ?>
+                            <?php if (!empty($checkout_session['city'])) {  echo ', ' . $checkout_session['city']; } ?>
+                            <?php if (!empty($checkout_session['address'])) { echo  ', ' .  $checkout_session['address']; } ?>
+                            <?php if (!empty($checkout_session['zip'])) { echo  ',  ' .  $checkout_session['zip'] . '<br />'; } ?>
+
+                            <?php if (!empty($checkout_session['other_info'])) { echo '<div class="mt-2"><i class="mdi mdi-comment"></i> ' .  $checkout_session['other_info'] . '<br /></div>'; } ?>
+
+                        <?php endif; ?>
                     </div>
 
                     <div class="col-2 justify-content-end text-right align-self-top px-0">

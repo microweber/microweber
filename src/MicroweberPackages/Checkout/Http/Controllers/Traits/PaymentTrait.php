@@ -24,7 +24,7 @@ trait PaymentTrait {
 
         $data = [];
         $data['errors'] = session_get('errors');
-        $data['checkout_session'] = session_get('checkout');
+        $data['checkout_session'] = session_get('checkout_v2');
 
         session_del('errors');
 
@@ -33,12 +33,15 @@ trait PaymentTrait {
 
     public function paymentMethodSave(Request $request) {
 
-        session_append_array('checkout', [
+        session_append_array('checkout_v2', [
             'payment_gw'=> $request->get('payment_gw'),
             'terms'=> $request->get('terms'),
         ]);
 
-        $checkoutData = session_get('checkout');
+        $checkoutData = session_get('checkout_v2');
+
+        // Add new session to old session
+        $checkoutData = session_set('checkout', $checkoutData);
 
         try {
             $sendCheckout = app()->checkout_manager->checkout($checkoutData);

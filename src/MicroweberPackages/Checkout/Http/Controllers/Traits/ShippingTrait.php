@@ -17,7 +17,7 @@ trait ShippingTrait {
 
         $data = [];
         $data['errors'] = session_get('errors');
-        $data['checkout_session'] = session_get('checkout');
+        $data['checkout_session'] = session_get('checkout_v2');
 
         session_del('errors');
 
@@ -35,7 +35,7 @@ trait ShippingTrait {
             ]);
         }
 
-        session_append_array('checkout', [
+        session_append_array('checkout_v2', [
             'shipping_gw'=> $request->get('shipping_gw'),
             'city'=> $request->get('city'),
             'address'=> $request->get('address'),
@@ -88,7 +88,7 @@ trait ShippingTrait {
             return ['valid'=>true];
         }
 
-        $validator = \Validator::make(session_get('checkout'), $rules);
+        $validator = \Validator::make(session_get('checkout_v2'), $rules);
 
         if ($validator->fails()) {
             $errors = $validator->messages()->toArray();

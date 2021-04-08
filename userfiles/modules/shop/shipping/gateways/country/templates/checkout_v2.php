@@ -27,7 +27,7 @@ description: Default
     <?php $selected_country = mw()->user_manager->session_get('shipping_country'); ?>
 
     <?php
-    $checkout_session = session_get('checkout');
+    $checkout_session = session_get('checkout_v2');
     ?>
        <?php if(!$disable_default_shipping_fields) :?>
            <div class="col-12">

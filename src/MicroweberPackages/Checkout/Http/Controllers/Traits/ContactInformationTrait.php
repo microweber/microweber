@@ -10,7 +10,7 @@ trait ContactInformationTrait {
 
         $data = [];
         $data['errors'] = session_get('errors');
-        $data['checkout_session'] = session_get('checkout');
+        $data['checkout_session'] = session_get('checkout_v2');
 
         if (is_logged()) {
             $user = get_user();
@@ -36,7 +36,7 @@ trait ContactInformationTrait {
 
     public function contactInformationSave(Request $request) {
 
-        session_append_array('checkout', [
+        session_append_array('checkout_v2', [
             'first_name'=> $request->get('first_name'),
             'last_name'=> $request->get('last_name'),
             'email'=> $request->get('email'),
@@ -80,7 +80,7 @@ trait ContactInformationTrait {
         }
 
         if (empty($inputData)) {
-            $inputData = session_get('checkout');
+            $inputData = session_get('checkout_v2');
         }
 
         if (empty($inputData)) {
