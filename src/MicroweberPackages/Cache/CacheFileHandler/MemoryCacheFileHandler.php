@@ -24,10 +24,14 @@ class MemoryCacheFileHandler extends CacheFileHandler
     {
         if (isset($this->cacheMemory[$key])) {
             unset($this->cacheMemory[$key]);
-            if (isset($this->cacheMemory['files'][$key])) {
-                unset($this->cacheMemory['files'][$key]);
-            }
         }
+
+        if (isset($this->cacheMemory['files'][$key])) {
+            unset($this->cacheMemory['files'][$key]);
+        }
+
+
+
         return parent::writeToCache($key, $data, $dp);
     }
     protected function readData(array $meta)
