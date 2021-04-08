@@ -26,31 +26,23 @@ class MemoryCacheFileHandler extends CacheFileHandler
             unset($this->cacheMemory[$key]);
         }
 
-        if (isset($this->cacheMemory['files'][$key])) {
-            unset($this->cacheMemory['files'][$key]);
+        if (isset($this->cacheMemory['files']) and isset($this->cacheMemory['files'][$key])) {
+           unset($this->cacheMemory['files'][$key]);
         }
-
-
 
         return parent::writeToCache($key, $data, $dp);
     }
+
     protected function readData(array $meta)
     {
 
         if (isset($meta['file']) and isset($this->cacheMemory['files'][$meta['file']])) {
-            return $this->cacheMemory['files'][$meta['file']];
+           return $this->cacheMemory['files'][$meta['file']];
         }
 
-
-        $data = null;
         if (is_resource($meta[self::HANDLE])) {
-            $data = stream_get_contents($meta[self::HANDLE]);
-            flock($meta[self::HANDLE], LOCK_UN);
-            fclose($meta[self::HANDLE]);
-            $v = empty($meta[self::META_SERIALIZED]) ? $data : unserialize($data);
+            $v = parent::readData($meta);;
             $this->cacheMemory['files'][$meta['file']] = $v;
-
-
             return $v;
         }
 
