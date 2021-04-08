@@ -78,6 +78,8 @@ description: Default register template
 
             <button type="submit" class="btn btn-success btn-lg btn-block m-t-30 m-b-20"><?php print $form_btn_title ?></button>
 
+            <input type="hidden" name="login" value="<?php echo route('checkout.contact_information'); ?>" />
+
             <div class="text-center">
             <b> <?php _e("OR"); ?></b>
                 <br />

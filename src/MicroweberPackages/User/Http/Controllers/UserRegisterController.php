@@ -64,6 +64,10 @@ class UserRegisterController extends Controller
             }
         }
 
+        if (!isset($userData['username'])) {
+            $userData['username'] = explode('@', $userData['email'])[0];
+        }
+
         // $registration_approval_required = get_option('registration_approval_required', 'users');
         $registration_approval_required = Option::getValue('registration_approval_required', 'users');
         $isVerfiedEmailRequired = Option::getValue('register_email_verify', 'users');
