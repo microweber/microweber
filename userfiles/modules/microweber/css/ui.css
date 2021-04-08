@@ -7938,7 +7938,17 @@ div.number {
 }
 
 i.shipping-icons-checkout-v2.mdi{
-    font-size: 36px;
+     font-size: 36px;
+ }
+
+i.checkout-v2-finish-icon.mdi{
+    font-size: 60px;
+    color: #dedede;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 580px;
+
 }
 
 .checkout-v2-logo {

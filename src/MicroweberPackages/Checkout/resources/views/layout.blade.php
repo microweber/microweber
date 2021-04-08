@@ -81,25 +81,22 @@
             </div>
         </div>
 
-        <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
-            <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
 
                 @hasSection('checkout_sidebar')
+        <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
+            <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
                     @yield('checkout_sidebar')
+
                 @else
-                <div class="text-left">
-                    <h6 class="m-t-80"><?php _e("Your order"); ?></h6>
-                    <small class="text-muted d-block mb-2"> <?php _e("List with products"); ?></small>
+            <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
+                <div class="col-12">
+                    <div class="row align-self-center justify-content-center">
+                        <i class="checkout-v2-finish-icon mdi mdi-checkbox-marked-circle-outline"></i>
+                    </div>
                 </div>
-
-                <div class="pt-3">
-                    <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n" />
-                </div>
-
-             @endif
-
             </div>
-        </div>
+                @endif
+
     </div>
 </section>
 </body>

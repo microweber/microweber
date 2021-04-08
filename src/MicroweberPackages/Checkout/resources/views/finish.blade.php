@@ -1,22 +1,24 @@
 @extends('checkout::layout')
 
 @section('checkout_sidebar')
-    Order info:
-    @dump($order)
 @endsection
-
 
 @section('content')
 
     <div class="col-12">
         <form method="post" action="{{ route('checkout.shipping_method_save') }}">
-            <div class="shop-cart" style="margin-top:25px;">
+            <div class="shop-cart m-t-100 text-center">
 
-                <h1>Thank you, {{$order['first_name']}} {{$order['last_name']}}!</h1>
+                <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
+                <h4><?php _e("Thank you"); ?>!</h4>
 
-                <h2 class="text-uppercase">
-                    <a href="{{ site_url() }}">Back to {{get_option('website_title', 'website')}}</a>
-                </h2>
+
+                <label class="control-label mt-4 mb-0"><?php _e("Order number"); ?></label>
+                <h4><?php _e($order['id']); ?>!</h4>
+
+                <div class="mt-4">
+                    <a href="{{ site_url() }}"><?php _e("Go to website"); ?></a>
+                </div>
 
             </div>
 
