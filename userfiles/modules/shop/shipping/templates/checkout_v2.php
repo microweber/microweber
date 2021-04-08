@@ -13,7 +13,7 @@
             newShippingModuleElement.attr('id', 'mw-shipping-gateway-module-render-'+shippingModule);
             newShippingModuleElement.attr('data-type',shippingModulePath);
             newShippingModuleElement.attr('class','js-shipping-gateway-module-box');
-           // newShippingModuleElement.attr('template','checkout_v2');
+            newShippingModuleElement.attr('template','checkout_v2');
 
             mw.reload_module(newShippingModuleElement);
         });
