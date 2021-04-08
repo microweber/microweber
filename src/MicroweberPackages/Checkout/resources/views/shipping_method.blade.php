@@ -29,7 +29,7 @@
             @include('checkout::contact_information_card')
 
             <div class="shop-cart-shipping mb-3">
-                 <module type="shop/shipping" template="checkout_v2" data-store-values="true" />
+                 <module type="shop/shipping" selected_provider="{{$checkout_session['shipping_gw']}}" template="checkout_v2" data-store-values="true" />
             </div>
         </div>
 
