@@ -109,6 +109,8 @@
             ];
         };
 
+        this.getPosition()
+
         this.init();
     };
 
@@ -139,8 +141,7 @@
         this.settings = mw.object.extend({}, defaults, options);
 
         this.service = new ElementAnalyzerService(this.settings);
-
-
+        
     };
 })();
 

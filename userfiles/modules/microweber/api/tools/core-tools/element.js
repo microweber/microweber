@@ -156,6 +156,13 @@
             return this;
         };
 
+        this.removeAttr = function (attr) {
+            this.each(function (){
+                this.removeAttribute(attr);
+            });
+            return this;
+        };
+
         this.val = function(val){
             if(typeof val === 'undefined') {
                 return this._active().value;
@@ -409,6 +416,10 @@
                     this.nodes = [].slice.call(el.children);
                     this._asElement = true;
                 }
+            } else if(Array.isArray(options)) { // array of elements
+                this.nodes = options;
+                options = {};
+                this._asElement = true;
             }
 
             options = options || {};

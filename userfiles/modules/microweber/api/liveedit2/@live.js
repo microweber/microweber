@@ -10,11 +10,16 @@ mw.live = function () {
         mw.element(target)[action](candidate);
         this.dispatch('elementInsert', {candidate: candidate, target: target, action: action});
     };
+
+
     this.moveElement = function (candidate, target, action) {
         this.dispatch('beforeElementMove', {candidate: candidate, target: target, action: action});
         mw.element(target)[action](candidate);
         this.dispatch('elementMove', {candidate: candidate, target: target, action: action});
     };
+
+
+
 
 
 };
