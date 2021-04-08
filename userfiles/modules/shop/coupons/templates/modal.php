@@ -42,7 +42,7 @@ $applied_code = '';
                                     <input type="text" name="coupon_code" class="form-control js-coupon-code" placeholder="<?php _e("Enter coupon code"); ?>"/>
                                     <div class="js-coupon-code-messages text-danger mt-2"></div>
                                 </div>
-                                <div class="col-xs-6 ml-xl-auto">
+                                <div class="col-xs-6">
                                     <button type="button" class="btn btn-outline-primary js-apply-coupon-code px-4"><?php _e("Apply"); ?></button>
                                 </div>
                             </div>
