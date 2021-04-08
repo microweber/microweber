@@ -16,29 +16,25 @@
         </div>
 
         <div class="form-group @if(isset($errors['first_name'])) has-danger @endif">
-            <label for="exampleInputFirstName"><?php _e("First Name"); ?></label>
-            <input name="first_name" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>" class="form-control @if(isset($errors['first_name'])) is-invalid @endif"
-                   placeholder="<?php _e("First Name"); ?>">
+            <label><?php _e("First Name"); ?></label>
+            <input name="first_name" type="text" value="<?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>" class="form-control @if(isset($errors['first_name'])) is-invalid @endif">
 
             @if(isset($errors['first_name']))<span class="invalid-feedback">{{$errors['first_name'][0]}}</span>@endif
         </div>
         <div class="form-group @if(isset($errors['last_name'])) has-danger @endif">
-            <label for="exampleInputLastName"><?php _e("Last Name"); ?></label>
-            <input name="last_name" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>" class="form-control @if(isset($errors['last_name'])) is-invalid @endif"
-                   placeholder="<?php _e("Last Name"); ?>">
+            <label><?php _e("Last Name"); ?></label>
+            <input name="last_name" type="text" value="<?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>" class="form-control @if(isset($errors['last_name'])) is-invalid @endif">
             @if(isset($errors['last_name']))<span class="invalid-feedback">{{$errors['last_name'][0]}}</span>@endif
         </div>
 
         <div class="form-group @if(isset($errors['email'])) has-danger @endif">
-            <label for="exampleInputEmail1"><?php _e("Email"); ?></label>
-            <input name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control @if(isset($errors['email'])) is-invalid @endif"
-                   placeholder="<?php _e("Enter email"); ?>">
+            <label><?php _e("Email"); ?></label>
+            <input name="email" type="email" value="<?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>" class="form-control @if(isset($errors['email'])) is-invalid @endif">
             @if(isset($errors['email']))<span class="invalid-feedback">{{$errors['email'][0]}}</span>@endif
         </div>
         <div class="form-group @if(isset($errors['phone'])) has-danger @endif">
-            <label for="exampleInputPhone"><?php _e("Phone"); ?></label>
-            <input name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control @if(isset($errors['phone'])) is-invalid @endif"
-                   placeholder="<?php _e("Enter phone"); ?>">
+            <label><?php _e("Phone"); ?></label>
+            <input name="phone" type="text" value="<?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>" class="form-control @if(isset($errors['phone'])) is-invalid @endif">
             @if(isset($errors['phone']))<span class="invalid-feedback">{{$errors['phone'][0]}}</span>@endif
         </div>
 
