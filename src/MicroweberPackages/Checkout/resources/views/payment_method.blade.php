@@ -35,7 +35,13 @@
             <div class="card mb-3">
                 <div class="card-body d-flex p-3">
                     <div class="col-10">
-                        <?php if (!empty($checkout_session['shipping_gw'])) echo $checkout_session['shipping_gw']; ?>
+                        <?php
+                        if (!empty($checkout_session['shipping_gw'])) {
+                        $shippingGatewayModuleInfo = module_info($checkout_session['shipping_gw']);
+                        ?>
+                            <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:38px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
+                            
+                        <?php } ?>
                     </div>
 
                     <div class="col-2 justify-content-end text-right align-self-top px-0">
