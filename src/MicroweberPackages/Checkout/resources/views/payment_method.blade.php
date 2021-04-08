@@ -27,24 +27,7 @@
             <label class="font-weight-bold control-label mb-0"><?php _e("Personal information"); ?></label>
             <small class="text-muted d-block mb-2"> <?php _e("Your information"); ?></small>
 
-            <div class="card mb-3">
-                <div class="card-body d-flex p-3">
-
-                    <div class="col-10">
-                        <?php if (!empty($checkout_session['first_name'])) echo $checkout_session['first_name']; ?>
-                        <?php if (!empty($checkout_session['last_name'])) echo $checkout_session['last_name']; ?>
-                        <br/>
-                        <?php if (!empty($checkout_session['phone'])) echo $checkout_session['phone']; ?>
-                        <br />
-                        <?php if (!empty($checkout_session['email'])) echo $checkout_session['email']; ?>
-                        <br />
-                    </div>
-
-                    <div class="col-2 justify-content-end text-right align-self-top px-0">
-                        <a href="{{ route('checkout.contact_information') }}" class="btn btn-link text-right">{{ _e('Edit') }}</a>
-                    </div>
-                </div>
-            </div>
+            @include('checkout::contact_information_card')
 
             <label class="font-weight-bold control-label mb-0 pt-2"><?php _e("Shipping method"); ?></label>
             <small class="text-muted d-block mb-2"> <?php _e("Your choice"); ?></small>
