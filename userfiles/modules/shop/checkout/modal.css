@@ -86,7 +86,6 @@
 
 
 .checkout-modal .checkout-modal-products-wrapper .products {
-    height: 400px;
     max-height: 400px;
     overflow: auto;
     overflow-x: hidden;
