@@ -14,10 +14,10 @@ class LangTest extends TestCase
         $lang_string_test1 = _e('Product', true);
         $this->assertEquals('Product', $lang_string_test1);
 
-        \DB::table('translation_texts')->where('translation_locale','bg_BG')->delete();
-
-        $install_lang = TranslationPackageInstallHelper::installLanguage('bg_BG');
-        $this->assertArrayHasKey('success', $install_lang);
+//        \DB::table('translation_texts')->where('translation_locale','bg_BG')->delete();
+//
+//        $install_lang = TranslationPackageInstallHelper::installLanguage('bg_BG');
+ //       $this->assertArrayHasKey('success', $install_lang);
 
         $current_lang = current_lang();
         set_current_lang('bg_BG');
