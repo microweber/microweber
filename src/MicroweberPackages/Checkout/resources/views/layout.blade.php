@@ -37,44 +37,6 @@
             height: 100%;
             min-height: 100%;
         }
-
-        .checkout-v2-sidebar {
-            background-color: #f5f5f5;
-        }
-
-        .checkout-v2-radio input[type=radio] {
-            width: 20px;
-            height: 20px;
-        }
-
-        i.shipping-icons-checkout-v2.mdi{
-            font-size: 36px;
-        }
-
-        .checkout-v2-logo {
-            width: 35%;
-        }
-
-        .checkout-v2-remove-icon a:hover {
-            text-decoration: none;
-        }
-        .checkout-v2-remove-icon a:active {
-            text-decoration: none;
-        }
-
-        .checkout-v2-remove-icon:hover {
-            color: black!important;
-        }
-
-        .mw-order-custom-fields ul {
-            list-style-type: none;
-            margin-bottom: 0.4rem;
-        }
-
-        .mw-order-custom-fields ul li {
-            margin-bottom: 5px;
-        }
-
     </style>
 
     <!--[if lt IE 9]>
@@ -139,9 +101,7 @@
             </div>
         </div>
     </div>
-
 </section>
-
 </body>
 </html>
 
