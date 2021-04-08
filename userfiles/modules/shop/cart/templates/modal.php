@@ -46,8 +46,8 @@ $total = cart_total();
        <div class="checkout-modal-products-wrapper">
            <?php if (is_array($data) and $data) : ?>
                <?php foreach ($data as $item) :?>
-                   <div class="form-row checkout-modal-product-list-item">
-                       <div class="col-lg-5 col-auto d-flex">
+                   <div class="form-row checkout-modal-product-list-item pb-5">
+                       <div class="col-lg-2 col-auto d-flex">
                            <?php if (isset($item['item_image']) and $item['item_image'] != false): ?>
                                <?php $p = $item['item_image']; ?>
                            <?php else: ?>
@@ -57,21 +57,21 @@ $total = cart_total();
                                <img style="max-width:70px; max-height:70px;" src="<?php print thumbnail($p, 70, 70, true); ?>" alt=""/>
                            <?php endif; ?>
 
-                           <div class="mw-order-custom-fields font-weight-bold align-self-center mx-4">
-                               <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
-                                   <?php print $item['custom_fields'] ?>
-                               <?php endif ?>
-                           </div>
                        </div>
 
                        <div class="col-auto col-lg">
                            <div class="form-row h-100">
                                <div class="col-10">
                                    <div class="form-row align-items-md-center h-100 ">
-                                       <div class="col-12 col-md-5">
+                                       <div class="col-12 col-md-8">
                                            <h6><?php _e($item['title']) ?></h6>
+                                           <small class="text-muted mw-order-custom-fields">
+                                               <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
+                                                   <?php print $item['custom_fields'] ?>
+                                               <?php endif ?>
+                                           </small>
                                        </div>
-                                       <div class="col-6 col-md-3 align-self-center justify-content-md-center">
+                                       <div class="col-6 col-md-2 align-self-center justify-content-md-center">
                                            <h6><?php print currency_format($item['price']); ?></h6>
                                        </div>
                                        <div class="col-6 col-md-2 align-self-center justify-content-md-center mw-qty-field">
@@ -79,8 +79,8 @@ $total = cart_total();
                                        </div>
                                    </div>
                                </div>
-                               <div class="col-2 justify-content-center align-self-center">
-                                   <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center justify-content-md-end">delete_forever</i></a>
+                               <div class="checkout-v2-remove-icon col-auto justify-content-end align-self-center">
+                                   <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end" style="font-size: 24px"></i></a>
                                </div>
                            </div>
                        </div>
@@ -92,7 +92,7 @@ $total = cart_total();
 
            <?php if (is_array($data) and $data) : ?>
                <div class="checkout-modal-amount-holder form-row mt-4">
-                   <div class="col-sm-6 checkout-modal-promocode-holder ml-auto">
+                   <div class="col-sm-6 checkout-modal-promocode-holder">
                        <?php if (get_option('enable_coupons', 'shop') == 1): ?>
                            <?php
                            $discountData = app()->cart_manager->totals('discount');
@@ -101,15 +101,13 @@ $total = cart_total();
                        <?php endif; ?>
                    </div>
                    <div class="col-sm-6 checkout-modal-total-holder ">
-                       <div class="d-flex justify-content-md-end align-items-center">
                            <module type="shop/cart" template="totals" />
-                       </div>
                    </div>
 
                    <div class="w-100 mt-2">
-                       <a href="#" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><i class="mdi mdi-shopping"></i> <?php _e('Continue shopping'); ?></a>
+                       <a href="#" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><?php _e('Continue shopping'); ?></a>
 
-                       <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary ml-3"><i class="mdi mdi-contactless-payment"></i> <?php _e('Checkout'); ?></a>
+                       <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-right"><?php _e('Proceed to Checkout'); ?></a>
                    </div>
                </div>
            <?php endif; ?>

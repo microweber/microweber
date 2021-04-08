@@ -32,13 +32,12 @@ description: Checkout
        <div class="clear"></div>
        <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post">
            <div class="modal-content">
-               <div class="modal-header">
+               <div class="checkout-modal-header">
                    <?php if(!isset($params['no-close-btn'])) { ?>
                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                    aria-hidden="true">&times;</span></button>
                    <?php } ?>
 
-                   <?php _e('Your shopping cart'); ?>
                </div>
 
                <div class="modal-body">
