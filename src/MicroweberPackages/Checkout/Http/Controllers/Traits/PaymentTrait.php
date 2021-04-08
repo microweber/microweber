@@ -52,14 +52,6 @@ trait PaymentTrait {
             return redirect(route('checkout.payment_method'));
         }
 
-        if (is_object($sendCheckout)) {
-            $sendCheckout = $sendCheckout->getOriginalContent();
-            if (isset($sendCheckout['errors'])) {
-                session_set('errors', $sendCheckout['errors']);
-                return redirect(route('checkout.payment_method'));
-            }
-        }
-
         // Payment error
         if (isset($sendCheckout['error'])) {
             session_set('errors', [
@@ -75,6 +67,8 @@ trait PaymentTrait {
             ]);
             return redirect(route('checkout.cart'));
         }
+
+        // session_del('checkout_v2');
 
         return redirect(route('checkout.finish', $sendCheckout['id']));
     }
