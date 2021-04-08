@@ -15,20 +15,17 @@ description: Login default
 <?php $have_social_login = false; ?>
 <script>mw.moduleCSS("<?php print modules_url(); ?>users/login/templates.css")</script>
 
-<div id="mw-login" class="module-login well">
+<div id="mw-login" class="module-login card mt-5">
     <?php if ($user != false): ?>
         <div>
             <module type="users/profile"/>
         </div>
     <?php else: ?>
-        <div class="box-head">
-            <h2>
-                <?php _e("Login or"); ?>
-                <a href="<?php print route('checkout.register'); ?>">
-                    <?php _e("Register"); ?>
-                </a></h2>
-        </div>
-        <div id="user_login_holder_<?php print $params['id'] ?>">
+        <div id="user_login_holder_<?php print $params['id'] ?>" class="card-body">
+
+            <h5><?php _e("Login"); ?></h5>
+            <br />
+
             <form method="post" id="user_login_<?php print $params['id'] ?>" class="clearfix" action="#">
                 <div class="control-group form-group">
                     <input class="large-field form-control" name="username" <?php if (isset($input['username']) != false): ?> value="<?php print $input['username'] ?>"  <?php endif;  ?> type="text" placeholder="<?php _e("Email or username"); ?>"/>
@@ -42,6 +39,13 @@ description: Login default
                 <a class="reset-password-link" href="<?php print forgot_password_url(); ?>">
                     <?php _e("Forgot password"); ?>
                     ?</a>
+
+                <br />
+                <br />
+                <a href="<?php print route('checkout.register'); ?>">
+                    <?php _e("I don't have account?"); ?>
+                </a>
+
                 <div class="alert" style="margin: 0;display: none;"></div>
                 <div class="social-login">
                     <?php
@@ -86,7 +90,7 @@ description: Login default
                     </ul>
                 <?php } ?>
                 </div>
-                <input class="btn pull-right" type="submit" value="<?php _e("Login"); ?>"/>
+                <button class="btn btn-primary pull-right" type="submit"><i class="mdi mdi-key"></i> <?php _e("Login"); ?></button>
 
                 <?php if (isset($_GET['redirect'])): ?>
                 <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">

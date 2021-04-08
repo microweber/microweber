@@ -13,7 +13,14 @@
                     if (!subm.hasClass("disabled")) {
                         mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
                         mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>'), '<?php print api_link('user_login'); ?>', function (a, b) {
+
                             // mw.response('#user_login_<?php print $params['id'] ?>',this);
+
+                            if (typeof this.message === 'string') {
+                                mw.notification.error(this.message, 2000);
+                                mw.tools.enable(subm);
+                            }
+
                             if (typeof this.success === 'string') {
                                 var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
                                 if (c == undefined || c == '') {
@@ -60,10 +67,13 @@
                                 });
 
                                 <?php endif; ?>
+
+                                mw.notification.msg(this, 5000);
+                                mw.tools.enable(subm);
+
                                 return false;
                             }
-                            mw.notification.msg(this, 5000);
-                            mw.tools.enable(subm);
+
                         });
                     }
                     return false;

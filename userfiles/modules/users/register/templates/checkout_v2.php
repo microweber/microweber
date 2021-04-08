@@ -30,12 +30,11 @@ description: Default register template
         });
     </script>
 
-    <div id="register_form_holder">
-        <h2  class="text-center p-t-10">
-            Register new account.
+<div class="card mt-5">
+    <div id="register_form_holder" class="card-body">
+        <h5><?php _e("Register new account"); ?></h5>
 
-        </h2>
-        <h4 class="text-center p-t-10"> We are glad to welcome you in our community. </h4>
+        <br />
         <form class="p-t-10" action="#" id="user_registration_form_holder" method="post">
             <?php print csrf_form(); ?>
             <?php if ($form_show_first_name): ?>
@@ -77,8 +76,19 @@ description: Default register template
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-default btn-lg btn-block m-t-30 m-b-20"><?php print $form_btn_title ?></button>
+            <button type="submit" class="btn btn-success btn-lg btn-block m-t-30 m-b-20"><?php print $form_btn_title ?></button>
+
+            <div class="text-center">
+            <b> <?php _e("OR"); ?></b>
+                <br />
+                <br />
+            <a class="btn btn-default m-t-3 m-b-20" href="<?php echo route('checkout.login'); ?>">
+              <i class="mdi mdi-key"></i>  <?php _e("Already have account? Login"); ?>
+            </a>
+            </div>
+
         </form>
+    </div>
     </div>
 <?php else: ?>
     <p class="text-center">
