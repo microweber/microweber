@@ -9,18 +9,6 @@
 
 @section('content')
 
-    @if (isset($errors))
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors as $fields)
-                    @foreach ($fields as $field)
-                        <li>{!! $field !!}</li>
-                    @endforeach
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <form method="post" action="{{ route('checkout.payment_method_save') }}">
 
         <div class="shop-cart mt-3">
@@ -58,6 +46,18 @@
                     </div>
                 </div>
             </div>
+
+            @if (isset($errors))
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors as $fields)
+                            @foreach ($fields as $field)
+                                <li>{!! $field !!}</li>
+                            @endforeach
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <module type="shop/payments" template="checkout_v2" />
 

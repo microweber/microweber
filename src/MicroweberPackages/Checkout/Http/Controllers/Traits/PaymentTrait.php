@@ -39,9 +39,15 @@ trait PaymentTrait {
         ]);
 
         $checkoutData = session_get('checkout_v2');
-
         // Add new session to old session
-        $checkoutData = session_set('checkout', $checkoutData);
+        session_set('checkout', $checkoutData);
+
+        if (empty($checkoutData['payment_gw'])) {
+            session_set('errors', [
+                'payment_errors'=>['error'=>_e('Must select payment method', true)]
+            ]);
+            return redirect(route('checkout.payment_method'));
+        }
 
         try {
             $sendCheckout = app()->checkout_manager->checkout($checkoutData);
