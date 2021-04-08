@@ -56,7 +56,7 @@ $total = cart_total();
                    </small>
                </div>
 
-               <div class="col-md-2 col-4 ml-2">
+               <div class="col-md-2 col-3 ml-md-0 ml-5">
                    <h6><?php print currency_format($item['price']); ?></h6>
                </div>
                <div class="col-md-2 col-3 mw-qty-field">
@@ -91,7 +91,7 @@ $total = cart_total();
            <div class="w-100 mt-md-3 justify-content-center text-md-left text-center">
                <a href="#" class="btn btn-outline-primary" data-dismiss="modal" aria-label="Close"><?php _e('Continue shopping'); ?></a>
 
-               <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-md-right mt-md-0 mt-2"><?php _e('Proceed to Checkout'); ?></a>
+               <a href="<?php echo route('checkout.contact_information'); ?>" class="btn btn-primary float-md-right ml-2"><?php _e('Proceed to Checkout'); ?></a>
            </div>
        </div>
    <?php endif; ?>
