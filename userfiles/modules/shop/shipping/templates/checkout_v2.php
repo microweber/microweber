@@ -2,8 +2,8 @@
     showShippingModule = function (shippingModule,shippingModulePath) {
         $('.js-shipping-gateway-box').html('');
         $.ajax({
-            url: "<?php print route('shop.shipping.set_provider') ?>",
-            data: {"provider":shippingModule},
+            url: "<?php print route('checkout.shipping_method_change') ?>",
+            data: {"shipping_gw":shippingModulePath},
             method: 'POST',
         }).done(function() {
             mw.reload_module('shop/cart');

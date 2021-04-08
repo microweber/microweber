@@ -24,6 +24,13 @@ trait ShippingTrait {
         return $this->_renderView('checkout::shipping_method', $data);
     }
 
+    public function shippingMethodChange(Request $request) {
+        session_append_array('checkout_v2', [
+            'shipping_gw'=> $request->get('shipping_gw')
+        ]);
+        return ['success'=>true];
+    }
+
     public function shippingMethodSave(Request $request) {
 
         if (is_array($request->get('Address'))) {

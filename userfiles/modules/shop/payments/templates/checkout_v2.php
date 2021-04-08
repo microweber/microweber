@@ -16,14 +16,20 @@ description: Checkout V2
 
         $('.js-payment-gateway-box').html('');
 
-        var newShippingModuleElement  = $('<div/>').appendTo('#mw-payment-gateway-module-'+paymentModule);
+        $.ajax({
+            url: "<?php print route('checkout.payment_method_change') ?>",
+            data: {"payment_gw":paymentModulePath},
+            method: 'POST',
+        }).done(function() {
+            var newShippingModuleElement = $('<div/>').appendTo('#mw-payment-gateway-module-' + paymentModule);
 
-        newShippingModuleElement.attr('id', 'mw-payment-gateway-module-render-'+paymentModule);
-        newShippingModuleElement.attr('data-type',paymentModulePath);
-        newShippingModuleElement.attr('class','js-payment-gateway-module-box');
-        newShippingModuleElement.attr('template','checkout_v2');
+            newShippingModuleElement.attr('id', 'mw-payment-gateway-module-render-' + paymentModule);
+            newShippingModuleElement.attr('data-type', paymentModulePath);
+            newShippingModuleElement.attr('class', 'js-payment-gateway-module-box');
+            newShippingModuleElement.attr('template', 'checkout_v2');
 
-        mw.reload_module(newShippingModuleElement);
+            mw.reload_module(newShippingModuleElement);
+        });
     }
 </script>
 

@@ -31,6 +31,13 @@ trait PaymentTrait {
         return $this->_renderView('checkout::payment_method', $data);
     }
 
+    public function paymentMethodChange(Request $request) {
+        session_append_array('checkout_v2', [
+            'payment_gw'=> $request->get('payment_gw')
+        ]);
+        return ['success'=>true];
+    }
+
     public function paymentMethodSave(Request $request) {
 
         session_append_array('checkout_v2', [
