@@ -47,7 +47,7 @@ $total = cart_total();
                    <?php endif; ?>
                </div>
 
-               <div class="col-md-4 col-8 ml-md-3">
+               <div class="col-md-6 col-8 ml-md-3">
                    <h6 class="mb-1"><?php _e($item['title']) ?></h6>
                    <small class="text-muted mw-order-custom-fields">
                        <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
@@ -59,12 +59,12 @@ $total = cart_total();
                <div class="col-md-2 col-3 ml-md-0 ml-5">
                    <h6><?php print currency_format($item['price']); ?></h6>
                </div>
-               <div class="col-md-2 col-3 mw-qty-field">
+               <div class="col-md-1 col-3 mw-qty-field">
                    <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/>
                </div>
 
 
-               <div class="col-md-2 col-4 checkout-v2-remove-icon">
+               <div class="col-md-1 col-4 checkout-v2-remove-icon">
                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end" style="font-size: 24px"></i></a>
                </div>
            </div>
