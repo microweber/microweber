@@ -40,7 +40,7 @@
                         $shippingGatewayModuleInfo = module_info($checkout_session['shipping_gw']);
                         ?>
                             <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:38px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
-                            
+
                         <?php } ?>
                     </div>
 

@@ -17,7 +17,7 @@ class CheckoutV2
     {
         $checkCart = get_cart();
         if (!$checkCart) {
-            return redirect(site_url());
+            return redirect(site_url('shop'));
         }
 
         $requiresRegistration = get_option('shop_require_registration', 'website') == '1';
