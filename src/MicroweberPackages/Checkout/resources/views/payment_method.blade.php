@@ -55,15 +55,13 @@
             </div>
 
             @if (isset($errors))
-                <div class="alert alert-danger">
-                    <ol>
-                        @foreach ($errors as $fields)
-                            @foreach ($fields as $field)
-                                <li>{!! $field !!}</li>
-                            @endforeach
+                <ul class="list-group">
+                    @foreach ($errors as $fields)
+                        @foreach ($fields as $field)
+                            <li class="list-group-item list-group-item-danger">{!! $field !!}</li>
                         @endforeach
-                    </ol>
-                </div>
+                    @endforeach
+                </ul>
             @endif
 
             <module type="shop/payments" @if(isset($checkout_session['payment_gw'])) selected_provider="{{$checkout_session['payment_gw']}}" @endif  template="checkout_v2" />
