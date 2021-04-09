@@ -34,7 +34,7 @@
     <link href="<?php print template_url(); ?>dist/main.min.css" rel="stylesheet"/>
 
     <style>
-        html, body, section, .row {
+        html, body, section, .row, .navbar-expand-lg.navbar-light, .navbar-toggler, .checkout-v2-sidebar.right-column {
             height: 100%;
             min-height: 100%;
         }
@@ -54,57 +54,62 @@
 </script>
 
 <section>
-    <div class="row">
-        <div class="col-lg-6 col">
-            <div class="col-lg-8 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
-                <div class="d-flex">
-                    @php
-                        $logo = get_option('logo', 'website');
-                    @endphp
-                    @if(empty($logo))
-                        <h1 class="text-uppercase">
-                            <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
-                        </h1>
-                    @else
-                        <div class="checkout-v2-logo">
-                            <img src="{{ $logo }}"/>
-                        </div>
-                    @endif
+    <nav class="navbar-expand-lg navbar-light">
+        <div class="row">
+            <div class="col-lg-6 col">
+                <div class="col-lg-8 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
+                    <div class="d-flex">
+                        @php
+                            $logo = get_option('logo', 'website');
+                        @endphp
+                        @if(empty($logo))
+                            <h1 class="text-uppercase">
+                                <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
+                            </h1>
+                        @else
+                            <div class="checkout-v2-logo">
+                                <img src="{{ $logo }}"/>
+                            </div>
+                        @endif
 
-                    @hasSection('logo-right-link')
-                        @yield('logo-right-link')
+                        @hasSection('logo-right-link')
+                            @yield('logo-right-link')
+                        @endif
+                    </div>
+
+
+                    @hasSection('content')
+                        @yield('content')
+                    @else
+                        @yield('checkout_sidebar_content')
                     @endif
                 </div>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-
-                @hasSection('content')
-                    @yield('content')
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                @hasSection('checkout_sidebar')
+                    @yield('checkout_sidebar')
                 @else
-                    @yield('checkout_sidebar_content')
+                    <div class="checkout-v2-sidebar right-column col-12">
+                        <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
+                            <div class="text-left">
+                                <h6 class="m-t-100"><?php _e("Your order"); ?></h6>
+                                <small class="text-muted d-block mb-2"> <?php _e("List with products"); ?></small>
+                            </div>
+
+                            <div class="mt-3">
+                                <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
+                            </div>
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>
+    </nav>
 
-        @hasSection('checkout_sidebar')
-            @yield('checkout_sidebar')
-        @else
-            <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
-                <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
-                    <div class="text-left">
-                        <h6 class="m-t-100"><?php _e("Your order"); ?></h6>
-                        <small class="text-muted d-block mb-2"> <?php _e("List with products"); ?></small>
-                    </div>
-
-                    <div class="mt-3">
-                        <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
-                    </div>
-                </div>
-            </div>
-        @endif
-
-    </div>
 </section>
 </body>
 </html>
-
-
