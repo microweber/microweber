@@ -8003,7 +8003,7 @@ i.checkout-v2-finish-icon.mdi{
 
 
 .checkout-modal-products-wrapper .products {
-    max-height: 400px;
+    max-height: 600px;
     overflow: auto;
     overflow-x: hidden;
 }
