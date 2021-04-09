@@ -24,7 +24,7 @@
 
     <form method="post" action="{{ route('checkout.payment_method_save') }}">
 
-        <div class="shop-cart mt-3">
+        <div class="shop-cart mt-5">
             <label class="font-weight-bold control-label mb-0"><?php _e("Personal information"); ?></label>
             <small class="text-muted d-block mb-2"> <?php _e("Your information"); ?></small>
 
@@ -62,7 +62,7 @@
 
             <module type="shop/payments" @if(isset($checkout_session['payment_gw'])) selected_provider="{{$checkout_session['payment_gw']}}" @endif  template="checkout_v2" />
 
-            <module type="shop/checkout/terms" />
+            <module type="shop/checkout/terms"/>
 
         </div>
 

@@ -91,11 +91,11 @@
             <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
                 <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
                     <div class="text-left">
-                        <h6 class="m-t-70"><?php _e("Your order"); ?></h6>
+                        <h6 class="m-t-100"><?php _e("Your order"); ?></h6>
                         <small class="text-muted d-block mb-2"> <?php _e("List with products"); ?></small>
                     </div>
 
-                    <div class="pt-3">
+                    <div class="mt-3">
                         <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
                     </div>
                 </div>

@@ -10,7 +10,7 @@
 
 {{--faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php--}}
     <form method="post" action="{{ route('checkout.contact_information_save') }}">
-        <div class="m-t-20 edit nodrop" field="checkout_personal_information_title">
+        <div class="mt-5 edit nodrop" field="checkout_personal_information_title">
             <h4 class="mb-0"><?php _e("Personal Information"); ?></h4>
             <small class="text-muted d-block mb-2"> <?php _e("Please fill the fields bellow"); ?></small>
         </div>
