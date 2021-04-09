@@ -15,8 +15,10 @@ description: Default terms template
 <?php if ($terms): ?>
     <script>
         $(document).ready(function () {
+
+            var el = $('.i_agree_with_terms');
+
             $('.i_agree_with_terms').change(function () {
-                var el = $('.i_agree_with_terms');
                 if (el.is(':checked')) {
                     $('.terms-conditions-text-error').hide();
                     $('.js-finish-your-order').removeAttr('disabled');
@@ -26,8 +28,12 @@ description: Default terms template
                 }
             });
             $('.js-finish-your-order').click(function (e) {
-                e.preventDefault();
-                $('.terms-conditions-text-error').fadeIn();
+                if (el.is(':checked')) {
+
+                } else {
+                    e.preventDefault();
+                    $('.terms-conditions-text-error').fadeIn();
+                }
             });
         });
     </script>
