@@ -66,7 +66,7 @@
 
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 js-finish-your-order"><i class="mdi mdi-check"></i> {{ _e('Finish your order') }}</button>
+        <button type="submit" class="btn btn-primary w-100 js-finish-your-order"> {{ _e('Finish your order') }}</button>
     </form>
 
 @endsection
