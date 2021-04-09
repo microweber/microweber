@@ -26,7 +26,7 @@ class ShippingToCountry implements ShippingDriverInterface
 
     public function instructions()
     {
-        return _e('Your package will be delivered to address.');
+        return _e('Your package will be delivered to address.', true);
     }
 
     public function cost()
