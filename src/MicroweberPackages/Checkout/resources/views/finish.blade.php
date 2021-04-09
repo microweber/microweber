@@ -1,7 +1,9 @@
 @extends('checkout::layout')
 
 @section('checkout_sidebar')
-    <div class="col-12 checkout-v2-sidebar h-100 d-lg-block d-none">
+
+
+    <div class="col-lg-6 col-12 checkout-v2-sidebar h-100 d-lg-block d-none">
             <div class="row align-self-center justify-content-center">
                 <i class="checkout-v2-finish-icon mdi mdi-checkbox-marked-circle-outline"></i>
             </div>
@@ -9,7 +11,6 @@
 @endsection
 
 @section('checkout_sidebar_content')
-
     <div class="col-12">
         <form method="post" action="{{ route('checkout.shipping_method_save') }}">
             <div class="shop-cart m-t-100 text-center">
@@ -29,5 +30,4 @@
 
         </form>
     </div>
-
 @endsection
