@@ -23,11 +23,10 @@ description: Default register template
                 $.ajax({
                     type: "POST",
                     url: "<?php echo route('api.user.register'); ?>",
-                    data: $('#user_registration_form_holder_checkout_v2').serialize(),
-                    success: function (data) {
-                        if (data.success) {
-                            window.location.href = "<?php echo route('checkout.contact_information'); ?>";
-                        }
+                    data: $('#user_registration_form_holder_checkout_v2').serialize()
+                }).done(function(data){
+                    if (data.success) {
+                        window.location.href = "<?php echo route('checkout.contact_information'); ?>";
                     }
                 });
                 return false;

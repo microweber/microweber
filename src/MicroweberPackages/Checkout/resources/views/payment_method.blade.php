@@ -62,11 +62,11 @@
 
             <module type="shop/payments" @if(isset($checkout_session['payment_gw'])) selected_provider="{{$checkout_session['payment_gw']}}" @endif  template="checkout_v2" />
 
-            <module type="shop/checkout/terms"/>
+            <module type="shop/checkout/terms" template="checkout_v2" />
 
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">{{ _e('Finish your order') }}</button>
+        <button type="submit" class="btn btn-primary w-100 js-finish-your-order"><i class="mdi mdi-check"></i> {{ _e('Finish your order') }}</button>
     </form>
 
 @endsection
