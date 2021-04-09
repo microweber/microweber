@@ -402,15 +402,14 @@ class Utils
      */
     public function map_array_to_table($table, $array)
     {
-        $arr_key = crc32($table) + crc32(serialize($array));
-        if (isset($this->table_fields[$arr_key])) {
-            return $this->table_fields[$arr_key];
-        }
-        if (empty($array)) {
-            return false;
+
+        if (isset($this->table_fields[$table])) {
+            $fields = $this->table_fields[$table];
+         } else {
+            $this->table_fields[$table] =  $fields = $this->get_fields($table);
+
         }
 
-        $fields = $this->get_fields($table);
 
         if (is_array($fields)) {
             foreach ($fields as $field) {
@@ -428,7 +427,7 @@ class Utils
         if (!isset($array_to_return)) {
             return false;
         } else {
-            $this->table_fields[$arr_key] = $array_to_return;
+
         }
 
         return $array_to_return;
