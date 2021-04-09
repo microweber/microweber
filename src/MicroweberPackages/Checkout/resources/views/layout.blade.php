@@ -39,10 +39,6 @@
             min-height: 100%;
         }
 
-        .navbar-toggler {
-            height: 50px;
-            width: 100%;
-        }
     </style>
 
     <!--[if lt IE 9]>
@@ -62,7 +58,7 @@
 
 @else
 
-<nav class="navbar-expand-lg navbar-light d-lg-none d-block">
+<nav class="navbar-expand-lg checkout-v2-navbar navbar-light d-lg-none d-block">
     <div class="row">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon float-left ml-3"></span>
@@ -127,14 +123,13 @@
         </div>
     </div>
 
-
     @hasSection('checkout_sidebar')
         @yield('checkout_sidebar')
     @else
         <div class="checkout-v2-sidebar right-column col-6 d-lg-block d-none">
             <div class="col-lg-10 col-12 checkout-v2-right-column float-lg-left p-xl-5 p-md-3 p-3">
                 <div class="text-left">
-                    <h6 class="m-t-100"><?php _e("Your order"); ?></h6>
+                    <h6 class="m-t-100 font-weight-bold"><?php _e("Your order"); ?></h6>
                     <small class="text-muted d-block mb-2"> <?php _e("List with products"); ?></small>
                 </div>
 
@@ -145,6 +140,5 @@
         </div>
     @endif
 </div>
-
 </body>
 </html>
