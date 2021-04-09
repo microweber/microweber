@@ -362,6 +362,10 @@ var MWEditor = function (options) {
     };
 
     this._syncTextArea = function (content) {
+        if(scope.$editArea){
+            $('[contenteditable]', scope.$editArea).removeAttr('contenteditable');
+        }
+        
         content = content || scope.$editArea.html();
         if (scope.settings.isTextArea) {
             $(scope.settings.selectorNode).val(content);
