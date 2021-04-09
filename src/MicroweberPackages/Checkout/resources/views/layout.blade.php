@@ -34,7 +34,7 @@
     <link href="<?php print template_url(); ?>dist/main.min.css" rel="stylesheet"/>
 
     <style>
-        html, body, section, .row, .navbar-expand-lg.navbar-light .checkout-v2-sidebar.right-column {
+        html, body, section, .row, .navbar-expand-lg.navbar-light, .checkout-v2-sidebar.right-column {
             height: 100%;
             min-height: 100%;
         }
@@ -61,7 +61,7 @@
 <section>
     <nav class="navbar-expand-lg navbar-light">
         <div class="row">
-            <div class="col-lg-6 col-12 order-md-1 order-2">
+            <div class="col-lg-6 col-12 order-md-0 order-1">
                 <div class="col-lg-8 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
                     <div class="d-flex">
                         @php
@@ -98,7 +98,7 @@
                 @hasSection('checkout_sidebar')
                     @yield('checkout_sidebar')
                 @else
-                    <div class="checkout-v2-sidebar right-column col-12 order-md-2 order-1">
+                    <div class="checkout-v2-sidebar right-column col-12">
                         <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
                             <div class="text-left">
                                 <h6 class="m-t-100"><?php _e("Your order"); ?></h6>
