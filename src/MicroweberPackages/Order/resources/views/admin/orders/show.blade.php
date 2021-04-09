@@ -128,18 +128,36 @@
                 <div class="col-6">
                     <?php print $order['custom_fields'] ?>
                 </div>
-            </div> 
+            </div>
             <?php endif; ?>
         </div>
     </div>
 </div>
 
+
 <div class="card bg-light style-1 mb-3">
     <div class="card-body">
-        <h5 class="mb-4 font-weight-bold"><?php _e('Shipping Address'); ?></h5>
-
+        <h5 class="mb-4 font-weight-bold"><?php _e('Shipping details'); ?></h5>
         <div class="row d-flex align-items-center">
+
+            <div class="col-md-12">
+                <div class="mb-4">
+                    <strong><?php _e("Shipping type"); ?>:</strong>
+                    <br />
+                    <?php
+                    $shippingGatewayModuleInfo = module_info($order['shipping_service']);
+                    ?>
+                    <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
+
+                </div>
+            </div>
+
+
+            <?php
+            if ($order['shipping_service'] == 'shop/shipping/gateways/country'):
+            ?>
             <div class="col-md-6">
+
                 <?php
                 $map_click_str = false;
                 $map_click = array();
@@ -216,6 +234,7 @@
                 </div>
                 <?php endif; ?>
             </div>
+                <?php endif; ?>
         </div>
     </div>
 </div>
