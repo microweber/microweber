@@ -72,8 +72,6 @@ description: Default register template
                 </div>
             <?php endif; ?>
 
-
-
             <div class="row">
                 <div class="col-12">
                     <small class="personal-data text-muted"><?php _e("Your personal data will be used to support your experience
