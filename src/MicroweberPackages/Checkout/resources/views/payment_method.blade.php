@@ -38,6 +38,14 @@
                         $shippingGatewayModuleInfo = module_info($checkout_session['shipping_gw']);
                         ?>
                             <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:38px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
+
+                            <?php
+                            $instructions = app()->shipping_manager->driver($checkout_session['shipping_gw'])->instructions($checkout_session);
+                            if (!empty($instructions)) {
+                                echo '<br />' . $instructions;
+                            }
+                            ?>
+
                         <?php } ?>
                         <?php if(!empty($checkout_session['country'])):?>
                             <hr />
