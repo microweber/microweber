@@ -129,7 +129,7 @@
         <div class="checkout-v2-sidebar right-column col-6 d-lg-block d-none">
             <div class="col-lg-10 col-12 checkout-v2-right-column float-lg-left p-xl-5 p-md-3 p-3">
                 <div class="text-left">
-                    <h6 class="m-t-100"><?php _e("Your order"); ?></h6>
+                    <h6 class="m-t-100 font-weight-bold"><?php _e("Your order"); ?></h6>
                     <small class="text-muted d-block mb-2"> <?php _e("List with products"); ?></small>
                 </div>
 
