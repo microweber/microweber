@@ -1,12 +1,6 @@
 <?php
 
-
 $shipping_pickup_instructions =  get_option('shipping_pickup_instructions', 'shipping');
-
-
-
-
-
 
 $module_template = get_option('data-template', $params['id']);
 

@@ -173,6 +173,66 @@
                             </div>
 
                             <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label"><?php _e("Posts per Page"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e("Select how many posts or products you want to be shown per page"); ?>?</small>
+                                        <select name="items_per_page" class="form-control mw_option_field" type="range" option-group="website">
+                                            <?php
+                                            $per_page = get_option('items_per_page', 'website');
+                                            $found = false;
+                                            for ($i = 5; $i < 40; $i += 5) {
+                                                if ($i == $per_page) {
+                                                    $found = true;
+                                                    print '<option selected="selected" value="' . $i . '">' . $i . '</option>';
+                                                } else {
+                                                    print '<option value="' . $i . '">' . $i . '</option>';
+                                                }
+                                            }
+                                            if ($found == false) {
+                                                print '<option selected="selected" value="' . $per_page . '">' . $per_page . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <?php
+                                        $logo = get_option('logo', 'website');
+                                        if (!$logo) {
+                                            $logo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image-2.jpg';
+                                        }
+                                        ?>
+                                        <script>
+                                            $(document).ready(function () {
+                                                websiteLogo = mw.uploader({
+                                                    element: document.getElementById('js-upload-logo-image'),
+                                                    filetypes: 'images',
+                                                    multiple: false
+                                                });
+                                                $(websiteLogo).on('FileUploaded', function (a, b) {
+                                                  mw.$("#logo-preview").val(b.src).trigger('change');
+                                                  mw.$(".js-logo").attr('src', b.src);
+                                                   // mw.$("link[rel*='icon']").attr('href', b.src);
+                                                });
+                                            });
+                                        </script>
+
+                                        <label class="control-label"><?php _e("Website Logo"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e('Select an logo for your website.'); ?></small>
+                                        <div class="d-flex">
+                                            <div class="img-circle-holder border-radius-0 border-silver mr-3"> 
+                                                <img src="<?php print $logo; ?>" class="js-logo" />
+                                                <input type="hidden" class="mw_option_field" name="logo" id="logo-preview" value="<?php print $logo; ?>" option-group="website"/>
+                                            </div>
+                                            <button type="button" class="btn btn-outline-primary" id="js-upload-logo-image"><?php _e("Upload logo"); ?></button>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <?php
@@ -198,7 +258,7 @@
                                             });
                                         </script>
 
-                                        <label class="control-label"><?php _e("Change Favicon"); ?></label>
+                                        <label class="control-label"><?php _e("Website Favicon"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select an icon for your website. It is best to be part of your logo.'); ?></small>
                                         <div class="d-flex">
                                             <div class="img-circle-holder img-absolute w-40 border-radius-0 border-silver mr-3">
@@ -211,29 +271,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label"><?php _e("Posts per Page"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("Select how many posts or products you want to be shown per page"); ?>?</small>
-                                        <select name="items_per_page" class="form-control mw_option_field" type="range" option-group="website">
-                                            <?php
-                                            $per_page = get_option('items_per_page', 'website');
-                                            $found = false;
-                                            for ($i = 5; $i < 40; $i += 5) {
-                                                if ($i == $per_page) {
-                                                    $found = true;
-                                                    print '<option selected="selected" value="' . $i . '">' . $i . '</option>';
-                                                } else {
-                                                    print '<option value="' . $i . '">' . $i . '</option>';
-                                                }
-                                            }
-                                            if ($found == false) {
-                                                print '<option selected="selected" value="' . $per_page . '">' . $per_page . '</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="row" style="display: none;">

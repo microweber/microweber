@@ -16,17 +16,28 @@ class PickupDriver implements ShippingDriverInterface
     {
         $module = 'shop/shipping/gateways/pickup';
         $status = get_option('shipping_gw_' . $module, 'shipping') === 'y' ? true: false;
+
         return $status;
     }
 
     public function title()
     {
-        return 'Pickup from office';
+        return 'Pickup from address';
+    }
+
+    public function instructions()
+    {
+        return get_option('shipping_pickup_instructions', 'shipping');
     }
 
     public function cost()
     {
         return 0;
+    }
+
+    public function validate($data = [])
+    {
+       return ['valid'=>true];
     }
 
     public function process()
