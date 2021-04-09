@@ -723,6 +723,14 @@ class FormsManager
         return $this->app->database_manager->get($params);
     }
 
+    public function countries_list_from_json()
+    {
+        $countries_file = normalize_path(dirname(MW_PATH) . '/Utils/ThirdPartyLibs/country.json', false);
+        $countries_file = json_decode(file_get_contents($countries_file), true);
+
+        return $countries_file;
+    }
+
     public function countries_list($full = false)
     {
         static $data = array();

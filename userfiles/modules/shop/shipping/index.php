@@ -7,15 +7,12 @@ $selected_shipping_gateway= $this->app->user_manager->session_get('shipping_prov
 if(!$selected_shipping_gateway and $shipping_options and isset($shipping_options[0]) and  isset($shipping_options[0]['module_base'])){
     $selected_shipping_gateway = $shipping_options[0]['module_base'];
 }
-
 ?>
-
 
 <?php if (is_array($shipping_options) and !empty($shipping_options)) : ?>
     <script type="text/javascript">
         Gateway = function (el) {
             var val = $(el).val();
-
             $.ajax({
                 url: "<?php print route('shop.shipping.set_provider') ?>",
                 data: {"provider":val},
@@ -29,8 +26,6 @@ if(!$selected_shipping_gateway and $shipping_options and isset($shipping_options
             //   mw.load_module(val, '#mw-shipping-gateway-selected-<?php print $params['id']; ?>');
 
             });
-
-
         }
     </script>
 

@@ -397,7 +397,7 @@ class CartManager extends Crud
             foreach ($get as $k => $item) {
 
                 if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-                    $item = $this->app->format->render_item_custom_fields_data($item); 
+                    $item = $this->app->format->render_item_custom_fields_data($item);
                 }
 
                 if (!isset($item['item_image']) and is_array($item) and isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
@@ -445,6 +445,10 @@ class CartManager extends Crud
             if ($findCart) {
                 $findCart->delete();
             }
+
+            $this->app->cache_manager->delete('cart');
+            $this->app->cache_manager->delete('cart_orders');
+
 
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
@@ -511,6 +515,10 @@ class CartManager extends Crud
 
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
+
+            $this->app->cache_manager->delete('cart');
+            $this->app->cache_manager->delete('cart_orders');
+
             return array('success' => _e('Item quantity changed', true), 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
 
 
@@ -859,7 +867,7 @@ class CartManager extends Crud
             $findCart->price = $cart['price'];
             $findCart->session_id = $cart['session_id'];
             $findCart->order_completed = $cart['order_completed'];
-            $findCart->session_id = $cart['session_id']; 
+            $findCart->session_id = $cart['session_id'];
             $findCart->save();
 
             $this->app->cache_manager->delete('cart');
@@ -871,6 +879,9 @@ class CartManager extends Crud
             }
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
+
+            $this->app->cache_manager->delete('cart');
+            $this->app->cache_manager->delete('cart_orders');
 
             return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
         } else {

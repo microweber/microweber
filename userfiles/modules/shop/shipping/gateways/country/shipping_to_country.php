@@ -442,8 +442,7 @@ class shipping_to_country
     {
         $data_disabled = $this->get("is_active=0");
         $data = $this->get("is_active=1");
-        $countries_all = mw()->forms_manager->countries_list();
-
+        $countries_all = mw()->forms_manager->countries_list_from_json();
 
         if (is_array($data)) {
             foreach ($data as $key => $item) {

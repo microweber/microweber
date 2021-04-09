@@ -33,7 +33,6 @@ WORKDIR /var/www/html
 
 RUN composer install --no-interaction --no-dev --prefer-dist
 
-RUN php -m
 RUN chmod -R 777 /var/www/html
 RUN a2enmod rewrite
 RUN service apache2 restart

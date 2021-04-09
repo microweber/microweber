@@ -402,15 +402,14 @@ class Utils
      */
     public function map_array_to_table($table, $array)
     {
-        $arr_key = crc32($table) + crc32(serialize($array));
-        if (isset($this->table_fields[$arr_key])) {
-            return $this->table_fields[$arr_key];
-        }
-        if (empty($array)) {
-            return false;
+
+        if (isset($this->table_fields[$table])) {
+            $fields = $this->table_fields[$table];
+         } else {
+            $this->table_fields[$table] =  $fields = $this->get_fields($table);
+
         }
 
-        $fields = $this->get_fields($table);
 
         if (is_array($fields)) {
             foreach ($fields as $field) {
@@ -428,7 +427,7 @@ class Utils
         if (!isset($array_to_return)) {
             return false;
         } else {
-            $this->table_fields[$arr_key] = $array_to_return;
+
         }
 
         return $array_to_return;
@@ -450,23 +449,36 @@ class Utils
      *
      * @since   Version 1.0
      */
+    public static $get_fields_fields_memory = [];
+
     public function get_fields($table, $use_cache = true)
     {
         $fields = array();
-        $expiresAt = 300;
+        $expiresAt = 99999;
 
-        $cache_group = 'db/fields';
+        $cache_group = 'db';
         if (!$table) {
             return false;
         }
-        $key = 'mw_db_get_fields_' . crc32($table);
-        $hash = $table;
-        $value = mw()->cache_manager->get($key, 'db', $expiresAt);
-
-
-        if ($use_cache and isset($value[$hash])) {
-            return $value[$hash];
+         if($use_cache and isset(self::$get_fields_fields_memory[$table])){
+           return self::$get_fields_fields_memory[$table];
         }
+
+
+        $key = 'mw_db_get_fields_single' . crc32($table);
+      //  $hash = $table;
+
+
+
+
+        if ($use_cache) {
+            $fields = mw()->cache_manager->get($key, 'db', $expiresAt);
+            if($fields){
+                return $fields;
+            }
+        }
+
+
         $db_driver = Config::get("database.default");
 
         $engine = $this->get_sql_engine();
@@ -511,10 +523,11 @@ class Utils
 
         // Caching
 
-        $value[$hash] = $fields;
         if ($use_cache) {
-            mw()->cache_manager->save($value, $key, $cache_group);
+            self::$get_fields_fields_memory[$table] = $fields;
+            mw()->cache_manager->save($fields, $key, $cache_group);
         }
+
         return $fields;
     }
 
@@ -540,7 +553,7 @@ class Utils
         }
         $cache_group = $this->assoc_table_name($table);
         $this->app->cache_manager->delete($cache_group);
-        $this->app->cache_manager->delete('global/full_page_cache');
+     //   $this->app->cache_manager->delete('global/full_page_cache');
 
     }
 

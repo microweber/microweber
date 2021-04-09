@@ -7,7 +7,6 @@ use MicroweberPackages\Option\Models\Option;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
-use MicroweberPackages\Assets\Facades\Assets;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -65,10 +64,8 @@ class FrontendController extends Controller
         }
 
 
-        $this->debugbarEnabled = Config::get('debugbar.enabled');
-        if (!$this->debugbarEnabled) {
-            \Debugbar::disable();
-        }
+        $this->debugbarEnabled = \Debugbar::isEnabled();;
+
 
         if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
@@ -1405,7 +1402,7 @@ class FrontendController extends Controller
                 $compile_assets = \Config::get('microweber.compile_assets');
 
                 $output_cache_content = false;
-                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . $_SERVER['REQUEST_URI']) . current_lang();
+                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . intval(is_https()) . $_SERVER['REQUEST_URI'] . current_lang() . site_url());
                 $output_cache_group = 'global';
                 $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 
@@ -2020,16 +2017,6 @@ class FrontendController extends Controller
                     }
                 }
             }
-
-
-            if ($is_admin == true and $is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
-                Assets::add(['live-edit']);
-            } else {
-                Assets::add(['site']);
-
-            }
-
-
             $modify_content = event_trigger('on_load', $content);
 
             if ($this->debugbarEnabled) {
@@ -2132,9 +2119,7 @@ class FrontendController extends Controller
             }
 
 
-
-
-
+            $l = $this->app->template->append_api_js_to_layout($l);
 
 
             //   if (!stristr($l, $apijs_loaded)) {
@@ -2142,7 +2127,7 @@ class FrontendController extends Controller
 //            $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
 //            $apijs_settings_script = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
 //            $apijs_settings_script .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-//
+//            $l = str_ireplace('<head>', '<head>' . $apijs_settings_script, $l);
             //  }
 
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
@@ -2182,10 +2167,8 @@ class FrontendController extends Controller
             }
 
 
-
-
             $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
-            if(!$liv_ed_css_get_custom_css_content){
+            if (!$liv_ed_css_get_custom_css_content) {
                 $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
             } else {
                 $liv_ed_css = $this->app->template->get_custom_css_url();
@@ -2231,17 +2214,13 @@ class FrontendController extends Controller
 
             $enable_default_css = true;
             if ($template_config and isset($template_config["standalone_ui"]) and $template_config["standalone_ui"]) {
-                if(!$is_editmode and !$back_to_editmode) {
+                if (!$is_editmode and !$back_to_editmode) {
                     $enable_default_css = false;
                 }
             }
             if ($enable_default_css) {
-             //   $l = str_ireplace('<head>', '<head>' . $default_css, $l);
+                $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
-
-
-
-
 
 
             if (isset($content['original_link']) and $content['original_link'] != '') {
@@ -2320,18 +2299,6 @@ class FrontendController extends Controller
             $l = execute_document_ready($l);
 
             event_trigger('frontend');
-
-
-
-
-            $assets_html =  Assets::all();
-
-            $l = str_ireplace('<head>', '<head>' . $assets_html, $l);
-
-            $l = $this->app->template->append_api_js_to_layout($l);
-
-
-
 
 
             $l = mw()->template->add_csrf_token_meta_tags($l);
@@ -2692,12 +2659,12 @@ class FrontendController extends Controller
             //$apijs_loaded = $this->app->template->get_apijs_url();
             // $apijs_settings_loaded = $this->app->template->get_apijs_settings_url() . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
             //  $apijs_settings_loaded = $this->app->template->get_apijs_settings_url();
-         //   $default_css_url = $this->app->template->get_default_system_ui_css_url();
+            $default_css_url = $this->app->template->get_default_system_ui_css_url();
 
 
             // $is_admin = $this->app->user_manager->is_admin();
             // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
-           // $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
 
             $headers = event_trigger('site_header', TEMPLATE_NAME);
@@ -2879,7 +2846,7 @@ class FrontendController extends Controller
     public function robotstxt()
     {
         header('Content-Type: text/plain');
-        $robots = get_option('robots_txt', 'website');
+        $robots = $this->websiteOptions['robots_txt'];
 
         if ($robots == false) {
             $robots = "User-agent: *\nAllow: /" . "\n";

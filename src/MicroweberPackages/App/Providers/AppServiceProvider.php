@@ -13,13 +13,13 @@ use Jenssegers\Agent\Agent;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
-use MicroweberPackages\Assets\Facades\Assets;
-use MicroweberPackages\Assets\AssetsServiceProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
+use MicroweberPackages\Debugbar\DebugbarServiceProvider;
+use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
@@ -129,8 +129,6 @@ class AppServiceProvider extends ServiceProvider
 
     public $laravel_aliases = [
         'App' => \Illuminate\Support\Facades\App::class,
-        'Assets' => Assets::class,
-
         'Arr' => \Illuminate\Support\Arr::class,
         'Artisan' => \Illuminate\Support\Facades\Artisan::class,
         'Auth' => \Illuminate\Support\Facades\Auth::class,
@@ -199,6 +197,10 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMarkdown();
 
         $this->app->instance('config', new ConfigSave($this->app));
+
+        $this->app->register(DebugbarServiceProvider::class);
+
+
         $this->app->register(UserServiceProvider::class);
 
         $this->app->register(ModuleServiceProvider::class);
@@ -269,10 +271,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(AdminServiceProvider::class);
         $this->app->register(ContentFilterServiceProvider::class);
         $this->app->register(CommentServiceProvider::class);
-        $this->app->register(OfferServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
-        $this->app->register(AssetsServiceProvider::class);
+        $this->app->register(CommentServiceProvider::class);
+        $this->app->register(DuskServiceProvider::class);
+
+
 
 
 

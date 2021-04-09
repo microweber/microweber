@@ -10,13 +10,6 @@
  */
 ?>
 
-<style>
-    .dropdown-menu.shopping-cart {
-        min-width: 25rem;
-    }
-
-
-</style>
 
 <?php $total = cart_sum(); ?>
 
@@ -51,7 +44,6 @@
                 </div>
 
             </div>
-            <hr class="m-1">
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
