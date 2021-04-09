@@ -16,6 +16,7 @@ class PickupDriver implements ShippingDriverInterface
     {
         $module = 'shop/shipping/gateways/pickup';
         $status = get_option('shipping_gw_' . $module, 'shipping') === 'y' ? true: false;
+
         return $status;
     }
 
@@ -27,6 +28,11 @@ class PickupDriver implements ShippingDriverInterface
     public function cost()
     {
         return 0;
+    }
+
+    public function validate($data = [])
+    {
+       return ['valid'=>true];
     }
 
     public function process()

@@ -64,45 +64,8 @@ trait ShippingTrait {
 
     private function _validateShippingMethod()
     {
-        /*
-        if (get_option('shop_require_state', 'website') == 1) {
-            $rules['state'] = 'required';
-        }
+        $checkout_session = session_get('checkout_v2');
 
-        if (get_option('shop_require_country', 'website') == 1) {
-            $rules['country'] = 'required';
-        }
-
-        if (get_option('shop_require_address', 'website') == 1) {
-            $rules['address'] = 'required';
-        }
-
-        if (get_option('shop_require_city', 'website') == 1) {
-            $rules['city'] = 'required';
-        }
-
-        if (get_option('shop_require_zip', 'website') == 1) {
-            $rules['zip'] = 'required';
-        }
-
-        if (get_option('shop_require_state', 'website') == 1) {
-            $rules['state'] = 'required';
-        }
-
-       // $rules['state-test'] = 'required';
-
-        if (empty($rules)) {
-            return ['valid'=>true];
-        }
-
-        $validator = \Validator::make(session_get('checkout_v2'), $rules);
-
-        if ($validator->fails()) {
-            $errors = $validator->messages()->toArray();
-            return ['valid'=>false,'errors'=>$errors];
-        }
-        */
-
-        return ['valid'=>true];
+        return app()->shipping_manager->driver($checkout_session['shipping_gw'])->validate($checkout_session);
     }
 }
