@@ -39,10 +39,6 @@
             min-height: 100%;
         }
 
-        .navbar-toggler {
-            height: 50px;
-            width: 100%;
-        }
     </style>
 
     <!--[if lt IE 9]>
@@ -62,7 +58,7 @@
 
 @else
 
-<nav class="navbar-expand-lg navbar-light d-lg-none d-block">
+<nav class="navbar-expand-lg checkout-v2-navbar navbar-light d-lg-none d-block">
     <div class="row">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon float-left ml-3"></span>
@@ -127,7 +123,6 @@
         </div>
     </div>
 
-
     @hasSection('checkout_sidebar')
         @yield('checkout_sidebar')
     @else
@@ -145,6 +140,5 @@
         </div>
     @endif
 </div>
-
 </body>
 </html>

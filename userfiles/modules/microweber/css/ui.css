@@ -7971,6 +7971,12 @@ i.checkout-v2-finish-icon.mdi{
 }
 
 
+.checkout-v2-navbar.navbar-light .navbar-toggler {
+    height: 50px;
+    width: 100%;
+    background: #f5f5f5;
+}
+
 .mw-order-custom-fields ul {
     list-style-type: none;
     margin-bottom: 0.4rem;
