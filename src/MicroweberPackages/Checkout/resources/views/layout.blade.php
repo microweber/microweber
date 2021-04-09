@@ -58,6 +58,10 @@
     mw.lib.require("bootstrap4");
 </script>
 
+@hasSection('checkout_sidebar')
+
+@else
+
 <nav class="navbar-expand-lg navbar-light d-lg-none d-block">
     <div class="row">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,6 +94,8 @@
     </div>
     </div>
 </nav>
+
+@endif
 
 <div class="row">
     <div class="col-lg-6 col-12 order-lg-0 order-1">
