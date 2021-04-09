@@ -42,7 +42,7 @@
                             <?php
                             $instructions = app()->shipping_manager->driver($checkout_session['shipping_gw'])->instructions($checkout_session);
                             if (!empty($instructions)) {
-                                echo '<br />' . $instructions;
+                                echo '<div><br />' . $instructions . '</div>';
                             }
                             ?>
 
