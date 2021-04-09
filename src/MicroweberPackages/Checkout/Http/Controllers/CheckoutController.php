@@ -86,7 +86,6 @@ class CheckoutController extends Controller {
     */
     public function validate(Request $request)
     {
-
         $rules = [];
 
         if (get_option('shop_require_first_name', 'website') == 1) {
