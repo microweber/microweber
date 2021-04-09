@@ -9,7 +9,9 @@ $config['categories'] = "online shop";
 $config['position'] = 900;
 $config['type'] = "shipping_gateway";
 $config['version'] = "0.2";
+$config['settings']['checkout_position'] = 0;
 $config['settings']['icon_class'] = "mdi mdi-walk";
+$config['settings']['help_text'] = "get your order from address below";
 
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Shop\Shipping\Gateways\Pickup\PickupEventServiceProvider::class,
