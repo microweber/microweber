@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap">
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap">
     <script>
         mw.require('icon_selector.js');
         mw.lib.require('bootstrap4');
@@ -48,7 +49,7 @@
 <body>
 
 <script type="text/javascript">
-    mw.require("<?php print( mw_includes_url()); ?>css/ui.css");
+    mw.require("<?php print(mw_includes_url()); ?>css/ui.css");
     mw.lib.require("bootstrap4");
 </script>
 
@@ -65,9 +66,9 @@
                             <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
                         </h1>
                     @else
-                       <div class="checkout-v2-logo">
-                           <img src="{{ $logo }}" />
-                       </div>
+                        <div class="checkout-v2-logo">
+                            <img src="{{ $logo }}"/>
+                        </div>
                     @endif
 
                     @hasSection('logo-right-link')
@@ -75,27 +76,31 @@
                     @endif
                 </div>
 
+
                 @hasSection('content')
                     @yield('content')
+                @else
+                    @yield('checkout_sidebar_content')
                 @endif
             </div>
         </div>
 
-
-                @hasSection('checkout_sidebar')
-        <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
-            <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
-                    @yield('checkout_sidebar')
-
-                @else
+        @hasSection('checkout_sidebar')
+            @yield('checkout_sidebar')
+        @else
             <div class="checkout-v2-sidebar col-6 d-lg-block d-none">
-                <div class="col-12">
-                    <div class="row align-self-center justify-content-center">
-                        <i class="checkout-v2-finish-icon mdi mdi-checkbox-marked-circle-outline"></i>
+                <div class="col-10 checkout-v2-right-column float-left p-xl-5 p-md-3 p-3">
+                    <div class="text-left">
+                        <h6 class="m-t-80"><?php _e("Your order"); ?></h6>
+                        <small class="text-muted d-block mb-2"> <?php _e("List with products"); ?></small>
+                    </div>
+
+                    <div class="pt-3">
+                        <module type="shop/cart" template="checkout_v2_sidebar" data-checkout-link-enabled="n"/>
                     </div>
                 </div>
             </div>
-                @endif
+        @endif
 
     </div>
 </section>
