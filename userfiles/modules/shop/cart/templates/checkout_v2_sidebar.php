@@ -65,7 +65,7 @@ $total = cart_total();
                                <input min=1 type="number" class="form-control input-sm" name="qty" value="<?php print $item['qty'] ?>"  oninput="check_qty(this)" onchange=" mw.cart.qty('<?php print $item['id'] ?>', this.value)" style="width: 70px;"/>
                            </div>
 
-                           <div class="col-xl-1 col-4 checkout-v2-remove-icon">
+                           <div class="col-xl-1 col-4 checkout-v2-remove-icon d-flex justify-content-xl-start justify-content-end">
                                <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary" style="font-size: 24px"></i></a>
                            </div>
                        </div>

@@ -12,7 +12,7 @@ description:  Show cart totals
 ?>
 
 <?php $cart_totals = mw()->cart_manager->totals(); ?>
-   <div class="pl-2">
+   <div class="pl-2 m-xl-0 m-4">
        <?php if ($cart_totals): ?>
                <div class="form-row text-right justify-content-end">
                    <label class="control-label font-weight-bold float-right text-right"><?php _lang("Total amount" ); ?></label>
