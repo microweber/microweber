@@ -30,6 +30,15 @@ class CheckoutController extends Controller {
         return $this->_renderView('checkout::login');
     }
 
+    public function forgotPassword() {
+
+        if (is_logged()) {
+            return redirect(route('checkout.contact_information'));
+        }
+
+        return $this->_renderView('checkout::forgot_password');
+    }
+
     public function register() {
 
         if (is_logged()) {

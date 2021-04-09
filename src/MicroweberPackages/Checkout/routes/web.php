@@ -29,6 +29,7 @@ Route::name('checkout.')
     ->namespace('\MicroweberPackages\Checkout\Http\Controllers')
     ->group(function () {
         Route::get('login', 'CheckoutController@login')->name('login');
+        Route::get('forgot-password', 'CheckoutController@forgotPassword')->name('forgot_password');
         Route::get('register', 'CheckoutController@register')->name('register');
         Route::get('finish/{id}', 'CheckoutController@finish')->name('finish');
     });
