@@ -143,7 +143,7 @@
             <div class="col-md-12">
                 <div class="mb-4">
                     <strong><?php _e("Shipping type"); ?>:</strong>
-                    <br />
+
                     <?php
                     $shippingGatewayModuleInfo = module_info($order['shipping_service']);
                     ?>
@@ -324,8 +324,17 @@
 
                 <div class="mb-3">
                     <?php _e("Payment Method"); ?>:
-                    <?php $gw = str_replace('shop/payments/gateways/', '', $order['payment_gw']); ?>:
-                    <strong><?php print $gw; ?></strong>
+                        <?php
+                        $paymentGatewayModuleInfo = module_info($order['payment_gw']);
+                        if (isset($paymentGatewayModuleInfo['settings']['icon_class'])):
+                        ?>
+                        <i class="<?php echo $paymentGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>
+                        <?php else: ?>
+                        <img src="<?php echo $paymentGatewayModuleInfo['icon'];?>" style="width:23px" />
+                        <?php endif; ?>
+
+                        <?php echo $paymentGatewayModuleInfo['name'];?>
+
                 </div>
 
                 <div class="mb-3">
