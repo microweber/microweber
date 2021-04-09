@@ -88,7 +88,8 @@
         "florianv/exchanger": "2.x-dev",
         "symfony/intl": "5.x-dev",
         "geoip2/geoip2": "~2.0",
-        "whitecube/lingua": "1.1.0"
+        "whitecube/lingua": "1.1.0",
+        "predis/predis": "2.0.x-dev"
 
 
     },
@@ -98,7 +99,8 @@
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "9.4.3",
-        "orchestra/testbench": "~3.6.7 || ~3.7.8 || ~3.8.6 || ^4.8 || ^5.2 || ^6.0|| ^8.0"
+        "orchestra/testbench": "~3.6.7 || ~3.7.8 || ~3.8.6 || ^4.8 || ^5.2 || ^6.0|| ^8.0",
+        "laravel/dusk": "6.x-dev"
     },
     "autoload": {
         "psr-4": {
@@ -162,7 +164,9 @@
         "laravel": {
             "dont-discover": [
                 "laravel/passport",
-                "laravel/sanctum"
+                "laravel/sanctum",
+                "laravel/dusk",
+                "barryvdh/laravel-debugbar"
             ]
         }
     }
