@@ -196,7 +196,9 @@ class CheckoutManager
             }
         }
 
-        $validator = app()->make(CheckoutController::class);
+   /*
+    *  OLD VALIDATION ON MODAL
+    *      $validator = app()->make(CheckoutController::class);
 
         if (!empty($data)) {
             $request = new Request();
@@ -212,7 +214,7 @@ class CheckoutManager
 
         if (isset($is_valid['errors'])) {
             return $is_valid;
-        }
+        }*/
 
         $checkout_errors = array();
         $check_cart = $this->app->shop_manager->get_cart($cart);

@@ -33,7 +33,6 @@ description: Default
     $checkout_session = session_get('checkout');
     ?>
 
-
        <div class="my-4 edit nodrop" field="checkout_shipping_information_title" rel="global"
             rel_id="<?php print $params['id'] ?>">
            <small class="pull-right text-muted">*<?php _e("Fields are required"); ?></small>

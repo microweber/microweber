@@ -1,6 +1,8 @@
 <?php
 $cart_show_payments = 'n';
 ?>
+
+
         <div class="m-t-20 edit nodrop" field="checkout_personal_information_title" rel="global"
              rel_id="<?php print $params['id'] ?>">
             <small class="pull-right text-muted">*Fields are required</small>
