@@ -81,7 +81,10 @@ trait PaymentTrait {
             return redirect(route('checkout.cart'));
         }
 
-        // session_del('checkout_v2');
+        session_del('checkout_v2');
+        if (function_exists('coupons_delete_session')) {
+            coupons_delete_session();
+        }
 
         return redirect(route('checkout.finish', $sendCheckout['id']));
     }
