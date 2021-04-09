@@ -15,13 +15,35 @@ description: Login default
 <?php $have_social_login = false; ?>
 <script>mw.moduleCSS("<?php print modules_url(); ?>users/login/templates.css")</script>
 
+
+<script type="text/javascript">
+    mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css");
+    mw.require('forms.js', true);
+    mw.require('url.js', true);
+
+    $(document).ready(function () {
+        mw.$('#user_login_checkout_v2').submit(function () {
+            $.ajax({
+                type: "POST",
+                url: "<?php echo route('api.user.login'); ?>",
+                data: $('#user_login_checkout_v2').serialize()
+            }).done(function(data){
+                if (data.success) {
+                    window.location.href = "<?php echo route('checkout.contact_information'); ?>";
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
 <div id="mw-login" class="module-login mt-5 col-12">
     <?php if ($user != false): ?>
         <div>
             <module type="users/profile"/>
         </div>
     <?php else: ?>
-        <div id="user_login_holder_<?php print $params['id'] ?>">
+        <div id="user_login_holder_checkout_v2">
 
             <div class="d-flex pb-4">
                 <h4><?php _e("Login"); ?></h4>
@@ -31,7 +53,7 @@ description: Login default
             </div>
             <br />
 
-            <form method="post" id="user_login_<?php print $params['id'] ?>" class="clearfix" action="#">
+            <form method="post" id="user_login_checkout_v2" class="clearfix">
                 <div class="control-group form-group">
                     <label class="control-label"><?php _e("Email or username"); ?></label>
                     <input class="large-field form-control" name="username" <?php if (isset($input['username']) != false): ?> value="<?php print $input['username'] ?>"  <?php endif;  ?> type="text" />
