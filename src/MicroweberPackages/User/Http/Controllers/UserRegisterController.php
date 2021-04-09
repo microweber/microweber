@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
@@ -95,6 +96,9 @@ class UserRegisterController extends Controller
 
         $created = User::create($userData);
         if ($created) {
+
+            Session::flash('old_sid', Session::getId());
+
             event(new Registered($created));
             if ($should_login) {
                 app()->user_manager->make_logged($created->id);
