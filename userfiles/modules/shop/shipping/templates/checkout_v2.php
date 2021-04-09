@@ -44,8 +44,16 @@ if (isset($params['selected_provider'])) {
                             <?php
                             endif;
                             ?>
-                            <?php print $item['name']; ?>
                         </label>
+                        <br>
+                    <?php print $item['name']; ?>
+                        <?php
+                        if (isset($item['settings']['help_text'])):
+                        ?>
+                        <small class="text-muted">(<?php echo $item['settings']['help_text']; ?>)</small>
+                        <?php
+                        endif;
+                        ?>
                     </div>
                 </div>
 
