@@ -11,18 +11,23 @@ description: Default register template
 */
 
 ?>
+
 <?php if (is_logged() == false): ?>
     <script type="text/javascript">
         mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css");
         mw.require('forms.js', true);
         mw.require('url.js', true);
+
         $(document).ready(function () {
-            mw.$('#user_registration_form_holder').submit(function () {
-                mw.form.post(mw.$('#user_registration_form_holder'), '<?php print site_url('api') ?>/user_register', function () {
-                    mw.response('#register_form_holder', this);
-                    if (this.success) {
-                        mw.reload_module('users/register');
-                        window.location.href = window.location.href;
+            mw.$('#user_registration_form_holder_checkout_v2').submit(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo route('api.user.register'); ?>",
+                    data: $('#user_registration_form_holder_checkout_v2').serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            window.location.href = "<?php echo route('checkout.contact_information'); ?>";
+                        }
                     }
                 });
                 return false;
@@ -39,7 +44,7 @@ description: Default register template
         </div>
         <br />
 
-        <form class="p-t-10" action="#" id="user_registration_form_holder" method="post">
+        <form class="p-t-10" action="#" id="user_registration_form_holder_checkout_v2" method="post">
             <?php print csrf_form(); ?>
             <?php if ($form_show_first_name): ?>
                 <div class="form-group">

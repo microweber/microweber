@@ -21,6 +21,11 @@
                                 mw.tools.enable(subm);
                             }
 
+                            if (typeof this.error === 'string') {
+                                mw.notification.error(this.error, 2000);
+                                mw.tools.enable(subm);
+                            }
+
                             if (typeof this.success === 'string') {
                                 var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
                                 if (c == undefined || c == '') {
