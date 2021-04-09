@@ -34,9 +34,14 @@
     <link href="<?php print template_url(); ?>dist/main.min.css" rel="stylesheet"/>
 
     <style>
-        html, body, section, .row, .navbar-expand-lg.navbar-light, .navbar-toggler, .checkout-v2-sidebar.right-column {
+        html, body, section, .row, .navbar-expand-lg.navbar-light, .checkout-v2-sidebar.right-column {
             height: 100%;
             min-height: 100%;
+        }
+
+        .navbar-toggler {
+            height: 50px;
+            width: 100%;
         }
     </style>
 
@@ -56,7 +61,7 @@
 <section>
     <nav class="navbar-expand-lg navbar-light">
         <div class="row">
-            <div class="col-lg-6 col">
+            <div class="col-lg-6 col-12 order-md-0 order-1">
                 <div class="col-lg-8 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
                     <div class="d-flex">
                         @php
