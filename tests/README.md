@@ -9,15 +9,17 @@ Browser tests are located in this folder
 ## Setup dusk 
  
  
- 
 `php artisan dusk:install --env=testing`
 
-## Run dusk with server 
 
 
-## Run dusk 
+## Run dusk  if you start your own server
 
-`php artisan dusk --env=testing
-`
+`php artisan dusk --env=testing`
 
+
+
+## Run dusk with build-in server
+ 
+`php artisan dusk:serve --env=testing`
 
