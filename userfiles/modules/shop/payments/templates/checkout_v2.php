@@ -57,15 +57,15 @@ if (isset($params['selected_provider'])) {
                     <li>
 
                         <div class="form-group my-1 mt-2">
-                            <div class="custom-control custom-radio checkout-v2-radio d-flex align-self-center pl-0 pt-2 ">
+                            <div class="custom-control custom-radio checkout-v2-radio pl-0 pt-2">
 
-                                <label class="mx-2 mb-0" for="payment-option-<?php print $count; ?>">
+                                <label class="mx-2 mb-0 d-flex align-self-center" for="payment-option-<?php print $count; ?>">
 
                                 <input type="radio" onchange="showPaymentModule('<?php echo md5($payment_option['gw_file']); ?>','<?php echo $payment_option['gw_file']; ?>');" id="payment-option-<?php print $count; ?>" value="<?php echo $payment_option['gw_file']; ?>" <?php if ($selected_payment_gateway == $payment_option['gw_file']): ?> checked="checked" <?php endif; ?> name="payment_gw" />
 
                                     <!--<img src="<?php /*echo $payment_option['icon']; */?>" style="width:32px;" />
 -->
-                                   <?php print  _e($payment_option['name']); ?>
+                                   <div class="ml-2"><?php print  _e($payment_option['name']); ?></div>
 
                                 </label>
 
