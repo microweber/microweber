@@ -160,7 +160,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                         <?php endif; ?>
                     </td>
                     <?php if (isset($item['custom_fields']) and $item['custom_fields'] != false): ?>
-                        <td class="mw-order-custom-fields"><?php print $item['custom_fields'] ?></td>
+                        <td class="mw-order-custom-fields text-muted"><small><?php print $item['custom_fields'] ?></small></td>
                          <?php else :?>
                         <td class="mw-order-custom-fields"><?php _e("N/A"); ?></td>
                     <?php endif ?>
