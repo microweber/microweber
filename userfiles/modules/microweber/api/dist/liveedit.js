@@ -755,8 +755,7 @@ mw.common = {
 
     mw.components = {
     _rangeOnce: false,
-    'range': function(el){
-         var options = this._options(el);
+    'range': function(el, options){
         var defaults = {
             range: 'min',
             animate: "fast"
@@ -805,8 +804,7 @@ mw.common = {
             });
         }
     },
-    'color-picker': function(el){
-        var options = this._options(el);
+    'color-picker': function(el, options){
         var defaults = {
             position: 'bottom-center'
         };
@@ -840,9 +838,8 @@ mw.common = {
             }, 10);
         });
     },
-    'file-uploader':function(el){
-        var options = this._options(el);
-        var defaults = {
+    'file-uploader':function(el, options){
+         var defaults = {
             element: el
         };
         var settings = $.extend({}, defaults, options);
@@ -858,9 +855,8 @@ mw.common = {
             }
         });
     },
-    'modules-tabs':function(el){
-        var options = this._options(el);
-        options.breakPoint = 100; //makes accordion if less then 100px
+    'modules-tabs':function(el, options){
+         options.breakPoint = 100; //makes accordion if less then 100px
         if(window.live_edit_sidebar) {
             mw.$(el).addClass('mw-accordion-window-height')
             options.breakPoint = 800; //makes accordion if less then 800px
@@ -868,12 +864,11 @@ mw.common = {
         var accordion = this.accordion(el);
         var tb = new mw.tabAccordion(options, accordion);
     },
-    'tab-accordion':function(el){
-       var options = this._options(el);
-       var accordion = this.accordion(el);
+    'tab-accordion':function(el, options){
+        var accordion = this.accordion(el);
        var tb = new mw.tabAccordion(options, accordion);
     },
-    accordion:function(el){
+    accordion:function(el, options){
         if(!el || el._accordion) return;
         if(!$(el).is(':visible')){
             setTimeout(function(){
@@ -882,8 +877,7 @@ mw.common = {
             return;
         }
         el._accordion = true;
-        var options = this._options(el);
-        var settings = $.extend(options, {element:el})
+         var settings = $.extend(options, {element:el})
         var accordion = new mw.uiAccordion(settings);
         if($(el).hasClass('mw-accordion-window-height')){
             accordion._setHeight = function(){
@@ -921,7 +915,7 @@ mw.common = {
         }
         return accordion;
     },
-    postSearch: function (el) {
+    postSearch: function (el, options) {
         var defaults = {keyword: el.value, limit: 4};
         el._setValue = function (id) {
             mw.tools.ajaxSearch(this._settings, function () {
@@ -930,8 +924,7 @@ mw.common = {
         };
 
         el = mw.$(el);
-        var options = JSON.parse(el.attr("data-options") || '{}');
-        settings = $.extend({}, defaults, options);
+         settings = $.extend({}, defaults, options);
         el[0]._settings = settings;
 
         el.wrap("<div class='mw-component-post-search'></div>");
@@ -994,15 +987,15 @@ mw.common = {
         mw.$('[data-mwcomponent]').each(function () {
             var component = mw.$(this).attr("data-mwcomponent");
             if (mw.components[component]) {
-                mw.components[component](this);
-                mw.$(this).removeAttr('data-mwcomponent')
+                mw.components[component](this, mw.components._options(this));
+                mw.$(this).removeAttr('data-mwcomponent');
             }
         });
         $.each(this, function(key){
             if(key.indexOf('_') === -1){
                 mw.$('.mw-'+key+', mw-'+key).not(".mw-component-ready").each(function () {
                     mw.$(this).addClass('mw-component-ready');
-                    mw.components[key](this);
+                    mw.components[key](this, mw.components._options(this));
                 });
             }
         });
@@ -6112,9 +6105,6 @@ mw.drag = {
                                 mw.liveEditState.record(rec);
                                 mw.$(mw.ea.data.target)[mw.ea.data.dropableAction](mw.ea.data.currentGrabbed);
 
-
-
-
                                 setTimeout(function(ed) {
                                     var nrec = {
                                         target: ed,
@@ -6583,6 +6573,7 @@ mw.drag = {
                 mw.$('.module-over', helper.item).each(function(){
                     mw.$(this).removeClass('module-over');
                 });
+
                 mw.$('[class]', helper.item).each(function(){
                     var cls = this.getAttribute("class");
                     if(typeof cls === 'string'){
@@ -6642,7 +6633,6 @@ mw.drag = {
         mw.trigger('saveStart', mw._liveeditData);
 
         var xhr = mw.drag.coreSave(mw._liveeditData);
-        console.log(xhr)
         xhr.fail(function(){
 
             if(xhr.status == 403){
@@ -9431,7 +9421,7 @@ mw._initHandles = {
             if(topPos<(ws+minTop)){
                 topPos=(ws+minTop);
                 // marginTop =  -15;
-                if(el[0].offsetHeight <100){
+                if(el[0].offsetHeight < 100){
                     topPos = o.top+el[0].offsetHeight;
                     marginTop =  0;
                 }
@@ -9451,16 +9441,17 @@ mw._initHandles = {
                 topPosFinal = (o.top + outheight) - (outheight > 100 ? 0 : handle.wrapper.clientHeight);
             }
 
-            if(el.attr('data-type') === 'layouts') {
-                topPosFinal = o.top + 10;
-                handleLeft = handleLeft + 10;
-            }
+
             var elHeight = el.height();
 
             handle.positionedAt = 'top';
             if (event.pageY > (o.top + elHeight/2)) {
                 topPosFinal += elHeight;
                 handle.positionedAt = 'bottom';
+            }
+             if (element.dataset.type === 'layouts') {
+                topPosFinal = o.top + 10;
+                 handleLeft = handleLeft + 10;
             }
 
             clearTimeout(handle._hideTime);
@@ -9571,8 +9562,10 @@ mw._initHandles = {
 
         mw.on('moduleOver', function (e, pelement, event) {
             if(mw.handleModuleActive._element === pelement) {
+                mw.handleModule.hide();
                 return;
             }
+
             positionModuleHandle(e, pelement, mw.handleModule, event);
             if(mw._activeModuleOver === mw.handleModuleActive._target) {
                 mw.handleModule.hide();
@@ -20038,6 +20031,13 @@ mw.dropdown = mw.tools.dropdown;
             return this;
         };
 
+        this.removeAttr = function (attr) {
+            this.each(function (){
+                this.removeAttribute(attr);
+            });
+            return this;
+        };
+
         this.val = function(val){
             if(typeof val === 'undefined') {
                 return this._active().value;
@@ -20102,8 +20102,15 @@ mw.dropdown = mw.tools.dropdown;
         };
 
         this.removeClass = function (cls) {
+            if (typeof cls === 'string') {
+                cls = cls.trim().replace(/ +(?=)/g,' ').split(' ');
+            }
+            var l = cls.length;
             return this.each(function (){
-                this.classList.remove(cls.trim());
+                var i = 0;
+                for ( ; i < l; i++ ) {
+                    this.classList.remove(cls[i]);
+                }
             });
         };
 
@@ -20291,6 +20298,10 @@ mw.dropdown = mw.tools.dropdown;
                     this.nodes = [].slice.call(el.children);
                     this._asElement = true;
                 }
+            } else if(Array.isArray(options)) { // array of elements
+                this.nodes = options;
+                options = {};
+                this._asElement = true;
             }
 
             options = options || {};

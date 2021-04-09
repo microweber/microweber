@@ -53,17 +53,32 @@ var Draggable = function (options) {
         return this._helper;
     };
 
+    this.isDragging = false;
+
 
     this.draggable = function () {
         this.handle.draggable = true;
+        mw.element(this.settings.target).on('dragover', function (e) {
+            if (scope.isDragging) {
+                scope.dispatch('dragOver', {element: scope.element, event: e});
+                e.preventDefault();
+            }
+
+        }).on('drop', function (e) {
+            if (scope.isDragging) {
+                e.preventDefault();
+                scope.dispatch('drop', {element: scope.element, event: e});
+            }
+        });
         mw.element(this.settings.handle)
             .on('dragstart', function (e) {
+                scope.isDragging = true;
                 if(!scope.element.id) {
                     scope.element.id = ('mw-element-' + new Date().getTime());
                 }
                 scope.element.classList.add('mw-element-is-dragged');
                 e.dataTransfer.setData("text", scope.element.id);
-                scope.helper('create')
+                scope.helper('create');
                 scope.dispatch('dragStart',{element: scope.element, event: e});
             })
             .on('drag', function (e) {
@@ -71,18 +86,12 @@ var Draggable = function (options) {
                 scope.dispatch('drag',{element: scope.element, event: e});
             })
             .on('dragend', function (e) {
+                scope.isDragging = false;
                 scope.element.classList.remove('mw-element-is-dragged');
                 scope.helper();
                 scope.helper('remove');
                 scope.dispatch('dragEnd',{element: scope.element, event: e});
             });
-        mw.element(this.handle.target).on('dragover', function (e) {
-            scope.dispatch('dragOver', {element: scope.element, event: e});
-            e.preventDefault();
-        }).on('drop', function (e) {
-            e.preventDefault();
-            scope.dispatch('drop',{element: scope.element, event: e});
-        });
     };
     this.init();
 };

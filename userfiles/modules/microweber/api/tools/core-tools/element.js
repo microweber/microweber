@@ -227,8 +227,15 @@
         };
 
         this.removeClass = function (cls) {
+            if (typeof cls === 'string') {
+                cls = cls.trim().replace(/ +(?=)/g,' ').split(' ');
+            }
+            var l = cls.length;
             return this.each(function (){
-                this.classList.remove(cls.trim());
+                var i = 0;
+                for ( ; i < l; i++ ) {
+                    this.classList.remove(cls[i]);
+                }
             });
         };
 

@@ -331,7 +331,7 @@ mw.drag = {
                     } else {
                         mw.ea.data.currentGrabbed = mw.dragCurrent;
                         mw.tools.removeClass(this, 'isTyping');
-                        mw.ea.interactionAnalizer(event);
+                        mw.ea.interactionAnalyzer(event);
                         mw.$(".currentDragMouseOver").removeClass("currentDragMouseOver");
                         mw.$(mw.currentDragMouseOver).addClass("currentDragMouseOver");
                     }

@@ -76,11 +76,11 @@ mw.AfterDrop = function(){
             scope.loadNewModules()
             mw.dropable.hide().removeClass('mw_dropable_onleaveedit');
 
-        }, 78)
-    }
+        }, 78);
+    };
 
 
-}
+};
 
 
 /*************************************************************
@@ -100,7 +100,7 @@ mw.AfterDrop = function(){
 
 
 
-    mw.analizer = new mw.ElementAnalizer(Options);
+    mw.analyzer = new mw.ElementAnalyzer(Options);
 
 
 
@@ -466,7 +466,7 @@ mw.ElementAnalyzer = function(options){
         return this.getTarget(node.parentNode);
     };
 
-    this.interactionAnalizer = function(e){
+    this.interactionAnalyzer = function(e){
 
         var scope = this;
         mw.dropable.hide();
@@ -528,7 +528,7 @@ mw.ElementAnalyzer = function(options){
     this.whenMove = function(){
         var scope = this;
         this.on('mousemove touchmove', function(e){
-            scope.interactionAnalizer(e)
+            scope.interactionAnalyzer(e)
         });
     };
     this.init = function(){

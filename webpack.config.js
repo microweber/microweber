@@ -1,3 +1,6 @@
+/* jshint esversion: 6 */
+/* globals: mw */
+
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -57,6 +60,7 @@ const config = {
         'site-libs.js': input + '/entrylibs/site-libs.js',
         'liveedit-libs.js': input + '/entrylibs/liveedit.js',
         'admin-libs.js': input + '/entrylibs/admin.js',
+        'live-edit2.js': `${input}/liveedit2/@live.js`,
 
         'site.js': glob.sync(path.resolve(`${input}/{${prod.join(',')}}/*.js`)),
         'liveedit.js': [].concat(glob.sync(path.resolve(`${input}/{${liveeditCore.join(',')}}/*.js`)), glob.sync(path.resolve(`${input}/{${liveedit.join(',')}}/*.js`))),
