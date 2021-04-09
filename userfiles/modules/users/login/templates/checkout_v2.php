@@ -17,7 +17,7 @@ description: Login default
 
 
 <script type="text/javascript">
-    
+
     mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css");
     mw.require('forms.js', true);
     mw.require('url.js', true);
