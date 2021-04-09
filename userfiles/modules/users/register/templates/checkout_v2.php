@@ -76,9 +76,9 @@ description: Default register template
 
             <div class="row">
                 <div class="col-12">
-                    <p class="personal-data"><?php _e("Your personal data will be used to support your expirience
+                    <small class="personal-data text-muted"><?php _e("Your personal data will be used to support your experience
                         throughout this website, to manage access to your account
-                        and for other purposes described in our"); ?> <a href="#"><?php _e("privacy policy"); ?></a>.</p>
+                        and for other purposes described in our"); ?> <a href="#"><?php _e("privacy policy"); ?></a>.</small>
                 </div>
             </div>
 
