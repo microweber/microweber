@@ -273,10 +273,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
-        if ($this->app->environment('testing') and \class_exists('\Laravel\Dusk\DuskServiceProvider', false)) {
-            $this->app->register(\Laravel\Dusk\DuskServiceProvider::class);
-
-        }
+//        if ($this->app->environment('testing') and \class_exists('\Laravel\Dusk\DuskServiceProvider', false)) {
+//            $this->app->register(\Laravel\Dusk\DuskServiceProvider::class);
+//
+//        }
 
 
 
