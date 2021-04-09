@@ -18,37 +18,25 @@ description: Checkout
 
 <div class="checkout-modal" id="checkout_modal_<?php print $params['id'] ?>">
 
-        <?php if ($requires_registration and is_logged() == false): ?>
-            <script>
-                $(document).ready(function () {
+   <div class="clear"></div>
 
-                    if (!!$.fn.selectpicker) {
-                        $('#loginModal').modal();
-                    }
-                })
-            </script>
-        <?php else: ?>
+   <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post">
+       <div class="modal-content">
+           <div class="checkout-modal-header">
+               <?php if(!isset($params['no-close-btn'])) { ?>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                               aria-hidden="true">&times;</span></button>
+               <?php } ?>
 
-       <div class="clear"></div>
-       <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post">
-           <div class="modal-content">
-               <div class="checkout-modal-header">
-                   <?php if(!isset($params['no-close-btn'])) { ?>
-                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                   aria-hidden="true">&times;</span></button>
-                   <?php } ?>
+           </div>
 
-               </div>
-
-               <div class="modal-body">
-                   <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
-                   <?php if ($cart_show_enanbled != 'n'): ?>
-                       <module type="shop/cart" template="modal" data-checkout-link-enabled="n" id="cart_checkout_<?php print $params['id'] ?>"/>
-                   <?php endif; ?>
-               </div>
-       </form>
-
-        <?php endif; ?>
+           <div class="modal-body">
+               <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
+               <?php if ($cart_show_enanbled != 'n'): ?>
+                   <module type="shop/cart" template="modal" data-checkout-link-enabled="n" id="cart_checkout_<?php print $params['id'] ?>"/>
+               <?php endif; ?>
+           </div>
+   </form>
 
 </div>
 <script>
