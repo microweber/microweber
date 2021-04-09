@@ -43,9 +43,13 @@ description: Login default
                 <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>
                     <module type="captcha" template="admin" />
                 <?php endif; ?>
-                <a class="reset-password-link" href="<?php print forgot_password_url(); ?>">
-                    <?php _e("Forgot password"); ?>
-                    ?</a>
+                <div class="d-flex align-items-center">
+                    <a class="reset-password-link" href="<?php print forgot_password_url(); ?>">
+                        <?php _e("Forgot password"); ?>
+                        ?</a>
+                    <button class="btn btn-outline-primary ml-auto px-5" type="submit"> <?php _e("Login"); ?></button>
+                </div>
+
 
                 <div class="alert" style="margin: 0;display: none;"></div>
                 <div class="social-login">
@@ -91,7 +95,6 @@ description: Login default
                     </ul>
                 <?php } ?>
                 </div>
-                <button class="btn btn-outline-primary pull-right px-5" type="submit"> <?php _e("Login"); ?></button>
 
                 <?php if (isset($_GET['redirect'])): ?>
                 <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
