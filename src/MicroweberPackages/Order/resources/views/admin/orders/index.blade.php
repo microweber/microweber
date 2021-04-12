@@ -1,10 +1,10 @@
 <div id="manage-orders-menus">
     <div class="card style-1">
         <div class="card-header d-flex align-items-center col-12">
-               <div class="col-md-3 col d-flex justify-content-center align-items-center pl-0">
+               <div class="col-md-3 col d-flex justify-content-md-start justify-content-center align-items-center px-0">
                     <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("List of orders"); ?></strong></h5>
                </div>
-            <div class="col-md-3 col d-flex justify-content-center my-md-0 my-2">
+            <div class="col-md-3 col d-flex justify-content-md-start mr-md-auto justify-content-center my-md-0 my-2 pl-md-0">
                 <button onclick="mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?php _e('Add new order'); ?></button>
             </div>
                <div class="col-md-3 col d-flex justify-content-md-end justify-content-center pr-0">
