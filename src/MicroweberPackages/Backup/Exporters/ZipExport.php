@@ -55,7 +55,7 @@ class ZipExport extends DefaultExport
 
             $customZipFileName = false;
             if ($this->exportOnlyTemplate) {
-                $customZipFileName = str_slug($this->exportOnlyTemplate) . '_export_' . date("Y-m-d-his");
+                $customZipFileName = 'export_' . str_slug($this->exportOnlyTemplate) . date("Y-m-d-his");
             }
 
             $generateFileName = $this->_generateFilename($customZipFileName);
