@@ -13,6 +13,8 @@ use Jenssegers\Agent\Agent;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
+use MicroweberPackages\Assets\AssetsServiceProvider;
+use MicroweberPackages\Assets\Facades\Assets;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
@@ -130,6 +132,7 @@ class AppServiceProvider extends ServiceProvider
         'App' => \Illuminate\Support\Facades\App::class,
         'Arr' => \Illuminate\Support\Arr::class,
         'Artisan' => \Illuminate\Support\Facades\Artisan::class,
+
         'Auth' => \Illuminate\Support\Facades\Auth::class,
         'Blade' => \Illuminate\Support\Facades\Blade::class,
         'Broadcast' => \Illuminate\Support\Facades\Broadcast::class,
@@ -198,6 +201,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->instance('config', new ConfigSave($this->app));
 
         $this->app->register(DebugbarServiceProvider::class);
+        $this->app->register(AssetsServiceProvider::class);
+
+
 
 
         $this->app->register(UserServiceProvider::class);

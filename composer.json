@@ -89,7 +89,8 @@
         "symfony/intl": "5.x-dev",
         "geoip2/geoip2": "~2.0",
         "whitecube/lingua": "1.1.0",
-        "predis/predis": "2.0.x-dev"
+        "predis/predis": "2.0.x-dev",
+        "fisharebest/laravel-assets": "2.0"
 
 
     },
@@ -166,7 +167,8 @@
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/dusk",
-                "barryvdh/laravel-debugbar"
+                "barryvdh/laravel-debugbar",
+                "fisharebest/laravel-assets"
             ]
         }
     }

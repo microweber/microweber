@@ -1,4 +1,8 @@
-<!DOCTYPE HTML>
+<?php
+
+use MicroweberPackages\Assets\Facades\Assets;
+
+?><!DOCTYPE HTML>
 <html>
 <head>
     <title><?php _e('Installation'); ?></title>
