@@ -27,7 +27,7 @@ if (isset($params['selected_provider'])) {
 ?>
 
 <div class="mw-shipping-select">
-    <div  class="my-3" <?php if(count($shipping_options) == 1): ?>style="display: none" <?php endif; ?>>
+    <div  class="my-3">
         <h4 class="mt-5"><?php _e("How you prefer to receive your order ?"); ?></h4>
         <small class="text-muted d-block mb-2"> <?php _e("Choose the right method for deliver your order."); ?></small>
         <?php $count = 0;
