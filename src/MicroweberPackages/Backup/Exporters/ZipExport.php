@@ -3,9 +3,11 @@
 namespace MicroweberPackages\Backup\Exporters;
 
 use MicroweberPackages\Backup\Loggers\BackupExportLogger;
+use MicroweberPackages\Backup\Traits\ExportGetSet;
 
 class ZipExport extends DefaultExport
 {
+    use ExportGetSet;
     /**
      * The current batch step.
      * @var integer
@@ -31,24 +33,6 @@ class ZipExport extends DefaultExport
     public $files = array();
 
     /**
-     * Export media
-     * @var string
-     */
-    public $exportMedia = false;
-
-    /**
-     * Export modules
-     * @var bool
-     */
-    public $exportModules = false;
-
-    /**
-     * Export templates
-     * @var bool
-     */
-    public $exportTemplates = false;
-
-    /**
      * The name of cache group for backup file.
      * @var string
      */
@@ -68,27 +52,19 @@ class ZipExport extends DefaultExport
         $zipFileName = cache_get('ExportZipFileName', $this->_cacheGroupName);
 
         if (empty($zipFileName)) {
-            $generateFileName = $this->_generateFilename();
+
+            $customZipFileName = false;
+            if ($this->exportOnlyTemplate) {
+                $customZipFileName = 'export_' . str_slug($this->exportOnlyTemplate) . date("Y-m-d-his");
+            }
+
+            $generateFileName = $this->_generateFilename($customZipFileName);
+
             cache_save($generateFileName, 'ExportZipFileName', $this->_cacheGroupName, 60 * 10);
             return $generateFileName;
         }
 
         return $zipFileName;
-    }
-
-    public function setExportMedia($bool)
-    {
-        $this->exportMedia = $bool;
-    }
-
-    public function setExportModules($modules)
-    {
-        $this->exportModules = $modules;
-    }
-
-    public function setExportTemplates($templates)
-    {
-        $this->exportTemplates = $templates;
     }
 
     public function addFile($file)
@@ -140,6 +116,11 @@ class ZipExport extends DefaultExport
         if ($this->exportTemplates) {
             $userFilesTemplates = $this->_getUserFilesTemplatesPaths();
             $filesForZip = array_merge($filesForZip, $userFilesTemplates);
+        }
+
+        if ($this->exportOnlyTemplate) {
+            $currentTemplateFiles = $this->_getTempalteFilesPaths();
+            $filesForZip = array_merge($filesForZip, $currentTemplateFiles);
         }
 
         /*
@@ -208,6 +189,46 @@ class ZipExport extends DefaultExport
     public function clearSteps()
     {
         cache_delete($this->_cacheGroupName);
+    }
+
+    protected function _getTempalteFilesPaths()
+    {
+        $templatesFilesReady = array();
+
+        $userFilesPathTemplates = userfiles_path() . DIRECTORY_SEPARATOR . 'templates';
+        $templateDir = $userFilesPathTemplates . DIRECTORY_SEPARATOR . $this->exportOnlyTemplate;
+        if (!is_dir($templateDir)) {
+            return [];
+        }
+
+        $templateFiles = $this->_getDirContents($templateDir);
+
+        foreach ($templateFiles as $filePath) {
+
+            $dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+
+            if ((strpos($dataFile, '.git') !== false) ||
+                (strpos($dataFile, '.zip') !== false) ||
+                (strpos($dataFile, '.json') !== false) ||
+                (strpos($dataFile, '\\gulp\\') !== false) ||
+                (strpos($dataFile, '.gitignore') !== false) ||
+                (strpos($dataFile, '.sh') !== false)) {
+                continue;
+            }
+
+            $dataFile = normalize_path($dataFile, false);
+            $filePath = normalize_path($filePath, false);
+
+            // make files from template to the index on zip
+            $dataFile = str_replace('templates\\' . $this->exportOnlyTemplate.'\\', '', $dataFile);
+
+            $templatesFilesReady[] = array(
+                'filename' => $dataFile,
+                'filepath' => $filePath
+            );
+        }
+
+        return $templatesFilesReady;
     }
 
     protected function _getUserFilesTemplatesPaths()

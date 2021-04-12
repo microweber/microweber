@@ -11,6 +11,8 @@ if ($params['period']) {
 }
 
 
+
+
 ?>
 
 <script>
@@ -68,7 +70,7 @@ if ($params['period']) {
 
         }
         $.each(val, function (i) {
-            item.data.push([this.date_key, parseFloat(this.date_value)])
+            item.data.push([this.date_key, parseInt(this.date_value)])
         });
         series.push(item)
     });
