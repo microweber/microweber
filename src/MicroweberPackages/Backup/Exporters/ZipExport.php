@@ -200,11 +200,12 @@ class ZipExport extends DefaultExport
 
             $dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
 
-            if (strpos($dataFile, '.git') !== false) {
-                continue;
-            }
-
-            if (strpos($dataFile, '.zip') !== false) {
+            if ((strpos($dataFile, '.git') !== false) ||
+                (strpos($dataFile, '.zip') !== false) ||
+                (strpos($dataFile, '.json') !== false) ||
+                (strpos($dataFile, '\\gulp\\') !== false) ||
+                (strpos($dataFile, '.gitignore') !== false) ||
+                (strpos($dataFile, '.sh') !== false)) {
                 continue;
             }
 
