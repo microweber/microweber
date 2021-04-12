@@ -17,12 +17,12 @@ if ($showSearch):
 <div class="js-search-by d-inline-block">
     <div class="js-search-by-keywords">
         <form method="get">
-            <div class="form-inline">
+            <div class="d-flex">
                 <div class="input-group mb-0 prepend-transparent mx-2">
                     <div class="input-group-prepend">
                         <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                     </div>
-                    <input type="text" name="keyword" value="<?php echo $keyword; ?>" class="form-control form-control-sm" style="width: 220px;" placeholder="<?php _e("Search"); ?>"/>
+                    <input type="text" name="keyword" value="<?php echo $keyword; ?>" class="form-control form-control-sm" placeholder="<?php _e("Search"); ?>"/>
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm btn-icon"><i class="mdi mdi-magnify"></i></button>
             </div>
