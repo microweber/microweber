@@ -305,8 +305,8 @@ mw.log(mw.$(template_holder).html())
                 {
                     input: {name: 'export_items', value: 'template'},
                     icon: { className: 'mdi mdi-text-box-check-outline'  },
-                    title: 'Export  website template',
-                    description: 'All data from website template settings, pages and media'
+                    title: 'Export current website template',
+                    description: 'All files from current website template'
                 },
                 {
                     input: {name: 'export_media', value: true, checked: true},

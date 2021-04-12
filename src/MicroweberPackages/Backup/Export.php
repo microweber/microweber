@@ -60,6 +60,7 @@ class Export
 
         if ($this->exportOnlyTemplate) {
             $exportWithZip = true;
+            unset($export['files']);
         }
 
 		if ($exportWithZip || $exportMediaUserFiles) {
