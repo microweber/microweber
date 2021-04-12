@@ -14,7 +14,6 @@ class Export
 {
     use ExportGetSet;
 
-	public $skipTables;
 	public $exportData;
 	public $type = 'json';
 	public $exportAllData = false;
@@ -60,6 +59,7 @@ class Export
 
         if ($this->exportOnlyTemplate) {
             $exportWithZip = true;
+            unset($export['files']);
         }
 
 		if ($exportWithZip || $exportMediaUserFiles) {
