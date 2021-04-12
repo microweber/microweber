@@ -19,7 +19,6 @@ use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
-use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
@@ -273,10 +272,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CommentServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
-        $this->app->register(CommentServiceProvider::class);
-        $this->app->register(DuskServiceProvider::class);
 
-
+//        if ($this->app->environment('testing') and \class_exists('\Laravel\Dusk\DuskServiceProvider', false)) {
+//            $this->app->register(\Laravel\Dusk\DuskServiceProvider::class);
+//
+//        }
 
 
 
