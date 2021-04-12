@@ -146,8 +146,12 @@
 
                     <?php
                     $shippingGatewayModuleInfo = module_info($order['shipping_service']);
+                    $icon = (isset($shippingGatewayModuleInfo['settings']['icon_class']) ? $shippingGatewayModuleInfo['settings']['icon_class'] : false);
+
+
+
                     ?>
-                    <i class="<?php echo $shippingGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
+                    <i class="<?php echo $icon; ?>" style="font-size:23px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
 
                 </div>
             </div>
