@@ -9,6 +9,15 @@ if(!$selected_shipping_gateway and $shipping_options and isset($shipping_options
 }
 ?>
 
+<?php
+if (count($shipping_options) == 0) {
+    ?>
+    <div class="alert alert-danger"><?php _e("There no shipping methods available."); ?></div>
+<?php
+return;
+}
+?>
+
 <?php if (is_array($shipping_options) and !empty($shipping_options)) : ?>
     <script type="text/javascript">
         Gateway = function (el) {
