@@ -106,8 +106,7 @@
         "psr-4": {
             "App\\": "app/",
             "Microweber\\": "src/Microweber/",
-            "MicroweberPackages\\": "src/MicroweberPackages/",
-            "Tests\\": "tests/"
+            "MicroweberPackages\\": "src/MicroweberPackages/"
         }
     },
     "scripts": {
