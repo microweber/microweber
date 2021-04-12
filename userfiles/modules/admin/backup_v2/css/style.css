@@ -141,6 +141,7 @@
     margin-top: 15px;
     margin-bottom: 15px;
     overflow-y: scroll;
+    height:400px;
 }
 
 .js-export-log:empty {
