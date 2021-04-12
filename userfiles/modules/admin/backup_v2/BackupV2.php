@@ -257,6 +257,9 @@ class BackupV2
 
         if (isset($query['items']) && $query['items'] == 'template_default_content') {
             $manager->setExportAllData(true);
+            $manager->addSkipTable('login_attempts');
+            $manager->addSkipTable('multilanguage_translations');
+            $manager->addSkipTable('multilanguage_supported_locales');
             $manager->addSkipTable('translation_keys');
             $manager->addSkipTable('translation_texts');
         }

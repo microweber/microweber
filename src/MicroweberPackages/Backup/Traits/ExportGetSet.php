@@ -53,8 +53,14 @@ trait ExportGetSet
         $this->skipTables($tables);
     }
 
-    public function addSkipTable($table)
+    public function addSkipTable($tableOrTables)
     {
-        $this->skipTables[] = $table;
+        if (is_array($tableOrTables)) {
+            foreach($tableOrTables as $table) {
+                $this->skipTables[] = $table;
+            }
+        } else {
+            $this->skipTables[] = $tableOrTables;
+        }
     }
 }
