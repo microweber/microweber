@@ -224,7 +224,7 @@
                                         <label class="control-label"><?php _e("Website Logo"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select an logo for your website.'); ?></small>
                                         <div class="d-flex">
-                                            <div class="img-circle-holder border-radius-0 border-silver mr-3"> 
+                                            <div class="img-circle-holder img-absolute w-40 border-radius-0 border-silver mr-3">
                                                 <img src="<?php print $logo; ?>" class="js-logo" />
                                                 <input type="hidden" class="mw_option_field" name="logo" id="logo-preview" value="<?php print $logo; ?>" option-group="website"/>
                                             </div>
