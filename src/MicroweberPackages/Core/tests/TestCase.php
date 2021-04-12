@@ -161,9 +161,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 '--env' => $environment,
             );
 
-            $is_installed = mw_is_installed();
+          //  $is_installed = mw_is_installed();
 
-            if (!$is_installed) {
+            //if (!$is_installed) {
 
                 $install = \Artisan::call('microweber:install', $install_params);
 
@@ -176,7 +176,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
                 $is_installed = mw_is_installed();
                 $this->assertEquals(1, $is_installed);
-            }
+          //  }
             // }
 
             \Config::set('mail.driver', 'array');

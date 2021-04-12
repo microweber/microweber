@@ -110,8 +110,8 @@
                     </div>
                 @endif
 
-                @hasSection('logo-right-link')
                     @yield('logo-right-link')
+                    @hasSection('logo-right-link')
                 @endif
             </div>
 

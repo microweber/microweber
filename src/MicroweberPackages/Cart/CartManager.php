@@ -446,10 +446,6 @@ class CartManager extends Crud
                 $findCart->delete();
             }
 
-            $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders');
-
-
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
 
@@ -515,10 +511,6 @@ class CartManager extends Crud
 
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
-
-            $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders');
-
             return array('success' => _e('Item quantity changed', true), 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
 
 
@@ -879,9 +871,6 @@ class CartManager extends Crud
             }
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
-
-            $this->app->cache_manager->delete('cart');
-            $this->app->cache_manager->delete('cart_orders');
 
             return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
         } else {
