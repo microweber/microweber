@@ -118,7 +118,12 @@ If you don't see your server of choice in the list you have to enable the corres
 You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) in order to download Microweber's dependencies.
 
 You can clone and install Microweber with one command:
-`composer create-project microweber/microweber my_site dev-master --prefer-dist --no-dev`
+
+```
+composer create-project microweber/microweber my_site dev-master --prefer-dist --no-dev
+```
+
+
 This will install Microweber in a folder named `my_site`.
 
 Another way is to first clone the repository and then run `composer install` in the base directory.
@@ -140,8 +145,7 @@ We are looking for people who want to help us improve Microweber.
 If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes, submit a pull request, and be sure all tests are passing.
 
 ## Build Status
-[![Build Status](https://ci.microweber.com/job/microweber/job/master/badge/icon)](https://ci.microweber.com/job/microweber/)
-
+[![Build Status](https://travis-ci.org/microweber/microweber.svg?branch=master)](https://travis-ci.org/microweber/microweber)
 ## Contributors
 
 ### Code Contributors
