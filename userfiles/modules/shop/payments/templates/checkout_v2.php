@@ -51,24 +51,32 @@ if (isset($params['selected_provider'])) {
         </div>
 
         <div class="methods">
-            <div class="mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?>">
+            <ul name="payment_gw" class="mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?>">
                 <?php $count = 0;
                 foreach ($payment_options as $payment_option) : $count++; ?>
-                    <div class="form-group my-1 mt-2">
-                        <div class="custom-control custom-radio checkout-v2-radio pl-0 pt-2">
-                            <label class="mx-2 mb-0 d-flex align-self-center" for="payment-option-<?php print $count; ?>">
-                            <input type="radio" onchange="showPaymentModule('<?php echo md5($payment_option['gw_file']); ?>','<?php echo $payment_option['gw_file']; ?>');" id="payment-option-<?php print $count; ?>" value="<?php echo $payment_option['gw_file']; ?>" <?php if ($selected_payment_gateway == $payment_option['gw_file']): ?> checked="checked" <?php endif; ?> name="payment_gw" />
+                    <li>
 
-                                <!--<img src="<?php /*echo $payment_option['icon']; */?>" style="width:32px;" />
+                        <div class="form-group my-1 mt-2">
+                            <div class="custom-control custom-radio checkout-v2-radio pl-0 pt-2">
+
+                                <label class="mx-2 mb-0 d-flex align-self-center" for="payment-option-<?php print $count; ?>">
+
+                                <input type="radio" onchange="showPaymentModule('<?php echo md5($payment_option['gw_file']); ?>','<?php echo $payment_option['gw_file']; ?>');" id="payment-option-<?php print $count; ?>" value="<?php echo $payment_option['gw_file']; ?>" <?php if ($selected_payment_gateway == $payment_option['gw_file']): ?> checked="checked" <?php endif; ?> name="payment_gw" />
+
+                                    <!--<img src="<?php /*echo $payment_option['icon']; */?>" style="width:32px;" />
 -->
-                               <div class="ml-2"><?php print  _e($payment_option['name']); ?></div>
-                            </label>
+                                   <div class="ml-2"><?php print  _e($payment_option['name']); ?></div>
+
+                                </label>
+
+                            </div>
                         </div>
 
-                    <div id="mw-payment-gateway-module-<?php echo md5($payment_option['gw_file']); ?>" class="js-payment-gateway-box"></div>
-                    </div>
+                        <div id="mw-payment-gateway-module-<?php echo md5($payment_option['gw_file']); ?>" class="js-payment-gateway-box"></div>
+
+                    </li>
                 <?php endforeach; ?>
-            </div>
+            </ul>
            </div>
     <?php endif; ?>
 
