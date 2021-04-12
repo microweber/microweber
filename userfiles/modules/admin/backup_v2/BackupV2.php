@@ -251,8 +251,8 @@ class BackupV2
         }
 
         if (isset($query['items']) && $query['items'] == 'template') {
-            $manager->setExportIncludeMedia(true);
-            $manager->setExportIncludeTemplates([template_name()]);
+            $manager->setExportMedia(true);
+            $manager->setExportOnlyTemplate(template_name());
         }
 
 		$manager->setExportData('tables', $tables);
@@ -263,7 +263,7 @@ class BackupV2
 
 		if (isset($query['all'])) {
 			if (isset($query['include_media']) && $query['include_media'] == 'true') {
-				$manager->setExportIncludeMedia(true);
+				$manager->setExportMedia(true);
 			}
 			$manager->setExportAllData(true);
 		}
@@ -285,7 +285,7 @@ class BackupV2
 		    $includeModules = explode(',' , $query['include_modules']);
         }
         if (!empty($includeModules) && is_array($includeModules)) {
-            $manager->setExportIncludeModules($includeModules);
+            $manager->setExportModules($includeModules);
         }
 
         $includeTemplates = array();
@@ -293,7 +293,7 @@ class BackupV2
             $includeTemplates = explode(',' , $query['include_templates']);
         }
         if (!empty($includeTemplates) && is_array($includeTemplates)) {
-            $manager->setExportIncludeTemplates($includeTemplates);
+            $manager->setExportTemplates($includeTemplates);
         }
 
 		if (is_ajax()) {
