@@ -10,7 +10,7 @@ if ($template_settings) {
     if ($template_settings) {
         foreach ($template_settings as $key => $setting) {
             $$key = get_option($key, $option_group);
-//        var_dump($$key);
+    //        var_dump($$key);
             if ($$key === false AND $$key !== null) {
                 if (isset($setting['default'])) {
                     $$key = $setting['default'];
