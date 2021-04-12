@@ -338,7 +338,6 @@ class ZipExport extends DefaultExport
 
     protected function _getDirContents($path)
     {
-
         if (!is_dir($path)) {
             return array();
         }
