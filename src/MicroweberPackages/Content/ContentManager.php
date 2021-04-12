@@ -585,9 +585,11 @@ class ContentManager
                 $item_to_print .= '';
                 $paging_items[$key] = $item_to_print;
 
-                if (count($ready_paging_number_links) > $limit) {
+              /*
+               * TODO: this will bug when we have many products
+               *   if (count($ready_paging_number_links) > $limit) {
                     continue;
-                }
+                }*/
 
                 $ready_paging_number_links[] = [
                     'attributes' => [

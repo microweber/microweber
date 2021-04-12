@@ -687,6 +687,12 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
+                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
+                        mw.liveEditState.record({
+                            target: pt,
+                            value: parent.innerHTML
+                        });
                         var html = mw._activeModuleOver.outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
@@ -695,7 +701,13 @@ mw._initHandles = {
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
-                        mw.reload_module(newEl);
+                        mw.reload_module(newEl, function(){
+                            mw.liveEditState.record({
+                                target: pt,
+                                value: parent.innerHTML
+                            });
+                        });
+
                         mw.handleModule.hide();
                     }
                 },
@@ -761,6 +773,12 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
+                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
+                        mw.liveEditState.record({
+                            target: pt,
+                            value: parent.innerHTML
+                        });
                         var html = mw._activeModuleOver.outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
@@ -769,7 +787,12 @@ mw._initHandles = {
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
-                        mw.reload_module(newEl);
+                        mw.reload_module(newEl, function (){
+                             mw.liveEditState.record({
+                                target: pt,
+                                value: parent.innerHTML
+                            });
+                        });
                         mw.handleModule.hide();
                     }
                 },
