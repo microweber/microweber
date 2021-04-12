@@ -14,7 +14,6 @@ class Export
 {
     use ExportGetSet;
 
-	public $skipTables;
 	public $exportData;
 	public $type = 'json';
 	public $exportAllData = false;
