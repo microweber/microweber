@@ -3,6 +3,23 @@ $payment_options = payment_options();
 $enable_payment_options_count = 0;
 ?>
 
+
+<?php
+if (count($payment_options) == 0) {
+    ?>
+    <div class="alert alert-danger">
+        <?php _e("There no payment methods available."); ?>
+        <?php
+        if (is_admin()) {
+            echo '<br /><a href="'.admin_url('view:shop/action:options#option_group=shop/payments/admin').'" target="_blank">' . _e("You can setup payment methods when you click here.", true). '</a>';
+        }
+        ?>
+    </div>
+    <?php
+    return;
+}
+?>
+
 <script>mw.moduleCSS("<?php print modules_url(); ?>shop/payments/styles.css"); </script>
 
 <script type="text/javascript">
