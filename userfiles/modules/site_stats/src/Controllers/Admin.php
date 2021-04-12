@@ -312,6 +312,9 @@ class Admin
         }
 
 
+
+
+
         $graph_data = array();
         $graph_data['views'] = $views_count_grouped_by_period;
         $graph_data['visits'] = $visits_count_grouped_by_period;
