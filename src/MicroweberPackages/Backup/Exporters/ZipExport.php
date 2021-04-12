@@ -111,8 +111,10 @@ class ZipExport extends DefaultExport
             $filesForZip = array_merge($filesForZip, $userFilesTemplates);
         }
 
-
-        dd($filesForZip);
+        if ($this->exportOnlyTemplate) {
+            $currentTemplateFiles = $this->_getTempalteFilesPaths();
+            $filesForZip = array_merge($filesForZip, $currentTemplateFiles);
+        }
 
         /*
         if (empty($filesForZip)) {
@@ -180,6 +182,45 @@ class ZipExport extends DefaultExport
     public function clearSteps()
     {
         cache_delete($this->_cacheGroupName);
+    }
+
+    protected function _getTempalteFilesPaths()
+    {
+        $templatesFilesReady = array();
+
+        $userFilesPathTemplates = userfiles_path() . DIRECTORY_SEPARATOR . 'templates';
+        $templateDir = $userFilesPathTemplates . DIRECTORY_SEPARATOR . $this->exportOnlyTemplate;
+        if (!is_dir($templateDir)) {
+            return [];
+        }
+
+        $templateFiles = $this->_getDirContents($templateDir);
+
+        foreach ($templateFiles as $filePath) {
+
+            $dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+
+            if (strpos($dataFile, '.git') !== false) {
+                continue;
+            }
+
+            if (strpos($dataFile, '.zip') !== false) {
+                continue;
+            }
+
+            $dataFile = normalize_path($dataFile, false);
+            $filePath = normalize_path($filePath, false);
+
+            // make files from template to the index on zip
+            $dataFile = str_replace('templates\\' . $this->exportOnlyTemplate.'\\', '', $dataFile);
+
+            $templatesFilesReady[] = array(
+                'filename' => $dataFile,
+                'filepath' => $filePath
+            );
+        }
+
+        return $templatesFilesReady;
     }
 
     protected function _getUserFilesTemplatesPaths()
