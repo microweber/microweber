@@ -12,11 +12,11 @@ if(!$selected_shipping_gateway and $shipping_options and isset($shipping_options
 <?php
 if (count($shipping_options) == 0) {
     ?>
-    <div class="alert alert-danger">
+    <div class="alert alert-primary">
         <?php _e("There no shipping methods available."); ?>
         <?php
         if (is_admin()) {
-          echo '<br /><a href="'.admin_url('view:shop/action:options#option_group=shop/shipping/admin').'" target="_blank">' . _e("You can setup shipping methods when you click here.", true). '</a>';
+          echo '<br /><a href="'.admin_url('view:shop/action:options#option_group=shop/shipping/admin').'" target="_blank">' . _e("Setup shipping methods", true). '</a>';
         }
         ?>
     </div>
