@@ -42,4 +42,25 @@ trait ExportGetSet
     {
         $this->exportOnlyTemplate = $template;
     }
+
+    /**
+     * Add skip tables
+     */
+
+    public $skipTables;
+
+    public function setSkipTables($tables) {
+        $this->skipTables($tables);
+    }
+
+    public function addSkipTable($tableOrTables)
+    {
+        if (is_array($tableOrTables)) {
+            foreach($tableOrTables as $table) {
+                $this->skipTables[] = $table;
+            }
+        } else {
+            $this->skipTables[] = $tableOrTables;
+        }
+    }
 }

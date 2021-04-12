@@ -136,6 +136,7 @@ class BackupManager
 			$export->setExportModules($this->exportModules);
 			$export->setExportTemplates($this->exportTemplates);
 			$export->setExportOnlyTemplate($this->exportOnlyTemplate);
+			$export->addSkipTable($this->skipTables);
 
 			return $export->start();
 
