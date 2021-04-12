@@ -52,7 +52,14 @@ class ZipExport extends DefaultExport
         $zipFileName = cache_get('ExportZipFileName', $this->_cacheGroupName);
 
         if (empty($zipFileName)) {
-            $generateFileName = $this->_generateFilename();
+
+            $customZipFileName = false;
+            if ($this->exportOnlyTemplate) {
+                $customZipFileName = str_slug($this->exportOnlyTemplate) . '_export_' . date("Y-m-d-his");
+            }
+
+            $generateFileName = $this->_generateFilename($customZipFileName);
+
             cache_save($generateFileName, 'ExportZipFileName', $this->_cacheGroupName, 60 * 10);
             return $generateFileName;
         }
