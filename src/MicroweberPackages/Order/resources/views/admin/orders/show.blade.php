@@ -330,14 +330,27 @@
                     <?php _e("Payment Method"); ?>:
                         <?php
                         $paymentGatewayModuleInfo = module_info($order['payment_gw']);
-                        if (isset($paymentGatewayModuleInfo['settings']['icon_class'])):
-                        ?>
-                        <i class="<?php echo $paymentGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>
-                        <?php else: ?>
-                        <img src="<?php echo $paymentGatewayModuleInfo['icon'];?>" style="width:23px" />
+                        if($paymentGatewayModuleInfo){
+
+
+                            if (isset($paymentGatewayModuleInfo['settings']['icon_class'])):
+                            ?>
+                            <i class="<?php echo $paymentGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>
+                            <?php else: ?>
+                        <?php if (isset($paymentGatewayModuleInfo['icon'])): ?>
+
+                            <img src="<?php echo $paymentGatewayModuleInfo['icon'];?>" style="width:23px" />
+
                         <?php endif; ?>
 
-                        <?php echo $paymentGatewayModuleInfo['name'];?>
+
+                            <?php endif; ?>
+
+                            <?php echo $paymentGatewayModuleInfo['name'];?>
+
+                        <?php } ?>
+
+
 
                 </div>
 
