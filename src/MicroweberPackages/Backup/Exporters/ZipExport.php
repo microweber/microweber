@@ -3,9 +3,11 @@
 namespace MicroweberPackages\Backup\Exporters;
 
 use MicroweberPackages\Backup\Loggers\BackupExportLogger;
+use MicroweberPackages\Backup\Traits\ExportGetSet;
 
 class ZipExport extends DefaultExport
 {
+    use ExportGetSet;
     /**
      * The current batch step.
      * @var integer
@@ -29,24 +31,6 @@ class ZipExport extends DefaultExport
      * @var array
      */
     public $files = array();
-
-    /**
-     * Export media
-     * @var string
-     */
-    public $exportMedia = false;
-
-    /**
-     * Export modules
-     * @var bool
-     */
-    public $exportModules = false;
-
-    /**
-     * Export templates
-     * @var bool
-     */
-    public $exportTemplates = false;
 
     /**
      * The name of cache group for backup file.
@@ -74,21 +58,6 @@ class ZipExport extends DefaultExport
         }
 
         return $zipFileName;
-    }
-
-    public function setExportMedia($bool)
-    {
-        $this->exportMedia = $bool;
-    }
-
-    public function setExportModules($modules)
-    {
-        $this->exportModules = $modules;
-    }
-
-    public function setExportTemplates($templates)
-    {
-        $this->exportTemplates = $templates;
     }
 
     public function addFile($file)
@@ -141,6 +110,9 @@ class ZipExport extends DefaultExport
             $userFilesTemplates = $this->_getUserFilesTemplatesPaths();
             $filesForZip = array_merge($filesForZip, $userFilesTemplates);
         }
+
+
+        dd($filesForZip);
 
         /*
         if (empty($filesForZip)) {
