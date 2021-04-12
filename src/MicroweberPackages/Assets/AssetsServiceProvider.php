@@ -42,7 +42,6 @@ class AssetsServiceProvider extends LaravelAssetsServiceProvider
         }
 
 
-
         // Bind our component into the IoC container.
         $this->app->singleton('assets', function ($app) use ($assets) {
             $config = [
@@ -55,6 +54,7 @@ class AssetsServiceProvider extends LaravelAssetsServiceProvider
 
             return $assets;
         });
+        $this->app->alias('Assets', Assets::class);
 
         if (is_cli()) {
             // Command-line functions
