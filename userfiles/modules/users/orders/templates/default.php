@@ -1,13 +1,15 @@
-<?php if (isset($orders) and is_array($orders)): ?>
-
 <div class="row">
 
-    <module type="users/sidebar" />
+    <div class="col-md-2">
+        <module type="users/sidebar" />
+    </div>
 
+    <div class="col-md-8">
+
+        <?php if (isset($orders) and is_array($orders)): ?>
     <?php foreach ($orders as $order): ?>
         <?php $cart = get_cart('order_id=' . $order['id']); ?>
         <?php if (is_array($cart) and !empty($cart)): ?>
-            <div class="col-md-12">
                 <?php if ($order['order_status'] == 'completed') { ?>
                     <span class="text-green"><?php _e("Completed");?></span>
                 <?php } else { ?>
@@ -49,13 +51,11 @@
                     <?php } ?>
                     </tbody>
                 </table>
-            </div>
         <?php endif; ?>
         <?php endforeach; ?>
+        <?php else: ?>
+            <h3><?php _e("You have no orders");?></h3>
+        <?php endif; ?>
 
 </div>
-<?php else: ?>
-    <div>
-        <h3><?php _e("You have no orders");?></h3>
-    </div>
-<?php endif; ?>
+</div>

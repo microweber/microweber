@@ -1,9 +1,11 @@
+<div class="row">
 
+    <div class="col-md-2">
+        <module type="users/sidebar" />
+    </div>
+
+    <div class="col-md-8">
 <div class="js-users-profile-address">
-
-
-    <module type="users/sidebar" />
-
 
     <ul class="nav nav-tabs" id="user-profile-address-tabs" role="tablist">
     <li class="nav-item">
@@ -83,13 +85,11 @@
             <label class="control-label d-block">Country:</label>
             <?php if(!empty($countries)):?>
 
-                <div class="dropdown bootstrap-select" style="width: 100%;">
-                <select class="selectpicker" data-live-search="true" data-width="100%" data-size="5" name="addresses[1][country_id]" tabindex="-98">
+                <select class="form-control" data-live-search="true" data-width="100%" data-size="5" name="addresses[1][country_id]" tabindex="-98">
                     <?php foreach ($countries as $country):?>
                         <option value="<?php echo $country['id']; ?>" <?php if ($billing_address['country_id'] == $country['id']): ?> selected="selected" <?php endif; ?>><?php echo $country['name']; ?> </option>
                     <?php endforeach; ?>
                 </select>
-            </div>
             <?php endif; ?>
             <input type="hidden" class="form-control" value="billing" name="addresses[1][type]">
         </div>
@@ -132,13 +132,12 @@
                 <label class="control-label d-block">Country:</label>
                 <?php if(!empty($countries)):?>
 
-                <div class="dropdown bootstrap-select" style="width: 100%;">
-                    <select class="selectpicker" data-live-search="true" data-width="100%" data-size="5" name="addresses[0][country_id]" tabindex="-98">
+
+                    <select class="form-control" data-live-search="true" data-width="100%" data-size="5" name="addresses[0][country_id]" tabindex="-98">
                         <?php foreach ($countries as $country):?>
                             <option value="<?php echo $country['id']; ?>" <?php if ($shipping_address['country_id'] == $country['id']): ?> selected="selected" <?php endif; ?>><?php echo $country['name']; ?> </option>
                         <?php endforeach; ?>
                     </select>
-                </div>
                 <?php endif; ?>
             </div>
 
@@ -148,6 +147,8 @@
 
     </div>
     <button type="submit" class="btn btn-success js-users-profile-address-save"><i class="fa fa-save"></i> Save details</button>
+</div>
+</div>
 </div>
 </div>
 
@@ -166,3 +167,4 @@
         $('#user-profile-address-tabs li:last-child a').tab('show')
     })
 </script>
+
