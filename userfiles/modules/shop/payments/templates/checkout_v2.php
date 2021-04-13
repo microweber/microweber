@@ -41,6 +41,14 @@ if (isset($params['selected_provider'])) {
 }
 ?>
 
+<style>
+
+    .mw-payment-gateway{
+        list-style: none;
+    }
+
+</style>
+
 <div class="mw-shipping-and-payments mb-5">
     <?php if (count($payment_options) > 0): ?>
         <div class="row">
