@@ -7907,13 +7907,11 @@ body.bup.dragStart.state-element .edit .element:empty {
 }
 
 .background-image.bg-image {
+    position: relative;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 400px;
     display: block;
 }
 
