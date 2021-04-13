@@ -7,7 +7,7 @@
     </div>
 @endsection
 
-@section('content')
+@section('steps_content')
     @if (isset($errors))
         <div class="alert alert-danger">
             <ul>

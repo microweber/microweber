@@ -267,35 +267,12 @@
 @endif
 
 <div class="row">
-    <div class="col-lg-6 col-12 order-lg-0 order-1">
-        <div class="col-lg-8 col checkout-v2-left-column float-lg-right p-xl-5 p-md-3 p-3">
-            <div class="d-flex">
-                @php
-                    $logo = get_option('logo', 'website');
-                @endphp
-                @if(empty($logo))
-                    <div class="text-uppercase">
-                        <h4><a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a></h4>
-                    </div>
-                @else
-                    <div class="checkout-v2-logo">
-                        <img src="{{ $logo }}"/>
-                    </div>
-                @endif
 
-                    @yield('logo-right-link')
-                    @hasSection('logo-right-link')
-                @endif
-            </div>
+    @include('checkout::steps_layout')
 
-            @hasSection('content')
-                @yield('content')
-            @else
-
-                @yield('checkout_sidebar_content')
-            @endif
-        </div>
-    </div>
+    @hasSection('content')
+        @yield('content')
+    @endif
 
     @hasSection('checkout_sidebar')
         @yield('checkout_sidebar')
