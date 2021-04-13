@@ -61,12 +61,14 @@ class CheckoutController extends Controller {
             return redirect(site_url());
         }
 
-        $findOrder = Order::where('id', $id)->where('created_by', user_id())->first();
+        $findOrder = Order::where('id', $id)->first();
         if ($findOrder == null) {
             return redirect(site_url());
         }
 
-        return $this->_renderView('checkout::finish', ['order'=>$findOrder->toArray()]);
+        return $this->_renderView('checkout::finish', ['order'=>[
+            'id'=>$findOrder->id
+        ]]);
     }
 
     public function _renderView($view, $data = [])
