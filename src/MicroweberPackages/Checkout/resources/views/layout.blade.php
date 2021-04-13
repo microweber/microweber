@@ -96,6 +96,122 @@
         .checkout-v2-right-column-title {
             margin-top: 7rem;
         }
+        
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item {
+            font-size: 14px;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+            padding: 10px 0;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .checkout-modal-products-wrapper .products {
+            max-height: 400px;
+            overflow: auto;
+            overflow-x: hidden;
+        }
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item .ul {
+            list-style-type: none;
+            margin-bottom: 0.4rem;
+        }
+
+        @media screen and (max-width: 767px) {
+             .checkout-modal-products-wrapper .checkout-modal-product-list-item img {
+                max-width: 200px;
+                margin: 0 auto;
+                display: block
+            }
+        }
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item:hover {
+            background: #fff
+        }
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action {
+            padding-left: 0;
+            padding-right: 0
+        }
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action a {
+            color: #282627;
+            opacity: 1;
+            display: inline-block
+        }
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-qty {
+            padding-left: 0;
+            padding-right: 0;
+            text-align: center
+        }
+
+        .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-qty select {
+            margin-top: 25px
+        }
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action .tooltip {
+            margin-top: 5px
+        }
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price, .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
+            /*padding-top: 35px;*/
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+         .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-action, .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-price {
+            text-align: center
+        }
+
+         .checkout-modal-amount-holder .checkout-modal-promocode-holder, .checkout-modal-amount-holder .checkout-modal-total-holder {
+            /*padding-top: 35px*/
+        }
+
+
+         .checkout-modal-amount-holder .checkout-modal-promocode-holder p, .checkout-modal-amount-holder .checkout-modal-total-holder p {
+            margin-bottom: 20px
+        }
+
+         .checkout-modal-amount-holder .checkout-modal-promocode-holder .form-control {
+            margin: 0
+        }
+
+         .checkout-modal-amount-holder .checkout-modal-total-holder, .js-step-content {
+            font-size: 16px
+        }
+
+
+        .checkout-modal-total-price {
+            font-weight: bold;
+        }
+
+
+        .checkout-modal-products-wrapper .table *{
+            vertical-align:middle;
+        }
+        .checkout-modal-products-wrapper .table .td-title{
+            max-width: 140px;
+        }
+        /* End of */
+
+
+        /* End of .modal-content */
+
+
+        @media screen and (max-width: 767px) {
+            .checkout-modal-products-wrapper .checkout-modal-product-list-item .checkout-modal-product-list-item-title {
+                text-align: center
+            }
+        }
+
+        @media (min-width: 1450px) {
+            .modal-dialog {
+                width: 700px
+            }
+        }
     </style>
 
     <!--[if lt IE 9]>
