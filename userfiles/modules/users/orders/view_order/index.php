@@ -1,6 +1,10 @@
 <?php
-$user = get_user();
 
+if (!isset($_GET['id'])) {
+    return;
+}
+
+$user = get_user();
 if (is_logged() == false) {
     return;
 }
