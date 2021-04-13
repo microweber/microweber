@@ -78,6 +78,18 @@ function session_set($key, $val)
     return mw()->user_manager->session_set($key, $val);
 }
 
+function session_append_array($key, $array)
+{
+    $oldArray = session_get($key);
+    if (is_array($oldArray) && !empty($oldArray)) {
+        $newArray = array_merge($oldArray, $array);
+    } else {
+        $newArray = $array;
+    }
+
+    return session_set($key, $newArray);
+}
+
 function session_get($name)
 {
     return mw()->user_manager->session_get($name);

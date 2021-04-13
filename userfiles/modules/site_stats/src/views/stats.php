@@ -25,7 +25,7 @@
 
 <div class="stats-view-holder hidden">
     <div class="stats-view row">
-        <div class="col-lg-4 mb-3">
+        <div class="col-xl-4 col-lg-6 col-md-6.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors { mb-3">
             <script>
                 $(document).ready(function () {
                     mw.tabs({
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 mb-3">
+        <div class="col-xl-4 col-lg-6 col-md-6.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors { mb-3">
             <div class="card style-1 h-100">
                 <div class="card-header"><?php _e('Content'); ?></div>
                 <div class="card-body overflow-auto contents">
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 mb-3">
+        <div class="col-xl-4 col-lg-6 col-md-6.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors { mb-3">
             <div class="card style-1 h-100">
                 <div class="card-header"><?php _e('Visitors'); ?></div>
                 <div class="card-body overflow-auto visitors">

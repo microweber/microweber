@@ -128,18 +128,40 @@
                 <div class="col-6">
                     <?php print $order['custom_fields'] ?>
                 </div>
-            </div> 
+            </div>
             <?php endif; ?>
         </div>
     </div>
 </div>
 
+
 <div class="card bg-light style-1 mb-3">
     <div class="card-body">
-        <h5 class="mb-4 font-weight-bold"><?php _e('Shipping Address'); ?></h5>
-
+        <h5 class="mb-4 font-weight-bold"><?php _e('Shipping details'); ?></h5>
         <div class="row d-flex align-items-center">
+
+            <div class="col-md-12">
+                <div class="mb-4">
+                    <strong><?php _e("Shipping type"); ?>:</strong>
+
+                    <?php
+                    $shippingGatewayModuleInfo = module_info($order['shipping_service']);
+                    $icon = (isset($shippingGatewayModuleInfo['settings']['icon_class']) ? $shippingGatewayModuleInfo['settings']['icon_class'] : false);
+
+
+
+                    ?>
+                    <i class="<?php echo $icon; ?>" style="font-size:23px"></i>  <?php echo $shippingGatewayModuleInfo['name'];?>
+
+                </div>
+            </div>
+
+
+            <?php
+            if ($order['shipping_service'] == 'shop/shipping/gateways/country'):
+            ?>
             <div class="col-md-6">
+
                 <?php
                 $map_click_str = false;
                 $map_click = array();
@@ -216,6 +238,7 @@
                 </div>
                 <?php endif; ?>
             </div>
+                <?php endif; ?>
         </div>
     </div>
 </div>
@@ -305,8 +328,30 @@
 
                 <div class="mb-3">
                     <?php _e("Payment Method"); ?>:
-                    <?php $gw = str_replace('shop/payments/gateways/', '', $order['payment_gw']); ?>:
-                    <strong><?php print $gw; ?></strong>
+                        <?php
+                        $paymentGatewayModuleInfo = module_info($order['payment_gw']);
+                        if($paymentGatewayModuleInfo){
+
+
+                            if (isset($paymentGatewayModuleInfo['settings']['icon_class'])):
+                            ?>
+                            <i class="<?php echo $paymentGatewayModuleInfo['settings']['icon_class'];?>" style="font-size:23px"></i>
+                            <?php else: ?>
+                        <?php if (isset($paymentGatewayModuleInfo['icon'])): ?>
+
+                            <img src="<?php echo $paymentGatewayModuleInfo['icon'];?>" style="width:23px" />
+
+                        <?php endif; ?>
+
+
+                            <?php endif; ?>
+
+                            <?php echo $paymentGatewayModuleInfo['name'];?>
+
+                        <?php } ?>
+
+
+
                 </div>
 
                 <div class="mb-3">

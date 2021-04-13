@@ -10,8 +10,79 @@ namespace MicroweberPackages\Checkout\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use MicroweberPackages\Checkout\Http\Controllers\Traits\ContactInformationTrait;
+use MicroweberPackages\Checkout\Http\Controllers\Traits\PaymentTrait;
+use MicroweberPackages\Checkout\Http\Controllers\Traits\ShippingTrait;
+use MicroweberPackages\Order\Models\Order;
 
 class CheckoutController extends Controller {
+
+    use ContactInformationTrait;
+    use ShippingTrait;
+    use PaymentTrait;
+
+    public function login() {
+
+        if (is_logged()) {
+            return redirect(route('checkout.contact_information'));
+        }
+
+        return $this->_renderView('checkout::login');
+    }
+
+    public function forgotPassword() {
+
+        if (is_logged()) {
+            return redirect(route('checkout.contact_information'));
+        }
+
+        return $this->_renderView('checkout::forgot_password');
+    }
+
+    public function register() {
+
+        if (is_logged()) {
+            return redirect(route('checkout.contact_information'));
+        }
+
+        return $this->_renderView('checkout::register');
+    }
+
+    public function index() {
+
+        return redirect(route('checkout.contact_information'));
+        //return $this->_renderView('checkout::index');
+    }
+
+    public function finish($id) {
+
+        $id = intval($id);
+        if ($id < 1) {
+            return redirect(site_url());
+        }
+
+        $findOrder = Order::where('id', $id)->where('created_by', user_id())->first();
+        if ($findOrder == null) {
+            return redirect(site_url());
+        }
+
+        return $this->_renderView('checkout::finish', ['order'=>$findOrder->toArray()]);
+    }
+
+    public function _renderView($view, $data = [])
+    {
+        $html = view($view, $data);
+
+        // Append api js
+        $html = app()->template->append_api_js_to_layout($html);
+
+        return app()->parser->process($html);
+    }
+
+    /**
+     * Description: THIS METHOD IS FOR OLD VERSION OF CHECKOUT MODULE
+     * @param Request $request
+     * @return bool[]
 
     public function validate(Request $request)
     {
@@ -87,6 +158,6 @@ class CheckoutController extends Controller {
             return $response;
         }
 
-    }
+    }*/
 
 }

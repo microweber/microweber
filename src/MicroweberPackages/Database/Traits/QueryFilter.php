@@ -799,7 +799,17 @@ trait QueryFilter
         if (!is_array($array)) {
             return $array;
         }
-        $r = $this->get_fields($table);
+
+
+        if (isset($this->table_fields[$table])) {
+            $fields = $this->table_fields[$table];
+        } else {
+            $this->table_fields[$table] =  $fields = $this->get_fields($table);
+        }
+
+
+
+        $r = $fields;
 
         $r = array_diff($r, $this->filter_keys);
         $r = array_intersect($r, array_keys($array));

@@ -22,6 +22,11 @@ abstract class AbstractShippingDriver
         return 0;
     }
 
+    public function validate($data = [])
+    {
+        return [];
+    }
+
     public function process()
     {
         return [];

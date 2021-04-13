@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Checkout;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class CheckoutManagerServiceProvider extends ServiceProvider
@@ -29,7 +30,9 @@ class CheckoutManagerServiceProvider extends ServiceProvider
             return new CheckoutManager();
         });
 
+        View::addNamespace('checkout', __DIR__.'/resources/views');
 
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 }

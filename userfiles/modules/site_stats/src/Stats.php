@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\SiteStats;
 
 use MicroweberPackages\SiteStats\Models\Browsers;
@@ -45,7 +46,7 @@ class Stats
         if ($this->cache) {
             $cache_get = cache_get($cache_name, 'site_stats');
             if ($cache_get) {
-               return $cache_get;
+                return $cache_get;
             }
         }
 
@@ -155,7 +156,7 @@ class Stats
                 }
 
                 if ($this->cache) {
-                    cache_save($return, $cache_name, 'site_stats',$this->cache_exp);
+                    cache_save($return, $cache_name, 'site_stats', $this->cache_exp);
                 }
 
                 return $return;
@@ -233,7 +234,7 @@ class Stats
                         $log = $log->groupBy('stats_sessions.referrer_path_id');
 
                         if ($engine == 'pgsql') {
-                            $log = $log->groupBy('stats_sessions.referrer_path_id','stats_sessions.referrer_domain_id','stats_sessions.referrer_id' );
+                            $log = $log->groupBy('stats_sessions.referrer_path_id', 'stats_sessions.referrer_domain_id', 'stats_sessions.referrer_id');
 
                         }
 
@@ -304,7 +305,7 @@ class Stats
                 }
 
                 if ($this->cache) {
-                    cache_save($return, $cache_name, 'site_stats',$this->cache_exp);
+                    cache_save($return, $cache_name, 'site_stats', $this->cache_exp);
                 }
 
                 return $return;
@@ -374,9 +375,9 @@ class Stats
 
                 }
 
-            if ($this->cache) {
-                cache_save($return, $cache_name, 'site_stats',$this->cache_exp);
-            }
+                if ($this->cache) {
+                    cache_save($return, $cache_name, 'site_stats', $this->cache_exp);
+                }
 
                 return $return;
                 break;
@@ -505,7 +506,7 @@ class Stats
 
 
                     if ($this->cache) {
-                        cache_save($return, $cache_name, 'site_stats',$this->cache_exp);
+                        cache_save($return, $cache_name, 'site_stats', $this->cache_exp);
                     }
 
                     return $return;
@@ -580,7 +581,7 @@ class Stats
                     if ($engine == 'mysql') {
                         // DATE_SUB(DATE(updated_at), INTERVAL 7 DAY) as date_key
                         $date_period_q = "DATE(updated_at) as date_key, WEEK(DATE(updated_at)) as date_week, YEAR(DATE(updated_at)) as date_year";
-                        $group_by_key = array('date_week','date_year');
+                        $group_by_key = array('date_week', 'date_year');
 
                         // $group_by_key = 'date_week';
                         //  $date_period_q = "DATE_FORMAT(WEEK(DATE(updated_at)) as date_key";
@@ -596,12 +597,14 @@ class Stats
                 }
 
                 if ($period == 'monthly') {
+
+
                     if ($engine == 'mysql') {
                         //  $date_period_q = "DATE_SUB(updated_at, INTERVAL 1 MONTH) as date_key";
                         // $date_period_q = "DATE_SUB(DATE(updated_at), INTERVAL 1 MONTH) as date_key";
 
                         $date_period_q = "DATE(updated_at) as date_key, MONTH(DATE(updated_at)) as date_month, YEAR(DATE(updated_at)) as date_year";
-                        $group_by_key = array('date_month','date_year');
+                        $group_by_key = array('date_month', 'date_year');
 
 
                     } else if ($engine == 'pgsql') {
@@ -635,6 +638,8 @@ class Stats
                         $date_period_q = "DATE(updated_at,'start of year','+1 year','-1 day') as date_key";
                     }
                 }
+
+
                 if ($return == 'visits_count_grouped_by_period') {
 
 //                    $log = $log->select(DB::raw($date_period_q . ', count(session_id_key) as date_value'));
@@ -643,24 +648,51 @@ class Stats
 
                     $log = new Sessions();
                     $log = $log->select(DB::raw($date_period_q . ', count(session_id) as date_value'));
+
+                 //   $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-1 year')));
+
+
                     $log = $log->groupBy($group_by_key);
                 } else {
                     $log = $log->select(DB::raw($date_period_q . ', sum(view_count) as date_value'));
+                   // $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-1 year')));
+
                     $log = $log->groupBy($group_by_key);
                 }
 
 
-                //  $log = $log->limit(14);
+
+                if ($period == 'daily') {
+                    $log = $log->limit(30);
+                    $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-1 month')));
+
+                }
+                if ($period == 'weekly') {
+                    $log = $log->limit(12);
+                    $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-3 months')));
+
+                }
+                if ($period == 'monthly') {
+                    $log = $log->limit(12);
+                    $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-1 year')));
+
+                }
+                if ($period == 'yearly') {
+                    $log = $log->limit(5);
+                    $log->where('updated_at', '>=', date('Y-m-d H:i:s', strtotime('-5 year')));
+
+                }
+
                 $return = $log->get();
 
                 $return = collection_to_array($return);
 
-                if ($return) {
-                    $return = array_reverse($return);
-                    $return = array_slice($return, 0, 14);
-                    $return = array_reverse($return);
-
-                }
+//                if ($return) {
+//                    $return = array_reverse($return);
+//                    $return = array_slice($return, 0, 14);
+//                    $return = array_reverse($return);
+//
+//                }
 
                 return $return;
 
@@ -668,7 +700,7 @@ class Stats
 
 
             case 'users_online':
-                
+
                 $log = new Log();
                 $log = $log->period('-15 minutes');
                 $log = $log->select('session_id_key');

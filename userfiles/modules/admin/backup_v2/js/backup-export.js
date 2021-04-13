@@ -304,12 +304,18 @@ mw.log(mw.$(template_holder).html())
                 },
                 {
                     input: {name: 'export_items', value: 'template'},
-                    icon: { className: 'mdi mdi-text-box-check-outline'  },
-                    title: 'Export  website template',
-                    description: 'All data from website template settings, pages and media'
+                    icon: { className: 'mdi mdi-text-box-check-outline' },
+                    title: 'Export current website template',
+                    description: 'All files from current website template'
                 },
                 {
-                    input: {name: 'export_media', value: true, checked: true},
+                    input: {name: 'export_items', value: 'template_default_content'},
+                    icon: { className: 'mdi mdi-format-list-text' },
+                    title: 'Export default content for template',
+                    description: 'All content data for the current website template'
+                },
+                {
+                    input: {name: 'export_media', value: true},
                     icon: { className: 'mdi mdi-image-multiple-outline'  },
                     title: 'Include media files  <span>(images, videos, etc..)</span>',
                     description: ''

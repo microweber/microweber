@@ -64,10 +64,8 @@ class FrontendController extends Controller
         }
 
 
-        $this->debugbarEnabled = Config::get('debugbar.enabled');
-        if (!$this->debugbarEnabled) {
-            \Debugbar::disable();
-        }
+        $this->debugbarEnabled = \Debugbar::isEnabled();;
+
 
         if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
@@ -1404,7 +1402,7 @@ class FrontendController extends Controller
                 $compile_assets = \Config::get('microweber.compile_assets');
 
                 $output_cache_content = false;
-                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) .intval(is_https()). $_SERVER['REQUEST_URI']. current_lang().site_url()) ;
+                $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . intval(is_https()) . $_SERVER['REQUEST_URI'] . current_lang() . site_url());
                 $output_cache_group = 'global';
                 $output_cache_content_data = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
 
@@ -2121,7 +2119,6 @@ class FrontendController extends Controller
             }
 
 
-
             $l = $this->app->template->append_api_js_to_layout($l);
 
 
@@ -2170,10 +2167,8 @@ class FrontendController extends Controller
             }
 
 
-
-
             $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
-            if(!$liv_ed_css_get_custom_css_content){
+            if (!$liv_ed_css_get_custom_css_content) {
                 $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
             } else {
                 $liv_ed_css = $this->app->template->get_custom_css_url();
@@ -2219,17 +2214,13 @@ class FrontendController extends Controller
 
             $enable_default_css = true;
             if ($template_config and isset($template_config["standalone_ui"]) and $template_config["standalone_ui"]) {
-                if(!$is_editmode and !$back_to_editmode) {
+                if (!$is_editmode and !$back_to_editmode) {
                     $enable_default_css = false;
                 }
             }
             if ($enable_default_css) {
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
-
-
-
-
 
 
             if (isset($content['original_link']) and $content['original_link'] != '') {
