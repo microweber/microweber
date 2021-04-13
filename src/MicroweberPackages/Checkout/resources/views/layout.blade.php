@@ -76,7 +76,7 @@
         .checkout-v2-shipping-pickup.card-body {
             background: #f5f5f5;
         }
-        
+
         .checkout-v2-navbar.navbar-light .navbar-toggler {
             height: 50px;
             width: 100%;
@@ -157,12 +157,9 @@
                     $logo = get_option('logo', 'website');
                 @endphp
                 @if(empty($logo))
-                    <div>
-                        <h4 class="checkout-v2-logo text-uppercase">
-                            <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
-                        </h4>
+                    <div class="text-uppercase">
+                        <h4><a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a></h4>
                     </div>
-
                 @else
                     <div class="checkout-v2-logo">
                         <img src="{{ $logo }}"/>
