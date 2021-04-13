@@ -120,7 +120,7 @@ description: Login default
                 </div>
 
                 <?php if (isset($_GET['redirect'])): ?>
-                <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+                <input type="hidden" value="<?php echo mw()->format->clean_xss($_GET['redirect']); ?>" name="redirect">
                 <?php endif; ?>
 
             </form>
