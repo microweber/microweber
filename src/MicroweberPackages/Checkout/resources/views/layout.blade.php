@@ -31,14 +31,70 @@
 
     <?php print get_template_stylesheet(); ?>
 
-    <link href="<?php print template_url(); ?>dist/main.min.css" rel="stylesheet"/>
-
     <style>
         html, body, section, .row {
             height: 100%;
             min-height: 100%;
         }
 
+        .checkout-v2-sidebar {
+            background-color: #f5f5f5;
+        }
+
+        .checkout-v2-radio input[type=radio] {
+            width: 20px;
+            height: 20px;
+        }
+
+        i.shipping-icons-checkout-v2.mdi{
+            font-size: 36px;
+        }
+
+        i.checkout-v2-finish-icon.mdi{
+            font-size: 60px;
+            color: #dedede;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .checkout-v2-logo {
+            width: 35%;
+        }
+
+        .checkout-v2-remove-icon a:hover {
+            text-decoration: none;
+        }
+        .checkout-v2-remove-icon a:active {
+            text-decoration: none;
+        }
+
+        .checkout-v2-remove-icon:hover {
+            color: black!important;
+        }
+
+        .checkout-v2-shipping-pickup.card-body {
+            background: #f5f5f5;
+        }
+        
+        .checkout-v2-navbar.navbar-light .navbar-toggler {
+            height: 50px;
+            width: 100%;
+            background: #f5f5f5;
+        }
+
+        .mw-order-custom-fields ul {
+            list-style-type: none;
+            margin-bottom: 0.4rem;
+        }
+
+        .mw-order-custom-fields ul li {
+            margin-bottom: 5px;
+        }
+
+        .checkout-v2-right-column-title {
+            margin-top: 7rem;
+        }
     </style>
 
     <!--[if lt IE 9]>
