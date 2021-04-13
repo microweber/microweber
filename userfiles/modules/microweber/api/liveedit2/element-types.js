@@ -111,7 +111,6 @@ export const ElementAnalyzerService = function (settings) {
         ];
     };
 
-    this.getPosition()
 
     this.init();
 };

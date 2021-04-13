@@ -13,10 +13,6 @@ if (window.top === window){
     };
 }
 
-$(document).ready(function (){
-    mw.require('http://localhost/mw/userfiles/modules/microweber/api/liveedit2/neighbours.js');
-})
-
 
 window.mwd = document;
 window.mww  = window;

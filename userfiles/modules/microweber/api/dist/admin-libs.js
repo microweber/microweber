@@ -28572,10 +28572,16 @@ Popper.Defaults = Defaults;
 
 /* UI */
 $(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('.selectpicker').selectpicker({
-        container: 'body'
-    });
+    if($.fn.tooltip) {
+        $('[data-toggle="tooltip"]').tooltip();
+
+    }
+    if($.fn.selectpicker) {
+        $('.selectpicker').selectpicker({
+            container: 'body'
+        });
+    }
+
 
     $(".js-range").each(function (index) {
         var from = $(this).find('.js-from');

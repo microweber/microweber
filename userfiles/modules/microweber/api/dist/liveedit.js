@@ -22,10 +22,6 @@ if (window.top === window){
     };
 }
 
-$(document).ready(function (){
-    mw.require('http://localhost/mw/userfiles/modules/microweber/api/liveedit2/neighbours.js');
-})
-
 
 window.mwd = document;
 window.mww  = window;
@@ -5853,7 +5849,7 @@ mw.drag = {
                     } else {
                         mw.ea.data.currentGrabbed = mw.dragCurrent;
                         mw.tools.removeClass(this, 'isTyping');
-                        mw.ea.interactionAnalizer(event);
+                        mw.ea.interactionAnalyzer(event);
                         mw.$(".currentDragMouseOver").removeClass("currentDragMouseOver");
                         mw.$(mw.currentDragMouseOver).addClass("currentDragMouseOver");
                     }
@@ -7465,11 +7461,11 @@ mw.AfterDrop = function(){
             scope.loadNewModules()
             mw.dropable.hide().removeClass('mw_dropable_onleaveedit');
 
-        }, 78)
-    }
+        }, 78);
+    };
 
 
-}
+};
 
 
 /*************************************************************
@@ -7489,7 +7485,7 @@ mw.AfterDrop = function(){
 
 
 
-    mw.analizer = new mw.ElementAnalizer(Options);
+    mw.analyzer = new mw.ElementAnalyzer(Options);
 
 
 
@@ -7855,7 +7851,7 @@ mw.ElementAnalyzer = function(options){
         return this.getTarget(node.parentNode);
     };
 
-    this.interactionAnalizer = function(e){
+    this.interactionAnalyzer = function(e){
 
         var scope = this;
         mw.dropable.hide();
@@ -7917,7 +7913,7 @@ mw.ElementAnalyzer = function(options){
     this.whenMove = function(){
         var scope = this;
         this.on('mousemove touchmove', function(e){
-            scope.interactionAnalizer(e)
+            scope.interactionAnalyzer(e)
         });
     };
     this.init = function(){
@@ -9176,6 +9172,12 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
+                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
+                        mw.liveEditState.record({
+                            target: pt,
+                            value: parent.innerHTML
+                        });
                         var html = mw._activeModuleOver.outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
@@ -9184,7 +9186,13 @@ mw._initHandles = {
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
-                        mw.reload_module(newEl);
+                        mw.reload_module(newEl, function(){
+                            mw.liveEditState.record({
+                                target: pt,
+                                value: parent.innerHTML
+                            });
+                        });
+
                         mw.handleModule.hide();
                     }
                 },
@@ -9250,6 +9258,12 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
+                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
+                        mw.liveEditState.record({
+                            target: pt,
+                            value: parent.innerHTML
+                        });
                         var html = mw._activeModuleOver.outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
@@ -9258,7 +9272,12 @@ mw._initHandles = {
                         });
                         $(mw._activeModuleOver).after(el.innerHTML);
                         var newEl = $(mw._activeModuleOver).next();
-                        mw.reload_module(newEl);
+                        mw.reload_module(newEl, function (){
+                             mw.liveEditState.record({
+                                target: pt,
+                                value: parent.innerHTML
+                            });
+                        });
                         mw.handleModule.hide();
                     }
                 },
@@ -18486,18 +18505,23 @@ mw.propEditor = {
         });
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
 
-            if(!data.active || (!data.active.target && !data.active.action)) {
+            var target = data.active.target;
+            if(typeof target === 'string'){
+                target = document.querySelector(data.active.target);
+            }
+
+            if(!data.active || (!target && !data.active.action)) {
                 mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
                 mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
                 return;
             }
             if(data.active.action) {
                 data.active.action();
-            } else if(document.body.contains(data.active.target)) {
-                mw.$(data.active.target).html(data.active.value);
+            } else if(document.body.contains(target)) {
+                mw.$(target).html(data.active.value);
             } else{
-                if(data.active.target.id) {
-                    mw.$(document.getElementById(data.active.target.id)).html(data.active.value);
+                if(target.id) {
+                    mw.$(document.getElementById(target.id)).html(data.active.value);
                 }
             }
             if(data.active.prev) {

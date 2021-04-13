@@ -1,4 +1,7 @@
-var Draggable = function (options) {
+/* jshint esversion: 6 */
+/* globals: mw */
+
+const Draggable = function (options) {
     var defaults = {
         handle: null,
         element: null,
@@ -98,7 +101,7 @@ var Draggable = function (options) {
 
 
 
-var Handle = function (options) {
+export const Handle = function (options) {
 
     var defaults = {
 
