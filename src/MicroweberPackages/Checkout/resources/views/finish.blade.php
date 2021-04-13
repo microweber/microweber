@@ -9,9 +9,9 @@
 @endsection
 
 @section('checkout_sidebar_content')
-    <div class="col-12">
+    <div class="d-flex align-items-center">
         <form method="post" action="{{ route('checkout.shipping_method_save') }}">
-            <div class="shop-cart m-t-100 text-center">
+            <div class="shop-carttext-center">
                 <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
                 <h4><?php _e("Thank you"); ?>!</h4>
 
