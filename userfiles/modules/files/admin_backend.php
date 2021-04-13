@@ -746,7 +746,7 @@
                         <div>
                             <div class="dropdown d-inline-block">
                                 <button class="btn btn-success icon-left dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="mdi mdi-plus"></i> <?php _e("Create folder"); ?>
+                                    <i class="mdi mdi-plus"></i> <?php _e("Add"); ?>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <span class="dropdown-item" id="mw_uploader"><?php _e("Upload File"); ?></span>

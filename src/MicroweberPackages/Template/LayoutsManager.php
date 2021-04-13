@@ -757,6 +757,7 @@ class LayoutsManager
                 $css_cont = false;
                 if (isset($params['css_file_content'])) {
                     $css_cont_new = $params['css_file_content'];
+
                 } else {
 
 
@@ -908,7 +909,13 @@ class LayoutsManager
                 if ($css_cont_new != '' and $css_cont != $css_cont_new) {
                     file_put_contents($live_edit_css, $css_cont_new);
                     //  print $css_cont_new;
+                } else  if ($css_cont_new == '' and isset($params['css_file_content'])) {
+                    file_put_contents($live_edit_css, '');
                 }
+
+
+
+
                 $resp['content'] = $css_cont_new;
 
                 return $resp;

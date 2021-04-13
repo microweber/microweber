@@ -1,12 +1,12 @@
 <?php
 
 $config = array();
-$config['name'] = "Features";
+$config['name'] = "Text with Image";
 $config['author'] = "Microweber";
-$config['description'] = "";
+$config['description'] = "Simple image with some description text";
 $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['categories'] = "custom";
 $config['version'] = 0.1;
-$config['position'] = 18;
+$config['position'] = 21;
 $config['as_element'] = true;

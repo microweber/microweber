@@ -288,12 +288,16 @@ class Export
 
 	private function _skipTables() {
 
+		$this->skipTables[] = '__table_structures';
 		$this->skipTables[] = 'modules';
 		$this->skipTables[] = 'elements';
 		$this->skipTables[] = 'users';
+		$this->skipTables[] = 'login_attempts';
 		$this->skipTables[] = 'log';
 		$this->skipTables[] = 'notifications';
+		$this->skipTables[] = 'countries';
 		$this->skipTables[] = 'content_revisions_history';
+		$this->skipTables[] = 'content_fields_drafts';
 		$this->skipTables[] = 'module_templates';
 		$this->skipTables[] = 'stats_users_online';
 		$this->skipTables[] = 'stats_browser_agents';
@@ -302,10 +306,13 @@ class Export
 		$this->skipTables[] = 'stats_referrers';
 		$this->skipTables[] = 'stats_visits_log';
 		$this->skipTables[] = 'stats_urls';
+		$this->skipTables[] = 'stats_sessions';
+		$this->skipTables[] = 'stats_geoip';
 		$this->skipTables[] = 'system_licenses';
 		$this->skipTables[] = 'users_oauth';
 		$this->skipTables[] = 'sessions';
 		$this->skipTables[] = 'global';
+		$this->skipTables[] = 'migrations';
 
 		return $this->skipTables;
 	}
