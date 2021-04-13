@@ -1,3 +1,9 @@
+<style>
+    i.layout-icon {
+        font-size: 40px;
+    }
+</style>
+
 <div class="container">
     <div class="row">
         <div class="col-md col-12 text-md-left text-center cloneable my-4">
