@@ -2,9 +2,7 @@
 
 <div class="row">
 
-    <div class="col-md-12">
-
-    </div>
+    <module type="users/sidebar" />
 
     <?php foreach ($orders as $order): ?>
         <?php $cart = get_cart('order_id=' . $order['id']); ?>

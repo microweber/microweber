@@ -1,7 +1,11 @@
 
 <div class="js-users-profile-address">
 
-<ul class="nav nav-tabs" id="user-profile-address-tabs" role="tablist">
+
+    <module type="users/sidebar" />
+
+
+    <ul class="nav nav-tabs" id="user-profile-address-tabs" role="tablist">
     <li class="nav-item">
         <a class="nav-link" id="client-information-tab" data-toggle="tab" href="#client-information" role="tab" aria-controls="client-information" aria-selected="false">Client Information</a>
     </li>
