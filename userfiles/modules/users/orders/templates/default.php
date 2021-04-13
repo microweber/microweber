@@ -1,24 +1,24 @@
 <?php if (isset($orders) and is_array($orders)): ?>
-    <h3 class="m-b-20">My Orders</h3>
 
-    <?php foreach ($orders as $order) { ?>
+<div class="row">
+
+    <?php foreach ($orders as $order): ?>
         <?php $cart = get_cart('order_id=' . $order['id']); ?>
         <?php if (is_array($cart) and !empty($cart)): ?>
-            <div class="mw-ui-box mw-ui-box-content my-order">
-                <div class="my-order-status pull-right">
-                    <?php if ($order['order_status'] == 'completed') { ?>
-                        <span class="my-order-status-completed text-green">Completed</span>
-                    <?php } else { ?>
-                        <span class="my-order-status-pending text-red">Pending</span>
-                    <?php } ?>
-                </div>
+            <div class="col-md-12">
+                <?php if ($order['order_status'] == 'completed') { ?>
+                    <span class="text-green">Completed</span>
+                <?php } else { ?>
+                    <span class="text-red">Pending</span>
+                <?php } ?>
 
                 <h4>Order #<?php print $order['id']; ?> -
                     <small>created on <?php print $order['created_at']; ?></small>
                 </h4>
 
                 <hr class="m-b-0"/>
-                <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
+
+                <table cellspacing="0" cellpadding="0" class="table table-responsive">
                     <thead>
                     <tr>
                         <th>Image</th>
@@ -46,9 +46,10 @@
                     </tbody>
                 </table>
             </div>
-            <br/>
         <?php endif; ?>
-    <?php } ?>
+        <?php endforeach; ?>
+
+</div>
 <?php else: ?>
     <div>
         <h3>You have no orders</h3>
