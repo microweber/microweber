@@ -101,9 +101,12 @@
                     $logo = get_option('logo', 'website');
                 @endphp
                 @if(empty($logo))
-                    <h1 class="text-uppercase">
-                        <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
-                    </h1>
+                    <div>
+                        <h4 class="checkout-v2-logo text-uppercase">
+                            <a href="{{ site_url() }}">{{get_option('website_title', 'website')}}</a>
+                        </h4>
+                    </div>
+
                 @else
                     <div class="checkout-v2-logo">
                         <img src="{{ $logo }}"/>
