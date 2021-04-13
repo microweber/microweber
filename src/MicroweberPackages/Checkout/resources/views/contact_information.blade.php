@@ -6,7 +6,7 @@
 </div>
 @endsection
 
-@section('content')
+@section('steps_content')
 
 {{--faila se namira v: /src/MicroweberPackages/Checkout/resources/views/contact_information.blade.php--}}
     <form method="post" action="{{ route('checkout.contact_information_save') }}">

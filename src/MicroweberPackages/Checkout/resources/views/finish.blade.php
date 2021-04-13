@@ -8,20 +8,22 @@
     </div>
 @endsection
 
-@section('checkout_sidebar_content')
-    <div class="d-flex align-items-center">
-        <form method="post" action="{{ route('checkout.shipping_method_save') }}">
-            <div class="shop-carttext-center">
-                <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
-                <h4><?php _e("Thank you"); ?>!</h4>
+@section('content')
+    <div class="col-6 d-flex justify-content-center align-items-center">
 
-                <label class="control-label mt-4 mb-0"><?php _e("Order number"); ?></label>
-                <h4><?php _e($order['id']); ?></h4>
+        <div class="shop-cart text-center">
 
-                <div class="mt-4">
-                    <a href="{{ site_url() }}"><?php _e("Go to website"); ?></a>
-                </div>
+            @include('checkout::logo')
+
+            <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
+            <h4><?php _e("Thank you"); ?>!</h4>
+
+            <label class="control-label mt-4 mb-0"><?php _e("Order number"); ?></label>
+            <h4><?php _e($order['id']); ?></h4>
+
+            <div class="mt-4">
+                <a href="{{ site_url() }}"><?php _e("Go to website"); ?></a>
             </div>
-        </form>
+        </div>
     </div>
 @endsection
