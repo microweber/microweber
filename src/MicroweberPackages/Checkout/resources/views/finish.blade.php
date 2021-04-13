@@ -10,10 +10,8 @@
 
 @section('content')
     <div class="col-6 d-flex justify-content-center align-items-center">
-
         <div class="shop-cart text-center">
-
-            @include('checkout::logo')
+            {{--<div class="d-flex justify-content-center">@include('checkout::logo')</div>--}}
 
             <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
             <h4><?php _e("Thank you"); ?>!</h4>
