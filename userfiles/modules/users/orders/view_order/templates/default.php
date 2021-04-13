@@ -2,11 +2,16 @@
 
     <div class="col-md-12">
 
+
         <?php
-
-            dump($order);
-
+        echo $order['first_name'];
         ?>
+
+        <pre>
+        <?php
+            print_r($order);
+        ?>
+        </pre>
 
     </div>
 </div>
