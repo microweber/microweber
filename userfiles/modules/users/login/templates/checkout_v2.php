@@ -67,7 +67,7 @@ description: Login default
                     <module type="captcha" template="admin" />
                 <?php endif; ?>
                 <div class="d-flex align-items-center">
-                    <a class="reset-password-link" href="<?php print forgot_password_url(); ?>">
+                    <a class="reset-password-link" href="<?php echo route('checkout.forgot_password'); ?>">
                         <?php _e("Forgot password"); ?>
                         ?</a>
                     <button class="btn btn-outline-primary ml-auto px-5" type="submit"> <?php _e("Login"); ?></button>
