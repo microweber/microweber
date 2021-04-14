@@ -27,6 +27,10 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
+                    if(e.newValue === null){
+                        return;
+                    }
+                   
                     var _new = JSON.parse(e.newValue || {});
                     var _old = JSON.parse(e.oldValue || {});
                     var diff = mw.tools.getDiff(_new, _old);
