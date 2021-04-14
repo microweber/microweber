@@ -136,7 +136,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         <div class="col-sm-6 text-center text-sm-right">
                                             <input type="hidden" name="where_to" value="admin_content"/>
                                             <?php if (isset($_GET['redirect'])): ?>
-                                                <input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+                                                <input type="hidden" value="<?php echo mw()->format->clean_xss($_GET['redirect']); ?>" name="redirect">
                                             <?php endif; ?>
                                             <div class="form-group">
                                                 <label class="d-none d-sm-block">&nbsp;</label>
