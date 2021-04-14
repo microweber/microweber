@@ -14,6 +14,8 @@ class OfferServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
+        require_once (__DIR__.'/offers_functions.php');
     }
 
 }
