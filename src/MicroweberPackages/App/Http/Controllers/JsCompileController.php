@@ -147,15 +147,19 @@ class JsCompileController extends Controller
 
     }
 
-
+    public function apijs_combined_get_hash()
+    {
+        $hash = md5(site_url() . template_dir()).'.' . MW_VERSION ;
+        return $hash;
+    }
     public function apijs_combined()
     {
 
 
         $userfiles_dir = userfiles_path();
-        $hash = md5(site_url());
+        $hash = $this->apijs_combined_get_hash();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
-        $userfiles_cache_filename = $userfiles_cache_dir . 'api.combined.' . $hash . '.' . MW_VERSION . '.js';
+        $userfiles_cache_filename = $userfiles_cache_dir . 'api.combined.' . $hash .  '.js';
 
 
         $layout = [];
@@ -335,9 +339,9 @@ class JsCompileController extends Controller
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
 
         $userfiles_dir = userfiles_path();
-        $hash = md5(site_url());
+        $hash = $this->apijs_combined_get_hash();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
-        $fn = 'api.combined.' . $hash . '.' . MW_VERSION . '.js';
+        $fn = 'api.combined.' . $hash .  '.js';
         $userfiles_cache_filename = $userfiles_cache_dir . $fn;
         if ($compile_assets and is_file($userfiles_cache_filename)) {
             $url = userfiles_url() . 'cache/apijs_combined/' . $fn;
