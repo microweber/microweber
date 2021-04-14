@@ -1,5 +1,15 @@
+/* jshint esversion: 6 */
+/* globals: mw */
 
-export const Neighbours = function (config) {
+export const GetPointerTargets = function (options) {
+
+    options = options || {};
+
+    var defaults = {
+        document: document
+    };
+
+    this.settings = mw.object.extend({}, defaults, options);
 
     var distanceMax = 20;
 

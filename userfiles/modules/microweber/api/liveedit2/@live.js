@@ -4,6 +4,7 @@
 
 import {ElementAnalyzer} from './element-types';
 import {Handle} from "./handle";
+import {GetPointerTargets} from "./neighbours";
 
 
 const LiveEditHandles = function (handles) {
@@ -26,7 +27,7 @@ const LiveEditHandles = function (handles) {
             }
             this.each(function (handle){
                 handle.show()
-            })
+            });
 
         };
 
@@ -81,13 +82,16 @@ export const LiveEdit = function (options) {
         handleLayout: new Handle()
     });
 
+    this.observe = new GetPointerTargets();
+
 
 
 
 
     this.init = function () {
         mw.element(root).on('mousemove touchmove', function (e) {
-
+            var elements = scope.observe.fromPoint(e.pageX, e.pageY);
+            console.log(elements)
         });
     };
 
