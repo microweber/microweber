@@ -289,7 +289,7 @@
                                 <div class="col-12 d-none">
                                     <div class="js-test-email">
 
-                                        <h4><?php _e("Make a test email"); ?></h4>
+                                        <h4><?php _e("Send test email"); ?></h4>
                                         <p class="text-muted"><?php _e("Send test email to check settings are they work correctly."); ?></p>
 
                                         <div class="form-group">

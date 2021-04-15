@@ -4,7 +4,7 @@ if (!function_exists('offers_get_products')) {
     function offers_get_products()
     {
 
-        $findCache = cache_get('offers_get_products', 'offers', false);
+        $findCache = cache_get('offers_get_products', 'offers', 3600);
         if ($findCache) {
             return $findCache;
         }
@@ -29,7 +29,7 @@ if (!function_exists('offers_get_products')) {
             }
         }
 
-        cache_save($specialOffers, 'offers_get_products', 'offers');
+        cache_save($specialOffers, 'offers_get_products', 'offers', 3600);
 
         return $specialOffers;
     }
@@ -68,7 +68,5 @@ if (!function_exists('offer_get_by_id')) {
     function offer_get_by_id($offer_id)
     {
         return \MicroweberPackages\Offer\Models\Offer::getById($offer_id);
-
-
     }
 }
