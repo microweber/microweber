@@ -88,7 +88,9 @@
             <a class="btn btn-success btn-sm" href="javascript:mw.edit_licence('0');"><?php _e('Add License'); ?></a>
     </div>
     </div>
+<?php else : ?>
+
+    <a class="btn btn-success btn-sm" href="javascript:mw.edit_licence('0');"><?php _e('Add License'); ?></a>
+
+
 <?php endif; ?>
-
-
-

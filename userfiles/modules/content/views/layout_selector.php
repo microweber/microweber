@@ -533,7 +533,7 @@ if (!empty($recomended_layouts)) {
 
                                         <div class="form-group mb-3 js-template-selector">
                                             <label class="control-label"><?php _e("Template name"); ?></label>
-                                            <small class="text-muted d-block mb-2"><?php _e("You are using this template. The change will be affected only on the current page"); ?>.</small>
+                                            <small class="text-muted d-block mb-2"><?php _e("You are using this template."); ?> &nbsp; <?php _e("The change will affect only the current page."); ?></small>
                                             <div>
                                                 <?php if ($templates != false and !empty($templates)): ?>
                                                     <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="selectpicker mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
