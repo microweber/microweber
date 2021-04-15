@@ -25,6 +25,9 @@ trait ShippingTrait {
     }
 
     public function shippingMethodChange(Request $request) {
+
+        app()->shipping_manager->setDefaultDriver($request->get('shipping_gw'));
+
         session_append_array('checkout_v2', [
             'shipping_gw'=> $request->get('shipping_gw')
         ]);
