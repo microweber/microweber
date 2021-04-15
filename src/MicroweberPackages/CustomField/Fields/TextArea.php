@@ -24,6 +24,8 @@ class TextArea extends DefaultField
         'field_size_desktop'=>12,
         'field_size_tablet'=>12,
         'field_size_mobile'=>12,
+        'rows'=>3,
+        'cols'=>2,
     ];
 
     public function preparePreview()
