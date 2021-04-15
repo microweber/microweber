@@ -46,7 +46,7 @@
         <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the value of description');?></small>
         <div id="mw-custom-fields-text-holder" class="js-custom-field-text-settings">
             <?php if($settings["as_text_area"] == '1'): ?>
-                
+
                 <textarea class="form-control js-custom-field-value" name="value"><?php echo $data['value']; ?></textarea>
 
                 <div class="form-row">
