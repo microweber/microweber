@@ -8,14 +8,8 @@ $shipping_cost = mw('shop\shipping\gateways\country\shipping_to_country')->get_c
 $shipping_cost = floatval($shipping_cost);
 $countries_used = array();
 $countries_all = array();
-}
 
-$get_available_countries = mw('shop\shipping\gateways\country\shipping_to_country')->get_available_countries();
-if($get_available_countries){
-    foreach ($get_available_countries as $key => $item) {
-        $data[] = array('shipping_country' => $item);
-    }
-}
+$data = mw('shop\shipping\gateways\country\shipping_to_country')->get_available_countries();
 ?>
     <script type="text/javascript">
         mw.require('forms.js', true);
