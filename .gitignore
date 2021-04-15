@@ -48,8 +48,7 @@ node_modules/
 /run-build.sh
 /userfiles/templates
 /phpunit-5.7.27.phar
-/bootstrap/cache/services.php
-/bootstrap/cache/packages.php
+/bootstrap/cache/*
 /webpack/dist/*
 /.rnd
 /userfiles/modules/multilanguage
@@ -57,3 +56,5 @@ config/app.php
 config/database.php
 bootstrap/cache/services.8.32.1.php
 bootstrap/cache/packages.8.32.1.php
+bootstrap/cache/packages.8.25.0.php
+bootstrap/cache/services.8.25.0.php

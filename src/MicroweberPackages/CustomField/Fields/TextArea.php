@@ -13,6 +13,7 @@ class TextArea extends DefaultField
     public $hasResponsiveOptions = true;
     public $hasErrorTextOptions = true;
     public $hasRequiredOptions = true;
+    public $hasShowLabelOptions = true;
 
     public $defaultSettings = [
         'required'=>false,
