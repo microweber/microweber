@@ -13,4 +13,5 @@ class Date extends DefaultField {
     public $hasResponsiveOptions = true;
     public $hasErrorTextOptions = true;
     public $hasRequiredOptions = true;
+    public $hasShowLabelOptions = true;
 }
