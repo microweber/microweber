@@ -696,6 +696,10 @@ class FieldsManager
             $settings = true;
         }
 
+        if (isset($params['params']['template'])) {
+            $data['params']['template'] = $params['params']['template'];
+        }
+
         $field = $this->instanceField($data['type']);
         $field->setData($data);
         $field->setAdminView($settings);
