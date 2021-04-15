@@ -63,7 +63,7 @@ class JsCompileController extends Controller
             $l = $this->minify_js($l);
 
             $userfiles_dir = userfiles_path();
-            $hash = md5(site_url());
+            $hash = $this->apijs_combined_get_hash();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
             $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
             if (!is_file($userfiles_cache_filename)) {
@@ -111,10 +111,10 @@ class JsCompileController extends Controller
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $l = $this->minify_js($l);
-
+            $hash = $this->apijs_combined_get_hash();
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . $hash. '.js';
 
             if (!is_file($userfiles_cache_filename)) {
                 if (!is_dir($userfiles_cache_dir)) {
@@ -149,7 +149,7 @@ class JsCompileController extends Controller
 
     public function apijs_combined_get_hash()
     {
-        $hash = md5(site_url() . template_dir()).'.' . MW_VERSION ;
+        $hash = crc32(site_url() . template_dir()).'.' . MW_VERSION ;
         return $hash;
     }
     public function apijs_combined()
@@ -245,9 +245,9 @@ class JsCompileController extends Controller
             $l = $this->minify_js($l);
 
             $userfiles_dir = userfiles_path();
-            $hash = md5(site_url());
+            $hash = $this->apijs_combined_get_hash();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.liveedit.' . $hash . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.liveedit.' . $hash .   '.js';
             if (!is_file($userfiles_cache_filename)) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
                     define('MW_NO_OUTPUT_CACHE', true);
@@ -293,10 +293,10 @@ class JsCompileController extends Controller
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
-            $hash = md5(site_url());
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.' . MW_VERSION . '.js';
+            $hash = $this->apijs_combined_get_hash();
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash .   '.js';
             if (is_file($userfiles_cache_filename)) {
-                $url = userfiles_url() . 'cache/apijs/' . 'api.' . $hash . '.' . MW_VERSION . '.js';
+                $url = userfiles_url() . 'cache/apijs/' . 'api.' . $hash .   '.js';
             }
         }
 
@@ -318,10 +318,11 @@ class JsCompileController extends Controller
                 $mtime = filemtime($file);
             }
 
+            $hash = $this->apijs_combined_get_hash();
 
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . md5(site_url() . template_dir()) . '.' . MW_VERSION . '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . $hash. '.js';
 
 
             if (is_file($userfiles_cache_filename)) {
