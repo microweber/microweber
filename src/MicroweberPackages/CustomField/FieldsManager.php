@@ -338,6 +338,7 @@ class FieldsManager
             $customField->name_key = $fieldData['name_key'];
         }
 
+        $customField->show_label = false;
         if (!empty($fieldData['show_label'])) {
             $customField->show_label = $fieldData['show_label'];
         }
@@ -348,10 +349,6 @@ class FieldsManager
 
         if (!empty($fieldData['placeholder'])) {
             $customField->placeholder = $fieldData['placeholder'];
-        }
-
-        if (!empty($fieldData['show_label'])) {
-            $customField->show_label = $fieldData['show_label'];
         }
 
         if (!empty($fieldData['required'])) {
