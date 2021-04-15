@@ -157,7 +157,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         <div class="form-group">
                             <label class="control-label"><?php _e('Maximum number of testimonials to display'); ?></label>
-                            <small class="text-muted d-block mb-2"<?php _e('Number of the visable testimonials'); ?>> </small>
+                            <small class="text-muted d-block mb-2"<?php _e('Number of the visible testimonials'); ?>> </small>
                             <input type="text" class="form-control mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
                         </div>
 
