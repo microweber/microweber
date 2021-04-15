@@ -449,34 +449,27 @@ class shipping_to_country
                 if (trim(strtolower($item['shipping_country'])) == 'worldwide') {
                     unset($data[$key]);
                     if (is_array($countries_all)) {
-
                         foreach ($countries_all as $countries_new) {
                             $data[] = array('shipping_country' => $countries_new);
                         }
-
                     }
                 }
             }
-
-
         }
 
         if (is_array($data)) {
             foreach ($data as $key => $item) {
-                $skip = false;
                 if (is_array($data_disabled)) {
                     foreach ($data_disabled as $item_disabled) {
                         if (trim(strtolower($item_disabled['shipping_country'])) == 'worldwide') {
                                 foreach ($data as $key => $item) {
                                     if ($item['shipping_country'] == $item_disabled['shipping_country']){
-                                        $skip = 1;
                                         unset($data[$key]);
                                     }
                                 }
 
 
                         } else if ($item['shipping_country'] == $item_disabled['shipping_country']) {
-                            $skip = 1;
                             unset($data[$key]);
                         }
                     }
@@ -488,7 +481,7 @@ class shipping_to_country
         $ready = [];
         if (is_array($data)) {
             foreach ($data as $key => $item) {
-                $ready[] = $item['shipping_country'];
+                $ready[] = $item;
             }
         }
 

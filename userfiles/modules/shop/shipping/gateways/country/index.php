@@ -1,10 +1,6 @@
-<?php $rand = $module_wrapper_id = 'shipping_country_' . md5($params['module']). md5($params['id']);
+<?php use shop\shipping\gateways\country\shipping_to_country;
 
-
-$data = mw('shop\shipping\gateways\country\shipping_to_country')->get("is_active=1");
-
-
-// $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=1");
+$rand = $module_wrapper_id = 'shipping_country_' . md5($params['module']). md5($params['id']);
 
 
 $data_disabled = mw('shop\shipping\gateways\country\shipping_to_country')->get("is_active=0");
@@ -12,8 +8,6 @@ $shipping_cost = mw('shop\shipping\gateways\country\shipping_to_country')->get_c
 $shipping_cost = floatval($shipping_cost);
 $countries_used = array();
 $countries_all = array();
-if ($data == false) {
-    $data = array();
 }
 
 $get_available_countries = mw('shop\shipping\gateways\country\shipping_to_country')->get_available_countries();
