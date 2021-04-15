@@ -25,6 +25,11 @@ class PickupDriver implements ShippingDriverInterface
         return 'Pickup from address';
     }
 
+    public function quickSetup()
+    {
+        return '3432423342';
+    }
+
     public function instructions()
     {
         return get_option('shipping_pickup_instructions', 'shipping');
