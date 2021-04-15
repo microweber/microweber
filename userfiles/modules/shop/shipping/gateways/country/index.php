@@ -2,7 +2,6 @@
 
 $rand = $module_wrapper_id = 'shipping_country_' . md5($params['module']). md5($params['id']);
 
-
 $data_disabled = mw('shop\shipping\gateways\country\shipping_to_country')->get("is_active=0");
 $shipping_cost = mw('shop\shipping\gateways\country\shipping_to_country')->get_cost();
 $shipping_cost = floatval($shipping_cost);

@@ -3,9 +3,7 @@
 /*
 
 type: layout
-
 name: Select
-
 description: Select country
 
 */
