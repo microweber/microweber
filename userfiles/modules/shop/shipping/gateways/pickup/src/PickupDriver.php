@@ -1,12 +1,9 @@
 <?php
 
-
 namespace MicroweberPackages\Shop\Shipping\Gateways\Pickup;
 
 
-
 use MicroweberPackages\Shipping\Providers\ShippingDriverInterface;
-
 
 
 class PickupDriver implements ShippingDriverInterface
@@ -23,6 +20,11 @@ class PickupDriver implements ShippingDriverInterface
     public function title()
     {
         return 'Pickup from address';
+    }
+
+    public function quickSetup()
+    {
+        return '';
     }
 
     public function instructions()
