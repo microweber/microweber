@@ -3489,12 +3489,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d51133b4875263da64414cf40db4811b01a037d0"
+                "reference": "37ba32dc5f52d261b482815d194fba1476b725a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d51133b4875263da64414cf40db4811b01a037d0",
-                "reference": "d51133b4875263da64414cf40db4811b01a037d0",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/37ba32dc5f52d261b482815d194fba1476b725a2",
+                "reference": "37ba32dc5f52d261b482815d194fba1476b725a2",
                 "shasum": ""
             },
             "require": {
@@ -3650,7 +3650,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-04-15T13:30:40+00:00"
+            "time": "2021-04-15T20:54:53+00:00"
         },
         {
             "name": "laravel/passport",
@@ -5320,97 +5320,17 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:microweber-templates/new-world.git",
-                "reference": "9e55f0dd0a97b1a5cc79d35904a86ab00f4aa16e"
+                "reference": "31f3559105915080e8f6ce23ecead9acc4a172ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-9e55f0dd0a97b1a5cc79d35904a86ab00f4aa16e-zip-3137aa.zip",
-                "reference": "9e55f0dd0a97b1a5cc79d35904a86ab00f4aa16e",
-                "shasum": "a26af2a16dd7a02122a7378614aed4e8f20a9c8a"
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-31f3559105915080e8f6ce23ecead9acc4a172ba-zip-6ab541.zip",
+                "reference": "31f3559105915080e8f6ce23ecead9acc4a172ba",
+                "shasum": "fc5e64aff37d248dde83048a241e4fd2c381f392"
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "http://templates.microweber.com/new-world/",
-                "_meta": {
-                    "screenshot": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/screenshot.jpg",
-                    "features": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/features.jpg",
-                    "seaside_groove-webfont": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/seaside_groove-webfont.svg",
-                    "ventoux": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/ventoux.svg",
-                    "slick": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/slick.svg",
-                    "hr-line": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/hr-line.svg",
-                    "prev_next": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/prev_next.png",
-                    "logo_footer": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/logo_footer.png",
-                    "2": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/2.png",
-                    "hr-vertical": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/hr-vertical.svg",
-                    "map": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/map.png",
-                    "blue-bg": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/blue-bg.png",
-                    "people-4": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/people-4.jpg",
-                    "quotes": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/quotes.png",
-                    "people-5": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/people-5.png",
-                    "white-4": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/white-4.png",
-                    "img-1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-1.png",
-                    "img-4": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-4.png",
-                    "img-5": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-5.png",
-                    "img-3": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-3.png",
-                    "img-2": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-2.png",
-                    "img-6": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-6.png",
-                    "white-6": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/white-6.png",
-                    "white-5": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/white-5.png",
-                    "white-2": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/white-2.png",
-                    "white-3": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/white-3.png",
-                    "white-1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/white-1.png",
-                    "people-1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/people-1.jpg",
-                    "parallax": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/parallax.png",
-                    "1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/1.jpg",
-                    "video_for_layouts": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/video_for_layouts.png",
-                    "img-7": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-7.png",
-                    "people-2": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/people-2.jpg",
-                    "logo": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/logo.png",
-                    "people-3": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/people-3.png",
-                    "avatar": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/avatar.png",
-                    "feature-2": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/feature-2.jpg",
-                    "img-8": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-8.png",
-                    "blockquote": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/blockquote.png",
-                    "feature-3": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/feature-3.jpg",
-                    "people-6": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/people-6.png",
-                    "blockquote-1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/blockquote-1.png",
-                    "hr-old": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/hr-old.svg",
-                    "input-black": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/input-black.png",
-                    "slide-2": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/slide-2.jpg",
-                    "404_graphic": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/404_graphic.png",
-                    "slide-1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/slide-1.png",
-                    "hr-zigzag": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/hr-zigzag.svg",
-                    "testimonial": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/testimonial.png",
-                    "meeting": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/meeting.png",
-                    "video-bg": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/video-bg.png",
-                    "features-bg": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/features-bg.png",
-                    "hr": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/hr.svg",
-                    "header_style_9": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_9.jpg",
-                    "header_style_6": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_6.jpg",
-                    "header_style_8": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_8.jpg",
-                    "header_style_5": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_5.jpg",
-                    "header_style_1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_1.jpg",
-                    "header_style_4": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_4.jpg",
-                    "header_style_3": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_3.jpg",
-                    "header_style_7": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_7.jpg",
-                    "header_style_2": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/header_style_2.jpg",
-                    "img-9": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/img-9.png",
-                    "feature-1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/feature-1.jpg",
-                    "logo-dark": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/logo-dark.png",
-                    "video": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/video.png",
-                    "default_icon": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/default_icon.png",
-                    "skin-1": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-1.jpg",
-                    "skin-2": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-2.jpg",
-                    "skin-3": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-3.jpg",
-                    "skin-4": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-4.jpg",
-                    "skin-5": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-5.jpg",
-                    "skin-6": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-6.jpg",
-                    "skin-8": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-8.jpg",
-                    "skin-9": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-9.jpg",
-                    "skin-10": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-10.jpg",
-                    "skin-7": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/skin-7.jpg",
-                    "readme": "https://packages.microweberapi.com/meta/a26af2a16dd7a02122a7378614aed4e8f20a9c8a/readme.md"
-                }
+                "preview_url": "http://templates.microweber.com/new-world/"
             },
             "notification-url": "https://installreport.services.microweberapi.com",
             "license": [
@@ -5430,7 +5350,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2021-04-15T14:05:24+00:00"
+            "time": "2021-04-15T21:59:13+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -8442,17 +8362,17 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ramsey/uuid.git",
-                "reference": "cd4032040a750077205918c86049aa0f43d22947"
+                "reference": "e5b3699bbe04e18794a3b6e6e1e0443a9742e4ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/ramsey/uuid/ramsey-uuid-cd4032040a750077205918c86049aa0f43d22947-zip-5e5ec1.zip",
-                "reference": "cd4032040a750077205918c86049aa0f43d22947",
-                "shasum": "d88db39421fd5cdd6a98b2b6da6d26db6a4aafdb"
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/e5b3699bbe04e18794a3b6e6e1e0443a9742e4ad",
+                "reference": "e5b3699bbe04e18794a3b6e6e1e0443a9742e4ad",
+                "shasum": ""
             },
             "require": {
                 "brick/math": "^0.8 || ^0.9",
@@ -8465,26 +8385,24 @@
                 "rhumsaa/uuid": "self.version"
             },
             "require-dev": {
-                "codeception/aspect-mock": "^3",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2 || ^0.7.0",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
                 "doctrine/annotations": "^1.8",
-                "goaop/framework": "^2",
                 "mockery/mockery": "^1.3",
                 "moontoast/math": "^1.1",
                 "paragonie/random-lib": "^2",
+                "php-mock/php-mock": "^2.2",
                 "php-mock/php-mock-mockery": "^1.3",
-                "php-mock/php-mock-phpunit": "^2.5",
                 "php-parallel-lint/php-parallel-lint": "^1.1",
-                "phpbench/phpbench": "^0.17.1",
+                "phpbench/phpbench": "1.0.0-alpha2",
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^0.12",
                 "phpstan/phpstan-mockery": "^0.12",
                 "phpstan/phpstan-phpunit": "^0.12",
-                "phpunit/phpunit": "^8.5",
+                "phpunit/phpunit": "^8.5 || ^9",
                 "psy/psysh": "^0.10.0",
                 "slevomat/coding-standard": "^6.0",
                 "squizlabs/php_codesniffer": "^3.5",
-                "vimeo/psalm": "3.9.4"
+                "vimeo/psalm": "^3.18"
             },
             "suggest": {
                 "ext-bcmath": "Enables faster math with arbitrary-precision integers using BCMath.",
@@ -8498,9 +8416,6 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "4.x-dev"
-                },
-                "_meta": {
-                    "README": "https://packages.microweberapi.com/meta/d88db39421fd5cdd6a98b2b6da6d26db6a4aafdb/README.md"
                 }
             },
             "autoload": {
@@ -8569,7 +8484,7 @@
                 "rss": "https://github.com/ramsey/uuid/releases.atom",
                 "source": "https://github.com/ramsey/uuid"
             },
-            "time": "2020-08-18T17:17:46+00:00"
+            "time": "2020-11-05T21:14:31+00:00"
         },
         {
             "name": "rtconner/laravel-tagging",
@@ -9002,16 +8917,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.46.0",
+            "version": "v3.47.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "cc408812fc927e265da158bf68239530740ab4cc"
+                "reference": "0f8548c0d443fa37f10a45948d5f2babf685c657"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/cc408812fc927e265da158bf68239530740ab4cc",
-                "reference": "cc408812fc927e265da158bf68239530740ab4cc",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/0f8548c0d443fa37f10a45948d5f2babf685c657",
+                "reference": "0f8548c0d443fa37f10a45948d5f2babf685c657",
                 "shasum": ""
             },
             "type": "library",
@@ -9057,9 +8972,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.46.0"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.47.1"
             },
-            "time": "2021-03-31T18:50:40+00:00"
+            "time": "2021-04-15T21:56:21+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
