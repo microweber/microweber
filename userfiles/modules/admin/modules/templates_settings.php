@@ -46,7 +46,6 @@ if ($module_template != false) {
     $template_file = module_templates($params['parent-module'], 'default_settings', true);
 }
 
-
 ?>
 
 <div for-module-id="<?php print $params['id'] ?>" class="module">
@@ -63,10 +62,29 @@ if ($module_template != false) {
                         display: none !important;
                     }
                 </style>
-<!--                --><?php //include($template_file); ?>
+                <?php  include($template_file); ?>
+
+            </div>
+        </div>
+    <?php else: ?>
+
+        <div class="mw-ui-box m-t-20">
+            <div class="mw-ui-box-header">
+                <i class="mw-icon-gear mr-1"></i>
+                <label claas="control-label font-weight-bold"><?php _e("Skin settings"); ?></label>
+                <small class="text-muted d-block mb-3"><?php _e('Manipulate your button design from here.');?></small>
+            </div>
+            <div class="mw-ui-box-content">
+                <style>
+                    #settings-holder h5 {
+                        display: none !important;
+                    }
+                </style>
+
                 <module type="btn" template="bootstrap_settings"/>
             </div>
         </div>
+
     <?php endif; ?>
 </div>
 
