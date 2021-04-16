@@ -32,7 +32,37 @@ export class ElementDomNestingService {
         }
         return null;
     }
-    
+
+    static parentsOrCurrentOrderMatchOrOnlyFirstOrNone (node, arr) {
+        let curr = node;
+        while (curr && curr !== document.body) {
+            const h1 = curr.classList.has(arr[0]);
+            const h2 = curr.classList.has(curr, arr[1]);
+            if (h1 && h2) {
+                return false;
+            } else {
+                if (h1) {
+                    return true;
+                } else if (h2) {
+                    return false;
+                }
+            }
+            curr = curr.parentNode;
+        }
+        return true;
+    }
+
+    static hasAnyOfClasses (node, arr) {
+        if (!node) return;
+        let i = 0, l = arr.length;
+        for (; i < l; i++) {
+            if (node.classList.has(arr[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
 
@@ -111,7 +141,7 @@ export class DropableElementAnalyzerService extends ElementAnalyzerServiceBase  
 
 
     canAcceptByClass (node) {
-        return mw.tools.hasAnyOfClasses(node, this.dropableElements());
+        return this.tools.hasAnyOfClasses(node, this.dropableElements());
     }
 
     canAcceptByTag (node) {
@@ -120,7 +150,7 @@ export class DropableElementAnalyzerService extends ElementAnalyzerServiceBase  
     }
 
     allowDrop (node) {
-        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(node, [this.settings.allowDrop, this.settings.nodrop]);
+        return this.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(node, [this.settings.allowDrop, this.settings.nodrop]);
     }
 
     canInsertBeforeOrAfter (node) {
