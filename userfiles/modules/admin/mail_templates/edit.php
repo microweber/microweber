@@ -179,7 +179,7 @@ if (!empty($template_id)) {
                 <div class="col-md-6">
                     <div class="form-group mb-4">
                         <label class="control-label"><?php _e("Copy To"); ?></label>
-                        <small class="text-muted d-block mb-2"><?php _e("To which email should you send a copy"); ?>?</small>
+                        <small class="text-muted d-block mb-2"><?php _e("To which email do you want to send a copy"); ?>?</small>
                         <input type="text" name="copy_to" class="form-control" value="<?php echo $template['copy_to']; ?>" placeholder="Ex. your@mail.com">
 
                     </div>

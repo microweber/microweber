@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.5] - 2021-04-15
+- Fixes on the shipping module
+- Fixes on the checkout module
+- Fixes bug where needed to delete bootstrap/cache folder
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.4...1.2.5 "")
+
+
+
 ## [1.2.4] - 2021-04-12
 - UI Fixes on mobile
 - Live edit fixes  

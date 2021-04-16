@@ -359,10 +359,50 @@ class Template
     public function add_csrf_token_meta_tags($layout)
     {
         $ajax = '<script>
+
+
+
         $( document ).ready(function() {
+            
+         
+            var _csrf_from_local_storage = null;
+            
+            if(typeof(mw.storage) != \'undefined\'  && mw.storage.get){
+                csrf_from_local_storage_data = mw.storage.get("csrf-token-data")
+                
+                if (csrf_from_local_storage_data && csrf_from_local_storage_data.value && (new Date()).getTime() < csrf_from_local_storage_data.expiry) {
+                     _csrf_from_local_storage = csrf_from_local_storage_data.value
+                }
+ 
+            }
+            
+            if(_csrf_from_local_storage){
+                $(\'meta[name="csrf-token"]\').attr(\'content\',_csrf_from_local_storage)
+                     $.ajaxSetup({
+                        headers: {
+                            \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
+                        }
+                    });
+                
+                
+                return;
+            }
+            
+            
             setTimeout(function () {
                     $.get( "' . route('csrf') . '", function( data ) {
                     $(\'meta[name="csrf-token"]\').attr(\'content\',data.token)
+                    if(typeof(mw.storage) != \'undefined\'  && mw.storage.set){
+
+                         var csrf_from_local_storage_ttl = 900000; // 15 minutes 
+                         var item = {
+                            value: data.token,
+                            expiry: (new Date()).getTime() + csrf_from_local_storage_ttl,
+                        }
+                        mw.storage.set("csrf-token-data", item)
+                     
+                     
+                     }
                      $.ajaxSetup({
                         headers: {
                             \'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
@@ -370,7 +410,11 @@ class Template
                     });
               })
                 }, 1337);
+                    
+                    
          });
+            
+            
         </script> 
        ';
         $ajax = $ajax . ' <meta name="csrf-token" content="" />';
