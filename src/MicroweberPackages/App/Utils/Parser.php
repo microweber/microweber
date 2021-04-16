@@ -319,7 +319,9 @@ class Parser
             $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
             if ($more) {
                 // bug ?
-                $layout = $this->_replace_editable_fields($layout);
+
+
+                 $layout = $this->_replace_editable_fields($layout);
             }
 
             $layout = str_replace('<microweber module=', '<module data-type=', $layout);
@@ -946,8 +948,10 @@ class Parser
                                             $pq_mod_inner = \phpQuery::newDocument($mod_content);
                                             $els_mod_inner = $pq_mod_inner['.edit'];
                                             if (count($els_mod_inner)) {
-                                                $mod_content = $this->_replace_editable_fields($mod_content, false, $layout);
-
+                                                $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
+                                                if ($proceed_with_parse == true) {
+                                                    $mod_content = $this->_replace_editable_fields($mod_content, false, $layout);
+                                                }
                                             }
                                             unset($pq_mod_inner);
 
@@ -1519,6 +1523,10 @@ class Parser
                         $field_content = $edit_field_content;
 
                     }
+
+
+               //     dump($rel);
+
                     if ($field_content != false and $field_content != '' and is_string($field_content)) {
 
 
@@ -1571,6 +1579,7 @@ class Parser
                                     //  pq($elem_clone)->attr('itemtype','http://schema.org/CreativeWork');
 
                                 }
+
                                 pq($elem)->replaceWith($elem_clone);
 
                             // $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content, 'rel' => $rel, 'field' => $field);
@@ -1590,10 +1599,10 @@ class Parser
 //                        }
 
                     } else {
+
                         $el_html = pq($elem)->html();
                         if (strstr($el_html, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>')) {
                             pq($elem)->html('<!-- edit_field_not_found_in_database -->');
-//dd($el_html);
                         }
 
                     }
@@ -1744,6 +1753,7 @@ class Parser
         foreach ($pq ['.edit.changed'] as $elem) {
             $attrs = $elem->attributes;
             $tag = $elem->tagName;
+
 
 
             $module_html = '<' . $tag . ' ';
@@ -2793,8 +2803,32 @@ $srsc_str
         $proceed_with_parse = false;
         preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $modinner);
         $proceed_with_parse = false;
+//        if (!empty($modinner) and isset($modinner[0][0])) {
+//            $proceed_with_parse = true;
+//        }
+
+        //check for field and rel attributes
+        $pattern = '/(\w+)=[\'"]([^\'"]*)/';
+
         if (!empty($modinner) and isset($modinner[0][0])) {
-            $proceed_with_parse = true;
+            foreach ($modinner[0] as $item){
+
+                preg_match_all($pattern,$item,$matches,PREG_SET_ORDER);
+                $result = [];
+                foreach($matches as $match){
+                    $attrName = $match[1];
+                    //parse the string value into an integer if it's numeric,
+                    // leave it as a string if it's not numeric,
+                    $attrValue = is_numeric($match[2])? (int)$match[2]: trim($match[2]);
+
+                    $result[$attrName] = $attrValue; //add match to results
+                }
+
+               if(isset($result['field']) or isset($result['data-field'])){
+                   $proceed_with_parse = true;
+               }
+
+            }
         }
         return $proceed_with_parse;
     }
