@@ -24343,7 +24343,7 @@ mw.tools.elementEdit = function (el, textonly, callback, fieldClass) {
 
         this.createSingle = function (item, i) {
             var el = document.createElement('div');
-            el.className = 'mw-gallery-item mw-gallery-item-' + i + (startFrom === i ? ' active' : '');
+            el.className = 'mw-gallery-fullscreen-item mw-gallery-item-' + i + (startFrom === i ? ' active' : '');
             var desc = !item.description ? '' : '<div class="mw-gallery-item-description">'+item.description+'</div>';
             el.innerHTML = '<div class="mw-gallery-item-image"><img src="'+(item.image || item.url || item.src)+'"></div>' + desc;
             this.container.appendChild(el);
@@ -25196,6 +25196,10 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
+                    if(e.newValue === null){
+                        return;
+                    }
+                   
                     var _new = JSON.parse(e.newValue || {});
                     var _old = JSON.parse(e.oldValue || {});
                     var diff = mw.tools.getDiff(_new, _old);

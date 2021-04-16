@@ -32,7 +32,7 @@
     "popper.js": "^1.16.1"
   },
   "scripts": {
-    "buildjs": "webpack --mode=developmentt",
+    "buildjs": "webpack --mode=development",
     "buildjswatch": "webpack --watch --mode=development",
     "build": "webpack --mode=development && gulp mwui",
     "dev": "webpack --watch --mode=development && gulp watch",

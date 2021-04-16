@@ -90,9 +90,11 @@ export const LiveEdit = function (options) {
 
     this.init = function () {
         mw.element(root).on('mousemove touchmove', function (e) {
-            var elements = scope.observe.fromPoint(e.pageX, e.pageY);
-            console.log(elements)
-        });
+            if (e.pageX % 2 === 0) {
+                var elements = scope.observe.fromPoint(e.pageX, e.pageY);
+
+            }
+         });
     };
 
 

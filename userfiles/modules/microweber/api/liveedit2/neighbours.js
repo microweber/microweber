@@ -5,11 +5,17 @@ export const GetPointerTargets = function (options) {
 
     options = options || {};
 
+    var scope = this;
+
     var defaults = {
         document: document
     };
 
     this.settings = mw.object.extend({}, defaults, options);
+
+    this.document = this.settings.document;
+    this.body = this.document.body;
+
 
     var distanceMax = 20;
 
@@ -100,19 +106,21 @@ export const GetPointerTargets = function (options) {
         return res;
     };
 
+    var addNode = function (el, res) {
+        if(el && !!el.parentElement && res.indexOf(el) === -1 && scope.body !== el) {
+            res.push(el);
+        }
+    };
+
     this.fromPoint = function (x, y) {
         var res = [];
-        var el = document.elementFromPoint(x, y);
+        var el = scope.document.elementFromPoint(x, y);
         if (!el ) return [];
-        res.push(el);
+        addNode(el, res);
         var dots = getNearCoordinates(x, y);
         dots.forEach(function (coords){
-             var el = document.elementFromPoint(coords[0], coords[1]);
-            if(res.indexOf(el) === -1) {
-                res.push(el);
-            }
+            addNode(scope.document.elementFromPoint(coords[0], coords[1]), res);
         });
-
         return res;
     };
 };

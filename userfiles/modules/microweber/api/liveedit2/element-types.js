@@ -2,118 +2,181 @@
 /* globals: mw */
 
 
-export const ElementAnalyzerService = function (settings) {
 
-    var dropableElements;
 
-    this.isConfigurable = function (target) {
-        return this.isElement(target) || this.isModule(target) || this.isRow(target);
-    };
 
-    this.isRow = function(node) {
-        return mw.tools.hasClass(node, this.settings.rowClass);
-    };
+export class ElementDomNestingService {
 
-    this.isModuleButNotLayout = function(node) {
+    static firstWithBackgroundImage (node) {
+        if (!node) {
+            return null;
+        }
+        while(node && node.nodeName !== 'BODY') {
+            if (!!node.style.backgroundImage) {
+                return node;
+            }
+            node = node.parentElement;
+        }
+        return null;
+    }
+
+    static hasAnyOfClassesOnNodeOrParent(node, arr) {
+        while (node && node.nodeName !== 'BODY') {
+            let i = 0, l = arr.length;
+            for ( ; i < l ; i++ ) {
+                if (node.classList.has(arr[i])) {
+                    return true;
+                }
+            }
+            node = node.parentElement;
+        }
+        return null;
+    }
+    
+
+}
+
+export class ElementAnalyzerServiceBase {
+
+    constructor(settings) {
+        this.settings = settings;
+        this.tools = ElementDomNestingService;
+    }
+
+    isRow (node) {
+        return node.classList.has(this.settings.rowClass);
+    }
+
+    isModuleButNotLayout (node) {
         return node.dataset.type !== 'layouts';
-    };
-    this.isLayout = function(node) {
+    }
+    isLayout (node) {
         return node.dataset.type === 'layouts';
-    };
+    }
 
-    this.isEditableLayout = function(node) {
-        return this.this.isLayout(node) && this.isInEdit(node);
-    };
+    isElement (node) {
+        return node.classList.has(this.settings.elementClass);
+    }
 
-    this.isEditableModule = function(node) {
-        return this.isModule(node) && this.isInEdit(node);
-    };
+    isEmpty (node) {
+        return node.classList.has(this.settings.emptyElementClass);
+    }
 
-    this.isElement = function(node) {
-        return mw.tools.hasClass(node, this.settings.elementClass);
-    };
 
-    this.isEmpty = function(node) {
-        return mw.tools.hasClass(node, this.settings.emptyElementClass);
-    };
+    isEdit (node) {
+        return node.classList.has(this.settings.editClass);
+    }
 
-    var _tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM'];
-
-    this.canAcceptByClass = function (node) {
-        return mw.tools.hasAnyOfClasses(node, this.dropableElements());
-    };
-
-    this.canAcceptByTag = function (node) {
-        if(!node || node.nodeType !== 1) return false;
-        return _tagsCanAccept.indexOf(node.nodeName) !== -1;
-    };
-
-    this.isEdit = function(node) {
-        return mw.tools.hasClass(node, this.settings.editClass);
-    };
-
-    this.isInEdit = function(node) {
+    isInEdit (node) {
         var order = [
             this.settings.editClass,
             this.settings.moduleClass,
         ];
-        return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, order);
-    };
+        return this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(node.parentNode, order);
+    }
 
-    this.isEditOrInEdit = function (node) {
+    isEditOrInEdit (node) {
         return this.isEdit(node) || this.isInEdit(node);
-    };
+    }
 
-    this.allowDrop = function (node) {
+    isPlainText (node) {
+        return node.classList.has(this.settings.plainElementClass);
+    }
+
+}
+
+export class DropableElementAnalyzerService extends ElementAnalyzerServiceBase  {
+
+    #tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM'];
+    #dropableElements;
+
+    constructor(settings) {
+        super();
+        this.settings = settings;
+        this.init();
+    }
+
+
+    isConfigurable (target) {
+        return this.isElement(target) || this.isModule(target) || this.isRow(target);
+    }
+
+    isEditableLayout (node) {
+        return this.this.isLayout(node) && this.isInEdit(node);
+    }
+
+    isEditableModule (node) {
+        return this.isModule(node) && this.isInEdit(node);
+    }
+
+
+    canAcceptByClass (node) {
+        return mw.tools.hasAnyOfClasses(node, this.dropableElements());
+    }
+
+    canAcceptByTag (node) {
+        if(!node || node.nodeType !== 1) return false;
+        return this._tagsCanAccept.indexOf(node.nodeName) !== -1;
+    }
+
+    allowDrop (node) {
         return mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(node, [this.settings.allowDrop, this.settings.nodrop]);
-    };
+    }
 
-    this.canInsertBeforeOrAfter = function (node) {
+    canInsertBeforeOrAfter (node) {
         return this.canAccept(node.parentNode);
-    };
+    }
 
-
-    this.isPlainText = function (node) {
-        return mw.tools.hasClass(node, this.settings.plainElementClass);
-    };
-
-    this.canAccept = function (target) {
-        if (this.canAcceptByTag(target)
-            && this.canAcceptByClass(target)
-            && this.isEditOrInEdit(target)
-            && this.allowDrop(target)) {
+    canAccept (target) {
+        if (this.canAcceptByTag(target) &&
+            this.canAcceptByClass(target) &&
+            this.isEditOrInEdit(target) &&
+            this.allowDrop(target)) {
         }
         return false;
-    };
+    }
 
-    this.dropableElements = function (){
-        return dropableElements;
-    };
+    dropableElements (){
+        return #dropableElements;
+    }
 
-    this.getTarget = function (node) {
-        if (!node || node === document.body) return null;
+    getTarget (node) {
+        if (!node || node === this.settings.document.body) return null;
         if (this.canAccept(node)) {
             return node;
         } else {
             return this.getTarget(node.parentElement);
         }
-    };
+    }
 
-    this.init = function () {
-        this.settings = settings;
-        dropableElements = [
-            settings.elementClass,
-            settings.cloneableClass,
-            settings.editClass,
-            settings.moduleClass,
-            settings.colClass,
-            settings.allowDrop,
+    init () {
+        this.#dropableElements = [
+            this.settings.elementClass,
+            this.settings.cloneableClass,
+            this.settings.editClass,
+            this.settings.moduleClass,
+            this.settings.colClass,
+            this.settings.allowDrop,
         ];
-    };
+    }
 
 
-    this.init();
-};
+
+}
+
+export class ElementAnalyzerService {
+
+    constructor(options) {
+        this.settings = options;
+    }
+
+
+    canSelect(target) {
+        return !!target.id;
+    }
+
+
+}
 
 
 
@@ -123,7 +186,12 @@ export const ElementAnalyzer = function (options) {
 
     this.settings = options;
 
-    this.service = new ElementAnalyzerService(this.settings);
+    this.dropableService = new DropableElementAnalyzerService(this.settings);
+    this.moveService = new ElementAnalyzerService(this.settings);
+
+    this.getTargets = function (targets) {
+
+    };
 
 };
 
