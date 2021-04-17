@@ -533,6 +533,7 @@ class Parser
 
                                     if ($nn == 'data-type') {
                                         $module_name = $nv;
+                                        $attrs['data-type'] = $module_name;
                                     }
                                     if ($nn == 'data-module') {
                                         $attrs['data-type'] = $module_name;
@@ -1803,6 +1804,16 @@ class Parser
                 }
             }
             $module_html .= ' />';
+
+
+            $has_type_attribute = false;
+            if(isset( $attrs2['type'] ) or isset( $attrs2['data-type'] ) or isset( $attrs2['module'] )){
+                $has_type_attribute = true;
+
+            }
+             if(!$has_type_attribute){
+                 $module_html = '';
+             }
             pq($elem)->replaceWith($module_html);
         }
         $layout = $pq->htmlOuter();
