@@ -18,7 +18,7 @@ Route::name('api.')
     });
 
 
-
+/*
 Route::get('basi', function() {
 
     $curl = curl_init();
@@ -49,4 +49,4 @@ Route::get('basi', function() {
         dd($maiko['packages']['microweber/template-guesthouse']);
     }
 
-});
+});*/
