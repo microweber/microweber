@@ -12,7 +12,6 @@ use MicroweberPackages\Package\Installer\InstallationManager;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use MicroweberPackages\Utils\System\Files;
 use Symfony\Component\Console\Input\ArrayInput;
-use MicroweberPackages\Package\ComposerFactory as MicroweberComposerFactory;
 use Composer\IO\ConsoleIO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -213,7 +212,7 @@ class ComposerUpdate
 
         //  $manager = new InstallationManager($loop,  $io, $eventDispatcher );
         // $composer = Factory::create($io, $composer_temp);
-        $composer = MicroweberComposerFactory::create($io, $composer_temp);
+        $composer = ComposerFactory::create($io, $composer_temp);
         //  $composer->setInstallationManager($manager);
         $composer->setConfig($config);
 
@@ -397,9 +396,9 @@ class ComposerUpdate
             return;
         }
 
-        $mwComposerClient = new MicroweberComposerClient();
+      /*  $mwComposerClient = new MicroweberComposerClient();
 
-        return $mwComposerClient->install($params);
+        return $mwComposerClient->install($params);*/
 
         app()->update->clear_log();
 

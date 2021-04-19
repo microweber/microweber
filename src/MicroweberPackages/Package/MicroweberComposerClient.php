@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Package;
 
+use Composer\Package\Package;
 use MicroweberPackages\App\Models\SystemLicenses;
 
 class MicroweberComposerClient {
@@ -22,21 +23,21 @@ class MicroweberComposerClient {
 
     public function search($filter)
     {
-        $results = [];
+        $packages = [];
         foreach($this->packageServers as $package) {
             $getRepositories = $this->getPackageFile($package);
             foreach($getRepositories as $packageName=>$packageVersions) {
                 foreach($packageVersions as $packageVersion=>$packageVersionData) {
                     if (($filter['require_version'] == $packageVersion) &&
                         ($filter['require_name'] == $packageName)) {
-                        $results[] = $packageVersionData;
+                        $packages[] = $packageVersionData;
                         break;
                     }
                 }
             }
         }
 
-        return $results;
+        return $packages;
     }
 
     public function install($params)
@@ -46,7 +47,21 @@ class MicroweberComposerClient {
            'require_name'=>$params['require_name'],
         ]);
 
-        dd($search);
+        if (!$search) {
+            return array('error' => 'Error. Cannot find any packages.');
+        }
+
+        $confirm_key = 'composer-confirm-key-' . rand();
+
+        return array(
+            'error' => 'Please confirm installation',
+            'form_data_module' => 'admin/developer_tools/package_manager/confirm_install',
+            'form_data_module_params' => array(
+                'confirm_key' => $confirm_key,
+                'require_name' => $params['require_name'],
+                'require_version' => $params['require_version']
+            )
+        );
     }
 
     public function getPackageFile($packagesUrl)
