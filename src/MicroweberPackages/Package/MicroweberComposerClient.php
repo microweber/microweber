@@ -104,13 +104,31 @@ class MicroweberComposerClient {
             if ($type == 'microweber-templates') {
                 $packageFileDestination = userfiles_path() .'/templates/'.$search[0]['target-dir'].'/';
             }
-            
-            $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination);
+            if (!is_dir($packageFileDestination)) {
+                mkdir_recursive($packageFileDestination);
+            }
+
+            $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination . $packageFileName);
             if ($downloadStatus) {
                 $unzip = new Unzip();
                 $unzip->extract($packageFileDestination . $packageFileName, $packageFileDestination, true);
+
+                // Delete zip file
+                @unlink($packageFileDestination . $packageFileName);
             }
         }
+
+
+        $response = array();
+        $response['success'] = 'Success. You have installed: ' . $search[0]['name'] . ' .  Total files installed';
+        $response['log'] = 'Done!';
+
+        clearcache();
+        app()->update->post_update();
+
+        scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+
+        return $response;
     }
 
 
