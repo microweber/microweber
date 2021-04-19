@@ -2,10 +2,13 @@
 
 namespace MicroweberPackages\Package;
 
-use Composer\Package\Package;
 use MicroweberPackages\App\Models\SystemLicenses;
+use MicroweberPackages\Package\Traits\FileDownloader;
+use MicroweberPackages\Utils\Zip\Unzip;
 
 class MicroweberComposerClient {
+
+    use FileDownloader;
 
     public $licenses = [];
     public $packageServers = [
@@ -61,6 +64,7 @@ class MicroweberComposerClient {
         }
 
         if ($needConfirm) {
+
             $composerConfirm = array();
             $composerConfirm['user'] = [];
             $composerConfirm['packages'] = [];
@@ -77,8 +81,35 @@ class MicroweberComposerClient {
             );
         }
 
+        if (isset($search[0]['dist']['url'])) {
 
+            $distUrl = $search[0]['dist']['url'];
+
+            if (!isset($search[0]['target-dir'])) {
+                return;
+            }
+
+            $type = 'microweber-module';
+            if (isset($search[0]['type'])) {
+                $type = $search[0]['type'];
+            }
+
+            $packageFileName = str_slug($search[0]['name']).'.zip';
+            $packageFileDestination = storage_path() .'/cache/'. $packageFileName;
+            if ($type == 'microweber-module') {
+                $packageFileDestination = userfiles_path() .'/modules/'.$search[0]['target-dir'].'/'. $packageFileName;
+            }
+
+            die();
+            $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination);
+            if ($downloadStatus) {
+                $unzip = new Unzip();
+                $unzip->extract($packageFileDestination, $backupLocation, true);
+
+            }
+        }
     }
+
 
     public function getPackageFile($packagesUrl)
     {
