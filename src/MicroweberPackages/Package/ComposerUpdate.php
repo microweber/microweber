@@ -393,11 +393,13 @@ class ComposerUpdate
 
     public function installPackageByName($params)
     {
-
-
         if ('disabled' == $this->updateChannel) {
             return;
         }
+
+        $mwComposerClient = new MicroweberComposerClient();
+
+        return $mwComposerClient->install($params);
 
         app()->update->clear_log();
 

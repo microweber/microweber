@@ -7,7 +7,7 @@ use MicroweberPackages\App\Models\SystemLicenses;
 class MicroweberComposerClient {
 
     public $licenses = [];
-    public $packages = [
+    public $packageServers = [
          'https://packages-satis.microweberapi.com/packages.json',
     ];
 
@@ -20,14 +20,33 @@ class MicroweberComposerClient {
         }
     }
 
-    public function search()
+    public function search($filter)
     {
+        $results = [];
+        foreach($this->packageServers as $package) {
+            $getRepositories = $this->getPackageFile($package);
+            foreach($getRepositories as $packageName=>$packageVersions) {
+                foreach($packageVersions as $packageVersion=>$packageVersionData) {
+                    if (($filter['require_version'] == $packageVersion) &&
+                        ($filter['require_name'] == $packageName)) {
+                        $results[] = $packageVersionData;
+                        break;
+                    }
+                }
+            }
+        }
 
+        return $results;
     }
 
-    public function install()
+    public function install($params)
     {
+        $search = $this->search([
+           'require_version'=>$params['require_version'],
+           'require_name'=>$params['require_name'],
+        ]);
 
+        dd($search);
     }
 
     public function getPackageFile($packagesUrl)
@@ -44,7 +63,7 @@ class MicroweberComposerClient {
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_POSTFIELDS => "",
             CURLOPT_HTTPHEADER => [
-                "Authorization: Basic " . $this->licenses
+                "Authorization: Basic " . base64_encode(json_encode($this->licenses))
             ],
         ]);
 
@@ -57,7 +76,10 @@ class MicroweberComposerClient {
             return ["error"=>"cURL Error #:" . $err];
         } else {
             $getPackages = json_decode($response, true);
-            return $getPackages['packages'];
+            if (isset($getPackages['packages']) && is_array($getPackages['packages'])) {
+                return $getPackages['packages'];
+            }
+            return [];
         }
     }
 
