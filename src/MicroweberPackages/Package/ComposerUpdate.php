@@ -1173,11 +1173,6 @@ class ComposerUpdate
         $lic = base64_encode($lic);
 
         if (isset($composer_auth_temp['http-basic'])) {
-//                    $composer_auth_temp['http-basic']["packages.microweberapi.com"] = array(
-//                "username" => @gethostname(),
-//                "password" => $lic
-//            );
-
 
             foreach ($new_composer_config['repositories'] as $repo_auth) {
                 if (isset($repo_auth['url'])) {
