@@ -95,17 +95,20 @@ class MicroweberComposerClient {
             }
 
             $packageFileName = str_slug($search[0]['name']).'.zip';
-            $packageFileDestination = storage_path() .'/cache/'. $packageFileName;
+            $packageFileDestination = storage_path() .'/cache/';
+
             if ($type == 'microweber-module') {
-                $packageFileDestination = userfiles_path() .'/modules/'.$search[0]['target-dir'].'/'. $packageFileName;
+                $packageFileDestination = userfiles_path() .'/modules/'.$search[0]['target-dir'].'/';
             }
 
-            die();
+            if ($type == 'microweber-templates') {
+                $packageFileDestination = userfiles_path() .'/templates/'.$search[0]['target-dir'].'/';
+            }
+            
             $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination);
             if ($downloadStatus) {
                 $unzip = new Unzip();
-                $unzip->extract($packageFileDestination, $backupLocation, true);
-
+                $unzip->extract($packageFileDestination . $packageFileName, $packageFileDestination, true);
             }
         }
     }
