@@ -9,7 +9,14 @@ $author = array_first(explode('/', $item['name']), function ($key, $value) {
     return $value;
 });
 
+
+
+
 $package_name = explode('/', $item['name']);
+if(!isset($package_name[1])){
+    return;
+}
+
 $package_name = $package_name[1];
 
 if (isset($item['authors']) and isset($item['authors'][0]) and isset($item['authors'][0]['name'])) {
