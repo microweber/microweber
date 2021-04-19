@@ -45,6 +45,7 @@ class MicroweberComposerClient {
 
     public function install($params)
     {
+        $done = false;
         $search = $this->search([
            'require_version'=>$params['require_version'],
            'require_name'=>$params['require_name'],
@@ -101,7 +102,7 @@ class MicroweberComposerClient {
                 $packageFileDestination = userfiles_path() .'/modules/'.$search[0]['target-dir'].'/';
             }
 
-            if ($type == 'microweber-templates') {
+            if ($type == 'microweber-template') {
                 $packageFileDestination = userfiles_path() .'/templates/'.$search[0]['target-dir'].'/';
             }
             if (!is_dir($packageFileDestination)) {
@@ -115,20 +116,23 @@ class MicroweberComposerClient {
 
                 // Delete zip file
                 @unlink($packageFileDestination . $packageFileName);
+
+                $done = true;
             }
         }
 
 
-        $response = array();
-        $response['success'] = 'Success. You have installed: ' . $search[0]['name'] . ' .  Total files installed';
-        $response['log'] = 'Done!';
+        if ($done) {
+            $response = array();
+            $response['success'] = 'Success. You have installed: ' . $search[0]['name'] . ' .  Total files installed';
+            $response['log'] = 'Done!';
 
-        clearcache();
-        app()->update->post_update();
+            clearcache();
+            app()->update->post_update();
+            scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
 
-        scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
-
-        return $response;
+            return $response;
+        }
     }
 
 
