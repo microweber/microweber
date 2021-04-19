@@ -249,7 +249,7 @@ $user = get_user_by_id($user_id);
                             <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                                 <?php print $order_notif_html; ?>
                                 <i class="mdi mdi-shopping text-muted m-0"></i>
-                                <span class="d-none d-md-block">
+                                <span class="d-none d-xl-block">
                                     <?php if ($new_orders_count == 1): ?>
                                         <?php _e("New order"); ?>
                                     <?php elseif ($new_orders_count > 1): ?>
@@ -264,7 +264,7 @@ $user = get_user_by_id($user_id);
                         <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
                             <?php print $comments_notif_html; ?>&nbsp;
                             <i class="mdi mdi-comment-account text-muted m-0"></i>
-                            <span class="d-none d-md-block">
+                            <span class="d-none d-xl-block">
                                 <?php if ($new_comments_count == 1): ?>
                                     <?php _e("New comment"); ?>
                                 <?php elseif ($new_comments_count > 1): ?>
@@ -276,11 +276,13 @@ $user = get_user_by_id($user_id);
                         </a>
                     </li>
 
-                    <li class="mx-2">
+                    <li class="mx-2 ">
                         <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
                             <?php print $notif_html; ?>
                             <i class="mdi mdi-newspaper-variant-multiple text-muted m-0"></i>
-                            <span class="notif-label">
+
+
+                            <span class="notif-label d-none d-xl-block">
                                 <?php if ($notif_count == 1): ?>
                                     <?php _e("New notification"); ?>
                                 <?php elseif ($notif_count > 1): ?>
