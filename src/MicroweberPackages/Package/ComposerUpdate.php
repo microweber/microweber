@@ -49,9 +49,7 @@ class ComposerUpdate
         // Fill the user licenses
         $findLicenses = SystemLicenses::all();
         if ($findLicenses !== null) {
-            foreach($findLicenses as $license) {
-                $this->licenses[] = $license->local_key;
-            }
+            $this->licenses = $findLicenses->toArray();
         }
     }
 
