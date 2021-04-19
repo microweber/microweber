@@ -12,6 +12,7 @@ use MicroweberPackages\Package\Installer\InstallationManager;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use MicroweberPackages\Utils\System\Files;
 use Symfony\Component\Console\Input\ArrayInput;
+use MicroweberPackages\Package\ComposerFactory as Factory;
 use Composer\IO\ConsoleIO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -48,7 +49,9 @@ class ComposerUpdate
         // Fill the user licenses
         $findLicenses = SystemLicenses::all();
         if ($findLicenses !== null) {
-            $this->licenses = $findLicenses->toArray();
+            foreach($findLicenses as $license) {
+                $this->licenses[] = $license->local_key;
+            }
         }
     }
 
@@ -82,7 +85,6 @@ class ComposerUpdate
             $config_composer = array('config' => $config_params);
             $config->merge($config_composer);
         }
-
 //        $config_composer = array('config' => array(
 //            'prepend-autoloader' => false,
 //            'no-install' => true,
@@ -208,7 +210,9 @@ class ComposerUpdate
         if ($composer_temp) {
             $config->merge($composer_temp);
         }
+
         // ob_start();
+
 
         //  $manager = new InstallationManager($loop,  $io, $eventDispatcher );
         // $composer = Factory::create($io, $composer_temp);
@@ -392,13 +396,11 @@ class ComposerUpdate
 
     public function installPackageByName($params)
     {
+
+
         if ('disabled' == $this->updateChannel) {
             return;
         }
-
-      /*  $mwComposerClient = new MicroweberComposerClient();
-
-        return $mwComposerClient->install($params);*/
 
         app()->update->clear_log();
 
@@ -678,9 +680,12 @@ class ComposerUpdate
             $skip_files = [];
             $copy_to_packages_folder = array('composer.json', 'composer.lock', 'vendor');
             if (!$install_core_update) {
+
                 $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'vendor', 'packages.json');
+
             } else {
                 $skip_files = array('composer.json', 'auth.json', 'composer.lock', 'packages.json');
+
             }
 
             $from_folder2 = normalize_path($from_folder, true);
@@ -1170,6 +1175,11 @@ class ComposerUpdate
         $lic = base64_encode($lic);
 
         if (isset($composer_auth_temp['http-basic'])) {
+//                    $composer_auth_temp['http-basic']["packages.microweberapi.com"] = array(
+//                "username" => @gethostname(),
+//                "password" => $lic
+//            );
+
 
             foreach ($new_composer_config['repositories'] as $repo_auth) {
                 if (isset($repo_auth['url'])) {
