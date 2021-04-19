@@ -51,17 +51,33 @@ class MicroweberComposerClient {
             return array('error' => 'Error. Cannot find any packages.');
         }
 
-        $confirm_key = 'composer-confirm-key-' . rand();
+        $needConfirm = true;
+        $confirmKey = 'composer-confirm-key-' . rand();
+        if (isset($params['confirm_key'])) {
+            $isConfirmed = cache_get($params['confirm_key'], 'composer');
+            if ($isConfirmed) {
+                $needConfirm = false;
+            }
+        }
 
-        return array(
-            'error' => 'Please confirm installation',
-            'form_data_module' => 'admin/developer_tools/package_manager/confirm_install',
-            'form_data_module_params' => array(
-                'confirm_key' => $confirm_key,
-                'require_name' => $params['require_name'],
-                'require_version' => $params['require_version']
-            )
-        );
+        if ($needConfirm) {
+            $composerConfirm = array();
+            $composerConfirm['user'] = [];
+            $composerConfirm['packages'] = [];
+            cache_save($composerConfirm, $confirmKey, 'composer');
+
+            return array(
+                'error' => 'Please confirm installation',
+                'form_data_module' => 'admin/developer_tools/package_manager/confirm_install',
+                'form_data_module_params' => array(
+                    'confirm_key' => $confirmKey,
+                    'require_name' => $params['require_name'],
+                    'require_version' => $params['require_version']
+                )
+            );
+        }
+
+
     }
 
     public function getPackageFile($packagesUrl)
