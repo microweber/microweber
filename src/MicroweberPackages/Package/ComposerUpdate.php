@@ -7,6 +7,7 @@ use Composer\Command\InstallCommand;
 use Composer\Console\Application;
 use Composer\Installers\Installer;
 use Composer\Plugin\PluginManager;
+use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Package\Installer\InstallationManager;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
 use MicroweberPackages\Utils\System\Files;
@@ -44,6 +45,12 @@ class ComposerUpdate
         }
 
         $this->composerPath = $composerPath;
+
+        // Fill the user licenses
+        $findLicenses = SystemLicenses::all();
+        if ($findLicenses !== null) {
+            $this->licenses = $findLicenses->toArray();
+        }
     }
 
     public function setComposerHome($composerHomePath)
@@ -1191,11 +1198,5 @@ class ComposerUpdate
 
         return $temp_folder;
 
-    }
-
-
-    public function setLicenses($licenses)
-    {
-        $this->licenses = $licenses;
     }
 }
