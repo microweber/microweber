@@ -11,7 +11,7 @@ MWEditor.core = {
         if (config.props && config.props.className){
             config.props.className = defaults.props.className + ' ' + config.props.className;
         }
-        var settings = $.extend(true, {}, defaults, config);
+        var settings = mw.object.extend(true, {}, defaults, config);
         return mw.element(settings);
     },
     colorPicker: function(config) {
@@ -21,7 +21,7 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component'
             }
         };
-        var settings = $.extend(true, {}, defaults, config);
+        var settings = mw.object.extend(true, {}, defaults, config);
 
         var el = MWEditor.core.button(settings);
         el.addClass('mw-editor-color-picker')
@@ -50,7 +50,7 @@ MWEditor.core = {
                 className: 'mw-editor-controller-component'
             }
         };
-        var settings = $.extend(true, {}, defaults, config);
+        var settings = mw.object.extend(true, {}, defaults, config);
         var el = mw.element(settings);
         el.on('mousedown touchstart', function (e) {
             e.preventDefault();

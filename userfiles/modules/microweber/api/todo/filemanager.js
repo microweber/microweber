@@ -6,6 +6,10 @@
 
         options = options || {};
 
+        if(!options.url) {
+            console.warn('API url is not specified')
+        }
+
         var defaultRequest = function (params, callback, error) {
             var xhr = new XMLHttpRequest();
             scope.dispatch('beforeRequest', {xhr: xhr, params: params});
@@ -14,7 +18,7 @@
                     callback.call(scope, JSON.parse(this.responseText), xhr);
                 }
             };
-            xhr.open("GET", scope.settings.url, true);
+            xhr.open("GET", scope.settings.url || '', true);
             xhr.send();
         };
 
@@ -29,7 +33,7 @@
                 display: 'list'
             },
             requestData: defaultRequest,
-            url: mw.settings.site_url + 'admin/file-manager/list'
+            url: null
         };
 
         var _e = {};

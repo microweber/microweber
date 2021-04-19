@@ -250,7 +250,7 @@ window.MWEditor = function (options) {
                 }
             });
         }
-    }
+    };
 
     this.initInteraction = function () {
         var ait = 100,
@@ -407,9 +407,9 @@ window.MWEditor = function (options) {
             console.warn('Regions are not defined in Document mode.');
             return;
         }
-        this.$editArea = $(this.document.body);
+        this.$editArea = mw.element(this.document.body);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
-        mw.$(this.document.body).append(this.wrapper)[0].mwEditor = this;
+        this.$editArea.append(this.wrapper)[0].mwEditor = this;
         $(scope).trigger('ready');
     };
 

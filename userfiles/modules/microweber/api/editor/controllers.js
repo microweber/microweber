@@ -1,7 +1,7 @@
 MWEditor.controllers = {
     align: function (scope, api, rootScope) {
         this.root = MWEditor.core.element();
-        this.root.$node.addClass('mw-editor-state-component mw-editor-state-component-align');
+        this.root.addClass('mw-editor-state-component mw-editor-state-component-align');
         this.buttons = [];
 
         var arr = [
