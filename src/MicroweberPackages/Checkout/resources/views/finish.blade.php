@@ -19,9 +19,12 @@
             <label class="control-label mt-4 mb-0"><?php _e("Order number"); ?></label>
             <h4><?php print($order['id']); ?></h4>
 
-            <div class="mt-4">
-                <a href="{{ site_url() }}"><?php _e("Go to website"); ?></a>
+            <div class="edit" field="checkout_finish" rel="global">
+                <div class="mt-4">
+                    <a href="{{ site_url() }}"><?php _e("Go to website"); ?></a>
+                </div>
             </div>
+
         </div>
     </div>
 @endsection

@@ -10,6 +10,7 @@ namespace MicroweberPackages\Checkout\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ContactInformationTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\PaymentTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ShippingTrait;
@@ -17,6 +18,7 @@ use MicroweberPackages\Order\Models\Order;
 
 class CheckoutController extends Controller {
 
+    use LiveEditTrait;
     use ContactInformationTrait;
     use ShippingTrait;
     use PaymentTrait;
@@ -77,6 +79,8 @@ class CheckoutController extends Controller {
 
         // Append api js
         $html = app()->template->append_api_js_to_layout($html);
+
+        $html = $this->appendLiveEdit($html);
 
         return app()->parser->process($html);
     }

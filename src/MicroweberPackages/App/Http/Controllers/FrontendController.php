@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\App\Http\Controllers;
 
+use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use Illuminate\Routing\Controller;
@@ -15,9 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FrontendController extends Controller
 {
+    use LiveEditTrait;
+
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
-
     public $websiteOptions = [];
     public $return_data = false;
     public $content_data = false;
@@ -2233,54 +2235,13 @@ class FrontendController extends Controller
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
                 if ($is_admin == true) {
-                    $tb = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar.php';
-
-                    $layout_toolbar = new View($tb);
-                    $is_editmode_basic = false;
-                    $user_data = $this->app->user_manager->get();
-                    if (isset($user_data['basic_mode']) and trim($user_data['basic_mode'] == 'y')) {
-                        $is_editmode_basic = true;
-                    }
-
-                    if (isset($is_editmode_basic) and $is_editmode_basic == true) {
-                        $layout_toolbar->assign('basic_mode', true);
-                    } else {
-                        $layout_toolbar->assign('basic_mode', false);
-                    }
-                    event_trigger('mw.live_edit');
-                    $layout_toolbar = $layout_toolbar->__toString();
-                    if ($layout_toolbar != '') {
-                        $layout_toolbar = $this->app->parser->process($layout_toolbar, $options = array('no_apc' => 1));
-
-                        $c = 1;
-                        $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c);
-                    }
-
-                    $custom_live_edit = TEMPLATES_DIR . DS . TEMPLATE_NAME . DS . 'live_edit.php';
-                    $custom_live_edit = normalize_path($custom_live_edit, false);
-                    if (is_file($custom_live_edit)) {
-                        $layout_live_edit = new View($custom_live_edit);
-                        $layout_live_edit = $layout_live_edit->__toString();
-                        if ($layout_live_edit != '') {
-                            $l = str_ireplace('</body>', $layout_live_edit . '</body>', $l, $c);
-                        }
-                    }
+                    $l = $this->liveEditToolbar($l);
                 }
             } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
                 if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
 
                     if ($back_to_editmode == true) {
-                        $tb = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar_back.php';
-
-                        $layout_toolbar = new View($tb);
-
-                        $layout_toolbar = $layout_toolbar->__toString();
-
-                        if ($layout_toolbar != '') {
-                            $layout_toolbar = $this->app->parser->process($layout_toolbar, $options = array('no_apc' => 1));
-                            $c = 1;
-                            $l = str_ireplace('</body>', $layout_toolbar . '</body>', $l, $c);
-                        }
+                        $l = $this->liveEditToolbarBack($l);
                     }
                 }
             } else {
