@@ -32,16 +32,27 @@ if (isset($params['show_only_updates']) and $params['show_only_updates']) {
     $is_update_mode = true;
 }
 
-$search_packages = mw()->update->composer_search_packages($search_packages_params);
+//$search_packages = mw()->update->composer_search_packages($search_packages_params);
 //$search_packages_update = mw()->update->composer_search_packages($search_packages_params2);
 //$search_packages = mw()->update->composer_search_packages();
 
+$search_packages = [];
+$composerClient = new \MicroweberPackages\Package\MicroweberComposerClient();
+foreach($composerClient->search() as $packageName=>$versions) {
+    foreach($versions as $version) {
+        $version['release_date'] = date('Y-m-d H:i:s');
+        $version['latest_version'] = $version;
+        $version['versions'] = $versions;
+        $search_packages[$packageName] = $version;
+    }
+}
 
 $packages_by_type = array();
 $packages_by_type_with_update = array();
 
 if ($search_packages and is_array($search_packages)) {
     foreach ($search_packages as $key => $item) {
+
         $package_has_update = false;
         //if ($item['type'] != 'microweber-core-update') {
         if (isset($item['has_update']) and $item['has_update']) {
@@ -56,7 +67,7 @@ if ($search_packages and is_array($search_packages)) {
             $packages_by_type_with_update[$package_has_update_key][] = $item;
         }
         //}
-        if ($item['type'] != 'microweber-core-update') {
+        if (isset($item['type']) && $item['type'] != 'microweber-core-update') {
             if (!isset($packages_by_type[$item['type']])) {
                 $packages_by_type[$item['type']] = array();
             }
@@ -74,8 +85,6 @@ if ($is_update_mode and isset($packages_by_type_with_update['microweber-core-upd
 
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 // dd($packages_by_type_all,$packages_by_type_with_update);
-
-
 ?>
 
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">

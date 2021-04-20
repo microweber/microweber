@@ -10,6 +10,7 @@ class MicroweberComposerClient {
 
     use FileDownloader;
 
+    public $logfile = false;
     public $licenses = [];
     public $packageServers = [
          'https://packages-satis.microweberapi.com/packages.json',
@@ -22,33 +23,47 @@ class MicroweberComposerClient {
         if ($findLicenses !== null) {
             $this->licenses = $findLicenses->toArray();
         }
+
+        $this->logfile = userfiles_path() . 'install_item_log.txt';
     }
 
-    public function search($filter)
+    public function search($filter = array())
     {
         $packages = [];
         foreach($this->packageServers as $package) {
             $getRepositories = $this->getPackageFile($package);
+
+            if (empty($filter)) {
+                return $getRepositories;
+            }
+
             foreach($getRepositories as $packageName=>$packageVersions) {
-                foreach($packageVersions as $packageVersion=>$packageVersionData) {
-                    if (($filter['require_version'] == $packageVersion) &&
-                        ($filter['require_name'] == $packageName)) {
-                        $packages[] = $packageVersionData;
-                        break;
+
+                if (isset($filter['require_version'])) {
+                    foreach ($packageVersions as $packageVersion => $packageVersionData) {
+                        if (($filter['require_version'] == $packageVersion) &&
+                            ($filter['require_name'] == $packageName)) {
+                            $packages[] = $packageVersionData;
+                            break;
+                        }
                     }
                 }
+
             }
         }
 
         return $packages;
     }
 
-    public function install($params)
+    public function requestInstall($params)
     {
-        $done = false;
+        $this->newLog('Request install...');
+
+        $this->log('Searching for '. $params['require_name'] . ' for version ' . $params['require_version']);
+
         $search = $this->search([
-           'require_version'=>$params['require_version'],
-           'require_name'=>$params['require_name'],
+            'require_version'=>$params['require_version'],
+            'require_name'=>$params['require_name'],
         ]);
 
         if (!$search) {
@@ -66,10 +81,8 @@ class MicroweberComposerClient {
 
         if ($needConfirm) {
 
-            $composerConfirm = array();
-            $composerConfirm['user'] = [];
-            $composerConfirm['packages'] = [];
-            cache_save($composerConfirm, $confirmKey, 'composer');
+            $this->downloadPackage($search[0], $confirmKey);
+            $this->clearLog();
 
             return array(
                 'error' => 'Please confirm installation',
@@ -82,36 +95,32 @@ class MicroweberComposerClient {
             );
         }
 
-        if (isset($search[0]['dist']['url'])) {
+       // $this->install($search[0]);
+    }
 
-            $distUrl = $search[0]['dist']['url'];
+    public function downloadPackage($package, $confirmKey)
+    {
+        if (isset($package['dist']['url'])) {
 
-            if (!isset($search[0]['target-dir'])) {
-                return;
+            $distUrl = $package['dist']['url'];
+
+            if (!isset($package['target-dir'])) {
+                return false;
             }
 
-            $type = 'microweber-module';
-            if (isset($search[0]['type'])) {
-                $type = $search[0]['type'];
-            }
-
-            $packageFileName = str_slug($search[0]['name']).'.zip';
-            $packageFileDestination = storage_path() .'/cache/';
-
-            if ($type == 'microweber-module') {
-                $packageFileDestination = userfiles_path() .'/modules/'.$search[0]['target-dir'].'/';
-            }
-
-            if ($type == 'microweber-template') {
-                $packageFileDestination = userfiles_path() .'/templates/'.$search[0]['target-dir'].'/';
-            }
+            $packageFileName = str_slug($package['name']).'.zip';
+            $packageFileDestination = storage_path() .'/cache/composer/';
 
             if (!is_dir($packageFileDestination)) {
                 mkdir_recursive($packageFileDestination);
             }
 
-            $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination . $packageFileName);
+            $this->log('Downloading the package file..');
+
+            $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination . $packageFileName, $this->logfile);
             if ($downloadStatus) {
+
+                $this->log('Extract the package file..');
 
                 $unzip = new Unzip();
                 $unzip->extract($packageFileDestination . $packageFileName, $packageFileDestination, true);
@@ -119,14 +128,57 @@ class MicroweberComposerClient {
                 // Delete zip file
                 @unlink($packageFileDestination . $packageFileName);
 
-                $done = true;
+                $scanDestination = $this->recursiveScan($packageFileDestination);
+                foreach ($scanDestination as $key => $value) {
+                    $this->log('Unzip file: ' . $value);
+                }
+
+                $composerConfirm = array();
+                $composerConfirm['user'] = $scanDestination;
+                $composerConfirm['packages'] = $scanDestination;
+                cache_save($composerConfirm, $confirmKey, 'composer');
+
+                return true;
             }
         }
+
+        return false;
+    }
+
+    public function recursiveScan($dir){
+
+        $directory = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
+
+        $files = array();
+        foreach ($directory as $info) {
+            $files[] = $info->getFilename();
+        }
+
+        return $files;
+    }
+
+    public function install($package)
+    {
+        $done = false;
+
+      /*
+        $type = 'microweber-module';
+            if (isset($package['type'])) {
+                $type = $package['type'];
+            }
+
+       if ($type == 'microweber-module') {
+            $packageFileDestination = userfiles_path() .'/modules/'.$package['target-dir'].'/';
+        }
+
+        if ($type == 'microweber-template') {
+            $packageFileDestination = userfiles_path() .'/templates/'.$package['target-dir'].'/';
+        }*/
 
 
         if ($done) {
             $response = array();
-            $response['success'] = 'Success. You have installed: ' . $search[0]['name'] . ' .  Total files installed';
+            $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
             $response['log'] = 'Done!';
 
             clearcache();
@@ -137,6 +189,20 @@ class MicroweberComposerClient {
         }
     }
 
+    public function newLog($log)
+    {
+        @file_put_contents($this->logfile, $log . PHP_EOL);
+    }
+
+    public function clearLog()
+    {
+        @file_put_contents($this->logfile, '');
+    }
+
+    public function log($log)
+    {
+        @file_put_contents($this->logfile, $log . PHP_EOL, FILE_APPEND);
+    }
 
     public function getPackageFile($packagesUrl)
     {
