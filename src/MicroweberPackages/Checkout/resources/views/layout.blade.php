@@ -43,7 +43,6 @@
         }
 
         .checkout-v2-radio input[type=radio] {
-            width: 20px;
             height: 20px;
         }
 
