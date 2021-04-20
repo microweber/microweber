@@ -24,19 +24,28 @@ class MicroweberComposerClient {
         }
     }
 
-    public function search($filter)
+    public function search($filter = array())
     {
         $packages = [];
         foreach($this->packageServers as $package) {
             $getRepositories = $this->getPackageFile($package);
+
+            if (empty($filter)) {
+                return $getRepositories;
+            }
+
             foreach($getRepositories as $packageName=>$packageVersions) {
-                foreach($packageVersions as $packageVersion=>$packageVersionData) {
-                    if (($filter['require_version'] == $packageVersion) &&
-                        ($filter['require_name'] == $packageName)) {
-                        $packages[] = $packageVersionData;
-                        break;
+
+                if (isset($filter['require_version'])) {
+                    foreach ($packageVersions as $packageVersion => $packageVersionData) {
+                        if (($filter['require_version'] == $packageVersion) &&
+                            ($filter['require_name'] == $packageName)) {
+                            $packages[] = $packageVersionData;
+                            break;
+                        }
                     }
                 }
+
             }
         }
 
