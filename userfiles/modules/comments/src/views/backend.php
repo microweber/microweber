@@ -201,7 +201,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
                             </div>
 
-                            <input type="search" class="form-control form-control-sm" placeholder="<?php _e("Search comments"); ?>" onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});">
+                            <input type="search" class="form-control form-control-sm" placeholder="<?php _e("Search comments"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});">
                         </div>
                     </div>
                 </div>
