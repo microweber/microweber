@@ -105,12 +105,14 @@ class MicroweberComposerClient {
             if ($type == 'microweber-template') {
                 $packageFileDestination = userfiles_path() .'/templates/'.$search[0]['target-dir'].'/';
             }
+
             if (!is_dir($packageFileDestination)) {
                 mkdir_recursive($packageFileDestination);
             }
 
             $downloadStatus = $this->downloadBigFile($distUrl, $packageFileDestination . $packageFileName);
             if ($downloadStatus) {
+
                 $unzip = new Unzip();
                 $unzip->extract($packageFileDestination . $packageFileName, $packageFileDestination, true);
 

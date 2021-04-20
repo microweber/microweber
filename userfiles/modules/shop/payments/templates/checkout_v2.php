@@ -54,7 +54,7 @@ if (isset($params['selected_provider'])) {
         <div class="row">
             <div class="col-xs-12 col-md-6 col-md-offset-6 mb-3">
                 <h4 class="mb-1" field="checkout_payment_information_title" rel="global" rel_id="<?php print $params['id'] ?>"><?php _e("Payment method"); ?></h4>
-                <small class="text-muted d-block mb-2"> <?php _e("How you would like to pay"); ?></small>
+                <small class="text-muted d-block mb-2"> <?php _e("Select payment method"); ?></small>
             </div>
         </div>
 
