@@ -7,10 +7,10 @@
         options = options || {};
 
         if(!options.url) {
-            console.warn('API url is not specified')
+            console.warn('API url is not specified');
         }
 
-        var defaultRequest = function (params, callback, error) {
+        var defaultRequest = function (params, callback) {
             var xhr = new XMLHttpRequest();
             scope.dispatch('beforeRequest', {xhr: xhr, params: params});
             xhr.onreadystatechange = function() {
@@ -33,7 +33,16 @@
                 display: 'list'
             },
             requestData: defaultRequest,
-            url: null
+            url: null,
+            template: 'default',
+            height: 'auto',
+            contextMenu: [
+                { label: 'Rename', action: function (rowObject) {}, match: function (rowObject) { return !!rowObject; } },
+                { label: 'Download', action: function (rowObject) {}, match: function (rowObject) { return rowObject.type === 'file'; } },
+                { label: 'Copy url', action: function (rowObject) {}, match: function (rowObject) { return !!rowObject; } },
+                { label: 'Delete', action: function (rowObject) {}, match: function (rowObject) { return !!rowObject; } },
+            ],
+            document: document
         };
 
         var _e = {};
@@ -90,39 +99,46 @@
             });
             el.on('click', function (){
                 option.action(item);
-            });
+            }).addClass('mw-file-manager-list-item-options-list-option');
             return el;
         };
 
 
+        var currentMenu;
+
         var createOptions = function (item) {
-            var options = [
-                { label: 'Rename', action: function (item) {}, match: function (item) { return true } },
-                { label: 'Download', action: function (item) {}, match: function (item) { return item.type === 'file'; } },
-                { label: 'Copy url', action: function (item) {}, match: function (item) { return true } },
-                { label: 'Delete', action: function (item) {}, match: function (item) { return true } },
-            ];
+            var options = scope.settings.contextMenu;
             var el = mw.element().addClass('mw-file-manager-list-item-options');
             el.append(mw.element({tag: 'span', content: '...', props: {tooltip:'options'}}).addClass('mw-file-manager-list-item-options-button'));
-            var optsHolder = mw.element().addClass('mw-file-manager-list-item-options-list');
+
             el.on('click', function (){
                 var all = scope.root.get(0).querySelectorAll('.mw-file-manager-list-item-options.active');
                 for(var i = 0; i < all.length; i++ ) {
                     if (all[i] !== this) {
-                        all[i].classList.remove('active')
+                        all[i].classList.remove('active');
                     }
                 }
+
+                var optsHolder = mw.element().addClass('mw-file-manager-list-item-options-list');
+                options.forEach(function (options){
+                    optsHolder.append(createOption(item, options));
+                });
+                scope.settings.document.body.append(optsHolder.get(0));
+                var off = el.offset();
+                optsHolder.css({
+                    top: off.top,
+                    left: off.left
+                });
                 el.toggleClass('active');
+
             });
-            options.forEach(function (options){
-                optsHolder.append(createOption(item, options));
-            });
+
             if(!this.__bodyOptionsClick) {
                 this.__bodyOptionsClick = true;
                 var bch = function (e) {
                     var curr = e.target;
                     var clicksOption = false;
-                  while (curr && curr !== document.body) {
+                  while (curr && curr !== scope.settings.document.body) {
                       if(curr.classList.contains('mw-file-manager-list-item-options')){
                           clicksOption = true;
                           break;
@@ -131,16 +147,16 @@
                   }
                   if(!clicksOption) {
                       var all = scope.root.get(0).querySelectorAll('.mw-file-manager-list-item-options.active');
-                      for(var i = 0; i < all.length; i++ ) {
+                      for (var i = 0; i < all.length; i++ ) {
                           if (all[i] !== this) {
-                              all[i].classList.remove('active')
+                              all[i].classList.remove('active');
                           }
                       }
                   }
                 };
-                document.body.addEventListener('mousedown', bch , false);
+                scope.settings.document.body.addEventListener('mousedown', bch , false);
             }
-            el.append(optsHolder);
+            ;
             return el;
         };
 
@@ -189,9 +205,7 @@
             }
         };
 
-        this.select = function (item) {
 
-        };
 
         this.singleListView = function (item) {
             var row = mw.element({ tag: 'tr' });
@@ -247,28 +261,50 @@
                 scope._selected.push(obj);
             }
         };
-        var afterSelect = function (obj) {
-            rows.forEach(function (rowItem){
-                if(rowItem.data === obj) {
-                    rowItem.row.find('input').prop('checked', true);
-                }
-            });
+
+
+        var allSelected = function (){
+            return scope._selected.length === rows.length;
         };
 
-
         this.selectAll = function () {
+            if (scope.settings.multiselect) {
+                rows.forEach(function (rowItem){
+                    var obj = rowItem.data;
+                    selectCore(obj);
+                    rowItem.row.find('input').prop('checked', true);
+                });
+                this.dispatch('selectionChange', scope._selected)
+            }
+        };
+        this.selectNone = function () {
+            scope._selected = [];
             rows.forEach(function (rowItem){
-                scope.select(rowItem.data);
+                rowItem.row.find('input').prop('checked', false);
             });
+            this.dispatch('selectionChange', scope._selected)
+        };
+        this.selectToggle = function () {
+            allSelected() ? this.selectNone() : this.selectAll();
+        };
+
+        var selectCore = function (obj) {
+            if (scope.settings.multiselect) {
+                pushUnique(obj);
+            } else {
+                scope._selected = [obj];
+            }
         };
 
         this.select = function (obj) {
-            if (this.settings.multiselect) {
-                pushUnique(obj);
-            } else {
-                this._selected = [obj];
+            selectCore(obj);
+            var rowItem = rows.find(function (rowItem){
+                return rowItem.data === obj;
+            });
+            if(rowItem) {
+                rowItem.row.find('input').prop('checked', true);
             }
-            afterSelect(obj);
+            this.dispatch('selectionChange', scope._selected);
         };
 
         var createListViewHeader = function () {
@@ -276,7 +312,7 @@
             if (scope.settings.multiselect) {
                 var globalcheck = _check();
                 globalcheck.on('input', function () {
-                    scope.selectAll()
+                    scope.selectToggle();
                 });
                 thCheck = mw.element({ tag: 'th', content: globalcheck  }).addClass('mw-file-manager-select-all-heading');
             }
@@ -336,7 +372,11 @@
         var createRoot = function (){
             scope.root = mw.element({
                 props: {
-                    className: 'mw-file-manager-root'
+                    className: 'mw-file-manager-root mw-file-manager-template-' + scope.settings.template
+                },
+                css: {
+                    height: scope.settings.height,
+                    minHeight: '260px'
                 },
                 encapsulate: false
             });
