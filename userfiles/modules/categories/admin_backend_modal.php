@@ -154,4 +154,12 @@
 
     });
     </script>
-<module type="categories/manage" id="mw-cats-manage-admin" />
+
+
+<?php if(isset($params['show_add_post_to_category_button'])){ ?>
+<module type="categories/manage" id="mw-cats-manage-admin" show_add_post_to_category_button="true" />
+<?php } else {  ?>
+    <module type="categories/manage" id="mw-cats-manage-admin" />
+
+
+<?php } ?>
