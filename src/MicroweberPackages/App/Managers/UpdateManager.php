@@ -1285,7 +1285,7 @@ class UpdateManager
             );
         }*/
         $mw = new MicroweberComposerClient();
-        return $mw->install($params);
+        return $mw->requestInstall($params);
     }
 
     public function composer_merge($composer_patch_path)
