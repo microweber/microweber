@@ -685,7 +685,7 @@ function route_prefix($prefix) {
 
     if (is_module('multilanguage')) {
         if (get_option('is_active', 'multilanguage_settings') == 'y') {
-            $language = mw()->lang_helper->current_lang();
+            $language = mw()->lang_helper->current_lang_display();
             $prefix = $language . '/' . $prefix;
         }
     }

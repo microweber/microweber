@@ -85,6 +85,14 @@ class Lang
         return $app_locale;
     }
 
+    function current_lang_display()
+    {
+        if (isset($_COOKIE['lang_display'])) {
+            return $_COOKIE['lang_display'];
+        }
+
+        return $this->current_lang();
+    }
 
     function default_lang()
     {
