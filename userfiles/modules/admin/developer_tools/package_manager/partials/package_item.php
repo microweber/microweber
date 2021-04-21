@@ -73,7 +73,7 @@ if(!isset($item['type'] )){
                             <div>
                                 <small class="text-muted">v.</small>
                                 <div class="d-inline-block">
-                                    <select class="mw-sel-item-key-install selectpicker" data-style="btn-sm"
+                                    <select onchange="changeVersionToButton('<?php echo md5($key); ?>')" class="mw-sel-item-key-install selectpicker" data-style="btn-sm"
                                             data-width="80px" data-size="5" data-vkey="<?php print $key; ?>">
                                         <option
                                             value="<?php print $item['latest_version']['version'] ?>"><?php print $item['latest_version']['version'] ?></option>
