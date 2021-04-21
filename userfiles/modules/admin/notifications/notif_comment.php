@@ -23,7 +23,7 @@ if (isset($item['created_by'])) {
 <div class="card mb-2 not-collapsed-border collapsed card-bubble <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-toggle="collapse" data-target="#notif-item-<?php print $item['id'] ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <div class="row align-items-center mb-3">
-            <div class="col text-start">
+            <div class="col text-left">
                 <span class="text-primary text-break-line-2"><?php _e('New comment'); ?></span>
             </div>
         </div>
@@ -38,7 +38,7 @@ if (isset($item['created_by'])) {
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="col text-start">
+            <div class="col text-left">
                 <?php if (isset($article['title'])): ?>
                     <h5 class="text-primary text-break-line-2"><?php echo $article['title']; ?></h5>
                 <?php endif; ?>
