@@ -436,7 +436,7 @@
                                 <img src="http://templates.microweber.com/new-world/userfiles/cache/thumbnails/800/tn-1f6fb5c5df393ae432d222e0ae453079.jpg" />
                             </div>
                         </div>
-                        <div class="col text-start">
+                        <div class="col text-left">
                             <h5 class="text-primary text-break-line-2">Around the world</h5>
                         </div>
 

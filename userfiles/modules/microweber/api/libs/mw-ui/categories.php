@@ -244,7 +244,7 @@
 
             <div class="toolbar row">
                 <div class="col-12 d-flex align-items-center">
-                    <div class="text-start w-100">
+                    <div class="text-left w-100">
                         <a href="#" class="btn btn-outline-primary btn-sm icon-left"><i class="mdi mdi-arrow-left"></i> Back</a>
                     </div>
                     <div class="text-right w-100">

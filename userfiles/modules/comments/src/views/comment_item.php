@@ -64,7 +64,7 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="col text-start">
+            <div class="col text-left">
                 <h5 class="text-primary text-break-line-2"><?php print content_title($comment['rel_id']); ?></h5>
             </div>
 
