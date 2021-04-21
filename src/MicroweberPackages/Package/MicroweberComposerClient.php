@@ -70,16 +70,31 @@ class MicroweberComposerClient {
             return array('error' => 'Error. Cannot find any packages.');
         }
 
+        $package = $search[0];
+
         $confirmKey = 'composer-confirm-key-' . rand();
         if (isset($params['confirm_key'])) {
             $isConfirmed = cache_get($params['confirm_key'], 'composer');
             if ($isConfirmed) {
-                $search[0]['unzipped_files_location'] = $isConfirmed['unzipped_files_location'];
-                return $this->install($search[0]);
+                $package['unzipped_files_location'] = $isConfirmed['unzipped_files_location'];
+                return $this->install($package);
             }
         }
 
-        $this->downloadPackage($search[0], $confirmKey);
+        if ($package['dist']['type'] == 'license_key') {
+            return array(
+                'error' => _e('You need license key to install this package', true),
+                'message' => _e('This package is premium and you must have a license key to install it', true),
+                // 'form_data_required' => 'license_key',
+                'form_data_module' => 'settings/group/license_edit',
+                'form_data_module_params' => array(
+                    'require_name' => $params['require_name'],
+                    'require_version' => _e('You need license key', true)
+                )
+            );
+        }
+
+        $this->downloadPackage($package, $confirmKey);
         $this->clearLog();
 
         return array(
