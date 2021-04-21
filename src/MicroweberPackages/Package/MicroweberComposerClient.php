@@ -181,7 +181,6 @@ class MicroweberComposerClient {
             $response['success'] = 'Success. You have installed: ' . $package['name'] . ' .  Total files installed';
             $response['log'] = 'Done!';
 
-            clearcache();
             app()->update->post_update();
             scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
 
